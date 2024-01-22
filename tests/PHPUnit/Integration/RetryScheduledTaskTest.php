@@ -7,14 +7,17 @@
  */
 
 namespace Piwik\Tests\Integration;
+
+use Piwik\Log\NullLogger;
 use Piwik\Option;
 use Piwik\Scheduler\RetryableException;
-use Piwik\Scheduler\Timetable;
+use Piwik\Scheduler\ScheduledTaskLock;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
+use Piwik\Scheduler\Timetable;
+use Piwik\Tests\Framework\Mock\Concurrency\LockBackend\InMemoryLockBackend;
 use Piwik\Tests\Framework\Mock\PiwikOption;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Log\NullLogger;
 
 /**
  * @group Scheduler
@@ -74,7 +77,7 @@ class RetryScheduledTaskTest extends IntegrationTestCase
             ->method('loadTasks')
             ->willReturn($tasks);
 
-        $scheduler = new Scheduler($taskLoader, new NullLogger());
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), new ScheduledTaskLock(new InMemoryLockBackend()));
 
         // First run
         $scheduler->run();
@@ -108,7 +111,7 @@ class RetryScheduledTaskTest extends IntegrationTestCase
             ->method('loadTasks')
             ->willReturn($tasks);
 
-        $scheduler = new Scheduler($taskLoader, new NullLogger());
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), new ScheduledTaskLock(new InMemoryLockBackend()));
 
         // First run
         $scheduler->run();

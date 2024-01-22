@@ -222,15 +222,14 @@ class Controller extends Plugin\ControllerAdmin
         $view->isMarketplaceEnabled = Marketplace::isMarketplaceEnabled();
         $view->isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
 
-        $view->pluginsHavingUpdate    = [];
         $view->marketplacePluginNames = [];
+        $view->pluginsHavingUpdate    = [];
+        $view->pluginUpdateNonces     = [];
 
         if (Marketplace::isMarketplaceEnabled() && $this->marketplacePlugins) {
             try {
                 $view->marketplacePluginNames = $this->marketplacePlugins->getAvailablePluginNames($themesOnly);
-                $view->pluginsHavingUpdate    = $this->marketplacePlugins->getPluginsHavingUpdate();
-
-                $view->pluginUpdateNonces = [];
+                $view->pluginsHavingUpdate = $this->marketplacePlugins->getPluginsHavingUpdate();
                 foreach ($view->pluginsHavingUpdate as $name => $plugin) {
                     $view->pluginUpdateNonces[$name] = Nonce::getNonce($plugin['name']);
                 }
@@ -613,7 +612,8 @@ class Controller extends Plugin\ControllerAdmin
         // error again
         try {
             Filesystem::deleteAllCacheOnUpdate();
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
     }
 
     /**

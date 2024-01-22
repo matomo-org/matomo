@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,7 +8,6 @@
  */
 
 namespace Piwik\Tests\Integration\Concurrency;
-
 
 use Piwik\Common;
 use Piwik\Concurrency\Lock;
@@ -39,7 +39,14 @@ class LockTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_acquireLock_ShouldLockInCaseItIsNotLockedYet()
+    public function testTooLongNamespaceIsNotSupported()
+    {
+        $this->expectException(\Exception::class);
+
+        new Lock(new MySqlLockBackend(), 'aLongStringWithOver38CharactersIsNotSupported');
+    }
+
+    public function testAcquireLockShouldLockInCaseItIsNotLockedYet()
     {
         $this->assertTrue($this->lock->acquireLock(0));
         $this->assertFalse($this->lock->acquireLock(0));
@@ -50,7 +57,7 @@ class LockTest extends IntegrationTestCase
         $this->assertFalse($this->lock->acquireLock(0));
     }
 
-    public function test_acquireLock_ShouldBeAbleToLockMany()
+    public function testAcquireLockShouldBeAbleToLockMany()
     {
         $this->assertTrue($this->lock->acquireLock(0));
         $this->assertFalse($this->lock->acquireLock(0));
@@ -59,7 +66,7 @@ class LockTest extends IntegrationTestCase
         $this->assertFalse($this->lock->acquireLock(1));
     }
 
-    public function test_isLocked_ShouldDetermineWhetherALockIsLocked()
+    public function testIsLockedShouldDetermineWhetherALockIsLocked()
     {
         $this->assertFalse($this->lock->isLocked());
         $this->lock->acquireLock(0);
@@ -71,7 +78,7 @@ class LockTest extends IntegrationTestCase
         $this->assertFalse($this->lock->isLocked());
     }
 
-    public function test_unlock_OnlyUnlocksTheLastOne()
+    public function testUnlockOnlyUnlocksTheLastOne()
     {
         $this->assertTrue($this->lock->acquireLock(0));
         $this->assertTrue($this->lock->acquireLock(1));
@@ -84,24 +91,24 @@ class LockTest extends IntegrationTestCase
         $this->assertTrue($this->lock->acquireLock(2));
     }
 
-    public function test_expireLock_ShouldReturnTrueOnSuccess()
+    public function testExtendLockShouldReturnTrueOnSuccess()
     {
         $this->lock->acquireLock(0);
-        $this->assertTrue($this->lock->expireLock(2));
+        $this->assertTrue($this->lock->extendLock(2));
     }
 
-    public function test_expireLock_ShouldReturnFalseIfNoTimeoutGiven()
+    public function testExtendLockShouldReturnFalseIfNoTimeoutGiven()
     {
         $this->lock->acquireLock(0);
-        $this->assertFalse($this->lock->expireLock(0));
+        $this->assertFalse($this->lock->extendLock(0));
     }
 
-    public function test_expireLock_ShouldReturnFalseIfNotLocked()
+    public function testExtendLockShouldReturnFalseIfNotLocked()
     {
-        $this->assertFalse($this->lock->expireLock(2));
+        $this->assertFalse($this->lock->extendLock(2));
     }
 
-    public function test_getNumberOfAcquiredLocks_shouldReturnNumberOfLocks()
+    public function testGetNumberOfAcquiredLocksShouldReturnNumberOfLocks()
     {
         $this->assertNumberOfLocksEquals(0);
 
@@ -116,22 +123,22 @@ class LockTest extends IntegrationTestCase
         $this->assertNumberOfLocksEquals(2);
     }
 
-    public function test_getAllAcquiredLockKeys_shouldReturnUsedKeysThatAreLocked()
+    public function testGetAllAcquiredLockKeysShouldReturnUsedKeysThatAreLocked()
     {
-        $this->assertSame(array(), $this->lock->getAllAcquiredLockKeys());
+        $this->assertSame([], $this->lock->getAllAcquiredLockKeys());
 
         $this->lock->acquireLock(0);
-        $this->assertSame(array('TestLock0'), $this->lock->getAllAcquiredLockKeys());
+        $this->assertSame(['TestLock0'], $this->lock->getAllAcquiredLockKeys());
 
-        $this->lock->acquireLock(4);
+        $this->lock->acquireLock('veryverylongidthatwillgetshortenedasthereisamaximumof70charsinthedatabase');
         $this->lock->acquireLock(5);
 
         $locks = $this->lock->getAllAcquiredLockKeys();
         sort($locks);
-        $this->assertSame(array('TestLock0', 'TestLock4', 'TestLock5'), $locks);
+        $this->assertSame(['TestLock0', 'TestLock5', 'TestLockveryverylongidthatwillgetshorc93f8252040e73dacbeaaf93ae9c19d2'], $locks);
     }
 
-    public function test_rexpire_onlyRexpiresWhenCloseToOriginalExpirationTime()
+    public function testReacquireOnlyReacquiresWhenCloseToOriginalExpirationTime()
     {
         Date::$now = strtotime('2015-03-04 03:04:05');
 
@@ -140,7 +147,7 @@ class LockTest extends IntegrationTestCase
         $expireTime = $this->getLockExpirationTime();
 
         sleep(1);
-        $this->lock->reexpireLock();
+        $this->lock->reacquireLock();
         $newExpireTime = $this->getLockExpirationTime();
         $this->assertEquals($expireTime, $newExpireTime);
 
@@ -148,7 +155,7 @@ class LockTest extends IntegrationTestCase
         Date::$now = strtotime('2015-03-04 03:04:35');
 
         sleep(1);
-        $this->lock->reexpireLock();
+        $this->lock->reacquireLock();
         $newExpireTime = $this->getLockExpirationTime();
         $this->assertEquals($expireTime, $newExpireTime);
 
@@ -156,7 +163,7 @@ class LockTest extends IntegrationTestCase
         Date::$now = strtotime('2015-03-04 03:04:55');
 
         sleep(1);
-        $this->lock->reexpireLock();
+        $this->lock->reacquireLock();
         $newExpireTime = $this->getLockExpirationTime();
         $this->assertNotEquals($expireTime, $newExpireTime);
 
@@ -166,7 +173,7 @@ class LockTest extends IntegrationTestCase
         Date::$now = strtotime('2015-03-04 03:05:05');
 
         sleep(1);
-        $this->lock->reexpireLock();
+        $this->lock->reacquireLock();
         $newExpireTime = $this->getLockExpirationTime();
         $this->assertEquals($expireTime, $newExpireTime);
 
@@ -174,7 +181,7 @@ class LockTest extends IntegrationTestCase
         Date::$now = strtotime('2015-03-04 03:05:55');
 
         sleep(1);
-        $this->lock->reexpireLock();
+        $this->lock->reacquireLock();
         $newExpireTime = $this->getLockExpirationTime();
         $this->assertNotEquals($expireTime, $newExpireTime);
     }

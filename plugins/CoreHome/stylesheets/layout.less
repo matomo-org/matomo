@@ -119,14 +119,21 @@ nav {
  // end #secondNavBar fadeInLeft animation
 
 #root {
+  .page {
+    display: flex;
+  }
 
   .pageWrap {
-    padding-left: 18px;
-    padding-right: 18px;
+    width: 100%;
+    height: fit-content;
+    padding-left: 9px;
+    padding-right: 9px;
+    margin-left: 9px;
+    margin-right: 9px;
   }
 
   #secondNavBar + .pageWrap {
-    margin-left: 224px;
+    width: calc(~'100% - 224px - 18px');  // 100% - menu width - pageWrap margin
   }
 
   &>.top_controls {
@@ -148,13 +155,16 @@ nav {
   }
 
   @media all and (max-width: 992px) {
+    #secondNavBar {
+      width: 0 !important;
+    }
+
     .pageWrap {
-      margin-left: 0 !important;
+      width: calc(~'100% - 18px') !important; // 100% - pageWrap margin
     }
   }
 
   @media all and (max-width: 600px) {
-
     .top_controls {
       height: auto;
 
@@ -195,7 +205,8 @@ nav {
 
   #secondNavBar {
     width: 224px;
-    float:left;
+    height: fit-content;
+    flex: none;
     background-color: @theme-color-menu-contrast-background;
     box-shadow: none !important;
 
@@ -552,7 +563,7 @@ nav {
 
   #root{
     #secondNavBar + .pageWrap {
-      margin-left: 0;
+      width: calc(~'100% - 18px') !important; // 100% - pageWrap margin
     }
 
     .top_controls{

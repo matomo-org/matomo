@@ -121,7 +121,8 @@ class BaseSettingsTestCase extends IntegrationTestCase
     protected function makeSetting($name)
     {
         $type = FieldConfig::TYPE_STRING;
-        return $this->settings->makeSetting($name, $default = '', $type, function () {});
+        return $this->settings->makeSetting($name, $default = '', $type, function () {
+        });
     }
 
     public function test_addSetting_shouldAddNewSetting()

@@ -140,7 +140,8 @@ class Controller extends \Piwik\Plugin\Controller
             if (!empty($incompatiblePlugins) && $this->marketplacePlugins) {
                 $marketplacePlugins = $this->marketplacePlugins->getAllAvailablePluginNames();
             }
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
 
         $view->marketplacePlugins = $marketplacePlugins;
         $view->incompatiblePlugins = $incompatiblePlugins;
