@@ -104,28 +104,41 @@
   }
 }
 
-// classes for the Increment Decrement arrows
-.period-increment {
-  font-weight: 900;
-  font-size: 18px;
-  cursor: default;
-  color: #1976d2;
-  background-color: transparent;
-  border: none;
-  display: inline-block;
+.periodSelector-withPrevNext {
+  a.title {
+    width: calc(~'100% - 40px');
 
-  &:focus {
+    @media (max-width: 600px) {
+      width: calc(~'100% - 60px');
+    }
+  }
+
+  .move-period {
     background-color: transparent;
-  }
-  &:disabled {
-    color: rgb(165, 165, 165);
-  }
-}
+    border: none;
+    width: 20px;
+    height: 33px; // req'd for tap target
 
-//Needed too many changes to make this work on narrow sreens, so just not display it
-@media (max-width: 600px) {
-    .period-increment  {
-      display: none;
+    @media (max-width: 600px) {
+      width: 30px;
+    }
+
+    &:hover {
+      color: @color-green-matomo;
+      cursor: pointer;
+    }
+
+    &:disabled {
+      color: @color-silver;
+    }
+  }
+
+  .move-period-prev {
+    padding-right: 0;
+  }
+
+  .move-period-next {
+    padding-left: 0;
   }
 }
 

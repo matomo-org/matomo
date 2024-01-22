@@ -5,18 +5,20 @@
 -->
 
 <template>
-   <button
-      class="period-increment"
-      @click="incrementPeriod(-1)"
-      :disabled="setIncrementDisabled(-1)"
-    >
-      &#11160;
-    </button>
   <div
     ref="root"
     class="periodSelector piwikSelector"
+    :class="{'periodSelector-withPrevNext': !isRangeSelection}"
     v-expand-on-click="{ expander: 'title' }"
   >
+    <button
+      v-if="!isRangeSelection"
+      class="move-period move-period-prev"
+      @click="movePeriod(-1)"
+      :disabled="isPeriodMoveDisabled(-1)"
+    >
+      <span class="icon-chevron-left"></span>
+    </button>
 
     <a
       ref="title"
@@ -164,14 +166,15 @@
         </div>
       </div>
     </div>
-  </div>
-  <button
-      class="period-increment"
-      @click="incrementPeriod(1)"
-      :disabled="setIncrementDisabled(1)"
-      >
-      &#11162;
+    <button
+      v-if="!isRangeSelection"
+      class="move-period move-period-next"
+      @click="movePeriod(1)"
+      :disabled="isPeriodMoveDisabled(1)"
+    >
+      <span class="icon-chevron-right"></span>
     </button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -210,7 +213,9 @@ const COMPARE_PERIOD_OPTIONS = [
   },
 ];
 
+// the date when the site was created
 const piwikMinDate = new Date(Matomo.minDateYear, Matomo.minDateMonth - 1, Matomo.minDateDay);
+// today/now
 const piwikMaxDate = new Date(Matomo.maxDateYear, Matomo.maxDateMonth - 1, Matomo.maxDateDay);
 
 function isValidDate(d: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -415,6 +420,9 @@ export default defineComponent({
 
       return format(this.dateValue!);
     },
+    isRangeSelection() {
+      return this.periodValue === 'range';
+    },
   },
   methods: {
     handleZIndexPositionRelativeCompareDropdownIssue() {
@@ -611,112 +619,118 @@ export default defineComponent({
 
       return true;
     },
-    incrementPeriod(amt: number) {
-      let newDate = new Date();
-      if (!this.canIncrementPeriod(amt)) {
+    movePeriod(direction: number) {
+      if (!this.canMovePeriod(direction)) {
         return;
       }
 
+      let newDate = new Date();
       if (this.dateValue != null) {
         newDate = this.dateValue;
       }
 
       switch (this.periodValue) {
         case 'day':
-          newDate.setDate(newDate.getDate() + amt);
+          newDate.setDate(newDate.getDate() + direction);
           break;
         case 'week':
-          newDate.setDate(newDate.getDate() + amt * 7);
+          newDate.setDate(newDate.getDate() + direction * 7);
           break;
         case 'month':
-          newDate.setMonth(newDate.getMonth() + amt);
+          newDate.setMonth(newDate.getMonth() + direction);
           break;
         case 'year':
-          newDate.setFullYear(newDate.getFullYear() + amt);
+          newDate.setFullYear(newDate.getFullYear() + direction);
           break;
         default:
           break;
       }
 
-      // Ensure date is not out of Piwik Min and Max date range
-      if (this.dateValue < piwikMinDate) {
+      // Ensure the date is not outside the min and max dates
+      if (this.dateValue! < piwikMinDate) {
         this.dateValue = piwikMinDate;
       }
-
-      if (this.dateValue > piwikMaxDate) {
+      if (this.dateValue! > piwikMaxDate) {
         this.dateValue = piwikMaxDate;
       }
+
       this.onApplyClicked();
     },
-    setIncrementDisabled(amt: number) {
+    isPeriodMoveDisabled(direction: number) {
+      // disable period move when date range is used or when we would go out of the min/max dates
       if (this.dateValue === null) {
-        return this.periodValue === 'range';
+        return this.isRangeSelection;
       }
-      return this.periodValue === 'range' || !this.canIncrementPeriod(amt);
+      return this.isRangeSelection || !this.canMovePeriod(direction);
     },
-    canIncrementPeriod(amt: number) {
+    canMovePeriod(direction: number) {
+      if (this.dateValue === null) {
+        return false;
+      }
       // atBoundary means we are on the current day, week, month or year
-      // and another increment would take us to the future.
+      // and another move would take us before the site was created or into the future.
       let atBoundary = false;
 
-      if (amt === -1) {
-        switch (this.periodValue) {
-          case 'day':
-            atBoundary = this.dateValue.getFullYear() === piwikMinDate.getFullYear()
-                      && this.dateValue.getMonth() === piwikMinDate.getMonth()
-                      && this.dateValue.getDate() === piwikMinDate.getDate();
-            break;
-          case 'week':
-            atBoundary = this.dateValue.getFullYear() === piwikMinDate.getFullYear()
-                          && this.getWeek(this.dateValue) === this.getWeek(piwikMinDate);
-            break;
-          case 'month':
-            atBoundary = this.dateValue.getFullYear() === piwikMinDate.getFullYear()
-                      && this.dateValue.getMonth() === piwikMinDate.getMonth();
-            break;
-          case 'year':
-            atBoundary = this.dateValue.getFullYear() === piwikMinDate.getFullYear();
-            break;
-          default:
-            break;
-        }
-      } else {
-        switch (this.periodValue) {
-          case 'day':
-            atBoundary = this.dateValue.getFullYear() === piwikMaxDate.getFullYear()
-                      && this.dateValue.getMonth() === piwikMaxDate.getMonth()
-                      && this.dateValue.getDate() === piwikMaxDate.getDate();
-            break;
-          case 'week':
-            atBoundary = this.dateValue.getFullYear() === piwikMaxDate.getFullYear()
-                          && this.getWeek(this.dateValue) === this.getWeek(piwikMaxDate);
-            break;
-          case 'month':
-            atBoundary = this.dateValue.getFullYear() === piwikMaxDate.getFullYear()
-                      && this.dateValue.getMonth() === piwikMaxDate.getMonth();
-            break;
-          case 'year':
-            atBoundary = this.dateValue.getFullYear() === piwikMaxDate.getFullYear();
-            break;
-          default:
-            break;
-        }
+      const year = this.dateValue!.getFullYear();
+      const month = this.dateValue!.getMonth();
+      const day = this.dateValue!.getDate();
+      const week = this.getWeekNumber(this.dateValue!);
+
+      const boundaryDate = (direction === -1) ? piwikMinDate : piwikMaxDate;
+
+      switch (this.periodValue) {
+        case 'day':
+          atBoundary = year === boundaryDate.getFullYear()
+                    && month === boundaryDate.getMonth()
+                    && day === boundaryDate.getDate();
+          break;
+        case 'week':
+          atBoundary = year === boundaryDate.getFullYear()
+                    && week === this.getWeekNumber(boundaryDate);
+          break;
+        case 'month':
+          atBoundary = year === boundaryDate.getFullYear()
+                    && month === boundaryDate.getMonth();
+          break;
+        case 'year':
+          atBoundary = year === boundaryDate.getFullYear();
+          break;
+        default:
+          break;
       }
 
       return !atBoundary;
     },
-    getWeek(dt: Date) {
-      // Algorith derived from https://www.w3resource.com/javascript-exercises/javascript-date-exercise-24.php
-      const tdt = new Date(dt.valueOf());
-      const dayn = (dt.getDay() + 6) % 7;
-      tdt.setDate(tdt.getDate() - dayn + 3);
-      const firstThursday = tdt.valueOf();
-      tdt.setMonth(0, 1);
-      if (tdt.getDay() !== 4) {
-        const days = ((4 - tdt.getDay()) + 7) % 7;
-        tdt.setMonth(0, 1 + days);
+    getWeekNumber(date: Date) {
+      // Algorithm from https://www.w3resource.com/javascript-exercises/javascript-date-exercise-24.php
+      // and updated based on http://www.java2s.com/example/nodejs/date/get-the-iso-week-date-week-number.html
+      // for legibility
+
+      // Create a copy of the date object
+      const dt = new Date(date.valueOf());
+
+      // ISO week date weeks start on Monday so correct the day number
+      const dayNr = (date.getDay() + 6) % 7;
+
+      // ISO 8601 states that week 1 is the week with the first thursday of that year.
+      // Set the target date to the thursday in the target week
+      dt.setDate(dt.getDate() - dayNr + 3);
+
+      // Store the millisecond value of the target date
+      const firstThursdayUTC = dt.valueOf();
+
+      // Set the target to the first Thursday of the year
+      // First set the target to january first
+      dt.setMonth(0, 1);
+      // Not a Thursday? Correct the date to the next Thursday
+      if (dt.getDay() !== 4) {
+        const daysToNextThursday = ((4 - dt.getDay()) + 7) % 7;
+        dt.setMonth(0, 1 + daysToNextThursday);
       }
-      return 1 + Math.ceil((firstThursday - tdt.valueOf()) / 604800000);
+
+      // The week number is the number of weeks between the
+      // first Thursday of the year and the Thursday in the target week
+      return 1 + Math.ceil((firstThursdayUTC - dt.valueOf()) / (7 * 24 * 3600 * 1000 /* 1 week */));
     },
   },
 });
