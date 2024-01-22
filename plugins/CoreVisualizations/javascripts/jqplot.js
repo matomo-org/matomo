@@ -1686,7 +1686,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
         for (let i = 0; i < points.length; i++) {
             // skip to the first non-null point and move to it.
-            if (points[i][0] === null && points[i][1] === null) {
+            if (null === points[i][0] && null === points[i][1]) {
                 continue;
             }
 
