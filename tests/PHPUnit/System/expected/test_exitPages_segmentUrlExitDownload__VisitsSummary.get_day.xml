@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<nb_uniq_visitors>1</nb_uniq_visitors>
+	<nb_users>0</nb_users>
+	<nb_visits>1</nb_visits>
+	<nb_actions>2</nb_actions>
+	<nb_visits_converted>0</nb_visits_converted>
+	<bounce_count>0</bounce_count>
+	<sum_visit_length>253</sum_visit_length>
+	<max_actions>2</max_actions>
+	<bounce_rate>0%</bounce_rate>
+	<nb_actions_per_visit>2</nb_actions_per_visit>
+	<avg_time_on_site>253</avg_time_on_site>
+</result>

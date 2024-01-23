@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label> Exit Page</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>1</entry_nb_actions>
+		<entry_sum_visit_length>0</entry_sum_visit_length>
+		<entry_bounce_count>1</entry_bounce_count>
+		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+		<exit_nb_visits>1</exit_nb_visits>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<segment>exitPageTitle==Exit%2BPage</segment>
+	</row>
+	<row>
+		<label> Exit Page before Content Impression</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>180</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>1</entry_nb_actions>
+		<entry_sum_visit_length>181</entry_sum_visit_length>
+		<entry_bounce_count>1</entry_bounce_count>
+		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+		<exit_nb_visits>1</exit_nb_visits>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>180</avg_time_on_page>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<segment>exitPageTitle==Exit%2BPage%2Bbefore%2BContent%2BImpression</segment>
+	</row>
+	<row>
+		<label> Exit Page before Download</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>252</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>2</entry_nb_actions>
+		<entry_sum_visit_length>253</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+		<exit_nb_visits>1</exit_nb_visits>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>252</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<segment>exitPageTitle==Exit%2BPage%2Bbefore%2BDownload</segment>
+	</row>
+	<row>
+		<label> Exit Page before Event</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>2</entry_nb_actions>
+		<entry_sum_visit_length>181</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+		<exit_nb_visits>1</exit_nb_visits>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<segment>exitPageTitle==Exit%2BPage%2Bbefore%2BEvent</segment>
+	</row>
+	<row>
+		<label> Exit Page before Goal</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>1</entry_nb_actions>
+		<entry_sum_visit_length>40</entry_sum_visit_length>
+		<entry_bounce_count>1</entry_bounce_count>
+		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+		<exit_nb_visits>1</exit_nb_visits>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>0.22</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>0.22</revenue_attrib>
+				<revenue_entry>0.22</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>0.22</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<segment>exitPageTitle==Exit%2BPage%2Bbefore%2BGoal</segment>
+	</row>
+	<row>
+		<label> Exit Page before Outlink</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>108</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>2</entry_nb_actions>
+		<entry_sum_visit_length>109</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+		<exit_nb_visits>1</exit_nb_visits>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>108</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<segment>exitPageTitle==Exit%2BPage%2Bbefore%2BOutlink</segment>
+	</row>
+</result>
