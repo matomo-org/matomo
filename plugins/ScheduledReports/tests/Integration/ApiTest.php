@@ -131,7 +131,7 @@ class ApiTest extends IntegrationTestCase
             $additionalFiles,
             $period,
             $force
-) {
+        ) {
             $eventCalledWith[] = [$reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle, $additionalFiles,
                 $period->getLabel() . ' ' . $period->getRangeString(), $force];
         });
