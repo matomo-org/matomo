@@ -18,8 +18,13 @@ class ContextTest extends \PHPUnit\Framework\TestCase
      * @dataProvider getTestDataForOverwriteIdSiteForCache
      */
     public function test_overwriteIdSiteForCache_shouldModifySuperGlobalsCorrectly(
-        $originalGet, $originalPost, $inTrackerMode, $idSite, $expectedChangedGet, $expectedChangedPost)
-    {
+        $originalGet,
+        $originalPost,
+        $inTrackerMode,
+        $idSite,
+        $expectedChangedGet,
+        $expectedChangedPost
+    ) {
         $originalTrackerMode = Tracker::$initTrackerMode;
         try {
             Tracker::$initTrackerMode = $inTrackerMode;

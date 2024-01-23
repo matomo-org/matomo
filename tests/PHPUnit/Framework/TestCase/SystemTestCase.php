@@ -891,19 +891,23 @@ abstract class SystemTestCase extends TestCase
         return parent::hasDependencies();
     }
 
-    public static function setAllowedModulesToFilterApiResponse($api, $category){
+    public static function setAllowedModulesToFilterApiResponse($api, $category)
+    {
         self::$allowedModulesApiWise[$api] = $category;
     }
 
-    public static function getAllowedModulesToFilterApiResponse($api) {
+    public static function getAllowedModulesToFilterApiResponse($api)
+    {
         return (self::$allowedModulesApiWise[$api] ?? NULL);
     }
 
-    public static function setAllowedCategoriesToFilterApiResponse($api, $category){
+    public static function setAllowedCategoriesToFilterApiResponse($api, $category)
+    {
         self::$allowedCategoriesApiWise[$api] = $category;
     }
 
-    public static function getAllowedCategoriesToFilterApiResponse($api) {
+    public static function getAllowedCategoriesToFilterApiResponse($api)
+    {
         return (self::$allowedCategoriesApiWise[$api] ?? NULL);
     }
 

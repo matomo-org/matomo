@@ -77,7 +77,7 @@ class MeasurableSettingsTable extends BaseSettingsTable
 
         $table = $this->getTableName();
         $lockKey = $this->getStorageId();
-        $this->lock->execute($lockKey, function() use ($valuesKeep, $table, $columns) {
+        $this->lock->execute($lockKey, function () use ($valuesKeep, $table, $columns) {
             $this->delete();
             // No values = nothing to save
             if (!empty($valuesKeep)) {

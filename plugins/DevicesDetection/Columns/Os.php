@@ -42,7 +42,7 @@ class Os extends Base
         $segment->setNeedsMostFrequentValues(false);
         $segment->setSqlFilterValue(function ($val) {
             $oss = OperatingSystem::getAvailableOperatingSystems();
-            $oss = array_map(function($val) {
+            $oss = array_map(function ($val) {
                 return mb_strtolower($val);
             }, $oss);
             $result   = array_search(mb_strtolower($val), $oss);

@@ -191,7 +191,7 @@ class Controller extends \Piwik\Plugin\Controller
             $summaryEntries[] = [$profileSummary->getOrder(), $profileSummary->render()];
         }
 
-        usort($summaryEntries, function($a, $b) {
+        usort($summaryEntries, function ($a, $b) {
             return version_compare($a[0], $b[0]);
         });
 

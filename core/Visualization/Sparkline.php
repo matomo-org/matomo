@@ -118,7 +118,8 @@ class Sparkline implements ViewInterface
      * Returns the width of the sparkline
      * @return int
      */
-    public function getWidth() {
+    public function getWidth()
+    {
         return $this->_width;
     }
 
@@ -126,7 +127,8 @@ class Sparkline implements ViewInterface
      * Sets the width of the sparkline
      * @param int $width
      */
-    public function setWidth($width) {
+    public function setWidth($width)
+    {
         if (!is_numeric($width) || $width <= 0) {
             return;
         }
@@ -141,7 +143,8 @@ class Sparkline implements ViewInterface
      * Returns the height of the sparkline
      * @return int
      */
-    public function getHeight() {
+    public function getHeight()
+    {
         return $this->_height;
     }
 
@@ -149,7 +152,8 @@ class Sparkline implements ViewInterface
      * Sets the height of the sparkline
      * @param int $height
      */
-    public function setHeight($height) {
+    public function setHeight($height)
+    {
         if (!is_numeric($height) || $height <= 0) {
             return;
         }
@@ -165,7 +169,8 @@ class Sparkline implements ViewInterface
      *
      * @param \Davaxi\Sparkline $sparkline
      */
-    private function setSparklineColors($sparkline, $seriesIndex) {
+    private function setSparklineColors($sparkline, $seriesIndex)
+    {
         $colors = Common::getRequestVar('colors', false, 'json');
 
         $defaultColors = array(
@@ -214,7 +219,8 @@ class Sparkline implements ViewInterface
         }
     }
 
-    public function render() {
+    public function render()
+    {
         if (empty($this->sparkline->getSeriesCount())) {
             // ensure to have at least one series & point in sparkline to avoid possible php notices/errors
             // a sparkline will then be displayed with a zero line

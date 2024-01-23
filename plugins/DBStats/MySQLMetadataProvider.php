@@ -190,9 +190,13 @@ class MySQLMetadataProvider
      * Utility function. Gets row count of a set of tables grouped by the 'name' column.
      * This is the implementation of the getRowCountsAndSizeBy... functions.
      */
-    private function getRowCountsByArchiveName($statuses, $getRowSizeMethod, $forceCache = false,
-                                               $otherSelects = array(), $otherDataTableColumns = array())
-    {
+    private function getRowCountsByArchiveName(
+        $statuses,
+        $getRowSizeMethod,
+        $forceCache = false,
+        $otherSelects = array(),
+        $otherDataTableColumns = array()
+    ) {
         $extraCols = '';
         if (!empty($otherSelects)) {
             $extraCols = ', ' . implode(', ', $otherSelects);

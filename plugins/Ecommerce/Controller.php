@@ -111,9 +111,14 @@ class Controller extends \Piwik\Plugins\Goals\Controller
      *
      * @return array
      */
-    private function addSparklineEvolutionValues(array $return, $idGoal, string $date, string $lastPeriodDate,
-                                                 DataTable\Row $currentDataRow, DataTable\Row $previousDataRow): array
-    {
+    private function addSparklineEvolutionValues(
+        array $return,
+        $idGoal,
+        string $date,
+        string $lastPeriodDate,
+        DataTable\Row $currentDataRow,
+        DataTable\Row $previousDataRow
+    ): array {
         $metrics = [
             'nb_conversions' => Piwik::translate('General_EcommerceOrders'),
             'nb_visits_converted' => Piwik::translate('General_NVisits'),

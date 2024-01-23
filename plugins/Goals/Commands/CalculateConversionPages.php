@@ -227,9 +227,14 @@ class CalculateConversionPages extends ConsoleCommand
      *
      * @return array An array of queries and bind arrays   [['sql' => QUERY1, 'bind' => [PARAM1 => VALUE], ...]
      */
-    private static function getQueries(?string $startDatetime, ?string $endDatetime, ?int $lastN = null, ?string $idSite = null,
-                                 ?string $idGoal = null, ?bool $forceRecalc = false): array
-    {
+    private static function getQueries(
+        ?string $startDatetime,
+        ?string $endDatetime,
+        ?int $lastN = null,
+        ?string $idSite = null,
+        ?string $idGoal = null,
+        ?bool $forceRecalc = false
+    ): array {
         // Sites
         if ($idSite === null) {
             // All sites

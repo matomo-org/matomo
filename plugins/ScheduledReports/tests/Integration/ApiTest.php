@@ -84,24 +84,32 @@ class ApiTest extends IntegrationTestCase
         Piwik::addAction(APIScheduledReports::GET_RENDERER_INSTANCE_EVENT, function (&$reportRenderer, $reportType, $outputType, $report) {
             if ($reportType == 'dummyrepor') { // apparently this gets cut off
                 $reportRenderer = new class () extends ReportRenderer {
-                    public function setLocale($locale) {
+                    public function setLocale($locale)
+                    {
                     }
-                    public function sendToDisk($filename) {
+                    public function sendToDisk($filename)
+                    {
                         $path = PIWIK_INCLUDE_PATH . '/tmp/' . $filename;
                         file_put_contents($path, 'dummyreportdata');
                         return $path;
                     }
-                    public function sendToBrowserDownload($filename) {
+                    public function sendToBrowserDownload($filename)
+                    {
                     }
-                    public function sendToBrowserInline($filename) {
+                    public function sendToBrowserInline($filename)
+                    {
                     }
-                    public function getRenderedReport() {
+                    public function getRenderedReport()
+                    {
                     }
-                    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment) {
+                    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment)
+                    {
                     }
-                    public function renderReport($processedReport) {
+                    public function renderReport($processedReport)
+                    {
                     }
-                    public function getAttachments($report, $processedReports, $prettyDate) {
+                    public function getAttachments($report, $processedReports, $prettyDate)
+                    {
                     }
                 };
             }
@@ -112,8 +120,18 @@ class ApiTest extends IntegrationTestCase
             $reportIds, [ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY]);
 
         $eventCalledWith = [];
-        Piwik::addAction(APIScheduledReports::SEND_REPORT_EVENT, function (&$reportType, $report, $contents, $filename, $prettyDate, $reportSubject,
-                                                                           $reportTitle, $additionalFiles, $period, $force) {
+        Piwik::addAction(APIScheduledReports::SEND_REPORT_EVENT, function (
+            &$reportType,
+            $report,
+            $contents,
+            $filename,
+            $prettyDate,
+            $reportSubject,
+            $reportTitle,
+            $additionalFiles,
+            $period,
+            $force
+        ) {
             $eventCalledWith[] = [$reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle, $additionalFiles,
                 $period->getLabel() . ' ' . $period->getRangeString(), $force];
         });

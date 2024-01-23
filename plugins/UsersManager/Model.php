@@ -179,12 +179,12 @@ class Model
     }
 
     public function getSitesAccessFromUserWithFilters(
-      $userLogin,
-      $limit = null,
-      $offset = 0,
-      $pattern = null,
-      $access = null,
-      $idSites = null
+        $userLogin,
+        $limit = null,
+        $offset = 0,
+        $pattern = null,
+        $access = null,
+        $idSites = null
     ) {
         $siteAccessFilter = new SiteAccessFilter($userLogin, $pattern, $access, $idSites);
 
@@ -328,13 +328,13 @@ class Model
      * @throws \Piwik\Tracker\Db\DbException
      */
     public function addTokenAuth(
-      $login,
-      $tokenAuth,
-      $description,
-      $dateCreated,
-      $dateExpired = null,
-      $isSystemToken = false,
-      bool $secureOnly = false
+        $login,
+        $tokenAuth,
+        $description,
+        $dateCreated,
+        $dateExpired = null,
+        $isSystemToken = false,
+        bool $secureOnly = false
     ) {
         if (!$this->getUser($login)) {
             throw new \Exception('User ' . $login . ' does not exist');
@@ -761,13 +761,13 @@ class Model
      * @return array
      */
     public function getUsersWithRole(
-      $idSite,
-      $limit = null,
-      $offset = null,
-      $pattern = null,
-      $access = null,
-      $status = null,
-      $logins = null
+        $idSite,
+        $limit = null,
+        $offset = null,
+        $pattern = null,
+        $access = null,
+        $status = null,
+        $logins = null
     ) {
         $filter = new UserTableFilter($access, $idSite, $pattern, $status, $logins);
 

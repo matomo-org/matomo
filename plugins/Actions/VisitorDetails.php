@@ -391,7 +391,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             ];
         }
 
-        usort($profile['visitedPages'], function($a, $b) {
+        usort($profile['visitedPages'], function ($a, $b) {
             if ($a['count'] == $b['count']) {
                 return strcmp($a['url'], $b['url']);
             }

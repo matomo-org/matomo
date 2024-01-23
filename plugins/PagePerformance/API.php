@@ -124,7 +124,8 @@ class API extends \Piwik\Plugin\API
      * @param string $class
      * @return string
      */
-    private function getMetricColumn($class) {
+    private function getMetricColumn($class)
+    {
         /** @var ProcessedMetric $metric */
         $metric = new $class();
         return $metric->getName();

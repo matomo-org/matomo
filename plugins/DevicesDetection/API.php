@@ -237,7 +237,7 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable('DevicesDetection_browsers', $idSite, $period, $date, $segment);
         $availableBrowsers = BrowserParser::getAvailableBrowsers();
-        $dataTable->filter('AddSegmentValue', [function($label) use ($availableBrowsers) {
+        $dataTable->filter('AddSegmentValue', [function ($label) use ($availableBrowsers) {
             if (!array_key_exists($label, $availableBrowsers) && $label !== 'UNK') {
                 return false;
             }

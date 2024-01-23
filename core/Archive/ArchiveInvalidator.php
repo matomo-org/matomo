@@ -261,9 +261,16 @@ class ArchiveInvalidator
      * @return InvalidationResult
      * @throws \Exception
      */
-    public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false,
-                                              $forceInvalidateNonexistentRanges = false, $name = null, $ignorePurgeLogDataDate = false)
-    {
+    public function markArchivesAsInvalidated(
+        array $idSites,
+        array $dates,
+        $period,
+        Segment $segment = null,
+        $cascadeDown = false,
+        $forceInvalidateNonexistentRanges = false,
+        $name = null,
+        $ignorePurgeLogDataDate = false
+    ) {
         $plugin = null;
         if ($name && strpos($name, '.') !== false) {
             list($plugin) = explode('.', $name);
@@ -551,9 +558,13 @@ class ArchiveInvalidator
      * @param string|null $report
      * @param Date|null $startDate
      */
-    public function scheduleReArchiving($idSites, string $pluginName = null, $report = null, Date $startDate = null,
-                                        Segment $segment = null)
-    {
+    public function scheduleReArchiving(
+        $idSites,
+        string $pluginName = null,
+        $report = null,
+        Date $startDate = null,
+        Segment $segment = null
+    ) {
         if (!empty($report)) {
             $this->removeInvalidationsSafely($idSites, $pluginName, $report);
         }
@@ -682,9 +693,14 @@ class ArchiveInvalidator
      * @param string[][][] $dates
      * @throws \Exception
      */
-    private function markArchivesInvalidated($idSites, $dates, Segment $segment = null, $removeRanges = false,
-                                             $forceInvalidateNonexistentRanges = false, $name = null)
-    {
+    private function markArchivesInvalidated(
+        $idSites,
+        $dates,
+        Segment $segment = null,
+        $removeRanges = false,
+        $forceInvalidateNonexistentRanges = false,
+        $name = null
+    ) {
         $idSites = array_map('intval', $idSites);
 
         $yearMonths = [];

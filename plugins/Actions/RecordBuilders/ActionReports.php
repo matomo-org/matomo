@@ -186,9 +186,13 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         return $result;
     }
 
-    protected function archiveDayActions(ArchiveProcessor $archiveProcessor, int $rankingQueryLimit, array $actionsTablesByType,
-                                                          $actionTypes, bool $includePageNotDefined): void
-    {
+    protected function archiveDayActions(
+        ArchiveProcessor $archiveProcessor,
+        int $rankingQueryLimit,
+        array $actionsTablesByType,
+        $actionTypes,
+        bool $includePageNotDefined
+    ): void {
         $logAggregator = $archiveProcessor->getLogAggregator();
 
         $metricsConfig = Metrics::getActionMetrics();
@@ -390,10 +394,18 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $orderBy, "idaction_name_ref", $rankingQuery);
     }
 
-    protected function archiveDayQueryProcess(LogAggregator $logAggregator, array $actionsTablesByType, string $select,
-                                                            $from, string $where, string $groupBy, $orderBy, string $sprintfField,
-                                              RankingQuery $rankingQuery = null, array $metricsConfig = array()): void
-    {
+    protected function archiveDayQueryProcess(
+        LogAggregator $logAggregator,
+        array $actionsTablesByType,
+        string $select,
+        $from,
+        string $where,
+        string $groupBy,
+        $orderBy,
+        string $sprintfField,
+        RankingQuery $rankingQuery = null,
+        array $metricsConfig = array()
+    ): void {
         $select = sprintf($select, $sprintfField);
 
         // get query with segmentation

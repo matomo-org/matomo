@@ -113,9 +113,16 @@ class API extends \Piwik\Plugin\API
      * @param bool $expanded Whether to get report w/ subtables loaded or not.
      * @return DataTable
      */
-    public function getReferrerType($idSite, $period, $date, $segment = false, $typeReferrer = false,
-                                    $idSubtable = false, $expanded = false, $_setReferrerTypeLabel = true)
-    {
+    public function getReferrerType(
+        $idSite,
+        $period,
+        $date,
+        $segment = false,
+        $typeReferrer = false,
+        $idSubtable = false,
+        $expanded = false,
+        $_setReferrerTypeLabel = true
+    ) {
         Piwik::checkUserHasViewAccess($idSite);
 
         $this->checkSingleSite($idSite, 'getReferrerType');
@@ -413,7 +420,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsFromWebsiteId');
-        $dataTable->filter('MetadataCallbackAddMetadata', array('url', 'segment', function($url) {
+        $dataTable->filter('MetadataCallbackAddMetadata', array('url', 'segment', function ($url) {
             return 'referrerUrl==' . urlencode($url);
         }));
 
@@ -462,7 +469,7 @@ class API extends \Piwik\Plugin\API
 
     private function completeSocialTablesWithOldReports($dataTable, $idSite, $period, $date, $segment, $expanded, $flat)
     {
-        return $this->combineDataTables($dataTable, function() use ($idSite, $period, $date, $segment, $expanded, $flat) {
+        return $this->combineDataTables($dataTable, function () use ($idSite, $period, $date, $segment, $expanded, $flat) {
             $dataTableFiltered = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, false);
 
             $this->filterWebsitesForSocials($dataTableFiltered, $idSite, $period, $date, $segment, $expanded, $flat);
@@ -555,7 +562,7 @@ class API extends \Piwik\Plugin\API
             $dataTable = $dataTable->mergeSubtables();
         }
 
-        $dataTable = $this->combineDataTables($dataTable, function() use ($idSite, $period, $date, $segment, $idSubtable) {
+        $dataTable = $this->combineDataTables($dataTable, function () use ($idSite, $period, $date, $segment, $idSubtable) {
             $dataTableFiltered = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true);
 
             $socialNetworks = array_values(Social::getInstance()->getDefinitions());

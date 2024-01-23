@@ -796,9 +796,17 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForMarkArchivesAsInvalidated
      */
-    public function test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown, $expectedIdArchives,
-                                                                                     $expectedInvalidatedArchives, $name = null, $addStoredSegments = false)
-    {
+    public function test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated(
+        $idSites,
+        $dates,
+        $period,
+        $segment,
+        $cascadeDown,
+        $expectedIdArchives,
+        $expectedInvalidatedArchives,
+        $name = null,
+        $addStoredSegments = false
+    ) {
         $this->insertArchiveRowsForTest();
 
         Rules::setBrowserTriggerArchiving(false);

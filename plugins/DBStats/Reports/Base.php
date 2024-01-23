@@ -61,9 +61,12 @@ abstract class Base extends \Piwik\Plugin\Report
         ));
     }
 
-    protected function addPresentationFilters(ViewDataTable $view, $addTotalSizeColumn = true, $addPercentColumn = false,
-                                              $sizeColumns = array('data_size', 'index_size'))
-    {
+    protected function addPresentationFilters(
+        ViewDataTable $view,
+        $addTotalSizeColumn = true,
+        $addPercentColumn = false,
+        $sizeColumns = array('data_size', 'index_size')
+    ) {
         // add total_size column
         if ($addTotalSizeColumn) {
             $getTotalTableSize = function ($dataSize, $indexSize) {

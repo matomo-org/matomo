@@ -37,7 +37,8 @@ class ModelTest extends IntegrationTestCase
         $this->model = new Model();
     }
 
-    public function test_hasVisit() {
+    public function test_hasVisit()
+    {
         $this->model->createVisit(array(
             'idvisitor' => hex2bin('1234567812345678'),
             'config_id' => '1234567',

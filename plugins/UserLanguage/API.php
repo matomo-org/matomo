@@ -37,7 +37,7 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::LANGUAGE_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\groupByLangCallback'));
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'segment', function($label) {
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'segment', function ($label) {
             if (empty($label) || $label == 'xx') {
                 return 'languageCode==xx';
             }

@@ -1328,11 +1328,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *                       // etc.
      *                   );
      */
-    public function getSerialized($maximumRowsInDataTable = null,
-                                  $maximumRowsInSubDataTable = null,
-                                  $columnToSortByBeforeTruncation = null,
-                                  &$aSerializedDataTable = array())
-    {
+    public function getSerialized(
+        $maximumRowsInDataTable = null,
+        $maximumRowsInSubDataTable = null,
+        $columnToSortByBeforeTruncation = null,
+        &$aSerializedDataTable = array()
+    ) {
         static $depth = 0;
         // make sure subtableIds are consecutive from 1 to N
         static $subtableId = 0;

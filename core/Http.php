@@ -85,19 +85,20 @@ class Http
      *                     `false` is still returned on failure.
      * @api
      */
-    public static function sendHttpRequest($aUrl,
-                                           $timeout,
-                                           $userAgent = null,
-                                           $destinationPath = null,
-                                           $followDepth = 0,
-                                           $acceptLanguage = false,
-                                           $byteRange = false,
-                                           $getExtendedInfo = false,
-                                           $httpMethod = 'GET',
-                                           $httpUsername = null,
-                                           $httpPassword = null,
-                                           $checkHostIsAllowed = true)
-    {
+    public static function sendHttpRequest(
+        $aUrl,
+        $timeout,
+        $userAgent = null,
+        $destinationPath = null,
+        $followDepth = 0,
+        $acceptLanguage = false,
+        $byteRange = false,
+        $getExtendedInfo = false,
+        $httpMethod = 'GET',
+        $httpUsername = null,
+        $httpPassword = null,
+        $checkHostIsAllowed = true
+    ) {
         // create output file
         $file = self::ensureDestinationDirectoryExists($destinationPath);
 

@@ -74,9 +74,13 @@ class Task
      *                      Tasks with low priority will be executed last.
      * @throws Exception
      */
-    public function __construct($objectInstance, $methodName, $methodParameter, $scheduledTime,
-                                $priority = self::NORMAL_PRIORITY)
-    {
+    public function __construct(
+        $objectInstance,
+        $methodName,
+        $methodParameter,
+        $scheduledTime,
+        $priority = self::NORMAL_PRIORITY
+    ) {
         $this->className = $this->getClassNameFromInstance($objectInstance);
 
         if ($priority < self::HIGHEST_PRIORITY || $priority > self::LOWEST_PRIORITY) {

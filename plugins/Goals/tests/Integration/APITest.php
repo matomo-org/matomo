@@ -273,9 +273,18 @@ class APITest extends IntegrationTestCase
         $this->assertEmpty($goals);
     }
 
-    private function assertGoal($idGoal, $name, $description, $url, $pattern, $patternType, $caseSenstive = 0, $revenue = 0, $allowMultiple = 0,
-                                $eventAsRevenue = 0)
-    {
+    private function assertGoal(
+        $idGoal,
+        $name,
+        $description,
+        $url,
+        $pattern,
+        $patternType,
+        $caseSenstive = 0,
+        $revenue = 0,
+        $allowMultiple = 0,
+        $eventAsRevenue = 0
+    ) {
         $expected = array($idGoal => array(
             'idsite' => $this->idSite,
             'idgoal' => $idGoal,

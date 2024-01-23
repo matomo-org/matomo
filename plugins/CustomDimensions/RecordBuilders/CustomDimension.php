@@ -84,9 +84,13 @@ class CustomDimension extends RecordBuilder
         ];
     }
 
-    private function aggregateFromVisits(DataTable $report, LogAggregator $logAggregator, string $valueField,
-                                         array $dimensions, string $where): void
-    {
+    private function aggregateFromVisits(
+        DataTable $report,
+        LogAggregator $logAggregator,
+        string $valueField,
+        array $dimensions,
+        string $where
+    ): void {
         if ($this->rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
             $rankingQuery->addLabelColumn($dimensions[0]);
@@ -121,9 +125,13 @@ class CustomDimension extends RecordBuilder
         }
     }
 
-    private function aggregateFromConversions(DataTable $report, LogAggregator $logAggregator, string $valueField,
-                                              array $dimensions, string $where): void
-    {
+    private function aggregateFromConversions(
+        DataTable $report,
+        LogAggregator $logAggregator,
+        string $valueField,
+        array $dimensions,
+        string $where
+    ): void {
         if ($this->rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
             $rankingQuery->addLabelColumn([$dimensions[0], 'idgoal']);

@@ -34,12 +34,14 @@ class SecurityPolicyTest extends \PHPUnit\Framework\TestCase
         $this->securityPolicy = new SecurityPolicy(Config::getInstance());
     }
 
-    public function testDefaultSecurityPolicy() {
+    public function testDefaultSecurityPolicy()
+    {
         $expectedDefault = "Content-Security-Policy-Report-Only: " . $this->defaultPolicy;
         $this->assertEquals($expectedDefault, $this->securityPolicy->createHeaderString());
     }
 
-    public function testDefaultEnabledSecurityPolicy() {
+    public function testDefaultEnabledSecurityPolicy()
+    {
         $this->generalConfig['csp_report_only'] = 0;
         $this->securityPolicy = new SecurityPolicy(Config::getInstance());
 
@@ -47,34 +49,39 @@ class SecurityPolicyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedDefaultEnabled, $this->securityPolicy->createHeaderString());
     }
 
-    public function testDisabledSecurityPolicy() {
+    public function testDisabledSecurityPolicy()
+    {
         $this->generalConfig['csp_enabled'] = 0;
         $this->securityPolicy = new SecurityPolicy(Config::getInstance());
 
         $this->assertSame('', $this->securityPolicy->createHeaderString());
     }
 
-    public function testCanAddNewDirectivePolicy() {
+    public function testCanAddNewDirectivePolicy()
+    {
         $this->securityPolicy->addPolicy('script-src', "'self'");
 
         $this->assertStringContainsString("script-src 'self'", $this->securityPolicy->createHeaderString());
     }
 
-    public function testCanAppendPolicy() {
+    public function testCanAppendPolicy()
+    {
         $this->securityPolicy->addPolicy('default-src', "'new-policy'");
 
         $expected = "Content-Security-Policy-Report-Only: default-src 'self' 'unsafe-inline' 'unsafe-eval' 'new-policy'; img-src 'self' 'unsafe-inline' 'unsafe-eval' data:; ";
         $this->assertEquals($expected, $this->securityPolicy->createHeaderString());
     }
 
-    public function testCanOverridePolicy() {
+    public function testCanOverridePolicy()
+    {
         $this->securityPolicy->overridePolicy('default-src', "'self'");
 
         $expected = "Content-Security-Policy-Report-Only: default-src 'self'; img-src 'self' 'unsafe-inline' 'unsafe-eval' data:; ";
         $this->assertEquals($expected, $this->securityPolicy->createHeaderString());
     }
 
-    public function testCanRemoveDirective() {
+    public function testCanRemoveDirective()
+    {
         $this->securityPolicy->removeDirective('default-src');
         $this->securityPolicy->addPolicy('script-src', "'self'");
 

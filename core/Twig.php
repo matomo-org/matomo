@@ -42,7 +42,8 @@ function piwik_format_number($string, $minFractionDigits, $maxFractionDigits)
     return $formatter->format($string, $minFractionDigits, $maxFractionDigits);
 }
 
-function piwik_escape_filter(Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = false) {
+function piwik_escape_filter(Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = false)
+{
 
     $string = twig_escape_filter($env, $string, $strategy, $charset, $autoescape);
 

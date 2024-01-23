@@ -113,7 +113,7 @@ class Manager
     {
         $pluginsToLoad = $this->getActivatedPluginsFromConfig();
         if (!SettingsPiwik::isInternetEnabled()) {
-            $pluginsToLoad = array_filter($pluginsToLoad, function($name) {
+            $pluginsToLoad = array_filter($pluginsToLoad, function ($name) {
                 $plugin = Manager::makePluginClass($name);
                 return !$plugin->requiresInternetConnection();
             });

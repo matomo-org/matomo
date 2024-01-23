@@ -129,10 +129,10 @@ class Rules
     }
 
     public static function getMinTimeProcessedForInProgressArchive(
-      Date $dateStart,
-      \Piwik\Period $period,
-      Segment $segment,
-      Site $site
+        Date $dateStart,
+        \Piwik\Period $period,
+        Segment $segment,
+        Site $site
     ) {
         $todayArchiveTimeToLive = self::getPeriodArchiveTimeToLiveDefault($period->getLabel());
 
@@ -326,9 +326,9 @@ class Rules
      * @return string[]
      */
     public static function getSelectableDoneFlagValues(
-      $includeInvalidated = true,
-      Parameters $params = null,
-      $checkAuthorizedToArchive = true
+        $includeInvalidated = true,
+        Parameters $params = null,
+        $checkAuthorizedToArchive = true
     ) {
         $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
 
@@ -372,7 +372,7 @@ class Rules
 
         if (is_string($pluginArchivingSetting)) {
             $pluginArchivingSetting = explode(",", $pluginArchivingSetting);
-            $pluginArchivingSetting = array_filter($pluginArchivingSetting, function($plugin) {
+            $pluginArchivingSetting = array_filter($pluginArchivingSetting, function ($plugin) {
                 return Manager::getInstance()->isValidPluginName($plugin);
             });
         }

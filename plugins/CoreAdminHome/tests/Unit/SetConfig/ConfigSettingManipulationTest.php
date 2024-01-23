@@ -59,9 +59,13 @@ class ConfigSettingManipulationTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForMake
      */
-    public function test_make_CreatesCorrectManipulation($assignmentString, $expectedSectionName, $expectedSettingName,
-                                                         $expectedSettingValue, $expectedIsArrayAppend)
-    {
+    public function test_make_CreatesCorrectManipulation(
+        $assignmentString,
+        $expectedSectionName,
+        $expectedSettingName,
+        $expectedSettingValue,
+        $expectedIsArrayAppend
+    ) {
         $manipulation = ConfigSettingManipulation::make($assignmentString);
 
         $this->assertEquals($expectedSectionName, $manipulation->getSectionName());

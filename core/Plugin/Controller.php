@@ -427,10 +427,14 @@ abstract class Controller
      * @return ViewDataTable
      * @api
      */
-    protected function getLastUnitGraphAcrossPlugins($currentModuleName, $currentControllerAction, $columnsToDisplay = false,
-                                                     $selectableColumns = array(), $reportDocumentation = false,
-                                                     $apiMethod = 'API.get')
-    {
+    protected function getLastUnitGraphAcrossPlugins(
+        $currentModuleName,
+        $currentControllerAction,
+        $columnsToDisplay = false,
+        $selectableColumns = array(),
+        $reportDocumentation = false,
+        $apiMethod = 'API.get'
+    ) {
         // load translations from meta data
         $idSite = Common::getRequestVar('idSite');
         $period = Piwik::getPeriod();
@@ -767,7 +771,7 @@ abstract class Controller
         $view->relativePluginWebDirs = (object) $pluginManager->getWebRootDirectoriesForCustomPluginDirs();
         $view->pluginsToLoadOnDemand = $pluginManager->getPluginUmdsToLoadOnDemand();
         $view->isMultiSitesEnabled = $pluginManager->isPluginActivated('MultiSites');
-        $view->isSingleSite = Access::doAsSuperUser(function() {
+        $view->isSingleSite = Access::doAsSuperUser(function () {
             $allSites = Request::processRequest('SitesManager.getAllSitesId', [], []);
             return count($allSites) === 1;
         });
@@ -983,9 +987,14 @@ abstract class Controller
      * @param array $parameters Other query parameters to append to the URL.
      * @api
      */
-    public function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null,
-                                    $defaultDate = null, $parameters = array())
-    {
+    public function redirectToIndex(
+        $moduleToRedirect,
+        $actionToRedirect,
+        $websiteId = null,
+        $defaultPeriod = null,
+        $defaultDate = null,
+        $parameters = array()
+    ) {
         try {
             $this->doRedirectToUrl($moduleToRedirect, $actionToRedirect, $websiteId, $defaultPeriod, $defaultDate, $parameters);
         } catch (Exception $e) {

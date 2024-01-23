@@ -113,9 +113,14 @@ class PasswordResetter
      * @param string|null $emailFromAddress
      * @param Password $passwordHelper
      */
-    public function __construct($usersManagerApi = null, $confirmPasswordModule = null, $confirmPasswordAction = null,
-                                $emailFromName = null, $emailFromAddress = null, $passwordHelper = null)
-    {
+    public function __construct(
+        $usersManagerApi = null,
+        $confirmPasswordModule = null,
+        $confirmPasswordAction = null,
+        $emailFromName = null,
+        $emailFromAddress = null,
+        $passwordHelper = null
+    ) {
         if (empty($usersManagerApi)) {
             $usersManagerApi = UsersManagerAPI::getInstance();
         }

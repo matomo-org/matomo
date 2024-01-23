@@ -139,7 +139,8 @@ class WidgetMetadata
         return $item;
     }
 
-    private function sortWidgets($widgetA, $widgetB) {
+    private function sortWidgets($widgetA, $widgetB)
+    {
         $orderA = $widgetA['category']['order'];
         $orderB = $widgetB['category']['order'];
 

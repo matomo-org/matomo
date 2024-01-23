@@ -126,8 +126,7 @@ class API extends \Piwik\Plugin\API
         $legendAppendMetric = true,
         $segment = false,
         $idDimension = false
-    )
-    {
+    ) {
         $idSite = (int) $idSite;
 
         Piwik::checkUserHasViewAccess($idSite);
