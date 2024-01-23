@@ -19,6 +19,7 @@ use Piwik\Period;
 use Piwik\Period\Factory;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
+use Piwik\Site;
 use Piwik\Url;
 
 /**
@@ -73,7 +74,7 @@ class Evolution extends JqplotDataGenerator
 
         $columnsToDisplay = array_values($this->properties['columns_to_display']);
 
-        list($seriesMetadata, $seriesUnits, $seriesLabels, $seriesToXAxis) =
+        [$seriesMetadata, $seriesUnits, $seriesLabels, $seriesToXAxis] =
             $this->getSeriesMetadata($rowsToDisplay, $columnsToDisplay, $units, $dataTables);
 
         // collect series data to show. each row-to-display/column-to-display permutation creates a series.
@@ -139,6 +140,8 @@ class Evolution extends JqplotDataGenerator
             }
             $visualization->setAxisXOnClick($axisXOnClick);
         }
+
+        $this->setDataStates($visualization, $dataTables);
     }
 
     private function getSeriesData($rowLabel, $columnName, DataTable\Map $dataTable)
@@ -311,7 +314,7 @@ class Evolution extends JqplotDataGenerator
 
                         $seriesUnits[$wholeSeriesLabel] = $units[$columnName];
 
-                        list($periodIndex, $segmentIndex) = DataComparisonFilter::getIndividualComparisonRowIndices($table, $seriesIndex);
+                        [$periodIndex, $segmentIndex] = DataComparisonFilter::getIndividualComparisonRowIndices($table, $seriesIndex);
                         $seriesToXAxis[] = $periodIndex;
                     }
                 } else {
@@ -322,5 +325,42 @@ class Evolution extends JqplotDataGenerator
         }
 
         return [$seriesMetadata, $seriesUnits, $seriesLabels, $seriesToXAxis];
+    }
+
+    /**
+     * @param array<DataTable> $dataTables
+     */
+    private function setDataStates(Chart $visualization, array $dataTables): void
+    {
+        if (0 === count($dataTables)) {
+            return;
+        }
+
+        $dataTableDates = array_keys($dataTables);
+        $mostRecentDate = end($dataTableDates);
+
+        /** @var Site $site */
+        $site = $dataTables[$mostRecentDate]->getMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX);
+
+        $dataStates = [];
+        $siteToday = Date::factoryInTimezone('today', $site->getTimezone())->getTimestamp();
+
+        foreach ($dataTableDates as $dataTableDate) {
+            /** @var Period $period */
+            $period = $dataTables[$dataTableDate]->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+            $state = $dataTables[$dataTableDate]->getMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME);
+
+            if (false === $state) {
+                $state = DataTable::ID_ARCHIVE_STATE_COMPLETE;
+            }
+
+            if ($siteToday <= $period->getDateEnd()->getTimestamp()) {
+                $state = DataTable::ID_ARCHIVE_STATE_INCOMPLETE;
+            }
+
+            $dataStates[$dataTableDate] = $state;
+        }
+
+        $visualization->setDataStates(array_values($dataStates));
     }
 }

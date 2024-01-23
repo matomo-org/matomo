@@ -266,6 +266,7 @@
         "InvalidDateRange": "Invalid Date Range, Please Try Again",
         "InvalidResponse": "The received data is invalid.",
         "IncompletePeriod": "Incomplete Period",
+        "InvalidatedPeriod": "Invalidated Period",
         "JsTrackingTag": "JavaScript Tracking Code",
         "KpiMetric": "KPI Metric",
         "Language": "Language",

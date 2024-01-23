@@ -14,7 +14,6 @@ function rowEvolutionGetMetricNameFromRow(tr)
 }
 
 (function ($, require) {
-
     var exports = require('piwik/UI'),
         DataTable = exports.DataTable,
         dataTablePrototype = DataTable.prototype,
@@ -58,7 +57,8 @@ function rowEvolutionGetMetricNameFromRow(tr)
                 metricsToPlot: _pk_translate('General_MetricsToPlot'),
                 metricToPlot: _pk_translate('General_MetricToPlot'),
                 recordsToPlot: _pk_translate('General_RecordsToPlot'),
-                incompletePeriod: _pk_translate('General_IncompletePeriod')
+                incompletePeriod: _pk_translate('General_IncompletePeriod'),
+                invalidatedPeriod: _pk_translate('General_InvalidatedPeriod')
             };
 
             // set a unique ID for the graph element (required by jqPlot)
@@ -74,6 +74,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
             this.data = graphData.data;
             this._setJqplotParameters(graphData.params);
+            this._setDataStates(graphData.dataStates);
 
             if (this.props.display_percentage_in_tooltip) {
                 this._setTooltipPercentages();
@@ -93,6 +94,14 @@ function rowEvolutionGetMetricNameFromRow(tr)
             // render initially)
             var self = this;
             setTimeout(function () { self.render(); }, 1);
+        },
+
+        _setDataStates: function (dataStates) {
+            this.jqplotParams.dataStates = [];
+
+            if (Array.isArray(dataStates)) {
+                this.jqplotParams.dataStates = dataStates;
+            }
         },
 
         _setJqplotParameters: function (params) {
@@ -385,21 +394,6 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
             // create jqplot chart
             try {
-
-                // Work out incomplete data points
-                this.jqplotParams['incompleteDataPoints'] = 0;
-
-                var piwikPeriods = window.CoreHome.Periods;
-
-                var period = this.param.period;
-                // If date is actually a range then adjust the period type for the containsToday check
-                if (period === 'day' && this.param.date.indexOf(',') !== -1) {
-                    period = 'range';
-                }
-                if (piwikPeriods.parse(period, this.param.date).containsToday()) {
-                    this.jqplotParams['incompleteDataPoints'] = 1;
-                }
-
                 var plot = self._plot = $.jqplot(targetDivId, this.data, this.jqplotParams);
             } catch (e) {
                 // this is thrown when refreshing piwik in the browser
@@ -1385,8 +1379,12 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var xmin, ymin, xmax, ymax;
 
         // Only change in this overridden method, to pass the option to the renderers
-        if (plot.options.hasOwnProperty('incompleteDataPoints')) {
-            opts.incompleteDataPoints = plot.options.incompleteDataPoints;
+        if (plot.options.hasOwnProperty('dataStates')) {
+            opts.dataStates = plot.options.dataStates;
+        }
+
+        if (!Array.isArray(opts.dataStates)) {
+            opts.dataStates = [];
         }
 
         ctx.save();
@@ -1594,10 +1592,17 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                 if (this.renderer.smooth) {
                     gd = this.gridData;
                 }
-                for (i=0; i<gd.length; i++) {
-                    if (gd[i][0] != null && gd[i][1] != null) {
-                        this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, opts.markerOptions);
+                for (i = 0; i < gd.length; i++) {
+                    if (gd[i][0] === null || gd[i][1] === null) {
+                        continue;
                     }
+
+                    const markerOptions = opts.markerOptions || {};
+
+                    markerOptions.isIncomplete = opts.dataStates[i] && opts.dataStates[i] !== 'complete';
+                    markerOptions.incompleteFillColor = plot.grid.background;
+
+                    this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, markerOptions);
                 }
             }
         }
@@ -1623,23 +1628,37 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         ctx.fillStyle = opts.fillStyle || this.fillStyle;
         ctx.beginPath();
 
-        // Only do the incomplete visualization for line charts
-        var incompleteDataPoints = 0;
-        if (!closePath && !fill && opts.hasOwnProperty('incompleteDataPoints')) {
-            incompleteDataPoints = opts.incompleteDataPoints;
+        let dataStates = [];
+
+        if (!closePath && !fill && Array.isArray(opts.dataStates)) {
+            // only do the incomplete visualization for line charts
+            dataStates = opts.dataStates;
         }
 
         if (isarc) {
             ctx.arc(points[0], points[1], points[2], points[3], points[4], true);
+
             if (closePath) {
                 ctx.closePath();
             }
+
             if (fill) {
                 ctx.fill();
             }
             else {
                 ctx.stroke();
             }
+
+            if (opts.isIncomplete && opts.incompleteFillColor) {
+                // graph lines reach into the point
+                // render inner point filled with background color to avoid showing them
+                ctx.beginPath();
+                ctx.arc(points[0], points[1], points[2] / 8, points[3], points[4], true);
+                ctx.strokeStyle = opts.incompleteFillColor;
+                ctx.stroke();
+                ctx.closePath();
+            }
+
             ctx.restore();
             return;
         }
@@ -1658,56 +1677,74 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                 return;
             }
         }
-        else if (points && points.length) {
-            var move = true;
-            // Draw the line normally, up to the number of incomplete points
-            for (var i = 0; i < points.length - incompleteDataPoints; i++) {
 
-                // skip to the first non-null point and move to it.
-                if (points[i][0] != null && points[i][1] != null) {
-                    if (move) {
-                      ctxPattern.moveTo(points[i][0], points[i][1]);
-                      move = false;
-                    } else {
-                      ctxPattern.lineTo(points[i][0], points[i][1]);
-                    }
-                } else {
-                    move = true;
-                }
+        if (!points || !points.length) {
+            return;
+        }
+
+        let move = true;
+
+        for (let i = 0; i < points.length; i++) {
+            // skip to the first non-null point and move to it.
+            if (null === points[i][0] && null === points[i][1]) {
+                continue;
             }
-            if (closePath) {
-                ctxPattern.closePath();
+
+            if (move) {
+                move = false;
+
+                ctxPattern.moveTo(points[i][0], points[i][1]);
+                continue;
             }
-            if (fill) {
-                ctx.fill();
+
+            // draw line to current point or skip if incomplete data point
+            if (dataStates[i] && 'complete' !== dataStates[i]) {
+                ctxPattern.moveTo(points[i][0], points[i][1]);
             } else {
-                ctx.stroke();
+                ctxPattern.lineTo(points[i][0], points[i][1]);
             }
         }
-        ctx.restore();
 
-        // Draw a dashed line to the last point
-        if (incompleteDataPoints > 0) {
-
-          var lp = points.length - 1;
-
-          ctx.save();
-          ctx.setLineDash([3, 3]);
-          ctx.lineWidth = opts.lineWidth || this.lineWidth;
-          ctx.lineJoin = opts.lineJoin || this.lineJoin;
-          ctx.lineCap = opts.lineCap || this.lineCap;
-          ctx.strokeStyle = (opts.strokeStyle || opts.color) || this.strokeStyle;
-
-          ctx.beginPath();
-          for (var ii = (points.length - incompleteDataPoints); ii < points.length; ii++) {
-
-            ctx.moveTo(points[ii - 1][0], points[ii - 1][1]);
-            ctx.lineTo(points[ii][0], points[ii][1]);
-            ctx.stroke();
-          }
-          ctx.restore();
+        if (closePath) {
+            ctxPattern.closePath();
         }
 
+        if (fill) {
+            ctx.fill();
+        } else {
+            ctx.stroke();
+        }
+
+        // draw dashed lines for incomplete data points
+        ctx.beginPath();
+        ctx.setLineDash([3, 3]);
+
+        move = true;
+
+        for (let i = 0; i < points.length; i++) {
+            // skip to the first non-null point and move to it.
+            if (points[i][0] === null && points[i][1] === null) {
+                continue;
+            }
+
+            if (move) {
+                move = false;
+
+                ctxPattern.moveTo(points[i][0], points[i][1]);
+                continue;
+            }
+
+            // draw dashed line to current point or skip if not incomplete data point
+            if (!dataStates[i] || 'complete' === dataStates[i]) {
+                ctxPattern.moveTo(points[i][0], points[i][1]);
+            } else {
+                ctxPattern.lineTo(points[i][0], points[i][1]);
+            }
+        }
+
+        ctx.stroke();
+        ctx.closePath();
+        ctx.restore();
     };
 
     // Only overriding this method to prevent drawing the shadow for the last line segment
@@ -1728,48 +1765,54 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         ctx.strokeStyle = opts.strokeStyle || this.strokeStyle || 'rgba(0,0,0,'+alpha+')';
         ctx.fillStyle = opts.fillStyle || this.fillStyle || 'rgba(0,0,0,'+alpha+')';
 
-        // Only do the incomplete visualization for line charts
-        var incompleteDataPoints = 0;
-        if (!closePath && !fill && opts.hasOwnProperty('incompleteDataPoints')) {
-            incompleteDataPoints = opts.incompleteDataPoints;
+        let dataStates = [];
+
+        if (!closePath && !fill && Array.isArray(opts.dataStates)) {
+            // only do the incomplete visualization for line charts
+            dataStates = opts.dataStates;
         }
 
-        for (var j=0; j<depth; j++) {
-            var ctxPattern = $.jqplot.LinePattern(ctx, linePattern);
+        for (let j= 0; j < depth; j++) {
+            const ctxPattern = $.jqplot.LinePattern(ctx, linePattern);
+
             ctx.translate(Math.cos(this.angle*Math.PI/180)*offset, Math.sin(this.angle*Math.PI/180)*offset);
             ctxPattern.beginPath();
+
             if (isarc) {
                 ctx.arc(points[0], points[1], points[2], points[3], points[4], true);
             }
             else if (fillRect) {
-                if (fillRect) {
-                    ctx.fillRect(points[0], points[1], points[2], points[3]);
-                }
+                ctx.fillRect(points[0], points[1], points[2], points[3]);
             }
-            else if (points && points.length){
-                var move = true;
+            else if (points && points.length) {
+                let move = true;
 
-                // Draw the line normally, except for the last point
-                for (var i=0; i<points.length - incompleteDataPoints; i++) {
+                for (let i = 0; i < points.length; i++) {
                     // skip to the first non-null point and move to it.
-                    if (points[i][0] != null && points[i][1] != null) {
-                        if (move) {
-                            ctxPattern.moveTo(points[i][0], points[i][1]);
-                            move = false;
-                        }
-                        else {
-                            ctxPattern.lineTo(points[i][0], points[i][1]);
-                        }
+                    if (points[i][0] === null && points[i][1] === null) {
+                        continue;
                     }
-                    else {
-                        move = true;
+
+                    if (move) {
+                        move = false;
+
+                        ctxPattern.moveTo(points[i][0], points[i][1]);
+                        continue;
+                    }
+
+                    // draw shadow line to current point or skip if incomplete data point
+                    if (dataStates[i] && 'complete' !== dataStates[i]) {
+                        ctxPattern.moveTo(points[i][0], points[i][1]);
+                    } else {
+                        ctxPattern.lineTo(points[i][0], points[i][1]);
                     }
                 }
-
             }
+
             if (closePath) {
                 ctxPattern.closePath();
             }
+
             if (fill) {
                 ctx.fill();
             }
@@ -1777,7 +1820,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                 ctx.stroke();
             }
         }
+
         ctx.restore();
     };
-
 })(jQuery);

@@ -2,6 +2,8 @@
 
 use Piwik\Container\Container;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable;
+use Piwik\Plugin\Visualization;
 use Piwik\Plugins\Diagnostics\Diagnostic\FileIntegrityCheck;
 use Piwik\Plugins\Diagnostics\Diagnostic\PhpVersionCheck;
 use Piwik\Plugins\Diagnostics\Diagnostic\RequiredPrivateDirectories;
@@ -109,6 +111,31 @@ return [
 
         ['Controller.RssWidget.rssPiwik.end', Piwik\DI::value(function (&$result, $parameters) {
             $result = '';
+        })],
+
+        ['Visualization.beforeRender', Piwik\DI::value(function (Visualization $visualization) {
+            $dataStates = StaticContainer::get('test.vars.forceDataStates');
+
+            if (!is_array($dataStates) || [] === $dataStates) {
+                return;
+            }
+
+            $dataTable = $visualization->getDataTable();
+
+            if (!($dataTable instanceof DataTable\Map)) {
+                return;
+            }
+
+            foreach ($dataTable->getDataTables() as $date => $subTable) {
+                if (!isset($dataStates[$date])) {
+                    continue;
+                }
+
+                $subTable->setMetadata(
+                    DataTable::ARCHIVE_STATE_METADATA_NAME,
+                    $dataStates[$date]
+                );
+            }
         })],
 
         \Piwik\Tests\Framework\XssTesting::getJavaScriptAddEvent(),
