@@ -62,12 +62,12 @@ class ActionSiteSearch extends Action
 
     public function getIdActionUrlForEntryAndExitIds()
     {
-        return $this->getIdActionUrl();
+        return false; // don't update exit page url
     }
 
     public function getIdActionNameForEntryAndExitIds()
     {
-        return $this->getIdActionName();
+        return false; // don't update exit page title
     }
 
     protected function isSearchDetected()
