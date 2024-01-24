@@ -229,7 +229,8 @@ class JsTrackerInstallCheckOptionTest extends TestCase
         $this->assertTrue($this->isNonceSuccessFul(1, self::TEST_NONCE2));
     }
 
-    public function testcreateNewNonce() {
+    public function testcreateNewNonce()
+    {
         $this->assertCount(2, $this->getTestOptionArray(1));
         $result = $this->jsTrackerInstallCheckOption->createNewNonce(1, self::TEST_URL3);
         $this->assertNotEmpty($result);
@@ -239,7 +240,8 @@ class JsTrackerInstallCheckOptionTest extends TestCase
         $this->assertArrayHasKey($result, $optionArray);
     }
 
-    public function testcreateNewNonceExistingNonce() {
+    public function testcreateNewNonceExistingNonce()
+    {
         $initialTime = $this->site1Nonces[self::TEST_NONCE1][JsTrackerInstallCheckOption::NONCE_DATA_TIME];
         $this->assertCount(2, $this->getTestOptionArray(1));
         // Increase the now timestamp so that we can confirm that the time of the nonce was updated.

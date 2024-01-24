@@ -75,11 +75,12 @@ class Controller extends Plugin\ControllerAdmin
      * @param Plugins $marketplacePlugins
      * @param PasswordVerifier $passwordVerify
      */
-    public function __construct(Translator $translator,
-                                Plugin\SettingsProvider $settingsProvider,
-                                PluginInstaller $pluginInstaller,
-                                PasswordVerifier $passwordVerify,
-                                $marketplacePlugins = null
+    public function __construct(
+        Translator $translator,
+        Plugin\SettingsProvider $settingsProvider,
+        PluginInstaller $pluginInstaller,
+        PasswordVerifier $passwordVerify,
+        $marketplacePlugins = null
     ) {
         $this->translator = $translator;
         $this->settingsProvider = $settingsProvider;
@@ -497,7 +498,7 @@ class Controller extends Plugin\ControllerAdmin
         }
 
         if($this->isAllowedToTroubleshootAsSuperUser()) {
-            Access::doAsSuperUser(function() use ($redirectAfter) {
+            Access::doAsSuperUser(function () use ($redirectAfter) {
                 $this->doDeactivatePlugin($redirectAfter);
             });
         } else {

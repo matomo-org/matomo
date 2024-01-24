@@ -170,9 +170,16 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         $this->trackActions($t, $visitorCounter, $random, 'content', $userAgents, $resolutions);
     }
 
-    private function trackActions(\MatomoTracker $t, &$visitorCounter, $random, $actionType, $userAgents, $resolutions,
-                                  $referrers = null, $customVars = null)
-    {
+    private function trackActions(
+        \MatomoTracker $t,
+        &$visitorCounter,
+        $random,
+        $actionType,
+        $userAgents,
+        $resolutions,
+        $referrers = null,
+        $customVars = null
+    ) {
         for ($i = $random; $i != $random + 5; ++$i, ++$visitorCounter) {
             $visitDate = Date::factory($this->dateTime);
 

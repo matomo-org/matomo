@@ -78,9 +78,14 @@ class ReportsPurger
      *                             is true, these metrics will be saved.
      * @param int $maxRowsToDeletePerQuery The maximum number of rows to delete per DELETE query.
      */
-    public function __construct($deleteReportsOlderThan, $keepBasicMetrics, $reportPeriodsToKeep,
-                                $keepSegmentReports, $metricsToKeep, $maxRowsToDeletePerQuery)
-    {
+    public function __construct(
+        $deleteReportsOlderThan,
+        $keepBasicMetrics,
+        $reportPeriodsToKeep,
+        $keepSegmentReports,
+        $metricsToKeep,
+        $maxRowsToDeletePerQuery
+    ) {
         $this->deleteReportsOlderThan = (int) $deleteReportsOlderThan;
         $this->keepBasicMetrics = (bool) $keepBasicMetrics;
         $this->reportPeriodsToKeep = $reportPeriodsToKeep;

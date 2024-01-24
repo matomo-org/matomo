@@ -45,7 +45,7 @@ class LogDeleter
      */
     public function deleteVisits($visitIds)
     {
-        $visitIds = array_map(function($visitid) {
+        $visitIds = array_map(function ($visitid) {
             return ['idvisit' => $visitid];
         }, $visitIds);
         $dataSubjects = StaticContainer::get(DataSubjects::class);

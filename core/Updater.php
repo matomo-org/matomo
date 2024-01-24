@@ -253,7 +253,7 @@ class Updater
 
                 $classNames[] = $className;
 
-                $migrationsForComponent = Access::doAsSuperUser(function() use ($className) {
+                $migrationsForComponent = Access::doAsSuperUser(function () use ($className) {
                     /** @var Updates $update */
                     $update = StaticContainer::getContainer()->make($className);
                     return $update->getMigrations($this);
@@ -479,7 +479,7 @@ class Updater
 
         if (!empty($componentsWithUpdateFile)) {
 
-            Access::doAsSuperUser(function() use ($componentsWithUpdateFile, &$coreError, &$deactivatedPlugins, &$errors, &$warnings) {
+            Access::doAsSuperUser(function () use ($componentsWithUpdateFile, &$coreError, &$deactivatedPlugins, &$errors, &$warnings) {
 
                 $pluginManager = \Piwik\Plugin\Manager::getInstance();
 

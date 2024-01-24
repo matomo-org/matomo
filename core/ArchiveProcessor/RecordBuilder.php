@@ -49,10 +49,13 @@ abstract class RecordBuilder
      * @param string|null $columnToSortByBeforeTruncation
      * @param array|null $columnAggregationOps
      */
-    public function __construct(?int $maxRowsInTable = null, ?int $maxRowsInSubtable = null,
-                                ?string $columnToSortByBeforeTruncation = null, ?array $columnAggregationOps = null,
-                                ?array $columnToRenameAfterAggregation = null)
-    {
+    public function __construct(
+        ?int $maxRowsInTable = null,
+        ?int $maxRowsInSubtable = null,
+        ?string $columnToSortByBeforeTruncation = null,
+        ?array $columnAggregationOps = null,
+        ?array $columnToRenameAfterAggregation = null
+    ) {
         $this->maxRowsInTable = $maxRowsInTable;
         $this->maxRowsInSubtable = $maxRowsInSubtable;
         $this->columnToSortByBeforeTruncation = $columnToSortByBeforeTruncation;
@@ -277,9 +280,14 @@ abstract class RecordBuilder
      */
     abstract protected function aggregate(ArchiveProcessor $archiveProcessor): array;
 
-    protected function insertBlobRecord(ArchiveProcessor $archiveProcessor, string $recordName, DataTable $record,
-                                        ?int $maxRowsInTable, ?int $maxRowsInSubtable, ?string $columnToSortByBeforeTruncation): void
-    {
+    protected function insertBlobRecord(
+        ArchiveProcessor $archiveProcessor,
+        string $recordName,
+        DataTable $record,
+        ?int $maxRowsInTable,
+        ?int $maxRowsInSubtable,
+        ?string $columnToSortByBeforeTruncation
+    ): void {
         $serialized = $record->getSerialized(
             $maxRowsInTable ?: $this->maxRowsInTable,
             $maxRowsInSubtable ?: $this->maxRowsInSubtable,

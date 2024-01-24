@@ -589,10 +589,16 @@ class LogAggregator
      *                                   ranking query SQL will be immediately executed and the results returned.
      * @api
      */
-    public function queryVisitsByDimension(array $dimensions = [], $where = false, array $additionalSelects = [],
-                                           $metrics = false, $rankingQuery = false, $orderBy = false, $timeLimit = -1,
-                                           $rankingQueryGenerate = false)
-    {
+    public function queryVisitsByDimension(
+        array $dimensions = [],
+        $where = false,
+        array $additionalSelects = [],
+        $metrics = false,
+        $rankingQuery = false,
+        $orderBy = false,
+        $timeLimit = -1,
+        $rankingQueryGenerate = false
+    ) {
         $query = $this->getQueryByDimensionSql($dimensions, $where, $additionalSelects, $metrics, $rankingQuery, $orderBy,
             $timeLimit, $rankingQueryGenerate);
 
@@ -620,9 +626,16 @@ class LogAggregator
      * @throws \Piwik\Exception\DI\DependencyException
      * @throws \Piwik\Exception\DI\NotFoundException
      */
-    public function getQueryByDimensionSql(array $dimensions, $where, array $additionalSelects, $metrics, $rankingQuery,
-                                            $orderBy, $timeLimit, $rankingQueryGenerate): array
-    {
+    public function getQueryByDimensionSql(
+        array $dimensions,
+        $where,
+        array $additionalSelects,
+        $metrics,
+        $rankingQuery,
+        $orderBy,
+        $timeLimit,
+        $rankingQueryGenerate
+    ): array {
         $tableName = self::LOG_VISIT_TABLE;
         $availableMetrics = $this->getVisitsMetricFields();
 
@@ -1158,9 +1171,14 @@ class LogAggregator
      *                                   ranking query SQL will be immediately executed and the results returned.
      * @return \Zend_Db_Statement|array
      */
-    public function queryConversionsByDimension($dimensions = array(), $where = false, $additionalSelects = array(), $extraFrom = [],
-                                                $rankingQuery = false, $rankingQueryGenerate = false)
-    {
+    public function queryConversionsByDimension(
+        $dimensions = array(),
+        $where = false,
+        $additionalSelects = array(),
+        $extraFrom = [],
+        $rankingQuery = false,
+        $rankingQueryGenerate = false
+    ) {
         $dimensions = array_merge(array(self::IDGOAL_FIELD), $dimensions);
         $tableName  = self::LOG_CONVERSION_TABLE;
         $availableMetrics = $this->getConversionsMetricFields();

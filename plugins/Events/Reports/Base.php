@@ -68,7 +68,7 @@ abstract class Base extends \Piwik\Plugin\Report
             return;
         }
 
-        $view->config->filters[] = function(DataTable $dataTable) use ($view) {
+        $view->config->filters[] = function (DataTable $dataTable) use ($view) {
             $out = '';
             EventDispatcher::getInstance()->postEvent('Template.afterEventsReport', [&$out, $dataTable]);
             $view->config->show_footer_message = $out;

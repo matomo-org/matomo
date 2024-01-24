@@ -60,9 +60,16 @@ class API extends \Piwik\Plugin\API
      * @return array
      * @throws Exception
      */
-    public function getTransitionsForAction(string $actionName, string $actionType, $idSite, $period, $date,
-                                            $segment = false, $limitBeforeGrouping = 0, $parts = 'all')
-    {
+    public function getTransitionsForAction(
+        string $actionName,
+        string $actionType,
+        $idSite,
+        $period,
+        $date,
+        $segment = false,
+        $limitBeforeGrouping = 0,
+        $parts = 'all'
+    ) {
         Piwik::checkUserHasViewAccess($idSite);
 
         if (!$this->isPeriodAllowed($idSite, $period, $date)) {
@@ -253,9 +260,13 @@ class API extends \Piwik\Plugin\API
      * @param $includeLoops
      * @return array(followingPages:DataTable, outlinks:DataTable, downloads:DataTable)
      */
-    protected function queryFollowingActions($idaction, $actionType, LogAggregator $logAggregator,
-                                          $limitBeforeGrouping = 0, $includeLoops = false)
-    {
+    protected function queryFollowingActions(
+        $idaction,
+        $actionType,
+        LogAggregator $logAggregator,
+        $limitBeforeGrouping = 0,
+        $includeLoops = false
+    ) {
         $types = array();
 
         if ($actionType != 'title') {

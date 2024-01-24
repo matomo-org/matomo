@@ -844,9 +844,12 @@ class Url
      *
      * @return string|null      www.matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreAdminHome.trackingCodeGenerator
      */
-    public static function addCampaignParametersToMatomoLink(?string $url = null, ?string $campaign = null,
-                                                             ?string $source = null, ?string $medium = null): ?string
-    {
+    public static function addCampaignParametersToMatomoLink(
+        ?string $url = null,
+        ?string $campaign = null,
+        ?string $source = null,
+        ?string $medium = null
+    ): ?string {
 
         // Ignore if disabled by config setting
         if (Config::getInstance()->General['disable_tracking_matomo_app_links']) {

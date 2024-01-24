@@ -64,8 +64,7 @@ abstract class GridGraph extends StaticGraph
         $horizontalGraph,
         $showTicks,
         $verticalLegend
-    )
-    {
+    ) {
         $this->initpData();
 
         $colorIndex = 1;

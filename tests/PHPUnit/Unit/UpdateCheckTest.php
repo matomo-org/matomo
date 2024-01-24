@@ -141,7 +141,7 @@ class UpdateCheckTest extends TestCase
 
         EventDispatcher::getInstance()->addObserver(
             'Http.sendHttpRequest',
-            static function($aUrl, $httpEventParams, &$response) {
+            static function ($aUrl, $httpEventParams, &$response) {
                 $response = self::RELEASE_VERSION;
             }
         );
@@ -180,7 +180,7 @@ class UpdateCheckTest extends TestCase
 
         EventDispatcher::getInstance()->addObserver(
             'Http.sendHttpRequest',
-            static function() {
+            static function () {
                 throw new Exception('test');
             }
         );

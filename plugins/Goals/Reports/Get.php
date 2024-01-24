@@ -185,7 +185,7 @@ class Get extends Base
             if ($lastPeriodDate !== false) {
 
                 // Using a filter here ensures the additional request is only performed when the view is rendered
-                $view->config->filters[] = function($datatable) use ($view, $lastPeriodDate, $idSite) {
+                $view->config->filters[] = function ($datatable) use ($view, $lastPeriodDate, $idSite) {
                     /** @var DataTable $previousData */
                     $previousData    = Request::processRequest(
                         'Goals.get',
@@ -200,7 +200,10 @@ class Get extends Base
                     $lastPrettyDate    = ($currentPeriod instanceof Month ? $lastPeriod->getLocalizedLongString(
                     ) : $lastPeriod->getPrettyString());
 
-                    $view->config->compute_evolution = function ($columns, $metrics) use (
+                    $view->config->compute_evolution = function (
+                        $columns,
+                        $metrics
+                    ) use (
                         $currentPrettyDate,
                         $lastPrettyDate,
                         $previousDataRow,

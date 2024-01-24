@@ -164,9 +164,15 @@ class ContentRecords extends RecordBuilder
         }
     }
 
-    private function archiveDayQueryProcess(LogAggregator $logAggregator, string $select, array $from, string $where, string $groupBy,
-                                            string $orderBy, RankingQuery $rankingQuery = null)
-    {
+    private function archiveDayQueryProcess(
+        LogAggregator $logAggregator,
+        string $select,
+        array $from,
+        string $where,
+        string $groupBy,
+        string $orderBy,
+        RankingQuery $rankingQuery = null
+    ) {
         // get query with segmentation
         $query = $logAggregator->generateQuery($select, $from, $where, $groupBy, $orderBy);
 

@@ -36,7 +36,7 @@ class SubscriptionModel
 
         $email = $details['email'];
 
-        $report = Access::doAsSuperUser(function() use ($details) {
+        $report = Access::doAsSuperUser(function () use ($details) {
             $reports = Request::processRequest('ScheduledReports.getReports', array(
                 'idReport'    => $details['idreport'],
             ));

@@ -37,7 +37,6 @@
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
         <exclude name="PSR12.Files.FileHeader" />
         <exclude name="PSR12.Properties.ConstantVisibility" />
-        <exclude name="PSR2.Classes.PropertyDeclaration.ScopeMissing" />
         <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
         <exclude name="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed" />
         <exclude name="PSR2.Methods.FunctionCallSignature.CloseBracketLine" />
@@ -55,14 +54,6 @@
         <exclude name="Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfterFirst" />
         <exclude name="Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfterSecond" />
         <exclude name="Squiz.Functions.FunctionDeclaration.Found" />
-        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
-        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.CloseBracketLine" />
-        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.FirstParamSpacing" />
-        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.Indent" />
-        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.NewlineBeforeOpenBrace" />
-        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.OneParamPerLine" />
-        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction" />
-        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceBeforeOpenParen" />
         <exclude name="Squiz.Scope.MethodScope.Missing" />
         <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen" />
     </rule>

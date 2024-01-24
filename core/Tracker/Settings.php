@@ -133,11 +133,23 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
      * @param $fingerprintHash
      * @return string
      */
-    protected function getConfigHash(Request $request, $os, $browserName, $browserVersion, $plugin_Flash, $plugin_Java,
-                                     $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF,
-                                     $plugin_WindowsMedia, $plugin_Silverlight, $plugin_Cookie, $ip,
-                                     $browserLang, $fingerprintHash)
-    {
+    protected function getConfigHash(
+        Request $request,
+        $os,
+        $browserName,
+        $browserVersion,
+        $plugin_Flash,
+        $plugin_Java,
+        $plugin_Quicktime,
+        $plugin_RealPlayer,
+        $plugin_PDF,
+        $plugin_WindowsMedia,
+        $plugin_Silverlight,
+        $plugin_Cookie,
+        $ip,
+        $browserLang,
+        $fingerprintHash
+    ) {
         // prevent the config hash from being the same, across different Piwik instances
         // (limits ability of different Piwik instances to cross-match users)
         $salt = SettingsPiwik::getSalt();

@@ -44,7 +44,8 @@ class DatabaseInformational implements Diagnostic
         return $results;
     }
 
-    private function getServerVErsion() {
+    private function getServerVErsion()
+    {
         try {
             return Db::get()->getServerVersion();
         } catch (\Exception $e) {
@@ -52,7 +53,8 @@ class DatabaseInformational implements Diagnostic
         }
     }
 
-    private function getNumMatomoTables() {
+    private function getNumMatomoTables()
+    {
         $prefix = Common::prefixTable('');
 
         $results = null;

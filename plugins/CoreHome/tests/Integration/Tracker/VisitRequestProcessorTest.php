@@ -157,9 +157,13 @@ class VisitRequestProcessorTest extends IntegrationTestCase
         $this->assertTrue($result);
     }
 
-    private function makeVisitorAndAction($lastActionTimestamp, $currentActionTime, $isVisitorKnown = false, $processorParams = [],
-                                          $extraRequestParams = [])
-    {
+    private function makeVisitorAndAction(
+        $lastActionTimestamp,
+        $currentActionTime,
+        $isVisitorKnown = false,
+        $processorParams = [],
+        $extraRequestParams = []
+    ) {
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
 
         /** @var Request $request */

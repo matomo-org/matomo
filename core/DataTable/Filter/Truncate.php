@@ -67,12 +67,13 @@ class Truncate extends BaseFilter
      * @param bool $filterRecursive If true executes this filter on all subtables descending from
      *                              `$table`.
      */
-    public function __construct($table,
-                                $truncateAfter,
-                                $labelSummaryRow = null,
-                                $columnToSortByBeforeTruncating = null,
-                                $filterRecursive = true)
-    {
+    public function __construct(
+        $table,
+        $truncateAfter,
+        $labelSummaryRow = null,
+        $columnToSortByBeforeTruncating = null,
+        $filterRecursive = true
+    ) {
         parent::__construct($table);
         $this->truncateAfter = $truncateAfter;
         if ($labelSummaryRow === null) {

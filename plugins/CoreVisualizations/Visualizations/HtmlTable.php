@@ -185,7 +185,7 @@ class HtmlTable extends Visualization
 
             if ($this->config->show_dimensions && $hasMultipleDimensions) {
 
-                $this->dataTable->filter(function($dataTable) use ($dimensions) {
+                $this->dataTable->filter(function ($dataTable) use ($dimensions) {
                     /** @var DataTable $dataTable */
                     $rows = $dataTable->getRows();
                     foreach ($rows as $row) {

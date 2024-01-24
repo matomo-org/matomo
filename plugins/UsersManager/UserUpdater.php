@@ -25,8 +25,7 @@ class UserUpdater
         $password = false,
         $email = false,
         $_isPasswordHashed = false
-    )
-    {
+    ) {
         API::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = false;
         try {
             Request::processRequest('UsersManager.updateUser', [

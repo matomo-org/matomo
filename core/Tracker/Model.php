@@ -476,9 +476,17 @@ class Model
      *
      * @return array|bool|mixed
      */
-    public function findVisitor($idSite, $configId, $idVisitor, $userId, $fieldsToRead, $shouldMatchOneFieldOnly,
-                                $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
-    {
+    public function findVisitor(
+        $idSite,
+        $configId,
+        $idVisitor,
+        $userId,
+        $fieldsToRead,
+        $shouldMatchOneFieldOnly,
+        $isVisitorIdToLookup,
+        $timeLookBack,
+        $timeLookAhead
+    ) {
         $selectFields = implode(', ', $fieldsToRead);
 
         $select = "SELECT $selectFields ";

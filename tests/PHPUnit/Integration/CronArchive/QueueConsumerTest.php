@@ -798,9 +798,13 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations, "Invalidations inserted:\n" . var_export($invalidations, true));
     }
 
-    private function makeTestArchiveFilter($restrictToDateRange = null, $restrictToPeriods = null, $segmentsToForce = null,
-                                           $disableSegmentsArchiving = false, $skipSegmentsToday = false)
-    {
+    private function makeTestArchiveFilter(
+        $restrictToDateRange = null,
+        $restrictToPeriods = null,
+        $segmentsToForce = null,
+        $disableSegmentsArchiving = false,
+        $skipSegmentsToday = false
+    ) {
         $archiveFilter = new CronArchive\ArchiveFilter();
         if ($restrictToDateRange) {
             $archiveFilter->setRestrictToDateRange();

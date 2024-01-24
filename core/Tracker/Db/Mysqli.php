@@ -157,7 +157,8 @@ class Mysqli extends Db
      * @param $fields
      * @return array|bool|false
      */
-    private function fetchResult($stmt, $fields) {
+    private function fetchResult($stmt, $fields)
+    {
 
         $values = array_fill(0, count($fields), null);
 
@@ -302,7 +303,8 @@ class Mysqli extends Db
         return mysqli_insert_id($this->connection);
     }
 
-    private function executeQuery($sql, $bind) {
+    private function executeQuery($sql, $bind)
+    {
 
         $stmt = mysqli_prepare($this->connection, $sql);
 

@@ -141,9 +141,16 @@ class EventReports extends RecordBuilder
         return $reports;
     }
 
-    protected function archiveDayQueryProcess(array &$reports, LogAggregator $logAggregator, string $select, array $from,
-                                              string $where, string $groupBy, string $orderBy, RankingQuery $rankingQuery = null): void
-    {
+    protected function archiveDayQueryProcess(
+        array &$reports,
+        LogAggregator $logAggregator,
+        string $select,
+        array $from,
+        string $where,
+        string $groupBy,
+        string $orderBy,
+        RankingQuery $rankingQuery = null
+    ): void {
         // get query with segmentation
         $query = $logAggregator->generateQuery($select, $from, $where, $groupBy, $orderBy);
 

@@ -111,7 +111,7 @@ class Request
         }
 
         if (is_array($value)) {
-            array_walk_recursive ($value, function(&$value, $key) {
+            array_walk_recursive ($value, function (&$value, $key) {
                 $value = $this->replaceUnsupportedUtf8Chars($value, $key);
             });
         }

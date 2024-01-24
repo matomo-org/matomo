@@ -107,9 +107,14 @@ class Model
         return $archiveIds;
     }
 
-    public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null,
-                                               $forceInvalidateNonexistentRanges = false, $name = null)
-    {
+    public function updateArchiveAsInvalidated(
+        $archiveTable,
+        $idSites,
+        $allPeriodsToInvalidate,
+        Segment $segment = null,
+        $forceInvalidateNonexistentRanges = false,
+        $name = null
+    ) {
         if (empty($idSites)) {
             return 0;
         }
@@ -424,9 +429,16 @@ class Model
         $this->deleteArchiveIds($numericTable, $blobTable, $idArchives);
     }
 
-    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC,
-                                          $doneFlags, $doneFlagValues = null)
-    {
+    public function getArchiveIdAndVisits(
+        $numericTable,
+        $idSite,
+        $period,
+        $dateStartIso,
+        $dateEndIso,
+        $minDatetimeIsoArchiveProcessedUTC,
+        $doneFlags,
+        $doneFlagValues = null
+    ) {
         $bindSQL = array($idSite,
             $dateStartIso,
             $dateEndIso,

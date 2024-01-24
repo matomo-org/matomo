@@ -17,9 +17,12 @@ class FakeSiteContentDetector extends SiteContentDetector
         parent::__construct();
     }
 
-    public function detectContent(array $detectContent = [],
-                                  ?int $idSite = null, ?array $siteResponse = null, int $timeOut = 60): void
-    {
+    public function detectContent(
+        array $detectContent = [],
+        ?int $idSite = null,
+        ?array $siteResponse = null,
+        int $timeOut = 60
+    ): void {
         // skip any detections
     }
 }

@@ -40,7 +40,7 @@ class BrowserName extends Base
         $segment->setNeedsMostFrequentValues(false);
         $segment->setSqlFilterValue(function ($val) {
             $browsers = Browser::getAvailableBrowsers();
-            $browsers = array_map(function($val) {
+            $browsers = array_map(function ($val) {
                 return mb_strtolower($val);
             }, $browsers);
             $result   = array_search(mb_strtolower($val), $browsers);

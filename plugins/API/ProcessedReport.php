@@ -45,9 +45,17 @@ class ProcessedReport
      * Loads reports metadata, then return the requested one,
      * matching optional API parameters.
      */
-    public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false,
-                                $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
-    {
+    public function getMetadata(
+        $idSite,
+        $apiModule,
+        $apiAction,
+        $apiParameters = array(),
+        $language = false,
+        $period = false,
+        $date = false,
+        $hideMetricsDoc = false,
+        $showSubtableReports = false
+    ) {
         $reportsMetadata = $this->getReportMetadata($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports);
 
         $entityNames = StaticContainer::get('entities.idNames');
@@ -323,11 +331,23 @@ class ProcessedReport
         return $this->reportsProvider->compareCategories($a['category'], $a['subcategory'], $a['order'], $b['category'], $b['subcategory'], $b['order']);
     }
 
-    public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,
-                                       $apiParameters = false, $idGoal = false, $language = false,
-                                       $showTimer = true, $hideMetricsDoc = false, $idSubtable = false, $showRawMetrics = false,
-                                       $formatMetrics = null, $idDimension = false)
-    {
+    public function getProcessedReport(
+        $idSite,
+        $period,
+        $date,
+        $apiModule,
+        $apiAction,
+        $segment = false,
+        $apiParameters = false,
+        $idGoal = false,
+        $language = false,
+        $showTimer = true,
+        $hideMetricsDoc = false,
+        $idSubtable = false,
+        $showRawMetrics = false,
+        $formatMetrics = null,
+        $idDimension = false
+    ) {
         $timer = new Timer();
         if (empty($apiParameters)) {
             $apiParameters = array();

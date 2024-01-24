@@ -223,9 +223,18 @@ class MobileMessaging extends \Piwik\Plugin
      * @param Period|null $period
      * @param $force
      */
-    public function sendReport($reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle,
-                               $additionalFiles, $period, $force)
-    {
+    public function sendReport(
+        $reportType,
+        $report,
+        $contents,
+        $filename,
+        $prettyDate,
+        $reportSubject,
+        $reportTitle,
+        $additionalFiles,
+        $period,
+        $force
+    ) {
         if (self::manageEvent($reportType)) {
             $parameters = $report['parameters'];
             $phoneNumbers = $parameters[self::PHONE_NUMBERS_PARAMETER];

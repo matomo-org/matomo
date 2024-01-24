@@ -376,7 +376,7 @@ abstract class VisitDimension extends Dimension
             }
         }
         // Sort by most visits descending
-        uasort($array, function($a, $b) {
+        uasort($array, function ($a, $b) {
             return $a <=> $b;
         });
         $array = array_reverse($array, true);

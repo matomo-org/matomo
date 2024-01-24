@@ -101,9 +101,13 @@ class FactoryTest extends UnitTestCase
     /**
      * @dataProvider getBuildTestData
      */
-    public function test_build_CreatesCorrectPeriodInstances($strPeriod, $date, $timezone, $expectedPeriodClass,
-                                                             $expectedRangeString)
-    {
+    public function test_build_CreatesCorrectPeriodInstances(
+        $strPeriod,
+        $date,
+        $timezone,
+        $expectedPeriodClass,
+        $expectedRangeString
+    ) {
         $period = Period\Factory::build($strPeriod, $date, $timezone);
         $this->assertInstanceOf($expectedPeriodClass, $period);
         $this->assertEquals($expectedRangeString, $period->getRangeString());

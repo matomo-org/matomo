@@ -86,9 +86,14 @@ class Task
      * @param int $ttlInSeconds TTL to use for this task. Defauts to 3600. See {@link self::$ttlInSeconds}
      * @throws Exception
      */
-    public function __construct($objectInstance, $methodName, $methodParameter, $scheduledTime,
-                                $priority = self::NORMAL_PRIORITY, int $ttlInSeconds = null)
-    {
+    public function __construct(
+        $objectInstance,
+        $methodName,
+        $methodParameter,
+        $scheduledTime,
+        $priority = self::NORMAL_PRIORITY,
+        int $ttlInSeconds = null
+    ) {
         $this->className = $this->getClassNameFromInstance($objectInstance);
 
         if ($priority < self::HIGHEST_PRIORITY || $priority > self::LOWEST_PRIORITY) {

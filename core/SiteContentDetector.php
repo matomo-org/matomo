@@ -143,9 +143,12 @@ class SiteContentDetector
      * @param int         $timeOut       How long to wait for the site to response, defaults to 5 seconds
      * @return void
      */
-    public function detectContent(array $detectContent = [],
-                                  ?int $idSite = null, ?array $siteResponse = null, int $timeOut = 5): void
-    {
+    public function detectContent(
+        array $detectContent = [],
+        ?int $idSite = null,
+        ?array $siteResponse = null,
+        int $timeOut = 5
+    ): void {
         $this->resetDetections();
 
         // If site data was passed in, then just run the detection checks against it and return.

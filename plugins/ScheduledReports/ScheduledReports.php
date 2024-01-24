@@ -342,9 +342,18 @@ class ScheduledReports extends \Piwik\Plugin
      * @throws \Piwik\Exception\DI\DependencyException
      * @throws \Piwik\Exception\DI\NotFoundException
      */
-    public function sendReport($reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle,
-                               $additionalFiles, $period, $force)
-    {
+    public function sendReport(
+        $reportType,
+        $report,
+        $contents,
+        $filename,
+        $prettyDate,
+        $reportSubject,
+        $reportTitle,
+        $additionalFiles,
+        $period,
+        $force
+    ) {
         if (! self::manageEvent($reportType)) {
             return;
         }

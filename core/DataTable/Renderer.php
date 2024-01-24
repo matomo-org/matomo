@@ -343,8 +343,10 @@ abstract class Renderer extends BaseFactory
      * @return bool
      */
     protected static function shouldWrapArrayBeforeRendering(
-        $array, $wrapSingleValues = true, $isAssociativeArray = null)
-    {
+        $array,
+        $wrapSingleValues = true,
+        $isAssociativeArray = null
+    ) {
         if (empty($array)) {
             return false;
         }
