@@ -314,9 +314,9 @@ class DocumentationGenerator
         foreach ($aParameters as $nameVariable => &$defaultValue) {
             if (isset($knowExampleDefaultParametersValues[$nameVariable])) {
                 $defaultValue = $knowExampleDefaultParametersValues[$nameVariable];
-            } // if there isn't a default value for a given parameter,
-            // we need a 'know default value' or we can't generate the link
-            elseif ($defaultValue instanceof NoDefaultValue) {
+            } elseif ($defaultValue instanceof NoDefaultValue) {
+                // if there isn't a default value for a given parameter,
+                // we need a 'know default value' or we can't generate the link
                 return false;
             }
         }

@@ -293,7 +293,7 @@ class LogAggregator
         } catch (\Exception $e) {
             if ($readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_TABLE_EXISTS)) {
                 return;
-            }  else {
+            } else {
                 throw $e;
             }
         }

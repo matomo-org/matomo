@@ -571,8 +571,8 @@ class Common
             if ($ok === false) {
                 if ($varDefault === null) {
                     throw new Exception("The parameter '$varName' doesn't have a correct type, and a default value wasn't provided.");
-                } // we return the default value with the good type set
-                else {
+                } else {
+                    // we return the default value with the good type set
                     settype($varDefault, $varType);
                     return $varDefault;
                 }
