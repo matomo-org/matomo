@@ -47,8 +47,6 @@
         <exclude name="PSR2.Methods.FunctionCallSignature.SpaceBeforeCloseBracket" />
         <exclude name="PSR2.Methods.FunctionCallSignature.SpaceBeforeOpenBracket" />
         <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />
-        <exclude name="Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace" />
-        <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace" />
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis" />
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword" />
         <exclude name="Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfterFirst" />
