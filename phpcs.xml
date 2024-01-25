@@ -43,8 +43,6 @@
         <exclude name="PSR2.Methods.FunctionCallSignature.ContentAfterOpenBracket" />
         <exclude name="PSR2.Methods.FunctionCallSignature.Indent" />
         <exclude name="PSR2.Methods.FunctionCallSignature.MultipleArguments" />
-        <exclude name="PSR2.Methods.FunctionCallSignature.SpaceAfterOpenBracket" />
-        <exclude name="PSR2.Methods.FunctionCallSignature.SpaceBeforeCloseBracket" />
         <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis" />
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword" />
