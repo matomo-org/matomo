@@ -103,7 +103,7 @@ class PhpInformational implements Diagnostic
             $curl_version = $curl_version['version'] . ', ' . $curl_version['ssl_version'];
             $results[] = DiagnosticResult::informationalResult('Curl Version', $curl_version);
         }
-        $suhosin_installed = ( extension_loaded( 'suhosin' ) || ( defined( 'SUHOSIN_PATCH' ) && constant( 'SUHOSIN_PATCH' ) ) );
+        $suhosin_installed = ( extension_loaded('suhosin') || ( defined('SUHOSIN_PATCH') && constant('SUHOSIN_PATCH') ) );
 
         $results[] = DiagnosticResult::informationalResult('Suhosin Installed', $suhosin_installed);
 

@@ -28,8 +28,8 @@ class UpdaterTest extends IntegrationTestCase
 
         $result = $updater->updateComponents($componentsWithUpdateFile);
 
-        $this->assertTrue( count($result['errors']) > 0, 'when an update fails because config file is not writable, we expect the updater to report a critical error');
-        $this->assertEquals( 'make sure this exception is thrown', $result['errors'][0]);
+        $this->assertTrue(count($result['errors']) > 0, 'when an update fails because config file is not writable, we expect the updater to report a critical error');
+        $this->assertEquals('make sure this exception is thrown', $result['errors'][0]);
     }
 
 

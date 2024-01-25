@@ -161,7 +161,7 @@ class DataPurgingTest extends IntegrationTestCase
         $this->_checkNoDataChanges();
 
         // Check it does not run
-        $this->assertFalse( $this->instance->deleteLogData() );
+        $this->assertFalse($this->instance->deleteLogData());
 
         // check that initial option is set
         $this->assertEquals(1, Option::get(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
@@ -175,7 +175,7 @@ class DataPurgingTest extends IntegrationTestCase
      */
     public function testDeleteReportDataInitialRun()
     {
-        $this->assertFalse($this->instance->deleteReportData() );
+        $this->assertFalse($this->instance->deleteReportData());
 
         // check that initial option is set
         $this->assertEquals(1, Option::get(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
@@ -194,8 +194,8 @@ class DataPurgingTest extends IntegrationTestCase
         Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
         Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $yesterdaySecs);
         Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_REPORTS, $yesterdaySecs);
-        $this->assertFalse( $this->instance->deleteLogData() );
-        $this->assertFalse( $this->instance->deleteReportData() );
+        $this->assertFalse($this->instance->deleteLogData());
+        $this->assertFalse($this->instance->deleteReportData());
 
         // perform checks
         $this->_checkNoDataChanges();
@@ -224,8 +224,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -254,7 +254,7 @@ class DataPurgingTest extends IntegrationTestCase
         self::_addReportData();
 
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
+        $this->assertTrue($this->instance->deleteLogData());
 
         $this->checkLogDataPurged();
 
@@ -282,7 +282,7 @@ class DataPurgingTest extends IntegrationTestCase
         $this->_setTimeToRun();
         $hasDeleted = $this->instance->deleteLogData();
         $this->assertFalse($hasDeleted);
-        $this->assertFalse($this->instance->deleteReportData() );
+        $this->assertFalse($this->instance->deleteReportData());
 
         // perform checks
         $this->_checkNoDataChanges();
@@ -305,9 +305,9 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
+        $this->assertTrue($this->instance->deleteLogData());
 
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->assertEquals(0, $this->_getTableCount('log_visit'));
@@ -349,8 +349,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -404,8 +404,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -439,8 +439,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -474,8 +474,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -509,8 +509,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -574,8 +574,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
@@ -610,8 +610,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->assertTrue( $this->instance->deleteLogData() );
-        $this->assertTrue($this->instance->deleteReportData() );
+        $this->assertTrue($this->instance->deleteLogData());
+        $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();

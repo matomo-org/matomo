@@ -88,8 +88,7 @@ class Glossary
                         throw new \Exception(sprintf("Metric %s has two different documentations: \n(1) %s \n(2) %s",
                                 $metricKey,
                                 $metrics[$metricKey]['documentation'],
-                                $metricDocumentation)
-                        );
+                                $metricDocumentation));
                     }
                 } else {
 

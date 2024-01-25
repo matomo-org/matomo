@@ -85,8 +85,7 @@ class Updates_2_0_4_b5 extends Updates
                     'token_auth' => md5(Common::getRandomString(32)),
                     'date_registered'  => Date::now()->getDatetime(),
                     'superuser_access' => 1
-                )
-            );
+                ));
         } catch (\Exception $e) {
             echo "There was an issue, but we proceed: " . $e->getMessage();
         }

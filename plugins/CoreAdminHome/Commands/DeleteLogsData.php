@@ -71,7 +71,7 @@ class DeleteLogsData extends ConsoleCommand
         $idSite = $this->getSiteToDeleteFrom();
         $step = $this->getRowIterationStep();
 
-        $output->writeln( sprintf(
+        $output->writeln(sprintf(
                 "<info>Preparing to delete all visits belonging to %s between $from and $to.</info>",
                 $idSite ? "website $idSite" : "ALL websites"
         ));

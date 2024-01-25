@@ -273,7 +273,7 @@ class API extends \Piwik\Plugin\API
             // specific setup for page urls
             $types[Action::TYPE_PAGE_URL] = 'followingPages';
             $dimension = 'if ( %1$s.idaction_url IS NULL, %1$s.idaction_name, %1$s.idaction_url )';
-            $dimension = sprintf($dimension, 'log_link_visit_action' );
+            $dimension = sprintf($dimension, 'log_link_visit_action');
             // site search referrers are logged with url=NULL
             // when we find one, we have to join on name
             $joinLogActionColumn = $dimension;

@@ -135,7 +135,7 @@ class ApiCounterTest extends SystemTestCase
 
         for ($i = 0; $i != 20; ++$i) {
             $t->setForceNewVisit();
-            $t->setVisitorId( substr(md5($i * 1000), 0, $t::LENGTH_VISITOR_ID));
+            $t->setVisitorId(substr(md5($i * 1000), 0, $t::LENGTH_VISITOR_ID));
 
             $factor = 10;
             if ($i > 15) {
