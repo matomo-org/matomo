@@ -360,8 +360,8 @@ class GoalManager
 
             $conversionDimensions = ConversionDimension::getAllDimensions();
             $conversion = $this->triggerHookOnDimensions($request, $conversionDimensions, 'onEcommerceOrderConversion', $visitor, $action, $conversion);
-        } // If Cart update, select current items in the previous Cart
-        else {
+        } else {
+            // If Cart update, select current items in the previous Cart
             $debugMessage = 'The conversion is an Ecommerce Cart Update';
 
             $conversion['buster'] = 0;
@@ -570,8 +570,8 @@ class GoalManager
             // Only one category
             if (!is_array($category)) {
                 $actionsToLookup[] = array(trim($category), Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
-            } // Multiple categories
-            else {
+            } else {
+                // Multiple categories
                 $countCategories = 0;
                 foreach ($category as $productCategory) {
                     $productCategory = trim($productCategory);

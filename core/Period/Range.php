@@ -377,12 +377,12 @@ class Range extends Period
                 ) {
                     $this->fillArraySubPeriods($startDate, $endOfMonth, 'day');
                     $endOfPeriod = $endOfMonth;
-                } //   If end of this week is later than end date, we use days
-                elseif ($this->isEndOfWeekLaterThanEndDate($endDate, $endOfWeek) &&
+                } elseif ($this->isEndOfWeekLaterThanEndDate($endDate, $endOfWeek) &&
                     ($endOfWeek->isEarlier($this->today) ||
                         $startOfWeek->toString() != $startDate->toString() ||
                         $endDate->isEarlier($this->today))
                 ) {
+                    // If end of this week is later than end date, we use days
                     $this->fillArraySubPeriods($startDate, $endDate, 'day');
                     break 1;
                 } elseif ($startOfWeek->isEarlier($startDate)

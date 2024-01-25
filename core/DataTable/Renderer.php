@@ -426,8 +426,8 @@ abstract class Renderer extends BaseFactory
             ) {
                 $flatArray = current($flatArray);
             }
-        } // A normal DataTable needs to be handled specifically
-        else {
+        } else {
+            // A normal DataTable needs to be handled specifically
             $array = $this->convertTable($dataTable);
             $flatArray = $this->flattenArray($array);
         }

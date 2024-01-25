@@ -74,8 +74,9 @@ class AddSegmentByRangeLabel extends BaseFilter
                     $row->setMetadata('segment', $this->segment . '>=' . urlencode($lowerBound) . ';' .
                                                               $this->segment . '<=' . urlencode($upperBound));
                 }
-            } // if there's one element, handle as a range w/ no upper bound
-            else {
+            } else {
+                // if there's one element, handle as a range w/ no upper bound
+
                 // get the lower bound
                 sscanf($label, "%d", $lowerBound);
 

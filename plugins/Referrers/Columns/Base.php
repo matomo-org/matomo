@@ -656,14 +656,14 @@ abstract class Base extends VisitDimension
         ) {
             // Use default values per above
             Common::printDebug("Invalid Referrer information found: current visitor seems to have used a campaign, but campaign name was not found in the request.");
-        } // 1) Campaigns from 1st party cookie
-        elseif (!empty($referrerCampaignName)) {
+        } elseif (!empty($referrerCampaignName)) {
+            // 1) Campaigns from 1st party cookie
             $type    = Common::REFERRER_TYPE_CAMPAIGN;
             $name    = $referrerCampaignName;
             $keyword = $referrerCampaignKeyword;
             Common::printDebug("Campaign information from 1st party cookie is used.");
-        } // 2) Referrer URL parsing
-        elseif (!empty($referrerUrl)) {
+        } elseif (!empty($referrerUrl)) {
+            // 2) Referrer URL parsing
             $idSite   = $request->getIdSite();
             $referrer = $this->getReferrerInformation($referrerUrl, $currentUrl = '', $idSite, $request, $visitor);
 
