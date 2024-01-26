@@ -15,6 +15,8 @@ describe("PeriodSelector", function () {
 
     const selector = '#periodString,#periodString .dropdown';
 
+    let broadcastPropagateNewPage;
+
     it("should load correctly", async function() {
         await page.goto(url);
 
@@ -24,6 +26,7 @@ describe("PeriodSelector", function () {
                 return false;
             };
 
+            broadcastPropagateNewPage = broadcast.propagateNewPage;
             broadcast.propagateNewPage = function () {};
 
             // hide ajaxLoadingCalendar via CSS (can't just remove it since it's managed by vue)
@@ -127,6 +130,59 @@ describe("PeriodSelector", function () {
         await page.waitForTimeout(250); // wait for animation
 
         expect(await page.screenshotSelector(selector)).to.matchImage('custom_comparison');
+    });
+
+    it("should close on click if previously opened", async function () {
+      await page.click('.periodSelector .title');
+      expect(await page.screenshotSelector(selector)).to.matchImage('closed');
+    });
+
+    it("should move forward two days when next period selector is clicked twice", async function () {
+        await page.evaluate(function () {
+            // restore page propagation since the current date is set from the URL
+            broadcast.propagateNewPage = broadcastPropagateNewPage;
+        });
+
+        await page.click('.periodSelector .move-period-next');
+        await page.waitForNetworkIdle();
+        await page.click('.periodSelector .move-period-next');
+
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('two_days_forward');
+    });
+
+    it("should move back one days when previous period selector is clicked once", async function () {
+        await page.click('.periodSelector .move-period-prev');
+
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('one_day_back');
+    });
+
+    it("should display disabled previous period button when at the start of site tracking", async function () {
+        const generalParams = 'idSite=1&period=day&date=2011-01-01';
+        const url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
+
+        await page.goto(url);
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('disabled_previous_period');
+    });
+
+    it("should hide prev/next buttons when dates range selection", async function () {
+        const generalParams = 'idSite=1&period=range&date=2011-01-01,2011-02-01';
+        const url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
+
+        await page.goto(url);
+
+        await page.evaluate(function () {
+          // disable page propagation again for further tests
+          broadcast.propagateNewPage = function () {};
+        });
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('hide_prevnext_for_range');
     });
 
     describe('match selected compare settings with URL', async function() {

@@ -8,8 +8,18 @@
   <div
     ref="root"
     class="periodSelector piwikSelector"
+    :class="{'periodSelector-withPrevNext': canShowMovePeriod}"
     v-expand-on-click="{ expander: 'title' }"
   >
+    <button
+      v-if="canShowMovePeriod"
+      class="move-period move-period-prev"
+      @click="movePeriod(-1)"
+      :disabled="isPeriodMoveDisabled(-1)"
+    >
+      <span class="icon-chevron-left"></span>
+    </button>
+
     <a
       ref="title"
       id="date"
@@ -20,6 +30,7 @@
       <span class="icon icon-calendar" />
       {{ currentlyViewingText }}
     </a>
+
     <div
       id="periodMore"
       class="dropdown"
@@ -155,6 +166,14 @@
         </div>
       </div>
     </div>
+    <button
+      v-if="canShowMovePeriod"
+      class="move-period move-period-next"
+      @click="movePeriod(1)"
+      :disabled="isPeriodMoveDisabled(1)"
+    >
+      <span class="icon-chevron-right"></span>
+    </button>
   </div>
 </template>
 
@@ -173,6 +192,7 @@ import {
   parseDate,
   Range,
   format,
+  datesAreInTheSamePeriod,
 } from '../Periods';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
@@ -194,7 +214,9 @@ const COMPARE_PERIOD_OPTIONS = [
   },
 ];
 
+// the date when the site was created
 const piwikMinDate = new Date(Matomo.minDateYear, Matomo.minDateMonth - 1, Matomo.minDateDay);
+// today/now
 const piwikMaxDate = new Date(Matomo.maxDateYear, Matomo.maxDateMonth - 1, Matomo.maxDateDay);
 
 function isValidDate(d: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -399,6 +421,15 @@ export default defineComponent({
 
       return format(this.dateValue!);
     },
+    isErrorDisplayed() {
+      return this.currentlyViewingText === translate('General_Error');
+    },
+    isRangeSelection() {
+      return this.periodValue === 'range';
+    },
+    canShowMovePeriod() {
+      return !this.isRangeSelection && !this.isErrorDisplayed;
+    },
   },
   methods: {
     handleZIndexPositionRelativeCompareDropdownIssue() {
@@ -594,6 +625,57 @@ export default defineComponent({
       }
 
       return true;
+    },
+    movePeriod(direction: number) {
+      if (!this.canMovePeriod(direction)) {
+        return;
+      }
+
+      let newDate = new Date();
+      if (this.dateValue != null) {
+        newDate = this.dateValue;
+      }
+
+      switch (this.periodValue) {
+        case 'day':
+          newDate.setDate(newDate.getDate() + direction);
+          break;
+        case 'week':
+          newDate.setDate(newDate.getDate() + direction * 7);
+          break;
+        case 'month':
+          newDate.setMonth(newDate.getMonth() + direction);
+          break;
+        case 'year':
+          newDate.setFullYear(newDate.getFullYear() + direction);
+          break;
+        default:
+          break;
+      }
+
+      // Ensure the date is not outside the min and max dates
+      if (this.dateValue! < piwikMinDate) {
+        this.dateValue = piwikMinDate;
+      }
+      if (this.dateValue! > piwikMaxDate) {
+        this.dateValue = piwikMaxDate;
+      }
+
+      this.onApplyClicked();
+    },
+    isPeriodMoveDisabled(direction: number) {
+      // disable period move when date range is used or when we would go out of the min/max dates
+      if (this.dateValue === null) {
+        return this.isRangeSelection;
+      }
+      return this.isRangeSelection || !this.canMovePeriod(direction);
+    },
+    canMovePeriod(direction: number) {
+      if (this.dateValue === null) {
+        return false;
+      }
+      const boundaryDate = (direction === -1) ? piwikMinDate : piwikMaxDate;
+      return !datesAreInTheSamePeriod(this.dateValue!, boundaryDate, this.periodValue);
     },
   },
 });

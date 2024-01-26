@@ -84,3 +84,61 @@ export function todayIsInRange(dateRange: Date[]): boolean {
 
   return false;
 }
+
+export function getWeekNumber(date: Date): number {
+  // Algorithm from https://www.w3resource.com/javascript-exercises/javascript-date-exercise-24.php
+  // and updated based on http://www.java2s.com/example/nodejs/date/get-the-iso-week-date-week-number.html
+  // for legibility
+
+  // Create a copy of the date object
+  const dt = new Date(date.valueOf());
+
+  // ISO week date weeks start on Monday so correct the day number
+  const dayNr = (date.getDay() + 6) % 7;
+
+  // ISO 8601 states that week 1 is the week with the first thursday of that year.
+  // Set the target date to the thursday in the target week
+  dt.setDate(dt.getDate() - dayNr + 3);
+
+  // Store the millisecond value of the target date
+  const firstThursdayUTC = dt.valueOf();
+
+  // Set the target to the first Thursday of the year
+  // First set the target to january first
+  dt.setMonth(0, 1);
+  // Not a Thursday? Correct the date to the next Thursday
+  if (dt.getDay() !== 4) {
+    const daysToNextThursday = ((4 - dt.getDay()) + 7) % 7;
+    dt.setMonth(0, 1 + daysToNextThursday);
+  }
+
+  // The week number is the number of weeks between the
+  // first Thursday of the year and the Thursday in the target week
+  return 1 + Math.ceil((firstThursdayUTC - dt.valueOf()) / (7 * 24 * 3600 * 1000 /* 1 week */));
+}
+
+// check whether two dates are in the same period, e.g. a week, a month or a year
+export function datesAreInTheSamePeriod(date1: Date, date2: Date, period: string): boolean {
+  const year1 = date1.getFullYear();
+  const month1 = date1.getMonth();
+  const day1 = date1.getDate();
+  const week1 = getWeekNumber(date1);
+
+  const year2 = date2.getFullYear();
+  const month2 = date2.getMonth();
+  const day2 = date2.getDate();
+  const week2 = getWeekNumber(date2);
+
+  switch (period) {
+    case 'day':
+      return year1 === year2 && month1 === month2 && day1 === day2;
+    case 'week':
+      return year1 === year2 && week1 === week2;
+    case 'month':
+      return year1 === year2 && month1 === month2;
+    case 'year':
+      return year1 === year2;
+    default:
+      return false;
+  }
+}

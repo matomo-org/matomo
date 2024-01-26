@@ -103,3 +103,44 @@
     display: flex;
   }
 }
+
+.periodSelector-withPrevNext {
+  a.title {
+    width: calc(~'100% - 40px');
+
+    @media (max-width: 600px) {
+      width: calc(~'100% - 60px');
+    }
+  }
+
+  .move-period {
+    background-color: transparent;
+    border: none;
+    width: 20px;
+    height: 33px; // req'd for tap target
+
+    @media (max-width: 600px) {
+      width: 30px;
+    }
+
+    &:hover {
+      color: @color-green-matomo;
+      cursor: pointer;
+    }
+
+    &:disabled {
+      color: @color-silver;
+      cursor: auto;
+    }
+  }
+
+  .move-period-prev {
+    padding-right: 0;
+  }
+
+  .move-period-next {
+    padding-left: 0;
+  }
+}
+
+
