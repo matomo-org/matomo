@@ -192,6 +192,7 @@ import {
   parseDate,
   Range,
   format,
+  datesAreInTheSamePeriod,
 } from '../Periods';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
@@ -673,70 +674,8 @@ export default defineComponent({
       if (this.dateValue === null) {
         return false;
       }
-      // atBoundary means we are on the current day, week, month or year
-      // and another move would take us before the site was created or into the future.
-      let atBoundary = false;
-
-      const year = this.dateValue!.getFullYear();
-      const month = this.dateValue!.getMonth();
-      const day = this.dateValue!.getDate();
-      const week = this.getWeekNumber(this.dateValue!);
-
       const boundaryDate = (direction === -1) ? piwikMinDate : piwikMaxDate;
-
-      switch (this.periodValue) {
-        case 'day':
-          atBoundary = year === boundaryDate.getFullYear()
-                    && month === boundaryDate.getMonth()
-                    && day === boundaryDate.getDate();
-          break;
-        case 'week':
-          atBoundary = year === boundaryDate.getFullYear()
-                    && week === this.getWeekNumber(boundaryDate);
-          break;
-        case 'month':
-          atBoundary = year === boundaryDate.getFullYear()
-                    && month === boundaryDate.getMonth();
-          break;
-        case 'year':
-          atBoundary = year === boundaryDate.getFullYear();
-          break;
-        default:
-          break;
-      }
-
-      return !atBoundary;
-    },
-    getWeekNumber(date: Date) {
-      // Algorithm from https://www.w3resource.com/javascript-exercises/javascript-date-exercise-24.php
-      // and updated based on http://www.java2s.com/example/nodejs/date/get-the-iso-week-date-week-number.html
-      // for legibility
-
-      // Create a copy of the date object
-      const dt = new Date(date.valueOf());
-
-      // ISO week date weeks start on Monday so correct the day number
-      const dayNr = (date.getDay() + 6) % 7;
-
-      // ISO 8601 states that week 1 is the week with the first thursday of that year.
-      // Set the target date to the thursday in the target week
-      dt.setDate(dt.getDate() - dayNr + 3);
-
-      // Store the millisecond value of the target date
-      const firstThursdayUTC = dt.valueOf();
-
-      // Set the target to the first Thursday of the year
-      // First set the target to january first
-      dt.setMonth(0, 1);
-      // Not a Thursday? Correct the date to the next Thursday
-      if (dt.getDay() !== 4) {
-        const daysToNextThursday = ((4 - dt.getDay()) + 7) % 7;
-        dt.setMonth(0, 1 + daysToNextThursday);
-      }
-
-      // The week number is the number of weeks between the
-      // first Thursday of the year and the Thursday in the target week
-      return 1 + Math.ceil((firstThursdayUTC - dt.valueOf()) / (7 * 24 * 3600 * 1000 /* 1 week */));
+      return !datesAreInTheSamePeriod(this.dateValue!, boundaryDate, this.periodValue);
     },
   },
 });
