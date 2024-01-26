@@ -151,7 +151,7 @@
         "Timezone": "Strefa czasowa portalu",
         "WeHopeYouWillEnjoyPiwik": "Mamy nadzieję, że korzystanie z Matomo przyniesie Ci tyle satysfakcji ile nam przynosi jego tworzenie.",
         "Welcome": "Witaj",
-        "WelcomeHelp": "<p>Matomo to bezpłatne/wolne statystyki dla stron www pozwalające Ci łatwo uzyskać informacje o Twoich odwiedzających.</p><p>Ten proces jest podzielony na %s proste kroki i zajmie około 5 minut.</p>",
+        "WelcomeHelp": "<p>Matomo to bezpłatne/wolne statystyki dla stron www pozwalające Ci łatwo uzyskać informacje o Twoich odwiedzających.</p><p>Ten proces jest podzielony na %s prostych kroków i zajmie około 5 minut.</p>",
         "WelcomeToCommunity": "Witamy w społeczności Matomo",
         "YouMayInstallPiwikNow": "Teraz możesz %1$szainstalować Matomo%2$s"
     }
