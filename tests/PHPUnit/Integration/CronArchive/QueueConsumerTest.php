@@ -900,17 +900,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
     public function test_canSkipArchiveBecauseNoPoint_returnsFalseIfDateRangeHasVisits_AndPeriodDoesNotIncludeToday()
     {
-        $idSite = Fixture::createWebsite('2015-02-03');
-
-        Date::$now = strtotime('2020-04-05');
-
-        $t = Fixture::getTracker($idSite, '2020-03-05 10:34:00');
-        $t->setUrl('http://whatever.com');
-        Fixture::checkResponse($t->doTrackPageView('test title'));
-
-        $cronArchive = new CronArchive();
-
-        $archiveFilter = $this->makeTestArchiveFilter();
+        $this->setUpSiteAndTrackVisit('2020-03-05 10:34:00');
 
         $queueConsumer = new QueueConsumer(
             StaticContainer::get(LoggerInterface::class),
@@ -919,9 +909,9 @@ class QueueConsumerTest extends IntegrationTestCase
             24,
             new Model(),
             new SegmentArchiving(),
-            $cronArchive,
+            new CronArchive(),
             new RequestParser(true),
-            $archiveFilter
+            $this->makeTestArchiveFilter()
         );
 
         $invalidation = [
@@ -939,17 +929,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
     public function test_usableArchiveExists_returnsTrueIfDateRangeHasVisits_AndPeriodIncludesToday_AndExistingArchiveIsRecent()
     {
-        $idSite = Fixture::createWebsite('2015-02-03');
-
-        Date::$now = strtotime('2020-04-05');
-
-        $t = Fixture::getTracker($idSite, '2020-04-05 10:34:00');
-        $t->setUrl('http://whatever.com');
-        Fixture::checkResponse($t->doTrackPageView('test title'));
-
-        $cronArchive = new CronArchive();
-
-        $archiveFilter = $this->makeTestArchiveFilter();
+        $this->setUpSiteAndTrackVisit();
 
         $queueConsumer = new QueueConsumer(
             StaticContainer::get(LoggerInterface::class),
@@ -958,9 +938,9 @@ class QueueConsumerTest extends IntegrationTestCase
             24,
             new Model(),
             new SegmentArchiving(),
-            $cronArchive,
+            new CronArchive(),
             new RequestParser(true),
-            $archiveFilter
+            $this->makeTestArchiveFilter()
         );
 
         $invalidation = [
@@ -985,17 +965,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
     public function testUsableArchiveExistsReturnsTrueIfDateRangeHasVisitsAndPeriodIncludesTodayAndExistingPluginArchiveIsRecent()
     {
-        $idSite = Fixture::createWebsite('2015-02-03');
-
-        Date::$now = strtotime('2020-04-05');
-
-        $t = Fixture::getTracker($idSite, '2020-04-05 10:34:00');
-        $t->setUrl('http://whatever.com');
-        Fixture::checkResponse($t->doTrackPageView('test title'));
-
-        $cronArchive = new CronArchive();
-
-        $archiveFilter = $this->makeTestArchiveFilter();
+        $this->setUpSiteAndTrackVisit();
 
         $queueConsumer = new QueueConsumer(
             StaticContainer::get(LoggerInterface::class),
@@ -1004,9 +974,9 @@ class QueueConsumerTest extends IntegrationTestCase
             24,
             new Model(),
             new SegmentArchiving(),
-            $cronArchive,
+            new CronArchive(),
             new RequestParser(true),
-            $archiveFilter
+            $this->makeTestArchiveFilter()
         );
 
         $segmentHash = (new Segment('browserCode==IE', [1]))->getHash();
@@ -1034,17 +1004,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
     public function test_canSkipArchiveBecauseNoPoint_returnsFalseIfDateRangeHasVisits_AndPeriodIncludesToday_AndOnlyExistingArchiveIsRecentButPartial()
     {
-        $idSite = Fixture::createWebsite('2015-02-03');
-
-        Date::$now = strtotime('2020-04-05');
-
-        $t = Fixture::getTracker($idSite, '2020-04-05 10:34:00');
-        $t->setUrl('http://whatever.com');
-        Fixture::checkResponse($t->doTrackPageView('test title'));
-
-        $cronArchive = new CronArchive();
-
-        $archiveFilter = $this->makeTestArchiveFilter();
+        $this->setUpSiteAndTrackVisit();
 
         $queueConsumer = new QueueConsumer(
             StaticContainer::get(LoggerInterface::class),
@@ -1053,9 +1013,9 @@ class QueueConsumerTest extends IntegrationTestCase
             24,
             new Model(),
             new SegmentArchiving(),
-            $cronArchive,
+            new CronArchive(),
             new RequestParser(true),
-            $archiveFilter
+            $this->makeTestArchiveFilter()
         );
 
         $invalidation = [
@@ -1080,17 +1040,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
     public function testCanSkipArchiveBecauseNoPointReturnsTrueSegmentArchivingForPluginIsDisabled()
     {
-        $idSite = Fixture::createWebsite('2015-02-03');
-
-        Date::$now = strtotime('2020-04-05');
-
-        $t = Fixture::getTracker($idSite, '2020-04-05 10:34:00');
-        $t->setUrl('http://whatever.com');
-        Fixture::checkResponse($t->doTrackPageView('test title'));
-
-        $cronArchive = new CronArchive();
-
-        $archiveFilter = $this->makeTestArchiveFilter();
+        $this->setUpSiteAndTrackVisit();
 
         $queueConsumer = new QueueConsumer(
             StaticContainer::get(LoggerInterface::class),
@@ -1099,9 +1049,9 @@ class QueueConsumerTest extends IntegrationTestCase
             24,
             new Model(),
             new SegmentArchiving(),
-            $cronArchive,
+            new CronArchive(),
             new RequestParser(true),
-            $archiveFilter
+            $this->makeTestArchiveFilter()
         );
 
         $segmentHash = (new Segment('browserCode==IE', [1]))->getHash();
@@ -1121,6 +1071,17 @@ class QueueConsumerTest extends IntegrationTestCase
         Config::getInstance()->General['disable_archiving_segment_for_plugins'] = 'ExamplePlugin';
 
         $this->assertTrue($queueConsumer->canSkipArchiveBecauseNoPoint($invalidation));
+    }
+
+    private function setUpSiteAndTrackVisit($visitDateTime = '2020-04-05 10:34:00')
+    {
+        $idSite = Fixture::createWebsite('2015-02-03');
+
+        Date::$now = strtotime('2020-04-05');
+
+        $t = Fixture::getTracker($idSite, $visitDateTime);
+        $t->setUrl('http://whatever.com');
+        Fixture::checkResponse($t->doTrackPageView('test title'));
     }
 
     /**
