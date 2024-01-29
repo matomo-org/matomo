@@ -1274,30 +1274,31 @@ PluginsInstalled[] = Intl
 PluginsInstalled[] = JsTrackerInstallCheck
 
 [PagePerformance]
-; The values used in reports 'sum/total' and 'average' are capped to reduce the impact of single failed performance measurements.
+; The configuration below provides the possibility to enable capping of values used for generating 'sum/total' and 'average' metrics for page performance reports.
+; This allows to reduce the impact of single failed performance measurements.
 ;
-; The recommended caps are at 100-fold an avg/high value. Thereby one wrong value in 10000 values results in a 1% deviation:
+; The recommended caps are at 100-fold an avg/high value. Thereby one wrong value in 10,000 values results in a 1% deviation:
 ; (1x 100N + 9999x N) / 10000 ~= 101% N
 ;
-; By default capping is disabled. To enable capping add single lines below as needed to section '[PagePerformance]' in 'config.ini.php'.
+; By default capping is disabled. To enable capping overwrite the configs below with a value higher than 0.
 
-; Network: avg/high 100ms
-;time_network_cap_duration_ms = 10000
+; Cap for Network time: avg/high 100ms (recommended value: 10000)
+time_network_cap_duration_ms = 0
 
-; Server: avg/high 500ms
-;time_server_cap_duration_ms = 50000
+; Cap for Server time: avg/high 500ms (recommended value: 50000)
+time_server_cap_duration_ms = 0
 
-; Transfer: avg/high 250ms
-;time_transfer_cap_duration_ms = 25000
+; Cap for Transfer time: avg/high 250ms (recommended value: 25000)
+time_transfer_cap_duration_ms = 0
 
-; DOM processing: avg/high 500ms
-;time_dom_processing_cap_duration_ms = 50000
+; Cap for DOM processing time: avg/high 500ms (recommended value: 50000)
+time_dom_processing_cap_duration_ms = 0
 
-; DOM completion: avg/high 1500ms
-;time_dom_completion_cap_duration_ms = 150000
+; Cap for DOM completion time: avg/high 1500ms (recommended value: 150000)
+time_dom_completion_cap_duration_ms = 0
 
-; On load: avg/high 10ms (time 'DOM complete' to 'Onload-event')
-;time_on_load_cap_duration_ms = 1000
+; Cap for On load time: avg/high 10ms (recommended value: 1000)
+time_on_load_cap_duration_ms = 0
 
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call
