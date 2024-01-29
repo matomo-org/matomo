@@ -15,8 +15,6 @@ describe("PeriodSelector", function () {
 
     const selector = '#periodString,#periodString .dropdown';
 
-    let broadcastPropagateNewPage;
-
     it("should load correctly", async function() {
         await page.goto(url);
 
@@ -26,7 +24,6 @@ describe("PeriodSelector", function () {
                 return false;
             };
 
-            broadcastPropagateNewPage = broadcast.propagateNewPage;
             broadcast.propagateNewPage = function () {};
 
             // hide ajaxLoadingCalendar via CSS (can't just remove it since it's managed by vue)
@@ -138,10 +135,7 @@ describe("PeriodSelector", function () {
     });
 
     it("should move forward two days when next period selector is clicked twice", async function () {
-        await page.evaluate(function () {
-            // restore page propagation since the current date is set from the URL
-            broadcast.propagateNewPage = broadcastPropagateNewPage;
-        });
+        await page.goto(url);
 
         await page.click('.periodSelector .move-period-next');
         await page.waitForNetworkIdle();
