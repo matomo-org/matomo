@@ -30,7 +30,7 @@ class TimeOnLoad extends Base
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
-        $metric1 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
+        $metric1 = $dimensionMetricFactory->createMetric('sum(' . $this->getSqlCappedValue() . ')');
         $metric1->setName('sum_time_on_load');
         $metricsList->addMetric($metric1);
 
