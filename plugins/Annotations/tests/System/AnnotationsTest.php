@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\Annotations\tests\System;
 
 use Piwik\API\Request;
+use Piwik\Date;
 use Piwik\Plugins\Annotations\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -21,6 +22,21 @@ use Exception;
 class AnnotationsTest extends SystemTestCase
 {
     public static $fixture = null;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        // Fixed time necessary for "last30" API tests.
+        Date::$now = strtotime('2012-03-03 12:00:00');
+    }
+
+    public function tearDown(): void
+    {
+        Date::$now = null;
+
+        parent::tearDown();
+    }
 
     public static function getOutputPrefix()
     {
@@ -60,6 +76,11 @@ class AnnotationsTest extends SystemTestCase
                                               'periods'                => array('range'),
                                               'otherRequestParameters' => array('lastN' => 6),
                                               'testSuffix'             => '_range')),
+            array('Annotations.getAll', array('idSite'                 => $idSite1,
+                                              'date'                   => 'last30',
+                                              'periods'                => array('range'),
+                                              'otherRequestParameters' => array('lastN' => 6),
+                                              'testSuffix'             => '_last30')),
             array('Annotations.getAll', array('idSite'     => 'all',
                                               'date'       => '2012-01-01',
                                               'periods'    => array('month'),
@@ -82,6 +103,11 @@ class AnnotationsTest extends SystemTestCase
                                                                   'periods'                => array('range'),
                                                                   'otherRequestParameters' => array('lastN' => 6),
                                                                   'testSuffix'             => '_range')),
+            array('Annotations.getAnnotationCountForDates', array('idSite'                 => $idSite1,
+                                                                  'date'                   => 'last30',
+                                                                  'periods'                => array('range'),
+                                                                  'otherRequestParameters' => array('lastN' => 6),
+                                                                  'testSuffix'             => '_last30')),
             array('Annotations.getAnnotationCountForDates', array('idSite'     => 'all',
                                                                   'date'       => '2012-01-01',
                                                                   'periods'    => array('month'),
