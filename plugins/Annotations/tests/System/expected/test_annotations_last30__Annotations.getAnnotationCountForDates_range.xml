@@ -4,7 +4,7 @@
 		<row>
 			<row>2012-02-03</row>
 			<row>
-				<count>0</count>
+				<count>1</count>
 				<starred>0</starred>
 			</row>
 		</row>
@@ -39,7 +39,7 @@
 		<row>
 			<row>2012-02-08</row>
 			<row>
-				<count>1</count>
+				<count>0</count>
 				<starred>0</starred>
 			</row>
 		</row>
@@ -47,14 +47,14 @@
 			<row>2012-02-09</row>
 			<row>
 				<count>1</count>
-				<starred>1</starred>
+				<starred>0</starred>
 			</row>
 		</row>
 		<row>
 			<row>2012-02-10</row>
 			<row>
-				<count>0</count>
-				<starred>0</starred>
+				<count>1</count>
+				<starred>1</starred>
 			</row>
 		</row>
 		<row>
@@ -88,7 +88,7 @@
 		<row>
 			<row>2012-02-15</row>
 			<row>
-				<count>1</count>
+				<count>0</count>
 				<starred>0</starred>
 			</row>
 		</row>
@@ -102,7 +102,7 @@
 		<row>
 			<row>2012-02-17</row>
 			<row>
-				<count>0</count>
+				<count>1</count>
 				<starred>0</starred>
 			</row>
 		</row>
@@ -137,21 +137,21 @@
 		<row>
 			<row>2012-02-22</row>
 			<row>
-				<count>1</count>
-				<starred>1</starred>
+				<count>0</count>
+				<starred>0</starred>
 			</row>
 		</row>
 		<row>
 			<row>2012-02-23</row>
 			<row>
 				<count>1</count>
-				<starred>0</starred>
+				<starred>1</starred>
 			</row>
 		</row>
 		<row>
 			<row>2012-02-24</row>
 			<row>
-				<count>0</count>
+				<count>1</count>
 				<starred>0</starred>
 			</row>
 		</row>

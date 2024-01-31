@@ -2,6 +2,14 @@
 <result>
 	<row key="1">
 		<row>
+			<date>2012-02-03</date>
+			<note>19: Site 1 annotation for 2012-02-03</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>19</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
 			<date>2012-02-09</date>
 			<note>20: Site 1 annotation for 2012-02-09</note>
 			<starred>0</starred>
