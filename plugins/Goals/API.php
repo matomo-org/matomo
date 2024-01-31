@@ -358,6 +358,8 @@ class API extends \Piwik\Plugin\API
 
         $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($recordNameFinal);
+        // ensure to use real column names from here on, as using the index can cause trouble when sorting by columns that don't exist in every row.
+        $dataTable->filter('ReplaceColumnNames');
 
         // Before Matomo 4.0.0 ecommerce views were tracked in custom variables
         // So if Matomo was installed before try to fetch the views from custom variables and enrich the report
@@ -368,7 +370,7 @@ class API extends \Piwik\Plugin\API
         // use average ecommerce view price if no cart price is available
         $dataTable->filter(function (DataTable $table) {
             foreach ($table->getRowsWithoutSummaryRow() as $row) {
-                if (!$row->getColumn('avg_price') && !$row->getColumn(Metrics::INDEX_ECOMMERCE_ITEM_PRICE)) {
+                if (!$row->getColumn('avg_price') && !$row->getColumn('price')) {
                     $row->renameColumn(self::AVG_PRICE_VIEWED, 'avg_price');
                 }
                 $row->deleteColumn(self::AVG_PRICE_VIEWED);
@@ -383,14 +385,12 @@ class API extends \Piwik\Plugin\API
         $notDefinedStringPretty = $reportToNotDefinedString[$recordName];
         $this->renameNotDefinedRow($dataTable, $notDefinedStringPretty);
 
-        $dataTable->queueFilter('ReplaceColumnNames');
-        $dataTable->queueFilter('ReplaceSummaryRowLabel');
-
         if ($abandonedCarts) {
             $ordersColumn = 'abandoned_carts';
-            $dataTable->renameColumn(Metrics::INDEX_ECOMMERCE_ORDERS, $ordersColumn);
+            $dataTable->renameColumn('orders', $ordersColumn);
         }
 
+        $dataTable->queueFilter('ReplaceSummaryRowLabel');
         $dataTable->queueFilter('ColumnDelete', array('price'));
 
         return $dataTable;
