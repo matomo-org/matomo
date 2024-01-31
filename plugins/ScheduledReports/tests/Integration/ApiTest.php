@@ -583,6 +583,47 @@ class ApiTest extends IntegrationTestCase
             $language = false, $outputType = APIScheduledReports::OUTPUT_RETURN);
     }
 
+    public function test_generateReport_throwsIfInvalidDateRequested(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionInvalidDateFormat');
+
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            [
+                'VisitsSummary_get',
+            ],
+            [
+                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY
+            ]
+        );
+
+        APIScheduledReports::getInstance()->generateReport(
+            $idReport,
+            'DoesNotParse',
+            false,
+            APIScheduledReports::OUTPUT_RETURN
+        );
+    }
+
+    public function test_generateReport_throwsIfInvalidReportRequested(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Requested report couldn't be found.");
+
+        APIScheduledReports::getInstance()->generateReport(
+            1234567890,
+            Date::factory('now')->toString(),
+            false,
+            APIScheduledReports::OUTPUT_RETURN
+        );
+    }
+
     public function test_addReport_validatesEvolutionPeriodForParam()
     {
         $this->expectException(\Exception::class);
