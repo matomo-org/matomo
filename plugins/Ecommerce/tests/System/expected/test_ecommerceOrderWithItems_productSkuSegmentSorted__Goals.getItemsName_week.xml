@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>PRODUCT THREE LEFT in cart</label>
+		<nb_visits>3</nb_visits>
+		<nb_actions>6</nb_actions>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<avg_price>1332</avg_price>
+		<avg_quantity>0</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productName==PRODUCT+THREE+LEFT+in+cart</segment>
+	</row>
+	<row>
+		<label>PRODUCT TWO LEFT in cart</label>
+		<nb_visits>3</nb_visits>
+		<nb_actions>3</nb_actions>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<avg_price>0</avg_price>
+		<avg_quantity>0</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productName==PRODUCT+TWO+LEFT+in+cart</segment>
+	</row>
+	<row>
+		<label>PRODUCT name</label>
+		<revenue>1011.22</revenue>
+		<quantity>3</quantity>
+		<orders>2</orders>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<avg_price>255.61</avg_price>
+		<avg_quantity>1.5</avg_quantity>
+		<conversion_rate>200%</conversion_rate>
+		<segment>productName==PRODUCT+name</segment>
+	</row>
+	<row>
+		<label>Canon SLR</label>
+		<revenue>1500</revenue>
+		<quantity>1</quantity>
+		<orders>1</orders>
+		<avg_price>1500</avg_price>
+		<avg_quantity>1</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Canon+SLR</segment>
+	</row>
+	<row>
+		<label>PRODUCT name BIS</label>
+		<revenue>600</revenue>
+		<quantity>6</quantity>
+		<orders>1</orders>
+		<avg_price>100</avg_price>
+		<avg_quantity>6</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productName==PRODUCT+name+BIS</segment>
+	</row>
+</result>
