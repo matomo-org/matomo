@@ -319,8 +319,8 @@ abstract class MenuAbstract extends Singleton
                     unset($this->menu[$mainMenuOriginal][$subMenuOriginal]);
                     $this->menu[$mainMenuRenamed][$subMenuRenamed] = $save;
                 }
-            } // Changing a first-level element
-            elseif (isset($this->menu[$mainMenuOriginal])) {
+            } elseif (isset($this->menu[$mainMenuOriginal])) {
+                // Changing a first-level element
                 $save = $this->menu[$mainMenuOriginal];
                 $save['_name'] = $mainMenuRenamed;
                 unset($this->menu[$mainMenuOriginal]);

@@ -33,7 +33,7 @@ class DeviceBrand extends Base
     public function __construct()
     {
         $brands = AbstractDeviceParser::$deviceBrands;
-        natcasesort ($brands);
+        natcasesort($brands);
         $brandList = implode(", ", $brands);
         $this->acceptValues = $brandList;
 

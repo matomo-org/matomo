@@ -89,8 +89,9 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
             } else {
                 return $this->getRangeLabel($value, $lowerBound, $upperBound);
             }
-        } // if there's one element, handle as a range w/ no upper bound
-        else {
+        } else {
+            // if there's one element, handle as a range w/ no upper bound
+
             // get the lower bound
             sscanf($value, "%d", $lowerBound);
 
