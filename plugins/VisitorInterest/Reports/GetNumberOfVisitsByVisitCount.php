@@ -41,8 +41,7 @@ class GetNumberOfVisitsByVisitCount extends Base
 
         $view->config->addTranslations(array(
             'label'                => Piwik::translate('VisitorInterest_VisitNum'),
-            'nb_visits_percentage' => Metrics::getPercentVisitColumn())
-        );
+            'nb_visits_percentage' => Metrics::getPercentVisitColumn()));
 
         $view->config->columns_to_display = array('label', 'nb_visits', 'nb_visits_percentage');
         $view->config->show_exclude_low_population = false;

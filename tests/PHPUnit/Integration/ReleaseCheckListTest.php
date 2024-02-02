@@ -173,7 +173,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         // Check the index.php has "backtrace disabled"
         $content = file_get_contents(PIWIK_INCLUDE_PATH . "/index.php");
         $expected = "define('PIWIK_PRINT_ERROR_BACKTRACE', false);";
-        $this->assertTrue( false !== strpos($content, $expected), 'index.php should contain: ' . $expected);
+        $this->assertTrue(false !== strpos($content, $expected), 'index.php should contain: ' . $expected);
     }
 
     private function _checkEqual($key, $valueExpected)
@@ -344,7 +344,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                 continue;
             }
 
-            $start = fgets($handle, strlen($expectedStart) + 1 );
+            $start = fgets($handle, strlen($expectedStart) + 1);
             $this->assertEquals($start, $expectedStart, "File $file does not start with $expectedStart");
             $tested++;
         }

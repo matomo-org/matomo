@@ -98,8 +98,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
 
             if (!$translationWriter->hasTranslations()) {
                 $this->markTestSkipped('Translation file errors detected in ' . $language . "...\n"
-                    . "File would be empty after filtering. You may remove it manually to fix this test.\n"
-                );
+                    . "File would be empty after filtering. You may remove it manually to fix this test.\n");
                 return;
             }
 
@@ -107,8 +106,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
             $this->markTestSkipped(implode("\n", $translationWriter->getFilterMessages()) . "\n"
                 . 'Translation file errors detected in ' . $language . "...\n"
                 . "To synchronise the language files with the english strings, you can manually edit the language files or run the following command may work if you have access to Weblate: \n"
-                . "$ ./console translations:update [--plugin=XYZ] \n"
-            );
+                . "$ ./console translations:update [--plugin=XYZ] \n");
         }
     }
 

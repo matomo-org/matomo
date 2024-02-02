@@ -121,7 +121,7 @@ class Model
                 SELECT idsite FROM ' . $siteUrlTable . '
                     WHERE url IN ( ' . Common::getSqlStringFieldsArray($urls) . ') ',
             // Bind
-            array_merge( $urls, $urls)
+            array_merge($urls, $urls)
         );
 
         return $ids;
@@ -380,8 +380,7 @@ class Model
         $db->insert(Common::prefixTable("site_url"), array(
                 'idsite' => (int) $idSite,
                 'url'    => $url
-            )
-        );
+            ));
     }
 
     public function getPatternMatchSites($ids, $pattern, $limit)

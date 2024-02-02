@@ -436,12 +436,11 @@ class ApiTest extends IntegrationTestCase
                                            ->disableOriginalConstructor()
                                            ->getMock();
         $stubbedAPIScheduledReports->expects($this->any())->method('getReports')->will($this->returnValue(
-                array($report1, $report2, $report3, $report4, $report5, $report6))
-        );
+                array($report1, $report2, $report3, $report4, $report5, $report6)));
         \Piwik\Plugins\ScheduledReports\API::setSingletonInstance($stubbedAPIScheduledReports);
 
         // initialize sites 1 and 2
-        Site::setSites( array(
+        Site::setSites(array(
             1 => array('timezone' => 'Europe/Paris'),
             2 => array('timezone' => 'UTC-6.5'),
         ));
@@ -503,7 +502,7 @@ class ApiTest extends IntegrationTestCase
         );
         $getReportSubjectAndReportTitle->setAccessible(true);
 
-        [$reportSubject, $reportTitle] = $getReportSubjectAndReportTitle->invoke( APIScheduledReports::getInstance(), $websiteName, $reports);
+        [$reportSubject, $reportTitle] = $getReportSubjectAndReportTitle->invoke(APIScheduledReports::getInstance(), $websiteName, $reports);
         $this->assertEquals($expectedReportSubject, $reportSubject);
         $this->assertEquals($expectedReportTitle, $reportTitle);
     }

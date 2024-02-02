@@ -34,7 +34,7 @@ class EmailValidatorTest extends \PHPUnit\Framework\TestCase
             }
         }
         $minimumTlds = 1200;
-        $this->assertGreaterThan( $minimumTlds, count($tlds), "expected to download at least $minimumTlds domain names");
+        $this->assertGreaterThan($minimumTlds, count($tlds), "expected to download at least $minimumTlds domain names");
         return $tlds;
     }
 
@@ -74,7 +74,7 @@ class EmailValidatorTest extends \PHPUnit\Framework\TestCase
             foreach($errors as $domainNameExtension) {
                 $out .= "\t'$domainNameExtension' => array(1 => self::VALID_UNICODE_DOMAIN),\n";
             }
-            $this->fail( "Some email extensions are not supported yet, you can add these domain extensions in libs/Zend/Validate/Hostname.php: \n\n" . $out);
+            $this->fail("Some email extensions are not supported yet, you can add these domain extensions in libs/Zend/Validate/Hostname.php: \n\n" . $out);
         }
     }
 

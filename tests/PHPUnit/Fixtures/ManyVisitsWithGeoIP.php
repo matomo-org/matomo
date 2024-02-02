@@ -141,7 +141,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $setIp = isset($params['setIp']) && $params['setIp'];
 
         // NOTE: floor() is so some visits share the same visit ID
-        $t->setVisitorId( substr(md5(floor($visitorCounter / 2) + $fixtureCounter * 1000), 0, $t::LENGTH_VISITOR_ID));
+        $t->setVisitorId(substr(md5(floor($visitorCounter / 2) + $fixtureCounter * 1000), 0, $t::LENGTH_VISITOR_ID));
 
         $userAgent = null;
         if ($setIp) {
@@ -210,14 +210,14 @@ class ManyVisitsWithGeoIP extends Fixture
 
         $date = $date->addHour(0.05);
         $t->setForceVisitDateTime($date->getDatetime());
-        $t->doTrackAction('http://example.org/path/file' . $visitorCounter . '.zip', "download" );
+        $t->doTrackAction('http://example.org/path/file' . $visitorCounter . '.zip', "download");
         if (!$doBulk) {
             self::checkResponse($r);
         }
 
         $date = $date->addHour(0.05);
         $t->setForceVisitDateTime($date->getDatetime());
-        $r = $t->doTrackAction('http://example-outlink.org/' . $visitorCounter . '.html', "link" );
+        $r = $t->doTrackAction('http://example-outlink.org/' . $visitorCounter . '.html', "link");
         if (!$doBulk) {
             self::checkResponse($r);
         }

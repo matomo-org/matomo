@@ -420,8 +420,7 @@ class CronArchive
 
         $this->logger->info("done: " . $this->requests . " req, " . round($timer->getTimeMs()) . " ms, " . (empty($this->errors)
                 ? self::NO_ERROR
-                : (count($this->errors) . " errors."))
-        );
+                : (count($this->errors) . " errors.")));
 
         $this->logger->info($timer->__toString());
     }

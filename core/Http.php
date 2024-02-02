@@ -245,8 +245,8 @@ class Http
         $contentLength = 0;
         $fileLength = 0;
 
-        if ( !empty($requestBody ) && is_array($requestBody )) {
-            $requestBodyQuery = self::buildQuery($requestBody );
+        if ( !empty($requestBody) && is_array($requestBody)) {
+            $requestBodyQuery = self::buildQuery($requestBody);
         } else {
             $requestBodyQuery = $requestBody;
         }
@@ -405,10 +405,10 @@ class Http
                 . "Connection: close\r\n";
             fwrite($fsock, $requestHeader);
 
-            if (strtolower($httpMethod) === 'post' && !empty($requestBodyQuery )) {
-                fwrite($fsock, self::buildHeadersForPost($requestBodyQuery ));
+            if (strtolower($httpMethod) === 'post' && !empty($requestBodyQuery)) {
+                fwrite($fsock, self::buildHeadersForPost($requestBodyQuery));
                 fwrite($fsock, "\r\n");
-                fwrite($fsock, $requestBodyQuery );
+                fwrite($fsock, $requestBodyQuery);
             } else {
                 fwrite($fsock, "\r\n");
             }
@@ -576,8 +576,8 @@ class Http
                     }
                 }
 
-                if (strtolower($httpMethod) === 'post' && !empty($requestBodyQuery )) {
-                    $postHeader  = self::buildHeadersForPost($requestBodyQuery );
+                if (strtolower($httpMethod) === 'post' && !empty($requestBodyQuery)) {
+                    $postHeader  = self::buildHeadersForPost($requestBodyQuery);
                     $postHeader .= "\r\n";
                     $stream_options['http']['method']  = 'POST';
                     $stream_options['http']['header'] .= $postHeader;
@@ -672,9 +672,9 @@ class Http
                 @curl_setopt($ch, CURLOPT_NOBODY, true);
             }
 
-            if (strtolower($httpMethod) === 'post' && !empty($requestBodyQuery )) {
+            if (strtolower($httpMethod) === 'post' && !empty($requestBodyQuery)) {
                 curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $requestBodyQuery );
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $requestBodyQuery);
             }
 
             if (!empty($httpUsername) && !empty($httpPassword)) {
