@@ -29,6 +29,7 @@ use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
 use Piwik\Plugins\UsersManager\Validators\Email;
+use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -1088,11 +1089,12 @@ class API extends \Piwik\Plugin\API
      *                              May also be an array to sent additional capabilities
      * @param int|array $idSites The array of idSites on which to apply the access level for the user.
      *       If the value is "all" then we apply the access level to all the websites ID for which the current authentificated user has an 'admin' access.
+     * @param string $passwordConfirmation password confirmation. only required when setting view access for anonymous user through session auth
      * @throws Exception if the user doesn't exist
      * @throws Exception if the access parameter doesn't have a correct value
      * @throws Exception if any of the given website ID doesn't exist
      */
-    public function setUserAccess($userLogin, $access, $idSites)
+    public function setUserAccess($userLogin, $access, $idSites, $passwordConfirmation = null)
     {
         UsersManager::dieIfUsersAdminIsDisabled();
 
@@ -1101,6 +1103,11 @@ class API extends \Piwik\Plugin\API
         }
 
         $idSites = $this->getIdSitesCheckAdminAccess($idSites);
+
+        // check password confirmation only when using session auth and setting view access for anonymous user
+        if ($userLogin === 'anonymous' && Request::fromRequest()->getBoolParameter('force_api_session', false) && $access === 'view') {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
 
         if (
             $userLogin === 'anonymous' &&
@@ -1535,8 +1542,6 @@ class API extends \Piwik\Plugin\API
 
         return $description;
     }
-
-
 
     /**
      * resend the invite email to user

@@ -47,7 +47,7 @@
         </div>
         <PagedUsersList
           @edit-user="onEditUser($event.user)"
-          @change-user-role="onChangeUserRole($event.users, $event.role)"
+          @change-user-role="onChangeUserRole($event.users, $event.role, $event.password)"
           @delete-user="onDeleteUser($event.users, $event.password)"
           @search-change="searchParams = $event.params; fetchUsers()"
           @resend-invite="showResendPopup($event.user)"
@@ -295,7 +295,7 @@ export default defineComponent({
     showAddExistingUserModal() {
       $(this.$refs.addExistingUserModal as HTMLElement).modal({ dismissible: false }).modal('open');
     },
-    onChangeUserRole(users: User[]|string, role: string) {
+    onChangeUserRole(users: User[]|string, role: string, password: string) {
       this.isLoadingUsers = true;
 
       Promise.resolve().then(() => {
@@ -316,6 +316,7 @@ export default defineComponent({
             userLogin: login,
             capabilities: role,
             idSites: this.searchParams.idSite,
+            passwordConfirmation: password,
           }));
         } else {
           requests = userLogins.map((login) => ({
@@ -323,13 +324,16 @@ export default defineComponent({
             userLogin: login,
             access: role,
             idSites: this.searchParams.idSite,
+            passwordConfirmation: password,
           }));
         }
 
         return AjaxHelper.fetch(requests, { createErrorNotification: true });
       }).catch(() => {
         // ignore (errors will still be displayed to the user)
-      }).then(() => this.fetchUsers());
+      }).finally(
+        () => this.fetchUsers(),
+      );
     },
     getAllUsersInSearch() {
       return AjaxHelper.fetch<User[]>({

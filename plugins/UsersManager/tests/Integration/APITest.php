@@ -1096,6 +1096,19 @@ class APITest extends IntegrationTestCase
         $this->api->setUserAccess('anonymous', 'write', [1]);
     }
 
+    public function testSetUserAccessCannotSetViewToAnonymousWithoutPassword()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ConfirmWithPassword');
+
+        $_GET['force_api_session'] = 1;
+        try {
+            $this->api->setUserAccess('anonymous', 'view', [1]);
+        } finally {
+            unset($_GET['force_api_session']);
+        }
+    }
+
     public function testSetUserAccessUserDoesNotExist()
     {
         $this->expectException(\Exception::class);
