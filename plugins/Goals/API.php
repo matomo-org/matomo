@@ -438,6 +438,8 @@ class API extends \Piwik\Plugin\API
             $rowView->deleteColumn(Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED);
         }
 
+        $ecommerceViews->filter('ReplaceColumnNames');
+
         $dataTable->addDataTable($ecommerceViews);
     }
 
