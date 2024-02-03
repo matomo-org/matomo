@@ -76,8 +76,8 @@ class Annotations extends \Piwik\Plugin
         // if the range is just a normal period (or the period is a range in which case lastN is ignored)
         if ($period == 'range') {
             $oPeriod = new Period\Range('day', $date);
-            $startDate = $oPeriod->getDateStart();
-            $endDate = $oPeriod->getDateEnd();
+            $startDate = $oPeriod->getDateStart()->getStartOfDay();
+            $endDate = $oPeriod->getDateEnd()->getStartOfDay();
         } else if ($lastN == false && !$isMultiplePeriod) {
             $oPeriod = Period\Factory::build($period, Date::factory($date));
             $startDate = $oPeriod->getDateStart();

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>SKU IN ABANDONED CART TWO</label>
+		<nb_visits>3</nb_visits>
+		<nb_actions>3</nb_actions>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<avg_price>0</avg_price>
+		<avg_quantity>0</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==SKU+IN+ABANDONED+CART+TWO</segment>
+	</row>
+	<row>
+		<label>SKU VERY nice indeed</label>
+		<revenue>1011.22</revenue>
+		<quantity>3</quantity>
+		<orders>2</orders>
+		<nb_visits>3</nb_visits>
+		<nb_actions>7</nb_actions>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<avg_price>255.61</avg_price>
+		<avg_quantity>1.5</avg_quantity>
+		<conversion_rate>66.67%</conversion_rate>
+		<segment>productSku==SKU+VERY+nice+indeed</segment>
+	</row>
+	<row>
+		<label>ANOTHER SKU HERE</label>
+		<revenue>600</revenue>
+		<quantity>6</quantity>
+		<orders>1</orders>
+		<avg_price>100</avg_price>
+		<avg_quantity>6</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==ANOTHER+SKU+HERE</segment>
+	</row>
+	<row>
+		<label>SKU2</label>
+		<revenue>1500</revenue>
+		<quantity>1</quantity>
+		<orders>1</orders>
+		<avg_price>1500</avg_price>
+		<avg_quantity>1</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==SKU2</segment>
+	</row>
+</result>

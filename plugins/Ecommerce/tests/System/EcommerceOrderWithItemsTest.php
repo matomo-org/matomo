@@ -524,6 +524,20 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                     ],
                 ],
 
+                [
+                    $goalItemApi,
+                    [
+                        'idSite'     => $idSite,
+                        'date'       => $dateTime,
+                        'periods'    => 'week',
+                        'testSuffix' => '_productSkuSegmentSorted',
+                        'otherRequestParameters' => [
+                            'filter_sort_column' => 'nb_visits',
+                        ],
+                        'segment'    => 'productSku==' . urlencode(urlencode('SKU VERY nice indeed')),
+                    ],
+                ],
+
                 // deleted sku will be deleted
                 [
                     array_merge(['VisitsSummary.get'], $goalItemApi),

@@ -1634,8 +1634,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                     }
                 }
                 $row = new Row(array(Row::COLUMNS => $row));
-            } // other (string, numbers...) => we build a line from this value
-            else {
+            } else {
+                // other (string, numbers...) => we build a line from this value
                 $row = new Row(array(Row::COLUMNS => array($key => $row)));
             }
             $this->addRow($row);

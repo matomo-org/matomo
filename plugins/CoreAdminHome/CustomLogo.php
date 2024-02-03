@@ -273,7 +273,7 @@ class CustomLogo
                 $image = @imagecreatefrompng($file);
                 break;
             case 'image/gif':
-                $image = @imagecreatefromgif ($file);
+                $image = @imagecreatefromgif($file);
                 break;
             default:
                 return false;
