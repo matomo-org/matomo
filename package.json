@@ -10,6 +10,10 @@
     "test": "TZ=UTC vue-cli-service test:unit",
     "eslint": "eslint"
   },
+  "gitHooks": {
+    "post-checkout": ".githooks/update-submodule checkout",
+    "post-rewrite": ".githooks/update-submodule $GIT_PARAMS"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/matomo-org/matomo.git"
@@ -76,6 +80,7 @@
     "stylelint": "^15.9.0",
     "ts-jest": "^26.5.6",
     "typescript": "^4.3.5",
-    "vue-jest": "^5.0.0-0"
+    "vue-jest": "^5.0.0-0",
+    "yorkie": "^2.0.0"
   }
 }

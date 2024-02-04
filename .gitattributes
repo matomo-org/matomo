@@ -48,6 +48,7 @@ plugins/*/tests/UI/expected-screenshots/*.png filter=lfs diff=lfs merge=lfs
 
 # Files excluded from git packages
 tests/ export-ignore
+.githooks/ export-ignore
 .github/ export-ignore
 .coveralls.yml export-ignore
 .gitignore export-ignore
