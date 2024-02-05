@@ -976,62 +976,83 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
     // draw the grid
     // called with context of plot
     $.jqplot.PiwikTicks.postDraw = function () {
-        var c = this.plugins.piwikTicks;
+        const c = this.plugins.piwikTicks;
 
-        // highligh canvas
+        // highlight canvas
         if (c.showHighlight) {
             c.piwikHighlightCanvas = new $.jqplot.GenericCanvas();
 
-            this.eventCanvas._elem.before(c.piwikHighlightCanvas.createElement(
-                this._gridPadding, 'jqplot-piwik-highlight-canvas', this._plotDimensions, this));
+            this.eventCanvas._elem.before(
+                c.piwikHighlightCanvas.createElement(
+                    this._gridPadding,
+                    'jqplot-piwik-highlight-canvas',
+                    this._plotDimensions,
+                    this
+                )
+            );
+
             c.piwikHighlightCanvas.setContext();
         }
 
         // grid canvas
-        if (c.showTicks) {
-            var dimensions = this._plotDimensions;
-            dimensions.height += 6;
-            c.piwikTicksCanvas = new $.jqplot.GenericCanvas();
-            this.series[0].shadowCanvas._elem.before(c.piwikTicksCanvas.createElement(
-                this._gridPadding, 'jqplot-piwik-ticks-canvas', dimensions, this));
-            c.piwikTicksCanvas.setContext();
-
-            var ctx = c.piwikTicksCanvas._ctx;
-
-            var ticks = this.data[0];
-            var totalWidth = ctx.canvas.width;
-            var tickWidth = totalWidth / ticks.length;
-
-            var xaxisLabels = this.axes.xaxis.ticks;
-
-            for (var i = 0; i < ticks.length; i++) {
-                var pos = Math.round(i * tickWidth + tickWidth / 2);
-                var full = xaxisLabels[i] && xaxisLabels[i] != ' ';
-                drawLine(ctx, pos, full, c.showGrid, c.tickColor);
-            }
+        if (!c.showTicks) {
+            return;
         }
+
+        const dimensions = this._plotDimensions;
+
+        dimensions.height += 6;
+        c.piwikTicksCanvas = new $.jqplot.GenericCanvas();
+
+        this.series[0].shadowCanvas._elem.before(
+            c.piwikTicksCanvas.createElement(
+                this._gridPadding,
+                'jqplot-piwik-ticks-canvas',
+                dimensions,
+                this
+            )
+        );
+
+        c.piwikTicksCanvas.setContext();
+
+        const xaxisLabels = this.axes.xaxis.ticks;
+        const tickCount = this.data[0].length;
+
+        drawGridLines(c.piwikTicksCanvas, xaxisLabels, tickCount, c.showGrid, c.tickColor);
     };
 
     $.jqplot.preInitHooks.push($.jqplot.PiwikTicks.init);
     $.jqplot.postDrawHooks.push($.jqplot.PiwikTicks.postDraw);
 
-    // draw a 1px line
-    function drawLine(ctx, x, full, showGrid, color) {
+    function drawGridLines(piwikTicksCanvas, xaxisLabels, tickCount, showGrid, tickColor) {
+        const totalHeight = piwikTicksCanvas.getHeight();
+        const totalWidth = piwikTicksCanvas.getWidth();
+        const tickWidth = totalWidth / tickCount;
+        const lineWidth = 1;
+
+        const ctx = piwikTicksCanvas._ctx;
+
         ctx.save();
-        ctx.strokeStyle = color;
 
-        ctx.beginPath();
-        ctx.lineWidth = 2;
-        var top = 0;
-        if ((full && !showGrid) || !full) {
-            top = ctx.canvas.height - 5;
+        ctx.strokeStyle = tickColor;
+        ctx.lineWidth = lineWidth;
+
+        for (let i = 0; i < tickCount; i++) {
+            const x = i * tickWidth + tickWidth / 2;
+            const full = xaxisLabels[i] && '' !== xaxisLabels[i].trim();
+
+            ctx.beginPath();
+
+            let top = 0;
+
+            if ((full && !showGrid) || !full) {
+                top = totalHeight - 5;
+            }
+
+            ctx.moveTo(x, top);
+            ctx.lineTo(x, full ? totalHeight : totalHeight - 2);
+            ctx.stroke();
         }
-        ctx.moveTo(x, top);
-        ctx.lineTo(x, full ? ctx.canvas.height : ctx.canvas.height - 2);
-        ctx.stroke();
-
-        // canvas renders line slightly too large
-        ctx.clearRect(x, 0, x + 1, ctx.canvas.height);
 
         ctx.restore();
     }
