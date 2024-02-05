@@ -115,6 +115,7 @@
         "ProtocolNotDetectedCorrectlySolution": "To make sure Matomo securely requests and serves your content over HTTPS, you may edit your %1$s file and either configure your proxy settings, or you may add the line %2$s below the %3$s section. %4$sLearn more%5$s",
         "ReleaseChannel": "Release channel",
         "SecurityNotificationAllTokenAuthDeletedBody": "Someone deleted all of the auth tokens in your account.",
+        "SecurityNotificationAnonymousAccessEnabledBody": "Someone enabled the anonymous user feature for %1$s. This means that the data for this site is publicly accessible. If this is ok, feel free to ignore this email.",
         "SecurityNotificationCheckTwoFactor": "Please check your two-factor authentication app or device.",
         "SecurityNotificationEmailSubject": "Security Notification",
         "SecurityNotificationIfItWasYou": "If it was you, carry on. If you don't recognize this activity, please reset your password.",
