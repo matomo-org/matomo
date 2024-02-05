@@ -1,0 +1,41 @@
+#!/bin/bash
+
+## Description: Initialize Matomo environment including tests setup
+## Usage: matomo:init:tests
+## Example: ddev matomo:init:tests
+
+echo "Running the base init ..."
+ddev matomo:init
+
+echo "Run npm install ..."
+ddev npm install
+
+echo "Add tests config section to config.php.ini ..."
+ddev exec '\cat .ddev/initial-config/config.ini.php.partial >> config/config.ini.php'
+
+echo "Copy UI tests config file ..."
+echo "@see https://developer.matomo.org/guides/tests-ui#configuring-ui-tests"
+ddev exec '\cp .ddev/initial-config/config.js tests/UI/config.js'
+
+echo "Enable development mode and disable assets merging ..."
+ddev matomo:console development:enable
+ddev matomo:console config:set Development.disable_merged_assets=1
+
+echo "Initialise test database: setup OmniFixture ..."
+ddev matomo:console tests:setup-fixture OmniFixture
+
+echo "Install the JavaScript dependencies for the UI tests ..."
+ddev exec 'cd tests/lib/screenshot-testing && npm install'
+
+echo "TODO: Locally install the git-lfs extension to be able to download and commit UI screenshots."
+echo "@see https://github.com/git-lfs/git-lfs#installing"
+echo "@see https://git-lfs.com/"
+read -n 1 -s -r -p "Press any key when ready to continue ..."
+echo ""
+
+echo "[git] Pull screenshots for UI tests ..."
+git lfs pull --exclude=
+
+echo "Done: Matomo tests setup initialisation finished."
+echo ""
+

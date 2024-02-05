@@ -1,0 +1,19 @@
+#!/bin/bash
+
+## Description: Initialize Matomo basic environment
+## Usage: matomo:init
+## Example: ddev matomo:init
+
+#echo "Copy initial config file ..."
+#echo "@see https://developer.matomo.org/guides/tests-php#requirements"
+#ddev exec '\cp -r .ddev/initial-config/config.ini.php config/config.ini.php'
+
+echo "[git] Update git submodules ..."
+git submodule update --init
+
+echo "Run composer install ..."
+ddev composer install
+
+echo "Done: Basic Matomo instance initialisation finished."
+echo ""
+
