@@ -13,4 +13,4 @@
 175.41.192.43 - - [11/Aug/2012:21:15:40 +0200] "GET /temp-redirect HTTP/1.1" 307 3574 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24"
 175.41.192.41 - - [11/Aug/2012:22:15:41 +0200] "GET /BLOG/cAtEgOrY/meta/ HTTP/1.1" 200 3574 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24"
 
-0:0:0:0:0:ffff:7b2d:4359 - - [11/Aug/2012:22:15:41 +0200] "GET /BLOG/cAtEgOrY/meta/ HTTP/1.1" 200 3574 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24"
+0:0:0:0:0:ffff:7b2d:4359 - - [11/Aug/2012:22:15:51 +0200] "GET /BLOG/cAtEgOrY/meta/ HTTP/1.1" 200 3574 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24"

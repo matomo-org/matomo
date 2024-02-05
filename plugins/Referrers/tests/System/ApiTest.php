@@ -355,7 +355,7 @@ class ApiTest extends SystemTestCase
         $t->doTrackPageView('My Title');
 
         // navigate to same page but from different excluded referrer URL w/ same campaign
-        $t->setUrlReferrer( self::$fixture::EXCLUDED_REFERRER_URL . '/?pk_campaign=adwbuccc');
+        $t->setUrlReferrer(self::$fixture::EXCLUDED_REFERRER_URL . '/?pk_campaign=adwbuccc');
         $t->setCustomTrackingParameter('_rcn', 'adwbuccc'); // this parameter would be set by piwik.js from cookie / attributionInfo
         $t->setCustomTrackingParameter('_rck', ''); // no keyword was used in previous tracking request
         $t->setUrl('http://piwik.net/page1');

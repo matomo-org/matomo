@@ -469,8 +469,8 @@ class Updater
             if (!empty($previousVersion) && !in_array($previousVersion, $history, true)) {
                 // this allows us to see which versions of matomo the user was using before this update so we better understand
                 // which version maybe regressed something
-                array_unshift( $history, $previousVersion );
-                $history = array_slice( $history, 0, 6 ); // lets keep only the last 6 versions
+                array_unshift($history, $previousVersion);
+                $history = array_slice($history, 0, 6); // lets keep only the last 6 versions
                 Option::set(self::OPTION_KEY_MATOMO_UPDATE_HISTORY, implode(',', $history));
             }
         } catch (\Exception $e) {

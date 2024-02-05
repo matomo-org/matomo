@@ -252,7 +252,7 @@ class Option
     {
         $name = str_replace('\_', '###NOREPLACE###', $name);
         $name = str_replace('_', '\_', $name);
-        $name = str_replace( '###NOREPLACE###', '\_', $name);
+        $name = str_replace('###NOREPLACE###', '\_', $name);
         return $name;
     }
 

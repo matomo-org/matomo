@@ -34,8 +34,8 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit\Framework\TestCase
     {
         $dntChecker = $this->makeDntHeaderChecker();
 
-        $this->assertFalse( $dntChecker->isActive() );
-        $this->assertFalse( $dntChecker->isDoNotTrackFound() );
+        $this->assertFalse($dntChecker->isActive());
+        $this->assertFalse($dntChecker->isDoNotTrackFound());
     }
 
     public function getHeader_DntIsActivated()
@@ -66,7 +66,7 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit\Framework\TestCase
         $dntChecker = $this->makeDntHeaderCheckerEnabled();
 
         $_SERVER[$headerName] = $headerValue;
-        $this->assertTrue( $dntChecker->isDoNotTrackFound() );
+        $this->assertTrue($dntChecker->isDoNotTrackFound());
     }
 
     /**
@@ -77,7 +77,7 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit\Framework\TestCase
         $dntChecker = $this->makeDntHeaderCheckerEnabled();
 
         $_SERVER[$headerName] = $headerValue;
-        $this->assertFalse( $dntChecker->isDoNotTrackFound() );
+        $this->assertFalse($dntChecker->isDoNotTrackFound());
     }
 
     /**

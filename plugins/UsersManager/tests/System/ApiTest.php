@@ -195,7 +195,7 @@ class ApiTest extends SystemTestCase
         $this->assertNotEmpty($tokens[0]['date_expired']);
 
         $dateExpired = Date::factory($tokens[0]['date_expired']);
-        $dateExpired->isLater(Date::now()->addHour($expireInHours - 1 ));
+        $dateExpired->isLater(Date::now()->addHour($expireInHours - 1));
         $dateExpired->isEarlier(Date::now()->addHour($expireInHours + 1));
     }
 

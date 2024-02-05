@@ -146,7 +146,7 @@ class Console extends Renderer
                 $output .= $prefix . " <b>$id</b><br />";
                 if (is_array($metadataIn)) {
                     foreach ($metadataIn as $name => $value) {
-                        if (is_object($value) && !method_exists( $value, '__toString' )) {
+                        if (is_object($value) && !method_exists($value, '__toString')) {
                             $value = 'Object [' . get_class($value) . ']';
                         } elseif (is_array($value)) {
                             $value = 'Array ' . json_encode($value);

@@ -21,7 +21,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $this->renderTemplate('manage', array(
             'idSite' => $this->idSite,
-            'title' => Piwik::translate('CustomDimensions_CustomDimensions'
-        )));
+            'title' => Piwik::translate('CustomDimensions_CustomDimensions')));
     }
 }

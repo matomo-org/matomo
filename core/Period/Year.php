@@ -67,8 +67,7 @@ class Year extends Period
         for ($i = 1; $i <= 12; $i++) {
             $this->addSubperiod(new Month(
                     Date::factory("$year-$i-01")
-                )
-            );
+                ));
         }
     }
 

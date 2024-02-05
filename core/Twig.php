@@ -435,9 +435,9 @@ class Twig
             if ($string === false || $string === true) {
                 return (int) $string;
             }
-            $string = str_replace([PIWIK_DOCUMENT_ROOT,  str_replace( '/', '\/', PIWIK_DOCUMENT_ROOT )], '$DOC_ROOT', $string);
-            $string = str_replace([PIWIK_USER_PATH,  str_replace( '/', '\/', PIWIK_USER_PATH ) ], '$USER_PATH', $string);
-            $string = str_replace([PIWIK_INCLUDE_PATH,  str_replace( '/', '\/', PIWIK_INCLUDE_PATH ) ], '$INCLUDE_PATH', $string);
+            $string = str_replace([PIWIK_DOCUMENT_ROOT,  str_replace('/', '\/', PIWIK_DOCUMENT_ROOT)], '$DOC_ROOT', $string);
+            $string = str_replace([PIWIK_USER_PATH,  str_replace('/', '\/', PIWIK_USER_PATH) ], '$USER_PATH', $string);
+            $string = str_replace([PIWIK_INCLUDE_PATH,  str_replace('/', '\/', PIWIK_INCLUDE_PATH) ], '$INCLUDE_PATH', $string);
 
             // replace anything token like
             $string = preg_replace('/[[:xdigit:]]{31,80}/', 'TOKEN_REPLACED', $string);

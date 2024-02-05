@@ -153,7 +153,7 @@ class CliMultiTest extends SystemTestCase
 
         $response = $this->cliMulti->request($urls);
 
-        $message = "Response was: " . substr( implode("\n\n", $response), 0, 4000);
+        $message = "Response was: " . substr(implode("\n\n", $response), 0, 4000);
         $this->assertTrue(false !== strpos($response[0], '<meta name="generator" content="Matomo - free/libre analytics platform"/>'), $message);
         $this->assertTrue(false !== strpos($response[0], 'Widgetize the full dashboard') . $message);
     }
