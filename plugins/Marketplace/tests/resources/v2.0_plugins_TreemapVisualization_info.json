@@ -1,36 +1,97 @@
-{"name":"TreemapVisualization",
-  "displayName":"Treemap Visualization",
-  "owner":"piwik",
-  "description":"This Piwik plugin adds a new report visualization: the treemap. With this plugin you can view your data as a graph that displays rows with rectangles ",
-  "homepage":"http:\/\/piwik.org",
-  "createdDateTime":"2014-12-23 00:37:31",
-  "donate":{},"support":[],"isTheme":false,"keywords":["treemap",
-  "graph",
-  "visualization",
-  "infovis",
-  "jit"],"basePrice":0,"authors":[{"name":"Piwik",
-  "email":"test1@example.com",
-  "homepage":"http:\/\/piwik.org"}],"repositoryUrl":"https:\/\/github.com\/piwik\/plugin-TreemapVisualization",
-  "lastUpdated":"2014-12-23 00:38:05",
-  "latestVersion":"1.0.1",
-  "numDownloads":0,"screenshots":["https:\/\/plugins.piwik.org\/TreemapVisualization\/images\/1.0.1\/Treemap.png",
-  "https:\/\/plugins.piwik.org\/TreemapVisualization\/images\/1.0.1\/screen-resolution-treemap.png",
-  "https:\/\/plugins.piwik.org\/TreemapVisualization\/images\/1.0.1\/social-network-treemap.png"],"previews":[],"activity":{"numCommits":"106",
-  "numContributors":"6",
-  "lastCommitDate":"1970-01-01 00:33:35"},"featured":true,"isFree":true,"isPaid":false,"isCustomPlugin":false,"shop":null,"versions":[{"name":"1.0",
-  "release":"2014-12-23 00:37:32",
-  "requires":{"piwik":">=2.0.0,<6.0.0-b1",
-    "php":">=5.3.0"},"numDownloads":0,"license":{"name":"GPLv3+",
-    "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/piwik\/plugin-TreemapVisualization\/commits\/1.0",
-  "readmeHtml":{"description":"",
-    "faq":"",
-    "changelog":"",
-    "documentation":""},"download":"\/api\/2.0\/plugins\/TreemapVisualization\/download\/1.0"},{"name":"1.0.1",
-  "release":"2014-12-23 00:38:05",
-  "requires":{"piwik":">=2.0.0,<6.0.0-b1",
-    "php":">=5.3.0"},"numDownloads":0,"license":{"name":"GPLv3+",
-    "url":"http:\/\/plugins.piwik.org\/TreemapVisualization\/1.0.1\/license"},"repositoryChangelogUrl":"https:\/\/github.com\/piwik\/plugin-TreemapVisualization\/commits\/1.0.1",
-  "readmeHtml":{"description":"",
-    "faq":"",
-    "documentation":"",
-    "changelog":""},"download":"\/api\/2.0\/plugins\/TreemapVisualization\/download\/1.0.1"}],"isDownloadable":true,"changelog":{"url":"http:\/\/plugins.piwik.org\/TreemapVisualization\/changelog"},"consumer":{"license":null}}
+{
+  "name": "TreemapVisualization",
+  "displayName": "Treemap Visualization",
+  "owner": "piwik",
+  "description": "This Piwik plugin adds a new report visualization: the treemap. With this plugin you can view your data as a graph that displays rows with rectangles ",
+  "homepage": "http:\/\/piwik.org",
+  "createdDateTime": "2014-12-23 00:37:31",
+  "donate": {},
+  "support": [],
+  "isTheme": false,
+  "keywords": [
+    "treemap",
+    "graph",
+    "visualization",
+    "infovis",
+    "jit"
+  ],
+  "basePrice": 0,
+  "authors": [
+    {
+      "name": "Piwik",
+      "email": "test1@example.com",
+      "homepage": "http:\/\/piwik.org"
+    }
+  ],
+  "repositoryUrl": "https:\/\/github.com\/piwik\/plugin-TreemapVisualization",
+  "lastUpdated": "2014-12-23 00:38:05",
+  "latestVersion": "1.0.1",
+  "numDownloads": 0,
+  "screenshots": [
+    "https:\/\/plugins.piwik.org\/TreemapVisualization\/images\/1.0.1\/Treemap.png",
+    "https:\/\/plugins.piwik.org\/TreemapVisualization\/images\/1.0.1\/screen-resolution-treemap.png",
+    "https:\/\/plugins.piwik.org\/TreemapVisualization\/images\/1.0.1\/social-network-treemap.png"
+  ],
+  "previews": [],
+  "activity": {
+    "numCommits": "106",
+    "numContributors": "6",
+    "lastCommitDate": "1970-01-01 00:33:35"
+  },
+  "featured": true,
+  "isFree": true,
+  "isPaid": false,
+  "isCustomPlugin": false,
+  "shop": null,
+  "versions": [
+    {
+      "name": "1.0",
+      "release": "2014-12-23 00:37:32",
+      "requires": {
+        "piwik": ">=2.0.0,<6.0.0-b1",
+        "php": ">=5.3.0"
+      },
+      "numDownloads": 0,
+      "license": {
+        "name": "GPLv3+",
+        "url": ""
+      },
+      "repositoryChangelogUrl": "https:\/\/github.com\/piwik\/plugin-TreemapVisualization\/commits\/1.0",
+      "readmeHtml": {
+        "description": "",
+        "faq": "",
+        "changelog": "",
+        "documentation": ""
+      },
+      "download": "\/api\/2.0\/plugins\/TreemapVisualization\/download\/1.0"
+    },
+    {
+      "name": "1.0.1",
+      "release": "2014-12-23 00:38:05",
+      "requires": {
+        "piwik": ">=2.0.0,<6.0.0-b1",
+        "php": ">=5.3.0"
+      },
+      "numDownloads": 0,
+      "license": {
+        "name": "GPLv3+",
+        "url": "http:\/\/plugins.piwik.org\/TreemapVisualization\/1.0.1\/license"
+      },
+      "repositoryChangelogUrl": "https:\/\/github.com\/piwik\/plugin-TreemapVisualization\/commits\/1.0.1",
+      "readmeHtml": {
+        "description": "",
+        "faq": "",
+        "documentation": "",
+        "changelog": ""
+      },
+      "download": "\/api\/2.0\/plugins\/TreemapVisualization\/download\/1.0.1"
+    }
+  ],
+  "isDownloadable": true,
+  "changelog": {
+    "url": "http:\/\/plugins.piwik.org\/TreemapVisualization\/changelog"
+  },
+  "consumer": {
+    "license": null
+  }
+}

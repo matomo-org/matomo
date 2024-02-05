@@ -1,7 +1,20 @@
-{"licenses":[{"startDate":"2016-05-21 04:46:05",
-  "endDate":"2029-05-27 11:03:06",
-  "nextPaymentDate":null,"status":"Pending cancellation",
-  "productType":"Up to 4 users",
-  "isValid":true,"isExceeded":null,"isExpiredSoon":false,"plugin":{"name":"PaidPlugin1",
-    "displayName":"Paid Plugin 1",
-    "htmlUrl":"https:\/\/plugins.piwik.org\/PaidPlugin1"}}],"loginUrl":"https:\/\/shop.piwik.org\/my-account"}
+{
+  "licenses": [
+    {
+      "startDate": "2016-05-21 04:46:05",
+      "endDate": "2029-05-27 11:03:06",
+      "nextPaymentDate": null,
+      "status": "Pending cancellation",
+      "productType": "Up to 4 users",
+      "isValid": true,
+      "isExceeded": null,
+      "isExpiredSoon": false,
+      "plugin": {
+        "name": "PaidPlugin1",
+        "displayName": "Paid Plugin 1",
+        "htmlUrl": "https:\/\/plugins.piwik.org\/PaidPlugin1"
+      }
+    }
+  ],
+  "loginUrl": "https:\/\/shop.piwik.org\/my-account"
+}

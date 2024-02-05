@@ -1,17 +1,42 @@
-[{"name":"AnonymousPiwikUsageMeasurement",
-  "version":"0.2.1",
-  "repositoryChangelogUrl":"https:\/\/github.com\/piwik\/plugin-AnonymousPiwikUsageMeasurement\/commits\/v0.1.1"},{"name":"CustomAlerts",
-  "version":"0.1.12",
-  "repositoryChangelogUrl":"https:\/\/github.com\/piwik\/plugin-CustomAlerts\/compare\/0.0.1...0.1.12"},{"name":"CustomDimensions",
-  "version":"0.1.4",
-  "repositoryChangelogUrl":"https:\/\/github.com\/piwik\/plugin-CustomDimensions\/compare\/0.1.11...0.1.4"},{"name":"LogViewer",
-  "version":"0.2.0",
-  "repositoryChangelogUrl":"https:\/\/github.com\/piwik\/plugin-LogViewer\/compare\/0.1.0...v0.1.1"},{"name":"QueuedTracking",
-  "version":"0.3.1",
-  "repositoryChangelogUrl":"https:\/\/github.com\/piwik\/plugin-QueuedTracking\/compare\/1.0.7...v0.1.1"},{"name":"SecurityInfo",
-  "version":"1.0.4",
-  "repositoryChangelogUrl":"https:\/\/github.com\/piwik\/plugin-SecurityInfo\/commits\/1.0.4"},{"name":"TasksTimetable",
-  "version":"0.1.3",
-  "repositoryChangelogUrl":"https:\/\/github.com\/piwik\/plugin-TasksTimetable\/compare\/0.1.0...0.1.3"},{"name":"TreemapVisualization",
-  "version":"1.0.1",
-  "repositoryChangelogUrl":"https:\/\/github.com\/piwik\/plugin-TreemapVisualization\/commits\/1.0.1"}]
+[
+  {
+    "name": "AnonymousPiwikUsageMeasurement",
+    "version": "0.2.1",
+    "repositoryChangelogUrl": "https:\/\/github.com\/piwik\/plugin-AnonymousPiwikUsageMeasurement\/commits\/v0.1.1"
+  },
+  {
+    "name": "CustomAlerts",
+    "version": "0.1.12",
+    "repositoryChangelogUrl": "https:\/\/github.com\/piwik\/plugin-CustomAlerts\/compare\/0.0.1...0.1.12"
+  },
+  {
+    "name": "CustomDimensions",
+    "version": "0.1.4",
+    "repositoryChangelogUrl": "https:\/\/github.com\/piwik\/plugin-CustomDimensions\/compare\/0.1.11...0.1.4"
+  },
+  {
+    "name": "LogViewer",
+    "version": "0.2.0",
+    "repositoryChangelogUrl": "https:\/\/github.com\/piwik\/plugin-LogViewer\/compare\/0.1.0...v0.1.1"
+  },
+  {
+    "name": "QueuedTracking",
+    "version": "0.3.1",
+    "repositoryChangelogUrl": "https:\/\/github.com\/piwik\/plugin-QueuedTracking\/compare\/1.0.7...v0.1.1"
+  },
+  {
+    "name": "SecurityInfo",
+    "version": "1.0.4",
+    "repositoryChangelogUrl": "https:\/\/github.com\/piwik\/plugin-SecurityInfo\/commits\/1.0.4"
+  },
+  {
+    "name": "TasksTimetable",
+    "version": "0.1.3",
+    "repositoryChangelogUrl": "https:\/\/github.com\/piwik\/plugin-TasksTimetable\/compare\/0.1.0...0.1.3"
+  },
+  {
+    "name": "TreemapVisualization",
+    "version": "1.0.1",
+    "repositoryChangelogUrl": "https:\/\/github.com\/piwik\/plugin-TreemapVisualization\/commits\/1.0.1"
+  }
+]
