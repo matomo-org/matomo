@@ -75,6 +75,7 @@
   "latestVersion": "1.1",
   "numDownloads": null,
   "screenshots": [],
+  "coverImage": "https:\/\/plugins.piwik.org\/img\/categories\/matomo.png",
   "previews": [
     {
       "type": "demo",
@@ -199,5 +200,6 @@
       "isExpiredSoon": false
     },
     "loginUrl": "https:\/\/shop.piwik.org\/my-account"
-  }
+  },
+  "category": "matomo"
 }

@@ -97,7 +97,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "AnonymousPiwikUsageMeasurement",
@@ -256,7 +257,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "ApiGetWithSitesInfo",
@@ -355,7 +357,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "Bandwidth",
@@ -454,7 +457,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "Barometer",
@@ -601,7 +605,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "Chat",
@@ -860,7 +865,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "ClickHeat",
@@ -999,7 +1005,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "Counter",
@@ -1069,7 +1076,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "CustomAlerts",
@@ -1383,7 +1391,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "CustomDimensions",
@@ -1502,7 +1511,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "CustomOptOut",
@@ -1597,7 +1607,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "ExcludeByDDNS",
@@ -1829,7 +1840,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "FeedAnnotation",
@@ -1899,7 +1911,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "FlagCounter",
@@ -2068,7 +2081,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "FreeMobileMessaging",
@@ -2127,7 +2141,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "GoogleAuthenticator",
@@ -2275,7 +2290,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "GrabGravatar",
@@ -2397,7 +2413,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "IntranetGeoIP",
@@ -2769,7 +2786,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "Ip2Hostname",
@@ -2892,7 +2910,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "IP2Location",
@@ -3099,7 +3118,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "IPv6Usage",
@@ -3186,7 +3206,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "kDebug",
@@ -3288,7 +3309,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "LdapConnection",
@@ -3411,7 +3433,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "LdapVisitorInfo",
@@ -3555,7 +3578,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "LiveTab",
@@ -3704,7 +3728,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "LoginHttpAuth",
@@ -3799,7 +3824,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "LoginRevokable",
@@ -3858,7 +3884,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "LogViewer",
@@ -3957,7 +3984,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "page2images-visual-link",
@@ -4028,7 +4056,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "PaidPlugin1",
@@ -4360,7 +4389,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "PerformanceMonitor",
@@ -4540,7 +4570,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "QueuedTracking",
@@ -4939,7 +4970,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "ReferrersManager",
@@ -5035,7 +5067,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "RerUserDates",
@@ -5318,7 +5351,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "SecurityInfo",
@@ -5410,7 +5444,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "ServerMonitor",
@@ -5492,7 +5527,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "ShibbolethLogin",
@@ -5594,7 +5630,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "ShortcodeTracker",
@@ -5733,7 +5770,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "SimpleSysMon",
@@ -5898,7 +5936,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "SnoopyBehavioralScoring",
@@ -5982,7 +6021,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "TasksTimetable",
@@ -6120,7 +6160,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "TopPagesByActions",
@@ -6222,7 +6263,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "TrackingCodeCustomizer",
@@ -6321,7 +6363,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "TreemapVisualization",
@@ -6418,7 +6461,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "UptimeRobotMonitor",
@@ -6529,7 +6573,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     },
     {
       "name": "VisitorAvatar",
@@ -6648,7 +6693,8 @@
       },
       "consumer": {
         "license": null
-      }
+      },
+      "category": "uncategorised"
     }
   ]
 }
