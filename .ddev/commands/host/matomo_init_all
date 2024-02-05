@@ -1,0 +1,14 @@
+#!/bin/bash
+
+## Description: Initialize Matomo including test environment
+## Usage: matomo:init:all
+## Example: ddev matomo:init:all
+
+echo "[matomo:init:base]"
+ddev matomo:init:base
+
+echo "[matomo:init:tests-php]"
+ddev matomo:init:tests-php
+
+echo "[matomo:init:tests-ui]"
+ddev matomo:init:tests-ui

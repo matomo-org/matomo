@@ -1,0 +1,4 @@
+# Renew the font cache
+RUN apt-get -qq update || true
+RUN DEBIAN_FRONTEND=noninteractive apt-get -qq install -y -o Dpkg::Options::="--force-confold" --no-install-recommends --no-install-suggests xfonts-utils
+RUN mkfontscale && mkfontdir && fc-cache
