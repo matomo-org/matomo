@@ -3,7 +3,7 @@ echo "[update-submodule hook: $1]"
 
 # Call "git submodule update" automatically if the file .gitmodules is changed.
 
-changedfiles=$(git diff-tree --no-commit-id --name-only HEAD@\{1\} HEAD)
+changedfiles=$(git diff-tree --no-commit-id --name-only HEAD@\{1\} HEAD 2> /dev/null)
 
 if [[ "${changedfiles[*]}" =~ \.gitmodules ]]; then
     echo "initializing & updating submodule(s)"
