@@ -293,7 +293,7 @@ class Plugins
         $plugin = $this->addMissingRequirements($plugin);
 
         $this->addPriceFrom($plugin);
-        $this->addPluginPreviewImage($plugin);
+        $this->addPluginCoverImage($plugin);
         $this->prettifyNumberOfDownloads($plugin);
 
         return $plugin;
@@ -390,15 +390,15 @@ class Plugins
      * @param $plugin
      * @return void
      */
-    private function addPluginPreviewImage(&$plugin): void
+    private function addPluginCoverImage(&$plugin): void
     {
-        $previewImage = 'generic-plugin';
+        $coverImage = 'uncategorised';
 
         if (in_array(strtolower($plugin['owner']), ['piwik', 'matomo-org'])) {
-            $previewImage = 'matomo-plugin';
+            $coverImage = 'matomo';
         }
 
-        $plugin['previewImage'] = 'plugins/Marketplace/images/previews/' . $previewImage . '.png';
+        $plugin['coverImage'] = 'plugins/Marketplace/images/categories/' . $coverImage . '.png';
     }
 
     /**
