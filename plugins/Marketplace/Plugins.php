@@ -384,14 +384,21 @@ class Plugins
     }
 
     /**
-     * If plugin is by Matomo, use a Matomo image, until plugins can provide their preview image via the marketplace.
-     * If plugin is not by Matomo, use generic preview image for now (until plugin categories are introduced).
+     * If plugin provides a cover image via Marketplace, we use that.
+     *
+     * If there's no cover image from the marketplace (e.g. for plugins not yet categorised or not providing a custom
+     * cover image), we use Matomo image for Matomo plugins and a generic cover image otherwise.
      *
      * @param $plugin
      * @return void
      */
     private function addPluginCoverImage(&$plugin): void
     {
+        // if plugin provides cover image (either from the screenshots or based on its category, we use that
+        if (filter_var($plugin['coverImage'], FILTER_VALIDATE_URL)) {
+            return;
+        }
+
         $coverImage = 'uncategorised';
 
         if (in_array(strtolower($plugin['owner']), ['piwik', 'matomo-org'])) {
