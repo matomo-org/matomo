@@ -1,5 +1,6 @@
 {
     "ProfessionalServices": {
+        "AltTextPreviewImageFor": "Vorschaubild für %1$s",
         "DismissPromoWidget": "Wenn dieses Feature nicht relevant für deine Ziele ist, kannst du diesen Abschnitt %1$sverbergen%2$s.",
         "PromoAbTesting": "A/B-Tests",
         "PromoCrashAnalytics": "Abstürze",
