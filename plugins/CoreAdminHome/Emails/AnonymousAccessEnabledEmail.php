@@ -22,6 +22,8 @@ class AnonymousAccessEnabledEmail extends SecurityNotificationEmail
 
     public function __construct($login, $emailAddress, $siteName)
     {
+        // this property is used in a twig template, where it is escaped automatically
+        // so we decode it here, to avoid double encoding
         $this->siteName = html_entity_decode($siteName);
 
         parent::__construct($login, $emailAddress);
