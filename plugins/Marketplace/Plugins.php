@@ -395,7 +395,7 @@ class Plugins
     private function addPluginCoverImage(&$plugin): void
     {
         // if plugin provides cover image (either from the screenshots or based on its category, we use that
-        if (filter_var($plugin['coverImage'], FILTER_VALIDATE_URL)) {
+        if (filter_var($plugin['coverImage'] ?? '', FILTER_VALIDATE_URL)) {
             return;
         }
 
