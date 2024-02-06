@@ -310,6 +310,7 @@ class PluginsTest extends IntegrationTestCase
             'canBePurchased' => false,
             'priceFrom' => null,
             'numDownloadsPretty' => 0,
+            'category' => 'customisation',
         ];
         $this->assertEquals($expected, $plugin);
     }
