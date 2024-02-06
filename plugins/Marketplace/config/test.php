@@ -83,11 +83,18 @@ return array(
 
         $service->authenticate($accessToken);
 
-        function removeReviewsUrl($content)
+        function updateUrls($content)
         {
             $content = json_decode($content, true);
             if (!empty($content['shop']['reviews']['embedUrl'])) {
                 $content['shop']['reviews']['embedUrl'] = '';
+            }
+            if (!empty($content['coverImage'])) {
+                $content['coverImage'] = preg_replace(
+                    '@^https?.*?/img/categories/@i',
+                    'plugins/Marketplace/tests/resources/images/categories/',
+                    $content['coverImage']
+                );
             }
             return json_encode($content);
         }
@@ -108,30 +115,37 @@ return array(
             } elseif ($action === 'consumer/validate' && $service->getAccessToken() === 'invalid') {
                 return $service->getFixtureContent('v2.0_consumer_validate-access_token-notexistingtoken.json');
             } elseif ($action === 'plugins' && empty($params['purchase_type']) && empty($params['query'])) {
-                return $service->getFixtureContent('v2.0_plugins.json');
+                $content = $service->getFixtureContent('v2.0_plugins.json');
+                return updateUrls($content);
             } elseif ($action === 'plugins' && $isExceededUser && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
-                return $service->getFixtureContent('v2.0_plugins-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json');
+                $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json');
+                return updateUrls($content);
             } elseif ($action === 'plugins' && $isExpiredUser && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
-                return $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-consumer1_paid2_custom1.json');
+                $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-consumer1_paid2_custom1.json');
+                return updateUrls($content);
             } elseif ($action === 'plugins' && ($service->hasAccessToken() || $isValidUser) && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
-                return $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-consumer2_paid1.json');
+                $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-consumer2_paid1.json');
+                return updateUrls($content);
             } elseif ($action === 'plugins' && !$service->hasAccessToken() && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
-                return $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-notexistingtoken.json');
+                $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-notexistingtoken.json');
+                return updateUrls($content);
             } elseif ($action === 'themes' && empty($params['purchase_type']) && empty($params['query'])) {
                 return $service->getFixtureContent('v2.0_themes.json');
             } elseif ($action === 'plugins/Barometer/info') {
-                return $service->getFixtureContent('v2.0_plugins_Barometer_info.json');
+                $content = $service->getFixtureContent('v2.0_plugins_Barometer_info.json');
+                return updateUrls($content);
             } elseif ($action === 'plugins/TreemapVisualization/info') {
-                return $service->getFixtureContent('v2.0_plugins_TreemapVisualization_info.json');
+                $content = $service->getFixtureContent('v2.0_plugins_TreemapVisualization_info.json');
+                return updateUrls($content);
             } elseif ($action === 'plugins/PaidPlugin1/info' && $service->hasAccessToken() && $isExceededUser) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json');
-                return removeReviewsUrl($content);
+                return updateUrls($content);
             } elseif ($action === 'plugins/PaidPlugin1/info' && $service->hasAccessToken()) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json');
-                return removeReviewsUrl($content);
+                return updateUrls($content);
             } elseif ($action === 'plugins/PaidPlugin1/info' && !$service->hasAccessToken()) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info.json');
-                return removeReviewsUrl($content);
+                return updateUrls($content);
             } elseif ($action === 'plugins/checkUpdates') {
                 return $service->getFixtureContent('v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json');
             }
