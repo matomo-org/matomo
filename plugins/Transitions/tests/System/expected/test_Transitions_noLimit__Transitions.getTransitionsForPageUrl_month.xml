@@ -93,12 +93,8 @@
 			<visits>2</visits>
 			<details>
 				<row>
-					<label>&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded</label>
-					<referrals>1</referrals>
-				</row>
-				<row>
-					<label>Unknown</label>
-					<referrals>1</referrals>
+					<label>Google</label>
+					<referrals>2</referrals>
 				</row>
 			</details>
 		</row>

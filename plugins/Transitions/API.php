@@ -373,7 +373,7 @@ class API extends \Piwik\Plugin\API
         // the ranking query.
         $dimensions = array('referrer_data' => 'CASE log_visit.referer_type
 				WHEN ' . Common::REFERRER_TYPE_DIRECT_ENTRY . ' THEN \'\'
-				WHEN ' . Common::REFERRER_TYPE_SEARCH_ENGINE . ' THEN log_visit.referer_keyword
+				WHEN ' . Common::REFERRER_TYPE_SEARCH_ENGINE . ' THEN log_visit.referer_name
 				WHEN ' . Common::REFERRER_TYPE_SOCIAL_NETWORK . ' THEN log_visit.referer_name
 				WHEN ' . Common::REFERRER_TYPE_WEBSITE . ' THEN log_visit.referer_url
 				WHEN ' . Common::REFERRER_TYPE_CAMPAIGN . ' THEN CONCAT(log_visit.referer_name, \' \', log_visit.referer_keyword)
