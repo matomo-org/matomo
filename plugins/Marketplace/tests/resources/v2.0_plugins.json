@@ -6402,6 +6402,7 @@
         "https:\/\/plugins.piwik.org\/TreemapVisualization\/images\/1.0.1\/screen-resolution-treemap.png",
         "https:\/\/plugins.piwik.org\/TreemapVisualization\/images\/1.0.1\/social-network-treemap.png"
       ],
+      "coverImage": "https:\/\/plugins.piwik.org\/TreemapVisualization\/images\/1.0.1\/_cover.png",
       "previews": [],
       "activity": {
         "numCommits": "106",
@@ -6464,7 +6465,7 @@
       "consumer": {
         "license": null
       },
-      "category": "uncategorised"
+      "category": "insights"
     },
     {
       "name": "UptimeRobotMonitor",
