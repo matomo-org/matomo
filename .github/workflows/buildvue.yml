@@ -44,7 +44,7 @@ jobs:
           echo "islocalbranch=$(expr $BASE == $GITHUB_REPOSITORY)" >> $GITHUB_OUTPUT
           echo "branch=$REF" >> $GITHUB_OUTPUT
           echo "base=$BASE_SHA" >> $GITHUB_OUTPUT
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           lfs: false
           persist-credentials: false

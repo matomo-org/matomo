@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: '5.x-dev'
         lfs: false
@@ -31,7 +31,7 @@ jobs:
     - name: Install composer dependencies
       run: composer install
     - name: Prepare branches
-      run: | 
+      run: |
           cat <<- EOF > $HOME/.netrc
             machine github.com
             login $GITHUB_ACTOR
@@ -79,7 +79,7 @@ jobs:
           git push --set-upstream origin composer-update
       shell: bash
       if: steps.update.outputs.message
-    - name: Create PR    
+    - name: Create PR
       run: |
           message=
           curl \

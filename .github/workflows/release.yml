@@ -1,7 +1,7 @@
 # Matomo Release Action
-# 
+#
 # Required GitHub secrets:
-# 
+#
 # RELEASE_PASSWORD  |  password that needs to be provided to start the action
 # GPG_CERTIFICATE  |  ASCII armored or Base64 encoded GPG certificate that is used to create the signatures for the archives
 # GPG_CERTIFICATE_PASS  |  Passphrase of the GPG key
@@ -50,7 +50,7 @@ jobs:
         with:
           script: |
             core.setFailed('User is not allowed to release.')
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           lfs: false
       - name: Import GPG key
@@ -137,7 +137,7 @@ jobs:
              - Latest stable production release can be found at https://matomo.org/download/ ([learn more](https://matomo.org/docs/installation/)) (recommended)
              - Beta and Release Candidate releases can be found at https://builds.matomo.org/ ([learn more](https://matomo.org/faq/how-to-update/faq_159/))"
           fi
-          
+
           echo "version=$version" >> $GITHUB_OUTPUT
           echo 'body<<EOF' >> $GITHUB_OUTPUT
           echo "$body" >> $GITHUB_OUTPUT

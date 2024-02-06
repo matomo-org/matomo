@@ -23,13 +23,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: '5.x-dev'
         lfs: false
         persist-credentials: false
     - name: Prepare branches
-      run: | 
+      run: |
           cat <<- EOF > $HOME/.netrc
             machine github.com
             login $GITHUB_ACTOR
@@ -87,7 +87,7 @@ jobs:
           git push --set-upstream origin submodules
       shell: bash
       if: steps.changes.outputs.message
-    - name: Create PR    
+    - name: Create PR
       run: |
           curl \
                  --request POST \

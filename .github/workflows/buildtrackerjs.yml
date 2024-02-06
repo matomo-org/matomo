@@ -25,7 +25,7 @@ jobs:
       id: vars
       run: |
         PR=$( echo "${{ github.event.comment.issue_url }}" | grep -oE 'issues/([0-9]+)$' | cut -d'/' -f 2 )
-        
+
         PR_INFO=$( curl \
                  --request GET \
                  --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
@@ -34,13 +34,13 @@ jobs:
         REF=$(echo "${PR_INFO}" | jq -r .head.ref)
         BASE=$(echo "${PR_INFO}" | jq -r .head.repo.full_name)
         STATE=$(echo "${PR_INFO}" | jq -r .state)
-        
+
         if [[ $STATE == "closed" ]]
         then
           echo "Pull Request already closed."
           exit 0;
         fi
-        
+
         if [[ $BASE != $GITHUB_REPOSITORY ]]
         then
           echo "It's only possible to update local branches"
@@ -54,14 +54,14 @@ jobs:
         distribution: 'zulu'
         java-version: '9'
       if: steps.vars.outputs.branch != ''
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: ${{ steps.vars.outputs.branch }}
         lfs: false
         persist-credentials: false
       if: steps.vars.outputs.branch != ''
     - name: Prepare git config
-      run: | 
+      run: |
           cat <<- EOF > $HOME/.netrc
             machine github.com
             login $GITHUB_ACTOR
