@@ -18,6 +18,7 @@
       "latestVersion": "0.1.2",
       "numDownloads": 2618,
       "screenshots": [],
+      "coverImage": "https:\/\/plugins.piwik.org\/img\/categories\/customisation.png",
       "previews": [],
       "activity": {
         "numCommits": "7",
@@ -98,7 +99,7 @@
       "consumer": {
         "license": null
       },
-      "category": "uncategorised"
+      "category": "customisation"
     },
     {
       "name": "AnonymousPiwikUsageMeasurement",
