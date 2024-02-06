@@ -372,7 +372,7 @@
     <PasswordConfirmation
       v-model="showPasswordConfirmationForUserRemoval"
       @confirmed="deleteRequestedUsers"
-      @aborted="userToChange = null; roleToChangeTo = null;"
+      @aborted="resetUserAndRoleToChange"
     >
       <h2
         v-if="userToChange"
@@ -394,11 +394,15 @@
     <PasswordConfirmation
       v-model="showPasswordConfirmationForAnonymousAccess"
       @confirmed="changeUserRole"
-      @aborted="userToChange = null; roleToChangeTo = null;"
+      @aborted="resetUserAndRoleToChange"
     >
       <h3
         v-if="userToChange"
         v-html="$sanitize(deleteUserPermConfirmSingleText)"
+      ></h3>
+      <h3
+        v-if="!userToChange"
+        v-html="$sanitize(deleteUserPermConfirmMultipleText)"
       ></h3>
       <h3>
         <em>{{ translate('General_Note') }}:
@@ -428,15 +432,13 @@
         <a
             href=""
             class="modal-action modal-close btn"
-            @click.prevent="changeUserRole();"
+            @click.prevent="changeUserRole()"
             style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
             href=""
             class="modal-action modal-close modal-no"
-            @click.prevent="
-            userToChange = null;
-            roleToChangeTo = null;"
+            @click.prevent="resetUserAndRoleToChange()"
         >{{ translate('General_No') }}</a>
       </div>
     </div>
@@ -580,6 +582,10 @@ export default defineComponent({
       this.isAllCheckboxSelected = false;
       this.userToChange = null;
     },
+    resetUserAndRoleToChange() {
+      this.userToChange = null;
+      this.roleToChangeTo = null;
+    },
     onAllCheckboxChange() {
       if (!this.isAllCheckboxSelected) {
         this.clearSelection();
@@ -618,7 +624,12 @@ export default defineComponent({
     },
 
     showAccessChangeConfirm() {
-      if (this.userToChange && this.userToChange.login === 'anonymous' && this.roleToChangeTo === 'view') {
+      const containsAnonymous = this.userOperationSubject === 'all' || (
+        Array.isArray(this.userOperationSubject)
+        && this.userOperationSubject.filter((user) => user.login === 'anonymous')
+      );
+
+      if (containsAnonymous && this.roleToChangeTo === 'view') {
         this.showPasswordConfirmationForAnonymousAccess = true;
       } else {
         $(this.$refs.changeUserRoleConfirmModal as HTMLElement)
