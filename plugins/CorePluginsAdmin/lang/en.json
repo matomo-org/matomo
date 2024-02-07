@@ -52,6 +52,7 @@
         "PluginNotDownloadablePaidReason": "Possible reasons are an expired or exceeded license.",
         "PluginRequiresInternet": "This plugin requires a working internet connection. Please check your config value for `enable_internet_features` if you want to use this feature.",
         "PluginActivated": "Plugin activated",
+        "PluginFreeTrialStarted": "%1$sYour 30-day free trial has started%2$s for %3$s.",
         "Status": "Status",
         "SuccessfullyActicated": "You have successfully activated <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Extend Matomo with Plugins and Themes",

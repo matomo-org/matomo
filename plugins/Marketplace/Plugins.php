@@ -292,6 +292,11 @@ class Plugins
 
         $plugin = $this->addMissingRequirements($plugin);
 
+        $plugin['isEligibleForFreeTrial'] =
+            $plugin['canBePurchased']
+            && empty($plugin['missingRequirements'])
+            && empty($plugin['consumer']['license']);
+
         $this->addPriceFrom($plugin);
         $this->addPluginCoverImage($plugin);
         $this->prettifyNumberOfDownloads($plugin);

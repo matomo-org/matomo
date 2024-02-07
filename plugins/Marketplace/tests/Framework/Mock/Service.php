@@ -53,7 +53,8 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
     {
         if ($this->onDownloadCallback && is_callable($this->onDownloadCallback)) {
             $result = call_user_func($this->onDownloadCallback, $this->action, $this->params);
-            if (!empty($result)) {
+
+            if (null !== $result) {
                 return $result;
             }
         }
@@ -104,7 +105,8 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
 
         if ($this->onFetchCallback && is_callable($this->onFetchCallback)) {
             $result = call_user_func($this->onFetchCallback, $action, $params);
-            if (!empty($result)) {
+
+            if (null !== $result) {
                 return $result;
             }
         }

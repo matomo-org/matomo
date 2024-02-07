@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
+use Exception;
 use Piwik\Plugins\Marketplace\API;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
@@ -15,7 +16,6 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\Marketplace\Api\Service\Exception as ServiceException;
-use Exception;
 
 /**
  * @group Marketplace
@@ -52,7 +52,7 @@ class ApiTest extends IntegrationTestCase
 
     public function test_deleteLicenseKey_requiresSuperUserAccess_IfUser()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess');
 
         $this->setUser();
@@ -61,7 +61,7 @@ class ApiTest extends IntegrationTestCase
 
     public function test_deleteLicenseKey_requiresSuperUserAccess_IfAnonymous()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess');
 
         $this->setAnonymousUser();
@@ -80,7 +80,7 @@ class ApiTest extends IntegrationTestCase
 
     public function test_saveLicenseKey_requiresSuperUserAccess_IfUser()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess');
 
         $this->setUser();
@@ -89,7 +89,7 @@ class ApiTest extends IntegrationTestCase
 
     public function test_saveLicenseKey_requiresSuperUserAccess_IfAnonymous()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess');
 
         $this->setAnonymousUser();
@@ -98,7 +98,7 @@ class ApiTest extends IntegrationTestCase
 
     public function test_saveLicenseKey_shouldThrowException_IfTokenIsNotValid()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Marketplace_ExceptionLinceseKeyIsNotValid');
 
         $this->service->returnFixture('v2.0_consumer_validate-access_token-notexistingtoken.json');
@@ -134,15 +134,78 @@ class ApiTest extends IntegrationTestCase
 
     public function test_saveLicenseKey_shouldThrowException_IfConnectionToMarketplaceFailed()
     {
-        $this->expectException(\Piwik\Plugins\Marketplace\Api\Service\Exception::class);
+        $this->expectException(ServiceException::class);
         $this->expectExceptionMessage('Host not reachable');
 
         $this->service->throwException(new ServiceException('Host not reachable', ServiceException::HTTP_ERROR));
-        $success = $this->api->saveLicenseKey('123licensekey');
-        $this->assertTrue($success);
+        $this->api->saveLicenseKey('123licensekey');
+    }
 
-        $this->assertHasLicenseKey();
-        $this->assertSame('123licensekey', $this->buildLicenseKey()->get());
+    public function test_startFreeTrial_requiresSuperUserAccess_IfUser()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
+        $this->setUser();
+        $this->api->startFreeTrial('testPlugin');
+    }
+
+    public function test_startFreeTrial_requiresSuperUserAccess_IfAnonymous(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
+        $this->setAnonymousUser();
+        $this->api->startFreeTrial('testPlugin');
+    }
+
+    public function test_startFreeTrial_requiresValidPluginName(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Invalid plugin name given');
+
+        $this->api->startFreeTrial('this/is/not/valid');
+    }
+
+    public function test_startFreeTrial_shouldThrowException_ifMarketplaceRequestEncountersHttpError(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Host not reachable');
+
+        $this->service->throwException(new ServiceException('Host not reachable', ServiceException::HTTP_ERROR));
+        $this->api->startFreeTrial('testPlugin');
+    }
+
+    public function test_startFreeTrial_shouldThrowException_ifMarketplaceRequestErrors(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('There was an error starting your free trial: Please try again later.');
+
+        $this->service->returnFixture('v2.0_plugins_testPlugin_freeTrial-genericerror.json');
+        $this->api->startFreeTrial('testPlugin');
+    }
+
+    public function test_startFreeTrial_shouldThrowException_ifMarketplaceReturnsUnexpectedContent(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('There was an error starting your free trial: Please try again later.');
+
+        $this->service->returnFixture('v2.0_plugins_testPlugin_freeTrial-unexpectedcontent.json');
+        $this->api->startFreeTrial('testPlugin');
+    }
+
+    public function test_startFreeTrial_shouldSucceedIfMarketplaceCallsDidNotFail(): void
+    {
+        $pluginName = 'testPlugin';
+        $expectedAction = 'plugins/' . $pluginName . '/freeTrial';
+
+        $this->service->setOnDownloadCallback(static function ($action) use ($expectedAction) {
+            self::assertSame($expectedAction, $action);
+
+            return '';
+        });
+
+        self::assertTrue($this->api->startFreeTrial($pluginName));
     }
 
     public function provideContainerConfig()

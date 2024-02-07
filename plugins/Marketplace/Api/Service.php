@@ -131,12 +131,15 @@ class Service
         $url   = sprintf('%s%s?%s', $endpoint, $action, $query);
 
         $response = $this->download($url);
+        $result = null;
 
-        $result = json_decode($response ?? '', true);
+        if ('' !== $response) {
+            $result = json_decode($response ?? '', true);
 
-        if (is_null($result)) {
-            $message = sprintf('There was an error reading the response from the Marketplace: Please try again later.');
-            throw new Service\Exception($message, Service\Exception::HTTP_ERROR);
+            if (null === $result) {
+                $message = sprintf('There was an error reading the response from the Marketplace: Please try again later.');
+                throw new Service\Exception($message, Service\Exception::HTTP_ERROR);
+            }
         }
 
         if (!empty($result['error'])) {
