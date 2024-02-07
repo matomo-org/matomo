@@ -137,7 +137,8 @@
                 name="goal_name"
                 v-model="goal.name"
                 :maxlength="50"
-                :title="translate('Goals_GoalName')">
+                :title="translate('Goals_GoalName')"
+                @change="goalNameChanged">
               </Field>
             </div>
 
@@ -695,6 +696,9 @@ export default defineComponent({
     },
     ucfirst(s: string) {
       return `${s.slice(0, 1).toUpperCase()}${s.slice(1)}`;
+    },
+    goalNameChanged() {
+      Matomo.postEvent('Goals.goalNameChanged', this.goal.name);
     },
   },
   computed: {
