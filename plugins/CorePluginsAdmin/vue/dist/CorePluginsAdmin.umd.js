@@ -1724,6 +1724,7 @@ __webpack_require__.d(__webpack_exports__, "PluginsIntro", function() { return /
 __webpack_require__.d(__webpack_exports__, "ThemesIntro", function() { return /* reexport */ ThemesIntro; });
 __webpack_require__.d(__webpack_exports__, "PasswordConfirmation", function() { return /* reexport */ PasswordConfirmation; });
 __webpack_require__.d(__webpack_exports__, "PluginName", function() { return /* reexport */ PluginName; });
+__webpack_require__.d(__webpack_exports__, "PluginStartFreeTrial", function() { return /* reexport */ PluginStartFreeTrial; });
 __webpack_require__.d(__webpack_exports__, "PluginsTable", function() { return /* reexport */ PluginsTable; });
 __webpack_require__.d(__webpack_exports__, "PluginsTableWithUpdates", function() { return /* reexport */ PluginsTableWithUpdates; });
 __webpack_require__.d(__webpack_exports__, "UploadPluginDialog", function() { return /* reexport */ UploadPluginDialog; });
@@ -18271,6 +18272,57 @@ var PluginName_window = window,
     PluginName_$(element).off('click', binding.value.onClickHandler);
   }
 });
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Plugins/PluginStartFreeTrial.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+function PluginStartFreeTrial_onClickPluginNameLink(binding, event) {
+  var pluginName = binding.value.pluginName;
+  event.preventDefault();
+  window.Piwik_Popover.showLoading('');
+  external_CoreHome_["AjaxHelper"].post({
+    module: 'API',
+    method: 'Marketplace.startFreeTrial'
+  }, {
+    pluginName: pluginName
+  }).then(function () {
+    window.Piwik_Popover.close();
+    var notificationInstanceId = external_CoreHome_["NotificationsStore"].show({
+      message: Object(external_CoreHome_["translate"])('CorePluginsAdmin_PluginFreeTrialStarted', '<strong>', '</strong>', pluginName),
+      context: 'success',
+      id: 'startTrialSuccess',
+      type: 'transient'
+    });
+    external_CoreHome_["NotificationsStore"].scrollToNotification(notificationInstanceId);
+    external_CoreHome_["Matomo"].helper.redirect();
+  }).catch(function (error) {
+    window.Piwik_Popover.showError('', error.message);
+  });
+}
+
+var PluginStartFreeTrial_window = window,
+    PluginStartFreeTrial_$ = PluginStartFreeTrial_window.$;
+/* harmony default export */ var PluginStartFreeTrial = ({
+  mounted: function mounted(element, binding) {
+    var pluginName = binding.value.pluginName;
+
+    if (!pluginName) {
+      return;
+    }
+
+    binding.value.onClickHandler = PluginStartFreeTrial_onClickPluginNameLink.bind(null, binding);
+    PluginStartFreeTrial_$(element).on('click', binding.value.onClickHandler) // attribute added for AnonymousPiwikUsageMeasurement
+    .attr('matomo-plugin-name', pluginName);
+  },
+  unmounted: function unmounted(element, binding) {
+    PluginStartFreeTrial_$(element).off('click', binding.value.onClickHandler);
+  }
+});
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CorePluginsAdmin/vue/src/PluginsTable/PluginsTable.vue?vue&type=template&id=31235b33
 
 var PluginsTablevue_type_template_id_31235b33_hoisted_1 = {
@@ -19217,6 +19269,7 @@ UploadPluginDialogvue_type_script_lang_ts.render = UploadPluginDialogvue_type_te
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
+
 
 
 
