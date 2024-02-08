@@ -89,6 +89,23 @@ abstract class StaticGraph extends BaseFactory
         return array_keys(self::$availableStaticGraphTypes);
     }
 
+    public static function fixWhitespaceNonUnifont($value)
+    {
+        if (!is_string($value)) {
+            return $value;
+        }
+
+        return strtr(
+            $value,
+            [
+                // thin space
+                "\xE2\x80\x89" => ' ',
+                // narrow non-break-space
+                "\xE2\x80\xAF" => "\xC2\xA0",
+            ]
+        );
+    }
+
     /**
      * Save rendering to disk
      *
@@ -248,14 +265,17 @@ abstract class StaticGraph extends BaseFactory
             }
         }
 
-        // Use a different formating method if not using unifont
+        // Fix whitespace if not using unifont
+        $abscissaSeries = $this->abscissaSeries;
         $formatMethodName = 'formatYAxis';
-        if (strpos($this->font, 'unifont') === false) {
+
+        if (!str_ends_with($this->font, API::UNICODE_FONT)) {
+            $abscissaSeries = array_map([$this, 'fixWhitespaceNonUnifont'], $abscissaSeries);
             $formatMethodName = 'formatYAxisNonUnifont';
         }
-        $this->pData->setAxisDisplay(0, AXIS_FORMAT_CUSTOM, '\\Piwik\\Plugins\\ImageGraph\\' . $formatMethodName);
 
-        $this->pData->addPoints($this->abscissaSeries, self::ABSCISSA_SERIE_NAME);
+        $this->pData->setAxisDisplay(0, AXIS_FORMAT_CUSTOM, '\\Piwik\\Plugins\\ImageGraph\\' . $formatMethodName);
+        $this->pData->addPoints($abscissaSeries, self::ABSCISSA_SERIE_NAME);
         $this->pData->setAbscissa(self::ABSCISSA_SERIE_NAME);
     }
 
@@ -401,6 +421,7 @@ function formatYAxis($value)
  */
 function formatYAxisNonUnifont($value)
 {
-    // Replace any narrow non-breaking spaces with non-breaking spaces as some fonts may not support it
-    return str_replace("\xE2\x80\xAF", "\xC2\xA0", NumberFormatter::getInstance()->format($value));
+    return StaticGraph::fixWhitespaceNonUnifont(
+        NumberFormatter::getInstance()->format($value)
+    );
 }
