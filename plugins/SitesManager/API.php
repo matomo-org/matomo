@@ -1061,6 +1061,25 @@ class API extends \Piwik\Plugin\API
         return Option::get(self::OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL);
     }
 
+
+    /**
+     * Returns the list of URL query parameters that are excluded for the given website
+     *
+     * Globally excluded parameters are included in this list
+     */
+    public function getExcludedQueryParameters(int $idSite): array
+    {
+        $site = $this->getSiteFromId($idSite);
+
+        try {
+            return SitesManager::getTrackerExcludedQueryParameters($site);
+        } catch (Exception $e) {
+            // an exception is thrown when the user has no view access.
+            // do not throw the exception to the outside.
+            return [];
+        }
+    }
+
     /**
      * Returns the list of URL query parameters that are excluded from all websites
      *
