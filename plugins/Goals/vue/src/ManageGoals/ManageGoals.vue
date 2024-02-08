@@ -505,7 +505,7 @@ export default defineComponent({
       useEventValueAsRevenue: boolean,
       goalId: string|number,
     ) {
-      Matomo.postEvent('Goals.beforeInitGoalForm', goalMethodAPI, goalId);
+      Matomo.postEvent('Goals.beforeInitGoalForm', goalMethodAPI, goalId, goalName);
 
       this.apiMethod = goalMethodAPI;
 
