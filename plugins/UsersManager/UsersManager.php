@@ -283,6 +283,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_ConfirmGrantSuperUserAccess';
         $translationKeys[] = 'UsersManager_ConfirmProhibitMySuperUserAccess';
         $translationKeys[] = 'UsersManager_ConfirmProhibitOtherUsersSuperUserAccess';
+        $translationKeys[] = 'UsersManager_ConfirmThisChange';
         $translationKeys[] = 'UsersManager_ConfirmTokenCopied';
         $translationKeys[] = 'UsersManager_ConfirmWithPassword';
         $translationKeys[] = 'UsersManager_CopyDenied';

@@ -65,8 +65,6 @@
       <h2 v-if="enabled && enableDeleteReports">
         {{ translate('PrivacyManager_DeleteBothConfirm') }}
       </h2>
-      <div v-if="enabled">{{ translate('UsersManager_ConfirmWithPassword') }}</div>
-      <h2 v-if="!enabled">{{ translate('UsersManager_ConfirmWithPassword') }}</h2>
     </PasswordConfirmation>
   </div>
 </template>

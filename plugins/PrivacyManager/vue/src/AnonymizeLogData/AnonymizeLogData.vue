@@ -182,7 +182,6 @@
       @confirmed="scheduleAnonymization"
     >
       <h2>{{ translate('PrivacyManager_AnonymizeDataConfirm') }}</h2>
-      <div>{{ translate('UsersManager_ConfirmWithPassword') }}</div>
     </PasswordConfirmation>
   </div>
 </template>

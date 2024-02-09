@@ -388,7 +388,6 @@
             `<strong>${affectedUsersCount}</strong>`,
           ))"
       ></h2>
-      <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
     </PasswordConfirmation>
 
     <PasswordConfirmation
@@ -414,7 +413,6 @@
             </span>
         </em>
       </h3>
-      <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
     </PasswordConfirmation>
 
     <div class="change-user-role-confirm-modal modal" ref="changeUserRoleConfirmModal">
