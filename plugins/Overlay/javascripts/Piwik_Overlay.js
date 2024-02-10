@@ -11,7 +11,7 @@ var Piwik_Overlay = (function () {
     var ORIGIN_PARSE_REGEX = /^https?:\/\/[^\/]*/;
     var ALLOWED_API_REQUEST_WHITELIST = [
         'Overlay.getTranslations',
-        'Overlay.getExcludedQueryParameters',
+        'SitesManager.getExcludedQueryParameters',
         'Overlay.getFollowingPages',
     ];
 

@@ -88,6 +88,7 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
         $this->assertDeprecatedMethodIsRemovedBeforeDate(CronArchive::class, 'checkNoDanglingInvalidations', $validTill);
 
         $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Common', 'getRequestVar');
+        $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Plugins\Overlay\API', 'getExcludedQueryParameters');
     }
 
 
