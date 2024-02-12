@@ -193,7 +193,7 @@ var Matomo_Overlay_Client = (function () {
 
         /** Piwik Overlay API Request */
         api: function (method, callback, additionalParams) {
-            var url = piwikRoot + '/index.php?module=API&method=Overlay.' + method
+            var url = piwikRoot + '/index.php?module=API&method=' + method
                 + '&idSite=' + idSite + '&period=' + period + '&date=' + date + '&format=JSON&filter_limit=-1';
 
             if (segment) {

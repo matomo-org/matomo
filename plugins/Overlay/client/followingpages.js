@@ -15,7 +15,7 @@ var Piwik_Overlay_FollowingPages = (function () {
     /** Reference to create element function */
     var c;
 
-    /** Counter for the largest clickRate on the page */ 
+    /** Counter for the largest clickRate on the page */
     var maxClickRate = 0;
 
     /** Load the following pages */
@@ -29,7 +29,7 @@ var Piwik_Overlay_FollowingPages = (function () {
         var followingPagesLoaded = false;
 
         // load excluded params
-        Matomo_Overlay_Client.api('getExcludedQueryParameters', function (data) {
+        Matomo_Overlay_Client.api('SitesManager.getExcludedQueryParameters', function (data) {
             for (var i = 0; i < data.length; i++) {
                 if (typeof data[i] == 'object') {
                     data[i] = data[i][0];
@@ -44,7 +44,7 @@ var Piwik_Overlay_FollowingPages = (function () {
         });
 
         // load following pages
-        Matomo_Overlay_Client.api('getFollowingPages', function (data) {
+        Matomo_Overlay_Client.api('Overlay.getFollowingPages', function (data) {
             followingPages = data;
             processFollowingPages();
 
@@ -66,7 +66,7 @@ var Piwik_Overlay_FollowingPages = (function () {
             totalClicks += followingPages[i].referrals;
         }
         for (i = 0; i < followingPages.length; i++) {
-            var clickRate = followingPages[i].referrals / totalClicks * 100; 
+            var clickRate = followingPages[i].referrals / totalClicks * 100;
             followingPages[i].clickRate = clickRate;
             if (clickRate > maxClickRate) maxClickRate = clickRate;
         }
@@ -180,9 +180,9 @@ var Piwik_Overlay_FollowingPages = (function () {
 
         var span = c('span').html(rate + '%');
         var tagElement = c('div', 'LinkTag').append(span).hide();
-        
+
         tagElement.attr({'data-rateofmax': Math.round(100 * rate/maxClickRate)/100});
-        
+
         body.prepend(tagElement);
 
         linkTag.add(tagElement).hover(function () {
@@ -272,12 +272,12 @@ var Piwik_Overlay_FollowingPages = (function () {
                     }
 
                     tagElement.css({
-                        '-webkit-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')', 
-                        '-moz-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')', 
-                        '-ms-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')', 
-                        '-o-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')', 
+                        '-webkit-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')',
+                        '-moz-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')',
+                        '-ms-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')',
+                        '-o-transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')',
                         'transform': 'translate(' + left + 'px, ' + top + 'px) scale(' + zoomFactor + ')',
-                        'opacity': zoomFactor/2 
+                        'opacity': zoomFactor/2
                     });
 
                     tagElement.show();
