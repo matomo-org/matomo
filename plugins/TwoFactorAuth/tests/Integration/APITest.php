@@ -79,6 +79,10 @@ class APITest extends IntegrationTestCase
         $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin2'));
 
         $this->assertEquals([], $this->recoveryCodes->getAllRecoveryCodesForLogin('mylogin1'));
+
+        //Reset without a password
+        $this->api->resetTwoFactorAuth('mylogin2');
+        $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin2'));
     }
 
     protected function setAdminUser()
