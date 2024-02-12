@@ -289,8 +289,10 @@
                   :model-value="user.role"
                   @update:model-value="
                     userToChange = user;
-                    roleToChangeTo = $event;
-                    showAccessChangeConfirm();"
+                    roleToChangeTo = $event.value;
+                    showAccessChangeConfirm();
+                    $event.abort();"
+                  :model-modifiers="{abortable: true}"
                   :disabled="user.role === 'superuser'"
                   uicontrol="select"
                   :options="
@@ -370,7 +372,7 @@
     <PasswordConfirmation
       v-model="showPasswordConfirmationForUserRemoval"
       @confirmed="deleteRequestedUsers"
-      @aborted="userToChange = null; roleToChangeTo = null;"
+      @aborted="resetUserAndRoleToChange"
     >
       <h2
         v-if="userToChange"
@@ -389,22 +391,38 @@
       <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
     </PasswordConfirmation>
 
+    <PasswordConfirmation
+      v-model="showPasswordConfirmationForAnonymousAccess"
+      @confirmed="changeUserRole"
+      @aborted="resetUserAndRoleToChange"
+    >
+      <h3
+        v-if="userToChange"
+        v-html="$sanitize(deleteUserPermConfirmSingleText)"
+      ></h3>
+      <h3
+        v-if="!userToChange"
+        v-html="$sanitize(deleteUserPermConfirmMultipleText)"
+      ></h3>
+      <h3>
+        <em>{{ translate('General_Note') }}:
+          <span v-html="$sanitize(translate(
+              'UsersManager_AnonymousUserRoleChangeWarning',
+              'anonymous',
+              getRoleDisplay(roleToChangeTo),
+            ))">
+            </span>
+        </em>
+      </h3>
+      <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
+    </PasswordConfirmation>
+
     <div class="change-user-role-confirm-modal modal" ref="changeUserRoleConfirmModal">
       <div class="modal-content">
         <h3
             v-if="userToChange"
             v-html="$sanitize(deleteUserPermConfirmSingleText)"
         ></h3>
-        <h3 v-if="userToChange && userToChange.login === 'anonymous' && roleToChangeTo === 'view'">
-          <em>{{ translate('General_Note') }}:
-            <span v-html="$sanitize(translate(
-              'UsersManager_AnonymousUserRoleChangeWarning',
-              'anonymous',
-              getRoleDisplay(roleToChangeTo),
-            ))">
-            </span>
-          </em>
-        </h3>
         <p
             v-if="!userToChange"
             v-html="$sanitize(deleteUserPermConfirmMultipleText)"
@@ -420,9 +438,7 @@
         <a
             href=""
             class="modal-action modal-close modal-no"
-            @click.prevent="
-            userToChange = null;
-            roleToChangeTo = null;"
+            @click.prevent="resetUserAndRoleToChange()"
         >{{ translate('General_No') }}</a>
       </div>
     </div>
@@ -466,6 +482,7 @@ interface PagedUsersListState {
   userTextFilter: string;
   permissionsForSite: SiteRef;
   showPasswordConfirmationForUserRemoval: boolean;
+  showPasswordConfirmationForAnonymousAccess: boolean;
 }
 
 const { $ } = window;
@@ -532,6 +549,7 @@ export default defineComponent({
         name: this.initialSiteName,
       },
       showPasswordConfirmationForUserRemoval: false,
+      showPasswordConfirmationForAnonymousAccess: false,
     };
   },
   emits: ['editUser', 'changeUserRole', 'deleteUser', 'searchChange', 'resendInvite'],
@@ -564,6 +582,10 @@ export default defineComponent({
       this.isAllCheckboxSelected = false;
       this.userToChange = null;
     },
+    resetUserAndRoleToChange() {
+      this.userToChange = null;
+      this.roleToChangeTo = null;
+    },
     onAllCheckboxChange() {
       if (!this.isAllCheckboxSelected) {
         this.clearSelection();
@@ -574,10 +596,11 @@ export default defineComponent({
         this.isBulkActionsDisabled = false;
       }
     },
-    changeUserRole() {
+    changeUserRole(password: string) {
       this.$emit('changeUserRole', {
         users: this.userOperationSubject,
         role: this.roleToChangeTo,
+        password,
       });
     },
     onRowSelected() {
@@ -601,11 +624,20 @@ export default defineComponent({
     },
 
     showAccessChangeConfirm() {
-      $(this.$refs.changeUserRoleConfirmModal as HTMLElement)
-        .modal({
-          dismissible: false,
-        })
-        .modal('open');
+      const containsAnonymous = this.userOperationSubject === 'all' || (
+        Array.isArray(this.userOperationSubject)
+        && this.userOperationSubject.filter((user) => user.login === 'anonymous')
+      );
+
+      if (containsAnonymous && this.roleToChangeTo === 'view') {
+        this.showPasswordConfirmationForAnonymousAccess = true;
+      } else {
+        $(this.$refs.changeUserRoleConfirmModal as HTMLElement)
+          .modal({
+            dismissible: false,
+          })
+          .modal('open');
+      }
     },
     getRoleDisplay(role: string | null) {
       let result = null;
