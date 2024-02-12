@@ -186,7 +186,7 @@ describe("PrivacyManager", function () {
     });
 
     it('should be able to cancel anonymization of past data', async function() {
-        await selectModalButton('No');
+        await selectModalButton('Cancel');
 
         await captureAnonymizeLogData('anonymizelogdata_anonymizeip_and_visit_column_cancelled');
     });
@@ -194,7 +194,7 @@ describe("PrivacyManager", function () {
     it('should be able to confirm anonymization of past data', async function() {
         await anonymizePastData();
         await typeUserPassword();
-        await selectModalButton('Yes');
+        await selectModalButton('Confirm');
         await setAnonymizeStartEndDate();
 
         await captureAnonymizeLogData('anonymizelogdata_anonymizeip_and_visit_column_confirmed');
@@ -214,7 +214,7 @@ describe("PrivacyManager", function () {
     it('should confirm anonymize location and action column', async function() {
         await anonymizePastData();
         await typeUserPassword();
-        await selectModalButton('Yes');
+        await selectModalButton('Confirm');
         await page.waitForTimeout(1000);
         await setAnonymizeStartEndDate();
 
@@ -242,7 +242,7 @@ describe("PrivacyManager", function () {
     it('should anonymize only one site and different date confirmed', async function() {
         await anonymizePastData();
         await typeUserPassword();
-        await selectModalButton('Yes');
+        await selectModalButton('Confirm');
         await page.waitForTimeout(1000);
         await setAnonymizeStartEndDate();
 
