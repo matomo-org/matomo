@@ -401,7 +401,12 @@ class Plugins
 
         $coverImage = 'uncategorised';
 
-        if (in_array(strtolower($plugin['owner']), ['piwik', 'matomo-org'])) {
+        // use Matomo image for paid plugins, i.e. plugins without the isFree flag and with shop info
+        if (
+            in_array(strtolower($plugin['owner']), ['piwik', 'matomo-org'])
+            && empty($plugin['isFree'])
+            && !empty($plugin['shop'])
+        ) {
             $coverImage = 'matomo';
         }
 
