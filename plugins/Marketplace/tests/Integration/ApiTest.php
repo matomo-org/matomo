@@ -176,24 +176,6 @@ class ApiTest extends IntegrationTestCase
         $this->api->startFreeTrial('testPlugin');
     }
 
-    public function test_startFreeTrial_shouldThrowException_ifMarketplaceRequestErrors(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('There was an error starting your free trial: Please try again later.');
-
-        $this->service->returnFixture('v2.0_plugins_testPlugin_freeTrial-genericerror.json');
-        $this->api->startFreeTrial('testPlugin');
-    }
-
-    public function test_startFreeTrial_shouldThrowException_ifMarketplaceReturnsUnexpectedContent(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('There was an error starting your free trial: Please try again later.');
-
-        $this->service->returnFixture('v2.0_plugins_testPlugin_freeTrial-unexpectedcontent.json');
-        $this->api->startFreeTrial('testPlugin');
-    }
-
     public function test_startFreeTrial_shouldSucceedIfMarketplaceCallsDidNotFail(): void
     {
         $pluginName = 'testPlugin';
@@ -202,10 +184,85 @@ class ApiTest extends IntegrationTestCase
         $this->service->setOnDownloadCallback(static function ($action) use ($expectedAction) {
             self::assertSame($expectedAction, $action);
 
-            return '';
+            return [
+                'status' => 201,
+                'headers' => [],
+                'data' => ''
+            ];
         });
 
         self::assertTrue($this->api->startFreeTrial($pluginName));
+    }
+
+    /**
+     * @dataProvider dataStartFreeTrialErrorDownloadResponses
+     */
+    public function test_startFreeTrial_shouldThrowException_ifSomethingGoesWrong(
+        array $responseInfo,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $this->service->setOnDownloadCallback(static function () use ($responseInfo) {
+            return $responseInfo;
+        });
+
+        $this->api->startFreeTrial('testPlugin');
+    }
+
+    public function dataStartFreeTrialErrorDownloadResponses(): iterable
+    {
+        yield 'marketplace response not readable' => [
+            [
+                'status' => 500,
+                'headers' => [],
+                'data' => 'not valid json',
+            ],
+            ServiceException::class,
+            'There was an error reading the response from the Marketplace: Please try again later.',
+        ];
+
+        yield 'error in marketplace response' => [
+            [
+                'status' => 400,
+                'headers' => [],
+                'data' => json_encode(['error' => 'something went wrong']),
+            ],
+            Exception::class,
+            'There was an error starting your free trial: Please try again later.',
+        ];
+
+        yield 'unexpected response status code' => [
+            [
+                'status' => 200,
+                'headers' => [],
+                'data' => '',
+            ],
+            Exception::class,
+            'There was an error starting your free trial: Please try again later.',
+        ];
+
+        yield 'unexpected response content string' => [
+            [
+                'status' => 201,
+                'headers' => [],
+                'data' => json_encode('operation successful'),
+            ],
+            Exception::class,
+            'There was an error starting your free trial: Please try again later.',
+        ];
+
+        yield 'unexpected response content array' => [
+            [
+                'status' => 201,
+                'headers' => [],
+                'data' => json_encode(['success' => true]),
+            ],
+            Exception::class,
+            'There was an error starting your free trial: Please try again later.',
+        ];
     }
 
     public function provideContainerConfig()

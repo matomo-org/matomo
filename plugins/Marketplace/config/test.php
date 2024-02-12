@@ -169,11 +169,13 @@ return array(
             } elseif ($action === 'plugins/PaidPlugin1/info' && !$service->hasAccessToken()) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info.json');
                 return updateUrlsInFixtureContent($content);
-            } elseif ($action === 'plugins/PaidPlugin1/freeTrial' && !$startFreeTrialSuccess) {
-                return $service->getFixtureContent('v2.0_plugins_testPlugin_freeTrial-genericerror.json');
             } elseif ($action === 'plugins/PaidPlugin1/freeTrial') {
-                // API endpoint returns no content on success
-                return '';
+                // this endpoint should only be called with "$getExtendedInfo = true"
+                return [
+                    'status' => $startFreeTrialSuccess ? 201 : 400,
+                    'headers' => [],
+                    'data' => '',
+                ];
             } elseif ($action === 'plugins/checkUpdates') {
                 return $service->getFixtureContent('v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json');
             }

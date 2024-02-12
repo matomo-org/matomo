@@ -86,7 +86,11 @@ class API extends \Piwik\Plugin\API
         $this->marketplaceService->authenticate($licenseKey);
 
         try {
-            $response = $this->marketplaceService->fetch('plugins/' . $pluginName . '/freeTrial', []);
+            $result = $this->marketplaceService->fetch(
+                'plugins/' . $pluginName . '/freeTrial',
+                [],
+                true
+            );
         } catch (Service\Exception $e) {
             if ($e->getCode() === Api\Service\Exception::HTTP_ERROR) {
                 throw $e;
@@ -97,8 +101,11 @@ class API extends \Piwik\Plugin\API
 
         $this->marketplaceClient->clearAllCacheEntries();
 
-        if (null !== $response) {
-            // We expect an exact empty (fetched as "null") response from this API
+        if (201 !== $result['status']
+            || !is_string($result['data'])
+            || '' !== trim($result['data'])
+        ) {
+            // We expect an exact empty 201 response from this API
             // Anything different should be an error
             throw new Exception('There was an error starting your free trial: Please try again later.');
         }
