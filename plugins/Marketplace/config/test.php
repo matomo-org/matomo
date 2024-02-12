@@ -83,6 +83,7 @@ return array(
 
         $service->authenticate($accessToken);
 
+        // remove shop review embed URL and convert cover image URLs to local ones
         function updatePluginUrlsForTests(&$plugin)
         {
             if (!empty($plugin['shop']['reviews']['embedUrl'])) {
@@ -105,7 +106,9 @@ return array(
             }
         }
 
-        function updatePayload($content)
+        // update URLs in production-like mock API response fixtures so that images work in tests
+        // caters for a list of plugins as well as a single plugin payload content
+        function updateUrlsInFixtureContent($content)
         {
             $content = json_decode($content, true);
             if (!empty($content['plugins'])) {
@@ -135,36 +138,36 @@ return array(
                 return $service->getFixtureContent('v2.0_consumer_validate-access_token-notexistingtoken.json');
             } elseif ($action === 'plugins' && empty($params['purchase_type']) && empty($params['query'])) {
                 $content = $service->getFixtureContent('v2.0_plugins.json');
-                return updatePayload($content);
+                return updateUrlsInFixtureContent($content);
             } elseif ($action === 'plugins' && $isExceededUser && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
                 $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json');
-                return updatePayload($content);
+                return updateUrlsInFixtureContent($content);
             } elseif ($action === 'plugins' && $isExpiredUser && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
                 $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-consumer1_paid2_custom1.json');
-                return updatePayload($content);
+                return updateUrlsInFixtureContent($content);
             } elseif ($action === 'plugins' && ($service->hasAccessToken() || $isValidUser) && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
                 $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-consumer2_paid1.json');
-                return updatePayload($content);
+                return updateUrlsInFixtureContent($content);
             } elseif ($action === 'plugins' && !$service->hasAccessToken() && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
                 $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-notexistingtoken.json');
-                return updatePayload($content);
+                return updateUrlsInFixtureContent($content);
             } elseif ($action === 'themes' && empty($params['purchase_type']) && empty($params['query'])) {
                 return $service->getFixtureContent('v2.0_themes.json');
             } elseif ($action === 'plugins/Barometer/info') {
                 $content = $service->getFixtureContent('v2.0_plugins_Barometer_info.json');
-                return updatePayload($content);
+                return updateUrlsInFixtureContent($content);
             } elseif ($action === 'plugins/TreemapVisualization/info') {
                 $content = $service->getFixtureContent('v2.0_plugins_TreemapVisualization_info.json');
-                return updatePayload($content);
+                return updateUrlsInFixtureContent($content);
             } elseif ($action === 'plugins/PaidPlugin1/info' && $service->hasAccessToken() && $isExceededUser) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json');
-                return updatePayload($content);
+                return updateUrlsInFixtureContent($content);
             } elseif ($action === 'plugins/PaidPlugin1/info' && $service->hasAccessToken()) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json');
-                return updatePayload($content);
+                return updateUrlsInFixtureContent($content);
             } elseif ($action === 'plugins/PaidPlugin1/info' && !$service->hasAccessToken()) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info.json');
-                return updatePayload($content);
+                return updateUrlsInFixtureContent($content);
             } elseif ($action === 'plugins/checkUpdates') {
                 return $service->getFixtureContent('v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json');
             }
