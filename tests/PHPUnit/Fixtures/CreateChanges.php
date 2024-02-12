@@ -1,14 +1,18 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Changes\Model as ChangesModel;
+use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 
 class CreateChanges extends Fixture
@@ -28,6 +32,14 @@ class CreateChanges extends Fixture
 
     private function createChanges()
     {
+        // Manually insert a change that is older than 6 months
+        Db::query(
+            "INSERT INTO `" . Common::prefixTable('changes') . "`
+                   (`idchange`, `created_time`, `plugin_name`, `version`, `title`, `description`, `link_name`, `link`)
+               VALUES
+                   (1, '2021-12-17 12:46:04', 'ExamplePlugin', '4.0.1', 'New feature y added', 'Now you can do c with d like this.', NULL, NULL);"
+        );
+
 
         $changes = [
             [
