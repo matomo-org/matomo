@@ -66,12 +66,5 @@ return array(
         });
 
         return $previous;
-    }),
-    'observers.global' => \Piwik\DI::add([
-        ['Login.userRequiresPasswordConfirmation', \Piwik\DI::value(function (&$requiresPasswordConfirmation, $login) {
-            if ($login === 'superUserLogin') {
-                $requiresPasswordConfirmation = false;
-            }
-        })],
-    ]),
+    })
 );
