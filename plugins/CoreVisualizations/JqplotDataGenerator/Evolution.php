@@ -10,6 +10,7 @@
 
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
+use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable;
@@ -351,11 +352,11 @@ class Evolution extends JqplotDataGenerator
             $state = $dataTables[$dataTableDate]->getMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME);
 
             if (false === $state) {
-                $state = DataTable::ID_ARCHIVE_STATE_COMPLETE;
+                $state = ArchiveState::COMPLETE;
             }
 
             if ($siteToday <= $period->getDateEnd()->getTimestamp()) {
-                $state = DataTable::ID_ARCHIVE_STATE_INCOMPLETE;
+                $state = ArchiveState::INCOMPLETE;
             }
 
             $dataStates[$dataTableDate] = $state;

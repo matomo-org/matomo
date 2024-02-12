@@ -453,6 +453,40 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($this->getRememberedReportsByDate(), $reports);
     }
 
+    public function test_getRememberedArchivedReportsThatShouldBeInvalidatedBySite(): void
+    {
+        $this->rememberReportsForManySitesAndDates();
+
+        $idSite = 2;
+        $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated($idSite);
+        $allReports = $this->getRememberedReportsByDate();
+
+        foreach ($allReports as $day => $idSites) {
+            if (!in_array($idSite, $idSites)) {
+                self::assertArrayNotHasKey($day, $reports);
+            } else {
+                self::assertSame([$idSite], $reports[$day]);
+            }
+        }
+    }
+
+    public function test_getDaysWithRememberedInvalidationsForSite(): void
+    {
+        $this->rememberReportsForManySitesAndDates();
+
+        $idSite = 2;
+        $days = $this->invalidator->getDaysWithRememberedInvalidationsForSite($idSite);
+        $allReports = $this->getRememberedReportsByDate();
+
+        foreach ($allReports as $day => $idSites) {
+            if (!in_array($idSite, $idSites)) {
+                self::assertNotContains($day, $days);
+            } else {
+                self::assertContains($day, $days);
+            }
+        }
+    }
+
     private function assertSameReports($expected, $actual)
     {
         $keys1 = array_keys($expected);

@@ -349,9 +349,10 @@ class API extends \Piwik\Plugin\API
             );
         }
 
-        // Remove <ts_archived> row metadata, it's already been used by any filters that needed it
+        // Remove unnecessary row metadata already been used by any filters that needed them
         $dataTable->queueFilter(function ($dataTable) {
             $dataTable->deleteRowsMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
+            $dataTable->deleteRowsMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME);
             $dataTable->deleteColumn('_metadata');
         });
 

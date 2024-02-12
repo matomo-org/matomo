@@ -36,7 +36,8 @@ class Row extends \ArrayObject
     private static $unsummableColumns = array(
         'label' => true,
         'full_url' => true, // column used w/ old Piwik versions,
-        'ts_archived' => true // date column used in metadata for proportional tooltips
+        DataTable::ARCHIVED_DATE_METADATA_NAME => true, // date column used in metadata for proportional tooltips
+        DataTable::ARCHIVE_STATE_METADATA_NAME => true,
     );
 
     // @see sumRow - implementation detail

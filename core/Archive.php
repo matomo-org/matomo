@@ -12,11 +12,13 @@ namespace Piwik;
 
 use Piwik\Archive\ArchiveQuery;
 use Piwik\Archive\ArchiveQueryFactory;
+use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataCollection;
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Plugins\CoreAdminHome\API;
 
 /**
@@ -143,6 +145,25 @@ class Archive implements ArchiveQuery
      * @var array
      */
     private $idarchives = [];
+
+    /**
+     * List of doneFlag values for archive IDs for the site, periods and segment
+     * we are querying with. Archive IDs are indexed by site, done flag and period, ie:
+     *
+     * array(
+     *     100 => array(
+     *         'done.all' => array(
+     *             '2010-01-01' => array(
+     *                 100 => 1,
+     *                 101 => 4
+     *             )
+     *         )
+     *     )
+     *  )
+     *
+     * @var array
+     */
+    private $idarchiveStates = [];
 
     /**
      * If set to true, the result of all get functions (ie, getNumeric, getBlob, etc.)
@@ -331,7 +352,8 @@ class Archive implements ArchiveQuery
      */
     public function querySingleBlob($name)
     {
-        $archiveIds = $this->getArchiveIds([$name]);
+        [$archiveIds] = $this->getArchiveIdsAndStates([$name]);
+
         return ArchiveSelector::querySingleBlob($archiveIds, $name);
     }
 
@@ -532,6 +554,8 @@ class Archive implements ArchiveQuery
         }
 
         $archiveNames = array_filter($archiveNames);
+        $idSites = $this->params->getIdSites();
+        $periods = $this->params->getPeriods();
 
         // apply idSubtable
         if (
@@ -542,6 +566,7 @@ class Archive implements ArchiveQuery
             // does require to have the subtableId appended. Needs to be changed in refactoring to have it only in one
             // place.
             $dataNames = [];
+
             foreach ($archiveNames as $name) {
                 $dataNames[] = ArchiveSelector::appendIdsubtable($name, $idSubtable);
             }
@@ -552,16 +577,21 @@ class Archive implements ArchiveQuery
         $result = new Archive\DataCollection(
             $dataNames,
             $archiveDataType,
-            $this->params->getIdSites(),
-            $this->params->getPeriods(),
+            $idSites,
+            $periods,
             $this->params->getSegment(),
             $defaultRow = null
         );
-        if (empty($dataNames)) {
-            return $result; // NOTE: not posting Archive.noArchivedData here, because there might be archive data, someone just requested nothing
+
+        if ([] === $dataNames) {
+            // NOTE: not posting Archive.noArchivedData here,
+            // because there might be archive data,
+            // someone just requested nothing
+            return $result;
         }
 
-        $archiveIds = $this->getArchiveIds($archiveNames);
+        [$archiveIds, $archiveStates] = $this->getArchiveIdsAndStates($archiveNames);
+
         if (empty($archiveIds)) {
             /**
              * Triggered when no archive data is found in an API request.
@@ -572,35 +602,54 @@ class Archive implements ArchiveQuery
         }
 
         $archiveData = ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
+        $archiveState = new ArchiveState();
 
-        $isNumeric = $archiveDataType === 'numeric';
-
-        foreach ($archiveData as $row) {
-            // values are grouped by idsite (site ID), date1-date2 (date range), then name (field name)
-            $periodStr = $row['date1'] . ',' . $row['date2'];
-
-            if ($isNumeric) {
-                $row['value'] = $this->formatNumericValue($row['value']);
-            } else {
-                $result->addMetadata($row['idsite'], $periodStr, DataTable::ARCHIVED_DATE_METADATA_NAME, $row['ts_archived']);
-            }
-
-            $result->set($row['idsite'], $periodStr, $row['name'], $row['value'], [DataTable::ARCHIVED_DATE_METADATA_NAME => $row['ts_archived']]);
-        }
+        $this->addDataToResultCollection($result, $archiveData, $archiveDataType);
+        $archiveState->addMetadataToResultCollection($result, $archiveData, $archiveIds, $archiveStates);
 
         return $result;
     }
 
+    private function addDataToResultCollection(
+        DataCollection $result,
+        array $archiveData,
+        string $archiveDataType
+    ): void {
+        foreach ($archiveData as $row) {
+            // values are grouped by idsite (site ID), date1-date2 (date range), then name (field name)
+            $idSite = $row['idsite'];
+            $period = $row['date1'] . ',' . $row['date2'];
+
+            if ('numeric' === $archiveDataType) {
+                $row['value'] = $this->formatNumericValue($row['value']);
+            }
+
+            $result->set(
+                $idSite,
+                $period,
+                $row['name'],
+                $row['value'],
+                [
+                    DataTable::ARCHIVED_DATE_METADATA_NAME => $row['ts_archived'],
+                ]
+            );
+        }
+    }
+
     /**
-     * Returns archive IDs for the sites, periods and archive names that are being
-     * queried. This function will use the idarchive cache if it has the right data,
-     * query archive tables for IDs w/o launching archiving, or launch archiving and
-     * get the idarchive from ArchiveProcessor instances.
+     * Returns archive IDs and the found doneFlag values for the sites, periods
+     * and archive names that are being queried. This function will use the
+     * idarchive cache if it has the right data, query archive tables for IDs
+     * w/o launching archiving, or launch archiving and get the idarchive from
+     * ArchiveProcessor instances.
      *
      * @param string[] $archiveNames
-     * @return array
+     *
+     * @return array An array with two arrays:
+     *               - archive ids
+     *               - archive doneFlag values
      */
-    private function getArchiveIds($archiveNames)
+    private function getArchiveIdsAndStates(array $archiveNames): array
     {
         $archiveNamesByPlugin = $this->getRequestedPlugins($archiveNames);
         $plugins = array_keys($archiveNamesByPlugin);
@@ -641,9 +690,7 @@ class Archive implements ArchiveQuery
             }
         }
 
-        $idArchivesByMonth = $this->getIdArchivesByMonth($doneFlags);
-
-        return $idArchivesByMonth;
+        return $this->getArchiveIdsAndStatesByMonth($doneFlags);
     }
 
     /**
@@ -710,7 +757,7 @@ class Archive implements ArchiveQuery
      */
     private function cacheArchiveIdsWithoutLaunching($plugins)
     {
-        $idarchivesByReport = ArchiveSelector::getArchiveIds(
+        [$idarchivesByReport, $idarchiveStatesByReport] = ArchiveSelector::getArchiveIdsAndStates(
             $this->params->getIdSites(),
             $this->params->getPeriods(),
             $this->params->getSegment(),
@@ -731,6 +778,16 @@ class Archive implements ArchiveQuery
                     // idarchives selected can include all plugin archives, plugin specific archives and partial report
                     // archives. only the latest data in all of these archives will be selected.
                     $this->idarchives[$doneFlag][$dateRange][] = $idarchive;
+                }
+            }
+        }
+
+        foreach ($idarchiveStatesByReport as $idSite => $idarchiveStatesBySite) {
+            foreach ($idarchiveStatesBySite as $doneFlag => $idarchiveStatesByDate) {
+                foreach ($idarchiveStatesByDate as $dateRange => $idarchiveStates) {
+                    foreach ($idarchiveStates as $idarchive => $state) {
+                        $this->idarchiveStates[$idSite][$doneFlag][$dateRange][$idarchive] = $state;
+                    }
                 }
             }
         }
@@ -823,7 +880,7 @@ class Archive implements ArchiveQuery
      *
      * @param string $doneFlag
      */
-    private function initializeArchiveIdCache($doneFlag)
+    private function initializeArchiveIdCache(string $doneFlag)
     {
         if (!isset($this->idarchives[$doneFlag])) {
             $this->idarchives[$doneFlag] = [];
@@ -888,11 +945,6 @@ class Archive implements ArchiveQuery
         return $plugin;
     }
 
-    /**
-     * @param $archiveNamesByPlugin
-     * @param $site
-     * @param $period
-     */
     private function prepareArchive(array $archiveNamesByPlugin, Site $site, Period $period)
     {
         $coreAdminHomeApi = API::getInstance();
@@ -905,17 +957,17 @@ class Archive implements ArchiveQuery
         $periodString = $period->getRangeString();
         $periodDateStr = $period->getLabel() == 'range' ? $periodString : $period->getDateStart()->toString();
 
-        $idSites = [$site->getId()];
+        $idSite = $site->getId();
 
         // process for each plugin as well
         foreach ($archiveNamesByPlugin as $plugin => $archiveNames) {
-            $doneFlag = $this->getDoneStringForPlugin($plugin, $idSites);
+            $doneFlag = $this->getDoneStringForPlugin($plugin, [$idSite]);
             $this->initializeArchiveIdCache($doneFlag);
 
             $reportsToArchiveForThisPlugin = (empty($requestedReport) && $shouldOnlyProcessRequestedArchives) ? $archiveNames : $requestedReport;
 
             $prepareResult = $coreAdminHomeApi->archiveReports(
-                $site->getId(),
+                $idSite,
                 $period->getLabel(),
                 $periodDateStr,
                 $this->params->getSegment()->getOriginalString(),
@@ -923,25 +975,28 @@ class Archive implements ArchiveQuery
                 $reportsToArchiveForThisPlugin
             );
 
-            if (
-                !empty($prepareResult)
-                && !empty($prepareResult['idarchives'])
-            ) {
-                foreach ($prepareResult['idarchives'] as $idArchive) {
-                    if (empty($this->idarchives[$doneFlag][$periodString])
-                        || !in_array($idArchive, $this->idarchives[$doneFlag][$periodString])
-                    ) {
-                        $this->idarchives[$doneFlag][$periodString][] = $idArchive;
-                    }
+            if (empty($prepareResult) || empty($prepareResult['idarchives'])) {
+                continue;
+            }
+
+            foreach ($prepareResult['idarchives'] as $idArchive) {
+                if (is_array($this->idarchives[$doneFlag][$periodString] ?? null)
+                    && in_array($idArchive, $this->idarchives[$doneFlag][$periodString])
+                ) {
+                    continue;
                 }
+
+                $this->idarchives[$doneFlag][$periodString][] = $idArchive;
+                $this->idarchiveStates[$idSite][$doneFlag][$periodString][$idArchive] = ArchiveWriter::DONE_OK;
             }
         }
     }
 
-    private function getIdArchivesByMonth($doneFlags)
+    private function getArchiveIdsAndStatesByMonth($doneFlags)
     {
         // order idarchives by the table month they belong to
-        $idArchivesByMonth = [];
+        $archiveIdsByMonth = [];
+        $archiveStatesByMonth = [];
 
         foreach (array_keys($doneFlags) as $doneFlag) {
             if (empty($this->idarchives[$doneFlag])) {
@@ -950,12 +1005,23 @@ class Archive implements ArchiveQuery
 
             foreach ($this->idarchives[$doneFlag] as $dateRange => $idarchives) {
                 foreach ($idarchives as $id) {
-                    $idArchivesByMonth[$dateRange][] = $id;
+                    $archiveIdsByMonth[$dateRange][] = $id;
+                }
+            }
+
+            foreach ($this->idarchiveStates as $idSite => $siteArchiveStates) {
+                if (!isset($siteArchiveStates[$doneFlag])) {
+                    continue;
+                }
+
+                foreach ($siteArchiveStates[$doneFlag] as $dateRange => $archiveStates) {
+                    $archiveStatesByMonth[$idSite][$dateRange] =
+                        $archiveStates + ($archiveStatesByMonth[$idSite][$dateRange] ?? []);
                 }
             }
         }
 
-        return $idArchivesByMonth;
+        return [$archiveIdsByMonth, $archiveStatesByMonth];
     }
 
     /**

@@ -348,6 +348,7 @@
 		<revenue>35</revenue>
 		<_metadata>
 			<ts_archived>today-date-removed-in-tests</ts_archived>
+			<archive_state>complete</archive_state>
 		</_metadata>
 		<visits_evolution_trend>7</visits_evolution_trend>
 		<actions_evolution_trend>7</actions_evolution_trend>

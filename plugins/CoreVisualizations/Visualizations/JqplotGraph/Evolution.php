@@ -53,6 +53,9 @@ class Evolution extends JqplotGraph
 
         parent::beforeLoadDataTable();
 
+        // fetch archive states for incomplete data point visualization
+        $this->requestConfig->request_parameters_to_modify['fetch_archive_state'] = true;
+
         // period will be overridden when 'range' is requested in the UI.
         // The graph will display the range in the most suitable period and
         // it won't show historical data before the range.
