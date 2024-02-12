@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\TwoFactorAuth\tests\Integration;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
 use Piwik\Plugins\TwoFactorAuth\API;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
@@ -79,6 +80,13 @@ class APITest extends IntegrationTestCase
         $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin2'));
 
         $this->assertEquals([], $this->recoveryCodes->getAllRecoveryCodesForLogin('mylogin1'));
+
+        //Reset without a password
+        Piwik::addAction('Login.userRequiresPasswordConfirmation', function (&$requiresPasswordConfirmation) {
+            $requiresPasswordConfirmation = false;
+        });
+        $this->api->resetTwoFactorAuth('mylogin2');
+        $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin2'));
     }
 
     protected function setAdminUser()
