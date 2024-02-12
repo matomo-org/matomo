@@ -548,13 +548,11 @@ class DataTableFactory
                 if (!empty($row)) {
                     $tables[$range]->addRow(new Row(array(
                         Row::COLUMNS  => $row,
-                        Row::METADATA => $rowMeta)
-                    ));
+                        Row::METADATA => $rowMeta)));
                 } elseif ($isNumeric) {
                     $tables[$range]->addRow(new Row(array(
                         Row::COLUMNS  => $this->defaultRow,
-                        Row::METADATA => $rowMeta)
-                    ));
+                        Row::METADATA => $rowMeta)));
                 }
             }
         }
@@ -584,13 +582,11 @@ class DataTableFactory
             if (!empty($row)) {
                 $table->addRow(new Row(array(
                     Row::COLUMNS  => $row,
-                    Row::METADATA => $meta)
-                ));
+                    Row::METADATA => $meta)));
             } elseif ($isNumeric) {
                 $table->addRow(new Row(array(
                     Row::COLUMNS  => $this->defaultRow,
-                    Row::METADATA => $meta)
-                ));
+                    Row::METADATA => $meta)));
             }
         }
 

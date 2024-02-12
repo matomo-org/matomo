@@ -35,8 +35,7 @@ class GetSystemCheck extends Widget
         $config->setOrder(16);
 
         $config->setIsEnabled(Piwik::hasUserSuperUserAccess()
-            && Manager::getInstance()->isPluginActivated('Diagnostics')
-        );
+            && Manager::getInstance()->isPluginActivated('Diagnostics'));
     }
 
     public function render()

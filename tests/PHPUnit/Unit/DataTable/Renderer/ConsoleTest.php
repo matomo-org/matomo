@@ -35,9 +35,7 @@ class ConsoleTest extends \PHPUnit\Framework\TestCase
     {
         $table = new DataTable();
         $table->addRowFromArray(array(Row::COLUMNS  => array('visits' => 245, 'visitors' => 245),
-                                      Row::METADATA => array('logo' => 'test.png'),)
-
-        );
+                                      Row::METADATA => array('logo' => 'test.png'),));
 
         $subsubtable = new DataTable();
         $idsubsubtable = $subsubtable->getId();
@@ -49,16 +47,14 @@ class ConsoleTest extends \PHPUnit\Framework\TestCase
                                          Row::DATATABLE_ASSOCIATED => $subsubtable));
 
         $table->addRowFromArray(array(Row::COLUMNS              => array('visits' => 3),
-                                      Row::DATATABLE_ASSOCIATED => $subtable)
-        );
+                                      Row::DATATABLE_ASSOCIATED => $subtable));
 
         $subtable2 = new DataTable();
         $idsubtable2 = $subtable2->getId();
         $subtable2->addRowFromArray(array(Row::COLUMNS => array('visits' => 5),));
 
         $table->addRowFromArray(array(Row::COLUMNS              => array('visits' => 9),
-                                      Row::DATATABLE_ASSOCIATED => $subtable2)
-        );
+                                      Row::DATATABLE_ASSOCIATED => $subtable2));
 
         $expected = "- 1 ['visits' => 245, 'visitors' => 245] ['logo' => 'test.png'] [idsubtable = ]<br />\n- 2 ['visits' => 3] [] [idsubtable = $idsubtable1]<br />\n*- 1 ['visits' => 1] [] [idsubtable = $idsubsubtable]<br />\n**- 1 ['visits' => 2] [] [idsubtable = ]<br />\n- 3 ['visits' => 9] [] [idsubtable = $idsubtable2]<br />\n*- 1 ['visits' => 5] [] [idsubtable = ]<br />\n";
 
@@ -79,9 +75,7 @@ class ConsoleTest extends \PHPUnit\Framework\TestCase
     {
         $table = new DataTable();
         $table->addRowFromArray(array(Row::COLUMNS  => array('visits' => 245, 'visitors' => 245),
-                                      Row::METADATA => array('logo' => 'test.png'),)
-
-        );
+                                      Row::METADATA => array('logo' => 'test.png'),));
 
         $expected = "- 1 ['visits' => 245, 'visitors' => 245] ['logo' => 'test.png'] [idsubtable = ]<br />\n";
 

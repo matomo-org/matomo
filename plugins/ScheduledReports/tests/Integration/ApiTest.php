@@ -436,12 +436,11 @@ class ApiTest extends IntegrationTestCase
                                            ->disableOriginalConstructor()
                                            ->getMock();
         $stubbedAPIScheduledReports->expects($this->any())->method('getReports')->will($this->returnValue(
-                array($report1, $report2, $report3, $report4, $report5, $report6))
-        );
+                array($report1, $report2, $report3, $report4, $report5, $report6)));
         \Piwik\Plugins\ScheduledReports\API::setSingletonInstance($stubbedAPIScheduledReports);
 
         // initialize sites 1 and 2
-        Site::setSites( array(
+        Site::setSites(array(
             1 => array('timezone' => 'Europe/Paris'),
             2 => array('timezone' => 'UTC-6.5'),
         ));
@@ -503,7 +502,7 @@ class ApiTest extends IntegrationTestCase
         );
         $getReportSubjectAndReportTitle->setAccessible(true);
 
-        [$reportSubject, $reportTitle] = $getReportSubjectAndReportTitle->invoke( APIScheduledReports::getInstance(), $websiteName, $reports);
+        [$reportSubject, $reportTitle] = $getReportSubjectAndReportTitle->invoke(APIScheduledReports::getInstance(), $websiteName, $reports);
         $this->assertEquals($expectedReportSubject, $reportSubject);
         $this->assertEquals($expectedReportTitle, $reportTitle);
     }
@@ -581,6 +580,47 @@ class ApiTest extends IntegrationTestCase
 
         APIScheduledReports::getInstance()->generateReport($idReport, '2012-03-03,2012-03-23',
             $language = false, $outputType = APIScheduledReports::OUTPUT_RETURN);
+    }
+
+    public function test_generateReport_throwsIfInvalidDateRequested(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionInvalidDateFormat');
+
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            [
+                'VisitsSummary_get',
+            ],
+            [
+                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY
+            ]
+        );
+
+        APIScheduledReports::getInstance()->generateReport(
+            $idReport,
+            'DoesNotParse',
+            false,
+            APIScheduledReports::OUTPUT_RETURN
+        );
+    }
+
+    public function test_generateReport_throwsIfInvalidReportRequested(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Requested report couldn't be found.");
+
+        APIScheduledReports::getInstance()->generateReport(
+            1234567890,
+            Date::factory('now')->toString(),
+            false,
+            APIScheduledReports::OUTPUT_RETURN
+        );
     }
 
     public function test_addReport_validatesEvolutionPeriodForParam()

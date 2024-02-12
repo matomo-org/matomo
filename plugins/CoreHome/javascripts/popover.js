@@ -12,6 +12,7 @@ var Piwik_Popover = (function () {
     var closeCallback = false;
     var isProgrammaticClose = false;
     var scrollTopPosition = 0;
+    var ajaxLoadingRequest = null;
 
     var createContainer = function () {
         if (container === false) {
@@ -63,7 +64,11 @@ var Piwik_Popover = (function () {
                 container.find('div.jqplot-target').trigger('piwikDestroyPlot');
                 container[0].innerHTML = '';
                 container.dialog('destroy').remove();
-                globalAjaxQueue.abort();
+
+                if (ajaxLoadingRequest) {
+                    ajaxLoadingRequest.abort();
+                }
+
                 $('.ui-widget-overlay').off('click.popover');
                 isOpen = false;
                 require('piwik/UI').UIControl.cleanupUnusedControls();
@@ -310,6 +315,8 @@ var Piwik_Popover = (function () {
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
             ajaxRequest.send();
+
+            ajaxLoadingRequest = ajaxRequest;
         },
 
         isOpen: function() {

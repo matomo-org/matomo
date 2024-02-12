@@ -23,8 +23,7 @@ class CoreTranslationsTest extends \PHPUnit\Framework\TestCase
                     'General' => array_merge(array_fill(0, 251, 'test'), array(
                                                                               'Locale'          => 'de_DE.UTF-8',
                                                                               'TranslatorName'  => 'name'
-                                                                         )
-                    )
+                                                                         ))
                 ),
             )
         );

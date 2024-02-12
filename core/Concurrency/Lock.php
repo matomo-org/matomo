@@ -108,7 +108,7 @@ class Lock
         $i = 0;
         while (!$this->acquireLock($id)) {
             $i++;
-            usleep( 100 * 1000 ); // 100ms
+            usleep(100 * 1000); // 100ms
             if ($i > 50) { // give up after 5seconds (50 * 100ms)
                 throw new \Exception('Could not get the lock for ID: ' . $id);
             }

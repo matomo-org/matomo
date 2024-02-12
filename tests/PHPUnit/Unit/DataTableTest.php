@@ -641,12 +641,10 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
          */
         $subsubtable = new DataTable();
         $subsubtable->addRowFromArray(array(Row::COLUMNS  => array(245),
-                                            Row::METADATA => array('yes' => 'subsubmetadata1'),)
-        );
+                                            Row::METADATA => array('yes' => 'subsubmetadata1'),));
 
         $subsubtable->addRowFromArray(array(Row::COLUMNS  => array(13,),
-                                            Row::METADATA => array('yes' => 'subsubmetadata2'),)
-        );
+                                            Row::METADATA => array('yes' => 'subsubmetadata2'),));
 
         $row = array(Row::COLUMNS              => array(0 => 666666666666666,),
                      Row::METADATA             => array('url' => 'NEW ROW ADDED'),

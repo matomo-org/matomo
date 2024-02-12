@@ -23,6 +23,7 @@ use Piwik\Date;
 use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\Emails\AnonymousAccessEnabledEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
@@ -1159,6 +1160,27 @@ class API extends \Piwik\Plugin\API
 
         if (!empty($capabilities)) {
             $this->addCapabilities($userLogin, $capabilities, $idSites);
+        }
+
+        // Send notification to all super users if anonymous access is set for a site
+        if ($userLogin === 'anonymous' && $access === 'view') {
+            $container = StaticContainer::getContainer();
+
+            $siteNames = [];
+
+            foreach ($idSites as $idSite) {
+                $siteNames[] = Site::getNameFor($idSite);
+            }
+
+            $superUsers = Piwik::getAllSuperUserAccessEmailAddresses();
+            foreach ($superUsers as $login => $email) {
+                $email = $container->make(AnonymousAccessEnabledEmail::class, array(
+                    'login' => $login,
+                    'emailAddress' => $email,
+                    'siteName' => implode(', ', $siteNames)
+                ));
+                $email->safeSend();
+            }
         }
 
         // we reload the access list which doesn't yet take in consideration this new user access

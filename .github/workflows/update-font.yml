@@ -26,7 +26,7 @@ jobs:
   check:
     runs-on: "ubuntu-latest"
     steps:
-     - uses: actions/checkout@v3
+     - uses: actions/checkout@v4
      - name: Compare stylesheet to base branch
        run: |
          if [[ $(wget -O - -o /dev/null https://raw.githubusercontent.com/matomo-org/matomo/$GITHUB_BASE_REF/plugins/Morpheus/stylesheets/base/icons.css | grep -m1  -- "format('woff2')") == $(grep -m1  -- "format('woff2')" plugins/Morpheus/stylesheets/base/icons.css) ]]

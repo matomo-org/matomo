@@ -349,7 +349,7 @@ export default defineComponent({
         promises.push(
           AjaxHelper.fetch({
             module: 'API',
-            method: 'Overlay.getExcludedQueryParameters',
+            method: 'SitesManager.getExcludedQueryParameters',
             idSite,
             filter_limit: '-1',
           }).then((data) => {

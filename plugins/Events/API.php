@@ -82,7 +82,7 @@ class API extends \Piwik\Plugin\API
     public function getActionToLoadSubtables($apiMethod, $secondaryDimension = false)
     {
         $recordName = $this->getRecordNameForAction($apiMethod, $secondaryDimension);
-        $apiMethod = array_search( $recordName, $this->mappingApiToRecord );
+        $apiMethod = array_search($recordName, $this->mappingApiToRecord);
         return $apiMethod;
     }
 
