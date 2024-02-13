@@ -83,6 +83,11 @@ describe("Transitions", function () {
         expect(await page.screenshotSelector('body')).to.matchImage('transitions_report_switch_type_title');
     });
 
+    it('should show the search engines when clicked', async function () {
+        await page.evaluate(() => $('.Transitions_SingleLine:contains(From search engines)').click());
+        expect(await page.screenshotSelector('body')).to.matchImage('transitions_report_search_engines');
+    });
+
     it('should show period not allowed for disabled periods', async function () {
 
         testEnvironment.overrideConfig('Transitions_1', 'max_period_allowed', 'day');
