@@ -243,7 +243,12 @@ class API extends \Piwik\Plugin\API
     {
 
         $data = $this->queryFollowingActions(
-            $idaction, $actionType, $logAggregator, $limitBeforeGrouping, $includeLoops);
+            $idaction,
+            $actionType,
+            $logAggregator,
+            $limitBeforeGrouping,
+            $includeLoops
+        );
 
         foreach ($data as $tableName => $table) {
             $report[$tableName] = $table;
@@ -587,7 +592,11 @@ class API extends \Piwik\Plugin\API
     private function addExternalReferrers($logAggregator, &$report, $idaction, $actionType, $limitBeforeGrouping)
     {
         $data = $this->queryExternalReferrers(
-            $idaction, $actionType, $logAggregator, $limitBeforeGrouping);
+            $idaction,
+            $actionType,
+            $logAggregator,
+            $limitBeforeGrouping
+        );
 
         $report['pageMetrics']['entries'] = 0;
         $report['referrers'] = array();

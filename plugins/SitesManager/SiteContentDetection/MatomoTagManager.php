@@ -51,7 +51,9 @@ class MatomoTagManager extends SiteContentDetectionAbstract
     public function renderInstructionsTab(SiteContentDetector $detector): string
     {
         return '<h3>' . Piwik::translate('SitesManager_SiteWithoutDataMatomoTagManager') . '</h3>
-            <p>' . Piwik::translate( 'SitesManager_SiteWithoutDataMatomoTagManagerNotActive',
-                ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/tag-manager/') . '" rel="noreferrer noopener" target="_blank">', '</a>']) . '</p>';
+            <p>' . Piwik::translate(
+            'SitesManager_SiteWithoutDataMatomoTagManagerNotActive',
+            ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/tag-manager/') . '" rel="noreferrer noopener" target="_blank">', '</a>']
+        ) . '</p>';
     }
 }

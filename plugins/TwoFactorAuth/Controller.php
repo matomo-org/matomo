@@ -284,8 +284,10 @@ class Controller extends \Piwik\Plugin\Controller
         $this->validator->check2FaEnabled();
 
         $regenerateNonce = Common::getRequestVar('regenerateNonce', '', 'string', $_POST);
-        $postedValidNonce = !empty($regenerateNonce) && Nonce::verifyNonce(self::REGENERATE_CODES_2FA_NONCE,
-            $regenerateNonce);
+        $postedValidNonce = !empty($regenerateNonce) && Nonce::verifyNonce(
+            self::REGENERATE_CODES_2FA_NONCE,
+            $regenerateNonce
+        );
 
         $regenerateSuccess = false;
         $regenerateError = false;

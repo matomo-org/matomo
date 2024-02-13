@@ -22,7 +22,8 @@ class Menu extends \Piwik\Plugin\Menu
     {
         $tooltip = Piwik::translate(
             \Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging')
-                ? 'MobileMessaging_TopLinkTooltip' : 'ScheduledReports_TopLinkTooltip');
+            ? 'MobileMessaging_TopLinkTooltip' : 'ScheduledReports_TopLinkTooltip'
+        );
 
         $menu->addPersonalItem(
             $this->getTopMenuTranslationKey(),

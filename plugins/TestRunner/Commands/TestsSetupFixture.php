@@ -49,41 +49,82 @@ class TestsSetupFixture extends ConsoleCommand
         $this->setName('tests:setup-fixture');
         $this->setDescription('Create a database and fill it with data using a Piwik test fixture.');
 
-        $this->addRequiredArgument('fixture',
+        $this->addRequiredArgument(
+            'fixture',
             "The class name of the fixture to apply. Doesn't need to have a namespace if it exists in the " .
-            "Piwik\\Tests\\Fixtures namespace.");
+            "Piwik\\Tests\\Fixtures namespace."
+        );
 
-        $this->addRequiredValueOption('db-name', null,
-            "The name of the database that will contain the fixture data. This option is required to be set.");
-        $this->addRequiredValueOption('file', null,
-            "The file location of the fixture. If this option is included the file will be required explicitly.");
-        $this->addRequiredValueOption('db-host', null,
-            "The hostname of the MySQL database to use. Uses the default config value if not specified.");
-        $this->addRequiredValueOption('db-user', null,
-            "The name of the MySQL user to use. Uses the default config value if not specified.");
-        $this->addRequiredValueOption('db-pass', null,
-            "The MySQL user password to use. Uses the default config value if not specified.");
-        $this->addNoValueOption('teardown', null,
+        $this->addRequiredValueOption(
+            'db-name',
+            null,
+            "The name of the database that will contain the fixture data. This option is required to be set."
+        );
+        $this->addRequiredValueOption(
+            'file',
+            null,
+            "The file location of the fixture. If this option is included the file will be required explicitly."
+        );
+        $this->addRequiredValueOption(
+            'db-host',
+            null,
+            "The hostname of the MySQL database to use. Uses the default config value if not specified."
+        );
+        $this->addRequiredValueOption(
+            'db-user',
+            null,
+            "The name of the MySQL user to use. Uses the default config value if not specified."
+        );
+        $this->addRequiredValueOption(
+            'db-pass',
+            null,
+            "The MySQL user password to use. Uses the default config value if not specified."
+        );
+        $this->addNoValueOption(
+            'teardown',
+            null,
             "If specified, the fixture will be torn down and the database deleted. Won't work if the --db-name " .
-            "option isn't supplied.");
-        $this->addNoValueOption('persist-fixture-data', null,
+            "option isn't supplied."
+        );
+        $this->addNoValueOption(
+            'persist-fixture-data',
+            null,
             "If specified, the database will not be dropped after the fixture is setup. If the database already " .
-            "and the fixture was successfully setup before, nothing will happen.");
-        $this->addNoValueOption('drop', null,
+            "and the fixture was successfully setup before, nothing will happen."
+        );
+        $this->addNoValueOption(
+            'drop',
+            null,
             "Forces the database to be dropped before setting up the fixture. Should be used in conjunction with" .
-            " --persist-fixture-data when updating a pre-existing test database.");
-        $this->addRequiredValueOption('sqldump', null,
-            "Creates an SQL dump after setting up the fixture and outputs the dump to the file specified by this option.");
-        $this->addNoValueOption('save-config', null,
+            " --persist-fixture-data when updating a pre-existing test database."
+        );
+        $this->addRequiredValueOption(
+            'sqldump',
+            null,
+            "Creates an SQL dump after setting up the fixture and outputs the dump to the file specified by this option."
+        );
+        $this->addNoValueOption(
+            'save-config',
+            null,
             "Saves the current configuration file as a config for a new Piwik domain. For example save-config --matomo-domain=mytest.localhost.com will create "
-          . "a mytest.config.ini.php file in the config/ directory. Using /etc/hosts you can redirect to 127.0.0.1 and use the saved "
-          . "config.");
-        $this->addNoValueOption('set-symlinks', null,
-            "Used by UI tests. Creates symlinks to root directory in tests/PHPUnit/proxy.");
-        $this->addRequiredValueOption('server-global', null,
-            "Used by UI tests. Sets the \$_SERVER global variable from a JSON string.");
-        $this->addRequiredValueOption('plugins', null,
-            "Used by UI tests. Comma separated list of plugin names to activate and install when setting up a fixture.");
+            . "a mytest.config.ini.php file in the config/ directory. Using /etc/hosts you can redirect to 127.0.0.1 and use the saved "
+            . "config."
+        );
+        $this->addNoValueOption(
+            'set-symlinks',
+            null,
+            "Used by UI tests. Creates symlinks to root directory in tests/PHPUnit/proxy."
+        );
+        $this->addRequiredValueOption(
+            'server-global',
+            null,
+            "Used by UI tests. Sets the \$_SERVER global variable from a JSON string."
+        );
+        $this->addRequiredValueOption(
+            'plugins',
+            null,
+            "Used by UI tests. Comma separated list of plugin names to activate and install when setting up a fixture."
+        );
         $this->addNoValueOption('enable-logging', null, 'If enabled, tests will log to the configured log file.');
     }
 
