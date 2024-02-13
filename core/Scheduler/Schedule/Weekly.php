@@ -38,7 +38,8 @@ class Weekly extends Schedule
         }
 
         // Adds correct number of days
-        $rescheduledTime = mktime(date('H', $currentTime),
+        $rescheduledTime = mktime(
+            date('H', $currentTime),
             date('i', $currentTime),
             date('s', $currentTime),
             date('n', $currentTime),

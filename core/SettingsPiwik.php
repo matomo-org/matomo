@@ -166,8 +166,10 @@ class SettingsPiwik
      */
     public static function getWebsitesCountToDisplay(): int
     {
-        $count = max(Config::getInstance()->General['site_selector_max_sites'],
-            Config::getInstance()->General['autocomplete_min_sites']);
+        $count = max(
+            Config::getInstance()->General['site_selector_max_sites'],
+            Config::getInstance()->General['autocomplete_min_sites']
+        );
         return (int)$count;
     }
 
@@ -369,15 +371,16 @@ class SettingsPiwik
     {
         // Now testing if the webserver is running
         try {
-            $fetched = Http::sendHttpRequestBy('curl',
-                                                $piwikServerUrl,
-                                                $timeout = 45,
-                                                $userAgent = null,
-                                                $destinationPath = null,
-                                                $file = null,
-                                                $followDepth = 0,
-                                                $acceptLanguage = false,
-                                                $acceptInvalidSSLCertificates
+            $fetched = Http::sendHttpRequestBy(
+                'curl',
+                $piwikServerUrl,
+                $timeout = 45,
+                $userAgent = null,
+                $destinationPath = null,
+                $file = null,
+                $followDepth = 0,
+                $acceptLanguage = false,
+                $acceptInvalidSSLCertificates
             );
         } catch (Exception $e) {
             $fetched = "ERROR fetching: " . $e->getMessage();

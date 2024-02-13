@@ -64,7 +64,8 @@ class DimensionMetadataProvider
 
         $dimensionIdActionColumns = $this->getVisitActionTableActionReferences();
         $result['log_link_visit_action'] = array_unique(
-            array_merge($result['log_link_visit_action'], $dimensionIdActionColumns));
+            array_merge($result['log_link_visit_action'], $dimensionIdActionColumns)
+        );
 
         foreach ($this->actionReferenceColumnsOverride as $table => $columns) {
             if (empty($result[$table])) {

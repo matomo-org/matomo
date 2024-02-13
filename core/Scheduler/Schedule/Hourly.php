@@ -27,7 +27,8 @@ class Hourly extends Schedule
         $currentTime = $this->getTime();
 
         // Adds one hour and reset the number of minutes
-        $rescheduledTime = mktime(date('H', $currentTime) + 1,
+        $rescheduledTime = mktime(
+            date('H', $currentTime) + 1,
             0,
             date('s', $currentTime),
             date('n', $currentTime),
