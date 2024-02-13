@@ -30,13 +30,22 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             'https://another-domain/piwik'
         );
         $idSite = \Piwik\Plugins\SitesManager\API::getInstance()->addSite('Site name here <-->', $urls);
-        $jsTag = $generator->generate($idSite, 'http://piwik-server/piwik',
-            $mergeSubdomains = true, $groupPageTitlesByDomain = true, $mergeAliasUrls = true,
+        $jsTag = $generator->generate(
+            $idSite,
+            'http://piwik-server/piwik',
+            $mergeSubdomains = true,
+            $groupPageTitlesByDomain = true,
+            $mergeAliasUrls = true,
             $visitorCustomVariables = array(array("name", "value"), array("name 2", "value 2")),
             $pageCustomVariables = array(array("page cvar", "page cvar value")),
-            $customCampaignNameQueryParam = "campaignKey", $customCampaignKeywordParam = "keywordKey",
-            $doNotTrack = true, $disableCookies = false, $trackNoScript = true,
-            $crossDomain = true, $excludedQueryParams = array("uid", "aid"));
+            $customCampaignNameQueryParam = "campaignKey",
+            $customCampaignKeywordParam = "keywordKey",
+            $doNotTrack = true,
+            $disableCookies = false,
+            $trackNoScript = true,
+            $crossDomain = true,
+            $excludedQueryParams = array("uid", "aid")
+        );
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script&gt;
@@ -109,13 +118,22 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $codeImpl['protocol'] = 'https://';
         });
 
-        $jsTag = $generator->generate($idSite = 1, $piwikUrl = 'http://localhost/piwik',
-            $mergeSubdomains = true, $groupPageTitlesByDomain = true, $mergeAliasUrls = true,
+        $jsTag = $generator->generate(
+            $idSite = 1,
+            $piwikUrl = 'http://localhost/piwik',
+            $mergeSubdomains = true,
+            $groupPageTitlesByDomain = true,
+            $mergeAliasUrls = true,
             $visitorCustomVariables = array(array("name", "value"), array("name 2", "value 2")),
             $pageCustomVariables = array(array("page cvar", "page cvar value")),
-            $customCampaignNameQueryParam = "campaignKey", $customCampaignKeywordParam = "keywordKey",
-            $doNotTrack = true, $disableCookies = false, $trackNoScript = false,
-            $crossDomain = false, $excludedQueryParams = array("uid", "aid"));
+            $customCampaignNameQueryParam = "campaignKey",
+            $customCampaignKeywordParam = "keywordKey",
+            $doNotTrack = true,
+            $disableCookies = false,
+            $trackNoScript = false,
+            $crossDomain = false,
+            $excludedQueryParams = array("uid", "aid")
+        );
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script&gt;
@@ -158,13 +176,22 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $codeImpl['optionsBeforeTrackerUrl'] .= "_paq.push(['setAPIUrl', 'http://localhost/statistics']);\n    ";
         });
 
-        $jsTag = $generator->generate($idSite = 1, $piwikUrl = 'http://localhost/piwik',
-            $mergeSubdomains = true, $groupPageTitlesByDomain = true, $mergeAliasUrls = true,
+        $jsTag = $generator->generate(
+            $idSite = 1,
+            $piwikUrl = 'http://localhost/piwik',
+            $mergeSubdomains = true,
+            $groupPageTitlesByDomain = true,
+            $mergeAliasUrls = true,
             $visitorCustomVariables = array(array("name", "value"), array("name 2", "value 2")),
             $pageCustomVariables = array(array("page cvar", "page cvar value")),
-            $customCampaignNameQueryParam = "campaignKey", $customCampaignKeywordParam = "keywordKey",
-            $doNotTrack = true, $disableCookies = false, $trackNoScript = false,
-            $crossDomain = false, $excludedQueryParams = array("uid", "aid"));
+            $customCampaignNameQueryParam = "campaignKey",
+            $customCampaignKeywordParam = "keywordKey",
+            $doNotTrack = true,
+            $disableCookies = false,
+            $trackNoScript = false,
+            $crossDomain = false,
+            $excludedQueryParams = array("uid", "aid")
+        );
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script&gt;
@@ -208,8 +235,13 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $codeImpl['loadAsync'] = false;
         });
 
-        $jsTag = $generator->generate($idSite = 1, $piwikUrl = 'http://localhost/piwik',
-            $mergeSubdomains = true, $groupPageTitlesByDomain = true, $mergeAliasUrls = true);
+        $jsTag = $generator->generate(
+            $idSite = 1,
+            $piwikUrl = 'http://localhost/piwik',
+            $mergeSubdomains = true,
+            $groupPageTitlesByDomain = true,
+            $mergeAliasUrls = true
+        );
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script&gt;

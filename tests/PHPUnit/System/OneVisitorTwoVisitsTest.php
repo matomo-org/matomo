@@ -222,7 +222,12 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
         try
         {
             Archive::build(
-                'all', 'day', self::$fixture->dateTime, $segment = false, $_restrictToLogin = 'anotherLogin');
+                'all',
+                'day',
+                self::$fixture->dateTime,
+                $segment = false,
+                $_restrictToLogin = 'anotherLogin'
+            );
             $this->fail("Restricting sites to invalid login did not return 0 sites.");
         } catch (Exception $ex)
         {
