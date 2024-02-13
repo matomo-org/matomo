@@ -47,21 +47,40 @@ class SomePageGoalVisitsWithConversions extends Fixture
 
         // Newsletter signup goal
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
-            APIGoals::getInstance()->addGoal($this->idSite, 'Goal 1', 'event_action', 'click',
-                'contains', false, 10);
+            APIGoals::getInstance()->addGoal(
+                $this->idSite,
+                'Goal 1',
+                'event_action',
+                'click',
+                'contains',
+                false,
+                10
+            );
         }
 
         // Contact me signup goal
         if (!self::goalExists($idSite = 1, $idGoal = 2)) {
-            APIGoals::getInstance()->addGoal($this->idSite, 'Goal "<2~$%+"', 'event_action', 'press',
-                'contains', false, 10);
+            APIGoals::getInstance()->addGoal(
+                $this->idSite,
+                'Goal "<2~$%+"',
+                'event_action',
+                'press',
+                'contains',
+                false,
+                10
+            );
         }
     }
 
     private function setUpSegment()
     {
-        APISegmentEditor::getInstance()->add('goalsByCountry', 'countryCode==' . $this->segmentCountryCode,
-                                             $this->idSite, true, true);
+        APISegmentEditor::getInstance()->add(
+            'goalsByCountry',
+            'countryCode==' . $this->segmentCountryCode,
+            $this->idSite,
+            true,
+            true
+        );
     }
 
     private function doPageVisit($t, string $pageLetter, ?string $subPage = null)

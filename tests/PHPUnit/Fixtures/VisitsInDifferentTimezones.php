@@ -34,14 +34,28 @@ class VisitsInDifferentTimezones extends Fixture
     {
         // tests run in UTC, the Tracker in UTC
         if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'site in AST', $siteUrl = false,
-                                $siteSearch = 1, $searchKeywordParameters = null,
-                                $searchCategoryParameters = null, $timezone = 'America/Barbados' /* AST = UTC-4 */);
+            self::createWebsite(
+                $this->dateTime,
+                $ecommerce = 0,
+                $siteName = 'site in AST',
+                $siteUrl = false,
+                $siteSearch = 1,
+                $searchKeywordParameters = null,
+                $searchCategoryParameters = null,
+                $timezone = 'America/Barbados' /* AST = UTC-4 */
+            );
         }
         if (!self::siteCreated($idSite = 2)) {
-            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'site in UTC', $siteUrl = false,
-                $siteSearch = 1, $searchKeywordParameters = null,
-                $searchCategoryParameters = null, $timezone = 'UTC');
+            self::createWebsite(
+                $this->dateTime,
+                $ecommerce = 0,
+                $siteName = 'site in UTC',
+                $siteUrl = false,
+                $siteSearch = 1,
+                $searchKeywordParameters = null,
+                $searchCategoryParameters = null,
+                $timezone = 'UTC'
+            );
         }
     }
 

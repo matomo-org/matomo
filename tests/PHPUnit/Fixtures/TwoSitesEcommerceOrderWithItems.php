@@ -47,8 +47,14 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
 
         if (!self::goalExists($this->idSite, $this->idGoalStandard)) {
             API::getInstance()->addGoal(
-                $this->idSite, 'title match, triggered ONCE', 'title', 'incredible', 'contains',
-                $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true
+                $this->idSite,
+                'title match, triggered ONCE',
+                'title',
+                'incredible',
+                'contains',
+                $caseSensitive = false,
+                $revenue = 10,
+                $allowMultipleConversions = true
             );
         }
     }

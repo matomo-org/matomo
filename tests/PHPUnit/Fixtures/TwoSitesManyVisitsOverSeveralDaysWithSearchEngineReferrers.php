@@ -43,9 +43,20 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
         $siteCreated = $this->dateTime;
 
         if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite($siteCreated, 0, false, false, 1, null,
-                null, null, null, 0, null,
-                self::EXCLUDED_REFERRER_URL);
+            self::createWebsite(
+                $siteCreated,
+                0,
+                false,
+                false,
+                1,
+                null,
+                null,
+                null,
+                null,
+                0,
+                null,
+                self::EXCLUDED_REFERRER_URL
+            );
         }
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
@@ -54,7 +65,15 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
 
         if (!self::goalExists($idSite = 1, $idGoal = 2)) {
             API::getInstance()->addGoal(
-                $this->idSite, 'another triggered php', 'manually', '', '', false, false, true);
+                $this->idSite,
+                'another triggered php',
+                'manually',
+                '',
+                '',
+                false,
+                false,
+                true
+            );
         }
 
         if (!self::siteCreated($idSite = 2)) {
