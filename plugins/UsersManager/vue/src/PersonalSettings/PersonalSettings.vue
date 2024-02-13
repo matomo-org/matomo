@@ -96,9 +96,7 @@
       <PasswordConfirmation
         v-model="showPasswordConfirmation"
         @confirmed="doSave"
-      >
-        <h2>{{ translate('UsersManager_ConfirmWithPassword') }}</h2>
-      </PasswordConfirmation>
+      />
     </form>
   </ContentBlock>
 </template>

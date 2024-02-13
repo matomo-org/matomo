@@ -140,9 +140,7 @@
     <PasswordConfirmation
       v-model="showPasswordConfirmationForInviteAction"
       @confirmed="onInviteAction"
-    >
-      <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
-    </PasswordConfirmation>
+    />
   </div>
 </template>
 

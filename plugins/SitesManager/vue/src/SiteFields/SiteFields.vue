@@ -186,7 +186,6 @@
     >
         <h2>{{ removeDialogTitle }}</h2>
         <p>{{ translate('SitesManager_DeleteSiteExplanation') }}</p>
-        <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
     </PasswordConfirmation>
   </div>
 </template>

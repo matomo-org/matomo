@@ -38,9 +38,7 @@
     <PasswordConfirmation
       v-model="showPasswordConfirmModal"
       @confirmed="confirmPassword"
-    >
-      <h2>{{ translate('UsersManager_ConfirmWithPassword') }}</h2>
-    </PasswordConfirmation>
+    />
   </div>
 </template>
 

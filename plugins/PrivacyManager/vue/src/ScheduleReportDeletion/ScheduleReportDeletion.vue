@@ -97,15 +97,12 @@
       <PasswordConfirmation
         v-model="showPasswordConfirmModal"
         @confirmed="save"
-      >
-        <h2>{{ translate('UsersManager_ConfirmWithPassword') }}</h2>
-      </PasswordConfirmation>
+      />
       <PasswordConfirmation
         v-model="showPasswordConfirmModalForPurge"
         @confirmed="executePurgeNow"
       >
         <h2>{{ translate('PrivacyManager_PurgeNowConfirm') }}</h2>
-        <div>{{ translate('UsersManager_ConfirmWithPassword') }}</div>
       </PasswordConfirmation>
     </ContentBlock>
   </div>

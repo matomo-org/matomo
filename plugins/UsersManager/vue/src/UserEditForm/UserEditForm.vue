@@ -163,9 +163,7 @@
             <PasswordConfirmation
               v-model="showPasswordConfirmationForInviteUser"
               @confirmed="inviteUser"
-            >
-              <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
-            </PasswordConfirmation>
+            />
           </div>
           <div
             class="entityCancel"
@@ -253,7 +251,6 @@
             @confirmed="reset2FA"
           >
             <h2>{{ translate('UsersManager_AreYouSure') }}</h2>
-            <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
           </PasswordConfirmation>
         </div>
       </div>
@@ -263,7 +260,6 @@
       @confirmed="updateUser"
     >
       <h2 v-html="$sanitize(changePasswordTitle)"></h2>
-      <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
     </PasswordConfirmation>
   </ContentBlock>
 </template>
