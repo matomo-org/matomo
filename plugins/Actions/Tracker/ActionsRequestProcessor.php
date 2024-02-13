@@ -55,10 +55,16 @@ class ActionsRequestProcessor extends RequestProcessor
 
         // save the exit actions of the last action in this visit as the referrer actions for the action being tracked.
         // when the visit is updated, these columns will be changed, so we have to do this before recordLogs
-        $request->setMetadata('Actions', 'idReferrerActionUrl',
-            $visitProperties->getProperty('visit_exit_idaction_url'));
-        $request->setMetadata('Actions', 'idReferrerActionName',
-            $visitProperties->getProperty('visit_exit_idaction_name'));
+        $request->setMetadata(
+            'Actions',
+            'idReferrerActionUrl',
+            $visitProperties->getProperty('visit_exit_idaction_url')
+        );
+        $request->setMetadata(
+            'Actions',
+            'idReferrerActionName',
+            $visitProperties->getProperty('visit_exit_idaction_name')
+        );
     }
 
     public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)

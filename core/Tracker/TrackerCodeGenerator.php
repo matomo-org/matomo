@@ -182,9 +182,16 @@ class TrackerCodeGenerator
             $codeImpl['protocol'] = 'https://';
         }
 
-        $parameters = compact('mergeSubdomains', 'groupPageTitlesByDomain', 'mergeAliasUrls', 'visitorCustomVariables',
-            'pageCustomVariables', 'customCampaignNameQueryParam', 'customCampaignKeywordParam',
-            'doNotTrack');
+        $parameters = compact(
+            'mergeSubdomains',
+            'groupPageTitlesByDomain',
+            'mergeAliasUrls',
+            'visitorCustomVariables',
+            'pageCustomVariables',
+            'customCampaignNameQueryParam',
+            'customCampaignKeywordParam',
+            'doNotTrack'
+        );
 
         /**
          * Triggered when generating JavaScript tracking code server side. Plugins can use

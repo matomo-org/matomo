@@ -366,8 +366,17 @@ class ProcessedReport
         }
 
         // Is this report found in the Metadata available reports?
-        $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language,
-            $period, $date, $hideMetricsDoc, $showSubtableReports = true);
+        $reportMetadata = $this->getMetadata(
+            $idSite,
+            $apiModule,
+            $apiAction,
+            $apiParameters,
+            $language,
+            $period,
+            $date,
+            $hideMetricsDoc,
+            $showSubtableReports = true
+        );
         if (empty($reportMetadata)) {
             throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports. \n");
         }
