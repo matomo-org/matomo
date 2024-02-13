@@ -80,7 +80,8 @@ class Dashboard extends \Piwik\Plugin
 
     private function getDashboards()
     {
-        return Request::processRequest('Dashboard.getDashboards',
+        return Request::processRequest(
+            'Dashboard.getDashboards',
             ['filter_limit' => '-1', 'filter_offset' => 0],
             []
         );

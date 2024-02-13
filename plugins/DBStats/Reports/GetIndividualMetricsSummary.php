@@ -27,8 +27,12 @@ class GetIndividualMetricsSummary extends Base
     public function configureView(ViewDataTable $view)
     {
         $this->addBaseDisplayProperties($view);
-        $this->addPresentationFilters($view, $addTotalSizeColumn = false, $addPercentColumn = false,
-            $sizeColumns = array('estimated_size'));
+        $this->addPresentationFilters(
+            $view,
+            $addTotalSizeColumn = false,
+            $addPercentColumn = false,
+            $sizeColumns = array('estimated_size')
+        );
 
         $view->requestConfig->filter_sort_order = 'asc';
         $view->config->addTranslation('label', Piwik::translate('General_Metric'));

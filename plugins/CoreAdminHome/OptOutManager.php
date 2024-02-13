@@ -259,9 +259,15 @@ class OptOutManager
     window.MatomoConsent = {  };
 </script>
 HTML;
-        return str_replace('window.MatomoConsent = {  };', $this->getOptOutCommonJS(),
-               str_replace('style=""', ($applyStyling ? 'style="' . $styleSheet . '"' : ''),
-               str_replace("var settings = {};", $settingsString, $code)));
+        return str_replace(
+            'window.MatomoConsent = {  };',
+            $this->getOptOutCommonJS(),
+            str_replace(
+                'style=""',
+                ($applyStyling ? 'style="' . $styleSheet . '"' : ''),
+                str_replace("var settings = {};", $settingsString, $code)
+            )
+        );
     }
 
     /**
@@ -297,8 +303,10 @@ HTML;
 
         // If the language parameter is 'auto' then use the browser language
         if ($language === 'auto') {
-            $language = Common::extractLanguageAndRegionCodeFromBrowserLanguage(Common::getBrowserLanguage(),
-                                       APILanguagesManager::getInstance()->getAvailableLanguages());
+            $language = Common::extractLanguageAndRegionCodeFromBrowserLanguage(
+                Common::getBrowserLanguage(),
+                APILanguagesManager::getInstance()->getAvailableLanguages()
+            );
         }
 
         $settings = [
@@ -385,9 +393,15 @@ HTML;
         window.MatomoConsent = {  };        
 JS;
 
-        return str_replace('window.MatomoConsent = {  };', $this->getOptOutCommonJS(),
-            str_replace('stylecss', $styleSheet,
-            str_replace("var settings = {};", $settingsString, $code)));
+        return str_replace(
+            'window.MatomoConsent = {  };',
+            $this->getOptOutCommonJS(),
+            str_replace(
+                'stylecss',
+                $styleSheet,
+                str_replace("var settings = {};", $settingsString, $code)
+            )
+        );
     }
 
     /**

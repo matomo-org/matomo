@@ -98,9 +98,11 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
             $field->inlineHelp = Piwik::translate('CoreAdminHome_DevelopmentProcess')
                             . '<br/>'
-                            . Piwik::translate('CoreAdminHome_StableReleases',
-                                               ["<a target='_blank' rel='noreferrer noopener' href='" . Url::addCampaignParametersToMatomoLink('https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development') . "'>",
-                                                     "</a>"])
+                            . Piwik::translate(
+                                'CoreAdminHome_StableReleases',
+                                ["<a target='_blank' rel='noreferrer noopener' href='" . Url::addCampaignParametersToMatomoLink('https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development') . "'>",
+                                "</a>"]
+                            )
                             . '<br/>'
                             . Piwik::translate('CoreAdminHome_LtsReleases');
         });

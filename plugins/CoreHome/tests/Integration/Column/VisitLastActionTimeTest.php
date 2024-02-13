@@ -58,9 +58,16 @@ class VisitLastActionTimeTest extends IntegrationTestCase
 
     public function test_convertHourToHourInSiteTimezone_WithTimezone()
     {
-        $idSite = Fixture::createWebsite('2020-01-02 03:04:05', $ecommerce = 1, 'Site', $siteUrl = false,
-            $siteSearch = 1, $searchKeywordParameters = null,
-            $searchCategoryParameters = null, $timezone = 'Asia/Jakarta');
+        $idSite = Fixture::createWebsite(
+            '2020-01-02 03:04:05',
+            $ecommerce = 1,
+            'Site',
+            $siteUrl = false,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $timezone = 'Asia/Jakarta'
+        );
         $hourConverted = VisitLastActionTime::convertHourToHourInSiteTimezone(5, $idSite);
         $this->assertEquals(12, $hourConverted);
     }
@@ -69,9 +76,16 @@ class VisitLastActionTimeTest extends IntegrationTestCase
     {
         $_GET['period'] = 'day';
         $_GET['date'] = '2020-01-02 03:04:05';
-        $idSite = Fixture::createWebsite('2020-01-02 03:04:05', $ecommerce = 1, 'Site', $siteUrl = false,
-            $siteSearch = 1, $searchKeywordParameters = null,
-            $searchCategoryParameters = null, $timezone = 'Asia/Jakarta');
+        $idSite = Fixture::createWebsite(
+            '2020-01-02 03:04:05',
+            $ecommerce = 1,
+            'Site',
+            $siteUrl = false,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $timezone = 'Asia/Jakarta'
+        );
         $hourConverted = VisitLastActionTime::convertHourToHourInSiteTimezone(5, $idSite);
         unset($_GET['period'], $_GET['date']);
         $this->assertEquals(12, $hourConverted);

@@ -76,7 +76,9 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 
         $filename = sprintf('system.%s.tar.bz2', $buildNumber);
         $urlBase  = sprintf('https://builds-artifacts.matomo.org/%s/%s', $repository, $filename);
-        $tests    = Http::sendHttpRequest($urlBase, $timeout = 120,
+        $tests    = Http::sendHttpRequest(
+            $urlBase,
+            $timeout = 120,
             $userAgent = null,
             $destinationPath = null,
             $followDepth = 0,
@@ -85,7 +87,8 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
             $getExtendedInfo = false,
             $httpMethod = 'GET',
             $httpUser,
-            $httpPassword);
+            $httpPassword
+        );
 
         $tarFile = $tmpDir . $filename;
         file_put_contents($tarFile, $tests);

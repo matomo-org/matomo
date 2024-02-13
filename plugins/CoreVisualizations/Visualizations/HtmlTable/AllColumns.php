@@ -50,7 +50,8 @@ class AllColumns extends HtmlTable
             }
 
             $columnsToDisplay = array_merge(
-                $columnsToDisplay, array('nb_actions', 'nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate')
+                $columnsToDisplay,
+                array('nb_actions', 'nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate')
             );
 
             // only display conversion rate for the plugins that do not provide "per goal" metrics

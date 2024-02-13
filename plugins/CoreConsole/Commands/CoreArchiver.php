@@ -89,41 +89,88 @@ class CoreArchiver extends ConsoleCommand
   but it is recommended to run it via command line/CLI instead.
 * If you have any suggestion about this script, please let the team know at feedback@matomo.org
 * Enjoy!");
-        $command->addRequiredValueOption('url', null,
+        $command->addRequiredValueOption(
+            'url',
+            null,
             "Forces the value of this option to be used as the URL to Piwik. \nIf your system does not support"
             . " archiving with CLI processes, you may need to set this in order for the archiving HTTP requests to use"
-            . " the desired URLs.");
-        $command->addOptionalValueOption('skip-idsites', null,
-            'If specified, archiving will be skipped for these websites (in case these website ids would have been archived).');
-        $command->addNoValueOption('skip-all-segments', null,
-            'If specified, all segments will be skipped during archiving.');
-        $command->addOptionalValueOption('force-idsites', null,
-            'If specified, archiving will be processed only for these Sites Ids (comma separated)');
-        $command->addNoValueOption('skip-segments-today', null,
-            'If specified, segments will be only archived for yesterday, but not today. If the segment was created or changed recently, then it will still be archived for today and the setting will be ignored for this segment.');
-        $command->addOptionalValueOption('force-periods', null,
-            "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month,year,range)");
-        $command->addOptionalValueOption('force-date-last-n', null,
-            "Deprecated. Please use the \"process_new_segments_from\" INI configuration option instead.");
-        $command->addOptionalValueOption('force-date-range', null,
-            "If specified, archiving will be processed only for periods included in this date range. Format: YYYY-MM-DD,YYYY-MM-DD");
-        $command->addRequiredValueOption('force-idsegments', null,
+            . " the desired URLs."
+        );
+        $command->addOptionalValueOption(
+            'skip-idsites',
+            null,
+            'If specified, archiving will be skipped for these websites (in case these website ids would have been archived).'
+        );
+        $command->addNoValueOption(
+            'skip-all-segments',
+            null,
+            'If specified, all segments will be skipped during archiving.'
+        );
+        $command->addOptionalValueOption(
+            'force-idsites',
+            null,
+            'If specified, archiving will be processed only for these Sites Ids (comma separated)'
+        );
+        $command->addNoValueOption(
+            'skip-segments-today',
+            null,
+            'If specified, segments will be only archived for yesterday, but not today. If the segment was created or changed recently, then it will still be archived for today and the setting will be ignored for this segment.'
+        );
+        $command->addOptionalValueOption(
+            'force-periods',
+            null,
+            "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month,year,range)"
+        );
+        $command->addOptionalValueOption(
+            'force-date-last-n',
+            null,
+            "Deprecated. Please use the \"process_new_segments_from\" INI configuration option instead."
+        );
+        $command->addOptionalValueOption(
+            'force-date-range',
+            null,
+            "If specified, archiving will be processed only for periods included in this date range. Format: YYYY-MM-DD,YYYY-MM-DD"
+        );
+        $command->addRequiredValueOption(
+            'force-idsegments',
+            null,
             'If specified, only these segments will be processed (if the segment should be applied to a site in the first place).'
             . "\nSpecify stored segment IDs, not the segments themselves, eg, 1,2,3. "
-            . "\nNote: if identical segments exist w/ different IDs, they will both be skipped, even if you only supply one ID.");
-        $command->addOptionalValueOption('concurrent-requests-per-website', null,
-            "When processing a website and its segments, number of requests to process in parallel", CronArchive::MAX_CONCURRENT_API_REQUESTS);
-        $command->addOptionalValueOption('concurrent-archivers', null,
-            "The number of max archivers to run in parallel. Depending on how you start the archiver as a cronjob, you may need to double the amount of archivers allowed if the same process appears twice in the `ps ex` output.", 3);
-        $command->addRequiredValueOption('max-websites-to-process', null,
-            "Maximum number of websites to process during a single execution of the archiver. Can be used to limit the process lifetime e.g. to avoid increasing memory usage.");
-        $command->addRequiredValueOption('max-archives-to-process', null,
-            "Maximum number of archives to process during a single execution of the archiver. Can be used to limit the process lifetime e.g. to avoid increasing memory usage.");
-        $command->addNoValueOption('disable-scheduled-tasks', null,
-            "Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).");
-        $command->addNoValueOption('accept-invalid-ssl-certificate', null,
+            . "\nNote: if identical segments exist w/ different IDs, they will both be skipped, even if you only supply one ID."
+        );
+        $command->addOptionalValueOption(
+            'concurrent-requests-per-website',
+            null,
+            "When processing a website and its segments, number of requests to process in parallel",
+            CronArchive::MAX_CONCURRENT_API_REQUESTS
+        );
+        $command->addOptionalValueOption(
+            'concurrent-archivers',
+            null,
+            "The number of max archivers to run in parallel. Depending on how you start the archiver as a cronjob, you may need to double the amount of archivers allowed if the same process appears twice in the `ps ex` output.",
+            3
+        );
+        $command->addRequiredValueOption(
+            'max-websites-to-process',
+            null,
+            "Maximum number of websites to process during a single execution of the archiver. Can be used to limit the process lifetime e.g. to avoid increasing memory usage."
+        );
+        $command->addRequiredValueOption(
+            'max-archives-to-process',
+            null,
+            "Maximum number of archives to process during a single execution of the archiver. Can be used to limit the process lifetime e.g. to avoid increasing memory usage."
+        );
+        $command->addNoValueOption(
+            'disable-scheduled-tasks',
+            null,
+            "Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.)."
+        );
+        $command->addNoValueOption(
+            'accept-invalid-ssl-certificate',
+            null,
             "It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!\nIt can be "
-            . "useful if you specified --url=https://... or if you are using Piwik with force_ssl=1");
+            . "useful if you specified --url=https://... or if you are using Piwik with force_ssl=1"
+        );
         $command->addOptionalValueOption('php-cli-options', null, 'Forwards the PHP configuration options to the PHP CLI command. For example "-d memory_limit=8G". Note: These options are only applied if the archiver actually uses CLI and not HTTP.', $default = '');
         $command->addNoValueOption('force-all-websites', null, 'Force archiving all websites.');
         $command->addOptionalValueOption('force-report', null, 'If specified, only processes invalidations for a specific report in a specific plugin. Value must be in the format of "MyPlugin.myReport".');

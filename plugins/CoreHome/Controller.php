@@ -196,7 +196,9 @@ class Controller extends \Piwik\Plugin\Controller
             $todayLocalTimezone        = Date::factory('now', $this->site->getTimezone())->toString('Y-m-d');
 
             if ($creationDateLocalTimezone == $todayLocalTimezone) {
-                Piwik::redirectToModule('CoreHome', 'index',
+                Piwik::redirectToModule(
+                    'CoreHome',
+                    'index',
                     array('date'   => 'today',
                           'idSite' => $this->idSite,
                           'period' => Common::getRequestVar('period'))
