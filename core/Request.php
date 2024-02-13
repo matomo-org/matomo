@@ -165,12 +165,16 @@ class Request
     {
         $parameter = $this->getParameter($name, $default);
 
-        if (
-            (is_string($parameter) || is_numeric($parameter)) &&
-            ((string)$parameter === (string)(float)$parameter ||
-            (string)$parameter === (string)(int)$parameter)
-        ) {
+        if (is_float($parameter) || is_int($parameter)) {
             return (float)$parameter;
+        }
+
+        // Regex for all supported float notations in PHP. See https://www.php.net/manual/en/language.types.float.php
+        $floatRegex = "/^[-+]?((([0-9]+(_[0-9]+)*)|(([0-9]+(_[0-9]+)*)?\.([0-9]+(_[0-9]+)*))|(([0-9]+(_[0-9]+)*)\.([0-9]+(_[0-9]+)*)?))([eE][+-]?([0-9]+(_[0-9]+)*))?)$/";
+
+        if (is_string($parameter) && preg_match($floatRegex, $parameter)) {
+            // underscores would break numbers if not removed before
+            return (float) str_replace('_', '', $parameter);
         }
 
         if (null !== $default) {

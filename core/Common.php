@@ -553,10 +553,12 @@ class Common
                     $ok = true;
                 }
             } elseif ($varType === 'float') {
-                $valueToCompare = (string)(float)$value;
-                $valueToCompare = Common::forceDotAsSeparatorForDecimalPoint($valueToCompare);
+                $valueToCompare = Common::forceDotAsSeparatorForDecimalPoint($value);
 
-                if ($value == $valueToCompare) {
+                // simplyfied regex for float; without support for underscore notation
+                $floatRegex = "/^[+-]?((([0-9]+)|(([0-9]+)?\.([0-9]+))|(([0-9]+)\.([0-9]+)?))([eE][+-]?([0-9]+))?)$/";
+
+                if (preg_match($floatRegex, $valueToCompare)) {
                     $ok = true;
                 }
             } elseif ($varType === 'array') {
