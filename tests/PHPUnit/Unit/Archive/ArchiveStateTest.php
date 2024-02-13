@@ -29,7 +29,7 @@ class ArchiveStateTest extends TestCase
     private const IDSITE = 1;
 
     /**
-     * @dataProvider dataArchiveState
+     * @dataProvider getArchiveStateTestData
      */
     public function testArchiveState(
         string $date1,
@@ -61,7 +61,7 @@ class ArchiveStateTest extends TestCase
         $this->assertMetadataState($expectedMetadataState, $collection);
     }
 
-    public function dataArchiveState(): iterable
+    public function getArchiveStateTestData(): iterable
     {
         yield 'complete' => [
             '2020-01-31',
@@ -101,7 +101,7 @@ class ArchiveStateTest extends TestCase
     }
 
     /**
-     * @dataProvider dataCheckTsArchivedWithBorderTimezones
+     * @dataProvider getCheckTsArchivedWithBorderTimezonesTestData
      */
     public function testCheckTsArchivedWithBorderTimezones(
         string $timezone,
@@ -129,7 +129,7 @@ class ArchiveStateTest extends TestCase
         $this->assertMetadataState($expectedState, $collection);
     }
 
-    public function dataCheckTsArchivedWithBorderTimezones(): iterable
+    public function getCheckTsArchivedWithBorderTimezonesTestData(): iterable
     {
         yield 'UTC+14, complete' => [
             'UTC+14',

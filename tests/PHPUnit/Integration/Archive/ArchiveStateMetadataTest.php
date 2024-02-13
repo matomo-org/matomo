@@ -69,7 +69,7 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
     }
 
     /**
-     * @dataProvider archiveStateData
+     * @dataProvider getArchiveStateTestData
      *
      * @param array<string> $pluginsToInvalidate
      */
@@ -102,7 +102,7 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
     /**
      * @return iterable<string, array>
      */
-    public function archiveStateData(): iterable
+    public function getArchiveStateTestData(): iterable
     {
         $timestampToday = strtotime(self::$fixture->dateTime);
         $timestampTomorrow = $timestampToday + 86400;
