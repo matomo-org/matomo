@@ -237,7 +237,13 @@ class DataCollection
     public function getDataTable($resultIndices)
     {
         $dataTableFactory = new DataTableFactory(
-            $this->dataNames, $this->dataType, $this->sitesId, $this->periods, $this->segment, $this->defaultRow);
+            $this->dataNames,
+            $this->dataType,
+            $this->sitesId,
+            $this->periods,
+            $this->segment,
+            $this->defaultRow
+        );
 
         $index = $this->getIndexedArray($resultIndices);
 
@@ -254,7 +260,13 @@ class DataCollection
     public function getMergedDataTable($resultIndices)
     {
         $dataTableFactory = new DataTableFactory(
-            $this->dataNames, $this->dataType, $this->sitesId, $this->periods, $this->segment, $this->defaultRow);
+            $this->dataNames,
+            $this->dataType,
+            $this->sitesId,
+            $this->periods,
+            $this->segment,
+            $this->defaultRow
+        );
 
         $index = $this->getIndexedArray($resultIndices);
 
@@ -286,7 +298,13 @@ class DataCollection
         $this->checkExpandedMethodPrerequisites();
 
         $dataTableFactory = new DataTableFactory(
-            $this->dataNames, 'blob', $this->sitesId, $this->periods, $this->segment, $this->defaultRow);
+            $this->dataNames,
+            'blob',
+            $this->sitesId,
+            $this->periods,
+            $this->segment,
+            $this->defaultRow
+        );
         $dataTableFactory->expandDataTable($depth, $addMetadataSubTableId);
         $dataTableFactory->useSubtable($idSubTable);
 

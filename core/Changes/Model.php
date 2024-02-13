@@ -102,7 +102,8 @@ class Model
         if(!isset($change['version']) || !isset($change['title']) || !isset($change['description'])) {
             StaticContainer::get(LoggerInterface::class)->warning(
                 "Change item for plugin {plugin} missing version, title or description fields - ignored",
-                ['plugin' => $pluginName]);
+                ['plugin' => $pluginName]
+            );
             return;
         }
 
