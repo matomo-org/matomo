@@ -9,7 +9,7 @@
     <div class="modal-content">
       <div class="modal-text">
         <div ref="content"><slot></slot></div>
-        <h2 v-if="!slotHasContent && !requiresPasswordConfirmation">
+        <h2 v-if="!requiresPasswordConfirmation && !slotHasContent">
           {{ translate('UsersManager_ConfirmThisChange') }}
         </h2>
         <h2 v-if="requiresPasswordConfirmation && !slotHasContent">
