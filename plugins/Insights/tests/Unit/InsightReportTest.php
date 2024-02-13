@@ -438,8 +438,19 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
         $reportMetadata = array('name' => 'TestReport',  'metrics' => array('nb_visits' => 'Visits'));
 
         $report = $this->insightReport->generateMoverAndShaker(
-            $reportMetadata, 'day', '2012-12-12', '2012-12-11', 'nb_visits', $this->currentTable, $this->pastTable,
-            $totalValue, $lastTotalValue, $orderBy, $limitIncreaser, $limitDecreaser);
+            $reportMetadata,
+            'day',
+            '2012-12-12',
+            '2012-12-11',
+            'nb_visits',
+            $this->currentTable,
+            $this->pastTable,
+            $totalValue,
+            $lastTotalValue,
+            $orderBy,
+            $limitIncreaser,
+            $limitDecreaser
+        );
 
         return $report;
     }
@@ -453,9 +464,23 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
         $reportMetadata = array('name' => 'TestReport',  'metrics' => array('nb_visits' => 'Visits'));
 
         $report = $this->insightReport->generateInsight(
-                    $reportMetadata, 'day', '2012-12-12', '2012-12-11', 'nb_visits', $this->currentTable, $this->pastTable,
-                    $totalValue = 200, $minMoversPercent, $minNewPercent, $minDisappearedPercent,
-            $minGrowthPercentPositive, $minGrowthPercentNegative, $orderBy, $limitIncreaser, $limitDecreaser);
+            $reportMetadata,
+            'day',
+            '2012-12-12',
+            '2012-12-11',
+            'nb_visits',
+            $this->currentTable,
+            $this->pastTable,
+            $totalValue = 200,
+            $minMoversPercent,
+            $minNewPercent,
+            $minDisappearedPercent,
+            $minGrowthPercentPositive,
+            $minGrowthPercentNegative,
+            $orderBy,
+            $limitIncreaser,
+            $limitDecreaser
+        );
 
         return $report;
     }

@@ -226,8 +226,17 @@ class API extends \Piwik\Plugin\API
 
         $limit = Config::getInstance()->General['live_visitor_profile_max_visits_to_aggregate'];
 
-        $visits = $this->loadLastVisitsDetailsFromDatabase($idSite, $period = false, $date = false, $segment,
-            $offset = 0, $limit, false, false, $visitorId);
+        $visits = $this->loadLastVisitsDetailsFromDatabase(
+            $idSite,
+            $period = false,
+            $date = false,
+            $segment,
+            $offset = 0,
+            $limit,
+            false,
+            false,
+            $visitorId
+        );
         $this->addFilterToCleanVisitors($visits, $idSite, $flat = false, $doNotFetchActions = false, $filterNow = true);
 
         if ($visits->getRowsCount() == 0) {
@@ -255,21 +264,38 @@ class API extends \Piwik\Plugin\API
         $minTimestamp = Date::now()->subDay(7)->getTimestamp();
 
         $dataTable = $this->loadLastVisitsDetailsFromDatabase(
-            $idSite, $period = false, $date = false, $segment, $offset = 0, $limit = 1, $minTimestamp
+            $idSite,
+            $period = false,
+            $date = false,
+            $segment,
+            $offset = 0,
+            $limit = 1,
+            $minTimestamp
         );
 
         if (0 >= $dataTable->getRowsCount()) {
             $minTimestamp = Date::now()->subYear(1)->getTimestamp();
             // no visitor found in last 7 days, look further back for up to 1 year. This query will be slower
             $dataTable = $this->loadLastVisitsDetailsFromDatabase(
-                $idSite, $period = false, $date = false, $segment, $offset = 0, $limit = 1, $minTimestamp
+                $idSite,
+                $period = false,
+                $date = false,
+                $segment,
+                $offset = 0,
+                $limit = 1,
+                $minTimestamp
             );
         }
 
         if (0 >= $dataTable->getRowsCount()) {
             // no visitor found in last year, look over all logs. This query might be quite slow
             $dataTable = $this->loadLastVisitsDetailsFromDatabase(
-                $idSite, $period = false, $date = false, $segment, $offset = 0, $limit = 1
+                $idSite,
+                $period = false,
+                $date = false,
+                $segment,
+                $offset = 0,
+                $limit = 1
             );
         }
 

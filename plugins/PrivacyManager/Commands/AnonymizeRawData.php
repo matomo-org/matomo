@@ -79,19 +79,23 @@ class AnonymizeRawData extends ConsoleCommand
         }
 
         if (!empty($visitColumnsToUnset)
-            && !$this->confirmAnonymize($startDate,
-                                        $endDate,
-                                        'unset the log_visit columns "' . implode(', ', $visitColumnsToUnset) . '"')) {
+            && !$this->confirmAnonymize(
+                $startDate,
+                $endDate,
+                'unset the log_visit columns "' . implode(', ', $visitColumnsToUnset) . '"'
+            )) {
             $visitColumnsToUnset = false;
             $output->writeln('<info>SKIPPING unset log_visit columns.</info>');
         }
         if (!empty($linkVisitActionColumns)
-            && !$this->confirmAnonymize($startDate,
-                                        $endDate,
-                                        'unset the log_link_visit_action columns "' . implode(
-                                            ', ',
-                                            $linkVisitActionColumns
-                                        ) . '"')) {
+            && !$this->confirmAnonymize(
+                $startDate,
+                $endDate,
+                'unset the log_link_visit_action columns "' . implode(
+                    ', ',
+                    $linkVisitActionColumns
+                ) . '"'
+            )) {
             $linkVisitActionColumns = false;
             $output->writeln('<info>SKIPPING unset log_link_visit_action columns.</info>');
         }

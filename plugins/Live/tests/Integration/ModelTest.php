@@ -215,15 +215,15 @@ class ModelTest extends IntegrationTestCase
         $model = new Model();
         list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
         list($sql, $bind) = $model->makeLogVisitsQueryString(
-                $idSite = 1,
-                $dateStart,
-                $dateEnd,
-                $segment = false,
-                $offset = 0,
-                $limit = 100,
-                $visitorId = false,
-                $minTimestamp = false,
-                $filterSortOrder = false
+            $idSite = 1,
+            $dateStart,
+            $dateEnd,
+            $segment = false,
+            $offset = 0,
+            $limit = 100,
+            $visitorId = false,
+            $minTimestamp = false,
+            $filterSortOrder = false
         );
         $expectedSql = ' SELECT log_visit.*
                     FROM ' . Common::prefixTable('log_visit') . ' AS log_visit
@@ -250,15 +250,15 @@ class ModelTest extends IntegrationTestCase
         $model = new Model();
         list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
         list($sql, $bind) = $model->makeLogVisitsQueryString(
-                $idSite = 1,
-                $dateStart,
-                $dateEnd,
-                $segment = false,
-                $offset = 0,
-                $limit = 100,
-                $visitorId = false,
-                $minTimestamp = false,
-                $filterSortOrder = false
+            $idSite = 1,
+            $dateStart,
+            $dateEnd,
+            $segment = false,
+            $offset = 0,
+            $limit = 100,
+            $visitorId = false,
+            $minTimestamp = false,
+            $filterSortOrder = false
         );
         $expectedSql = ' SELECT log_visit.*
                     FROM ' . Common::prefixTable('log_visit') . ' AS log_visit
@@ -284,15 +284,15 @@ class ModelTest extends IntegrationTestCase
 
         list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
         list($sql, $bind) = $model->makeLogVisitsQueryString(
-                $idSite = 1,
-                $dateStart,
-                $dateEnd,
-                $segment = false,
-                $offset = 15,
-                $limit = 100,
-                $visitorId = false,
-                $minTimestamp = false,
-                $filterSortOrder = false
+            $idSite = 1,
+            $dateStart,
+            $dateEnd,
+            $segment = false,
+            $offset = 15,
+            $limit = 100,
+            $visitorId = false,
+            $minTimestamp = false,
+            $filterSortOrder = false
         );
         $expectedSql = ' SELECT log_visit.*
                     FROM ' . Common::prefixTable('log_visit') . ' AS log_visit

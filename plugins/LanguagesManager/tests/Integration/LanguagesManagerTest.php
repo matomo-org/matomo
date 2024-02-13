@@ -147,8 +147,11 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
         $translations = $translator->getAllTranslations();
         foreach ($translations as $plugin => $pluginTranslations) {
             foreach ($pluginTranslations as $key => $pluginTranslation) {
-                $this->assertLessThanOrEqual(1, substr_count($pluginTranslation, '%s'),
-                    sprintf('%s.%s must use numbered placeholders instead of multiple %%s', $plugin, $key));
+                $this->assertLessThanOrEqual(
+                    1,
+                    substr_count($pluginTranslation, '%s'),
+                    sprintf('%s.%s must use numbered placeholders instead of multiple %%s', $plugin, $key)
+                );
             }
         }
     }
@@ -173,8 +176,11 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
             foreach ($pluginTranslations as $key => $pluginTranslation) {
                 $pluginTranslation = preg_replace('/(%(?:[1-9]\$)?[a-z])/', '', $pluginTranslation); // remove placeholders
                 $pluginTranslation = str_replace('%%', '', $pluginTranslation); // remove already escaped symbols
-                $this->assertEquals(0, substr_count($pluginTranslation, '%'),
-                    sprintf('%s.%s must use escaped %% symbols', $plugin, $key));
+                $this->assertEquals(
+                    0,
+                    substr_count($pluginTranslation, '%'),
+                    sprintf('%s.%s must use escaped %% symbols', $plugin, $key)
+                );
             }
         }
     }

@@ -254,7 +254,11 @@ export default defineComponent({
 
         // TODOO: handle arrays
         $snippets[] = $this->formSnippet(
-            'language', ['language', 'phoneNumber', 'selectedExpand'], ['1', '[\'1\']', 'null'], [1, ['1'], null], '<div v-form>
+            'language',
+            ['language', 'phoneNumber', 'selectedExpand'],
+            ['1', '[\'1\']', 'null'],
+            [1, ['1'], null],
+            '<div v-form>
   <Field
     uicontrol="select"
     name="language"
@@ -280,7 +284,8 @@ export default defineComponent({
     :options="[{group: \'Group 1\',key:\'1\',value:\'Hello\'}, {group: \'Group 1\',key:\'2\',value:\'How\',tooltip: \'Help text\'}, {group: \'Group 1\',key:\'3\',value:\'Are\'}, {group: \'Group 2\',key:\'4\',value:\'You\'}]"
     v-model="selectedExpand"
   />
-</div>');
+</div>'
+        );
 
         $snippets[] = $this->formSnippet('multitupletext', 'values', '[]', [], '<div v-form>
   <Field
@@ -293,9 +298,12 @@ export default defineComponent({
   />
 </div>');
 
-        $snippets[] = $this->formSnippet('multitupletextvalue', 'values',
+        $snippets[] = $this->formSnippet(
+            'multitupletextvalue',
+            'values',
             '[{\'index\': \'test\', \'value\':\'myfoo\'},{\'index\': \'test 2\', \'value\':\'myfoo 2\'}]',
-            [['index' => 'test', 'value' => 'myfoo'], ['index' => 'test 2', 'value' => 'myfoo 2']], '<div v-form>
+            [['index' => 'test', 'value' => 'myfoo'], ['index' => 'test 2', 'value' => 'myfoo 2']],
+            '<div v-form>
   <Field
     uicontrol="multituple"
     name="multitupletextvalue"
@@ -304,11 +312,15 @@ export default defineComponent({
     :ui-control-attributes="{\'field1\':{\'key\':\'index\',\'title\':\'Index\',\'uiControl\':\'text\',\'availableValues\':null},\'field2\':{\'key\':\'value\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null}}"
     v-model="values"
   />
-</div>');
+</div>'
+        );
 
-        $snippets[] = $this->formSnippet('multitupleselect', 'values',
+        $snippets[] = $this->formSnippet(
+            'multitupleselect',
+            'values',
             '[{\'index\': \'test\', \'value\': \'myfoo\'}]',
-            [["index" => "test", "value" => "myfoo"]], '<div v-form>
+            [["index" => "test", "value" => "myfoo"]],
+            '<div v-form>
   <Field
     uicontrol="multituple"
     name="multitupleselect"
@@ -317,7 +329,8 @@ export default defineComponent({
     :ui-control-attributes="{\'field1\':{\'key\':\'index\',\'title\':\'Index\',\'uiControl\':\'select\',\'availableValues\':{\'test\':\'test\'}},\'field2\':{\'key\':\'value\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null}}"
     v-model="values"
   />
-</div>');
+</div>'
+        );
 
         $snippets[] = $this->formSnippet('multitupletext2', 'values', '[]', [], '<div v-form>
   <Field
@@ -330,9 +343,12 @@ export default defineComponent({
   />
 </div>');
 
-        $snippets[] = $this->formSnippet('multitupletextvalue2', 'values',
+        $snippets[] = $this->formSnippet(
+            'multitupletextvalue2',
+            'values',
             "[{'index': 'test', 'value':'myfoo'},{'index': 'test 2', 'value':'myfoo 2'}]",
-            [["index" => "test", "value" => "myfoo"], ["index" => "test 2", "value" => "myfoo 2"]], '<div v-form>
+            [["index" => "test", "value" => "myfoo"], ["index" => "test 2", "value" => "myfoo 2"]],
+            '<div v-form>
   <Field
     uicontrol="multituple"
     name="multitupletextvalue2"
@@ -341,11 +357,15 @@ export default defineComponent({
     :ui-control-attributes="{\'field1\':{\'key\':\'index\',\'title\':\'Index\',\'uiControl\':\'text\',\'availableValues\':null},\'field2\':{\'key\':\'value\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null},\'field3\':{\'key\':\'value2\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null}}"
     v-model="values"
   />
-</div>');
+</div>'
+        );
 
-        $snippets[] = $this->formSnippet('multitupleselect2', 'values',
+        $snippets[] = $this->formSnippet(
+            'multitupleselect2',
+            'values',
             '[{\'index\': \'test\', \'value\': \'myfoo\'}]',
-            [['index' => 'test', 'value' => 'myfoo']], '<div v-form>
+            [['index' => 'test', 'value' => 'myfoo']],
+            '<div v-form>
   <Field
     uicontrol="multituple"
     name="multitupleselect2"
@@ -355,7 +375,8 @@ export default defineComponent({
     v-model="values"
     rows="3"
   />
-</div>');
+</div>'
+        );
 
         $snippets[] = $this->formSnippet('multitupletext3', 'values', '[]', [], '<div v-form>
   <Field
@@ -380,9 +401,12 @@ export default defineComponent({
   />
 </div>');
 
-        $snippets[] = $this->formSnippet('multitupletextvalue3', 'values',
+        $snippets[] = $this->formSnippet(
+            'multitupletextvalue3',
+            'values',
             '[{\'index\': \'test\', \'value\':\'myfoo\'},{\'index\': \'test 2\', \'value\':\'myfoo 2\'}]',
-            [["index" => "test", "value" => "myfoo"], ["index" => "test 2", "value" => "myfoo 2"]], '<div v-form>
+            [["index" => "test", "value" => "myfoo"], ["index" => "test 2", "value" => "myfoo 2"]],
+            '<div v-form>
   <Field
     uicontrol="multituple"
     name="multitupletextvalue3"
@@ -391,11 +415,15 @@ export default defineComponent({
     :ui-control-attributes="{\'field1\':{\'key\':\'index\',\'title\':\'Index\',\'uiControl\':\'text\',\'availableValues\':null},\'field2\':{\'key\':\'value\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null},\'field3\':{\'key\':\'value2\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null},\'field4\':{\'key\':\'value3\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null}}"
     v-model="values"
   />
-</div>');
+</div>'
+        );
 
-        $snippets[] = $this->formSnippet('multitupleselect3', 'values',
-        '[{\'index\': \'test\', \'value\': \'myfoo\'}]',
-            [["index" => "test", "value" => "myfoo"]], '<div v-form>
+        $snippets[] = $this->formSnippet(
+            'multitupleselect3',
+            'values',
+            '[{\'index\': \'test\', \'value\': \'myfoo\'}]',
+            [["index" => "test", "value" => "myfoo"]],
+            '<div v-form>
   <Field
     uicontrol="multituple"
     name="multitupleselect3"
@@ -404,11 +432,15 @@ export default defineComponent({
     :ui-control-attributes="{\'field1\':{\'key\':\'index\',\'title\':\'Index\',\'uiControl\':\'select\',\'availableValues\':{\'test\':\'test\'}},\'field2\':{\'key\':\'value\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null},\'field3\':{\'key\':\'value2\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null},\'field4\':{\'key\':\'value3\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null}}"
     v-model="values"
   />
-</div>');
+</div>'
+        );
 
-        $snippets[] = $this->formSnippet('multituplesingleselect', 'values',
+        $snippets[] = $this->formSnippet(
+            'multituplesingleselect',
+            'values',
             '[{\'index\': \'test\', \'value\': \'myfoo\'}]',
-            [["index" => "test", "value" => "myfoo"]], '<div v-form>
+            [["index" => "test", "value" => "myfoo"]],
+            '<div v-form>
   <Field
     uicontrol="multituple"
     name="multituplesingleselect"
@@ -417,11 +449,15 @@ export default defineComponent({
     :ui-control-attributes="{\'field1\':{\'key\':\'index\',\'title\':\'Index\',\'uiControl\':\'select\',\'availableValues\':{\'test\':\'test\'}}}"
     v-model="values"
   />
-</div>');
+</div>'
+        );
 
-        $snippets[] = $this->formSnippet('multituplesingletext', 'values',
+        $snippets[] = $this->formSnippet(
+            'multituplesingletext',
+            'values',
             '[{\'index\': \'test\', \'value\': \'myfoo\'}]',
-            [["index" => "test", "value" => "myfoo"]], '<div v-form>
+            [["index" => "test", "value" => "myfoo"]],
+            '<div v-form>
   <Field
     uicontrol="multituple"
     name="multituplesingletext"
@@ -430,7 +466,8 @@ export default defineComponent({
     :ui-control-attributes="{\'field1\':{\'key\':\'index\',\'title\':\'Index\',\'uiControl\':\'text\',\'availableValues\':null}}"
     v-model="values"
   />
-</div>');
+</div>'
+        );
 
         $snippets[] = $this->formSnippet('text-field-array', 'values', "['text one', 'text two']", ['text one', 'text two'], '<div v-form>
   <Field
@@ -455,8 +492,12 @@ export default defineComponent({
   />
 </div>');
 
-        $snippets[] = $this->formSnippet('enableFeatures', ['enable', 'enableArray', 'defaultReportDate'],
-            ['false', '[]', 'null'], [false, [], null], '<div v-form>
+        $snippets[] = $this->formSnippet(
+            'enableFeatures',
+            ['enable', 'enableArray', 'defaultReportDate'],
+            ['false', '[]', 'null'],
+            [false, [], null],
+            '<div v-form>
   <Field
     uicontrol="checkbox"
     name="enableFeature"
@@ -482,7 +523,8 @@ export default defineComponent({
     inline-help="This is a help text that can be used to describe the field. This help text may extend over several lines."
     v-model="defaultReportDate"
   />
-</div>');
+</div>'
+        );
 
         $snippets[] = $this->formSnippet('currentsite', ['site', 'isDisabled', 'saveCount', 'isLoading'], ['null', 'false', '0', 'false'], [null, false, 0, false], '<div v-form>
   <Field

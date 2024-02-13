@@ -140,13 +140,15 @@ class API extends \Piwik\Plugin\API
                 APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin);
             }
         } else {
-            $sites = Request::processRequest('SitesManager.getPatternMatchSites',
+            $sites = Request::processRequest(
+                'SitesManager.getPatternMatchSites',
                 array('pattern'   => $pattern,
                       // added because caller could overwrite these
                       'limit'       => SettingsPiwik::getWebsitesCountToDisplay(),
                       'showColumns' => '',
                       'hideColumns' => '',
-                      'format'      => 'original'));
+                'format'      => 'original')
+            );
 
             if (!empty($sites)) {
                 Site::setSitesFromArray($sites);
