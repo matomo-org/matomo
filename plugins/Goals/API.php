@@ -541,8 +541,10 @@ class API extends \Piwik\Plugin\API
             } finally {
                 \Piwik\Plugin\Archiver::$ARCHIVE_DEPENDENT = $startingArchiveDependent;
             }
-            $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
-                array($appendToMetricName));
+            $tableSegmented->filter(
+                'Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
+                array($appendToMetricName)
+            );
 
             if (!isset($table)) {
                 $table = $tableSegmented;
@@ -779,11 +781,19 @@ class API extends \Piwik\Plugin\API
     public function getDaysToConversion($idSite, $period, $date, $segment = false, $idGoal = false)
     {
         $dataTable = $this->getGoalSpecificDataTable(
-            Archiver::DAYS_UNTIL_CONV_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
+            Archiver::DAYS_UNTIL_CONV_RECORD_NAME,
+            $idSite,
+            $period,
+            $date,
+            $segment,
+            $idGoal
+        );
 
         $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
         $dataTable->queueFilter(
-            'BeautifyRangeLabels', array(Piwik::translate('Intl_OneDay'), Piwik::translate('Intl_NDays')));
+            'BeautifyRangeLabels',
+            array(Piwik::translate('Intl_OneDay'), Piwik::translate('Intl_NDays'))
+        );
 
         return $dataTable;
     }
@@ -804,11 +814,19 @@ class API extends \Piwik\Plugin\API
     public function getVisitsUntilConversion($idSite, $period, $date, $segment = false, $idGoal = false)
     {
         $dataTable = $this->getGoalSpecificDataTable(
-            Archiver::VISITS_UNTIL_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
+            Archiver::VISITS_UNTIL_RECORD_NAME,
+            $idSite,
+            $period,
+            $date,
+            $segment,
+            $idGoal
+        );
 
         $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
         $dataTable->queueFilter(
-            'BeautifyRangeLabels', array(Piwik::translate('General_OneVisit'), Piwik::translate('General_NVisits')));
+            'BeautifyRangeLabels',
+            array(Piwik::translate('General_OneVisit'), Piwik::translate('General_NVisits'))
+        );
 
         return $dataTable;
     }
@@ -830,8 +848,14 @@ class API extends \Piwik\Plugin\API
         }
 
         // Enrich the datatable with Product/Categories views, and conversion rates
-        $customVariables = \Piwik\Plugins\CustomVariables\API::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false,
-            $_leavePiwikCoreVariables = true);
+        $customVariables = \Piwik\Plugins\CustomVariables\API::getInstance()->getCustomVariables(
+            $idSite,
+            $period,
+            $date,
+            $segment,
+            $expanded = false,
+            $_leavePiwikCoreVariables = true
+        );
         $mapping = array(
             'Goals_ItemsSku'      => '_pks',
             'Goals_ItemsName'     => '_pkn',

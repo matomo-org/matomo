@@ -37,17 +37,17 @@ class FeedbackTest extends IntegrationTestCase
 
         $this->userModel = new Model();
         $this->userModel->addUser(
-          'user1',
-          'a98732d98732',
-          'user1@example.com',
-          '2019-03-03'
+            'user1',
+            'a98732d98732',
+            'user1@example.com',
+            '2019-03-03'
         );
 
         $this->userModel->addUser(
-          'user2',
-          'a98732d98732',
-          'user2@example.com',
-          Date('Y-m-d')
+            'user2',
+            'a98732d98732',
+            'user2@example.com',
+            Date('Y-m-d')
         );
         FakeAccess::$identity = 'user1';
         FakeAccess::$superUser = false;

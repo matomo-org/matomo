@@ -432,8 +432,10 @@ class Php extends GeoIp2
         $desc = Piwik::translate('GeoIp2_LocationProviderDesc_Php') . '<br/><br/>';
 
         if (extension_loaded('maxminddb')) {
-            $desc .= Piwik::translate('GeoIp2_LocationProviderDesc_Php_WithExtension',
-                array('<strong>', '</strong>'));
+            $desc .= Piwik::translate(
+                'GeoIp2_LocationProviderDesc_Php_WithExtension',
+                array('<strong>', '</strong>')
+            );
         }
 
         $installDocs = '<a rel="noreferrer"  target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_163') . '">'

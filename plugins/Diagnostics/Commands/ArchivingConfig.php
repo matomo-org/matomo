@@ -21,8 +21,11 @@ class ArchivingConfig extends ConsoleCommand
     protected function configure()
     {
         $this->setName('diagnostics:archiving-config');
-        $this->addNoValueOption('json', null,
-            "If supplied, the command will return data in json format");
+        $this->addNoValueOption(
+            'json',
+            null,
+            "If supplied, the command will return data in json format"
+        );
         $this->setDescription('Show configuration settings that can affect archiving performance');
     }
 
