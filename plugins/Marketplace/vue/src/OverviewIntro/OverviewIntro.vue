@@ -59,6 +59,20 @@
       :query="query"
       :num-available-plugins="numAvailablePlugins"
     />
+
+    <PluginList
+      :plugins-to-show="pluginsToShow"
+      :is-auto-update-possible="isAutoUpdatePossible"
+      :is-super-user="isSuperUser"
+      :is-multi-server-environment="isMultiServerEnvironment"
+      :is-plugins-admin-enabled="isPluginsAdminEnabled"
+      :is-valid-consumer="isValidConsumer"
+      :show-themes="showThemes"
+      :deactivate-nonce="deactivateNonce"
+      :activate-nonce="activateNonce"
+      :install-nonce="installNonce"
+      :update-nonce="updateNonce"
+    />
   </div>
 </template>
 
@@ -68,6 +82,7 @@ import { ContentIntro, EnrichedHeadline, translate } from 'CoreHome';
 import { PluginName, UploadPluginDialog } from 'CorePluginsAdmin';
 import Marketplace from '../Marketplace/Marketplace.vue';
 import LicenseKey from '../LicenseKey/LicenseKey.vue';
+import PluginList from '../PluginList/PluginList.vue';
 
 export default defineComponent({
   props: {
@@ -77,12 +92,25 @@ export default defineComponent({
     isSuperUser: Boolean,
     isAutoUpdatePossible: Boolean,
     isPluginsAdminEnabled: Boolean,
+    isMultiServerEnvironment: Boolean,
     hasLicenseKey: Boolean,
     paidPluginsToInstallAtOnce: {
       type: Array,
       required: true,
     },
     installNonce: {
+      type: String,
+      required: true,
+    },
+    activateNonce: {
+      type: String,
+      required: true,
+    },
+    deactivateNonce: {
+      type: String,
+      required: true,
+    },
+    updateNonce: {
       type: String,
       required: true,
     },
@@ -118,6 +146,7 @@ export default defineComponent({
     },
   },
   components: {
+    PluginList,
     EnrichedHeadline,
     UploadPluginDialog,
     LicenseKey,

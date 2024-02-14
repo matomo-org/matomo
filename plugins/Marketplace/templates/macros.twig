@@ -3,38 +3,6 @@
     {% if 'piwik' == owner or 'matomo-org' == owner %}<img title="Matomo" alt="Matomo" style="padding-bottom:2px;height:12px;" src="plugins/Morpheus/images/logo-dark.svg"/>{% else %}{{ owner }}{% endif %}
 {% endmacro %}
 
-{% macro matomoPluginBadge(owner, extraClass='') %}
-    {% if 'piwik' == owner or 'matomo-org' == owner %}<img class="matomo-badge {{ extraClass }}" src="plugins/Marketplace/images/matomo-badge.png" aria-label="Matomo plugin" alt="">{% endif %}
-{% endmacro %}
-
-{% macro helpLink(plugin) %}
-    <a tabindex="7" class="plugin-details" href="#" vue-directive="CorePluginsAdmin.PluginName" vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>
-{% endmacro %}
-
-{% macro pluginActionButtonMoreDetails(plugin) %}
-    <a tabindex="7"
-       class="btn btn-block"
-       href="#"
-       vue-directive="CorePluginsAdmin.PluginName"
-       vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}"
-       title="{{ 'General_MoreDetails'|translate }}"
-    >
-        {{ 'General_MoreDetails'|translate }}
-    </a>
-{% endmacro %}
-
-{% macro pluginActionButtonStartFreeTrial(plugin) %}
-    <a tabindex="7"
-       class="btn btn-block purchaseable"
-       href="#"
-       vue-directive="CorePluginsAdmin.PluginStartFreeTrial"
-       vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}"
-       title="{{ 'Marketplace_StartFreeTrial'|translate }}"
-    >
-        {{ 'Marketplace_StartFreeTrial'|translate }}
-    </a>
-{% endmacro %}
-
 {% macro featuredIcon(align='') %}
     <img class="featuredIcon"
          title="{{ 'Marketplace_FeaturedPlugin'|translate }}"

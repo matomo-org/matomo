@@ -263,6 +263,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
+        foreach ($pluginsToShow as &$plugin) {
+            if ($plugin['isDownloadable']) {
+                $plugin['downloadNonce'] = Nonce::getNonce($plugin['name']);
+            }
+        }
+
         $view->paidPluginsToInstallAtOnce = $paidPluginsToInstallAtOnce;
         $view->pluginsToShow = $pluginsToShow;
         $view->isValidConsumer = $this->consumer->isValidConsumer();
