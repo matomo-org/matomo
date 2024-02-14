@@ -1,182 +1,576 @@
-{"plugins":[{"name":"AnotherBlackTheme",
-  "displayName":"Another Black Theme",
-  "owner":"tsteur",
-  "description":"A black theme based on PleineLune",
-  "homepage":"http:\/\/piwik.org",
-  "createdDateTime":"2014-12-23 00:39:16",
-  "donate":{},"support":[],"isTheme":true,"keywords":["live",
-    "tab"],"basePrice":0,"authors":[{"name":"The Piwik Team",
-    "email":"test1@example.com",
-    "homepage":"http:\/\/piwik.org"}],"repositoryUrl":"https:\/\/github.com\/tsteur\/piwik-anotherblack-theme",
-  "lastUpdated":"2014-12-23 00:39:16",
-  "latestVersion":"0.1.0",
-  "numDownloads":0,"screenshots":["https:\/\/themes.piwik.org\/AnotherBlackTheme\/images\/0.1.0\/Admin.png",
-    "https:\/\/themes.piwik.org\/AnotherBlackTheme\/images\/0.1.0\/All_Websites_Dashboard.png",
-    "https:\/\/themes.piwik.org\/AnotherBlackTheme\/images\/0.1.0\/Report.png"],"previews":[],"activity":{"numCommits":"3",
-    "numContributors":"1",
-    "lastCommitDate":"1970-01-01 00:33:33"},"featured":false,"isFree":true,"isPaid":false,"isCustomPlugin":false,"shop":null,"versions":[{"name":"0.1.0",
-    "release":"2014-12-23 00:39:16",
-    "requires":{},"numDownloads":0,"license":{"name":"GPLv3+",
-      "url":"http:\/\/themes.piwik.org\/AnotherBlackTheme\/0.1.0\/license"},"repositoryChangelogUrl":"https:\/\/github.com\/tsteur\/piwik-anotherblack-theme\/commits\/0.1.0",
-    "readmeHtml":{"description":"\n\n<p>A beautiful dark theme.<\/p>\n\n",
-      "faq":"<p><strong>Does it contain black?<\/strong>\nYes, it does.<\/p>\n\n<p><strong>Does it contain blue?<\/strong>\nYes, quite a lot.<\/p>",
-      "documentation":"",
-      "changelog":"<p><strong>0.1.0<\/strong>\n* Initial release<\/p>"},"download":"\/api\/2.0\/plugins\/AnotherBlackTheme\/download\/0.1.0"}],"isDownloadable":true,"changelog":{"url":"http:\/\/themes.piwik.org\/AnotherBlackTheme\/changelog"},"consumer":{"license":null}},{"name":"Darkness",
-  "displayName":"Darkness",
-  "owner":"TheCrowsJoker",
-  "description":"A dark theme for piwik",
-  "homepage":"https:\/\/github.com\/TheCrowsJoker\/DarknessPiwikTheme",
-  "createdDateTime":"2015-01-14 01:32:03",
-  "donate":{},"support":[],"isTheme":true,"keywords":[],"basePrice":0,"authors":[],"repositoryUrl":"https:\/\/github.com\/TheCrowsJoker\/DarknessPiwikTheme",
-  "lastUpdated":"2015-01-15 21:18:04",
-  "latestVersion":"0.1.4",
-  "numDownloads":3624,"screenshots":[],"previews":[],"activity":{"numCommits":"6",
-    "numContributors":"1",
-    "lastCommitDate":"2015-01-15 21:17:10"},"featured":false,"isFree":true,"isPaid":false,"isCustomPlugin":false,"shop":null,"versions":[{"name":"0.1.3",
-    "release":"2015-01-14 01:32:04",
-    "requires":{"piwik":">=2.11.0-b2,<6.0.0-b1"},"numDownloads":18,"license":{"name":"GPLv3+",
-      "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/TheCrowsJoker\/DarknessPiwikTheme\/commits\/v0.2",
-    "readmeHtml":{"description":"",
-      "faq":"",
-      "changelog":"",
-      "documentation":""},"download":"\/api\/2.0\/plugins\/Darkness\/download\/0.1.3"},{"name":"0.1.4",
-    "release":"2015-01-15 21:18:04",
-    "requires":{"piwik":">=2.11.0-b2,<6.0.0-b1"},"numDownloads":3606,"license":{"name":"GPLv3+",
-      "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/TheCrowsJoker\/DarknessPiwikTheme\/commits\/0.1.0",
-    "readmeHtml":{"description":"\n\n<p>This is a dark theme for piwik. It is great for viewing your piwik dashboard after the sun has gone down or just for lovers of darkness.<\/p>\n\n",
-      "faq":"",
-      "documentation":"",
-      "changelog":"<p>1.0 Initial release<\/p>"},"download":"\/api\/2.0\/plugins\/Darkness\/download\/0.1.4"}],"isDownloadable":true,"changelog":{"url":"http:\/\/themes.piwik.org\/Darkness\/changelog"},"consumer":{"license":null}},{"name":"Proteus_Bold",
-  "displayName":"Proteus_ Bold",
-  "owner":"ldidsbury",
-  "description":"The Proteus_Bold theme uses bold font that is easy-to-read with colors like that of the sea.",
-  "homepage":"https:\/\/github.com\/ldidsbury\/Proteus_Bold-PiwikTheme",
-  "createdDateTime":"2015-02-20 22:02:03",
-  "donate":{"paypal":"lawrence@winchesterresearch.it",
-    "bitcoin":null},"support":[],"isTheme":true,"keywords":[],"basePrice":0,"authors":[],"repositoryUrl":"https:\/\/github.com\/ldidsbury\/Proteus_Bold-PiwikTheme",
-  "lastUpdated":"2015-02-21 02:48:03",
-  "latestVersion":"0.1.4",
-  "numDownloads":2838,"screenshots":[],"previews":[],"activity":{"numCommits":"8",
-    "numContributors":"1",
-    "lastCommitDate":"2015-09-15 19:11:07"},"featured":false,"isFree":true,"isPaid":false,"isCustomPlugin":false,"shop":null,"versions":[{"name":"0.1.3",
-    "release":"2015-02-20 22:02:03",
-    "requires":{},"numDownloads":10,"license":{"name":"GPLv3+",
-      "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/ldidsbury\/Proteus_Bold-PiwikTheme\/commits\/v0.1.1",
-    "readmeHtml":{"description":"",
-      "faq":"",
-      "changelog":"",
-      "documentation":""},"download":"\/api\/2.0\/plugins\/Proteus_Bold\/download\/0.1.3"},{"name":"0.1.4",
-    "release":"2015-02-21 02:48:03",
-    "requires":{},"numDownloads":2828,"license":{"name":"GPLv3+",
-      "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/ldidsbury\/Proteus_Bold-PiwikTheme\/commits\/v0.1.1",
-    "readmeHtml":{"description":"\n\n<p>Bold and easy-to-read...the Proteus_Bold theme for Piwik Analytics. Proteus was an early Greek god of the sea, capable of changing his appearance.  The Proteus_Bold theme uses bold font that is easy-to-read with calming colors like that of the sea.<\/p>\n\n",
-      "faq":"<p>Q.  Want to design a theme for Piwik? \nA.  Go to https:\/\/developer.piwik.org\/guides\/theming to learn how.<\/p>",
-      "documentation":"",
-      "changelog":"<p>Version 0.1.2 \n-Basic theme adjustments, testing the process.<\/p>\n\n<p>Version 0.1.3 \n-Updated version number and Changelog<\/p>\n\n<p>Version 0.1.4 \n-Updated version number in json, \n-Updated Changelog, and \n-Edited description text length for the Piwik marketplace viewing<\/p>"},"download":"\/api\/2.0\/plugins\/Proteus_Bold\/download\/0.1.4"}],"isDownloadable":true,"changelog":{"url":"http:\/\/themes.piwik.org\/Proteus_Bold\/changelog"},"consumer":{"license":null}},{"name":"Terrano",
-  "displayName":"Terrano",
-  "owner":"nstallinger",
-  "description":"A neutral and natural theme made during the Catalyst Project Week.",
-  "homepage":"https:\/\/github.com\/nstallinger\/piwik_theme_terrano",
-  "createdDateTime":"2016-01-20 20:14:03",
-  "donate":{},"support":[],"isTheme":true,"keywords":[],"basePrice":0,"authors":[],"repositoryUrl":"https:\/\/github.com\/nstallinger\/piwik_theme_terrano",
-  "lastUpdated":"2016-01-20 20:58:02",
-  "latestVersion":"1.4.0",
-  "numDownloads":1014,"screenshots":[],"previews":[],"activity":{"numCommits":"9",
-    "numContributors":"1",
-    "lastCommitDate":"2016-01-20 20:57:44"},"featured":false,"isFree":true,"isPaid":false,"isCustomPlugin":false,"shop":null,"versions":[{"name":"0.1.0",
-    "release":"2016-01-20 20:14:03",
-    "requires":{},"numDownloads":2,"license":{"name":"GPLv3+",
-      "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/nstallinger\/piwik_theme_terrano\/commits\/v0.1.1",
-    "readmeHtml":{"description":"",
-      "faq":"",
-      "changelog":"",
-      "documentation":""},"download":"\/api\/2.0\/plugins\/Terrano\/download\/0.1.0"},{"name":"1.4.0",
-    "release":"2016-01-20 20:58:02",
-    "requires":{},"numDownloads":1012,"license":{"name":"GPLv3+",
-      "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/nstallinger\/piwik_theme_terrano\/commits\/v0.1.1",
-    "readmeHtml":{"description":"\n\n<p>A neutral and natural theme made during the Catalyst Project Week.<\/p>",
-      "faq":"",
-      "documentation":"",
-      "changelog":""},"download":"\/api\/2.0\/plugins\/Terrano\/download\/1.4.0"}],"isDownloadable":true,"changelog":{"url":"http:\/\/themes.piwik.org\/Terrano\/changelog"},"consumer":{"license":null}},{"name":"CoffeeCup",
-  "displayName":"Coffee Cup",
-  "owner":"RobotHoboDanceParty",
-  "description":"A shoothing background for those who missed their first cup of the day.",
-  "homepage":"https:\/\/github.com\/RobotHoboDanceParty\/piwik-coffee-cup-theme",
-  "createdDateTime":"2016-01-20 20:18:03",
-  "donate":{},"support":[],"isTheme":true,"keywords":[],"basePrice":0,"authors":[],"repositoryUrl":"https:\/\/github.com\/RobotHoboDanceParty\/piwik-coffee-cup-theme",
-  "lastUpdated":"2016-01-20 20:34:02",
-  "latestVersion":"0.1.3",
-  "numDownloads":961,"screenshots":[],"previews":[],"activity":{"numCommits":"6",
-    "numContributors":"1",
-    "lastCommitDate":"2016-01-20 20:33:03"},"featured":false,"isFree":true,"isPaid":false,"isCustomPlugin":false,"shop":null,"versions":[{"name":"0.1.0",
-    "release":"2016-01-20 20:18:03",
-    "requires":{},"numDownloads":1,"license":{"name":"GPLv3+",
-      "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/RobotHoboDanceParty\/piwik-coffee-cup-theme\/commits\/v0.1.2",
-    "readmeHtml":{"description":"",
-      "faq":"",
-      "changelog":"",
-      "documentation":""},"download":"\/api\/2.0\/plugins\/CoffeeCup\/download\/0.1.0"},{"name":"0.1.3",
-    "release":"2016-01-20 20:34:02",
-    "requires":{},"numDownloads":960,"license":{"name":"GPLv3+",
-      "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/RobotHoboDanceParty\/piwik-coffee-cup-theme\/commits\/v0.1.1",
-    "readmeHtml":{"description":"\n\n<p>A soothing background for those who missed their first cup of the day.<\/p>",
-      "faq":"",
-      "documentation":"",
-      "changelog":""},"download":"\/api\/2.0\/plugins\/CoffeeCup\/download\/0.1.3"}],"isDownloadable":true,"changelog":{"url":"http:\/\/themes.piwik.org\/CoffeeCup\/changelog"},"consumer":{"license":null}},{"name":"Vale",
-  "displayName":"Vale",
-  "owner":"ashleighpearson",
-  "description":"A muted red, white, and blue theme",
-  "homepage":"https:\/\/github.com\/ashleighpearson\/apcustomthemes",
-  "createdDateTime":"2016-01-20 20:20:03",
-  "donate":{},"support":[],"isTheme":true,"keywords":[],"basePrice":0,"authors":[],"repositoryUrl":"https:\/\/github.com\/ashleighpearson\/apcustomthemes",
-  "lastUpdated":"2016-01-20 21:08:03",
-  "latestVersion":"0.1.3",
-  "numDownloads":930,"screenshots":[],"previews":[],"activity":{"numCommits":"4",
-    "numContributors":"1",
-    "lastCommitDate":"2016-01-20 21:07:41"},"featured":false,"isFree":true,"isPaid":false,"isCustomPlugin":false,"shop":null,"versions":[{"name":"0.1.0",
-    "release":"2016-01-20 20:20:03",
-    "requires":{},"numDownloads":4,"license":{"name":"GPLv3+",
-      "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/ashleighpearson\/apcustomthemes\/commits\/v0.1.1",
-    "readmeHtml":{"description":"",
-      "faq":"",
-      "changelog":"",
-      "documentation":""},"download":"\/api\/2.0\/plugins\/Vale\/download\/0.1.0"},{"name":"0.1.3",
-    "release":"2016-01-20 21:08:03",
-    "requires":{},"numDownloads":926,"license":{"name":"GPLv3+",
-      "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/ashleighpearson\/apcustomthemes\/commits\/v0.1.1",
-    "readmeHtml":{"description":"\n\n<p>A muted red, white, and blue theme, giving Piwik a cool, calm feel. Good colour contrast makes things easy to read, as well as creating an overall pleasant aesthetic. Created during the 2016 Catalyst Open Source Academy.<\/p>\n\n",
-      "faq":"",
-      "documentation":"",
-      "changelog":"<p>Version 0.1.0: First public release\nVersion 0.1.1: Minor code fixes\nVersion 0.1.2: Typo fixes\nVersion 0.1.3: Typo fixes, more screenshots<\/p>"},"download":"\/api\/2.0\/plugins\/Vale\/download\/0.1.3"}],"isDownloadable":true,"changelog":{"url":"http:\/\/themes.piwik.org\/Vale\/changelog"},"consumer":{"license":null}},{"name":"ModernBlue",
-  "displayName":"Modern Blue",
-  "owner":"cuzzea",
-  "description":"Modern Blue theme for Piwik.",
-  "homepage":null,"createdDateTime":"2016-03-18 09:06:03",
-  "donate":{"paypal":"cuzzea@gmail.com",
-    "bitcoin":null},"support":[],"isTheme":true,"keywords":[],"basePrice":0,"authors":[],"repositoryUrl":"https:\/\/github.com\/cuzzea\/piwik-theme-modern-blue",
-  "lastUpdated":"2016-03-18 09:06:03",
-  "latestVersion":"0.1.0",
-  "numDownloads":757,"screenshots":[],"previews":[],"activity":{"numCommits":null,"numContributors":null,"lastCommitDate":"2016-03-18 09:04:26"},"featured":false,"isFree":true,"isPaid":false,"isCustomPlugin":false,"shop":null,"versions":[{"name":"0.1.0",
-    "release":"2016-03-18 09:06:03",
-    "requires":{},"numDownloads":757,"license":{"name":"GPLv3+",
-      "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/cuzzea\/piwik-theme-modern-blue\/commits\/v0.1.1",
-    "readmeHtml":{"description":"\n\n<p>Modern Blue theme for Piwik<\/p>\n\n",
-      "faq":"<p><strong>No FAQ at the moment<\/strong><\/p>",
-      "documentation":"",
-      "changelog":"<ul><li>0.1.0: First beta<\/li>\n<\/ul>"},"download":"\/api\/2.0\/plugins\/ModernBlue\/download\/0.1.0"}],"isDownloadable":true,"changelog":{"url":"http:\/\/themes.piwik.org\/ModernBlue\/changelog"},"consumer":{"license":null}},{"name":"ModernGreen",
-  "displayName":"Modern Green",
-  "owner":"cuzzea",
-  "description":"Modern Green theme for Piwik.",
-  "homepage":null,"createdDateTime":"2016-03-18 09:22:03",
-  "donate":{"paypal":"cuzzea@gmail.com",
-    "bitcoin":null},"support":[],"isTheme":true,"keywords":[],"basePrice":0,"authors":[],"repositoryUrl":"https:\/\/github.com\/cuzzea\/piwik-theme-modern-green",
-  "lastUpdated":"2016-03-18 09:22:03",
-  "latestVersion":"0.1.0",
-  "numDownloads":710,"screenshots":[],"previews":[],"activity":{"numCommits":null,"numContributors":null,"lastCommitDate":"2016-03-18 09:21:07"},"featured":false,"isFree":true,"isPaid":false,"isCustomPlugin":false,"shop":null,"versions":[{"name":"0.1.0",
-    "release":"2016-03-18 09:22:03",
-    "requires":{},"numDownloads":710,"license":{"name":"GPLv3+",
-      "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/cuzzea\/piwik-theme-modern-green\/commits\/v0.1.2",
-    "readmeHtml":{"description":"\n\n<p>Modern Green theme for Piwik<\/p>\n\n",
-      "faq":"<p><strong>No FAQ at the moment<\/strong><\/p>",
-      "documentation":"",
-      "changelog":"<ul><li>0.1.0: First beta<\/li>\n<\/ul>"},"download":"\/api\/2.0\/plugins\/ModernGreen\/download\/0.1.0"}],"isDownloadable":true,"changelog":{"url":"http:\/\/themes.piwik.org\/ModernGreen\/changelog"},"consumer":{"license":null}}]}
+{
+  "plugins": [
+    {
+      "name": "AnotherBlackTheme",
+      "displayName": "Another Black Theme",
+      "owner": "tsteur",
+      "description": "A black theme based on PleineLune",
+      "homepage": "http:\/\/piwik.org",
+      "createdDateTime": "2014-12-23 00:39:16",
+      "donate": {},
+      "support": [],
+      "isTheme": true,
+      "keywords": [
+        "live",
+        "tab"
+      ],
+      "basePrice": 0,
+      "authors": [
+        {
+          "name": "The Piwik Team",
+          "email": "test1@example.com",
+          "homepage": "http:\/\/piwik.org"
+        }
+      ],
+      "repositoryUrl": "https:\/\/github.com\/tsteur\/piwik-anotherblack-theme",
+      "lastUpdated": "2014-12-23 00:39:16",
+      "latestVersion": "0.1.0",
+      "numDownloads": 0,
+      "screenshots": [
+        "https:\/\/themes.piwik.org\/AnotherBlackTheme\/images\/0.1.0\/Admin.png",
+        "https:\/\/themes.piwik.org\/AnotherBlackTheme\/images\/0.1.0\/All_Websites_Dashboard.png",
+        "https:\/\/themes.piwik.org\/AnotherBlackTheme\/images\/0.1.0\/Report.png"
+      ],
+      "previews": [],
+      "activity": {
+        "numCommits": "3",
+        "numContributors": "1",
+        "lastCommitDate": "1970-01-01 00:33:33"
+      },
+      "featured": false,
+      "isFree": true,
+      "isPaid": false,
+      "isCustomPlugin": false,
+      "shop": null,
+      "versions": [
+        {
+          "name": "0.1.0",
+          "release": "2014-12-23 00:39:16",
+          "requires": {},
+          "numDownloads": 0,
+          "license": {
+            "name": "GPLv3+",
+            "url": "http:\/\/themes.piwik.org\/AnotherBlackTheme\/0.1.0\/license"
+          },
+          "repositoryChangelogUrl": "https:\/\/github.com\/tsteur\/piwik-anotherblack-theme\/commits\/0.1.0",
+          "readmeHtml": {
+            "description": "\n\n<p>A beautiful dark theme.<\/p>\n\n",
+            "faq": "<p><strong>Does it contain black?<\/strong>\nYes, it does.<\/p>\n\n<p><strong>Does it contain blue?<\/strong>\nYes, quite a lot.<\/p>",
+            "documentation": "",
+            "changelog": "<p><strong>0.1.0<\/strong>\n* Initial release<\/p>"
+          },
+          "download": "\/api\/2.0\/plugins\/AnotherBlackTheme\/download\/0.1.0"
+        }
+      ],
+      "isDownloadable": true,
+      "changelog": {
+        "url": "http:\/\/themes.piwik.org\/AnotherBlackTheme\/changelog"
+      },
+      "consumer": {
+        "license": null
+      }
+    },
+    {
+      "name": "Darkness",
+      "displayName": "Darkness",
+      "owner": "TheCrowsJoker",
+      "description": "A dark theme for piwik",
+      "homepage": "https:\/\/github.com\/TheCrowsJoker\/DarknessPiwikTheme",
+      "createdDateTime": "2015-01-14 01:32:03",
+      "donate": {},
+      "support": [],
+      "isTheme": true,
+      "keywords": [],
+      "basePrice": 0,
+      "authors": [],
+      "repositoryUrl": "https:\/\/github.com\/TheCrowsJoker\/DarknessPiwikTheme",
+      "lastUpdated": "2015-01-15 21:18:04",
+      "latestVersion": "0.1.4",
+      "numDownloads": 3624,
+      "screenshots": [],
+      "previews": [],
+      "activity": {
+        "numCommits": "6",
+        "numContributors": "1",
+        "lastCommitDate": "2015-01-15 21:17:10"
+      },
+      "featured": false,
+      "isFree": true,
+      "isPaid": false,
+      "isCustomPlugin": false,
+      "shop": null,
+      "versions": [
+        {
+          "name": "0.1.3",
+          "release": "2015-01-14 01:32:04",
+          "requires": {
+            "piwik": ">=2.11.0-b2,<6.0.0-b1"
+          },
+          "numDownloads": 18,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": "https:\/\/github.com\/TheCrowsJoker\/DarknessPiwikTheme\/commits\/v0.2",
+          "readmeHtml": {
+            "description": "",
+            "faq": "",
+            "changelog": "",
+            "documentation": ""
+          },
+          "download": "\/api\/2.0\/plugins\/Darkness\/download\/0.1.3"
+        },
+        {
+          "name": "0.1.4",
+          "release": "2015-01-15 21:18:04",
+          "requires": {
+            "piwik": ">=2.11.0-b2,<6.0.0-b1"
+          },
+          "numDownloads": 3606,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": "https:\/\/github.com\/TheCrowsJoker\/DarknessPiwikTheme\/commits\/0.1.0",
+          "readmeHtml": {
+            "description": "\n\n<p>This is a dark theme for piwik. It is great for viewing your piwik dashboard after the sun has gone down or just for lovers of darkness.<\/p>\n\n",
+            "faq": "",
+            "documentation": "",
+            "changelog": "<p>1.0 Initial release<\/p>"
+          },
+          "download": "\/api\/2.0\/plugins\/Darkness\/download\/0.1.4"
+        }
+      ],
+      "isDownloadable": true,
+      "changelog": {
+        "url": "http:\/\/themes.piwik.org\/Darkness\/changelog"
+      },
+      "consumer": {
+        "license": null
+      }
+    },
+    {
+      "name": "Proteus_Bold",
+      "displayName": "Proteus_ Bold",
+      "owner": "ldidsbury",
+      "description": "The Proteus_Bold theme uses bold font that is easy-to-read with colors like that of the sea.",
+      "homepage": "https:\/\/github.com\/ldidsbury\/Proteus_Bold-PiwikTheme",
+      "createdDateTime": "2015-02-20 22:02:03",
+      "donate": {
+        "paypal": "lawrence@winchesterresearch.it",
+        "bitcoin": null
+      },
+      "support": [],
+      "isTheme": true,
+      "keywords": [],
+      "basePrice": 0,
+      "authors": [],
+      "repositoryUrl": "https:\/\/github.com\/ldidsbury\/Proteus_Bold-PiwikTheme",
+      "lastUpdated": "2015-02-21 02:48:03",
+      "latestVersion": "0.1.4",
+      "numDownloads": 2838,
+      "screenshots": [],
+      "previews": [],
+      "activity": {
+        "numCommits": "8",
+        "numContributors": "1",
+        "lastCommitDate": "2015-09-15 19:11:07"
+      },
+      "featured": false,
+      "isFree": true,
+      "isPaid": false,
+      "isCustomPlugin": false,
+      "shop": null,
+      "versions": [
+        {
+          "name": "0.1.3",
+          "release": "2015-02-20 22:02:03",
+          "requires": {},
+          "numDownloads": 10,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": "https:\/\/github.com\/ldidsbury\/Proteus_Bold-PiwikTheme\/commits\/v0.1.1",
+          "readmeHtml": {
+            "description": "",
+            "faq": "",
+            "changelog": "",
+            "documentation": ""
+          },
+          "download": "\/api\/2.0\/plugins\/Proteus_Bold\/download\/0.1.3"
+        },
+        {
+          "name": "0.1.4",
+          "release": "2015-02-21 02:48:03",
+          "requires": {},
+          "numDownloads": 2828,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": "https:\/\/github.com\/ldidsbury\/Proteus_Bold-PiwikTheme\/commits\/v0.1.1",
+          "readmeHtml": {
+            "description": "\n\n<p>Bold and easy-to-read...the Proteus_Bold theme for Piwik Analytics. Proteus was an early Greek god of the sea, capable of changing his appearance.  The Proteus_Bold theme uses bold font that is easy-to-read with calming colors like that of the sea.<\/p>\n\n",
+            "faq": "<p>Q.  Want to design a theme for Piwik? \nA.  Go to https:\/\/developer.piwik.org\/guides\/theming to learn how.<\/p>",
+            "documentation": "",
+            "changelog": "<p>Version 0.1.2 \n-Basic theme adjustments, testing the process.<\/p>\n\n<p>Version 0.1.3 \n-Updated version number and Changelog<\/p>\n\n<p>Version 0.1.4 \n-Updated version number in json, \n-Updated Changelog, and \n-Edited description text length for the Piwik marketplace viewing<\/p>"
+          },
+          "download": "\/api\/2.0\/plugins\/Proteus_Bold\/download\/0.1.4"
+        }
+      ],
+      "isDownloadable": true,
+      "changelog": {
+        "url": "http:\/\/themes.piwik.org\/Proteus_Bold\/changelog"
+      },
+      "consumer": {
+        "license": null
+      }
+    },
+    {
+      "name": "Terrano",
+      "displayName": "Terrano",
+      "owner": "nstallinger",
+      "description": "A neutral and natural theme made during the Catalyst Project Week.",
+      "homepage": "https:\/\/github.com\/nstallinger\/piwik_theme_terrano",
+      "createdDateTime": "2016-01-20 20:14:03",
+      "donate": {},
+      "support": [],
+      "isTheme": true,
+      "keywords": [],
+      "basePrice": 0,
+      "authors": [],
+      "repositoryUrl": "https:\/\/github.com\/nstallinger\/piwik_theme_terrano",
+      "lastUpdated": "2016-01-20 20:58:02",
+      "latestVersion": "1.4.0",
+      "numDownloads": 1014,
+      "screenshots": [],
+      "previews": [],
+      "activity": {
+        "numCommits": "9",
+        "numContributors": "1",
+        "lastCommitDate": "2016-01-20 20:57:44"
+      },
+      "featured": false,
+      "isFree": true,
+      "isPaid": false,
+      "isCustomPlugin": false,
+      "shop": null,
+      "versions": [
+        {
+          "name": "0.1.0",
+          "release": "2016-01-20 20:14:03",
+          "requires": {},
+          "numDownloads": 2,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": "https:\/\/github.com\/nstallinger\/piwik_theme_terrano\/commits\/v0.1.1",
+          "readmeHtml": {
+            "description": "",
+            "faq": "",
+            "changelog": "",
+            "documentation": ""
+          },
+          "download": "\/api\/2.0\/plugins\/Terrano\/download\/0.1.0"
+        },
+        {
+          "name": "1.4.0",
+          "release": "2016-01-20 20:58:02",
+          "requires": {},
+          "numDownloads": 1012,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": "https:\/\/github.com\/nstallinger\/piwik_theme_terrano\/commits\/v0.1.1",
+          "readmeHtml": {
+            "description": "\n\n<p>A neutral and natural theme made during the Catalyst Project Week.<\/p>",
+            "faq": "",
+            "documentation": "",
+            "changelog": ""
+          },
+          "download": "\/api\/2.0\/plugins\/Terrano\/download\/1.4.0"
+        }
+      ],
+      "isDownloadable": true,
+      "changelog": {
+        "url": "http:\/\/themes.piwik.org\/Terrano\/changelog"
+      },
+      "consumer": {
+        "license": null
+      }
+    },
+    {
+      "name": "CoffeeCup",
+      "displayName": "Coffee Cup",
+      "owner": "RobotHoboDanceParty",
+      "description": "A shoothing background for those who missed their first cup of the day.",
+      "homepage": "https:\/\/github.com\/RobotHoboDanceParty\/piwik-coffee-cup-theme",
+      "createdDateTime": "2016-01-20 20:18:03",
+      "donate": {},
+      "support": [],
+      "isTheme": true,
+      "keywords": [],
+      "basePrice": 0,
+      "authors": [],
+      "repositoryUrl": "https:\/\/github.com\/RobotHoboDanceParty\/piwik-coffee-cup-theme",
+      "lastUpdated": "2016-01-20 20:34:02",
+      "latestVersion": "0.1.3",
+      "numDownloads": 961,
+      "screenshots": [],
+      "previews": [],
+      "activity": {
+        "numCommits": "6",
+        "numContributors": "1",
+        "lastCommitDate": "2016-01-20 20:33:03"
+      },
+      "featured": false,
+      "isFree": true,
+      "isPaid": false,
+      "isCustomPlugin": false,
+      "shop": null,
+      "versions": [
+        {
+          "name": "0.1.0",
+          "release": "2016-01-20 20:18:03",
+          "requires": {},
+          "numDownloads": 1,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": "https:\/\/github.com\/RobotHoboDanceParty\/piwik-coffee-cup-theme\/commits\/v0.1.2",
+          "readmeHtml": {
+            "description": "",
+            "faq": "",
+            "changelog": "",
+            "documentation": ""
+          },
+          "download": "\/api\/2.0\/plugins\/CoffeeCup\/download\/0.1.0"
+        },
+        {
+          "name": "0.1.3",
+          "release": "2016-01-20 20:34:02",
+          "requires": {},
+          "numDownloads": 960,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": "https:\/\/github.com\/RobotHoboDanceParty\/piwik-coffee-cup-theme\/commits\/v0.1.1",
+          "readmeHtml": {
+            "description": "\n\n<p>A soothing background for those who missed their first cup of the day.<\/p>",
+            "faq": "",
+            "documentation": "",
+            "changelog": ""
+          },
+          "download": "\/api\/2.0\/plugins\/CoffeeCup\/download\/0.1.3"
+        }
+      ],
+      "isDownloadable": true,
+      "changelog": {
+        "url": "http:\/\/themes.piwik.org\/CoffeeCup\/changelog"
+      },
+      "consumer": {
+        "license": null
+      }
+    },
+    {
+      "name": "Vale",
+      "displayName": "Vale",
+      "owner": "ashleighpearson",
+      "description": "A muted red, white, and blue theme",
+      "homepage": "https:\/\/github.com\/ashleighpearson\/apcustomthemes",
+      "createdDateTime": "2016-01-20 20:20:03",
+      "donate": {},
+      "support": [],
+      "isTheme": true,
+      "keywords": [],
+      "basePrice": 0,
+      "authors": [],
+      "repositoryUrl": "https:\/\/github.com\/ashleighpearson\/apcustomthemes",
+      "lastUpdated": "2016-01-20 21:08:03",
+      "latestVersion": "0.1.3",
+      "numDownloads": 930,
+      "screenshots": [],
+      "previews": [],
+      "activity": {
+        "numCommits": "4",
+        "numContributors": "1",
+        "lastCommitDate": "2016-01-20 21:07:41"
+      },
+      "featured": false,
+      "isFree": true,
+      "isPaid": false,
+      "isCustomPlugin": false,
+      "shop": null,
+      "versions": [
+        {
+          "name": "0.1.0",
+          "release": "2016-01-20 20:20:03",
+          "requires": {},
+          "numDownloads": 4,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": "https:\/\/github.com\/ashleighpearson\/apcustomthemes\/commits\/v0.1.1",
+          "readmeHtml": {
+            "description": "",
+            "faq": "",
+            "changelog": "",
+            "documentation": ""
+          },
+          "download": "\/api\/2.0\/plugins\/Vale\/download\/0.1.0"
+        },
+        {
+          "name": "0.1.3",
+          "release": "2016-01-20 21:08:03",
+          "requires": {},
+          "numDownloads": 926,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": "https:\/\/github.com\/ashleighpearson\/apcustomthemes\/commits\/v0.1.1",
+          "readmeHtml": {
+            "description": "\n\n<p>A muted red, white, and blue theme, giving Piwik a cool, calm feel. Good colour contrast makes things easy to read, as well as creating an overall pleasant aesthetic. Created during the 2016 Catalyst Open Source Academy.<\/p>\n\n",
+            "faq": "",
+            "documentation": "",
+            "changelog": "<p>Version 0.1.0: First public release\nVersion 0.1.1: Minor code fixes\nVersion 0.1.2: Typo fixes\nVersion 0.1.3: Typo fixes, more screenshots<\/p>"
+          },
+          "download": "\/api\/2.0\/plugins\/Vale\/download\/0.1.3"
+        }
+      ],
+      "isDownloadable": true,
+      "changelog": {
+        "url": "http:\/\/themes.piwik.org\/Vale\/changelog"
+      },
+      "consumer": {
+        "license": null
+      }
+    },
+    {
+      "name": "ModernBlue",
+      "displayName": "Modern Blue",
+      "owner": "cuzzea",
+      "description": "Modern Blue theme for Piwik.",
+      "homepage": null,
+      "createdDateTime": "2016-03-18 09:06:03",
+      "donate": {
+        "paypal": "cuzzea@gmail.com",
+        "bitcoin": null
+      },
+      "support": [],
+      "isTheme": true,
+      "keywords": [],
+      "basePrice": 0,
+      "authors": [],
+      "repositoryUrl": "https:\/\/github.com\/cuzzea\/piwik-theme-modern-blue",
+      "lastUpdated": "2016-03-18 09:06:03",
+      "latestVersion": "0.1.0",
+      "numDownloads": 757,
+      "screenshots": [],
+      "previews": [],
+      "activity": {
+        "numCommits": null,
+        "numContributors": null,
+        "lastCommitDate": "2016-03-18 09:04:26"
+      },
+      "featured": false,
+      "isFree": true,
+      "isPaid": false,
+      "isCustomPlugin": false,
+      "shop": null,
+      "versions": [
+        {
+          "name": "0.1.0",
+          "release": "2016-03-18 09:06:03",
+          "requires": {},
+          "numDownloads": 757,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": "https:\/\/github.com\/cuzzea\/piwik-theme-modern-blue\/commits\/v0.1.1",
+          "readmeHtml": {
+            "description": "\n\n<p>Modern Blue theme for Piwik<\/p>\n\n",
+            "faq": "<p><strong>No FAQ at the moment<\/strong><\/p>",
+            "documentation": "",
+            "changelog": "<ul><li>0.1.0: First beta<\/li>\n<\/ul>"
+          },
+          "download": "\/api\/2.0\/plugins\/ModernBlue\/download\/0.1.0"
+        }
+      ],
+      "isDownloadable": true,
+      "changelog": {
+        "url": "http:\/\/themes.piwik.org\/ModernBlue\/changelog"
+      },
+      "consumer": {
+        "license": null
+      }
+    },
+    {
+      "name": "ModernGreen",
+      "displayName": "Modern Green",
+      "owner": "cuzzea",
+      "description": "Modern Green theme for Piwik.",
+      "homepage": null,
+      "createdDateTime": "2016-03-18 09:22:03",
+      "donate": {
+        "paypal": "cuzzea@gmail.com",
+        "bitcoin": null
+      },
+      "support": [],
+      "isTheme": true,
+      "keywords": [],
+      "basePrice": 0,
+      "authors": [],
+      "repositoryUrl": "https:\/\/github.com\/cuzzea\/piwik-theme-modern-green",
+      "lastUpdated": "2016-03-18 09:22:03",
+      "latestVersion": "0.1.0",
+      "numDownloads": 710,
+      "screenshots": [],
+      "previews": [],
+      "activity": {
+        "numCommits": null,
+        "numContributors": null,
+        "lastCommitDate": "2016-03-18 09:21:07"
+      },
+      "featured": false,
+      "isFree": true,
+      "isPaid": false,
+      "isCustomPlugin": false,
+      "shop": null,
+      "versions": [
+        {
+          "name": "0.1.0",
+          "release": "2016-03-18 09:22:03",
+          "requires": {},
+          "numDownloads": 710,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": "https:\/\/github.com\/cuzzea\/piwik-theme-modern-green\/commits\/v0.1.2",
+          "readmeHtml": {
+            "description": "\n\n<p>Modern Green theme for Piwik<\/p>\n\n",
+            "faq": "<p><strong>No FAQ at the moment<\/strong><\/p>",
+            "documentation": "",
+            "changelog": "<ul><li>0.1.0: First beta<\/li>\n<\/ul>"
+          },
+          "download": "\/api\/2.0\/plugins\/ModernGreen\/download\/0.1.0"
+        }
+      ],
+      "isDownloadable": true,
+      "changelog": {
+        "url": "http:\/\/themes.piwik.org\/ModernGreen\/changelog"
+      },
+      "consumer": {
+        "license": null
+      }
+    }
+  ]
+}

@@ -1,21 +1,50 @@
-{"licenses":[{"startDate":"2014-05-27 04:46:05",
-  "endDate":"2014-06-01 06:22:35",
-  "nextPaymentDate":null,"status":"Cancelled",
-  "productType":"Up to 4 users",
-  "isValid":false,"isExceeded":false,"isExpiredSoon":false,"plugin":{"name":"PaidPlugin1",
-    "displayName":"Paid Plugin 1",
-    "htmlUrl":"https:\/\/plugins.piwik.org\/PaidPlugin1"}},{"startDate":"2016-05-20 04:46:05",
-  "endDate":"2030-05-27 11:03:06",
-  "nextPaymentDate":"2030-05-27 11:03:06",
-  "status":"Active",
-  "productType":"5 to 15 users",
-  "isValid":true,"isExceeded":true,"isExpiredSoon":false,"plugin":{"name":"PaidPlugin2",
-    "displayName":"Paid Plugin 2",
-    "htmlUrl":"https:\/\/plugins.piwik.org\/PaidPlugin2"}},{"startDate":"2016-05-25 04:46:05",
-  "endDate":"2030-06-03 11:03:06",
-  "nextPaymentDate":"2030-06-03 11:03:06",
-  "status":"Active",
-  "productType":"Up to 4 users",
-  "isValid":true,"isExceeded":true,"isExpiredSoon":false,"plugin":{"name":"CustomPlugin1",
-    "displayName":"Custom Plugin 1",
-    "htmlUrl":""}}],"loginUrl":"https:\/\/shop.piwik.org\/my-account"}
+{
+  "licenses": [
+    {
+      "startDate": "2014-05-27 04:46:05",
+      "endDate": "2014-06-01 06:22:35",
+      "nextPaymentDate": null,
+      "status": "Cancelled",
+      "productType": "Up to 4 users",
+      "isValid": false,
+      "isExceeded": false,
+      "isExpiredSoon": false,
+      "plugin": {
+        "name": "PaidPlugin1",
+        "displayName": "Paid Plugin 1",
+        "htmlUrl": "https:\/\/plugins.piwik.org\/PaidPlugin1"
+      }
+    },
+    {
+      "startDate": "2016-05-20 04:46:05",
+      "endDate": "2030-05-27 11:03:06",
+      "nextPaymentDate": "2030-05-27 11:03:06",
+      "status": "Active",
+      "productType": "5 to 15 users",
+      "isValid": true,
+      "isExceeded": true,
+      "isExpiredSoon": false,
+      "plugin": {
+        "name": "PaidPlugin2",
+        "displayName": "Paid Plugin 2",
+        "htmlUrl": "https:\/\/plugins.piwik.org\/PaidPlugin2"
+      }
+    },
+    {
+      "startDate": "2016-05-25 04:46:05",
+      "endDate": "2030-06-03 11:03:06",
+      "nextPaymentDate": "2030-06-03 11:03:06",
+      "status": "Active",
+      "productType": "Up to 4 users",
+      "isValid": true,
+      "isExceeded": true,
+      "isExpiredSoon": false,
+      "plugin": {
+        "name": "CustomPlugin1",
+        "displayName": "Custom Plugin 1",
+        "htmlUrl": ""
+      }
+    }
+  ],
+  "loginUrl": "https:\/\/shop.piwik.org\/my-account"
+}

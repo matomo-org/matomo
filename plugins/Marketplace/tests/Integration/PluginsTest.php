@@ -277,6 +277,7 @@ class PluginsTest extends IntegrationTestCase
                     'https://plugins.piwik.org/Barometer/images/0.5.0/piwik-barometer-01.png',
                     'https://plugins.piwik.org/Barometer/images/0.5.0/piwik-barometer-02.png',
                 ],
+            'coverImage' => 'https://plugins.piwik.org/img/categories/insights.png',
             'previews' =>
                  [ [
                     'type' => 'demo',
@@ -308,8 +309,8 @@ class PluginsTest extends IntegrationTestCase
             ],
             'canBePurchased' => false,
             'priceFrom' => null,
-            'previewImage' => 'plugins/Marketplace/images/previews/generic-plugin.png',
             'numDownloadsPretty' => 0,
+            'category' => 'customisation',
         ];
         $this->assertEquals($expected, $plugin);
     }

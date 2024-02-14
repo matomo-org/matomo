@@ -1,1 +1,3 @@
-{"error":"Requested plugin does not exist."}
+{
+  "error": "Requested plugin does not exist."
+}

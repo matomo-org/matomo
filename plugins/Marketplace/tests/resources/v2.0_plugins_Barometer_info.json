@@ -1,57 +1,149 @@
-{"name":"Barometer",
-  "displayName":"Barometer",
-  "owner":"halfdan",
-  "description":"Live Plugin that shows the current number of visitors on the page.",
-  "homepage":"http:\/\/github.com\/halfdan\/piwik-barometer-plugin",
-  "createdDateTime":"2014-12-23 00:38:20",
-  "donate":{"flattr":"https:\/\/flattr.com\/profile\/test1",
-    "bitcoin":null},"support":[{"name":"Documentation",
-  "key":"docs",
-  "value":"https:\/\/barometer.org\/docs\/",
-  "type":"url"},{"name":"Wiki",
-  "key":"wiki",
-  "value":"https:\/\/github.com\/barometer\/piwik\/wiki",
-  "type":"url"},{"name":"Forum",
-  "key":"forum",
-  "value":"https:\/\/baromter.forum.org",
-  "type":"url"},{"name":"Email",
-  "key":"email",
-  "value":"barometer@example.com",
-  "type":"email"},{"name":"IRC",
-  "key":"irc",
-  "value":"irc:\/\/freenode\/baromter",
-  "type":"text"},{"name":"Issues \/ Bugs",
-  "key":"issues",
-  "value":"https:\/\/github.com\/barometer\/issues",
-  "type":"url"},{"name":"Source",
-  "key":"source",
-  "value":"https:\/\/github.com\/barometer\/piwik\/",
-  "type":"url"},{"name":"RSS",
-  "key":"rss",
-  "value":"https:\/\/barometer.org\/feed\/",
-  "type":"url"}],"isTheme":false,"keywords":["barometer",
-  "live"],"basePrice":0,"authors":[{"name":"Fabian Becker",
-  "email":"test8@example.com",
-  "homepage":"http:\/\/geekproject.eu"}],"repositoryUrl":"https:\/\/github.com\/halfdan\/piwik-barometer-plugin",
-  "lastUpdated":"2014-12-23 00:41:21",
-  "latestVersion":"0.5.0",
-  "numDownloads":0,"screenshots":["https:\/\/plugins.piwik.org\/Barometer\/images\/0.5.0\/piwik-barometer-01.png",
-  "https:\/\/plugins.piwik.org\/Barometer\/images\/0.5.0\/piwik-barometer-02.png"],"previews":[{"type":"demo",
-  "provider":"link",
-  "url":"https:\/\/demo.piwik.org"}],"activity":{"numCommits":"31",
-  "numContributors":"3",
-  "lastCommitDate":"1970-01-01 00:33:35"},"featured":false,"isFree":true,"isPaid":false,"isCustomPlugin":false,"shop":null,"versions":[{"name":"0.1.1",
-  "release":"2014-12-23 00:38:20",
-  "requires":{"piwik":">=1.10.0,<6.0.0-b1"},"numDownloads":0,"license":{"name":"GPLv3+",
-    "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/halfdan\/piwik-barometer-plugin\/commits\/v0.1.1",
-  "readmeHtml":{"description":"",
-    "faq":"",
-    "changelog":"",
-    "documentation":""},"download":"\/api\/2.0\/plugins\/Barometer\/download\/0.1.1"},{"name":"0.5.0",
-  "release":"2014-12-23 00:41:21",
-  "requires":{},"numDownloads":0,"license":{"name":"GPLv3+",
-    "url":""},"repositoryChangelogUrl":"https:\/\/github.com\/halfdan\/piwik-barometer-plugin\/commits\/v0.5.0",
-  "readmeHtml":{"description":"\n\n<p>This is a plugin for the Open Source Web Analytics platform Piwik. If enabled, it will add a two new widgets that you can add to your dashboard.<\/p>\n\n<p>The widgets will show a Visitor Barometer and a Visit Time Barometer that auto-refresh every 5 seconds. It shows the number of visitors or visit time in a N minute period compared to the maximum number of visitors\/average visit time in any N minute period of the last 30 days.<\/p>\n\n<p>The idea for this plugin came from <a href=\"http:\/\/github.com\/muesli\">@muesli<\/a> who suggested it on #piwik in IRC.<\/p>\n\n",
-    "faq":"",
-    "documentation":"",
-    "changelog":""},"download":"\/api\/2.0\/plugins\/Barometer\/download\/0.5.0"}],"isDownloadable":true,"changelog":{"url":"http:\/\/plugins.piwik.org\/Barometer\/changelog"},"consumer":{"license":null}}
+{
+  "name": "Barometer",
+  "displayName": "Barometer",
+  "owner": "halfdan",
+  "description": "Live Plugin that shows the current number of visitors on the page.",
+  "homepage": "http:\/\/github.com\/halfdan\/piwik-barometer-plugin",
+  "createdDateTime": "2014-12-23 00:38:20",
+  "donate": {
+    "flattr": "https:\/\/flattr.com\/profile\/test1",
+    "bitcoin": null
+  },
+  "support": [
+    {
+      "name": "Documentation",
+      "key": "docs",
+      "value": "https:\/\/barometer.org\/docs\/",
+      "type": "url"
+    },
+    {
+      "name": "Wiki",
+      "key": "wiki",
+      "value": "https:\/\/github.com\/barometer\/piwik\/wiki",
+      "type": "url"
+    },
+    {
+      "name": "Forum",
+      "key": "forum",
+      "value": "https:\/\/baromter.forum.org",
+      "type": "url"
+    },
+    {
+      "name": "Email",
+      "key": "email",
+      "value": "barometer@example.com",
+      "type": "email"
+    },
+    {
+      "name": "IRC",
+      "key": "irc",
+      "value": "irc:\/\/freenode\/baromter",
+      "type": "text"
+    },
+    {
+      "name": "Issues \/ Bugs",
+      "key": "issues",
+      "value": "https:\/\/github.com\/barometer\/issues",
+      "type": "url"
+    },
+    {
+      "name": "Source",
+      "key": "source",
+      "value": "https:\/\/github.com\/barometer\/piwik\/",
+      "type": "url"
+    },
+    {
+      "name": "RSS",
+      "key": "rss",
+      "value": "https:\/\/barometer.org\/feed\/",
+      "type": "url"
+    }
+  ],
+  "isTheme": false,
+  "keywords": [
+    "barometer",
+    "live"
+  ],
+  "basePrice": 0,
+  "authors": [
+    {
+      "name": "Fabian Becker",
+      "email": "test8@example.com",
+      "homepage": "http:\/\/geekproject.eu"
+    }
+  ],
+  "repositoryUrl": "https:\/\/github.com\/halfdan\/piwik-barometer-plugin",
+  "lastUpdated": "2014-12-23 00:41:21",
+  "latestVersion": "0.5.0",
+  "numDownloads": 0,
+  "screenshots": [
+    "https:\/\/plugins.piwik.org\/Barometer\/images\/0.5.0\/piwik-barometer-01.png",
+    "https:\/\/plugins.piwik.org\/Barometer\/images\/0.5.0\/piwik-barometer-02.png"
+  ],
+  "coverImage": "https:\/\/plugins.piwik.org\/img\/categories\/insights.png",
+  "previews": [
+    {
+      "type": "demo",
+      "provider": "link",
+      "url": "https:\/\/demo.piwik.org"
+    }
+  ],
+  "activity": {
+    "numCommits": "31",
+    "numContributors": "3",
+    "lastCommitDate": "1970-01-01 00:33:35"
+  },
+  "featured": false,
+  "isFree": true,
+  "isPaid": false,
+  "isCustomPlugin": false,
+  "shop": null,
+  "versions": [
+    {
+      "name": "0.1.1",
+      "release": "2014-12-23 00:38:20",
+      "requires": {
+        "piwik": ">=1.10.0,<6.0.0-b1"
+      },
+      "numDownloads": 0,
+      "license": {
+        "name": "GPLv3+",
+        "url": ""
+      },
+      "repositoryChangelogUrl": "https:\/\/github.com\/halfdan\/piwik-barometer-plugin\/commits\/v0.1.1",
+      "readmeHtml": {
+        "description": "",
+        "faq": "",
+        "changelog": "",
+        "documentation": ""
+      },
+      "download": "\/api\/2.0\/plugins\/Barometer\/download\/0.1.1"
+    },
+    {
+      "name": "0.5.0",
+      "release": "2014-12-23 00:41:21",
+      "requires": {},
+      "numDownloads": 0,
+      "license": {
+        "name": "GPLv3+",
+        "url": ""
+      },
+      "repositoryChangelogUrl": "https:\/\/github.com\/halfdan\/piwik-barometer-plugin\/commits\/v0.5.0",
+      "readmeHtml": {
+        "description": "\n\n<p>This is a plugin for the Open Source Web Analytics platform Piwik. If enabled, it will add a two new widgets that you can add to your dashboard.<\/p>\n\n<p>The widgets will show a Visitor Barometer and a Visit Time Barometer that auto-refresh every 5 seconds. It shows the number of visitors or visit time in a N minute period compared to the maximum number of visitors\/average visit time in any N minute period of the last 30 days.<\/p>\n\n<p>The idea for this plugin came from <a href=\"http:\/\/github.com\/muesli\">@muesli<\/a> who suggested it on #piwik in IRC.<\/p>\n\n",
+        "faq": "",
+        "documentation": "",
+        "changelog": ""
+      },
+      "download": "\/api\/2.0\/plugins\/Barometer\/download\/0.5.0"
+    }
+  ],
+  "isDownloadable": true,
+  "changelog": {
+    "url": "http:\/\/plugins.piwik.org\/Barometer\/changelog"
+  },
+  "consumer": {
+    "license": null
+  },
+  "category": "customisation"
+}

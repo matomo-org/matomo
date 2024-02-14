@@ -1,3 +1,5 @@
-{"pluginsUrl":"http:\/\/plugins.piwik.org\/",
-  "themesUrl":"http:\/\/themes.piwik.org\/",
-  "loginUrl":"https:\/\/shop.piwik.org\/my-account"}
+{
+  "pluginsUrl": "http:\/\/plugins.piwik.org\/",
+  "themesUrl": "http:\/\/themes.piwik.org\/",
+  "loginUrl": "https:\/\/shop.piwik.org\/my-account"
+}
