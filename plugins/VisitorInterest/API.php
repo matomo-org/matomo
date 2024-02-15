@@ -66,7 +66,13 @@ class API extends \Piwik\Plugin\API
     public function getNumberOfVisitsByDaysSinceLast($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(
-            Archiver::DAYS_SINCE_LAST_RECORD_NAME, $idSite, $period, $date, $segment, Metrics::INDEX_NB_VISITS);
+            Archiver::DAYS_SINCE_LAST_RECORD_NAME,
+            $idSite,
+            $period,
+            $date,
+            $segment,
+            Metrics::INDEX_NB_VISITS
+        );
         $dataTable->queueFilter('AddSegmentByRangeLabel', array('daysSinceLastVisit'));
         $dataTable->queueFilter('BeautifyRangeLabels', array(Piwik::translate('Intl_OneDay'), Piwik::translate('Intl_NDays')));
         return $dataTable;
@@ -85,7 +91,13 @@ class API extends \Piwik\Plugin\API
     public function getNumberOfVisitsByVisitCount($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(
-            Archiver::VISITS_COUNT_RECORD_NAME, $idSite, $period, $date, $segment, Metrics::INDEX_NB_VISITS);
+            Archiver::VISITS_COUNT_RECORD_NAME,
+            $idSite,
+            $period,
+            $date,
+            $segment,
+            Metrics::INDEX_NB_VISITS
+        );
 
         $dataTable->queueFilter('AddSegmentByRangeLabel', array('visitCount'));
         $dataTable->queueFilter('BeautifyRangeLabels', array(

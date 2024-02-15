@@ -35,8 +35,13 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
     private function setUpWebsitesAndGoals()
     {
         if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test', $siteUrl = false,
-                                $siteSearch = 1);
+            self::createWebsite(
+                $this->dateTime,
+                $ecommerce = 0,
+                $siteName = 'Piwik test',
+                $siteUrl = false,
+                $siteSearch = 1
+            );
         }
     }
 
@@ -117,9 +122,15 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
         $this->trackPageView($tracker, 0.2, 'page/one.html', $laterDate);
         $this->trackPageView($tracker, 0.25, '', $laterDate, $pageViewType = 'download');
         $this->trackPageView($tracker, 0.3, 'page/one.html', $laterDate);
-        $this->trackPageView($tracker, 0.35, 'page/search.html#q=anotherkwd', $laterDate,
-                             $pageViewType = 'site-search', $searchKeyword = 'anotherkwd',
-                             $searchCategory = 'mysearchcat');
+        $this->trackPageView(
+            $tracker,
+            0.35,
+            'page/search.html#q=anotherkwd',
+            $laterDate,
+            $pageViewType = 'site-search',
+            $searchKeyword = 'anotherkwd',
+            $searchCategory = 'mysearchcat'
+        );
 
 
         $tracker->setIp('156.5.3.8');

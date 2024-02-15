@@ -117,8 +117,13 @@ class Controller extends \Piwik\Plugin\Controller
         }
         // $callingAction may be specified to distinguish between
         // "VisitsSummary_WidgetLastVisits" and "VisitsSummary_WidgetOverviewGraph"
-        $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns,
-            $selectableColumns, $documentation);
+        $view = $this->getLastUnitGraphAcrossPlugins(
+            $this->pluginName,
+            __FUNCTION__,
+            $columns,
+            $selectableColumns,
+            $documentation
+        );
 
         if (empty($view->config->columns_to_display)) {
             $view->config->columns_to_display = array('nb_visits');

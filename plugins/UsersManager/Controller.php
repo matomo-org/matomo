@@ -521,12 +521,16 @@ class Controller extends ControllerAdmin
             $anonymousDefaultReport = Common::getRequestVar('anonymousDefaultReport');
             $anonymousDefaultDate = Common::getRequestVar('anonymousDefaultDate');
             $userLogin = 'anonymous';
-            APIUsersManager::getInstance()->setUserPreference($userLogin,
+            APIUsersManager::getInstance()->setUserPreference(
+                $userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT,
-                $anonymousDefaultReport);
-            APIUsersManager::getInstance()->setUserPreference($userLogin,
+                $anonymousDefaultReport
+            );
+            APIUsersManager::getInstance()->setUserPreference(
+                $userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
-                $anonymousDefaultDate);
+                $anonymousDefaultDate
+            );
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
@@ -566,12 +570,16 @@ class Controller extends ControllerAdmin
                 'use12HourClock' => $timeFormat,
             ]);
 
-            APIUsersManager::getInstance()->setUserPreference($userLogin,
+            APIUsersManager::getInstance()->setUserPreference(
+                $userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT,
-                $defaultReport);
-            APIUsersManager::getInstance()->setUserPreference($userLogin,
+                $defaultReport
+            );
+            APIUsersManager::getInstance()->setUserPreference(
+                $userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
-                $defaultDate);
+                $defaultDate
+            );
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
