@@ -102,10 +102,19 @@ class ArchivingStatus
      */
     private function makeArchivingLock(Parameters $params)
     {
-        $doneFlag = Rules::getDoneStringFlagFor([$params->getSite()->getId()], $params->getSegment(),
-            $params->getPeriod()->getLabel(), $params->getRequestedPlugin());
-        return $this->makeArchivingLockFromDoneFlag($params->getSite()->getId(), $params->getSite()->getId(), $params->getPeriod()->getDateStart()->toString(),
-            $params->getPeriod()->getDateEnd()->toString(), $doneFlag);
+        $doneFlag = Rules::getDoneStringFlagFor(
+            [$params->getSite()->getId()],
+            $params->getSegment(),
+            $params->getPeriod()->getLabel(),
+            $params->getRequestedPlugin()
+        );
+        return $this->makeArchivingLockFromDoneFlag(
+            $params->getSite()->getId(),
+            $params->getSite()->getId(),
+            $params->getPeriod()->getDateStart()->toString(),
+            $params->getPeriod()->getDateEnd()->toString(),
+            $doneFlag
+        );
     }
 
     private function makeArchivingLockFromDoneFlag($idSite, $date1, $date2, $period, $doneFlag)

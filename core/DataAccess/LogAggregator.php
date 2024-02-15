@@ -599,8 +599,16 @@ class LogAggregator
         $timeLimit = -1,
         $rankingQueryGenerate = false
     ) {
-        $query = $this->getQueryByDimensionSql($dimensions, $where, $additionalSelects, $metrics, $rankingQuery, $orderBy,
-            $timeLimit, $rankingQueryGenerate);
+        $query = $this->getQueryByDimensionSql(
+            $dimensions,
+            $where,
+            $additionalSelects,
+            $metrics,
+            $rankingQuery,
+            $orderBy,
+            $timeLimit,
+            $rankingQueryGenerate
+        );
 
         // Ranking queries will return the data directly
         if ($rankingQuery && !$rankingQueryGenerate) {
@@ -1244,10 +1252,13 @@ class LogAggregator
         ];
 
         $where = $this->getWhereStatement('log_conversion', 'server_time');
-        $where .= sprintf('AND log_conversion.idgoal = %d
+        $where .= sprintf(
+            'AND log_conversion.idgoal = %d
                           AND logva.server_time <= log_conversion.server_time
                           AND lac.type = %s',
-                          (int) $idGoal, ($linkField == 'idaction_url' ? Action::TYPE_PAGE_URL : Action::TYPE_PAGE_TITLE));
+            (int) $idGoal,
+            ($linkField == 'idaction_url' ? Action::TYPE_PAGE_URL : Action::TYPE_PAGE_TITLE)
+        );
 
         $groupBy = 'log_conversion.idvisit, lac.idaction';
 
@@ -1268,8 +1279,8 @@ class LogAggregator
         $tableName  = self::LOG_CONVERSION_TABLE;
 
         $select = implode(
-                ', ',
-                [
+            ', ',
+            [
                     'log_conversion.idgoal AS idgoal',
                     sprintf('log_visit.%s AS idaction', $linkField),
                     'log_action.type',
@@ -1283,7 +1294,7 @@ class LogAggregator
                     sprintf('SUM(log_conversion.items) AS `%d`', Metrics::INDEX_GOAL_ECOMMERCE_ITEMS),
                     sprintf('COUNT(*) AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY)
                 ]
-            );
+        );
 
         $from = [
             $tableName,

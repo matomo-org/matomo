@@ -58,9 +58,11 @@ class MySqlLockBackend implements LockBackend
             Db::query($sql, array($key));
         }
 
-        $query = sprintf('INSERT INTO %s (`key`, `value`, `expiry_time`) 
+        $query = sprintf(
+            'INSERT INTO %s (`key`, `value`, `expiry_time`) 
                                  VALUES (?,?,(UNIX_TIMESTAMP() + ?))',
-            $tablePrefixed);
+            $tablePrefixed
+        );
         // we make sure to update the row if the key is expired and consider it as "deleted"
 
         try {

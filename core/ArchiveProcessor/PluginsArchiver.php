@@ -127,8 +127,12 @@ class PluginsArchiver
      */
     public function callAggregateAllPlugins($visits, $visitsConverted, $forceArchivingWithoutVisits = false)
     {
-        Log::debug("PluginsArchiver::%s: Initializing archiving process for all plugins [visits = %s, visits converted = %s]",
-            __FUNCTION__, $visits, $visitsConverted);
+        Log::debug(
+            "PluginsArchiver::%s: Initializing archiving process for all plugins [visits = %s, visits converted = %s]",
+            __FUNCTION__,
+            $visits,
+            $visitsConverted
+        );
 
         /** @var Logger $performanceLogger */
         $performanceLogger = StaticContainer::get(Logger::class);
@@ -189,7 +193,8 @@ class PluginsArchiver
 
                     $performanceLogger->logMeasurement('plugin', $pluginName, $this->params, $timer);
 
-                    Log::debug("PluginsArchiver::%s: %s while archiving %s reports for plugin '%s' %s.",
+                    Log::debug(
+                        "PluginsArchiver::%s: %s while archiving %s reports for plugin '%s' %s.",
                         __FUNCTION__,
                         $timer->getMemoryLeak(),
                         $this->params->getPeriod()->getLabel(),
@@ -284,10 +289,12 @@ class PluginsArchiver
             return false;
         }
 
-        if (Rules::shouldProcessReportsAllPlugins(
-            array($this->params->getSite()->getId()),
-            $this->params->getSegment(),
-            $this->params->getPeriod()->getLabel())
+        if (
+            Rules::shouldProcessReportsAllPlugins(
+                [$this->params->getSite()->getId()],
+                $this->params->getSegment(),
+                $this->params->getPeriod()->getLabel()
+            )
         ) {
             return true;
         }

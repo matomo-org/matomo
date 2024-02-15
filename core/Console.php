@@ -38,7 +38,8 @@ class Console extends Application
 
         $this->environment = $environment;
 
-        $option = new InputOption('matomo-domain',
+        $option = new InputOption(
+            'matomo-domain',
             null,
             InputOption::VALUE_OPTIONAL,
             'Matomo URL (protocol and domain) eg. "http://matomo.example.org"'
@@ -46,7 +47,8 @@ class Console extends Application
 
         $this->getDefinition()->addOption($option);
 
-        $option = new InputOption('xhprof',
+        $option = new InputOption(
+            'xhprof',
             null,
             InputOption::VALUE_NONE,
             'Enable profiling with XHProf'
@@ -54,8 +56,12 @@ class Console extends Application
 
         $this->getDefinition()->addOption($option);
 
-        $option = new InputOption('ignore-warn', null, InputOption::VALUE_NONE,
-            'Return 0 exit code even if there are warning logs or error logs detected in the command output.');
+        $option = new InputOption(
+            'ignore-warn',
+            null,
+            InputOption::VALUE_NONE,
+            'Return 0 exit code even if there are warning logs or error logs detected in the command output.'
+        );
 
         $this->getDefinition()->addOption($option);
     }

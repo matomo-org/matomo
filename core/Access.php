@@ -363,10 +363,11 @@ class Access
         $this->loadSitesIfNeeded();
 
         return array_unique(array_merge(
-                $this->idsitesByAccess['view'],
-                $this->idsitesByAccess['write'],
-                $this->idsitesByAccess['admin'],
-                $this->idsitesByAccess['superuser']));
+            $this->idsitesByAccess['view'],
+            $this->idsitesByAccess['write'],
+            $this->idsitesByAccess['admin'],
+            $this->idsitesByAccess['superuser']
+        ));
     }
 
     /**
@@ -381,9 +382,10 @@ class Access
         $this->loadSitesIfNeeded();
 
         return array_unique(array_merge(
-                $this->idsitesByAccess['write'],
-                $this->idsitesByAccess['admin'],
-                $this->idsitesByAccess['superuser']));
+            $this->idsitesByAccess['write'],
+            $this->idsitesByAccess['admin'],
+            $this->idsitesByAccess['superuser']
+        ));
     }
 
     /**
@@ -397,8 +399,9 @@ class Access
         $this->loadSitesIfNeeded();
 
         return array_unique(array_merge(
-                $this->idsitesByAccess['admin'],
-                $this->idsitesByAccess['superuser']));
+            $this->idsitesByAccess['admin'],
+            $this->idsitesByAccess['superuser']
+        ));
     }
 
     /**
