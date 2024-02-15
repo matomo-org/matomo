@@ -9,16 +9,16 @@
     v-if="plugin.missingRequirements.length === 0 && plugin.isDownloadable && !isAutoUpdatePossible"
   >
     <span onclick="$(this).css('display', 'none')">
-      <template v-if="showOr">{{ translate('General_Or') }}</template>
-        <a tabindex="7"
-           class="plugin-details download"
-           :href="linkTo({
-              module: 'Marketplace',
-              action: 'download',
-              pluginName: plugin.name,
-              nonce: plugin.downloadNonce,
-            })"
-        >{{ translate('General_Download') }}</a></span>
+      <template v-if="showOr">{{}} {{ translate('General_Or') }} {{}}</template>
+      <a tabindex="7"
+         class="plugin-details download"
+         :href="linkTo({
+            module: 'Marketplace',
+            action: 'download',
+            pluginName: plugin.name,
+            nonce: plugin.downloadNonce,
+          })"
+      >{{ translate('General_Download') }}</a></span>
   </template>
 </template>
 

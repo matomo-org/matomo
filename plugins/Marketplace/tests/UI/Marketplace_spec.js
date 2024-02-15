@@ -25,7 +25,7 @@ describe("Marketplace", function () {
     async function loadPluginDetailPage(pluginName, isFreePlugin)
     {
         await page.goto(isFreePlugin ? pluginsUrl : paidPluginsUrl);
-        const elem = await page.waitForSelector('.card-content [vue-directive="CorePluginsAdmin.PluginName"][vue-directive-value*="' + pluginName + '"]');
+        const elem = await page.waitForSelector('.card-content [matomo-plugin-name*="' + pluginName + '"]');
         await elem.click();
         await page.waitForNetworkIdle();
         await page.waitForSelector('.ui-dialog .pluginDetails');

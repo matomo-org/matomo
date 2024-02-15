@@ -5,6 +5,11 @@
 -->
 
 <template>
+
+  <StartFreeTrial
+    :is-valid-consumer="isValidConsumer"
+    v-model="showStartFreeTrialForPlugin" />
+
   <div class="pluginListContainer row" v-if="pluginsToShow.length > 0">
     <div class="col s12 m6 l4" v-for="plugin in pluginsToShow" :key="plugin.name">
       <div :class="`card-holder ${plugin.numDownloads > 0 ? 'card-with-downloads' : '' }`">
@@ -53,6 +58,7 @@
                     :install-nonce="installNonce"
                     :update-nonce="updateNonce"
                     :plugin="plugin"
+                    @startFreeTrial="showStartFreeTrialForPlugin = plugin.name"
                   />
                 </div>
                 <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
@@ -76,9 +82,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ContentBlock, MatomoUrl } from 'CoreHome';
+import { ContentBlock } from 'CoreHome';
 import { PluginName } from 'CorePluginsAdmin';
 import CTAContainer from './CTAContainer.vue';
+import StartFreeTrial from '../StartFreeTrial/StartFreeTrial.vue';
+
+interface PluginListState {
+  showStartFreeTrialForPlugin: string;
+}
 
 export default defineComponent({
   props: {
@@ -127,20 +138,18 @@ export default defineComponent({
       required: true,
     },
   },
+  data(): PluginListState {
+    return {
+      showStartFreeTrialForPlugin: '',
+    };
+  },
   components: {
     CTAContainer,
     ContentBlock,
+    StartFreeTrial,
   },
   directives: {
     PluginName,
-  },
-  methods: {
-    linkTo(params: QueryParameters) {
-      return `?${MatomoUrl.stringify({
-        ...MatomoUrl.urlParsed.value,
-        ...params,
-      })}`;
-    },
   },
 });
 </script>

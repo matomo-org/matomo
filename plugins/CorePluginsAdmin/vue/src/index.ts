@@ -22,7 +22,6 @@ export { default as PluginsIntro } from './PluginsIntro/PluginsIntro.vue';
 export { default as ThemesIntro } from './ThemesIntro/ThemesIntro.vue';
 export { default as PasswordConfirmation } from './PasswordConfirmation/PasswordConfirmation.vue';
 export { default as PluginName } from './Plugins/PluginName';
-export { default as PluginStartFreeTrial } from './Plugins/PluginStartFreeTrial';
 export { default as PluginsTable } from './PluginsTable/PluginsTable.vue';
 export { default as PluginsTableWithUpdates } from './PluginsTable/PluginsTableWithUpdates.vue';
 export { default as UploadPluginDialog } from './UploadPluginDialog/UploadPluginDialog.vue';

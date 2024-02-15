@@ -97,11 +97,11 @@
       </template>
     </div>
 
-    <a v-else-if="plugin.isEligibleForFreeTrial && isValidConsumer"
+    <a v-else-if="plugin.isEligibleForFreeTrial"
        tabindex="7"
        class="btn btn-block purchaseable"
-       href="#"
-       v-plugin-start-free-trial="{ pluginName: plugin.name }"
+       href=""
+       @click.prevent="this.$emit('startFreeTrial');"
        :title="translate('Marketplace_StartFreeTrial')"
     >
       {{ translate('Marketplace_StartFreeTrial') }}
@@ -161,7 +161,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { MatomoUrl } from 'CoreHome';
-import { PluginName, PluginStartFreeTrial } from 'CorePluginsAdmin';
+import { PluginName } from 'CorePluginsAdmin';
 import DownloadButton from './DownloadButton.vue';
 
 export default defineComponent({
@@ -207,12 +207,12 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ['startFreeTrial'],
   components: {
     DownloadButton,
   },
   directives: {
     PluginName,
-    PluginStartFreeTrial,
   },
   methods: {
     linkTo(params: QueryParameters) {
