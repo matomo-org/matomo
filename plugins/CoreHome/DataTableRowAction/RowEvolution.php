@@ -115,8 +115,10 @@ class RowEvolution
         if ($this->period != 'range') {
             // handle day, week, month and year: display last X periods
             //handle cache if exist
-            $cache = ViewDataTableManager::getViewDataTableParameters(Piwik::getCurrentUserLogin(),
-              'CoreHome.getRowEvolutionGraph');
+            $cache = ViewDataTableManager::getViewDataTableParameters(
+                Piwik::getCurrentUserLogin(),
+                'CoreHome.getRowEvolutionGraph'
+            );
             $lastDay = (isset($cache['evolution_' . $this->period . '_last_n']) ? $cache['evolution_' . $this->period . '_last_n'] : null);
             $end = $date->toString();
             [$this->date, $lastN] = EvolutionViz::getDateRangeAndLastN($this->period, $end, $lastDay);
@@ -253,8 +255,12 @@ class RowEvolution
     public function getRowEvolutionGraph($graphType = false, $metrics = false)
     {
         // set up the view data table
-        $view = Factory::build($graphType ? : $this->graphType, $this->apiMethod,
-            $controllerAction = 'CoreHome.getRowEvolutionGraph', $forceDefault = true);
+        $view = Factory::build(
+            $graphType ? : $this->graphType,
+            $this->apiMethod,
+            $controllerAction = 'CoreHome.getRowEvolutionGraph',
+            $forceDefault = true
+        );
         $view->setDataTable($this->dataTable);
 
         if (!empty($this->graphMetrics)) { // In row Evolution popover, this is empty
