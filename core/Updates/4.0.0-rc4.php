@@ -51,7 +51,9 @@ class Updates_4_0_0_rc4 extends PiwikUpdates
 
                 if (DbHelper::tableExists($blobTable) && DbHelper::tableExists($numericTable)) {
                     $migrations[] = $this->migration->db->sql(
-                        "DELETE FROM `$blobTable` WHERE idarchive NOT IN (SELECT idarchive FROM `$numericTable`)", []);
+                        "DELETE FROM `$blobTable` WHERE idarchive NOT IN (SELECT idarchive FROM `$numericTable`)",
+                        []
+                    );
                 }
             }
         }

@@ -401,7 +401,9 @@ class DataComparisonFilter
         $metadata['comparePeriodPretty'] = ucfirst($prettyPeriod);
 
         $metadata['compareSeriesPretty'] = self::getComparisonSeriesLabelSuffixFromParts(
-            $metadata['comparePeriodPretty'], $metadata['compareSegmentPretty']);
+            $metadata['comparePeriodPretty'],
+            $metadata['compareSegmentPretty']
+        );
 
         return $metadata;
     }

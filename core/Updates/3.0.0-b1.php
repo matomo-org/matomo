@@ -177,8 +177,10 @@ class Updates_3_0_0_b1 extends Updates
         ));
 
         $table = Common::prefixTable($table);
-        $queries[] = $this->migration->db->sql("ALTER TABLE `$table` ADD INDEX(idsite, plugin_name);",
-                                               Migration\Db::ERROR_CODE_COLUMN_NOT_EXISTS);
+        $queries[] = $this->migration->db->sql(
+            "ALTER TABLE `$table` ADD INDEX(idsite, plugin_name);",
+            Migration\Db::ERROR_CODE_COLUMN_NOT_EXISTS
+        );
 
         return $queries;
     }

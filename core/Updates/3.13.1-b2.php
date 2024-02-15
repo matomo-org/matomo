@@ -37,10 +37,14 @@ class Updates_3_13_1_b2 extends PiwikUpdates
     {
         $geoIpLiteUrl = 'https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz';
         $optionTable = Common::prefixTable('option');
-        $migration1 = $this->migration->db->boundSql("UPDATE `$optionTable` SET option_value = ? WHERE option_name = ? AND option_value = ?",
-            [GeoIp2::getDbIpLiteUrl(), GeoIP2AutoUpdater::LOC_URL_OPTION_NAME, $geoIpLiteUrl]);
-        $migration2 = $this->migration->db->boundSql("UPDATE `$optionTable` SET option_value = ? WHERE option_name = ? AND option_value = ?",
-            [GeoIp2::getDbIpLiteUrl('country'), GeoIP2AutoUpdater::LOC_URL_OPTION_NAME, self::GEO_LITE_COUNTRY_URL]);
+        $migration1 = $this->migration->db->boundSql(
+            "UPDATE `$optionTable` SET option_value = ? WHERE option_name = ? AND option_value = ?",
+            [GeoIp2::getDbIpLiteUrl(), GeoIP2AutoUpdater::LOC_URL_OPTION_NAME, $geoIpLiteUrl]
+        );
+        $migration2 = $this->migration->db->boundSql(
+            "UPDATE `$optionTable` SET option_value = ? WHERE option_name = ? AND option_value = ?",
+            [GeoIp2::getDbIpLiteUrl('country'), GeoIP2AutoUpdater::LOC_URL_OPTION_NAME, self::GEO_LITE_COUNTRY_URL]
+        );
         return [$migration1, $migration2];
     }
 
