@@ -211,8 +211,13 @@ class PivotByDimensionTest extends IntegrationTestCase
 
         $table = $this->getTableToFilter(false);
 
-        $pivotFilter = new PivotByDimension($table, "CustomVariables.getCustomVariables", "CustomVariables.CustomVariableValue",
-            'nb_visits', $fetchBySegment = false);
+        $pivotFilter = new PivotByDimension(
+            $table,
+            "CustomVariables.getCustomVariables",
+            "CustomVariables.CustomVariableValue",
+            'nb_visits',
+            $fetchBySegment = false
+        );
         $pivotFilter->filter($table);
 
         $expectedRows = array(

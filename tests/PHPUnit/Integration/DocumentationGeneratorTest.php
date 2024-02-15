@@ -41,30 +41,36 @@ class DocumentationGeneratorTest extends TestCase
     public function test_CheckIfMethodComment_ContainsHideAnnotation_andText()
     {
         $annotation = '@hideForAll test test';
-        EventDispatcher::getInstance()->addObserver('API.DocumentationGenerator.@hideForAll',
+        EventDispatcher::getInstance()->addObserver(
+            'API.DocumentationGenerator.@hideForAll',
             function (&$hide) {
                 $hide = true;
-            });
+            }
+        );
         $this->assertEquals(Proxy::getInstance()->shouldHideAPIMethod($annotation), true);
     }
 
     public function test_CheckIfMethodComment_ContainsHideAnnotation_only()
     {
         $annotation = '@hideForAll';
-        EventDispatcher::getInstance()->addObserver('API.DocumentationGenerator.@hideForAll',
+        EventDispatcher::getInstance()->addObserver(
+            'API.DocumentationGenerator.@hideForAll',
             function (&$hide) {
                 $hide = true;
-            });
+            }
+        );
         $this->assertEquals(Proxy::getInstance()->shouldHideAPIMethod($annotation), true);
     }
 
     public function test_CheckIfMethodComment_DoesNotContainHideAnnotation()
     {
         $annotation = '@not found here';
-        EventDispatcher::getInstance()->addObserver('API.DocumentationGenerator.@hello',
+        EventDispatcher::getInstance()->addObserver(
+            'API.DocumentationGenerator.@hello',
             function (&$hide) {
                 $hide = true;
-            });
+            }
+        );
         $this->assertEquals(Proxy::getInstance()->shouldHideAPIMethod($annotation), false);
     }
 }

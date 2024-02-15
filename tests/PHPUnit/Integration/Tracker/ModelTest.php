@@ -222,9 +222,11 @@ class ModelTest extends IntegrationTestCase
     private function insertSingleDuplicateAction()
     {
         $logActionTable = Common::prefixTable('log_action');
-        Db::query("INSERT INTO $logActionTable (idaction, name, type, url_prefix, hash) VALUES (?, ?, ?, ?, CRC32(?))",
+        Db::query(
+            "INSERT INTO $logActionTable (idaction, name, type, url_prefix, hash) VALUES (?, ?, ?, ?, CRC32(?))",
             array(5, self::TEST_ACTION_NAME, self::TEST_ACTION_TYPE, self::TEST_ACTION_URL_PREFIX,
-                  self::TEST_ACTION_NAME));
+            self::TEST_ACTION_NAME)
+        );
     }
 
     private function insertManyActions()

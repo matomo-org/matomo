@@ -292,8 +292,16 @@ class ArchiveTest extends IntegrationTestCase
     public function test_shouldArchivePeriodsStartingInTheFuture_IfWebSiteLocalTimeIsInNextDay()
     {
         // Create a site with a timezone ahead of UTC
-        $idSite = Fixture::createWebsite('2014-05-06', 1, false, false,
-            1, null, null, 'Pacific/Auckland');
+        $idSite = Fixture::createWebsite(
+            '2014-05-06',
+            1,
+            false,
+            false,
+            1,
+            null,
+            null,
+            'Pacific/Auckland'
+        );
 
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'browser_archiving_disabled_enforce', 0);
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_range_force_on_browser_request', 1);
@@ -348,8 +356,16 @@ class ArchiveTest extends IntegrationTestCase
     {
 
         // Create a site with a timezone behind of UTC
-        $idSite = Fixture::createWebsite('2014-05-06', 1, false, false,
-            1, null, null, 'America/Vancouver'); // -8hrs
+        $idSite = Fixture::createWebsite(
+            '2014-05-06',
+            1,
+            false,
+            false,
+            1,
+            null,
+            null,
+            'America/Vancouver'
+        ); // -8hrs
 
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'browser_archiving_disabled_enforce', 0);
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_range_force_on_browser_request', 1);

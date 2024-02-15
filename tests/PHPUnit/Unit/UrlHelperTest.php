@@ -169,24 +169,34 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('test/index.php?module=CoreHome', UrlHelper::getPathAndQueryFromUrl('http://piwik.org/test/index.php?module=CoreHome'));
 
         // Add parameters to existing params
-        $this->assertEquals('test/index.php?module=CoreHome&abc=123&def=456',
-            UrlHelper::getPathAndQueryFromUrl('http://piwik.org/test/index.php?module=CoreHome', ['abc' => '123', 'def' => '456']));
+        $this->assertEquals(
+            'test/index.php?module=CoreHome&abc=123&def=456',
+            UrlHelper::getPathAndQueryFromUrl('http://piwik.org/test/index.php?module=CoreHome', ['abc' => '123', 'def' => '456'])
+        );
 
         // Add parameters with no existing params
-        $this->assertEquals('test/index.php?abc=123&def=456',
-            UrlHelper::getPathAndQueryFromUrl('http://piwik.org/test/index.php', ['abc' => '123', 'def' => '456']));
+        $this->assertEquals(
+            'test/index.php?abc=123&def=456',
+            UrlHelper::getPathAndQueryFromUrl('http://piwik.org/test/index.php', ['abc' => '123', 'def' => '456'])
+        );
 
         // Preserve anchor
-        $this->assertEquals('test/index.php#anchor',
-            UrlHelper::getPathAndQueryFromUrl('http://piwik.org/test/index.php#anchor', [], true));
+        $this->assertEquals(
+            'test/index.php#anchor',
+            UrlHelper::getPathAndQueryFromUrl('http://piwik.org/test/index.php#anchor', [], true)
+        );
 
         // Do not preserve anchor
-        $this->assertEquals('test/index.php',
-            UrlHelper::getPathAndQueryFromUrl('http://piwik.org/test/index.php#anchor', [], false));
+        $this->assertEquals(
+            'test/index.php',
+            UrlHelper::getPathAndQueryFromUrl('http://piwik.org/test/index.php#anchor', [], false)
+        );
 
         // Add parameters with existing params, preserve anchor
-        $this->assertEquals('test/index.php#anchor?abc=123&def=456',
-            UrlHelper::getPathAndQueryFromUrl('http://piwik.org/test/index.php#anchor', ['abc' => '123', 'def' => '456'], true));
+        $this->assertEquals(
+            'test/index.php#anchor?abc=123&def=456',
+            UrlHelper::getPathAndQueryFromUrl('http://piwik.org/test/index.php#anchor', ['abc' => '123', 'def' => '456'], true)
+        );
     }
 
     /**

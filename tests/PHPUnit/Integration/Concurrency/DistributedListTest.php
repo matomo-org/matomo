@@ -140,9 +140,11 @@ class DistributedListTest extends IntegrationTestCase
         $data = $data ?: self::$defaultOptionValues;
 
         $optionTable = Common::prefixTable('option');
-        Db::query("INSERT INTO `$optionTable` (option_name, option_value, autoload) VALUES (?, ?, ?)
+        Db::query(
+            "INSERT INTO `$optionTable` (option_name, option_value, autoload) VALUES (?, ?, ?)
                    ON DUPLICATE KEY UPDATE option_value = ?",
-            array(self::TEST_OPTION_NAME, serialize($data), 0, serialize($data)));
+            array(self::TEST_OPTION_NAME, serialize($data), 0, serialize($data))
+        );
     }
 
     private function getOptionValueForList()
