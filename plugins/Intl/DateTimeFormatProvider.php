@@ -101,7 +101,8 @@ class DateTimeFormatProvider extends \Piwik\Intl\Data\Provider\DateTimeFormatPro
                 'Intl_Format_Interval_%s_%s',
                 $short ? 'Short' : 'Long',
                 $maxDifference
-            ));
+            )
+        );
     }
 
     protected function getTimeFormat()

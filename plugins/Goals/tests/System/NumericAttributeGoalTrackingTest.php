@@ -57,7 +57,9 @@ class NumericAttributeGoalTrackingTest extends IntegrationTestCase
 
     private function getConversionCount($idGoal)
     {
-        return Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('log_conversion') . ' WHERE idsite = ? AND idgoal = ?',
-            [$this->idSite, $idGoal]);
+        return Db::fetchOne(
+            'SELECT COUNT(*) FROM ' . Common::prefixTable('log_conversion') . ' WHERE idsite = ? AND idgoal = ?',
+            [$this->idSite, $idGoal]
+        );
     }
 }

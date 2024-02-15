@@ -98,17 +98,23 @@ class Service
 
         $file = Http::ensureDestinationDirectoryExists($destinationPath);
 
-        $response = Http::sendHttpRequestBy($method,
-                                            $url,
-                                            $timeout,
-                                            $userAgent = null,
-                                            $destinationPath,
-                                            $file,
-                                            $followDepth = 0,
-                                            $acceptLanguage = false,
-                                            $acceptInvalidSslCertificate = false,
-                                            $byteRange = false, $getExtendedInfo = false, $httpMethod = 'POST',
-                                            $httpUsername = null, $httpPassword = null, $post);
+        $response = Http::sendHttpRequestBy(
+            $method,
+            $url,
+            $timeout,
+            $userAgent = null,
+            $destinationPath,
+            $file,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = false,
+            $httpMethod = 'POST',
+            $httpUsername = null,
+            $httpPassword = null,
+            $post
+        );
 
         return $response;
     }

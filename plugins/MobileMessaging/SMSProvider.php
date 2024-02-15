@@ -117,7 +117,8 @@ abstract class SMSProvider
         $providers = self::findAvailableSmsProviders();
 
         if (!array_key_exists($provider, $providers)) {
-            throw new \Exception(Piwik::translate('MobileMessaging_Exception_UnknownProvider',
+            throw new \Exception(Piwik::translate(
+                'MobileMessaging_Exception_UnknownProvider',
                 array($provider, implode(', ', array_keys($providers)))
             ));
         }

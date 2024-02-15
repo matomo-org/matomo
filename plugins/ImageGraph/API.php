@@ -244,10 +244,10 @@ class API extends \Piwik\Plugin\API
                     $ordinateColumns[] = key($metadata['metrics']);
                 } else {
                     throw new Exception(
-                      Piwik::translate(
-                        'ImageGraph_ColumnOrdinateMissing',
-                        array(self::DEFAULT_ORDINATE_METRIC, implode(',', array_keys($reportColumns)))
-                      )
+                        Piwik::translate(
+                            'ImageGraph_ColumnOrdinateMissing',
+                            array(self::DEFAULT_ORDINATE_METRIC, implode(',', array_keys($reportColumns)))
+                        )
                     );
                 }
             } else {
