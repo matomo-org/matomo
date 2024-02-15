@@ -33,8 +33,10 @@ class Model
      */
     public function getLayoutForUser($login, $idDashboard)
     {
-        $query   = sprintf('SELECT layout FROM %s WHERE login = ? AND iddashboard = ?',
-                           $this->table);
+        $query   = sprintf(
+            'SELECT layout FROM %s WHERE login = ? AND iddashboard = ?',
+            $this->table
+        );
         $bind    = array($login, $idDashboard);
         $layouts = Db::fetchAll($query, $bind);
 
@@ -98,8 +100,10 @@ class Model
     public function createOrUpdateDashboard($login, $idDashboard, $layout)
     {
         $bind   = array($login, $idDashboard, $layout, $layout);
-        $query  = sprintf('INSERT INTO %s (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',
-                          $this->table);
+        $query  = sprintf(
+            'INSERT INTO %s (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',
+            $this->table
+        );
         Db::query($query, $bind);
     }
 
@@ -125,8 +129,10 @@ class Model
     public function updateLayoutForUser($login, $idDashboard, $layout)
     {
         $bind  = array($login, $idDashboard, $layout, $layout);
-        $query = sprintf('INSERT INTO %s (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',
-                         $this->table);
+        $query = sprintf(
+            'INSERT INTO %s (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',
+            $this->table
+        );
         Db::query($query, $bind);
     }
 

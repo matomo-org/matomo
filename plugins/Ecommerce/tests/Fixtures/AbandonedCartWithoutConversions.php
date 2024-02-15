@@ -34,8 +34,14 @@ class AbandonedCartWithoutConversions extends Fixture
 
         if (!self::goalExists($this->idSite, $this->idGoalStandard)) {
             GoalsAPI::getInstance()->addGoal(
-                $this->idSite, 'title match, triggered NEVER', 'title', 'saldkfjaslkdfjsalkdjf', 'contains',
-                $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true
+                $this->idSite,
+                'title match, triggered NEVER',
+                'title',
+                'saldkfjaslkdfjsalkdjf',
+                'contains',
+                $caseSensitive = false,
+                $revenue = 10,
+                $allowMultipleConversions = true
             );
         }
     }

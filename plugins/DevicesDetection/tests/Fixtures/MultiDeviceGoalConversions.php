@@ -41,8 +41,14 @@ class MultiDeviceGoalConversions extends Fixture
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
             API::getInstance()->addGoal(
-                $this->idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false,
-                $revenue = 10, $allowMultipleConversions = 1
+                $this->idSite,
+                'Goal 1 - Thank you',
+                'title',
+                'Thank you',
+                'contains',
+                $caseSensitive = false,
+                $revenue = 10,
+                $allowMultipleConversions = 1
             );
         }
     }

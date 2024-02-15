@@ -57,8 +57,10 @@ class CronArchivingLastRunCheck implements Diagnostic
         $lastRunTime = (int)Option::get(CronArchive::OPTION_ARCHIVING_FINISHED_TS);
         if (empty($lastRunTime)) {
             $comment = $this->translator->translate('Diagnostics_CronArchivingHasNotRun')
-                . '<br/><br/>' . $this->translator->translate('Diagnostics_CronArchivingRunDetails',
-                    [$coreArchiveShort, $mailto, $commandToRerun, '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/') . '" target="_blank" rel="noreferrer noopener">', '</a>']);
+                . '<br/><br/>' . $this->translator->translate(
+                    'Diagnostics_CronArchivingRunDetails',
+                    [$coreArchiveShort, $mailto, $commandToRerun, '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/') . '" target="_blank" rel="noreferrer noopener">', '</a>']
+                );
             return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $comment)];
         }
 

@@ -26,11 +26,13 @@ class RecommendedPrivateDirectories extends AbstractPrivateDirectories
 
     protected function addError(DiagnosticResult &$result)
     {
-        $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_INFORMATIONAL,
+        $result->addItem(new DiagnosticResultItem(
+            DiagnosticResult::STATUS_INFORMATIONAL,
             $this->translator->translate('Diagnostics_UrlsAccessibleViaBrowser') . ' ' .
             $this->translator->translate('General_ReadThisToLearnMore', [
                 '<a target="_blank" rel="noopener noreferrer" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/how-do-i-fix-the-error-private-directories-are-accessible/') . '">',
                 '</a>',
-            ])));
+            ])
+        ));
     }
 }

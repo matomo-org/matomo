@@ -331,9 +331,9 @@ function _mapLegacyOsShortCodes($shortCode): string
         //'VMS' => '', // OpenVMS => ??
     ];
     return ($shortCode && array_key_exists(
-            $shortCode,
-            $legacyShortCodes
-        )) ? $legacyShortCodes[$shortCode] : (string)$shortCode;
+        $shortCode,
+        $legacyShortCodes
+    )) ? $legacyShortCodes[$shortCode] : (string)$shortCode;
 }
 
 /**
