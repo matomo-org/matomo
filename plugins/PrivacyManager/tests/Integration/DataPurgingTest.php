@@ -528,7 +528,8 @@ class DataPurgingTest extends IntegrationTestCase
 
         $this->unusedIdAction = Db::fetchOne(
             "SELECT idaction FROM " . Common::prefixTable('log_action') . " WHERE name = ?",
-            array('whatever.com/_40'));
+            array('whatever.com/_40')
+        );
         $this->assertTrue($this->unusedIdAction > 0);
 
         // purge data
@@ -541,7 +542,8 @@ class DataPurgingTest extends IntegrationTestCase
         // check that the unused action still exists
         $count = Db::fetchOne(
             "SELECT COUNT(*) FROM " . Common::prefixTable('log_action') . " WHERE idaction = ?",
-            array($this->unusedIdAction));
+            array($this->unusedIdAction)
+        );
         $this->assertEquals(1, $count);
 
         $this->unusedIdAction = null; // so the hook won't get executed twice
@@ -680,10 +682,21 @@ class DataPurgingTest extends IntegrationTestCase
             $t->doTrackContentImpression('SugarTransportAd', '/path/ad.jpg', 'http://www.satsumaprovince.jp');
 
             $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2));
-            $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR', $category = 'Electronics & Cameras',
-                $price = 1500, $quantity = 1);
-            $t->doTrackEcommerceOrder($orderId = '937nsjusu ' . $dateTime, $grandTotal = 1111.11, $subTotal = 1000,
-                $tax = 111, $shipping = 0.11, $discount = 666);
+            $t->addEcommerceItem(
+                $sku = 'SKU2',
+                $name = 'Canon SLR',
+                $category = 'Electronics & Cameras',
+                $price = 1500,
+                $quantity = 1
+            );
+            $t->doTrackEcommerceOrder(
+                $orderId = '937nsjusu ' . $dateTime,
+                $grandTotal = 1111.11,
+                $subTotal = 1000,
+                $tax = 111,
+                $shipping = 0.11,
+                $discount = 666
+            );
         }
 
         Fixture::checkBulkTrackingResponse($t->doBulkTrack());
@@ -720,7 +733,10 @@ class DataPurgingTest extends IntegrationTestCase
             $archive->getNumeric('nb_visits');
 
             APIVisitorInterest::getInstance()->getNumberOfVisitsPerVisitDuration(
-                self::$idSite, 'week', $dateTime);
+                self::$idSite,
+                'week',
+                $dateTime
+            );
         }
 
         // add segment for one day
@@ -728,7 +744,11 @@ class DataPurgingTest extends IntegrationTestCase
         $archive->getNumeric('nb_visits', 'nb_hits');
 
         APIVisitorInterest::getInstance()->getNumberOfVisitsPerVisitDuration(
-            self::$idSite, 'day', '2012-01-14', 'browserCode==FF');
+            self::$idSite,
+            'day',
+            '2012-01-14',
+            'browserCode==FF'
+        );
 
         // add range within January
         $rangeEnd = Date::factory('2012-01-29');
@@ -784,16 +804,24 @@ class DataPurgingTest extends IntegrationTestCase
                         VALUES (10000,?,1,?,?,?,?,?)";
 
         // one metric for jan & one for feb
-        Db::query(sprintf($sql, Common::prefixTable($archiveTables['numeric'][0])),
-            array(self::GARBAGE_FIELD, $janDate1, $janDate1, 1, $janDate1, 100));
-        Db::query(sprintf($sql, Common::prefixTable($archiveTables['numeric'][1])),
-            array(self::GARBAGE_FIELD, $febDate1, $febDate1, 1, $febDate1, 200));
+        Db::query(
+            sprintf($sql, Common::prefixTable($archiveTables['numeric'][0])),
+            array(self::GARBAGE_FIELD, $janDate1, $janDate1, 1, $janDate1, 100)
+        );
+        Db::query(
+            sprintf($sql, Common::prefixTable($archiveTables['numeric'][1])),
+            array(self::GARBAGE_FIELD, $febDate1, $febDate1, 1, $febDate1, 200)
+        );
 
         // add garbage reports
-        Db::query(sprintf($sql, Common::prefixTable($archiveTables['blob'][0])),
-            array(self::GARBAGE_FIELD, $janDate1, $janDate1, 10, $janDate1, 'blobval'));
-        Db::query(sprintf($sql, Common::prefixTable($archiveTables['blob'][1])),
-            array(self::GARBAGE_FIELD, $febDate1, $febDate1, 20, $febDate1, 'blobval'));
+        Db::query(
+            sprintf($sql, Common::prefixTable($archiveTables['blob'][0])),
+            array(self::GARBAGE_FIELD, $janDate1, $janDate1, 10, $janDate1, 'blobval')
+        );
+        Db::query(
+            sprintf($sql, Common::prefixTable($archiveTables['blob'][1])),
+            array(self::GARBAGE_FIELD, $febDate1, $febDate1, 20, $febDate1, 'blobval')
+        );
     }
 
     protected function _checkNoDataChanges()

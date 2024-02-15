@@ -116,8 +116,15 @@ class ApiTest extends IntegrationTestCase
         });
 
         $idReport = APIScheduledReports::getInstance()->addReport(
-            $this->idSite, 'send report', 'never', 6, 'dummyreporttype', 'dummyreportformat',
-            $reportIds, [ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY]);
+            $this->idSite,
+            'send report',
+            'never',
+            6,
+            'dummyreporttype',
+            'dummyreportformat',
+            $reportIds,
+            [ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY]
+        );
 
         $eventCalledWith = [];
         Piwik::addAction(APIScheduledReports::SEND_REPORT_EVENT, function (
@@ -436,7 +443,8 @@ class ApiTest extends IntegrationTestCase
                                            ->disableOriginalConstructor()
                                            ->getMock();
         $stubbedAPIScheduledReports->expects($this->any())->method('getReports')->will($this->returnValue(
-                array($report1, $report2, $report3, $report4, $report5, $report6)));
+            array($report1, $report2, $report3, $report4, $report5, $report6)
+        ));
         \Piwik\Plugins\ScheduledReports\API::setSingletonInstance($stubbedAPIScheduledReports);
 
         // initialize sites 1 and 2
@@ -498,7 +506,8 @@ class ApiTest extends IntegrationTestCase
     public function testGetReportSubjectAndReportTitle($expectedReportSubject, $expectedReportTitle, $websiteName, $reports)
     {
         $getReportSubjectAndReportTitle = new ReflectionMethod(
-            '\\Piwik\\Plugins\\ScheduledReports\\API', 'getReportSubjectAndReportTitle'
+            '\\Piwik\\Plugins\\ScheduledReports\\API',
+            'getReportSubjectAndReportTitle'
         );
         $getReportSubjectAndReportTitle->setAccessible(true);
 
@@ -549,8 +558,12 @@ class ApiTest extends IntegrationTestCase
         );
 
         ob_start();
-        $result = APIScheduledReports::getInstance()->generateReport($idReport, Date::factory('now')->toString(),
-            $language = false, $outputType = APIScheduledReports::OUTPUT_RETURN);
+        $result = APIScheduledReports::getInstance()->generateReport(
+            $idReport,
+            Date::factory('now')->toString(),
+            $language = false,
+            $outputType = APIScheduledReports::OUTPUT_RETURN
+        );
         ob_end_clean();
 
         self::assertStringContainsString('id="VisitsSummary_get"', $result);
@@ -578,8 +591,12 @@ class ApiTest extends IntegrationTestCase
             array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
         );
 
-        APIScheduledReports::getInstance()->generateReport($idReport, '2012-03-03,2012-03-23',
-            $language = false, $outputType = APIScheduledReports::OUTPUT_RETURN);
+        APIScheduledReports::getInstance()->generateReport(
+            $idReport,
+            '2012-03-03,2012-03-23',
+            $language = false,
+            $outputType = APIScheduledReports::OUTPUT_RETURN
+        );
     }
 
     public function test_generateReport_throwsIfInvalidDateRequested(): void
@@ -1002,7 +1019,8 @@ class ApiTest extends IntegrationTestCase
             $data['type'],
             $data['format'],
             $data['reports'],
-            $data['parameters']);
+            $data['parameters']
+        );
         return $idReport;
     }
 

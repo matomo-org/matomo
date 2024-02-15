@@ -124,7 +124,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                                                  'lang'              => Common::getBrowserLanguage(),
                                                  'disable_fallbacks' => true));
         $location = LocationProvider::prettyFormatLocation(
-            $location, $newline = '<br/>', $includeExtra = true);
+            $location,
+            $newline = '<br/>',
+            $includeExtra = true
+        );
 
         return $location;
     }

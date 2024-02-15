@@ -74,10 +74,12 @@ class TestsRun extends ConsoleCommand
             $xdebugFile   = trim($extensionDir) . DIRECTORY_SEPARATOR . 'xdebug.so';
 
             if (!file_exists($xdebugFile)) {
-                $xdebugFile = $this->askAndValidate('xdebug not found. Please provide path to xdebug.so',
+                $xdebugFile = $this->askAndValidate(
+                    'xdebug not found. Please provide path to xdebug.so',
                     function ($xdebugFile) {
                         return file_exists($xdebugFile);
-                    });
+                    }
+                );
             } else {
 
                 $output->writeln('<info>xdebug extension found in extension path.</info>');

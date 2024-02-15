@@ -38,8 +38,10 @@ class GetCountry extends Base
         if (LocationProvider::getCurrentProviderId() == LocationProvider\DefaultProvider::ID) {
             // if we're using the default location provider, add a note explaining how it works
             $footerMessage = Piwik::translate("General_Note") . ': '
-                . Piwik::translate('UserCountry_DefaultLocationProviderExplanation',
-                    ['<a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/geo-locate/') . '">', '</a>']);
+                . Piwik::translate(
+                    'UserCountry_DefaultLocationProviderExplanation',
+                    ['<a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/geo-locate/') . '">', '</a>']
+                );
 
             $view->config->show_footer_message = $footerMessage;
         }

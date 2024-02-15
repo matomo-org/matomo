@@ -71,9 +71,13 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         $this->setName('usercountry:attribute');
         $this->setDescription("Re-attribute existing raw data (visits & conversions) with geolocated location data, using the specified or configured location provider.");
         $this->addRequiredArgument(self::DATES_RANGE_ARGUMENT, 'Attribute visits in this date range. Eg, 2012-01-01,2013-01-01');
-        $this->addOptionalValueOption(self::PERCENT_STEP_ARGUMENT, null,
+        $this->addOptionalValueOption(
+            self::PERCENT_STEP_ARGUMENT,
+            null,
             'How often to display the command progress. A status update will be printed after N percent of visits are processed, '
-            . 'where N is the value of this option.', self::PERCENT_STEP_ARGUMENT_DEFAULT);
+            . 'where N is the value of this option.',
+            self::PERCENT_STEP_ARGUMENT_DEFAULT
+        );
         $this->addRequiredValueOption(self::PROVIDER_ARGUMENT, null, 'Provider id which should be used to attribute visits. If empty then'
             . ' Piwik will use the currently configured provider. If no provider is configured, the default provider is used.');
         $this->addOptionalValueOption(self::SEGMENT_LIMIT_OPTION, null, 'Number of visits to process at a time.', self::SEGMENT_LIMIT_OPTION_DEFAULT);
@@ -96,8 +100,13 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         $this->amountOfVisits = $this->dao->countVisitsWithDatesLimit($from, $to);
 
         $output->writeln(
-            sprintf('Re-attribution for date range: %s to %s. %d visits to process with provider "%s".',
-                $from, $to, $this->amountOfVisits, $this->visitorGeolocator->getProvider()->getId())
+            sprintf(
+                'Re-attribution for date range: %s to %s. %d visits to process with provider "%s".',
+                $from,
+                $to,
+                $this->amountOfVisits,
+                $this->visitorGeolocator->getProvider()->getId()
+            )
         );
 
         $this->timer = new Timer();
