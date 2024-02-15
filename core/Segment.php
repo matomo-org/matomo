@@ -592,8 +592,16 @@ class Segment
             if ($forceGroupBy && $groupBy) {
                 $this->segmentQueryBuilder->forceInnerGroupBySubselect(LogQueryBuilder::FORCE_INNER_GROUP_BY_NO_SUBSELECT);
             }
-            $result = $this->segmentQueryBuilder->getSelectQueryString($segmentExpression, $select, $from, $where, $bind,
-                $groupBy, $orderBy, $limitAndOffset);
+            $result = $this->segmentQueryBuilder->getSelectQueryString(
+                $segmentExpression,
+                $select,
+                $from,
+                $where,
+                $bind,
+                $groupBy,
+                $orderBy,
+                $limitAndOffset
+            );
         } catch (Exception $e) {
             if ($forceGroupBy && $groupBy) {
                 $this->segmentQueryBuilder->forceInnerGroupBySubselect('');

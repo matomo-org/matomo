@@ -28,7 +28,8 @@ class Daily extends Schedule
         $currentTime = $this->getTime();
 
         // Add one day
-        $rescheduledTime = mktime(date('H', $currentTime),
+        $rescheduledTime = mktime(
+            date('H', $currentTime),
             date('i', $currentTime),
             date('s', $currentTime),
             date('n', $currentTime),

@@ -372,8 +372,19 @@ class SiteContentDetector
         $siteData = [];
 
         try {
-            $siteData = Http::sendHttpRequestBy(Http::getTransportMethod(), $url, $timeOut, null, null,
-                null, 0, false, true, false, true);
+            $siteData = Http::sendHttpRequestBy(
+                Http::getTransportMethod(),
+                $url,
+                $timeOut,
+                null,
+                null,
+                null,
+                0,
+                false,
+                true,
+                false,
+                true
+            );
         } catch (\Exception $e) {
         }
 

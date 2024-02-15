@@ -255,8 +255,10 @@ class Setting
             }
 
             // TODO move error message creation to a subclass, eg in MeasurableSettings we do not want to mention plugin name
-            $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingsValueNotAllowed',
-                                         array(strip_tags($config->title), $this->pluginName));
+            $errorMsg = Piwik::translate(
+                'CoreAdminHome_PluginSettingsValueNotAllowed',
+                array(strip_tags($config->title), $this->pluginName)
+            );
 
             if (is_array($value) && $this->type === FieldConfig::TYPE_ARRAY) {
                 foreach ($value as $val) {
@@ -272,15 +274,19 @@ class Setting
         } elseif ($this->type === FieldConfig::TYPE_INT || $this->type === FieldConfig::TYPE_FLOAT) {
 
             if (!is_numeric($value)) {
-                $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingsValueNotAllowed',
-                                             array(strip_tags($config->title), $this->pluginName));
+                $errorMsg = Piwik::translate(
+                    'CoreAdminHome_PluginSettingsValueNotAllowed',
+                    array(strip_tags($config->title), $this->pluginName)
+                );
                 throw new \Exception($errorMsg);
             }
         } elseif ($this->type === FieldConfig::TYPE_BOOL) {
 
             if (!in_array($value, array(true, false, '0', '1', 0, 1), true)) {
-                $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingsValueNotAllowed',
-                                             array(strip_tags($config->title), $this->pluginName));
+                $errorMsg = Piwik::translate(
+                    'CoreAdminHome_PluginSettingsValueNotAllowed',
+                    array(strip_tags($config->title), $this->pluginName)
+                );
                 throw new \Exception($errorMsg);
             }
         }

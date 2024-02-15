@@ -838,8 +838,10 @@ class Visualization extends ViewDataTable
     {
         $requestProperties = $this->requestConfig->getProperties();
 
-        $diff = array_diff_assoc($this->makeSureArrayContainsOnlyStrings($requestProperties),
-                                 $this->makeSureArrayContainsOnlyStrings($requestPropertiesBefore));
+        $diff = array_diff_assoc(
+            $this->makeSureArrayContainsOnlyStrings($requestProperties),
+            $this->makeSureArrayContainsOnlyStrings($requestPropertiesBefore)
+        );
 
         if (!empty($diff['filter_sort_column'])) {
             // this here might be ok as it can be changed after data loaded but before filters applied

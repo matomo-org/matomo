@@ -405,7 +405,11 @@ abstract class Controller
     protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
     {
         $view = ViewDataTableFactory::build(
-            Evolution::ID, $apiMethod, $currentModuleName . '.' . $currentControllerAction, $forceDefault = true);
+            Evolution::ID,
+            $apiMethod,
+            $currentModuleName . '.' . $currentControllerAction,
+            $forceDefault = true
+        );
         $view->config->show_goals = false;
         return $view;
     }

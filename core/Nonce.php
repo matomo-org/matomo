@@ -101,7 +101,8 @@ class Nonce
         //  The Session cookie is set to a secure cookie, when SSL is mis-configured, it can cause the PHP session cookie ID to change on each page view.
         //  Indicate to user how to solve this particular use case by forcing secure connections.
         if (Url::isSecureConnectionAssumedByPiwikButNotForcedYet()) {
-            $additionalErrors =  '<br/><br/>' . Piwik::translate('Login_InvalidNonceSSLMisconfigured',
+            $additionalErrors =  '<br/><br/>' . Piwik::translate(
+                'Login_InvalidNonceSSLMisconfigured',
                 array(
                   '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_91/') . '">',
                   '</a>',
@@ -109,7 +110,7 @@ class Nonce
                   '<pre>force_ssl=1</pre>',
                   '<pre>[General]</pre>',
                 )
-              );
+            );
         }
 
         // validate token
