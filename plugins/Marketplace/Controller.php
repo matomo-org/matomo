@@ -272,13 +272,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->paidPluginsToInstallAtOnce = $paidPluginsToInstallAtOnce;
         $view->pluginsToShow = $pluginsToShow;
         $view->isValidConsumer = $this->consumer->isValidConsumer();
-        $view->paidPlugins = $paidPlugins;
-        $view->freePlugins = $allPlugins;
-        $view->themes = $allThemes;
         $view->showThemes = $showThemes;
-        $view->showPlugins = $showPlugins;
-        $view->showFree = $showAll;
-        $view->showPaid = $showPaid;
         $view->pluginType = $show;
         $view->pluginTypeOptions = array(
             'plugins' => Piwik::translate('General_Plugins'),
@@ -291,11 +285,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Sort::METHOD_NEWEST => Piwik::translate('Marketplace_SortByNewest'),
             Sort::METHOD_ALPHA => Piwik::translate('Marketplace_SortByAlpha'),
         );
-        $view->mode = $mode;
         $view->query = $query;
         $view->sort = $sort;
         $view->hasLicenseKey = $this->licenseKey->has();
-        $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
         $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
         $view->deactivateNonce = Nonce::getNonce(PluginsController::DEACTIVATE_NONCE);
