@@ -249,7 +249,11 @@ class DataTablePostProcessor
         $addNormalProcessedMetrics = null;
         try {
             $addNormalProcessedMetrics = Common::getRequestVar(
-                'filter_add_columns_when_show_all_columns', null, 'integer', $this->request);
+                'filter_add_columns_when_show_all_columns',
+                null,
+                'integer',
+                $this->request
+            );
         } catch (Exception $ex) {
             // ignore
         }
@@ -261,7 +265,11 @@ class DataTablePostProcessor
         $addGoalProcessedMetrics = null;
         try {
             $addGoalProcessedMetrics = Common::getRequestVar(
-                'filter_update_columns_when_show_all_goals', false, 'string', $this->request);
+                'filter_update_columns_when_show_all_goals',
+                false,
+                'string',
+                $this->request
+            );
             if ((int) $addGoalProcessedMetrics === 0
                 && $addGoalProcessedMetrics !== '0'
                 && $addGoalProcessedMetrics != Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER

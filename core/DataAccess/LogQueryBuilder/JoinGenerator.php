@@ -236,10 +236,20 @@ class JoinGenerator
         foreach ($availableLogTables as $availableLogTable) {
             if ($logTable->getColumnToJoinOnIdVisit() && $availableLogTable->getColumnToJoinOnIdVisit()) {
 
-                $join = sprintf("%s.%s = %s.%s", $table, $logTable->getColumnToJoinOnIdVisit(),
-                                                 $availableLogTable->getName(), $availableLogTable->getColumnToJoinOnIdVisit());
-                $alternativeJoin = sprintf("%s.%s = %s.%s", $availableLogTable->getName(), $availableLogTable->getColumnToJoinOnIdVisit(),
-                                                            $table, $logTable->getColumnToJoinOnIdVisit());
+                $join = sprintf(
+                    "%s.%s = %s.%s",
+                    $table,
+                    $logTable->getColumnToJoinOnIdVisit(),
+                    $availableLogTable->getName(),
+                    $availableLogTable->getColumnToJoinOnIdVisit()
+                );
+                $alternativeJoin = sprintf(
+                    "%s.%s = %s.%s",
+                    $availableLogTable->getName(),
+                    $availableLogTable->getColumnToJoinOnIdVisit(),
+                    $table,
+                    $logTable->getColumnToJoinOnIdVisit()
+                );
 
                 if ($availableLogTable->shouldJoinWithSubSelect()) {
                     $this->joinWithSubSelect = true;
@@ -310,11 +320,21 @@ class JoinGenerator
         $logTable = $this->tables->getLogTable($tableName);
         $logTableToJoin = $this->tables->getLogTable($tableNameToJoin);
 
-        $nonVisitJoin = sprintf("%s.%s = %s.%s", $logTableToJoin->getName(), $logTableToJoin->getColumnToJoinOnIdAction(),
-                                                 $tableName, $logTable->getColumnToJoinOnIdAction());
+        $nonVisitJoin = sprintf(
+            "%s.%s = %s.%s",
+            $logTableToJoin->getName(),
+            $logTableToJoin->getColumnToJoinOnIdAction(),
+            $tableName,
+            $logTable->getColumnToJoinOnIdAction()
+        );
 
-        $altNonVisitJoin = sprintf("%s.%s = %s.%s", $tableName, $logTable->getColumnToJoinOnIdAction(),
-                                                    $logTableToJoin->getName(), $logTableToJoin->getColumnToJoinOnIdAction());
+        $altNonVisitJoin = sprintf(
+            "%s.%s = %s.%s",
+            $tableName,
+            $logTable->getColumnToJoinOnIdAction(),
+            $logTableToJoin->getName(),
+            $logTableToJoin->getColumnToJoinOnIdAction()
+        );
 
         if ($index > 0
             && $this->tables->hasAddedTableManually($tableName)

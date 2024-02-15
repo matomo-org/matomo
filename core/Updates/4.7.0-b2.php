@@ -42,8 +42,11 @@ class Updates_4_7_0_b2 extends PiwikUpdates
         $migrations = [];
 
         // add column to track the last change a user viewed the changes list
-        $migrations[] = $this->migration->db->addColumn('user', 'idchange_last_viewed',
-            'INTEGER UNSIGNED NULL');
+        $migrations[] = $this->migration->db->addColumn(
+            'user',
+            'idchange_last_viewed',
+            'INTEGER UNSIGNED NULL'
+        );
 
         $migrations[] = $this->migration->db->createTable('changes', array(
                 'idchange' => 'INT(11) NOT NULL AUTO_INCREMENT',

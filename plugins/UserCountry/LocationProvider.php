@@ -369,7 +369,8 @@ abstract class LocationProvider
         $provider = self::getProviderById($providerId);
         if (empty($provider)) {
             throw new Exception(
-                "Invalid provider ID '$providerId'. The provider either does not exist or is not available");
+                "Invalid provider ID '$providerId'. The provider either does not exist or is not available"
+            );
         }
 
         $provider->activate();

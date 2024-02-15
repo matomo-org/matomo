@@ -64,7 +64,8 @@ class Monthly extends Schedule
         $currentTime = $this->getTime();
 
         // Adds one month
-        $rescheduledTime = mktime(date('H', $currentTime),
+        $rescheduledTime = mktime(
+            date('H', $currentTime),
             date('i', $currentTime),
             date('s', $currentTime),
             date('n', $currentTime) + 1,

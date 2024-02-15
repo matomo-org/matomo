@@ -389,7 +389,10 @@ class GoalManager
 
         if ($isThereExistingCartInVisit) {
             $recorded = $this->getModel()->updateConversion(
-                $visitProperties->getProperty('idvisit'), self::IDGOAL_CART, $conversion);
+                $visitProperties->getProperty('idvisit'),
+                self::IDGOAL_CART,
+                $conversion
+            );
         } else {
             $recorded = $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request, $action);
         }
@@ -457,7 +460,8 @@ class GoalManager
 
             //Item in the cart in the DB, but not anymore in the cart
             if (!isset($itemInCartBySku[$itemInDb[0]])) {
-                $itemToUpdate = array_merge($itemInDb,
+                $itemToUpdate = array_merge(
+                    $itemInDb,
                     array('deleted'                => 1,
                           'idorder_original_value' => $itemInDbOriginal['idorder_original_value']
                     )

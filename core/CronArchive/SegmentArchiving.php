@@ -124,8 +124,10 @@ class SegmentArchiving
             if (empty($segmentLastEditedTime)) {
                 return null;
             }
-            $this->logger->debug("process_new_segments_from set to segment_last_edit_time, segment last edit time is {time}",
-                array('time' => $segmentLastEditedTime));
+            $this->logger->debug(
+                "process_new_segments_from set to segment_last_edit_time, segment last edit time is {time}",
+                array('time' => $segmentLastEditedTime)
+            );
 
             return $segmentLastEditedTime;
         } else if (preg_match("/^editLast([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {

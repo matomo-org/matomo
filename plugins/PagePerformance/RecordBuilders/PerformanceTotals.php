@@ -74,8 +74,16 @@ class PerformanceTotals extends RecordBuilder
         $joinLogActionOnColumn = array('idaction_url');
         $where = sprintf("COALESCE(%s) IS NOT NULL", implode(',', $allColumns));
 
-        $query = $logAggregator->queryActionsByDimension([], $where, $selects, false, null,
-            $joinLogActionOnColumn, null, -1);
+        $query = $logAggregator->queryActionsByDimension(
+            [],
+            $where,
+            $selects,
+            false,
+            null,
+            $joinLogActionOnColumn,
+            null,
+            -1
+        );
 
         $result = $query->fetchAll();
 

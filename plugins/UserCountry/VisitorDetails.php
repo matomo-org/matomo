@@ -70,7 +70,9 @@ class VisitorDetails extends VisitorDetailsAbstract
         $region = $this->getRegionCode();
         if ($region != '' && $region != Visit::UNKNOWN_CODE) {
             return getRegionNameFromCodes(
-                $this->details['location_country'], $region);
+                $this->details['location_country'],
+                $region
+            );
         }
 
         return null;

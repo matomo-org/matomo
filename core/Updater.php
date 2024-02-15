@@ -590,8 +590,12 @@ class Updater
             $migration->exec();
         } catch (\Exception $e) {
             if (!$migration->shouldIgnoreError($e)) {
-                $message = sprintf("%s:\nError trying to execute the migration '%s'.\nThe error was: %s",
-                                   $file, $migration->__toString(), $e->getMessage());
+                $message = sprintf(
+                    "%s:\nError trying to execute the migration '%s'.\nThe error was: %s",
+                    $file,
+                    $migration->__toString(),
+                    $e->getMessage()
+                );
                 throw new UpdaterErrorException($message);
             }
         }

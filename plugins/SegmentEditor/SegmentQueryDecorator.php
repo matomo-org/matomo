@@ -43,8 +43,16 @@ class SegmentQueryDecorator extends LogQueryBuilder
         $orderBy,
         $limit
     ) {
-        $result = parent::getSelectQueryString($segmentExpression, $select, $from, $where, $bind, $groupBy, $orderBy,
-            $limit);
+        $result = parent::getSelectQueryString(
+            $segmentExpression,
+            $select,
+            $from,
+            $where,
+            $bind,
+            $groupBy,
+            $orderBy,
+            $limit
+        );
 
         $prefixParts = array();
 

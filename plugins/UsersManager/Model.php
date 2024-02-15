@@ -309,8 +309,10 @@ class Model
 
     private function generateTokenAuth()
     {
-        return md5(Common::getRandomString(32,
-            'abcdef1234567890') . microtime(true) . Common::generateUniqId() . SettingsPiwik::getSalt());
+        return md5(Common::getRandomString(
+            32,
+            'abcdef1234567890'
+        ) . microtime(true) . Common::generateUniqId() . SettingsPiwik::getSalt());
     }
 
     /**
@@ -340,8 +342,11 @@ class Model
             throw new \Exception('User ' . $login . ' does not exist');
         }
 
-        BaseValidator::check('Description', $description,
-          [new NotEmpty(), new CharacterLength(1, self::MAX_LENGTH_TOKEN_DESCRIPTION)]);
+        BaseValidator::check(
+            'Description',
+            $description,
+            [new NotEmpty(), new CharacterLength(1, self::MAX_LENGTH_TOKEN_DESCRIPTION)]
+        );
 
         if (empty($dateExpired)) {
             $dateExpired = null;
@@ -354,8 +359,10 @@ class Model
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
 
         $db = $this->getDb();
-        $db->query($insertSql,
-          [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO, $secureOnly]);
+        $db->query(
+            $insertSql,
+            [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO, $secureOnly]
+        );
 
         return $db->lastInsertId();
     }
@@ -372,8 +379,10 @@ class Model
     {
         $db = $this->getDb();
 
-        $token = $db->fetchRow("SELECT description FROM " . $this->tokenTable . " WHERE `idusertokenauth` = ? and login = ? LIMIT 1",
-          array($idTokenAuth, $login));
+        $token = $db->fetchRow(
+            "SELECT description FROM " . $this->tokenTable . " WHERE `idusertokenauth` = ? and login = ? LIMIT 1",
+            array($idTokenAuth, $login)
+        );
 
         return $token ? $token['description'] : '';
     }
@@ -425,16 +434,20 @@ class Model
     {
         $db = $this->getDb();
 
-        return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `date_expired` is not null and date_expired < ?",
-          $expiredSince);
+        return $db->query(
+            "DELETE FROM " . $this->tokenTable . " WHERE `date_expired` is not null and date_expired < ?",
+            $expiredSince
+        );
     }
 
     public function getExpiredInvites($expiredSince)
     {
         $db = $this->getDb();
 
-        return $db->fetchAll("SELECT * FROM " . $this->userTable . " WHERE `invite_expired_at` is not null and invite_expired_at < ?",
-          $expiredSince);
+        return $db->fetchAll(
+            "SELECT * FROM " . $this->userTable . " WHERE `invite_expired_at` is not null and invite_expired_at < ?",
+            $expiredSince
+        );
     }
 
     public function checkUserHasUnexpiredToken($login)
@@ -442,8 +455,10 @@ class Model
         $db = $this->getDb();
         $expired = $this->getQueryNotExpiredToken();
         $bind = array_merge(array($login), $expired['bind']);
-        return $db->fetchOne("SELECT idusertokenauth FROM " . $this->tokenTable . " WHERE `login` = ? and " . $expired['sql'],
-          $bind);
+        return $db->fetchOne(
+            "SELECT idusertokenauth FROM " . $this->tokenTable . " WHERE `login` = ? and " . $expired['sql'],
+            $bind
+        );
     }
 
     public function deleteAllTokensForUser($login)
@@ -461,8 +476,10 @@ class Model
         $expired = $this->getQueryNotExpiredToken();
         $bind = array_merge(array($login), $expired['bind']);
 
-        return $db->fetchAll("SELECT * FROM " . $this->tokenTable . " WHERE `login` = ? and system_token = 0 and " . $expired['sql'] . ' order by idusertokenauth ASC',
-          $bind);
+        return $db->fetchAll(
+            "SELECT * FROM " . $this->tokenTable . " WHERE `login` = ? and system_token = 0 and " . $expired['sql'] . ' order by idusertokenauth ASC',
+            $bind
+        );
     }
 
     public function getAllHashedTokensForLogins($logins)
@@ -477,8 +494,10 @@ class Model
         $expired = $this->getQueryNotExpiredToken();
         $bind = array_merge($logins, $expired['bind']);
 
-        $tokens = $db->fetchAll("SELECT password FROM " . $this->tokenTable . " WHERE `login` IN (" . $placeholder . ") and " . $expired['sql'],
-          $bind);
+        $tokens = $db->fetchAll(
+            "SELECT password FROM " . $this->tokenTable . " WHERE `login` IN (" . $placeholder . ") and " . $expired['sql'],
+            $bind
+        );
         return array_column($tokens, 'password');
     }
 
@@ -486,8 +505,10 @@ class Model
     {
         $db = $this->getDb();
 
-        return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `idusertokenauth` = ? and login = ?",
-          array($idTokenAuth, $login));
+        return $db->query(
+            "DELETE FROM " . $this->tokenTable . " WHERE `idusertokenauth` = ? and login = ?",
+            array($idTokenAuth, $login)
+        );
     }
 
     public function setTokenAuthWasUsed($tokenAuth, $dateLastUsed)
@@ -522,8 +543,10 @@ class Model
         $bind[] = $idTokenAuth;
 
         $db = $this->getDb();
-        $db->query(sprintf('UPDATE `%s` SET %s WHERE `idusertokenauth` = ?', $this->tokenTable, implode(', ', $set)),
-          $bind);
+        $db->query(
+            sprintf('UPDATE `%s` SET %s WHERE `idusertokenauth` = ?', $this->tokenTable, implode(', ', $set)),
+            $bind
+        );
     }
 
     public function getUserByEmail($userEmail)
@@ -737,8 +760,10 @@ class Model
             $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE login = ?", $userLogin);
         } else {
             foreach ($idSites as $idsite) {
-                $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE idsite = ? AND login = ?",
-                  [$idsite, $userLogin]);
+                $db->query(
+                    "DELETE FROM " . Common::prefixTable("access") . " WHERE idsite = ? AND login = ?",
+                    [$idsite, $userLogin]
+                );
             }
         }
     }

@@ -118,8 +118,12 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         $this->assertNotEmpty($storedSegment);
 
         Rules::setBrowserTriggerArchiving(true);
-        VisitsSummary\API::getInstance()->get(self::$fixture->idSite, 'week',
-            Date::factory(self::$fixture->dateTime)->toString(), self::TEST_SEGMENT); // archive (make sure there's data for actual test)
+        VisitsSummary\API::getInstance()->get(
+            self::$fixture->idSite,
+            'week',
+            Date::factory(self::$fixture->dateTime)->toString(),
+            self::TEST_SEGMENT
+        ); // archive (make sure there's data for actual test)
         Rules::setBrowserTriggerArchiving(false);
 
         $segments = Rules::getSegmentsToProcess([self::$fixture->idSite]);
@@ -135,8 +139,12 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
 
     public function test_apiOutput_whenPreprocessedCustomSegmentUsed_WithBrowserArchivingDisabled()
     {
-        VisitsSummary\API::getInstance()->get(self::$fixture->idSite, 'week',
-            Date::factory(self::$fixture->dateTime)->toString(), self::TEST_SEGMENT); // archive
+        VisitsSummary\API::getInstance()->get(
+            self::$fixture->idSite,
+            'week',
+            Date::factory(self::$fixture->dateTime)->toString(),
+            self::TEST_SEGMENT
+        ); // archive
 
         Rules::setBrowserTriggerArchiving(false);
 
@@ -162,8 +170,12 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         $storedSegment = API::getInstance()->get($idSegment);
         $this->assertNotEmpty($storedSegment);
 
-        VisitsSummary\API::getInstance()->get(self::$fixture->idSite, 'week',
-            Date::factory(self::$fixture->dateTime)->toString(), self::TEST_SEGMENT); // archive
+        VisitsSummary\API::getInstance()->get(
+            self::$fixture->idSite,
+            'week',
+            Date::factory(self::$fixture->dateTime)->toString(),
+            self::TEST_SEGMENT
+        ); // archive
 
         $segments = Rules::getSegmentsToProcess([self::$fixture->idSite]);
         self::assertTrue(in_array(self::TEST_SEGMENT, $segments));

@@ -304,8 +304,23 @@ class API extends \Piwik\Plugin\API
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $processed = $this->processedReport->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment,
-            $apiParameters, $idGoal, $language, $showTimer, $hideMetricsDoc, $idSubtable, $showRawMetrics, $format_metrics, $idDimension);
+        $processed = $this->processedReport->getProcessedReport(
+            $idSite,
+            $period,
+            $date,
+            $apiModule,
+            $apiAction,
+            $segment,
+            $apiParameters,
+            $idGoal,
+            $language,
+            $showTimer,
+            $hideMetricsDoc,
+            $idSubtable,
+            $showRawMetrics,
+            $format_metrics,
+            $idDimension
+        );
 
         return $processed;
     }
@@ -464,8 +479,22 @@ class API extends \Piwik\Plugin\API
         }
 
         $rowEvolution = new RowEvolution();
-        return $rowEvolution->getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $column,
-            $language, $apiParameters, $legendAppendMetric, $labelUseAbsoluteUrl, $labelSeries, $showGoalMetricsForGoal);
+        return $rowEvolution->getRowEvolution(
+            $idSite,
+            $period,
+            $date,
+            $apiModule,
+            $apiAction,
+            $label,
+            $segment,
+            $column,
+            $language,
+            $apiParameters,
+            $legendAppendMetric,
+            $labelUseAbsoluteUrl,
+            $labelSeries,
+            $showGoalMetricsForGoal
+        );
     }
 
     /**
@@ -592,7 +621,8 @@ class API extends \Piwik\Plugin\API
 
         if (isset($segment['suggestedValuesCallback'])) {
             $suggestedValuesCallbackRequiresTable = $this->doesSuggestedValuesCallbackNeedData(
-                $segment['suggestedValuesCallback']);
+                $segment['suggestedValuesCallback']
+            );
 
             if (!$suggestedValuesCallbackRequiresTable) {
                 return call_user_func($segment['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn);

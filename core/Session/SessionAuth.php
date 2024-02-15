@@ -238,7 +238,8 @@ class SessionAuth implements Auth
     {
         if (Session\SaveHandler\DbTable::$wasSessionToLargeToRead) {
             StaticContainer::get(LoggerInterface::class)->warning(
-                "Too much data stored in the session so it could not be read properly. If you were logged out, this is why.");
+                "Too much data stored in the session so it could not be read properly. If you were logged out, this is why."
+            );
         }
     }
 }

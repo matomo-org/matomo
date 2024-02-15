@@ -38,8 +38,18 @@ class ThreeVisitsWithCustomEvents extends Fixture
             // These two goals are to check events don't trigger for URL or Title matching
             APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'url', 'webradio', 'contains');
             APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'title', 'Music', 'contains');
-            $idGoalTriggeredOnEventCategory = APIGoals::getInstance()->addGoal($this->idSite, 'event matching', 'event_category', 'CategoryTriggersGoal', 'contains', false,
-                8, true, '', true);
+            $idGoalTriggeredOnEventCategory = APIGoals::getInstance()->addGoal(
+                $this->idSite,
+                'event matching',
+                'event_category',
+                'CategoryTriggersGoal',
+                'contains',
+                false,
+                8,
+                true,
+                '',
+                true
+            );
 
             $this->assertEquals($idGoalTriggeredOnEventCategory, self::$idGoalTriggeredOnEventCategory);
         }

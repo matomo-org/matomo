@@ -106,12 +106,24 @@ class TwoVisitsWithCustomVariables extends Fixture
         self::checkResponse($visitorA->doTrackGoal($idGoal));
 
         if ($this->doExtraQuoteTests) {
-            $visitorA->setCustomVariable($id = 2, $name = 'var1', $value = 'looking at "profile page"',
-                $scope = 'page');
-            $visitorA->setCustomVariable($id = 3, $name = 'var2', $value = '\'looking at "\profile page"\'',
-                $scope = 'page');
-            $visitorA->setCustomVariable($id = 4, $name = 'var3', $value = '\\looking at "\profile page"\\',
-                $scope = 'page');
+            $visitorA->setCustomVariable(
+                $id = 2,
+                $name = 'var1',
+                $value = 'looking at "profile page"',
+                $scope = 'page'
+            );
+            $visitorA->setCustomVariable(
+                $id = 3,
+                $name = 'var2',
+                $value = '\'looking at "\profile page"\'',
+                $scope = 'page'
+            );
+            $visitorA->setCustomVariable(
+                $id = 4,
+                $name = 'var3',
+                $value = '\\looking at "\profile page"\\',
+                $scope = 'page'
+            );
             self::checkResponse($visitorA->doTrackPageView('Concurrent page views'));
         }
 

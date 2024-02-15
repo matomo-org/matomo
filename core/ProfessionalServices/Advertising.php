@@ -56,7 +56,8 @@ class Advertising
      */
     public function getPromoUrlForProfessionalServices($campaignMedium, $campaignContent = '')
     {
-        return Url::addCampaignParametersToMatomoLink('https://matomo.org/support-plans/',
+        return Url::addCampaignParametersToMatomoLink(
+            'https://matomo.org/support-plans/',
             self::CAMPAIGN_NAME_PROFESSIONAL_SERVICES,
             null,
             $campaignMedium

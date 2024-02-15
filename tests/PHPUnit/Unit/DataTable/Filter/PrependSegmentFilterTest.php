@@ -50,13 +50,15 @@ class PrependSegmentTest extends \PHPUnit\Framework\TestCase
         $this->table->filter($this->filter, array($prepend));
 
         $metadata = $this->table->getRowsMetadata('segment');
-        $this->assertSame(array(
+        $this->assertSame(
+            array(
             false,
             $prepend . 'country=NZ',
             false,
             $prepend . 'country=AU',
             $prepend),
-            $metadata);
+            $metadata
+        );
 
         // should be still the same
         $metadata = $this->table->getRowsMetadata('test');

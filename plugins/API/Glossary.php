@@ -85,10 +85,12 @@ class Glossary
                     $metricKey = $metricName;
 
                     if (isset($metrics[$metricKey]) && $metrics[$metricKey]['documentation'] !== $metricDocumentation) {
-                        throw new \Exception(sprintf("Metric %s has two different documentations: \n(1) %s \n(2) %s",
-                                $metricKey,
-                                $metrics[$metricKey]['documentation'],
-                                $metricDocumentation));
+                        throw new \Exception(sprintf(
+                            "Metric %s has two different documentations: \n(1) %s \n(2) %s",
+                            $metricKey,
+                            $metrics[$metricKey]['documentation'],
+                            $metricDocumentation
+                        ));
                     }
                 } else {
 

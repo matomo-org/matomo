@@ -95,8 +95,10 @@ class StorageTest extends IntegrationTestCase
         $this->storage->setValue($this->settingName, 'myRandomVal');
         $this->storage->save();
 
-        $this->assertEquals(array($this->settingName => 'myRandomVal'),
-                            $this->loadValuesFromBackend());
+        $this->assertEquals(
+            array($this->settingName => 'myRandomVal'),
+            $this->loadValuesFromBackend()
+        );
     }
 
     public function test_save_shouldPersistMultipleValues_ContainingInt()
@@ -105,8 +107,10 @@ class StorageTest extends IntegrationTestCase
         $this->storage->setValue('mySecondName', 5);
         $this->storage->save();
 
-        $this->assertEquals(array($this->settingName => 'myRandomVal', 'mySecondName' => 5),
-                            $this->loadValuesFromBackend());
+        $this->assertEquals(
+            array($this->settingName => 'myRandomVal', 'mySecondName' => 5),
+            $this->loadValuesFromBackend()
+        );
     }
 
     public function test_save_shouldNotClearTrackerCacheEntries_IfThereWasNoChange()

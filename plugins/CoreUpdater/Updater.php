@@ -397,8 +397,10 @@ class Updater
         }
 
         if (!empty($wrongPermissionDir)) {
-            throw new Exception($this->translator->translate('CoreUpdater_ExceptionDirWrongPermission',
-              implode(', ', $wrongPermissionDir)));
+            throw new Exception($this->translator->translate(
+                'CoreUpdater_ExceptionDirWrongPermission',
+                implode(', ', $wrongPermissionDir)
+            ));
         }
     }
 }

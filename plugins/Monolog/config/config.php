@@ -68,8 +68,14 @@ return array(
 
                     $handler->setLevel(Logger::DEBUG);
 
-                    $handler = new \Monolog\Handler\FingersCrossedHandler($handler, $activationStrategy = null, $bufferSize = 0,
-                        $bubble = true, $fingersCrossedStopBuffering, $passthruLevel);
+                    $handler = new \Monolog\Handler\FingersCrossedHandler(
+                        $handler,
+                        $activationStrategy = null,
+                        $bufferSize = 0,
+                        $bubble = true,
+                        $fingersCrossedStopBuffering,
+                        $passthruLevel
+                    );
                 }
 
                 $writers[$writerName] = $handler;

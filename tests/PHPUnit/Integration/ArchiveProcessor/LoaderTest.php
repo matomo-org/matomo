@@ -1635,8 +1635,10 @@ class LoaderTest extends IntegrationTestCase
         $archiveWriter->finalizeArchive();
 
         if ($tsArchived) {
-            Db::query("UPDATE " . ArchiveTableCreator::getNumericTable($params->getPeriod()->getDateStart()) . " SET ts_archived = ?",
-                [Date::factory($tsArchived)->getDatetime()]);
+            Db::query(
+                "UPDATE " . ArchiveTableCreator::getNumericTable($params->getPeriod()->getDateStart()) . " SET ts_archived = ?",
+                [Date::factory($tsArchived)->getDatetime()]
+            );
         }
     }
 
@@ -1657,8 +1659,10 @@ class LoaderTest extends IntegrationTestCase
             $table = !empty($row['is_blob_data']) ? ArchiveTableCreator::getBlobTable($d) : ArchiveTableCreator::getNumericTable($d);
             $tsArchived = isset($row['ts_archived']) ? $row['ts_archived'] : Date::now()->getDatetime();
 
-            Db::query("INSERT INTO `$table` (idarchive, idsite, period, date1, date2, `name`, `value`, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                [$row['idarchive'], $row['idsite'], $row['period'], $row['date1'], $row['date2'], $row['name'], $row['value'], $tsArchived]);
+            Db::query(
+                "INSERT INTO `$table` (idarchive, idsite, period, date1, date2, `name`, `value`, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                [$row['idarchive'], $row['idsite'], $row['period'], $row['date1'], $row['date2'], $row['name'], $row['value'], $tsArchived]
+            );
         }
 
         if (!empty($archiveRows)) {

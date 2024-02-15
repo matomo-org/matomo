@@ -204,7 +204,9 @@ class ArchivePurger
     {
         $archiveTable = ArchiveTableCreator::getNumericTable($date);
         return $this->model->getArchiveIdsForSegments(
-            $archiveTable, $deletedSegments, $this->getOldestTemporaryArchiveToKeepThreshold()
+            $archiveTable,
+            $deletedSegments,
+            $this->getOldestTemporaryArchiveToKeepThreshold()
         );
     }
 
@@ -236,7 +238,11 @@ class ArchivePurger
         $blobTable    = ArchiveTableCreator::getBlobTable($date);
 
         $deletedCount = $this->model->deleteArchivesWithPeriod(
-            $numericTable, $blobTable, Piwik::$idPeriods['range'], $this->purgeCustomRangesOlderThan);
+            $numericTable,
+            $blobTable,
+            Piwik::$idPeriods['range'],
+            $this->purgeCustomRangesOlderThan
+        );
 
         $level = $deletedCount == 0 ? 'debug' : 'info';
         $this->logger->$level("Purged {count} range archive rows from {numericTable} & {blobTable}.", array(

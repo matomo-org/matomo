@@ -32,8 +32,13 @@ class VisitorRecognizerTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->recognizer = new VisitorRecognizer(true, 1800, 24000,
-            new Model(), EventDispatcher::getInstance());
+        $this->recognizer = new VisitorRecognizer(
+            true,
+            1800,
+            24000,
+            new Model(),
+            EventDispatcher::getInstance()
+        );
 
         Fixture::createWebsite('2020-01-01 02:03:04');
     }

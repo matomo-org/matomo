@@ -39,10 +39,6 @@
         <exclude name="PSR12.Properties.ConstantVisibility" />
         <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
         <exclude name="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed" />
-        <exclude name="PSR2.Methods.FunctionCallSignature.CloseBracketLine" />
-        <exclude name="PSR2.Methods.FunctionCallSignature.ContentAfterOpenBracket" />
-        <exclude name="PSR2.Methods.FunctionCallSignature.Indent" />
-        <exclude name="PSR2.Methods.FunctionCallSignature.MultipleArguments" />
         <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis" />
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword" />

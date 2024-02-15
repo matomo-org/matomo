@@ -388,8 +388,13 @@ if (!class_exists('Piwik\Plugin')) {
                 }
 
                 if (!empty($expectedSubclass) && !is_subclass_of($classname, $expectedSubclass)) {
-                    Log::warning(sprintf('Cannot use component %s for plugin %s, class %s does not extend %s',
-                    $componentName, $this->pluginName, $classname, $expectedSubclass));
+                    Log::warning(sprintf(
+                        'Cannot use component %s for plugin %s, class %s does not extend %s',
+                        $componentName,
+                        $this->pluginName,
+                        $classname,
+                        $expectedSubclass
+                    ));
                     return null;
                 }
 

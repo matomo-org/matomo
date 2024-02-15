@@ -224,7 +224,8 @@ class ManyVisitsWithGeoIP extends Fixture
 
         $date = $date->addHour(0.05);
         $t->setForceVisitDateTime($date->getDatetime());
-        $r = $t->doTrackEvent('Cat' . $visitorCounter,
+        $r = $t->doTrackEvent(
+            'Cat' . $visitorCounter,
             'Action' . $visitorCounter,
             'Name' . $visitorCounter,
             345.678 + $visitorCounter

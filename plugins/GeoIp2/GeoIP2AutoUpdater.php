@@ -232,8 +232,10 @@ class GeoIP2AutoUpdater extends Task
             $content = $unzip->listContent();
 
             if (empty($content)) {
-                throw new Exception(Piwik::translate('GeoIp2_CannotListContent',
-                    array("'$path'", $unzip->errorInfo())));
+                throw new Exception(Piwik::translate(
+                    'GeoIp2_CannotListContent',
+                    array("'$path'", $unzip->errorInfo())
+                ));
             }
 
             $fileToExtract = null;
@@ -249,16 +251,20 @@ class GeoIP2AutoUpdater extends Task
             }
 
             if ($fileToExtract === null) {
-                throw new Exception(Piwik::translate('GeoIp2_CannotFindGeoIPDatabaseInArchive',
-                    array("'$path'")));
+                throw new Exception(Piwik::translate(
+                    'GeoIp2_CannotFindGeoIPDatabaseInArchive',
+                    array("'$path'")
+                ));
             }
 
             // extract JUST the .dat file
             $unzipped = $unzip->extractInString($fileToExtract);
 
             if (empty($unzipped)) {
-                throw new Exception(Piwik::translate('GeoIp2_CannotUnzipGeoIPFile',
-                    array("'$path'", $unzip->errorInfo())));
+                throw new Exception(Piwik::translate(
+                    'GeoIp2_CannotUnzipGeoIPFile',
+                    array("'$path'", $unzip->errorInfo())
+                ));
             }
 
             $dbFilename = basename($fileToExtract);
@@ -285,8 +291,10 @@ class GeoIP2AutoUpdater extends Task
 
             $success = $unzip->extract($outputPath);
             if ($success !== true) {
-                throw new Exception(Piwik::translate('General_CannotUnzipFile',
-                    array("'$path'", $unzip->errorInfo())));
+                throw new Exception(Piwik::translate(
+                    'General_CannotUnzipFile',
+                    array("'$path'", $unzip->errorInfo())
+                ));
             }
 
             if ($isDbIpUnknownDbType) {
@@ -578,7 +586,8 @@ class GeoIP2AutoUpdater extends Task
                 // if a database of the type does not exist, but there's a url to update, then
                 // a database is missing
                 $path = LocationProviderGeoIp2::getPathToGeoIpDatabase(
-                    LocationProviderGeoIp2::$dbNames[$key]);
+                    LocationProviderGeoIp2::$dbNames[$key]
+                );
                 if ($path === false) {
                     $result[] = $key;
                 }

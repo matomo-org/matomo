@@ -289,9 +289,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $loginName = $form->getSubmitValue('login');
                 $email = $form->getSubmitValue('email');
 
-                $this->createSuperUser($loginName,
-                                       $form->getSubmitValue('password'),
-                                       $email);
+                $this->createSuperUser(
+                    $loginName,
+                    $form->getSubmitValue('password'),
+                    $email
+                );
 
                 $newsletterPiwikORG = $form->getSubmitValue('subscribe_newsletter_piwikorg');
                 $newsletterProfessionalServices = $form->getSubmitValue('subscribe_newsletter_professionalservices');
@@ -628,7 +630,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $possibleErrorMessage = $possibleErrorMessage ? sprintf('<br/><br/>Original error was "%s".<br/>', $possibleErrorMessage) : '';
 
         \Piwik\Plugins\Login\Controller::clearSession();
-        $message = Piwik::translate('Installation_InvalidStateError',
+        $message = Piwik::translate(
+            'Installation_InvalidStateError',
             array($possibleErrorMessage . '<br /><strong>',
                   // piwik-is-already-installed is checked against in checkPiwikServerWorking
                   '</strong><a id="piwik-is-already-installed" href=\'' . Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName()) . '\'>',

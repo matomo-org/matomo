@@ -445,7 +445,8 @@ class Visit implements VisitInterface
             throw new VisitorNotFoundInDb(
                 "The visitor with idvisitor=" . bin2hex($this->visitProperties->getProperty('idvisitor'))
                 . " and idvisit=" . @$this->visitProperties->getProperty('idvisit')
-                . " wasn't found in the DB, we fallback to a new visitor");
+                . " wasn't found in the DB, we fallback to a new visitor"
+            );
         }
     }
 
@@ -557,8 +558,10 @@ class Visit implements VisitInterface
                 $dimensionNames[] = $dimension->getColumnName();
             }
 
-            Common::printDebug("Following dimensions have been collected from plugins: " . implode(", ",
-                    $dimensionNames));
+            Common::printDebug("Following dimensions have been collected from plugins: " . implode(
+                ", ",
+                $dimensionNames
+            ));
         }
 
         return self::$dimensions;

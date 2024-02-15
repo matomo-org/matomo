@@ -77,8 +77,13 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
         $tablesByType = $this->makeReportTables();
 
-        $this->archiveDayActions($archiveProcessor, $rankingQueryLimit, $tablesByType,
-            array_diff(array_keys($tablesByType), [Action::TYPE_SITE_SEARCH]), true);
+        $this->archiveDayActions(
+            $archiveProcessor,
+            $rankingQueryLimit,
+            $tablesByType,
+            array_diff(array_keys($tablesByType), [Action::TYPE_SITE_SEARCH]),
+            true
+        );
 
         if ($archiveProcessor->getParams()->getSite()->isSiteSearchEnabled()) {
             $rankingQueryLimitSiteSearch = max($rankingQueryLimit, ArchivingHelper::$maximumRowsInDataTableSiteSearch);
@@ -297,11 +302,29 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
         $groupBy = "log_visit.%s";
 
-        $this->archiveDayQueryProcess($logAggregator, $actionsTablesByType, $select, $from, $where, $groupBy, $orderBy,
-            "visit_entry_idaction_url", $rankingQuery);
+        $this->archiveDayQueryProcess(
+            $logAggregator,
+            $actionsTablesByType,
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            "visit_entry_idaction_url",
+            $rankingQuery
+        );
 
-        $this->archiveDayQueryProcess($logAggregator, $actionsTablesByType, $select, $from, $where, $groupBy, $orderBy,
-            "visit_entry_idaction_name", $rankingQuery);
+        $this->archiveDayQueryProcess(
+            $logAggregator,
+            $actionsTablesByType,
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            "visit_entry_idaction_name",
+            $rankingQuery
+        );
     }
 
     /**
@@ -341,11 +364,29 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
         $groupBy = "log_visit.%s";
 
-        $this->archiveDayQueryProcess($logAggregator, $actionsTablesByType, $select, $from, $where, $groupBy,
-            $orderBy, "visit_exit_idaction_url", $rankingQuery);
+        $this->archiveDayQueryProcess(
+            $logAggregator,
+            $actionsTablesByType,
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            "visit_exit_idaction_url",
+            $rankingQuery
+        );
 
-        $this->archiveDayQueryProcess($logAggregator, $actionsTablesByType, $select, $from, $where, $groupBy,
-            $orderBy, "visit_exit_idaction_name", $rankingQuery);
+        $this->archiveDayQueryProcess(
+            $logAggregator,
+            $actionsTablesByType,
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            "visit_exit_idaction_name",
+            $rankingQuery
+        );
 
         return array($rankingQuery, $extraSelects, $from, $orderBy, $select, $where, $groupBy);
     }
@@ -387,11 +428,29 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
         $groupBy = "log_link_visit_action.%s";
 
-        $this->archiveDayQueryProcess($logAggregator, $actionsTablesByType, $select, $from, $where, $groupBy,
-            $orderBy, "idaction_url_ref", $rankingQuery);
+        $this->archiveDayQueryProcess(
+            $logAggregator,
+            $actionsTablesByType,
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            "idaction_url_ref",
+            $rankingQuery
+        );
 
-        $this->archiveDayQueryProcess($logAggregator, $actionsTablesByType, $select, $from, $where, $groupBy,
-            $orderBy, "idaction_name_ref", $rankingQuery);
+        $this->archiveDayQueryProcess(
+            $logAggregator,
+            $actionsTablesByType,
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            "idaction_name_ref",
+            $rankingQuery
+        );
     }
 
     protected function archiveDayQueryProcess(

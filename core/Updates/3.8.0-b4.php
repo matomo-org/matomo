@@ -27,12 +27,14 @@ class Updates_3_8_0_b4 extends PiwikUpdates
 
     public function getMigrations(Updater $updater)
     {
-        $trackingFailureTable = $this->migration->db->createTable('tracking_failure',
+        $trackingFailureTable = $this->migration->db->createTable(
+            'tracking_failure',
             array('idsite' => 'BIGINT(20) UNSIGNED NOT NULL',
                   'idfailure' => 'SMALLINT UNSIGNED NOT NULL',
                   'date_first_occurred' => 'DATETIME NOT NULL',
                   'request_url' => 'MEDIUMTEXT NOT NULL'),
-            array('idsite', 'idfailure'));
+            array('idsite', 'idfailure')
+        );
 
         $columns = array(
             'id_brute_force_log' => 'bigint(11) NOT NULL AUTO_INCREMENT',

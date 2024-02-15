@@ -220,7 +220,14 @@ class ArchiveCronTest extends SystemTestCase
         // invalidate exampleplugin only archives in past
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
         $invalidator->markArchivesAsInvalidated(
-            [1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin');
+            [1],
+            ['2007-04-05'],
+            'day',
+            new Segment('', [1]),
+            false,
+            false,
+            'ExamplePlugin'
+        );
 
         // track a visit in 2007-04-05 so it will archive (don't want to force archiving because then this test will take another 15 mins)
         $tracker = Fixture::getTracker(1, '2007-04-05');
@@ -347,7 +354,8 @@ class ArchiveCronTest extends SystemTestCase
 
         $this->assertEquals($expectedInvalidations, $invalidationEntries);
 
-        $this->runApiTests(array(
+        $this->runApiTests(
+            array(
             'VisitsSummary.get', 'Actions.get', 'DevicesDetection.getType'),
             array('idSite'     => '1',
                 'date'       => '2012-08-09,2012-08-13',
@@ -380,7 +388,8 @@ class ArchiveCronTest extends SystemTestCase
         $model->deleteArchiveIds($table, $blobTable, $idArchives);
 
         // process archives once
-        $this->runApiTests(array(
+        $this->runApiTests(
+            array(
             'VisitsSummary.get', 'Actions.get', 'DevicesDetection.getType'),
             array('idSite'     => '1',
                 'date'       => '2012-08-09,2012-08-13',
@@ -405,7 +414,8 @@ class ArchiveCronTest extends SystemTestCase
         $this->assertNotEmpty($rangeArchivesInvalid);
 
         // cron archive not run, but ranges should still be rearchived
-        $this->runApiTests(array(
+        $this->runApiTests(
+            array(
             'VisitsSummary.get', 'Actions.get', 'DevicesDetection.getType'),
             array('idSite'     => '1',
                 'date'       => '2012-08-09,2012-08-13',

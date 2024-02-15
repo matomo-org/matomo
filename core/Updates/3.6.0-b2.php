@@ -69,8 +69,11 @@ class Updates_3_6_0_b2 extends PiwikUpdates
         }
 
         // changes for session auth
-        $migrations[] = $this->migration->db->addColumn('user', 'ts_password_modified',
-            'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+        $migrations[] = $this->migration->db->addColumn(
+            'user',
+            'ts_password_modified',
+            'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP'
+        );
 
         return $migrations;
     }

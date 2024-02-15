@@ -289,7 +289,8 @@ class ArchivingHelper
                     $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY_RATE] = Piwik::getQuotientSafe(
                         $conversions,
                         $nbEntrances,
-                        GoalManager::REVENUE_PRECISION + 1);
+                        GoalManager::REVENUE_PRECISION + 1
+                    );
                 }
 
                 // Calculate revenue per entry
@@ -297,7 +298,8 @@ class ArchivingHelper
                     $row[PiwikMetrics::INDEX_GOAL_REVENUE_PER_ENTRY] = (float) Piwik::getQuotientSafe(
                         $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY],
                         $nbEntrances,
-                        GoalManager::REVENUE_PRECISION + 1);
+                        GoalManager::REVENUE_PRECISION + 1
+                    );
 
                     $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY] = (float) $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY];
                 }
@@ -544,7 +546,10 @@ class ArchivingHelper
         // go to the level of the subcategory
         $actionExplodedNames = self::getActionExplodedNames($actionName, $actionType, $urlPrefix);
         list($row, $level) = $currentTable->walkPath(
-            $actionExplodedNames, self::getDefaultRowColumns(), self::$maximumRowsInSubDataTable);
+            $actionExplodedNames,
+            self::getDefaultRowColumns(),
+            self::$maximumRowsInSubDataTable
+        );
 
         return $row;
     }

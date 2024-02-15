@@ -35,8 +35,14 @@ class CreateTable extends Sql
         }
 
 
-        $sql = rtrim(sprintf('CREATE TABLE `%s` (%s) ENGINE=%s DEFAULT CHARSET=%s %s',
-          $table, implode(', ', $columns), $dbSettings->getEngine(), $dbSettings->getUsedCharset(), $dbSettings->getRowFormat()));
+        $sql = rtrim(sprintf(
+            'CREATE TABLE `%s` (%s) ENGINE=%s DEFAULT CHARSET=%s %s',
+            $table,
+            implode(', ', $columns),
+            $dbSettings->getEngine(),
+            $dbSettings->getUsedCharset(),
+            $dbSettings->getRowFormat()
+        ));
 
         parent::__construct($sql, static::ERROR_CODE_TABLE_EXISTS);
     }

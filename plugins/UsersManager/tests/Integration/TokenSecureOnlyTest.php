@@ -36,8 +36,15 @@ class TokenSecureOnlyTest extends IntegrationTestCase
             UsersManagerAPI::getInstance()->setUserAccess('user1', 'view', [1]);
 
             $userModel = new UsersManagerModel();
-            $userModel->addTokenAuth('user1', self::$tokenSecureOnly, 'Secure Only', '2020-01-02 03:04:05',
-                null, false, true);
+            $userModel->addTokenAuth(
+                'user1',
+                self::$tokenSecureOnly,
+                'Secure Only',
+                '2020-01-02 03:04:05',
+                null,
+                false,
+                true
+            );
         }
     }
 

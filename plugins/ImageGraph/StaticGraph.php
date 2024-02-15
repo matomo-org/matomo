@@ -339,7 +339,9 @@ abstract class StaticGraph extends BaseFactory
 
         // could not find a way to get pixel perfect width & height info using imageftbbox
         $textInfo = $this->pImage->drawText(
-            0, 0, $text,
+            0,
+            0,
+            $text,
             array(
                  'Alpha'    => 0,
                  'FontSize' => $fontSize,

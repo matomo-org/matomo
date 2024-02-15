@@ -245,7 +245,8 @@ class Collection
                     // if no subtable found, throw
                     if (!isset($parametersToSet['idSubtable'])) {
                         throw new Exception(
-                            "Cannot find subtable to load for $apiId in {$this->testConfig->supertableApi}.");
+                            "Cannot find subtable to load for $apiId in {$this->testConfig->supertableApi}."
+                        );
                     }
                 }
 

@@ -35,10 +35,17 @@ class MeasurableSettingsTest extends IntegrationTestCase
 
         if (!Fixture::siteCreated($this->idSite)) {
             $type = WebsiteType::ID;
-            Fixture::createWebsite('2015-01-01 00:00:00',
-                $ecommerce = 0, $siteName = false, $siteUrl = false,
-                $siteSearch = 1, $searchKeywordParameters = null,
-                $searchCategoryParameters = null, $timezone = null, $type);
+            Fixture::createWebsite(
+                '2015-01-01 00:00:00',
+                $ecommerce = 0,
+                $siteName = false,
+                $siteUrl = false,
+                $siteSearch = 1,
+                $searchKeywordParameters = null,
+                $searchCategoryParameters = null,
+                $timezone = null,
+                $type
+            );
         }
 
         $this->settings = $this->createSettings();

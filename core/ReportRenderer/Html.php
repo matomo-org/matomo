@@ -83,8 +83,15 @@ class Html extends ReportRenderer
 
     public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment)
     {
-        $frontPageView = new View\HtmlReportEmailHeaderView($reportTitle, $prettyDate, $description, $reportMetadata,
-            $segment, $this->idSite, $this->report['period']);
+        $frontPageView = new View\HtmlReportEmailHeaderView(
+            $reportTitle,
+            $prettyDate,
+            $description,
+            $reportMetadata,
+            $segment,
+            $this->idSite,
+            $this->report['period']
+        );
         $this->rendering .= $frontPageView->render();
     }
 

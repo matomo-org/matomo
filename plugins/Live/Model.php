@@ -579,7 +579,8 @@ class Model
 
         if (!$visitorId) {
             // for now let's not apply when looking for a specific visitor
-            $innerQuery['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($innerQuery['sql'],
+            $innerQuery['sql'] = DbHelper::addMaxExecutionTimeHintToQuery(
+                $innerQuery['sql'],
                 $this->getLiveQueryMaxExecutionTime()
             );
         }

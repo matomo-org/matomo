@@ -168,8 +168,10 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(filesize(TEST_FILE_LOCATION), $responseInfo["size_download"]);
 
         // Tests if returned modified date is correctly set
-        $this->assertEquals(gmdate('D, d M Y H:i:s', filemtime(TEST_FILE_LOCATION)) . ' GMT',
-            $this->getLastModifiedValue($fullResponse));
+        $this->assertEquals(
+            gmdate('D, d M Y H:i:s', filemtime(TEST_FILE_LOCATION)) . ' GMT',
+            $this->getLastModifiedValue($fullResponse)
+        );
 
         // Tests if cache control headers are correctly set
         $this->assertEquals("public, must-revalidate", $this->getCacheControlValue($fullResponse));
@@ -422,8 +424,11 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
         // check $partialResponse
         $this->assertEquals(PARTIAL_BYTE_END - PARTIAL_BYTE_START, $responseInfo["size_download"]);
 
-        $expectedPartialContents = substr(file_get_contents(TEST_FILE_LOCATION), PARTIAL_BYTE_START,
-            PARTIAL_BYTE_END - PARTIAL_BYTE_START);
+        $expectedPartialContents = substr(
+            file_get_contents(TEST_FILE_LOCATION),
+            PARTIAL_BYTE_START,
+            PARTIAL_BYTE_END - PARTIAL_BYTE_START
+        );
         $this->assertEquals($expectedPartialContents, $partialResponse);
     }
 
@@ -450,8 +455,11 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
         $this->assertFileNotExists($this->getCompressedFileLocation() . ".gz");
 
         // check $partialResponse
-        $expectedPartialContents = substr(file_get_contents(TEST_FILE_LOCATION), PARTIAL_BYTE_START,
-            PARTIAL_BYTE_END - PARTIAL_BYTE_START);
+        $expectedPartialContents = substr(
+            file_get_contents(TEST_FILE_LOCATION),
+            PARTIAL_BYTE_START,
+            PARTIAL_BYTE_END - PARTIAL_BYTE_START
+        );
         $this->assertEquals($expectedPartialContents, $partialResponse);
 
         $this->removeCompressedFiles();

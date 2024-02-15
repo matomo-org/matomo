@@ -151,10 +151,11 @@ class Model
                     WHERE url IN ( ' . Common::getSqlStringFieldsArray($urls) . ')' .
             'AND idsite IN (' . $sqlAccessSite . ')',
             // Bind
-            array_merge(    $urls,
-                            array( $login ),
-                            $urls,
-                            array( $login )
+            array_merge(
+                $urls,
+                array( $login ),
+                $urls,
+                array( $login )
             )
         );
 

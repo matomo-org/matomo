@@ -201,8 +201,14 @@ class PurgeDataTest extends SystemTestCase
         $metricsToKeep           = PrivacyManager::getAllMetricsToKeep();
         $maxRowsToDeletePerQuery = 100000;
 
-        $purger = new ReportsPurger($deleteReportsOlderThan, $keepBasicMetrics, $reportPeriodsToKeep,
-                                    $keepSegmentReports, $metricsToKeep, $maxRowsToDeletePerQuery);
+        $purger = new ReportsPurger(
+            $deleteReportsOlderThan,
+            $keepBasicMetrics,
+            $reportPeriodsToKeep,
+            $keepSegmentReports,
+            $metricsToKeep,
+            $maxRowsToDeletePerQuery
+        );
         $purger->getPurgeEstimate();
         $purger->purgeData();
     }

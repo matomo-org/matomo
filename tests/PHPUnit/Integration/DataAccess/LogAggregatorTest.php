@@ -539,8 +539,16 @@ class LogAggregatorTest extends IntegrationTestCase
         DatabaseConfig::setConfigValue('enable_first_table_join_prefix', '1');
         $this->logAggregator->setQueryOriginHint('MyPluginName');
 
-        $query = $this->logAggregator->getQueryByDimensionSql($dimensions, false, [], false, false,
-            false, 5, false);
+        $query = $this->logAggregator->getQueryByDimensionSql(
+            $dimensions,
+            false,
+            [],
+            false,
+            false,
+            false,
+            5,
+            false
+        );
 
         $expected = [
             'sql' => "SELECT  /*+ MAX_EXECUTION_TIME(5000) */  /*+ JOIN_PREFIX(log_visit) */ /* sites 1 */ /* 2010-03-01,2010-03-31 */ /* MyPluginName */

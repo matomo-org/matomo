@@ -166,8 +166,12 @@ class MySQLMetadataProvider
         $extraSelects = array("SUM(OCTET_LENGTH(value)) AS 'blob_size'", "SUM(LENGTH(name)) AS 'name_size'");
         $extraCols = array('blob_size', 'name_size');
         return $this->getRowCountsByArchiveName(
-            $this->getAllBlobArchiveStatus(), 'getEstimatedBlobArchiveRowSize', $forceCache, $extraSelects,
-            $extraCols);
+            $this->getAllBlobArchiveStatus(),
+            'getEstimatedBlobArchiveRowSize',
+            $forceCache,
+            $extraSelects,
+            $extraCols
+        );
     }
 
     /**
@@ -183,7 +187,10 @@ class MySQLMetadataProvider
     public function getRowCountsAndSizeByMetricName($forceCache = false)
     {
         return $this->getRowCountsByArchiveName(
-            $this->getAllNumericArchiveStatus(), 'getEstimatedRowsSize', $forceCache);
+            $this->getAllNumericArchiveStatus(),
+            'getEstimatedRowsSize',
+            $forceCache
+        );
     }
 
     /**
@@ -226,8 +233,10 @@ class MySQLMetadataProvider
 
             // add estimated_size column
             $getEstimatedSize = array($this, $getRowSizeMethod);
-            $table->filter('ColumnCallbackAddColumn',
-                array($cols, 'estimated_size', $getEstimatedSize, array($status)));
+            $table->filter(
+                'ColumnCallbackAddColumn',
+                array($cols, 'estimated_size', $getEstimatedSize, array($status))
+            );
 
             $dataTable->addDataTable($table);
         }

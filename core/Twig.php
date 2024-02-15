@@ -108,7 +108,8 @@ class Twig
         // Create new Twig Environment and set cache dir
         $cache = StaticContainer::get('twig.cache');
 
-        $this->twig = new Environment($chainLoader,
+        $this->twig = new Environment(
+            $chainLoader,
             array(
                  'debug'            => true, // to use {{ dump(var) }} in twig templates
                  'strict_variables' => true, // throw an exception if variables are invalid

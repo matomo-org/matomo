@@ -128,7 +128,8 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
         if (!SettingsServer::isIIS()) {
             return;
         }
-        @file_put_contents(PIWIK_INCLUDE_PATH . '/web.config',
+        @file_put_contents(
+            PIWIK_INCLUDE_PATH . '/web.config',
             '<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <system.webServer>
@@ -167,7 +168,8 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
       <mimeMap fileExtension=".woff" mimeType="application/font-woff" />
     </staticContent>
   </system.webServer>
-</configuration>');
+</configuration>'
+        );
 
         // deny direct access to .php files
         $directoriesToProtect = array(
@@ -183,7 +185,8 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
         </alwaysAllowedUrls>';
 
         foreach ($directoriesToProtect as $directoryToProtect) {
-            @file_put_contents(PIWIK_INCLUDE_PATH . $directoryToProtect . '/web.config',
+            @file_put_contents(
+                PIWIK_INCLUDE_PATH . $directoryToProtect . '/web.config',
                 '<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <system.webServer>
@@ -195,7 +198,8 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
       </requestFiltering>
     </security>
   </system.webServer>
-</configuration>');
+</configuration>'
+            );
         }
     }
 

@@ -252,7 +252,10 @@ class API extends \Piwik\Plugin\API
                     && $result[$idSite][$strDate]['count'] == 1
                 ) {
                     $annotationsForSite = $annotations->search(
-                        $date, Date::factory($nextDate->getTimestamp() - 1), $idSite);
+                        $date,
+                        Date::factory($nextDate->getTimestamp() - 1),
+                        $idSite
+                    );
                     $annotation = reset($annotationsForSite[$idSite]);
 
                     $result[$idSite][$strDate]['note'] = $annotation['note'];

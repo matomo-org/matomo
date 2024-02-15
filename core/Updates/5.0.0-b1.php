@@ -96,7 +96,8 @@ class Updates_5_0_0_b1 extends PiwikUpdates
             // already existing index has the correct fields. Try renaming, but ignore syntax error thrown if rename command does not exist
             $migrations[] = $this->migration->db->sql(
                 "ALTER TABLE `{$this->tableName}` RENAME INDEX `{$this->indexName}` TO `{$this->newIndexName}`",
-                [DbAlias::ERROR_CODE_SYNTAX_ERROR]);
+                [DbAlias::ERROR_CODE_SYNTAX_ERROR]
+            );
         }
 
         // create the new index if it does not yet exist and drop the old one

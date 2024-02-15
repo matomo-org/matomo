@@ -57,7 +57,13 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
     public function __construct($table, $pastDataTable, $columnToAdd, $columnToRead, $quotientPrecision = 0)
     {
         parent::__construct(
-            $table, $columnToAdd, $columnToRead, $columnToRead, $quotientPrecision, $shouldSkipRows = true);
+            $table,
+            $columnToAdd,
+            $columnToRead,
+            $columnToRead,
+            $quotientPrecision,
+            $shouldSkipRows = true
+        );
 
         $this->pastDataTable = $pastDataTable;
 
