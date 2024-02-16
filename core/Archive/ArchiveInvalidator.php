@@ -151,11 +151,21 @@ class ArchiveInvalidator
         return $generalCache[$cacheKey][$idSite][$dateStr];
     }
 
-    public function getRememberedArchivedReportsThatShouldBeInvalidated()
+    public function getDaysWithRememberedInvalidationsForSite(int $idSite): array
     {
-        $reports = Option::getLike('%' . str_replace('_', '\_', $this->rememberArchivedReportIdStart) . '%\_%');
+        return array_keys($this->getRememberedArchivedReportsThatShouldBeInvalidated($idSite));
+    }
 
-        $sitesPerDay = array();
+    public function getRememberedArchivedReportsThatShouldBeInvalidated(int $idSite = null)
+    {
+        if (null === $idSite) {
+            $optionName = $this->rememberArchivedReportIdStart . '%';
+        } else {
+            $optionName = $this->buildRememberArchivedReportIdForSite($idSite);
+        }
+
+        $reports = Option::getLike('%' . str_replace('_', '\_', $optionName) . '\_%');
+        $sitesPerDay = [];
 
         foreach ($reports as $report => $value) {
             $report = substr($report, strpos($report, $this->rememberArchivedReportIdStart));
@@ -169,7 +179,7 @@ class ArchiveInvalidator
             }
 
             if (empty($sitesPerDay[$date])) {
-                $sitesPerDay[$date] = array();
+                $sitesPerDay[$date] = [];
             }
 
             $sitesPerDay[$date][] = $siteId;

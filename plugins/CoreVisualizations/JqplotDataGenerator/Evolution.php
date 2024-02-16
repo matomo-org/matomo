@@ -10,6 +10,7 @@
 
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
+use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable;
@@ -344,6 +345,7 @@ class Evolution extends JqplotDataGenerator
 
         $dataStates = [];
         $siteToday = Date::factoryInTimezone('today', $site->getTimezone())->getTimestamp();
+        $previousState = ArchiveState::COMPLETE;
 
         foreach ($dataTableDates as $dataTableDate) {
             /** @var Period $period */
@@ -351,14 +353,21 @@ class Evolution extends JqplotDataGenerator
             $state = $dataTables[$dataTableDate]->getMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME);
 
             if (false === $state) {
-                $state = DataTable::ID_ARCHIVE_STATE_COMPLETE;
+                // Missing archive state information should only occur if no
+                // usable archive was found in the database. Treat a missing archive
+                // (for example if there are legitimately zero visits to a site)
+                // as complete unless it follows an incomplete archive.
+                $state = ArchiveState::INCOMPLETE === $previousState
+                    ? ArchiveState::INCOMPLETE
+                    : ArchiveState::COMPLETE;
             }
 
             if ($siteToday <= $period->getDateEnd()->getTimestamp()) {
-                $state = DataTable::ID_ARCHIVE_STATE_INCOMPLETE;
+                $state = ArchiveState::INCOMPLETE;
             }
 
             $dataStates[$dataTableDate] = $state;
+            $previousState = $state;
         }
 
         $visualization->setDataStates(array_values($dataStates));
