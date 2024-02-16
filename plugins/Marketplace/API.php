@@ -13,6 +13,8 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Api\Service;
+use Piwik\Plugins\Marketplace\Input\PurchaseType;
+use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 
 /**
@@ -42,16 +44,23 @@ class API extends \Piwik\Plugin\API
      */
     private $pluginManager;
 
+    /**
+     * @var Plugins
+     */
+    private $plugins;
+
     public function __construct(
         Service $service,
         Client $client,
         InvalidLicenses $expired,
-        PluginManager $pluginManager
+        PluginManager $pluginManager,
+        Plugins $plugins
     ) {
         $this->marketplaceService = $service;
         $this->marketplaceClient  = $client;
         $this->expired = $expired;
         $this->pluginManager = $pluginManager;
+        $this->plugins = $plugins;
     }
 
     /**
@@ -72,6 +81,8 @@ class API extends \Piwik\Plugin\API
      *
      * @return bool
      * @throws Service\Exception If the marketplace request failed
+     *
+     * @internal
      */
     public function startFreeTrial(string $pluginName): bool
     {
@@ -149,6 +160,25 @@ class API extends \Piwik\Plugin\API
         $this->setLicenseKey($licenseKey);
 
         return true;
+    }
+
+    /**
+     * Searches for plugins/themes on the marketplace
+     *
+     * @param string $query search query
+     * @param string $sort sorting
+     * @param bool $themesOnly switch to themes
+     * @param string $purchaseType type of plugins (free, paid, all[=empty])
+     * @return array
+     *
+     * @internal
+     */
+    public function searchPlugins(string $query = '', string $sort = '', bool $themesOnly = false, string $purchaseType = ''): array
+    {
+        $sort = (new Sort())->getSort($sort);
+        $type = (new PurchaseType())->getPurchaseType($purchaseType);
+
+        return $this->plugins->searchPlugins($query, $sort, $themesOnly, $type);
     }
 
     private function setLicenseKey($licenseKey)

@@ -141,6 +141,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_TrialHints';
         $translationKeys[] = 'Marketplace_UploadZipFile';
         $translationKeys[] = 'Marketplace_ViewSubscriptions';
+        $translationKeys[] = 'Mobile_LoadingReport';
     }
 
     /**

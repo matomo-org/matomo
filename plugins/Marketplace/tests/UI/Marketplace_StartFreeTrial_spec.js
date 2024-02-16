@@ -52,12 +52,6 @@ describe('Marketplace_StartFreeTrial', function () {
 
     await goToPluginsPage();
 
-    await page.evaluate(function() {
-      // successfully starting a trial reloads the page
-      // prevent the reload to allow checking the success notification
-      window.piwikHelper.redirect = function() {};
-    });
-
     await page.click(startFreeTrialSelector);
     await page.waitForSelector('.Piwik_Popover_Loading', { visible: true });
     await page.waitForSelector('.Piwik_Popover_Loading', { hidden: true });

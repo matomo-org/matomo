@@ -29,7 +29,6 @@
 import { defineComponent } from 'vue';
 import {
   AjaxHelper,
-  Matomo,
   MatomoUrl,
   NotificationsStore,
   translate,
@@ -45,7 +44,7 @@ export default defineComponent({
     },
     isValidConsumer: Boolean,
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'trialStarted'],
   watch: {
     modelValue(newValue) {
       if (newValue) {
@@ -90,7 +89,7 @@ export default defineComponent({
           type: 'transient',
         });
         NotificationsStore.scrollToNotification(notificationInstanceId);
-        Matomo.helper.redirect();
+        this.$emit('trialStarted');
       }).catch((error) => {
         window.Piwik_Popover.showError('', error.message);
       }).finally(() => this.$emit('update:modelValue', ''));
