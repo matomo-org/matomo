@@ -124,8 +124,9 @@ return array(
         $isExceededUser = $c->get('test.vars.consumer') === 'exceededLicense';
         $isExpiredUser = $c->get('test.vars.consumer') === 'expiredLicense';
         $isValidUser = $c->get('test.vars.consumer') === 'validLicense';
+        $startFreeTrialSuccess = $c->get('test.vars.startFreeTrialSuccess');
 
-        $service->setOnDownloadCallback(function ($action, $params) use ($service, $isExceededUser, $isValidUser, $isExpiredUser) {
+        $service->setOnDownloadCallback(function ($action, $params) use ($service, $isExceededUser, $isValidUser, $isExpiredUser, $startFreeTrialSuccess) {
             if ($action === 'info') {
                 return $service->getFixtureContent('v2.0_info.json');
             } elseif ($action === 'consumer' && $service->getAccessToken() === 'valid') {
@@ -168,6 +169,13 @@ return array(
             } elseif ($action === 'plugins/PaidPlugin1/info' && !$service->hasAccessToken()) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info.json');
                 return updateUrlsInFixtureContent($content);
+            } elseif ($action === 'plugins/PaidPlugin1/freeTrial') {
+                // this endpoint should only be called with "$getExtendedInfo = true"
+                return [
+                    'status' => $startFreeTrialSuccess ? 201 : 400,
+                    'headers' => [],
+                    'data' => '',
+                ];
             } elseif ($action === 'plugins/checkUpdates') {
                 return $service->getFixtureContent('v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json');
             }

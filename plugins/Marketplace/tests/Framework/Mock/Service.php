@@ -49,11 +49,20 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
         $this->exception = null;
     }
 
-    public function download($url, $destinationPath = null, $timeout = null)
+    public function download($url, $destinationPath = null, $timeout = null, $getExtendedInfo = false)
     {
         if ($this->onDownloadCallback && is_callable($this->onDownloadCallback)) {
             $result = call_user_func($this->onDownloadCallback, $this->action, $this->params);
-            if (!empty($result)) {
+
+            if ($getExtendedInfo && is_string($result)) {
+                return [
+                    'status' => 200,
+                    'headers' => [],
+                    'data' => $result,
+                ];
+            }
+
+            if (null !== $result) {
                 return $result;
             }
         }
@@ -72,7 +81,17 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
                 $this->fixtureToReturn = null;
             }
 
-            return $this->getFixtureContent($fixture);
+            $data = $this->getFixtureContent($fixture);
+
+            if ($getExtendedInfo) {
+                return [
+                    'status' => 200,
+                    'headers' => [],
+                    'data' => $data,
+                ];
+            }
+
+            return $data;
         }
     }
 
@@ -97,14 +116,15 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
         $this->onDownloadCallback = $callback;
     }
 
-    public function fetch($action, $params)
+    public function fetch($action, $params, $getExtendedInfo = false)
     {
         $this->action = $action;
         $this->params = $params;
 
         if ($this->onFetchCallback && is_callable($this->onFetchCallback)) {
             $result = call_user_func($this->onFetchCallback, $action, $params);
-            if (!empty($result)) {
+
+            if (null !== $result) {
                 return $result;
             }
         }
@@ -114,7 +134,7 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
         } elseif (!empty($this->fixtureToReturn) || $this->onDownloadCallback) {
             // we want to make sure to test as much of the service class as possible.
             // Therefore we only mock the HTTP request in download()
-            return parent::fetch($action, $params);
+            return parent::fetch($action, $params, $getExtendedInfo);
         }
 
         return array();

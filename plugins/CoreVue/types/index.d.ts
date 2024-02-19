@@ -65,6 +65,7 @@ declare global {
     close();
     setTitle(title: string): void;
     setContent(html: string|HTMLElement|JQuery|JQLite): void;
+    showError(title: string, message?: string, backLabel?: string): void;
     showLoading(loadingName: string, popoverSubject?: string, height?: number, dialogClass?: string): JQuery;
     onClose(fn: () => void);
     createPopupAndLoadUrl(url: string, loadingName: string, dialogClass?: string, ajaxRequest?: QueryParameters): void;

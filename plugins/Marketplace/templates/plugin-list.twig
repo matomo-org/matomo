@@ -72,8 +72,10 @@
                                                             {{ 'General_Installed'|translate }}
                                                             {{ _self.downloadButton(false, plugin, isAutoUpdatePossible, true)|raw }}
                                                         </div>
+                                                    {% elseif plugin.isEligibleForFreeTrial and isValidConsumer %}
+                                                        {{ marketplaceMacro.pluginActionButtonStartFreeTrial(plugin)|raw }}
                                                     {% elseif not plugin.isDownloadable %}
-                                                        {{ marketplaceMacro.pluginActionButton(plugin)|raw }}
+                                                        {{ marketplaceMacro.pluginActionButtonMoreDetails(plugin)|raw }}
                                                     {% else %}
                                                         <div class="alert alert-warning alert-no-background">
                                                             {{ 'Marketplace_CannotInstall'|translate }}
@@ -91,8 +93,10 @@
                                                         {% endif %}
                                                     </div>
 
+                                                {% elseif plugin.isEligibleForFreeTrial and isValidConsumer %}
+                                                    {{ marketplaceMacro.pluginActionButtonStartFreeTrial(plugin)|raw }}
                                                 {% elseif plugin.isPaid and not plugin.isDownloadable %}
-                                                    {{ marketplaceMacro.pluginActionButton(plugin)|raw }}
+                                                    {{ marketplaceMacro.pluginActionButtonMoreDetails(plugin)|raw }}
                                                 {% else %}
                                                     <a tabindex="7" href="{{ linkTo({'module': 'Marketplace', 'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': installNonce}) }}" class="btn btn-block">
                                                         {{ 'Marketplace_ActionInstall'|translate }}
@@ -100,7 +104,7 @@
                                                 {% endif %}
 
                                             {% else %}
-                                                {{ marketplaceMacro.pluginActionButton(plugin)|raw }}
+                                                {{ marketplaceMacro.pluginActionButtonMoreDetails(plugin)|raw }}
                                             {% endif %}
 
 
