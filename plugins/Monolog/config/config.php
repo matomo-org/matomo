@@ -22,7 +22,7 @@ return array(
         'screen'   => 'Piwik\Plugins\Monolog\Handler\WebNotificationHandler',
         'database' => 'Piwik\Plugins\Monolog\Handler\DatabaseHandler',
         'errorlog' => '\Monolog\Handler\ErrorLogHandler',
-        'syslog' => '\Monolog\Handler\SyslogHandler',
+        'syslog' => 'Piwik\Plugins\Monolog\Handler\SystemLogHandler',
     ),
     'log.handlers' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.log_writers')) {
@@ -108,7 +108,7 @@ return array(
         ->constructorParameter('level', Piwik\DI::get('log.level.errorlog'))
         ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
 
-    '\Monolog\Handler\SyslogHandler' => Piwik\DI::autowire()
+    'Piwik\Plugins\Monolog\Handler\SystemLogHandler' => Piwik\DI::autowire()
         ->constructorParameter('ident', Piwik\DI::get('log.syslog.ident'))
         ->constructorParameter('level', Piwik\DI::get('log.level.syslog'))
         ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
