@@ -16,7 +16,7 @@
           >add your license key</a>.</p>
         <p>
           <strong>Don't have a license key yet?</strong>
-          Visit our <a href="https://shop.matomo.org/my-account/"
+          Visit our <a :href="externalRawLink('https://shop.matomo.org/my-account/')"
                        rel="noopener noreferrer" target="_blank">online marketplace</a>,
           create an account and start a free trial to get your license key.
           Once you have a license key, you will be able to start any free trials from here.</p>
