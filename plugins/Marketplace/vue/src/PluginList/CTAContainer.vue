@@ -11,12 +11,7 @@
       {{ translate('Marketplace_LicenseMissing') }}
       <span
         style="white-space:nowrap"
-      >(<a tabindex="7"
-           class="plugin-details"
-           href="#"
-           v-plugin-name="{ pluginName: plugin.name }"
-           :title="translate('General_MoreDetails')"
-      >{{ translate('General_Help') }}</a>)</span>
+      >(<HelpLink :plugin-name="plugin.name" />)</span>
     </div>
 
     <div v-else-if="plugin.hasExceededLicense"
@@ -24,40 +19,27 @@
       {{ translate('Marketplace_LicenseExceeded') }}
       <span
         style="white-space:nowrap"
-      >(<a tabindex="7"
-           class="plugin-details"
-           href="#"
-           v-plugin-name="{ pluginName: plugin.name }"
-           :title="translate('General_MoreDetails')"
-      >{{ translate('General_Help') }}</a>)</span>
+      >(<HelpLink :plugin-name="plugin.name" />)</span>
     </div>
 
     <template v-else-if="plugin.canBeUpdated && 0 == plugin.missingRequirements.length">
       <a v-if="isAutoUpdatePossible"
-         tabindex="7" class="btn btn-block"
-         :href="linkTo({
-                          module: 'Marketplace',
-                          action: 'updatePlugin',
-                          pluginName: plugin.name,
-                          nonce: updateNonce
-                       })">
-        {{ translate('CoreUpdater_UpdateTitle') }}
-      </a>
+         tabindex="7"
+         class="btn btn-block"
+         :href="linkToUpdate(plugin.name)"
+      >{{ translate('CoreUpdater_UpdateTitle') }}</a>
       <div v-else
            class="alert alert-warning alert-no-background">
         {{ translate('Marketplace_CannotUpdate') }}
         <span
           style="white-space:nowrap"
-        >(<a tabindex="7"
-             class="plugin-details"
-             href="#"
-             v-plugin-name="{ pluginName: plugin.name }"
-             :title="translate('General_MoreDetails')"
-        >{{ translate('General_Help') }}</a><DownloadButton
-          :plugin="plugin"
-          :show-or="true"
-          :is-auto-update-possible="isAutoUpdatePossible"
-        />)</span>
+        >(<HelpLink :plugin-name="plugin.name" />
+          <DownloadButton
+            :plugin="plugin"
+            :show-or="true"
+            :download-nonce="downloadNonce"
+            :is-auto-update-possible="isAutoUpdatePossible"
+          />)</span>
       </div>
     </template>
 
@@ -69,31 +51,22 @@
         (<DownloadButton
           :plugin="plugin"
           :show-or="false"
+          :download-nonce="downloadNonce"
           :is-auto-update-possible="isAutoUpdatePossible"
         />)
       </template>
       <template v-else-if="!plugin.isInvalid && !isMultiServerEnvironment && isPluginsAdminEnabled">
         (<a v-if="plugin.isActivated"
             tabindex="7"
-            :href="linkTo({
-                              module: 'CorePluginsAdmin',
-                              action: 'deactivate',
-                              pluginName: plugin.name,
-                              nonce: deactivateNonce,
-                              redirectTo: 'referrer' })"
-      >{{ translate('CorePluginsAdmin_Deactivate') }}</a
-      ><template v-else-if="plugin.missingRequirements.length > 0">
-        -
-      </template
-      ><a v-else
-          tabindex="7"
-          :href="linkTo({
-                              module: 'CorePluginsAdmin',
-                              action: 'activate',
-                              pluginName: plugin.name,
-                              nonce: activateNonce,
-                              redirectTo: 'referrer' })"
-      >{{ translate('CorePluginsAdmin_Activate') }}</a>)
+            :href="linkToDeactivate(plugin.name)"
+        >{{ translate('CorePluginsAdmin_Deactivate') }}</a
+        ><template v-else-if="plugin.missingRequirements.length > 0">
+          -
+        </template
+        ><a v-else
+            tabindex="7"
+            :href="linkToActivate(plugin.name)"
+        >{{ translate('CorePluginsAdmin_Activate') }}</a>)
       </template>
     </div>
 
@@ -103,60 +76,44 @@
        href=""
        @click.prevent="this.$emit('startFreeTrial');"
        :title="translate('Marketplace_StartFreeTrial')"
-    >
-      {{ translate('Marketplace_StartFreeTrial') }}
-    </a>
+    >{{ translate('Marketplace_StartFreeTrial') }}</a>
 
-    <a v-else-if="!plugin.isDownloadable
-       && (plugin.isPaid || plugin.missingRequirements.length > 0 || !isAutoUpdatePossible)"
-       tabindex="7"
-       class="btn btn-block"
-       href="#"
-       v-plugin-name="{ pluginName: plugin.name }"
-       :title="translate('General_MoreDetails')"
-    >
-      {{ translate('General_MoreDetails') }}
-    </a>
+    <MoreDetailsButton
+      v-else-if="!plugin.isDownloadable && (
+                   plugin.isPaid
+                   || plugin.missingRequirements.length > 0
+                   || !isAutoUpdatePossible
+                 )"
+      :plugin-name="plugin.name"
+    />
 
     <div v-else-if="plugin.missingRequirements.length > 0 || !isAutoUpdatePossible"
          class="alert alert-warning alert-no-background">
       {{ translate('Marketplace_CannotInstall') }}
       <span
         style="white-space:nowrap"
-      >(<a tabindex="7"
-           class="plugin-details"
-           href="#"
-           v-plugin-name="{ pluginName: plugin.name }"
-           :title="translate('General_MoreDetails')"
-      >{{ translate('General_Help') }}</a><DownloadButton
-        :plugin="plugin"
-        :show-or="true"
-        :download-nonce="downloadNonce"
-        :is-auto-update-possible="isAutoUpdatePossible"
-      />)</span>
+      >(<HelpLink :plugin-name="plugin.name" />
+        <DownloadButton
+          :plugin="plugin"
+          :show-or="true"
+          :download-nonce="downloadNonce"
+          :is-auto-update-possible="isAutoUpdatePossible"
+        />)</span>
     </div>
 
     <a v-else
        tabindex="7"
-       :href="linkTo({
-                          'module': 'Marketplace',
-                          'action': 'installPlugin',
-                          'pluginName': plugin.name,
-                          'nonce': installNonce
-                       })"
-       class="btn btn-block">
+       :href="linkToInstall(plugin.name)"
+       class="btn btn-block"
+    >
       {{ translate('Marketplace_ActionInstall') }}
     </a>
   </template>
-  <a v-else
-     tabindex="7"
-     class="btn btn-block"
-     href="#"
-     v-plugin-name="{ pluginName: plugin.name }"
-     :title="translate('General_MoreDetails')"
-  >
-    {{ translate('General_MoreDetails') }}
-  </a>
+
+  <MoreDetailsButton
+    v-else
+    :plugin-name="plugin.name"
+  />
 </template>
 
 <script lang="ts">
@@ -164,6 +121,8 @@ import { defineComponent } from 'vue';
 import { MatomoUrl } from 'CoreHome';
 import { PluginName } from 'CorePluginsAdmin';
 import DownloadButton from './DownloadButton.vue';
+import HelpLink from './HelpLink.vue';
+import MoreDetailsButton from './MoreDetailsButton.vue';
 
 export default defineComponent({
   props: {
@@ -215,11 +174,47 @@ export default defineComponent({
   emits: ['startFreeTrial'],
   components: {
     DownloadButton,
+    HelpLink,
+    MoreDetailsButton,
   },
   directives: {
     PluginName,
   },
   methods: {
+    linkToActivate(pluginName: string) {
+      return this.linkTo({
+        module: 'CorePluginsAdmin',
+        action: 'activate',
+        redirectTo: 'referrer',
+        nonce: this.activateNonce,
+        pluginName,
+      });
+    },
+    linkToDeactivate(pluginName: string) {
+      return this.linkTo({
+        module: 'CorePluginsAdmin',
+        action: 'deactivate',
+        redirectTo: 'referrer',
+        nonce: this.deactivateNonce,
+        pluginName,
+      });
+    },
+    linkToInstall(pluginName: string) {
+      return this.linkTo({
+        module: 'Marketplace',
+        action: 'installPlugin',
+        nonce: this.installNonce,
+        pluginName,
+      });
+    },
+    linkToUpdate(pluginName: string) {
+      return this.linkTo({
+        module: 'Marketplace',
+        action: 'updatePlugin',
+        nonce: this.updateNonce,
+        pluginName,
+      });
+    },
     linkTo(params: QueryParameters) {
       return `?${MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
