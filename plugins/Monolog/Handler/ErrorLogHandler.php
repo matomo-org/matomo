@@ -13,7 +13,6 @@ use Monolog\Handler\ErrorLogHandler as OriginalErrorLogHandler;
 /**
  * A class to use the ErrorLogHandler instead of including the dependency directly
  */
-
-class ErrorLogHandler  extends OriginalErrorLogHandler
+class ErrorLogHandler extends OriginalErrorLogHandler
 {
 }
