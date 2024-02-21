@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Marketplace;
 
 use Exception;
 use Piwik\Common;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\Filesystem;
 use Piwik\Log;
@@ -22,8 +23,10 @@ use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Input\PluginName;
+use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\ProxyHttp;
+use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Url;
@@ -33,7 +36,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     const UPDATE_NONCE = 'Marketplace.updatePlugin';
     const INSTALL_NONCE = 'Marketplace.installPlugin';
-    const DOWNLOAD_NONCE = 'Marketplace.downloadPlugin';
+    const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
 
     /**
      * @var LicenseKey
@@ -197,7 +200,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $pluginName = new PluginName();
         $pluginName = $pluginName->getPluginName();
 
-        Nonce::checkNonce(static::DOWNLOAD_NONCE);
+        Nonce::checkNonce(static::DOWNLOAD_NONCE_PREFIX . $pluginName);
 
         $filename = $pluginName . '.zip';
 
@@ -260,7 +263,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
         $view->deactivateNonce = Nonce::getNonce(PluginsController::DEACTIVATE_NONCE);
         $view->activateNonce = Nonce::getNonce(PluginsController::ACTIVATE_NONCE);
-        $view->downloadNonce = Nonce::getNonce(static::DOWNLOAD_NONCE);
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
         $view->isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
         $view->isAutoUpdatePossible = SettingsPiwik::isAutoUpdatePossible();
@@ -270,6 +272,34 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->inReportingMenu = (bool) Common::getRequestVar('embed', 0, 'int');
 
         return $view->render();
+    }
+
+    public function searchPlugins(): string
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $request = Request::fromRequest();
+
+        $query = $request->getStringParameter('query', '');
+        $themesOnly = $request->getBoolParameter('themesOnly', false);
+        $purchaseType = $request->getStringParameter('purchaseType', '');
+        $sort = $request->getStringParameter('sort', '');
+
+        $purchaseType = (new PurchaseType())->getPurchaseType($purchaseType);
+        $sort = (new Sort())->getSort($sort);
+
+        $plugins = $this->plugins->searchPlugins($query, $sort, $themesOnly, $purchaseType);
+
+        foreach ($plugins as &$plugin) {
+            if (!$plugin['isDownloadable']) {
+                continue;
+            }
+
+            $plugin['downloadNonce'] = Nonce::getNonce(static::DOWNLOAD_NONCE_PREFIX . $plugin['name']);
+        }
+
+        Json::sendHeaderJSON();
+        return json_encode($plugins);
     }
 
     public function installAllPaidPlugins()

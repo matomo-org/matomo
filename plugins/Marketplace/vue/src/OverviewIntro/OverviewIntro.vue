@@ -62,7 +62,6 @@
       :activate-nonce="activateNonce"
       :install-nonce="installNonce"
       :update-nonce="updateNonce"
-      :download-nonce="downloadNonce"
     />
   </div>
 </template>
@@ -102,10 +101,6 @@ export default defineComponent({
       required: true,
     },
     updateNonce: {
-      type: String,
-      required: true,
-    },
-    downloadNonce: {
       type: String,
       required: true,
     },

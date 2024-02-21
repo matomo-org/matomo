@@ -16,7 +16,7 @@
             module: 'Marketplace',
             action: 'download',
             pluginName: plugin.name,
-            nonce: downloadNonce,
+            nonce: plugin.downloadNonce,
           })"
       >{{ translate('General_Download') }}</a></span>
   </template>
@@ -38,10 +38,6 @@ export default defineComponent({
     },
     isAutoUpdatePossible: {
       type: Boolean,
-      required: true,
-    },
-    downloadNonce: {
-      type: String,
       required: true,
     },
   },

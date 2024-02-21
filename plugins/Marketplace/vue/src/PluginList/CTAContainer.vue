@@ -37,7 +37,6 @@
           <DownloadButton
             :plugin="plugin"
             :show-or="true"
-            :download-nonce="downloadNonce"
             :is-auto-update-possible="isAutoUpdatePossible"
           />)</span>
       </div>
@@ -51,7 +50,6 @@
         (<DownloadButton
           :plugin="plugin"
           :show-or="false"
-          :download-nonce="downloadNonce"
           :is-auto-update-possible="isAutoUpdatePossible"
         />)
       </template>
@@ -96,7 +94,6 @@
         <DownloadButton
           :plugin="plugin"
           :show-or="true"
-          :download-nonce="downloadNonce"
           :is-auto-update-possible="isAutoUpdatePossible"
         />)</span>
     </div>
@@ -143,10 +140,6 @@ export default defineComponent({
       required: true,
     },
     updateNonce: {
-      type: String,
-      required: true,
-    },
-    downloadNonce: {
       type: String,
       required: true,
     },

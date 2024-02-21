@@ -62,7 +62,6 @@
               :activate-nonce="activateNonce"
               :install-nonce="installNonce"
               :update-nonce="updateNonce"
-              :download-nonce="downloadNonce"
               @triggerUpdate="this.fetchPlugins()"
   />
 
@@ -135,10 +134,6 @@ export default defineComponent({
       required: true,
     },
     updateNonce: {
-      type: String,
-      required: true,
-    },
-    downloadNonce: {
       type: String,
       required: true,
     },
@@ -229,8 +224,8 @@ export default defineComponent({
       this.fetchRequestAbortController = new AbortController();
       this.fetchRequest = AjaxHelper.post(
         {
-          module: 'API',
-          method: 'Marketplace.searchPlugins',
+          module: 'Marketplace',
+          action: 'searchPlugins',
           format: 'JSON',
         },
         {
