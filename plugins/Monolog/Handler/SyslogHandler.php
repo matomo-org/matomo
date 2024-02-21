@@ -8,12 +8,12 @@
 
 namespace Piwik\Plugins\Monolog\Handler;
 
-use Monolog\Handler\SyslogHandler;
+use Monolog\Handler\SyslogHandler as OriginalSyslogHandler;
 
 /**
  * A class to use the SyslogHandler instead of including the dependency directly
  */
 
-class SystemLogHandler extends SyslogHandler
+class SyslogHandler extends OriginalSyslogHandler
 {
 }
