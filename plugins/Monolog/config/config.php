@@ -21,8 +21,8 @@ return array(
         'file'     => 'Piwik\Plugins\Monolog\Handler\FileHandler',
         'screen'   => 'Piwik\Plugins\Monolog\Handler\WebNotificationHandler',
         'database' => 'Piwik\Plugins\Monolog\Handler\DatabaseHandler',
-        'errorlog' => '\Monolog\Handler\ErrorLogHandler',
-        'syslog' => '\Monolog\Handler\SyslogHandler',
+        'errorlog' => 'Piwik\Plugins\Monolog\Handler\ErrorLogHandler',
+        'syslog' => 'Piwik\Plugins\Monolog\Handler\SyslogHandler',
     ),
     'log.handlers' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.log_writers')) {
@@ -104,11 +104,11 @@ return array(
         ->constructor(Piwik\DI::get('log.file.filename'), Piwik\DI::get('log.level.file'))
         ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
 
-    '\Monolog\Handler\ErrorLogHandler' => Piwik\DI::autowire()
+    'Piwik\Plugins\Monolog\Handler\ErrorLogHandler' => Piwik\DI::autowire()
         ->constructorParameter('level', Piwik\DI::get('log.level.errorlog'))
         ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
 
-    '\Monolog\Handler\SyslogHandler' => Piwik\DI::autowire()
+    'Piwik\Plugins\Monolog\Handler\SyslogHandler' => Piwik\DI::autowire()
         ->constructorParameter('ident', Piwik\DI::get('log.syslog.ident'))
         ->constructorParameter('level', Piwik\DI::get('log.level.syslog'))
         ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
