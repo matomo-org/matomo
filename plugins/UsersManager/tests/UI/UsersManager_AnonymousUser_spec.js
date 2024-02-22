@@ -24,13 +24,16 @@ describe('UsersManager_AnonymousUser', function () {
   }
 
   async function abortPasswordConfirmation() {
-    await page.$('.confirm-password-modal', { visible: true });
+    await page.$('.confirm-password-modal.open', { visible: true });
+    await page.waitForTimeout(300);
     await (await page.jQuery('.confirm-password-modal.open .modal-close.modal-no:visible')).click();
-    await page.$('.confirm-password-modal', { hidden: true });
+    await page.$('.confirm-password-modal.open', { hidden: true });
+    await page.waitForTimeout(300);
   }
 
   async function confirmPassword() {
-    await page.$('.confirm-password-modal', { visible: true });
+    await page.$('.confirm-password-modal.open', { visible: true });
+    await page.waitForTimeout(300);
 
     await page.evaluate((superUserPassword) => {
       $('.confirm-password-modal input[name=currentUserPassword]:visible')
@@ -38,16 +41,19 @@ describe('UsersManager_AnonymousUser', function () {
         .change();
     }, superUserPassword);
 
-    await page.waitForTimeout(100); // wait for input change to be registered
-    await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
-    await page.$('.confirm-password-modal', { hidden: true });
+    await page.waitForTimeout(250);
+    await (await page.jQuery('.confirm-password-modal.open .modal-close:not(.modal-no):visible')).click();
+    await page.$('.confirm-password-modal.open', { hidden: true });
+    await page.waitForTimeout(300);
     await page.waitForNetworkIdle();
   }
 
   async function confirmRoleChange() {
     await page.$('.change-user-role-confirm-modal.open', { visible: true });
+    await page.waitForTimeout(300);
     await (await page.jQuery('.change-user-role-confirm-modal.open .modal-close:not(.modal-no):visible')).click();
     await page.$('.change-user-role-confirm-modal.open', { hidden: true });
+    await page.waitForTimeout(300);
     await page.waitForNetworkIdle();
   }
 
@@ -96,7 +102,9 @@ describe('UsersManager_AnonymousUser', function () {
   describe('bulk user handling', function() {
     async function bulkRemovePermissions() {
       await page.click('.bulk-actions.btn');
+      await page.waitForTimeout(350);
       await (await page.jQuery('#user-list-bulk-actions a:contains(Remove Permissions)')).click();
+      await page.waitForTimeout(350);
     }
 
     async function bulkSelectAll() {
@@ -105,8 +113,11 @@ describe('UsersManager_AnonymousUser', function () {
 
     async function bulkSetViewAccess() {
       await page.click('.bulk-actions.btn');
-      await (await page.jQuery('a[data-target=user-list-bulk-actions]')).hover();
+      await page.waitForTimeout(350);
+      await (await page.jQuery('a[data-target=bulk-set-access]')).hover();
+      await page.waitForTimeout(350);
       await (await page.jQuery('#bulk-set-access a:contains(View)')).click();
+      await page.waitForTimeout(350);
     }
 
     it('should reset selected access if confirmation is aborted', async function () {
