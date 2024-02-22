@@ -291,11 +291,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $plugins = $this->plugins->searchPlugins($query, $sort, $themesOnly, $purchaseType);
 
         foreach ($plugins as &$plugin) {
-            if (!$plugin['isDownloadable']) {
-                continue;
+            if ($plugin['isDownloadable']) {
+                $plugin['downloadNonce'] = Nonce::getNonce(static::DOWNLOAD_NONCE_PREFIX . $plugin['name']);
             }
-
-            $plugin['downloadNonce'] = Nonce::getNonce(static::DOWNLOAD_NONCE_PREFIX . $plugin['name']);
         }
 
         Json::sendHeaderJSON();

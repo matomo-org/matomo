@@ -18,12 +18,12 @@ class PurchaseType
     const TYPE_PAID = 'paid';
     const TYPE_ALL  = '';
 
-    public function getPurchaseType(string $type)
+    public function getPurchaseType(string $type): string
     {
         return $this->isValidPurchaseType($type) ? $type : self::TYPE_ALL;
     }
 
-    private function isValidPurchaseType($type)
+    private function isValidPurchaseType(string $type): bool
     {
         $valid = [self::TYPE_ALL, self::TYPE_FREE, self::TYPE_PAID];
 
