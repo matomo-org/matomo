@@ -227,7 +227,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $allThemes   = $this->plugins->getAllThemes();
         $paidPlugins = $this->plugins->getAllPaidPlugins();
 
-        $view->numAvailablePlugins = [
+        $view->numAvailablePluginsByType = [
             'plugins' => count($allPlugins),
             'themes' => count($allThemes),
             'premium' => count($paidPlugins),

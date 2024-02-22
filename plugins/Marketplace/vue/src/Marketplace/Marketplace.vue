@@ -169,13 +169,13 @@ export default defineComponent({
     updateValuesFromHash(forceFetch: boolean) {
       let doFetch = forceFetch;
 
-      const newSearchQuery = MatomoUrl.hashParsed.value.query as string | undefined;
-      const newPluginSort = MatomoUrl.hashParsed.value.sort as string | undefined;
-      const newPluginTypeFilter = MatomoUrl.hashParsed.value.pluginType as string | undefined;
+      const newSearchQuery = (MatomoUrl.hashParsed.value.query || '') as string;
+      const newPluginSort = (MatomoUrl.hashParsed.value.sort || '') as string;
+      const newPluginTypeFilter = (MatomoUrl.hashParsed.value.pluginType || '') as string;
 
       if (newSearchQuery || this.searchQuery) {
         doFetch = doFetch || newSearchQuery !== this.searchQuery;
-        this.searchQuery = newSearchQuery || '';
+        this.searchQuery = newSearchQuery;
       }
 
       if (newPluginSort) {
@@ -231,7 +231,7 @@ export default defineComponent({
         {
           query: this.searchQuery,
           sort: this.pluginSort,
-          themesOnly: this.pluginTypeFilter === 'themes',
+          themesOnly: this.showThemes,
           purchaseType: this.pluginTypeFilter === 'premium' ? 'paid' : '',
         },
         {

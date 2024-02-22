@@ -46,8 +46,7 @@ class API extends \Piwik\Plugin\API
         Service $service,
         Client $client,
         InvalidLicenses $expired,
-        PluginManager $pluginManager,
-        Plugins $plugins
+        PluginManager $pluginManager
     ) {
         $this->marketplaceService = $service;
         $this->marketplaceClient  = $client;

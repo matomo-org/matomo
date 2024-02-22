@@ -5,6 +5,8 @@
 -->
 
 <template>
+  <!-- fake link for tab navigation and visualization -->
+  <!-- connected PluginName directive opens the detail popover -->
   <a tabindex="7"
      class="plugin-details"
      href="#"

@@ -18,14 +18,13 @@
             install-nonce="{{ installNonce|default(null)|json_encode }}"
             activate-nonce="{{ activateNonce|default(null)|json_encode }}"
             deactivate-nonce="{{ deactivateNonce|default(null)|json_encode }}"
-            download-nonce="{{ downloadNonce|default(null)|json_encode }}"
             update-nonce="{{ updateNonce|default(null)|json_encode }}"
             is-plugin-upload-enabled="{{ isPluginUploadEnabled|default(null)|json_encode }}"
             upload-limit="{{ uploadLimit|default(null)|json_encode }}"
             plugin-type-options="{{ pluginTypeOptions|json_encode }}"
             default-sort="{{ defaultSort|json_encode }}"
             plugin-sort-options="{{ pluginSortOptions|json_encode }}"
-            num-available-plugins-by-type="{{ numAvailablePlugins|json_encode }}"
+            num-available-plugins-by-type="{{ numAvailablePluginsByType|json_encode }}"
         ></div>
 
         <div class="footer-message center">

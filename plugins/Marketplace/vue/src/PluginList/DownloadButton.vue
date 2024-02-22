@@ -9,7 +9,7 @@
     v-if="plugin.missingRequirements.length === 0 && plugin.isDownloadable && !isAutoUpdatePossible"
   >
     <span onclick="$(this).css('display', 'none')">
-      <template v-if="showOr">{{}} {{ translate('General_Or') }} {{}}</template>
+      <template v-if="showOr">&nbsp;{{ translate('General_Or') }}&nbsp;</template>
       <a tabindex="7"
          class="plugin-details download"
          :href="linkTo({

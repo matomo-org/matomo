@@ -5,6 +5,8 @@
 -->
 
 <template>
+  <!-- fake button for tab navigation and visualization -->
+  <!-- connected PluginName directive opens the detail popover -->
   <a tabindex="7"
      class="btn btn-block"
      href="#"
