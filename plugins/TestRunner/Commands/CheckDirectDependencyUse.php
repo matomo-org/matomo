@@ -12,8 +12,9 @@ class CheckDirectDependencyUse extends ConsoleCommand
     {
         parent::configure();
 
-        $this->setName('localdev:check-direct-dependency-use');
+        $this->setName('testRunner:check-direct-dependency-use');
         $this->addRequiredValueOption('plugin', null, 'Run only for a specific plugin');
+        $this->addNoValueOption('grep-vendor', null, 'Run only for a specific plugin');
         $this->setDescription('checks for direct dependency use in plugins');
     }
 
@@ -23,20 +24,21 @@ class CheckDirectDependencyUse extends ConsoleCommand
 
         $input = $this->getInput();
         $plugin = $input->getOption('plugin');
+        $isGrepVendorFolder = $input->getOption('grep-vendor');
 
         if (!empty($plugin)) {
             $this->usesFoundList[$plugin] = [];
         }
 
         foreach ($psr4NamespacePrefixes as $prefix) {
-            $directUses = $this->grepForUses($prefix, 'psr4', $plugin);
+            $directUses = $this->grepForUses($prefix, 'psr4', $plugin, $isGrepVendorFolder);
             if (!empty($directUses)) {
                 $this->reportDirectUses($prefix, $directUses, 'psr4');
             }
         }
 
         foreach ($psr0Prefixes as $prefix) {
-            $directUses = $this->grepForUses($prefix, 'psr0', $plugin);
+            $directUses = $this->grepForUses($prefix, 'psr0', $plugin, $isGrepVendorFolder);
             if (!empty($directUses)) {
                 $this->reportDirectUses($prefix, $directUses, 'psr0');
             }
@@ -75,7 +77,7 @@ class CheckDirectDependencyUse extends ConsoleCommand
         return [$psr4NamespacePrefixes, $psr0Prefixes];
     }
 
-    private function grepForUses($prefix, $psrType, $plugin)
+    private function grepForUses($prefix, $psrType, $plugin, $isGrepVendorFolder)
     {
         $uses = [];
         $rgOutput = [];
@@ -84,15 +86,21 @@ class CheckDirectDependencyUse extends ConsoleCommand
             $plugin = '/' . $plugin;
         }
 
+        $vendorScan = '--glob=\\!vendor';
+        if ($isGrepVendorFolder) {
+            $vendorScan = '';
+        }
+
         if ($psrType === 'psr4') {
             $prefix = rtrim($prefix, '\\');
             $regex = ' \\\\?' . preg_quote($prefix) . '\\b';
-            $command = 'rg \'' . $regex . '\' --glob=*.php --glob=\\!vendor --json ' . PIWIK_INCLUDE_PATH . '/plugins' . $plugin;
+
+            $command = 'rg \'' . $regex . '\' --glob=*.php ' . $vendorScan . ' --json ' . PIWIK_INCLUDE_PATH . '/plugins' . $plugin;
 
             exec($command, $rgOutput, $returnCode);
         } else if ($psrType === 'psr0') {
             $regex = '\\b' . preg_quote($prefix) . '_';
-            $command = 'rg \'' . $regex . '\' --glob=*.php --glob=\\!vendor --json ' . PIWIK_INCLUDE_PATH . '/plugins' . $plugin;
+            $command = 'rg \'' . $regex . '\' --glob=*.php ' . $vendorScan . ' --json ' . PIWIK_INCLUDE_PATH . '/plugins' . $plugin;
 
             exec($command, $rgOutput, $returnCode);
         }
