@@ -13,6 +13,11 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 
+/**
+ * @group TestRunner
+ * @group TestRunner
+ * @group Plugins
+ */
 class CheckDirectDependencyUseCommandTest extends SystemTestCase
 {
     public function testCommand()
