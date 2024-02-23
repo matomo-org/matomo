@@ -54,6 +54,7 @@ jobs:
           submodules: true
           path: matomo
       - name: running tests
+        run: sudo apt-get install ripgrep
         uses: matomo-org/github-action-tests@main
         with:
           test-type: ${{ matrix.type }}
