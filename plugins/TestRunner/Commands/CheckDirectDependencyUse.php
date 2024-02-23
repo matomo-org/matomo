@@ -130,7 +130,7 @@ class CheckDirectDependencyUse extends ConsoleCommand
         $output->writeln("<info>Found '$prefix' ($type) usage in:</info>");
         foreach ($directUses as $plugin => $files) {
             foreach ($files as $file) {
-                $this->usesFoundList[$plugin][$prefix][] = $plugin . '\\' . $file;
+                $this->usesFoundList[$plugin][$prefix][] = $plugin . '/' . $file;
             }
             $output->writeln("  - $plugin, " . count($files) . " files");
         }
