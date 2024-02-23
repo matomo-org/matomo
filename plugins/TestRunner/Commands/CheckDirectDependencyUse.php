@@ -6,7 +6,6 @@ use Piwik\Plugin\ConsoleCommand;
 
 class CheckDirectDependencyUse extends ConsoleCommand
 {
-
     public $usesFoundList = [];
 
     protected function configure()
@@ -25,7 +24,7 @@ class CheckDirectDependencyUse extends ConsoleCommand
         $input = $this->getInput();
         $plugin = $input->getOption('plugin');
 
-        if (!empty($plugin)){
+        if (!empty($plugin)) {
             $this->usesFoundList[$plugin] = [];
         }
 
