@@ -61,7 +61,7 @@
         "SettingBruteForceTimeRangeHelp": "Entrez une durée en minutes.",
         "SettingBruteForceWhitelistIp": "Ne jamais empêcher ces IP d'ouvrir une session",
         "SuspiciousLoginAttemptsInLastHourEmail1": "Nous avons remarqué un nombre étrangement élevé de tentatives de connexion à votre compte Matomo au cours de la dernière heure. En effet: %1$s tentatives de connexion à partir de %2$s adresses IP distinctes. Nous soupçonnons quelqu'un de détourner votre accès.",
-        "SuspiciousLoginAttemptsInLastHourEmail2": "Effectuez ces actions:",
+        "SuspiciousLoginAttemptsInLastHourEmail2": "Effectuez ces actions :",
         "SuspiciousLoginAttemptsInLastHourEmail3": "Assurez-vous que votre mot de passe est un mot de passe sûr, aléatoire et d'au moins 30 caractères.",
         "SuspiciousLoginAttemptsInLastHourEmail4": "Configurez une authentification à deux facteurs afin que votre mot de passe ne soit pas suffisant pour que des attaquants se connectent à votre compte.",
         "SuspiciousLoginAttemptsInLastHourEmail5": "Configurez une liste d'adresses IP toujours autorisées si votre Matomo a un nombre limité d'adresses IP ou d'utilisateurs. %1$sLisez la documentation pour plus d'informations.%2$s",

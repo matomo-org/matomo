@@ -47,6 +47,7 @@
         "OriginOfficial": "Officiell",
         "OriginThirdParty": "Tredje-part",
         "PluginActivated": "Insticksprogram aktiverat",
+        "PluginFreeTrialStarted": "%1$sDin 30-dagars gratis provperiod har börjat%2$s för %3$s.",
         "PluginHomepage": "Insticksprogrammets hemsida",
         "PluginNotCompatibleWith": "%1$s plugin är inte kompatibelt med %2$s.",
         "PluginNotDownloadable": "Insticksprogrammet går inte att ladda ner.",

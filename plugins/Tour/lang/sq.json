@@ -1,6 +1,7 @@
 {
     "Tour": {
         "AddAnnotation": "Shtoni një shënim",
+        "AddAnotherWebsite": "Shtoni sajt tjetër",
         "AddReport": "Shtoni një raport të planifikuar",
         "AddSegment": "Shtoni një segment",
         "BecomeMatomoExpert": "Bëhuni Ekspert Matomo-je",
@@ -23,6 +24,7 @@
         "Engagement": "Angazhim",
         "FlattenActions": "Sheshojeni raportin e një faqeje",
         "FlattenActionsDescription": "Shkoni te Sjellje → Faqe dhe klikoni në fund të raportit mbi ikonën ingranazh që të sheshohet raporti. Një raport i sheshuar e ndryshon hierarkinë nga raport i grupuar në listë.",
+        "InviteUser": "Ftoni një përdorues",
         "MatomoBeginner": "Fillestar Matomo-je",
         "MatomoExpert": "Eskpert Matomo-je",
         "MatomoIntermediate": "Mesatar Matomo-je",
