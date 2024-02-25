@@ -1,1 +1,15 @@
-{}
+{
+    "MobileMessaging": {
+        "Exception_UnknownProvider": "પ્રદાતા નામ '%1$s' અજાણ્યું છે. તેને બદલે નીચેનામાંથી કોઈ પસંદ કરો: %2$s.",
+        "MobileReport_AdditionalPhoneNumbers": "તમે ઍક્સેસ કરીને વધુ ફોન નંબર ઉમેરી શકો છો",
+        "MobileReport_MobileMessagingSettingsLink": "મોબાઇલ મેસેજિંગ સેટિંગ્સ પૃષ્ઠ",
+        "MobileReport_NoPhoneNumbers": "કૃપા કરીને ઍક્સેસ કરીને ઓછામાં ઓછો એક ફોન નંબર સક્રિય કરો",
+        "MultiSites_Must_Be_Activated": "તમારી વેબસાઇટના આંકડાઓના SMS ટેક્સ્ટ જનરેટ કરવા માટે, કૃપા કરીને Matomo માં MultiSites પ્લગઇનને સક્ષમ કરો.",
+        "PhoneNumbers": "ફોન નંબરો",
+        "PluginDescription": "કસ્ટમ SMS રિપોર્ટ્સ બનાવો અને ડાઉનલોડ કરો અને તેને તમારા મોબાઈલ પર દૈનિક, સાપ્તાહિક અથવા માસિક ધોરણે મોકલો.",
+        "Settings_APIKey": "API કી",
+        "Settings_CountryCode": "દેશનો કોડ",
+        "Settings_CredentialNotProvided": "તમે ફોન નંબર બનાવી અને મેનેજ કરી શકો તે પહેલાં, કૃપા કરીને ઉપરના તમારા SMS એકાઉન્ટ સાથે Matomo ને કનેક્ટ કરો.",
+        "Settings_SelectCountry": "દેશ પસંદ કરો"
+    }
+}
