@@ -168,7 +168,7 @@
         "UseCustomLogo": "Bruk din egen logo",
         "UserInviteContent": "Du kan godta denne invitasjonen ved å klikke på «Godta»-knappen nedenfor.",
         "UserInviteNotes": "Hvis du ikke forventet denne invitasjonen kan du se bort fra denne e-posten. Hvis %1$s sender deg for mange e-poster kan du blokkere vedkommende eller rapportere det. Invitasjonen utløper automatisk om %2$s dager.",
-        "UserInviteSubject": "%1$s sendte deg en invitasjon til å ta deil i Matomo-analyse for %2$s.",
+        "UserInviteSubject": "%1$s sendte deg en invitasjon til å ta del i Matomo-analyse for %2$s.",
         "ValidPiwikHostname": "Gyldig Matomo-vertsnavn",
         "ViewAllTrackingFailures": "Vis alle sporingsfeil",
         "VueDescription": "Sjekk %1$sdenne veiledningen%2$s hvis nettsiden din vertstjenes ved bruk av Vue.js.",
