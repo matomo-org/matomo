@@ -124,6 +124,7 @@
         "ReactDescription": "Om din webbplats använder React, vänligen se %1$sdenna guide%2$s.",
         "ReleaseChannel": "Lanseringskanal",
         "SecurityNotificationAllTokenAuthDeletedBody": "Någon raderade samtliga auth-tokens för ditt konto.",
+        "SecurityNotificationAnonymousAccessEnabledBody": "Någon aktiverade anonym användaråtkomst för %1$s. Detta innebär att informationen för denna webbplats nu är allmänt tillgänglig. Om detta är ok, ignorera gärna detta e-postmeddelande.",
         "SecurityNotificationCheckTwoFactor": "Vänligen titta i din app (eller utrustning) för tvåfaktorsautentisering.",
         "SecurityNotificationEmailSubject": "Säkerhetsnotifiering",
         "SecurityNotificationIfItWasYou": "Om det var du är det är bara att jobba på. Om du inte känner igen denna aktivitet bör du återställa ditt lösenord.",
