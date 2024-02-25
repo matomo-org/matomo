@@ -124,6 +124,7 @@
         "ReactDescription": "Si el vostre lloc web utilitza React, consulteu %1$saquesta guia%2$s.",
         "ReleaseChannel": "Canal de publicació",
         "SecurityNotificationAllTokenAuthDeletedBody": "Algú ha esborrat tots els testimonis d'autenticació del vostre compte.",
+        "SecurityNotificationAnonymousAccessEnabledBody": "Algú ha activat l'accés d'usuari anònim per a %1$s. Això vol dir que les dades d'aquest lloc ara són accessibles públicament. Si us està bé, podeu ignorar aquest correu electrònic.",
         "SecurityNotificationCheckTwoFactor": "Comproveu la vostra aplicació o dispositiu d'autenticació de dos factors.",
         "SecurityNotificationEmailSubject": "Notificació de seguretat",
         "SecurityNotificationIfItWasYou": "Si heu estat vos, endavant. Si no reconeixeu aquesta activitat, restabliu la vostra contrasenya.",

@@ -47,6 +47,7 @@
         "OriginOfficial": "Oficial",
         "OriginThirdParty": "Tercers",
         "PluginActivated": "Connector activat",
+        "PluginFreeTrialStarted": "%1$sLa vostra prova gratuïta de 30 dies ha començat%2$s per a %3$s.",
         "PluginHomepage": "Pàgina d'inici del connector",
         "PluginNotCompatibleWith": "El connector %1$s no és compatible amb %2$s.",
         "PluginNotDownloadable": "El connector no es pot descarregar.",
