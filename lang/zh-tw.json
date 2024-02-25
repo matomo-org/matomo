@@ -267,6 +267,7 @@
         "Installed": "已安裝",
         "InvalidDateRange": "日期範圍無效，請重試",
         "InvalidResponse": "接收到的資料無效。",
+        "InvalidatedPeriod": "無效期間",
         "JsTrackingTag": "JavaScript 追蹤程式碼",
         "KpiMetric": "KPI 指標",
         "Language": "語系",

@@ -124,6 +124,7 @@
         "ReactDescription": "若你的網站使用 React，請參閱%1$s此指南%2$s。",
         "ReleaseChannel": "發行通道",
         "SecurityNotificationAllTokenAuthDeletedBody": "有人刪除了你帳號中所有授權令牌。",
+        "SecurityNotificationAnonymousAccessEnabledBody": "有人開啟了 %1$s 的匿名使用者存取功能。這代表此網站的資料已經公開。若這是預期的行為，請忽略此電子郵件。",
         "SecurityNotificationCheckTwoFactor": "請檢查你的雙因素認證應用程式或裝置。",
         "SecurityNotificationEmailSubject": "安全通知",
         "SecurityNotificationIfItWasYou": "如果這是你，請忽略。如果你不記得你曾進行此動作，請重設你的密碼。",
