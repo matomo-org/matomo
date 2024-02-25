@@ -47,6 +47,7 @@
         "OriginOfficial": "Resmi",
         "OriginThirdParty": "Üçüncü taraf",
         "PluginActivated": "Eklenti etkinleştirildi",
+        "PluginFreeTrialStarted": "%3$s için %1$s30 günlük ücretsiz deneme süreniz başladı%2$s.",
         "PluginHomepage": "Eklenti sayfası",
         "PluginNotCompatibleWith": "%1$s eklentisi %2$s ile uyumlu değil.",
         "PluginNotDownloadable": "Eklenti indirilebilir değil.",
