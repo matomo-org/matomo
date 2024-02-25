@@ -31,6 +31,7 @@
         "SaveAndApply": "Ruaje &amp; Zbatoje",
         "SegmentDisplayedAllWebsites": "krejt sajtet",
         "SegmentDisplayedThisWebsiteOnly": "vetëm këtë sajt",
+        "SegmentEditor": "Përpunues segmentesh",
         "SegmentIsDisplayedForWebsite": "dhe përpunuar për",
         "SegmentNotApplied": "S’u zbatua segmenti '%s'",
         "SegmentNotAppliedMessage": "Po kërkoni të dhëna për Segmentin Vetjak '%s', ky formësim i Matomo-s, për të mos rënduar funksionimin, e parandalon përpunimin e atypëratyshëm të raporteve.",
