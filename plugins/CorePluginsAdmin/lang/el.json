@@ -47,6 +47,7 @@
         "OriginOfficial": "Επίσημο",
         "OriginThirdParty": "Από τρίτες πηγές",
         "PluginActivated": "Το πρόσθετο ενεργοποιήθηκε",
+        "PluginFreeTrialStarted": "%1$sΗ δοκιμή των 30 ημερών έχει ξεκινήσει%2$s για %3$s.",
         "PluginHomepage": "Ιστοσελίδα πρόσθετου",
         "PluginNotCompatibleWith": "Το πρόσθετο %1$s δεν είναι συμβατό με το %2$s.",
         "PluginNotDownloadable": "Το πρόσθετο δεν είναι διαθέσιμο για κατέβασμα.",
