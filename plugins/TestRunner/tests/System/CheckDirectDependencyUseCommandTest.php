@@ -20,9 +20,12 @@ use Symfony\Component\Console\Output\NullOutput;
  */
 class CheckDirectDependencyUseCommandTest extends SystemTestCase
 {
-    public function testCommand()
+
+    /**
+     * @dataProvider getTestDataForDependencyCheck()
+     */
+    public function testCommand($pluginName, $expectedResult)
     {
-        $pluginName = 'TestRunner';
         $console = new \Piwik\Console(self::$fixture->piwikEnvironment);
         $checkDirectDependencyUse = new CheckDirectDependencyUse();
         $console->addCommands([$checkDirectDependencyUse]);
@@ -34,6 +37,14 @@ class CheckDirectDependencyUseCommandTest extends SystemTestCase
         $inputObject = new ArrayInput($arguments);
         $command->run($inputObject, new NullOutput());
 
-        $this->assertEquals([], $checkDirectDependencyUse->usesFoundList[$pluginName]);
+        $this->assertEquals($expectedResult, $checkDirectDependencyUse->usesFoundList[$pluginName]);
+    }
+
+    public function getTestDataForDependencyCheck()
+    {
+        return [
+            ['TestRunner', []],
+            ['Provider', ['Matomo\Network\\' => ['Provider/Columns/Provider.php']]],
+        ];
     }
 }

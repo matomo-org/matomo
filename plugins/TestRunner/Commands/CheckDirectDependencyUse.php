@@ -2,6 +2,7 @@
 
 namespace Piwik\Plugins\TestRunner\Commands;
 
+use Piwik\Exception\Exception;
 use Piwik\Plugin\ConsoleCommand;
 
 class CheckDirectDependencyUse extends ConsoleCommand
@@ -103,6 +104,10 @@ class CheckDirectDependencyUse extends ConsoleCommand
             $command = 'rg \'' . $regex . '\' --glob=*.php ' . $vendorScan . ' --json ' . PIWIK_INCLUDE_PATH . '/plugins' . $plugin;
 
             exec($command, $rgOutput, $returnCode);
+        }
+
+        if (isset($returnCode) && $returnCode == 127) {
+            throw new Exception('Please install ripgrep package, Check https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation for installation');
         }
 
         foreach ($rgOutput as $line) {
