@@ -20,7 +20,6 @@ use Symfony\Component\Console\Output\NullOutput;
  */
 class CheckDirectDependencyUseCommandTest extends SystemTestCase
 {
-
     /**
      * @dataProvider getTestDataForDependencyCheck()
      */
