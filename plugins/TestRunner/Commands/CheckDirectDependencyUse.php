@@ -13,7 +13,7 @@ class CheckDirectDependencyUse extends ConsoleCommand
     {
         parent::configure();
 
-        $this->setName('testRunner:check-direct-dependency-use');
+        $this->setName('tests:check-direct-dependency-use');
         $this->addRequiredValueOption('plugin', null, 'Run only for a specific plugin');
         $this->addNoValueOption('grep-vendor', null, 'Run only for a specific plugin');
         $this->setDescription('checks for direct dependency use in plugins');
@@ -31,19 +31,8 @@ class CheckDirectDependencyUse extends ConsoleCommand
             $this->usesFoundList[$plugin] = [];
         }
 
-        foreach ($psr4NamespacePrefixes as $prefix) {
-            $directUses = $this->grepForUses($prefix, 'psr4', $plugin, $isGrepVendorFolder);
-            if (!empty($directUses)) {
-                $this->reportDirectUses($prefix, $directUses, 'psr4');
-            }
-        }
-
-        foreach ($psr0Prefixes as $prefix) {
-            $directUses = $this->grepForUses($prefix, 'psr0', $plugin, $isGrepVendorFolder);
-            if (!empty($directUses)) {
-                $this->reportDirectUses($prefix, $directUses, 'psr0');
-            }
-        }
+        $this->grepUses($psr4NamespacePrefixes, 'psr4', $plugin, $isGrepVendorFolder);
+        $this->grepUses($psr0Prefixes, 'psr0', $plugin, $isGrepVendorFolder);
 
         return self::SUCCESS;
     }
@@ -78,6 +67,16 @@ class CheckDirectDependencyUse extends ConsoleCommand
         return [$psr4NamespacePrefixes, $psr0Prefixes];
     }
 
+    private function grepUses($prefixes, $psrType, $plugin, $isGrepVendorFolder)
+    {
+        foreach ($prefixes as $prefix) {
+            $directUses = $this->grepForUses($prefix, $psrType, $plugin, $isGrepVendorFolder);
+            if (!empty($directUses)) {
+                $this->reportDirectUses($prefix, $directUses, $psrType);
+            }
+        }
+    }
+
     private function grepForUses($prefix, $psrType, $plugin, $isGrepVendorFolder)
     {
         $uses = [];
@@ -95,16 +94,12 @@ class CheckDirectDependencyUse extends ConsoleCommand
         if ($psrType === 'psr4') {
             $prefix = rtrim($prefix, '\\');
             $regex = ' \\\\?' . preg_quote($prefix) . '\\b';
-
-            $command = 'rg \'' . $regex . '\' --glob=*.php ' . $vendorScan . ' --json ' . PIWIK_INCLUDE_PATH . '/plugins' . $plugin;
-
-            exec($command, $rgOutput, $returnCode);
         } else if ($psrType === 'psr0') {
             $regex = '\\b' . preg_quote($prefix) . '_';
-            $command = 'rg \'' . $regex . '\' --glob=*.php ' . $vendorScan . ' --json ' . PIWIK_INCLUDE_PATH . '/plugins' . $plugin;
-
-            exec($command, $rgOutput, $returnCode);
         }
+
+        $command = 'rg \'' . $regex . '\' --glob=*.php ' . $vendorScan . ' --json ' . PIWIK_INCLUDE_PATH . '/plugins' . $plugin;
+        exec($command, $rgOutput, $returnCode);
 
         if (isset($returnCode) && $returnCode == 127) {
             throw new Exception('Please install ripgrep package, Check https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation for installation');

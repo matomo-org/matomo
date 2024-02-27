@@ -28,9 +28,9 @@ class CheckDirectDependencyUseCommandTest extends SystemTestCase
         $console = new \Piwik\Console(self::$fixture->piwikEnvironment);
         $checkDirectDependencyUse = new CheckDirectDependencyUse();
         $console->addCommands([$checkDirectDependencyUse]);
-        $command = $console->find('testRunner:check-direct-dependency-use');
+        $command = $console->find('tests:check-direct-dependency-use');
         $arguments = array(
-            'command' => 'testRunner:check-direct-dependency-use',
+            'command' => 'tests:check-direct-dependency-use',
             '--plugin' => $pluginName
         );
         $inputObject = new ArrayInput($arguments);
