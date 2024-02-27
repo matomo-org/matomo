@@ -16,9 +16,7 @@
 
     <p>
       <span v-if="!isSuperUser">
-        {{ showThemes
-          ? translate('Marketplace_NotAllowedToBrowseMarketplaceThemes')
-          : translate('Marketplace_NotAllowedToBrowseMarketplacePlugins') }}
+        {{ restrictedMessage }}
       </span>
       <span v-else-if="showThemes">
         {{ translate('CorePluginsAdmin_ThemesDescription') }}
@@ -51,32 +49,40 @@
     />
 
     <Marketplace
-      :plugin-type="pluginType"
       :plugin-type-options="pluginTypeOptions"
-      :sort="sort"
+      :default-sort="defaultSort"
       :plugin-sort-options="pluginSortOptions"
-      :plugins-to-show="pluginsToShow"
-      :query="query"
-      :num-available-plugins="numAvailablePlugins"
+      :num-available-plugins-by-type="numAvailablePluginsByType"
+      :is-auto-update-possible="isAutoUpdatePossible"
+      :is-super-user="isSuperUser"
+      :is-multi-server-environment="isMultiServerEnvironment"
+      :is-plugins-admin-enabled="isPluginsAdminEnabled"
+      :is-valid-consumer="isValidConsumer"
+      :deactivate-nonce="deactivateNonce"
+      :activate-nonce="activateNonce"
+      :install-nonce="installNonce"
+      :update-nonce="updateNonce"
     />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ContentIntro, EnrichedHeadline, translate } from 'CoreHome';
+import {
+  ContentIntro, EnrichedHeadline, MatomoUrl, translate,
+} from 'CoreHome';
 import { PluginName, UploadPluginDialog } from 'CorePluginsAdmin';
 import Marketplace from '../Marketplace/Marketplace.vue';
 import LicenseKey from '../LicenseKey/LicenseKey.vue';
 
 export default defineComponent({
   props: {
-    showThemes: Boolean,
     inReportingMenu: Boolean,
     isValidConsumer: Boolean,
     isSuperUser: Boolean,
     isAutoUpdatePossible: Boolean,
     isPluginsAdminEnabled: Boolean,
+    isMultiServerEnvironment: Boolean,
     hasLicenseKey: Boolean,
     paidPluginsToInstallAtOnce: {
       type: Array,
@@ -86,34 +92,34 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    isPluginUploadEnabled: Boolean,
-    uploadLimit: [String, Number],
-    pluginType: {
+    activateNonce: {
       type: String,
       required: true,
     },
-    pluginTypeOptions: {
-      type: [Object, Array],
+    deactivateNonce: {
+      type: String,
       required: true,
     },
-    sort: {
+    updateNonce: {
+      type: String,
+      required: true,
+    },
+    isPluginUploadEnabled: Boolean,
+    uploadLimit: [String, Number],
+    pluginTypeOptions: {
+      type: Object,
+      required: true,
+    },
+    defaultSort: {
       type: String,
       required: true,
     },
     pluginSortOptions: {
-      type: [Object, Array],
+      type: Object,
       required: true,
     },
-    pluginsToShow: {
-      type: Array,
-      required: true,
-    },
-    query: {
-      type: String,
-      default: '',
-    },
-    numAvailablePlugins: {
-      type: Number,
+    numAvailablePluginsByType: {
+      type: Object,
       required: true,
     },
   },
@@ -178,6 +184,14 @@ export default defineComponent({
         '<a href="#" matomo-plugin-name="WhiteLabel">',
         '</a>',
       );
+    },
+    showThemes(): boolean {
+      return MatomoUrl.hashParsed.value.pluginType as string === 'themes';
+    },
+    restrictedMessage(): string {
+      return this.showThemes
+        ? translate('Marketplace_NotAllowedToBrowseMarketplaceThemes')
+        : translate('Marketplace_NotAllowedToBrowseMarketplacePlugins');
     },
   },
 });

@@ -8,7 +8,6 @@
  */
 
 namespace Piwik\Plugins\Marketplace\Input;
-use Piwik\Common;
 
 /**
  */
@@ -20,10 +19,8 @@ class Sort
     const METHOD_NEWEST = 'newest';
     const DEFAULT_SORT = self::METHOD_LAST_UPDATED;
 
-    public function getSort()
+    public function getSort(string $sort): string
     {
-        $sort = Common::getRequestVar('sort', self::DEFAULT_SORT, 'string');
-
         if (!$this->isValidSortMethod($sort)) {
             $sort = self::DEFAULT_SORT;
         }
@@ -31,7 +28,7 @@ class Sort
         return $sort;
     }
 
-    private function isValidSortMethod($sortMethod)
+    private function isValidSortMethod(string $sortMethod): bool
     {
         $valid = array(self::METHOD_POPULAR, self::METHOD_NEWEST, self::METHOD_ALPHA);
 
