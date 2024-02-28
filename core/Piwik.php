@@ -135,8 +135,13 @@ class Piwik
             $dividend = 0;
         }
         if (!is_numeric($dividend) || !is_numeric($divisor)) {
-            throw new \Exception(sprintf('Trying to round unsupported operands for dividend %s (%s) and divisor %s (%s)',
-                $dividend, gettype($dividend), $divisor, gettype($divisor)));
+            throw new \Exception(sprintf(
+                'Trying to round unsupported operands for dividend %s (%s) and divisor %s (%s)',
+                $dividend,
+                gettype($dividend),
+                $divisor,
+                gettype($divisor)
+            ));
         }
         return round($dividend / $divisor, $precision);
     }
@@ -365,7 +370,8 @@ class Piwik
                 'System generated ' . $reason,
                 Date::now()->getDatetime(),
                 $expireDate,
-            true);
+                true
+            );
 
             return $token[$reason];
         }
@@ -722,9 +728,9 @@ class Piwik
     public static function redirectToModule($newModule, $newAction = '', $parameters = array())
     {
         $newUrl = 'index.php' . Url::getCurrentQueryStringWithParametersModified(
-                array('module' => $newModule, 'action' => $newAction)
+            array('module' => $newModule, 'action' => $newAction)
                 + $parameters
-            );
+        );
         Url::redirectToUrl($newUrl);
     }
 

@@ -220,8 +220,10 @@ class ServerModule extends GeoIp2
             . '<br/><br/>'
             . Piwik::translate('GeoIp2_GeoIPLocationProviderDesc_ServerBasedAnonWarn')
             . '<br/><br/>'
-            . Piwik::translate('GeoIp2_LocationProviderDesc_ServerModule2',
-                array('<strong>', '</strong>', '<strong>', '</strong>'));
+            . Piwik::translate(
+                'GeoIp2_LocationProviderDesc_ServerModule2',
+                array('<strong>', '</strong>', '<strong>', '</strong>')
+            );
 
         $installDocs =
             '<a rel="noreferrer"  target="_blank" href="https://maxmind.github.io/mod_maxminddb/">'

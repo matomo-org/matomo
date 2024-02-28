@@ -303,8 +303,8 @@ abstract class GeneratePluginBase extends ConsoleCommand
         $replace['PLUGINNAME'] = $pluginName;
 
         $files = array_merge(
-                Filesystem::globr($templateFolder, '*'),
-                // Also copy files starting with . such as .gitignore
+            Filesystem::globr($templateFolder, '*'),
+            // Also copy files starting with . such as .gitignore
                 Filesystem::globr($templateFolder, '.*')
         );
 

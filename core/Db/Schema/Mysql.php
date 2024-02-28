@@ -539,12 +539,14 @@ class Mysql implements SchemaInterface
         $dbSettings   = new Db\Settings();
         $charset      = $dbSettings->getUsedCharset();
 
-        $statement = sprintf("CREATE TABLE IF NOT EXISTS `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=%s %s;",
-                             Common::prefixTable($nameWithoutPrefix),
-                             $createDefinition,
-                             $this->getTableEngine(),
-                             $charset,
-          $dbSettings->getRowFormat());
+        $statement = sprintf(
+            "CREATE TABLE IF NOT EXISTS `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=%s %s;",
+            Common::prefixTable($nameWithoutPrefix),
+            $createDefinition,
+            $this->getTableEngine(),
+            $charset,
+            $dbSettings->getRowFormat()
+        );
 
         try {
             Db::exec($statement);

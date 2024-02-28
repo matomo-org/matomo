@@ -207,8 +207,16 @@ class CliMulti
             $query = escapeshellarg($query);
         }
 
-        return sprintf('%s %s %s/console climulti:request -q --matomo-domain=%s %s %s %s',
-                       $bin, $this->phpCliOptions, PIWIK_INCLUDE_PATH, $hostname, $superuserCommand, $query, $append);
+        return sprintf(
+            '%s %s %s/console climulti:request -q --matomo-domain=%s %s %s %s',
+            $bin,
+            $this->phpCliOptions,
+            PIWIK_INCLUDE_PATH,
+            $hostname,
+            $superuserCommand,
+            $query,
+            $append
+        );
     }
 
     private function getResponse()

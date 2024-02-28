@@ -156,7 +156,8 @@ class SegmentEditorTest extends IntegrationTestCase
             'login' => Piwik::getCurrentUserLogin(),
             'deleted' => '0',
         );
-        API::getInstance()->update($idSegment2,
+        API::getInstance()->update(
+            $idSegment2,
             $updatedSegment['name'],
             $updatedSegment['definition'],
             $updatedSegment['enable_only_idsite'],

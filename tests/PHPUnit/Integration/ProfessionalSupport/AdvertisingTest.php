@@ -86,8 +86,13 @@ class AdvertisingTest extends \PHPUnit\Framework\TestCase
 
     public function test_addPromoCampaignParametersToUrl_withContentWithoutQuery()
     {
-        $link = $this->advertising->addPromoCampaignParametersToUrl($this->exampleUrl, 'MyName', 'Installation_Start',
-            'MyContent', 'MySource');
+        $link = $this->advertising->addPromoCampaignParametersToUrl(
+            $this->exampleUrl,
+            'MyName',
+            'Installation_Start',
+            'MyContent',
+            'MySource'
+        );
 
         $this->assertSame($this->exampleUrl . '?mtm_campaign=MyName&mtm_source=MySource&mtm_medium=Installation_Start.MyContent', $link);
     }

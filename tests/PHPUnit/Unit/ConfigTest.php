@@ -30,12 +30,12 @@ class MockIniSettingsProvider extends GlobalSettingsProvider
         parent::__construct();
 
         $this->iniFileChain = new DumpConfigTestMockIniFileChain(
-          array(
+            array(
             $this->pathGlobal => $configGlobal,
             $this->pathCommon => $configCommon,
             $this->pathLocal  => $configLocal,
-          ),
-          $configCache
+            ),
+            $configCache
         );
     }
 }

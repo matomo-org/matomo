@@ -115,10 +115,12 @@ class Controller extends Plugin\ControllerAdmin
 
         Nonce::discardNonce(MarketplaceController::INSTALL_NONCE);
 
-        if (!$this->passwordVerify->isPasswordCorrect(
-            Piwik::getCurrentUserLogin(),
-            \Piwik\Request::fromRequest()->getStringParameter('confirmPassword')
-            )) {
+        if (
+            !$this->passwordVerify->isPasswordCorrect(
+                Piwik::getCurrentUserLogin(),
+                \Piwik\Request::fromRequest()->getStringParameter('confirmPassword')
+            )
+        ) {
             throw new \Exception($this->translator->translate('Login_LoginPasswordNotCorrect'));
         }
 
@@ -308,13 +310,17 @@ class Controller extends Plugin\ControllerAdmin
 
                 if ($this->pluginManager->isPluginInFilesystem($pluginName)) {
                     $description = '<strong>'
-                        . $this->translator->translate('CorePluginsAdmin_PluginNotCompatibleWith',
-                            array($pluginName, self::getPiwikVersion()))
+                        . $this->translator->translate(
+                            'CorePluginsAdmin_PluginNotCompatibleWith',
+                            array($pluginName, self::getPiwikVersion())
+                        )
                         . '</strong><br/>'
                         . $suffix;
                 } else {
-                    $description = $this->translator->translate('CorePluginsAdmin_PluginNotFound',
-                            array($pluginName))
+                    $description = $this->translator->translate(
+                        'CorePluginsAdmin_PluginNotFound',
+                        array($pluginName)
+                    )
                         . "\n"
                         . $this->translator->translate('CorePluginsAdmin_PluginNotFoundAlternative');
                 }
@@ -451,9 +457,11 @@ class Controller extends Plugin\ControllerAdmin
             $message = $this->translator->translate('CorePluginsAdmin_SuccessfullyActicated', array($pluginName));
 
             if ($this->settingsProvider->getSystemSettings($pluginName)) {
-                $target   = sprintf('<a href="index.php%s#%s">',
+                $target   = sprintf(
+                    '<a href="index.php%s#%s">',
                     Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'generalSettings')),
-                    $pluginName);
+                    $pluginName
+                );
                 $message .= ' ' . $this->translator->translate('CorePluginsAdmin_ChangeSettingsPossible', array($target, '</a>'));
             }
 
@@ -530,8 +538,10 @@ class Controller extends Plugin\ControllerAdmin
 
             $messagePermissions = Filechecks::getErrorMessageMissingPermissions($path);
 
-            $messageIntro = $this->translator->translate("Warning: \"%s\" could not be uninstalled. Piwik did not have enough permission to delete the files in $path. ",
-                $pluginName);
+            $messageIntro = $this->translator->translate(
+                "Warning: \"%s\" could not be uninstalled. Piwik did not have enough permission to delete the files in $path. ",
+                $pluginName
+            );
             $exitMessage  = $messageIntro . "<br/><br/>" . $messagePermissions;
             $exitMessage .= "<br> Or manually delete this directory (using FTP or SSH access)";
 

@@ -382,7 +382,9 @@ class ReportTest extends IntegrationTestCase
 
         $proxyMock = $this->getMockBuilder('stdClass')->addMethods(array('call', '__construct'))->getMock();
         $proxyMock->expects($this->once())->method('call')->with(
-            '\\Piwik\\Plugins\\ExampleReport\\API', 'getExampleReport', array(
+            '\\Piwik\\Plugins\\ExampleReport\\API',
+            'getExampleReport',
+            array(
                 'idSite' => 1,
                 'date' => '2012-01-02',
                 'format' => 'original',
@@ -406,7 +408,9 @@ class ReportTest extends IntegrationTestCase
 
         $proxyMock = $this->getMockBuilder('stdClass')->addMethods(array('call', '__construct'))->getMock();
         $proxyMock->expects($this->once())->method('call')->with(
-            '\\Piwik\\Plugins\\Referrers\\API', 'getSearchEnginesFromKeywordId', array(
+            '\\Piwik\\Plugins\\Referrers\\API',
+            'getSearchEnginesFromKeywordId',
+            array(
                 'idSubtable' => 23,
                 'idSite' => 1,
                 'date' => '2012-01-02',

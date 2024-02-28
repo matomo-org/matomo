@@ -100,7 +100,8 @@ class LabelFilterTest extends SystemTestCase
                     '   ' . // test trimming
                         urlencode('incredible parent title! <>,;') .
                         '>' .
-                        urlencode('subtitle <>,;')),
+                    urlencode('subtitle <>,;')
+                ),
                 'expanded' => 0
             )
         ));

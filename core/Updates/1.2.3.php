@@ -40,7 +40,7 @@ class Updates_1_2_3 extends Updates
 
             // Various performance improvements schema updates
             $this->migration->db->sql(
-               'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
+                'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
                 DROP INDEX index_idsite_datetime_config,
                 DROP INDEX index_idsite_idvisit,
                 ADD INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time),

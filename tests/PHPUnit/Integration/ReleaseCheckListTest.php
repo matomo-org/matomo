@@ -262,11 +262,13 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             }
         }
 
-        $this->assertEmpty($foundPatterns,
-                sprintf("Forbidden pattern \"%s\" was found in the following files ---> please manually delete these files from Git. \n\n\t%s",
-                    $patternFailIfFound,
-                    implode("\n\t", $foundPatterns)
-                )
+        $this->assertEmpty(
+            $foundPatterns,
+            sprintf(
+                "Forbidden pattern \"%s\" was found in the following files ---> please manually delete these files from Git. \n\n\t%s",
+                $patternFailIfFound,
+                implode("\n\t", $foundPatterns)
+            )
         );
     }
 
@@ -292,8 +294,11 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'DBStats'
         );
         foreach ($pluginsShouldBeDisabled as $pluginName) {
-            $this->assertNotContains($pluginName, $this->globalConfig['Plugins']['Plugins'],
-                "Plugin $pluginName is enabled by default but shouldn't.");
+            $this->assertNotContains(
+                $pluginName,
+                $this->globalConfig['Plugins']['Plugins'],
+                "Plugin $pluginName is enabled by default but shouldn't."
+            );
         }
     }
 
@@ -398,9 +403,11 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             $chmod = substr(decoct(fileperms($pathToTest)), -3);
             $valid = array('777', '775', '755');
             $command = "find $pluginsPath -type d -exec chmod 755 {} +";
-            $this->assertTrue(in_array($chmod, $valid),
-                    "Some directories within plugins/ are not chmod 755 \n\nGot: $chmod for : $pathToTest \n\n" .
-                    "Run this command to set all directories to 755: \n$command\n");
+            $this->assertTrue(
+                in_array($chmod, $valid),
+                "Some directories within plugins/ are not chmod 755 \n\nGot: $chmod for : $pathToTest \n\n" .
+                "Run this command to set all directories to 755: \n$command\n"
+            );
         }
     }
 
@@ -436,7 +443,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
             $enabled = in_array($pluginName, $pluginsBundledWithPiwik);
 
-            $this->assertTrue( $enabled + $disabled === 1,
+            $this->assertTrue(
+                $enabled + $disabled === 1,
                 "Plugin $pluginName should be either enabled (in global.ini.php) or disabled (in Piwik\\Application\\Kernel\\PluginList).
                 It is currently (enabled=" . (int)$enabled . ", disabled=" . (int)$disabled . ")"
             );
@@ -503,11 +511,13 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     {
         shell_exec("sed '/<DEBUG>/,/<\/DEBUG>/d' < " . PIWIK_DOCUMENT_ROOT . "/js/piwik.js | sed 's/eval/replacedEvilString/' | java -jar " . PIWIK_DOCUMENT_ROOT . "/tests/resources/yuicompressor/yuicompressor-2.4.8.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > " . PIWIK_DOCUMENT_ROOT . "/piwik-minified.js");
 
-        $this->assertFileEquals(PIWIK_DOCUMENT_ROOT . '/piwik-minified.js',
+        $this->assertFileEquals(
+            PIWIK_DOCUMENT_ROOT . '/piwik-minified.js',
             PIWIK_DOCUMENT_ROOT . '/piwik.js',
             'minified /piwik.js is out of date, please re-generate the minified files using instructions in /js/README'
         );
-        $this->assertFileEquals(PIWIK_DOCUMENT_ROOT . '/piwik-minified.js',
+        $this->assertFileEquals(
+            PIWIK_DOCUMENT_ROOT . '/piwik-minified.js',
             PIWIK_DOCUMENT_ROOT . '/js/piwik.min.js',
             'minified /js/piwik.min.js is out of date, please re-generate the minified files using instructions in /js/README'
         );
@@ -619,7 +629,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->assertLessThan(
             $maximumTotalFilesizesExpectedInMb * 1024 * 1024,
             $sumFilesizes,
-            sprintf("Sum of all files should be less than $maximumTotalFilesizesExpectedInMb Mb.
+            sprintf(
+                "Sum of all files should be less than $maximumTotalFilesizesExpectedInMb Mb.
                     \nGot total file sizes of: %d Mb.
                     \nBiggest files: %s",
                 $sumFilesizes / 1024 / 1024,

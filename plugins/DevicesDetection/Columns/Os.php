@@ -54,8 +54,12 @@ class Os extends Base
             return $result;
         });
         $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn, $table) {
-            return $this->sortStaticListByUsage(OperatingSystem::getAvailableOperatingSystems(), $table,
-                'operatingSystemCode', $maxValuesToReturn);
+            return $this->sortStaticListByUsage(
+                OperatingSystem::getAvailableOperatingSystems(),
+                $table,
+                'operatingSystemCode',
+                $maxValuesToReturn
+            );
         });
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }

@@ -110,7 +110,8 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
             $plugin_Cookie,
             $ipAddress,
             $browserLang,
-            $fingerprintSalt);
+            $fingerprintSalt
+        );
     }
 
     /**

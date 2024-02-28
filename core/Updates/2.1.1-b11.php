@@ -61,7 +61,9 @@ class Updates_2_1_1_b11 extends Updates
             $sql = "SELECT idarchive, idsite, period, date1, date2 FROM $table
                     WHERE name = ?  GROUP BY idarchive";
             $visitSummaryReturningSegmentDone = Rules::getDoneFlagArchiveContainsOnePlugin(
-                new Segment(VisitFrequencyApi::RETURNING_VISITOR_SEGMENT, $idSites = array()), 'VisitsSummary');
+                new Segment(VisitFrequencyApi::RETURNING_VISITOR_SEGMENT, $idSites = array()),
+                'VisitsSummary'
+            );
             $idArchivesWithVisitReturningSegment = Db::fetchAll($sql, array($visitSummaryReturningSegmentDone));
 
             // collect info for new visitssummary archives have to be created to match archives w/ *._returning

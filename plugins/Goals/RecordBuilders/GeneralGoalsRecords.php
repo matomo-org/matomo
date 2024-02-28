@@ -69,10 +69,16 @@ class GeneralGoalsRecords extends Base
         if ($siteHasEcommerceOrGoals) {
             $selects = [];
             $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-                self::VISITS_COUNT_FIELD, Archiver::$visitCountRanges, self::LOG_CONVERSION_TABLE, $prefixes[Archiver::VISITS_UNTIL_RECORD_NAME]
+                self::VISITS_COUNT_FIELD,
+                Archiver::$visitCountRanges,
+                self::LOG_CONVERSION_TABLE,
+                $prefixes[Archiver::VISITS_UNTIL_RECORD_NAME]
             ));
             $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-                'FLOOR(log_conversion.' . self::SECONDS_SINCE_FIRST_VISIT_FIELD . ' / 86400)', Archiver::$daysToConvRanges, self::LOG_CONVERSION_TABLE, $prefixes[Archiver::DAYS_UNTIL_CONV_RECORD_NAME]
+                'FLOOR(log_conversion.' . self::SECONDS_SINCE_FIRST_VISIT_FIELD . ' / 86400)',
+                Archiver::$daysToConvRanges,
+                self::LOG_CONVERSION_TABLE,
+                $prefixes[Archiver::DAYS_UNTIL_CONV_RECORD_NAME]
             ));
 
             $query = $logAggregator->queryConversionsByDimension([], false, $selects);

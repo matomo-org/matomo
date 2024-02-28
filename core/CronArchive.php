@@ -370,8 +370,17 @@ class CronArchive
 
         $countOfProcesses = $this->getMaxConcurrentApiRequests();
 
-        $queueConsumer = new QueueConsumer($this->logger, $this->websiteIdArchiveList, $countOfProcesses, $pid,
-            $this->model, $this->segmentArchiving, $this, $this->cliMultiRequestParser, $this->archiveFilter);
+        $queueConsumer = new QueueConsumer(
+            $this->logger,
+            $this->websiteIdArchiveList,
+            $countOfProcesses,
+            $pid,
+            $this->model,
+            $this->segmentArchiving,
+            $this,
+            $this->cliMultiRequestParser,
+            $this->archiveFilter
+        );
 
         $queueConsumer->setMaxSitesToProcess($this->maxSitesToProcess);
 
@@ -518,8 +527,14 @@ class CronArchive
             $visitsForPeriod = $this->getVisitsFromApiResponse($stats);
 
 
-            $this->logArchiveJobFinished($url, $timers[$index], $visitsForPeriod,
-              $archivesBeingQueried[$index]['plugin'], $archivesBeingQueried[$index]['report'], !$checkInvalid);
+            $this->logArchiveJobFinished(
+                $url,
+                $timers[$index],
+                $visitsForPeriod,
+                $archivesBeingQueried[$index]['plugin'],
+                $archivesBeingQueried[$index]['report'],
+                !$checkInvalid
+            );
 
 
             $this->deleteInvalidatedArchives($archivesBeingQueried[$index]);
@@ -559,8 +574,10 @@ class CronArchive
         $url = $this->makeRequestUrl($url);
 
         if (!empty($segment)) {
-            $shouldSkipToday = $this->archiveFilter->isSkipSegmentsForToday() && !$this->wasSegmentChangedRecently($segment,
-                $this->segmentArchiving->getAllSegments());
+            $shouldSkipToday = $this->archiveFilter->isSkipSegmentsForToday() && !$this->wasSegmentChangedRecently(
+                $segment,
+                $this->segmentArchiving->getAllSegments()
+            );
 
             if ($shouldSkipToday) {
                 $url .= '&skipArchiveSegmentToday=1';
@@ -938,8 +955,14 @@ class CronArchive
             if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck)) {
                 $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
             } else {
-                $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date, $period, $segment = false, $cascadeDown = false,
-                    $_forceInvalidateNonexistent);
+                $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports(
+                    $idSite,
+                    $date,
+                    $period,
+                    $segment = false,
+                    $cascadeDown = false,
+                    $_forceInvalidateNonexistent
+                );
             }
 
             foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segmentDefinition) {
@@ -978,8 +1001,14 @@ class CronArchive
                         }
                     }
 
-                    $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date, $period, $segmentDefinition,
-                        $cascadeDown = false, $_forceInvalidateNonexistent);
+                    $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports(
+                        $idSite,
+                        $date,
+                        $period,
+                        $segmentDefinition,
+                        $cascadeDown = false,
+                        $_forceInvalidateNonexistent
+                    );
                 }
             }
         }

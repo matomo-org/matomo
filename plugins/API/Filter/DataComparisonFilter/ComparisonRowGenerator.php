@@ -136,8 +136,10 @@ class ComparisonRowGenerator
         $comparisonDataTable = $row->getComparisons();
         if (empty($comparisonDataTable)) {
             $comparisonDataTable = new DataTable();
-            $comparisonDataTable->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME,
-                $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME));
+            $comparisonDataTable->setMetadata(
+                DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME,
+                $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME)
+            );
             $row->setComparisons($comparisonDataTable);
         }
 

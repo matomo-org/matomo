@@ -189,7 +189,12 @@ class AnnotationsTest extends SystemTestCase
     public function testSaveSuccess()
     {
         API::getInstance()->save(
-            self::$fixture->idSite1, 0, $date = '2011-04-01', $note = 'new note text', $starred = 1);
+            self::$fixture->idSite1,
+            0,
+            $date = '2011-04-01',
+            $note = 'new note text',
+            $starred = 1
+        );
 
         $expectedAnnotation = array(
             'date'            => '2011-04-01',

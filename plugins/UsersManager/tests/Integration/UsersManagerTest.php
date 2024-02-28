@@ -248,9 +248,11 @@ class UsersManagerTest extends IntegrationTestCase
     public function testAddUserLongPassword()
     {
         $login = "geggeqgeqag";
-        $this->api->addUser($login,
-          "geqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaeg",
-          "mgeagi@geq.com");
+        $this->api->addUser(
+            $login,
+            "geqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaegeqgeagaeg",
+            "mgeagi@geq.com"
+        );
         $user = $this->api->getUser($login);
         $this->assertEquals($login, $user['login']);
     }
@@ -269,8 +271,10 @@ class UsersManagerTest extends IntegrationTestCase
         $user = $this->model->getUser($login);
 
         // check that the date registered is correct
-        $this->assertTrue($time <= strtotime($user['date_registered']) && strtotime($user['date_registered']) <= time(),
-          "the date_registered " . strtotime($user['date_registered']) . " is different from the time() " . time());
+        $this->assertTrue(
+            $time <= strtotime($user['date_registered']) && strtotime($user['date_registered']) <= time(),
+            "the date_registered " . strtotime($user['date_registered']) . " is different from the time() " . time()
+        );
 
         // check that password and token are properly set
         $this->assertEquals(60, strlen($user['password']));
@@ -487,10 +491,14 @@ class UsersManagerTest extends IntegrationTestCase
         );
         $expectedUsers = array($user1, $user2, $user3);
         $this->assertEquals($expectedUsers, $users);
-        $this->assertEquals(array($user1),
-          $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag')));
-        $this->assertEquals(array($user1, $user2),
-          $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag,geggeqge632ge56a4qag')));
+        $this->assertEquals(
+            array($user1),
+            $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag'))
+        );
+        $this->assertEquals(
+            array($user1, $user2),
+            $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag,geggeqge632ge56a4qag'))
+        );
     }
 
     public function testGetUsers_withViewAccess_shouldThrowAnException()
@@ -1168,8 +1176,10 @@ class UsersManagerTest extends IntegrationTestCase
 
         for ($index = 0; $index < $numberOfSites; $index++) {
             $name = "test" . ($index + 1);
-            $idSites[] = APISitesManager::getInstance()->addSite($name,
-              array("http://piwik.net", "http://piwik.com/test/"));
+            $idSites[] = APISitesManager::getInstance()->addSite(
+                $name,
+                array("http://piwik.net", "http://piwik.com/test/")
+            );
         }
 
         return $idSites;

@@ -108,11 +108,14 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
     protected function checkActionHasTimings($pageViewId, $network = null, $server = null, $transfer = null, $domProcessing = null, $domCompletion = null, $onload = null)
     {
         $result = Db::fetchRow(
-            sprintf('SELECT time_network, time_server, time_transfer, time_dom_processing, time_dom_completion, time_on_load 
+            sprintf(
+                'SELECT time_network, time_server, time_transfer, time_dom_processing, time_dom_completion, time_on_load 
                       FROM %1$s LEFT JOIN %2$s ON idaction_url = idaction WHERE idpageview = ? AND %2$s.type = 1',
                 Common::prefixTable('log_link_visit_action'),
                 Common::prefixTable('log_action')
-        ), $pageViewId);
+            ),
+            $pageViewId
+        );
 
         $this->assertEquals([
             'time_network' => $network,

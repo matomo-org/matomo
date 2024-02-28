@@ -586,7 +586,10 @@ class ArchiveSelector
         $chunk = new Chunk();
 
         [$getValuesSql, $bind] = self::getSqlTemplateToFetchArchiveData(
-            [$recordName], Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES, true);
+            [$recordName],
+            Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES,
+            true
+        );
 
         $archiveIdsPerMonth = self::getArchiveIdsByYearMonth($archiveIds);
 

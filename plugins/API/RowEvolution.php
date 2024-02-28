@@ -426,8 +426,17 @@ class RowEvolution
      */
     private function getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $apiParameters)
     {
-        $reportMetadata = API::getInstance()->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language,
-            $period, $date, $hideMetricsDoc = false, $showSubtableReports = true);
+        $reportMetadata = API::getInstance()->getMetadata(
+            $idSite,
+            $apiModule,
+            $apiAction,
+            $apiParameters,
+            $language,
+            $period,
+            $date,
+            $hideMetricsDoc = false,
+            $showSubtableReports = true
+        );
 
         if (empty($reportMetadata)) {
             throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite "
@@ -558,7 +567,11 @@ class RowEvolution
 
                 if ($labelRow) {
                     $actualLabels[$labelIdx] = $this->getRowUrlForEvolutionLabel(
-                        $labelRow, $apiModule, $apiAction, $labelUseAbsoluteUrl);
+                        $labelRow,
+                        $apiModule,
+                        $apiAction,
+                        $labelUseAbsoluteUrl
+                    );
 
                     $prettyLabel = $labelRow->getColumn('label_html');
                     if ($prettyLabel !== false) {

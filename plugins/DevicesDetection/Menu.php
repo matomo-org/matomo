@@ -18,9 +18,11 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureAdminMenu(MenuAdmin $menu)
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
-            $menu->addDiagnosticItem('DevicesDetection_DeviceDetection',
-                                     $this->urlForAction('detection'),
-                                     $order = 40);
+            $menu->addDiagnosticItem(
+                'DevicesDetection_DeviceDetection',
+                $this->urlForAction('detection'),
+                $order = 40
+            );
         }
     }
 }

@@ -98,8 +98,15 @@ class VisitTest extends IntegrationTestCase
      */
     public function testIsVisitorIpExcluded($excludedIp, $tests)
     {
-        $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
-            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIp);
+        $idsite = API::getInstance()->addSite(
+            "name",
+            "http://piwik.net/",
+            $ecommerce = 0,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIp
+        );
 
         $request = new RequestAuthenticated(array('idsite' => $idsite));
 
@@ -186,8 +193,14 @@ class VisitTest extends IntegrationTestCase
      */
     public function testVisitShouldNotBeExcluded_IfMadeViaChromeDataSaverCompressionProxy($ip, $isNonHumanBot)
     {
-        $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
-            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null);
+        $idsite = API::getInstance()->addSite(
+            "name",
+            "http://piwik.net/",
+            $ecommerce = 0,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null
+        );
 
 
         $request = new RequestAuthenticated(array('idsite' => $idsite, 'cip' => $ip));
@@ -259,10 +272,21 @@ class VisitTest extends IntegrationTestCase
      */
     public function testIsVisitorUserAgentExcluded($excludedUserAgent, $tests)
     {
-        $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
-            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIp = null,
-            $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null,
-            $excludedUserAgent);
+        $idsite = API::getInstance()->addSite(
+            "name",
+            "http://piwik.net/",
+            $ecommerce = 0,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIp = null,
+            $excludedQueryParameters = null,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgent
+        );
 
         $request = new Request(array('idsite' => $idsite));
 
@@ -434,13 +458,17 @@ class VisitTest extends IntegrationTestCase
 
         $oneHourAfterMidnight = $midnight->addHour(1)->getDatetime();
         $oneHourBeforeMidnight = $midnight->subHour(1)->getDatetime();
-        $idsite = API::getInstance()->addSite('name', 'http://piwik.net/', $ecommerce = null,
+        $idsite = API::getInstance()->addSite(
+            'name',
+            'http://piwik.net/',
+            $ecommerce = null,
             $siteSearch = null,
             $searchKeywordParameters = null,
             $searchCategoryParameters = null,
             $excludedIps = null,
             $excludedQueryParameters = null,
-            $timezone = 'UTC+5');
+            $timezone = 'UTC+5'
+        );
 
         $expectedRemembered = array(
             substr($oneHourAfterMidnight, 0, 10) => array($idsite),

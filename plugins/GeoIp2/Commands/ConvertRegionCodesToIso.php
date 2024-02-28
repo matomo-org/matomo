@@ -51,11 +51,13 @@ class ConvertRegionCodesToIso extends ConsoleCommand
 
         Db::query('DROP table if exists ' . self::MAPPING_TABLE_NAME);
 
-        DbHelper::createTable(self::MAPPING_TABLE_NAME,
+        DbHelper::createTable(
+            self::MAPPING_TABLE_NAME,
             "`country_code` VARCHAR(2) NOT NULL,
                            `fips_code` VARCHAR(2) NOT NULL,
                            `iso_code` VARCHAR(4) NULL DEFAULT NULL,
-                           PRIMARY KEY (`country_code`, `fips_code`)");
+                           PRIMARY KEY (`country_code`, `fips_code`)"
+        );
 
         $output->writeln(' <fg=green>✓</>');
 

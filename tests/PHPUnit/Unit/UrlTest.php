@@ -481,12 +481,16 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $_GET['action'] = 'trackingCodeGenerator';
 
         Config::getInstance()->General['disable_tracking_matomo_app_links'] = 1;
-        $this->assertEquals('https://matomo.org/faq/123',
-            Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/123'));
+        $this->assertEquals(
+            'https://matomo.org/faq/123',
+            Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/123')
+        );
 
         Config::getInstance()->General['disable_tracking_matomo_app_links'] = 0;
-        $this->assertEquals('https://matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
-            Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/123'));
+        $this->assertEquals(
+            'https://matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
+            Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/123')
+        );
     }
 
     /**

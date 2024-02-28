@@ -219,8 +219,10 @@ abstract class ViewDataTable implements ViewInterface
 
                     $relatedReportName = $relatedReport->getName();
 
-                    $this->config->addRelatedReport($relatedReport->getModule() . '.' . $relatedReport->getAction(),
-                                                    $relatedReportName);
+                    $this->config->addRelatedReport(
+                        $relatedReport->getModule() . '.' . $relatedReport->getAction(),
+                        $relatedReportName
+                    );
                 }
             }
 

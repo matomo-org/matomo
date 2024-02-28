@@ -72,22 +72,48 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
             APIGoals::getInstance()->addGoal(
-                $this->idSite, $xssTesting->forTwig("goal name"), 'url', 'http', 'contains', false, 5, false, $xssTesting->forTwig("goal description"));
+                $this->idSite,
+                $xssTesting->forTwig("goal name"),
+                'url',
+                'http',
+                'contains',
+                false,
+                5,
+                false,
+                $xssTesting->forTwig("goal description")
+            );
         }
 
         if (!self::siteCreated($idSite = 2)) {
-            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = $xssTesting->forAngular('Piwik test two'),
-                $siteUrl = 'http://example-site-two.com');
+            self::createWebsite(
+                $this->dateTime,
+                $ecommerce = 0,
+                $siteName = $xssTesting->forAngular('Piwik test two'),
+                $siteUrl = 'http://example-site-two.com'
+            );
         }
 
         if (!self::goalExists($idSite = 2, $idGoal = 2)) {
             APIGoals::getInstance()->addGoal(
-                $this->idSite, $xssTesting->forAngular("second goal"), 'url', 'http', 'contains', false, 5, false, $xssTesting->forAngular("goal description"));
+                $this->idSite,
+                $xssTesting->forAngular("second goal"),
+                'url',
+                'http',
+                'contains',
+                false,
+                5,
+                false,
+                $xssTesting->forAngular("goal description")
+            );
         }
 
         if (!self::siteCreated($idSite = 3)) {
-            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test three',
-                $siteUrl = 'http://example-site-three.com');
+            self::createWebsite(
+                $this->dateTime,
+                $ecommerce = 0,
+                $siteName = 'Piwik test three',
+                $siteUrl = 'http://example-site-three.com'
+            );
         }
     }
 
@@ -96,7 +122,11 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
         $xssTesting = new XssTesting();
         APIAnnotations::getInstance()->add($this->idSite, '2012-08-09', "Note 1", $starred = 1);
         APIAnnotations::getInstance()->add(
-            $this->idSite, '2012-08-08', $xssTesting->forTwig("annotation"), $starred = 0);
+            $this->idSite,
+            '2012-08-08',
+            $xssTesting->forTwig("annotation"),
+            $starred = 0
+        );
         APIAnnotations::getInstance()->add($this->idSite, '2012-08-10', $xssTesting->forAngular("Annotation note 3"), $starred = 1);
     }
 

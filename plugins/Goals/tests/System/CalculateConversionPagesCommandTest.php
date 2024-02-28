@@ -71,8 +71,10 @@ class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
      */
     private function unsetPageviewsBefore(): void
     {
-        Db::query('UPDATE ' . Common::prefixTable('log_conversion') . ' SET pageviews_before = NULL WHERE idsite = ?',
-                  [self::$fixture->idSite]);
+        Db::query(
+            'UPDATE ' . Common::prefixTable('log_conversion') . ' SET pageviews_before = NULL WHERE idsite = ?',
+            [self::$fixture->idSite]
+        );
     }
 
     /**

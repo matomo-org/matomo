@@ -66,13 +66,21 @@ class ManySitesImportedLogs extends Fixture
         }
 
         if (!self::siteCreated($idSite = 2)) {
-            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
-                $siteUrl = 'http://example-site-two.com');
+            self::createWebsite(
+                $this->dateTime,
+                $ecommerce = 0,
+                $siteName = 'Piwik test two',
+                $siteUrl = 'http://example-site-two.com'
+            );
         }
 
         if (!self::siteCreated($idSite = 3)) {
-            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test three',
-                $siteUrl = 'http://example-site-three.com');
+            self::createWebsite(
+                $this->dateTime,
+                $ecommerce = 0,
+                $siteName = 'Piwik test three',
+                $siteUrl = 'http://example-site-three.com'
+            );
         }
     }
 

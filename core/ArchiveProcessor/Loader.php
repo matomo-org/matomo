@@ -203,8 +203,12 @@ class Loader
      */
     private function makeArchivingLockId()
     {
-        $doneFlag = Rules::getDoneStringFlagFor([$this->params->getSite()->getId()], $this->params->getSegment(),
-          $this->params->getPeriod()->getLabel(), $this->params->getRequestedPlugin());
+        $doneFlag = Rules::getDoneStringFlagFor(
+            [$this->params->getSite()->getId()],
+            $this->params->getSegment(),
+            $this->params->getPeriod()->getLabel(),
+            $this->params->getRequestedPlugin()
+        );
 
         return $this->params->getPeriod()->getDateStart()->toString() . $this->params->getPeriod()->getDateEnd()->toString() . '.' . $doneFlag;
     }
@@ -605,7 +609,11 @@ class Loader
 
             // if coming from a browser request, and period does contain today, check the ttl for the period (done just below this)
             $minDatetimeArchiveProcessedUTC = Rules::getMinTimeProcessedForInProgressArchive(
-                $params->getDateStart(), $params->getPeriod(), $params->getSegment(), $params->getSite());
+                $params->getDateStart(),
+                $params->getPeriod(),
+                $params->getSegment(),
+                $params->getSite()
+            );
             $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
             if ($minDatetimeArchiveProcessedUTC
                 && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)

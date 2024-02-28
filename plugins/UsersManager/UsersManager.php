@@ -70,8 +70,14 @@ class UsersManager extends \Piwik\Plugin
             $numUsers--;
         }
 
-        $systemSummary[] = new SystemSummary\Item($key = 'users', Piwik::translate('General_NUsers', $numUsers),
-            $value = null, array('module' => 'UsersManager', 'action' => 'index'), $icon = 'icon-user', $order = 5);
+        $systemSummary[] = new SystemSummary\Item(
+            $key = 'users',
+            Piwik::translate('General_NUsers', $numUsers),
+            $value = null,
+            array('module' => 'UsersManager', 'action' => 'index'),
+            $icon = 'icon-user',
+            $order = 5
+        );
     }
 
     public function onPlatformInitialized()
@@ -175,12 +181,16 @@ class UsersManager extends \Piwik\Plugin
         Piwik::postEvent('UsersManager.checkPassword', array($password));
 
         if (!self::isValidPasswordString($password)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword',
-                array(self::PASSWORD_MIN_LENGTH)));
+            throw new Exception(Piwik::translate(
+                'UsersManager_ExceptionInvalidPassword',
+                array(self::PASSWORD_MIN_LENGTH)
+            ));
         }
         if (mb_strlen($password) > self::PASSWORD_MAX_LENGTH) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong',
-                array(self::PASSWORD_MAX_LENGTH)));
+            throw new Exception(Piwik::translate(
+                'UsersManager_ExceptionInvalidPasswordTooLong',
+                array(self::PASSWORD_MAX_LENGTH)
+            ));
         }
     }
 

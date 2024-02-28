@@ -87,7 +87,11 @@ class Controller extends PluginController
 
         // set up the view data table
         $view = ViewDataTableFactory::build(
-            StackedBarEvolution::ID, $apiMethod, 'PagePerformance.getRowEvolutionGraph', $forceDefault = true);
+            StackedBarEvolution::ID,
+            $apiMethod,
+            'PagePerformance.getRowEvolutionGraph',
+            $forceDefault = true
+        );
         $view->setDataTable($dataTable);
 
         $view->config->columns_to_display = array_keys(Metrics::getPagePerformanceMetrics());

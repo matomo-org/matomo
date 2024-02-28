@@ -374,8 +374,10 @@ class ArchiveWriter
         // if the done flag is not like done%.PluginName, then it shouldn't be a partial archive.
         // log a warning.
         if ($doneValue == self::DONE_PARTIAL && strpos($this->doneFlag, '.') == false) {
-            $ex = new \Exception(sprintf("Trying to create a partial archive w/ an all plugins done flag (done flag = %s). This should not happen.",
-                $this->doneFlag));
+            $ex = new \Exception(sprintf(
+                "Trying to create a partial archive w/ an all plugins done flag (done flag = %s). This should not happen.",
+                $this->doneFlag
+            ));
             StaticContainer::get(LoggerInterface::class)->warning('{exception}', [
                 'exception' => $ex,
             ]);

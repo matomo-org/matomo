@@ -397,8 +397,16 @@ class API extends \Piwik\Plugin\API
         string $language
     ): string {
 
-        return $this->optOutManager->getOptOutJSEmbedCode($matomoUrl, $language, $backgroundColor, $fontColor, $fontSize,
-                                                          $fontFamily, $applyStyling, $showIntro);
+        return $this->optOutManager->getOptOutJSEmbedCode(
+            $matomoUrl,
+            $language,
+            $backgroundColor,
+            $fontColor,
+            $fontSize,
+            $fontFamily,
+            $applyStyling,
+            $showIntro
+        );
     }
 
     /**

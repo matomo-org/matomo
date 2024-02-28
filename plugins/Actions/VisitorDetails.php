@@ -273,8 +273,10 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         // Convert datetimes to the site timezone
-        $dateTimeVisit              = Date::factory($action['serverTimePretty'],
-            Site::getTimezoneFor($visitorDetails['idSite']));
+        $dateTimeVisit              = Date::factory(
+            $action['serverTimePretty'],
+            Site::getTimezoneFor($visitorDetails['idSite'])
+        );
         $action['serverTimePretty'] = $dateTimeVisit->getLocalized(Date::DATETIME_FORMAT_SHORT);
         $action['timestamp']        = $dateTimeVisit->getTimestamp();
 

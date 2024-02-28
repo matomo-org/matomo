@@ -50,11 +50,13 @@ class Updates_0_9_1 extends Updates
         return array(
             $this->migration->db->sql(
                 'UPDATE ' . Common::prefixTable('site') . '
-                 SET timezone = "UTC" WHERE timezone IN (' . $timezoneList . ')'),
+                 SET timezone = "UTC" WHERE timezone IN (' . $timezoneList . ')'
+            ),
 
             $this->migration->db->sql(
                 'UPDATE `' . Common::prefixTable('option') . '`
-                 SET option_value = "UTC" WHERE option_name = "SitesManager_DefaultTimezone" AND option_value IN (' . $timezoneList . ')'),
+                 SET option_value = "UTC" WHERE option_name = "SitesManager_DefaultTimezone" AND option_value IN (' . $timezoneList . ')'
+            ),
         );
     }
 

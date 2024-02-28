@@ -70,8 +70,11 @@ class TwoFactorFixture extends Fixture
 
     public function setUpUsers()
     {
-        \Piwik\Plugins\UsersManager\API::getInstance()->addUser($this->superUserWith2Fa, $this->userPassword,
-            $this->superUserWith2Fa . '@matomo.org');
+        \Piwik\Plugins\UsersManager\API::getInstance()->addUser(
+            $this->superUserWith2Fa,
+            $this->userPassword,
+            $this->superUserWith2Fa . '@matomo.org'
+        );
         $userUpdater = new UserUpdater();
         $userUpdater->setSuperUserAccessWithoutCurrentPassword($this->superUserWith2Fa, true);
 

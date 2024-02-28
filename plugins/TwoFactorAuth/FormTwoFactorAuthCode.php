@@ -23,8 +23,10 @@ class FormTwoFactorAuthCode extends QuickForm2
     function init()
     {
         $this->addElement('text', 'form_authcode')
-            ->addRule('required',
-                Piwik::translate('General_Required', 'Authentication code'));
+            ->addRule(
+                'required',
+                Piwik::translate('General_Required', 'Authentication code')
+            );
 
         $this->addElement('hidden', 'form_nonce');
 

@@ -38,9 +38,15 @@ class IntranetSitesWithVisits extends Fixture
     {
         if (!self::siteCreated($this->idSite)) {
             Fixture::createWebsite(
-                '2014-01-02 03:04:05', $ecommerce = 0, $siteName = false, $siteUrl = false,
-                $siteSearch = 1, $searchKeywordParameters = null,
-                $searchCategoryParameters = null, $timezone = null, Type::ID
+                '2014-01-02 03:04:05',
+                $ecommerce = 0,
+                $siteName = false,
+                $siteUrl = false,
+                $siteSearch = 1,
+                $searchKeywordParameters = null,
+                $searchCategoryParameters = null,
+                $timezone = null,
+                Type::ID
             );
         }
 

@@ -33,8 +33,10 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         if(Site::isEcommerceEnabledFor($visitor['idSite']))
         {
-            $ecommerceMetrics                     = $this->queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($visitor['idSite'],
-                $visitor['visitorId']);
+            $ecommerceMetrics                     = $this->queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor(
+                $visitor['idSite'],
+                $visitor['visitorId']
+            );
             $visitor['totalEcommerceRevenue']     = $ecommerceMetrics['totalEcommerceRevenue'];
             $visitor['totalEcommerceConversions'] = $ecommerceMetrics['totalEcommerceConversions'];
             $visitor['totalEcommerceItems']       = $ecommerceMetrics['totalEcommerceItems'];

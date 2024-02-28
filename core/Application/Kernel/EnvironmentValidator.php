@@ -120,9 +120,13 @@ class EnvironmentValidator
             $format = "\n » %s \n";
         }
 
-        return sprintf($format,
-            $this->translator->translate('General_ExceptionConfigurationFilePleaseCheckReadableByUser',
-                array($path, Filechecks::getUser())));
+        return sprintf(
+            $format,
+            $this->translator->translate(
+                'General_ExceptionConfigurationFilePleaseCheckReadableByUser',
+                array($path, Filechecks::getUser())
+            )
+        );
     }
 
     /**
@@ -137,8 +141,10 @@ class EnvironmentValidator
                 $message .= $this->getMessageWhenFileExistsButNotReadable($path);
             }
         } else {
-            $message = $this->translator->translate('General_ExceptionConfigurationFileExistsButNotReadable',
-                array($path));
+            $message = $this->translator->translate(
+                'General_ExceptionConfigurationFileExistsButNotReadable',
+                array($path)
+            );
             $message .= $this->getMessageWhenFileExistsButNotReadable($path);
         }
 

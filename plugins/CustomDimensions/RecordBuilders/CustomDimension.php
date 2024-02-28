@@ -95,8 +95,16 @@ class CustomDimension extends RecordBuilder
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
             $rankingQuery->addLabelColumn($dimensions[0]);
 
-            $query = $logAggregator->queryVisitsByDimension($dimensions, $where, [], false, $rankingQuery, false, -1,
-                $rankingQueryGenerate = true);
+            $query = $logAggregator->queryVisitsByDimension(
+                $dimensions,
+                $where,
+                [],
+                false,
+                $rankingQuery,
+                false,
+                -1,
+                $rankingQueryGenerate = true
+            );
         } else {
             $query = $logAggregator->queryVisitsByDimension($dimensions, $where);
         }

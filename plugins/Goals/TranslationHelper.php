@@ -89,19 +89,22 @@ class TranslationHelper
     {
         switch ($patternType) {
             case 'regex':
-                return sprintf('%s %s',
+                return sprintf(
+                    '%s %s',
                     Piwik::translate('Goals_Pattern'),
                     Piwik::translate('Goals_MatchesExpression', array($pattern))
                 );
 
             case 'contains':
-                return sprintf('%s %s',
+                return sprintf(
+                    '%s %s',
                     Piwik::translate('Goals_Pattern'),
                     Piwik::translate('Goals_Contains', array($pattern))
                 );
 
             case 'exact':
-                return sprintf('%s %s',
+                return sprintf(
+                    '%s %s',
                     Piwik::translate('Goals_Pattern'),
                     Piwik::translate('Goals_IsExactly', array($pattern))
                 );

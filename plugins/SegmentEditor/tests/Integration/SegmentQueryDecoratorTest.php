@@ -35,13 +35,15 @@ class SegmentQueryDecoratorTest extends IntegrationTestCase
         Fixture::createWebsite('2011-01-01');
 
         $this->segmentQueryDecorator = self::$fixture->piwikEnvironment->getContainer()->get(
-            'Piwik\Plugins\SegmentEditor\SegmentQueryDecorator');
+            'Piwik\Plugins\SegmentEditor\SegmentQueryDecorator'
+        );
 
         Rules::setBrowserTriggerArchiving(false);
 
         /** @var API $segmentEditorApi */
         $segmentEditorApi = self::$fixture->piwikEnvironment->getContainer()->get(
-            'Piwik\Plugins\SegmentEditor\API');
+            'Piwik\Plugins\SegmentEditor\API'
+        );
         $segmentEditorApi->add('segment 1', 'visitCount<2', $idSite = false, $autoArchive = true);
         $segmentEditorApi->add('segment 2', 'countryCode==fr', $idSite = false, $autoArchive = true);
         $segmentEditorApi->add('segment 3', 'visitCount<2', 1, $autoArchive = true);

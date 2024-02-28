@@ -58,7 +58,8 @@ class API extends \Piwik\Plugin\API
 
         $body .= sprintf("Feedback:\n%s\n", trim($message));
 
-        $subject = sprintf("%s for %s",
+        $subject = sprintf(
+            "%s for %s",
             empty($like) ? "-1" : "+1",
             $featureName
         );
@@ -106,10 +107,11 @@ class API extends \Piwik\Plugin\API
 
         $body .= $feedbackMessage ? $feedbackMessage : " \n";
 
-        $subject = sprintf("%s for %s %s",
-          empty($like) ? "-1" : "+1",
-          $featureName,
-          empty($feedbackMessage) ? "" : "(w/ feedback Survey)"
+        $subject = sprintf(
+            "%s for %s %s",
+            empty($like) ? "-1" : "+1",
+            $featureName,
+            empty($feedbackMessage) ? "" : "(w/ feedback Survey)"
         );
 
         $this->sendMail($subject, $body);

@@ -291,10 +291,13 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $table = Common::prefixTable('site_url');
         $data = $this->_getDataInsert();
         try {
-            $didWeUseBulk = BatchInsert::tableInsertBatch($table,
+            $didWeUseBulk = BatchInsert::tableInsertBatch(
+                $table,
                 array('idsite', 'url'),
                 $data,
-                $throwException = true, 'utf8');
+                $throwException = true,
+                'utf8'
+            );
         } catch (Exception $e) {
             $didWeUseBulk = $e->getMessage();
         }
@@ -362,10 +365,13 @@ class ArchiveProcessingTest extends IntegrationTestCase
 
         $data = $this->_getBlobDataInsert();
         try {
-            $didWeUseBulk = BatchInsert::tableInsertBatch($table,
+            $didWeUseBulk = BatchInsert::tableInsertBatch(
+                $table,
                 array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'),
                 $data,
-                $throwException = true, $charset = 'latin1');
+                $throwException = true,
+                $charset = 'latin1'
+            );
         } catch (Exception $e) {
             $didWeUseBulk = $e->getMessage();
         }

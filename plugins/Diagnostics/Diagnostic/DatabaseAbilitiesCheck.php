@@ -62,7 +62,8 @@ class DatabaseAbilitiesCheck implements Diagnostic
 
         if (DbHelper::getDefaultCharset() === 'utf8mb4') {
             return new DiagnosticResultItem(
-                DiagnosticResult::STATUS_WARNING, 'UTF8mb4 charset<br/><br/>' .
+                DiagnosticResult::STATUS_WARNING,
+                'UTF8mb4 charset<br/><br/>' .
                 $this->translator->translate('Diagnostics_DatabaseUtf8mb4CharsetAvailableButNotUsed', '<code>' . PIWIK_INCLUDE_PATH . '/console core:convert-to-utf8mb4</code>') .
                 '<br/><br/>' .
                 $this->translator->translate('Diagnostics_DatabaseUtf8Requirement', ['�',
@@ -72,7 +73,8 @@ class DatabaseAbilitiesCheck implements Diagnostic
         }
 
         return new DiagnosticResultItem(
-            DiagnosticResult::STATUS_WARNING, 'UTF8mb4 charset<br/><br/>' .
+            DiagnosticResult::STATUS_WARNING,
+            'UTF8mb4 charset<br/><br/>' .
             $this->translator->translate('Diagnostics_DatabaseUtf8mb4CharsetRecommended') .
             '<br/><br/>' .
             $this->translator->translate('Diagnostics_DatabaseUtf8Requirement', ['�',

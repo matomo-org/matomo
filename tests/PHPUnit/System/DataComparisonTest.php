@@ -34,7 +34,10 @@ class DataComparisonTest extends SystemTestCase
         // the specific site and will be invalid in global context
         // Added to avoid further regressions like: https://github.com/matomo-org/matomo/issues/21573
         $idDimension = \Piwik\Plugins\CustomDimensions\API::getInstance()->configureNewCustomDimension(
-            self::$fixture->idSite, 'test', CustomDimensions::SCOPE_VISIT, true
+            self::$fixture->idSite,
+            'test',
+            CustomDimensions::SCOPE_VISIT,
+            true
         );
         Fixture::clearInMemoryCaches(false);
         \Piwik\Plugins\SegmentEditor\API::getInstance()->add('custom dimension', "dimension$idDimension==test", self::$fixture->idSite);

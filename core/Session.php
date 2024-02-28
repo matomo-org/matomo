@@ -127,7 +127,8 @@ class Session extends Zend_Session
                 $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
             }
 
-            $message = sprintf("Error: %s %s\n<pre>Debug: the original error was \n%s</pre>",
+            $message = sprintf(
+                "Error: %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik::translate('General_ExceptionUnableToStartSession'),
                 $pathToSessions,
                 $e->getMessage()

@@ -103,9 +103,26 @@ class Http
         $file = self::ensureDestinationDirectoryExists($destinationPath);
 
         $acceptLanguage = $acceptLanguage ? 'Accept-Language: ' . $acceptLanguage : '';
-        return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file,
-            $followDepth, $acceptLanguage, $acceptInvalidSslCertificate = false, $byteRange, $getExtendedInfo, $httpMethod,
-            $httpUsername, $httpPassword, null, [], null, $checkHostIsAllowed);
+        return self::sendHttpRequestBy(
+            self::getTransportMethod(),
+            $aUrl,
+            $timeout,
+            $userAgent,
+            $destinationPath,
+            $file,
+            $followDepth,
+            $acceptLanguage,
+            $acceptInvalidSslCertificate = false,
+            $byteRange,
+            $getExtendedInfo,
+            $httpMethod,
+            $httpUsername,
+            $httpPassword,
+            null,
+            [],
+            null,
+            $checkHostIsAllowed
+        );
     }
 
     public static function ensureDestinationDirectoryExists($destinationPath)
@@ -882,7 +899,8 @@ class Http
         ) {
             throw new Exception(
                 Piwik::translate('General_DownloadFail_FileExists', "'" . $outputPath . "'")
-                . ' ' . Piwik::translate('General_DownloadPleaseRemoveExisting'));
+                . ' ' . Piwik::translate('General_DownloadPleaseRemoveExisting')
+            );
         }
 
         // if we're starting a download, get the expected file size & save as an option
@@ -924,7 +942,8 @@ class Http
         if ($existingSize >= $expectedFileSize) {
             throw new Exception(
                 Piwik::translate('General_DownloadFail_FileExistsContinue', "'" . $outputPath . "'")
-                . ' ' . Piwik::translate('General_DownloadPleaseRemoveExisting'));
+                . ' ' . Piwik::translate('General_DownloadPleaseRemoveExisting')
+            );
         }
 
         // download a chunk of the file
@@ -944,8 +963,13 @@ class Http
             || $result['status'] > 299
         ) {
             $result['data'] = self::truncateStr($result['data'], 1024);
-            Log::info("Failed to download range '%s-%s' of file from url '%s'. Got result: %s",
-                $byteRange[0], $byteRange[1], $url, print_r($result, true));
+            Log::info(
+                "Failed to download range '%s-%s' of file from url '%s'. Got result: %s",
+                $byteRange[0],
+                $byteRange[1],
+                $url,
+                print_r($result, true)
+            );
 
             throw new Exception(Piwik::translate('General_DownloadFail_HttpRequestFail'));
         }

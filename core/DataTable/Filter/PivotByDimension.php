@@ -160,9 +160,16 @@ class PivotByDimension extends BaseFilter
     ) {
         parent::__construct($table);
 
-        Log::debug("PivotByDimension::%s: creating with [report = %s, pivotByDimension = %s, pivotColumn = %s, "
-            . "pivotByColumnLimit = %s, isFetchingBySegmentEnabled = %s]", __FUNCTION__, $report, $pivotByDimension,
-            $pivotColumn, $pivotByColumnLimit, $isFetchingBySegmentEnabled);
+        Log::debug(
+            "PivotByDimension::%s: creating with [report = %s, pivotByDimension = %s, pivotColumn = %s, "
+            . "pivotByColumnLimit = %s, isFetchingBySegmentEnabled = %s]",
+            __FUNCTION__,
+            $report,
+            $pivotByDimension,
+            $pivotColumn,
+            $pivotByColumnLimit,
+            $isFetchingBySegmentEnabled
+        );
 
         $this->pivotByColumnLimit = $pivotByColumnLimit ?: self::getDefaultColumnLimit();
         $this->isFetchingBySegmentEnabled = $isFetchingBySegmentEnabled;

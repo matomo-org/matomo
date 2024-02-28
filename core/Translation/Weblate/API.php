@@ -130,9 +130,24 @@ class API
     {
         $apiUrl = $this->apiUrl . $apiPath;
 
-        $response = Http::sendHttpRequestBy(Http::getTransportMethod(), $apiUrl, 60, null, null, null, 5, false,
-            false, false, true, 'GET', null, null, null,
-            ['Authorization: Token ' . $this->apiToken]);
+        $response = Http::sendHttpRequestBy(
+            Http::getTransportMethod(),
+            $apiUrl,
+            60,
+            null,
+            null,
+            null,
+            5,
+            false,
+            false,
+            false,
+            true,
+            'GET',
+            null,
+            null,
+            null,
+            ['Authorization: Token ' . $this->apiToken]
+        );
 
         $httpStatus = $response['status'];
         $response = $response['data'];

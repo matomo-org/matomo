@@ -268,18 +268,25 @@ class Build extends ConsoleCommand
         $npmVersion = ltrim(trim(`npm -v`), 'v');
 
         if (version_compare($nodeVersion, self::RECOMMENDED_NODE_VERSION, '<')) {
-            $output->writeln(sprintf("<comment>The recommended node version for working with Vue is version %s or "
+            $output->writeln(sprintf(
+                "<comment>The recommended node version for working with Vue is version %s or "
                 . "greater and it looks like you're using %s. Building Vue files may not work with an older version, so "
                 . "we recommend upgrading. nvm can be used to easily install new node versions.</comment>",
-                self::RECOMMENDED_NODE_VERSION, $nodeVersion));
+                self::RECOMMENDED_NODE_VERSION,
+                $nodeVersion
+            ));
         }
 
         if (version_compare($npmVersion, self::RECOMMENDED_NPM_VERSION, '<')) {
-            $output->writeln(sprintf("<comment>The recommended npm version for working with Vue is version %s "
+            $output->writeln(sprintf(
+                "<comment>The recommended npm version for working with Vue is version %s "
                 . "or greater and it looks like you're using %s. Using an older version may result in improper "
                 . "dependencies being used, so we recommend upgrading. You can upgrade to the latest version with the "
                 . "command %s</comment>",
-                self::RECOMMENDED_NPM_VERSION, $npmVersion, 'npm install -g npm@latest'));
+                self::RECOMMENDED_NPM_VERSION,
+                $npmVersion,
+                'npm install -g npm@latest'
+            ));
         }
     }
 

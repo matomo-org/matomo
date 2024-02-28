@@ -57,7 +57,8 @@ class Configuration
         $active = $active ? '1' : '0';
         $caseSensitive = $caseSensitive ? '1' : '0';
 
-        $this->getDb()->update($this->tableNamePrefixed,
+        $this->getDb()->update(
+            $this->tableNamePrefixed,
             array(
                 'name'        => $name,
                 'active'      => $active,

@@ -250,7 +250,8 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     {
         if ($actionType == 'pageview') {
             self::checkResponse($t->doTrackPageView(
-                is_null($actionNum) ? "title_$visitorCounter" : "title_$visitorCounter / title_$actionNum"));
+                is_null($actionNum) ? "title_$visitorCounter" : "title_$visitorCounter / title_$actionNum"
+            ));
         } else if ($actionType == 'download') {
             $root = is_null($actionNum) ? "http://cloudsite$visitorCounter.com"
                 : "http://cloudsite$visitorCounter.com/$actionNum";
