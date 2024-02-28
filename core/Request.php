@@ -169,7 +169,7 @@ class Request
             return (float)$parameter;
         }
 
-        // Regex for all supported float notations in PHP. See https://www.php.net/manual/en/language.types.float.php
+        // Regex for all supported float notations in PHP (see https://www.php.net/manual/en/language.types.float.php)
         $floatRegex = "/^[-+]?((([0-9]+(_[0-9]+)*)|(([0-9]+(_[0-9]+)*)?\.([0-9]+(_[0-9]+)*))|(([0-9]+(_[0-9]+)*)\.([0-9]+(_[0-9]+)*)?))([eE][+-]?([0-9]+(_[0-9]+)*))?)$/";
 
         if (is_string($parameter) && preg_match($floatRegex, $parameter)) {

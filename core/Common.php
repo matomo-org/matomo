@@ -555,7 +555,9 @@ class Common
             } elseif ($varType === 'float') {
                 $valueToCompare = Common::forceDotAsSeparatorForDecimalPoint($value);
 
-                // simplified regex for float; without support for underscore notation
+                // Simplified regex for float without support for underscore notation
+                // will match:  1.234, 1.2e3, 7E-10
+                // won't match: 1_234.567
                 $floatRegex = "/^[+-]?((([0-9]+)|(([0-9]+)?\.([0-9]+))|(([0-9]+)\.([0-9]+)?))([eE][+-]?([0-9]+))?)$/";
 
                 if (preg_match($floatRegex, $valueToCompare)) {
