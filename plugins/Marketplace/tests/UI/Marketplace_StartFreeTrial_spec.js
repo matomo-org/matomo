@@ -11,7 +11,7 @@ describe('Marketplace_StartFreeTrial', function () {
   this.fixture = "Piwik\\Plugins\\Marketplace\\tests\\Fixtures\\SimpleFixtureTrackFewVisits";
 
   const pluginsUrl = '?module=Marketplace&action=overview';
-  const startFreeTrialSelector = '.card-content .cta-container .btn[matomo-plugin-name="PaidPlugin1"]';
+  const startFreeTrialSelector = '.card-content .cta-container .btn.purchaseable';
 
   function setEnvironment(startFreeTrialSuccess) {
     testEnvironment.overrideConfig('General', 'enable_plugins_admin', '1');
@@ -25,9 +25,8 @@ describe('Marketplace_StartFreeTrial', function () {
   async function goToPluginsPage(){
     await page.goto(pluginsUrl);
     await page.waitForNetworkIdle();
-    await page.$(startFreeTrialSelector, { visible: true });
 
-    const cta = await page.$(startFreeTrialSelector);
+    const cta = await page.$(startFreeTrialSelector, { visible: true });
     const ctaText = await cta.getProperty('textContent');
 
     expect(ctaText).to.match(/Start Free Trial/i);
