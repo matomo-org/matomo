@@ -128,8 +128,10 @@ class Scheduler
                 $taskName = $task->getName();
 
                 if (!$this->acquireLockForTask($taskName, $task->getTTL())) {
-                    $this->logger->debug("Scheduler: '{task}' is currently executed by another process",
-                        ['task' => $task->getName()]);
+                    $this->logger->debug(
+                        "Scheduler: '{task}' is currently executed by another process",
+                        ['task' => $task->getName()]
+                    );
                     continue;
                 }
 
