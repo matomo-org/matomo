@@ -1,1 +1,10 @@
-{}
+{
+    "JsTrackerInstallCheck": {
+        "JsTrackingCodeInstallCheckFailureMessage": "Verifikimi i kodit të gjurmimit dështoi. Ju lutemi, verifikoni se keni e keni instaluar saktë kodin. %1$sMësoni më tepër%2$s.",
+        "JsTrackingCodeInstallCheckFailureMessageWordpress": "Verifikimi i kodit të gjurmimit dështoi. Ju lutemi, verifikoni se keni e keni instaluar shtojcën “%1$s” dhe se ndoqët krejt hapat. %2$sMësoni më tepër%3$s.",
+        "JsTrackingCodeInstallCheckSuccessMessage": "Kodi i gjurmimit është instaluar me sukses! Kjo skenë do të zhduket, sapo të jenë ndjekur disa të dhëna për sajtin tuaj.",
+        "PluginDescription": "Vlerësoni nëse kodi i gjurmimit është instaluar në sajtin tuaj dhe se mund të dërgojë kërkesa gjurmimi mbrapsht te instanca juaj Matomo",
+        "TestInstallationBtnText": "Testo instalimin",
+        "TestInstallationDescription": "Që të provoni se kodi i gjurmimit është në gjendje të dërgojë kërkesa te instanca juaj Matomo, jepni URL-në e saktë që po ndiqni dhe klikoni mbi “Testo instalimin”. Do të hapet një skedë e re dhe duhet të mbyllet pas 10 sekondash."
+    }
+}

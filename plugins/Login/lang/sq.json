@@ -15,6 +15,7 @@
         "ConfirmPasswordToContinue": "Që të vazhdohet, ripohoni fjalëkalimin tuaj",
         "ConfirmationLinkSent": "Hapni lidhjen e ripohimit dërguar te adresa juaj email, që të ripohoni kërkesën tuaj për ndryshim të fjalëkalimit.",
         "ContactAdmin": "Arsye e mundshme: streha juaj mund të ketë çaktivizuar funksionin mail(). <br>Ju lutemi, lidhuni me përgjegjësin e Matomo-s tuaj.",
+        "CreatePasswordDescription": "Sigurohuni se e mbani mend këtë fjalëkalim dhe ruajeni në një vend të parrezik.",
         "CurrentlyBlockedIPs": "IP të bllokuara",
         "CurrentlyBlockedIPsUnblockConfirm": "Të zhbllokohen krejt IP-të e bllokuara?",
         "CurrentlyBlockedIPsUnblockInfo": "Mundeni të zhbllokoni IP të bllokuara gabimisht, që të lejohet sërish hyrja prej tyre.",

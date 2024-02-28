@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Marketplace;
 
 use Exception;
 use Piwik\Common;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\Filesystem;
 use Piwik\Log;
@@ -21,11 +22,11 @@ use Piwik\Plugins\CorePluginsAdmin\Controller as PluginsController;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 use Piwik\Plugins\Login\PasswordVerifier;
-use Piwik\Plugins\Marketplace\Input\Mode;
 use Piwik\Plugins\Marketplace\Input\PluginName;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\ProxyHttp;
+use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Url;
@@ -35,6 +36,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     const UPDATE_NONCE = 'Marketplace.updatePlugin';
     const INSTALL_NONCE = 'Marketplace.installPlugin';
+    const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
 
     /**
      * @var LicenseKey
@@ -198,7 +200,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $pluginName = new PluginName();
         $pluginName = $pluginName->getPluginName();
 
-        Nonce::checkNonce($pluginName);
+        Nonce::checkNonce(static::DOWNLOAD_NONCE_PREFIX . $pluginName);
 
         $filename = $pluginName . '.zip';
 
@@ -219,38 +221,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $view = $this->configureViewAndCheckPermission('@Marketplace/overview');
 
-        $show  = Common::getRequestVar('show', 'plugins', 'string');
-        $query = Common::getRequestVar('query', '', 'string');
-
-        $sort = new Sort();
-        $sort = $sort->getSort();
-
-        $mode = new Mode();
-        $mode = $mode->getMode();
-
         // we're fetching all available plugins to decide which tabs need to be shown in the UI and to know the number
         // of total available plugins
         $allPlugins = $this->plugins->getAllPlugins();
         $allThemes   = $this->plugins->getAllThemes();
         $paidPlugins = $this->plugins->getAllPaidPlugins();
 
-        $showThemes  = ($show === 'themes');
-        $showPlugins = !$showThemes;
-        $showPaid    = ($show === 'premium');
-        $showAll    = !$showPaid;
-
-        if ($showPlugins && $showPaid) {
-            $type = PurchaseType::TYPE_PAID;
-            $view->numAvailablePlugins = count($paidPlugins);
-        } elseif ($showPlugins && $showAll) {
-            $type = PurchaseType::TYPE_ALL;
-            $view->numAvailablePlugins = count($allPlugins);
-        } else {
-            $type = PurchaseType::TYPE_ALL;
-            $view->numAvailablePlugins = count($allThemes);
-        }
-
-        $pluginsToShow = $this->plugins->searchPlugins($query, $sort, $showThemes, $type);
+        $view->numAvailablePluginsByType = [
+            'plugins' => count($allPlugins),
+            'themes' => count($allThemes),
+            'premium' => count($paidPlugins),
+        ];
 
         $paidPluginsToInstallAtOnce = array();
         if (SettingsPiwik::isAutoUpdatePossible()) {
@@ -264,16 +245,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $view->paidPluginsToInstallAtOnce = $paidPluginsToInstallAtOnce;
-        $view->pluginsToShow = $pluginsToShow;
         $view->isValidConsumer = $this->consumer->isValidConsumer();
-        $view->paidPlugins = $paidPlugins;
-        $view->freePlugins = $allPlugins;
-        $view->themes = $allThemes;
-        $view->showThemes = $showThemes;
-        $view->showPlugins = $showPlugins;
-        $view->showFree = $showAll;
-        $view->showPaid = $showPaid;
-        $view->pluginType = $show;
         $view->pluginTypeOptions = array(
             'plugins' => Piwik::translate('General_Plugins'),
             'premium' => Piwik::translate('Marketplace_PaidPlugins'),
@@ -285,11 +257,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Sort::METHOD_NEWEST => Piwik::translate('Marketplace_SortByNewest'),
             Sort::METHOD_ALPHA => Piwik::translate('Marketplace_SortByAlpha'),
         );
-        $view->mode = $mode;
-        $view->query = $query;
-        $view->sort = $sort;
+        $view->defaultSort = Sort::DEFAULT_SORT;
         $view->hasLicenseKey = $this->licenseKey->has();
-        $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
         $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
         $view->deactivateNonce = Nonce::getNonce(PluginsController::DEACTIVATE_NONCE);
@@ -303,6 +272,32 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->inReportingMenu = (bool) Common::getRequestVar('embed', 0, 'int');
 
         return $view->render();
+    }
+
+    public function searchPlugins(): string
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $request = Request::fromRequest();
+
+        $query = $request->getStringParameter('query', '');
+        $themesOnly = $request->getBoolParameter('themesOnly', false);
+        $purchaseType = $request->getStringParameter('purchaseType', '');
+        $sort = $request->getStringParameter('sort', '');
+
+        $purchaseType = (new PurchaseType())->getPurchaseType($purchaseType);
+        $sort = (new Sort())->getSort($sort);
+
+        $plugins = $this->plugins->searchPlugins($query, $sort, $themesOnly, $purchaseType);
+
+        foreach ($plugins as &$plugin) {
+            if ($plugin['isDownloadable']) {
+                $plugin['downloadNonce'] = Nonce::getNonce(static::DOWNLOAD_NONCE_PREFIX . $plugin['name']);
+            }
+        }
+
+        Json::sendHeaderJSON();
+        return json_encode($plugins);
     }
 
     public function installAllPaidPlugins()

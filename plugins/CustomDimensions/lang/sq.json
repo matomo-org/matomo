@@ -41,6 +41,7 @@
         "ScopeDescriptionVisitMoreInfo": "Nëse gjatë kohëzgjatjes së një vizite caktoni vlera të ndryshme për një përmasë të dhënë, do të përdoret vlera e fundit e caktuar.",
         "ScopeTitleAction": "Përmasa Veprimi",
         "ScopeTitleVisit": "Përmasa Vizitash",
+        "UrlQueryStringParameter": "parametër vargu kërkese URL",
         "XofYLeft": "Edhe %1$s nga %2$s përmasa"
     }
 }

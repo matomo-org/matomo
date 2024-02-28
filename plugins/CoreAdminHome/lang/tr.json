@@ -124,6 +124,7 @@
         "ReactDescription": "Siteniz React kullanıyorsa, lütfen %1$sbu rehbere%2$s bakın.",
         "ReleaseChannel": "Dağıtım kanalı",
         "SecurityNotificationAllTokenAuthDeletedBody": "Birisi hesabınızın tüm kimlik doğrulama kodlarını sildi.",
+        "SecurityNotificationAnonymousAccessEnabledBody": "Birisi %1$s için anonim kullanıcı erişimini etkinleştirdi. Bu, bu sitenin verilerinin artık herkesin erişimine açık olduğu anlamına gelir. Eğer sorun yoksa, bu e-postayı görmezden gelebilirsiniz.",
         "SecurityNotificationCheckTwoFactor": "Lütfen iki aşamalı kimlik doğrulama uygulamanızı ya da aygıtınızı denetleyin.",
         "SecurityNotificationEmailSubject": "Güvenlik bildirimi",
         "SecurityNotificationIfItWasYou": "Bu işlem hakkında bilginiz varsa bu uyarıyı yok sayabilirsiniz. Bilginiz yoksa, lütfen parolanızı sıfırlayın.",

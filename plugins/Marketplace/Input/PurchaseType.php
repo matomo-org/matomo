@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -16,4 +17,16 @@ class PurchaseType
     const TYPE_FREE = 'free';
     const TYPE_PAID = 'paid';
     const TYPE_ALL  = '';
+
+    public function getPurchaseType(string $type): string
+    {
+        return $this->isValidPurchaseType($type) ? $type : self::TYPE_ALL;
+    }
+
+    private function isValidPurchaseType(string $type): bool
+    {
+        $valid = [self::TYPE_ALL, self::TYPE_FREE, self::TYPE_PAID];
+
+        return in_array($type, $valid, $strict = true);
+    }
 }

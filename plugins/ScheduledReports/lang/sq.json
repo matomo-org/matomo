@@ -10,7 +10,7 @@
         "CreateAndScheduleReport": "Krijoni dhe Planifikoni një raport",
         "CreateReport": "Krijoje Raportin",
         "CustomVisitorSegment": "Segment Vetjak i Vizitorit:",
-        "DescriptionOnFirstPage": "Përshkrimi i raportit do të shfaqet te faqja e parë e raportit.",
+        "DescriptionOnFirstPage": "Përshkrimi i raportit do të shfaqet te mesazhi email, si dhe te faqja e parë e raportit.",
         "DisplayFormat_TablesOnly": "Shfaq vetëm Tabela (pa grafikë)",
         "EmailHello": "Tungjatjeta,",
         "EmailReports": "Dërgo Raportet Me Email",

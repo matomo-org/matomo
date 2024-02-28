@@ -7,27 +7,25 @@
     <div class="marketplace">
         <div
             vue-entry="Marketplace.OverviewIntro"
-            show-themes="{{ showThemes|default(false)|json_encode }}"
             in-reporting-menu="{{ inReportingMenu|default(false)|json_encode }}"
             is-valid-consumer="{{ isValidConsumer|default(false)|json_encode }}"
             is-super-user="{{ isSuperUser|default(false)|json_encode }}"
             is-auto-update-possible="{{ isAutoUpdatePossible|default(false)|json_encode }}"
+            is-multi-server-environment="{{ isMultiServerEnvironment|default(false)|json_encode }}"
             is-plugins-admin-enabled="{{ isPluginsAdminEnabled|default(false)|json_encode }}"
             has-license-key="{{ hasLicenseKey|default(false)|json_encode }}"
             paid-plugins-to-install-at-once="{{ paidPluginsToInstallAtOnce|default([])|json_encode }}"
             install-nonce="{{ installNonce|default(null)|json_encode }}"
+            activate-nonce="{{ activateNonce|default(null)|json_encode }}"
+            deactivate-nonce="{{ deactivateNonce|default(null)|json_encode }}"
+            update-nonce="{{ updateNonce|default(null)|json_encode }}"
             is-plugin-upload-enabled="{{ isPluginUploadEnabled|default(null)|json_encode }}"
             upload-limit="{{ uploadLimit|default(null)|json_encode }}"
-            plugin-type="{{ pluginType|default(null)|json_encode }}"
-            plugin-type-options="{{ pluginTypeOptions|default(null)|json_encode }}"
-            sort="{{ sort|default(null)|json_encode }}"
-            plugin-sort-options="{{ pluginSortOptions|default(null)|json_encode }}"
-            plugins-to-show="{{ pluginsToShow|default(null)|json_encode }}"
-            query="{{ query|default(null)|json_encode }}"
-            num-available-plugins="{{ numAvailablePlugins|default(null)|json_encode }}"
+            plugin-type-options="{{ pluginTypeOptions|json_encode }}"
+            default-sort="{{ defaultSort|json_encode }}"
+            plugin-sort-options="{{ pluginSortOptions|json_encode }}"
+            num-available-plugins-by-type="{{ numAvailablePluginsByType|json_encode }}"
         ></div>
-
-        {% include '@Marketplace/plugin-list.twig' %}
 
         <div class="footer-message center">
             {{ 'Marketplace_DevelopersLearnHowToDevelopPlugins'|translate(externallink('https://developer.matomo.org/develop'), '</a>')|raw }}

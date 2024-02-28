@@ -11,7 +11,7 @@ describe('Marketplace_StartFreeTrial', function () {
   this.fixture = "Piwik\\Plugins\\Marketplace\\tests\\Fixtures\\SimpleFixtureTrackFewVisits";
 
   const pluginsUrl = '?module=Marketplace&action=overview';
-  const startFreeTrialSelector = '[vue-directive="CorePluginsAdmin.PluginStartFreeTrial"][matomo-plugin-name="PaidPlugin1"]';
+  const startFreeTrialSelector = '.card-content .cta-container .btn[matomo-plugin-name="PaidPlugin1"]';
 
   function setEnvironment(startFreeTrialSuccess) {
     testEnvironment.overrideConfig('General', 'enable_plugins_admin', '1');
@@ -25,6 +25,7 @@ describe('Marketplace_StartFreeTrial', function () {
   async function goToPluginsPage(){
     await page.goto(pluginsUrl);
     await page.waitForNetworkIdle();
+    await page.$(startFreeTrialSelector, { visible: true });
 
     const cta = await page.$(startFreeTrialSelector);
     const ctaText = await cta.getProperty('textContent');
@@ -50,12 +51,6 @@ describe('Marketplace_StartFreeTrial', function () {
     setEnvironment(true);
 
     await goToPluginsPage();
-
-    await page.evaluate(function() {
-      // successfully starting a trial reloads the page
-      // prevent the reload to allow checking the success notification
-      window.piwikHelper.redirect = function() {};
-    });
 
     await page.click(startFreeTrialSelector);
     await page.waitForSelector('.Piwik_Popover_Loading', { visible: true });
