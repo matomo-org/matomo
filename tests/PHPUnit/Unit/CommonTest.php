@@ -173,11 +173,33 @@ class CommonTest extends TestCase
         $this->assertEquals($_GET['test'], Common::getRequestVar('test'));
     }
 
-    public function testGetRequestVar_GetStringFloatGiven()
+    /**
+     * @dataProvider getValidFloatValues
+     */
+    public function testGetRequestVarFloatValues($requestValue, $expectedValue)
     {
-        $_GET['test'] = 1413.431413;
+        $_GET['test'] = $requestValue;
         $value        = Common::getRequestVar('test', null, 'string');
-        $this->assertEquals('1413.431413', $value);
+        $this->assertEquals($expectedValue, $value);
+    }
+
+    public function getValidFloatValues(): iterable
+    {
+        yield 'Integer value' => [17, 17.0];
+        yield 'Float value' => [17.123, 17.123];
+        yield 'String value' => ['17.123', 17.123];
+        yield 'Negative string value' => ['-17.123', -17.123];
+        yield 'Positive string value' => ['+17.123', 17.123];
+        yield 'String value, only fraction digits' => ['.123', 0.123];
+        yield 'String value, no fraction digits' => ['123.e-3', 0.123];
+        yield 'Negative string value, only fraction digits' => ['-.123', -0.123];
+        yield 'Exp value' => [2e-2, 0.02];
+        yield 'String exp value' => ['2e-3', 0.002];
+        yield 'String Exp value' => ['1.2E-26', 1.2E-26];
+        yield 'Octal exp value' => [0123e-2, 1.23];
+        yield 'Octal value as string' => ['0123', 123.0];
+        yield 'String value with many digits' => ['1254254645455484545.1', 1.2542546454554847E+18];
+        yield 'String value with many fraction digits' => ['14.051545421864646123', 14.051545421864645];
     }
 
     public function testGetRequestVar_GetStringIntegerGiven()
