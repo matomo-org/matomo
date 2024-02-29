@@ -287,30 +287,23 @@ class Db
     }
 
     /**
-     * Executes a query with potential recovery from a "MySQL server has gone away" error.
+     * Executes a callback with potential recovery from a "MySQL server has gone away" error.
      *
-     * If the query is issued and
+     * If the callback throws a "MySQL server has gone away" exception
+     * it will be called again after a single reconnection attempt.
      *
-     *   - a database reader has been configured
-     *   - the MySQL server has "gone away"
+     * @param callable $callback
      *
-     * the query will be retried after a single reconnection attempt.
-     *
-     * @param string $sql
-     * @param array<int|string, mixed> $parameters
-     *
-     * @return Zend_Db_Statement
+     * @return mixed
      *
      * @throws Exception
      *
      * @internal
      */
-    public static function queryWithWriterReconnectionAttempt(
-        string $sql,
-        array $parameters = []
-    ): Zend_Db_Statement {
+    public static function executeWithDatabaseWriterReconnectionAttempt(callable $callback)
+    {
         try {
-            return self::query($sql, $parameters);
+            return $callback();
         } catch (Exception $ex) {
             // only attempt reconnection in a reader/writer configuration
             if (!self::hasReaderConfigured()) {
@@ -332,7 +325,7 @@ class Db
             usleep(100 * 1000);
             self::createDatabaseObject();
 
-            return self::query($sql, $parameters);
+            return $callback();
         }
     }
 

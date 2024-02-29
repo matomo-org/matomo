@@ -548,11 +548,7 @@ class Model
         $bindSql[] = $value;
         $bindSql[] = $value;
 
-        if (SettingsServer::isArchivePhpTriggered()) {
-            Db::queryWithWriterReconnectionAttempt($query, $bindSql);
-        } else {
-            Db::query($query, $bindSql);
-        }
+        Db::query($query, $bindSql);
 
         return true;
     }

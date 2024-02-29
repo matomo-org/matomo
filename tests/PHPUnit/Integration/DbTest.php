@@ -129,7 +129,9 @@ class DbTest extends IntegrationTestCase
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
         $connectionId = $this->setUpMySQLHasGoneAwayConnection();
-        $reconnectionId = Db::queryWithWriterReconnectionAttempt('SELECT CONNECTION_ID()')->fetchColumn();
+        $reconnectionId = Db::executeWithDatabaseWriterReconnectionAttempt(function () {
+            return Db::query('SELECT CONNECTION_ID()')->fetchColumn();
+        });
 
         self::assertNotSame($connectionId, $reconnectionId);
     }
@@ -141,7 +143,9 @@ class DbTest extends IntegrationTestCase
         $dbException = null;
 
         try {
-            Db::queryWithWriterReconnectionAttempt('SELECT CONNECTION_ID()');
+            Db::executeWithDatabaseWriterReconnectionAttempt(function () {
+                Db::query('SELECT 1');
+            });
         } catch (Exception $e) {
             $dbException = $e;
         }

@@ -18,6 +18,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
 use Piwik\Log\LoggerInterface;
+use Piwik\SettingsServer;
 
 /**
  * This class is used to create a new Archive.
@@ -305,8 +306,15 @@ class ArchiveWriter
 
     public function flushSpools()
     {
-        $this->flushSpool('numeric');
-        $this->flushSpool('blob');
+        if (SettingsServer::isArchivePhpTriggered()) {
+            Db::executeWithDatabaseWriterReconnectionAttempt(function () {
+                $this->flushSpool('numeric');
+                $this->flushSpool('blob');
+            });
+        } else {
+            $this->flushSpool('numeric');
+            $this->flushSpool('blob');
+        }
     }
 
     private function flushSpool($valueType)
