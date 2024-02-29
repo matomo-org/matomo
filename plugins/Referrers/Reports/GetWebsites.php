@@ -21,7 +21,8 @@ class GetWebsites extends Base
         parent::init();
         $this->dimension     = new Website();
         $this->name          = Piwik::translate('CorePluginsAdmin_Websites');
-        $this->documentation = Piwik::translate('Referrers_WebsitesReportDocumentation', '<br />');
+        $this->documentation = Piwik::translate('Referrers_WebsitesReportDocumentation', '<br />') . '<br />'
+            . '<b>' . Piwik::translate('General_AttributionTitle') . ':</b> ' . Piwik::translate('General_AttributionDocumentation', ['<a href="https://matomo.org/faq/general/faq_106/" rel="noreferrer noopener" target="_blank">', '</a>']);
         $this->recursiveLabelSeparator = '/';
         $this->actionToLoadSubTables = 'getUrlsFromWebsiteId';
         $this->hasGoalMetrics = true;
