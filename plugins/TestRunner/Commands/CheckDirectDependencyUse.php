@@ -14,8 +14,8 @@ class CheckDirectDependencyUse extends ConsoleCommand
         parent::configure();
 
         $this->setName('tests:check-direct-dependency-use');
-        $this->addRequiredValueOption('plugin', null, 'Run only for a specific plugin');
-        $this->addNoValueOption('grep-vendor', null, 'Run only for a specific plugin');
+        $this->addRequiredValueOption('plugin', null, 'Run test only for a specific plugin');
+        $this->addNoValueOption('grep-vendor', null, 'Do not skip vendor folders and scan them too');
         $this->setDescription('checks for direct dependency use in plugins');
     }
 
