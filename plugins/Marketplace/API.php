@@ -42,16 +42,23 @@ class API extends \Piwik\Plugin\API
      */
     private $pluginManager;
 
+    /**
+     * @var Environment
+     */
+    private $environment;
+
     public function __construct(
         Service $service,
         Client $client,
         InvalidLicenses $expired,
-        PluginManager $pluginManager
+        PluginManager $pluginManager,
+        Environment $environment
     ) {
         $this->marketplaceService = $service;
         $this->marketplaceClient  = $client;
         $this->expired = $expired;
         $this->pluginManager = $pluginManager;
+        $this->environment = $environment;
     }
 
     /**
@@ -90,7 +97,10 @@ class API extends \Piwik\Plugin\API
         try {
             $result = $this->marketplaceService->fetch(
                 'plugins/' . $pluginName . '/freeTrial',
-                [],
+                [
+                    'num_users' => $this->environment->getNumUsers(),
+                    'num_websites' => $this->environment->getNumWebsites(),
+                ],
                 true
             );
         } catch (Service\Exception $e) {
