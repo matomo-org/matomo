@@ -136,6 +136,35 @@ class DbTest extends IntegrationTestCase
         self::assertNotSame($connectionId, $reconnectionId);
     }
 
+    public function test_withReader_doesNotInterceptNonGoneAwayErrors(): void
+    {
+        Config::getInstance()->database_reader = Config::getInstance()->database;
+
+        $expectedConnectionId = Db::query('SELECT CONNECTION_ID()')->fetchColumn();
+        $dbException = null;
+
+        try {
+            Db::executeWithDatabaseWriterReconnectionAttempt(function () {
+                Db::query('SHOW SYNTAX ERROR');
+            });
+        } catch (Exception $e) {
+            $dbException = $e;
+        }
+
+        self::assertNotNull($dbException, 'Expected database exception was not thrown');
+        self::assertTrue(
+            Db::get()->isErrNo(
+                $dbException,
+                \Piwik\Updater\Migration\Db::ERROR_CODE_SYNTAX_ERROR
+            )
+        );
+
+        // verify the connection has not been replaced
+        $connectionId = Db::query('SELECT CONNECTION_ID()')->fetchColumn();
+
+        self::assertSame($expectedConnectionId, $connectionId);
+    }
+
     public function test_withoutReader_doesNotReconnectIfServerHasGoneAway(): void
     {
         $this->setUpMySQLHasGoneAwayConnection();
