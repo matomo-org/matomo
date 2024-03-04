@@ -309,10 +309,10 @@ class Db
                 throw $ex;
             }
 
-            // only attempt reconnection if we encounter a "MySQL server has gone away" error
+            // only attempt reconnection if we encounter a "server has gone away" error
             if (
                 !self::get()->isErrNo($ex, Updater\Migration\Db::ERROR_CODE_MYSQL_SERVER_HAS_GONE_AWAY)
-                && false === stripos($ex->getMessage(), 'MySQL server has gone away')
+                && false === stripos($ex->getMessage(), 'server has gone away')
             ) {
                 throw $ex;
             }

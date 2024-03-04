@@ -185,7 +185,7 @@ class DbTest extends IntegrationTestCase
                 $dbException,
                 \Piwik\Updater\Migration\Db::ERROR_CODE_MYSQL_SERVER_HAS_GONE_AWAY
             )
-            || false !== stripos($dbException->getMessage(), 'MySQL server has gone away')
+            || false !== stripos($dbException->getMessage(), 'server has gone away')
         );
     }
 
