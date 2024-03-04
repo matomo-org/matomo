@@ -10,7 +10,6 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Db\Adapter;
-use Zend_Db_Statement;
 
 /**
  * Contains SQL related helper functions for Piwik's MySQL database.
@@ -238,8 +237,8 @@ class Db
      * [Zend_Db_Statement](http://framework.zend.com/manual/1.12/en/zend.db.statement.html) object.
      *
      * @param string $sql The SQL query.
-     * @throws Exception If there is an error in the SQL.
-     * @return integer|Zend_Db_Statement
+     * @throws \Exception If there is an error in the SQL.
+     * @return integer|\Zend_Db_Statement
      */
     public static function exec($sql)
     {
@@ -271,8 +270,8 @@ class Db
      *
      * @param string $sql The SQL query.
      * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
-     * @throws Exception If there is a problem with the SQL or bind parameters.
-     * @return Zend_Db_Statement
+     * @throws \Exception If there is a problem with the SQL or bind parameters.
+     * @return \Zend_Db_Statement
      */
     public static function query($sql, $parameters = array())
     {
@@ -334,7 +333,7 @@ class Db
      *
      * @param string $sql The SQL query.
      * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
-     * @throws Exception If there is a problem with the SQL or bind parameters.
+     * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return array The fetched rows, each element is an associative array mapping column names
      *               with column values.
      */
@@ -355,7 +354,7 @@ class Db
      *
      * @param string $sql The SQL query.
      * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
-     * @throws Exception If there is a problem with the SQL or bind parameters.
+     * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return array The fetched row, each element is an associative array mapping column names
      *               with column values.
      */
@@ -377,7 +376,7 @@ class Db
      *
      * @param string $sql The SQL query.
      * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
-     * @throws Exception If there is a problem with the SQL or bind parameters.
+     * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return string
      */
     public static function fetchOne($sql, $parameters = array())
@@ -398,7 +397,7 @@ class Db
      *
      * @param string $sql The SQL query.
      * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
-     * @throws Exception If there is a problem with the SQL or bind parameters.
+     * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return array eg,
      *               ```
      *               array('col1value1' => array('col2' => '...', 'col3' => ...),
@@ -527,7 +526,7 @@ class Db
      *
      * @param string|array $tables The name of the table to drop or an array of table names to drop.
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
-     * @return Zend_Db_Statement
+     * @return \Zend_Db_Statement
      */
     public static function dropTables($tables)
     {
@@ -557,7 +556,7 @@ class Db
      *                                   be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @param string|array $tablesToWrite The table or tables to obtain 'write' locks on. Table names must
      *                                    be prefixed (see {@link Piwik\Common::prefixTable()}).
-     * @return Zend_Db_Statement
+     * @return \Zend_Db_Statement
      */
     public static function lockTables($tablesToRead, $tablesToWrite = array())
     {
@@ -587,7 +586,7 @@ class Db
      * **NOTE:** Piwik does not require the `LOCK TABLES` privilege to be available. Piwik
      * should still work if it has not been granted.
      *
-     * @return Zend_Db_Statement
+     * @return \Zend_Db_Statement
      */
     public static function unlockAllTables()
     {
@@ -767,14 +766,13 @@ class Db
      *
      * @param string $lockName The lock name.
      * @param int $maxRetries The max number of times to retry.
-     *
      * @return bool `true` if the lock was obtained, `false` if otherwise.
-     * @throws Exception if Lock name is too long
+     * @throws \Exception if Lock name is too long
      */
     public static function getDbLock($lockName, $maxRetries = 30)
     {
         if (strlen($lockName) > 64) {
-            throw new Exception('DB lock name has to be 64 characters or less for MySQL 5.7 compatibility.');
+            throw new \Exception('DB lock name has to be 64 characters or less for MySQL 5.7 compatibility.');
         }
 
         /*
@@ -856,7 +854,7 @@ class Db
 
             // log using exception so backtrace appears in log output
             Log::debug(new Exception("Encountered deadlock: " . print_r($deadlockInfo, true)));
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             //  1227 Access denied; you need (at least one of) the PROCESS privilege(s) for this operation
         }
     }
@@ -887,7 +885,7 @@ class Db
 
         foreach ($parameters as $index => $parameter) {
             if ($parameter instanceof Date) {
-                throw new Exception("Found bound parameter (index = $index) is Date instance which will not work correctly in following SQL: $sql");
+                throw new \Exception("Found bound parameter (index = $index) is Date instance which will not work correctly in following SQL: $sql");
             }
         }
     }
