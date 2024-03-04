@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration;
 
+use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\TableMetadata;
@@ -123,6 +124,71 @@ class DbTest extends IntegrationTestCase
         $this->assertSame($db->getConnection(), Db::get()->getConnection());
     }
 
+    public function test_withReader_canReconnectToWriterIfServerHasGoneAway(): void
+    {
+        Config::getInstance()->database_reader = Config::getInstance()->database;
+
+        $connectionId = $this->setUpMySQLHasGoneAwayConnection();
+        $reconnectionId = Db::executeWithDatabaseWriterReconnectionAttempt(function () {
+            return Db::query('SELECT CONNECTION_ID()')->fetchColumn();
+        });
+
+        self::assertNotSame($connectionId, $reconnectionId);
+    }
+
+    public function test_withReader_doesNotInterceptNonGoneAwayErrors(): void
+    {
+        Config::getInstance()->database_reader = Config::getInstance()->database;
+
+        $expectedConnectionId = Db::query('SELECT CONNECTION_ID()')->fetchColumn();
+        $dbException = null;
+
+        try {
+            Db::executeWithDatabaseWriterReconnectionAttempt(function () {
+                Db::query('SHOW SYNTAX ERROR');
+            });
+        } catch (Exception $e) {
+            $dbException = $e;
+        }
+
+        self::assertNotNull($dbException, 'Expected database exception was not thrown');
+        self::assertTrue(
+            Db::get()->isErrNo(
+                $dbException,
+                \Piwik\Updater\Migration\Db::ERROR_CODE_SYNTAX_ERROR
+            )
+        );
+
+        // verify the connection has not been replaced
+        $connectionId = Db::query('SELECT CONNECTION_ID()')->fetchColumn();
+
+        self::assertSame($expectedConnectionId, $connectionId);
+    }
+
+    public function test_withoutReader_doesNotReconnectIfServerHasGoneAway(): void
+    {
+        $this->setUpMySQLHasGoneAwayConnection();
+
+        $dbException = null;
+
+        try {
+            Db::executeWithDatabaseWriterReconnectionAttempt(function () {
+                Db::query('SELECT 1');
+            });
+        } catch (Exception $e) {
+            $dbException = $e;
+        }
+
+        self::assertNotNull($dbException, 'Expected database exception was not thrown');
+        self::assertTrue(
+            Db::get()->isErrNo(
+                $dbException,
+                \Piwik\Updater\Migration\Db::ERROR_CODE_MYSQL_SERVER_HAS_GONE_AWAY
+            )
+            || false !== stripos($dbException->getMessage(), 'server has gone away')
+        );
+    }
+
     private function assertColumnNames($tableName, $expectedColumnNames)
     {
         $tableMetadataAccess = new TableMetadata();
@@ -222,5 +288,29 @@ class DbTest extends IntegrationTestCase
             array("slkdf(@*#lkesjfMariaDB", false),
             array("slkdfjq3rujlkv", false),
         );
+    }
+
+    /**
+     * Forces Db::get() to return a database connection that
+     * will throw "server has gone away" when running a query.
+     *
+     * @return string The MySQL connection id of the killed connection
+     */
+    private function setUpMySQLHasGoneAwayConnection(): string
+    {
+        // get extra connection to kill database connection
+        // circumvents "query execution was interrupted" errors
+        $db = Db::get();
+        Db::setDatabaseObject(null);
+
+        // connect and kill connection
+        $connectionId = Db::query('SELECT CONNECTION_ID()')->fetchColumn();
+        $db->exec('KILL ' . $connectionId);
+
+        // clean up extra connection
+        $db->closeConnection();
+        unset($db);
+
+        return (string) $connectionId;
     }
 }

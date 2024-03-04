@@ -286,6 +286,49 @@ class Db
     }
 
     /**
+     * Executes a callback with potential recovery from a "MySQL server has gone away" error.
+     *
+     * If the callback throws a "MySQL server has gone away" exception
+     * it will be called again after a single reconnection attempt.
+     *
+     * @param callable $callback
+     *
+     * @return mixed
+     *
+     * @throws Exception
+     *
+     * @internal
+     */
+    public static function executeWithDatabaseWriterReconnectionAttempt(callable $callback)
+    {
+        try {
+            return $callback();
+        } catch (Exception $ex) {
+            // only attempt reconnection in a reader/writer configuration
+            if (!self::hasReaderConfigured()) {
+                throw $ex;
+            }
+
+            // only attempt reconnection if we encounter a "server has gone away" error
+            if (
+                !self::get()->isErrNo($ex, Updater\Migration\Db::ERROR_CODE_MYSQL_SERVER_HAS_GONE_AWAY)
+                && false === stripos($ex->getMessage(), 'server has gone away')
+            ) {
+                throw $ex;
+            }
+
+            // reconnect and retry query
+            // after a 100ms wait (to avoid re-hitting a network problem immediately)
+            self::$connection = null;
+
+            usleep(100 * 1000);
+            self::createDatabaseObject();
+
+            return $callback();
+        }
+    }
+
+    /**
      * Executes an SQL `SELECT` statement and returns all fetched rows from the result set.
      *
      * @param string $sql The SQL query.
