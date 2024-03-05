@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\API\Request;
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
@@ -99,8 +100,6 @@ class VisitorDetails extends VisitorDetailsAbstract
             return;
         }
 
-        $sitesModel = new \Piwik\Plugins\SitesManager\Model();
-
         if (isset($action['type']) && in_array($action['type'], ['outlink', 'download']) && isset($action['url'])) {
             $action['url'] = html_entity_decode($action['url'], ENT_QUOTES, "UTF-8");
         }
@@ -108,7 +107,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         $view                 = new View($template);
         $view->sendHeadersWhenRendering = false;
         $view->mainUrl        = trim(Site::getMainUrlFor($this->getIdSite()));
-        $view->additionalUrls = $sitesModel->getAliasSiteUrlsFromId($this->getIdSite());
+        $view->additionalUrls = $this->getAdditionalUrlsForSite();
         $view->action         = $action;
         $view->previousAction = $previousAction;
         $view->visitInfo      = $visitorDetails;
@@ -308,5 +307,25 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         return $visit->getColumn('referrerName');
+    }
+
+    /**
+     * @return array
+    */
+    private function getAdditionalUrlsForSite(): array
+    {
+        $cache = Cache::getTransientCache();
+        $cacheKey = 'Live.additionalSiteUrls.' . $this->getIdSite();
+
+        if (!$cache->contains($cacheKey)) {
+            $sitesModel = new \Piwik\Plugins\SitesManager\Model();
+
+            $cache->save(
+                $cacheKey,
+                $sitesModel->getAliasSiteUrlsFromId($this->getIdSite())
+            );
+        }
+
+        return $cache->fetch($cacheKey);
     }
 }
