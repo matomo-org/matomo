@@ -77,7 +77,7 @@
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setExcludedQueryParams, setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, maq_confirm_opted_in,
-    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
+    doNotTrack, setDoNotTrack, configFeaturesThatRequireConsent, configHasConsentForFeature, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, disableBrowserFeatureDetection, enableBrowserFeatureDetection, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
@@ -2331,6 +2331,12 @@ if (typeof window.Matomo !== 'object') {
                 // Count sites which are pre-rendered
                 configCountPreRendered,
 
+                // Features that require consent from user before working
+                configFeaturesThatRequireConsent = [],
+
+                // Features where consent has been given by the user
+                configHasConsentForFeature = [],
+
                 // Do we attribute the conversion to the first referrer or the most recent referrer?
                 configConversionAttributionFirstReferrer,
 
@@ -2517,12 +2523,27 @@ if (typeof window.Matomo !== 'object') {
 
             /*
              * Removes hash tag from the URL
+             * Removes ignore_referrer/ignore_referer
+             * Removes configVisitorIdUrlParameter
+             * Removes campaign parameters
              *
              * URLs are purified before being recorded in the cookie,
              * or before being sent as GET parameters
              */
             function purify(url) {
                 var targetPattern, i;
+
+                // Remove campaign names/keywords from URL
+                if (trackerInstance.isFeatureConsentRequired('campaignTracking')
+                  && !trackerInstance.hasConsentForFeatureBeenGiven('campaignTracking')) {
+                    for (i in configCampaignNameParameters) {
+                      url = removeUrlParameter(url, configCampaignNameParameters[i]);
+                    }
+
+                    for (i in configCampaignKeywordParameters) {
+                      url = removeUrlParameter(url, configCampaignKeywordParameters[i]);
+                    }
+                }
 
                 // we need to remove this parameter here, they wouldn't be removed in Matomo tracker otherwise eg
                 // for outlinks or referrers
@@ -3863,27 +3884,31 @@ if (typeof window.Matomo !== 'object') {
                     // Only if campaign wasn't previously set
                     // Or if it was set but we must attribute to the most recent one
                     // Note: we are working on the currentUrl before purify() since we can parse the campaign parameters in the hash tag
-                    if (!configConversionAttributionFirstReferrer
-                        || !campaignNameDetected.length) {
-                        for (i in configCampaignNameParameters) {
-                            if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
-                                campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
+                    if ((!configConversionAttributionFirstReferrer
+                        || !campaignNameDetected.length)
+                        && (
+                          !trackerInstance.isFeatureConsentRequired('campaignTracking')
+                          || trackerInstance.hasConsentForFeatureBeenGiven('campaignTracking')
+                        )) {
+                          for (i in configCampaignNameParameters) {
+                              if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
+                                  campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
 
-                                if (campaignNameDetected.length) {
-                                    break;
-                                }
-                            }
-                        }
+                                  if (campaignNameDetected.length) {
+                                      break;
+                                  }
+                              }
+                          }
 
-                        for (i in configCampaignKeywordParameters) {
-                            if (Object.prototype.hasOwnProperty.call(configCampaignKeywordParameters, i)) {
-                                campaignKeywordDetected = getUrlParameter(currentUrl, configCampaignKeywordParameters[i]);
+                          for (i in configCampaignKeywordParameters) {
+                              if (Object.prototype.hasOwnProperty.call(configCampaignKeywordParameters, i)) {
+                                  campaignKeywordDetected = getUrlParameter(currentUrl, configCampaignKeywordParameters[i]);
 
-                                if (campaignKeywordDetected.length) {
-                                    break;
-                                }
-                            }
-                        }
+                                  if (campaignKeywordDetected.length) {
+                                      break;
+                                  }
+                              }
+                          }
                     }
 
                     // Store the referrer URL and time in the cookie;
@@ -6423,6 +6448,113 @@ if (typeof window.Matomo !== 'object') {
                     this.disableCookies();
                 }
             };
+
+          /**
+           * Indicate that consent is required to use the given list of features
+           *
+           * @param {array[string]} featureList
+           */
+            this.requireFeatureConsent = function (featureList) {
+              if (featureList.constructor.name !== "Array") {
+                return;
+              }
+
+              configFeaturesThatRequireConsent = featureList;
+            };
+
+          /**
+           * Call this method once the user has given consent for a given feature
+           *
+           * @param {string} feature
+           * @return {boolean}
+           */
+            this.setConsentGivenForFeature = function (feature) {
+              if (configFeaturesThatRequireConsent.indexOf(feature) === -1) {
+                return false;
+              }
+              configHasConsentForFeature.push(feature);
+              return true;
+            }
+
+          /**
+           * Calling this method will remember that the user has given consent for a given feature across multiple requests by setting
+           * a cookie. You can optionally define the lifetime of that cookie in hours using a parameter.
+           *
+           * When you call this method, we imply that the user has given consent for the given feature, and will also
+           * imply consent for all future page views unless the cookie expires (if timeout defined) or the user
+           * deletes all their cookies. This means even if you call {@link requireFeatureConsent(featureList)}, then the given feature will still work.
+           *
+           * Please note that this feature requires you to set the `cookieDomain` and `cookiePath` correctly and requires
+           * that you do not disable cookies. Please also note that when you call this method, consent will be implied
+           * for all sites that match the configured cookieDomain and cookiePath. Depending on your website structure,
+           * you may need to restrict or widen the scope of the cookie domain/path to ensure the consent is applied
+           * to the sites you want.
+           *
+           * @param {int} hoursToExpire After how many hours the consent should expire. By default the consent is valid
+           *                          for ~30 years unless cookies are deleted by the user or the browser prior to this
+           * @returns {boolean} Returns true if successfully remembers consent given the feature exists.
+           */
+            this.rememberConsentGivenForFeature = function (feature, hoursToExpire) {
+              var msToExpire;
+              if (hoursToExpire) {
+                msToExpire = hoursToExpire * 60 * 60 * 1000;
+              } else {
+                msToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
+              }
+
+              if (!this.setConsentGivenForFeature(feature)) {
+                return false;
+              }
+
+              var now = new Date().getTime();
+              setCookie(getCookieName('feature_consent_'+feature), now, msToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+
+              return true;
+            }
+
+            /**
+             * Removes consent for a feature that has been remembered in a cookie
+             *
+             * @param {string} feature
+             */
+            this.forgetConsentGivenForFeature = function (feature) {
+              if (!this.hasConsentForFeatureBeenGiven(feature)) {
+                return;
+              }
+
+              var index = indexOfArray(configHasConsentForFeature, feature);
+              configHasConsentForFeature.splice(index, 1);
+
+              deleteCookie(getCookieName('feature_consent_'+feature), configCookiePath, configCookieDomain);
+            }
+
+            /**
+             * Determines whether consent has been given for a particular feature
+             *
+             * @param {string} feature
+             * @return {boolean}
+             */
+            this.hasConsentForFeatureBeenGiven = function(feature) {
+              if (indexOfArray(configHasConsentForFeature, feature) !== -1) {
+                return true;
+              }
+
+              if (getCookie(getCookieName('feature_consent_'+feature))) {
+                return true;
+              }
+
+              return false;
+            }
+
+            /**
+             * Determines whether a given feature requires consent for the current configuration
+             *
+             * @param {string} feature
+             * @return {boolean}
+             */
+            this.isFeatureConsentRequired = function (feature) {
+              return indexOfArray(configFeaturesThatRequireConsent, feature) > -1;
+            }
 
             /**
              * Enables send beacon usage instead of regular XHR which reduces the link tracking time to a minimum
