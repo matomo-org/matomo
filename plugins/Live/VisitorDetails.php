@@ -11,7 +11,6 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\API\Request;
-use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
@@ -318,7 +317,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     /**
      * @return array<int, array<string>>
-    */
+     */
     private function getAdditionalUrlsForSite(int $idSite): array
     {
         if (isset($this->cachedAdditionalSiteUrls[$idSite])) {
