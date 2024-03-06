@@ -26,6 +26,11 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
+    /**
+     * @var array<int, array<string>>
+     */
+    private $cachedAdditionalSiteUrls = [];
+
     public function extendVisitorDetails(&$visitor)
     {
         $idSite     = $this->getIdSite();
@@ -104,10 +109,12 @@ class VisitorDetails extends VisitorDetailsAbstract
             $action['url'] = html_entity_decode($action['url'], ENT_QUOTES, "UTF-8");
         }
 
+        $idSite = $this->getIdSite();
+
         $view                 = new View($template);
         $view->sendHeadersWhenRendering = false;
-        $view->mainUrl        = trim(Site::getMainUrlFor($this->getIdSite()));
-        $view->additionalUrls = $this->getAdditionalUrlsForSite();
+        $view->mainUrl        = trim(Site::getMainUrlFor($idSite));
+        $view->additionalUrls = $this->getAdditionalUrlsForSite($idSite);
         $view->action         = $action;
         $view->previousAction = $previousAction;
         $view->visitInfo      = $visitorDetails;
@@ -310,22 +317,19 @@ class VisitorDetails extends VisitorDetailsAbstract
     }
 
     /**
-     * @return array
+     * @return array<int, array<string>>
     */
-    private function getAdditionalUrlsForSite(): array
+    private function getAdditionalUrlsForSite(int $idSite): array
     {
-        $cache = Cache::getTransientCache();
-        $cacheKey = 'Live.additionalSiteUrls.' . $this->getIdSite();
-
-        if ($cache->contains($cacheKey)) {
-            return $cache->fetch($cacheKey);
+        if (isset($this->cachedAdditionalSiteUrls[$idSite])) {
+            return $this->cachedAdditionalSiteUrls[$idSite];
         }
 
         $sitesModel = new \Piwik\Plugins\SitesManager\Model();
-        $aliasSiteUrls = $sitesModel->getAliasSiteUrlsFromId($this->getIdSite());
+        $additionalSiteUrls = $sitesModel->getAliasSiteUrlsFromId($idSite);
 
-        $cache->save($cacheKey, $aliasSiteUrls);
+        $this->cachedAdditionalSiteUrls[$idSite] = $additionalSiteUrls;
 
-        return $aliasSiteUrls;
+        return $additionalSiteUrls;
     }
 }
