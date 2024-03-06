@@ -317,15 +317,15 @@ class VisitorDetails extends VisitorDetailsAbstract
         $cache = Cache::getTransientCache();
         $cacheKey = 'Live.additionalSiteUrls.' . $this->getIdSite();
 
-        if (!$cache->contains($cacheKey)) {
-            $sitesModel = new \Piwik\Plugins\SitesManager\Model();
-
-            $cache->save(
-                $cacheKey,
-                $sitesModel->getAliasSiteUrlsFromId($this->getIdSite())
-            );
+        if ($cache->contains($cacheKey)) {
+            return $cache->fetch($cacheKey);
         }
 
-        return $cache->fetch($cacheKey);
+        $sitesModel = new \Piwik\Plugins\SitesManager\Model();
+        $aliasSiteUrls = $sitesModel->getAliasSiteUrlsFromId($this->getIdSite());
+
+        $cache->save($cacheKey, $aliasSiteUrls);
+
+        return $aliasSiteUrls;
     }
 }
