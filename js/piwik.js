@@ -2331,7 +2331,7 @@ if (typeof window.Matomo !== 'object') {
                 // Count sites which are pre-rendered
                 configCountPreRendered,
 
-                // Features that require consent from user before working
+                // A list of features that require consent from user before working
                 configFeaturesThatRequireConsent = [],
 
                 // Features where consent has been given by the user
@@ -6492,7 +6492,7 @@ if (typeof window.Matomo !== 'object') {
            *
            * @param {int} hoursToExpire After how many hours the consent should expire. By default the consent is valid
            *                          for ~30 years unless cookies are deleted by the user or the browser prior to this
-           * @returns {boolean} Returns true if successfully remembers consent given the feature exists.
+           * @returns {boolean} Returns true if 'remember consent given for the feature' was stored successfully.
            */
             this.rememberConsentGivenForFeature = function (feature, hoursToExpire) {
               var msToExpire;
@@ -6507,7 +6507,7 @@ if (typeof window.Matomo !== 'object') {
               }
 
               var now = new Date().getTime();
-              setCookie(getCookieName('feature_consent_'+feature), now, msToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+              setCookie(getCookieName('consent_feature_'+feature), now, msToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
 
               return true;
             }
@@ -6516,16 +6516,19 @@ if (typeof window.Matomo !== 'object') {
              * Removes consent for a feature that has been remembered in a cookie
              *
              * @param {string} feature
+             * @return {boolean}
              */
             this.forgetConsentGivenForFeature = function (feature) {
               if (!this.hasConsentForFeatureBeenGiven(feature)) {
-                return;
+                return false;
               }
 
               var index = indexOfArray(configHasConsentForFeature, feature);
               configHasConsentForFeature.splice(index, 1);
 
-              deleteCookie(getCookieName('feature_consent_'+feature), configCookiePath, configCookieDomain);
+              deleteCookie(getCookieName('consent_feature_'+feature), configCookiePath, configCookieDomain);
+
+              return true;
             }
 
             /**
@@ -6539,7 +6542,7 @@ if (typeof window.Matomo !== 'object') {
                 return true;
               }
 
-              if (getCookie(getCookieName('feature_consent_'+feature))) {
+              if (getCookie(getCookieName('consent_feature_'+feature))) {
                 return true;
               }
 
