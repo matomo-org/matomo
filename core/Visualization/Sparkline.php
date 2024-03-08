@@ -221,15 +221,17 @@ class Sparkline implements ViewInterface
 
     public function render()
     {
-        if (empty($this->sparkline->getSeriesCount())) {
+        if (!$this->sparkline instanceof \Davaxi\Sparkline) {
+            return;
+        }
+
+        if (0 === $this->sparkline->getSeriesCount()) {
             // ensure to have at least one series & point in sparkline to avoid possible php notices/errors
             // a sparkline will then be displayed with a zero line
             $this->sparkline->addSeries([0]);
         }
 
-        if ($this->sparkline instanceof \Davaxi\Sparkline) {
-            $this->sparkline->display();
-            $this->sparkline->destroy();
-        }
+        $this->sparkline->display();
+        $this->sparkline->destroy();
     }
 }
