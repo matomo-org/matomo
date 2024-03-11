@@ -188,6 +188,8 @@
         "HideAdvancedOptions": "Hide advanced options",
         "JSTrackingDocumentationHelp": "For easy access, the most popular advanced options are available below. For even more options (including how to track goals, custom variables, ecommerce orders and abandoned carts) please check out the %1$sMatomo Javascript Tracking documentation%2$s.",
         "ReactDescription": "If your website is using React, please see %1$sthis guide%2$s.",
-        "JsTrackingCodeAdvancedOptionsStep": "Optional: use the advanced options to customise your tracking code."
+        "JsTrackingCodeAdvancedOptionsStep": "Optional: use the advanced options to customise your tracking code.",
+        "JSTracking_RequireConsentForCampaignTracking": "Require consent from users before tracking campaign parameters",
+        "JSTracking_RequireConsentForCampaignTrackingDesc": "So campaign parameters will not be sent to Matomo if visitors do not give explicit consent."
     }
 }

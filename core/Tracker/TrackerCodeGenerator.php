@@ -49,6 +49,7 @@ class TrackerCodeGenerator
      * @param bool $crossDomain
      * @param bool $excludedQueryParams
      * @param array $excludedReferrers
+     * @param bool $requireConsentForCampaignTracking
      * @return string Javascript code.
      */
     public function generate(
@@ -66,7 +67,8 @@ class TrackerCodeGenerator
         $trackNoScript = false,
         $crossDomain = false,
         $excludedQueryParams = false,
-        $excludedReferrers = []
+        $excludedReferrers = [],
+        $requireConsentForCampaignTracking = false
     ) {
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
 
@@ -132,14 +134,20 @@ class TrackerCodeGenerator
             }
         }
 
+        if ($requireConsentForCampaignTracking) {
+            $options .= "  _paq.push(['requireFeatureConsent', ['campaignTracking']]);\n";
+        }
+
         if ($customCampaignNameQueryParam) {
             $options .= '  _paq.push(["setCampaignNameKey", '
                 . json_encode($customCampaignNameQueryParam) . ']);' . "\n";
         }
+
         if ($customCampaignKeywordParam) {
             $options .= '  _paq.push(["setCampaignKeywordKey", '
                 . json_encode($customCampaignKeywordParam) . ']);' . "\n";
         }
+
         if ($doNotTrack) {
             $options .= '  _paq.push(["setDoNotTrack", true]);' . "\n";
         }
@@ -190,7 +198,8 @@ class TrackerCodeGenerator
             'pageCustomVariables',
             'customCampaignNameQueryParam',
             'customCampaignKeywordParam',
-            'doNotTrack'
+            'doNotTrack',
+            'requireConsentForCampaignTracking'
         );
 
         /**
