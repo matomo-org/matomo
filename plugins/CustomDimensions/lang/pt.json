@@ -8,7 +8,7 @@
         "CustomDimensionId": "Dimensões personalizadas (Id %d)",
         "CustomDimensions": "Dimensões personalizadas",
         "CustomDimensionsIntro": "Ao criar %1$sDimensões personalizadas%2$s, você pode coletar quaisquer dados personalizados para '%3$s'.",
-        "CustomDimensionsIntroNext": "O Matomo criará um relatório para cada dimensão personalizada (incluindo a taxa de conversão para cada uma de suas metas), além de permitir que você segmente facilmente seus usuários com base nesses valores. Dimensões personalizadas são semelhantes a %1$sVariáveis personalizadas%2$s, mas há algumas %3$sdiferenças entre Dimensões personalizadas e Variáveis personalizadas%4$s.",
+        "CustomDimensionsIntroNext": "O Matomo vai criar um relatório para cada Dimensão Personalizada (incluindo a taxa de conversão para cada um dos seus Objetivos), assim como permitirá segmentar facilmente os seus utilizadores com base nestes valores. As Dimensões Personalizadas são semelhantes a %1$sVariáveis Personalizadas%2$s, mas existem algumas %3$sdiferenças entre Dimensões Personalizadas e Variáveis Personalizadas%4$s.",
         "DimensionCreated": "Dimensão personalizada criada",
         "DimensionUpdated": "Dimensão personalizada atualizada",
         "EmptyValue": "valor vazio",

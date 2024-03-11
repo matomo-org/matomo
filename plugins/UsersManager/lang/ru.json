@@ -77,6 +77,6 @@
         "YourCurrentPassword": "Ваш текущий пароль",
         "YourUsernameCannotBeChanged": "Имя вашего пользователя не может быть изменено.",
         "YourVisitsAreIgnoredOnDomain": "%1$sВаші відвідування ігноруються системою Matomo в %2$s %3$s (Matomo знашов cookie у вашому браузері з вказівкою ігнорувати).",
-        "YourVisitsAreNotIgnored": "%1$sВаші відвідування відслідковуються системою Matomo %2$s (Matomo не знашов cookie у вашому браузері)."
+        "YourVisitsAreNotIgnored": "%1$sВаши посещения не игнорируются Matomo%2$s (в вашем браузере не найден файл cookie Matomo ignore)."
     }
 }

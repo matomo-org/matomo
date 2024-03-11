@@ -9,9 +9,9 @@
         "PluginDescription": "Exiba qualquer relatório Matomo em seu site ou aplicativo com uma simples tag HTML \"incorporada\".",
         "Reports": "Widgetize relatórios",
         "SelectAReport": "Selecione um relatório e copie e cole em sua página o código de incorporação abaixo do widget:",
-        "TooHighAccessLevel": "Este usuário tem acesso de superusuário. Não é permitido incorporar widgets com autenticação de token de superusuário. %1$sVerifique o FAQ para mais informações.%2$s",
+        "TooHighAccessLevel": "Este utilizador tem acesso de super-utilizador. Para a incorporação de widgets, as autorizações de token de super-utilizador não são permitidas. %1$sVeja as nossas perguntas frequentes para mais informações. %2$s",
         "TopLinkTooltip": "Exporte os relatórios do Matomo como widgets e incorpore o painel em seu aplicativo como um iframe.",
-        "ViewAccessRequired": "Este usuário tem pelo menos algum acesso de gravação. Somente tokens de usuários que têm apenas acesso de visualização podem ser usados. Verifique %1$s para mais informações.",
-        "ViewableAnonymously": "Se você deseja que seus widgets possam ser visualizados por todos, primeiro você deve definir as permissões de 'exibição' para o usuário anônimo na seção %1$sGerenciamento de usuários%2$s. <br>Como alternativa, se você estiver publicando widgets em uma página privada ou protegida por senha, não precisa necessariamente permitir que 'anônimos' visualizem seus relatórios. Nesse caso, você pode adicionar o parâmetro secreto <code>token_auth</code> na URL do widget. Você pode gerenciar seus tokens de autenticação em sua %3$spágina de segurança%4$s."
+        "ViewAccessRequired": "Este utilizador tem pelo menos algum acesso de escrita. Apenas os tokens de utilizadores que têm apenas acesso de visualização podem ser utilizados. Verifique %1$s para mais informações.",
+        "ViewableAnonymously": "Se deseja que os seus widgets sejam visíveis por todos, primeiro tem de definir as permissões de 'visualização' para o utilizador anónimo na secção %1$sGestão de Utilizadores%2$s. <br>Alternativamente, se está a publicar widgets numa página privada ou protegida por senha, não tem necessariamente de permitir que 'anónimos' vejam os seus relatórios. Neste caso, pode adicionar o parâmetro secreto <code>token_auth</code> na URL do widget. Pode gerir os seus tokens de autenticação na sua página de %3$sSegurança%4$s."
     }
 }
