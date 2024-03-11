@@ -83,7 +83,7 @@ class CheckDirectDependencyUse extends ConsoleCommand
         $rgOutput = [];
 
         if ($plugin) {
-            $plugin = '/' . $plugin;
+            $plugin = '/plugins/' . $plugin;
         }
 
         $vendorScan = '--glob=\\!vendor';
@@ -98,7 +98,7 @@ class CheckDirectDependencyUse extends ConsoleCommand
             $regex = '\\b' . preg_quote($prefix) . '_';
         }
 
-        $command = 'rg \'' . $regex . '\' --glob=*.php ' . $vendorScan . ' --json --sort path ' . PIWIK_INCLUDE_PATH . '/plugins' . $plugin;
+        $command = 'rg \'' . $regex . '\' --glob=*.php ' . $vendorScan . ' --json --sort path ' . PIWIK_INCLUDE_PATH . $plugin;
         exec($command, $rgOutput, $returnCode);
 
         if (isset($returnCode) && $returnCode == 127) {
@@ -119,7 +119,7 @@ class CheckDirectDependencyUse extends ConsoleCommand
             array_shift($parts);
             $pluginName = array_shift($parts);
 
-            if (file_exists(PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/.git')) {
+            if ($pluginName) {
                 $remainingPath = implode('/', $parts);
                 $uses[$pluginName][] = $remainingPath;
             }
@@ -138,7 +138,7 @@ class CheckDirectDependencyUse extends ConsoleCommand
         $output->writeln("<info>Found '$prefix' ($type) usage in:</info>");
         foreach ($directUses as $plugin => $files) {
             foreach ($files as $file) {
-                $this->usesFoundList[$plugin][$prefix][] = $plugin . '/' . $file;
+                $this->usesFoundList[rtrim($plugin, '\\')][rtrim($prefix, '\\')][] = $plugin . '/' . $file;
             }
             $output->writeln("  - $plugin, " . count($files) . " files");
         }
