@@ -98,6 +98,8 @@ jobs:
 {% if hasSubmodules %}
           submodules: true
 {% endif %}
+      - name: Install package ripgrep
+        run: sudo apt-get install ripgrep
       - name: Run tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -220,6 +222,7 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
 {% if plugin %}
+          testomatio: ${{ secrets.TESTOMATIO }}
           plugin-name: '{{ plugin }}'
           matomo-test-branch: 'maximum_supported_matomo'
 {% if setupScript %}
