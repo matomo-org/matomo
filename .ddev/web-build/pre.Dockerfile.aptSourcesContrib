@@ -1,0 +1,5 @@
+# Tests UI require ttf-mscorefonts-installer from contrib
+RUN apt-get -qq update || true
+RUN DEBIAN_FRONTEND=noninteractive apt-get -qq install -y -o Dpkg::Options::="--force-confold" --no-install-recommends --no-install-suggests software-properties-common
+RUN apt-add-repository contrib
+RUN apt-get -qq update || true
