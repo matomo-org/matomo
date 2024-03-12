@@ -79,8 +79,9 @@
     disablePerformanceTracking, maq_confirm_opted_in,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     configFeaturesThatRequireConsent, configHasConsentForFeature,
-    requireFeatureConsent, setConsentGivenForFeature, rememberConsentGivenForFeature, forgetConsentGivenForFeature, hasConsentForFeatureBeenGiven, isFeatureConsentRequired
-    enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
+    requireFeatureConsent, setConsentGivenForFeature, rememberConsentGivenForFeature, forgetConsentGivenForFeature,
+    hasConsentForFeatureBeenGiven, isFeatureConsentRequired, enableCrossDomainLinking, disableCrossDomainLinking,
+    isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, disableBrowserFeatureDetection, enableBrowserFeatureDetection, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
@@ -2538,11 +2539,11 @@ if (typeof window.Matomo !== 'object') {
                 // Remove campaign names/keywords from URL
                 if (trackerInstance.isFeatureConsentRequired('campaignTracking')
                   && !trackerInstance.hasConsentForFeatureBeenGiven('campaignTracking')) {
-                    for (i in configCampaignNameParameters) {
+                    for (i = 0; i < configCampaignNameParameters.length; i++) {
                       url = removeUrlParameter(url, configCampaignNameParameters[i]);
                     }
 
-                    for (i in configCampaignKeywordParameters) {
+                    for (i = 0; i < configCampaignKeywordParameters.length; i++) {
                       url = removeUrlParameter(url, configCampaignKeywordParameters[i]);
                     }
                 }
@@ -6457,7 +6458,7 @@ if (typeof window.Matomo !== 'object') {
            * @param {array[string]} featureList
            */
             this.requireFeatureConsent = function (featureList) {
-              if (featureList.constructor.name !== "Array") {
+              if (!(featureList instanceof Array)) {
                 return;
               }
 
@@ -6476,7 +6477,7 @@ if (typeof window.Matomo !== 'object') {
               }
               configHasConsentForFeature.push(feature);
               return true;
-            }
+            };
 
           /**
            * Calling this method will remember that the user has given consent for a given feature across multiple requests by setting
@@ -6512,7 +6513,7 @@ if (typeof window.Matomo !== 'object') {
               setCookie(getCookieName('consent_feature_'+feature), now, msToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
 
               return true;
-            }
+            };
 
             /**
              * Removes consent for a feature that has been remembered in a cookie
@@ -6531,7 +6532,7 @@ if (typeof window.Matomo !== 'object') {
               deleteCookie(getCookieName('consent_feature_'+feature), configCookiePath, configCookieDomain);
 
               return true;
-            }
+            };
 
             /**
              * Determines whether consent has been given for a particular feature
@@ -6549,7 +6550,7 @@ if (typeof window.Matomo !== 'object') {
               }
 
               return false;
-            }
+            };
 
             /**
              * Determines whether a given feature requires consent for the current configuration
@@ -6559,7 +6560,7 @@ if (typeof window.Matomo !== 'object') {
              */
             this.isFeatureConsentRequired = function (feature) {
               return indexOfArray(configFeaturesThatRequireConsent, feature) > -1;
-            }
+            };
 
             /**
              * Enables send beacon usage instead of regular XHR which reduces the link tracking time to a minimum
