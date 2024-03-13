@@ -6726,8 +6726,6 @@ if (typeof window.Matomo !== 'object') {
                 detectBrowserFeatures();
             };
 
-            /** HERE **/
-
             /**
              * Scans the entire DOM for all content blocks and tracks all impressions once the DOM ready event has
              * been triggered.
