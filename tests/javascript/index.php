@@ -5390,6 +5390,8 @@ if ($mysql) {
           setTimeout(function() {
             var results = fetchTrackedRequests(getCampaignParamToken() + '1');
             strictEqual(false, results.indexOf('mtm_campaign%3Dsomething%26mtm_kwd%3Dkeyword') === -1, "campaign parameters are not stripped");
+
+            start();
           }, 2000);
         }, 2000);
     });
