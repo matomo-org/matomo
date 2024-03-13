@@ -77,11 +77,8 @@
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setExcludedQueryParams, setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, maq_confirm_opted_in,
-    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
-    configFeaturesThatRequireConsent, configHasConsentForFeature,
-    requireFeatureConsent, setConsentGivenForFeature, rememberConsentGivenForFeature, forgetConsentGivenForFeature,
-    hasConsentForFeatureBeenGiven, isFeatureConsentRequired, enableCrossDomainLinking, disableCrossDomainLinking,
-    isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
+    doNotTrack, setDoNotTrack, disableCampaignParameters, enableCampaignParameters, msDoNotTrack, getValuesFromVisitorIdCookie,
+    enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, disableBrowserFeatureDetection, enableBrowserFeatureDetection, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
@@ -2334,11 +2331,8 @@ if (typeof window.Matomo !== 'object') {
                 // Count sites which are pre-rendered
                 configCountPreRendered,
 
-                // A list of features that require consent from user before working
-                configFeaturesThatRequireConsent = [],
-
-                // Features where consent has been given by the user
-                configHasConsentForFeature = [],
+                // Enable sending campaign parameters to backend.
+                configEnableCampaignParameters = true,
 
                 // Do we attribute the conversion to the first referrer or the most recent referrer?
                 configConversionAttributionFirstReferrer,
@@ -2537,8 +2531,7 @@ if (typeof window.Matomo !== 'object') {
                 var targetPattern, i;
 
                 // Remove campaign names/keywords from URL
-                if (trackerInstance.isFeatureConsentRequired('campaignTracking')
-                  && !trackerInstance.hasConsentForFeatureBeenGiven('campaignTracking')) {
+                if (configEnableCampaignParameters !== true) {
                     for (i = 0; i < configCampaignNameParameters.length; i++) {
                       url = removeUrlParameter(url, configCampaignNameParameters[i]);
                     }
@@ -3889,10 +3882,7 @@ if (typeof window.Matomo !== 'object') {
                     // Note: we are working on the currentUrl before purify() since we can parse the campaign parameters in the hash tag
                     if ((!configConversionAttributionFirstReferrer
                         || !campaignNameDetected.length)
-                        && (
-                          !trackerInstance.isFeatureConsentRequired('campaignTracking')
-                          || trackerInstance.hasConsentForFeatureBeenGiven('campaignTracking')
-                        )) {
+                        && configEnableCampaignParameters) {
                           for (i in configCampaignNameParameters) {
                               if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
                                   campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
@@ -6452,114 +6442,18 @@ if (typeof window.Matomo !== 'object') {
                 }
             };
 
-          /**
-           * Indicate that consent is required to use the given list of features
-           *
-           * @param {array[string]} featureList
-           */
-            this.requireFeatureConsent = function (featureList) {
-              if (!(featureList instanceof Array)) {
-                return;
-              }
-
-              configFeaturesThatRequireConsent = featureList;
-            };
-
-          /**
-           * Call this method once the user has given consent for a given feature
-           *
-           * @param {string} feature
-           * @return {boolean}
-           */
-            this.setConsentGivenForFeature = function (feature) {
-              if (configFeaturesThatRequireConsent.indexOf(feature) === -1) {
-                return false;
-              }
-              configHasConsentForFeature.push(feature);
-              return true;
-            };
-
-          /**
-           * Calling this method will remember that the user has given consent for a given feature across multiple requests by setting
-           * a cookie. You can optionally define the lifetime of that cookie in hours using a parameter.
-           *
-           * When you call this method, we imply that the user has given consent for the given feature, and will also
-           * imply consent for all future page views unless the cookie expires (if timeout defined) or the user
-           * deletes all their cookies. This means even if you call {@link requireFeatureConsent(featureList)}, then the given feature will still work.
-           *
-           * Please note that this feature requires you to set the `cookieDomain` and `cookiePath` correctly and requires
-           * that you do not disable cookies. Please also note that when you call this method, consent will be implied
-           * for all sites that match the configured cookieDomain and cookiePath. Depending on your website structure,
-           * you may need to restrict or widen the scope of the cookie domain/path to ensure the consent is applied
-           * to the sites you want.
-           *
-           * @param {int} hoursToExpire After how many hours the consent should expire. By default the consent is valid
-           *                          for ~30 years unless cookies are deleted by the user or the browser prior to this
-           * @returns {boolean} Returns true if 'remember consent given for the feature' was stored successfully.
-           */
-            this.rememberConsentGivenForFeature = function (feature, hoursToExpire) {
-              var msToExpire;
-              if (hoursToExpire) {
-                msToExpire = hoursToExpire * 60 * 60 * 1000;
-              } else {
-                msToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
-              }
-
-              if (!this.setConsentGivenForFeature(feature)) {
-                return false;
-              }
-
-              var now = new Date().getTime();
-              setCookie(getCookieName('consent_feature_'+feature), now, msToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
-
-              return true;
+            /**
+             * Prevent campaign parameters being sent to the tracker, unless consent given.
+             */
+            this.disableCampaignParameters = function () {
+              configEnableCampaignParameters = false;
             };
 
             /**
-             * Removes consent for a feature that has been remembered in a cookie
-             *
-             * @param {string} feature
-             * @return {boolean}
+             * Allow campaign parameters to be sent to the tracker.
              */
-            this.forgetConsentGivenForFeature = function (feature) {
-              if (!this.hasConsentForFeatureBeenGiven(feature)) {
-                return false;
-              }
-
-              var index = indexOfArray(configHasConsentForFeature, feature);
-              configHasConsentForFeature.splice(index, 1);
-
-              deleteCookie(getCookieName('consent_feature_'+feature), configCookiePath, configCookieDomain);
-
-              return true;
-            };
-
-            /**
-             * Determines whether consent has been given for a particular feature
-             *
-             * @param {string} feature
-             * @return {boolean}
-             */
-            this.hasConsentForFeatureBeenGiven = function(feature) {
-              if (indexOfArray(configHasConsentForFeature, feature) !== -1) {
-                return true;
-              }
-
-              if (getCookie(getCookieName('consent_feature_'+feature))) {
-                return true;
-              }
-
-              return false;
-            };
-
-            /**
-             * Determines whether a given feature requires consent for the current configuration
-             *
-             * @param {string} feature
-             * @return {boolean}
-             */
-            this.isFeatureConsentRequired = function (feature) {
-              return indexOfArray(configFeaturesThatRequireConsent, feature) > -1;
+            this.enableCampaignParameters = function () {
+              configEnableCampaignParameters = true;
             };
 
             /**
@@ -6831,6 +6725,8 @@ if (typeof window.Matomo !== 'object') {
                 configBrowserFeatureDetection = true;
                 detectBrowserFeatures();
             };
+
+            /** HERE **/
 
             /**
              * Scans the entire DOM for all content blocks and tracks all impressions once the DOM ready event has
@@ -7392,6 +7288,10 @@ if (typeof window.Matomo !== 'object') {
                 if (!configBrowserFeatureDetection) {
                     this.enableBrowserFeatureDetection();
                 }
+                if (!configEnableCampaignParameters) {
+                  this.enableCampaignParameters();
+                }
+
                 deleteCookie(CONSENT_REMOVED_COOKIE_NAME, configCookiePath, configCookieDomain);
 
                 var i, requestType;

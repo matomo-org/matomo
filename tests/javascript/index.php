@@ -62,7 +62,7 @@ function getCookieConsentToken() {
 function getConsentToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
-function getFeatureConsentToken() {
+function getCampaignParamToken() {
   return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
 function getOptInToken() {
@@ -2238,13 +2238,9 @@ function PiwikTest() {
         equal( typeof tracker.isUserOptedOut, 'function', 'isUserOptedOut' );
         equal( typeof tracker.optUserOut, 'function', 'optUserOut' );
         equal( typeof tracker.forgetUserOptOut, 'function', 'forgetUserOptOut' );
-        // Feature consent
-        equal( typeof tracker.requireFeatureConsent, 'function', 'requireFeatureConsent' );
-        equal( typeof tracker.setConsentGivenForFeature, 'function', 'setConsentGivenForFeature' );
-        equal( typeof tracker.rememberConsentGivenForFeature, 'function', 'rememberConsentGivenForFeature' );
-        equal( typeof tracker.forgetConsentGivenForFeature, 'function', 'forgetConsentGivenForFeature' );
-        equal( typeof tracker.hasConsentForFeatureBeenGiven, 'function', 'hasConsentForFeatureBeenGiven' );
-        equal( typeof tracker.isFeatureConsentRequired, 'function', 'isFeatureConsentRequired' );
+        // Campaign param consent
+        equal( typeof tracker.disableCampaignParameters, 'function', 'disableCampaignParameters' );
+        equal( typeof tracker.enableCampaignParameters, 'function', 'enableCampaignParameters' );
     });
 
     module("API and internals", {
@@ -5299,67 +5295,6 @@ if ($mysql) {
         strictEqual(tracker.hasConsent(), false, "hasConsent() false when optout cookie present");
     });
 
-    test("Test API - feature consent", function() {
-        expect(7);
-
-        var tracker = Piwik.getTracker();
-
-        tracker.setCustomData('token', getFeatureConsentToken());
-
-        var testFeatureName = 'test';
-        var testFeatureName2 = 'otherFeature';
-        var campaignTrackingFeatureName = 'campaignTracking';
-
-        strictEqual(tracker.isFeatureConsentRequired(testFeatureName), false, "isFeatureConsentRequired, returns false if not set" );
-        strictEqual(tracker.setConsentGivenForFeature(testFeatureName), false, "setConsentGivenForFeature, when feature doesnt exist return false" );
-        strictEqual(tracker.rememberConsentGivenForFeature(testFeatureName), false, "rememberConsentGivenForFeature, when feature doesnt exist return false" );
-        strictEqual(tracker.hasConsentForFeatureBeenGiven(testFeatureName), false, "hasConsentForFeatureBeenGiven, return false when no feature consent configured" );
-
-        tracker.requireFeatureConsent([testFeatureName, testFeatureName2, campaignTrackingFeatureName]);
-
-        strictEqual(tracker.isFeatureConsentRequired(testFeatureName), true, "isFeatureConsentRequired, returns true if set");
-        strictEqual(tracker.isFeatureConsentRequired(testFeatureName2), true, "isFeatureConsentRequired, returns true if set");
-        strictEqual(tracker.isFeatureConsentRequired("non feature"), false, "isFeatureConsentRequired, returns false if not set");
-
-        strictEqual(tracker.hasConsentForFeatureBeenGiven(testFeatureName), false, "hasConsentForFeatureBeenGiven, return false when no consent given" );
-        strictEqual(tracker.hasConsentForFeatureBeenGiven(testFeatureName2), false, "hasConsentForFeatureBeenGiven, return false when no consent given" );
-
-        strictEqual(tracker.setConsentGivenForFeature(testFeatureName), true, "setConsentGivenForFeature, return true");
-        strictEqual(tracker.hasConsentForFeatureBeenGiven(testFeatureName), true, "hasConsentForFeatureBeenGiven, return true when consent given" );
-        strictEqual(tracker.hasConsentForFeatureBeenGiven(testFeatureName2), false, "hasConsentForFeatureBeenGiven, return false when consent not given" );
-
-        tracker.setCustomUrl('http://localhost.localdomain/?mtm_campaign=something&mtm_kwd=keyword');
-
-        // Do request when consent for campaign tracking hasn't been given
-        tracker.trackRequest('foo=bar');
-
-        stop();
-        // wait for client hints to be detected
-        setTimeout(function() {
-          var results = fetchTrackedRequests(getFeatureConsentToken());
-          strictEqual(true, results.indexOf('mtm_campaign%3Dsomething%26mtm_kwd%3Dkeyword') === -1, "campaign parameters are stripped");
-
-          // Now give consent for campaign tracking
-          tracker.setConsentGivenForFeature(campaignTrackingFeatureName);
-          tracker.setCustomData('token', getFeatureConsentToken() + '1');
-          tracker.trackRequest('foo=bar');
-
-          setTimeout(function() {
-            var results = fetchTrackedRequests(getFeatureConsentToken() + '1');
-            strictEqual(false, results.indexOf('mtm_campaign%3Dsomething%26mtm_kwd%3Dkeyword') === -1, "campaign parameters are not stripped");
-
-            // Remove consent
-            tracker.forgetConsentGivenForFeature(campaignTrackingFeatureName);
-            strictEqual(tracker.hasConsentForFeatureBeenGiven(campaignTrackingFeatureName), false, "hasConsentForFeatureBeenGiven, return false when consent removed" );
-
-            // Add remembered consent
-            tracker.rememberConsentGivenForFeature(campaignTrackingFeatureName);
-            strictEqual(tracker.hasConsentForFeatureBeenGiven(campaignTrackingFeatureName), true, "hasConsentForFeatureBeenGiven, return false when consent given through remember" );
-
-          }, 2000);
-        }, 2000);
-    });
-
     test("Internal timers and setLinkTrackingTimer()", function() {
         expect(8);
 
@@ -5426,6 +5361,38 @@ if ($mysql) {
         }, 1500);
     });
 
+    test("Test API - enable/disable CampaignParameters", function() {
+        expect(10);
+
+        var tracker = Piwik.getTracker();
+
+        tracker.setCustomData('token', getCampaignParamToken());
+
+        tracker.disableCampaignParameters();
+
+        tracker.setCustomUrl('http://localhost.localdomain/?mtm_campaign=something&mtm_kwd=keyword');
+
+        // Do request when consent for campaign tracking hasn't been given
+        tracker.trackRequest('foo=bar');
+        stop();
+
+        // wait for client hints to be detected
+        setTimeout(function() {
+          var results = fetchTrackedRequests(getCampaignParamToken());
+          strictEqual(true, results.indexOf('mtm_campaign%3Dsomething%26mtm_kwd%3Dkeyword') === -1, "campaign parameters are stripped");
+
+          // Now give consent which enables campaign parameters.
+          tracker.setConsentGiven(true);
+
+          tracker.setCustomData('token', getCampaignParamToken() + '1');
+          tracker.trackRequest('foo=bar');
+
+          setTimeout(function() {
+            var results = fetchTrackedRequests(getCampaignParamToken() + '1');
+            strictEqual(false, results.indexOf('mtm_campaign%3Dsomething%26mtm_kwd%3Dkeyword') === -1, "campaign parameters are not stripped");
+          }, 2000);
+        }, 2000);
+    });
 <?php
 }
 ?>
