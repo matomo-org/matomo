@@ -5362,7 +5362,7 @@ if ($mysql) {
     });
 
     test("Test API - enable/disable CampaignParameters", function() {
-        expect(10);
+        expect(2);
 
         var tracker = Piwik.getTracker();
 

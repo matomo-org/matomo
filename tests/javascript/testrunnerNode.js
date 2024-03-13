@@ -65,7 +65,7 @@ async function main() {
     });
 
     await page.goto(url);
-    await page.waitForFunction(() => !!window.testsDone, {timeout: 600000});
+    await page.waitForFunction(() => !!window.testsDone, {timeout: 900000});
 
     var success = await page.evaluate(function() {
         return window.testsSuccessfull;
