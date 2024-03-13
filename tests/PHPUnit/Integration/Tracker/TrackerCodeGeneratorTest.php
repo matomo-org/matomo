@@ -45,6 +45,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $trackNoScript = true,
             $crossDomain = true,
             $excludedQueryParams = array("uid", "aid"),
+            $excludedReferrers = array(),
             $requireConsentForCampaignTracking = true
         );
 
@@ -135,6 +136,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $trackNoScript = false,
             $crossDomain = false,
             $excludedQueryParams = array("uid", "aid"),
+            $excludedReferrers = array(),
             $requireConsentForCampaignTracking = true
         );
 
@@ -195,6 +197,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $trackNoScript = false,
             $crossDomain = false,
             $excludedQueryParams = array("uid", "aid"),
+            $excludedReferrers = array(),
             $requireConsentForCampaignTracking = true
         );
 
