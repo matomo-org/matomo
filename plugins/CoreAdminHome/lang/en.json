@@ -68,6 +68,8 @@
         "JSTracking_MergeSubdomainsDesc": "So if one visitor visits %1$s and %2$s, they will be counted as a unique visitor.",
         "JSTracking_PageCustomVars": "Track a custom variable for each page view",
         "JSTracking_PageCustomVarsDesc": "For example, with variable name \"Category\" and value \"White Papers\".",
+        "JSTracking_RequireConsentForCampaignTracking": "Require consent to track campaign parameters",
+        "JSTracking_RequireConsentForCampaignTrackingDesc": "By enabling the consent requirement, Matomo will track campaign parameters only for users who have provided their consent. This approach ensures that data collection respects users' preferences while enabling the analysis of traffic segmentation by key metrics like source, medium, and campaign specifics.",
         "JSTracking_TrackNoScript": "Track users with JavaScript disabled",
         "JSTracking_VisitorCustomVars": "Track custom variables for this visitor",
         "JSTracking_VisitorCustomVarsDesc": "For example, with variable name \"Type\" and value \"Customer\".",
@@ -188,8 +190,6 @@
         "HideAdvancedOptions": "Hide advanced options",
         "JSTrackingDocumentationHelp": "For easy access, the most popular advanced options are available below. For even more options (including how to track goals, custom variables, ecommerce orders and abandoned carts) please check out the %1$sMatomo Javascript Tracking documentation%2$s.",
         "ReactDescription": "If your website is using React, please see %1$sthis guide%2$s.",
-        "JsTrackingCodeAdvancedOptionsStep": "Optional: use the advanced options to customise your tracking code.",
-        "JSTracking_RequireConsentForCampaignTracking": "Require consent from users before tracking campaign parameters",
-        "JSTracking_RequireConsentForCampaignTrackingDesc": "So campaign parameters will not be sent to Matomo if visitors do not give explicit consent."
+        "JsTrackingCodeAdvancedOptionsStep": "Optional: use the advanced options to customise your tracking code."
     }
 }

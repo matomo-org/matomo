@@ -61,7 +61,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push([\"setCustomVariable\", 2, \"name 2\", \"value 2\", \"visit\"]);
   // you can set up to 5 custom variables for each action (page view, download, click, site search)
   _paq.push([\"setCustomVariable\", 1, \"page cvar\", \"page cvar value\", \"page\"]);" : "") . "
-  _paq.push(['requireFeatureConsent', ['campaignTracking']]);
+  _paq.push([\"disableCampaignParameters\"]);
   _paq.push([\"setCampaignNameKey\", \"campaignKey\"]);
   _paq.push([\"setCampaignKeywordKey\", \"keywordKey\"]);
   _paq.push([\"setDoNotTrack\", true]);
@@ -148,7 +148,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push([\"setCustomVariable\", 2, \"name 2\", \"value 2\", \"visit\"]);
   // you can set up to 5 custom variables for each action (page view, download, click, site search)
   _paq.push([\"setCustomVariable\", 1, \"page cvar\", \"page cvar value\", \"page\"]);" : "") . "
-  _paq.push(['requireFeatureConsent', ['campaignTracking']]);
+  _paq.push([\"disableCampaignParameters\"]);
   _paq.push([\"setCampaignNameKey\", \"campaignKey\"]);
   _paq.push([\"setCampaignKeywordKey\", \"keywordKey\"]);
   _paq.push([\"setDoNotTrack\", true]);
@@ -208,7 +208,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push([\"setCustomVariable\", 2, \"name 2\", \"value 2\", \"visit\"]);
   // you can set up to 5 custom variables for each action (page view, download, click, site search)
   _paq.push([\"setCustomVariable\", 1, \"page cvar\", \"page cvar value\", \"page\"]);" : "") . "
-  _paq.push(['requireFeatureConsent', ['campaignTracking']]);
+  _paq.push([\"disableCampaignParameters\"]);
   _paq.push([\"setCampaignNameKey\", \"campaignKey\"]);
   _paq.push([\"setCampaignKeywordKey\", \"keywordKey\"]);
   _paq.push([\"setDoNotTrack\", true]);

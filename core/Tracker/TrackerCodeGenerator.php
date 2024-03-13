@@ -135,7 +135,7 @@ class TrackerCodeGenerator
         }
 
         if ($requireConsentForCampaignTracking) {
-            $options .= "  _paq.push(['requireFeatureConsent', ['campaignTracking']]);\n";
+            $options .= '  _paq.push(["disableCampaignParameters"]);' . "\n";
         }
 
         if ($customCampaignNameQueryParam) {
