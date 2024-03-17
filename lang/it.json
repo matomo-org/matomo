@@ -267,6 +267,7 @@
         "Installed": "Installato",
         "InvalidDateRange": "Intervallo di date non valido, per favore prova di nuovo",
         "InvalidResponse": "I dati ricevuti non sono validi.",
+        "InvalidatedPeriod": "Periodo invalidato",
         "JsTrackingTag": "Codice JavaScript",
         "KpiMetric": "Metrica KPI",
         "Language": "Lingua",

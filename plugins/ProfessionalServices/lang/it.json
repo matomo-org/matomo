@@ -1,5 +1,24 @@
 {
     "ProfessionalServices": {
+        "AbTestingFeature01": "Smetti di indovinare, inizia a utilizzare i dati e confronta le versioni delle pagine web per aumentare le conversioni.",
+        "AbTestingFeature02": "Confronta vari elementi, tra cui layout, progettazione, testo e altro ancora, monitorando le prestazioni in tempo reale.",
+        "AbTestingFeature03": "Identifica e affronta i modelli di comportamento dei visitatori, in modo da poter aumentare i tassi di conversione e ottenere risultati migliori dalle tue iniziative digitali.",
+        "AltTextPreviewImageFor": "Immagine di anteprima per %1$s",
+        "CTALearnMore": "Ulteriori informazioni su %1$s",
+        "CTAStartFreeTrial": "Inizia una prova gratuita",
+        "DismissPromoWidget": "Se questa funzione non è rilevante per i tuoi obiettivi, puoi %1$snascondere questa sezione%2$s.",
+        "DismissedNotification": "Il menu %1$s non verrà più mostrato, a meno che il plugin non sia installato sulla tua istanza di Matomo.",
+        "PromoAbTesting": "A/B Test",
+        "PromoCrashAnalytics": "Crash",
+        "PromoCustomReports": "Report Personalizzati",
+        "PromoFormAnalytics": "Moduli",
+        "PromoFunnels": "Funnels",
+        "PromoHeatmaps": "Heatmaps",
+        "PromoManage": "Gestione",
+        "PromoMediaAnalytics": "Media",
+        "PromoOverview": "Panoramica",
+        "PromoSessionRecording": "Session Recordings",
+        "PromoUnlockPowerOf": "Sblocca la Potenza di %1$s",
         "WidgetPremiumServicesForPiwik": "Funzionalità e Servizi Premium per Matomo"
     }
 }

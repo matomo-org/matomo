@@ -124,6 +124,7 @@
         "ReactDescription": "Se il tuo sito web utilizza React, per favore consulta %1$squesta guida%2$s.",
         "ReleaseChannel": "Canale release",
         "SecurityNotificationAllTokenAuthDeletedBody": "Qualcuno ha eliminato tutti i token di autorizzazione nel tuo account.",
+        "SecurityNotificationAnonymousAccessEnabledBody": "Qualcuno ha abilitato l'accesso utente anonimo per %1$s. Ciò significa che i dati di questo sito sono ora accessibili pubblicamente. Se va bene, sentiti libero di ignorare questa email.",
         "SecurityNotificationCheckTwoFactor": "Controlla la tua app o il dispositivo di autenticazione a due-fattori.",
         "SecurityNotificationEmailSubject": "Notifica di Sicurezza",
         "SecurityNotificationIfItWasYou": "Se sei stato tu, continua. Se non riconosci questa attività, reimposta la password.",
