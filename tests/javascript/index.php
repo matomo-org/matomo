@@ -62,6 +62,9 @@ function getCookieConsentToken() {
 function getConsentToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
+function getCampaignParamToken() {
+  return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
 function getOptInToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
@@ -2099,7 +2102,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(123);
+        expect(125);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2235,6 +2238,9 @@ function PiwikTest() {
         equal( typeof tracker.isUserOptedOut, 'function', 'isUserOptedOut' );
         equal( typeof tracker.optUserOut, 'function', 'optUserOut' );
         equal( typeof tracker.forgetUserOptOut, 'function', 'forgetUserOptOut' );
+        // Campaign param consent
+        equal( typeof tracker.disableCampaignParameters, 'function', 'disableCampaignParameters' );
+        equal( typeof tracker.enableCampaignParameters, 'function', 'enableCampaignParameters' );
     });
 
     module("API and internals", {
@@ -5355,6 +5361,40 @@ if ($mysql) {
         }, 1500);
     });
 
+    test("Test API - enable/disable CampaignParameters", function() {
+        expect(5);
+
+        var tracker = Piwik.getTracker();
+
+        tracker.setCustomData('token', getCampaignParamToken());
+
+        tracker.disableCampaignParameters();
+
+        tracker.setCustomUrl('http://localhost.localdomain/?mtm_campaign=something&mtm_kwd=keyword');
+
+        // Do request when consent for campaign tracking hasn't been given
+        tracker.trackRequest('foo=bar');
+        stop();
+
+        // wait for client hints to be detected
+        setTimeout(function() {
+          var results = fetchTrackedRequests(getCampaignParamToken());
+          strictEqual(true, results.indexOf('mtm_campaign%3Dsomething%26mtm_kwd%3Dkeyword') === -1, "campaign parameters are stripped");
+
+          // Now give consent which enables campaign parameters.
+          tracker.setConsentGiven(true);
+
+          tracker.setCustomData('token', getCampaignParamToken() + '1');
+          tracker.trackRequest('foo=bar');
+
+          setTimeout(function() {
+            var results = fetchTrackedRequests(getCampaignParamToken() + '1');
+            strictEqual(false, results.indexOf('mtm_campaign%3Dsomething%26mtm_kwd%3Dkeyword') === -1, "campaign parameters are not stripped");
+
+            start();
+          }, 2000);
+        }, 2000);
+    });
 <?php
 }
 ?>

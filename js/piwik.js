@@ -77,7 +77,7 @@
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setExcludedQueryParams, setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, maq_confirm_opted_in,
-    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
+    doNotTrack, setDoNotTrack, disableCampaignParameters, enableCampaignParameters, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, disableBrowserFeatureDetection, enableBrowserFeatureDetection, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
@@ -2331,6 +2331,9 @@ if (typeof window.Matomo !== 'object') {
                 // Count sites which are pre-rendered
                 configCountPreRendered,
 
+                // Enable sending campaign parameters to backend.
+                configEnableCampaignParameters = true,
+
                 // Do we attribute the conversion to the first referrer or the most recent referrer?
                 configConversionAttributionFirstReferrer,
 
@@ -2517,12 +2520,26 @@ if (typeof window.Matomo !== 'object') {
 
             /*
              * Removes hash tag from the URL
+             * Removes ignore_referrer/ignore_referer
+             * Removes configVisitorIdUrlParameter
+             * Removes campaign parameters
              *
              * URLs are purified before being recorded in the cookie,
              * or before being sent as GET parameters
              */
             function purify(url) {
                 var targetPattern, i;
+
+                // Remove campaign names/keywords from URL
+                if (configEnableCampaignParameters !== true) {
+                    for (i = 0; i < configCampaignNameParameters.length; i++) {
+                      url = removeUrlParameter(url, configCampaignNameParameters[i]);
+                    }
+
+                    for (i = 0; i < configCampaignKeywordParameters.length; i++) {
+                      url = removeUrlParameter(url, configCampaignKeywordParameters[i]);
+                    }
+                }
 
                 // we need to remove this parameter here, they wouldn't be removed in Matomo tracker otherwise eg
                 // for outlinks or referrers
@@ -3863,27 +3880,28 @@ if (typeof window.Matomo !== 'object') {
                     // Only if campaign wasn't previously set
                     // Or if it was set but we must attribute to the most recent one
                     // Note: we are working on the currentUrl before purify() since we can parse the campaign parameters in the hash tag
-                    if (!configConversionAttributionFirstReferrer
-                        || !campaignNameDetected.length) {
-                        for (i in configCampaignNameParameters) {
-                            if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
-                                campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
+                    if ((!configConversionAttributionFirstReferrer
+                        || !campaignNameDetected.length)
+                        && configEnableCampaignParameters) {
+                          for (i in configCampaignNameParameters) {
+                              if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
+                                  campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
 
-                                if (campaignNameDetected.length) {
-                                    break;
-                                }
-                            }
-                        }
+                                  if (campaignNameDetected.length) {
+                                      break;
+                                  }
+                              }
+                          }
 
-                        for (i in configCampaignKeywordParameters) {
-                            if (Object.prototype.hasOwnProperty.call(configCampaignKeywordParameters, i)) {
-                                campaignKeywordDetected = getUrlParameter(currentUrl, configCampaignKeywordParameters[i]);
+                          for (i in configCampaignKeywordParameters) {
+                              if (Object.prototype.hasOwnProperty.call(configCampaignKeywordParameters, i)) {
+                                  campaignKeywordDetected = getUrlParameter(currentUrl, configCampaignKeywordParameters[i]);
 
-                                if (campaignKeywordDetected.length) {
-                                    break;
-                                }
-                            }
-                        }
+                                  if (campaignKeywordDetected.length) {
+                                      break;
+                                  }
+                              }
+                          }
                     }
 
                     // Store the referrer URL and time in the cookie;
@@ -6425,6 +6443,20 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
+             * Prevent campaign parameters being sent to the tracker, unless consent given.
+             */
+            this.disableCampaignParameters = function () {
+              configEnableCampaignParameters = false;
+            };
+
+            /**
+             * Allow campaign parameters to be sent to the tracker.
+             */
+            this.enableCampaignParameters = function () {
+              configEnableCampaignParameters = true;
+            };
+
+            /**
              * Enables send beacon usage instead of regular XHR which reduces the link tracking time to a minimum
              * of 100ms instead of 500ms (default). This means when a user clicks for example on an outlink, the
              * navigation to this page will happen 400ms faster.
@@ -7254,6 +7286,10 @@ if (typeof window.Matomo !== 'object') {
                 if (!configBrowserFeatureDetection) {
                     this.enableBrowserFeatureDetection();
                 }
+                if (!configEnableCampaignParameters) {
+                  this.enableCampaignParameters();
+                }
+
                 deleteCookie(CONSENT_REMOVED_COOKIE_NAME, configCookiePath, configCookieDomain);
 
                 var i, requestType;
