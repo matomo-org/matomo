@@ -47,6 +47,7 @@
         "OriginOfficial": "Ufficiale",
         "OriginThirdParty": "Terze-parti",
         "PluginActivated": "Plugin attivato",
+        "PluginFreeTrialStarted": "%1$sLa tua prova gratuita di 30 giorni è iniziata%2$s per %3$s.",
         "PluginHomepage": "Homepage Plugin",
         "PluginNotCompatibleWith": "Il plugin %1$s non è compatibile con %2$s.",
         "PluginNotDownloadable": "Questo plugin non è scaricabile.",

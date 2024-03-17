@@ -1,7 +1,7 @@
 {
     "GeoIp2": {
         "AssumingNonApache": "Impossibile trovare la funzione apache_get_modules, si suppone che sia un server non-Apache.",
-        "AutomaticSetup": "Configura automaticamente la geolocalizzazione usando un database dbip.",
+        "AutomaticSetup": "Configura automaticamente la geolocalizzazione usando un database dbip",
         "AutomaticSetupDescription": "Per una geolocalizzazione appropriata Matomo richiede un database esterno. Usando questa opzione, Matomo verrà automaticamente configurato per scaricare e utilizzare l'ultimo database dbip a livello città. [%1$sLeggi i termini di licenza%2$s]",
         "CannotFindGeoIPDatabaseInArchive": "Nessun database DBIP / GeoIP valido nell'archivio tar %1$s!",
         "CannotFindGeoIPServerVar": "La variabile %s non è impostata. Il tuo server potrebbe non essere correttamente configurato.",
@@ -18,7 +18,7 @@
         "GeoIPLocationProviderNotRecommended": "La geolocalizzazione sta funzionando ma tu non stai utilizzando uno dei provider raccomandati.",
         "GeoIPNoDatabaseFound": "Questa implementazione GeoIP non ha potuto trovare un database.",
         "GeoIPNoServerVars": "Matomo non riesce a trovare nessuna delle variabili %s GeoIP.",
-        "GeoIPServerVarsFound": "Matomo rileva le seguenti %s variabili GeoIP.",
+        "GeoIPServerVarsFound": "Matomo rileva le seguenti %s variabili GeoIP",
         "GeoIPUpdaterInstructions": "Inserisci qui sotto i collegamenti di download per i database. Se hai acquistato database da %3$sdbip%4$s o %1$sMaxMind%2$s, puoi trovare questi collegamenti nel tuo account dbip o MaxMind. Si prega di contattare il fornitore del database di geolocalizzazione in caso di difficoltà ad accedervi.",
         "GeoIPUpdaterIntro": "Matomo sta attualmente gestendo gli aggiornamenti per i seguenti database",
         "GeoIPVariablesConfigurationHere": "Puoi configurare %1$squi%2$s le variabili del server utilizzate.",
