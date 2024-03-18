@@ -48,6 +48,7 @@ describe("TrackingCodeGenerator", function () {
     await page.click('#javascript-tracking-do-not-track');
     await page.click('#javascript-tracking-disable-cookies');
     await page.click('#custom-campaign-query-params-check');
+    await page.click('#require-consent-for-campaign-tracking');
 
     await page.waitForNetworkIdle();
     await page.waitForTimeout(500); // wait till tracking code was updated

@@ -118,6 +118,7 @@ class API extends \Piwik\Plugin\API
      * @param bool   $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
      * @param string|array  $excludedQueryParams array or comma separated string of excluded query parameters.
      * @param string|array  $excludedReferrers array or comma separated string of ignored referrers. Defaults to configured ignored referrers
+     * @param bool   $requireConsentForCampaignTracking Whether feature consent for campaign tracking should be required
      *
      * @return string The Javascript tag ready to be included on the HTML pages
      * @throws Exception
@@ -139,7 +140,8 @@ class API extends \Piwik\Plugin\API
         bool $crossDomain = false,
         bool $forceMatomoEndpoint = false,
         $excludedQueryParams = '',
-        $excludedReferrers = ''
+        $excludedReferrers = '',
+        bool $requireConsentForCampaignTracking = false
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -171,7 +173,8 @@ class API extends \Piwik\Plugin\API
             $trackNoScript,
             $crossDomain,
             $excludedQueryParams,
-            $excludedReferrers
+            $excludedReferrers,
+            $requireConsentForCampaignTracking
         );
 
         return str_replace(['<br>', '<br />', '<br/>'], '', $code);
