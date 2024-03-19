@@ -385,9 +385,7 @@ class API extends \Piwik\Plugin\API
             $period = $report['period_param'];
         }
 
-        $this->checkSinglePeriod($period, $date);
-
-        $date = Date::factory($date)->toString('Y-m-d');
+        $this->checkDateAndPeriodCombination($date, $period);
 
         // override report format
         if (!empty($reportFormat)) {
@@ -1088,10 +1086,18 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    private function checkSinglePeriod($period, $date)
+    private function checkDateAndPeriodCombination($date, $period): void
     {
+        if ('range' === $period) {
+            Period::checkDateFormat($date);
+
+            return;
+        }
+
         if (Period::isMultiplePeriod($date, $period)) {
             throw new Http\BadRequestException("This API method does not support multiple periods.");
         }
+
+        Date::factory($date);
     }
 }
