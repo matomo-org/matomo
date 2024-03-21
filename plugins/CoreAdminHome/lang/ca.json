@@ -73,6 +73,8 @@
         "JSTracking_MergeSubdomainsDesc": "Per tant si un visitant visita %1$s i %2$s es comptarà com a visitant únic.",
         "JSTracking_PageCustomVars": "Feu un seguiment d'una variable personalitzada per a cada vista de pàgina",
         "JSTracking_PageCustomVarsDesc": "Per exemple, amb el nom de variable \"Categoria\" i el valor \"Llibre blanc\".",
+        "JSTracking_RequireConsentForCampaignTracking": "Demana el consentiment per fer un seguiment dels paràmetres de la campanya",
+        "JSTracking_RequireConsentForCampaignTrackingDesc": "En activar el requisit de consentiment, Matomo farà un seguiment dels paràmetres de la campanya només per als usuaris que hagin donat el seu consentiment. Aquest enfocament garanteix que la recollida de dades respecti les preferències dels usuaris alhora que permet l'anàlisi de la segmentació del trànsit per mètriques clau com la font, el mitjà i les especificitats de la campanya.",
         "JSTracking_TrackNoScript": "Seguiment dels usuaris amb JavaScript desactivat",
         "JSTracking_VisitorCustomVars": "Feu un seguiment de les variables personalitzades per a aquest visitant",
         "JSTracking_VisitorCustomVarsDesc": "Per exemple, amb el nom de la variable \"Tipus\" i el valor \"Client\".",

@@ -73,6 +73,8 @@
         "JSTracking_MergeSubdomainsDesc": "Bisitari batek %1$s eta %2$s bisitatzen baditu, bisitari bakar bat bezala kontatuko da.",
         "JSTracking_PageCustomVars": "Egin aldagai pertsonalizatu baten jarraipena orri-ikustaldi bakoitzean",
         "JSTracking_PageCustomVarsDesc": "Adibidez, \"Kategoria\" aldagai-izenarekin eta \"Liburu zuriak\" balioarekin.",
+        "JSTracking_RequireConsentForCampaignTracking": "Eskatu baimena kanpainaren parametroen jarraipena egiteko",
+        "JSTracking_RequireConsentForCampaignTrackingDesc": "Onarpen eskaera gaituz gero, baimena eman duten erabiltzaileen kasuan soilik egingo du Matomok kanpainako parametroen jarraipena. Horrek bermatzen du datu-bilketa erabiltzaileen hobespenak errespetatuz egingo dela, eta, aldi berean, metrika gakoen araberako segmentatutako trafikoaren analisia egin ahal izango dela: iturburua, euskarria eta kanpainaren berezitasunak.",
         "JSTracking_TrackNoScript": "Egin JavaScript desgaituta duten erabiltzaileen jarraipena",
         "JSTracking_VisitorCustomVars": "Egin aldagai pertsonalizatuen jarraipena bisitari honentzat",
         "JSTracking_VisitorCustomVarsDesc": "Adibidez, \"Mota\" aldagai-izenarekin eta \"Eroslea\" balioarekin.",
