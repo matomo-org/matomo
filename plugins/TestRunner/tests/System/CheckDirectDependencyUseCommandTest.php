@@ -42,8 +42,25 @@ class CheckDirectDependencyUseCommandTest extends SystemTestCase
     public function getTestDataForDependencyCheck()
     {
         return [
-            ['TestRunner', ['Symfony\Component\Console' => ['TestRunner/tests/System/CheckDirectDependencyUseCommandTest.php']]],
-            ['Provider', ['Matomo\Network' => ['Provider/Columns/Provider.php']]],
+            [
+                'TestRunner',
+                [
+                    'Symfony\Component\Console' => [
+                        'TestRunner/tests/System/CheckDirectDependencyUseCommandTest.php',
+                    ],
+                ],
+            ],
+            [
+                'Provider',
+                [
+                    'Matomo\Network' => [
+                        'Provider/Columns/Provider.php',
+                    ],
+                    'Symfony\Component\Console' => [
+                        'Provider/tests/System/CheckDirectDependencyUseCommandTest.php',
+                    ]
+                ],
+            ],
         ];
     }
 }
