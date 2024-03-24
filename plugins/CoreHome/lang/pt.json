@@ -63,7 +63,7 @@
         "MenuEntries": "Entradas do menu",
         "NoPrivilegesAskPiwikAdmin": "Está autenticado como '%1$s' mas parece que não tem quaisquer permissões definidas no Matomo. %2$s Peça ao seu administrador do Matomo (clique para enviar um e-mail)%3$s para lhe dar permissões para 'ver' um site.",
         "NoSuchPage": "Esta página não existe",
-        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "A atualização de um clique não está disponível porque está a utilizar o Matomo em vários servidores. Por favor, transfira a última versão de %1$s para continuar.",
+        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "A atualização de um clique não está disponível porque está a utilizar o Matomo em vários servidores. Por favor, descarregue a última versão de %1$s para continuar.",
         "OnlyForSuperUserAccess": "Esta widget é apresentada no painel predefinido apenas para utilizadores com acesso de super-utilizador.",
         "PageDownShortcutDescription": "para ir para o final da página",
         "PageUpShortcutDescription": "para ir para o topo da página",
@@ -125,7 +125,7 @@
         "VisitTypeReturningCustomer": "Cliente recorrente",
         "VisitorsCategoryHelp1": "As páginas de Visitantes mostram informação sobre quem são os seus visitantes. Coisas como de onde os seus visitantes vieram, que dispositivos e navegadores estão a utilizar, e quando é que geralmente visitam o seu site. Compreenda, de forma agregada, quem é a sua audiência e procure por situações atípicas para saber como a sua audiência pode crescer.",
         "VisitorsCategoryHelp2": "Para além de informação geral sobre os seus visitantes, pode utilizar o %1$sRegisto de visitantes%2$s para ver o que aconteceu em cada visita.",
-        "VisitorsOverviewHelp": "A Visão geral dos visitantes ajuda a compreender a popularidade do seu site. Consegue isto fornecendo gráficos que mostram quantas visitas o seu site está a receber ao longo de um determinado período de tempo e qual o nível médio de envolvimento em funcionalidades-chave, como pesquisas e transferências.",
+        "VisitorsOverviewHelp": "A Visão geral dos visitantes ajuda a compreender a popularidade do seu site. Consegue isto fornecendo gráficos que mostram quantas visitas o seu site está a receber ao longo de um determinado período e qual o nível médio de envolvimento em funcionalidades-chave, como pesquisas e descargas.",
         "WebAnalyticsReports": "Relatórios de Web Analytics",
         "YouAreUsingTheLatestVersion": "Está a utilizar a última versão do Matomo!",
         "YourDonationWillHelp": "O seu donativo irá ajudar diretamente no financiamento de novas funcionalidades e melhorias para esta plataforma de análise de código aberto. Isto significa que a comunidade irá sempre beneficiar de uma ferramenta que protege a privacidade e ajuda-o a manter o controlo dos seus dados."
