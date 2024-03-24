@@ -1,1 +1,17 @@
-{}
+{
+    "CoreAdminHome": {
+        "AddNewTrustedHost": "એક નવો વિશ્વસનીય હોસ્ટ ઉમેરો",
+        "Administration": "વહીવટ",
+        "ArchivingSettings": "આર્કાઇવિંગ સેટિંગ્સ",
+        "BrandingSettings": "બ્રાન્ડિંગ સેટિંગ્સ",
+        "BruteForce": "બ્રૂટ ફોર્સ",
+        "CheckToOptIn": "પસંદ કરવા માટે આ બોક્સને ચેક કરો.",
+        "ClickHereToOptIn": "પસંદ કરવા માટે અહીં ક્લિક કરો.",
+        "ClickHereToOptOut": "નાપસંદ કરવા માટે અહીં ક્લિક કરો.",
+        "ConfirmDeleteAllTrackingFailures": "શું તમે ખરેખર બધી ટ્રેકિંગ નિષ્ફળતાઓ કાઢી નાખવા માંગો છો?",
+        "ConfirmDeleteThisTrackingFailure": "શું તમે ખરેખર આ ટ્રેકિંગ નિષ્ફળતાને કાઢી નાખવા માંગો છો?",
+        "Cors": "કોર્સ",
+        "CorsDomains": "ક્રોસ-ઓરિજિન રીસોર્સ શેરિંગ (CORS) ડોમેન્સ",
+        "CorsDomainsHelp": "તમે http://example.com કે http://stats.example.com જેવા ડોમેઇન્સ અથવા સબડોમેઇન્સની વ્યાખ્યા કરી શકો છો. અથવા બધા ડોમેઇન્સ માટે ક્રોસ ડોમેઇન વિનંતીઓની મંજૂરી આપવા માટે ફક્ત * ઉમેરો"
+    }
+}
