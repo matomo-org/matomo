@@ -73,6 +73,8 @@
         "JSTracking_MergeSubdomainsDesc": "Böylece bir ziyaretçi %1$s ve %2$s ziyaretlerini yaparsa tekil bir ziyaretçi olarak sayılır.",
         "JSTracking_PageCustomVars": "Her sayfa görünümü için özel bir değişken izlensin",
         "JSTracking_PageCustomVarsDesc": "Örneğin \"Kategori\" değişken adı ve \"Beyaz sayfalar\" değeriyle.",
+        "JSTracking_RequireConsentForCampaignTracking": "Kampanya parametrelerini izlemek için rıza istensin",
+        "JSTracking_RequireConsentForCampaignTrackingDesc": "Rıza istenmesini etkinleştirerek Matomo, kampanya parametrelerini yalnızca rızalarını veren kullanıcılar için izleyecektir. Bu yaklaşım, veri toplamanın kullanıcıların tercihlerine saygı göstermesini sağlarken, kaynak, ortam ve kampanya özellikleri gibi temel ölçümlere göre trafik dilimlendirmesinin incelenmesine olanak tanır.",
         "JSTracking_TrackNoScript": "Kullanıcılar JavaScript kapatılarak izlensin",
         "JSTracking_VisitorCustomVars": "Bu ziyaretçi için özel değişkenler izlensin",
         "JSTracking_VisitorCustomVarsDesc": "Örneğin \"Tür\" değişken adı ve \"Müşteri\" değeriyle.",
