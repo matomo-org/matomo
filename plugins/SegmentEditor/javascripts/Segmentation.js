@@ -592,9 +592,7 @@ Segmentation = (function($) {
         var addForm = function(mode, segment){
 
             self.target.find(".segment-element:visible").unbind().remove();
-            if (typeof self.form !== "undefined") {
-                closeForm();
-            }
+            closeForm();
             // remove any remaining forms
 
 
@@ -670,19 +668,21 @@ Segmentation = (function($) {
             });
             app.mount(segmentGeneratorContainer);
 
-            this.addEventListener('matomoVueDestroy', function () {
+            segmentGeneratorContainer.addEventListener('matomoVueDestroy', function () {
               app.unmount();
             });
         };
 
         var closeForm = function () {
-            $(self.form).find('.segment-generator-container')[0].dispatchEvent(
-              new CustomEvent('matomoVueDestroy'),
-            );
-
             self.currentSegmentStr = '';
 
-            $(self.form).unbind().remove();
+            if (typeof self.form !== "undefined") {
+              $(self.form).find('.segment-generator-container')[0].dispatchEvent(
+                new CustomEvent('matomoVueDestroy'),
+              );
+
+              $(self.form).unbind().remove();
+            }
             self.target.closest('.segmentEditorPanel').removeClass('editing');
         };
 
