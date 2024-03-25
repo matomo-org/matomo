@@ -217,8 +217,7 @@ done
 for x in .gitignore .gitmodules .gitattributes .git-blame-ignore-revs .bowerrc .bower.json bower.json \
     .coveralls.yml .editorconfig .gitkeep .jshintrc .php_cs .php_cs.dist \
     phpunit.xml.dist phpunit.xml .phpcs.xml.dist phpcs.xml Gruntfile.js gruntfile.js \
-    *.map .travis.yml installed.json package.json package-lock.json yarn.lock\
-    .scrutinizer.yml .gitstats.yml composer.json composer.lock *.spec.js \
+    *.map .travis.yml .scrutinizer.yml .gitstats.yml *.spec.js \
     .phpstorm.meta.php .lfsconfig .travis.sh tsconfig.json tsconfig.spec.json \
     .eslintrc.js .eslintignore .eslintrc .browserslistrc babel.config.js jest.config.js \
     karma.conf.js karma-conf.js vue.config.js .npmignore .ncurc.json .prettierrc .jscsrc \
