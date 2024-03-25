@@ -8,6 +8,8 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
+use Piwik\Db\Schema\Mysql;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -78,8 +80,10 @@ class SystemSettingsTest extends IntegrationTestCase
     public function test_allowedEmailDomain_wontAllowSavingDomainsIfOtherDomainsExist()
     {
         Fixture::loadAllTranslations();
-        $this->expectExceptionMessage('Setting the domains is not possible as other domains (example.org) are already in use by other users. To change this setting, you either need to delete users with other domains or you need to allow these domains as well.');
-        Fixture::createSuperUser();
+        $this->expectExceptionMessage('Setting the domains is not possible as other domains (limited.com) are already in use by other users. To change this setting, you either need to delete users with other domains or you need to allow these domains as well.');
+        $schema = new Mysql();
+        $schema->createAnonymousUser(); // anonymous user should be ignore in checks
+        UsersManagerAPI::getInstance()->addUser('randomUser', 'smartypants', 'user@limited.com');
         $this->settings->allowedEmailDomains->setValue(['maToMo.org', 'matomo.org', '', 'examPle.CoM']);
     }
 }

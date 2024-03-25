@@ -105,7 +105,7 @@ class AllowedEmailDomainTest extends IntegrationTestCase
         $userApi->addUser('foo6', 'foo' . time(), 'foobar2@example.org');
 
         $this->assertEquals([
-            'matomo.org', 'matomo.com', 'example.com', 'example.org'
+            'example.com', 'example.org', 'matomo.com', 'matomo.org',
         ], $this->validator->getEmailDomainsInUse());
     }
 
