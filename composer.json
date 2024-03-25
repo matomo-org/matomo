@@ -73,14 +73,6 @@
         "symfony/var-dumper": "~5.4.0",
         "symfony/yaml": "~5.4.0"
     },
-    "replace": {
-        "symfony/polyfill-php54": "*",
-        "symfony/polyfill-php55": "*",
-        "symfony/polyfill-php56": "*",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php72": "*"
-    },
     "autoload": {
         "psr-4": {
             "Piwik\\Plugins\\": "plugins/",
