@@ -48,9 +48,15 @@ class AllowedEmailDomain extends BaseValidator
         $users = Request::processRequest('UsersManager.getUsers');
         $domains = [];
         foreach ($users as $user) {
-            $domains[] = AllowedEmailDomain::getDomainFromEmail($user['email']);
+            if ($user['login'] !== 'anonymous') {
+                $domains[] = AllowedEmailDomain::getDomainFromEmail($user['email']);
+            }
         }
-        return array_values(array_unique($domains));
+
+        $domains = array_values(array_unique($domains));
+        sort($domains);
+
+        return $domains;
     }
 
     public function validate($value)
