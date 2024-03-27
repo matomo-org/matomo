@@ -48,7 +48,7 @@
                 </div>
 
                 <div id="tabs-description" class="tab-content col s12">
-                  <div v-if="showMissingRequirementsNoticeIfApplicable" vue-entry="Marketplace.MissingReqsNotice" plugin="{{ plugin|json_encode }}"></div>
+                  <MissingReqsNotice v-if="showMissingRequirementsNoticeIfApplicable" :plugin="plugin" />
 
                   <div v-if="isMultiServerEnvironment" class="alert alert-warning">{{ translate('Marketplace_MultiServerEnvironmentWarning') }}</div>
                   <div v-else-if="!isAutoUpdatePossible" class="alert alert-warning">{{ translate('Marketplace_AutoUpdateDisabledWarning', '\'[General]enable_auto_update=1\'', '\'config/config.ini.php\'') }}</div>
@@ -218,6 +218,7 @@
 import { defineComponent } from 'vue';
 import crypto from 'crypto';
 import CTAContainer from '../PluginList/CTAContainer.vue';
+import MissingReqsNotice from '../MissingReqsNotice/MissingReqsNotice.vue';
 
 const { $ } = window;
 
@@ -229,7 +230,7 @@ interface PluginDetailsState {
 }
 
 export default defineComponent({
-  components: { CTAContainer },
+  components: { MissingReqsNotice, CTAContainer },
   props: {
     modelValue: {
       type: Object,
