@@ -140,6 +140,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    numUsers: {
+      type: Number,
+      required: true,
+    },
   },
   data(): PluginListState {
     return {
