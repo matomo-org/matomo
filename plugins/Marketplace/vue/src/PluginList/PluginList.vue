@@ -117,6 +117,10 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    hasSomeAdminAccess: {
+      type: Boolean,
+      required: true,
+    },
     activateNonce: {
       type: String,
       required: true,
