@@ -690,30 +690,29 @@ if (typeof window.Matomo !== 'object') {
         function removeUrlParameter(url, name) {
             url = String(url);
 
-            if (url.indexOf('?' + name + '=') === -1 && url.indexOf('&' + name + '=') === -1) {
-                // nothing to remove, url does not contain this parameter
+            if (url.indexOf('?' + name + '=') === -1 && url.indexOf('&' + name + '=') === -1 && url.indexOf('#' + name + '=') === -1) {
+                // nothing to remove, url does not contain this parameter in query or hash
                 return url;
+            }
+
+            var urlHash = '';
+            var hashPos = url.indexOf('#');
+            if (hashPos !== -1) {
+                urlHash = url.substr(hashPos + 1);
+                url = url.substr(0, hashPos);
             }
 
             var searchPos = url.indexOf('?');
             if (searchPos === -1) {
-                // nothing to remove, no query parameters
-                return url;
+                var queryString = '';
+                var baseUrl = url;
+            } else {
+                var queryString = url.substr(searchPos + 1);
+                var baseUrl = url.substr(0, searchPos);
             }
 
-            var queryString = url.substr(searchPos + 1);
-            var baseUrl = url.substr(0, searchPos);
-
-            if (queryString) {
-                var urlHash = '';
-                var hashPos = queryString.indexOf('#');
-                if (hashPos !== -1) {
-                    urlHash = queryString.substr(hashPos + 1);
-                    queryString = queryString.substr(0, hashPos);
-                }
-
+            var filterParams = function (paramsArr) {
                 var param;
-                var paramsArr = queryString.split('&');
                 var i = paramsArr.length - 1;
 
                 for (i; i >= 0; i--) {
@@ -723,15 +722,41 @@ if (typeof window.Matomo !== 'object') {
                     }
                 }
 
+                return paramsArr;
+            };
+
+            if (queryString) {
+                var param;
+                var paramsArr = filterParams(queryString.split('&'));
                 var newQueryString = paramsArr.join('&');
 
                 if (newQueryString) {
-                    baseUrl = baseUrl + '?' + newQueryString;
+                    baseUrl += '?' + newQueryString;
+                }
+            }
+
+            if (urlHash && urlHash.indexOf('=') > 0) {
+                var param;
+                var hashWithMark = urlHash.charAt(0) === '?';
+
+                if (hashWithMark) {
+                    urlHash = urlHash.substr(1);
                 }
 
-                if (urlHash) {
-                    baseUrl += '#' + urlHash;
+                var paramsArr = filterParams(urlHash.split('&'));
+                var newHashString = paramsArr.join('&');
+
+                if (newHashString) {
+                    baseUrl += '#';
+
+                    if (hashWithMark) {
+                        baseUrl += '?';
+                    }
+
+                    baseUrl += newHashString;
                 }
+            } else if (urlHash) {
+                baseUrl += '#' + urlHash;
             }
 
             return baseUrl;
@@ -2291,6 +2316,16 @@ if (typeof window.Matomo !== 'object') {
                 // Campaign keywords
                 configCampaignKeywordParameters = [ 'pk_kwd', 'mtm_kwd', 'piwik_kwd', 'matomo_kwd', 'utm_term' ],
 
+                // All known parameters used for campaign tracking, this list will be used when removing campaign parameters from url
+                configCampaignKnownParameters = [
+                  'mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign', // campaign name
+                  'mtm_keyword', 'matomo_kwd', 'mtm_kwd', 'pk_keyword', 'piwik_kwd', 'pk_kwd', 'utm_term', // campaign keyword
+                  'mtm_source', 'pk_source', 'utm_source', 'mtm_medium', 'pk_medium', 'utm_medium', 'mtm_content', 'pk_content', 'utm_content', // campaign source
+                  'mtm_cid', 'pk_cid', 'utm_id', 'mtm_clid', // campaign (click) id
+                  'mtm_group', 'pk_group', // campaign group
+                  'mtm_placement', 'pk_placement' // campaign placement
+                ],
+
                 // First-party cookie name prefix
                 configCookieNamePrefix = '_pk_',
 
@@ -2331,7 +2366,10 @@ if (typeof window.Matomo !== 'object') {
                 // Count sites which are pre-rendered
                 configCountPreRendered,
 
-                // Enable sending campaign parameters to backend.
+                // Enable Processing and sending campaign parameters to backend.
+                // Setting this parameter to false will cause all campaign parameters to be removed from tracked url parameters and hashes.
+                // Campaigns will also be ignored in referrer attribution detection
+                // If consent is required the value of this config is ignored.
                 configEnableCampaignParameters = true,
 
                 // Do we attribute the conversion to the first referrer or the most recent referrer?
@@ -2531,13 +2569,17 @@ if (typeof window.Matomo !== 'object') {
                 var targetPattern, i;
 
                 // Remove campaign names/keywords from URL
-                if (configEnableCampaignParameters !== true) {
+                if (configEnableCampaignParameters !== true && !configConsentRequired) {
                     for (i = 0; i < configCampaignNameParameters.length; i++) {
                       url = removeUrlParameter(url, configCampaignNameParameters[i]);
                     }
 
                     for (i = 0; i < configCampaignKeywordParameters.length; i++) {
                       url = removeUrlParameter(url, configCampaignKeywordParameters[i]);
+                    }
+
+                    for (i = 0; i < configCampaignKnownParameters.length; i++) {
+                      url = removeUrlParameter(url, configCampaignKnownParameters[i]);
                     }
                 }
 
@@ -3879,10 +3921,11 @@ if (typeof window.Matomo !== 'object') {
                     // Detect the campaign information from the current URL
                     // Only if campaign wasn't previously set
                     // Or if it was set but we must attribute to the most recent one
+                    // And if using campaign parameters isn't restricted
                     // Note: we are working on the currentUrl before purify() since we can parse the campaign parameters in the hash tag
                     if ((!configConversionAttributionFirstReferrer
                         || !campaignNameDetected.length)
-                        && configEnableCampaignParameters) {
+                        && (configEnableCampaignParameters || configConsentRequired)) {
                           for (i in configCampaignNameParameters) {
                               if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
                                   campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
@@ -7285,9 +7328,6 @@ if (typeof window.Matomo !== 'object') {
                 configHasConsent = true;
                 if (!configBrowserFeatureDetection) {
                     this.enableBrowserFeatureDetection();
-                }
-                if (!configEnableCampaignParameters) {
-                  this.enableCampaignParameters();
                 }
 
                 deleteCookie(CONSENT_REMOVED_COOKIE_NAME, configCookiePath, configCookieDomain);
