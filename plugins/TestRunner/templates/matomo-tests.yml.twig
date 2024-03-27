@@ -98,8 +98,6 @@ jobs:
 {% if hasSubmodules %}
           submodules: true
 {% endif %}
-      - name: Install package ripgrep
-        run: sudo apt-get install ripgrep
       - name: Run tests
         uses: matomo-org/github-action-tests@main
         with:
