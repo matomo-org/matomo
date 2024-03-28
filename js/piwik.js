@@ -703,12 +703,11 @@ if (typeof window.Matomo !== 'object') {
             }
 
             var searchPos = url.indexOf('?');
-            if (searchPos === -1) {
-                var queryString = '';
-                var baseUrl = url;
-            } else {
-                var queryString = url.substr(searchPos + 1);
-                var baseUrl = url.substr(0, searchPos);
+            var queryString = '';
+            var baseUrl = url;
+            if (searchPos > -1) {
+                queryString = url.substr(searchPos + 1);
+                baseUrl = url.substr(0, searchPos);
             }
 
             var filterParams = function (paramsArr) {
@@ -726,9 +725,7 @@ if (typeof window.Matomo !== 'object') {
             };
 
             if (queryString) {
-                var param;
-                var paramsArr = filterParams(queryString.split('&'));
-                var newQueryString = paramsArr.join('&');
+                var newQueryString = filterParams(queryString.split('&')).join('&');
 
                 if (newQueryString) {
                     baseUrl += '?' + newQueryString;
@@ -736,15 +733,13 @@ if (typeof window.Matomo !== 'object') {
             }
 
             if (urlHash && urlHash.indexOf('=') > 0) {
-                var param;
                 var hashWithMark = urlHash.charAt(0) === '?';
 
                 if (hashWithMark) {
                     urlHash = urlHash.substr(1);
                 }
 
-                var paramsArr = filterParams(urlHash.split('&'));
-                var newHashString = paramsArr.join('&');
+                var newHashString = filterParams(urlHash.split('&')).join('&');
 
                 if (newHashString) {
                     baseUrl += '#';

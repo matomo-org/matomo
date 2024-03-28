@@ -5413,6 +5413,7 @@ if ($mysql) {
 
         // Do request when consent for campaign tracking hasn't been given
         tracker.trackRequest('foo=bar');
+        tracker.setConsentGiven();
         stop();
 
         // wait for client hints to be detected
