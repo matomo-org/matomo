@@ -309,8 +309,8 @@ export default defineComponent({
       return this.modelValue;
     },
     pluginLatestVersion() {
-      const versions: [] = this.plugin.versions || [];
-      return versions.pop();
+      const versions: [] = this.plugin.versions || [{}];
+      return versions[versions.length - 1];
     },
     pluginReadmeHtml() {
       return this.pluginLatestVersion ? this.pluginLatestVersion.readmeHtml : {};
