@@ -216,17 +216,19 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import {
+  PluginDetails,
+  PluginDetailsState,
+  IPluginShopDetails,
+  IPluginShopReviews,
+  IPluginShopVariation,
+  TObject,
+  TObjectArray,
+} from '../types';
 import CTAContainer from '../PluginList/CTAContainer.vue';
 import MissingReqsNotice from '../MissingReqsNotice/MissingReqsNotice.vue';
 
 const { $ } = window;
-
-interface PluginDetailsState {
-  isLoading: boolean;
-  pluginDetails: string;
-  fetchRequest: Promise<void>|null;
-  fetchRequestAbortController: AbortController|null;
-}
 
 export default defineComponent({
   components: { MissingReqsNotice, CTAContainer },
@@ -305,78 +307,76 @@ export default defineComponent({
     },
   },
   computed: {
-    plugin() {
-      return this.modelValue;
+    plugin(): PluginDetails {
+      return this.modelValue as PluginDetails;
     },
-    pluginLatestVersion() {
-      const versions: [] = this.plugin.versions || [{}];
-      return versions[versions.length - 1];
+    pluginLatestVersion(): TObject {
+      const versions: TObjectArray = this.plugin.versions || [{}];
+      return versions[versions.length - 1] as TObject;
     },
-    pluginReadmeHtml() {
-      return this.pluginLatestVersion ? this.pluginLatestVersion.readmeHtml : {};
+    pluginReadmeHtml(): TObject {
+      return this.pluginLatestVersion?.readmeHtml as TObject || {};
     },
-    pluginDescription() {
-      return this.pluginReadmeHtml ? this.pluginReadmeHtml.description : '';
+    pluginDescription(): string {
+      return this.pluginReadmeHtml?.description as string || '';
     },
-    pluginDocumentation() {
-      return this.pluginReadmeHtml ? this.pluginReadmeHtml.documentation : '';
+    pluginDocumentation(): string {
+      return this.pluginReadmeHtml?.documentation as string || '';
     },
-    pluginFaq() {
-      return this.pluginReadmeHtml ? this.pluginReadmeHtml.faq : '';
+    pluginFaq(): string {
+      return this.pluginReadmeHtml?.faq as string || '';
     },
-    pluginShop() {
-      return this.plugin.shop || {};
+    pluginShop(): IPluginShopDetails {
+      return this.plugin.shop;
     },
-    pluginShopVariations() {
+    pluginShopVariations(): IPluginShopVariation[] {
       return this.pluginShop?.variations || [];
     },
-    pluginReviews() {
-      return this.pluginShop.reviews || {};
+    pluginReviews(): IPluginShopReviews | TObject {
+      return this.pluginShop?.reviews || {};
     },
-    pluginKeywords() {
-      return this.plugin.keywords || [];
+    pluginKeywords(): string[] {
+      return this.plugin?.keywords || [];
     },
-    pluginAuthors() {
+    pluginAuthors(): TObjectArray {
       const authors = this.plugin.authors || [];
       return authors.filter((author) => author.name);
     },
-    pluginActivity() {
+    pluginActivity(): TObject {
       return this.plugin.activity || {};
     },
-    pluginChangelogUrl() {
-      return this.plugin.changelog.url || '';
+    pluginChangelogUrl(): string {
+      return this.plugin.changelog.url as string || '';
     },
-    pluginSupport() {
+    pluginSupport(): TObjectArray[] {
       return this.plugin.support || [];
     },
-    isMatomoPlugin() {
+    isMatomoPlugin(): boolean {
       return ['piwik', 'matomo-org'].includes(this.plugin.owner);
     },
-    showReviews() {
-      return this.pluginReviews && this.pluginReviews.embedUrl;
+    showReviews(): boolean {
+      return (this.pluginReviews && this.pluginReviews.embedUrl) as boolean;
     },
-    showMissingLicenseDescription() {
-      return this.hasSomeAdminAccess && typeof this.plugin.isMissingLicense !== 'undefined' && this.plugin.isMissingLicense;
+    showMissingLicenseDescription(): boolean {
+      return this.hasSomeAdminAccess && this.plugin.isMissingLicense;
     },
-    showExceededLicenceDescription() {
-      return this.hasSomeAdminAccess && typeof this.plugin.hasExceededLicense !== 'undefined' && this.plugin.hasExceededLicense;
+    showExceededLicenceDescription(): boolean {
+      return this.hasSomeAdminAccess && this.plugin.hasExceededLicense;
     },
-    showMissingRequirementsNoticeIfApplicable() {
+    showMissingRequirementsNoticeIfApplicable(): boolean {
       return this.isSuperUser && (this.plugin.isDownloadable || this.plugin.isInstalled);
     },
-    showLicenceName() {
-      return this.pluginLatestVersion
-        && this.pluginLatestVersion.license
-        && this.pluginLatestVersion.license.name;
+    showLicenceName(): boolean {
+      const licence: TObject = this.pluginLatestVersion?.license as TObject || {};
+      return !!licence.name;
     },
-    showPluginVariations() {
+    showPluginVariations(): boolean {
       return (!this.plugin.isDownloadable || !this.isSuperUser)
         && !this.plugin.isEligibleForFreeTrial
         && this.plugin.isPaid
-        && this.pluginShop
-        && this.pluginShopVariations.length;
+        && !!this.pluginShopVariations.length;
     },
-    pluginScreenshots() {
+    pluginScreenshots(): string[] {
       return this.plugin.screenshots || [];
     },
   },
@@ -392,14 +392,16 @@ export default defineComponent({
         const root = this.$refs.root as HTMLElement;
         const $variationPicker = $('.pluginDetails .variationPicker select', root);
         if ($variationPicker.val()) {
-          $('.addToCartLink').attr('href', $variationPicker.val());
+          $('.addToCartLink').attr('href', $variationPicker.val() as string);
         }
         $variationPicker.on('change', () => {
-          $('.addToCartLink').attr('href', $variationPicker.val());
+          $('.addToCartLink').attr('href', $variationPicker.val() as string);
         });
 
         if ($variationPicker.length) {
-          $variationPicker.material_select();
+          // TODO: figure out a narrower type definition
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ($variationPicker as any).material_select();
         }
       });
     },
@@ -421,13 +423,13 @@ export default defineComponent({
     },
     applyIframeResize() {
       setTimeout(() => {
-        const iFrameResize = window.iFrameResize || null;
-        if (this.pluginReviews && iFrameResize) {
+        const { iFrameResize } = window;
+        if (this.pluginReviews) {
           $(() => {
             const $iFrames = $('.pluginDetails iframe.reviewIframe');
             for (let i = 0; i < $iFrames.length; i += 1) {
               // eslint-disable-next-line max-len
-              iFrameResize({ checkOrigin: [this.getProtocolAndDomain(this.pluginReviews.embedUrl)] }, $iFrames[i]);
+              iFrameResize({ checkOrigin: [this.getProtocolAndDomain(this.pluginReviews.embedUrl as string)] }, $iFrames[i]);
             }
           });
         }
