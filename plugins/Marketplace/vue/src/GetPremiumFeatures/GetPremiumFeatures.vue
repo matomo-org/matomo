@@ -85,11 +85,10 @@ export default defineComponent({
       return result;
     },
     overviewLink() {
-      return `?${MatomoUrl.stringify({
-        module: 'Marketplace',
-        action: 'overview',
-        show: 'premium',
-      })}`;
+      const query = MatomoUrl.stringify({ module: 'Marketplace', action: 'overview' });
+      const hash = MatomoUrl.stringify({ pluginType: 'premium' });
+
+      return `?${query}#?${hash}`;
     },
   },
 });
