@@ -382,15 +382,15 @@ export default defineComponent({
   },
   methods: {
     applyTabs() {
-      const root = this.$refs.root as HTMLElement;
-
       setTimeout(() => {
+        const root = this.$refs.root as HTMLElement;
         $('#pluginDetailsTabs .tabs', root).tabs();
       });
     },
     applySelect() {
       setTimeout(() => {
-        const $variationPicker = $('.pluginDetails .variationPicker select');
+        const root = this.$refs.root as HTMLElement;
+        const $variationPicker = $('.pluginDetails .variationPicker select', root);
         if ($variationPicker.val()) {
           $('.addToCartLink').attr('href', $variationPicker.val());
         }
