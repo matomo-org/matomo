@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "下面的插件总是被启用的并且不可被停用：%s",
         "AreThereAnyRisks": "是否有任何风险？",
         "AreThereAnyRisksDetails1": "激活标签管理器后，具有管理员访问权限的用户将能够创建自定义HTML标签，触发器和变量，这些HTML，触发器和变量可能会在您的网站上执行JavaScript。 这些自定义模板可能被滥用，例如从您的网站访问者那里窃取敏感信息（称为%1$s，称为XSS%2$s）。",
-        "AreThereAnyRisksDetails2": "在您激活标签管理器后，可以在“管理→常规设置”下禁用这些自定义模块。 或者，您也可以将这些模板的使用限制为仅特定用户或超级管理员用户。",
+        "AreThereAnyRisksDetails2": "激活标签管理器后，您可以在“管理→常规设置”下禁用这些自定义模板。 或者，您还可以将这些模板的使用限制为仅特定用户或超级用户。",
         "AuthorHomepage": "作者主页",
         "ChangeLookByManageThemes": "您可以进入%1$s管理主题%2$s来改变 Matomo 的外观。",
         "ChangeSettingsPossible": "您可以修改此插件的%1$s设置%2$s。",
@@ -36,6 +36,7 @@
         "MenuPlatform": "平台",
         "MissingRequirementsNotice": "请升级%1$s %2$s到最新的版本， %1$s %3$s 是必需的。",
         "MissingRequirementsPleaseInstallNotice": "安装%3$s前请先安装 %1$s %2$s。",
+        "NUpdatesAvailable": "%1$s有可用的更新",
         "NoPluginSettings": "没有可以配置的插件设置",
         "NoZipFileSelected": "请选择一个ZIP文件。",
         "NotDownloadable": "不可下载",
@@ -46,6 +47,7 @@
         "OriginOfficial": "官方",
         "OriginThirdParty": "第三方",
         "PluginActivated": "插件已启用",
+        "PluginFreeTrialStarted": "%1$s您的30天免费试用已开始%2$s，费用为%3$s。",
         "PluginHomepage": "插件主页",
         "PluginNotCompatibleWith": "插件 %1$s 与 %2$s 不兼容。",
         "PluginNotDownloadable": "插件无法下载。",
@@ -68,7 +70,7 @@
         "TagManagerTeaserHideSuperUser": "不将此页面展示与任何用户",
         "TeaserExtendPiwik": "使用插件和主题来扩展 Matomo",
         "TeaserExtendPiwikByPlugin": "您可以通过%1$s从市场里安装插件%2$s或%3$s上传一个 ZIP 格式的插件%4$s来扩充 Matomo 功能。",
-        "TeaserExtendPiwikByTheme": "%1$s安装一个新的主题%2$s来感受一下不同的外观吧。",
+        "TeaserExtendPiwikByTheme": "通过%1$s安装新主题%2$s享受另一种外观和感受。",
         "Theme": "主题",
         "Themes": "主题",
         "ThemesDescription": "主题可以改变 Matomo 界面外观，提供全新的分析报告视觉体验。",
@@ -85,6 +87,6 @@
         "WhyUsingATagManager": "为什么要使用标签管理器？",
         "WhyUsingATagManagerDetails1": "标记管理器使您的生活更轻松！ 您不再需要等待开发人员修改网站上的任何第一方或第三方摘要，因为标签管理器可为您带来轻松无忧的体验，以进行这些更改并自行部署您的网站。",
         "WhyUsingATagManagerDetails2": "它再方便不过了，它不仅可以让您更快地将更改引入市场，还可以降低成本。",
-        "WhyUsingATagManagerDetails3": "这使营销团队，数字团队和IT人士感到高兴……这对每个人都是双赢！"
+        "WhyUsingATagManagerDetails3": "这让营销团队、数字团队和 IT 人员都感到高兴……这对每个人来说都是双赢！"
     }
 }

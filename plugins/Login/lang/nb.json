@@ -31,7 +31,7 @@
         "InvalidNonceUnexpectedReferrer": "Skjemasikkerhet mislyktes. Henvisningshodet skiller seg fra forventet henviserhode. Sjekk at henviserhodet ditt blir sendt på riktig vis.",
         "InvalidOrExpiredToken": "Autentiseringsnøkkelen er ugyldig eller har utløpt.",
         "InvalidOrExpiredTokenV2": "Passordet har allerede blitt satt, eller så har lenken utløpt.",
-        "InvalidUsernameEmail": "Feil brukernavn og/eller epost-adresse.",
+        "InvalidUsernameEmail": "Feil brukernavn og/eller e-postadresse.",
         "InvitationDeclineBody": "Vil du avslå denne invitasjonen?",
         "InvitationDeclineTitle": "Avslå invitasjon",
         "InvitationHints": "(du kan forlate siden for å avbryte denne handlingen)",
