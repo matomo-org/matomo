@@ -77,7 +77,7 @@
                 <div v-if="showReviews" id="tabs-reviews" class="tab-content col s12">
                   <iframe class="reviewIframe"
                           :style=" pluginReviews.height ? `height: ${pluginReviews.height}px;` : '' "
-                          :id="sha1(pluginReviews.embedUrl)"
+                          :id="pluginReviews.embedUrl.replace(/[\W_]+/g, ' ')"
                           :src="pluginReviews.embedUrl"></iframe>
                 </div>
               </div>
@@ -216,7 +216,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import crypto from 'crypto';
 import CTAContainer from '../PluginList/CTAContainer.vue';
 import MissingReqsNotice from '../MissingReqsNotice/MissingReqsNotice.vue';
 
@@ -420,11 +419,6 @@ export default defineComponent({
           });
         }
       });
-    },
-    sha1(content: string) {
-      const hash = crypto.createHash('sha1');
-      hash.update(content);
-      return hash.digest('hex');
     },
     getScreenshotBaseName(screenshot: string) {
       const filename = screenshot.split('/').pop() || '';
