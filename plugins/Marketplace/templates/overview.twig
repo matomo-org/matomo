@@ -13,6 +13,7 @@
             is-auto-update-possible="{{ isAutoUpdatePossible|default(false)|json_encode }}"
             is-multi-server-environment="{{ isMultiServerEnvironment|default(false)|json_encode }}"
             is-plugins-admin-enabled="{{ isPluginsAdminEnabled|default(false)|json_encode }}"
+            has-some-admin-access="{{  hasSomeAdminAccess|default(false)|json_encode }}"
             has-license-key="{{ hasLicenseKey|default(false)|json_encode }}"
             paid-plugins-to-install-at-once="{{ paidPluginsToInstallAtOnce|default([])|json_encode }}"
             install-nonce="{{ installNonce|default(null)|json_encode }}"
@@ -25,6 +26,7 @@
             default-sort="{{ defaultSort|json_encode }}"
             plugin-sort-options="{{ pluginSortOptions|json_encode }}"
             num-available-plugins-by-type="{{ numAvailablePluginsByType|json_encode }}"
+            num-users="{{ numUsers|json_encode }}"
         ></div>
 
         <div class="footer-message center">

@@ -56,12 +56,14 @@
               :is-auto-update-possible="isAutoUpdatePossible"
               :is-super-user="isSuperUser"
               :is-multi-server-environment="isMultiServerEnvironment"
+              :has-some-admin-access="hasSomeAdminAccess"
               :is-plugins-admin-enabled="isPluginsAdminEnabled"
               :is-valid-consumer="isValidConsumer"
               :deactivate-nonce="deactivateNonce"
               :activate-nonce="activateNonce"
               :install-nonce="installNonce"
               :update-nonce="updateNonce"
+              :num-users="numUsers"
               @triggerUpdate="this.fetchPlugins()"
   />
 
@@ -121,6 +123,7 @@ export default defineComponent({
     isAutoUpdatePossible: Boolean,
     isPluginsAdminEnabled: Boolean,
     isMultiServerEnvironment: Boolean,
+    hasSomeAdminAccess: Boolean,
     installNonce: {
       type: String,
       required: true,
@@ -135,6 +138,10 @@ export default defineComponent({
     },
     updateNonce: {
       type: String,
+      required: true,
+    },
+    numUsers: {
+      type: Number,
       required: true,
     },
   },

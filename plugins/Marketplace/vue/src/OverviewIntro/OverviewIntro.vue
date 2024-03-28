@@ -62,6 +62,8 @@
       :activate-nonce="activateNonce"
       :install-nonce="installNonce"
       :update-nonce="updateNonce"
+      :has-some-admin-access="hasSomeAdminAccess"
+      :num-users="numUsers"
     />
   </div>
 </template>
@@ -83,6 +85,7 @@ export default defineComponent({
     isAutoUpdatePossible: Boolean,
     isPluginsAdminEnabled: Boolean,
     isMultiServerEnvironment: Boolean,
+    hasSomeAdminAccess: Boolean,
     hasLicenseKey: Boolean,
     paidPluginsToInstallAtOnce: {
       type: Array,
@@ -120,6 +123,10 @@ export default defineComponent({
     },
     numAvailablePluginsByType: {
       type: Object,
+      required: true,
+    },
+    numUsers: {
+      type: Number,
       required: true,
     },
   },

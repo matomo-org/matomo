@@ -6,7 +6,7 @@
 
 <template>
   <template v-if="isSuperUser">
-    <div v-if="plugin.isMissingLicense"
+    <div v-if="!showActionsOnly && plugin.isMissingLicense"
          class="alert alert-danger alert-no-background">
       {{ translate('Marketplace_LicenseMissing') }}
       <span
@@ -14,7 +14,7 @@
       >(<HelpLink :plugin-name="plugin.name" />)</span>
     </div>
 
-    <div v-else-if="plugin.hasExceededLicense"
+    <div v-else-if="!showActionsOnly && plugin.hasExceededLicense"
          class="alert alert-danger alert-no-background">
       {{ translate('Marketplace_LicenseExceeded') }}
       <span
@@ -22,7 +22,9 @@
       >(<HelpLink :plugin-name="plugin.name" />)</span>
     </div>
 
-    <template v-else-if="plugin.canBeUpdated && 0 == plugin.missingRequirements.length">
+    <template
+      v-else-if="!showActionsOnly && plugin.canBeUpdated && 0 == plugin.missingRequirements.length"
+    >
       <a v-if="isAutoUpdatePossible"
          tabindex="7"
          class="btn btn-block"
@@ -42,7 +44,7 @@
       </div>
     </template>
 
-    <div v-else-if="plugin.isInstalled"
+    <div v-else-if="!showActionsOnly && plugin.isInstalled"
          class="alert alert-success alert-no-background">
       {{ translate('General_Installed') }}
 
@@ -77,7 +79,7 @@
     >{{ translate('Marketplace_StartFreeTrial') }}</a>
 
     <MoreDetailsButton
-      v-else-if="!plugin.isDownloadable && (
+      v-else-if="!showActionsOnly && !plugin.isDownloadable && (
                    plugin.isPaid
                    || plugin.missingRequirements.length > 0
                    || !isAutoUpdatePossible
@@ -85,8 +87,10 @@
       :plugin-name="plugin.name"
     />
 
-    <div v-else-if="plugin.missingRequirements.length > 0 || !isAutoUpdatePossible"
-         class="alert alert-warning alert-no-background">
+    <!-- eslint-disable-next-line max-len-->
+    <div v-else-if="!showActionsOnly && (plugin.missingRequirements.length > 0 || !isAutoUpdatePossible)"
+      class="alert alert-warning alert-no-background"
+    >
       {{ translate('Marketplace_CannotInstall') }}
       <span
         style="white-space:nowrap"
@@ -107,10 +111,12 @@
     </a>
   </template>
 
-  <MoreDetailsButton
-    v-else
-    :plugin-name="plugin.name"
-  />
+  <template v-else>
+    <MoreDetailsButton
+      v-if="!showActionsOnly"
+      :plugin-name="plugin.name"
+    />
+  </template>
 </template>
 
 <script lang="ts">
@@ -162,6 +168,11 @@ export default defineComponent({
     isSuperUser: {
       type: Boolean,
       required: true,
+    },
+    showActionsOnly: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   emits: ['startFreeTrial'],
