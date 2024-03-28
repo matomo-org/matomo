@@ -297,6 +297,7 @@ export default defineComponent({
     },
     isLoading(newValue) {
       if (newValue === false) {
+        this.applyExternalTarget();
         this.applyTabs();
         this.applySelect();
         this.applyIframeResize();
@@ -400,6 +401,18 @@ export default defineComponent({
         if ($variationPicker.length) {
           $variationPicker.material_select();
         }
+      });
+    },
+    applyExternalTarget() {
+      setTimeout(() => {
+        const root = this.$refs.root as HTMLElement;
+        $('.pluginDetails a', root).each((index, a) => {
+          const link = $(a).attr('href');
+
+          if (link && link.indexOf('http') === 0) {
+            $(a).attr('target', '_blank');
+          }
+        });
       });
     },
     getProtocolAndDomain(url: string) {
