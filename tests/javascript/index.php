@@ -2240,7 +2240,6 @@ function PiwikTest() {
         equal( typeof tracker.forgetUserOptOut, 'function', 'forgetUserOptOut' );
         // Campaign param consent
         equal( typeof tracker.disableCampaignParameters, 'function', 'disableCampaignParameters' );
-        equal( typeof tracker.enableCampaignParameters, 'function', 'enableCampaignParameters' );
     });
 
     module("API and internals", {
@@ -5364,7 +5363,7 @@ if ($mysql) {
         }, 1500);
     });
 
-    test("Test API - enable/disable CampaignParameters", function() {
+    test("Test API - disable CampaignParameters", function() {
         expect(5);
 
         var tracker = Piwik.getTracker();
@@ -5383,19 +5382,6 @@ if ($mysql) {
         setTimeout(function() {
           var results = fetchTrackedRequests(getCampaignParamToken());
           strictEqual(true, results.indexOf('mtm_campaign%3Dsomething%26mtm_kwd%3Dkeyword') === -1, "campaign parameters are stripped");
-
-          // Now enable campaign parameters, which will include them in tracked urls again.
-          tracker.enableCampaignParameters(true);
-
-          tracker.setCustomData('token', getCampaignParamToken() + '1');
-          tracker.trackRequest('foo=bar');
-
-          setTimeout(function() {
-            var results = fetchTrackedRequests(getCampaignParamToken() + '1');
-            strictEqual(false, results.indexOf('mtm_campaign%3Dsomething%26mtm_kwd%3Dkeyword') === -1, "campaign parameters are not stripped");
-
-            start();
-          }, 2000);
         }, 2000);
     });
 

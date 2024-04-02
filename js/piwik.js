@@ -77,7 +77,7 @@
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setExcludedQueryParams, setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, maq_confirm_opted_in,
-    doNotTrack, setDoNotTrack, disableCampaignParameters, enableCampaignParameters, msDoNotTrack, getValuesFromVisitorIdCookie,
+    doNotTrack, setDoNotTrack, disableCampaignParameters, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, disableBrowserFeatureDetection, enableBrowserFeatureDetection, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
@@ -6485,13 +6485,6 @@ if (typeof window.Matomo !== 'object') {
              */
             this.disableCampaignParameters = function () {
               configEnableCampaignParameters = false;
-            };
-
-            /**
-             * Allow campaign parameters to be sent to the tracker.
-             */
-            this.enableCampaignParameters = function () {
-              configEnableCampaignParameters = true;
             };
 
             /**
