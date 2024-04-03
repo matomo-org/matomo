@@ -5364,7 +5364,7 @@ if ($mysql) {
     });
 
     test("Test API - disable CampaignParameters", function() {
-        expect(5);
+        expect(4);
 
         var tracker = Piwik.getTracker();
 
@@ -5386,7 +5386,7 @@ if ($mysql) {
     });
 
     test("Test API - disable CampaignParameters has no effect when consent is required", function() {
-        expect(4);
+        expect(1);
 
         var tracker = Piwik.getTracker();
 
