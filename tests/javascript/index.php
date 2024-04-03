@@ -2102,7 +2102,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(125);
+        expect(124);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -5382,11 +5382,13 @@ if ($mysql) {
         setTimeout(function() {
           var results = fetchTrackedRequests(getCampaignParamToken());
           strictEqual(true, results.indexOf('mtm_campaign%3Dsomething%26mtm_kwd%3Dkeyword') === -1, "campaign parameters are stripped");
+
+          start();
         }, 2000);
     });
 
     test("Test API - disable CampaignParameters has no effect when consent is required", function() {
-        expect(1);
+        expect(4);
 
         var tracker = Piwik.getTracker();
 
