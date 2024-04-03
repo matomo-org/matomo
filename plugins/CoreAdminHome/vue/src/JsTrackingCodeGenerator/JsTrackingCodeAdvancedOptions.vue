@@ -214,15 +214,15 @@
         </div>
       </div>
 
-      <!-- require consent for campaign tracking -->
+      <!-- disable campaign parameters -->
       <Field
         uicontrol="checkbox"
         name="require-consent-for-campaign-tracking"
-        :model-value="requireConsentForCampaignTracking"
-        @update:model-value="requireConsentForCampaignTracking = $event; updateTrackingCode()"
+        :model-value="disableCampaignParameters"
+        @update:model-value="disableCampaignParameters = $event; updateTrackingCode()"
         :disabled="isLoading"
-        :title="translate('CoreAdminHome_JSTracking_RequireConsentForCampaignTracking')"
-        :inline-help="translate('CoreAdminHome_JSTracking_RequireConsentForCampaignTrackingDesc')"
+        :title="translate('CoreAdminHome_JSTracking_DisableCampaignParameters')"
+        :inline-help="translate('CoreAdminHome_JSTracking_DisableCampaignParametersDesc')"
       />
 
     </div>
@@ -266,7 +266,7 @@ interface JsTrackingCodeAdvancedOptionsState {
   customCampaignName: string;
   customCampaignKeyword: string;
   trackingCodeAbortController: AbortController | null;
-  requireConsentForCampaignTracking: boolean;
+  disableCampaignParameters: boolean;
 }
 
 interface GetJavascriptTagResponse {
@@ -315,7 +315,7 @@ export default defineComponent({
       customCampaignName: '',
       customCampaignKeyword: '',
       trackingCodeAbortController: null,
-      requireConsentForCampaignTracking: false,
+      disableCampaignParameters: false,
     };
   },
   emits: ['updateTrackingCode'],
@@ -421,7 +421,7 @@ export default defineComponent({
         crossDomain: this.crossDomain ? 1 : 0,
         trackNoScript: this.trackNoScript ? 1 : 0,
         forceMatomoEndpoint: 1,
-        requireConsentForCampaignTracking: this.requireConsentForCampaignTracking ? 1 : 0,
+        disableCampaignParameters: this.disableCampaignParameters ? 1 : 0,
       };
 
       if (this.siteExcludedQueryParams[this.site.id]) {

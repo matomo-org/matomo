@@ -49,7 +49,7 @@ class TrackerCodeGenerator
      * @param bool $crossDomain
      * @param bool $excludedQueryParams
      * @param array $excludedReferrers
-     * @param bool $requireConsentForCampaignTracking
+     * @param bool $disableCampaignParameters
      * @return string Javascript code.
      */
     public function generate(
@@ -68,7 +68,7 @@ class TrackerCodeGenerator
         $crossDomain = false,
         $excludedQueryParams = false,
         $excludedReferrers = [],
-        $requireConsentForCampaignTracking = false
+        $disableCampaignParameters = false
     ) {
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
 
@@ -134,7 +134,7 @@ class TrackerCodeGenerator
             }
         }
 
-        if ($requireConsentForCampaignTracking) {
+        if ($disableCampaignParameters) {
             $options .= '  _paq.push(["disableCampaignParameters"]);' . "\n";
         }
 
@@ -199,7 +199,7 @@ class TrackerCodeGenerator
             'customCampaignNameQueryParam',
             'customCampaignKeywordParam',
             'doNotTrack',
-            'requireConsentForCampaignTracking'
+            'disableCampaignParameters'
         );
 
         /**

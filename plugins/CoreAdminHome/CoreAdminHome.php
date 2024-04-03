@@ -218,7 +218,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_JSTrackingDocumentationHelp';
         $translationKeys[] = 'CoreAdminHome_ReactDescription';
         $translationKeys[] = 'CoreAdminHome_JsTrackingCodeAdvancedOptionsStep';
-        $translationKeys[] = 'CoreAdminHome_JSTracking_RequireConsentForCampaignTracking';
-        $translationKeys[] = 'CoreAdminHome_JSTracking_RequireConsentForCampaignTrackingDesc';
+        $translationKeys[] = 'CoreAdminHome_JSTracking_DisableCampaignParameters';
+        $translationKeys[] = 'CoreAdminHome_JSTracking_DisableCampaignParametersDesc';
     }
 }

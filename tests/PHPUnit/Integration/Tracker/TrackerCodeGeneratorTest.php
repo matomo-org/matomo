@@ -46,7 +46,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $crossDomain = true,
             $excludedQueryParams = array("uid", "aid"),
             $excludedReferrers = array(),
-            $requireConsentForCampaignTracking = true
+            $disableCampaignParameters = true
         );
 
         $expected = "&lt;!-- Matomo --&gt;
@@ -137,7 +137,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $crossDomain = false,
             $excludedQueryParams = array("uid", "aid"),
             $excludedReferrers = array(),
-            $requireConsentForCampaignTracking = true
+            $disableCampaignParameters = true
         );
 
         $expected = "&lt;!-- Matomo --&gt;
@@ -198,7 +198,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $crossDomain = false,
             $excludedQueryParams = array("uid", "aid"),
             $excludedReferrers = array(),
-            $requireConsentForCampaignTracking = true
+            $disableCampaignParameters = true
         );
 
         $expected = "&lt;!-- Matomo --&gt;
