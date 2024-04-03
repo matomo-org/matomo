@@ -2102,7 +2102,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(125);
+        expect(124);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2240,7 +2240,6 @@ function PiwikTest() {
         equal( typeof tracker.forgetUserOptOut, 'function', 'forgetUserOptOut' );
         // Campaign param consent
         equal( typeof tracker.disableCampaignParameters, 'function', 'disableCampaignParameters' );
-        equal( typeof tracker.enableCampaignParameters, 'function', 'enableCampaignParameters' );
     });
 
     module("API and internals", {
@@ -2404,7 +2403,7 @@ function PiwikTest() {
     });
 
     test("Tracker getHostName(), *UrlParameter(), urlFixup(), domainFixup(), titleFixup() and purify()", function() {
-        expect(85);
+        expect(88);
 
         var tracker = Piwik.getTracker();
 
@@ -2459,6 +2458,9 @@ function PiwikTest() {
         equal( tracker.hook.test._removeUrlParameter('http://piwik.org/?p=test1&q=test2', 'q'), 'http://piwik.org/?p=test1', 'removeUrlParameter, &q');
         equal( tracker.hook.test._removeUrlParameter('http://piwik.org/?q=test2&p=test1', 'q'), 'http://piwik.org/?p=test1', 'removeUrlParameter, ?q&');
         equal( tracker.hook.test._removeUrlParameter('http://piwik.org/?q=test2&p=test1', 'terewrer'), 'http://piwik.org/?q=test2&p=test1', 'removeUrlParameter, not existing parameter');
+        equal( tracker.hook.test._removeUrlParameter('http://piwik.org/?q=test#aq=not', 'aq'), 'http://piwik.org/?q=test', 'removeUrlParameter, from hash if a query present');
+        equal( tracker.hook.test._removeUrlParameter('http://piwik.org/#?q=test2&p=test1', 'q'), 'http://piwik.org/#?p=test1', 'removeUrlParameter, from hash if no query present');
+        equal( tracker.hook.test._removeUrlParameter('http://piwik.org/?q=ttttt#q=test2&p=test1', 'q'), 'http://piwik.org/#p=test1', 'removeUrlParameter, from hash and query');
 
         // ADD URL PARAMETER
         equal( tracker.hook.test._addUrlParameter('http://piwik.org/', 'q', ''), 'http://piwik.org/?q=', 'addUrlParameter, add param with no value to url with no search and no hash');
@@ -5361,8 +5363,8 @@ if ($mysql) {
         }, 1500);
     });
 
-    test("Test API - enable/disable CampaignParameters", function() {
-        expect(5);
+    test("Test API - disable CampaignParameters", function() {
+        expect(4);
 
         var tracker = Piwik.getTracker();
 
@@ -5381,18 +5383,33 @@ if ($mysql) {
           var results = fetchTrackedRequests(getCampaignParamToken());
           strictEqual(true, results.indexOf('mtm_campaign%3Dsomething%26mtm_kwd%3Dkeyword') === -1, "campaign parameters are stripped");
 
-          // Now give consent which enables campaign parameters.
-          tracker.setConsentGiven(true);
+          start();
+        }, 2000);
+    });
 
-          tracker.setCustomData('token', getCampaignParamToken() + '1');
-          tracker.trackRequest('foo=bar');
+    test("Test API - disable CampaignParameters has no effect when consent is required", function() {
+        expect(4);
 
-          setTimeout(function() {
-            var results = fetchTrackedRequests(getCampaignParamToken() + '1');
-            strictEqual(false, results.indexOf('mtm_campaign%3Dsomething%26mtm_kwd%3Dkeyword') === -1, "campaign parameters are not stripped");
+        var tracker = Piwik.getTracker();
 
-            start();
-          }, 2000);
+        tracker.setCustomData('token', getCampaignParamToken() + '2');
+
+        tracker.disableCampaignParameters();
+        tracker.requireConsent();
+
+        tracker.setCustomUrl('http://localhost.localdomain/?mtm_campaign=something&mtm_kwd=keyword');
+
+        // Do request when consent for campaign tracking hasn't been given
+        tracker.trackRequest('foo=bar');
+        tracker.setConsentGiven();
+        stop();
+
+        // wait for client hints to be detected
+        setTimeout(function() {
+          var results = fetchTrackedRequests(getCampaignParamToken() + '2');
+          strictEqual(false, results.indexOf('mtm_campaign%3Dsomething%26mtm_kwd%3Dkeyword') === -1, "campaign parameters are not stripped");
+
+          start();
         }, 2000);
     });
 <?php
