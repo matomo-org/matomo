@@ -164,7 +164,8 @@ class DataTableGenericFilter
             $filterParameters = array();
             $exceptionRaised = false;
 
-            if (in_array($filterName, $this->disabledFilters)
+            if (
+                in_array($filterName, $this->disabledFilters)
                 || in_array($filterName, $tableDisabledFilters)
             ) {
                 continue;
@@ -215,7 +216,8 @@ class DataTableGenericFilter
 
         foreach ($columnQueryParameters as $queryParamName) {
             $queryParamValue = Common::getRequestVar($queryParamName, false, $type = null, $this->request);
-            if (!empty($queryParamValue)
+            if (
+                !empty($queryParamValue)
                 && $this->containsProcessedMetric($metrics, $queryParamValue)
             ) {
                 return true;
@@ -233,7 +235,8 @@ class DataTableGenericFilter
     private function containsProcessedMetric($metrics, $name)
     {
         foreach ($metrics as $metric) {
-            if ($metric instanceof ProcessedMetric
+            if (
+                $metric instanceof ProcessedMetric
                 && $metric->getName() == $name
             ) {
                 return true;

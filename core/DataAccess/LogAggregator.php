@@ -370,7 +370,8 @@ class LogAggregator
                 // performance to allow the where condition to be applied, otherwise without a range limit the entire
                 // log table will be used
                 foreach ($from as $fromJoin) {
-                    if (!empty($fromJoin['table']) && $fromJoin['table'] === $logTable->getName() &&
+                    if (
+                        !empty($fromJoin['table']) && $fromJoin['table'] === $logTable->getName() &&
                         !empty($fromJoin['join']) && strtoupper($fromJoin['join']) === 'RIGHT JOIN') {
                         continue 2;
                     }
@@ -1444,7 +1445,8 @@ class LogAggregator
         $cleanRow = array();
 
         foreach ($row as $label => $count) {
-            if (empty($lookForThisPrefix)
+            if (
+                empty($lookForThisPrefix)
                 || strpos($label, $lookForThisPrefix) === 0
             ) {
                 $cleanLabel = substr($label, strlen($lookForThisPrefix));

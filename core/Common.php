@@ -98,7 +98,8 @@ class Common
         if (is_null($prefixTable)) {
             $prefixTable = Config::getInstance()->database['tables_prefix'];
         }
-        if (empty($prefixTable)
+        if (
+            empty($prefixTable)
             || strpos($table, $prefixTable) !== 0
         ) {
             return $table;
@@ -362,7 +363,8 @@ class Common
 
                 $value[$newKey] = self::sanitizeInputValues($value[$newKey], $alreadyStripslashed);
             }
-        } elseif (!is_null($value)
+        } elseif (
+            !is_null($value)
             && !is_bool($value)
         ) {
             throw new Exception("The value to escape has not a supported type. Value = " . var_export($value, true));
@@ -507,7 +509,8 @@ class Common
         }
 
         // there is no value $varName in the REQUEST so we try to use the default value
-        if (empty($varName)
+        if (
+            empty($varName)
             || !isset($requestArrayToUse[$varName])
             || (!is_array($requestArrayToUse[$varName])
                 && strlen($requestArrayToUse[$varName]) === 0
@@ -516,7 +519,8 @@ class Common
             if (is_null($varDefault)) {
                 throw new Exception("The parameter '$varName' isn't set in the Request, and a default value wasn't provided.");
             } else {
-                if (!is_null($varType)
+                if (
+                    !is_null($varType)
                     && in_array($varType, array('string', 'integer', 'array'))
                 ) {
                     settype($varDefault, $varType);
@@ -694,7 +698,8 @@ class Common
      */
     public static function convertVisitorIdToBin($id)
     {
-        if (strlen($id) !== Tracker::LENGTH_HEX_ID_STRING
+        if (
+            strlen($id) !== Tracker::LENGTH_HEX_ID_STRING
             || @bin2hex(self::hex2bin($id)) != $id
         ) {
             throw new Exception("visitorId is expected to be a " . Tracker::LENGTH_HEX_ID_STRING . " hex char string");
@@ -1130,7 +1135,8 @@ class Common
         if (strpos(PHP_SAPI, '-fcgi') === false) {
             $key = 'HTTP/1.1';
 
-            if (array_key_exists('SERVER_PROTOCOL', $_SERVER)
+            if (
+                array_key_exists('SERVER_PROTOCOL', $_SERVER)
                 && strlen($_SERVER['SERVER_PROTOCOL']) < 15
                 && strlen($_SERVER['SERVER_PROTOCOL']) > 1) {
                 $key = $_SERVER['SERVER_PROTOCOL'];

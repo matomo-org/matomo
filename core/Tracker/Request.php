@@ -79,7 +79,8 @@ class Request
         // When the 'url' and referrer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
         // The URL can default to the Referrer, which will be in this case
         // the URL of the page containing the Simple Image beacon
-        if (empty($this->params['urlref'])
+        if (
+            empty($this->params['urlref'])
             && empty($this->params['url'])
             && array_key_exists('HTTP_REFERER', $_SERVER)
         ) {
@@ -211,7 +212,8 @@ class Request
             $tokenAuthHashed = $userModel->hashTokenAuth($tokenAuth);
             $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuthHashed, $idSite);
 
-            if (array_key_exists('tracking_token_auth', $website)
+            if (
+                array_key_exists('tracking_token_auth', $website)
                 && in_array($hashedToken, $website['tracking_token_auth'], true)) {
                 return true;
             }
@@ -656,7 +658,8 @@ class Request
     {
         $cookie = $this->makeThirdPartyCookieUID();
         $idVisitor = $cookie->get(0);
-        if ($idVisitor !== false
+        if (
+            $idVisitor !== false
             && strlen($idVisitor) == Tracker::LENGTH_HEX_ID_STRING
         ) {
             return $idVisitor;

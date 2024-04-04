@@ -77,11 +77,13 @@ class ProcessedReport
                 unset($report['metrics']['nb_uniq_visitors']);
                 unset($report['metrics']['nb_users']);
             }
-            if ($report['module'] == $apiModule
+            if (
+                $report['module'] == $apiModule
                 && $report['action'] == $apiAction
             ) {
                 // No custom parameters
-                if (empty($apiParameters)
+                if (
+                    empty($apiParameters)
                     && empty($report['parameters'])
                 ) {
                     return array($report);
@@ -246,7 +248,8 @@ class ProcessedReport
             foreach ($metrics as $metricId => $metricTranslation) {
                 // When simply the column name was given, ie 'metric' => array( 'nb_visits' )
                 // $metricTranslation is in this case nb_visits. We look for a known translation.
-                if (is_numeric($metricId)
+                if (
+                    is_numeric($metricId)
                     && isset($knownMetrics[$metricTranslation])
                 ) {
                     $metricId = $metricTranslation;
@@ -280,7 +283,8 @@ class ProcessedReport
             // the caller wants this information)
             // TODO we should remove this once we remove the getReportMetadata event, leaving it here for backwards compatibility
             $requestingGoalMetrics = Common::getRequestVar('filter_update_columns_when_show_all_goals', false);
-            if (isset($availableReport['metricsGoal'])
+            if (
+                isset($availableReport['metricsGoal'])
                 && !$requestingGoalMetrics
             ) {
                 unset($availableReport['processedMetrics']['conversion_rate']);
@@ -353,13 +357,15 @@ class ProcessedReport
             $apiParameters = array();
         }
 
-        if (!empty($idGoal)
+        if (
+            !empty($idGoal)
             && empty($apiParameters['idGoal'])
         ) {
             $apiParameters['idGoal'] = $idGoal;
         }
 
-        if (!empty($idDimension)
+        if (
+            !empty($idDimension)
             && empty($apiParameters['idDimension'])
         ) {
             $apiParameters['idDimension'] = (int) $idDimension;
@@ -404,7 +410,8 @@ class ProcessedReport
             $parameters['idGoal'] = $actionsIdGoalOverride;
         }
 
-        if (!empty($reportMetadata['processedMetrics'])
+        if (
+            !empty($reportMetadata['processedMetrics'])
             && !empty($reportMetadata['metrics']['nb_visits'])
             && @$reportMetadata['category'] != Piwik::translate('Goals_Ecommerce')
             && $apiModule !== 'MultiSites'
@@ -689,7 +696,8 @@ class ProcessedReport
 
             foreach ($rowMetrics as $columnName => $columnValue) {
                 // filter metrics according to metadata definition
-                if (isset($metadataColumns[$columnName])
+                if (
+                    isset($metadataColumns[$columnName])
                     || preg_match('/^goal_[0-9]+_/', $columnName)
                 ) {
                     // generate 'human readable' metric values
@@ -704,7 +712,8 @@ class ProcessedReport
 
                     // format metrics manually here to maintain API.getProcessedReport BC if format_metrics query parameter is
                     // not supplied. TODO: should be removed for 3.0. should only rely on format_metrics query parameter.
-                    if ($formatMetrics === null
+                    if (
+                        $formatMetrics === null
                         || $formatMetrics == 'bc'
                     ) {
                         $prettyValue = self::getPrettyValue($formatter, $idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);
@@ -724,7 +733,8 @@ class ProcessedReport
             /** @var DataTable $comparisons */
             $comparisons = $row->getComparisons();
 
-            if (!empty($comparisons)
+            if (
+                !empty($comparisons)
                 && $comparisons->getRowsCount() > 0
             ) {
                 list($newComparisons, $ignore) = $this->handleSimpleDataTable($idSite, $comparisons, $comparisonColumns, true, $returnRawMetrics, $formatMetrics, $keepMetadata = true);

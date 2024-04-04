@@ -45,7 +45,8 @@ class Controller extends \Piwik\Plugin\Controller
         $response = $request->process();
 
         if (is_array($response)) {
-            if ($format == 'original'
+            if (
+                $format == 'original'
                 && $serialize != 1
             ) {
                 Original::sendPlainTextHeader();
@@ -95,7 +96,8 @@ class Controller extends \Piwik\Plugin\Controller
 
             $customVariableWillBeDisplayed = in_array($segment['segment'], $onlyDisplay);
             // Don't display more than 4 custom variables name/value rows
-            if ($segment['category'] == 'Custom Variables'
+            if (
+                $segment['category'] == 'Custom Variables'
                 && !$customVariableWillBeDisplayed
             ) {
                 continue;
@@ -103,7 +105,8 @@ class Controller extends \Piwik\Plugin\Controller
 
             $thisCategory = $segment['category'];
             $output = '';
-            if (empty($lastCategory[$segment['type']])
+            if (
+                empty($lastCategory[$segment['type']])
                 || $lastCategory[$segment['type']] != $thisCategory
             ) {
                 $output .= '<tr><td class="segmentCategory" colspan="2"><b>' . $thisCategory . '</b></td></tr>';

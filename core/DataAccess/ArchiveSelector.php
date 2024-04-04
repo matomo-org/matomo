@@ -115,7 +115,8 @@ class ArchiveSelector
             // we have to check whether the requested data is actually within them. if we just report the
             // partial archives, Archive.php will find no archive data and simply report this. returning no
             // idarchive here, however, will initiate archiving, causing the missing data to populate.
-            if (empty($requestedReport)
+            if (
+                empty($requestedReport)
                 || !empty($result['idarchive'])
             ) {
                 $result['idarchive'] = array_merge($result['idarchive'], $result['partial']);
@@ -127,7 +128,8 @@ class ArchiveSelector
             }
         }
 
-        if (empty($result['idarchive'])
+        if (
+            empty($result['idarchive'])
             || (isset($result['value'])
                 && !in_array($result['value'], $doneFlagValues))
         ) { // the archive cannot be considered valid for this request (has wrong done flag value)
@@ -147,7 +149,8 @@ class ArchiveSelector
         }
 
         // the archive is too old
-        if ($minDatetimeArchiveProcessedUTC
+        if (
+            $minDatetimeArchiveProcessedUTC
             && !empty($result['idarchive'])
             && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
         ) {
@@ -345,7 +348,8 @@ class ArchiveSelector
                     $idarchives[$doneFlag][$dateStr][] = $idarchive;
                     $idarchiveStates[$idSite][$doneFlag][$dateStr][$idarchive] = (int) $value;
 
-                    if (strpos($doneFlag, '.') === false // all plugins archive
+                    if (
+                        strpos($doneFlag, '.') === false // all plugins archive
                         // sanity check: DONE_PARTIAL shouldn't be used w/ done archives, but in case we see one,
                         // don't treat it like an all plugins archive
                         && $value != ArchiveWriter::DONE_PARTIAL
@@ -514,7 +518,8 @@ class ArchiveSelector
         ];
 
         foreach ($results as $result) {
-            if (in_array($result['name'], $doneFlags)
+            if (
+                in_array($result['name'], $doneFlags)
                 && in_array($result['idarchive'], $idArchives)
                 && $result['value'] != ArchiveWriter::DONE_PARTIAL
             ) {
@@ -551,7 +556,8 @@ class ArchiveSelector
             }
 
             $thisTsArchived = Date::factory($row['ts_archived']);
-            if ($row['value'] == ArchiveWriter::DONE_PARTIAL
+            if (
+                $row['value'] == ArchiveWriter::DONE_PARTIAL
                 && (empty($mainTsArchived) || !Date::factory($mainTsArchived)->isLater($thisTsArchived))
             ) {
                 $archiveData['partial'][] = $row['idarchive'];

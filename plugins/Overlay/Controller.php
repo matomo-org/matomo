@@ -122,7 +122,8 @@ class Controller extends \Piwik\Plugin\Controller
                     continue;
                 }
 
-                if ($metric == 'bounce_rate'
+                if (
+                    $metric == 'bounce_rate'
                     || $metric == 'exit_rate'
                 ) {
                     $value = $formatter->getPrettyPercentFromQuotient($value);

@@ -48,7 +48,8 @@ class CacheId
 
     private static function getIdSiteList($queryParamName)
     {
-        if (empty($_GET[$queryParamName])
+        if (
+            empty($_GET[$queryParamName])
             && empty($_POST[$queryParamName])
         ) {
             return [];

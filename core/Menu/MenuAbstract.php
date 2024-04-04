@@ -344,7 +344,8 @@ abstract class MenuAbstract extends Singleton
      */
     private function applyOrdering()
     {
-        if (empty($this->menu)
+        if (
+            empty($this->menu)
             || $this->orderingApplied
         ) {
             return;

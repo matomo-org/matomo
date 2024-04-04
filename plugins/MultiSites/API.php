@@ -129,7 +129,8 @@ class API extends \Piwik\Plugin\API
             /** @var Scheduler $scheduler */
             $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
             // Then, warm the cache with only the data we should have access to
-            if (Piwik::hasUserSuperUserAccess()
+            if (
+                Piwik::hasUserSuperUserAccess()
                 // Hack: when this API function is called as a Scheduled Task, Super User status is enforced.
                 // This means this function would return ALL websites in all cases.
                 // Instead, we make sure that only the right set of data is returned
@@ -336,7 +337,8 @@ class API extends \Piwik\Plugin\API
         // filter rows without visits
         // note: if only one website is queried and there are no visits, we can not remove the row otherwise
         // ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
-        if ($multipleWebsitesRequested
+        if (
+            $multipleWebsitesRequested
             // We don't delete the 0 visits row, if "Enhanced" mode is on.
             && !$enhanced && (empty($showColumns) || in_array(self::NB_VISITS_METRIC, $showColumns))
         ) {

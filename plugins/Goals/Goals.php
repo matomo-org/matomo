@@ -36,7 +36,8 @@ class Goals extends \Piwik\Plugin
         foreach ($dimensions as $dimension) {
             $group = $dimension['category'];
             // move "Custom Variables" report to the "Goals/Sales by User attribute" category
-            if ($dimension['module'] === 'CustomVariables'
+            if (
+                $dimension['module'] === 'CustomVariables'
                 || $dimension['action'] == 'getVisitInformationPerServerTime') {
                 $group = 'VisitsSummary_VisitsSummary';
             }
@@ -375,7 +376,8 @@ class Goals extends \Piwik\Plugin
             // Select this report from the API metadata array
             // and add the Goal metrics to it
             foreach ($reports as &$apiReportToUpdate) {
-                if ($apiReportToUpdate['module'] == $reportWithGoals['module']
+                if (
+                    $apiReportToUpdate['module'] == $reportWithGoals['module']
                     && $apiReportToUpdate['action'] == $reportWithGoals['action']
                     && empty($apiReportToUpdate['parameters'])
                 ) {

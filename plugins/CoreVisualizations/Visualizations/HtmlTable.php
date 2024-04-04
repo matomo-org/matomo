@@ -49,7 +49,8 @@ class HtmlTable extends Visualization
 
         if ($this->isComparing()) {
             $request = $this->getRequestArray();
-            if (!empty($request['comparePeriods'])
+            if (
+                !empty($request['comparePeriods'])
                 && count($request['comparePeriods']) == 1
             ) {
                 $this->requestConfig->request_parameters_to_modify['invert_compare_change_compute'] = 1;
@@ -66,7 +67,8 @@ class HtmlTable extends Visualization
 
     public function beforeRender()
     {
-        if ($this->requestConfig->idSubtable
+        if (
+            $this->requestConfig->idSubtable
             && $this->config->show_embedded_subtable) {
 
             $this->config->show_visualization_only = true;
@@ -94,7 +96,8 @@ class HtmlTable extends Visualization
             $this->config->columns_to_display = $this->dataTable->getColumns();
         }
 
-        if ($this->isComparing()
+        if (
+            $this->isComparing()
             && !empty($this->dataTable)
         ) {
             $this->assignTemplateVar('comparisonTotals', $this->dataTable->getMetadata('comparisonTotals'));

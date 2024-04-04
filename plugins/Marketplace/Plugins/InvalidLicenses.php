@@ -198,10 +198,12 @@ class InvalidLicenses
                         $pluginNames['noLicense'][] = $pluginName;
                     } elseif (!empty($plugin['consumer']['license']['isExceeded'])) {
                         $pluginNames['exceeded'][] = $pluginName;
-                    } elseif (isset($plugin['consumer']['license']['status'])
+                    } elseif (
+                        isset($plugin['consumer']['license']['status'])
                               && $plugin['consumer']['license']['status'] === 'Cancelled') {
                         $pluginNames['noLicense'][] = $pluginName;
-                    } elseif (isset($plugin['consumer']['license']['isValid'])
+                    } elseif (
+                        isset($plugin['consumer']['license']['isValid'])
                            && empty($plugin['consumer']['license']['isValid'])) {
                         $pluginNames['expired'][] = $pluginName;
                     }

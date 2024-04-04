@@ -71,7 +71,8 @@ class ConfigSettingManipulation
         $sectionName = $this->sectionName;
         $section = $config->$sectionName;
 
-        if (isset($section[$this->name])
+        if (
+            isset($section[$this->name])
             && is_array($section[$this->name])
             && !is_array($this->value)
         ) {
@@ -87,7 +88,8 @@ class ConfigSettingManipulation
         $sectionName = $this->sectionName;
         $section = $config->$sectionName;
 
-        if (isset($section[$this->name])
+        if (
+            isset($section[$this->name])
             && !is_array($section[$this->name])
         ) {
             throw new \Exception("Trying to append to non-array setting value " . $this->getSettingString() . ".");

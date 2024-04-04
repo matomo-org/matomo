@@ -46,7 +46,8 @@ return array(
 
         $writers = [];
         foreach ($writerNames as $writerName) {
-            if ($writerName === 'screen'
+            if (
+                $writerName === 'screen'
                 && \Piwik\Common::isPhpCliMode()
                 && !defined('PIWIK_TEST_MODE')
                 && !\Piwik\SettingsServer::isTrackerApiRequest()
@@ -59,7 +60,8 @@ return array(
 
                 /** @var \Monolog\Handler\HandlerInterface $handler */
                 $handler = $c->make($classes[$writerName]);
-                if ($enableFingersCrossed
+                if (
+                    $enableFingersCrossed
                     && $writerName !== 'screen'
                     && $handler instanceof \Monolog\Handler\AbstractHandler
                     && $isLogBufferingAllowed
@@ -82,7 +84,8 @@ return array(
             }
         }
 
-        if ($enableLogCaptureHandler
+        if (
+            $enableLogCaptureHandler
             && $isLogBufferingAllowed
         ) {
             $writers[] = $c->get(LogCaptureHandler::class);

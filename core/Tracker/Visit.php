@@ -352,7 +352,8 @@ class Visit implements VisitInterface
 
         // If the visitor had a first party ID cookie, then we use this value
         $idVisitor = $this->visitProperties->getProperty('idvisitor');
-        if (!empty($idVisitor)
+        if (
+            !empty($idVisitor)
             && Tracker::LENGTH_BINARY_ID == strlen($this->visitProperties->getProperty('idvisitor'))
         ) {
             return $this->visitProperties->getProperty('idvisitor');

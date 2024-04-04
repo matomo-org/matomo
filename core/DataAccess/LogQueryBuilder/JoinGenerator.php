@@ -191,7 +191,8 @@ class JoinGenerator
                 }
 
                 $joinName = 'LEFT JOIN';
-                if ($i > 0
+                if (
+                    $i > 0
                     && $this->tables[$i - 1]
                     && is_string($this->tables[$i - 1])
                     && strpos($this->tables[$i - 1], LogAggregator::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX) === 0) {
@@ -287,7 +288,8 @@ class JoinGenerator
             throw new Exception("Table '$table' can't be joined for segmentation");
         }
 
-        if ($this->tables->hasJoinedTableManually($table, $join)
+        if (
+            $this->tables->hasJoinedTableManually($table, $join)
             || $this->tables->hasJoinedTableManually($table, $alternativeJoin)) {
             // already joined, no need to join it again
             return null;
@@ -336,7 +338,8 @@ class JoinGenerator
             $logTableToJoin->getColumnToJoinOnIdAction()
         );
 
-        if ($index > 0
+        if (
+            $index > 0
             && $this->tables->hasAddedTableManually($tableName)
             && !$this->tables->hasJoinedTableManually($tableName, $nonVisitJoin)
             && !$this->tables->hasJoinedTableManually($tableName, $altNonVisitJoin)) {

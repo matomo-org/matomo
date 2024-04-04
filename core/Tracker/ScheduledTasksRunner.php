@@ -47,7 +47,8 @@ class ScheduledTasksRunner
         // Get last time tasks started executing
         $cache = Cache::getCacheGeneral();
 
-        if ($minimumInterval <= 0
+        if (
+            $minimumInterval <= 0
             || empty($cache['isBrowserTriggerEnabled'])
         ) {
             Common::printDebug("-> Scheduled tasks not running in Tracker: Browser archiving is disabled.");
@@ -56,7 +57,8 @@ class ScheduledTasksRunner
 
         $nextRunTime = $cache['lastTrackerCronRun'] + $minimumInterval;
 
-        if ((defined('DEBUG_FORCE_SCHEDULED_TASKS') && DEBUG_FORCE_SCHEDULED_TASKS)
+        if (
+            (defined('DEBUG_FORCE_SCHEDULED_TASKS') && DEBUG_FORCE_SCHEDULED_TASKS)
             || $cache['lastTrackerCronRun'] === false
             || $nextRunTime < $now
         ) {

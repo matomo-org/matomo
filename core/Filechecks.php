@@ -20,7 +20,8 @@ class Filechecks
      */
     public static function canAutoUpdate()
     {
-        if (!is_writable(PIWIK_INCLUDE_PATH . '/') ||
+        if (
+            !is_writable(PIWIK_INCLUDE_PATH . '/') ||
             !is_writable(PIWIK_DOCUMENT_ROOT . '/index.php') ||
             !is_writable(PIWIK_INCLUDE_PATH . '/core') ||
             !is_writable(PIWIK_DOCUMENT_ROOT . '/config/global.ini.php')

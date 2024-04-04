@@ -75,7 +75,8 @@ abstract class Factory
 
         if (is_string($date)) {
             [$period, $date] = self::convertRangeToDateIfNeeded($period, $date);
-            if (Period::isMultiplePeriod($date, $period)
+            if (
+                Period::isMultiplePeriod($date, $period)
                 || $period == 'range'
             ) {
 

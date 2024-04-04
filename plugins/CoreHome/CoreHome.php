@@ -103,7 +103,8 @@ class CoreHome extends \Piwik\Plugin
         foreach ($metrics as $metric) {
             if ($metric instanceof ArchivedMetric && $metric->getDimension()) {
                 $metricName = $metric->getName();
-                if ($metric->getDbTableName() === 'log_visit'
+                if (
+                    $metric->getDbTableName() === 'log_visit'
                     && $metricName !== 'nb_uniq_visitors'
                     && $metricName !== 'nb_visits'
                     && strpos($metricName, ArchivedMetric::AGGREGATION_SUM_PREFIX) === 0
@@ -397,7 +398,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_CopiedToClipboard';
 
         // add admin menu translations
-        if (SettingsPiwik::isMatomoInstalled()
+        if (
+            SettingsPiwik::isMatomoInstalled()
             && Common::getRequestVar('module', '') != 'CoreUpdater'
             && Piwik::isUserHasSomeViewAccess()
         ) {

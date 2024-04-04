@@ -164,7 +164,8 @@ class ImageGraph extends \Piwik\Plugin
 
             $reportSupportsEvolution = !in_array($reportUniqueId, self::$REPORTS_DISABLED_EVOLUTION_GRAPH);
 
-            if ($reportSupportsEvolution
+            if (
+                $reportSupportsEvolution
                 && $reportWithDimensionsSupportsEvolution
             ) {
                 $parameters['period'] = $periodForMultiplePeriodGraph;

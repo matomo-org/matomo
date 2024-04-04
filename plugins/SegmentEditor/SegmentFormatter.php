@@ -124,7 +124,8 @@ class SegmentFormatter
     {
         $operator = $operand[SegmentExpression::INDEX_OPERAND_OPERATOR];
 
-        if ($operator === SegmentExpression::MATCH_IS_NULL_OR_EMPTY
+        if (
+            $operator === SegmentExpression::MATCH_IS_NULL_OR_EMPTY
             || $operator === SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY) {
             return '';
         }

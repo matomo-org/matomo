@@ -91,14 +91,16 @@ class Get extends Report
             /** @var Report $report */
             $report = new $reportClass();
 
-            if ($report->getModule() == 'API'
+            if (
+                $report->getModule() == 'API'
                 || $report->getAction() != 'get'
             ) {
                 continue;
             }
 
             $metrics = $report->getMetrics();
-            if (!empty($report->parameters)
+            if (
+                !empty($report->parameters)
                 || empty($metrics)
             ) {
                 continue;

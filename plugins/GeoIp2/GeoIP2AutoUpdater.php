@@ -242,7 +242,8 @@ class GeoIP2AutoUpdater extends Task
             foreach ($content as $info) {
                 $archivedPath = $info['filename'];
                 foreach (LocationProviderGeoIp2::$dbNames[$dbType] as $dbName) {
-                    if (basename($archivedPath) === $dbName
+                    if (
+                        basename($archivedPath) === $dbName
                         || preg_match('/' . $dbName . '/', basename($archivedPath))
                     ) {
                         $fileToExtract = $archivedPath;
@@ -275,7 +276,8 @@ class GeoIP2AutoUpdater extends Task
             $fd = fopen($outputPath, 'wb');
             fwrite($fd, $unzipped);
             fclose($fd);
-        } else if (substr($filename, -3, 3) == '.gz'
+        } else if (
+            substr($filename, -3, 3) == '.gz'
             || $isDbIpUnknownDbType
         ) {
             $unzip = Unzip::factory('gz', $path);
@@ -451,7 +453,8 @@ class GeoIP2AutoUpdater extends Task
         if (!empty($options['period'])) {
             $period = $options['period'];
 
-            if ($period != self::SCHEDULE_PERIOD_MONTHLY
+            if (
+                $period != self::SCHEDULE_PERIOD_MONTHLY
                 && $period != self::SCHEDULE_PERIOD_WEEKLY
             ) {
                 throw new Exception(Piwik::translate(
@@ -508,7 +511,8 @@ class GeoIP2AutoUpdater extends Task
      */
     public static function isUpdaterSetup()
     {
-        if (Option::get(self::LOC_URL_OPTION_NAME) !== false
+        if (
+            Option::get(self::LOC_URL_OPTION_NAME) !== false
             || Option::get(self::ISP_URL_OPTION_NAME) !== false
         ) {
             return true;
@@ -636,7 +640,8 @@ class GeoIP2AutoUpdater extends Task
             return;
         }
 
-        if ($ext != 'tar.gz'
+        if (
+            $ext != 'tar.gz'
             && $ext != 'gz'
             && $ext != 'mmdb.gz'
         ) {
@@ -694,7 +699,8 @@ class GeoIP2AutoUpdater extends Task
                 [$oldPath, $newPath] = $this->getOldAndNewPathsForBrokenDb($customNames[$type]);
 
                 // rename the DB so tracking will not fail
-                if ($oldPath !== false
+                if (
+                    $oldPath !== false
                     && $newPath !== false
                 ) {
                     if (file_exists($newPath)) {
@@ -788,7 +794,8 @@ class GeoIP2AutoUpdater extends Task
 
             // if there is a URL for this DB type and the GeoIP 2 DB file's last modified time is before
             // the time the updater should have been previously run, then **the file is out of date**
-            if (!empty($dbUrl)
+            if (
+                !empty($dbUrl)
                 && filemtime($dbPath) < $previousScheduledRuntime
             ) {
                 return true;

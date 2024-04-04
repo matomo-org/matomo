@@ -253,7 +253,8 @@ class CustomLogo
 
     private function uploadImage($uploadFieldName, $targetHeight, $userPath)
     {
-        if (empty($_FILES[$uploadFieldName])
+        if (
+            empty($_FILES[$uploadFieldName])
             || !empty($_FILES[$uploadFieldName]['error'])
         ) {
             return false;

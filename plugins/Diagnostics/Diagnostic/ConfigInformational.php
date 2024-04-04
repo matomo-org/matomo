@@ -49,7 +49,8 @@ class ConfigInformational implements Diagnostic
             $plugins = Manager::getInstance()->loadAllPluginsAndGetTheirInfo();
             foreach ($plugins as $pluginName => $plugin) {
                 $string = $pluginName;
-                if (!empty($plugin['info']['version'])
+                if (
+                    !empty($plugin['info']['version'])
                     && !empty($plugin['uninstallable'])
                     && (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE)) {
                     // we only want to show versions for plugins not shipped with core

@@ -386,7 +386,8 @@ class PivotByDimensionTest extends IntegrationTestCase
     {
         $proxyMock = $this->getMockBuilder('stdClass')->addMethods(array('call'))->getMock();
         $proxyMock->expects($this->any())->method('call')->willReturnCallback(function ($className, $methodName, $parameters) {
-            if ($className == "\\Piwik\\Plugins\\UserCountry\\API"
+            if (
+                $className == "\\Piwik\\Plugins\\UserCountry\\API"
                 && $methodName == 'getCity'
             ) {
                 $this->segmentUsedToGetIntersected[] = $parameters['segment'];

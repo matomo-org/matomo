@@ -82,7 +82,8 @@ class Month extends Period
      */
     protected function processOptimalSubperiods($startDate, $endDate)
     {
-        while ($startDate->isEarlier($endDate)
+        while (
+            $startDate->isEarlier($endDate)
             || $startDate == $endDate
         ) {
             $week        = new Week($startDate);

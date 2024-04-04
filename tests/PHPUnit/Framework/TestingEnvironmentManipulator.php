@@ -70,7 +70,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function makeGlobalSettingsProvider(GlobalSettingsProvider $original)
     {
-        if ($this->vars->configFileGlobal
+        if (
+            $this->vars->configFileGlobal
             || $this->vars->configFileLocal
             || $this->vars->configFileCommon
         ) {
@@ -122,7 +123,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function onEnvironmentBootstrapped()
     {
-        if (empty($this->vars->ignoreClearAllViewDataTableParameters)
+        if (
+            empty($this->vars->ignoreClearAllViewDataTableParameters)
             && !SettingsServer::isTrackerApiRequest()
         ) {
             try {
@@ -145,7 +147,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
         \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;
 
-        if ($this->vars->deleteArchiveTables
+        if (
+            $this->vars->deleteArchiveTables
             && !$this->vars->_archivingTablesDeleted
         ) {
             $this->vars->_archivingTablesDeleted = true;

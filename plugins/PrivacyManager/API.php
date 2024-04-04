@@ -211,7 +211,8 @@ class API extends \Piwik\Plugin\API
             // pass
         }
 
-        if (!empty($anonymizeReferrer)
+        if (
+            !empty($anonymizeReferrer)
             && !array_key_exists($anonymizeReferrer, $this->referrerAnonymizer->getAvailableAnonymizationOptions())) {
             $anonymizeReferrer = '';
         }

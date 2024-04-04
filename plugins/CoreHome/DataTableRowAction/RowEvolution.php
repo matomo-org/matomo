@@ -351,7 +351,8 @@ class RowEvolution
             }
 
             // TODO: this check should be determined by metric metadata, not hardcoded here
-            if ($metric == 'nb_users'
+            if (
+                $metric == 'nb_users'
                 && $first == 0
                 && $last == 0
             ) {

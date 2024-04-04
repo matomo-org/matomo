@@ -84,7 +84,8 @@ class AddColumnsProcessedMetrics extends BaseFilter
             $nbVisits  = (int)Metric::getMetric($row, 'nb_visits');
             $nbActions = (int)Metric::getMetric($row, 'nb_actions');
 
-            if ($nbVisits === 0
+            if (
+                $nbVisits === 0
                 && $nbActions === 0
             ) {
                 // case of keyword/website/campaign with a conversion for this day, but no visit, we don't show it

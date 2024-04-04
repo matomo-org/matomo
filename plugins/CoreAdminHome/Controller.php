@@ -315,7 +315,8 @@ class Controller extends ControllerAdmin
         $enableBrowserTriggerArchiving = Rules::isBrowserTriggerEnabled();
         $todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
         $showWarningCron = false;
-        if (!$enableBrowserTriggerArchiving
+        if (
+            !$enableBrowserTriggerArchiving
             && $todayArchiveTimeToLive < 3600
         ) {
             $showWarningCron = true;

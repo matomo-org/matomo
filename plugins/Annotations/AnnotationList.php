@@ -250,7 +250,8 @@ class AnnotationList
             foreach ($this->annotations[$idSite] as $idNote => $annotation) {
                 if ($startDate !== false) {
                     $annotationDate = Date::factory($annotation['date']);
-                    if ($annotationDate->getTimestamp() < $startDate->getTimestamp()
+                    if (
+                        $annotationDate->getTimestamp() < $startDate->getTimestamp()
                         || $annotationDate->getTimestamp() > $endDate->getTimestamp()
                     ) {
                         continue;

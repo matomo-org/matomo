@@ -101,7 +101,8 @@ class Failures
         foreach ($params as $key => $value) {
             if (!empty($token) && $value === $token) {
                 $params[$key] = '__TOKEN_AUTH__'; // user accidentally posted the token in a wrong field
-            } elseif (!empty($value) && is_string($value)
+            } elseif (
+                !empty($value) && is_string($value)
                 && mb_strlen($value) >= 29 && mb_strlen($value) <= 36
                 && ctype_xdigit($value)) {
                 $params[$key] = '__TOKEN_AUTH__'; // user maybe posted a token in a different field... it looks like it might be a token

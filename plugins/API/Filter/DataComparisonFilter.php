@@ -158,7 +158,8 @@ class DataComparisonFilter
             throw new BadRequestException(Piwik::translate('General_MaximumNumberOfPeriodsComparedIs', [$this->periodCompareLimit]));
         }
 
-        if (count($this->compareSegments) == 1
+        if (
+            count($this->compareSegments) == 1
             && count($this->comparePeriods) == 1
         ) {
             return;
@@ -194,7 +195,8 @@ class DataComparisonFilter
      */
     public function compare(DataTable\DataTableInterface $table)
     {
-        if (empty($this->compareSegments)
+        if (
+            empty($this->compareSegments)
             && empty($this->comparePeriods)
         ) {
             return;
@@ -264,7 +266,8 @@ class DataComparisonFilter
                 $params = [];
                 $params['segment'] = $segment;
 
-                if (!empty($period)
+                if (
+                    !empty($period)
                     && !empty($date)
                 ) {
                     $params['date'] = $date;

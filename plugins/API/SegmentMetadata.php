@@ -28,7 +28,8 @@ class SegmentMetadata
         $segments = array();
 
         foreach ($dimensionSegments as $segment) {
-            if (!$_showAllSegments
+            if (
+                !$_showAllSegments
                 && $segment->isInternal()
             ) {
                 continue;
@@ -64,7 +65,8 @@ class SegmentMetadata
                 unset($segment['sqlSegment']);
                 unset($segment['needsMostFrequentValues']);
 
-                if (isset($segment['suggestedValuesCallback'])
+                if (
+                    isset($segment['suggestedValuesCallback'])
                     && !is_string($segment['suggestedValuesCallback'])
                 ) {
                     unset($segment['suggestedValuesCallback']);
@@ -108,7 +110,8 @@ class SegmentMetadata
             $compare = $type * strcmp($row1[$column], $row2[$column]);
 
             // hack so that custom variables "page" are grouped together in the doc
-            if ($row1['category'] == $customVarCategory
+            if (
+                $row1['category'] == $customVarCategory
                 && $row1['category'] == $row2['category']
             ) {
                 $compare = strcmp($row1['segment'], $row2['segment']);

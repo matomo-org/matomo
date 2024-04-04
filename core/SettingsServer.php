@@ -182,7 +182,8 @@ class SettingsServer
     {
         // in Megabytes
         $currentValue = self::getMemoryLimitValue();
-        if ($currentValue === false
+        if (
+            $currentValue === false
             || ($currentValue < $minimumMemoryLimit && @ini_set('memory_limit', $minimumMemoryLimit . 'M'))
         ) {
             return true;

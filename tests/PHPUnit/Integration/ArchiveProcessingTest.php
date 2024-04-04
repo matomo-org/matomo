@@ -316,7 +316,8 @@ class ArchiveProcessingTest extends IntegrationTestCase
     protected function _checkLoadDataInFileWasUsed($didWeUseBulk)
     {
         static $skippedOnce = false;
-        if ($didWeUseBulk !== true
+        if (
+            $didWeUseBulk !== true
             && $skippedOnce === false
         ) {
             $skippedOnce = true;

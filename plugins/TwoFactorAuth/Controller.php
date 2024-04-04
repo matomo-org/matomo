@@ -214,7 +214,8 @@ class Controller extends \Piwik\Plugin\Controller
         $accessErrorString = '';
         $login = Piwik::getCurrentUserLogin();
 
-        if (!empty($secret) && !empty($authCode)
+        if (
+            !empty($secret) && !empty($authCode)
             && Nonce::verifyNonce(self::AUTH_CODE_NONCE, $authCodeNonce)) {
             if ($this->twoFa->validateAuthCodeDuringSetup(trim($authCode), $secret)) {
                 $this->twoFa->saveSecret($login, $secret);
@@ -254,7 +255,8 @@ class Controller extends \Piwik\Plugin\Controller
             }
         }
 
-        if (!$this->recoveryCodeDao->getAllRecoveryCodesForLogin($login)
+        if (
+            !$this->recoveryCodeDao->getAllRecoveryCodesForLogin($login)
             || (!$hasSubmittedForm && !TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login))) {
             // we cannot generate new codes after form has been submitted and user is not yet using 2fa cause we would
             // change recovery codes in the background without the user noticing... we cannot simply do this:

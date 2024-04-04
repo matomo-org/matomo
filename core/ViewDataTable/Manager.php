@@ -131,7 +131,8 @@ class Manager
         $result = array();
 
         foreach (static::getAvailableViewDataTables() as $vizId => $vizClass) {
-            if (false === strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations')
+            if (
+                false === strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations')
                 && false === strpos($vizClass, 'Piwik\\Plugins\\Goals\\Visualizations\\Goals')) {
                 $result[$vizId] = $vizClass;
             }
@@ -196,7 +197,8 @@ class Manager
 
         $graphViewIcons['buttons'] = array_filter($graphViewIcons['buttons']);
 
-        if (!empty($insightsViewIcons['buttons'])
+        if (
+            !empty($insightsViewIcons['buttons'])
             && $view->config->show_insights
         ) {
             $result[] = $insightsViewIcons;
@@ -284,7 +286,8 @@ class Manager
         self::unsetComparisonParams($params);
 
         foreach ($parametersToOverride as $key => $value) {
-            if ($key === 'viewDataTable'
+            if (
+                $key === 'viewDataTable'
                 && !empty($params[$key])
                 && $params[$key] !== $value) {
                 if (!empty($params['columns'])) {

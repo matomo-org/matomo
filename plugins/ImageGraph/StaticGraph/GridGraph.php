@@ -116,7 +116,8 @@ abstract class GridGraph extends StaticGraph
                 }
             }
 
-            if ($this->forceSkippedLabels
+            if (
+                $this->forceSkippedLabels
                 && $skippedLabels
                 && $skippedLabels < $this->forceSkippedLabels
                 && $abscissaSeriesCount > $this->forceSkippedLabels + 1

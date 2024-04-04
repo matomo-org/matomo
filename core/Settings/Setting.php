@@ -324,12 +324,14 @@ class Setting
 
     private function checkType(FieldConfig $field)
     {
-        if ($field->uiControl === FieldConfig::UI_CONTROL_MULTI_SELECT &&
+        if (
+            $field->uiControl === FieldConfig::UI_CONTROL_MULTI_SELECT &&
             $this->type !== FieldConfig::TYPE_ARRAY) {
             throw new Exception('Type must be an array when using a multi select');
         }
 
-        if ($field->uiControl === FieldConfig::UI_CONTROL_MULTI_TUPLE &&
+        if (
+            $field->uiControl === FieldConfig::UI_CONTROL_MULTI_TUPLE &&
             $this->type !== FieldConfig::TYPE_ARRAY) {
             throw new Exception('Type must be an array when using a multi pair');
         }

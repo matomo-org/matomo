@@ -73,7 +73,8 @@ class API extends \Piwik\Plugin\API
     protected function checkEnabledAllUsers($enabledAllUsers)
     {
         $enabledAllUsers = (int)$enabledAllUsers;
-        if ($enabledAllUsers
+        if (
+            $enabledAllUsers
             && !Piwik::hasUserSuperUserAccess()
         ) {
             throw new Exception("enabledAllUsers=1 requires Super User access");
@@ -154,7 +155,8 @@ class API extends \Piwik\Plugin\API
 
     protected function checkUserCanAddNewSegment($idSite)
     {
-        if (empty($idSite)
+        if (
+            empty($idSite)
             && !SegmentEditor::isAddingSegmentsForAllWebsitesEnabled()
         ) {
             throw new Exception(Piwik::translate('SegmentEditor_AddingSegmentForAllWebsitesDisabled'));
@@ -320,7 +322,8 @@ class API extends \Piwik\Plugin\API
 
         Cache::getEagerCache()->flushAll();
 
-        if ($autoArchive
+        if (
+            $autoArchive
             && !Rules::isBrowserTriggerEnabled()
             && $this->processNewSegmentsFrom != SegmentArchiving::CREATION_TIME
         ) {

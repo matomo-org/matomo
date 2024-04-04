@@ -132,7 +132,8 @@ class UpdateCommunication
         $latestVersion   = $this->getLatestVersion();
         $lastVersionSent = $this->getLatestVersionSent();
 
-        if (!empty($lastVersionSent)
+        if (
+            !empty($lastVersionSent)
             && ($latestVersion == $lastVersionSent
                 || version_compare($latestVersion, $lastVersionSent) == -1)) {
             return true;

@@ -32,7 +32,8 @@ class Extractions
                 throw new \Exception('Each extraction within extractions has to be an array');
             }
 
-            if (count($extraction) !== 2
+            if (
+                count($extraction) !== 2
                 || !array_key_exists('dimension', $extraction)
                 || !array_key_exists('pattern', $extraction)) {
 

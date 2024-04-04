@@ -163,7 +163,8 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
         $extraProcessedMetrics[] = new RevenuePerVisit();
         if ($this->processOnlyIdGoal != self::GOALS_MINIMAL_REPORT) {
             foreach ($goals as $idGoal) {
-                if (($this->processOnlyIdGoal > self::GOALS_FULL_TABLE
+                if (
+                    ($this->processOnlyIdGoal > self::GOALS_FULL_TABLE
                         || $this->isEcommerce)
                     && $this->processOnlyIdGoal != $idGoal
                 ) {

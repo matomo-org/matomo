@@ -39,7 +39,8 @@ abstract class Base extends \Piwik\Plugin\Report
     {
         $view->config->filters[] = function ($dataTable) use ($view) {
             // if there's only one row whose label is 'Unknown', display a message saying there's no data
-            if ($dataTable->getRowsCount() == 1
+            if (
+                $dataTable->getRowsCount() == 1
                 && $dataTable->getFirstRow()->getColumn('label') == Piwik::translate('General_Unknown')
             ) {
                 $footerMessage = Piwik::translate('UserCountry_NoDataForGeoIPReport1');

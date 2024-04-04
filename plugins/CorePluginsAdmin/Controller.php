@@ -345,7 +345,8 @@ class Controller extends Plugin\ControllerAdmin
             if (!empty($thisPlugin['info']['theme'])) {
                 $isTheme = (bool)$thisPlugin['info']['theme'];
             }
-            if (($themesOnly && $isTheme)
+            if (
+                ($themesOnly && $isTheme)
                 || (!$themesOnly && !$isTheme)
             ) {
                 $pluginsFiltered[$name] = $thisPlugin;
@@ -379,7 +380,8 @@ class Controller extends Plugin\ControllerAdmin
 
             $errorMessage = $lastError['message'];
 
-            if (!empty($lastError['backtrace'])
+            if (
+                !empty($lastError['backtrace'])
                 && \Piwik_ShouldPrintBackTraceWithMessage()
             ) {
                 $errorMessage .= $lastError['backtrace'];
@@ -608,7 +610,8 @@ class Controller extends Plugin\ControllerAdmin
 
         $referrer = Common::getRequestVar('referrer', false);
         $referrer = Common::unsanitizeInputValue($referrer);
-        if (!empty($referrer)
+        if (
+            !empty($referrer)
             && Url::isLocalUrl($referrer)
         ) {
             Url::redirectToUrl($referrer);

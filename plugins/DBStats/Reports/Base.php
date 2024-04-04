@@ -87,7 +87,8 @@ abstract class Base extends \Piwik\Plugin\Report
             $view->config->filters[] = array('AddSummaryRow', Piwik::translate('General_Total'));
 
             // add percentage column if desired
-            if ($addPercentColumn
+            if (
+                $addPercentColumn
                 && $addTotalSizeColumn
             ) {
                 $view->config->filters[] = array(

@@ -185,7 +185,8 @@ class EventReports extends RecordBuilder
             $mainLabel = $row[$mainDimension];
 
             // Event name is optional
-            if ($mainDimension == 'eventName'
+            if (
+                $mainDimension == 'eventName'
                 && empty($mainLabel)
             ) {
                 $mainLabel = Archiver::EVENT_NAME_NOT_SET;

@@ -330,7 +330,8 @@ class Translator
     {
         $this->loadTranslations($lang);
 
-        if (isset($this->translations[$lang][$plugin])
+        if (
+            isset($this->translations[$lang][$plugin])
             && isset($this->translations[$lang][$plugin][$key])
         ) {
             return $this->translations[$lang][$plugin][$key];
@@ -341,7 +342,8 @@ class Translator
          * @todo remove this in Piwik 3.0
          */
         if ($plugin != 'Intl') {
-            if (isset($this->translations[$lang]['Intl'])
+            if (
+                isset($this->translations[$lang]['Intl'])
                 && isset($this->translations[$lang]['Intl'][$key])
             ) {
                 return $this->translations[$lang]['Intl'][$key];

@@ -280,7 +280,8 @@ abstract class ViewDataTable implements ViewInterface
         // the exclude low population threshold value is sometimes obtained by requesting data.
         // to avoid issuing unnecessary requests when display properties are determined by metadata,
         // we allow it to be a closure.
-        if (isset($this->requestConfig->filter_excludelowpop_value)
+        if (
+            isset($this->requestConfig->filter_excludelowpop_value)
             && $this->requestConfig->filter_excludelowpop_value instanceof \Closure
         ) {
             $function = $this->requestConfig->filter_excludelowpop_value;
@@ -522,7 +523,8 @@ abstract class ViewDataTable implements ViewInterface
         $period = Common::getRequestVar('period', null, 'string', $requestArray);
         $idSite = Common::getRequestVar('idSite', null, 'string', $requestArray);
 
-        if (Period::isMultiplePeriod($date, $period)
+        if (
+            Period::isMultiplePeriod($date, $period)
             || strpos($idSite, ',') !== false
             || $idSite == 'all'
         ) {
@@ -614,7 +616,8 @@ abstract class ViewDataTable implements ViewInterface
      */
     public function isComparing()
     {
-        if (!$this->supportsComparison()
+        if (
+            !$this->supportsComparison()
             || $this->config->disable_comparison
         ) {
             return false;

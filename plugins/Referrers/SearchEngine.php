@@ -240,7 +240,8 @@ class SearchEngine extends Singleton
                 $query = str_replace('&', '&amp;', strstr($query, '?'));
             }
             $searchEngineName = 'Google Images';
-        } elseif ($searchEngineName === 'Google'
+        } elseif (
+            $searchEngineName === 'Google'
             && (strpos($query, '&as_') !== false || strpos($query, 'as_') === 0)
         ) {
             $keys = array();
@@ -293,7 +294,8 @@ class SearchEngine extends Singleton
                     $key = trim(urldecode($key));
 
                     // Special cases: empty keywords
-                    if (empty($key)
+                    if (
+                        empty($key)
                         && (
                             // empty keyword parameter
                             strpos($query, sprintf('&%s=', $variableName)) !== false
@@ -302,7 +304,8 @@ class SearchEngine extends Singleton
                     ) {
                         $key = false;
                     }
-                    if (!empty($key)
+                    if (
+                        !empty($key)
                         || $key === false
                     ) {
                         break;

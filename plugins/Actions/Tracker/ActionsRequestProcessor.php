@@ -82,7 +82,8 @@ class ActionsRequestProcessor extends RequestProcessor
         /** @var Action $action */
         $action = $request->getMetadata('Actions', 'action');
 
-        if ($action !== null
+        if (
+            $action !== null
             && !$request->getMetadata('CoreHome', 'visitorNotFoundInDb')
         ) {
             $idReferrerActionUrl = 0;

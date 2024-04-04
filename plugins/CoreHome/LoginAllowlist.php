@@ -35,7 +35,8 @@ class LoginAllowlist
         }
 
         // ignore whitelist checks for opt out iframe or opt out JS
-        if (!SettingsServer::isTrackerApiRequest()
+        if (
+            !SettingsServer::isTrackerApiRequest()
             && (('CoreAdminHome' === Piwik::getModule() && ('optOut' === Piwik::getAction() || 'optOutJS' === Piwik::getAction())))
             )
         {

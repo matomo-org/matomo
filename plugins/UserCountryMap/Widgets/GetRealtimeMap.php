@@ -24,7 +24,8 @@ class GetRealtimeMap extends \Piwik\Widget\Widget
         $config->setIsWide();
         $config->setOrder(15);
 
-        if (!PluginManager::getInstance()->isPluginActivated('UserCountry') ||
+        if (
+            !PluginManager::getInstance()->isPluginActivated('UserCountry') ||
             !PluginManager::getInstance()->isPluginActivated('Live') ||
             !Live::isVisitorLogEnabled()
         ) {

@@ -259,11 +259,13 @@ class Config extends \Piwik\ViewDataTable\Config
             }
         }
 
-        if (!empty($requestParamsForSparkline['columns'])
+        if (
+            !empty($requestParamsForSparkline['columns'])
             && is_array($requestParamsForSparkline['columns'])
             && count($requestParamsForSparkline['columns']) === count($metrics)) {
             $columns = array_values($requestParamsForSparkline['columns']);
-        } elseif (!empty($requestParamsForSparkline['columns'])
+        } elseif (
+            !empty($requestParamsForSparkline['columns'])
                   && is_string($requestParamsForSparkline['columns'])
                   && count($metrics) === 1) {
             $columns = array($requestParamsForSparkline['columns']);
@@ -299,7 +301,8 @@ class Config extends \Piwik\ViewDataTable\Config
         );
 
         if (!empty($evolution)) {
-            if (!is_array($evolution) ||
+            if (
+                !is_array($evolution) ||
                 !array_key_exists('currentValue', $evolution) ||
                 !array_key_exists('pastValue', $evolution)
             ) {
@@ -472,7 +475,8 @@ class Config extends \Piwik\ViewDataTable\Config
             throw new NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
         }
 
-        if (!isset($paramsToSet['date'])
+        if (
+            !isset($paramsToSet['date'])
             || !Range::isMultiplePeriod($paramsToSet['date'], $period)
         ) {
             $paramsToSet['date'] = Range::getRelativeToEndDate($period, $range, $endDate, $site);

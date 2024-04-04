@@ -213,7 +213,8 @@ class Config
         $hostConfigs = self::getLocalConfigInfoForHostname($host);
 
         foreach ($hostConfigs as $hostConfig) {
-            if (Filesystem::isValidFilename($hostConfig['file'])
+            if (
+                Filesystem::isValidFilename($hostConfig['file'])
                 && file_exists($hostConfig['path'])
             ) {
                 return $hostConfig['path'];
@@ -261,7 +262,8 @@ class Config
         $fileNames = '';
 
         foreach ($hostConfigs as $hostConfig) {
-            if (count($hostConfigs) > 1
+            if (
+                count($hostConfigs) > 1
                 && $preferredPath
                 && strpos($hostConfig['path'], $preferredPath) === false) {
                 continue;

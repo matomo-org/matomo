@@ -153,7 +153,8 @@ class LabelFilter extends DataTableManipulator
         $sanitizedLabel = Common::sanitizeInputValue($label);
         $variations[] = $sanitizedLabel;
 
-        if ($this->apiModule == 'Actions'
+        if (
+            $this->apiModule == 'Actions'
             && in_array($this->apiMethod, $pageTitleReports)
         ) {
             if ($isTerminal) {
@@ -189,7 +190,8 @@ class LabelFilter extends DataTableManipulator
 
                 $row = $this->doFilterRecursiveDescend($labelVariation, $dataTable);
                 if ($row) {
-                    if ($this->isComparing
+                    if (
+                        $this->isComparing
                         && isset($this->labelSeries[$labelIndex])
                     ) {
                         $comparisons = $row->getComparisons();

@@ -128,7 +128,8 @@ class Segment
         $this->segmentQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
 
         $segmentCondition = trim($segmentCondition ?: '');
-        if (!SettingsPiwik::isSegmentationEnabled()
+        if (
+            !SettingsPiwik::isSegmentationEnabled()
             && !empty($segmentCondition)
         ) {
             throw new Exception("The Super User has disabled the Segmentation feature.");
@@ -288,7 +289,8 @@ class Segment
                 $availableSegment = $this->getSegmentByName($name);
 
                 // We leave segments using !@ and != operands untouched for segments not on log_visit table as they will be build using a subquery
-                if (!$this->doesSegmentNeedSubquery($operand[SegmentExpression::INDEX_OPERAND_OPERATOR], $name)
+                if (
+                    !$this->doesSegmentNeedSubquery($operand[SegmentExpression::INDEX_OPERAND_OPERATOR], $name)
                     && !empty($availableSegment['unionOfSegments'])
                 ) {
                     foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
@@ -401,7 +403,8 @@ class Segment
         $sqlName = $segmentObject ? $segmentObject->getSqlSegment() : null;
 
         $joinTable = null;
-        if ($segmentObject
+        if (
+            $segmentObject
             && $segmentObject->dimension
             && $segmentObject->dimension->getDbColumnJoin()
         ) {
@@ -460,7 +463,8 @@ class Segment
 
         $segment = $this->getSegmentByName($name);
 
-        if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
+        if (
+            $matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
             && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
 
             if (isset($segment['sqlFilterValue'])) {
@@ -644,7 +648,8 @@ class Segment
             return $segmentCondition;
         }
 
-        if (empty($segmentCondition)
+        if (
+            empty($segmentCondition)
             || self::containsCondition($segment, $operator, $segmentCondition)
         ) {
             return $segment;
@@ -687,7 +692,8 @@ class Segment
 
         $foundStoredSegment = null;
         foreach ($availableSegments as $storedSegment) {
-            if ($storedSegment['definition'] == $segment
+            if (
+                $storedSegment['definition'] == $segment
                 || $storedSegment['definition'] == urldecode($segment)
                 || $storedSegment['definition'] == urlencode($segment)
 
@@ -748,7 +754,8 @@ class Segment
 
         foreach ($expressions as $childExpressionsOrOperand) {
             // if this is an AND chain w/ more than one sub-expression being OR-ed together, we can't do anything about the NOT IN subqueries there
-            if ($isAndChain
+            if (
+                $isAndChain
                 && count($childExpressionsOrOperand) > 1
             ) {
                 $mappedExpressions[] = $childExpressionsOrOperand;

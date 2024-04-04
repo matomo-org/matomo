@@ -143,7 +143,8 @@ class API extends \Piwik\Plugin\API
     {
         $site = new Site($idSite);
 
-        if ($period == 'day'
+        if (
+            $period == 'day'
             && ($date == 'today'
                 || $date == Date::factory('now', $site->getTimezone())->toString())
         ) {

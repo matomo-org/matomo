@@ -95,7 +95,8 @@ class VisitorDetails extends VisitorDetailsAbstract
     protected function getVisitorReturningIcon()
     {
         $type = $this->getVisitorReturning();
-        if ($type == 'returning'
+        if (
+            $type == 'returning'
             || $type == 'returningCustomer'
         ) {
             return "plugins/Live/images/returningVisitor.png";
@@ -121,7 +122,8 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getUserId()
     {
-        if (isset($this->details['user_id'])
+        if (
+            isset($this->details['user_id'])
             && strlen($this->details['user_id']) > 0
         ) {
             return $this->details['user_id'];

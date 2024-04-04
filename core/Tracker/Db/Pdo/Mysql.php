@@ -223,7 +223,8 @@ class Mysql extends Db
         } catch (Exception $e) {
             $isSelectQuery = stripos(trim($query), 'select ') === 0;
 
-            if ($isSelectQuery
+            if (
+                $isSelectQuery
                 && !$this->activeTransaction
                 && $this->isMysqlServerHasGoneAwayError($e)) {
                 // mysql may return a MySQL server has gone away error when trying to execute the query

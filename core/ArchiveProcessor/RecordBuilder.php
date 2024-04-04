@@ -154,7 +154,8 @@ abstract class RecordBuilder
 
         // make sure if there are requested numeric records that depend on blob records, that the blob records will be archived first
         foreach ($numericRecords as $record) {
-            if (empty($record->getCountOfRecordName())
+            if (
+                empty($record->getCountOfRecordName())
                 || !in_array($record->getName(), $requestedReports)
             ) {
                 continue;
@@ -174,7 +175,8 @@ abstract class RecordBuilder
         }
 
         foreach ($blobRecords as $record) {
-            if (!empty($requestedReports)
+            if (
+                !empty($requestedReports)
                 && (!in_array($record->getName(), $requestedReports)
                     || in_array($record->getName(), $foundRequestedReports))
             ) {
@@ -190,7 +192,8 @@ abstract class RecordBuilder
             // only do recursive row count if there is a numeric record that depends on it
             $countRecursiveRows = false;
             foreach ($numericRecords as $numeric) {
-                if ($numeric->getCountOfRecordName() == $record->getName()
+                if (
+                    $numeric->getCountOfRecordName() == $record->getName()
                     && $numeric->getCountOfRecordNameIsRecursive()
                 ) {
                     $countRecursiveRows = true;
