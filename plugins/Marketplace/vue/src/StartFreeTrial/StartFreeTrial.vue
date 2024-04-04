@@ -43,17 +43,28 @@
     <template v-else>
       <div class="modal-content trial-start-no-license">
         <div class="modal-text">
-          <h2>Start your free trial today</h2>
-          <p>To unlock the full potential of our premium plugins,
-            <a
-              :href="linkTo({'module':'Marketplace', 'action':'manageLicenseKey'})"
-            >add your license key</a>.</p>
+          <h2>{{ translate('Marketplace_TrialStartNoLicenseTitle') }}</h2>
+          <p>{{ translate('Marketplace_TrialStartNoLicenseText') }}</p>
+          <Field
+              uicontrol="text"
+              name="email"
+              v-model="createAccountEmail"
+              :full-width="true"
+              :title="translate('UsersManager_Email')"
+          />
+
+          <p class="trial-start-legal-hint"
+             v-html="$sanitize(trialStartNoLicenseLegalHintText)"
+          />
+
           <p>
-            <strong>Don't have a license key yet?</strong>
-            Visit our <a :href="externalRawLink('https://shop.matomo.org/my-account/')"
-                         rel="noopener noreferrer" target="_blank">online marketplace</a>,
-            create an account and start a free trial to get your license key.
-            Once you have a license key, you will be able to start any free trials from here.</p>
+            <button
+                class="btn"
+                :disabled="!createAccountEmail"
+                @click="createAccountAndStartFreeTrial()"
+            >{{ translate('Marketplace_TrialStartNoLicenseCreateAccount' )}}</button>
+          </p>
+          <p v-html="$sanitize(trialStartNoLicenseAddHereText)" />
         </div>
       </div>
     </template>
@@ -64,50 +75,135 @@
 import { defineComponent } from 'vue';
 import {
   AjaxHelper,
+  externalLink,
   MatomoUrl,
   NotificationsStore,
   translate,
 } from 'CoreHome';
+import { Field } from 'CorePluginsAdmin';
 
 const { $ } = window;
 
 interface StartFreeTrialState {
+  createAccountEmail: string;
   trialStartError: string | null;
   trialStartInProgress: boolean;
+  trialStartSuccessNotificationMessage: string;
+  trialStartSuccessNotificationTitle: string;
 }
 
 export default defineComponent({
+  components: { Field },
   props: {
     modelValue: {
       type: String,
       required: true,
     },
+    currentUserEmail: String,
     isValidConsumer: Boolean,
   },
   data(): StartFreeTrialState {
     return {
+      createAccountEmail: this.currentUserEmail || '',
       trialStartError: null,
       trialStartInProgress: false,
+      trialStartSuccessNotificationMessage: '',
+      trialStartSuccessNotificationTitle: '',
     };
   },
   emits: ['update:modelValue', 'trialStarted'],
   watch: {
     modelValue(newValue) {
-      if (newValue) {
-        if (this.isValidConsumer) {
-          this.startFreeTrial();
-        } else {
-          this.showLicenseDialog();
-        }
+      if (!newValue) {
+        return;
+      }
+
+      if (this.isValidConsumer) {
+        this.trialStartSuccessNotificationMessage = translate(
+          'CorePluginsAdmin_PluginFreeTrialStarted',
+          '<strong>',
+          '</strong>',
+          newValue,
+        );
+
+        this.startFreeTrial();
+      } else {
+        this.trialStartSuccessNotificationTitle = translate(
+          'CorePluginsAdmin_PluginFreeTrialStartedAccountCreatedTitle',
+        );
+
+        this.trialStartSuccessNotificationMessage = translate(
+          'CorePluginsAdmin_PluginFreeTrialStartedAccountCreatedMessage',
+          newValue,
+        );
+
+        this.showLicenseDialog();
       }
     },
   },
-  methods: {
-    linkTo(params: QueryParameters) {
-      return `?${MatomoUrl.stringify({
-        ...MatomoUrl.urlParsed.value,
-        ...params,
+  computed: {
+    trialStartNoLicenseAddHereText() {
+      const link = `?${MatomoUrl.stringify({
+        module: 'Marketplace',
+        action: 'manageLicenseKey',
       })}`;
+
+      return translate(
+        'Marketplace_TrialStartNoLicenseAddHere',
+        `<a href="${link}" target="_blank" rel="noreferrer noopener">`,
+        '</a>',
+      );
+    },
+    trialStartNoLicenseLegalHintText() {
+      return translate(
+        'Marketplace_TrialStartNoLicenseLegalHint',
+        externalLink('https://shop.matomo.org/terms-conditions/'),
+        '</a>',
+        externalLink('https://matomo.org/privacy-policy/'),
+        '</a>',
+      );
+    },
+  },
+  methods: {
+    createAccountAndStartFreeTrial() {
+      if (!this.createAccountEmail) {
+        return;
+      }
+
+      this.showLoadingModal();
+
+      AjaxHelper.post(
+        {
+          module: 'API',
+          method: 'Marketplace.createAccount',
+        },
+        {
+          email: this.createAccountEmail,
+        },
+        {
+          createErrorNotification: false,
+        },
+      ).then(() => {
+        this.startFreeTrial();
+      }).catch((error) => {
+        this.showErrorModal(error.message);
+
+        this.trialStartInProgress = false;
+
+        this.$emit('update:modelValue', '');
+      });
+    },
+    showLicenseDialog() {
+      $('#startFreeTrial').modal({
+        dismissible: true,
+        onCloseEnd: () => {
+          if (this.trialStartInProgress) {
+            return;
+          }
+
+          this.$emit('update:modelValue', '');
+        },
+      }).modal('open');
     },
     showErrorModal(error: string) {
       if (this.trialStartError) {
@@ -120,14 +216,6 @@ export default defineComponent({
         dismissible: true,
         onCloseEnd: () => {
           this.trialStartError = null;
-        },
-      }).modal('open');
-    },
-    showLicenseDialog() {
-      $('#startFreeTrial').modal({
-        dismissible: true,
-        onCloseEnd: () => {
-          this.$emit('update:modelValue', '');
         },
       }).modal('open');
     },
@@ -148,25 +236,21 @@ export default defineComponent({
     startFreeTrial() {
       this.showLoadingModal();
 
-      const pluginName = this.modelValue;
-
       AjaxHelper.post(
         {
           module: 'API',
           method: 'Marketplace.startFreeTrial',
         },
-        { pluginName },
+        {
+          pluginName: this.modelValue,
+        },
         {
           createErrorNotification: false,
         },
       ).then(() => {
         const notificationInstanceId = NotificationsStore.show({
-          message: translate(
-            'CorePluginsAdmin_PluginFreeTrialStarted',
-            '<strong>',
-            '</strong>',
-            pluginName,
-          ),
+          message: this.trialStartSuccessNotificationMessage,
+          title: this.trialStartSuccessNotificationTitle,
           context: 'success',
           id: 'startTrialSuccess',
           placeat: '#notificationContainer',

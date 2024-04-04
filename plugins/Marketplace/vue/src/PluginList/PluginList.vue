@@ -7,6 +7,7 @@
 <template>
 
   <StartFreeTrial
+    :current-user-email="currentUserEmail"
     :is-valid-consumer="isValidConsumer"
     v-model="showStartFreeTrialForPlugin"
     @trialStarted="this.$emit('triggerUpdate')"
@@ -93,6 +94,7 @@ interface PluginListState {
 
 export default defineComponent({
   props: {
+    currentUserEmail: String,
     pluginsToShow: {
       type: Array,
       required: true,

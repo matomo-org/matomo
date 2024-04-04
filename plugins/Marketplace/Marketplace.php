@@ -143,6 +143,11 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_TrialStartErrorTitle';
         $translationKeys[] = 'Marketplace_TrialStartInProgressText';
         $translationKeys[] = 'Marketplace_TrialStartInProgressTitle';
+        $translationKeys[] = 'Marketplace_TrialStartNoLicenseAddHere';
+        $translationKeys[] = 'Marketplace_TrialStartNoLicenseCreateAccount';
+        $translationKeys[] = 'Marketplace_TrialStartNoLicenseLegalHint';
+        $translationKeys[] = 'Marketplace_TrialStartNoLicenseText';
+        $translationKeys[] = 'Marketplace_TrialStartNoLicenseTitle';
         $translationKeys[] = 'Marketplace_UploadZipFile';
         $translationKeys[] = 'Marketplace_ViewSubscriptions';
         $translationKeys[] = 'Mobile_LoadingReport';
