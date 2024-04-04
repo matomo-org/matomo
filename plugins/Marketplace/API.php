@@ -183,7 +183,7 @@ class API extends \Piwik\Plugin\API
         ) {
             // We expect an exact empty 201 response from this API
             // Anything different should be an error
-            throw new Exception('There was an error starting your free trial: Please try again later.');
+            throw new Exception(Piwik::translate('Marketplace_TrialStartErrorAPI'));
         }
 
         return true;

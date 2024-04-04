@@ -402,15 +402,38 @@
     }
 }
 
-#trialRequiresLicense {
+#startFreeTrial {
     max-width: 600px;
 
-    h2 {
-        font-weight: 700;
-        font-size: 32px;
-        line-height: 48px;
-        padding-top: 0;
-        color: @theme-color-text;
+    .trial-start-in-progress {
+        &.modal-content {
+            text-align: center;
+        }
+
+        .modal-text {
+            // match preloader distance to top of modal
+            // with text distance to bottom of modal
+            padding-top: 1em;
+        }
+
+        h2 {
+            color: @theme-color-text;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 32px;
+            padding-bottom: 0;
+        }
+    }
+
+    .trial-start-error,
+    .trial-start-no-license {
+        h2 {
+            color: @theme-color-text;
+            font-weight: 700;
+            font-size: 32px;
+            line-height: 48px;
+            padding-top: 0;
+        }
     }
 
     .modal-content p {

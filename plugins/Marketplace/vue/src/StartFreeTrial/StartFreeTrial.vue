@@ -5,23 +5,58 @@
 -->
 
 <template>
-  <div class="modal" id="trialRequiresLicense">
-    <p class="btn-close modal-close"><i class="icon-close"></i></p>
-    <div class="modal-content">
-      <div class="modal-text">
-        <h2>Start your free trial today</h2>
-        <p>To unlock the full potential of our premium plugins,
-          <a
-            :href="linkTo({'module':'Marketplace', 'action':'manageLicenseKey'})"
-          >add your license key</a>.</p>
-        <p>
-          <strong>Don't have a license key yet?</strong>
-          Visit our <a :href="externalRawLink('https://shop.matomo.org/my-account/')"
-                       rel="noopener noreferrer" target="_blank">online marketplace</a>,
-          create an account and start a free trial to get your license key.
-          Once you have a license key, you will be able to start any free trials from here.</p>
+  <div class="modal" id="startFreeTrial">
+    <p v-if="!trialStartInProgress" class="btn-close modal-close"><i class="icon-close"></i></p>
+
+    <template v-if="trialStartInProgress">
+      <div class="modal-content trial-start-in-progress">
+        <div class="modal-text">
+          <div class="preloader-wrapper active">
+            <div class="spinner-layer spinner-blue-only">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div>
+              <div class="gap-patch">
+                <div class="circle"></div>
+              </div>
+              <div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+          </div>
+          <h2>{{ translate('Marketplace_TrialStartInProgressTitle') }}</h2>
+          <p>{{ translate('Marketplace_TrialStartInProgressText') }}</p>
+        </div>
       </div>
-    </div>
+    </template>
+
+    <template v-else-if="trialStartError">
+      <div class="modal-content trial-start-error">
+        <div class="modal-text">
+          <h2>{{ translate('Marketplace_TrialStartErrorTitle') }}</h2>
+          <p>{{ trialStartError }}</p>
+          <p>{{ translate('Marketplace_TrialStartErrorSupport') }}</p>
+        </div>
+      </div>
+    </template>
+
+    <template v-else>
+      <div class="modal-content trial-start-no-license">
+        <div class="modal-text">
+          <h2>Start your free trial today</h2>
+          <p>To unlock the full potential of our premium plugins,
+            <a
+              :href="linkTo({'module':'Marketplace', 'action':'manageLicenseKey'})"
+            >add your license key</a>.</p>
+          <p>
+            <strong>Don't have a license key yet?</strong>
+            Visit our <a :href="externalRawLink('https://shop.matomo.org/my-account/')"
+                         rel="noopener noreferrer" target="_blank">online marketplace</a>,
+            create an account and start a free trial to get your license key.
+            Once you have a license key, you will be able to start any free trials from here.</p>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -36,6 +71,11 @@ import {
 
 const { $ } = window;
 
+interface StartFreeTrialState {
+  trialStartError: string | null;
+  trialStartInProgress: boolean;
+}
+
 export default defineComponent({
   props: {
     modelValue: {
@@ -43,6 +83,12 @@ export default defineComponent({
       required: true,
     },
     isValidConsumer: Boolean,
+  },
+  data(): StartFreeTrialState {
+    return {
+      trialStartError: null,
+      trialStartInProgress: false,
+    };
   },
   emits: ['update:modelValue', 'trialStarted'],
   watch: {
@@ -63,10 +109,46 @@ export default defineComponent({
         ...params,
       })}`;
     },
-    startFreeTrial() {
-      const pluginName = this.modelValue;
+    showErrorModal(error: string) {
+      if (this.trialStartError) {
+        return;
+      }
 
-      window.Piwik_Popover.showLoading('');
+      this.trialStartError = error;
+
+      $('#startFreeTrial').modal({
+        dismissible: true,
+        onCloseEnd: () => {
+          this.trialStartError = null;
+        },
+      }).modal('open');
+    },
+    showLicenseDialog() {
+      $('#startFreeTrial').modal({
+        dismissible: true,
+        onCloseEnd: () => {
+          this.$emit('update:modelValue', '');
+        },
+      }).modal('open');
+    },
+    showLoadingModal() {
+      if (this.trialStartInProgress) {
+        return;
+      }
+
+      this.trialStartInProgress = true;
+
+      $('#startFreeTrial').modal({
+        dismissible: false,
+        onCloseEnd: () => {
+          this.trialStartInProgress = false;
+        },
+      }).modal('open');
+    },
+    startFreeTrial() {
+      this.showLoadingModal();
+
+      const pluginName = this.modelValue;
 
       AjaxHelper.post(
         {
@@ -74,9 +156,10 @@ export default defineComponent({
           method: 'Marketplace.startFreeTrial',
         },
         { pluginName },
+        {
+          createErrorNotification: false,
+        },
       ).then(() => {
-        window.Piwik_Popover.close();
-
         const notificationInstanceId = NotificationsStore.show({
           message: translate(
             'CorePluginsAdmin_PluginFreeTrialStarted',
@@ -86,21 +169,22 @@ export default defineComponent({
           ),
           context: 'success',
           id: 'startTrialSuccess',
+          placeat: '#notificationContainer',
           type: 'transient',
         });
+
         NotificationsStore.scrollToNotification(notificationInstanceId);
+
+        $('#startFreeTrial').modal('close');
+
         this.$emit('trialStarted');
       }).catch((error) => {
-        window.Piwik_Popover.showError('', error.message);
-      }).finally(() => this.$emit('update:modelValue', ''));
-    },
-    showLicenseDialog() {
-      $('#trialRequiresLicense').modal({
-        dismissible: true,
-        onCloseEnd: () => {
-          this.$emit('update:modelValue', '');
-        },
-      }).modal('open');
+        this.showErrorModal(error.message);
+      }).finally(() => {
+        this.trialStartInProgress = false;
+
+        this.$emit('update:modelValue', '');
+      });
     },
   },
 });

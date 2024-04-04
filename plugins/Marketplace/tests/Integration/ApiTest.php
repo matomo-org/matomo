@@ -378,7 +378,7 @@ class ApiTest extends IntegrationTestCase
                 'data' => json_encode(['error' => 'something went wrong']),
             ],
             Exception::class,
-            'There was an error starting your free trial: Please try again later.',
+            'Marketplace_TrialStartErrorAPI',
         ];
 
         yield 'unexpected response status code' => [
@@ -388,7 +388,7 @@ class ApiTest extends IntegrationTestCase
                 'data' => '',
             ],
             Exception::class,
-            'There was an error starting your free trial: Please try again later.',
+            'Marketplace_TrialStartErrorAPI',
         ];
 
         yield 'unexpected response content string' => [
@@ -398,7 +398,7 @@ class ApiTest extends IntegrationTestCase
                 'data' => json_encode('operation successful'),
             ],
             Exception::class,
-            'There was an error starting your free trial: Please try again later.',
+            'Marketplace_TrialStartErrorAPI',
         ];
 
         yield 'unexpected response content array' => [
@@ -408,7 +408,7 @@ class ApiTest extends IntegrationTestCase
                 'data' => json_encode(['success' => true]),
             ],
             Exception::class,
-            'There was an error starting your free trial: Please try again later.',
+            'Marketplace_TrialStartErrorAPI',
         ];
     }
 

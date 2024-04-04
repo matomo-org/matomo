@@ -37,10 +37,10 @@ describe('Marketplace_StartFreeTrial', function () {
 
     await goToPluginsPage();
     await page.click(startFreeTrialSelector);
-    await page.waitForSelector('.Piwik_Popover_Loading', { visible: true });
-    await page.waitForSelector('.Piwik_Popover_Error', { visible: true });
+    await page.waitForSelector('#startFreeTrial .trial-start-in-progress', { visible: true });
+    await page.waitForSelector('#startFreeTrial .trial-start-error', { visible: true });
 
-    const error = await page.$('.Piwik_Popover_Error_Message');
+    const error = await page.$('#startFreeTrial .trial-start-error p:first-of-type');
     const errorMessage = await error.getProperty('textContent');
 
     expect(errorMessage).to.match(/There was an error starting your free trial/i);
@@ -52,8 +52,8 @@ describe('Marketplace_StartFreeTrial', function () {
     await goToPluginsPage();
 
     await page.click(startFreeTrialSelector);
-    await page.waitForSelector('.Piwik_Popover_Loading', { visible: true });
-    await page.waitForSelector('.Piwik_Popover_Loading', { hidden: true });
+    await page.waitForSelector('#startFreeTrial .trial-start-in-progress', { visible: true });
+    await page.waitForSelector('#startFreeTrial .trial-start-in-progress', { hidden: true });
     await page.waitForSelector('.notification-success', { visible: true });
 
     const notification = await page.$('.notification-success');
