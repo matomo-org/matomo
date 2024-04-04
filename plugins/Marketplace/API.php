@@ -14,6 +14,10 @@ use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Api\Service;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
+use Piwik\Plugins\UsersManager\SystemSettings;
+use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
+use Piwik\Plugins\UsersManager\Validators\Email;
+use Piwik\Validators\NotEmpty;
 
 /**
  * The Marketplace API lets you manage your license key so you can download & install in one-click <a target="_blank" rel="noreferrer" href="https://matomo.org/recommends/premium-plugins/">paid premium plugins</a> you have subscribed to.
@@ -59,6 +63,72 @@ class API extends \Piwik\Plugin\API
         $this->expired = $expired;
         $this->pluginManager = $pluginManager;
         $this->environment = $environment;
+    }
+
+    /**
+     * @param string $pluginName
+     *
+     * @return bool
+     * @throws Service\Exception If the marketplace request failed
+     *
+     * @internal
+     */
+    public function createAccount(string $email): bool
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $licenseKey = (new LicenseKey())->get();
+
+        if (!empty($licenseKey)) {
+            throw new Exception(Piwik::translate('Marketplace_CreateAccountErrorLicenseExists'));
+        }
+
+        $notEmptyValidator = new NotEmpty();
+        $notEmptyValidator->validate($email);
+
+        $emailValidator = new Email();
+        $emailValidator->validate($email);
+
+        // Ensure the provided email uses a domain that is allowed (if configured)
+        $systemSettings = new SystemSettings();
+        $allowedDomainsValidator = new AllowedEmailDomain($systemSettings);
+        $allowedDomainsValidator->validate($email);
+
+        $result = $this->marketplaceService->fetch(
+            'createAccount',
+            [
+                'email' => $email,
+            ],
+            true,
+            false
+        );
+
+        $this->marketplaceClient->clearAllCacheEntries();
+
+        $licenseKey = trim($result['data']['license_key'] ?? '');
+        $status = $result['status'];
+
+        if (200 !== $status || empty($licenseKey)) {
+            switch ($status) {
+                case 400:
+                    $message = Piwik::translate('UsersManager_ExceptionInvalidEmail');
+                    break;
+
+                case 409:
+                    $message = Piwik::translate('UsersManager_ExceptionEmailExists', $email);
+                    break;
+
+                default:
+                    $message = Piwik::translate('Marketplace_CreateAccountErrorAPI');
+                    break;
+            }
+
+            throw new Exception($message);
+        }
+
+        $this->setLicenseKey($licenseKey);
+
+        return true;
     }
 
     /**
