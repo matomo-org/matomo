@@ -47,7 +47,7 @@ class Resolution extends VisitDimension
      */
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
-        // In case the value was initially unknown, update it from a subsequent page impression
+        // In case the value was initially unknown, update it from a subsequent action
         if ($visitor->getVisitorColumn($this->columnName) === Request::UNKNOWN_RESOLUTION) {
             return $this->onNewVisit($request, $visitor, $action);
         } else {
