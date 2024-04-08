@@ -6,9 +6,19 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 5.1.0
 
+### Breaking Changes
+
+* The `errorlog` (`\Monolog\Handler\ErrorLogHandler`) and `syslog` (`\Monolog\Handler\SyslogHandler`) handlers are no longer directly used. Plugins using or overwriting those handlers using DI should now use the scoped classes `Piwik\Plugins\Monolog\Handler\ErrorLogHandler` and `Piwik\Plugins\Monolog\Handler\SyslogHandler` instead.
+
 ### Deprecations
 
 The API method `Overlay.getExcludedQueryParameters` has been deprecated and will be removed in Matomo 6. Use the new method `SitesManager.getExcludedQueryParameters` instead.
+
+### JavaScript Tracker
+
+#### New APIs
+
+* The method `disableCampaignParameters` have been added to the JavaScript tracker. It allows to disable processing of campaign parameters and forwarding them to the tracking endpoint.
 
 ## Matomo 5.0.0
 
