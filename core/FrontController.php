@@ -504,7 +504,7 @@ class FrontController extends Singleton
 
     protected function handleMaintenanceMode()
     {
-        if ((GeneralConfig::getConfigValue('maintenance_mode') != 1) || Common::isPhpCliMode() ) {
+        if ((GeneralConfig::getConfigValue('maintenance_mode') != 1) || Common::isPhpCliMode()) {
             return;
         }
 

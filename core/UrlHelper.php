@@ -39,11 +39,11 @@ class UrlHelper
     {
         foreach($patterns as $val) {
             if(@preg_match($val, null) === false) {
-                if( strcasecmp($val, $test) === 0 ) {
+                if( strcasecmp($val, $test) === 0) {
                     return true;
                 }
             } else {
-                if( preg_match($val, $test) === 1 ) {
+                if( preg_match($val, $test) === 1) {
                     return true;
                 }
             }
