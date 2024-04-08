@@ -94,22 +94,15 @@ class API extends \Piwik\Plugin\API
 
         $this->marketplaceService->authenticate($licenseKey);
 
-        try {
-            $result = $this->marketplaceService->fetch(
-                'plugins/' . $pluginName . '/freeTrial',
-                [
-                    'num_users' => $this->environment->getNumUsers(),
-                    'num_websites' => $this->environment->getNumWebsites(),
-                ],
-                true
-            );
-        } catch (Service\Exception $e) {
-            if ($e->getCode() === Api\Service\Exception::HTTP_ERROR) {
-                throw $e;
-            }
-
-            throw new Exception('There was an error starting your free trial: Please try again later.');
-        }
+        $result = $this->marketplaceService->fetch(
+            'plugins/' . $pluginName . '/freeTrial',
+            [
+                'num_users' => $this->environment->getNumUsers(),
+                'num_websites' => $this->environment->getNumWebsites(),
+            ],
+            true,
+            false
+        );
 
         $this->marketplaceClient->clearAllCacheEntries();
 

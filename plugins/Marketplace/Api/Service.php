@@ -126,10 +126,12 @@ class Service
      * @param string $action eg 'plugins', 'plugins/$pluginName/info', ...
      * @param array $params eg array('sort' => 'alpha')
      * @param bool $getExtendedInfo Return the extended response info for the HTTP request.
+     * @param bool $throwOnApiError Throw if an error was returned from the API or return the result.
+     *                              Will always throw if an HTTP error occurred (unreadable response).
      * @return mixed
      * @throws Service\Exception
      */
-    public function fetch($action, $params, $getExtendedInfo = false)
+    public function fetch($action, $params, $getExtendedInfo = false, bool $throwOnApiError = true)
     {
         $endpoint = sprintf('%s/api/%s/', $this->domain, $this->version);
 
@@ -139,19 +141,24 @@ class Service
         $response = $this->download($url, null, null, true);
         $result = $response['data'] ?? null;
 
-        if (null !== $result) {
-            $result = trim($result);
+        if (null === $result) {
+            throw new Service\Exception(
+                'There was an error reading the response from the Marketplace: Please try again later.',
+                Service\Exception::HTTP_ERROR
+            );
         }
 
         if ('' !== $result) {
             $result = json_decode($result, true);
 
             if (null === $result) {
-                $message = sprintf('There was an error reading the response from the Marketplace: Please try again later.');
-                throw new Service\Exception($message, Service\Exception::HTTP_ERROR);
+                throw new Service\Exception(
+                    'There was an error reading the response from the Marketplace: Please try again later.',
+                    Service\Exception::HTTP_ERROR
+                );
             }
 
-            if (!empty($result['error'])) {
+            if ($throwOnApiError && !empty($result['error'])) {
                 throw new Service\Exception($result['error'], Service\Exception::API_ERROR);
             }
         }

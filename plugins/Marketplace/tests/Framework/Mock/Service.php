@@ -116,7 +116,7 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
         $this->onDownloadCallback = $callback;
     }
 
-    public function fetch($action, $params, $getExtendedInfo = false)
+    public function fetch($action, $params, $getExtendedInfo = false, $throwOnApiError = true)
     {
         $this->action = $action;
         $this->params = $params;
@@ -134,7 +134,7 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
         } elseif (!empty($this->fixtureToReturn) || $this->onDownloadCallback) {
             // we want to make sure to test as much of the service class as possible.
             // Therefore we only mock the HTTP request in download()
-            return parent::fetch($action, $params, $getExtendedInfo);
+            return parent::fetch($action, $params, $getExtendedInfo, $throwOnApiError);
         }
 
         return array();
