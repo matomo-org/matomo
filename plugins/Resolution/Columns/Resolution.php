@@ -43,7 +43,7 @@ class Resolution extends VisitDimension
      * @param Request $request
      * @param Visitor $visitor
      * @param Action|null $action
-     * @return mixed 
+     * @return mixed
      */
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
