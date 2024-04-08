@@ -18,7 +18,7 @@ The API method `Overlay.getExcludedQueryParameters` has been deprecated and will
 
 #### New APIs
 
-* The method `disableCampaignParameters` have been added to the JavaScript tracker. It allows to disable processing campaign parameters and forwarding them to the tracking endpoint.
+* The method `disableCampaignParameters` have been added to the JavaScript tracker. It allows to disable processing of campaign parameters and forwarding them to the tracking endpoint.
 
 ## Matomo 5.0.0
 
