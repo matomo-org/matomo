@@ -147,7 +147,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         return $view->render();
     }
 
-    function getVisitorId()
+    public function getVisitorId()
     {
         if (isset($this->details['idvisitor'])) {
             return bin2hex($this->details['idvisitor']);
@@ -155,17 +155,17 @@ class VisitorDetails extends VisitorDetailsAbstract
         return false;
     }
 
-    function getVisitServerHour()
+    public function getVisitServerHour()
     {
         return date('G', strtotime($this->details['visit_last_action_time']));
     }
 
-    function getServerDate()
+    public function getServerDate()
     {
         return date('Y-m-d', strtotime($this->details['visit_last_action_time']));
     }
 
-    function getIp()
+    public function getIp()
     {
         if (isset($this->details['location_ip'])) {
             return IPUtils::binaryToStringIP($this->details['location_ip']);
@@ -173,17 +173,17 @@ class VisitorDetails extends VisitorDetailsAbstract
         return null;
     }
 
-    function getIdVisit()
+    public function getIdVisit()
     {
         return $this->details['idvisit'];
     }
 
-    function getIdSite()
+    public function getIdSite()
     {
         return isset($this->details['idsite']) ? $this->details['idsite'] : Common::getRequestVar('idSite');
     }
 
-    function getFingerprint()
+    public function getFingerprint()
     {
         if (isset($this->details['config_id'])) {
             return bin2hex($this->details['config_id']);
@@ -191,12 +191,12 @@ class VisitorDetails extends VisitorDetailsAbstract
         return false;
     }
 
-    function getTimestampLastAction()
+    public function getTimestampLastAction()
     {
         return strtotime($this->details['visit_last_action_time']);
     }
 
-    function getDateTimeLastAction()
+    public function getDateTimeLastAction()
     {
         return date('Y-m-d H:i:s', strtotime($this->details['visit_last_action_time']));
     }

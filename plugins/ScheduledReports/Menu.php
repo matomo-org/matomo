@@ -33,7 +33,7 @@ class Menu extends \Piwik\Plugin\Menu
         );
     }
 
-    function getTopMenuTranslationKey()
+    public function getTopMenuTranslationKey()
     {
         // if MobileMessaging is not activated, display 'Email reports'
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging')) {

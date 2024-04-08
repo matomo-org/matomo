@@ -282,7 +282,7 @@ class MobileMessaging extends \Piwik\Plugin
         return in_array($reportType, array_keys(self::$managedReportTypes));
     }
 
-    function install()
+    public function install()
     {
         $delegatedManagement = Option::get(self::DELEGATED_MANAGEMENT_OPTION);
         if (empty($delegatedManagement)) {
@@ -290,7 +290,7 @@ class MobileMessaging extends \Piwik\Plugin
         }
     }
 
-    function deactivate()
+    public function deactivate()
     {
         // delete all mobile reports
         $APIScheduledReports = APIScheduledReports::getInstance();

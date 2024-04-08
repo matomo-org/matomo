@@ -17,7 +17,7 @@ class ReportRendererException extends ReportRenderer
 {
     private $rendering = "";
 
-    function __construct($exception)
+    public function __construct($exception)
     {
         $this->rendering = $exception;
     }

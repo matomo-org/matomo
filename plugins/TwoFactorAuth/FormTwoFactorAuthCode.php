@@ -15,12 +15,12 @@ use Piwik\QuickForm2;
  */
 class FormTwoFactorAuthCode extends QuickForm2
 {
-    function __construct($id = 'login_form', $method = 'post', $attributes = null, $trackSubmit = false)
+    public function __construct($id = 'login_form', $method = 'post', $attributes = null, $trackSubmit = false)
     {
         parent::__construct($id, $method, $attributes, $trackSubmit);
     }
 
-    function init()
+    public function init()
     {
         $this->addElement('text', 'form_authcode')
             ->addRule(

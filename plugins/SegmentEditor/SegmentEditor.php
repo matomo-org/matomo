@@ -105,7 +105,7 @@ class SegmentEditor extends \Piwik\Plugin
         $systemSummary[] = new SystemSummary\Item($key = 'segments', $message, $value = null, $url = null, $icon = 'icon-segment', $order = 6);
     }
 
-    function getSegmentEditorHtml(&$out)
+    public function getSegmentEditorHtml(&$out)
     {
         $selector = new SegmentSelectorControl();
         $out .= $selector->render();
