@@ -119,6 +119,7 @@ class NumberFormatterTest extends \PHPUnit\Framework\TestCase
             array('en', 5.299, 0, 0, '5%'),
             array('en', 5.299, 3, 0, '5.299%'),
             array('en', -50, 3, 3, '-50.000%'),
+            array('en', -50, 1, 1, '-50.0%'),
             array('en', -50.1, 3, 3, '-50.100%'),
             array('en', 5000, 0, 0, '5,000%'),
             array('en', +5000, 0, 0, '5,000%'),
