@@ -39,4 +39,19 @@ class Resolution extends VisitDimension
 
         return $resolution;
     }
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        // In case the value was initially unknown, update it from a subsequent action
+        if ($visitor->getVisitorColumn($this->columnName) === Request::UNKNOWN_RESOLUTION) {
+            return $this->onNewVisit($request, $visitor, $action);
+        } else {
+            return false;
+        }
+    }
 }
