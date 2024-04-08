@@ -181,7 +181,8 @@ class Build extends ConsoleCommand
                     continue;
                 }
 
-                if ($returnCode != 0
+                if (
+                    $returnCode != 0
                     || stripos($concattedOutput, 'warning') !== false
                 ) {
                     $output->writeln("<error>Failed:</error>\n");
@@ -320,7 +321,8 @@ class Build extends ConsoleCommand
             $absolutePath = $pluginDirectoryInfo['pluginsPathAbsolute'];
             foreach (scandir($absolutePath) as $subdirectory) {
                 $wholePath = $absolutePath . DIRECTORY_SEPARATOR . $subdirectory;
-                if (is_dir($wholePath)
+                if (
+                    is_dir($wholePath)
                     && $subdirectory !== '.'
                     && $subdirectory !== '..'
                 ) {

@@ -267,7 +267,8 @@ class AutoSuggestAPITest extends SystemTestCase
             $environment->getContainer()->get('Piwik\Plugin\Manager')->loadActivatedPlugins();
 
             foreach (Dimension::getAllDimensions() as $dimension) {
-                if ($dimension instanceof CustomVariableName
+                if (
+                    $dimension instanceof CustomVariableName
                     || $dimension instanceof CustomVariableValue
                 ) {
                     continue; // ignore custom variables dimensions as they are tested in the plugin

@@ -73,7 +73,8 @@ class Updates_2_1_1_b11 extends Updates
             foreach ($idArchivesWithReturning as $row) {
                 $withMetricsIdArchive = $row['idarchive'];
                 foreach ($idArchivesWithVisitReturningSegment as $segmentRow) {
-                    if ($row['idsite'] == $segmentRow['idsite']
+                    if (
+                        $row['idsite'] == $segmentRow['idsite']
                         && $row['period'] == $segmentRow['period']
                         && $row['date1'] == $segmentRow['date1']
                         && $row['date2'] == $segmentRow['date2']

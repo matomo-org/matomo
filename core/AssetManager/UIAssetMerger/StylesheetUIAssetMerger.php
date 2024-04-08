@@ -254,7 +254,8 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     {
         $rootDirectory = realpath($uiAsset->getBaseDirectory());
 
-        if ($rootDirectory != PATH_SEPARATOR
+        if (
+            $rootDirectory != PATH_SEPARATOR
             && substr($rootDirectory, -strlen(PATH_SEPARATOR)) !== PATH_SEPARATOR) {
             $rootDirectory .= PATH_SEPARATOR;
         }

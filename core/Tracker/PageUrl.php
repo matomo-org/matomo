@@ -151,7 +151,8 @@ class PageUrl
     {
         // if we should discard the url fragment for this site, return an empty string as
         // the processed url fragment
-        if ($idSite !== false
+        if (
+            $idSite !== false
             && PageUrl::shouldRemoveURLFragmentFor($idSite)
         ) {
             return '';
@@ -244,7 +245,8 @@ class PageUrl
         if (is_string($value)) {
             $decoded = urldecode($value);
             try {
-                if (function_exists('mb_check_encoding')
+                if (
+                    function_exists('mb_check_encoding')
                     && @mb_check_encoding($decoded, $encoding)) {
                     $value = urlencode(mb_convert_encoding($decoded, 'UTF-8', $encoding));
                 }
@@ -289,7 +291,8 @@ class PageUrl
         if (function_exists('mb_check_encoding')) {
             // if query params are encoded w/ non-utf8 characters (due to browser bug or whatever),
             // encode to UTF-8.
-            if (is_string($encoding) &&
+            if (
+                is_string($encoding) &&
                 strtolower($encoding) !== 'utf-8'
             ) {
                 Common::printDebug("Encoding page URL query parameters to $encoding.");
@@ -425,7 +428,8 @@ class PageUrl
     public static function urldecodeValidUtf8($value)
     {
         $value = urldecode($value);
-        if (function_exists('mb_check_encoding')
+        if (
+            function_exists('mb_check_encoding')
             && !@mb_check_encoding($value, 'utf-8')
         ) {
             return urlencode($value);

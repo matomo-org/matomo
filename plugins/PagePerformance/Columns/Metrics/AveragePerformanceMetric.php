@@ -51,7 +51,8 @@ abstract class AveragePerformanceMetric extends ProcessedMetric
 
     public function format($value, Formatter $formatter)
     {
-        if ($formatter instanceof Formatter\Html
+        if (
+            $formatter instanceof Formatter\Html
             && !$value
         ) {
             return '-';
@@ -64,7 +65,8 @@ abstract class AveragePerformanceMetric extends ProcessedMetric
     {
         $hasTimeGeneration = array_sum($this->getMetricValues($table, 'sum_' . static::ID)) > 0;
 
-        if (!$hasTimeGeneration
+        if (
+            !$hasTimeGeneration
             && $table->getRowsCount() != 0
             && !$this->hasAverageMetric($table)
         ) {

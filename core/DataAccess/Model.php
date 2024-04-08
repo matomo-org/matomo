@@ -215,7 +215,8 @@ class Model
 
             $siteCreationTime = Date::factory($siteCreationTime);
             foreach ($allPeriodsToInvalidate as $period) {
-                if ($period->getLabel() == 'range'
+                if (
+                    $period->getLabel() == 'range'
                     && !$forceInvalidateNonexistentRanges
                 ) {
                     continue; // range
@@ -243,7 +244,8 @@ class Model
                     }
 
                     $hash = $this->getHashFromDoneFlag($doneFlagToCheck);
-                    if ($doneFlagToCheck != $doneFlag
+                    if (
+                        $doneFlagToCheck != $doneFlag
                         && (empty($hash)
                             || !in_array($hash, $hashesOfAllSegmentsToArchiveInCoreArchive)
                             || strpos($doneFlagToCheck, '.') !== false)
@@ -701,7 +703,8 @@ class Model
 
         // archive was not originally started or was started within 24 hours, we assume it's ongoing and another process
         // (on this machine or another) is actively archiving it.
-        if (empty($invalidation['ts_started'])
+        if (
+            empty($invalidation['ts_started'])
             || $invalidation['ts_started'] > Date::now()->subDay(1)->getTimestamp()
         ) {
             return false;

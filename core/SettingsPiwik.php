@@ -184,7 +184,8 @@ class SettingsPiwik
         $url = Option::get(self::OPTION_PIWIK_URL);
 
         $isPiwikCoreDispatching = defined('PIWIK_ENABLE_DISPATCH') && PIWIK_ENABLE_DISPATCH;
-        if (Common::isPhpCliMode()
+        if (
+            Common::isPhpCliMode()
             // in case core:archive command is triggered (often with localhost domain)
             || SettingsServer::isArchivePhpTriggered()
             // When someone else than core is dispatching this request then we return the URL as it is read only
@@ -198,13 +199,15 @@ class SettingsPiwik
         // when script is called from /misc/cron/archive.php, Piwik URL is /index.php
         $currentUrl = str_replace("/misc/cron", "", $currentUrl);
 
-        if (empty($url)
+        if (
+            empty($url)
             // if URL changes, always update the cache
             || $currentUrl !== $url
         ) {
             $host = Url::getHostFromUrl($currentUrl);
 
-            if (strlen($currentUrl) >= strlen('http://a/')
+            if (
+                strlen($currentUrl) >= strlen('http://a/')
                 && Url::isValidHost($host)
                 && !Url::isLocalHost($host)) {
                 self::overwritePiwikUrl($currentUrl);
@@ -331,7 +334,8 @@ class SettingsPiwik
         $result = !empty($generalSettings[$settingName]) && $generalSettings[$settingName] == 1;
 
         // check enable_processing_unique_visitors_year_and_range for backwards compatibility
-        if (($periodLabel === 'year' || $periodLabel === 'range')
+        if (
+            ($periodLabel === 'year' || $periodLabel === 'range')
             && isset($generalSettings['enable_processing_unique_visitors_year_and_range'])
         ) {
             $result |= $generalSettings['enable_processing_unique_visitors_year_and_range'] == 1;

@@ -255,7 +255,8 @@ class Visualization extends ViewDataTable
         $view->rowIdentifier = $this->report ? ($this->report->getRowIdentifier() ?: 'label') : 'label';
         $view->clientSideProperties['row_identifier'] = $view->rowIdentifier;
 
-        if (!$this->supportsComparison()
+        if (
+            !$this->supportsComparison()
             && DataComparisonFilter::isCompareParamsPresent()
             && empty($view->dataTableHasNoData)
         ) {
@@ -472,7 +473,8 @@ class Visualization extends ViewDataTable
                 foreach ($dataTable as $item) {
                     $itemMetaData = $item->getAllTableMetadata();
                     // initial metadata and update metadata if current is more recent
-                    if (!empty($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME])
+                    if (
+                        !empty($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME])
                         && (
                             empty($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])
                             || strtotime($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME]) > strtotime($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])
@@ -490,7 +492,8 @@ class Visualization extends ViewDataTable
         }
 
         $pivotBy = Common::getRequestVar('pivotBy', false) ?: $this->requestConfig->pivotBy;
-        if (empty($pivotBy)
+        if (
+            empty($pivotBy)
             && $this->dataTable instanceof DataTable
         ) {
             $this->config->disablePivotBySubtableIfTableHasNoSubtables($this->dataTable);
@@ -725,7 +728,8 @@ class Visualization extends ViewDataTable
             $javascriptVariablesToSet['viewDataTable'] = static::getViewDataTableId();
         }
 
-        if ($this->dataTable &&
+        if (
+            $this->dataTable &&
             // Set doesn't have the method
             !($this->dataTable instanceof DataTable\Map) &&
             empty($javascriptVariablesToSet['totalRows'])

@@ -93,7 +93,8 @@ class MockDataAccess extends MySQLMetadataDataAccess
     {
         $result = array();
         foreach (self::$tableStatuses as $tableName => $ignore) {
-            if ($tableName == "archive_numeric"
+            if (
+                $tableName == "archive_numeric"
                 || $tableName == "archive_blob"
             ) {
                 continue;

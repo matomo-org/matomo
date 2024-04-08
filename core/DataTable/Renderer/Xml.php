@@ -160,7 +160,8 @@ class Xml extends Renderer
                 $result .= $prefixLines . $prefix . "\n";
                 $result .= $this->renderArray((array) $value, $prefixLines . "\t");
                 $result .= $prefixLines . $suffix . "\n";
-            } elseif ($value instanceof DataTable
+            } elseif (
+                $value instanceof DataTable
                 || $value instanceof Map
             ) {
                 if ($value->getRowsCount() == 0) {
@@ -351,7 +352,8 @@ class Xml extends Renderer
             }
             $out .= $prefixLine . "\t<row$rowAttribute>";
 
-            if (count($row) === 1
+            if (
+                count($row) === 1
                 && key($row) === 0
             ) {
                 $value = self::formatValueXml(current($row));

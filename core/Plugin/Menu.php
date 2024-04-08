@@ -116,7 +116,8 @@ class Menu
 
         $pluginManager = PluginManager::getInstance();
 
-        if (!$pluginManager->isPluginLoaded($module) ||
+        if (
+            !$pluginManager->isPluginLoaded($module) ||
             !$pluginManager->isPluginActivated($module)) {
             return null;
         }

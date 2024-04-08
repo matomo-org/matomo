@@ -204,7 +204,8 @@ class Profiler
      */
     public static function setupProfilerXHProf($mainRun = false, $setupDuringTracking = false)
     {
-        if (!$setupDuringTracking
+        if (
+            !$setupDuringTracking
             && SettingsServer::isTrackerApiRequest()
         ) {
             // do not profile Tracker

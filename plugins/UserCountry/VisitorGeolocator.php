@@ -110,7 +110,8 @@ class VisitorGeolocator
     public function getLocation($userInfo, $useClassCache = true)
     {
         $userInfoKey = md5(implode(',', $userInfo));
-        if ($useClassCache
+        if (
+            $useClassCache
             && $this->locationCache->contains($userInfoKey)
         ) {
             return $this->locationCache->fetch($userInfoKey);
@@ -291,7 +292,8 @@ class VisitorGeolocator
 
     private function areLocationPropertiesEqual($locationKey, $locationPropertyValue, $existingPropertyValue)
     {
-        if (($locationKey == LocationProvider::LATITUDE_KEY
+        if (
+            ($locationKey == LocationProvider::LATITUDE_KEY
              || $locationKey == LocationProvider::LONGITUDE_KEY)
             && $existingPropertyValue != 0
         ) {

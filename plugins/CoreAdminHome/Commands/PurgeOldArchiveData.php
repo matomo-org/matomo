@@ -136,7 +136,8 @@ class PurgeOldArchiveData extends ConsoleCommand
         $dates = array();
 
         $dateSpecifier = $this->getInput()->getArgument('dates');
-        if (count($dateSpecifier) === 1
+        if (
+            count($dateSpecifier) === 1
             && reset($dateSpecifier) == self::ALL_DATES_STRING
         ) {
             foreach (ArchiveTableCreator::getTablesArchivesInstalled(ArchiveTableCreator::NUMERIC_TABLE) as $table) {

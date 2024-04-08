@@ -72,7 +72,8 @@ class OmniFixture extends Fixture
         sort($classes);
 
         foreach ($classes as $className) {
-            if (is_subclass_of($className, 'Piwik\\Tests\\Framework\\Fixture')
+            if (
+                is_subclass_of($className, 'Piwik\\Tests\\Framework\\Fixture')
                 && !is_subclass_of($className, __CLASS__)
                 && $className != __CLASS__
                 && $className != "Piwik\\Tests\\Fixtures\\SqlDump"
@@ -82,7 +83,8 @@ class OmniFixture extends Fixture
             ) {
 
                 $klassReflect = new ReflectionClass($className);
-                if (!strpos($klassReflect->getFilename(), "tests/PHPUnit/Fixtures")
+                if (
+                    !strpos($klassReflect->getFilename(), "tests/PHPUnit/Fixtures")
                     && $className != "CustomAlerts"
                     && $className != "Piwik\\Plugins\\Insights\\tests\\Fixtures\\SomeVisitsDifferentPathsOnTwoDays"
                     && $className != "Piwik\\Plugins\\Contents\\tests\\Fixtures\\TwoVisitsWithContents"

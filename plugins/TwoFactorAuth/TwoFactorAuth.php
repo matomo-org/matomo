@@ -111,7 +111,8 @@ class TwoFactorAuth extends \Piwik\Plugin
     public function deleteRecoveryCodes($returnedValue, $params)
     {
         $model = new Model();
-        if (!empty($params['parameters']['userLogin'])
+        if (
+            !empty($params['parameters']['userLogin'])
             && !$model->userExists($params['parameters']['userLogin'])) {
             // we delete only if the deletion was really successful
             $dao = StaticContainer::get(RecoveryCodeDao::class);
@@ -138,7 +139,8 @@ class TwoFactorAuth extends \Piwik\Plugin
             $authCode = Common::getRequestVar('authCode', '', 'string');
             $twoFa = $this->getTwoFa();
 
-            if ($authCode
+            if (
+                $authCode
                 && TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)
                 && $twoFa->validateAuthCode($login, $authCode)) {
                 $sessionFingerprint = new SessionFingerprint();
@@ -190,7 +192,8 @@ class TwoFactorAuth extends \Piwik\Plugin
                     }
                     throw new Exception(Piwik::translate('TwoFactorAuth_InvalidAuthCode'));
                 }
-            } else if ($twoFa->isUserRequiredToHaveTwoFactorEnabled()
+            } else if (
+                $twoFa->isUserRequiredToHaveTwoFactorEnabled()
                         && !TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)) {
                 throw new Exception(Piwik::translate('TwoFactorAuth_RequiredAuthCodeNotConfiguredAPI'));
             }

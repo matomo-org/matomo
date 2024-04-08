@@ -134,7 +134,8 @@ class GeneratePlugin extends GeneratePluginBase
 
             $pluginPath = $self->getPluginPath($pluginName);
 
-            if (file_exists($pluginPath)
+            if (
+                file_exists($pluginPath)
                 && !$overwrite
             ) {
                 throw new \RuntimeException('A plugin with this name already exists');

@@ -388,7 +388,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pluginsPath), RecursiveIteratorIterator::SELF_FIRST);
         $paths = array();
         foreach($objects as $name => $object){
-            if (is_dir($name)
+            if (
+                is_dir($name)
                 && strpos($name, "/.") === false) {
                 $paths[] = $name;
             }
@@ -457,7 +458,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     {
         foreach (Filesystem::globr(PIWIK_DOCUMENT_ROOT, '*') as $file) {
             // skip files in these folders
-            if (strpos($file, '/.git/') !== false ||
+            if (
+                strpos($file, '/.git/') !== false ||
                 strpos($file, '/documentation/') !== false ||
                 strpos($file, '/tests/') !== false ||
                 strpos($file, '/lang/') !== false ||
@@ -1094,7 +1096,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                 continue;
             }
 
-            if(strpos($file, 'vendor/php-di/php-di/website/') !== false
+            if(
+                strpos($file, 'vendor/php-di/php-di/website/') !== false
                 || strpos($file, 'vendor/phpmailer/phpmailer/language/') !== false
                 || strpos($file, 'vendor/wikimedia/less.php/') !== false
                 || strpos($file, 'node_modules/') !== false

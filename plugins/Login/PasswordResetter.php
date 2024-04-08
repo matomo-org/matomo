@@ -199,7 +199,8 @@ class PasswordResetter
 
         // check that the reset token is valid
         $resetInfo = $this->getPasswordToResetTo($login);
-        if ($resetInfo === false
+        if (
+            $resetInfo === false
             || empty($resetInfo['hash'])
             || empty($resetInfo['keySuffix'])
             || !$this->isTokenValid($resetToken, $user, $resetInfo['keySuffix'])

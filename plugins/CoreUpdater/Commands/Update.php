@@ -211,7 +211,8 @@ class Update extends ConsoleCommand
             $this->outputUpdaterErrors($updaterResult['errors'], $updaterResult['deactivatedPlugins']);
         }
 
-        if (!empty($updaterResult['warnings'])
+        if (
+            !empty($updaterResult['warnings'])
             || !empty($updaterResult['errors'])
         ) {
             $output->writeln(array(
@@ -328,7 +329,8 @@ class Update extends ConsoleCommand
     {
         $plugins = array();
         foreach ($componentsWithUpdateFile as $componentName => $updates) {
-            if ($componentName !== 'core'
+            if (
+                $componentName !== 'core'
                 && 0 !== strpos($componentName, 'log_')
             ) {
                 $plugins[] = $componentName;

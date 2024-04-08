@@ -113,7 +113,8 @@ class API extends \Piwik\Plugin\API
 
         $this->marketplaceClient->clearAllCacheEntries();
 
-        if (201 !== $result['status']
+        if (
+            201 !== $result['status']
             || !is_string($result['data'])
             || '' !== trim($result['data'])
         ) {

@@ -136,7 +136,8 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
         $clientVersion = $this->getClientVersion();
 
         // incompatible change to DECIMAL implementation in 5.0.3
-        if (version_compare($serverVersion, '5.0.3') >= 0
+        if (
+            version_compare($serverVersion, '5.0.3') >= 0
             && version_compare($clientVersion, '5.0.3') < 0
         ) {
             throw new Exception(Piwik::translate('General_ExceptionIncompatibleClientServerVersions', array('MySQL', $clientVersion, $serverVersion)));

@@ -141,7 +141,8 @@ class Date
             $date = self::lastMonth();
         } else if (is_string($dateString) && preg_match('/last[ -]?year/i', urldecode($dateString))) {
             $date = self::lastYear();
-        } elseif (!is_int($dateString)
+        } elseif (
+            !is_int($dateString)
             && (
                 !is_string($dateString)
                 // strtotime returns the timestamp for April 1st for a date like 2011-04-01,today
@@ -348,7 +349,8 @@ class Date
             return 0;
         }
         $start = substr($timezone, 0, 4);
-        if ($start !== 'UTC-'
+        if (
+            $start !== 'UTC-'
             && $start !== 'UTC+'
         ) {
             return false;
@@ -1104,7 +1106,8 @@ class Date
     private static function getMaxDaysInMonth($timestamp)
     {
         $month = (int)date('m', $timestamp);
-        if (date('L', $timestamp) == 1
+        if (
+            date('L', $timestamp) == 1
             && $month == 2
         ) {
             return 29;

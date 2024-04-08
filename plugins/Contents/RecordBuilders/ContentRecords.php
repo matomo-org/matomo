@@ -207,7 +207,8 @@ class ContentRecords extends RecordBuilder
             ];
 
             // content piece is optional
-            if ($mainDimension == 'contentPiece'
+            if (
+                $mainDimension == 'contentPiece'
                 && empty($mainLabel)
             ) {
                 $mainLabel = Archiver::CONTENT_PIECE_NOT_SET;
@@ -220,7 +221,8 @@ class ContentRecords extends RecordBuilder
             }
 
             // content piece is optional
-            if ($subDimension == 'contentPiece'
+            if (
+                $subDimension == 'contentPiece'
                 && empty($subLabel)
             ) {
                 $subLabel = Archiver::CONTENT_PIECE_NOT_SET;

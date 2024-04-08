@@ -152,7 +152,8 @@ class Model
         foreach ($deletedSegments as $i => $deleted) {
             $deletedSegments[$i]['idsites_to_preserve'] = array();
             foreach ($existingSegments as $existing) {
-                if ($existing['definition'] != $deleted['definition'] &&
+                if (
+                    $existing['definition'] != $deleted['definition'] &&
                     $existing['definition'] != urlencode($deleted['definition']) &&
                     $existing['definition'] != urldecode($deleted['definition'])
                 ) {

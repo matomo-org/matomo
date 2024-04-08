@@ -104,7 +104,8 @@ class JoinTables extends \ArrayObject
     public function hasJoinedTableManually($tableToFind, $joinToFind)
     {
         foreach ($this as $table) {
-            if (is_array($table)
+            if (
+                is_array($table)
                 && !empty($table['table'])
                 && $table['table'] === $tableToFind
                 && (!isset($table['tableAlias']) || $table['tableAlias'] === $tableToFind)
@@ -125,7 +126,8 @@ class JoinTables extends \ArrayObject
     public function findIndexOfManuallyAddedTable($tableNameToFind)
     {
         foreach ($this as $index => $table) {
-            if (is_array($table)
+            if (
+                is_array($table)
                 && !empty($table['table'])
                 && $table['table'] === $tableNameToFind
                 && (!isset($table['join']) || strtolower($table['join']) === 'left join')
@@ -280,13 +282,15 @@ class JoinTables extends \ArrayObject
     private function isInTableArray($tables, $table)
     {
         foreach ($tables as $entry) {
-            if (is_string($entry)
+            if (
+                is_string($entry)
                 && $entry == $table
             ) {
                 return true;
             }
 
-            if (is_array($entry)
+            if (
+                is_array($entry)
                 && $entry['table'] == $table
             ) {
                 return true;

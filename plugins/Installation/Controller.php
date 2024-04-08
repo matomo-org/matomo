@@ -205,7 +205,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $self = $this;
             Access::doAsSuperUser(function () use ($self, $tablesInstalled, $view) {
                 Access::getInstance();
-                if ($self->hasEnoughTablesToReuseDb($tablesInstalled) &&
+                if (
+                    $self->hasEnoughTablesToReuseDb($tablesInstalled) &&
                     count(APISitesManager::getInstance()->getAllSitesId()) > 0 &&
                     count(APIUsersManager::getInstance()->getUsers()) > 0
                 ) {
@@ -561,7 +562,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $files[] = AssetManager\UIAssetFetcher\PluginUmdAssetFetcher::getUmdFileToUseForPlugin('CoreHome');
         $files[] = AssetManager\UIAssetFetcher\PluginUmdAssetFetcher::getUmdFileToUseForPlugin('Installation');
 
-        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
+        if (
+            defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
             && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')) {
             $files[] = 'tests/resources/screenshot-override/override.js';
         }
@@ -595,7 +597,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $protocol = ProxyHeaders::getProtocolInformation();
         }
 
-        if (!empty($protocol)
+        if (
+            !empty($protocol)
             && !\Piwik\ProxyHttp::isHttps()) {
             $config->General['assume_secure_protocol'] = '1';
         }

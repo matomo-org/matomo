@@ -98,7 +98,8 @@ class Get extends \Piwik\Plugin\Report
                     $view->config->removeSparklineMetric(array('avg_time_generation'));
                 }
 
-                if (($firstRow->getColumn('nb_pageviews')
+                if (
+                    ($firstRow->getColumn('nb_pageviews')
                     + $firstRow->getColumn('nb_downloads')
                     + $firstRow->getColumn('nb_outlinks')) == 0
                     && $firstRow->getColumn('nb_actions') > 0) {

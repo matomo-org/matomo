@@ -114,7 +114,8 @@ class ReplaceColumnNames extends BaseFilter
     protected function getRenamedColumn($column)
     {
         $newName = false;
-        if (isset($this->mappingToApply[$column])
+        if (
+            isset($this->mappingToApply[$column])
             && $this->mappingToApply[$column] != $column
         ) {
             $newName = $this->mappingToApply[$column];

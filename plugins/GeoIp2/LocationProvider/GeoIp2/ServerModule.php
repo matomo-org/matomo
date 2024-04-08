@@ -69,7 +69,8 @@ class ServerModule extends GeoIp2
         // geoip modules that are built into servers can't use a forced IP. in this case we try
         // to fallback to another version.
         $myIP = IP::getIpFromHeader();
-        if (!self::isSameOrAnonymizedIp($ip, $myIP)
+        if (
+            !self::isSameOrAnonymizedIp($ip, $myIP)
             && (!isset($info['disable_fallbacks'])
                 || !$info['disable_fallbacks'])
         ) {

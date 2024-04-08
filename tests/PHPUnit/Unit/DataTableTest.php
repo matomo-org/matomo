@@ -737,7 +737,8 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
                 $subtableId = $row[Row::DATATABLE_ASSOCIATED];
 
-                if ($row[Row::COLUMNS]['label'] === DataTable::LABEL_SUMMARY_ROW
+                if (
+                    $row[Row::COLUMNS]['label'] === DataTable::LABEL_SUMMARY_ROW
                     || $row[Row::COLUMNS]['label'] === DataTable::LABEL_ARCHIVED_METADATA_ROW
                 ) {
                     $this->assertNull($subtableId);

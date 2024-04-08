@@ -43,7 +43,8 @@ class FakeCliMulti extends CliMulti
     private function getSpecifiedResult($url)
     {
         foreach (FakeCliMulti::$specifiedResults as $pattern => $result) {
-            if (substr($pattern, 0, 1) == '/'
+            if (
+                substr($pattern, 0, 1) == '/'
                 && substr($pattern, strlen($pattern) - 1, 1) == '/'
             ) {
                 $isMatch = preg_match($pattern, $url);

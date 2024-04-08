@@ -200,7 +200,8 @@ class LabelFilterTest extends SystemTestCase
             'observers.global' => \DI\add([
                 ['API.Request.intercept', \DI\value(function (&$returnedValue, $finalParameters, $pluginName, $methodName) {
                     $request = Request::fromRequest();
-                    if ($pluginName == 'Actions'
+                    if (
+                        $pluginName == 'Actions'
                         && $methodName == 'getPageUrls'
                         && $request->getParameter('with_custom_row_id', false)
                     ) {

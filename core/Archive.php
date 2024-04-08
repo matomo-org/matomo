@@ -980,7 +980,8 @@ class Archive implements ArchiveQuery
             }
 
             foreach ($prepareResult['idarchives'] as $idArchive) {
-                if (is_array($this->idarchives[$doneFlag][$periodString] ?? null)
+                if (
+                    is_array($this->idarchives[$doneFlag][$periodString] ?? null)
                     && in_array($idArchive, $this->idarchives[$doneFlag][$periodString])
                 ) {
                     continue;

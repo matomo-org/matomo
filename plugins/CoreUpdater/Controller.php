@@ -204,7 +204,8 @@ class Controller extends \Piwik\Plugin\Controller
         }
         $value = json_decode($value, true);
 
-        if (empty($value['nonce'])
+        if (
+            empty($value['nonce'])
             || empty($value['ttl'])
             || time() > (int) $value['ttl']
             || $nonce !== $value['nonce']) {
@@ -255,7 +256,8 @@ class Controller extends \Piwik\Plugin\Controller
 
     protected function redirectToDashboardWhenNoError(DbUpdater $updater)
     {
-        if (count($updater->getSqlQueriesToExecute()) == 1
+        if (
+            count($updater->getSqlQueriesToExecute()) == 1
             && !$this->coreError
             && empty($this->warningMessages)
             && empty($this->errorMessages)
@@ -345,7 +347,8 @@ class Controller extends \Piwik\Plugin\Controller
         $group = null;
         foreach ($migrations as $migration) {
             $type = $migration instanceof DbMigration ? 'sql' : 'command';
-            if ($group === null
+            if (
+                $group === null
                 || $type != $group['type']
             ) {
                 $group = [

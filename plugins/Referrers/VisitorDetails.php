@@ -75,7 +75,8 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getKeywordPosition()
     {
-        if ($this->getReferrerType() == 'search'
+        if (
+            $this->getReferrerType() == 'search'
             && strpos($this->getReferrerName(), 'Google') !== false
         ) {
             $url = @parse_url($this->details['referer_url']);
@@ -101,7 +102,8 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getSearchEngineUrl()
     {
-        if ($this->getReferrerType() == 'search'
+        if (
+            $this->getReferrerType() == 'search'
             && !empty($this->details['referer_name'])
         ) {
 
@@ -125,7 +127,8 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getSocialNetworkUrl()
     {
-        if ($this->getReferrerType() == 'social'
+        if (
+            $this->getReferrerType() == 'social'
             && !empty($this->details['referer_name'])
         ) {
 

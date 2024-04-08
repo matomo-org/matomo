@@ -222,7 +222,8 @@ class BruteForceDetection
     {
         // ignore column not found errors during one click update since the db will not be up to date while new code is being used
         $module = Common::getRequestVar('module', false);
-        if (strpos($ex->getMessage(), 'Unknown column') === false
+        if (
+            strpos($ex->getMessage(), 'Unknown column') === false
             || $module != 'CoreUpdater'
         ) {
             throw $ex;

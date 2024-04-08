@@ -155,7 +155,8 @@ class Login extends \Piwik\Plugin
 
         // now check that user login (from any ip) is not blocked
         $login = $this->getUsernameUsedInPasswordLogin();
-        if (empty($login)
+        if (
+            empty($login)
             || $login == 'anonymous'
         ) {
             return; // can't do the check if we don't know the login

@@ -228,7 +228,8 @@ class CliMulti
             // Remove output that can be ignored in climulti . works around some worpdress setups where the hash bang may
             // be printed
             $search = '#!/usr/bin/env php';
-            if (!empty($content)
+            if (
+                !empty($content)
                 && is_string($content)
                 && mb_substr(trim($content), 0, strlen($search)) === $search) {
                 $content = trim(mb_substr(trim($content), strlen($search)));

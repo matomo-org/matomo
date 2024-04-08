@@ -46,7 +46,8 @@ class VisitorLog extends Visualization
             'filter_sort_order',
         ));
 
-        if (!is_numeric($this->requestConfig->filter_limit)
+        if (
+            !is_numeric($this->requestConfig->filter_limit)
             || $this->requestConfig->filter_limit == -1 // 'all' is not supported for this visualization
         ) {
             $defaultLimit = Config::getInstance()->General['datatable_default_limit'];
@@ -168,7 +169,8 @@ class VisitorLog extends Visualization
             $actionGroups = [];
             foreach ($row->getColumn('actionDetails') as $key => $action) {
                 // if action is not a pageview action
-                if (empty($action['idpageview'])
+                if (
+                    empty($action['idpageview'])
                     && self::isPageviewAction($action)
                 ) {
                     $actionGroups[] = [
@@ -277,7 +279,8 @@ class VisitorLog extends Visualization
             $isPageviewActionSame = $lastGroupUrl == $actionUrl && $lastGroupTitle == $actionTitle;
 
             // if the current action has the same url/action name as the last, merge w/ the last action group
-            if ($isLastGroupEmpty
+            if (
+                $isLastGroupEmpty
                 && $isPageviewActionSame
             ) {
                 $actionGroups[$previousId]['refreshActions'][] = $action;

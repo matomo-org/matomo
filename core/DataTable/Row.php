@@ -565,7 +565,8 @@ class Row extends \ArrayObject
      */
     public function sumRowMetadata($rowToSum, $aggregationOperations = array())
     {
-        if (!empty($rowToSum->metadata)
+        if (
+            !empty($rowToSum->metadata)
             && !$this->isSummaryRow()
         ) {
             $aggregatedMetadata = array();
@@ -590,7 +591,8 @@ class Row extends \ArrayObject
                 // Old format pre-1.2, @see also method doSumVisitsMetrics()
                 $rowToSum->getColumn('nb_actions') || $rowToSum->getColumn('nb_visits')
             );
-            if (($visits && $visits > $this->maxVisitsSummed)
+            if (
+                ($visits && $visits > $this->maxVisitsSummed)
                 || empty($this->metadata)
             ) {
                 $this->maxVisitsSummed = $visits;
@@ -767,7 +769,8 @@ class Row extends \ArrayObject
 
         // either both are null
         // or both have a value
-        if (!(is_null($row1->getIdSubDataTable())
+        if (
+            !(is_null($row1->getIdSubDataTable())
             && is_null($row2->getIdSubDataTable())
             )
         ) {
@@ -796,7 +799,8 @@ class Row extends \ArrayObject
             // since the bugs were fixed, we don't expect to see the issue. So if the warning gets triggered in this case,
             // we log the warning in order to be notified.
             $period = $subTable->getMetadata('period');
-            if (!$this->isSummaryRow()
+            if (
+                !$this->isSummaryRow()
                 || $this->isStartDateLaterThanCloud441DeployDate($period)
             ) {
                 $ex = new \Exception(sprintf(
@@ -835,7 +839,8 @@ class Row extends \ArrayObject
 
     private function isStartDateLaterThanCloud441DeployDate($period)
     {
-        if (empty($period)
+        if (
+            empty($period)
             || !($period instanceof Period)
         ) {
             return true; // sanity check

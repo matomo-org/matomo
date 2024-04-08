@@ -355,7 +355,8 @@ class FileIntegrity
                     // convert end-of-line characters and re-test text files
                     $content = @file_get_contents($file);
                     $content = str_replace("\r\n", "\n", $content);
-                    if ((strlen($content) != $props[0])
+                    if (
+                        (strlen($content) != $props[0])
                         || (@md5($content) !== $props[1])
                     ) {
                         $messagesMismatch[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));

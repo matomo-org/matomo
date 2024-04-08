@@ -64,7 +64,8 @@ class Glossary
 
                 $metricKey = $metricId;
 
-                if(empty($report['metrics'][$metricId])
+                if(
+                    empty($report['metrics'][$metricId])
                     && empty($report['processedMetrics'][$metricId])) {
                     continue;
                 }
@@ -73,7 +74,8 @@ class Glossary
 
 
                 // Already one metric with same name, but different documentation...
-                if (isset($metrics[$metricKey])
+                if (
+                    isset($metrics[$metricKey])
                     && $metrics[$metricKey]['documentation'] !== $metricDocumentation) {
 
                     // Don't show nb_hits in glossary since it duplicates others, eg. nb_downloads,
@@ -94,7 +96,8 @@ class Glossary
                     }
                 } else {
 
-                    if (!isset($report['metrics'][$metricId])
+                    if (
+                        !isset($report['metrics'][$metricId])
                         && !isset($report['processedMetrics'][$metricId])
                     ) {
                         // $metricId metric name not found in  $report['dimension'] report

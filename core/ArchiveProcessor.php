@@ -502,7 +502,8 @@ class ArchiveProcessor
 
     protected function enrichWithUniqueVisitorsMetric(Row $row)
     {
-        if ($row->getColumn('nb_uniq_visitors') === false
+        if (
+            $row->getColumn('nb_uniq_visitors') === false
             && $row->getColumn('nb_users') === false
         ) {
             return;

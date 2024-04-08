@@ -203,7 +203,8 @@ class ArchiveWriter
 
         $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, $doneValue);
 
-        if (!$this->parameters->isPartialArchive()
+        if (
+            !$this->parameters->isPartialArchive()
             // sanity check, just in case nothing was inserted (the archive status should always be inserted)
             && !empty($this->earliestNow)
         ) {

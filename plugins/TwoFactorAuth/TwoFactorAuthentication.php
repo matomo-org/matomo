@@ -172,7 +172,8 @@ class TwoFactorAuthentication
             return false;
         }
 
-        if (!empty($user['twofactor_secret'])
+        if (
+            !empty($user['twofactor_secret'])
             && $this->validateAuthCodeDuringSetup($authCode, $user['twofactor_secret'])) {
             return true;
         }

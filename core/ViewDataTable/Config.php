@@ -773,7 +773,8 @@ class Config
         list($module, $action) = explode('.', $relatedReport);
 
         // don't add the related report if it references this report
-        if ($this->controllerName === $module
+        if (
+            $this->controllerName === $module
             && $this->controllerAction === $action) {
             if (empty($queryParams)) {
                 return;

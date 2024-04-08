@@ -299,7 +299,8 @@ class Controller extends \Piwik\Plugin\Controller
             }
         }
 
-        if (!empty($idGoal)
+        if (
+            !empty($idGoal)
             && isset($this->goals[$idGoal])
         ) {
             $goalName = $this->goals[$idGoal]['name'];
@@ -368,7 +369,8 @@ class Controller extends \Piwik\Plugin\Controller
 
             foreach ($datatable->getRows() as $row) {
                 $conversions = $row->getColumn($columnNbConversions);
-                if ($conversions > 0
+                if (
+                    $conversions > 0
                     && $count < self::COUNT_TOP_ROWS_TO_DISPLAY
 
                     // Don't put the "Keyword not defined" in the best segment since it's irritating

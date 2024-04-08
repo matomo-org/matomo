@@ -53,7 +53,8 @@ class Model
         }
 
         // If no other filter, only look at the last 24 hours of stats
-        if (empty($visitorId)
+        if (
+            empty($visitorId)
             && empty($limit)
             && empty($offset)
             && empty($period)
@@ -232,7 +233,8 @@ class Model
 
         $queries = [];
         $hasStartEndDateMoreThanOneDayInBetween = $virtualDateStart && $virtualDateStart->addDay(1)->isEarlier($virtualDateEnd);
-        if ($limit
+        if (
+            $limit
             && $hasStartEndDateMoreThanOneDayInBetween
         ) {
             if (strtolower($filterSortOrder) !== 'asc') {
@@ -627,7 +629,8 @@ class Model
                 }
             } else {
                 $processedDate = Date::factory($date);
-                if ($date == 'today'
+                if (
+                    $date == 'today'
                     || $date == 'now'
                     || $processedDate->toString() == Date::factory('now', $currentTimezone)->toString()
                 ) {
@@ -643,7 +646,8 @@ class Model
                 $dateStart = $now;
             }
 
-            if (!in_array($date, array('now', 'today', 'yesterdaySameTime'))
+            if (
+                !in_array($date, array('now', 'today', 'yesterdaySameTime'))
                 && strpos($date, 'last') === false
                 && strpos($date, 'previous') === false
                 && Date::factory($dateString)->toString('Y-m-d') != Date::factory('now', $currentTimezone)->toString()

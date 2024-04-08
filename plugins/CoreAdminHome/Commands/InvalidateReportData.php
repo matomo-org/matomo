@@ -157,7 +157,8 @@ class InvalidateReportData extends ConsoleCommand
         if ($isUsingAllOption || in_array('range', $periodTypes)) {
             $rangeDates = array();
             foreach ($dateRanges as $dateRange) {
-                if ($isUsingAllOption
+                if (
+                    $isUsingAllOption
                     && !Period::isMultiplePeriod($dateRange, 'day')) {
                     continue; // not a range, nothing to do... only when "all" option is used
                 }
@@ -303,7 +304,8 @@ class InvalidateReportData extends ConsoleCommand
         $allSegments = $this->getAllSegments($idSites);
 
         foreach ($allSegments as $segment) {
-            if (!empty($segment['enable_only_idsite'])
+            if (
+                !empty($segment['enable_only_idsite'])
                 && !in_array($segment['enable_only_idsite'], $idSites)
             ) {
                 continue;
@@ -319,7 +321,8 @@ class InvalidateReportData extends ConsoleCommand
                 return $segment['definition'];
             }
 
-            if ($segment['definition'] == $segmentOptionValue
+            if (
+                $segment['definition'] == $segmentOptionValue
                 || $segment['definition'] == urldecode($segmentOptionValue)
             ) {
                 $logger->debug("Matching '{value}' by definition with segment {segment}.", ['value' => $segmentOptionValue, 'segment' => json_encode($segment)]);

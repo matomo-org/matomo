@@ -332,14 +332,16 @@ class SiteContentDetector
             foreach ($typeDetections as $typeDetection) {
                 $this->detectedContent[$type][$typeDetection::getId()] = null;
 
-                if (in_array($type, $detectContent) ||
+                if (
+                    in_array($type, $detectContent) ||
                     in_array($typeDetection::getId(), $detectContent) ||
                     empty($detectContent))
                 {
                     $this->detectedContent[$type][$typeDetection::getId()] = false;
 
                     if ($typeDetection->isDetected($this->siteResponse['data'], $this->siteResponse['headers'])) {
-                        if ($typeDetection instanceof ConsentManagerDetectionAbstract
+                        if (
+                            $typeDetection instanceof ConsentManagerDetectionAbstract
                             && $typeDetection->checkIsConnected($this->siteResponse['data'], $this->siteResponse['headers']) ) {
                             $this->connectedConsentManagers[] = $typeDetection::getId();
                         }

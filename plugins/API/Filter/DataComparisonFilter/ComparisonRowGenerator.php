@@ -148,7 +148,8 @@ class ComparisonRowGenerator
         $columns = [];
         if ($compareRow) {
             foreach ($compareRow as $name => $value) {
-                if (!is_numeric($value)
+                if (
+                    !is_numeric($value)
                     || $name == 'label'
                 ) {
                     continue;
@@ -158,7 +159,8 @@ class ComparisonRowGenerator
             }
         } else {
             foreach ($row as $name => $value) {
-                if (!is_numeric($value)
+                if (
+                    !is_numeric($value)
                     || $name == 'label'
                 ) {
                     continue;
@@ -189,7 +191,8 @@ class ComparisonRowGenerator
                 $newSegment = Segment::combine($newRow->getMetadata('compareSegment'), SegmentExpression::AND_DELIMITER, $newSegment);
             }
             $newRow->setMetadata('segment', $newSegment);
-        } else if ($this->segmentNameForReport
+        } else if (
+            $this->segmentNameForReport
             && $row->getMetadata('segmentValue') !== false
         ) {
             $segmentValue = $row->getMetadata('segmentValue');
@@ -209,7 +212,8 @@ class ComparisonRowGenerator
 
     private function addIndividualChildPrettifiedMetadata(array &$metadata, DataTable $parentTable = null)
     {
-        if ($parentTable
+        if (
+            $parentTable
             && $this->isRequestMultiplePeriod
         ) {
             /** @var Period $period */

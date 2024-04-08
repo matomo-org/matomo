@@ -60,25 +60,29 @@ class AnonymizeRawData extends ConsoleCommand
         [$startDate, $endDate] = $logDataAnonymizations->getStartAndEndDate($date);
         $output->writeln(sprintf('Start date is "%s", end date is "%s"', $startDate, $endDate));
 
-        if ($anonymizeIp
+        if (
+            $anonymizeIp
             && !$this->confirmAnonymize($startDate, $endDate, 'anonymize visit IP')) {
             $anonymizeIp = false;
             $output->writeln('<info>SKIPPING anonymizing IP.</info>');
         }
 
-        if ($anonymizeLocation
+        if (
+            $anonymizeLocation
             && !$this->confirmAnonymize($startDate, $endDate, 'anonymize visit location')) {
             $anonymizeLocation = false;
             $output->writeln('<info>SKIPPING anonymizing location.</info>');
         }
 
-        if ($anonymizeUserId
+        if (
+            $anonymizeUserId
             && !$this->confirmAnonymize($startDate, $endDate, 'anonymize user id')) {
             $anonymizeUserId = false;
             $output->writeln('<info>SKIPPING anonymizing user id.</info>');
         }
 
-        if (!empty($visitColumnsToUnset)
+        if (
+            !empty($visitColumnsToUnset)
             && !$this->confirmAnonymize(
                 $startDate,
                 $endDate,
@@ -87,7 +91,8 @@ class AnonymizeRawData extends ConsoleCommand
             $visitColumnsToUnset = false;
             $output->writeln('<info>SKIPPING unset log_visit columns.</info>');
         }
-        if (!empty($linkVisitActionColumns)
+        if (
+            !empty($linkVisitActionColumns)
             && !$this->confirmAnonymize(
                 $startDate,
                 $endDate,

@@ -247,7 +247,8 @@ class Access
                 $this->idsitesByAccess['superuser'] = $allSitesId;
             }
         } elseif (isset($this->login)) {
-            if (empty($this->idsitesByAccess['view'])
+            if (
+                empty($this->idsitesByAccess['view'])
                 && empty($this->idsitesByAccess['write'])
                 && empty($this->idsitesByAccess['admin'])
             ) {
@@ -693,7 +694,8 @@ class Access
      */
     public function getRoleForSite($idSite)
     {
-        if ($this->hasSuperUserAccess
+        if (
+            $this->hasSuperUserAccess
             || in_array($idSite, $this->getSitesIdWithAdminAccess())
         ) {
             return 'admin';
@@ -746,7 +748,8 @@ class Access
             // Try to detect whether user was previously logged in so that we can display a different message
             $referrer = Url::getReferrer();
             $matomoUrl = SettingsPiwik::getPiwikUrl();
-            if ($referrer && $matomoUrl && Url::isValidHost(Url::getHostFromUrl($referrer)) &&
+            if (
+                $referrer && $matomoUrl && Url::isValidHost(Url::getHostFromUrl($referrer)) &&
                 strpos($referrer, $matomoUrl) === 0
             ) {
                 $message = Piwik::translate('General_YourSessionHasExpired');

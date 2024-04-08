@@ -71,7 +71,8 @@ class PatternRecursive extends BaseFilter
                 }
             }
 
-            if ($patternNotFoundInChildren
+            if (
+                $patternNotFoundInChildren
                 && !Pattern::match($this->patternToSearchQuoted, $row->getColumn($this->columnToFilter), $invertedMatch = false)
             ) {
                 $table->deleteRow($key);

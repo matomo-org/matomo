@@ -265,7 +265,8 @@ class Evolution extends JqplotDataGenerator
                 $row = $childTable->getRowFromLabel($rowLabel);
             }
 
-            if (empty($row)
+            if (
+                empty($row)
                 || empty($row->getComparisons())
             ) {
                 foreach ($seriesLabels as $seriesIndex => $seriesLabelPrefix) {

@@ -128,7 +128,8 @@ class ColumnDelete extends BaseFilter
                         }
                     }
 
-                    if (!$keep
+                    if (
+                        !$keep
                         && $name !== 'label' // label cannot be removed via allowlisting
                         && !isset($this->columnsToKeep[$name])
                     ) {

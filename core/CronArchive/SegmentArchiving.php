@@ -85,7 +85,8 @@ class SegmentArchiving
     public function findSegmentForHash($hash, $idSite)
     {
         foreach ($this->getAllSegments() as $segment) {
-            if (!$this->isAutoArchivingEnabledFor($segment)
+            if (
+                !$this->isAutoArchivingEnabledFor($segment)
                 || !self::isSegmentForSite($segment, $idSite)
             ) {
                 continue;
@@ -169,7 +170,8 @@ class SegmentArchiving
             }
 
             $earliestVisitTime = $this->getEarliestVisitTimeFor($idSite);
-            if (!empty($earliestVisitTime)
+            if (
+                !empty($earliestVisitTime)
                 && $result->isEarlier($earliestVisitTime)
             ) {
                 $result = $earliestVisitTime;

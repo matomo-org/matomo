@@ -95,7 +95,8 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
         // Since there's more than one nonce, let's see if one of them matches the main URL of the site
         $mainUrl = Site::getMainUrlFor($idSite);
         foreach ($nonceMap as $nonceData) {
-            if (!empty($mainUrl) && !empty($nonceData[JsTrackerInstallCheckOption::NONCE_DATA_URL])
+            if (
+                !empty($mainUrl) && !empty($nonceData[JsTrackerInstallCheckOption::NONCE_DATA_URL])
                 && $mainUrl === $nonceData[JsTrackerInstallCheckOption::NONCE_DATA_URL]) {
                 return !empty($nonceData['isSuccessful']);
             }

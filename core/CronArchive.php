@@ -317,7 +317,8 @@ class CronArchive
         $this->allWebsites = $websitesIds;
         $this->websiteIdArchiveList = $this->makeWebsiteIdArchiveList($websitesIds);
 
-        if (method_exists($this->websiteIdArchiveList, 'isContinuingPreviousRun') &&
+        if (
+            method_exists($this->websiteIdArchiveList, 'isContinuingPreviousRun') &&
             $this->websiteIdArchiveList->isContinuingPreviousRun()
         ) {
             $this->logger->info("- Continuing ongoing archiving run by pulling from shared idSite queue.");
@@ -765,7 +766,8 @@ class CronArchive
 
     private function checkResponse($response, $url)
     {
-        if (empty($response)
+        if (
+            empty($response)
             || stripos($response, 'error') !== false
         ) {
             return $this->logNetworkError($url, $response);
@@ -1056,7 +1058,8 @@ class CronArchive
         $tsArchived = $archiveInfo['tsArchived'];
 
         // day has changed since the archive was created, we need to reprocess it
-        if ($isYesterday
+        if (
+            $isYesterday
             && !empty($idArchive)
             && Date::factory($tsArchived)->toString() != $today->toString()
         ) {
@@ -1103,21 +1106,24 @@ class CronArchive
             }
 
             // period is disabled in API
-            if (!PeriodFactory::isPeriodEnabledForAPI($label)
+            if (
+                !PeriodFactory::isPeriodEnabledForAPI($label)
                 || PeriodFactory::isAnyLowerPeriodDisabledForAPI($label)
             ) {
                 continue;
             }
 
             // archive is for a week that is over two months, we don't need to care about the month
-            if ($label == 'month'
+            if (
+                $label == 'month'
                 && Date::factory($archiveToProcess['date1'])->toString('m') != Date::factory($archiveToProcess['date2'])->toString('m')
             ) {
                 continue;
             }
 
             // archive is for a week that is over two years, we don't need to care about the year
-            if ($label == 'year'
+            if (
+                $label == 'year'
                 && Date::factory($archiveToProcess['date1'])->toString('y') != Date::factory($archiveToProcess['date2'])->toString('y')
             ) {
                 continue;
@@ -1335,7 +1341,8 @@ class CronArchive
                 continue;
             }
 
-            if (isset($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT])
+            if (
+                isset($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT])
                 && is_numeric($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT])) {
                 // If user selected one particular website ID
                 $idSites = [$userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT]];
@@ -1432,7 +1439,8 @@ class CronArchive
             $instanceId = SettingsPiwik::getPiwikInstanceId();
 
             foreach ($processes as $process) {
-                if (strpos($process, ' core:archive') !== false &&
+                if (
+                    strpos($process, ' core:archive') !== false &&
                     strpos($process, 'console ') !== false &&
                     (!$instanceId ||
                         strpos($process, '--matomo-domain=' . $instanceId) !== false ||

@@ -112,7 +112,8 @@ class VisitorRecognizer
 
         $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $userId, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
 
-        if (!empty($maxActions) && $maxActions > 0
+        if (
+            !empty($maxActions) && $maxActions > 0
             && !empty($visitRow['visit_total_actions'])
             && $maxActions <= $visitRow['visit_total_actions']) {
             $this->visitRow = false;
@@ -121,7 +122,8 @@ class VisitorRecognizer
 
         $this->visitRow = $visitRow;
 
-        if ($visitRow
+        if (
+            $visitRow
             && count($visitRow) > 0
         ) {
             $visitProperties->setProperty('idvisitor', $visitRow['idvisitor']);
@@ -147,7 +149,8 @@ class VisitorRecognizer
         }
 
         $originalRow = $originalVisit->getProperties();
-        if (!empty($originalRow['idvisitor'])
+        if (
+            !empty($originalRow['idvisitor'])
             && !empty($visit['idvisitor'])
             && bin2hex($originalRow['idvisitor']) === bin2hex($visit['idvisitor'])) {
             unset($visit['idvisitor']);
@@ -155,7 +158,8 @@ class VisitorRecognizer
 
         $fieldsToCompareValue = array('user_id', 'visit_last_action_time', 'visit_total_time');
         foreach ($fieldsToCompareValue as $field) {
-            if (!empty($originalRow[$field])
+            if (
+                !empty($originalRow[$field])
                 && !empty($visit[$field])
                 && $visit[$field] == $originalRow[$field]) {
                 // we can't use === eg for visit_total_time which may be partially an integer and sometimes a string

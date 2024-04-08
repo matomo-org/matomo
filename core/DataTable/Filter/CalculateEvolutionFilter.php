@@ -83,7 +83,8 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 
         // if the site this is for doesn't support ecommerce & this is for the revenue_evolution column,
         // we don't add the new column
-        if ($currentValue === false
+        if (
+            $currentValue === false
             && $this->isRevenueEvolution
             && !Site::isEcommerceEnabledFor($row->getColumn('label'))
         ) {

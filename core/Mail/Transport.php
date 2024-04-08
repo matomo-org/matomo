@@ -123,7 +123,8 @@ class Transport
     {
         $mailConfig = Config::getInstance()->mail;
 
-        if (empty($mailConfig['host'])
+        if (
+            empty($mailConfig['host'])
             || $mailConfig['transport'] != 'smtp'
         ) {
             return;

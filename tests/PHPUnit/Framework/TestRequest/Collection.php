@@ -155,7 +155,8 @@ class Collection
     {
         $countUrls = count($requestUrls);
         $approximateCountApiToCall = count($this->apiToCall);
-        if (empty($requestUrls)
+        if (
+            empty($requestUrls)
             || $approximateCountApiToCall > $countUrls
         ) {
             $requestUrls = array_map(function ($params) {
@@ -306,7 +307,8 @@ class Collection
         $apiId = $moduleName . '.' . $methodName;
 
         // If Api to test were set, we only test these
-        if (!empty($this->apiToCall)
+        if (
+            !empty($this->apiToCall)
             && in_array($moduleName, $this->apiToCall) === false
             && in_array($apiId, $this->apiToCall) === false
         ) {
@@ -335,7 +337,8 @@ class Collection
 
             $this->apiToCall = $apiToCall;
 
-            if (!in_array('UserCountry.getLocationFromIP', $apiToCall) &&
+            if (
+                !in_array('UserCountry.getLocationFromIP', $apiToCall) &&
                 !in_array('UserCountry.getCountryCodeMapping', $apiToCall)) {
                 $this->apiNotToCall = array(
                                             'API.getMatomoVersion',

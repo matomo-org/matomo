@@ -65,7 +65,8 @@ class Updates_2_0_4_b5 extends Updates
             $superUser = null;
         }
 
-        if (!empty($superUser['bridge'])
+        if (
+            !empty($superUser['bridge'])
             || empty($superUser)
             || empty($superUser['login'])
         ) {

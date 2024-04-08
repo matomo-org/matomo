@@ -197,7 +197,8 @@ class EventDispatcher
 
     private function getCallbackFunctionAndGroupNumber($hookInfo)
     {
-        if (is_array($hookInfo)
+        if (
+            is_array($hookInfo)
             && !empty($hookInfo['function'])
         ) {
             $pluginFunction = $hookInfo['function'];

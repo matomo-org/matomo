@@ -302,7 +302,8 @@ class Updater
                 require_once $file; // prefixed by PIWIK_INCLUDE_PATH
 
                 $className = $this->getUpdateClassName($componentName, $fileVersion);
-                if (!in_array($className, $this->updatedClasses)
+                if (
+                    !in_array($className, $this->updatedClasses)
                     && class_exists($className, false)
                 ) {
                     $this->executeListenerHook('onComponentUpdateFileStarting', array($componentName, $file, $className, $fileVersion));
@@ -369,7 +370,8 @@ class Updater
 
                 foreach ($files as $file) {
                     $fileVersion = basename($file, '.php');
-                    if (// if the update is from a newer version
+                    if (
+// if the update is from a newer version
                         version_compare($currentVersion, $fileVersion) == -1
                         // but we don't execute updates from non existing future releases
                         && version_compare($fileVersion, $newVersion) <= 0

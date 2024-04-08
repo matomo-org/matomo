@@ -207,7 +207,8 @@ class Process
     {
         $reasons = [];
 
-        if (defined('PIWIK_TEST_MODE')
+        if (
+            defined('PIWIK_TEST_MODE')
             && self::isForcingAsyncProcessMode()
         ) {
             $reasons[] = 'forcing multicurl use for tests';

@@ -168,7 +168,8 @@ class ActionSiteSearch extends Action
             }
         }
 
-        if (isset($parameters['search_count'])
+        if (
+            isset($parameters['search_count'])
             && self::isValidSearchCount($parameters['search_count'])
         ) {
             $count = $parameters['search_count'];

@@ -212,7 +212,8 @@ class QueueConsumer
                 continue;
             }
 
-            if (!empty($invalidatedArchive['plugin'])
+            if (
+                !empty($invalidatedArchive['plugin'])
                 && !Manager::getInstance()->isPluginActivated($invalidatedArchive['plugin'])
             ) {
                 $this->logger->debug("Plugin specific archive {$invalidatedArchive['idarchive']}'s plugin is deactivated, ignoring $invalidationDesc.");
@@ -312,7 +313,8 @@ class QueueConsumer
             $archivesToProcess[] = $invalidatedArchive;
         }
 
-        if (empty($archivesToProcess)
+        if (
+            empty($archivesToProcess)
             && empty($invalidationsToExcludeInBatch)
         ) { // no invalidated archive left
             /**
@@ -345,7 +347,8 @@ class QueueConsumer
     private function archiveArrayContainsArchive($archiveArray, $archive)
     {
         foreach ($archiveArray as $entry) {
-            if ($entry['idsite'] == $archive['idsite']
+            if (
+                $entry['idsite'] == $archive['idsite']
                 && $entry['period'] == $archive['period']
                 && $entry['date1'] == $archive['date1']
                 && $entry['date2'] == $archive['date2']
@@ -373,7 +376,8 @@ class QueueConsumer
             $this->detectPluginForArchive($nextArchive);
 
             $periodLabel = $this->periodIdsToLabels[$nextArchive['period']];
-            if (!PeriodFactory::isPeriodEnabledForAPI($periodLabel)
+            if (
+                !PeriodFactory::isPeriodEnabledForAPI($periodLabel)
                 || PeriodFactory::isAnyLowerPeriodDisabledForAPI($periodLabel)
             ) {
                 $this->logger->info("Found invalidation for period that is disabled in the API, skipping and removing: {$nextArchive['idinvalidation']}");
@@ -432,20 +436,23 @@ class QueueConsumer
         $inProgressArchives = $this->cliMultiRequestParser->getInProgressArchivingCommands();
 
         foreach ($inProgressArchives as $archiveBeingProcessed) {
-            if (empty($archiveBeingProcessed['period'])
+            if (
+                empty($archiveBeingProcessed['period'])
                 || empty($archiveBeingProcessed['date'])
             ) {
                 continue;
             }
 
-            if (empty($archiveBeingProcessed['idSite'])
+            if (
+                empty($archiveBeingProcessed['idSite'])
                 || $archiveBeingProcessed['idSite'] != $archiveToProcess['idsite']
             ) {
                 continue; // different site
             }
 
             // we don't care about lower periods being concurrent if they are for different segments (that are not "all visits")
-            if (!empty($archiveBeingProcessed['segment'])
+            if (
+                !empty($archiveBeingProcessed['segment'])
                 && !empty($archiveToProcess['segment'])
                 && $archiveBeingProcessed['segment'] != $archiveToProcess['segment']
                 && urldecode($archiveBeingProcessed['segment']) != $archiveToProcess['segment']
@@ -474,7 +481,8 @@ class QueueConsumer
         /** @var Period $archivePeriodObj */
         $archivePeriodObj = $archiveBeingProcessed['periodObj'];
 
-        if ($archiveToProcessPeriodObj->getId() >= $archivePeriodObj->getId()
+        if (
+            $archiveToProcessPeriodObj->getId() >= $archivePeriodObj->getId()
             && $archiveToProcessPeriodObj->isPeriodIntersectingWith($archivePeriodObj)
         ) {
             return true;
@@ -486,7 +494,8 @@ class QueueConsumer
     private function isArchiveNonSegmentAndInProgressArchiveSegment(array $archiveToProcess, array $archiveBeingProcessed)
     {
         // archive is for different site/period
-        if (empty($archiveBeingProcessed['idSite'])
+        if (
+            empty($archiveBeingProcessed['idSite'])
             || $archiveToProcess['idsite'] != $archiveBeingProcessed['idSite']
             || $archiveToProcess['periodObj']->getId() != $archiveBeingProcessed['periodObj']->getId()
             || $archiveToProcess['periodObj']->getDateStart()->toString() != $archiveBeingProcessed['periodObj']->getDateStart()->toString()
@@ -520,7 +529,8 @@ class QueueConsumer
             //
             // it's allowed to archive the same period concurrently for different segments, where neither is
             // "All Visits"
-            if (!empty($archive['segment'])
+            if (
+                !empty($archive['segment'])
                 && !empty($invalidatedArchive['segment'])
                 && $archive['segment'] != $invalidatedArchive['segment']
                 && $isSamePeriod

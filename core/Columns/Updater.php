@@ -245,7 +245,8 @@ class Updater extends \Piwik\Updates
         // that was moved when the dimension refactor took place, then:
         // - set the installed version in the DB to the current code version
         // - and do not check for updates since we just set the version to the latest
-        if (array_key_exists($columnName, $columns)
+        if (
+            array_key_exists($columnName, $columns)
             && false === $updater->getCurrentComponentVersion($component)
             && self::wasDimensionMovedFromCoreToPlugin($component, $version)
         ) {

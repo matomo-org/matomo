@@ -82,7 +82,8 @@ class LatestStableInstall extends Fixture
         $archive = Unzip::factory('PclZip', $archiveFile);
         $archiveFiles = $archive->extract($installSubdirectory);
 
-        if (0 == $archiveFiles
+        if (
+            0 == $archiveFiles
             || 0 == count($archiveFiles)
         ) {
             throw new \Exception("Failed to extract matomo build ZIP archive.");

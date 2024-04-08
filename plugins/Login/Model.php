@@ -46,7 +46,8 @@ class Model
         }
 
         $timeSinceSent = Date::getNowTimestamp() - $timeSent;
-        if ($timeSinceSent <= 0 // sanity check
+        if (
+            $timeSinceSent <= 0 // sanity check
             || $timeSinceSent > $this->getAmountOfTimeBetweenSuspiciousLoginNotifications()
         ) {
             return false;

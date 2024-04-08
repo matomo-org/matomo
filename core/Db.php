@@ -470,7 +470,8 @@ class Db
     {
         $optimize = Config::getInstance()->General['enable_sql_optimize_queries'];
 
-        if (empty($optimize)
+        if (
+            empty($optimize)
             && !$force
         ) {
             return false;
@@ -484,13 +485,15 @@ class Db
             $tables = array($tables);
         }
 
-        if (!self::isOptimizeInnoDBSupported()
+        if (
+            !self::isOptimizeInnoDBSupported()
             && !$force
         ) {
             // filter out all InnoDB tables
             $myisamDbTables = array();
             foreach (self::getTableStatus() as $row) {
-                if (strtolower($row['Engine']) == 'myisam'
+                if (
+                    strtolower($row['Engine']) == 'myisam'
                     && in_array($row['Name'], $tables)
                 ) {
                     $myisamDbTables[] = $row['Name'];
@@ -843,7 +846,8 @@ class Db
 
     private static function logExtraInfoIfDeadlock($ex)
     {
-        if (!self::get()->isErrNo($ex, 1213)
+        if (
+            !self::get()->isErrNo($ex, 1213)
             && !self::get()->isErrNo($ex, 1205)
         ) {
             return;
@@ -863,7 +867,8 @@ class Db
     {
         self::checkBoundParametersIfInDevMode($sql, $parameters);
 
-        if (self::$logQueries === false
+        if (
+            self::$logQueries === false
             || @Config::getInstance()->Debug['log_sql_queries'] != 1
         ) {
             return;

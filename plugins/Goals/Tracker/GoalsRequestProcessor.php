@@ -86,7 +86,8 @@ class GoalsRequestProcessor extends RequestProcessor
 
         // if the visit hasn't already been converted another way (ie, manual goal conversion or ecommerce conversion,
         // try to convert based on the action)
-        if (empty($goalsConverted)
+        if (
+            empty($goalsConverted)
             && $action
         ) {
             $goalsConverted = $this->goalManager->detectGoalsMatchingUrl($request->getIdSite(), $action, $visitProperties, $request);

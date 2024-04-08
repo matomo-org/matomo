@@ -119,7 +119,8 @@ class MetadataLoader
         }
 
         $info = json_decode($json, $assoc = true);
-        if (!is_array($info)
+        if (
+            !is_array($info)
             || empty($info)
         ) {
             throw new Exception("Invalid JSON file: $path");

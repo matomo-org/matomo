@@ -373,7 +373,8 @@ class ScheduledReports extends \Piwik\Plugin
         $reportFormat = $generatedReport->getReportFormat();
 
         $customReplyTo = null;
-        if (Config::getInstance()->General['scheduled_reports_replyto_is_user_email_and_alias']
+        if (
+            Config::getInstance()->General['scheduled_reports_replyto_is_user_email_and_alias']
             || !isset($reportDetails['login'])
         ) {
             $userModel = new UserModel();

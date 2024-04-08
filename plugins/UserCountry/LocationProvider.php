@@ -431,7 +431,8 @@ abstract class LocationProvider
     public function completeLocationResult(&$location)
     {
         // fill in continent code if country code is present
-        if (empty($location[self::CONTINENT_CODE_KEY])
+        if (
+            empty($location[self::CONTINENT_CODE_KEY])
             && !empty($location[self::COUNTRY_CODE_KEY])
         ) {
             $countryCode = strtolower($location[self::COUNTRY_CODE_KEY]);
@@ -439,7 +440,8 @@ abstract class LocationProvider
         }
 
         // fill in continent name if continent code is present
-        if (empty($location[self::CONTINENT_NAME_KEY])
+        if (
+            empty($location[self::CONTINENT_NAME_KEY])
             && !empty($location[self::CONTINENT_CODE_KEY])
         ) {
             $continentCode = strtolower($location[self::CONTINENT_CODE_KEY]);
@@ -447,7 +449,8 @@ abstract class LocationProvider
         }
 
         // fill in country name if country code is present
-        if (empty($location[self::COUNTRY_NAME_KEY])
+        if (
+            empty($location[self::COUNTRY_NAME_KEY])
             && !empty($location[self::COUNTRY_CODE_KEY])
         ) {
             $countryCode = strtolower($location[self::COUNTRY_CODE_KEY]);
@@ -488,7 +491,8 @@ abstract class LocationProvider
 
         // add latitude/longitude line
         $lines = array();
-        if (!empty($locationInfo[self::LATITUDE_KEY])
+        if (
+            !empty($locationInfo[self::LATITUDE_KEY])
             && !empty($locationInfo[self::LONGITUDE_KEY])
         ) {
             $lines[] = '(' . $locationInfo[self::LATITUDE_KEY] . ', ' . $locationInfo[self::LONGITUDE_KEY] . ')';

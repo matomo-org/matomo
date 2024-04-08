@@ -65,7 +65,8 @@ class ArchivingHelper
             // eg. When there's at least one row in a report that does not have a URL, not having this <url/> would break HTML/PDF reports.
             $url = '';
             $pageTitlePath = null;
-            if ($row['type'] == Action::TYPE_SITE_SEARCH
+            if (
+                $row['type'] == Action::TYPE_SITE_SEARCH
                 || $row['type'] == Action::TYPE_PAGE_TITLE
             ) {
                 $url = null;
@@ -76,7 +77,8 @@ class ArchivingHelper
                 $url = PageUrl::reconstructNormalizedUrl((string)$row['name'], $row['url_prefix']);
             }
 
-            if (isset($row['name'])
+            if (
+                isset($row['name'])
                 && isset($row['type'])
             ) {
                 $actionName = $row['name'];
@@ -113,11 +115,13 @@ class ArchivingHelper
             // For example http://piwik.org and http://id.piwik.org are reported in Piwik > Actions > Pages with /index
             // But, we must make sure http://piwik.org is used to link & for transitions
             // Note: this code is partly duplicated from Row->sumRowMetadata()
-            if (!is_null($url)
+            if (
+                !is_null($url)
                 && !$actionRow->isSummaryRow()
             ) {
                 if (($existingUrl = $actionRow->getMetadata('url')) !== false) {
-                    if (!empty($row[PiwikMetrics::INDEX_PAGE_NB_HITS])
+                    if (
+                        !empty($row[PiwikMetrics::INDEX_PAGE_NB_HITS])
                         && $row[PiwikMetrics::INDEX_PAGE_NB_HITS] > $actionRow->maxVisitsSummed
                     ) {
                         $actionRow->setMetadata('url', $url);
@@ -129,13 +133,15 @@ class ArchivingHelper
                 }
             }
 
-            if ($pageTitlePath !== null
+            if (
+                $pageTitlePath !== null
                 && !$actionRow->isSummaryRow()
             ) {
                 $actionRow->setMetadata('page_title_path', $pageTitlePath);
             }
 
-            if ($row['type'] != Action::TYPE_PAGE_URL
+            if (
+                $row['type'] != Action::TYPE_PAGE_URL
                 && $row['type'] != Action::TYPE_PAGE_TITLE
             ) {
                 // only keep performance metrics when they're used (i.e. for URLs and page titles)
@@ -260,7 +266,8 @@ class ArchivingHelper
              return false;
         }
 
-        if ($isPages &&
+        if (
+            $isPages &&
             isset($row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB]) &&
             isset($row[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE]))
         {
@@ -360,7 +367,8 @@ class ArchivingHelper
     public static function deleteInvalidSummedColumnsFromDataTable($dataTable)
     {
         foreach ($dataTable->getRows() as $id => $row) {
-            if (($idSubtable = $row->getIdSubDataTable()) !== null
+            if (
+                ($idSubtable = $row->getIdSubDataTable()) !== null
                 || $id === DataTable::ID_SUMMARY_ROW
             ) {
                 $subTable = $row->getSubtable();

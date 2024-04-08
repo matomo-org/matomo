@@ -77,7 +77,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // check if there is a working provider (that isn't the default one)
         $isThereWorkingProvider = false;
         foreach ($allProviderInfo as $id => $provider) {
-            if ($id != DefaultProvider::ID && $id != DisabledProvider::ID
+            if (
+                $id != DefaultProvider::ID && $id != DisabledProvider::ID
                 && $provider['status'] == LocationProvider::INSTALLED
             ) {
                 $isThereWorkingProvider = true;

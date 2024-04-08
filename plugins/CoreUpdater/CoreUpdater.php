@@ -44,7 +44,8 @@ class CoreUpdater extends \Piwik\Plugin
         $module = Piwik::getModule();
         $action = Piwik::getAction();
 
-        if ($module == 'CoreUpdater'
+        if (
+            $module == 'CoreUpdater'
             // Proxy module is used to redirect users to piwik.org, should still work when Piwik must be updated
             || $module == 'Proxy'
             // Do not show update page during installation.

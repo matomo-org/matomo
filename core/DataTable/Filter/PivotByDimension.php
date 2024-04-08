@@ -424,7 +424,8 @@ class PivotByDimension extends BaseFilter
     private function getColumnValue(Row $columnRow, $pivotColumn)
     {
         $value = $columnRow->getColumn($pivotColumn);
-        if (empty($value)
+        if (
+            empty($value)
             && !empty($this->metricIndexValue)
         ) {
             $value = $columnRow->getColumn($this->metricIndexValue);
@@ -488,7 +489,8 @@ class PivotByDimension extends BaseFilter
         });
 
         // limit columns if necessary (adding aggregate Others column at end)
-        if ($this->pivotByColumnLimit > 0
+        if (
+            $this->pivotByColumnLimit > 0
             && count($columnSet) > $this->pivotByColumnLimit
         ) {
             $columnSet = array_slice($columnSet, 0, $this->pivotByColumnLimit - 1, $preserveKeys = true);
@@ -521,7 +523,8 @@ class PivotByDimension extends BaseFilter
 
         $currentIndex = 1;
         foreach ($defaultRow as $columnName => $ignore) {
-            if ($columnName === $othersRowLabel
+            if (
+                $columnName === $othersRowLabel
                 || $columnName === 'label'
             ) {
                 $result[] = $columnName;

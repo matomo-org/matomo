@@ -52,7 +52,8 @@ class WidgetMetadata
                 // widgets in containers with ByDimension layout have a special, unrecognized category/subcategory
                 // (eg, "Sales by Referrer Type"). we change it to the container's category/subcategory so the widget
                 // will appear in the dashboard manager.
-                if ($widgetConfig instanceof WidgetContainerConfig
+                if (
+                    $widgetConfig instanceof WidgetContainerConfig
                     && $widgetConfig->getLayout() == CoreHome::WIDGET_CONTAINER_LAYOUT_BY_DIMENSION
                 ) {
                     $metadataOverrides = [

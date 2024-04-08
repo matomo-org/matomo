@@ -85,7 +85,8 @@ class BatchInsert
     {
         $loadDataInfileEnabled = Config::getInstance()->General['enable_load_data_infile'];
 
-        if ($loadDataInfileEnabled
+        if (
+            $loadDataInfileEnabled
             && Db::get()->hasBulkLoader()) {
 
             $path = self::getBestPathForLoadData();

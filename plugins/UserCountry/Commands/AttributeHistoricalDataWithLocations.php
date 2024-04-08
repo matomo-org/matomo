@@ -154,7 +154,8 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
         $percent = ceil($this->processed / $this->amountOfVisits * 100);
 
-        if ($percent > $this->processedPercent
+        if (
+            $percent > $this->processedPercent
             && $percent % $this->percentStep === 0
         ) {
             $this->getOutput()->writeln(sprintf('%d%% processed. <comment>%s</comment>', $percent, $this->timer->__toString()));

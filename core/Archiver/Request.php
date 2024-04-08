@@ -83,7 +83,8 @@ class Request
             } else if (preg_match('/[&?]date=previous1/', $this->url)) {
                 $this->changeParam('period', 'day');
                 $this->changeParam('date', 'yesterday');
-            } else if (preg_match('/[&?]date=([^,]+),([^,&]+)/', $this->url, $matches)
+            } else if (
+                preg_match('/[&?]date=([^,]+),([^,&]+)/', $this->url, $matches)
                 && $matches[1] == $matches[2]
             ) {
                 $this->changeParam('period', 'day');

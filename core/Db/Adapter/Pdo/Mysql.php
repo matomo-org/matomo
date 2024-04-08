@@ -55,7 +55,8 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
             if (!empty($config['ssl_cipher'])) {
                 $config['driver_options'][PDO::MYSQL_ATTR_SSL_CIPHER] = $config['ssl_cipher'];
             }
-            if (!empty($config['ssl_no_verify'])
+            if (
+                !empty($config['ssl_no_verify'])
                 && defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')
             ) {
                 $config['driver_options'][PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
@@ -185,7 +186,8 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         $clientVersion = $this->getClientVersion();
 
         // incompatible change to DECIMAL implementation in 5.0.3
-        if (version_compare($serverVersion, '5.0.3') >= 0
+        if (
+            version_compare($serverVersion, '5.0.3') >= 0
             && version_compare($clientVersion, '5.0.3') < 0
         ) {
             throw new Exception(Piwik::translate('General_ExceptionIncompatibleClientServerVersions', array('MySQL', $clientVersion, $serverVersion)));
