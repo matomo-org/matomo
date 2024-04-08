@@ -14,6 +14,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 The API method `Overlay.getExcludedQueryParameters` has been deprecated and will be removed in Matomo 6. Use the new method `SitesManager.getExcludedQueryParameters` instead.
 
+### JavaScript Tracker
+
+#### New APIs
+
+* The method `disableCampaignParameters` have been added to the JavaScript tracker. It allows to disable processing campaign parameters and forwarding them to the tracking endpoint.
+
 ## Matomo 5.0.0
 
 ### Breaking Changes
