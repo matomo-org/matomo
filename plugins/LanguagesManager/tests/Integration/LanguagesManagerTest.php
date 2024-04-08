@@ -26,7 +26,7 @@ use Piwik\Tests\Framework\Fixture;
  */
 class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
 {
-    function getTestDataForLanguageFiles()
+    public function getTestDataForLanguageFiles()
     {
         // we also test that none of the language php files outputs any character on the screen (eg. space before the <?php)
         $languages = API::getInstance()->getAvailableLanguages();
@@ -65,7 +65,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider getTestDataForLanguageFiles
      */
-    function testGetTranslationsForLanguages($language, $plugin)
+    public function testGetTranslationsForLanguages($language, $plugin)
     {
         $translationWriter = new Writer($language, $plugin);
 
@@ -115,7 +115,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
      *
      * @group Plugins
      */
-    function testWriterInvalidPlugin()
+    public function testWriterInvalidPlugin()
     {
         $this->expectException(\Exception::class);
 
@@ -127,7 +127,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
      *
      * @group Plugins
      */
-    function testGetTranslationsForLanguagesNot()
+    public function testGetTranslationsForLanguagesNot()
     {
         $this->assertFalse(API::getInstance()->getTranslationsForLanguage("../no-language"));
     }
@@ -138,7 +138,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
      * @group Plugins
      * @group numbered
      */
-    function testTranslationsUseNumberedPlaceholders()
+    public function testTranslationsUseNumberedPlaceholders()
     {
         Cache::flushAll();
         $translator = StaticContainer::get('Piwik\Translation\Translator');
@@ -162,7 +162,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
      * @group Plugins
      * @group numbered2
      */
-    function testTranslationsUseEscapedPercentSigns()
+    public function testTranslationsUseEscapedPercentSigns()
     {
         Cache::flushAll();
         $translator = StaticContainer::get('Piwik\Translation\Translator');
@@ -190,7 +190,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
      *
      * @group Plugins
      */
-    function testGetLanguageNamesInEnglish()
+    public function testGetLanguageNamesInEnglish()
     {
         $languages = API::getInstance()->getAvailableLanguages();
 

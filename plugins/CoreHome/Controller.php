@@ -117,7 +117,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $content;
     }
 
-    function redirectToCoreHomeIndex()
+    public function redirectToCoreHomeIndex()
     {
         $defaultReport = API::getInstance()->getUserPreference(
             API::PREFERENCE_DEFAULT_REPORT,

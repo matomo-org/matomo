@@ -44,7 +44,6 @@
         <exclude name="Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfterFirst" />
         <exclude name="Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfterSecond" />
         <exclude name="Squiz.Functions.FunctionDeclaration.Found" />
-        <exclude name="Squiz.Scope.MethodScope.Missing" />
         <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen" />
     </rule>
 

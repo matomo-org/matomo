@@ -16,7 +16,7 @@ namespace Piwik\Plugins\ExampleAPI;
  */
 class MagicObject
 {
-    function incredible()
+    public function incredible()
     {
         return 'Incroyable';
     }

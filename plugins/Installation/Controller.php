@@ -76,7 +76,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * @return string function name
      */
-    function getDefaultAction()
+    public function getDefaultAction()
     {
         $steps = array_keys($this->steps);
         return $steps[0];
@@ -89,7 +89,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * @param string $possibleErrorMessage Possible error message which may be set in the frontcontroller when event. Config.badConfigurationFile was triggered
      */
-    function welcome($possibleErrorMessage = null)
+    public function welcome($possibleErrorMessage = null)
     {
         // Delete merged js/css files to force regenerations based on updated activated plugin list
         Filesystem::deleteAllCacheOnUpdate();
@@ -108,7 +108,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Installation Step 2: System Check
      */
-    function systemCheck()
+    public function systemCheck()
     {
         $this->checkPiwikIsNotInstalled();
 
@@ -139,7 +139,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * Installation Step 3: Database Set-up
      * @throws Exception|Zend_Db_Adapter_Exception
      */
-    function databaseSetup()
+    public function databaseSetup()
     {
         $this->checkPiwikIsNotInstalled();
 
@@ -177,7 +177,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Installation Step 4: Table Creation
      */
-    function tablesCreation()
+    public function tablesCreation()
     {
         $this->checkPiwikIsNotInstalled();
 
@@ -230,7 +230,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view->render();
     }
 
-    function reuseTables()
+    public function reuseTables()
     {
         $this->checkPiwikIsNotInstalled();
 
@@ -264,7 +264,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Installation Step 5: General Set-up (superuser login/password/email and subscriptions)
      */
-    function setupSuperUser()
+    public function setupSuperUser()
     {
         $this->checkPiwikIsNotInstalled();
 

@@ -17,7 +17,7 @@ class Overlay extends \Piwik\Plugin
     /**
      * @see \Piwik\Plugin::registerEvents
      */
-    function registerEvents()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',

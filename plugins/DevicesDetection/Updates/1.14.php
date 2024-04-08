@@ -35,7 +35,7 @@ class Updates_1_14 extends Updates
         );
     }
 
-    static function isMajorUpdate()
+    public static function isMajorUpdate()
     {
         return true;
     }

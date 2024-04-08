@@ -20,12 +20,12 @@ class Visitor implements VisitorInterface
 {
     private $details = array();
 
-    function __construct($visitorRawData)
+    public function __construct($visitorRawData)
     {
         $this->details = $visitorRawData;
     }
 
-    function getAllVisitorDetails()
+    public function getAllVisitorDetails()
     {
         $visitor = array();
 
@@ -114,7 +114,7 @@ class Visitor implements VisitorInterface
         return Plugin\Manager::getInstance()->findComponents('VisitorDetails', 'Piwik\Plugins\Live\VisitorDetailsAbstract');
     }
 
-    function getVisitorId()
+    public function getVisitorId()
     {
         if (isset($this->details['idvisitor'])) {
             return bin2hex($this->details['idvisitor']);
