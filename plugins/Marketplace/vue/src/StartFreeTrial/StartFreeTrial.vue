@@ -90,6 +90,7 @@ interface StartFreeTrialState {
   trialStartInProgress: boolean;
   trialStartSuccessNotificationMessage: string;
   trialStartSuccessNotificationTitle: string;
+  loadingModalCloseCallback: undefined | (() => void);
 }
 
 export default defineComponent({
@@ -106,6 +107,7 @@ export default defineComponent({
     return {
       createAccountEmail: this.currentUserEmail || '',
       trialStartError: null,
+      loadingModalCloseCallback: undefined,
       trialStartInProgress: false,
       trialStartSuccessNotificationMessage: '',
       trialStartSuccessNotificationTitle: '',
@@ -165,6 +167,9 @@ export default defineComponent({
     },
   },
   methods: {
+    closeModal() {
+      $('#startFreeTrial').modal('close');
+    },
     createAccountAndStartFreeTrial() {
       if (!this.createAccountEmail) {
         return;
@@ -226,12 +231,19 @@ export default defineComponent({
       }
 
       this.trialStartInProgress = true;
+      this.loadingModalCloseCallback = undefined;
 
       $('#startFreeTrial').modal({
         dismissible: false,
         inDuration: immediateTransition ? 0 : undefined,
         onCloseEnd: () => {
-          this.trialStartInProgress = false;
+          if (!this.loadingModalCloseCallback) {
+            return;
+          }
+
+          this.loadingModalCloseCallback();
+
+          this.loadingModalCloseCallback = undefined;
         },
       }).modal('open');
     },
@@ -250,27 +262,32 @@ export default defineComponent({
           createErrorNotification: false,
         },
       ).then(() => {
-        const notificationInstanceId = NotificationsStore.show({
-          message: this.trialStartSuccessNotificationMessage,
-          title: this.trialStartSuccessNotificationTitle,
-          context: 'success',
-          id: 'startTrialSuccess',
-          placeat: '#notificationContainer',
-          type: 'transient',
-        });
+        this.loadingModalCloseCallback = this.startFreeTrialSuccess;
 
-        NotificationsStore.scrollToNotification(notificationInstanceId);
-
-        $('#startFreeTrial').modal('close');
-
-        this.$emit('trialStarted');
+        this.closeModal();
       }).catch((error) => {
         this.showErrorModal(error.message);
-      }).finally(() => {
-        this.trialStartInProgress = false;
 
+        this.trialStartInProgress = false;
+      }).finally(() => {
         this.$emit('update:modelValue', '');
       });
+    },
+    startFreeTrialSuccess() {
+      const notificationInstanceId = NotificationsStore.show({
+        message: this.trialStartSuccessNotificationMessage,
+        title: this.trialStartSuccessNotificationTitle,
+        context: 'success',
+        id: 'startTrialSuccess',
+        placeat: '#notificationContainer',
+        type: 'transient',
+      });
+
+      NotificationsStore.scrollToNotification(notificationInstanceId);
+
+      this.trialStartInProgress = false;
+
+      this.$emit('trialStarted');
     },
   },
 });
