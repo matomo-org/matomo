@@ -170,7 +170,7 @@ export default defineComponent({
         return;
       }
 
-      this.showLoadingModal();
+      this.showLoadingModal(true);
 
       AjaxHelper.post(
         {
@@ -214,12 +214,13 @@ export default defineComponent({
 
       $('#startFreeTrial').modal({
         dismissible: true,
+        inDuration: 0,
         onCloseEnd: () => {
           this.trialStartError = null;
         },
       }).modal('open');
     },
-    showLoadingModal() {
+    showLoadingModal(immediateTransition: boolean) {
       if (this.trialStartInProgress) {
         return;
       }
@@ -228,13 +229,14 @@ export default defineComponent({
 
       $('#startFreeTrial').modal({
         dismissible: false,
+        inDuration: immediateTransition ? 0 : undefined,
         onCloseEnd: () => {
           this.trialStartInProgress = false;
         },
       }).modal('open');
     },
     startFreeTrial() {
-      this.showLoadingModal();
+      this.showLoadingModal(false);
 
       AjaxHelper.post(
         {
