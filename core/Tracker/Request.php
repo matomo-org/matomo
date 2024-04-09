@@ -316,7 +316,8 @@ class Request
      */
     public function getBrowserLanguage()
     {
-        return Common::getRequestVar('lang', Common::getBrowserLanguage(), 'string', $this->params);
+        $parameterValue = Common::getRequestVar('lang', '', 'string', $this->params);
+        return Common::getBrowserLanguage($parameterValue ?: null);
     }
 
     /**

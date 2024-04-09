@@ -250,13 +250,22 @@ class RequestTest extends UnitTestCase
         $this->assertSame('My Custom UA', $request->getUserAgent());
     }
 
-    public function test_getBrowserLanguage_ShouldReturnACustomSetLangParam_IfOneIsSet()
+    public function testGetBrowserLanguageShouldReturnLanguageHeaderIfProvided()
     {
-        $request = $this->buildRequest(array('lang' => 'CusToMLang'));
-        $this->assertSame('CusToMLang', $request->getBrowserLanguage());
+        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en-US,en;q=0.5';
+        $this->assertSame('en-us,en', $this->request->getBrowserLanguage());
+        unset($_SERVER['HTTP_ACCEPT_LANGUAGE']);
     }
 
-    public function test_getBrowserLanguage_ShouldReturnADefaultLanguageInCaseNoneIsSet()
+    public function testGetBrowserLanguageShouldPreferACustomSetLangParamOverHeader()
+    {
+        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en-US,en;q=0.5';
+        $request = $this->buildRequest(array('lang' => 'CusToMLang'));
+        $this->assertSame('customlang', $request->getBrowserLanguage());
+        unset($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+    }
+
+    public function testGetBrowserLanguageShouldReturnADefaultLanguageInCaseNoneIsSet()
     {
         $envLanguage = getenv('LANG');
         putenv('LANG=en');
