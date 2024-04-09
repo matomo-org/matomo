@@ -10,22 +10,11 @@
 
     <template v-if="trialStartInProgress">
       <div class="modal-content trial-start-in-progress">
-        <div class="modal-text">
-          <div class="preloader-wrapper active">
-            <div class="spinner-layer spinner-blue-only">
-              <div class="circle-clipper left">
-                <div class="circle"></div>
-              </div>
-              <div class="gap-patch">
-                <div class="circle"></div>
-              </div>
-              <div class="circle-clipper right">
-                <div class="circle"></div>
-              </div>
-            </div>
+        <div class="Piwik_Popover_Loading">
+          <div class="Piwik_Popover_Loading_Name">
+            <h2>{{ translate('Marketplace_TrialStartInProgressTitle') }}</h2>
+            <p>{{ translate('Marketplace_TrialStartInProgressText') }}</p>
           </div>
-          <h2>{{ translate('Marketplace_TrialStartInProgressTitle') }}</h2>
-          <p>{{ translate('Marketplace_TrialStartInProgressText') }}</p>
         </div>
       </div>
     </template>
