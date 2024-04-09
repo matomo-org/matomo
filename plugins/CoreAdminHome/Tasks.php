@@ -161,9 +161,14 @@ class Tasks extends \Piwik\Plugin\Tasks
             return;
         }
 
-        $user = Request::processRequest('UsersManager.getUser', [
-            'userLogin' => $creatingUser,
-        ]);
+        try {
+            $user = Request::processRequest('UsersManager.getUser', [
+                'userLogin' => $creatingUser,
+            ]);
+        } catch (\Exception $e) {
+            return;
+        }
+
         if (empty($user['email'])) {
             return;
         }
