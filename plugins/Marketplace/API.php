@@ -98,6 +98,7 @@ class API extends \Piwik\Plugin\API
         try {
             $result = $this->marketplaceService->fetch(
                 'createAccount',
+                [],
                 [
                     'email' => $email,
                 ],
@@ -177,6 +178,7 @@ class API extends \Piwik\Plugin\API
                 'num_users' => $this->environment->getNumUsers(),
                 'num_websites' => $this->environment->getNumWebsites(),
             ],
+            [],
             true,
             false
         );

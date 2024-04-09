@@ -56,9 +56,10 @@ class ApiTest extends IntegrationTestCase
     {
         $this->assertNotHasLicenseKey();
 
-        $this->service->setOnDownloadCallback(static function ($action, $params) {
+        $this->service->setOnDownloadCallback(static function ($action, $params, $postData) {
             self::assertSame('createAccount', $action);
-            self::assertSame(['email' => 'test@matomo.org'], $params);
+            self::assertArrayHasKey('email', $postData);
+            self::assertSame('test@matomo.org', $postData['email']);
 
             return [
                 'status' => 200,

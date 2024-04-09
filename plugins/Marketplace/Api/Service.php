@@ -80,21 +80,30 @@ class Service
      * @param string $url An absolute URL to the marketplace including domain.
      * @param null|string $destinationPath
      * @param null|int $timeout Defaults to 60 seconds see {@link self::HTTP_REQUEST_METHOD}
+     * @param null|array $postData eg array('email' => 'user@example.org')
      * @param bool $getExtendedInfo Return the extended response info for the HTTP request.
      * @return bool|string Returns the downloaded data or true if a destination path was given.
      * @throws \Exception
      */
-    public function download($url, $destinationPath = null, $timeout = null, $getExtendedInfo = false)
-    {
+    public function download(
+        $url,
+        $destinationPath = null,
+        $timeout = null,
+        ?array $postData = null,
+        bool $getExtendedInfo = false
+    ) {
         $method = Http::getTransportMethod();
 
         if (!isset($timeout)) {
             $timeout = static::HTTP_REQUEST_TIMEOUT;
         }
 
-        $post = null;
         if ($this->accessToken) {
-            $post = array('access_token' => $this->accessToken);
+            if (!is_array($postData)) {
+                $postData = [];
+            }
+
+            $postData['access_token'] = $this->accessToken;
         }
 
         $file = Http::ensureDestinationDirectoryExists($destinationPath);
@@ -114,7 +123,7 @@ class Service
             $httpMethod = 'POST',
             $httpUsername = null,
             $httpPassword = null,
-            $post
+            $postData
         );
     }
 
@@ -125,20 +134,26 @@ class Service
      *
      * @param string $action eg 'plugins', 'plugins/$pluginName/info', ...
      * @param array $params eg array('sort' => 'alpha')
+     * @param null|array $postData eg array('email' => 'user@example.org')
      * @param bool $getExtendedInfo Return the extended response info for the HTTP request.
      * @param bool $throwOnApiError Throw if an error was returned from the API or return the result.
      *                              Will always throw if an HTTP error occurred (unreadable response).
      * @return mixed
      * @throws Service\Exception
      */
-    public function fetch($action, $params, $getExtendedInfo = false, bool $throwOnApiError = true)
-    {
+    public function fetch(
+        $action,
+        $params,
+        ?array $postData = null,
+        bool $getExtendedInfo = false,
+        bool $throwOnApiError = true
+    ) {
         $endpoint = sprintf('%s/api/%s/', $this->domain, $this->version);
 
         $query = Http::buildQuery($params);
         $url   = sprintf('%s%s?%s', $endpoint, $action, $query);
 
-        $response = $this->download($url, null, null, true);
+        $response = $this->download($url, null, null, $postData, true);
         $result = $response['data'] ?? null;
 
         if (null === $result) {
