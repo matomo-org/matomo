@@ -4,7 +4,7 @@
         "Active": "Etkin",
         "AddExistingUser": "Var olan bir kullanıcı ekle",
         "AddNewUser": "Yeni kullanıcı ekle",
-        "AddSuperuserAccessConfirm": "Bir kullanıcıya süper kullanıcı izinleri verildiğinde, bu kullanıcının Matomo üzerinde tam denetime sahip olmasını sağlar. Bu yüzden tedbirli davranılması önerilir.",
+        "AddSuperuserAccessConfirm": "Süper kullanıcı izinleri verilen kullanıcının Matomo üzerinde tam denetimi olur. Dikkatli olunması önerilir.",
         "AddUserNoInitialAccessError": "Yeni kullanıcılara bir siteye erişme izni verilmelidir, lütfen 'initialIdSite' parametresini ayarlayın.",
         "AllUsersAreSelected": "%1$s kullanıcının tümü seçildi.",
         "AllWebsites": "Tüm siteler",
