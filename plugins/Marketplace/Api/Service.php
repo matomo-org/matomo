@@ -158,7 +158,7 @@ class Service
 
         if (null === $result) {
             throw new Service\Exception(
-                'There was an error reading the response from the Marketplace: Please try again later.',
+                'There was an error reading the response from the Marketplace. Please try again later.',
                 Service\Exception::HTTP_ERROR
             );
         }
@@ -168,7 +168,7 @@ class Service
 
             if (null === $result) {
                 throw new Service\Exception(
-                    'There was an error reading the response from the Marketplace: Please try again later.',
+                    'There was an error reading the response from the Marketplace. Please try again later.',
                     Service\Exception::HTTP_ERROR
                 );
             }

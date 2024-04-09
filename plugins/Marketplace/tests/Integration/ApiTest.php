@@ -369,7 +369,7 @@ class ApiTest extends IntegrationTestCase
                 'data' => 'not valid json',
             ],
             ServiceException::class,
-            'There was an error reading the response from the Marketplace: Please try again later.',
+            'There was an error reading the response from the Marketplace. Please try again later.',
         ];
 
         yield 'error in marketplace response' => [
