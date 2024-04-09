@@ -87,6 +87,8 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_BrowseMarketplace';
         $translationKeys[] = 'Marketplace_CannotUpdate';
         $translationKeys[] = 'Marketplace_CannotInstall';
+        $translationKeys[] = 'Marketplace_CreateAccountErrorAPI';
+        $translationKeys[] = 'Marketplace_CreateAccountErrorLicenseExists';
         $translationKeys[] = 'Marketplace_ConfirmRemoveLicense';
         $translationKeys[] = 'Marketplace_CurrentNumPiwikUsers';
         $translationKeys[] = 'Marketplace_Exceeded';

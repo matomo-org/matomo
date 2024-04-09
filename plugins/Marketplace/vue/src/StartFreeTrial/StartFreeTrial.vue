@@ -42,6 +42,11 @@
               :title="translate('UsersManager_Email')"
           />
 
+          <div class="alert alert-danger"
+               v-if="createAccountError"
+               v-html="$sanitize(createAccountError)"
+          />
+
           <p class="trial-start-legal-hint"
              v-html="$sanitize(trialStartNoLicenseLegalHintText)"
           />
@@ -70,11 +75,13 @@ import {
   translate,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
+import Matomo from '../../../../CoreHome/vue/src/Matomo/Matomo';
 
 const { $ } = window;
 
 interface StartFreeTrialState {
   createAccountEmail: string;
+  createAccountError: string | null;
   trialStartError: string | null;
   trialStartInProgress: boolean;
   trialStartSuccessNotificationMessage: string;
@@ -95,6 +102,7 @@ export default defineComponent({
   data(): StartFreeTrialState {
     return {
       createAccountEmail: this.currentUserEmail || '',
+      createAccountError: null,
       trialStartError: null,
       loadingModalCloseCallback: undefined,
       trialStartInProgress: false,
@@ -128,7 +136,7 @@ export default defineComponent({
           newValue,
         );
 
-        this.showLicenseDialog();
+        this.showLicenseDialog(false);
       }
     },
   },
@@ -180,17 +188,28 @@ export default defineComponent({
       ).then(() => {
         this.startFreeTrial();
       }).catch((error) => {
-        this.showErrorModal(error.message);
+        if (error.message.startsWith('Marketplace_CreateAccountError')) {
+          this.showErrorModal(translate(error.message));
 
-        this.trialStartInProgress = false;
+          this.trialStartInProgress = false;
 
-        this.$emit('update:modelValue', '');
+          this.$emit('update:modelValue', '');
+        } else {
+          this.createAccountError = error.message;
+
+          this.trialStartInProgress = false;
+
+          this.showLicenseDialog(true);
+        }
       });
     },
-    showLicenseDialog() {
+    showLicenseDialog(immediateTransition: boolean) {
       $('#startFreeTrial').modal({
         dismissible: true,
+        inDuration: immediateTransition ? 0 : undefined,
         onCloseEnd: () => {
+          this.createAccountError = null;
+
           if (this.trialStartInProgress) {
             return;
           }
@@ -255,7 +274,7 @@ export default defineComponent({
 
         this.closeModal();
       }).catch((error) => {
-        this.showErrorModal(error.message);
+        this.showErrorModal(Matomo.helper.htmlDecode(error.message));
 
         this.trialStartInProgress = false;
       }).finally(() => {

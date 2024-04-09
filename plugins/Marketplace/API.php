@@ -80,7 +80,8 @@ class API extends \Piwik\Plugin\API
         $licenseKey = (new LicenseKey())->get();
 
         if (!empty($licenseKey)) {
-            throw new Exception(Piwik::translate('Marketplace_CreateAccountErrorLicenseExists'));
+            // not translated to allow special handling in frontend
+            throw new Exception('Marketplace_CreateAccountErrorLicenseExists');
         }
 
         $notEmptyValidator = new NotEmpty();
@@ -94,14 +95,19 @@ class API extends \Piwik\Plugin\API
         $allowedDomainsValidator = new AllowedEmailDomain($systemSettings);
         $allowedDomainsValidator->validate($email);
 
-        $result = $this->marketplaceService->fetch(
-            'createAccount',
-            [
-                'email' => $email,
-            ],
-            true,
-            false
-        );
+        try {
+            $result = $this->marketplaceService->fetch(
+                'createAccount',
+                [
+                    'email' => $email,
+                ],
+                true,
+                false
+            );
+        } catch (Service\Exception $e) {
+            // not translated to allow special handling in frontend
+            throw new Exception('Marketplace_CreateAccountErrorAPI');
+        }
 
         $this->marketplaceClient->clearAllCacheEntries();
 
@@ -119,7 +125,8 @@ class API extends \Piwik\Plugin\API
                     break;
 
                 default:
-                    $message = Piwik::translate('Marketplace_CreateAccountErrorAPI');
+                    // not translated to allow special handling in frontend
+                    $message = 'Marketplace_CreateAccountErrorAPI';
                     break;
             }
 

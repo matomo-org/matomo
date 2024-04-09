@@ -435,6 +435,22 @@
             margin-bottom: 0;
             margin-top: 0;
         }
+
+        .alert {
+            // adjust vertical distance to input field and legal hint
+            margin: -10px 0 20px 0;
+
+            background: none;
+            border: 0;
+            color: @color-red-matomo !important;
+            font-size: 14px;
+            line-height: 20px;
+            padding: 8px 0 8px 30px;
+
+            &:before {
+                left: 0;
+            }
+        }
     }
 
     .modal-content p {

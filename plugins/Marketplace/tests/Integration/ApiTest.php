@@ -153,8 +153,8 @@ class ApiTest extends IntegrationTestCase
                 'headers' => [],
                 'data' => 'not valid json',
             ],
-            ServiceException::class,
-            'There was an error reading the response from the Marketplace: Please try again later.',
+            Exception::class,
+            'Marketplace_CreateAccountErrorAPI',
         ];
 
         yield 'marketplace rejected email as invalid' => [
