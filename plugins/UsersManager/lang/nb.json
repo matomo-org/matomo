@@ -76,7 +76,7 @@
         "ExceptionEditAnonymous": "Den anonyme brukeren kan ikke bli redigert eller slettet. Den blir brukt av Matomo for å definere en bruker som ikke har blitt logget inn ennå. Du kan for eksempel gjøre statistikken din offentlig ved å gi 'view'-tilgang til 'anonymous'-brukeren.",
         "ExceptionEmailExists": "Bruker med e-post «%s» eksisterer allerede.",
         "ExceptionEmailExistsAsLogin": "E-posten «%s» er allerede i bruk som et brukernavn.",
-        "ExceptionInvalidEmail": "Epost-adressen er ikke i gyldig format.",
+        "ExceptionInvalidEmail": "E-postadressen er ikke i gyldig format.",
         "ExceptionInvalidLoginFormat": "Brukernavnet må være mellom %1$s og %2$s tegn langt, og kun inneholde bokstaver, tall, eller tegnene «_», «-», «.», «@», eller «+»",
         "ExceptionInvalidPassword": "Passordslengden må være mer enn %1$s tegn.",
         "ExceptionInvalidPasswordTooLong": "Passordslengden må være kortere enn %1$s tegn.",

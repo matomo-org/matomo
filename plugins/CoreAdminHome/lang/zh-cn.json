@@ -73,8 +73,6 @@
         "JSTracking_MergeSubdomainsDesc": "如果一个访客访问 %1$s 和 %2$s，将被算作同一访客。",
         "JSTracking_PageCustomVars": "为每个页面访问追踪自定义变量",
         "JSTracking_PageCustomVarsDesc": "例如，使用变量名“分类”，值“白皮书”。",
-        "JSTracking_RequireConsentForCampaignTracking": "需要获得同意才能跟踪活动参数",
-        "JSTracking_RequireConsentForCampaignTrackingDesc": "通过启用同意请求，Matomo将只跟踪已同意用户的活动参数。这种方法确保数据收集尊重用户的偏好，同时能够通过来源、媒介和活动细节等关键指标分析流量。",
         "JSTracking_TrackNoScript": "已停用 JavaScript 追踪用户功能",
         "JSTracking_VisitorCustomVars": "为此访客追踪自定义变量",
         "JSTracking_VisitorCustomVarsDesc": "例如，使用变量名“类型”，值“顾客”。",
