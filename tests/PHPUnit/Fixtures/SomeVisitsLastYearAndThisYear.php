@@ -44,7 +44,7 @@ class SomeVisitsLastYearAndThisYear extends Fixture
     {
 
         // This year, 5 visits
-        for ($i = 0;$i < 5;$i++) {
+        for ($i = 0; $i < 5; $i++) {
             $dateTime = Date::factory($this->year . '-01-01')->toString();
             $t = self::getTracker($this->idSite, $dateTime, $defaultInit = true);
 
@@ -53,7 +53,7 @@ class SomeVisitsLastYearAndThisYear extends Fixture
         }
 
         // Last Year
-        for ($i = 0;$i < 5;$i++) {
+        for ($i = 0; $i < 5; $i++) {
             $dateTime = Date::factory($this->year . '-01-01')->subYear(1)->toString();
             $t = self::getTracker($this->idSite, $dateTime, $defaultInit = true);
 
