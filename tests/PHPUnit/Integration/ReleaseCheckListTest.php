@@ -390,7 +390,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         foreach($objects as $name => $object){
             if (
                 is_dir($name)
-                && strpos($name, "/.") === false) {
+                && strpos($name, "/.") === false
+            ) {
                 $paths[] = $name;
             }
         }

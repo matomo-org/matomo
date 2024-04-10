@@ -247,7 +247,8 @@ class PageUrl
             try {
                 if (
                     function_exists('mb_check_encoding')
-                    && @mb_check_encoding($decoded, $encoding)) {
+                    && @mb_check_encoding($decoded, $encoding)
+                ) {
                     $value = urlencode(mb_convert_encoding($decoded, 'UTF-8', $encoding));
                 }
             } catch (\Error $e) {

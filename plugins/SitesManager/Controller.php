@@ -376,7 +376,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         if (
             empty($detectedCMSes)
-            || $this->siteContentDetector->wasDetected(WordPress::getId())) {
+            || $this->siteContentDetector->wasDetected(WordPress::getId())
+        ) {
             return '';
         }
 

@@ -370,7 +370,8 @@ class LogAggregator
                 foreach ($from as $fromJoin) {
                     if (
                         !empty($fromJoin['table']) && $fromJoin['table'] === $logTable->getName() &&
-                        !empty($fromJoin['join']) && strtoupper($fromJoin['join']) === 'RIGHT JOIN') {
+                        !empty($fromJoin['join']) && strtoupper($fromJoin['join']) === 'RIGHT JOIN'
+                    ) {
                         continue 2;
                     }
                 }

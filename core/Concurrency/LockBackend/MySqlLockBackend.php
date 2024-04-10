@@ -71,7 +71,8 @@ class MySqlLockBackend implements LockBackend
             if (
                 $e->getCode() == 23000
                 || strpos($e->getMessage(), 'Duplicate entry') !== false
-                || strpos($e->getMessage(), ' 1062 ') !== false) {
+                || strpos($e->getMessage(), ' 1062 ') !== false
+            ) {
                 return false;
             }
             throw $e;

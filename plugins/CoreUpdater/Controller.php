@@ -208,7 +208,8 @@ class Controller extends \Piwik\Plugin\Controller
             empty($value['nonce'])
             || empty($value['ttl'])
             || time() > (int) $value['ttl']
-            || $nonce !== $value['nonce']) {
+            || $nonce !== $value['nonce']
+        ) {
             return json_encode(['Invalid nonce or nonce expired. ' . $task]);
         }
 

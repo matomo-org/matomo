@@ -239,7 +239,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 if (
                     $this->canPluginBeInstalled($paidPlugin)
                     || ($this->pluginManager->isPluginInstalled($paidPlugin['name'], true)
-                        && !$this->pluginManager->isPluginActivated($paidPlugin['name']))) {
+                        && !$this->pluginManager->isPluginActivated($paidPlugin['name']))
+                ) {
                     $paidPluginsToInstallAtOnce[] = $paidPlugin['name'];
                 }
             }
@@ -368,7 +369,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                     if (
                         empty($paidPlugin['require'])
-                        || !$dependency->hasDependencyToDisabledPlugin($paidPlugin['require'])) {
+                        || !$dependency->hasDependencyToDisabledPlugin($paidPlugin['require'])
+                    ) {
                         $paidPlugins[$index] = null;
 
                         try {

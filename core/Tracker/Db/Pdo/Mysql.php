@@ -225,7 +225,8 @@ class Mysql extends Db
             if (
                 $isSelectQuery
                 && !$this->activeTransaction
-                && $this->isMysqlServerHasGoneAwayError($e)) {
+                && $this->isMysqlServerHasGoneAwayError($e)
+            ) {
                 // mysql may return a MySQL server has gone away error when trying to execute the query
                 // in that case we want to retry establishing the connection once after a short sleep
                 // we're only retrying SELECT queries to prevent updating or inserting records twice for some reason

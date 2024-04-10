@@ -76,7 +76,8 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         if (
             !isset($action['productViewName']) && !isset($action['productViewSku']) &&
-            !isset($action['productViewPrice']) && !isset($action['productViewCategories'])) {
+            !isset($action['productViewPrice']) && !isset($action['productViewCategories'])
+        ) {
             return [];
         }
 

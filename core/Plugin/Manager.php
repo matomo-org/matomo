@@ -813,7 +813,8 @@ class Manager
         foreach ($pluginNames as $pluginName) {
             if (
                 $this->isPluginActivated($pluginName)
-                && !$this->isPluginAlwaysActivated($pluginName)) {
+                && !$this->isPluginAlwaysActivated($pluginName)
+            ) {
                 $counter++;
             }
         }
@@ -1144,7 +1145,8 @@ class Manager
             && SettingsPiwik::isInternetEnabled()
             && !Development::isEnabled()
             && $this->isPluginActivated('Marketplace')
-            && $this->isPluginActivated($pluginName)) {
+            && $this->isPluginActivated($pluginName)
+        ) {
             $cacheKey = 'MarketplacePluginMissingLicense' . $pluginName;
             $cache = self::getLicenseCache();
 
@@ -1382,7 +1384,8 @@ class Manager
             // if a plugin is listed in the config, but is not loaded, it does not exist in the folder
             if (
                 !$this->isPluginLoaded($pluginName) && !$this->isPluginBogus($pluginName) &&
-                !($this->doesPluginRequireInternetConnection($pluginName) && !SettingsPiwik::isInternetEnabled())) {
+                !($this->doesPluginRequireInternetConnection($pluginName) && !SettingsPiwik::isInternetEnabled())
+            ) {
                 $missingPlugins[] = $pluginName;
             }
         }
@@ -1521,7 +1524,8 @@ class Manager
         $themeEnabled = $this->getThemeEnabled();
         if (
             $themeEnabled
-            && $themeEnabled->getPluginName() != self::DEFAULT_THEME) {
+            && $themeEnabled->getPluginName() != self::DEFAULT_THEME
+        ) {
             $themeAlreadyEnabled = $themeEnabled->getPluginName();
 
             $plugin = $this->loadPlugin($pluginName);
@@ -1623,7 +1627,8 @@ class Manager
             if (
                 $dim->getColumnName() === $columnName &&
                 $dim->hasColumnType() &&
-                $dim->getModule() !== $module) {
+                $dim->getModule() !== $module
+            ) {
                 return true;
             }
         }

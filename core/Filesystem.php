@@ -168,7 +168,8 @@ class Filesystem
                 if (
                     !$commandFailed
                     && count($outputArray) > 1
-                    && preg_match('/\bnfs\d?\b/', $output)) {
+                    && preg_match('/\bnfs\d?\b/', $output)
+                ) {
                     // check if filesystem is NFS
                     return true;
                 }
@@ -368,7 +369,8 @@ class Filesystem
 
         if (
             !empty($path_parts['extension'])
-            && in_array($path_parts['extension'], $phpExtensions)) {
+            && in_array($path_parts['extension'], $phpExtensions)
+        ) {
             return true;
         }
 

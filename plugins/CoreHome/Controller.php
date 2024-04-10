@@ -96,7 +96,8 @@ class Controller extends \Piwik\Plugin\Controller
                 strpos($content, '<h2') !== false
                 || strpos($content, ' content-title=') !== false
                 || strpos($content, 'CoreHome.EnrichedHeadline') !== false
-                || strpos($content, '<h1') !== false ) {
+                || strpos($content, '<h1') !== false
+            ) {
                 // already includes title
                 return $content;
             }
@@ -106,7 +107,8 @@ class Controller extends \Piwik\Plugin\Controller
                 && strpos($content, 'class="card"') === false
                 && strpos($content, "class='card'") === false
                 && strpos($content, 'class="card-content"') === false
-                && strpos($content, "class='card-content'") === false) {
+                && strpos($content, "class='card-content'") === false
+            ) {
                 $view = new View('@CoreHome/_singleWidget');
                 $view->title = $config->getName();
                 $view->content = $content;

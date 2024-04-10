@@ -52,7 +52,8 @@ class ConfigInformational implements Diagnostic
                 if (
                     !empty($plugin['info']['version'])
                     && !empty($plugin['uninstallable'])
-                    && (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE)) {
+                    && (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE)
+                ) {
                     // we only want to show versions for plugins not shipped with core
                     // in tests we don't show version numbers to not always needing to update the screenshot
                     $string .= ' ' . $plugin['info']['version'];

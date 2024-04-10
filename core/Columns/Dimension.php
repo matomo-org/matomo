@@ -489,7 +489,8 @@ abstract class Dimension
         if (
             $this->segmentName && $this->category
             && ($this->sqlSegment || ($this->columnName && $this->dbTableName))
-            && $this->nameSingular) {
+            && $this->nameSingular
+        ) {
             $segment = $dimensionSegmentFactory->createSegment(null);
             $segmentsList->addSegment($segment);
         }

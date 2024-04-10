@@ -40,7 +40,8 @@ class Schema extends Singleton
         // Upgrade from pre 2.0.4
         if (
             strtolower($schemaName) == 'myisam'
-            || empty($schemaName)) {
+            || empty($schemaName)
+        ) {
             $schemaName = self::DEFAULT_SCHEMA;
         }
 

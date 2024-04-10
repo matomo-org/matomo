@@ -275,7 +275,8 @@ class Csv extends Renderer
         if (
             empty($valueWithoutFirstPercentSign)
             || !is_string($value)
-            || is_numeric($valueWithoutFirstPercentSign)) {
+            || is_numeric($valueWithoutFirstPercentSign)
+        ) {
             return $value;
         }
 

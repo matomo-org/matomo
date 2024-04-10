@@ -119,7 +119,8 @@ class ReportTotalsCalculator extends DataTableManipulator
         if (
             $this->report
             && $this->report->getProcessedMetrics()
-            && array_keys($this->report->getProcessedMetrics()) === array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate')) {
+            && array_keys($this->report->getProcessedMetrics()) === array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate')
+        ) {
             // hack for AllColumns table or default processed metrics
             $clone->filter('AddColumnsProcessedMetrics', array($deleteRowsWithNoVisit = false));
         }

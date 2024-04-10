@@ -63,7 +63,8 @@ class Handler extends Tracker\Handler
             } catch (Exception $e) {
                 if (
                     stripos($e->getMessage(), 'Lock wait timeout exceeded')
-                    || Tracker::getDatabase()->isErrNo($e, 1205)) {
+                    || Tracker::getDatabase()->isErrNo($e, 1205)
+                ) {
                     continue;
                 } else {
                     throw $e;

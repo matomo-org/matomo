@@ -34,7 +34,8 @@ class Extractions
             if (
                 count($extraction) !== 2
                 || !array_key_exists('dimension', $extraction)
-                || !array_key_exists('pattern', $extraction)) {
+                || !array_key_exists('pattern', $extraction)
+            ) {
                 throw new \Exception('Each extraction within extractions must have a key "dimension" and "pattern" only');
             }
 

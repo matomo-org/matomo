@@ -126,7 +126,8 @@ class SegmentFormatter
 
         if (
             $operator === SegmentExpression::MATCH_IS_NULL_OR_EMPTY
-            || $operator === SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY) {
+            || $operator === SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
+        ) {
             return '';
         }
 

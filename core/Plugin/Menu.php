@@ -118,7 +118,8 @@ class Menu
 
         if (
             !$pluginManager->isPluginLoaded($module) ||
-            !$pluginManager->isPluginActivated($module)) {
+            !$pluginManager->isPluginActivated($module)
+        ) {
             return null;
         }
 

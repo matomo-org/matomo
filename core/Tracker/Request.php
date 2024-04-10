@@ -214,7 +214,8 @@ class Request
 
             if (
                 array_key_exists('tracking_token_auth', $website)
-                && in_array($hashedToken, $website['tracking_token_auth'], true)) {
+                && in_array($hashedToken, $website['tracking_token_auth'], true)
+            ) {
                 return true;
             }
         }

@@ -38,7 +38,8 @@ class GetDonateForm extends Widget
         $footerMessage = null;
         if (
             Common::getRequestVar('widget', false)
-            && Piwik::hasUserSuperUserAccess()) {
+            && Piwik::hasUserSuperUserAccess()
+        ) {
             $footerMessage = $this->translator->translate('CoreHome_OnlyForSuperUserAccess');
         }
 

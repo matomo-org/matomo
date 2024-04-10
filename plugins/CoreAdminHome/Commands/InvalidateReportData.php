@@ -159,7 +159,8 @@ class InvalidateReportData extends ConsoleCommand
             foreach ($dateRanges as $dateRange) {
                 if (
                     $isUsingAllOption
-                    && !Period::isMultiplePeriod($dateRange, 'day')) {
+                    && !Period::isMultiplePeriod($dateRange, 'day')
+                ) {
                     continue; // not a range, nothing to do... only when "all" option is used
                 }
 

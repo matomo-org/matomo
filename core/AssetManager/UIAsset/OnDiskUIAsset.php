@@ -43,7 +43,8 @@ class OnDiskUIAsset extends UIAsset
         if (
             !empty($relativeRootDir)
             && is_string($relativeRootDir)
-            && !Common::stringEndsWith($relativeRootDir, '/')) {
+            && !Common::stringEndsWith($relativeRootDir, '/')
+        ) {
             $relativeRootDir .= '/';
         }
 

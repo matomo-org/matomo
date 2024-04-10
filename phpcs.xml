@@ -30,7 +30,6 @@
         <exclude name="Generic.ControlStructures.InlineControlStructure.NotAllowed" />
         <exclude name="Generic.Files.LineLength" />
         <exclude name="Generic.PHP.LowerCaseConstant.Found" />
-        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisLine" />
         <exclude name="PSR12.Files.FileHeader" />
         <exclude name="PSR12.Properties.ConstantVisibility" />
         <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />

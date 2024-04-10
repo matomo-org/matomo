@@ -125,7 +125,8 @@ class SessionAuth implements Auth
         if (
             $this->tokenAuth !== null
             && $this->tokenAuth !== false
-            && $this->tokenAuth !== $sessionFingerprint->getSessionTokenAuth()) {
+            && $this->tokenAuth !== $sessionFingerprint->getSessionTokenAuth()
+        ) {
             return $this->makeAuthFailure();
         }
 

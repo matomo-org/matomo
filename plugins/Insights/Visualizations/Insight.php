@@ -147,7 +147,8 @@ class Insight extends Visualization
 
         if (
             $view->requestConfig->apiMethodToRequestDataTable
-            && 0 === strpos($view->requestConfig->apiMethodToRequestDataTable, 'DBStats')) {
+            && 0 === strpos($view->requestConfig->apiMethodToRequestDataTable, 'DBStats')
+        ) {
             return false;
         }
 

@@ -209,7 +209,8 @@ class SettingsPiwik
             if (
                 strlen($currentUrl) >= strlen('http://a/')
                 && Url::isValidHost($host)
-                && !Url::isLocalHost($host)) {
+                && !Url::isLocalHost($host)
+            ) {
                 self::overwritePiwikUrl($currentUrl);
             }
             $url = $currentUrl;

@@ -86,7 +86,8 @@ class Response
         $checkSizeFirst = array('pdf', 'csv', 'html');
         if(
             !empty($expected->requestUrl['reportFormat'])
-            && in_array($expected->requestUrl['reportFormat'], $checkSizeFirst)) {
+            && in_array($expected->requestUrl['reportFormat'], $checkSizeFirst)
+        ) {
             Asserts::assertEquals(strlen($expectedText), strlen($actualText), $message);
         }
 

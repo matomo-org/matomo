@@ -163,7 +163,8 @@ class Visitor implements VisitorInterface
         // flatten visit custom variables
         if (
             !empty($visitorDetailsArray['customVariables'])
-            && is_array($visitorDetailsArray['customVariables'])) {
+            && is_array($visitorDetailsArray['customVariables'])
+        ) {
             foreach ($visitorDetailsArray['customVariables'] as $thisCustomVar) {
                 $visitorDetailsArray = array_merge($visitorDetailsArray, $thisCustomVar);
             }
@@ -207,7 +208,8 @@ class Visitor implements VisitorInterface
             foreach($flattenForActionType as $actionType => $flattenedKeyPrefix) {
                 if (
                     !empty($action['url'])
-                    && $action['type'] == $actionType) {
+                    && $action['type'] == $actionType
+                ) {
                     $flattenedKeyName = $flattenedKeyPrefix . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
                     $visitorDetailsArray[$flattenedKeyName] = $action['url'];
                 }
