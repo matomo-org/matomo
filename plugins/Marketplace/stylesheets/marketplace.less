@@ -405,6 +405,18 @@
 #startFreeTrial {
     max-width: 600px;
 
+    .row {
+        // adjust CoreAdminHome styling for missing ".col .row" nesting
+        margin-left: -0.75rem;
+        margin-right: -0.75rem;
+    }
+
+    p {
+        // override CoreAdminHome ".admin p"
+        margin-top: 0;
+        padding-bottom: 1em;
+    }
+
     .trial-start-in-progress {
         .Piwik_Popover_Loading_Name {
             padding-bottom: 0;
