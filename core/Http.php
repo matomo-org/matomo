@@ -262,7 +262,7 @@ class Http
         $contentLength = 0;
         $fileLength = 0;
 
-        if ( !empty($requestBody) && is_array($requestBody)) {
+        if (!empty($requestBody) && is_array($requestBody)) {
             $requestBodyQuery = self::buildQuery($requestBody);
         } else {
             $requestBodyQuery = $requestBody;

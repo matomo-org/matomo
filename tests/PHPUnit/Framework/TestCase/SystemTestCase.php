@@ -845,7 +845,7 @@ abstract class SystemTestCase extends TestCase
                 $sql = "INSERT INTO `$table` VALUES " . implode(',', $rowsSql);
                 try {
                     Db::query($sql, $bind);
-                } catch( Exception $e) {
+                } catch(Exception $e) {
                     throw new Exception("error while inserting $sql into $table the data. SQl data: " . var_export($sql, true) . ", Bind array: " . var_export($bind, true) . ". Erorr was -> " . $e->getMessage());
                 }
             }
