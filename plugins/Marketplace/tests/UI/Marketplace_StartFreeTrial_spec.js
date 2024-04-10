@@ -10,6 +10,8 @@
 describe('Marketplace_StartFreeTrial', function () {
   this.fixture = "Piwik\\Plugins\\Marketplace\\tests\\Fixtures\\SimpleFixtureTrackFewVisits";
 
+  const errorModalSelector = '#startFreeTrial .trial-start-error';
+  const inProgressModalSelector = '#startFreeTrial .trial-start-in-progress';
   const pluginsUrl = '?module=Marketplace&action=overview';
   const startFreeTrialSelector = '.card-content .cta-container .btn.purchaseable';
 
@@ -32,18 +34,31 @@ describe('Marketplace_StartFreeTrial', function () {
     expect(ctaText).to.match(/Start Free Trial/i);
   }
 
+  async function screenshotModalSelector(selector, name) {
+    // screenshotting the Materialize modal consistently
+    // clips wrong and captures nothing,
+    // unless the screenshot  is attempted twice
+    await page.screenshotSelector(selector);
+
+    expect(await page.screenshotSelector(selector)).to.matchImage(name);
+  }
+
   it ('should display an error if the start trial process fails', async function() {
     setEnvironment(false);
 
     await goToPluginsPage();
-    await page.click(startFreeTrialSelector);
-    await page.waitForSelector('#startFreeTrial .trial-start-in-progress', { visible: true });
-    await page.waitForSelector('#startFreeTrial .trial-start-error', { visible: true });
 
-    const error = await page.$('#startFreeTrial .trial-start-error p:first-of-type');
+    await page.click(startFreeTrialSelector);
+    await page.waitForSelector(inProgressModalSelector, { visible: true });
+    await page.waitForSelector(inProgressModalSelector, { hidden: true });
+    await page.waitForSelector(errorModalSelector, { visible: true });
+
+    const error = await page.$(`${errorModalSelector} p:first-of-type`);
     const errorMessage = await error.getProperty('textContent');
 
     expect(errorMessage).to.match(/There was an error starting your free trial/i);
+
+    await screenshotModalSelector(errorModalSelector, 'start_free_trial_error_modal');
   });
 
   it ('should display a success message if the start trial process succeeds', async function() {
@@ -52,8 +67,8 @@ describe('Marketplace_StartFreeTrial', function () {
     await goToPluginsPage();
 
     await page.click(startFreeTrialSelector);
-    await page.waitForSelector('#startFreeTrial .trial-start-in-progress', { visible: true });
-    await page.waitForSelector('#startFreeTrial .trial-start-in-progress', { hidden: true });
+    await page.waitForSelector(inProgressModalSelector, { visible: true });
+    await page.waitForSelector(inProgressModalSelector, { hidden: true });
     await page.waitForSelector('.notification-success', { visible: true });
 
     const notification = await page.$('.notification-success');
