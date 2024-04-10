@@ -27,7 +27,6 @@ class Extractions
         }
 
         foreach ($this->extractions as $extraction) {
-
             if (!is_array($extraction)) {
                 throw new \Exception('Each extraction within extractions has to be an array');
             }
@@ -36,7 +35,6 @@ class Extractions
                 count($extraction) !== 2
                 || !array_key_exists('dimension', $extraction)
                 || !array_key_exists('pattern', $extraction)) {
-
                 throw new \Exception('Each extraction within extractions must have a key "dimension" and "pattern" only');
             }
 

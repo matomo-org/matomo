@@ -241,7 +241,6 @@ class EvolutionMetric extends ProcessedMetric
         $ratio = 1;
 
         if ($currentData != null && $pastData != null) {
-
             $p = $pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
 
             $pStart = $p->getDateStart()->setTime('00:00:00');

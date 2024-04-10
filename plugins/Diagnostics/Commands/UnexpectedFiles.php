@@ -58,7 +58,6 @@ class UnexpectedFiles extends ConsoleCommand
 
         $delete = $input->getOption('delete');
         if ($delete) {
-
             $output->writeln("<info>Preparing to delete all unexpected files from the Matomo installation directory</info>");
 
             if(!$this->askForDeleteConfirmation()) {
@@ -97,7 +96,6 @@ class UnexpectedFiles extends ConsoleCommand
         $fails = 0;
 
         foreach ($files as $f) {
-
             foreach ($excludedFiles as $ef) {
                 if(preg_match($ef, $f)) {
                     continue 2;

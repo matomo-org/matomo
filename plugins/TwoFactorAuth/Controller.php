@@ -142,7 +142,6 @@ class Controller extends \Piwik\Plugin\Controller
         $params = array('module' => 'TwoFactorAuth', 'action' => 'disableTwoFactorAuth', 'disableNonce' => $nonce);
 
         if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
-
             Nonce::checkNonce(self::DISABLE_2FA_NONCE, $nonce);
 
             $this->twoFa->disable2FAforUser(Piwik::getCurrentUserLogin());

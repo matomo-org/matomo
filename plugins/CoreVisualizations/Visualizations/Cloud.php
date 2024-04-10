@@ -138,7 +138,6 @@ class Cloud extends Visualization
 
         $return = [];
         foreach ($this->wordsArray as $word => $popularity) {
-
             $wordTruncated = $this->truncateWordIfNeeded($word);
             $percent       = $this->getPercentage($popularity, $maxValue);
             $sizeRange     = $this->getClassFromPercent($percent);
@@ -169,7 +168,6 @@ class Cloud extends Visualization
         shuffle($keys);
 
         if (count($keys) && is_array($keys)) {
-
             $tmpArray = $this->wordsArray;
 
             $this->wordsArray = [];

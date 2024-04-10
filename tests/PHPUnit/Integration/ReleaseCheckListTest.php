@@ -400,7 +400,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         // to prevent errors with un-readable assets,
         // we ensure all directories in plugins/* are added to git with CHMOD 755
         foreach($paths as $pathToTest) {
-
             $chmod = substr(decoct(fileperms($pathToTest)), -3);
             $valid = array('777', '775', '755');
             $command = "find $pluginsPath -type d -exec chmod 755 {} +";
@@ -1063,7 +1062,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         $filesizes = array();
         foreach ($files as $file) {
-
             if (!$this->isFileIncludedInFinalRelease($file)) {
                 continue;
             }
@@ -1091,7 +1089,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $errors = array();
         $countFileChecked = 0;
         foreach ($files as $file) {
-
             if($this->isFileBelongToTests($file) || is_dir($file)) {
                 continue;
             }

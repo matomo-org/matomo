@@ -32,9 +32,7 @@ class Limit extends BaseFilter
         $countDecreaser = 0;
 
         foreach ($table->getRows() as $key => $row) {
-
             if ($row->getColumn($this->columnToRead) >= 0) {
-
                 $countIncreaser++;
 
                 if ($countIncreaser > $this->limitPositive && $this->limitPositive > -1) {

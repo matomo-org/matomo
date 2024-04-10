@@ -154,7 +154,6 @@ class ArchiveWriter
     public function insertBlobRecord($name, $values)
     {
         if (is_array($values)) {
-
             if (isset($values[0])) {
                 // we always store the root table in a single blob for fast access
                 $this->insertRecord($name, $this->compress($values[0]));

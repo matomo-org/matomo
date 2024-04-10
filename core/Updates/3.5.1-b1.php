@@ -25,7 +25,6 @@ class Updates_3_5_1_b1 extends PiwikUpdates
         // insensitive and GeoIP2 plugin has been partially overwritten by GeoIp2 plugin
         try {
             if (is_dir(PIWIK_INCLUDE_PATH . '/plugins/GeoIP2') && !file_exists(PIWIK_INCLUDE_PATH . '/plugins/GeoIP2/data/isoRegionNames.php')) {
-
                 // first remove the plugin files, as trying to deactivate would load the plugin files resulting in a fatal error
                 Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/plugins/GeoIP2', true);
 

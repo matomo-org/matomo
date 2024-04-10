@@ -115,7 +115,6 @@ class API extends \Piwik\Plugin\API
 
         $dataTable->filter(function (DataTable $table) {
             foreach ($table->getRowsWithoutSummaryRow() as $row) {
-
                 $label = $row->getColumn('label');
 
                 if (strpos($label, ';') !== false) {
@@ -180,7 +179,6 @@ class API extends \Piwik\Plugin\API
             $dataTables = $dataTable->getDataTables();
 
             foreach ($dataTables as $label => $table) {
-
                 $versionDataTables = $dataTable2->getDataTables();
 
                 if (!array_key_exists($label, $versionDataTables)) {

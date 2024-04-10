@@ -112,7 +112,6 @@ class ApiTest extends IntegrationTestCase
         try {
             $this->api->saveLicenseKey('key123');
         } catch (Exception $e) {
-
         }
 
         // make sure calls API the correct way

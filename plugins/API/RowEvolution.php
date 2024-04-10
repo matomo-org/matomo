@@ -79,7 +79,6 @@ class RowEvolution
 
                 foreach ($goalsToProcess as $idGoal) {
                     if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-
                         $metadata['metrics']['goal_ecommerceOrder_conversion_rate'] = Piwik::translate('Goals_ConversionRate', Piwik::translate('General_EcommerceOrders'));
 
                         if ((int) $showGoalMetricsForGoal === AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW) {

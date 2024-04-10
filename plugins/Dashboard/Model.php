@@ -178,13 +178,10 @@ class Model
         $newColumns = array();
 
         foreach ($dashboardLayout->columns as $id => $column) {
-
             $newColumn = array();
 
             foreach ($column as $widget) {
-
                 foreach ($oldWidgets as $pos => $oldWidgetData) {
-
                     $oldWidgetId = WidgetsList::getWidgetUniqueId($oldWidgetData['module'], $oldWidgetData['action'], $oldWidgetData['params']);
 
                     if (empty($newWidgets[$pos])) {
@@ -194,7 +191,6 @@ class Model
                     $newWidget = $newWidgets[$pos];
 
                     if ($widget->uniqueId == $oldWidgetId) {
-
                         if (!empty($newWidget['uniqueId'])) {
                             $newWidgetId = $newWidget['uniqueId'];
                         } else {
@@ -241,9 +237,7 @@ class Model
         }
 
         foreach ($dashboardLayout->columns as $id => $column) {
-
             foreach ($column as $widget) {
-
                 if ($widget->uniqueId == $widgetId) {
                     return true;
                 }

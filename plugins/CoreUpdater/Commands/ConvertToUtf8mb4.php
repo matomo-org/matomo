@@ -74,7 +74,6 @@ class ConvertToUtf8mb4 extends ConsoleCommand
         }
 
         if ($yes) {
-
             $config = Config::getInstance();
 
             if (!$keepTracking) {

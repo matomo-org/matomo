@@ -29,7 +29,6 @@ class SettingsMetadata
         try {
             foreach ($settingsInstances as $pluginName => $pluginSetting) {
                 foreach ($pluginSetting->getSettingsWritableByCurrentUser() as $setting) {
-
                     $value = $this->findSettingValueFromRequest($settingValues, $pluginName, $setting->getName());
 
                     $fieldConfig = $setting->configureField();

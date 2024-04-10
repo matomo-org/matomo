@@ -52,7 +52,6 @@ class GeneratePlugin extends GeneratePluginBase
             );
             $whitelistFiles = array();
         } else {
-
             $exampleFolder = Plugin\Manager::getPluginDirectory('ExamplePlugin');
             $replace       = array(
                 'ExamplePlugin'      => $pluginName,

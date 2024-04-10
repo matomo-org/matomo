@@ -1145,7 +1145,6 @@ class Manager
             && !Development::isEnabled()
             && $this->isPluginActivated('Marketplace')
             && $this->isPluginActivated($pluginName)) {
-
             $cacheKey = 'MarketplacePluginMissingLicense' . $pluginName;
             $cache = self::getLicenseCache();
 

@@ -88,7 +88,6 @@ class BatchInsert
         if (
             $loadDataInfileEnabled
             && Db::get()->hasBulkLoader()) {
-
             $path = self::getBestPathForLoadData();
             $instanceId = SettingsPiwik::getPiwikInstanceId();
             if (empty($instanceId)) {

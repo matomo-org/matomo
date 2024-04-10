@@ -49,7 +49,6 @@ class VisitorDetails extends VisitorDetailsAbstract
         // Enrich with time spent per action
         $nextActionId = 0;
         foreach ($actionDetails as $idx => &$action) {
-
             if ($idx < $nextActionId || !$this->isPageView($action)) {
                 unset($action['timeSpentRef']);
                 continue; // skip to next page view

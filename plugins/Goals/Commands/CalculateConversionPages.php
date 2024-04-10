@@ -84,7 +84,6 @@ class CalculateConversionPages extends ConsoleCommand
 
         $totalCalculated = 0;
         foreach ($queries as $query) {
-
             try {
                 $result = Db::query($query['sql'], $query['bind']);
             } catch (\Exception $ex) {
@@ -252,7 +251,6 @@ class CalculateConversionPages extends ConsoleCommand
         }
 
         if ($lastN) {
-
             // Since MySQL doesn't support multi-table updates with a LIMIT clause we will find the exact date time of
             // the lastN record and use that as a date range start with the current date time as the date range end
             /** @noinspection SqlResolve SqlUnused */
@@ -300,7 +298,6 @@ class CalculateConversionPages extends ConsoleCommand
 
         $queries = [];
         foreach ($sites as $site) {
-
             $timezone = Site::getTimezoneFor($site);
 
             if ($idGoal === null) {
@@ -319,7 +316,6 @@ class CalculateConversionPages extends ConsoleCommand
             }
 
             foreach ($goals as $goal) {
-
                 $where = '';
                 if (!$forceRecalc) {
                      $where .= " AND c.pageviews_before IS NULL";

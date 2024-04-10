@@ -512,7 +512,6 @@ class AccessTest extends IntegrationTestCase
             $mock->checkUserHasAdminAccess('1,3');
             $this->fail('An expected exception has not been triggered. Permissions were not reset');
         } catch (NoAccessException $e) {
-
         }
 
         $mock->checkUserHasAdminAccess('1'); // it should have access to site "1"

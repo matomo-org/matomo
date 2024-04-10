@@ -480,7 +480,6 @@ class Updater
         }
 
         if (!empty($componentsWithUpdateFile)) {
-
             Access::doAsSuperUser(function () use ($componentsWithUpdateFile, &$coreError, &$deactivatedPlugins, &$errors, &$warnings) {
 
                 $pluginManager = \Piwik\Plugin\Manager::getInstance();

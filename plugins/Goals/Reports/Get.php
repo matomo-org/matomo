@@ -183,7 +183,6 @@ class Get extends Base
             // Add evolution values to sparklines
             [$lastPeriodDate, $ignore] = Range::getLastDate();
             if ($lastPeriodDate !== false) {
-
                 // Using a filter here ensures the additional request is only performed when the view is rendered
                 $view->config->filters[] = function ($datatable) use ($view, $lastPeriodDate, $idSite) {
                     /** @var DataTable $previousData */

@@ -142,7 +142,6 @@ abstract class BaseItem extends Base
 
         if ($abandonedCarts === '') {
             if ($fetchIfNotSet) {
-
                 $idSite = Common::getRequestVar('idSite', 0, 'int');
                 $period = Common::getRequestVar('period', '', 'string');
                 $date   = Common::getRequestVar('date', '', 'string');

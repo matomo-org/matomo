@@ -99,7 +99,6 @@ class VisitGoalBuyer extends VisitDimension
             // only update if the value has changed (prevents overwriting the value in case a request has
             // updated it in the meantime)
             && $visitEcommerceStatus != $goalBuyer) {
-
             return $visitEcommerceStatus;
         }
 

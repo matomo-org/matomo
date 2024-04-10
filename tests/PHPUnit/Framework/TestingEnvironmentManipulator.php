@@ -305,7 +305,6 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
         if (!empty($pluginJson['require'])) {
             foreach ($pluginJson['require'] as $possiblePluginName => $requiredVersion) {
-
                 $pluginLoader2 = new Plugin\MetadataLoader($possiblePluginName);
                 if (file_exists($pluginLoader2->getPathToPluginJson())) {
                     $plugins = $this->getPluginAndRequiredPlugins($possiblePluginName, $plugins);

@@ -120,7 +120,6 @@ class Get extends \Piwik\Plugin\Report
             // Add evolution values to sparklines
             list($lastPeriodDate, $ignore) = Range::getLastDate();
             if ($lastPeriodDate !== false) {
-
                 $currentPeriod = Period\Factory::build(Piwik::getPeriod(), Common::getRequestVar('date'));
                 $currentPrettyDate = ($currentPeriod instanceof Month ? $currentPeriod->getLocalizedLongString() : $currentPeriod->getPrettyString());
                 $lastPeriod = Period\Factory::build(Piwik::getPeriod(), $lastPeriodDate);

@@ -327,10 +327,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $pluginName = $paidPlugin['name'];
 
                 try {
-
                     $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
                 } catch (\Exception $e) {
-
                     $notification          = new Notification($e->getMessage());
                     $notification->context = Notification::CONTEXT_ERROR;
                     if (method_exists($e, 'isHtmlMessage') && $e->isHtmlMessage()) {
@@ -371,13 +369,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     if (
                         empty($paidPlugin['require'])
                         || !$dependency->hasDependencyToDisabledPlugin($paidPlugin['require'])) {
-
                         $paidPlugins[$index] = null;
 
                         try {
                             $this->pluginManager->activatePlugin($pluginName);
                         } catch (Exception $e) {
-
                             $hasErrors             = true;
                             $notification          = new Notification($e->getMessage());
                             $notification->context = Notification::CONTEXT_ERROR;
@@ -447,7 +443,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             try {
                 $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
             } catch (\Exception $e) {
-
                 $notification = new Notification($e->getMessage());
                 $notification->context = Notification::CONTEXT_ERROR;
                 $notification->type = Notification::TYPE_PERSISTENT;

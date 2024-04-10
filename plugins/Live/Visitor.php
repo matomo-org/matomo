@@ -197,7 +197,6 @@ class Visitor implements VisitorInterface
         // Flatten Page Titles/URLs
         $count = 1;
         foreach ($visitorDetailsArray['actionDetails'] as $action) {
-
             // API.getSuggestedValuesForSegment
             $flattenForActionType = array(
                 'outlink' => 'outlinkUrl',

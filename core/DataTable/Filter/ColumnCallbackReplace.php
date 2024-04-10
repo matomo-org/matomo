@@ -84,7 +84,6 @@ class ColumnCallbackReplace extends BaseFilter
             }
 
             foreach ($this->columnsToFilter as $column) {
-
                 // when a value is not defined, we set it to zero by default (rather than displaying '-')
                 $value = $this->getElementToReplace($row, $column);
                 if ($value === false) {

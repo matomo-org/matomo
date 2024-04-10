@@ -442,7 +442,6 @@ class ScheduledReports extends \Piwik\Plugin
             try {
                 $mail->send();
             } catch (Exception $e) {
-
                 // If running from piwik.php with debug, we ignore the 'email not sent' error
                 $tracker = new Tracker();
                 if (!$tracker->isDebugModeEnabled()) {

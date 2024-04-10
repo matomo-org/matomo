@@ -65,7 +65,6 @@ class TestsRun extends ConsoleCommand
 
         // force xdebug usage for coverage options
         if ($this->isCoverageEnabled($options) && !$this->isXdebugLoaded()) {
-
             $output->writeln('<info>xdebug extension required for code coverage.</info>');
 
             $output->writeln('<info>searching for xdebug extension...</info>');
@@ -81,7 +80,6 @@ class TestsRun extends ConsoleCommand
                     }
                 );
             } else {
-
                 $output->writeln('<info>xdebug extension found in extension path.</info>');
             }
 

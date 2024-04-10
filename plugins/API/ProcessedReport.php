@@ -481,7 +481,6 @@ class ProcessedReport
         $columns = @$reportMetadata['metrics'] ?: array();
 
         if ($hasDimension) {
-
             $columns = array_merge(
                 array('label' => $reportMetadata['dimension']),
                 $columns
@@ -782,7 +781,6 @@ class ProcessedReport
         $metadataTotals = $simpleDataTable->getMetadata('totals');
 
         if (empty($metadataTotals)) {
-
             return $totals;
         }
 

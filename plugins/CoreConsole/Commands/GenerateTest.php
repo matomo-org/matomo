@@ -176,7 +176,6 @@ class GenerateTest extends GeneratePluginBase
         }
 
         if ('Integration' == $testType) {
-
             return array(
                 '/tests',
                 '/tests/Integration',

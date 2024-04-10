@@ -147,7 +147,6 @@ class WidgetMetadata
 
         if ($orderA === $orderB) {
             if (!empty($widgetA['subcategory']['order']) && !empty($widgetB['subcategory']['order'])) {
-
                 $subOrderA = $widgetA['subcategory']['order'];
                 $subOrderB = $widgetB['subcategory']['order'];
 
@@ -159,7 +158,6 @@ class WidgetMetadata
             } else if (empty($widgetA['subcategory']['order']) && empty($widgetB['subcategory']['order'])) {
                 return $this->compareWidgetIds($widgetA, $widgetB);
             } elseif (!empty($widgetA['subcategory']['order'])) {
-
                 return 1;
             }
 

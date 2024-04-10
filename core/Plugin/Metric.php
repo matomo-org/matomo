@@ -208,7 +208,6 @@ abstract class Metric
         $firstRow = $table->getFirstRow();
 
         if (!empty($firstRow) && $firstRow->hasColumn($columnName) === false) {
-
             if (empty($mappingIdToName)) {
                 $mappingNameToId = Metrics::getMappingFromNameToId();
             }

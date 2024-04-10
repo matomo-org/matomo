@@ -316,7 +316,6 @@ class SearchEngine extends Singleton
 
         // if no keyword found, but empty keywords are allowed
         if (!empty($keywordsHiddenFor) && ($key === null || $key === '')) {
-
             $pathWithQueryAndFragment = $referrerPath;
             if (!empty($query)) {
                 $pathWithQueryAndFragment .= '?' . $query;

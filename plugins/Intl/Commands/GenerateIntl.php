@@ -81,7 +81,6 @@ class GenerateIntl extends ConsoleCommand
         $this->checkCurrencies();
 
         foreach ($matomoLanguages as $langCode) {
-
             if ($langCode == 'dev') {
                 continue;
             }
@@ -123,7 +122,6 @@ class GenerateIntl extends ConsoleCommand
                 [$language, $territory] = explode('-', $transformedLangCode);
 
                 if (!empty($translations['Intl']['Language_' . $language])) {
-
                     $originalName = $this->transform($translations['Intl']['Language_' . $language]);
 
                     if (!empty($translations['Intl']['Country_' . $territory])) {

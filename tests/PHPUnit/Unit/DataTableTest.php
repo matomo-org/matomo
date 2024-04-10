@@ -743,7 +743,6 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
                 ) {
                     $this->assertNull($subtableId);
                 } else {
-
                     $this->assertLessThanOrEqual($sumSubTables, $subtableId); // make sure row was actually updated
                     $this->assertGreaterThanOrEqual(0, $subtableId);
                     $subrows = unserialize($tables[$subtableId]);

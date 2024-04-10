@@ -212,7 +212,6 @@ abstract class GeneratePluginBase extends ConsoleCommand
     private function toJson($value)
     {
         if (defined('JSON_PRETTY_PRINT')) {
-
             return json_encode($value, JSON_PRETTY_PRINT);
         }
 

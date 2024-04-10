@@ -21,7 +21,6 @@ define('K_PATH_CACHE', $pathTmpTCPDF);
 define('K_PATH_IMAGES', $pathTmpTCPDF);
 
 if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
-
     // DOCUMENT_ROOT fix for IIS Webserver
     if ((!isset($_SERVER['DOCUMENT_ROOT'])) or (empty($_SERVER['DOCUMENT_ROOT']))) {
         if (isset($_SERVER['SCRIPT_FILENAME'])) {

@@ -90,7 +90,6 @@ class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
         $expectedValues = TrackGoalsPagesTest::getConversionPagesBeforeExpected();
 
         foreach ($expectedValues as $expected) {
-
             $values = Db::get()->fetchAssoc('SELECT server_time, pageviews_before FROM ' . Common::prefixTable('log_conversion') .
                                       ' WHERE idlink_va = ?', [$expected['id']]);
             $row = reset($values);

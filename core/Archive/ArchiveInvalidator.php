@@ -353,7 +353,6 @@ class ArchiveInvalidator
             $isInvalidatingDays
             && $isNotInvalidatingSegment
         ) {
-
             $hasDeletedAny = false;
 
             foreach ($idSites as $idSite) {

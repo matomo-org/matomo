@@ -275,7 +275,6 @@ class Pages
             }
 
             foreach ($reports as $report) {
-
                 $order++;
 
                 if (

@@ -85,7 +85,6 @@ class FileIntegrity
     {
         $directoriesFoundButNotExpected = self::getDirectoriesFoundButNotExpected();
         if (count($directoriesFoundButNotExpected) > 0) {
-
             $messageDirectoriesToDelete = '';
             foreach ($directoriesFoundButNotExpected as $directoryFoundNotExpected) {
                 $messageDirectoriesToDelete .= Piwik::translate('General_ExceptionDirectoryToDelete', htmlspecialchars($directoryFoundNotExpected)) . '<br/>';
@@ -132,7 +131,6 @@ class FileIntegrity
     {
         $filesFoundButNotExpected = self::getFilesFoundButNotExpected();
         if (count($filesFoundButNotExpected) > 0) {
-
             $messageFilesToDelete = '';
             foreach ($filesFoundButNotExpected as $fileFoundNotExpected) {
                 $messageFilesToDelete .= Piwik::translate('General_ExceptionFileToDelete', htmlspecialchars($fileFoundNotExpected)) . '<br/>';
@@ -343,7 +341,6 @@ class FileIntegrity
             if (!file_exists($file) || !is_readable($file)) {
                 $messagesMismatch[] = Piwik::translate('General_ExceptionMissingFile', $file);
             } elseif (filesize($file) != $props[0]) {
-
                 if (self::isModifiedPathValid($path)) {
                     continue;
                 }

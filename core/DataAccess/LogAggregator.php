@@ -349,7 +349,6 @@ class LogAggregator
         $bind = $this->getGeneralQueryBindParams();
 
         if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
-
             $segment = new Segment('', $this->sites, $this->params->getPeriod()->getDateTimeStart(), $this->params->getPeriod()->getDateTimeEnd());
 
             $logTablesProvider = $this->getLogTableProvider();
@@ -365,7 +364,6 @@ class LogAggregator
             }
 
             foreach ($logTablesProvider->getAllLogTables() as $logTable) {
-
                 // In cases where log tables are right joined to the segment temporary table it is better for
                 // performance to allow the where condition to be applied, otherwise without a range limit the entire
                 // log table will be used
@@ -760,7 +758,6 @@ class LogAggregator
         $selectDimensions = [];
 
         foreach ($dimensions as $selectAs => $field) {
-
             if ($this->isFieldFunctionOrComplexExpression($field) && is_numeric($selectAs)) {
                 // an expression or field function without an alias should be used as is
                 $selectDimensions[] = $field;

@@ -149,9 +149,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         $formatter = new Metrics\Formatter();
 
         foreach ($return as $columnName => $value) {
-
             if (array_key_exists($columnName, $metrics) && array_key_exists($columnName, $return)) {
-
                 $pastValue = $previousDataRow ? $previousDataRow->getColumn($columnName) : 0;
 
                 if (in_array($columnName, ['revenue', 'avg_order_revenue'])) {

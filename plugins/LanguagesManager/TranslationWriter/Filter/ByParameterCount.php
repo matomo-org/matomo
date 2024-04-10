@@ -35,9 +35,7 @@ class ByParameterCount extends FilterAbstract
         $cleanedTranslations = array();
 
         foreach ($translations as $pluginName => $pluginTranslations) {
-
             foreach ($pluginTranslations as $key => $translation) {
-
                 if (isset($this->baseTranslations[$pluginName][$key])) {
                     $baseTranslation = $this->baseTranslations[$pluginName][$key];
                 } else {
@@ -50,7 +48,6 @@ class ByParameterCount extends FilterAbstract
                 $translationCount = $this->_getParametersCountToReplace($translation);
 
                 if ($baseCount != $translationCount) {
-
                     $this->filteredData[$pluginName][$key] = $translation;
                     continue;
                 }
@@ -73,10 +70,8 @@ class ByParameterCount extends FilterAbstract
         $sprintfParameters = array('%s', '%1$s', '%2$s', '%3$s', '%4$s', '%5$s', '%6$s', '%7$s', '%8$s', '%9$s');
         $count = array();
         foreach ($sprintfParameters as $parameter) {
-
             $placeholderCount = substr_count($string, $parameter);
             if ($placeholderCount > 0) {
-
                 $count[$parameter] = $placeholderCount;
             }
         }

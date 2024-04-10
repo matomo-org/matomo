@@ -33,7 +33,6 @@ class CORSHandler
 
         // allow Piwik to serve data to all domains
         if (in_array("*", $this->domains)) {
-
             Common::sendHeader('Access-Control-Allow-Credentials: true');
 
             if (!empty($_SERVER['HTTP_ORIGIN'])) {

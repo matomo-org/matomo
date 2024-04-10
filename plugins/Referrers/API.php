@@ -497,7 +497,6 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($hasEmptyTable) {
-
             $dataTablesForCompletion = $callbackForAdditionalData();
 
             if (!$isMap) {

@@ -133,7 +133,6 @@ class Login extends \Piwik\Plugin
 
         // Only throw an exception if this is an API request
         if ($this->isModuleIsAPI()) {
-
             // Throw an exception if a token was provided but it was invalid
             if (Request::isTokenAuthProvidedSecurely()) {
                 throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid or expired.');

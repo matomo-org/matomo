@@ -36,9 +36,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
         $pluginsWithTranslation = array();
 
         foreach ($plugins as $plugin) {
-
             if ('Intl' !== $plugin && API::getInstance()->getPluginTranslationsForLanguage($plugin, 'en')) {
-
                 $pluginsWithTranslation[] = $plugin;
             }
         }
@@ -49,7 +47,6 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
                 $return[] = array($language, null);
 
                 foreach ($pluginsWithTranslation as $plugin) {
-
                     $return[] = array($language, $plugin);
                 }
             }
@@ -95,7 +92,6 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($translationWriter->isValid(), $translationWriter->getValidationMessage() ?: '');
 
         if ($translationWriter->wasFiltered()) {
-
             if (!$translationWriter->hasTranslations()) {
                 $this->markTestSkipped('Translation file errors detected in ' . $language . "...\n"
                     . "File would be empty after filtering. You may remove it manually to fix this test.\n");

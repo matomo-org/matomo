@@ -161,7 +161,6 @@ class Loader
                 $lock->unlock();
             }
         } else {
-
             return $this->insertArchiveData($visits, $visitsConverted, $idArchives, $foundRecords);
         }
     }

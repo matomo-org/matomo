@@ -79,7 +79,6 @@ abstract class Factory
                 Period::isMultiplePeriod($date, $period)
                 || $period == 'range'
             ) {
-
                 return new Range($period, $date, $timezone);
             }
 
