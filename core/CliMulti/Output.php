@@ -62,7 +62,8 @@ class Output implements OutputInterface
         if (
             !empty($content)
             && is_string($content)
-            && mb_substr(trim($content), 0, strlen($search)) === $search) {
+            && mb_substr(trim($content), 0, strlen($search)) === $search
+        ) {
             $content = trim(mb_substr(trim($content), strlen($search)));
         }
         return $content;

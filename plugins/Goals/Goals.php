@@ -38,7 +38,8 @@ class Goals extends \Piwik\Plugin
             // move "Custom Variables" report to the "Goals/Sales by User attribute" category
             if (
                 $dimension['module'] === 'CustomVariables'
-                || $dimension['action'] == 'getVisitInformationPerServerTime') {
+                || $dimension['action'] == 'getVisitInformationPerServerTime'
+            ) {
                 $group = 'VisitsSummary_VisitsSummary';
             }
             unset($dimension['category']);

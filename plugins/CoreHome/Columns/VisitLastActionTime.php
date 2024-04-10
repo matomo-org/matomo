@@ -106,7 +106,8 @@ class VisitLastActionTime extends VisitDimension
 
         if (
             !empty($originalVisitLastActionTime)
-            && Date::factory($originalVisitLastActionTime)->getTimestamp() > $request->getCurrentTimestamp()) {
+            && Date::factory($originalVisitLastActionTime)->getTimestamp() > $request->getCurrentTimestamp()
+        ) {
             // make sure to not set visit_last_action_time to an earlier time eg if tracking requests aren't sent in order
             return $originalVisitLastActionTime;
         }

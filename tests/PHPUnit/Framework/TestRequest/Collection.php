@@ -339,7 +339,8 @@ class Collection
 
             if (
                 !in_array('UserCountry.getLocationFromIP', $apiToCall) &&
-                !in_array('UserCountry.getCountryCodeMapping', $apiToCall)) {
+                !in_array('UserCountry.getCountryCodeMapping', $apiToCall)
+            ) {
                 $this->apiNotToCall = array(
                                             'API.getMatomoVersion',
                                             'API.getPiwikVersion',

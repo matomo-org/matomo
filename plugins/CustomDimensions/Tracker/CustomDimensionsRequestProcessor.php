@@ -149,7 +149,8 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
                     if (
                         !array_key_exists('dimension', $extraction)
                         || !array_key_exists('pattern', $extraction)
-                        || empty($extraction['pattern'])) {
+                        || empty($extraction['pattern'])
+                    ) {
                         continue;
                     }
 

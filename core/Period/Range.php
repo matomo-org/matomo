@@ -326,7 +326,8 @@ class Range extends Period
     {
         while (
             $startDate->isEarlier($endDate)
-            || $startDate == $endDate) {
+            || $startDate == $endDate
+        ) {
             $endOfPeriod = null;
 
             $month        = new Month($startDate);

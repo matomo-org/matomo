@@ -97,7 +97,8 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
         foreach ($nonceMap as $nonceData) {
             if (
                 !empty($mainUrl) && !empty($nonceData[JsTrackerInstallCheckOption::NONCE_DATA_URL])
-                && $mainUrl === $nonceData[JsTrackerInstallCheckOption::NONCE_DATA_URL]) {
+                && $mainUrl === $nonceData[JsTrackerInstallCheckOption::NONCE_DATA_URL]
+            ) {
                 return !empty($nonceData['isSuccessful']);
             }
         }

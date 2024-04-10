@@ -269,7 +269,8 @@ class ArchivingHelper
         if (
             $isPages &&
             isset($row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB]) &&
-            isset($row[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE]))
+            isset($row[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE])
+        )
         {
             /**
              * Ensures this metric is available. It will be calculated later using a filter.

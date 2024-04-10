@@ -133,7 +133,8 @@ class Manager
         foreach (static::getAvailableViewDataTables() as $vizId => $vizClass) {
             if (
                 false === strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations')
-                && false === strpos($vizClass, 'Piwik\\Plugins\\Goals\\Visualizations\\Goals')) {
+                && false === strpos($vizClass, 'Piwik\\Plugins\\Goals\\Visualizations\\Goals')
+            ) {
                 $result[$vizId] = $vizClass;
             }
         }
@@ -289,7 +290,8 @@ class Manager
             if (
                 $key === 'viewDataTable'
                 && !empty($params[$key])
-                && $params[$key] !== $value) {
+                && $params[$key] !== $value
+            ) {
                 if (!empty($params['columns'])) {
                     unset($params['columns']);
                 }

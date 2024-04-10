@@ -62,21 +62,24 @@ class AnonymizeRawData extends ConsoleCommand
 
         if (
             $anonymizeIp
-            && !$this->confirmAnonymize($startDate, $endDate, 'anonymize visit IP')) {
+            && !$this->confirmAnonymize($startDate, $endDate, 'anonymize visit IP')
+        ) {
             $anonymizeIp = false;
             $output->writeln('<info>SKIPPING anonymizing IP.</info>');
         }
 
         if (
             $anonymizeLocation
-            && !$this->confirmAnonymize($startDate, $endDate, 'anonymize visit location')) {
+            && !$this->confirmAnonymize($startDate, $endDate, 'anonymize visit location')
+        ) {
             $anonymizeLocation = false;
             $output->writeln('<info>SKIPPING anonymizing location.</info>');
         }
 
         if (
             $anonymizeUserId
-            && !$this->confirmAnonymize($startDate, $endDate, 'anonymize user id')) {
+            && !$this->confirmAnonymize($startDate, $endDate, 'anonymize user id')
+        ) {
             $anonymizeUserId = false;
             $output->writeln('<info>SKIPPING anonymizing user id.</info>');
         }
@@ -87,7 +90,8 @@ class AnonymizeRawData extends ConsoleCommand
                 $startDate,
                 $endDate,
                 'unset the log_visit columns "' . implode(', ', $visitColumnsToUnset) . '"'
-            )) {
+            )
+        ) {
             $visitColumnsToUnset = false;
             $output->writeln('<info>SKIPPING unset log_visit columns.</info>');
         }
@@ -100,7 +104,8 @@ class AnonymizeRawData extends ConsoleCommand
                     ', ',
                     $linkVisitActionColumns
                 ) . '"'
-            )) {
+            )
+        ) {
             $linkVisitActionColumns = false;
             $output->writeln('<info>SKIPPING unset log_link_visit_action columns.</info>');
         }

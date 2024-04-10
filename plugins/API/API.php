@@ -752,7 +752,8 @@ class API extends \Piwik\Plugin\API
 
         if (
             isset($segment['suggestedValuesCallback']) &&
-            $this->doesSuggestedValuesCallbackNeedData($segment['suggestedValuesCallback'])) {
+            $this->doesSuggestedValuesCallbackNeedData($segment['suggestedValuesCallback'])
+        ) {
             $values = call_user_func($segment['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn, $table);
         } else {
             $values = $this->getSegmentValuesFromVisitorLog($segmentName, $table);

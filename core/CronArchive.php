@@ -1342,7 +1342,8 @@ class CronArchive
 
             if (
                 isset($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT])
-                && is_numeric($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT])) {
+                && is_numeric($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT])
+            ) {
                 // If user selected one particular website ID
                 $idSites = [$userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT]];
             } else {
@@ -1447,7 +1448,8 @@ class CronArchive
                         strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false ||
                         strpos($process, '--piwik-domain=' . $instanceId) !== false ||
                         strpos($process, '--piwik-domain="' . $instanceId . '"') !== false ||
-                        strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)) {
+                        strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)
+                ) {
                     $numRunning++;
                 }
             }

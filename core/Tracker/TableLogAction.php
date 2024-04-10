@@ -248,7 +248,8 @@ class TableLogAction
             return Action::TYPE_SITE_SEARCH;
         } elseif (
             stripos($segmentName, 'productcategory') !== false
-            || stripos($segmentName, 'productviewcategory') !== false) {
+            || stripos($segmentName, 'productviewcategory') !== false
+        ) {
             return Action::TYPE_ECOMMERCE_ITEM_CATEGORY;
         } else {
             throw new \Exception("We cannot guess the action type from the segment $segmentName.");

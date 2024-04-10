@@ -1138,7 +1138,8 @@ class Common
             if (
                 array_key_exists('SERVER_PROTOCOL', $_SERVER)
                 && strlen($_SERVER['SERVER_PROTOCOL']) < 15
-                && strlen($_SERVER['SERVER_PROTOCOL']) > 1) {
+                && strlen($_SERVER['SERVER_PROTOCOL']) > 1
+            ) {
                 $key = $_SERVER['SERVER_PROTOCOL'];
             }
         } else {

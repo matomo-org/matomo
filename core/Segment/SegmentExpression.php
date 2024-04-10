@@ -233,7 +233,8 @@ class SegmentExpression
                     $matchType == self::MATCH_CONTAINS
                     || $matchType == self::MATCH_DOES_NOT_CONTAIN
                     || $matchType == self::MATCH_STARTS_WITH
-                    || $matchType == self::MATCH_ENDS_WITH) {
+                    || $matchType == self::MATCH_ENDS_WITH
+                ) {
                     // no action was found for CONTAINS / DOES NOT CONTAIN
                     // eg. pageUrl=@DoesNotExist -> matches no row
                     // eg. pageUrl!@DoesNotExist -> matches no rows

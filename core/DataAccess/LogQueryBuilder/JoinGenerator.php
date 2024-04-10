@@ -193,7 +193,8 @@ class JoinGenerator
                     $i > 0
                     && $this->tables[$i - 1]
                     && is_string($this->tables[$i - 1])
-                    && strpos($this->tables[$i - 1], LogAggregator::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX) === 0) {
+                    && strpos($this->tables[$i - 1], LogAggregator::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX) === 0
+                ) {
                     $joinName = 'INNER JOIN';
                     // when we archive a segment there will be eg `logtmpsegment$HASH` as first table.
                     // then we join log_conversion for example... if we didn't use INNER JOIN we would as a result
@@ -287,7 +288,8 @@ class JoinGenerator
 
         if (
             $this->tables->hasJoinedTableManually($table, $join)
-            || $this->tables->hasJoinedTableManually($table, $alternativeJoin)) {
+            || $this->tables->hasJoinedTableManually($table, $alternativeJoin)
+        ) {
             // already joined, no need to join it again
             return null;
         }
@@ -339,7 +341,8 @@ class JoinGenerator
             $index > 0
             && $this->tables->hasAddedTableManually($tableName)
             && !$this->tables->hasJoinedTableManually($tableName, $nonVisitJoin)
-            && !$this->tables->hasJoinedTableManually($tableName, $altNonVisitJoin)) {
+            && !$this->tables->hasJoinedTableManually($tableName, $altNonVisitJoin)
+        ) {
             $tableIndex = $this->tables->findIndexOfManuallyAddedTable($tableName);
             $nonVisitJoin = '(' . $this->tables[$tableIndex]['joinOn'] . ' AND ' . $nonVisitJoin . ')';
             unset($this->tables[$tableIndex]);

@@ -37,7 +37,8 @@ class SettingsMetadata
                         isset($value) && (
                         $fieldConfig->uiControl !== FieldConfig::UI_CONTROL_PASSWORD ||
                         $value !== self::PASSWORD_PLACEHOLDER
-                        )) {
+                        )
+                    ) {
                         $setting->setValue($value);
                     }
                 }

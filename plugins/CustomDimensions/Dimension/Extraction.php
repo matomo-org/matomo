@@ -48,7 +48,8 @@ class Extraction
             if (
                 1 !== substr_count($this->pattern, '(') - $ncgCount ||
                 1 !== substr_count($this->pattern, ')') - $ncgCount ||
-                1 !== substr_count($this->pattern, ')', strpos($this->pattern, '(')) - $ncgCount) {
+                1 !== substr_count($this->pattern, ')', strpos($this->pattern, '(')) - $ncgCount
+            ) {
                 throw new Exception("You need to group exactly one part of the regular expression inside round brackets, eg 'index_(.+).html'");
             }
         }

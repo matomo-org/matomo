@@ -156,7 +156,8 @@ class UpdateCommunication
         if (
             !empty($lastVersionSent)
             && ($latestVersion == $lastVersionSent
-                || version_compare($latestVersion, $lastVersionSent) == -1)) {
+                || version_compare($latestVersion, $lastVersionSent) == -1)
+        ) {
             return true;
         }
 

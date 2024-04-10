@@ -182,7 +182,8 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
             if (
                 $numRequiredPiwikVersions === 2 &&
-                !Common::stringEndsWith($requiredVersion, $secondPartPiwikVersionRequire)) {
+                !Common::stringEndsWith($requiredVersion, $secondPartPiwikVersionRequire)
+            ) {
                 // user is using custom piwik version require, we do not overwrite anything
                 return;
             }

@@ -60,7 +60,8 @@ class VisitsSummary extends \Piwik\Plugin
 
         if (
             !$userId->hasDataTableUsers($dataTable) &&
-            !$userId->isUsedInAtLeastOneSite($idSites, $period, $date)) {
+            !$userId->isUsedInAtLeastOneSite($idSites, $period, $date)
+        ) {
             $report = new Get();
             $report->removeUsersFromProcessedReport($response);
         }

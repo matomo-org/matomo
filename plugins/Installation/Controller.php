@@ -561,7 +561,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         if (
             defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
-            && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')) {
+            && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')
+        ) {
             $files[] = 'tests/resources/screenshot-override/override.js';
         }
 
@@ -596,7 +597,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         if (
             !empty($protocol)
-            && !\Piwik\ProxyHttp::isHttps()) {
+            && !\Piwik\ProxyHttp::isHttps()
+        ) {
             $config->General['assume_secure_protocol'] = '1';
         }
 

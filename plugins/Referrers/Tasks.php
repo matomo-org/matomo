@@ -20,7 +20,8 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         if(
             SettingsPiwik::isInternetEnabled() === true &&
-            Config::getInstance()->General['enable_referrer_definition_syncs'] == 1){
+            Config::getInstance()->General['enable_referrer_definition_syncs'] == 1
+        ){
             $this->weekly('updateSearchEngines');
             $this->weekly('updateSocials');
         }

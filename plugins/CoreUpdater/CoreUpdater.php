@@ -52,7 +52,8 @@ class CoreUpdater extends \Piwik\Plugin
             || $module == 'Installation'
             || ($module == 'CorePluginsAdmin' && $action == 'deactivate')
             || ($module == 'CorePluginsAdmin' && $action == 'uninstall')
-            || ($module == 'LanguagesManager' && $action == 'saveLanguage')) {
+            || ($module == 'LanguagesManager' && $action == 'saveLanguage')
+        ) {
             return;
         }
 

@@ -115,7 +115,8 @@ class VisitorRecognizer
         if (
             !empty($maxActions) && $maxActions > 0
             && !empty($visitRow['visit_total_actions'])
-            && $maxActions <= $visitRow['visit_total_actions']) {
+            && $maxActions <= $visitRow['visit_total_actions']
+        ) {
             $this->visitRow = false;
             return false;
         }
@@ -152,7 +153,8 @@ class VisitorRecognizer
         if (
             !empty($originalRow['idvisitor'])
             && !empty($visit['idvisitor'])
-            && bin2hex($originalRow['idvisitor']) === bin2hex($visit['idvisitor'])) {
+            && bin2hex($originalRow['idvisitor']) === bin2hex($visit['idvisitor'])
+        ) {
             unset($visit['idvisitor']);
         }
 
@@ -161,7 +163,8 @@ class VisitorRecognizer
             if (
                 !empty($originalRow[$field])
                 && !empty($visit[$field])
-                && $visit[$field] == $originalRow[$field]) {
+                && $visit[$field] == $originalRow[$field]
+            ) {
                 // we can't use === eg for visit_total_time which may be partially an integer and sometimes a string
                 // because we check for !empty things should still work as expected though
                 // (eg we wouldn't compare false with 0)

@@ -10,7 +10,8 @@ return array(
                 $pluginManager = \Piwik\Plugin\Manager::getInstance();
                 if (
                     $pluginManager->isPluginActivated($pluginName)
-                    && $pluginManager->isPluginLoaded($pluginName)) {
+                    && $pluginManager->isPluginLoaded($pluginName)
+                ) {
                     $pluginManager->unloadPlugin($pluginName);
                 }
                 $tagManagerTeaser->reset();

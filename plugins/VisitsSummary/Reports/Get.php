@@ -102,7 +102,8 @@ class Get extends \Piwik\Plugin\Report
                     ($firstRow->getColumn('nb_pageviews')
                     + $firstRow->getColumn('nb_downloads')
                     + $firstRow->getColumn('nb_outlinks')) == 0
-                    && $firstRow->getColumn('nb_actions') > 0) {
+                    && $firstRow->getColumn('nb_actions') > 0
+                ) {
                     $view->config->removeSparklineMetric(array('nb_downloads', 'nb_uniq_downloads'));
                     $view->config->removeSparklineMetric(array('nb_outlinks', 'nb_uniq_outlinks'));
                     $view->config->removeSparklineMetric(array('nb_pageviews', 'nb_uniq_pageviews'));

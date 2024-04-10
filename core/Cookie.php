@@ -248,7 +248,8 @@ class Cookie
         if (
             $cookieStr === false
             && !empty($_COOKIE[$this->name])
-            && strpos($_COOKIE[$this->name], '=') !== false) {
+            && strpos($_COOKIE[$this->name], '=') !== false
+        ) {
             // cookie was set since Matomo 4
             $cookieStr = $_COOKIE[$this->name];
         }

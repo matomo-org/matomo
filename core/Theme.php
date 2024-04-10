@@ -77,7 +77,8 @@ class Theme
     {
         if (
             $this->themeName == \Piwik\Plugin\Manager::DEFAULT_THEME
-            && !Manager::getAlternativeWebRootDirectories()) {
+            && !Manager::getAlternativeWebRootDirectories()
+        ) {
             return $output;
         }
 
