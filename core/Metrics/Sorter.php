@@ -117,7 +117,6 @@ class Sorter
     public function getSecondarySortOrder($order, $secondarySortColumn)
     {
         if ($secondarySortColumn === 'label') {
-
             $secondaryOrder = SORT_ASC;
             if ($order === 'asc') {
                 $secondaryOrder = SORT_DESC;
@@ -205,7 +204,6 @@ class Sorter
                 $value = $row->getColumn($columnToSort);
 
                 if ($value !== false && $value !== null && !is_array($value)) {
-
                     if (is_numeric($value)) {
                         $sortFlags = SORT_NUMERIC;
                     } else {

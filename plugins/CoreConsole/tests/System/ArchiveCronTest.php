@@ -255,7 +255,6 @@ class ArchiveCronTest extends SystemTestCase
         }
 
         foreach ($this->getApiForTesting() as $testInfo) {
-
             [$api, $params] = $testInfo;
 
             if (!isset($params['testSuffix'])) {

@@ -39,7 +39,6 @@
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis" />
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword" />
         <exclude name="Squiz.Functions.FunctionDeclaration.Found" />
-        <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen" />
     </rule>
 
     <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">

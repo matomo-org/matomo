@@ -284,7 +284,6 @@ class API extends \Piwik\Plugin\API
         [$strLastDate, $lastPeriod] = Range::getLastDate($date, $period);
 
         if ($strLastDate !== false) {
-
             if ($lastPeriod !== false) {
                 // NOTE: no easy way to set last period date metadata when range of dates is requested.
                 //       will be easier if DataTable\Map::metadata is removed, and metadata that is

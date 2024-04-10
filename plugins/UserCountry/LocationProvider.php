@@ -277,7 +277,6 @@ abstract class LocationProvider
     {
         $allInfo = array();
         foreach (self::getAllProviders() as $provider) {
-
             $info = $provider->getInfo();
 
             $status = self::INSTALLED;

@@ -113,7 +113,6 @@ class ArchiveTableDao
 
         $data = [];
         foreach ($invalidations as $i) {
-
             $waiting = (int) Date::now()->getTimestampUTC() - Date::factory($i['ts_invalidated'])->getTimestampUTC();
             $processing = (int) $i['ts_started'] ? Date::now()->getTimestampUTC() - (int) $i['ts_started'] : '';
 

@@ -502,7 +502,6 @@ class API extends \Piwik\Plugin\API
         } catch (InvalidDimensionException $e) {
             throw $e;
         } catch (\Exception $e) {
-
             $graph = new \Piwik\Plugins\ImageGraph\StaticGraph\Exception();
             $graph->setWidth($width);
             $graph->setHeight($height);

@@ -81,7 +81,6 @@ class OmniFixture extends Fixture
                 && $className != "Piwik\\Tests\\Fixtures\\UITestFixture"
                 && $className != "Piwik\\Tests\\Fixtures\\VisitsInDifferentTimezones"
             ) {
-
                 $klassReflect = new ReflectionClass($className);
                 if (
                     !strpos($klassReflect->getFilename(), "tests/PHPUnit/Fixtures")

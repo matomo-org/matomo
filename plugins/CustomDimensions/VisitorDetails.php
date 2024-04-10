@@ -175,7 +175,6 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         if (!empty($customDimensions)) {
             foreach ($customDimensions as $name => $value) {
-
                 $scope = CustomDimensions::SCOPE_ACTION;
 
                 if (empty($value)) {
@@ -202,7 +201,6 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         if (!empty($customDimensions)) {
             foreach ($customDimensions as $dimension) {
-
                 $scope = CustomDimensions::SCOPE_VISIT;
                 $name  = $dimension['name'];
                 $value = $dimension['value'];
@@ -229,7 +227,6 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         $customDimensions = $this->customDimensions;
         foreach ($customDimensions as $scope => &$dimensions) {
-
             if (empty($dimensions)) {
                 unset($customDimensions[$scope]);
                 continue;
@@ -240,7 +237,6 @@ class VisitorDetails extends VisitorDetailsAbstract
             }
         }
         if (!empty($customDimensions)) {
-
             $profile['customDimensions'] = $this->convertForProfile($customDimensions);
         }
     }
@@ -250,11 +246,9 @@ class VisitorDetails extends VisitorDetailsAbstract
         $convertedDimensions = [];
 
         foreach ($customDimensions as $scope => $scopeDimensions) {
-
             $convertedDimensions[$scope] = [];
 
             foreach ($scopeDimensions as $name => $values) {
-
                 $dimension = [
                     'name' => $name,
                     'values' => []

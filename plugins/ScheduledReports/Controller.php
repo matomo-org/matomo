@@ -113,7 +113,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->segmentEditorActivated = false;
         if (API::isSegmentEditorActivated()) {
-
             $savedSegmentsById = array(
                 '' => Piwik::translate('SegmentEditor_DefaultAllVisits')
             );

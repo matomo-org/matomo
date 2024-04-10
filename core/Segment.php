@@ -466,7 +466,6 @@ class Segment
         if (
             $matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
             && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
-
             if (isset($segment['sqlFilterValue'])) {
                 $value = call_user_func($segment['sqlFilterValue'], $value, $segment['sqlSegment']);
             }

@@ -120,7 +120,6 @@ class Controller extends ControllerAdmin
         $countries = array(array('key' => '', 'value' => ''));
         foreach ($this->regionDataProvider->getCountryList() as $countryCode => $continentCode) {
             if (isset(CountryCallingCodes::$countryCallingCodes[$countryCode])) {
-
                 if ($countryCode == $defaultCountry) {
                     $view->defaultCallingCode = CountryCallingCodes::$countryCallingCodes[$countryCode];
                 }

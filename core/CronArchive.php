@@ -968,7 +968,6 @@ class CronArchive
             }
 
             foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segmentDefinition) {
-
                // check if the segment is available
                 if (!$this->isSegmentAvailable($segmentDefinition, [$idSite])) {
                     continue;

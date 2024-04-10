@@ -147,7 +147,6 @@ class JoinGenerator
 
         foreach ($this->tables as $i => $table) {
             if (is_array($table)) {
-
                 // join condition provided
                 $alias = isset($table['tableAlias']) ? $table['tableAlias'] : $table['table'];
 
@@ -182,7 +181,6 @@ class JoinGenerator
                 // first table
                 $this->joinString .= $tableSql;
             } else {
-
                 $join = $this->findJoinCriteriasForTables($logTable, $availableLogTables);
 
                 if ($join === null) {
@@ -236,7 +234,6 @@ class JoinGenerator
 
         foreach ($availableLogTables as $availableLogTable) {
             if ($logTable->getColumnToJoinOnIdVisit() && $availableLogTable->getColumnToJoinOnIdVisit()) {
-
                 $join = sprintf(
                     "%s.%s = %s.%s",
                     $table,

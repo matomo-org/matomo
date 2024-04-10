@@ -290,7 +290,6 @@ class ArchivingHelper
             $nbEntrances = $actionRow->getColumn(PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS);
             $conversions = $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY];
             if ($nbEntrances !== false && is_numeric($nbEntrances) && $nbEntrances > 0) {
-
                 // Calculate conversion entry rate
                 if (isset($row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY])) {
                     $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY_RATE] = Piwik::getQuotientSafe(
@@ -327,7 +326,6 @@ class ArchivingHelper
         // Find metric columns in the goal query row and add them to the actions data table row
         foreach ($possibleMetrics as $metricKey => $columnName) {
             if (isset($row[$metricKey])) {
-
                 // Add metric
                 if (!isset($goalsColumn[$row['idgoal']][$metricKey])) {
                     $goalsColumn[$row['idgoal']][$metricKey] = $row[$metricKey];
@@ -445,7 +443,6 @@ class ArchivingHelper
             $config = $metricsConfig[$columnName];
 
             if (!empty($config['aggregation'])) {
-
                 if ($config['aggregation'] == 'min') {
                     if (empty($alreadyValue)) {
                         $newValue = $value;

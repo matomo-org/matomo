@@ -52,7 +52,6 @@ class Validate extends TranslationBase
         file_put_contents(PIWIK_DOCUMENT_ROOT . '/filter.txt', '');
 
         foreach ($pluginList as $plugin) {
-
             $output->writeln("");
 
             // fetch base or specific plugin

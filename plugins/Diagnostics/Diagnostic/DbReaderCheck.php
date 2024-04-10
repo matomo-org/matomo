@@ -46,7 +46,6 @@ class DbReaderCheck implements Diagnostic
             Db::getReader();
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, ''));
         } catch (\Exception $e) {
-
         }
 
         $comment = Piwik::translate('Installation_CannotConnectToDb');

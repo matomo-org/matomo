@@ -197,7 +197,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->tablesInstalled = '';
 
         if (count($tablesInstalled) > 0) {
-
             // we have existing tables
             $view->tablesInstalled     = implode(', ', $tablesInstalled);
             $view->someTablesInstalled = true;
@@ -214,7 +213,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 }
             });
         } else {
-
             DbHelper::createTables();
             DbHelper::createAnonymousUser();
             DbHelper::recordInstallVersion();
@@ -285,7 +283,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $form = new FormSuperUser();
 
         if ($form->validate()) {
-
             try {
                 $loginName = $form->getSubmitValue('login');
                 $email = $form->getSubmitValue('email');

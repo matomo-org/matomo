@@ -56,7 +56,6 @@ class ConfigReader
 
             $copy[$category] = array();
             foreach ($values as $key => $value) {
-
                 $newValue = $value;
                 if ($this->isKeyAPassword($key)) {
                     $newValue = $this->getMaskedPassword();
@@ -152,7 +151,6 @@ class ConfigReader
             }
 
             foreach ($pluginSetting->getSettingsWritableByCurrentUser() as $setting) {
-
                 $name = $setting->getName();
 
                 $configSection = $pluginName;

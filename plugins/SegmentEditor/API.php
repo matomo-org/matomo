@@ -355,7 +355,6 @@ class API extends \Piwik\Plugin\API
             return false;
         }
         try {
-
             if (!$segment['enable_all_users']) {
                 Piwik::checkUserHasSuperUserAccessOrIsTheUser($segment['login']);
             }

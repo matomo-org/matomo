@@ -82,7 +82,6 @@ abstract class Base extends \Piwik\Plugin\Report
         $runPrettySizeFilterBeforeGeneric = false;
 
         if ($view->isViewDataTableId(HtmlTable::ID)) {
-
             // add summary row only if displaying a table
             $view->config->filters[] = array('AddSummaryRow', Piwik::translate('General_Total'));
 

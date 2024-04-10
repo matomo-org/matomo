@@ -66,7 +66,6 @@ class Menu extends \Piwik\Plugin\Menu
                 $newChangesStatus = $userChanges->getNewChangesStatus();
 
                 if ($newChangesStatus !== ChangesModel::NO_CHANGES_EXIST) {
-
                     $icon = ($newChangesStatus === ChangesModel::NEW_CHANGES_EXIST ? 'icon-notifications_on' : 'icon-reporting-actions');
 
                     $menu->registerMenuIcon('CoreAdminHome_WhatIsNew', $icon);

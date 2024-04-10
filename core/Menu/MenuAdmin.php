@@ -127,7 +127,6 @@ class MenuAdmin extends MenuAbstract
     public function getMenu()
     {
         if (!$this->menu) {
-
             foreach ($this->getAllMenus() as $menu) {
                 $menu->configureAdminMenu($this);
             }

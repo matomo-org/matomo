@@ -575,7 +575,6 @@ class DataTableFactory
         $this->setPrettySegmentMetadata($table);
 
         foreach ($index as $idsite => $row) {
-
             $meta = array();
             if (isset($row[DataCollection::METADATA_CONTAINER_ROW_KEY])) {
                 $meta = $row[DataCollection::METADATA_CONTAINER_ROW_KEY];

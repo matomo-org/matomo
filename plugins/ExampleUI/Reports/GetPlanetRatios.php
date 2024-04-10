@@ -57,13 +57,11 @@ class GetPlanetRatios extends Base
         $view->config->addTranslation('value', 'times the diameter of Earth');
 
         if ($view->isViewDataTableId(Pie::ID)) {
-
             $view->config->columns_to_display = array('value');
             $view->config->selectable_columns = array('value');
             $view->config->show_footer_icons = false;
             $view->config->max_graph_elements = 10;
         } else if ($view->isViewDataTableId(Cloud::ID)) {
-
             $view->config->columns_to_display = array('label', 'value');
             $view->config->show_footer = false;
         }

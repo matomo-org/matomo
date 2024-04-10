@@ -60,7 +60,6 @@ class Model
             $pluginManager->isPluginInFilesystem($pluginName) &&
             $pluginManager->isPluginActivated($pluginName))
         {
-
             $plugin = $pluginManager->loadPlugin($pluginName);
             if (!$plugin) {
                 return;

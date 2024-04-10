@@ -205,7 +205,6 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $result = Filesystem::directoryDiff($sourceInsensitive, $targetInsensitive);
 
         if (Filesystem::isFileSystemCaseInsensitive()) {
-
             // Case insensitive filesystem:
             // Since the target and source will be treated as the same file then we do not want directoryDiff() to
             // report a difference as copying the source command will overwrite the target file. Reporting a difference
@@ -213,7 +212,6 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
 
             $this->assertEquals(array(), $result);
         } else {
-
             // Case sensitive filesystem:
             // directoryDiff() should report a difference and we should be able to unlink the target file safely after
             // the source file has been copied.

@@ -131,9 +131,7 @@ class Social extends Singleton
     public function isSocialUrl($url, $socialName = false)
     {
         foreach ($this->getDefinitions() as $domain => $name) {
-
             if (preg_match('/(^|[\.\/])' . $domain . '([\.\/]|$)/', $url) && ($socialName === false || $name == $socialName)) {
-
                 return true;
             }
         }
@@ -151,9 +149,7 @@ class Social extends Singleton
     public function getSocialNetworkFromDomain($url)
     {
         foreach ($this->getDefinitions() as $domain => $name) {
-
             if (preg_match('/(^|[\.\/])' . $domain . '([\.\/]|$)/', $url)) {
-
                 return $name;
             }
         }
@@ -172,9 +168,7 @@ class Social extends Singleton
     {
         $social  = $this->getSocialNetworkFromDomain($url);
         foreach ($this->getDefinitions() as $domain => $name) {
-
             if ($name == $social) {
-
                 return $domain;
             }
         }
@@ -191,9 +185,7 @@ class Social extends Singleton
     public function getMainUrlFromName($social)
     {
         foreach ($this->getDefinitions() as $domain => $name) {
-
             if ($name == $social) {
-
                 return $domain;
             }
         }

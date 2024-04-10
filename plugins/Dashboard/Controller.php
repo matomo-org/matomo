@@ -169,10 +169,8 @@ class Controller extends \Piwik\Plugin\Controller
     protected function getLayout($idDashboard)
     {
         if (Piwik::isUserIsAnonymous()) {
-
             $session = new SessionNamespace("Dashboard");
             if (!isset($session->dashboardLayout)) {
-
                 return $this->dashboard->getDefaultLayout();
             }
 

@@ -61,7 +61,6 @@ class Updates_1_8_3_b1 extends Updates
         }
 
         try {
-
             // Common::prefixTable('pdf') has been heavily refactored to be more generic
             // The following actions are taken in this update script :
             // - create the new generic report table Common::prefixTable('report')

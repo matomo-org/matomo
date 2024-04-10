@@ -187,7 +187,6 @@ class ComputedMetric extends ProcessedMetric
 
             if ($this->aggregation === self::AGGREGATION_AVG) {
                 if ($metric1 && $metric1 instanceof ArchivedMetric && $metric2 && $metric2 instanceof ArchivedMetric) {
-
                     $metric1Name = $metric1->getDimension()->getName();
                     $metric2Name = $metric2->getDimension()->getName();
                     return Piwik::translate('General_ComputedMetricAverage', array($metric1Name, $metric2Name));

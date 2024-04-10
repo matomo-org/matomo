@@ -608,7 +608,6 @@ class API extends \Piwik\Plugin\API
         $shouldAddAverageOrderRevenue = (in_array('avg_order_revenue', $requestedColumns) || empty($requestedColumns)) && $isEcommerceGoal;
 
         if ($shouldAddAverageOrderRevenue && !empty($requestedColumns)) {
-
             $avgOrder = new AverageOrderRevenue();
             $metricsToAdd = $avgOrder->getDependentMetrics();
 

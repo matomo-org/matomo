@@ -717,7 +717,6 @@ class API extends \Piwik\Plugin\API
 
         // If the period is a range then the number of days in the range must be less or equal to the max period allowed
         if ($period === 'range') {
-
             $range = new Period\Range($period, $date);
             $rangeDays = $range->getDayCount();
 

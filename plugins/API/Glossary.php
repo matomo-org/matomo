@@ -61,7 +61,6 @@ class Glossary
             }
 
             foreach ($report['metricsDocumentation'] as $metricId => $metricDocumentation) {
-
                 $metricKey = $metricId;
 
                 if(
@@ -77,7 +76,6 @@ class Glossary
                 if (
                     isset($metrics[$metricKey])
                     && $metrics[$metricKey]['documentation'] !== $metricDocumentation) {
-
                     // Don't show nb_hits in glossary since it duplicates others, eg. nb_downloads,
                     if($metricKey == 'nb_hits') {
                         continue;
@@ -95,7 +93,6 @@ class Glossary
                         ));
                     }
                 } else {
-
                     if (
                         !isset($report['metrics'][$metricId])
                         && !isset($report['processedMetrics'][$metricId])

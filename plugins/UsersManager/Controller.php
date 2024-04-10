@@ -229,7 +229,6 @@ class Controller extends ControllerAdmin
         $view->defaultReport = $defaultReport;
 
         if ($defaultReport == 'MultiSites') {
-
             $defaultSiteId = $userPreferences->getDefaultWebsiteId();
             $reportOptionsValue = $defaultSiteId;
 
