@@ -100,7 +100,7 @@ class RequestProcessor extends Tracker\RequestProcessor
         if (!empty($trackerCache[PrivacyManager::OPTION_USERID_SALT])) {
             $salt = $trackerCache[PrivacyManager::OPTION_USERID_SALT];
         }
-        if(empty($salt)) {
+        if (empty($salt)) {
             return $userId;
         }
         return sha1($userId . $salt);

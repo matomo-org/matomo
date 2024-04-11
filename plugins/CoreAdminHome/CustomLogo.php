@@ -120,7 +120,7 @@ class CustomLogo
         $logo = $defaultLogo;
 
         $theme = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled();
-        if(!$theme) {
+        if (!$theme) {
             $themeName = Manager::DEFAULT_THEME;
         } else {
             $themeName = $theme->getPluginName();

@@ -40,7 +40,7 @@ class MemoryLimitCheck implements Diagnostic
         $memoryLimit = SettingsServer::getMemoryLimitValue();
         $comment = $memoryLimit . 'M';
 
-        if(false === $memoryLimit) {
+        if (false === $memoryLimit) {
             $status = DiagnosticResult::STATUS_OK;
             $comment = $this->translator->translate('Installation_SystemCheckMemoryNoMemoryLimitSet');
         } else if ($memoryLimit >= $this->minimumMemoryLimit) {

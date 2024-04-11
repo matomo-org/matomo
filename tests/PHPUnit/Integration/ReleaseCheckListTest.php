@@ -251,13 +251,13 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     {
         $foundPatterns = array();
         foreach ($files as $file) {
-            if($this->isFileOrPathAllowed($allowedFiles, $file)) {
+            if ($this->isFileOrPathAllowed($allowedFiles, $file)) {
                 continue;
             }
             $content = file_get_contents($file);
             $foundPattern = strpos($content, $patternFailIfFound) !== false;
 
-            if($foundPattern) {
+            if ($foundPattern) {
                 $foundPatterns[] = $file;
             }
         }
@@ -329,7 +329,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.php');
 
         $tested = 0;
-        foreach($files as $file) {
+        foreach ($files as $file) {
             // skip files in these folders
             if (strpos($file, '/libs/') !== false) {
                 continue;
@@ -339,13 +339,13 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             $expectedStart = "<?php";
 
             $isIniFile = strpos($file, ".ini.php") !== false;
-            if($isIniFile) {
+            if ($isIniFile) {
                 $expectedStart = "; <?php exit;";
             }
 
             $skipStartFileTest = $this->isSkipPhpFileStartWithPhpBlock($file, $isIniFile);
 
-            if($skipStartFileTest) {
+            if ($skipStartFileTest) {
                 continue;
             }
 
@@ -387,7 +387,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pluginsPath), RecursiveIteratorIterator::SELF_FIRST);
         $paths = array();
-        foreach($objects as $name => $object) {
+        foreach ($objects as $name => $object) {
             if (
                 is_dir($name)
                 && strpos($name, "/.") === false
@@ -400,7 +400,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         // to prevent errors with un-readable assets,
         // we ensure all directories in plugins/* are added to git with CHMOD 755
-        foreach($paths as $pathToTest) {
+        foreach ($paths as $pathToTest) {
             $chmod = substr(decoct(fileperms($pathToTest)), -3);
             $valid = array('777', '775', '755');
             $command = "find $pluginsPath -type d -exec chmod 755 {} +";
@@ -426,12 +426,12 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         $plugins = _glob(Manager::getPluginsDirectory() . '*', GLOB_ONLYDIR);
         $count = 1;
-        foreach($plugins as $pluginPath) {
+        foreach ($plugins as $pluginPath) {
             $pluginName = basename($pluginPath);
 
             $addedToGit = $this->isPathAddedToGit($pluginPath);
 
-            if(!$addedToGit) {
+            if (!$addedToGit) {
                 // if not added to git, then it is not part of the release checklist.
                 continue;
             }
@@ -614,7 +614,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     public function test_TotalPiwikFilesSize_isWithinReasonnableSize()
     {
-        if(!SystemTestCase::isCIEnvironment()) {
+        if (!SystemTestCase::isCIEnvironment()) {
             // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
             $this->markTestSkipped("Skipped this test on local dev environment.");
         }
@@ -732,37 +732,37 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     private function isFileIncludedInFinalRelease($file)
     {
-        if(is_dir($file)) {
+        if (is_dir($file)) {
             return false;
         }
 
         // in build-package.sh we have: `find ./ -iname 'tests' -type d -prune -exec rm -rf {} \;`
-        if($this->isFileBelongToTests($file)) {
+        if ($this->isFileBelongToTests($file)) {
             return false;
         }
-        if(strpos($file, PIWIK_INCLUDE_PATH . "/tmp/") !== false) {
+        if (strpos($file, PIWIK_INCLUDE_PATH . "/tmp/") !== false) {
             return false;
         }
 
         // ignore downloaded geoip files
-        if((strpos($file, 'GeoIP') !== false || strpos($file, 'DBIP') !== false) && strpos($file, '.mmdb') !== false) {
+        if ((strpos($file, 'GeoIP') !== false || strpos($file, 'DBIP') !== false) && strpos($file, '.mmdb') !== false) {
             return false;
         }
 
-        if($this->isFileIsAnIconButDoesNotBelongToDistribution($file)) {
+        if ($this->isFileIsAnIconButDoesNotBelongToDistribution($file)) {
             return false;
         }
 
 
-        if($this->isPluginSubmoduleAndThereforeNotFoundInFinalRelease($file)) {
+        if ($this->isPluginSubmoduleAndThereforeNotFoundInFinalRelease($file)) {
             return false;
         }
 
-        if($this->isFileBelongToComposerDevelopmentPackage($file)) {
+        if ($this->isFileBelongToComposerDevelopmentPackage($file)) {
             return false;
         }
 
-        if($this->isFileDeletedFromPackage($file)) {
+        if ($this->isFileDeletedFromPackage($file)) {
             return false;
         }
 
@@ -778,7 +778,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     private function isPluginSubmoduleAndThereforeNotFoundInFinalRelease($file)
     {
-        if(strpos($file, PIWIK_INCLUDE_PATH . "/plugins/") === false) {
+        if (strpos($file, PIWIK_INCLUDE_PATH . "/plugins/") === false) {
             return false;
         }
 
@@ -791,7 +791,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $notInPackagedRelease = $pluginManager->isPluginOfficialAndNotBundledWithCore($pluginName);
 
         // test that the submodule check works
-        if($pluginName == 'VisitorGenerator') {
+        if ($pluginName == 'VisitorGenerator') {
             $this->assertTrue($notInPackagedRelease, "Expected isPluginOfficialAndNotBundledWithCore to return true for VisitorGenerator plugin");
         }
         return $notInPackagedRelease;
@@ -1090,11 +1090,11 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $errors = array();
         $countFileChecked = 0;
         foreach ($files as $file) {
-            if($this->isFileBelongToTests($file) || is_dir($file)) {
+            if ($this->isFileBelongToTests($file) || is_dir($file)) {
                 continue;
             }
 
-            if(
+            if (
                 strpos($file, 'vendor/php-di/php-di/website/') !== false
                 || strpos($file, 'vendor/phpmailer/phpmailer/language/') !== false
                 || strpos($file, 'vendor/wikimedia/less.php/') !== false

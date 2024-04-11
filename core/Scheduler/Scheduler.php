@@ -171,7 +171,7 @@ class Scheduler
 
                     // Task has thrown an exception and should be scheduled for a retry
                     if ($this->scheduleRetry) {
-                        if($this->timetable->getRetryCount($taskName) == 3) {
+                        if ($this->timetable->getRetryCount($taskName) == 3) {
                             // Task has already been retried three times, give up
                             $this->timetable->clearRetryCount($taskName);
 

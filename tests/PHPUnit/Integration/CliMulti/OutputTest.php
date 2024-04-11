@@ -36,7 +36,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
 
     public function tearDown(): void
     {
-        if(is_object($this->output)) {
+        if (is_object($this->output)) {
             $this->output->destroy();
         }
 

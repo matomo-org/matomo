@@ -588,7 +588,7 @@ class Segment
         $segmentExpression = $this->segmentExpression;
 
         $limitAndOffset = null;
-        if($limit > 0) {
+        if ($limit > 0) {
             $limitAndOffset = (int) $offset . ', ' . (int) $limit;
         }
 

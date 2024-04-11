@@ -109,7 +109,7 @@ class Model
         $bind = array();
         $sqlWhereCondition = '';
 
-        if(!empty($idSite)) {
+        if (!empty($idSite)) {
             $bind = array($idSite);
             $sqlWhereCondition = '(enable_only_idsite = ? OR enable_only_idsite = 0) AND';
         }

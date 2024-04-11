@@ -30,7 +30,7 @@ class GetSegmentsMetadataAPITest extends SystemTestCase
 
         $contains = false;
 
-        foreach($response as $segment) {
+        foreach ($response as $segment) {
             if ($segment['segment'] === (new VisitorId())->getSegmentName()) {
                 $contains = true;
                 break;
@@ -60,7 +60,7 @@ class GetSegmentsMetadataAPITest extends SystemTestCase
 
         $contains = false;
 
-        foreach($response as $segment) {
+        foreach ($response as $segment) {
             if ($segment['segment'] === (new VisitorId())->getSegmentName()) {
                 $contains = true;
                 break;

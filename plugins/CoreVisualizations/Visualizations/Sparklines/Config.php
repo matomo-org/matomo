@@ -271,7 +271,7 @@ class Config extends \Piwik\ViewDataTable\Config
                   && count($metrics) === 1
         ) {
             $columns = array($requestParamsForSparkline['columns']);
-        } else{
+        } else {
             $columns = array();
         }
 

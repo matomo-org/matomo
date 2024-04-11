@@ -236,7 +236,7 @@ class Controller extends Plugin\ControllerAdmin
                 foreach ($view->pluginsHavingUpdate as $name => $plugin) {
                     $view->pluginUpdateNonces[$name] = Nonce::getNonce($plugin['name']);
                 }
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 // curl exec connection error (ie. server not connected to internet)
             }
         }
@@ -503,7 +503,7 @@ class Controller extends Plugin\ControllerAdmin
             return;
         }
 
-        if($this->isAllowedToTroubleshootAsSuperUser()) {
+        if ($this->isAllowedToTroubleshootAsSuperUser()) {
             Access::doAsSuperUser(function () use ($redirectAfter) {
                 $this->doDeactivatePlugin($redirectAfter);
             });
@@ -566,7 +566,7 @@ class Controller extends Plugin\ControllerAdmin
         $license_file = $metadata->getPathToLicenseFile();
 
         $license = 'No license file found for this plugin.';
-        if(!empty($license_file)) {
+        if (!empty($license_file)) {
             $license = file_get_contents($license_file);
             $license = nl2br($license);
         }

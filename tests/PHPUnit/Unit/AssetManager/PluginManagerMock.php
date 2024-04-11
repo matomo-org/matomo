@@ -58,7 +58,7 @@ class PluginManagerMock extends Manager
     {
         $pluginNames = array();
 
-        foreach($this->plugins as $plugin) {
+        foreach ($this->plugins as $plugin) {
             $pluginNames[] = $plugin->getPluginName();
         }
 

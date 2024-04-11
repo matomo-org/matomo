@@ -18,7 +18,7 @@ class Tasks extends \Piwik\Plugin\Tasks
 {
     public function schedule()
     {
-        if(
+        if (
             SettingsPiwik::isInternetEnabled() === true &&
             Config::getInstance()->General['enable_referrer_definition_syncs'] == 1
         ) {

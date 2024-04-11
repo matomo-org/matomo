@@ -205,7 +205,7 @@ class Visitor implements VisitorInterface
                 'event' => 'eventUrl',
                 'action' => 'pageUrl'
             );
-            foreach($flattenForActionType as $actionType => $flattenedKeyPrefix) {
+            foreach ($flattenForActionType as $actionType => $flattenedKeyPrefix) {
                 if (
                     !empty($action['url'])
                     && $action['type'] == $actionType
@@ -216,7 +216,7 @@ class Visitor implements VisitorInterface
             }
 
             $flatten = array( 'pageTitle', 'siteSearchKeyword', 'eventCategory', 'eventAction', 'eventName', 'eventValue');
-            foreach($flatten as $toFlatten) {
+            foreach ($flatten as $toFlatten) {
                 if (!empty($action[$toFlatten])) {
                     $flattenedKeyName = $toFlatten . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
                     $visitorDetailsArray[$flattenedKeyName] = $action[$toFlatten];

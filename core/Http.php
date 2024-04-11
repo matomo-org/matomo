@@ -758,7 +758,7 @@ class Http
                 while (substr($response, 0, 5) == "HTTP/") {
                     $split = explode("\r\n\r\n", $response, 2);
 
-                    if(count($split) == 2) {
+                    if (count($split) == 2) {
                         [$header, $response] = $split;
                     } else {
                         $response = '';

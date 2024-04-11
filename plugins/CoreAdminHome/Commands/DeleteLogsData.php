@@ -148,7 +148,7 @@ class DeleteLogsData extends ConsoleCommand
     {
         $idSite = $this->getInput()->getOption('idsite');
 
-        if(is_null($idSite)) {
+        if (is_null($idSite)) {
             return $idSite;
         }
         // validate the site ID
@@ -195,7 +195,7 @@ class DeleteLogsData extends ConsoleCommand
 
             $done = Db::optimizeTables($prefixedTable);
 
-            if($done) {
+            if ($done) {
                 $this->getOutput()->writeln("done. <comment>" . $timer . "</comment>");
             } else {
                 $this->getOutput()->writeln("skipped! <comment>" . $timer . "</comment>");

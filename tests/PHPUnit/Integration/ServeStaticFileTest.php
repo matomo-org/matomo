@@ -52,7 +52,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        if(!chmod(TEST_FILE_LOCATION, 0644)) {
+        if (!chmod(TEST_FILE_LOCATION, 0644)) {
             throw new Exception("Could not chmod 0644 " . TEST_FILE_LOCATION);
         }
     }

@@ -63,7 +63,7 @@ class Glossary
             foreach ($report['metricsDocumentation'] as $metricId => $metricDocumentation) {
                 $metricKey = $metricId;
 
-                if(
+                if (
                     empty($report['metrics'][$metricId])
                     && empty($report['processedMetrics'][$metricId])
                 ) {
@@ -79,7 +79,7 @@ class Glossary
                     && $metrics[$metricKey]['documentation'] !== $metricDocumentation
                 ) {
                     // Don't show nb_hits in glossary since it duplicates others, eg. nb_downloads,
-                    if($metricKey == 'nb_hits') {
+                    if ($metricKey == 'nb_hits') {
                         continue;
                     }
 

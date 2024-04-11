@@ -490,7 +490,7 @@ class PasswordResetter
                 $time = $existingResetInfo['timestamp'];
                 $count = !empty($existingResetInfo['requests']) ? $existingResetInfo['requests'] : $count;
 
-                if(isset($existingResetInfo['requests']) && $existingResetInfo['requests'] > 2) {
+                if (isset($existingResetInfo['requests']) && $existingResetInfo['requests'] > 2) {
                     throw new Exception(Piwik::translate('Login_PasswordResetAlreadySent'));
                 }
             }

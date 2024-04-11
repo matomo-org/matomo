@@ -109,7 +109,7 @@ class VisitsOverSeveralDays extends Fixture
     {
         $tracker = parent::getTracker($idSite, $dateTime, $defaultInit = true);
 
-        if($this->forceLargeWindowLookBackForVisitor) {
+        if ($this->forceLargeWindowLookBackForVisitor) {
             // Fakes the config value window_look_back_for_visitor tested in TrackerWindowLookBack
             $debugStringAppend .= '&forceLargeWindowLookBackForVisitor=1';
 

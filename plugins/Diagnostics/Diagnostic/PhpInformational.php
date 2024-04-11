@@ -42,7 +42,7 @@ class PhpInformational implements Diagnostic
         $isGlobalConfigIniAccessible = true; // Assume true if not installed yet
         // Only attempt to check file accessibility if the config setting allows it
         $disableFileAccessCheck = (GeneralConfig::getConfigValue('enable_required_directories_diagnostic') == 0);
-        if(!$disableFileAccessCheck) {
+        if (!$disableFileAccessCheck) {
             if (SettingsPiwik::isMatomoInstalled()) {
                 $rpd = new RequiredPrivateDirectories($this->translator);
                 $isGlobalConfigIniAccessible = $rpd->isGlobalConfigIniAccessible();

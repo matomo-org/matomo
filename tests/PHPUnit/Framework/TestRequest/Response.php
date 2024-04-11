@@ -84,7 +84,7 @@ class Response
 
         // check content size to get quick feedback and avoid lengthy diff
         $checkSizeFirst = array('pdf', 'csv', 'html');
-        if(
+        if (
             !empty($expected->requestUrl['reportFormat'])
             && in_array($expected->requestUrl['reportFormat'], $checkSizeFirst)
         ) {

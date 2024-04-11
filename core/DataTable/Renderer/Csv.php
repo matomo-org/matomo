@@ -282,7 +282,7 @@ class Csv extends Renderer
 
         $firstCharCellValue = $valueWithoutFirstPercentSign[0];
         $isFormula = in_array($firstCharCellValue, $formulaStartsWith);
-        if($isFormula) {
+        if ($isFormula) {
             return "'" . $value;
         }
 

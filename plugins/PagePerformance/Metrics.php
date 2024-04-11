@@ -107,7 +107,7 @@ class Metrics
             new TimeDomCompletion(),
             new TimeOnLoad()
         ];
-        foreach($performanceDimensions as $dimension) {
+        foreach ($performanceDimensions as $dimension) {
             $id = $dimension->getColumnName();
             $column = $table . '.' . $id;
             $metricsConfig['sum_' . $id] = [

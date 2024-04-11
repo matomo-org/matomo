@@ -151,14 +151,14 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
         // Second visitor again on Idsite 1: 2 page views 2 days later, 2010-01-05
         // If you are thinking of *decreasing* this value, just DON'T (it's important for our test case)
         $daysToGenerateVisitsFor = 10;
-        for($days = 2; $days < $daysToGenerateVisitsFor; $days++) {
+        for ($days = 2; $days < $daysToGenerateVisitsFor; $days++) {
             $hoursOffset = $days * 24;
 
             $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->getDatetime());
 
             $protocol = (0 === $days % 2) ? 'http' : 'https';
             $visitorB->setUrlReferrer($protocol . '://referrer.com/Other_Page.htm');
-            if(in_array($days, array(2,3,4,$daysToGenerateVisitsFor - 1))) {
+            if (in_array($days, array(2,3,4,$daysToGenerateVisitsFor - 1))) {
                 $visitorB->setUrl(self::URL_IS_GOAL_WITH_CAMPAIGN_PARAMETERS);
             } else {
                 $visitorB->setUrl('http://example.org/index.htm');

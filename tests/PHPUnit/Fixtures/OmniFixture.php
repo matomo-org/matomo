@@ -52,7 +52,7 @@ class OmniFixture extends Fixture
             '/plugins/*/Test/Fixtures/*.php',
         );
 
-        foreach($fixturesToLoad as $fixturePath) {
+        foreach ($fixturesToLoad as $fixturePath) {
             foreach (glob(PIWIK_INCLUDE_PATH . $fixturePath) as $file) {
                 require_once $file;
             }

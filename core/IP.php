@@ -138,7 +138,7 @@ class IP
         $elements = explode(',', $csv);
         foreach ($elements as $ipString) {
             $element = trim(Common::sanitizeInputValue($ipString));
-            if(empty($element)) {
+            if (empty($element)) {
                 continue;
             }
             $ip = \Matomo\Network\IP::fromStringIP(IPUtils::sanitizeIp($element));

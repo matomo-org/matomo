@@ -32,7 +32,7 @@ class DbOverSSLCheck implements Diagnostic
         $label = $this->translator->translate('Installation_SystemCheckDatabaseSSL');
 
         $cipher = Db::fetchRow("show status like 'Ssl_cipher'");
-        if(!empty($cipher['Value'])) {
+        if (!empty($cipher['Value'])) {
              return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, $this->translator->translate('Installation_SystemCheckDatabaseSSLCipher') . ': ' . $cipher['Value']));
         }
 
@@ -41,7 +41,7 @@ class DbOverSSLCheck implements Diagnostic
 
         // test ssl support
         $ssl_support = Db::fetchRow("SHOW VARIABLES LIKE 'have_ssl'");
-        if(!empty($ssl_support['Value'])) {
+        if (!empty($ssl_support['Value'])) {
             switch ($ssl_support['Value']) {
                 case 'YES':
                     $comment .= $this->translator->translate('Installation_SystemCheckDatabaseSSLOn');

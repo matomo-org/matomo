@@ -809,11 +809,11 @@ class ProcessedReport
 
             if (!array_key_exists($metric, $totals)) {
                 $totals[$metric] = $value;
-            } else if(0 === strpos($metric, 'min_')) {
+            } else if (0 === strpos($metric, 'min_')) {
                 $totals[$metric] = min($totals[$metric], $value);
-            } else if(0 === strpos($metric, 'max_')) {
+            } else if (0 === strpos($metric, 'max_')) {
                 $totals[$metric] = max($totals[$metric], $value);
-            } else if($value) {
+            } else if ($value) {
                 $totals[$metric] += $value;
             }
         }

@@ -219,8 +219,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
      */
     public function testArchiveSitesWhenRestrictingToLogin()
     {
-        try
-        {
+        try {
             Archive::build(
                 'all',
                 'day',

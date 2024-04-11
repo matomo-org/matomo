@@ -52,7 +52,7 @@ class Social extends Singleton
         if ($this->definitionList === null) {
             $referrerDefinitionSyncOpt = Config::getInstance()->General['enable_referrer_definition_syncs'];
 
-            if($referrerDefinitionSyncOpt == 1) {
+            if ($referrerDefinitionSyncOpt == 1) {
                 $this->loadRemoteDefinitions();
             } else {
                 $this->loadLocalYmlData();

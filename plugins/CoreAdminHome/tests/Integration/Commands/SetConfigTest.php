@@ -227,7 +227,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         @chmod(dirname($local), 0755);
         @chmod($local, 0755);
         $this->assertTrue(is_writable(dirname($local)));
-        if(file_exists($local)) {
+        if (file_exists($local)) {
             $this->assertTrue(is_writable($local));
         }
     }

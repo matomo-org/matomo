@@ -469,7 +469,7 @@ if (!class_exists('Piwik\Plugin')) {
 
             $missingDependencies = $dependency->getMissingDependencies($this->pluginInformation['require']);
 
-            if(empty($missingDependencies)) {
+            if (empty($missingDependencies)) {
                 return '';
             }
 

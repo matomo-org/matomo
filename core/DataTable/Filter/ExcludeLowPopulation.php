@@ -89,7 +89,7 @@ class ExcludeLowPopulation extends BaseFilter
      */
     public function filter($table)
     {
-        if(empty($this->columnToFilter)) {
+        if (empty($this->columnToFilter)) {
             return;
         }
         $minimumValue = $this->minimumValue;

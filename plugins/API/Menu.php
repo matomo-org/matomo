@@ -34,7 +34,7 @@ class Menu extends \Piwik\Plugin\Menu
             Piwik::translate('API_TopLinkTooltip')
         );
 
-        if(Piwik::isUserIsAnonymous()) {
+        if (Piwik::isUserIsAnonymous()) {
             $menu->addPlatformItem(
                 'API_Glossary',
                 $this->urlForAction('glossary', array('segment' => false)),

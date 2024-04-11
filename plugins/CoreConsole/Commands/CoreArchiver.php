@@ -23,7 +23,7 @@ class CoreArchiver extends ConsoleCommand
         $input = $this->getInput();
         $output = $this->getOutput();
 
-        if($input->getOption('force-date-last-n')) {
+        if ($input->getOption('force-date-last-n')) {
             $message = '"force-date-last-n" is deprecated. Please use the "process_new_segments_from" INI configuration option instead.';
             $output->writeln('<comment>' . $message . '</comment>');
         }

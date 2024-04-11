@@ -297,7 +297,7 @@ class View implements ViewInterface
             Common::sendHeader('Content-Type: ' . $this->contentType);
             // always sending this header, sometimes empty, to ensure that Dashboard embed loads
             // - when calling sendHeader() multiple times, the last one prevails
-            if(!empty($this->xFrameOptions)) {
+            if (!empty($this->xFrameOptions)) {
                 Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
             }
 

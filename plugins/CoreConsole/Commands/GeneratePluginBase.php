@@ -277,7 +277,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
         }
 
         $newClassCode = '';
-        foreach(new \LimitIterator($file) as $index => $line) {
+        foreach (new \LimitIterator($file) as $index => $line) {
             if ($index == $methodLine) {
                 $newClassCode .= $methodCode;
             }

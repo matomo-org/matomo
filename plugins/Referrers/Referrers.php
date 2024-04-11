@@ -139,7 +139,7 @@ class Referrers extends \Piwik\Plugin
 
     public function renameDeprecatedModuleAndAction(&$module, &$action)
     {
-        if($module == 'Referers') {
+        if ($module == 'Referers') {
             $module = 'Referrers';
         }
     }

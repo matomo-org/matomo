@@ -53,7 +53,7 @@ class Ecommerce extends \Piwik\Plugin
         $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_productview_sku
 					ON  log_link_visit_action.idaction_product_sku = log_action_productview_sku.idaction';
 
-        for($i = 1; $i <= ProductCategory::PRODUCT_CATEGORY_COUNT; $i++) {
+        for ($i = 1; $i <= ProductCategory::PRODUCT_CATEGORY_COUNT; $i++) {
             $suffix = $i > 1 ? $i : '';
             $fields[] = "log_action_productview_category$i.name as productViewCategory$i";
             $joins[] = "LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_productview_category$i
