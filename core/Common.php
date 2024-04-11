@@ -133,11 +133,11 @@ class Common
             return self::$isCliMode;
         }
 
-        if(PHP_SAPI === 'cli'){
+        if(PHP_SAPI === 'cli') {
             return true;
         }
 
-        if(self::isPhpCgiType() && (!isset($_SERVER['REMOTE_ADDR']) || empty($_SERVER['REMOTE_ADDR']))){
+        if(self::isPhpCgiType() && (!isset($_SERVER['REMOTE_ADDR']) || empty($_SERVER['REMOTE_ADDR']))) {
             return true;
         }
 

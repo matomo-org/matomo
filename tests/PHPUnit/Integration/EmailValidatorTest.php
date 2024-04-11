@@ -68,8 +68,7 @@ class EmailValidatorTest extends \PHPUnit\Framework\TestCase
         }
 
         // only fail when at least 10 domains are failing the test, so it does not fail every time IANA adds a new domain extension...
-        if(count($errors) > 5)
-        {
+        if(count($errors) > 5) {
             $out = '';
             foreach($errors as $domainNameExtension) {
                 $out .= "\t'$domainNameExtension' => array(1 => self::VALID_UNICODE_DOMAIN),\n";

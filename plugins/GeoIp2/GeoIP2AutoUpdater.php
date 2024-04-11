@@ -885,8 +885,7 @@ class GeoIP2AutoUpdater extends Task
      */
     protected function updateDbIpUrlOption(string $option): void
     {
-        if ($option !== self::LOC_URL_OPTION_NAME && $option !== self::ISP_URL_OPTION_NAME)
-        {
+        if ($option !== self::LOC_URL_OPTION_NAME && $option !== self::ISP_URL_OPTION_NAME) {
             return;
         }
 

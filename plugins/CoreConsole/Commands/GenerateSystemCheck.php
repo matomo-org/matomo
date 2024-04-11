@@ -29,7 +29,7 @@ class GenerateSystemCheck extends GeneratePluginBase
 
         $checkName = $this->getSystemCheckName();
         $className = ucfirst(str_replace(' ', '', $checkName));
-        if (!Common::stringEndsWith($className, 'check') && !Common::stringEndsWith($className, 'Check'))  {
+        if (!Common::stringEndsWith($className, 'check') && !Common::stringEndsWith($className, 'Check')) {
             $className .= 'Check';
         }
 

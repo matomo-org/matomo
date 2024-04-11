@@ -68,7 +68,7 @@ class CoreUpdater extends \Piwik\Plugin
             if (FrontController::shouldRethrowException()) {
                 throw new Exception("Piwik and/or some plugins have been upgraded to a new version. \n" .
                     "--> Please run the update process first. See documentation: https://matomo.org/docs/update/ \n");
-            } elseif ($module === 'API' && ('' == $action || 'index' == $action))  {
+            } elseif ($module === 'API' && ('' == $action || 'index' == $action)) {
                 $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $_GET + $_POST));
                 $response = new ResponseBuilder($outputFormat);
                 $e = new Exception('Database Upgrade Required. Your Matomo database is out-of-date, and must be upgraded before you can continue.');

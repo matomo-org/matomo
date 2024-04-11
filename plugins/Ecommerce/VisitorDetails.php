@@ -31,8 +31,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function extendVisitorDetails(&$visitor)
     {
-        if(Site::isEcommerceEnabledFor($visitor['idSite']))
-        {
+        if(Site::isEcommerceEnabledFor($visitor['idSite'])) {
             $ecommerceMetrics                     = $this->queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor(
                 $visitor['idSite'],
                 $visitor['visitorId']

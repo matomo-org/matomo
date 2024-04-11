@@ -387,7 +387,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pluginsPath), RecursiveIteratorIterator::SELF_FIRST);
         $paths = array();
-        foreach($objects as $name => $object){
+        foreach($objects as $name => $object) {
             if (
                 is_dir($name)
                 && strpos($name, "/.") === false

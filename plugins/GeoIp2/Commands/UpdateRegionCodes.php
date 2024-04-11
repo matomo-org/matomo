@@ -177,7 +177,7 @@ CONTENT;
 
         $handle = fopen($dbIpCsvFile, 'r');
 
-        while(!feof($handle)){
+        while(!feof($handle)) {
             $csv = str_getcsv(fgets($handle));
             $ip = $csv[0] ?? '';
 

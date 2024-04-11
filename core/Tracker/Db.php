@@ -293,7 +293,7 @@ abstract class Db
         }
 
         $trackerConfig = Config::getInstance()->Tracker;
-        if (!empty($trackerConfig['innodb_lock_wait_timeout']) && $trackerConfig['innodb_lock_wait_timeout'] > 0){
+        if (!empty($trackerConfig['innodb_lock_wait_timeout']) && $trackerConfig['innodb_lock_wait_timeout'] > 0) {
             // we set this here because we only want to set this config if a connection is actually created.
             $time = (int) $trackerConfig['innodb_lock_wait_timeout'];
             $db->query('SET @@innodb_lock_wait_timeout = ' . $time);

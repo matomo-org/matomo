@@ -272,7 +272,7 @@ class SettingsPiwik
     public static function isAutoUpdateEnabled(): bool
     {
         $enableAutoUpdate = (bool) Config::getInstance()->General['enable_auto_update'];
-        if(self::isInternetEnabled() === true && $enableAutoUpdate === true){
+        if(self::isInternetEnabled() === true && $enableAutoUpdate === true) {
             return true;
         }
 
