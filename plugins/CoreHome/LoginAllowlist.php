@@ -38,8 +38,7 @@ class LoginAllowlist
         if (
             !SettingsServer::isTrackerApiRequest()
             && (('CoreAdminHome' === Piwik::getModule() && ('optOut' === Piwik::getAction() || 'optOutJS' === Piwik::getAction())))
-        )
-        {
+        ) {
             return false;
         }
 

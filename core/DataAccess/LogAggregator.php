@@ -396,8 +396,7 @@ class LogAggregator
 
         if (is_array($query) && array_key_exists('sql', $query)) {
             $query['sql'] = DbHelper::addOriginHintToQuery($query['sql'], $this->queryOriginHint, $this->dateStart, $this->dateEnd, $this->sites, $this->segment);
-            if (DatabaseConfig::getConfigValue('enable_first_table_join_prefix'))
-            {
+            if (DatabaseConfig::getConfigValue('enable_first_table_join_prefix')) {
                 $query['sql'] = DbHelper::addJoinPrefixHintToQuery($query['sql'], (is_array($from) ? reset($from) : $from));
             }
         }

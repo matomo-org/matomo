@@ -88,8 +88,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         $secondsGap = array();
         foreach (self::$timeGap as $gap) {
-            if (count($gap) == 3 && $gap[2] == 's') // if the units are already in seconds, just assign them
-            {
+            if (count($gap) == 3 && $gap[2] == 's') { // if the units are already in seconds, just assign them
                 $secondsGap[] = array($gap[0], $gap[1]);
             } else if (count($gap) == 2) {
                 $secondsGap[] = array($gap[0] * 60, $gap[1] * 60);

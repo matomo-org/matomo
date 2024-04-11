@@ -229,7 +229,7 @@ class InvalidLicenses
 
     protected function isPluginInActivatedPluginsList($pluginName)
     {
-        if (empty($this->activatedPluginNames)){
+        if (empty($this->activatedPluginNames)) {
             $this->activatedPluginNames = $this->pluginManager->getActivatedPluginsFromConfig();
         }
 

@@ -656,8 +656,7 @@ class DataPurgingTest extends IntegrationTestCase
         $t->enableBulkTracking();
         $t->setTokenAuth(Fixture::getTokenAuth());
 
-        for ($daysAgo = self::$daysAgoStart; $daysAgo >= 0; $daysAgo -= 5) // one visit every 5 days
-        {
+        for ($daysAgo = self::$daysAgoStart; $daysAgo >= 0; $daysAgo -= 5) { // one visit every 5 days
             $dateTime = $start->subDay($daysAgo)->toString();
 
             $t->setForceVisitDateTime($dateTime);
@@ -725,8 +724,7 @@ class DataPurgingTest extends IntegrationTestCase
         APIVisitorInterest::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'year', $date);
 
         // months are added via the 'year' period, but weeks must be done manually
-        for ($daysAgo = self::$daysAgoStart; $daysAgo > 0; $daysAgo -= 7) // every week
-        {
+        for ($daysAgo = self::$daysAgoStart; $daysAgo > 0; $daysAgo -= 7) { // every week
             $dateTime = $date->subDay($daysAgo);
 
             $archive = Archive::build(self::$idSite, 'week', $dateTime);
@@ -894,8 +892,7 @@ class DataPurgingTest extends IntegrationTestCase
     public function addReferenceToUnusedAction()
     {
         $unusedIdAction = $this->unusedIdAction;
-        if (empty($unusedIdAction)) // make sure we only do this for one test case
-        {
+        if (empty($unusedIdAction)) { // make sure we only do this for one test case
             return;
         }
 

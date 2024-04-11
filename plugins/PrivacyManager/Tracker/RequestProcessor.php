@@ -68,7 +68,7 @@ class RequestProcessor extends Tracker\RequestProcessor
 
     public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
     {
-        if (isset($valuesToUpdate['referer_type'])){
+        if (isset($valuesToUpdate['referer_type'])) {
             $type = $valuesToUpdate['referer_type'];
         } else {
             $type = $visitProperties->getProperty('referer_type');

@@ -46,7 +46,7 @@ class VisitExcluded
 
         try {
             $this->idSite = $request->getIdSite();
-        } catch (UnexpectedWebsiteFoundException $e){
+        } catch (UnexpectedWebsiteFoundException $e) {
             // most checks will still work on a global scope and we still want to be able to test if this is a valid
             // visit or not
             $this->idSite = 0;

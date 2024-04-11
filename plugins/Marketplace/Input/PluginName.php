@@ -34,7 +34,7 @@ class PluginName
 
     private function dieIfPluginNameIsInvalid($pluginName)
     {
-        if (!Plugin\Manager::getInstance()->isValidPluginName($pluginName)){
+        if (!Plugin\Manager::getInstance()->isValidPluginName($pluginName)) {
             throw new Exception('Invalid plugin name given');
         }
     }

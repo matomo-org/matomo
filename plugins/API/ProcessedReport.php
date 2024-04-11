@@ -622,8 +622,7 @@ class ProcessedReport
             foreach ($columns as $name => $ignore) {
                 // if the current column should not be kept, remove it
                 $idx = array_search($name, $columnsToKeep);
-                if ($idx === false) // if $name is not in $columnsToKeep
-                {
+                if ($idx === false) { // if $name is not in $columnsToKeep
                     unset($columns[$name]);
                 }
             }

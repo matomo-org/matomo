@@ -298,7 +298,7 @@ class Cookie
         $cookieStrArr = [];
 
         foreach ($this->value as $name => $value) {
-            if (!is_numeric($value) && !is_string($value))  {
+            if (!is_numeric($value) && !is_string($value)) {
                 throw new \Exception('Only strings and numbers can be used in cookies. Value is of type ' . gettype($value));
             } elseif (!is_numeric($value)) {
                 $value = base64_encode($value);

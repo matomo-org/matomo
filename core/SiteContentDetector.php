@@ -336,8 +336,7 @@ class SiteContentDetector
                     in_array($type, $detectContent) ||
                     in_array($typeDetection::getId(), $detectContent) ||
                     empty($detectContent)
-                )
-                {
+                ) {
                     $this->detectedContent[$type][$typeDetection::getId()] = false;
 
                     if ($typeDetection->isDetected($this->siteResponse['data'], $this->siteResponse['headers'])) {

@@ -229,8 +229,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
                 $_restrictToLogin = 'anotherLogin'
             );
             $this->fail("Restricting sites to invalid login did not return 0 sites.");
-        } catch (Exception $ex)
-        {
+        } catch (Exception $ex) {
             // pass
         }
     }

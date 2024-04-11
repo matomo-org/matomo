@@ -549,8 +549,7 @@ class AccessTest extends IntegrationTestCase
             });
 
             $this->fail("Exception was not propagated by doAsSuperUser.");
-        } catch (Exception $ex)
-        {
+        } catch (Exception $ex) {
             // pass
         }
 

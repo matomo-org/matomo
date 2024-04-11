@@ -401,8 +401,7 @@ class API extends \Piwik\Plugin\API
 
                 $i = 0;
                 // $reportData instanceof DataTable
-                foreach ($reportData->getRows() as $row) // Row[]
-                {
+                foreach ($reportData->getRows() as $row) { // Row[]
                     // $row instanceof Row
                     $rowData = $row->getColumns(); // Associative Array
                     $abscissaSeries[] = Common::unsanitizeInputValue($rowData['label']);
