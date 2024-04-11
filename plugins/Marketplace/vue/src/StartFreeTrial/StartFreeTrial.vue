@@ -58,7 +58,7 @@
                 @click="createAccountAndStartFreeTrial()"
             >{{ translate('Marketplace_TrialStartNoLicenseCreateAccount' )}}</button>
           </p>
-          <p v-html="$sanitize(trialStartNoLicenseAddHereText)" />
+          <p class="add-existing-license" v-html="$sanitize(trialStartNoLicenseAddHereText)" />
         </div>
       </div>
     </template>
