@@ -151,7 +151,7 @@ export default defineComponent({
 
       return translate(
         'Marketplace_TrialStartNoLicenseAddHere',
-        `<a href="${link}" target="_blank" rel="noreferrer noopener">`,
+        externalLink(link),
         '</a>',
       );
     },
