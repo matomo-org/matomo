@@ -36,7 +36,6 @@
         <exclude name="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed" />
         <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword" />
-        <exclude name="Squiz.Functions.FunctionDeclaration.Found" />
     </rule>
 
     <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
