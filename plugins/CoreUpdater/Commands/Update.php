@@ -166,7 +166,7 @@ class Update extends ConsoleCommand
         $output = $this->getOutput();
         $migrationQueries = $this->getMigrationQueriesToExecute($updater);
 
-        if(empty($migrationQueries)) {
+        if (empty($migrationQueries)) {
             $output->writeln(array("    *** " . Piwik::translate('CoreUpdater_ConsoleUpdateNoSqlQueries') . " ***", ""));
             return;
         }

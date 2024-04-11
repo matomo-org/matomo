@@ -576,7 +576,7 @@ abstract class ViewDataTable implements ViewInterface
     public function throwWhenSettingNonOverridableParameter($overrideParams)
     {
         $nonOverridableParams = $this->getNonOverridableParams($overrideParams);
-        if(count($nonOverridableParams) > 0) {
+        if (count($nonOverridableParams) > 0) {
             throw new \Exception(sprintf(
                 "Setting parameters %s is not allowed. Please report this bug to the Matomo team.",
                 implode(" and ", $nonOverridableParams)

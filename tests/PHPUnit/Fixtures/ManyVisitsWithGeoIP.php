@@ -193,7 +193,7 @@ class ManyVisitsWithGeoIP extends Fixture
         // Only for half visitors so they don't all have a "site search" as last action and some of them have a standard page view as last action
         $date = $date->addHour(0.1);
         $t->setForceVisitDateTime($date->getDatetime());
-        if(($visitorCounter % 2) == 0) {
+        if (($visitorCounter % 2) == 0) {
             $r = $t->doTrackSiteSearch('Bring on the party', 'CAT', $visitorCounter * 6);
         }
 
@@ -311,7 +311,7 @@ class ManyVisitsWithGeoIP extends Fixture
     {
         try {
             LocationProvider::setCurrentProvider('default');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // ignore error
         }
     }

@@ -307,7 +307,7 @@ class Console extends Application
         $plugins = explode(',', $plugins);
 
         $commands = array();
-        foreach($plugins as $plugin) {
+        foreach ($plugins as $plugin) {
             $instance = new Plugin($plugin);
             $commands = array_merge($commands, $instance->findMultipleComponents('Commands', 'Piwik\\Plugin\\ConsoleCommand'));
         }

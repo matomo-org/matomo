@@ -386,7 +386,7 @@ class API extends \Piwik\Plugin\API
         $userLogin = Piwik::getCurrentUserLogin();
 
         $model = $this->getModel();
-        if(Piwik::hasUserSuperUserAccess()) {
+        if (Piwik::hasUserSuperUserAccess()) {
             $segments = $model->getAllSegmentsForAllUsers($idSite);
         } else {
             if (empty($idSite)) {
@@ -437,19 +437,19 @@ class API extends \Piwik\Plugin\API
     private function sortSegmentsCreatedByUserFirst($segments)
     {
         $orderedSegments = array();
-        foreach($segments as $id => &$segment) {
-            if($segment['login'] == Piwik::getCurrentUserLogin()) {
+        foreach ($segments as $id => &$segment) {
+            if ($segment['login'] == Piwik::getCurrentUserLogin()) {
                 $orderedSegments[] = $segment;
                 unset($segments[$id]);
             }
         }
-        foreach($segments as $id => &$segment) {
-            if($segment['enable_all_users'] == 1) {
+        foreach ($segments as $id => &$segment) {
+            if ($segment['enable_all_users'] == 1) {
                 $orderedSegments[] = $segment;
                 unset($segments[$id]);
             }
         }
-        foreach($segments as $id => &$segment) {
+        foreach ($segments as $id => &$segment) {
             $orderedSegments[] = $segment;
         }
         return $orderedSegments;

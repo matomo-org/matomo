@@ -215,7 +215,7 @@ class Events extends \Piwik\Plugin
             . "<br/>"
             . Piwik::translate('Events_SwitchToSecondaryDimension', '');
 
-        foreach($secondaryDimensions as $dimension) {
+        foreach ($secondaryDimensions as $dimension) {
             if ($dimension == $secondaryDimension) {
                 // don't show as related report the currently selected dimension
                 continue;

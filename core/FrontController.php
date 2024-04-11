@@ -98,7 +98,7 @@ class FrontController extends Singleton
         try {
             $controller->init();
             $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // may fail in safe mode (eg. global.ini.php not found)
             $message = sprintf("Matomo encountered an error: %s (which lead to: %s)", $lastError['message'], $e->getMessage());
         }
@@ -189,10 +189,10 @@ class FrontController extends Singleton
                 echo $this->generateSafeModeOutputFromException($e);
                 exit;
             }
-        } catch(StylesheetLessCompileException $e) {
+        } catch (StylesheetLessCompileException $e) {
             echo $this->generateSafeModeOutputFromException($e);
             exit;
-        } catch(\Error $e) {
+        } catch (\Error $e) {
             echo $this->generateSafeModeOutputFromException($e);
             exit;
         }

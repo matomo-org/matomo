@@ -140,7 +140,7 @@ class CustomEventsTest extends SystemTestCase
 
         // Test secondary dimensions
         $secondaryDimensions = array('eventCategory', 'eventAction', 'eventName');
-        foreach($secondaryDimensions as $secondaryDimension) {
+        foreach ($secondaryDimensions as $secondaryDimension) {
             $result[] = array(array('Events'), array(
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,

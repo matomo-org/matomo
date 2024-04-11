@@ -169,12 +169,12 @@ class VisitRequestProcessor extends RequestProcessor
 
         $isNewVisitForced = $request->getParam('new_visit');
         $isNewVisitForced = !empty($isNewVisitForced);
-        if($isNewVisitForced) {
+        if ($isNewVisitForced) {
             Common::printDebug("-> New visit forced: &new_visit=1 in request");
             return true;
         }
 
-        if($this->trackerAlwaysNewVisitor) {
+        if ($this->trackerAlwaysNewVisitor) {
             Common::printDebug("-> New visit forced: Debug.tracker_always_new_visitor = 1 in config.ini.php");
             return true;
         }
@@ -286,13 +286,13 @@ class VisitRequestProcessor extends RequestProcessor
     {
         $lastUserId = $visitProperties->getProperty('user_id');
 
-        if(empty($lastUserId)) {
+        if (empty($lastUserId)) {
             return true;
         }
 
         $currentUserId = $request->getForcedUserId();
 
-        if(empty($currentUserId)) {
+        if (empty($currentUserId)) {
             return true;
         }
 

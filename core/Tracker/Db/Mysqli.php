@@ -62,25 +62,25 @@ class Mysqli extends Db
         $this->charset = isset($dbInfo['charset']) ? $dbInfo['charset'] : null;
 
 
-        if(!empty($dbInfo['enable_ssl'])) {
+        if (!empty($dbInfo['enable_ssl'])) {
             $this->enable_ssl = $dbInfo['enable_ssl'];
         }
-        if(!empty($dbInfo['ssl_key'])) {
+        if (!empty($dbInfo['ssl_key'])) {
             $this->ssl_key = $dbInfo['ssl_key'];
         }
-        if(!empty($dbInfo['ssl_cert'])) {
+        if (!empty($dbInfo['ssl_cert'])) {
             $this->ssl_cert = $dbInfo['ssl_cert'];
         }
-        if(!empty($dbInfo['ssl_ca'])) {
+        if (!empty($dbInfo['ssl_ca'])) {
             $this->ssl_ca = $dbInfo['ssl_ca'];
         }
-        if(!empty($dbInfo['ssl_ca_path'])) {
+        if (!empty($dbInfo['ssl_ca_path'])) {
             $this->ssl_ca_path = $dbInfo['ssl_ca_path'];
         }
-        if(!empty($dbInfo['ssl_cipher'])) {
+        if (!empty($dbInfo['ssl_cipher'])) {
             $this->ssl_cipher = $dbInfo['ssl_cipher'];
         }
-        if(!empty($dbInfo['ssl_no_verify'])) {
+        if (!empty($dbInfo['ssl_no_verify'])) {
             $this->ssl_no_verify = $dbInfo['ssl_no_verify'];
         }
     }
@@ -112,7 +112,7 @@ class Mysqli extends Db
         $this->connection = mysqli_init();
 
 
-        if($this->enable_ssl) {
+        if ($this->enable_ssl) {
             mysqli_ssl_set($this->connection, $this->ssl_key, $this->ssl_cert, $this->ssl_ca, $this->ssl_ca_path, $this->ssl_cipher);
         }
 

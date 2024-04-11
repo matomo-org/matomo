@@ -37,13 +37,13 @@ class UrlHelper
     */
     protected static function inArrayMatchesRegex($test, $patterns): bool
     {
-        foreach($patterns as $val) {
-            if(@preg_match($val, null) === false) {
-                if(strcasecmp($val, $test) === 0) {
+        foreach ($patterns as $val) {
+            if (@preg_match($val, null) === false) {
+                if (strcasecmp($val, $test) === 0) {
                     return true;
                 }
             } else {
-                if(preg_match($val, $test) === 1) {
+                if (preg_match($val, $test) === 1) {
                     return true;
                 }
             }

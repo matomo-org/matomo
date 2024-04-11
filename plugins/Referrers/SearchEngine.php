@@ -55,7 +55,7 @@ class SearchEngine extends Singleton
         if (empty($this->definitionList)) {
             $referrerDefinitionSyncOpt = Config::getInstance()->General['enable_referrer_definition_syncs'];
 
-            if($referrerDefinitionSyncOpt == 1) {
+            if ($referrerDefinitionSyncOpt == 1) {
                 $this->loadRemoteDefinitions();
             } else {
                 $this->loadLocalYmlData();

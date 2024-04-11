@@ -60,7 +60,7 @@ class MetadataLoader
 
         // look for a license file
         $licenseFile = $this->getPathToLicenseFile();
-        if(!empty($licenseFile)) {
+        if (!empty($licenseFile)) {
             $plugin['license_file'] = $licenseFile;
         }
 

@@ -57,7 +57,7 @@ class TestsRun extends ConsoleCommand
 
         if (!$this->isCoverageEnabled($options) && $this->isXdebugLoaded()) {
             $message = 'Did you know? You can run tests faster by disabling xdebug';
-            if($this->isXdebugCodeCoverageEnabled()) {
+            if ($this->isXdebugCodeCoverageEnabled()) {
                 $message .= ' (if you need xdebug, speed up tests by setting xdebug.coverage_enable=0)</comment>';
             }
             $output->writeln('<comment>' . $message . '</comment>');

@@ -99,7 +99,7 @@ class Model
      */
     public function addChange(string $pluginName, array $change): void
     {
-        if(!isset($change['version']) || !isset($change['title']) || !isset($change['description'])) {
+        if (!isset($change['version']) || !isset($change['title']) || !isset($change['description'])) {
             StaticContainer::get(LoggerInterface::class)->warning(
                 "Change item for plugin {plugin} missing version, title or description fields - ignored",
                 ['plugin' => $pluginName]

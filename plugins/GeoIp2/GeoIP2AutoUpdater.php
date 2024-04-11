@@ -894,7 +894,7 @@ class GeoIP2AutoUpdater extends Task
         if (self::isDbIpUrl($url)) {
             $latestUrl = $this->getDbIpUrlWithLatestDate($url);
 
-            if($url !== $latestUrl) {
+            if ($url !== $latestUrl) {
                 Option::set($option, $latestUrl);
             }
         }

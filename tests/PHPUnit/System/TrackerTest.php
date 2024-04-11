@@ -275,7 +275,7 @@ class TrackerTest extends IntegrationTestCase
         $output = implode("", $output);
         $this->assertStringStartsWith('{"status":', $output);
 
-        if($expectTrackingToSucceed) {
+        if ($expectTrackingToSucceed) {
             self::assertStringNotContainsString('error', $output);
             self::assertStringContainsString('success', $output);
         } else {

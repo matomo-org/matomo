@@ -400,7 +400,7 @@ class GenerateIntl extends ConsoleCommand
             $translations['Intl']['Format_Interval_Long_M'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['M'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));
             $translations['Intl']['Format_Interval_Long_Y'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['y'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));
 
-            if(isset($calendarData['dateTimeFormats']['intervalFormats']['yMMMMd'])) {
+            if (isset($calendarData['dateTimeFormats']['intervalFormats']['yMMMMd'])) {
                 $translations['Intl']['Format_Interval_Long_D'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['d'];
                 $translations['Intl']['Format_Interval_Long_M'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['M'];
                 $translations['Intl']['Format_Interval_Long_Y'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['y'];
@@ -496,7 +496,7 @@ class GenerateIntl extends ConsoleCommand
 
     protected function transformDateFormat($dateFormat, $changes = array())
     {
-        if(!empty($changes)) {
+        if (!empty($changes)) {
             $dateFormat = str_replace(array_keys($changes), array_values($changes), $dateFormat);
         }
 

@@ -342,7 +342,7 @@ class Controller extends \Piwik\Plugin\Controller
         $descr = Piwik::getCurrentUserLogin();
 
         $url = 'otpauth://totp/' . urlencode($descr) . '?secret=' . $secret;
-        if(isset($title)) {
+        if (isset($title)) {
             $url .= '&issuer=' . urlencode($title);
         }
 

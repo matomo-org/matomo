@@ -145,7 +145,7 @@ class SegmentSelectorControl extends UIControl
     protected function isCreatingRealTimeSegmentsEnabled()
     {
         // when browser archiving is disabled for segments, we force new segments to be created as pre-processed
-        if(!Rules::isBrowserArchivingAvailableForSegments()) {
+        if (!Rules::isBrowserArchivingAvailableForSegments()) {
             return false;
         }
 

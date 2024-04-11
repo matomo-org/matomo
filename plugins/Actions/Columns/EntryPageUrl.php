@@ -52,7 +52,7 @@ class EntryPageUrl extends VisitDimension
             $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
         }
 
-        if($idActionUrl === false) {
+        if ($idActionUrl === false) {
             return false;
         }
 

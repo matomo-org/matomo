@@ -146,7 +146,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 
         $artifacts = Filesystem::globr($extractionTarget, '*~~*');
 
-        foreach($artifacts as $artifact) {
+        foreach ($artifacts as $artifact) {
             $artifactName = basename($artifact);
             [$plugin, $file] = explode('~~', $artifactName);
             $pluginTargetDir = sprintf($targetDir, $plugin);

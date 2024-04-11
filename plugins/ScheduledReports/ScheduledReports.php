@@ -113,7 +113,7 @@ class ScheduledReports extends \Piwik\Plugin
 
     public function renameDeprecatedModuleAndAction(&$module, &$action)
     {
-        if($module == 'PDFReports') {
+        if ($module == 'PDFReports') {
             $module = 'ScheduledReports';
         }
     }
@@ -540,7 +540,7 @@ class ScheduledReports extends \Piwik\Plugin
 
         if (!$updatedSegment['enable_all_users']) {
             // which reports would become invisible to other users?
-            foreach($reportsUsingSegment as $report) {
+            foreach ($reportsUsingSegment as $report) {
                 if ($report['login'] == Piwik::getCurrentUserLogin()) {
                     continue;
                 }
@@ -550,7 +550,7 @@ class ScheduledReports extends \Piwik\Plugin
 
         if ($updatedSegment['enable_only_idsite']) {
             // which reports from other websites are set to use this segment restricted to one website?
-            foreach($reportsUsingSegment as $report) {
+            foreach ($reportsUsingSegment as $report) {
                 if ($report['idsite'] == $updatedSegment['enable_only_idsite']) {
                     continue;
                 }

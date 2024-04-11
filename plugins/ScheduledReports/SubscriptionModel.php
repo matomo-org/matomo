@@ -128,7 +128,7 @@ class SubscriptionModel
 
         // add new subscriptions
         foreach ($emails as $email) {
-            while($token = $this->generateToken($email)) {
+            while ($token = $this->generateToken($email)) {
                 if (!$this->tokenExists($token)) {
                     break;
                 }

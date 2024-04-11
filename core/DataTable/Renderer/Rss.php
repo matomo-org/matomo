@@ -66,7 +66,7 @@ class Rss extends Renderer
             $pudDate = date('r', $timestamp);
 
             $dateInSiteTimezone = Date::factory($timestamp);
-            if($site) {
+            if ($site) {
                 $dateInSiteTimezone = $dateInSiteTimezone->setTimezone($site->getTimezone());
             }
             $dateInSiteTimezone = $dateInSiteTimezone->toString('Y-m-d');

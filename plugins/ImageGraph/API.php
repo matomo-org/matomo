@@ -443,7 +443,7 @@ class API extends \Piwik\Plugin\API
                         $rowData = $rows[0]->getColumns(); // associative Array
 
                         foreach ($ordinateColumns as $column) {
-                            if(!isset($rowData[$column])) {
+                            if (!isset($rowData[$column])) {
                                 continue;
                             }
                             $ordinateValue = $rowData[$column];

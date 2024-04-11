@@ -858,7 +858,7 @@ class Db
 
             // log using exception so backtrace appears in log output
             Log::debug(new Exception("Encountered deadlock: " . print_r($deadlockInfo, true)));
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             //  1227 Access denied; you need (at least one of) the PROCESS privilege(s) for this operation
         }
     }

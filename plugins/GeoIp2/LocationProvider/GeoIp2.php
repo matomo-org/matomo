@@ -213,7 +213,7 @@ abstract class GeoIp2 extends LocationProvider
     public static function convertRegionCodeToIso($countryCode, $fipsRegionCode, $returnOriginalIfNotFound = false)
     {
         static $mapping;
-        if(empty($mapping)) {
+        if (empty($mapping)) {
             $mapping = include __DIR__ . '/../data/regionMapping.php';
         }
         $countryCode = strtoupper($countryCode);

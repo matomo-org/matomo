@@ -693,7 +693,7 @@ class API extends \Piwik\Plugin\API
             Action::TYPE_PAGE_TITLE,
             Action::TYPE_PAGE_URL
         );
-        if(in_array($type, $actionTypesNotExitActions)) {
+        if (in_array($type, $actionTypesNotExitActions)) {
             $this->totalTransitionsToFollowingPages += $actions;
         }
     }

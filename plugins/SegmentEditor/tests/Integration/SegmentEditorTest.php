@@ -194,7 +194,7 @@ class SegmentEditorTest extends IntegrationTestCase
         try {
             API::getInstance()->get($idSegment2);
             $this->fail("getting deleted segment should have failed");
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // expected
         }
 

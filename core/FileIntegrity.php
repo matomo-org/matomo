@@ -178,7 +178,7 @@ class FileIntegrity
     protected static function getDirectoriesFoundButNotExpected()
     {
         static $cache = null;
-        if(!is_null($cache)) {
+        if (!is_null($cache)) {
             return $cache;
         }
 
@@ -191,7 +191,7 @@ class FileIntegrity
             $file = ltrim($file, "\\/");
             $directory = dirname($file);
 
-            if(in_array($directory, $directoriesInManifest)) {
+            if (in_array($directory, $directoriesInManifest)) {
                 continue;
             }
 
@@ -252,8 +252,8 @@ class FileIntegrity
     protected static function isFileFromDirectoryThatShouldBeDeleted($file)
     {
         $directoriesWillBeDeleted = self::getDirectoriesFoundButNotExpected();
-        foreach($directoriesWillBeDeleted as $directoryWillBeDeleted) {
-            if(strpos($file, $directoryWillBeDeleted) === 0) {
+        foreach ($directoriesWillBeDeleted as $directoryWillBeDeleted) {
+            if (strpos($file, $directoryWillBeDeleted) === 0) {
                 return true;
             }
         }
@@ -265,11 +265,11 @@ class FileIntegrity
         $files = \Piwik\Manifest::$files;
 
         $directories = array();
-        foreach($files as $file => $manifestIntegrityInfo) {
+        foreach ($files as $file => $manifestIntegrityInfo) {
             $directory = $file;
 
             // add this directory and each parent directory
-            while(($directory = dirname($directory)) && $directory != '.' && $directory != '/') {
+            while (($directory = dirname($directory)) && $directory != '.' && $directory != '/') {
                 $directories[] = $directory;
             }
         }
@@ -282,8 +282,8 @@ class FileIntegrity
         $files = \Piwik\Manifest::$files;
 
         $pluginsInManifest = array();
-        foreach($files as $file => $manifestIntegrityInfo) {
-            if(strpos($file, 'plugins/') === 0) {
+        foreach ($files as $file => $manifestIntegrityInfo) {
+            if (strpos($file, 'plugins/') === 0) {
                 $pluginName = self::getPluginNameFromFilepath($file);
                 $pluginsInManifest[] = $pluginName;
             }
@@ -311,7 +311,7 @@ class FileIntegrity
         }
 
         $pluginName = self::getPluginNameFromFilepath($file);
-        if(in_array($pluginName, $pluginsInManifest)) {
+        if (in_array($pluginName, $pluginsInManifest)) {
             return false;
         }
 
@@ -446,7 +446,7 @@ class FileIntegrity
         $parentDirectoriesOnly = array();
         foreach ($directoriesFoundButNotExpected as $directory) {
             $directoryParent = self::getDirectoryParentFromList($directory, $directoriesFoundButNotExpected);
-            if($directoryParent) {
+            if ($directoryParent) {
                 $parentDirectoriesOnly[] = $directoryParent;
             }
         }
@@ -464,7 +464,7 @@ class FileIntegrity
      */
     protected static function getDirectoryParentFromList($directory, $directories)
     {
-        foreach($directories as $directoryMaybeParent) {
+        foreach ($directories as $directoryMaybeParent) {
             if ($directory == $directoryMaybeParent) {
                 continue;
             }

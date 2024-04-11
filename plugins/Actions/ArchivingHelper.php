@@ -741,7 +741,7 @@ class ArchivingHelper
 
     private static function splitNameByDelimiter($name, $type)
     {
-        if(is_array($name)) {
+        if (is_array($name)) {
             return $name;
         }
         if ($type == Action::TYPE_PAGE_TITLE) {

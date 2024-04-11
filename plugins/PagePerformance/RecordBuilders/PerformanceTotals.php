@@ -64,7 +64,7 @@ class PerformanceTotals extends RecordBuilder
             new TimeOnLoad()
         ];
 
-        foreach($performanceDimensions as $dimension) {
+        foreach ($performanceDimensions as $dimension) {
             $column = $dimension->getColumnName();
             $selects[] = "sum(" . sprintf($dimension->getSqlCappedValue(), $table . '.' . $column) . ") as {$column}_total";
             $selects[] = "sum(if($table.$column is null, 0, 1)) as {$column}_hits";

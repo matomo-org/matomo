@@ -167,7 +167,7 @@ class CalculateConversionPages extends ConsoleCommand
     {
         $idSite = $this->getInput()->getOption('idsite');
 
-        if(is_null($idSite)) {
+        if (is_null($idSite)) {
             return null;
         }
 
@@ -193,7 +193,7 @@ class CalculateConversionPages extends ConsoleCommand
     {
         $idGoal = $this->getInput()->getOption('idgoal');
 
-        if(is_null($idGoal)) {
+        if (is_null($idGoal)) {
             return null;
         }
 

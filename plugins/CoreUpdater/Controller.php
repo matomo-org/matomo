@@ -279,7 +279,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         try {
             return $this->runUpdaterAndExit();
-        } catch(NoUpdatesFoundException $e) {
+        } catch (NoUpdatesFoundException $e) {
             Piwik::redirectToModule('CoreHome');
         }
     }

@@ -65,7 +65,7 @@ class Run extends ConsoleCommand
             return self::FAILURE;
         }
 
-        if(!$report->hasWarnings() && !$report->hasErrors()) {
+        if (!$report->hasWarnings() && !$report->hasErrors()) {
             $output->writeln(sprintf('<info>%s</info>', Piwik::translate('Installation_SystemCheckSummaryNoProblems')));
         }
 

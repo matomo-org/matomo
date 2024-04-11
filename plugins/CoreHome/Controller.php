@@ -148,7 +148,7 @@ class Controller extends \Piwik\Plugin\Controller
         $controllerName = Common::getRequestVar('moduleToLoad');
         $actionName     = Common::getRequestVar('actionToLoad', 'index');
 
-        if($controllerName == 'API') {
+        if ($controllerName == 'API') {
             throw new Exception("Showing API requests in context is not supported for security reasons. Please change query parameter 'moduleToLoad'.");
         }
         if ($actionName == 'showInContext') {

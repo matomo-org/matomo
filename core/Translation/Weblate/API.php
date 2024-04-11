@@ -41,7 +41,7 @@ class API
             $resources = $this->getApiResults($apiPath);
             $result = [];
 
-            while($resources->results) {
+            while ($resources->results) {
                 $result = array_merge($result, $resources->results);
 
                 if ($resources->next) {
