@@ -76,6 +76,8 @@ import {
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import Matomo from '../../../../CoreHome/vue/src/Matomo/Matomo';
+import KeyPressEvent = JQuery.KeyPressEvent;
+import ModalOptions = M.ModalOptions;
 
 const { $ } = window;
 
@@ -204,9 +206,21 @@ export default defineComponent({
       });
     },
     showLicenseDialog(immediateTransition: boolean) {
-      $('#startFreeTrial').modal({
+      const onEnter = (event: KeyPressEvent) => {
+        const keycode = event.keyCode ? event.keyCode : event.which;
+        if (keycode === 13) {
+          this.closeModal();
+          this.createAccountAndStartFreeTrial();
+        }
+      };
+
+      const modalOptions: ModalOptions = {
         dismissible: true,
-        inDuration: immediateTransition ? 0 : undefined,
+        onOpenEnd: () => {
+          const emailField = '.modal.open #email';
+          $(emailField).focus();
+          $(emailField).off('keypress').keypress(onEnter);
+        },
         onCloseEnd: () => {
           this.createAccountError = null;
 
@@ -216,7 +230,13 @@ export default defineComponent({
 
           this.$emit('update:modelValue', '');
         },
-      }).modal('open');
+      } as unknown as ModalOptions;
+
+      if (immediateTransition) {
+        modalOptions.inDuration = 0;
+      }
+
+      $('#startFreeTrial').modal(modalOptions).modal('open');
     },
     showErrorModal(error: string) {
       if (this.trialStartError) {
