@@ -156,7 +156,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=2e61db71
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=6aff6f3a
 
 var _hoisted_1 = {
   class: "row marketplaceActions",
@@ -217,6 +217,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8, ["title", "model-value", "onUpdate:modelValue"])]), _hoisted_6])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), !_ctx.loading && _ctx.pluginsToShow.length > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_PluginList, {
     key: 0,
     "plugins-to-show": _ctx.pluginsToShow,
+    "current-user-email": _ctx.currentUserEmail,
     "is-auto-update-possible": _ctx.isAutoUpdatePossible,
     "is-super-user": _ctx.isSuperUser,
     "is-multi-server-environment": _ctx.isMultiServerEnvironment,
@@ -229,7 +230,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onTriggerUpdate: _cache[0] || (_cache[0] = function ($event) {
       return _this.fetchPlugins();
     })
-  }, null, 8, ["plugins-to-show", "is-auto-update-possible", "is-super-user", "is-multi-server-environment", "is-plugins-admin-enabled", "is-valid-consumer", "deactivate-nonce", "activate-nonce", "install-nonce", "update-nonce"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.loading && _ctx.pluginsToShow.length == 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
+  }, null, 8, ["plugins-to-show", "current-user-email", "is-auto-update-possible", "is-super-user", "is-multi-server-environment", "is-plugins-admin-enabled", "is-valid-consumer", "deactivate-nonce", "activate-nonce", "install-nonce", "update-nonce"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.loading && _ctx.pluginsToShow.length == 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     key: 1
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
@@ -248,7 +249,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 64);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=2e61db71
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=6aff6f3a
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -256,26 +257,26 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/PluginList/PluginList.vue?vue&type=template&id=332c666c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/PluginList/PluginList.vue?vue&type=template&id=1fdaba88
 
-var PluginListvue_type_template_id_332c666c_hoisted_1 = {
+var PluginListvue_type_template_id_1fdaba88_hoisted_1 = {
   key: 0,
   class: "pluginListContainer row"
 };
-var PluginListvue_type_template_id_332c666c_hoisted_2 = {
+var PluginListvue_type_template_id_1fdaba88_hoisted_2 = {
   class: "card"
 };
-var PluginListvue_type_template_id_332c666c_hoisted_3 = {
+var PluginListvue_type_template_id_1fdaba88_hoisted_3 = {
   class: "card-content"
 };
-var PluginListvue_type_template_id_332c666c_hoisted_4 = ["src"];
-var PluginListvue_type_template_id_332c666c_hoisted_5 = {
+var PluginListvue_type_template_id_1fdaba88_hoisted_4 = ["src"];
+var PluginListvue_type_template_id_1fdaba88_hoisted_5 = {
   class: "content-container"
 };
-var PluginListvue_type_template_id_332c666c_hoisted_6 = {
+var PluginListvue_type_template_id_1fdaba88_hoisted_6 = {
   class: "card-content-top"
 };
-var PluginListvue_type_template_id_332c666c_hoisted_7 = {
+var PluginListvue_type_template_id_1fdaba88_hoisted_7 = {
   key: 0,
   class: "matomo-badge matomo-badge-top",
   src: "plugins/Marketplace/images/matomo-badge.png",
@@ -323,7 +324,7 @@ var _hoisted_17 = {
   "aria-label": "Matomo plugin",
   alt: ""
 };
-function PluginListvue_type_template_id_332c666c_render(_ctx, _cache, $props, $setup, $data, $options) {
+function PluginListvue_type_template_id_1fdaba88_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
 
   var _component_StartFreeTrial = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("StartFreeTrial");
@@ -333,6 +334,7 @@ function PluginListvue_type_template_id_332c666c_render(_ctx, _cache, $props, $s
   var _directive_plugin_name = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("plugin-name");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_StartFreeTrial, {
+    "current-user-email": _ctx.currentUserEmail,
     "is-valid-consumer": _ctx.isValidConsumer,
     modelValue: _ctx.showStartFreeTrialForPlugin,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
@@ -341,7 +343,7 @@ function PluginListvue_type_template_id_332c666c_render(_ctx, _cache, $props, $s
     onTrialStarted: _cache[1] || (_cache[1] = function ($event) {
       return _this.$emit('triggerUpdate');
     })
-  }, null, 8, ["is-valid-consumer", "modelValue"]), _ctx.pluginsToShow.length > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PluginListvue_type_template_id_332c666c_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.pluginsToShow, function (plugin) {
+  }, null, 8, ["current-user-email", "is-valid-consumer", "modelValue"]), _ctx.pluginsToShow.length > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PluginListvue_type_template_id_1fdaba88_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.pluginsToShow, function (plugin) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       class: "col s12 m6 l4",
       key: plugin.name
@@ -350,11 +352,11 @@ function PluginListvue_type_template_id_332c666c_render(_ctx, _cache, $props, $s
       onClick: _cache[2] || (_cache[2] = function () {
         return _ctx.clickCard && _ctx.clickCard.apply(_ctx, arguments);
       })
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginListvue_type_template_id_332c666c_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginListvue_type_template_id_332c666c_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginListvue_type_template_id_1fdaba88_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginListvue_type_template_id_1fdaba88_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
       src: "".concat(plugin.coverImage, "?w=880&h=480"),
       alt: "",
       class: "cover-image"
-    }, null, 8, PluginListvue_type_template_id_332c666c_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginListvue_type_template_id_332c666c_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginListvue_type_template_id_332c666c_hoisted_6, ['piwik' == plugin.owner || 'matomo-org' == plugin.owner ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", PluginListvue_type_template_id_332c666c_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, [plugin.priceFrom ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+    }, null, 8, PluginListvue_type_template_id_1fdaba88_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginListvue_type_template_id_1fdaba88_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PluginListvue_type_template_id_1fdaba88_hoisted_6, ['piwik' == plugin.owner || 'matomo-org' == plugin.owner ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", PluginListvue_type_template_id_1fdaba88_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, [plugin.priceFrom ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
       key: 0
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_PriceFromPerPeriod', plugin.priceFrom.prettyPrice, plugin.priceFrom.period)), 1)], 64)) : plugin.isFree ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
       key: 1
@@ -377,7 +379,7 @@ function PluginListvue_type_template_id_332c666c_render(_ctx, _cache, $props, $s
     }, null, 8, ["is-super-user", "is-plugins-admin-enabled", "is-multi-server-environment", "is-valid-consumer", "is-auto-update-possible", "activate-nonce", "deactivate-nonce", "install-nonce", "update-nonce", "plugin", "onStartFreeTrial"])]), 'piwik' == plugin.owner || 'matomo-org' == plugin.owner ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", _hoisted_17)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])])])])], 2)]);
   }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 64);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/PluginList/PluginList.vue?vue&type=template&id=332c666c
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/PluginList/PluginList.vue?vue&type=template&id=1fdaba88
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/PluginList/CTAContainer.vue?vue&type=template&id=9d912618
 
@@ -779,121 +781,465 @@ MoreDetailsButtonvue_type_script_lang_ts.render = MoreDetailsButtonvue_type_temp
 CTAContainervue_type_script_lang_ts.render = CTAContainervue_type_template_id_9d912618_render
 
 /* harmony default export */ var CTAContainer = (CTAContainervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/StartFreeTrial/StartFreeTrial.vue?vue&type=template&id=ff71913e
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/StartFreeTrial/StartFreeTrial.vue?vue&type=template&id=612232ce
 
-var StartFreeTrialvue_type_template_id_ff71913e_hoisted_1 = {
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_1 = {
   class: "modal",
-  id: "trialRequiresLicense"
+  id: "startFreeTrial"
 };
-
-var StartFreeTrialvue_type_template_id_ff71913e_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_2 = {
+  key: 0,
   class: "btn-close modal-close"
-}, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
-  class: "icon-close"
-})], -1);
-
-var StartFreeTrialvue_type_template_id_ff71913e_hoisted_3 = {
-  class: "modal-content"
 };
-var StartFreeTrialvue_type_template_id_ff71913e_hoisted_4 = {
+
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
+  class: "icon-close"
+}, null, -1);
+
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_4 = [StartFreeTrialvue_type_template_id_612232ce_hoisted_3];
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_5 = {
+  key: 1,
+  class: "modal-content trial-start-in-progress"
+};
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_6 = {
+  class: "Piwik_Popover_Loading"
+};
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_7 = {
+  class: "Piwik_Popover_Loading_Name"
+};
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_8 = {
+  key: 2,
+  class: "modal-content trial-start-error"
+};
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_9 = {
   class: "modal-text"
 };
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_10 = {
+  key: 3,
+  class: "modal-content trial-start-no-license"
+};
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_11 = {
+  class: "modal-text"
+};
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_12 = ["innerHTML"];
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_13 = ["innerHTML"];
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_14 = ["disabled"];
+var StartFreeTrialvue_type_template_id_612232ce_hoisted_15 = ["innerHTML"];
+function StartFreeTrialvue_type_template_id_612232ce_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
-var StartFreeTrialvue_type_template_id_ff71913e_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, "Start your free trial today", -1);
-
-var StartFreeTrialvue_type_template_id_ff71913e_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("To unlock the full potential of our premium plugins, ");
-
-var StartFreeTrialvue_type_template_id_ff71913e_hoisted_7 = ["href"];
-
-var StartFreeTrialvue_type_template_id_ff71913e_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(".");
-
-var StartFreeTrialvue_type_template_id_ff71913e_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, "Don't have a license key yet?", -1);
-
-var StartFreeTrialvue_type_template_id_ff71913e_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" Visit our ");
-
-var StartFreeTrialvue_type_template_id_ff71913e_hoisted_11 = ["href"];
-
-var StartFreeTrialvue_type_template_id_ff71913e_hoisted_12 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(", create an account and start a free trial to get your license key. Once you have a license key, you will be able to start any free trials from here.");
-
-function StartFreeTrialvue_type_template_id_ff71913e_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", StartFreeTrialvue_type_template_id_ff71913e_hoisted_1, [StartFreeTrialvue_type_template_id_ff71913e_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", StartFreeTrialvue_type_template_id_ff71913e_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", StartFreeTrialvue_type_template_id_ff71913e_hoisted_4, [StartFreeTrialvue_type_template_id_ff71913e_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [StartFreeTrialvue_type_template_id_ff71913e_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-    href: _ctx.linkTo({
-      'module': 'Marketplace',
-      'action': 'manageLicenseKey'
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", StartFreeTrialvue_type_template_id_612232ce_hoisted_1, [!_ctx.trialStartInProgress ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", StartFreeTrialvue_type_template_id_612232ce_hoisted_2, StartFreeTrialvue_type_template_id_612232ce_hoisted_4)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.trialStartInProgress ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", StartFreeTrialvue_type_template_id_612232ce_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", StartFreeTrialvue_type_template_id_612232ce_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", StartFreeTrialvue_type_template_id_612232ce_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_TrialStartInProgressTitle')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_TrialStartInProgressText')), 1)])])])) : _ctx.trialStartError ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", StartFreeTrialvue_type_template_id_612232ce_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", StartFreeTrialvue_type_template_id_612232ce_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_TrialStartErrorTitle')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.trialStartError), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_TrialStartErrorSupport')), 1)])])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", StartFreeTrialvue_type_template_id_612232ce_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", StartFreeTrialvue_type_template_id_612232ce_hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_TrialStartNoLicenseTitle')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_TrialStartNoLicenseText')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    uicontrol: "text",
+    name: "email",
+    modelValue: _ctx.createAccountEmail,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.createAccountEmail = $event;
+    }),
+    "full-width": true,
+    title: _ctx.translate('UsersManager_Email')
+  }, null, 8, ["modelValue", "title"]), _ctx.createAccountError ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    key: 0,
+    class: "alert alert-danger",
+    innerHTML: _ctx.$sanitize(_ctx.createAccountError)
+  }, null, 8, StartFreeTrialvue_type_template_id_612232ce_hoisted_12)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+    class: "trial-start-legal-hint",
+    innerHTML: _ctx.$sanitize(_ctx.trialStartNoLicenseLegalHintText)
+  }, null, 8, StartFreeTrialvue_type_template_id_612232ce_hoisted_13), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+    class: "btn",
+    disabled: !_ctx.createAccountEmail,
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return _ctx.createAccountAndStartFreeTrial();
     })
-  }, "add your license key", 8, StartFreeTrialvue_type_template_id_ff71913e_hoisted_7), StartFreeTrialvue_type_template_id_ff71913e_hoisted_8]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [StartFreeTrialvue_type_template_id_ff71913e_hoisted_9, StartFreeTrialvue_type_template_id_ff71913e_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-    href: _ctx.externalRawLink('https://shop.matomo.org/my-account/'),
-    rel: "noopener noreferrer",
-    target: "_blank"
-  }, "online marketplace", 8, StartFreeTrialvue_type_template_id_ff71913e_hoisted_11), StartFreeTrialvue_type_template_id_ff71913e_hoisted_12])])])]);
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_TrialStartNoLicenseCreateAccount')), 9, StartFreeTrialvue_type_template_id_612232ce_hoisted_14)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+    class: "add-existing-license",
+    innerHTML: _ctx.$sanitize(_ctx.trialStartNoLicenseAddHereText)
+  }, null, 8, StartFreeTrialvue_type_template_id_612232ce_hoisted_15)])]))]);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/StartFreeTrial/StartFreeTrial.vue?vue&type=template&id=ff71913e
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/StartFreeTrial/StartFreeTrial.vue?vue&type=template&id=612232ce
 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.ts
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/**
+ * Matomo period management service for the frontend.
+ *
+ * Usage:
+ *
+ *     var DayPeriod = matomoPeriods.get('day');
+ *     var day = new DayPeriod(new Date());
+ *
+ * or
+ *
+ *     var day = matomoPeriods.parse('day', '2013-04-05');
+ *
+ * Adding custom periods:
+ *
+ * To add your own period to the frontend, create a period class for it
+ * w/ the following methods:
+ *
+ * - **getPrettyString()**: returns a human readable display string for the period.
+ * - **getDateRange()**: returns an array w/ two elements, the first being the start
+ *                       Date of the period, the second being the end Date. The dates
+ *                       must be Date objects, not strings, and are inclusive.
+ * - **containsToday()**: returns true if the date period contains today. False if not.
+ * - (_static_) **parse(strDate)**: creates a new instance of this period from the
+ *                                  value of the 'date' query parameter.
+ * - (_static_) **getDisplayText**: returns translated text for the period, eg, 'month',
+ *                                  'week', etc.
+ *
+ * Then call Periods.addCustomPeriod w/ your period class:
+ *
+ *     Periods.addCustomPeriod('mycustomperiod', MyCustomPeriod);
+ *
+ * NOTE: currently only single date periods like day, week, month year can
+ *       be extended. Other types of periods that require a special UI to
+ *       view/edit aren't, since there is currently no way to use a
+ *       custom UI for a custom period.
+ */
+var Periods = /*#__PURE__*/function () {
+  function Periods() {
+    _classCallCheck(this, Periods);
+
+    _defineProperty(this, "periods", {});
+
+    _defineProperty(this, "periodOrder", []);
+  }
+
+  _createClass(Periods, [{
+    key: "addCustomPeriod",
+    value: function addCustomPeriod(name, periodClass) {
+      if (this.periods[name]) {
+        throw new Error("The \"".concat(name, "\" period already exists! It cannot be overridden."));
+      }
+
+      this.periods[name] = periodClass;
+      this.periodOrder.push(name);
+    }
+  }, {
+    key: "getAllLabels",
+    value: function getAllLabels() {
+      return Array().concat(this.periodOrder);
+    }
+  }, {
+    key: "get",
+    value: function get(strPeriod) {
+      var periodClass = this.periods[strPeriod];
+
+      if (!periodClass) {
+        throw new Error("Invalid period label: ".concat(strPeriod));
+      }
+
+      return periodClass;
+    }
+  }, {
+    key: "parse",
+    value: function parse(strPeriod, strDate) {
+      return this.get(strPeriod).parse(strDate);
+    }
+  }, {
+    key: "isRecognizedPeriod",
+    value: function isRecognizedPeriod(strPeriod) {
+      return !!this.periods[strPeriod];
+    }
+  }]);
+
+  return Periods;
+}();
+
+/* harmony default export */ var Periods_Periods = (new Periods());
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.ts
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+var originalTitle;
+var _window = window,
+    piwik = _window.piwik,
+    broadcast = _window.broadcast,
+    piwikHelper = _window.piwikHelper;
+piwik.helper = piwikHelper;
+piwik.broadcast = broadcast;
+
+piwik.updateDateInTitle = function updateDateInTitle(date, period) {
+  if (!$('.top_controls #periodString').length) {
+    return;
+  } // Cache server-rendered page title
+
+
+  originalTitle = originalTitle || document.title;
+
+  if (originalTitle.indexOf(piwik.siteName) === 0) {
+    var dateString = " - ".concat(Periods_Periods.parse(period, date).getPrettyString(), " ");
+    document.title = "".concat(piwik.siteName).concat(dateString).concat(originalTitle.slice(piwik.siteName.length));
+  }
+};
+
+piwik.hasUserCapability = function hasUserCapability(capability) {
+  return Array.isArray(piwik.userCapabilities) && piwik.userCapabilities.indexOf(capability) !== -1;
+};
+
+piwik.on = function addMatomoEventListener(eventName, listener) {
+  function listenerWrapper(evt) {
+    listener.apply(void 0, _toConsumableArray(evt.detail)); // eslint-disable-line
+  }
+
+  listener.wrapper = listenerWrapper;
+  window.addEventListener(eventName, listenerWrapper);
+};
+
+piwik.off = function removeMatomoEventListener(eventName, listener) {
+  if (listener.wrapper) {
+    window.removeEventListener(eventName, listener.wrapper);
+  }
+};
+
+piwik.postEvent = function postMatomoEvent(eventName) {
+  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
+
+  var event = new CustomEvent(eventName, {
+    detail: args
+  });
+  window.dispatchEvent(event);
+};
+
+var Matomo = piwik;
+/* harmony default export */ var Matomo_Matomo = (Matomo);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/StartFreeTrial/StartFreeTrial.vue?vue&type=script&lang=ts
 
 
-var _window = window,
-    $ = _window.$;
+
+
+var StartFreeTrialvue_type_script_lang_ts_window = window,
+    StartFreeTrialvue_type_script_lang_ts_$ = StartFreeTrialvue_type_script_lang_ts_window.$;
 /* harmony default export */ var StartFreeTrialvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  components: {
+    Field: external_CorePluginsAdmin_["Field"]
+  },
   props: {
     modelValue: {
       type: String,
       required: true
     },
+    currentUserEmail: String,
     isValidConsumer: Boolean
+  },
+  data: function data() {
+    return {
+      createAccountEmail: this.currentUserEmail || '',
+      createAccountError: null,
+      trialStartError: null,
+      loadingModalCloseCallback: undefined,
+      trialStartInProgress: false,
+      trialStartSuccessNotificationMessage: '',
+      trialStartSuccessNotificationTitle: ''
+    };
   },
   emits: ['update:modelValue', 'trialStarted'],
   watch: {
     modelValue: function modelValue(newValue) {
-      if (newValue) {
-        if (this.isValidConsumer) {
-          this.startFreeTrial();
-        } else {
-          this.showLicenseDialog();
-        }
+      if (!newValue) {
+        return;
+      }
+
+      if (this.isValidConsumer) {
+        this.trialStartSuccessNotificationMessage = Object(external_CoreHome_["translate"])('CorePluginsAdmin_PluginFreeTrialStarted', '<strong>', '</strong>', newValue);
+        this.startFreeTrial();
+      } else {
+        this.trialStartSuccessNotificationTitle = Object(external_CoreHome_["translate"])('CorePluginsAdmin_PluginFreeTrialStartedAccountCreatedTitle');
+        this.trialStartSuccessNotificationMessage = Object(external_CoreHome_["translate"])('CorePluginsAdmin_PluginFreeTrialStartedAccountCreatedMessage', newValue);
+        this.showLicenseDialog(false);
       }
     }
   },
-  methods: {
-    linkTo: function linkTo(params) {
-      return "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), params)));
+  computed: {
+    trialStartNoLicenseAddHereText: function trialStartNoLicenseAddHereText() {
+      var link = "?".concat(external_CoreHome_["MatomoUrl"].stringify({
+        module: 'Marketplace',
+        action: 'manageLicenseKey'
+      }));
+      return Object(external_CoreHome_["translate"])('Marketplace_TrialStartNoLicenseAddHere', "<a href=\"".concat(link, "\">"), '</a>');
     },
-    startFreeTrial: function startFreeTrial() {
+    trialStartNoLicenseLegalHintText: function trialStartNoLicenseLegalHintText() {
+      return Object(external_CoreHome_["translate"])('Marketplace_TrialStartNoLicenseLegalHint', Object(external_CoreHome_["externalLink"])('https://shop.matomo.org/terms-conditions/'), '</a>', Object(external_CoreHome_["externalLink"])('https://matomo.org/privacy-policy/'), '</a>');
+    }
+  },
+  methods: {
+    closeModal: function closeModal() {
+      StartFreeTrialvue_type_script_lang_ts_$('#startFreeTrial').modal('close');
+    },
+    createAccountAndStartFreeTrial: function createAccountAndStartFreeTrial() {
       var _this = this;
 
-      var pluginName = this.modelValue;
-      window.Piwik_Popover.showLoading('');
+      if (!this.createAccountEmail) {
+        return;
+      }
+
+      this.showLoadingModal(true);
+      external_CoreHome_["AjaxHelper"].post({
+        module: 'API',
+        method: 'Marketplace.createAccount'
+      }, {
+        email: this.createAccountEmail
+      }, {
+        createErrorNotification: false
+      }).then(function () {
+        _this.startFreeTrial();
+      }).catch(function (error) {
+        if (error.message.startsWith('Marketplace_CreateAccountError')) {
+          _this.showErrorModal(Object(external_CoreHome_["translate"])(error.message));
+
+          _this.trialStartInProgress = false;
+
+          _this.$emit('update:modelValue', '');
+        } else {
+          _this.createAccountError = error.message;
+          _this.trialStartInProgress = false;
+
+          _this.showLicenseDialog(true);
+        }
+      });
+    },
+    showLicenseDialog: function showLicenseDialog(immediateTransition) {
+      var _this2 = this;
+
+      var onEnter = function onEnter(event) {
+        var keycode = event.keyCode ? event.keyCode : event.which;
+
+        if (keycode === 13) {
+          _this2.closeModal();
+
+          _this2.createAccountAndStartFreeTrial();
+        }
+      };
+
+      var modalOptions = {
+        dismissible: true,
+        onOpenEnd: function onOpenEnd() {
+          var emailField = '.modal.open #email';
+          StartFreeTrialvue_type_script_lang_ts_$(emailField).focus();
+          StartFreeTrialvue_type_script_lang_ts_$(emailField).off('keypress').keypress(onEnter);
+        },
+        onCloseEnd: function onCloseEnd() {
+          _this2.createAccountError = null;
+
+          if (_this2.trialStartInProgress) {
+            return;
+          }
+
+          _this2.$emit('update:modelValue', '');
+        }
+      };
+
+      if (immediateTransition) {
+        modalOptions.inDuration = 0;
+      }
+
+      StartFreeTrialvue_type_script_lang_ts_$('#startFreeTrial').modal(modalOptions).modal('open');
+    },
+    showErrorModal: function showErrorModal(error) {
+      var _this3 = this;
+
+      if (this.trialStartError) {
+        return;
+      }
+
+      this.trialStartError = error;
+      StartFreeTrialvue_type_script_lang_ts_$('#startFreeTrial').modal({
+        dismissible: true,
+        inDuration: 0,
+        onCloseEnd: function onCloseEnd() {
+          _this3.trialStartError = null;
+        }
+      }).modal('open');
+    },
+    showLoadingModal: function showLoadingModal(immediateTransition) {
+      var _this4 = this;
+
+      if (this.trialStartInProgress) {
+        return;
+      }
+
+      this.trialStartInProgress = true;
+      this.loadingModalCloseCallback = undefined;
+      StartFreeTrialvue_type_script_lang_ts_$('#startFreeTrial').modal({
+        dismissible: false,
+        inDuration: immediateTransition ? 0 : undefined,
+        onCloseEnd: function onCloseEnd() {
+          if (!_this4.loadingModalCloseCallback) {
+            return;
+          }
+
+          _this4.loadingModalCloseCallback();
+
+          _this4.loadingModalCloseCallback = undefined;
+        }
+      }).modal('open');
+    },
+    startFreeTrial: function startFreeTrial() {
+      var _this5 = this;
+
+      this.showLoadingModal(false);
       external_CoreHome_["AjaxHelper"].post({
         module: 'API',
         method: 'Marketplace.startFreeTrial'
       }, {
-        pluginName: pluginName
+        pluginName: this.modelValue
+      }, {
+        createErrorNotification: false
       }).then(function () {
-        window.Piwik_Popover.close();
-        var notificationInstanceId = external_CoreHome_["NotificationsStore"].show({
-          message: Object(external_CoreHome_["translate"])('CorePluginsAdmin_PluginFreeTrialStarted', '<strong>', '</strong>', pluginName),
-          context: 'success',
-          id: 'startTrialSuccess',
-          type: 'transient'
-        });
-        external_CoreHome_["NotificationsStore"].scrollToNotification(notificationInstanceId);
+        _this5.loadingModalCloseCallback = _this5.startFreeTrialSuccess;
 
-        _this.$emit('trialStarted');
+        _this5.closeModal();
       }).catch(function (error) {
-        window.Piwik_Popover.showError('', error.message);
+        _this5.showErrorModal(Matomo_Matomo.helper.htmlDecode(error.message));
+
+        _this5.trialStartInProgress = false;
       }).finally(function () {
-        return _this.$emit('update:modelValue', '');
+        _this5.$emit('update:modelValue', '');
       });
     },
-    showLicenseDialog: function showLicenseDialog() {
-      var _this2 = this;
-
-      $('#trialRequiresLicense').modal({
-        dismissible: true,
-        onCloseEnd: function onCloseEnd() {
-          _this2.$emit('update:modelValue', '');
-        }
-      }).modal('open');
+    startFreeTrialSuccess: function startFreeTrialSuccess() {
+      var notificationInstanceId = external_CoreHome_["NotificationsStore"].show({
+        message: this.trialStartSuccessNotificationMessage,
+        title: this.trialStartSuccessNotificationTitle,
+        context: 'success',
+        id: 'startTrialSuccess',
+        placeat: '#notificationContainer',
+        type: 'transient'
+      });
+      external_CoreHome_["NotificationsStore"].scrollToNotification(notificationInstanceId);
+      this.trialStartInProgress = false;
+      this.$emit('trialStarted');
     }
   }
 }));
@@ -903,7 +1249,7 @@ var _window = window,
 
 
 
-StartFreeTrialvue_type_script_lang_ts.render = StartFreeTrialvue_type_template_id_ff71913e_render
+StartFreeTrialvue_type_script_lang_ts.render = StartFreeTrialvue_type_template_id_612232ce_render
 
 /* harmony default export */ var StartFreeTrial = (StartFreeTrialvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/PluginList/PluginList.vue?vue&type=script&lang=ts
@@ -915,6 +1261,7 @@ var PluginListvue_type_script_lang_ts_window = window,
     PluginListvue_type_script_lang_ts_$ = PluginListvue_type_script_lang_ts_window.$;
 /* harmony default export */ var PluginListvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
+    currentUserEmail: String,
     pluginsToShow: {
       type: Array,
       required: true
@@ -1084,7 +1431,7 @@ var PluginListvue_type_script_lang_ts_window = window,
 
 
 
-PluginListvue_type_script_lang_ts.render = PluginListvue_type_template_id_332c666c_render
+PluginListvue_type_script_lang_ts.render = PluginListvue_type_template_id_1fdaba88_render
 
 /* harmony default export */ var PluginList = (PluginListvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=script&lang=ts
@@ -1115,6 +1462,7 @@ var lcfirst = function lcfirst(s) {
       type: Object,
       required: true
     },
+    currentUserEmail: String,
     isValidConsumer: Boolean,
     isSuperUser: Boolean,
     isAutoUpdatePossible: Boolean,
@@ -2097,21 +2445,21 @@ function MissingReqsNoticevue_type_template_id_b0a2d858_render(_ctx, _cache, $pr
 MissingReqsNoticevue_type_script_lang_ts.render = MissingReqsNoticevue_type_template_id_b0a2d858_render
 
 /* harmony default export */ var MissingReqsNotice = (MissingReqsNoticevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=template&id=0cea22d6
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=template&id=474c9de9
 
-var OverviewIntrovue_type_template_id_0cea22d6_hoisted_1 = {
+var OverviewIntrovue_type_template_id_474c9de9_hoisted_1 = {
   key: 0
 };
-var OverviewIntrovue_type_template_id_0cea22d6_hoisted_2 = {
+var OverviewIntrovue_type_template_id_474c9de9_hoisted_2 = {
   key: 1
 };
-var OverviewIntrovue_type_template_id_0cea22d6_hoisted_3 = ["innerHTML"];
-var OverviewIntrovue_type_template_id_0cea22d6_hoisted_4 = {
+var OverviewIntrovue_type_template_id_474c9de9_hoisted_3 = ["innerHTML"];
+var OverviewIntrovue_type_template_id_474c9de9_hoisted_4 = {
   key: 2
 };
-var OverviewIntrovue_type_template_id_0cea22d6_hoisted_5 = ["innerHTML"];
-var OverviewIntrovue_type_template_id_0cea22d6_hoisted_6 = ["innerHTML"];
-function OverviewIntrovue_type_template_id_0cea22d6_render(_ctx, _cache, $props, $setup, $data, $options) {
+var OverviewIntrovue_type_template_id_474c9de9_hoisted_5 = ["innerHTML"];
+var OverviewIntrovue_type_template_id_474c9de9_hoisted_6 = ["innerHTML"];
+function OverviewIntrovue_type_template_id_474c9de9_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
 
   var _component_LicenseKey = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("LicenseKey");
@@ -2129,15 +2477,15 @@ function OverviewIntrovue_type_template_id_0cea22d6_render(_ctx, _cache, $props,
       return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_Marketplace')), 1)];
     }),
     _: 1
-  }, 8, ["feature-name"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [!_ctx.isSuperUser ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", OverviewIntrovue_type_template_id_0cea22d6_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.restrictedMessage), 1)) : _ctx.showThemes ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", OverviewIntrovue_type_template_id_0cea22d6_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CorePluginsAdmin_ThemesDescription')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }, 8, ["feature-name"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [!_ctx.isSuperUser ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", OverviewIntrovue_type_template_id_474c9de9_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.restrictedMessage), 1)) : _ctx.showThemes ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", OverviewIntrovue_type_template_id_474c9de9_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CorePluginsAdmin_ThemesDescription')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     innerHTML: _ctx.$sanitize(_ctx.installingNewThemeText)
-  }, null, 8, OverviewIntrovue_type_template_id_0cea22d6_hoisted_3)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", OverviewIntrovue_type_template_id_0cea22d6_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CorePluginsAdmin_PluginsExtendPiwik')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }, null, 8, OverviewIntrovue_type_template_id_474c9de9_hoisted_3)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", OverviewIntrovue_type_template_id_474c9de9_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CorePluginsAdmin_PluginsExtendPiwik')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     innerHTML: _ctx.$sanitize(_ctx.installingNewPluginText)
-  }, null, 8, OverviewIntrovue_type_template_id_0cea22d6_hoisted_5)])), _ctx.isSuperUser && _ctx.inReportingMenu ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
+  }, null, 8, OverviewIntrovue_type_template_id_474c9de9_hoisted_5)])), _ctx.isSuperUser && _ctx.inReportingMenu ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
     key: 3,
     ref: "noticeRemoveMarketplaceFromMenu",
     innerHTML: _ctx.$sanitize(_ctx.noticeRemoveMarketplaceFromMenuText)
-  }, null, 8, OverviewIntrovue_type_template_id_0cea22d6_hoisted_6)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_LicenseKey, {
+  }, null, 8, OverviewIntrovue_type_template_id_474c9de9_hoisted_6)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_LicenseKey, {
     "is-valid-consumer": _ctx.isValidConsumer,
     "is-super-user": _ctx.isSuperUser,
     "is-auto-update-possible": _ctx.isAutoUpdatePossible,
@@ -2154,6 +2502,7 @@ function OverviewIntrovue_type_template_id_0cea22d6_render(_ctx, _cache, $props,
     "default-sort": _ctx.defaultSort,
     "plugin-sort-options": _ctx.pluginSortOptions,
     "num-available-plugins-by-type": _ctx.numAvailablePluginsByType,
+    "current-user-email": _ctx.currentUserEmail,
     "is-auto-update-possible": _ctx.isAutoUpdatePossible,
     "is-super-user": _ctx.isSuperUser,
     "is-multi-server-environment": _ctx.isMultiServerEnvironment,
@@ -2163,9 +2512,9 @@ function OverviewIntrovue_type_template_id_0cea22d6_render(_ctx, _cache, $props,
     "activate-nonce": _ctx.activateNonce,
     "install-nonce": _ctx.installNonce,
     "update-nonce": _ctx.updateNonce
-  }, null, 8, ["plugin-type-options", "default-sort", "plugin-sort-options", "num-available-plugins-by-type", "is-auto-update-possible", "is-super-user", "is-multi-server-environment", "is-plugins-admin-enabled", "is-valid-consumer", "deactivate-nonce", "activate-nonce", "install-nonce", "update-nonce"])], 512)), [[_directive_content_intro]]);
+  }, null, 8, ["plugin-type-options", "default-sort", "plugin-sort-options", "num-available-plugins-by-type", "current-user-email", "is-auto-update-possible", "is-super-user", "is-multi-server-environment", "is-plugins-admin-enabled", "is-valid-consumer", "deactivate-nonce", "activate-nonce", "install-nonce", "update-nonce"])], 512)), [[_directive_content_intro]]);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=template&id=0cea22d6
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=template&id=474c9de9
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=script&lang=ts
 
@@ -2175,6 +2524,7 @@ function OverviewIntrovue_type_template_id_0cea22d6_render(_ctx, _cache, $props,
 
 /* harmony default export */ var OverviewIntrovue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
+    currentUserEmail: String,
     inReportingMenu: Boolean,
     isValidConsumer: Boolean,
     isSuperUser: Boolean,
@@ -2283,7 +2633,7 @@ function OverviewIntrovue_type_template_id_0cea22d6_render(_ctx, _cache, $props,
 
 
 
-OverviewIntrovue_type_script_lang_ts.render = OverviewIntrovue_type_template_id_0cea22d6_render
+OverviewIntrovue_type_script_lang_ts.render = OverviewIntrovue_type_template_id_474c9de9_render
 
 /* harmony default export */ var OverviewIntro = (OverviewIntrovue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/SubscriptionOverview/SubscriptionOverview.vue?vue&type=template&id=09b01d8c
