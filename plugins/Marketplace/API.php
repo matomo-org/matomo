@@ -17,6 +17,7 @@ use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
 use Piwik\Plugins\UsersManager\Validators\Email;
+use Piwik\Validators\Exception as ValidatorException;
 use Piwik\Validators\NotEmpty;
 
 /**
@@ -87,8 +88,15 @@ class API extends \Piwik\Plugin\API
         $notEmptyValidator = new NotEmpty();
         $notEmptyValidator->validate($email);
 
-        $emailValidator = new Email();
-        $emailValidator->validate($email);
+        try {
+            $emailValidator = new Email();
+            $emailValidator->validate($email);
+        } catch (ValidatorException $e) {
+            // rethrow with changed message
+            throw new ValidatorException(
+                Piwik::translate('Marketplace_CreateAccountErrorEmailInvalid', $email)
+            );
+        }
 
         // Ensure the provided email uses a domain that is allowed (if configured)
         $systemSettings = new SystemSettings();
@@ -118,11 +126,11 @@ class API extends \Piwik\Plugin\API
         if (200 !== $status || empty($licenseKey)) {
             switch ($status) {
                 case 400:
-                    $message = Piwik::translate('UsersManager_ExceptionInvalidEmail');
+                    $message = Piwik::translate('Marketplace_CreateAccountErrorAPIEmailInvalid');
                     break;
 
                 case 409:
-                    $message = Piwik::translate('UsersManager_ExceptionEmailExists', $email);
+                    $message = Piwik::translate('Marketplace_CreateAccountErrorAPIEmailExists', $email);
                     break;
 
                 default:

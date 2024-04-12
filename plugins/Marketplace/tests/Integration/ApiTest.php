@@ -112,7 +112,7 @@ class ApiTest extends IntegrationTestCase
     public function test_createAccount_shouldThrowException_ifEmailIsInvalid(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('General_ValidatorErrorNotEmailLike');
+        $this->expectExceptionMessage('Marketplace_CreateAccountErrorEmailInvalid');
 
         $this->api->createAccount('invalid.email@');
     }
@@ -165,7 +165,7 @@ class ApiTest extends IntegrationTestCase
                 'data' => '',
             ],
             Exception::class,
-            'UsersManager_ExceptionInvalidEmail',
+            'Marketplace_CreateAccountErrorAPIEmailInvalid',
         ];
 
         yield 'marketplace rejected email as duplicate' => [
@@ -175,7 +175,7 @@ class ApiTest extends IntegrationTestCase
                 'data' => '',
             ],
             Exception::class,
-            'UsersManager_ExceptionEmailExists',
+            'Marketplace_CreateAccountErrorAPIEmailExists',
         ];
 
         yield 'unexpected response status code' => [
