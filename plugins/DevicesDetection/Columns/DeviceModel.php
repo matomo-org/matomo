@@ -16,7 +16,7 @@ use Piwik\Tracker\Action;
 class DeviceModel extends Base
 {
     protected $columnName = 'config_device_model';
-    protected $columnType = 'VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL';
+    protected $columnType = 'VARCHAR( 100 ) NULL DEFAULT NULL';
     protected $type = self::TYPE_TEXT;
     protected $nameSingular = 'DevicesDetection_DeviceModel';
     protected $namePlural = 'DevicesDetection_DeviceModels';
