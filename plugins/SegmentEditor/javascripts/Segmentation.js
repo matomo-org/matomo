@@ -861,23 +861,18 @@ Segmentation = (function($) {
         if (piwikHelper.isReportingPage()) {
           var watch = window.Vue.watch;
           var MatomoUrl = window.CoreHome.MatomoUrl;
-          watch(
-            function () {
-              return MatomoUrl.url.value;
-            },
-            function () {
-              var segment = MatomoUrl.hashParsed.value.segment || '';
+          watch(() => MatomoUrl.hashParsed.value.segment, function (value) {
+            var segment = value || '';
 
-              if (self.getSegment() != segment) {
-                self.setSegment(segment);
-                self.initHtml();
-              } else {
-                setTimeout(function () {
-                  self.markComparedSegments();
-                });
-              }
+            if (self.getSegment() != segment) {
+              self.setSegment(segment);
+              self.initHtml();
+            } else {
+              setTimeout(function () {
+                self.markComparedSegments();
+              });
             }
-          );
+          });
         }
 
         this.initHtml();

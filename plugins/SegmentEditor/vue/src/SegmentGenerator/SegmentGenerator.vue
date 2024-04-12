@@ -321,6 +321,10 @@ export default defineComponent({
       this.conditions.push(condition);
     },
     addNewOrCondition(condition: SegmentAndCondition) {
+      if (!this.firstSegment) {
+        return; // skip till list of segments is available
+      }
+
       const orCondition = {
         segment: this.firstSegment,
         matches: this.firstMatch!,
@@ -440,10 +444,12 @@ export default defineComponent({
     addNewAndCondition() {
       const condition = { orConditions: [] };
 
+      if (!this.firstSegment) {
+        return; // skip till list of segments is available
+      }
+
       this.addAndCondition(condition);
       this.addNewOrCondition(condition);
-
-      return condition;
     },
     // NOTE: can't use a computed property since we need to recompute on changes inside the
     //       structure. don't have to if we don't do in-place changes, but with nested structures,
@@ -483,7 +489,7 @@ export default defineComponent({
   },
   computed: {
     firstSegment() {
-      return this.queriedSegments[0].segment;
+      return this.queriedSegments[0]?.segment || null;
     },
     firstMatch() {
       const segment = this.queriedSegments[0];
