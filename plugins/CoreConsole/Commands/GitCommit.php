@@ -141,7 +141,7 @@ class GitCommit extends ConsoleCommand
     protected function getStatusOfSubmodule($submodule)
     {
         $cmd    = sprintf('cd %s/%s && git status --porcelain', PIWIK_DOCUMENT_ROOT, $submodule);
-        $status = trim(shell_exec($cmd));
+        $status = trim(shell_exec($cmd) ?? '');
 
         return $status;
     }

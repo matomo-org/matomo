@@ -87,7 +87,7 @@ class TestsRun extends ConsoleCommand
 
             $output->writeln("<info>using $xdebugFile as xdebug extension.</info>");
 
-            $phpunitPath = trim(shell_exec('which phpunit'));
+            $phpunitPath = trim(shell_exec('which phpunit') ?? '');
 
             $command = sprintf('php -d zend_extension=%s %s', $xdebugFile, $phpunitPath);
         }

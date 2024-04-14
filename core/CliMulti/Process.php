@@ -311,7 +311,7 @@ class Process
      */
     public static function getRunningProcesses()
     {
-        $ids = explode("\n", trim(shell_exec(self::PS_COMMAND . ' 2>/dev/null | ' . self::AWK_COMMAND . ' 2>/dev/null')));
+        $ids = explode("\n", trim(shell_exec(self::PS_COMMAND . ' 2>/dev/null | ' . self::AWK_COMMAND . ' 2>/dev/null') ?? ''));
 
         $ids = array_map('intval', $ids);
         $ids = array_filter($ids, function ($id) {
