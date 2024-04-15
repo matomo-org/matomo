@@ -368,7 +368,7 @@ class Goals extends \Piwik\Plugin
                 $goalMetricsToUse = $pageGoalMetrics;
                 $goalProcessedMetricsToUse = $pageGoalProcessedMetrics;
                 $goalMetricTypesToUse = $pageGoalMetricTypes;
-            } else if (in_array($request, AddColumnsProcessedMetricsGoal::ACTIONS_ENTRY_PAGE_REPORTS_WITH_GOAL_METRICS)) {
+            } elseif (in_array($request, AddColumnsProcessedMetricsGoal::ACTIONS_ENTRY_PAGE_REPORTS_WITH_GOAL_METRICS)) {
                 $goalMetricsToUse = $entryPageGoalMetrics;
                 $goalProcessedMetricsToUse = $entryPageGoalProcessedMetrics;
                 $goalMetricTypesToUse = $entryPageGoalMetricTypes;

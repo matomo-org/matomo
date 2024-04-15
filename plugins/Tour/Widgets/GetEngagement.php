@@ -60,7 +60,7 @@ class GetEngagement extends Widget
         foreach ($challenges as $challenge) {
             if (!$challenge['isCompleted'] && !$challenge['isSkipped']) {
                 $done = false;
-            } else if ($done) {
+            } elseif ($done) {
                 // as soon as some challenge was not completed, we need to make sure to show that page.
                 $numCompletedWithoutInterruption++;
             }

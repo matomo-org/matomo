@@ -2511,11 +2511,11 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             $doneFlag = 'done';
             if ($idArchive % 5 == 1) {
                 $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment1);
-            } else if ($idArchive % 5 == 2) {
+            } elseif ($idArchive % 5 == 2) {
                 $doneFlag .= '.VisitsSummary';
-            } else if ($idArchive % 5 == 3) {
+            } elseif ($idArchive % 5 == 3) {
                 $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin(self::$segment1, 'UserCountry');
-            } else if ($idArchive % 5 == 4) {
+            } elseif ($idArchive % 5 == 4) {
                 $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment2);
             }
         } else {

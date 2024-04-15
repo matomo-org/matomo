@@ -235,7 +235,7 @@ class Process
 
         if (!self::psExistsAndRunsCorrectly()) {
             $reasons[] = 'shell_exec(' . self::PS_COMMAND . '" 2> /dev/null") did not return a success code';
-        } else if (!$getMyPidDisabled) {
+        } elseif (!$getMyPidDisabled) {
             $pid = @\getmypid();
             if (empty($pid) || !in_array($pid, self::getRunningProcesses())) {
                 $reasons[] = 'could not find our pid (from getmypid()) in the output of `' . self::PS_COMMAND . '`';

@@ -32,7 +32,7 @@ class PageViewPosition extends ActionDimension
 
         if ($shouldCount && $visitor->isNewVisit()) {
             return 1;
-        } else if ($shouldCount) {
+        } elseif ($shouldCount) {
             return VisitTotalInteractions::getNextInteractionPosition($request);
         }
 

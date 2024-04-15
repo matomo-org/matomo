@@ -127,7 +127,7 @@ class Controller extends \Piwik\Plugin\Controller
                     || $metric == 'exit_rate'
                 ) {
                     $value = $formatter->getPrettyPercentFromQuotient($value);
-                } else if ($metric == 'avg_time_on_page') {
+                } elseif ($metric == 'avg_time_on_page') {
                     $value = $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
                 }
 

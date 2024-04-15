@@ -99,7 +99,7 @@ abstract class Base extends \Piwik\Plugin\Report
 
                 $view->requestConfig->filter_sort_column = 'percent_total';
             }
-        } else if ($view->isViewDataTableId(Graph::ID)) {
+        } elseif ($view->isViewDataTableId(Graph::ID)) {
             if ($addTotalSizeColumn) {
                 $view->config->columns_to_display = array('label', 'total_size');
 

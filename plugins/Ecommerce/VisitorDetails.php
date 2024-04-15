@@ -112,7 +112,7 @@ class VisitorDetails extends VisitorDetailsAbstract
                 if (strpos($column, 'revenue') !== false) {
                     if (!is_numeric($value)) {
                         $ecommerceDetail[$column] = 0;
-                    } else if ($value == round($value)) {
+                    } elseif ($value == round($value)) {
                         $ecommerceDetail[$column] = round($value);
                     }
                 }

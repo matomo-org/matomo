@@ -221,7 +221,7 @@ class LogTest extends IntegrationTestCase
             $expectedMessage = str_replace("\n ", "\n[Monolog] [" . getmypid() . "]", $expectedMessage);
 
             $this->assertStringMatchesFormat($expectedMessage . "\n", $fileContents);
-        } else if ($backend == 'database') {
+        } elseif ($backend == 'database') {
             $queryLog = Db::isQueryLogEnabled();
             Db::enableQueryLog(false);
 
@@ -247,7 +247,7 @@ class LogTest extends IntegrationTestCase
     {
         if ($backend == 'file') {
             $this->assertFalse(file_exists(self::getLogFileLocation()));
-        } else if ($backend == 'database') {
+        } elseif ($backend == 'database') {
             $this->assertEquals(0, Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('logger_message')));
         }
     }

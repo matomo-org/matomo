@@ -497,7 +497,7 @@ class DataComparisonFilter
 
                     if (!$this->invertCompareChangeCompute && $index < $segmentCount) {
                         continue; // do not calculate for first period
-                    } else if ($this->invertCompareChangeCompute && $periodIndex != 0) {
+                    } elseif ($this->invertCompareChangeCompute && $periodIndex != 0) {
                         continue; // when inverting change calculation, only calculate for first period rows
                     }
 

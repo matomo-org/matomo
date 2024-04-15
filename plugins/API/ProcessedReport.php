@@ -719,7 +719,7 @@ class ProcessedReport
                         $prettyValue = $columnValue;
                     }
                     $enhancedRow->addColumn($columnName, $prettyValue);
-                } else if ($returnRawMetrics) {
+                } elseif ($returnRawMetrics) {
                     // For example the Maps Widget requires the raw metrics to do advanced datavis
                     if (!isset($columnValue)) {
                         $columnValue = 0;
@@ -809,11 +809,11 @@ class ProcessedReport
 
             if (!array_key_exists($metric, $totals)) {
                 $totals[$metric] = $value;
-            } else if (0 === strpos($metric, 'min_')) {
+            } elseif (0 === strpos($metric, 'min_')) {
                 $totals[$metric] = min($totals[$metric], $value);
-            } else if (0 === strpos($metric, 'max_')) {
+            } elseif (0 === strpos($metric, 'max_')) {
                 $totals[$metric] = max($totals[$metric], $value);
-            } else if ($value) {
+            } elseif ($value) {
                 $totals[$metric] += $value;
             }
         }

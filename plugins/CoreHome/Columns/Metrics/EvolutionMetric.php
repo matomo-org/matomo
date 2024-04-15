@@ -157,7 +157,7 @@ class EvolutionMetric extends ProcessedMetric
 
         if ($dividend == 0) {
             return 0;
-        } else if ($divisor == 0) {
+        } elseif ($divisor == 0) {
             return 1;
         } else {
             return Piwik::getQuotientSafe($dividend, $divisor, $this->quotientPrecision + 2);

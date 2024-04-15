@@ -446,7 +446,7 @@ class ArchivingHelper
                 if ($config['aggregation'] == 'min') {
                     if (empty($alreadyValue)) {
                         $newValue = $value;
-                    } else if (empty($value)) {
+                    } elseif (empty($value)) {
                         $newValue = $alreadyValue;
                     } else {
                         $newValue = min($alreadyValue, $value);

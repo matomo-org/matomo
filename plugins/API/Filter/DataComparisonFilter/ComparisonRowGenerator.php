@@ -43,7 +43,7 @@ class ComparisonRowGenerator
     {
         if ($tables instanceof DataTable) {
             $this->compareTable($compareMetadata, $tables, $compareTables, $compareTables);
-        } else if ($tables instanceof DataTable\Map) {
+        } elseif ($tables instanceof DataTable\Map) {
             $childTablesArray = array_values($tables->getDataTables());
             $compareTablesArray = ($compareTables instanceof DataTable\Map) ? array_values($compareTables->getDataTables()) : [];
 
@@ -103,7 +103,7 @@ class ComparisonRowGenerator
             $compareRow = null;
             if ($compareTable instanceof Simple) {
                 $compareRow = $compareTable->getFirstRow() ?: null;
-            } else if ($compareTable instanceof DataTable) {
+            } elseif ($compareTable instanceof DataTable) {
                 $compareRow = $compareTable->getRowFromLabel($label) ?: null;
             }
 
@@ -191,7 +191,7 @@ class ComparisonRowGenerator
                 $newSegment = Segment::combine($newRow->getMetadata('compareSegment'), SegmentExpression::AND_DELIMITER, $newSegment);
             }
             $newRow->setMetadata('segment', $newSegment);
-        } else if (
+        } elseif (
             $this->segmentNameForReport
             && $row->getMetadata('segmentValue') !== false
         ) {

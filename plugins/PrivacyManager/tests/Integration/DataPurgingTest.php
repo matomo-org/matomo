@@ -42,7 +42,7 @@ class DataPurgingTestRawLogDao extends RawLogDao
         if ($olderThan && $this->insertActionsOlderThanCallback) {
             $callback = $this->insertActionsOlderThanCallback;
             $callback();
-        } else if ($this->insertActionsNewerThanCallback) {
+        } elseif ($this->insertActionsNewerThanCallback) {
             $callback = $this->insertActionsNewerThanCallback;
             $callback();
         }

@@ -357,7 +357,7 @@ class JoinTables extends \ArrayObject
             $tableName = null;
             if (is_string($info)) {
                 $tableName = $info;
-            } else if (is_array($info)) {
+            } elseif (is_array($info)) {
                 $tableName = isset($info['tableAlias']) ? $info['tableAlias'] : $info['table'];
             }
 

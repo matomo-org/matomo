@@ -61,7 +61,7 @@ class GetPlanetRatios extends Base
             $view->config->selectable_columns = array('value');
             $view->config->show_footer_icons = false;
             $view->config->max_graph_elements = 10;
-        } else if ($view->isViewDataTableId(Cloud::ID)) {
+        } elseif ($view->isViewDataTableId(Cloud::ID)) {
             $view->config->columns_to_display = array('label', 'value');
             $view->config->show_footer = false;
         }

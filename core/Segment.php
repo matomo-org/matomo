@@ -254,7 +254,7 @@ class Segment
 
         if (empty($idSites)) {
             $idSites = [];
-        } else if (!is_array($idSites)) {
+        } elseif (!is_array($idSites)) {
             $idSites = [$idSites];
         }
         $this->idSites = $idSites;
@@ -318,7 +318,7 @@ class Segment
                     return true;
                 }
             }
-        } else if (strpos($availableSegment['sqlSegment'], 'log_visit.') === 0) {
+        } elseif (strpos($availableSegment['sqlSegment'], 'log_visit.') === 0) {
             return true;
         }
 
@@ -347,7 +347,7 @@ class Segment
     {
         if ($operator === SegmentExpression::MATCH_DOES_NOT_CONTAIN) {
             return SegmentExpression::MATCH_CONTAINS;
-        } else if ($operator === SegmentExpression::MATCH_NOT_EQUAL) {
+        } elseif ($operator === SegmentExpression::MATCH_NOT_EQUAL) {
             return SegmentExpression::MATCH_EQUAL;
         }
 

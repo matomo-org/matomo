@@ -187,7 +187,7 @@ class API extends \Piwik\Plugin\API
                 $newDataTable = $this->mergeDataTables($table, $versionDataTables[$label]);
                 $dataTable->addTable($newDataTable, $label);
             }
-        } else if (!$dataTable->getRowsCount() && $dataTable2->getRowsCount()) {
+        } elseif (!$dataTable->getRowsCount() && $dataTable2->getRowsCount()) {
             $dataTable2->filter('GroupBy', ['label', function ($label) {
                 if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $label, $matches)) {
                     return $matches[1]; // should match for browsers

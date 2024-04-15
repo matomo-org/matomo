@@ -129,17 +129,17 @@ class Date
             $date = self::now();
         } elseif ($dateString === 'today') {
             $date = self::today();
-        } else if ($dateString === 'tomorrow') {
+        } elseif ($dateString === 'tomorrow') {
             $date = self::tomorrow();
         } elseif ($dateString === 'yesterday') {
             $date = self::yesterday();
         } elseif ($dateString === 'yesterdaySameTime') {
             $date = self::yesterdaySameTime();
-        } else if (is_string($dateString) && preg_match('/last[ -]?week/i', urldecode($dateString))) {
+        } elseif (is_string($dateString) && preg_match('/last[ -]?week/i', urldecode($dateString))) {
             $date = self::lastWeek();
-        } else if (is_string($dateString) && preg_match('/last[ -]?month/i', urldecode($dateString))) {
+        } elseif (is_string($dateString) && preg_match('/last[ -]?month/i', urldecode($dateString))) {
             $date = self::lastMonth();
-        } else if (is_string($dateString) && preg_match('/last[ -]?year/i', urldecode($dateString))) {
+        } elseif (is_string($dateString) && preg_match('/last[ -]?year/i', urldecode($dateString))) {
             $date = self::lastYear();
         } elseif (
             !is_int($dateString)
@@ -188,17 +188,17 @@ class Date
     {
         if ($dateString === 'now') {
             return self::nowInTimezone($timezone);
-        } else if ($dateString === 'today') {
+        } elseif ($dateString === 'today') {
             return self::todayInTimezone($timezone);
-        } else if ($dateString === 'yesterday') {
+        } elseif ($dateString === 'yesterday') {
             return self::yesterdayInTimezone($timezone);
-        } else if ($dateString === 'yesterdaySameTime') {
+        } elseif ($dateString === 'yesterdaySameTime') {
             return self::yesterdaySameTimeInTimezone($timezone);
-        } else if (preg_match('/last[ -]?week/i', urldecode($dateString))) {
+        } elseif (preg_match('/last[ -]?week/i', urldecode($dateString))) {
             return self::lastWeekInTimezone($timezone);
-        } else if (preg_match('/last[ -]?month/i', urldecode($dateString))) {
+        } elseif (preg_match('/last[ -]?month/i', urldecode($dateString))) {
             return self::lastMonthInTimezone($timezone);
-        } else if (preg_match('/last[ -]?year/i', urldecode($dateString))) {
+        } elseif (preg_match('/last[ -]?year/i', urldecode($dateString))) {
             return self::lastYearInTimezone($timezone);
         } else {
             throw new \Exception("Date::factoryInTimezone() should not be used with $dateString.");

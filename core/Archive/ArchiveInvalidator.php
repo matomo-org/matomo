@@ -415,7 +415,7 @@ class ArchiveInvalidator
     {
         if ($period->getLabel() == 'range') {
             return;
-        } else if (
+        } elseif (
             $period->getLabel() == 'day'
             && $this->shouldPropagateUp($period)
         ) {
@@ -509,7 +509,7 @@ class ArchiveInvalidator
             }
 
             $startDate = $earliestDateToRearchive;
-        } else if (!empty($earliestDateToRearchive)) {
+        } elseif (!empty($earliestDateToRearchive)) {
             // don't allow archiving further back than the rearchive_reports_in_past_last_n_months date allows
             $startDate = $startDate->isEarlier($earliestDateToRearchive) ? $earliestDateToRearchive : $startDate;
         }

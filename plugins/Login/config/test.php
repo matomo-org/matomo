@@ -21,7 +21,7 @@ return array(
                 // we block a random IP
                 $detection->addFailedAttempt('10.55.66.77');
             }
-        } else if ($c->get('test.vars.bruteForceBlockThisIp')) {
+        } elseif ($c->get('test.vars.bruteForceBlockThisIp')) {
             for ($i = 0; $i < 30; $i++) {
                 // we block this IP
                 $detection->addFailedAttempt(\Piwik\IP::getIpFromHeader());

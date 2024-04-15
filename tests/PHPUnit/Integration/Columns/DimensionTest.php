@@ -143,11 +143,11 @@ class ColumnDimensionTest extends IntegrationTestCase
         foreach ($dimensions as $dimension) {
             if ($dimension instanceof ConversionDimension) {
                 $foundConversion = true;
-            } else if ($dimension instanceof ActionDimension) {
+            } elseif ($dimension instanceof ActionDimension) {
                 $foundAction = true;
-            } else if ($dimension instanceof VisitDimension) {
+            } elseif ($dimension instanceof VisitDimension) {
                 $foundVisit = true;
-            } else if ($dimension instanceof Dimension) {
+            } elseif ($dimension instanceof Dimension) {
                 $foundNormal = true;
             } else {
                 $this->fail('Unexpected dimension class found');
@@ -180,7 +180,7 @@ class ColumnDimensionTest extends IntegrationTestCase
         foreach ($dimensions as $dimension) {
             if ($dimension instanceof ActionDimension) {
                 $foundAction = true;
-            } else if ($dimension instanceof VisitDimension) {
+            } elseif ($dimension instanceof VisitDimension) {
                 $foundVisit = true;
             }
 

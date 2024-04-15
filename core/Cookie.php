@@ -487,9 +487,9 @@ class Cookie
         $expireTime = new DateTime();
         if (is_null($time) || (is_int($time) && $time < 0)) {
             $expireTime->modify("+2 years");
-        } else if (is_int($time)) {
+        } elseif (is_int($time)) {
             $expireTime->setTimestamp($time);
-        } else if (!$expireTime->modify($time)) {
+        } elseif (!$expireTime->modify($time)) {
             $expireTime->modify("+2 years");
         }
         return $expireTime->format(DateTime::COOKIE);

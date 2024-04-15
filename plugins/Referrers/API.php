@@ -772,7 +772,7 @@ class API extends \Piwik\Plugin\API
             $result = new DataTable\Simple();
             $result->addRowFromSimpleArray($newRow);
             return $result;
-        } else if ($table instanceof DataTable\Map) {
+        } elseif ($table instanceof DataTable\Map) {
             $result = new DataTable\Map();
             $result->setKeyName($table->getKeyName());
             foreach ($table->getDataTables() as $label => $childTable) {
@@ -811,7 +811,7 @@ class API extends \Piwik\Plugin\API
             foreach ($numericArchives->getFirstRow() as $name => $value) {
                 $row->setColumn($name, $value);
             }
-        } else if ($table instanceof DataTable\Map) {
+        } elseif ($table instanceof DataTable\Map) {
             foreach ($table->getDataTables() as $label => $childTable) {
                 $numericArchiveChildTable = $numericArchives->getTable($label);
                 $this->mergeNumericArchives($childTable, $numericArchiveChildTable);

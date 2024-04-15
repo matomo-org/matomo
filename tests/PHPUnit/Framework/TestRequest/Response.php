@@ -105,7 +105,7 @@ class Response
 
         if ($this->shouldDeleteLiveDates()) {
             $apiResponse = $this->removeAllLiveDatesFromXml($apiResponse);
-        } else if ($this->requestHasNonDeterministicDate()) {
+        } elseif ($this->requestHasNonDeterministicDate()) {
             // If date=lastN the <prettyDate> element will change each day, we remove XML element before comparison
 
             if ($this->requestUrl['method'] == 'API.getProcessedReport') {

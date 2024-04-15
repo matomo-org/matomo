@@ -57,7 +57,7 @@ class PhpInformational implements Diagnostic
                 if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache') !== false) {
                     $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningApache', [
                         '<code>ProxyPass /config !</code>', '<code>mod_proxy_fcgi.c</code>', '<code>ProxyPassMatch</code>']);
-                } else if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'nginx') !== false) {
+                } elseif (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'nginx') !== false) {
                     $comment .= $this->translator->translate('Diagnostics_PHPFPMWarningNginx', [
                         '<a href="https://github.com/matomo-org/matomo-nginx#readme" target="_blank">', '</a>']);
                 } else {

@@ -405,7 +405,7 @@ class PasswordResetter
 
         if ($userModel->userExists($loginOrMail)) {
             $user = $userModel->getUser($loginOrMail);
-        } else if ($userModel->userEmailExists($loginOrMail)) {
+        } elseif ($userModel->userEmailExists($loginOrMail)) {
             $user = $userModel->getUserByEmail($loginOrMail);
         }
         return $user;

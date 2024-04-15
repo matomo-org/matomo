@@ -49,7 +49,7 @@ class Goals extends HtmlTable
 
             if ($idGoal == AddColumnsProcessedMetricsGoal::GOALS_PAGES || $idGoal == AddColumnsProcessedMetricsGoal::GOALS_PAGES_ECOMMERCE) {
                 $this->displayType = self::GOALS_DISPLAY_PAGES;
-            } else if ($idGoal == AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES || $idGoal == AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES_ECOMMERCE) {
+            } elseif ($idGoal == AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES || $idGoal == AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES_ECOMMERCE) {
                 $this->displayType = self::GOALS_DISPLAY_ENTRY_PAGES;
             }
         }

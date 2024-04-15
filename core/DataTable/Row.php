@@ -664,7 +664,7 @@ class Row extends \ArrayObject
         if (is_numeric($columnToSumValue)) {
             if ($thisColumnValue === false) {
                 $thisColumnValue = 0;
-            } else if (!is_numeric($thisColumnValue)) {
+            } elseif (!is_numeric($thisColumnValue)) {
                 $label = $this->getColumn('label');
                 $thisColumnDescription = $this->getColumnValueDescriptionForError($thisColumnValue);
                 $columnToSumValueDescription = $this->getColumnValueDescriptionForError($columnToSumValue);

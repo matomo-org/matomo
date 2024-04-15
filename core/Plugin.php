@@ -506,7 +506,7 @@ if (!class_exists('Piwik\Plugin')) {
             $lastCronArchiveTime = (int) Option::get(CronArchive::OPTION_ARCHIVING_FINISHED_TS);
             if (empty($lastCronArchiveTime)) {
                 $dateTime = $lastDeactivationTime;
-            } else if (empty($lastDeactivationTime)) {
+            } elseif (empty($lastDeactivationTime)) {
                 $dateTime = null; // use default earliest time
             } else {
                 $lastCronArchiveTime = Date::factory($lastCronArchiveTime);

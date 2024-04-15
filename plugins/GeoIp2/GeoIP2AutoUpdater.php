@@ -151,7 +151,7 @@ class GeoIP2AutoUpdater extends Task
 
         if (self::isPaidDbIpUrl($url)) {
             $url = $this->fetchPaidDbIpUrl($url);
-        } else if (self::isDbIpUrl($url)) {
+        } elseif (self::isDbIpUrl($url)) {
             $url = $this->getDbIpUrlWithLatestDate($url);
         }
 
@@ -276,7 +276,7 @@ class GeoIP2AutoUpdater extends Task
             $fd = fopen($outputPath, 'wb');
             fwrite($fd, $unzipped);
             fclose($fd);
-        } else if (
+        } elseif (
             substr($filename, -3, 3) == '.gz'
             || $isDbIpUnknownDbType
         ) {
@@ -811,7 +811,7 @@ class GeoIP2AutoUpdater extends Task
 
         if ($updaterPeriod == self::SCHEDULE_PERIOD_WEEKLY) {
             return Date::factory($rescheduledTime)->subWeek(1);
-        } else if ($updaterPeriod == self::SCHEDULE_PERIOD_MONTHLY) {
+        } elseif ($updaterPeriod == self::SCHEDULE_PERIOD_MONTHLY) {
             return Date::factory($rescheduledTime)->subMonth(1);
         }
         throw new Exception("Unknown GeoIP 2 updater period found in database: %s", $updaterPeriod);

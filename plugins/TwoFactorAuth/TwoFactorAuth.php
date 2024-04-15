@@ -194,7 +194,7 @@ class TwoFactorAuth extends \Piwik\Plugin
                     }
                     throw new Exception(Piwik::translate('TwoFactorAuth_InvalidAuthCode'));
                 }
-            } else if (
+            } elseif (
                 $twoFa->isUserRequiredToHaveTwoFactorEnabled()
                         && !TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)
             ) {
@@ -227,7 +227,7 @@ class TwoFactorAuth extends \Piwik\Plugin
                 if (!Request::isRootRequestApiRequest()) {
                     $module = 'TwoFactorAuth';
                     $action = 'loginTwoFactorAuth';
-                } else if (Common::getRequestVar('force_api_session', 0) == 1) {
+                } elseif (Common::getRequestVar('force_api_session', 0) == 1) {
                     // don't allow API requests with session auth if 2fa code hasn't been verified.
                     throw new Exception(Piwik::translate('General_YourSessionHasExpired'));
                 }

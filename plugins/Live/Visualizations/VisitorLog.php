@@ -194,7 +194,7 @@ class VisitorLog extends Visualization
                 if ($action['type'] == 'action') {
                     if (empty($actionGroups[$idPageView]['pageviewAction'])) {
                         $actionGroups[$idPageView]['pageviewAction'] = $action;
-                    } else if (empty($actionGroups[$idPageView]['pageviewAction']['url'])) {
+                    } elseif (empty($actionGroups[$idPageView]['pageviewAction']['url'])) {
                         // set this action as the pageview action either if there isn't one set already, or the existing one
                         // has no URL
                         $actionGroups[$idPageView]['refreshActions'][] = $actionGroups[$idPageView]['pageviewAction'];

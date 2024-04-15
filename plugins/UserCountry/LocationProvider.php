@@ -504,7 +504,7 @@ abstract class LocationProvider
 
         if (!empty($locationInfo[self::REGION_CODE_KEY])) {
             $cityState[] = $locationInfo[self::REGION_CODE_KEY];
-        } else if (!empty($locationInfo[self::REGION_NAME_KEY])) {
+        } elseif (!empty($locationInfo[self::REGION_NAME_KEY])) {
             $cityState[] = $locationInfo[self::REGION_NAME_KEY];
         }
 
@@ -520,7 +520,7 @@ abstract class LocationProvider
         // add country line
         if (!empty($locationInfo[self::COUNTRY_NAME_KEY])) {
             $lines[] = $locationInfo[self::COUNTRY_NAME_KEY];
-        } else if (!empty($locationInfo[self::COUNTRY_CODE_KEY])) {
+        } elseif (!empty($locationInfo[self::COUNTRY_CODE_KEY])) {
             $lines[] = $locationInfo[self::COUNTRY_CODE_KEY];
         }
 
