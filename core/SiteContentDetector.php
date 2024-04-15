@@ -306,9 +306,10 @@ class SiteContentDetector
             if (!isset($cacheData['detectedContent'][$type])) {
                 $cacheData['detectedContent'][$type] = [];
             }
-            foreach ($detections as $detectionId => $wasDetected)
-            if (null !== $wasDetected) {
-                $cacheData['detectedContent'][$type][$detectionId] = $wasDetected;
+            foreach ($detections as $detectionId => $wasDetected) {
+                if (null !== $wasDetected) {
+                    $cacheData['detectedContent'][$type][$detectionId] = $wasDetected;
+                }
             }
         }
 

@@ -27,7 +27,6 @@
         <!-- can't use this as long as we have functions.php files that need to be required manually -->
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols" />
 
-        <exclude name="Generic.ControlStructures.InlineControlStructure.NotAllowed" />
         <exclude name="Generic.Files.LineLength" />
         <exclude name="Generic.PHP.LowerCaseConstant.Found" />
         <exclude name="PSR12.Files.FileHeader" />
