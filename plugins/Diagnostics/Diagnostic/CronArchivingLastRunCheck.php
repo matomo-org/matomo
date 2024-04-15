@@ -84,7 +84,7 @@ class CronArchivingLastRunCheck implements Diagnostic
         // check archiving has been run recently
         if ($diffTime > self::SECONDS_IN_DAY * 2) {
             $result = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $errorComment);
-        } else if ($diffTime > self::SECONDS_IN_DAY) {
+        } elseif ($diffTime > self::SECONDS_IN_DAY) {
             $result = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $errorComment);
         } else {
             $comment = $this->translator->translate('Diagnostics_CronArchivingRanSuccessfullyXAgo', $diffTimePretty);

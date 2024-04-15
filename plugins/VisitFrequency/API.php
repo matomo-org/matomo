@@ -53,7 +53,7 @@ class API extends \Piwik\Plugin\API
         if ($idSite === 'all' || count(Site::getIdSitesFromIdSitesString($idSite)) > 1) {
             $resultSet = new DataTable\Map();
             $resultSet->setKeyName('idSite');
-        } else if (Period::isMultiplePeriod($date, $period)) {
+        } elseif (Period::isMultiplePeriod($date, $period)) {
             $resultSet = new DataTable\Map();
             $resultSet->setKeyName('period');
         } else {

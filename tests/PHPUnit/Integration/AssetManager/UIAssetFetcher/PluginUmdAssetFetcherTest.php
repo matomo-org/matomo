@@ -65,7 +65,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
 
             if (array_key_exists($pluginName, self::TEST_PLUGIN_DEPENDENCIES)) {
                 $pluginDependencies = self::TEST_PLUGIN_DEPENDENCIES[$pluginName];
-            } else if (array_key_exists($pluginName, self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND)) {
+            } elseif (array_key_exists($pluginName, self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND)) {
                 $pluginDependencies = self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND[$pluginName];
             } else {
                 $pluginDependencies = self::TEST_PLUGIN_DEPENDENCIES_DEPENDS_ON_ON_DEMAND[$pluginName];

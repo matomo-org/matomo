@@ -621,7 +621,7 @@ class Updater
             // make sure to check for them here
             if ($e instanceof Zend_Db_Exception) {
                 throw new UpdaterErrorException($e->getMessage(), $e->getCode(), $e);
-            } else if ($e instanceof MissingFilePermissionException) {
+            } elseif ($e instanceof MissingFilePermissionException) {
                 throw new UpdaterErrorException($e->getMessage(), $e->getCode(), $e);
             }{
                 throw $e;

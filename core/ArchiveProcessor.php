@@ -242,7 +242,7 @@ class ArchiveProcessor
                 $columns = $table->getColumns();
                 if (in_array(Metrics::INDEX_NB_VISITS, $columns)) {
                     $columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
-                } else if (in_array('nb_visits', $columns)) {
+                } elseif (in_array('nb_visits', $columns)) {
                     $columnToSortByBeforeTruncation = 'nb_visits';
                 }
             }
@@ -419,7 +419,7 @@ class ArchiveProcessor
             $tableToAddTo = null;
             if ($tableId === null) {
                 $tableToAddTo = $result;
-            } else if (empty($tableIdToResultRowMapping[$period][$tableId])) { // sanity check
+            } elseif (empty($tableIdToResultRowMapping[$period][$tableId])) { // sanity check
                 StaticContainer::get(LoggerInterface::class)->info(
                     'Unexpected state when aggregating DataTable, unknown period/table ID combination encountered: {period} - {tableId}.'
                     . ' This either means the SQL to order blobs is behaving incorrectly or the blob data is corrupt in some way.',

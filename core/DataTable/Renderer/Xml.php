@@ -218,7 +218,7 @@ class Xml extends Renderer
                     //TODO somehow this code is not tested, cover this case
                     $out = $this->renderTable($value, true);
                     $xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">\n$out</result>\n";
-                } else if (is_array($value)) {
+                } elseif (is_array($value)) {
                     if (!is_array(reset($value))) {
                         $out = $this->renderDataTableSimple($value);
                     } else {
@@ -370,7 +370,7 @@ class Xml extends Renderer
                             $value = "\n" . $this->renderDataTable($value, $prefixLine . "\t\t");
                         }
                         $value .= $prefixLine . "\t\t";
-                    } else if (is_array($value)) {
+                    } elseif (is_array($value)) {
                         if (is_array(reset($value))) {
                             $value = "\n" . $this->renderDataTable($value, $prefixLine . "\t\t");
                         } else {
@@ -417,7 +417,7 @@ class Xml extends Renderer
             list($tagStart, $tagEnd) = $this->getTagStartAndEndFor($keyName, $columnsHaveInvalidChars);
             if (is_string($xmlValue) && strlen($xmlValue) == 0) {
                 $out .= $prefixLine . "\t<$tagStart />\n";
-            } else if ($value instanceof DataTable || is_array($value)) {
+            } elseif ($value instanceof DataTable || is_array($value)) {
                 $arrayValue = $this->convertDataTableToArray($value);
                 if (!is_array(reset($arrayValue))) {
                     $xmlTable = $this->renderDataTableSimple($arrayValue, $prefixLine . "\t");

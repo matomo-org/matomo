@@ -205,7 +205,7 @@ class API extends \Piwik\Plugin\API
 
         if ($anonymizeIPEnable == '1') {
             IPAnonymizer::activate();
-        } else if ($anonymizeIPEnable == '0') {
+        } elseif ($anonymizeIPEnable == '0') {
             IPAnonymizer::deactivate();
         } else {
             // pass

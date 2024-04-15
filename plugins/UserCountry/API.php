@@ -126,7 +126,7 @@ class API extends \Piwik\Plugin\API
                         return implode($separator, $splitLabel);
                     }
                 ));
-            } else if ($dt->getRowFromLabel('1|ti')) {
+            } elseif ($dt->getRowFromLabel('1|ti')) {
                 $dt->filter('GroupBy', array(
                     'label',
                     function ($label) {

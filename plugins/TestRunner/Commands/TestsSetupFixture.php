@@ -304,7 +304,7 @@ class TestsSetupFixture extends ConsoleCommand
         if ($file) {
             if (is_file($file)) {
                 require_once $file;
-            } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $file)) {
+            } elseif (is_file(PIWIK_INCLUDE_PATH . '/' . $file)) {
                 require_once PIWIK_INCLUDE_PATH . '/' . $file;
             } else {
                 throw new \Exception("Cannot find --file option file '$file'.");

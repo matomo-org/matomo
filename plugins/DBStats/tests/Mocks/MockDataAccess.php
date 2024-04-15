@@ -124,7 +124,7 @@ class MockDataAccess extends MySQLMetadataDataAccess
         $result = Common::unprefixTable($tableName);
         if (strpos($tableName, "archive_numeric") !== false) {
             $result = "archive_numeric";
-        } else if (strpos($tableName, "archive_blob") !== false) {
+        } elseif (strpos($tableName, "archive_blob") !== false) {
             $result = "archive_blob";
         }
         return $result;

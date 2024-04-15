@@ -118,9 +118,9 @@ class Html extends Renderer
             foreach ($row->getMetadata() as $name => $value) {
                 if (is_string($value)) {
                     $value = "'$value'";
-                } else if (is_array($value)) {
+                } elseif (is_array($value)) {
                     $value = var_export($value, true);
-                } else if ($value instanceof DataTable\DataTableInterface) {
+                } elseif ($value instanceof DataTable\DataTableInterface) {
                     $value = $this->renderTable($value);
                 }
                 $metadata[] = "'$name' => $value";

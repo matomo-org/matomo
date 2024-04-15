@@ -143,7 +143,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
         if ($fileName == 'global.ini.php') {
             $testingEnvironment->configFileGlobal = PIWIK_INCLUDE_PATH . '/tmp/nonexistant/global.ini.php';
-        } else if ($fileName == 'common.config.ini.php') {
+        } elseif ($fileName == 'common.config.ini.php') {
             $testingEnvironment->configFileCommon = PIWIK_INCLUDE_PATH . '/tmp/nonexistant/common.config.ini.php';
         } else {
             $testingEnvironment->configFileLocal = PIWIK_INCLUDE_PATH . '/tmp/nonexistant/' . $fileName;
@@ -158,7 +158,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
         if ($fileName == 'global.ini.php') {
             $testingEnvironment->configFileGlobal = PIWIK_INCLUDE_PATH . '/matomo.php';
-        } else if ($fileName == 'common.config.ini.php') {
+        } elseif ($fileName == 'common.config.ini.php') {
             $testingEnvironment->configFileCommon = PIWIK_INCLUDE_PATH . '/matomo.php';
         } else {
             $testingEnvironment->configFileLocal = PIWIK_INCLUDE_PATH . '/matomo.php';
@@ -178,11 +178,11 @@ class EnvironmentValidationTest extends SystemTestCase
     {
         if ($entryPoint == 'tracker') {
             return $this->sendRequestToTracker();
-        } else if ($entryPoint == 'web') {
+        } elseif ($entryPoint == 'web') {
             return $this->sendRequestToWeb();
-        } else if ($entryPoint == 'console') {
+        } elseif ($entryPoint == 'console') {
             return $this->startConsoleProcess();
-        } else if ($entryPoint == 'archive_web') {
+        } elseif ($entryPoint == 'archive_web') {
             return $this->sendArchiveWebRequest();
         } else {
             throw new \Exception("Don't know how to access '$entryPoint'.");

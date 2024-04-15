@@ -502,7 +502,7 @@ class RowEvolution
                 $value = $firstRow ? floatval($firstRow->getColumn($metric)) : 0;
                 if ($value > 0) {
                     $firstNonZeroFound[$metric] = true;
-                } else if (!isset($firstNonZeroFound[$metric])) {
+                } elseif (!isset($firstNonZeroFound[$metric])) {
                     continue;
                 }
                 if (
@@ -580,7 +580,7 @@ class RowEvolution
                     $prettyLabel = $labelRow->getColumn('label_html');
                     if ($prettyLabel !== false) {
                         $actualLabels[$labelIdx] = $prettyLabel;
-                    } else if (!empty($labelPretty[$labelIdx])) {
+                    } elseif (!empty($labelPretty[$labelIdx])) {
                         $actualLabels[$labelIdx] = $labelPretty[$labelIdx];
                     }
 
@@ -589,7 +589,7 @@ class RowEvolution
                     if (!empty($actualLabels[$labelIdx])) {
                         break;
                     }
-                } else if (!empty($labelPretty[$labelIdx])) {
+                } elseif (!empty($labelPretty[$labelIdx])) {
                     $actualLabels[$labelIdx] = $labelPretty[$labelIdx];
                 }
             }

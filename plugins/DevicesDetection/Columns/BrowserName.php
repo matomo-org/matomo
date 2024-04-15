@@ -82,7 +82,7 @@ class BrowserName extends Base
 
         if (!empty($aBrowserInfo['short_name'])) {
             return $aBrowserInfo['short_name'];
-        } else if (!empty($aBrowserInfo['name'])) {
+        } elseif (!empty($aBrowserInfo['name'])) {
             return $aBrowserInfo['name'];
         }
 

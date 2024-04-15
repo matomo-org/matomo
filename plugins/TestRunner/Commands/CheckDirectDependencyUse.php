@@ -94,7 +94,7 @@ class CheckDirectDependencyUse extends ConsoleCommand
         if ($psrType === 'psr4') {
             $prefix = rtrim($prefix, '\\');
             $regex = ' \\\\?' . preg_quote($prefix) . '\\b';
-        } else if ($psrType === 'psr0') {
+        } elseif ($psrType === 'psr0') {
             $regex = '\\b' . preg_quote($prefix) . '_';
         }
 

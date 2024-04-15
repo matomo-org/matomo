@@ -43,7 +43,7 @@ class MemoryLimitCheck implements Diagnostic
         if (false === $memoryLimit) {
             $status = DiagnosticResult::STATUS_OK;
             $comment = $this->translator->translate('Installation_SystemCheckMemoryNoMemoryLimitSet');
-        } else if ($memoryLimit >= $this->minimumMemoryLimit) {
+        } elseif ($memoryLimit >= $this->minimumMemoryLimit) {
             $status = DiagnosticResult::STATUS_OK;
         } else {
             $status = DiagnosticResult::STATUS_WARNING;

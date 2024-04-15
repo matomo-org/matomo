@@ -363,7 +363,7 @@ class DataTablePostProcessor
             || !empty($showColumns)
         ) {
             $dataTable->filter('ColumnDelete', array($hideColumns, $showColumns, $deleteIfZeroOnly = false, $hideColumnsRecursively));
-        } else if ($showRawMetrics !== 1) {
+        } elseif ($showRawMetrics !== 1) {
             $this->removeTemporaryMetrics($dataTable);
         }
 

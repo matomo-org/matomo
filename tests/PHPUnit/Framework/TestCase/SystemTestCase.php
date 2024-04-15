@@ -128,7 +128,7 @@ abstract class SystemTestCase extends TestCase
                 $filterValues = array();
                 if ($apiValue['filterKey'] === 'module') {
                     $filterValues = self::getAllowedModulesToFilterApiResponse($api);
-                } else if ($apiValue['filterKey'] === 'category') {
+                } elseif ($apiValue['filterKey'] === 'category') {
                     $filterValues = self::getAllowedCategoriesToFilterApiResponse($api);
                 }
                 if ($filterValues && self::$shouldFilterApiResponse) {
@@ -831,7 +831,7 @@ abstract class SystemTestCase extends TestCase
                         $isNumeric = preg_match('/^\d+(\.\d+)?$/', $value);
                         if ($isNumeric) {
                             $values[] = $value;
-                        } else if (!ctype_print($value)) {
+                        } elseif (!ctype_print($value)) {
                             $values[] = "x'" . bin2hex($value) . "'";
                         } else {
                             $values[] = "?";

@@ -240,7 +240,7 @@ class API extends \Piwik\Plugin\API
             if (empty($columns)) {
                 if (!empty($reportColumns[self::DEFAULT_ORDINATE_METRIC])) {
                     $ordinateColumns[] = self::DEFAULT_ORDINATE_METRIC;
-                } else if (!empty($metadata['metrics'])) {
+                } elseif (!empty($metadata['metrics'])) {
                     $ordinateColumns[] = key($metadata['metrics']);
                 } else {
                     throw new Exception(

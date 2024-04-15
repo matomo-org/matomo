@@ -618,7 +618,7 @@ class Metrics
                 Metrics::INDEX_GOAL_NB_VISITS_CONVERTED,
                 Metrics::INDEX_GOAL_REVENUE,
             ];
-        } else if ($idGoal == GoalManager::IDGOAL_ORDER) { // ecommerce order
+        } elseif ($idGoal == GoalManager::IDGOAL_ORDER) { // ecommerce order
             $columns = [
                 Metrics::INDEX_GOAL_NB_CONVERSIONS,
                 Metrics::INDEX_GOAL_NB_VISITS_CONVERTED,

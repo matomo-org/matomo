@@ -247,7 +247,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         if (is_dir(PIWIK_INCLUDE_PATH . '/' . $umdSrcFolder)) {
             if (Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devUmd)) {
                 return $devUmd;
-            } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
+            } elseif (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
                 return $minifiedUmd;
             }
         }

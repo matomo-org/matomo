@@ -78,7 +78,7 @@ class Annotations extends \Piwik\Plugin
             $oPeriod = new Period\Range('day', $date);
             $startDate = $oPeriod->getDateStart()->getStartOfDay();
             $endDate = $oPeriod->getDateEnd()->getStartOfDay();
-        } else if ($lastN == false && !$isMultiplePeriod) {
+        } elseif ($lastN == false && !$isMultiplePeriod) {
             $oPeriod = Period\Factory::build($period, Date::factory($date));
             $startDate = $oPeriod->getDateStart();
             $endDate = $oPeriod->getDateEnd();

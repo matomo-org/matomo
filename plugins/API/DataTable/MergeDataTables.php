@@ -77,11 +77,11 @@ class MergeDataTables
             $result = new DataTable\Map();
             $result->setKeyName($subTable2->getKeyName());
             return $result;
-        } else if ($subTable2 instanceof DataTable\Simple) {
+        } elseif ($subTable2 instanceof DataTable\Simple) {
             $result = new DataTable\Simple();
             $result->setAllTableMetadata($subTable2->getAllTableMetadata());
             return $result;
-        } else if ($subTable2 instanceof DataTable) {
+        } elseif ($subTable2 instanceof DataTable) {
             $result = new DataTable();
             $result->setAllTableMetadata($subTable2->getAllTableMetadata());
             return $result;

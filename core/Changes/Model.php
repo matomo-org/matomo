@@ -154,7 +154,7 @@ class Model
 
         if ($all === 0) {
             return self::NO_CHANGES_EXIST;
-        } else if ($all > 0 && $new === 0) {
+        } elseif ($all > 0 && $new === 0) {
             return self::CHANGES_EXIST;
         } else {
             return self::NEW_CHANGES_EXIST;

@@ -21,7 +21,7 @@ class Menu extends \Piwik\Plugin\Menu
 
         if (Piwik::hasUserSuperUserAccess()) {
             $menu->addSystemItem($title, $url, $order);
-        } else if (!Piwik::isUserIsAnonymous()) {
+        } elseif (!Piwik::isUserIsAnonymous()) {
             $menu->addPersonalItem($title, $url, $order);
         }
     }

@@ -83,7 +83,7 @@ abstract class Factory
             }
 
             $dateObject = Date::factory($date);
-        } else if ($date instanceof Date) {
+        } elseif ($date instanceof Date) {
             $dateObject = $date;
         } else {
             throw new \Exception("Invalid date supplied to Period\Factory::build(): " . gettype($date));
