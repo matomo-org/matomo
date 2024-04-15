@@ -141,11 +141,6 @@ rm -rf node_modules/jquery-ui-dist/jquery-ui.js
 rm -rf node_modules/jquery-ui-dist/jquery-ui.structure.css
 rm -rf node_modules/jquery-ui-dist/jquery-ui.theme.css
 
-rm -rf node_modules/jquery.dotdotdot/gulpfile.js
-rm -rf node_modules/jquery.dotdotdot/index.html
-rm -rf node_modules/jquery.dotdotdot/dotdotdot.jquery.json
-rm -rf node_modules/jquery.dotdotdot/src
-
 rm -rf node_modules/jquery.scrollto/jquery.scrollTo.js
 rm -rf node_modules/jquery.scrollto/scrollTo.jquery.json
 rm -rf node_modules/jquery.scrollto/changes.txt
