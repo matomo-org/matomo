@@ -58,6 +58,8 @@
         "JSTracking_CrossDomain_NeedsMultipleDomains": "Nota: Para usar enlaces cruzados de dominio, debe especificar más de un nombre de dominio (URLs) para su sitio web.",
         "JSTracking_CustomCampaignQueryParam": "Utilizar nombres de parámetros de consulta personalizados para el nombre de la campaña y la palabra clave",
         "JSTracking_CustomCampaignQueryParamDesc": "Nota: %1$sMatomo detectará automáticamente los parámetros de Google Analytics.%2$s",
+        "JSTracking_DisableCampaignParameters": "Deshabilitar el seguimiento de parámetros de la campaña",
+        "JSTracking_DisableCampaignParametersDesc": "Cuando esta opción está marcada, Matomo no rastreará los parámetros de la campaña y serán eliminados de las URLs rastreadas.",
         "JSTracking_DisableCookies": "Desactivar todas las cookies de rastreo",
         "JSTracking_DisableCookiesDesc": "Deshabilite todas las cookies propias. Las cookies de Matomo existentes para este sitio web se eliminarán en las próximas visitas a la página.",
         "JSTracking_EnableCrossDomainLinking": "Permitir la vinculación entre dominios",
