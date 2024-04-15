@@ -8,6 +8,7 @@
 	<row>iCab</row>
 	<row>Elektra</row>
 	<row>Presto</row>
+	<row>Clecko</row>
 	<row>Gecko</row>
 	<row>KHTML</row>
 	<row>NetFront</row>
@@ -16,4 +17,6 @@
 	<row>Servo</row>
 	<row>Goanna</row>
 	<row>EkiohFlow</row>
+	<row>Arachne</row>
+	<row>LibWeb</row>
 </result>
