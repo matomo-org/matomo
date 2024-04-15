@@ -25,8 +25,8 @@
                 <form {{ form_data.attributes|raw }} ng-non-bindable>
                     <div class="row">
                         <div class="col s12 input-field">
-                            <input type="text" name="form_login" placeholder="" id="login_form_login" class="input" value="" size="20"
-                                   autocorrect="off" autocapitalize="none"
+                            <input type="text" name="form_login" id="login_form_login" class="input" value="" size="20"
+                                   placeholder="" autocomplete="username" autocorrect="off" autocapitalize="none" spellcheck="false"
                                    tabindex="10" autofocus="autofocus"/>
                             <label for="login_form_login"><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
                         </div>
@@ -36,8 +36,8 @@
                         <div class="col s12 input-field">
                             <input type="hidden" name="form_nonce" id="login_form_nonce" value="{{ nonce }}"/>
                             <input type="hidden" name="form_redirect" id="login_form_redirect" value=""/>
-                            <input type="password" placeholder="" name="form_password" id="login_form_password" class="input" value="" size="20"
-                                   autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+                            <input type="password" name="form_password" id="login_form_password" class="input" value="" size="20"
+                                   placeholder="" autocomplete="current-password" autocorrect="off" autocapitalize="none" spellcheck="false"
                                    tabindex="20" />
                             <label for="login_form_password"><i class="icon-locked icon"></i> {{ 'General_Password'|translate }}</label>
                         </div>
