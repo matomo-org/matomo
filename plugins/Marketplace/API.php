@@ -14,6 +14,11 @@ use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Api\Service;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
+use Piwik\Plugins\UsersManager\SystemSettings;
+use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
+use Piwik\Plugins\UsersManager\Validators\Email;
+use Piwik\Validators\Exception as ValidatorException;
+use Piwik\Validators\NotEmpty;
 
 /**
  * The Marketplace API lets you manage your license key so you can download & install in one-click <a target="_blank" rel="noreferrer" href="https://matomo.org/recommends/premium-plugins/">paid premium plugins</a> you have subscribed to.
@@ -62,6 +67,87 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @param string $pluginName
+     *
+     * @return bool
+     * @throws Service\Exception If the marketplace request failed
+     *
+     * @internal
+     */
+    public function createAccount(string $email): bool
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $licenseKey = (new LicenseKey())->get();
+
+        if (!empty($licenseKey)) {
+            // not translated to allow special handling in frontend
+            throw new Exception('Marketplace_CreateAccountErrorLicenseExists');
+        }
+
+        $notEmptyValidator = new NotEmpty();
+        $notEmptyValidator->validate($email);
+
+        try {
+            $emailValidator = new Email();
+            $emailValidator->validate($email);
+        } catch (ValidatorException $e) {
+            // rethrow with changed message
+            throw new ValidatorException(
+                Piwik::translate('Marketplace_CreateAccountErrorEmailInvalid', $email)
+            );
+        }
+
+        // Ensure the provided email uses a domain that is allowed (if configured)
+        $systemSettings = new SystemSettings();
+        $allowedDomainsValidator = new AllowedEmailDomain($systemSettings);
+        $allowedDomainsValidator->validate($email);
+
+        try {
+            $result = $this->marketplaceService->fetch(
+                'createAccount',
+                [],
+                [
+                    'email' => $email,
+                ],
+                true,
+                false
+            );
+        } catch (Service\Exception $e) {
+            // not translated to allow special handling in frontend
+            throw new Exception('Marketplace_CreateAccountErrorAPI');
+        }
+
+        $this->marketplaceClient->clearAllCacheEntries();
+
+        $licenseKey = trim($result['data']['license_key'] ?? '');
+        $status = $result['status'];
+
+        if (200 !== $status || empty($licenseKey)) {
+            switch ($status) {
+                case 400:
+                    $message = Piwik::translate('Marketplace_CreateAccountErrorAPIEmailInvalid');
+                    break;
+
+                case 409:
+                    $message = Piwik::translate('Marketplace_CreateAccountErrorAPIEmailExists', $email);
+                    break;
+
+                default:
+                    // not translated to allow special handling in frontend
+                    $message = 'Marketplace_CreateAccountErrorAPI';
+                    break;
+            }
+
+            throw new Exception($message);
+        }
+
+        $this->setLicenseKey($licenseKey);
+
+        return true;
+    }
+
+    /**
      * Deletes an existing license key if one is set.
      *
      * @return bool
@@ -94,22 +180,16 @@ class API extends \Piwik\Plugin\API
 
         $this->marketplaceService->authenticate($licenseKey);
 
-        try {
-            $result = $this->marketplaceService->fetch(
-                'plugins/' . $pluginName . '/freeTrial',
-                [
-                    'num_users' => $this->environment->getNumUsers(),
-                    'num_websites' => $this->environment->getNumWebsites(),
-                ],
-                true
-            );
-        } catch (Service\Exception $e) {
-            if ($e->getCode() === Api\Service\Exception::HTTP_ERROR) {
-                throw $e;
-            }
-
-            throw new Exception('There was an error starting your free trial: Please try again later.');
-        }
+        $result = $this->marketplaceService->fetch(
+            'plugins/' . $pluginName . '/freeTrial',
+            [
+                'num_users' => $this->environment->getNumUsers(),
+                'num_websites' => $this->environment->getNumWebsites(),
+            ],
+            [],
+            true,
+            false
+        );
 
         $this->marketplaceClient->clearAllCacheEntries();
 
@@ -120,7 +200,7 @@ class API extends \Piwik\Plugin\API
         ) {
             // We expect an exact empty 201 response from this API
             // Anything different should be an error
-            throw new Exception('There was an error starting your free trial: Please try again later.');
+            throw new Exception(Piwik::translate('Marketplace_TrialStartErrorAPI'));
         }
 
         return true;

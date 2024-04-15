@@ -53,6 +53,7 @@
       :default-sort="defaultSort"
       :plugin-sort-options="pluginSortOptions"
       :num-available-plugins-by-type="numAvailablePluginsByType"
+      :current-user-email="currentUserEmail"
       :is-auto-update-possible="isAutoUpdatePossible"
       :is-super-user="isSuperUser"
       :is-multi-server-environment="isMultiServerEnvironment"
@@ -77,6 +78,7 @@ import LicenseKey from '../LicenseKey/LicenseKey.vue';
 
 export default defineComponent({
   props: {
+    currentUserEmail: String,
     inReportingMenu: Boolean,
     isValidConsumer: Boolean,
     isSuperUser: Boolean,

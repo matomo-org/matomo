@@ -164,5 +164,7 @@ class CorePluginsAdmin extends Plugin
         $translations[] = 'CorePluginsAdmin_ThemesManagement';
         $translations[] = 'CorePluginsAdmin_NUpdatesAvailable';
         $translations[] = 'CorePluginsAdmin_PluginFreeTrialStarted';
+        $translations[] = 'CorePluginsAdmin_PluginFreeTrialStartedAccountCreatedMessage';
+        $translations[] = 'CorePluginsAdmin_PluginFreeTrialStartedAccountCreatedTitle';
     }
 }
