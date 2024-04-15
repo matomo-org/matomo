@@ -21,8 +21,7 @@
       "jquery",
       "jqueryui",
       "materialize-css",
-      "mousetrap",
-      "dotdotdot"
+      "mousetrap"
     ],
     "paths": {
       "*": ["@types/*", "*"]
