@@ -32,7 +32,7 @@ class CSVTest extends \PHPUnit\Framework\TestCase
      * - datatableSimple
      * - normal datatable  with 2 row (including columns and metadata)
      */
-    protected function _getDataTableTest()
+    protected function getDataTableTest()
     {
         $dataTable = new DataTable();
 
@@ -56,7 +56,7 @@ class CSVTest extends \PHPUnit\Framework\TestCase
         return $dataTable;
     }
 
-    protected function _getDataTableSimpleTest()
+    protected function getDataTableSimpleTest()
     {
         $array = array('max_actions' => 14.0, 'nb_uniq_visitors' => 57.0, 'nb_visits' => 66.0, 'nb_actions' => 151.0, 'sum_visit_length' => 5118.0, 'bounce_count' => 44.0,);
 
@@ -65,7 +65,7 @@ class CSVTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableSimpleOneRowTest()
+    protected function getDataTableSimpleOneRowTest()
     {
         $array = array('nb_visits' => 14.0);
 
@@ -74,13 +74,13 @@ class CSVTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableEmpty()
+    protected function getDataTableEmpty()
     {
         $table = new DataTable();
         return $table;
     }
 
-    protected function _getDataTableSimpleOneZeroRowTest()
+    protected function getDataTableSimpleOneZeroRowTest()
     {
         $array = array('nb_visits' => 0);
         $table = new Simple();
@@ -88,7 +88,7 @@ class CSVTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableSimpleOneFalseRowTest()
+    protected function getDataTableSimpleOneFalseRowTest()
     {
         $array = array('is_excluded' => false);
         $table = new Simple();
@@ -96,7 +96,7 @@ class CSVTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableHavingAnArrayInRowMetadata()
+    protected function getDataTableHavingAnArrayInRowMetadata()
     {
         $array = array(
             array(Row::COLUMNS => array('label' => 'sub1', 'count' => 1)),
@@ -115,7 +115,7 @@ class CSVTest extends \PHPUnit\Framework\TestCase
 
     public function testCSVTest1()
     {
-        $dataTable = $this->_getDataTableTest();
+        $dataTable = $this->getDataTableTest();
 
         $render = new Csv();
         $render->setTable($dataTable);
@@ -131,7 +131,7 @@ class CSVTest extends \PHPUnit\Framework\TestCase
 
     public function testCSVTest2()
     {
-        $dataTable = $this->_getDataTableSimpleTest();
+        $dataTable = $this->getDataTableSimpleTest();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;
@@ -143,7 +143,7 @@ class CSVTest extends \PHPUnit\Framework\TestCase
 
     public function testCSVTest3()
     {
-        $dataTable = $this->_getDataTableSimpleOneRowTest();
+        $dataTable = $this->getDataTableSimpleOneRowTest();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;
@@ -155,7 +155,7 @@ class CSVTest extends \PHPUnit\Framework\TestCase
 
     public function testCSVTest5()
     {
-        $dataTable = $this->_getDataTableSimpleOneZeroRowTest();
+        $dataTable = $this->getDataTableSimpleOneZeroRowTest();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;
@@ -167,7 +167,7 @@ class CSVTest extends \PHPUnit\Framework\TestCase
 
     public function testCSVTest4()
     {
-        $dataTable = $this->_getDataTableEmpty();
+        $dataTable = $this->getDataTableEmpty();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;
@@ -179,7 +179,7 @@ class CSVTest extends \PHPUnit\Framework\TestCase
 
     public function testCSVTest6()
     {
-        $dataTable = $this->_getDataTableSimpleOneFalseRowTest();
+        $dataTable = $this->getDataTableSimpleOneFalseRowTest();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;
@@ -191,7 +191,7 @@ class CSVTest extends \PHPUnit\Framework\TestCase
 
     public function testCSVRendererCorrectlyEscapesHeadersAndValues()
     {
-        $dataTable = $this->_getDataTableSimpleWithCommasInCells();
+        $dataTable = $this->getDataTableSimpleWithCommasInCells();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->setSeparator('#');
@@ -206,7 +206,7 @@ val#"val#2"';
 
     public function testCSVTest7_shouldNotRenderMetadataThatContainsAnArray()
     {
-        $dataTable = $this->_getDataTableHavingAnArrayInRowMetadata();
+        $dataTable = $this->getDataTableHavingAnArrayInRowMetadata();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;
@@ -227,7 +227,7 @@ sub6,3,,renderrrrrr";
      * DATA OF DATATABLE_ARRAY
      * -------------------------
      */
-    protected function _getDataTableMapTest()
+    protected function getDataTableMapTest()
     {
         $array1 = array(
             array(Row::COLUMNS  => array('label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11,),
@@ -262,7 +262,7 @@ sub6,3,,renderrrrrr";
         return $table;
     }
 
-    protected function _getDataTableSimpleMapTest()
+    protected function getDataTableSimpleMapTest()
     {
         $array1 = array('max_actions' => 14.0, 'nb_uniq_visitors' => 57.0,);
         $table1 = new Simple();
@@ -283,7 +283,7 @@ sub6,3,,renderrrrrr";
         return $table;
     }
 
-    protected function _getDataTableSimpleOneRowMapTest()
+    protected function getDataTableSimpleOneRowMapTest()
     {
         $array1 = array('nb_visits' => 14.0);
         $table1 = new Simple();
@@ -303,34 +303,34 @@ sub6,3,,renderrrrrr";
         return $table;
     }
 
-    protected function _getDataTableMap_containsDataTableMap_normal()
+    protected function getDataTableMap_containsDataTableMap_normal()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableMapTest(), 'idSite');
+        $table->addTable($this->getDataTableMapTest(), 'idSite');
         return $table;
     }
 
-    protected function _getDataTableMap_containsDataTableMap_simple()
+    protected function getDataTableMap_containsDataTableMap_simple()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableSimpleMapTest(), 'idSite');
+        $table->addTable($this->getDataTableSimpleMapTest(), 'idSite');
         return $table;
     }
 
-    protected function _getDataTableMap_containsDataTableMap_simpleOneRow()
+    protected function getDataTableMap_containsDataTableMap_simpleOneRow()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableSimpleOneRowMapTest(), 'idSite');
+        $table->addTable($this->getDataTableSimpleOneRowMapTest(), 'idSite');
         return $table;
     }
 
 
     public function testCSVMapTest1()
     {
-        $dataTable = $this->_getDataTableMapTest();
+        $dataTable = $this->getDataTableMapTest();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;
@@ -347,7 +347,7 @@ sub6,3,,renderrrrrr";
 
     public function testCSVMapTest2()
     {
-        $dataTable = $this->_getDataTableSimpleMapTest();
+        $dataTable = $this->getDataTableSimpleMapTest();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;
@@ -360,7 +360,7 @@ sub6,3,,renderrrrrr";
 
     public function testCSVMapTest3()
     {
-        $dataTable = $this->_getDataTableSimpleOneRowMapTest();
+        $dataTable = $this->getDataTableSimpleOneRowMapTest();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;
@@ -372,7 +372,7 @@ sub6,3,,renderrrrrr";
 
     public function testCSVMapisMadeOfMapTest1()
     {
-        $dataTable = $this->_getDataTableMap_containsDataTableMap_normal();
+        $dataTable = $this->getDataTableMap_containsDataTableMap_normal();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;
@@ -389,7 +389,7 @@ sub6,3,,renderrrrrr";
 
     public function testCSVMapIsMadeOfMapTest2()
     {
-        $dataTable = $this->_getDataTableMap_containsDataTableMap_simple();
+        $dataTable = $this->getDataTableMap_containsDataTableMap_simple();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;
@@ -402,7 +402,7 @@ sub6,3,,renderrrrrr";
 
     public function testCSVMapIsMadeOfMapTest3()
     {
-        $dataTable = $this->_getDataTableMap_containsDataTableMap_simpleOneRow();
+        $dataTable = $this->getDataTableMap_containsDataTableMap_simpleOneRow();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;
@@ -466,7 +466,7 @@ b,d,f,g';
         $this->assertEquals($expected, $render->render());
     }
 
-    private function _getDataTableSimpleWithCommasInCells()
+    private function getDataTableSimpleWithCommasInCells()
     {
         $table = new DataTable();
         $table->addRowsFromSimpleArray(array(

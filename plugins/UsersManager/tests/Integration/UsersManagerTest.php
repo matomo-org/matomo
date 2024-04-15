@@ -73,7 +73,7 @@ class UsersManagerTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    private function _flatten($sitesAccess)
+    private function flatten($sitesAccess)
     {
         $result = array();
 
@@ -84,7 +84,7 @@ class UsersManagerTest extends IntegrationTestCase
         return $result;
     }
 
-    private function _checkUserHasNotChanged($user, $newPassword, $newEmail = null)
+    private function checkUserHasNotChanged($user, $newPassword, $newEmail = null)
     {
         if (is_null($newEmail)) {
             $newEmail = $user['email'];
@@ -143,7 +143,7 @@ class UsersManagerTest extends IntegrationTestCase
         try {
             $this->api->updateUser($login, "pas");
         } catch (Exception $expected) {
-            $this->_checkUserHasNotChanged($user, $user['password']);
+            $this->checkUserHasNotChanged($user, $user['password']);
             throw $expected;
         }
     }
@@ -472,7 +472,7 @@ class UsersManagerTest extends IntegrationTestCase
         Option::set('UsersManager.lastSeen.gegg4564eqgeqag', $now = time());
 
         $users = $this->api->getUsers();
-        $users = $this->_removeNonTestableFieldsFromUsers($users);
+        $users = $this->removeNonTestableFieldsFromUsers($users);
         $user1 = array('login'            => "gegg4564eqgeqag",
                        'email'            => "tegst@tesgt.com",
                        'superuser_access' => 0,
@@ -493,11 +493,11 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals($expectedUsers, $users);
         $this->assertEquals(
             array($user1),
-            $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag'))
+            $this->removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag'))
         );
         $this->assertEquals(
             array($user1, $user2),
-            $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag,geggeqge632ge56a4qag'))
+            $this->removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag,geggeqge632ge56a4qag'))
         );
     }
 
@@ -515,7 +515,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->getUsers();
     }
 
-    protected function _removeNonTestableFieldsFromUsers($users)
+    protected function removeNonTestableFieldsFromUsers($users)
     {
         foreach ($users as &$user) {
             unset($user['password']);
@@ -639,7 +639,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         FakeAccess::$superUser = true;
         $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
-        $access = $this->_flatten($access);
+        $access = $this->flatten($access);
 
         /** @var Access $accessInstance */
         $accessInstance = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Access');
@@ -666,7 +666,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setUserAccess("gegg4564eqgeqag", "view", "all");
 
         $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
-        $access = $this->_flatten($access);
+        $access = $this->flatten($access);
         $this->assertEquals($idSites, array_keys($access));
     }
 
@@ -690,7 +690,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setUserAccess("gegg4564eqgeqag", "view", $idSites);
 
         $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
-        $access = $this->_flatten($access);
+        $access = $this->flatten($access);
         $this->assertEquals($idSites, array_keys($access));
     }
 
@@ -705,7 +705,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setUserAccess("gegg4564eqgeqag", "view", array($id1, $id3));
 
         $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
-        $access = $this->_flatten($access);
+        $access = $this->flatten($access);
         $this->assertEquals(array($id1, $id3), array_keys($access));
     }
 
@@ -719,7 +719,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setUserAccess("gegg4564eqgeqag", "view", "1,3");
 
         $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
-        $access = $this->_flatten($access);
+        $access = $this->flatten($access);
         $this->assertEquals(array(1, 3), array_keys($access));
     }
 
@@ -736,7 +736,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setUserAccess("gegg4564eqgeqag", "admin", array($id2));
 
         $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
-        $access = $this->_flatten($access);
+        $access = $this->flatten($access);
         $this->assertEquals(array($id1 => 'view', $id2 => 'admin'), $access);
     }
 
@@ -755,9 +755,9 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setUserAccess("user2", "view", array($id3, $id2));
 
         $access1 = $this->api->getSitesAccessFromUser("user1");
-        $access1 = $this->_flatten($access1);
+        $access1 = $this->flatten($access1);
         $access2 = $this->api->getSitesAccessFromUser("user2");
-        $access2 = $this->_flatten($access2);
+        $access2 = $this->flatten($access2);
         $wanted1 = array($id1 => 'view', $id2 => 'view',);
         $wanted2 = array($id1 => 'admin', $id2 => 'view', $id3 => 'view');
 
@@ -809,7 +809,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setUserAccess("user1", "admin", array($id1));
 
         $access1 = $this->api->getSitesAccessFromUser("user1");
-        $access1 = $this->_flatten($access1);
+        $access1 = $this->flatten($access1);
         $wanted1 = array($id1 => 'admin', $id2 => 'view',);
 
         $this->assertEquals($wanted1, $access1);
@@ -867,7 +867,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setUserAccess('login1', 'admin', array($id2));
 
         // verify user has access before setting Super User access
-        $access = $this->_flatten($this->api->getSitesAccessFromUser('login1'));
+        $access = $this->flatten($this->api->getSitesAccessFromUser('login1'));
         $this->assertEquals(array($id1 => 'view', $id2 => 'admin'), $access);
 
         $this->api->setSuperUserAccess('login1', true, $pwd);
@@ -1018,7 +1018,7 @@ class UsersManagerTest extends IntegrationTestCase
         FakeAccess::$identity = 'login';
         $this->api->updateUser($login, "passowordOK", null, false, "geqgeagae");
 
-        $this->_checkUserHasNotChanged($user, "passowordOK", null);
+        $this->checkUserHasNotChanged($user, "passowordOK", null);
     }
 
     /**
@@ -1062,7 +1062,7 @@ class UsersManagerTest extends IntegrationTestCase
         FakeAccess::$identity = 'login';
         $this->api->updateUser($login, "passowordOK", "email@geaga.com", false, "geqgeagae");
 
-        $this->_checkUserHasNotChanged($user, "passowordOK", "email@geaga.com");
+        $this->checkUserHasNotChanged($user, "passowordOK", "email@geaga.com");
     }
 
     public function testGetUserByEmailInvalidMail()

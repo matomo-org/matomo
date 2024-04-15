@@ -44,8 +44,8 @@ class ByParameterCount extends FilterAbstract
                 }
 
                 // ensure that translated strings have the same number of %s as the english source strings
-                $baseCount = $this->_getParametersCountToReplace($baseTranslation);
-                $translationCount = $this->_getParametersCountToReplace($translation);
+                $baseCount = $this->getParametersCountToReplace($baseTranslation);
+                $translationCount = $this->getParametersCountToReplace($translation);
 
                 if ($baseCount != $translationCount) {
                     $this->filteredData[$pluginName][$key] = $translation;
@@ -65,7 +65,7 @@ class ByParameterCount extends FilterAbstract
      * @param string $string
      * @return array
      */
-    protected function _getParametersCountToReplace($string)
+    protected function getParametersCountToReplace($string)
     {
         $sprintfParameters = array('%s', '%1$s', '%2$s', '%3$s', '%4$s', '%5$s', '%6$s', '%7$s', '%8$s', '%9$s');
         $count = array();

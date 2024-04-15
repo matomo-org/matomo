@@ -99,7 +99,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         return $this->_connection;
     }
 
-    protected function _connect()
+    protected function _connect() // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
     {
         if ($this->_connection) {
             return;
@@ -341,7 +341,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * if unix_socket is set since setting both causes unexpected behaviour
      * @see http://php.net/manual/en/ref.pdo-mysql.connection.php
      */
-    protected function _dsn()
+    protected function _dsn() // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
     {
         if (!empty($this->_config['unix_socket'])) {
             unset($this->_config['host']);

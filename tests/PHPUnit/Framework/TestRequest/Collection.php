@@ -92,7 +92,7 @@ class Collection
         $this->testConfig = $testConfig;
         $this->setExplicitApiToCallAndNotCall($apiToCall);
 
-        $this->requestUrls = $this->_generateApiUrls();
+        $this->requestUrls = $this->generateApiUrls();
     }
 
     public function getRequestUrls()
@@ -105,7 +105,7 @@ class Collection
      *
      * @return array
      */
-    protected function _generateApiUrls()
+    protected function generateApiUrls()
     {
         $parametersToSet = array(
             'idSite'         => $this->testConfig->idSite,

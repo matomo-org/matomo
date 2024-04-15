@@ -87,8 +87,8 @@ class DataPurgingTest extends IntegrationTestCase
     {
         parent::beforeTableDataCached();
 
-        self::_addLogData();
-        self::_addReportData();
+        self::addLogData();
+        self::addReportData();
     }
 
     protected static function configureFixture($fixture)
@@ -158,7 +158,7 @@ class DataPurgingTest extends IntegrationTestCase
      */
     public function testDeleteLogDataInitialRun()
     {
-        $this->_checkNoDataChanges();
+        $this->checkNoDataChanges();
 
         // Check it does not run
         $this->assertFalse($this->instance->deleteLogData());
@@ -167,7 +167,7 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertEquals(1, Option::get(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
 
         // perform other checks
-        $this->_checkNoDataChanges();
+        $this->checkNoDataChanges();
     }
 
     /**
@@ -181,7 +181,7 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertEquals(1, Option::get(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
 
         // perform other checks
-        $this->_checkNoDataChanges();
+        $this->checkNoDataChanges();
     }
 
     /**
@@ -198,7 +198,7 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertFalse($this->instance->deleteReportData());
 
         // perform checks
-        $this->_checkNoDataChanges();
+        $this->checkNoDataChanges();
     }
 
     /**
@@ -223,27 +223,27 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertEquals($expectedPrediction, $prediction);
 
         // purge data
-        $this->_setTimeToRun();
+        $this->setTimeToRun();
         $this->assertTrue($this->instance->deleteLogData());
         $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
 
-        $archiveTables = self::_getArchiveTableNames();
+        $archiveTables = self::getArchiveTableNames();
 
         // January numeric table should be dropped
-        $this->assertEquals(self::JAN_DONE_FLAGS_COUNT, $this->_getTableCount($archiveTables['numeric'][0])); // January
+        $this->assertEquals(self::JAN_DONE_FLAGS_COUNT, $this->getTableCount($archiveTables['numeric'][0])); // January
 
         // Check february metric count
-        $febRowCount = $this->_getExpectedNumericArchiveCountFeb();
-        $this->assertEquals($febRowCount, $this->_getTableCount($archiveTables['numeric'][1])); // February
+        $febRowCount = $this->getExpectedNumericArchiveCountFeb();
+        $this->assertEquals($febRowCount, $this->getTableCount($archiveTables['numeric'][1])); // February
 
         // January blob table should be dropped
-        $this->assertEquals(0, $this->_getTableCount($archiveTables['blob'][0])); // January
+        $this->assertEquals(0, $this->getTableCount($archiveTables['blob'][0])); // January
 
         // Check february blob count (1 blob per period w/ visits + 1 garbage report)
-        $this->assertEquals(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->_getTableCount($archiveTables['blob'][1])); // February
+        $this->assertEquals(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->getTableCount($archiveTables['blob'][1])); // February
     }
 
     public function test_LogDataPurging_WorksWhenVisitsInPastTracked()
@@ -251,9 +251,9 @@ class DataPurgingTest extends IntegrationTestCase
         DbHelper::deleteArchiveTables();
 
         self::trackVisitInPast();
-        self::_addReportData();
+        self::addReportData();
 
-        $this->_setTimeToRun();
+        $this->setTimeToRun();
         $this->assertTrue($this->instance->deleteLogData());
 
         $this->checkLogDataPurged();
@@ -279,13 +279,13 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertEquals($expectedPrediction, $prediction);
 
         // purge data
-        $this->_setTimeToRun();
+        $this->setTimeToRun();
         $hasDeleted = $this->instance->deleteLogData();
         $this->assertFalse($hasDeleted);
         $this->assertFalse($this->instance->deleteReportData());
 
         // perform checks
-        $this->_checkNoDataChanges();
+        $this->checkNoDataChanges();
     }
 
     /**
@@ -304,22 +304,22 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertEquals($expectedPrediction, $prediction);
 
         // purge data
-        $this->_setTimeToRun();
+        $this->setTimeToRun();
         $this->assertTrue($this->instance->deleteLogData());
 
         $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
-        $this->assertEquals(0, $this->_getTableCount('log_visit'));
-        $this->assertEquals(0, $this->_getTableCount('log_conversion'));
-        $this->assertEquals(0, $this->_getTableCount('log_link_visit_action'));
-        $this->assertEquals(0, $this->_getTableCount('log_conversion_item'));
+        $this->assertEquals(0, $this->getTableCount('log_visit'));
+        $this->assertEquals(0, $this->getTableCount('log_conversion'));
+        $this->assertEquals(0, $this->getTableCount('log_link_visit_action'));
+        $this->assertEquals(0, $this->getTableCount('log_conversion_item'));
 
-        $archiveTables = self::_getArchiveTableNames();
-        $this->assertFalse($this->_tableExists($archiveTables['numeric'][0])); // January
-        $this->assertFalse($this->_tableExists($archiveTables['numeric'][1])); // February
-        $this->assertFalse($this->_tableExists($archiveTables['blob'][0])); // January
-        $this->assertFalse($this->_tableExists($archiveTables['blob'][1])); // February
+        $archiveTables = self::getArchiveTableNames();
+        $this->assertFalse($this->tableExists($archiveTables['numeric'][0])); // January
+        $this->assertFalse($this->tableExists($archiveTables['numeric'][1])); // February
+        $this->assertFalse($this->tableExists($archiveTables['blob'][0])); // January
+        $this->assertFalse($this->tableExists($archiveTables['blob'][1])); // February
     }
 
     /**
@@ -348,19 +348,19 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertEquals($expectedPrediction, $prediction);
 
         // purge data
-        $this->_setTimeToRun();
+        $this->setTimeToRun();
         $this->assertTrue($this->instance->deleteLogData());
         $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
 
-        $archiveTables = self::_getArchiveTableNames();
+        $archiveTables = self::getArchiveTableNames();
 
         // all numeric metrics should be saved except the garbage metric
-        $janRowCount = $this->_getExpectedNumericArchiveCountJan() - 1;
+        $janRowCount = $this->getExpectedNumericArchiveCountJan() - 1;
         $tableName = $archiveTables['numeric'][0];
-        $tableCount = $this->_getTableCount($tableName);
+        $tableCount = $this->getTableCount($tableName);
         $this->assertEquals($janRowCount, $tableCount); // January
 
         if ($janRowCount != $tableCount) {
@@ -368,13 +368,13 @@ class DataPurgingTest extends IntegrationTestCase
         }
 
         // check february numerics not deleted
-        $febRowCount = $this->_getExpectedNumericArchiveCountFeb();
-        $this->assertEquals($febRowCount, $this->_getTableCount($archiveTables['numeric'][1])); // February
+        $febRowCount = $this->getExpectedNumericArchiveCountFeb();
+        $this->assertEquals($febRowCount, $this->getTableCount($archiveTables['numeric'][1])); // February
 
-        $this->assertEquals(0, $this->_getTableCount($archiveTables['blob'][0])); // January
+        $this->assertEquals(0, $this->getTableCount($archiveTables['blob'][0])); // January
 
         // check for no changes in the february blob table
-        $this->assertEquals(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->_getTableCount($archiveTables['blob'][1])); // February
+        $this->assertEquals(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->getTableCount($archiveTables['blob'][1])); // February
     }
 
     /**
@@ -403,13 +403,13 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertEquals($expectedPrediction, $prediction);
 
         // purge data
-        $this->_setTimeToRun();
+        $this->setTimeToRun();
         $this->assertTrue($this->instance->deleteLogData());
         $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 5, $janNumericRemaining = 87); // 5 blobs for 5 days
+        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 5, $janNumericRemaining = 87); // 5 blobs for 5 days
     }
 
     /**
@@ -438,13 +438,13 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertEquals($expectedPrediction, $prediction);
 
         // purge data
-        $this->_setTimeToRun();
+        $this->setTimeToRun();
         $this->assertTrue($this->instance->deleteLogData());
         $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 4, $janNumericRemaining = 81); // 4 blobs for 4 weeks
+        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 4, $janNumericRemaining = 81); // 4 blobs for 4 weeks
     }
 
     /**
@@ -473,13 +473,13 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertEquals($expectedPrediction, $prediction);
 
         // purge data
-        $this->_setTimeToRun();
+        $this->setTimeToRun();
         $this->assertTrue($this->instance->deleteLogData());
         $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 66);
+        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 66);
     }
 
     /**
@@ -508,13 +508,13 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertEquals($expectedPrediction, $prediction);
 
         // purge data
-        $this->_setTimeToRun();
+        $this->setTimeToRun();
         $this->assertTrue($this->instance->deleteLogData());
         $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 66);
+        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 66);
     }
 
     /**
@@ -537,7 +537,7 @@ class DataPurgingTest extends IntegrationTestCase
 
         // check that actions were purged
         $contentsNotPurged = 3;
-        $this->assertEquals(22 + $this->getCountEventIdsNotPurged() + $contentsNotPurged, $this->_getTableCount('log_action')); // January
+        $this->assertEquals(22 + $this->getCountEventIdsNotPurged() + $contentsNotPurged, $this->getTableCount('log_action')); // January
 
         // check that the unused action still exists
         $count = Db::fetchOne(
@@ -575,13 +575,13 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertEquals($expectedPrediction, $prediction);
 
         // purge data
-        $this->_setTimeToRun();
+        $this->setTimeToRun();
         $this->assertTrue($this->instance->deleteLogData());
         $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 2, $janNumericRemaining = 65); // 2 range blobs
+        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 2, $janNumericRemaining = 65); // 2 range blobs
     }
 
     /**
@@ -611,18 +611,18 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertEquals($expectedPrediction, $prediction);
 
         // purge data
-        $this->_setTimeToRun();
+        $this->setTimeToRun();
         $this->assertTrue($this->instance->deleteLogData());
         $this->assertTrue($this->instance->deleteReportData());
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 6, $janNumericRemaining = 114); // 1 segmented blob + 5 day blobs
+        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 6, $janNumericRemaining = 114); // 1 segmented blob + 5 day blobs
     }
 
     // --- utility functions follow ---
 
-    protected static function _addLogData()
+    protected static function addLogData()
     {
         // tracks visits on the following days:
         // - 2012-01-09
@@ -715,7 +715,7 @@ class DataPurgingTest extends IntegrationTestCase
         $t->doTrackPageView('visit in past');
     }
 
-    protected static function _addReportData()
+    protected static function addReportData()
     {
         $date = Date::factory(self::$dateTime);
 
@@ -783,7 +783,7 @@ class DataPurgingTest extends IntegrationTestCase
             Archiver::getRecordName('revenue', GoalManager::IDGOAL_ORDER)
         );
 
-        $archiveTables = self::_getArchiveTableNames();
+        $archiveTables = self::getArchiveTableNames();
         foreach ($archiveTables['numeric'] as $table) {
             $realTable = Common::prefixTable($table);
             $sql = "DELETE FROM $realTable WHERE name NOT IN ('" . implode("','", $metricsToSave) . "') AND name NOT LIKE 'done%'";
@@ -822,27 +822,27 @@ class DataPurgingTest extends IntegrationTestCase
         );
     }
 
-    protected function _checkNoDataChanges()
+    protected function checkNoDataChanges()
     {
         // 11 visits total w/ 4 actions per visit & 2 conversions per visit. 1 e-commerce order per visit.
-        $this->assertEquals(11, $this->_getTableCount('log_visit'));
-        $this->assertEquals(22, $this->_getTableCount('log_conversion'));
-        $this->assertEquals(44, $this->_getTableCount('log_link_visit_action'));
-        $this->assertEquals(11, $this->_getTableCount('log_conversion_item'));
-        $this->assertEquals(45, $this->_getTableCount('log_action'));
+        $this->assertEquals(11, $this->getTableCount('log_visit'));
+        $this->assertEquals(22, $this->getTableCount('log_conversion'));
+        $this->assertEquals(44, $this->getTableCount('log_link_visit_action'));
+        $this->assertEquals(11, $this->getTableCount('log_conversion_item'));
+        $this->assertEquals(45, $this->getTableCount('log_action'));
 
-        $archiveTables = self::_getArchiveTableNames();
+        $archiveTables = self::getArchiveTableNames();
 
-        $janMetricCount = $this->_getExpectedNumericArchiveCountJan();
-        $this->assertEquals($janMetricCount, $this->_getTableCount($archiveTables['numeric'][0])); // January
+        $janMetricCount = $this->getExpectedNumericArchiveCountJan();
+        $this->assertEquals($janMetricCount, $this->getTableCount($archiveTables['numeric'][0])); // January
 
         // no range metric for february
-        $febMetricCount = $this->_getExpectedNumericArchiveCountFeb();
-        $this->assertEquals($febMetricCount, $this->_getTableCount($archiveTables['numeric'][1])); // February
+        $febMetricCount = $this->getExpectedNumericArchiveCountFeb();
+        $this->assertEquals($febMetricCount, $this->getTableCount($archiveTables['numeric'][1])); // February
 
         // 1 entry per period w/ visits + 1 garbage report + 2 range reports + 1 segment report
-        $this->assertEquals(self::JAN_METRIC_ARCHIVE_COUNT + 1 + 2 + 1, $this->_getTableCount($archiveTables['blob'][0])); // January
-        $this->assertEquals(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->_getTableCount($archiveTables['blob'][1])); // February
+        $this->assertEquals(self::JAN_METRIC_ARCHIVE_COUNT + 1 + 2 + 1, $this->getTableCount($archiveTables['blob'][0])); // January
+        $this->assertEquals(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->getTableCount($archiveTables['blob'][1])); // February
     }
 
     /**
@@ -850,21 +850,21 @@ class DataPurgingTest extends IntegrationTestCase
      * was dropped, that the february metric & blob tables are unaffected, and that the january blob
      * table has a certain number of blobs.
      */
-    protected function _checkReportsAndMetricsPurged($janBlobsRemaining, $janNumericRemaining)
+    protected function checkReportsAndMetricsPurged($janBlobsRemaining, $janNumericRemaining)
     {
-        $archiveTables = self::_getArchiveTableNames();
+        $archiveTables = self::getArchiveTableNames();
 
-        $this->assertEquals($janNumericRemaining, $this->_getTableCount($archiveTables['numeric'][0]));
+        $this->assertEquals($janNumericRemaining, $this->getTableCount($archiveTables['numeric'][0]));
 
         // check february numerics not deleted
-        $febRowCount = $this->_getExpectedNumericArchiveCountFeb();
-        $this->assertEquals($febRowCount, $this->_getTableCount($archiveTables['numeric'][1])); // February
+        $febRowCount = $this->getExpectedNumericArchiveCountFeb();
+        $this->assertEquals($febRowCount, $this->getTableCount($archiveTables['numeric'][1])); // February
 
         // check the january blob count
-        $this->assertEquals($janBlobsRemaining, $this->_getTableCount($archiveTables['blob'][0])); // January
+        $this->assertEquals($janBlobsRemaining, $this->getTableCount($archiveTables['blob'][0])); // January
 
         // check for no changes in the february blob table (1 blob for every period w/ visits in feb + 1 garbage report)
-        $this->assertEquals(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->_getTableCount($archiveTables['blob'][1])); // February
+        $this->assertEquals(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->getTableCount($archiveTables['blob'][1])); // February
     }
 
     private function checkLogDataPurged()
@@ -873,14 +873,14 @@ class DataPurgingTest extends IntegrationTestCase
         // & 6 actions removed
         $events = 11 - 3; // 3 deleted (1 per day purged)
         $contents = 11 - 3; // 3 deleted (1 per day purged)
-        $this->assertEquals(8, $this->_getTableCount('log_visit'));
-        $this->assertEquals(16, $this->_getTableCount('log_conversion'));
-        $this->assertEquals(16 + $events + $contents, $this->_getTableCount('log_link_visit_action'));
-        $this->assertEquals(8, $this->_getTableCount('log_conversion_item'));
+        $this->assertEquals(8, $this->getTableCount('log_visit'));
+        $this->assertEquals(16, $this->getTableCount('log_conversion'));
+        $this->assertEquals(16 + $events + $contents, $this->getTableCount('log_link_visit_action'));
+        $this->assertEquals(8, $this->getTableCount('log_conversion_item'));
 
         $eventsId = $this->getCountEventIdsNotPurged();
         $contentsNotPurged = 3;
-        $this->assertEquals(21 + $eventsId + $contentsNotPurged, $this->_getTableCount('log_action'));
+        $this->assertEquals(21 + $eventsId + $contentsNotPurged, $this->getTableCount('log_action'));
     }
 
     /**
@@ -907,7 +907,7 @@ class DataPurgingTest extends IntegrationTestCase
         Db::query($sql);
     }
 
-    protected function _setTimeToRun()
+    protected function setTimeToRun()
     {
         $lastDateSecs = Date::factory('today')->subDay(8)->getTimestamp();
 
@@ -916,7 +916,7 @@ class DataPurgingTest extends IntegrationTestCase
         Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_REPORTS, $lastDateSecs);
     }
 
-    protected function _getTableCount($tableName, $where = '')
+    protected function getTableCount($tableName, $where = '')
     {
         $sql = "SELECT COUNT(*) FROM " . Common::prefixTable($tableName) . " $where";
         return Db::fetchOne($sql);
@@ -928,7 +928,7 @@ class DataPurgingTest extends IntegrationTestCase
         var_export(Db::fetchAll($sql));
     }
 
-    protected function _tableExists($tableName)
+    protected function tableExists($tableName)
     {
         $dbName = Config::getInstance()->database['dbname'];
 
@@ -936,7 +936,7 @@ class DataPurgingTest extends IntegrationTestCase
         return Db::fetchOne($sql, array($dbName, Common::prefixTable($tableName))) == 1;
     }
 
-    protected static function _getArchiveTableNames()
+    protected static function getArchiveTableNames()
     {
         return array(
             'numeric' => array(
@@ -950,7 +950,7 @@ class DataPurgingTest extends IntegrationTestCase
         );
     }
 
-    protected function _getExpectedNumericArchiveCountJan()
+    protected function getExpectedNumericArchiveCountJan()
     {
         // 5 entries per period w/ visits
         // + 3 entries per dependent goals segment (2 total) per period w/ visits
@@ -965,7 +965,7 @@ class DataPurgingTest extends IntegrationTestCase
         return self::JAN_METRIC_ARCHIVE_COUNT * 6 + 1 + 2 + 6 + 1 + 3 + 64 + 50;
     }
 
-    protected function _getExpectedNumericArchiveCountFeb()
+    protected function getExpectedNumericArchiveCountFeb()
     {
         // (5 metrics per period w/ visits
         // + 1 'done' archive for every period w/ data)
