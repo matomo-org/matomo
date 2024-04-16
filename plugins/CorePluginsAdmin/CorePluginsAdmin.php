@@ -103,7 +103,6 @@ class CorePluginsAdmin extends Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "node_modules/jquery.dotdotdot/dist/jquery.dotdotdot.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/popover.js";
     }
 
