@@ -155,18 +155,18 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
     public function testCheckThatConfigurationValuesAreProductionValues()
     {
-        $this->_checkEqual(array('Debug' => 'always_archive_data_day'), '0');
-        $this->_checkEqual(array('Debug' => 'always_archive_data_period'), '0');
-        $this->_checkEqual(array('Debug' => 'enable_sql_profiler'), '0');
-        $this->_checkEqual(array('General' => 'time_before_today_archive_considered_outdated'), '900');
-        $this->_checkEqual(array('General' => 'enable_browser_archiving_triggering'), '1');
-        $this->_checkEqual(array('General' => 'default_language'), 'en');
-        $this->_checkEqual(array('Tracker' => 'record_statistics'), '1');
-        $this->_checkEqual(array('Tracker' => 'visit_standard_length'), '1800');
-        $this->_checkEqual(array('Tracker' => 'trust_visitors_cookies'), '0');
-        $this->_checkEqual(array('log' => 'log_level'), 'WARN');
-        $this->_checkEqual(array('log' => 'log_writers'), array('screen'));
-        $this->_checkEqual(array('log' => 'logger_api_call'), null);
+        $this->checkEqual(array('Debug' => 'always_archive_data_day'), '0');
+        $this->checkEqual(array('Debug' => 'always_archive_data_period'), '0');
+        $this->checkEqual(array('Debug' => 'enable_sql_profiler'), '0');
+        $this->checkEqual(array('General' => 'time_before_today_archive_considered_outdated'), '900');
+        $this->checkEqual(array('General' => 'enable_browser_archiving_triggering'), '1');
+        $this->checkEqual(array('General' => 'default_language'), 'en');
+        $this->checkEqual(array('Tracker' => 'record_statistics'), '1');
+        $this->checkEqual(array('Tracker' => 'visit_standard_length'), '1800');
+        $this->checkEqual(array('Tracker' => 'trust_visitors_cookies'), '0');
+        $this->checkEqual(array('log' => 'log_level'), 'WARN');
+        $this->checkEqual(array('log' => 'log_writers'), array('screen'));
+        $this->checkEqual(array('log' => 'logger_api_call'), null);
 
         $this->assertFalse(defined('DEBUG_FORCE_SCHEDULED_TASKS'));
 
@@ -176,7 +176,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(false !== strpos($content, $expected), 'index.php should contain: ' . $expected);
     }
 
-    private function _checkEqual($key, $valueExpected)
+    private function checkEqual($key, $valueExpected)
     {
         $section = key($key);
         $optionName = current($key);

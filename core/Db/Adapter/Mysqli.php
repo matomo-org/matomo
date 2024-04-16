@@ -76,7 +76,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
         return 3306;
     }
 
-    protected function _connect()
+    protected function _connect() // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
     {
         if ($this->_connection) {
             return;

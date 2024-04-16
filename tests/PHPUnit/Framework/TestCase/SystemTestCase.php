@@ -482,7 +482,7 @@ abstract class SystemTestCase extends TestCase
         return $response;
     }
 
-    protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $params = array())
+    protected function testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $params = array())
     {
         Manager::getInstance()->deleteAll(); // clearing the datatable cache here GREATLY speeds up system tests on CI
 
@@ -690,7 +690,7 @@ abstract class SystemTestCase extends TestCase
         $testRequests = $this->getTestRequestsCollection($api, $testConfig, $api);
 
         foreach ($testRequests->getRequestUrls() as $apiId => $requestUrl) {
-            $this->_testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $params);
+            $this->testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $params);
         }
 
         // change the language back to en

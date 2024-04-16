@@ -25,7 +25,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 {
     public function testApplyFilter()
     {
-        $table = $this->_getDataTable1ForTest();
+        $table = $this->getDataTable1ForTest();
         $this->assertEquals(4, $table->getRowsCount());
         $table->filter('Limit', array(2, 2));
         $this->assertEquals(2, $table->getRowsCount());
@@ -33,7 +33,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, $table->getRowsCount());
     }
 
-    protected function _getSimpleTestDataTable()
+    protected function getSimpleTestDataTable()
     {
         $table = new DataTable();
         $table->addRowsFromArray(
@@ -48,7 +48,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getSimpleTestDataTable2()
+    protected function getSimpleTestDataTable2()
     {
         $table = new DataTable();
         $table->addRowsFromArray(
@@ -65,8 +65,8 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
     public function testMultiFilter()
     {
-        $table = $this->_getSimpleTestDataTable();
-        $table2 = $this->_getSimpleTestDataTable2();
+        $table = $this->getSimpleTestDataTable();
+        $table2 = $this->getSimpleTestDataTable2();
 
         $result = $table->multiFilter([$table2], function ($thisTable, $otherTable) {
             $thisTable->addDataTable($otherTable);
@@ -89,7 +89,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
     public function testRenameColumn()
     {
-        $table = $this->_getSimpleTestDataTable();
+        $table = $this->getSimpleTestDataTable();
         $this->assertEquals(array(10, 90, 100, 200), $table->getColumn('count'));
         $this->assertEquals(200, $table->getTotalsRow()->getColumn('count'));
         $table->renameColumn('count', 'renamed');
@@ -100,7 +100,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
     public function testDeleteColumn()
     {
-        $table = $this->_getSimpleTestDataTable();
+        $table = $this->getSimpleTestDataTable();
         $this->assertEquals(array(10, 90, 100, 200), $table->getColumn('count'));
         $table->deleteColumn('count');
         $this->assertEquals(array(false, false, false, false), $table->getColumn('count'));
@@ -109,7 +109,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
     public function testDeleteRow()
     {
-        $table = $this->_getSimpleTestDataTable();
+        $table = $this->getSimpleTestDataTable();
 
         // normal row
         $idToDelete = 1;
@@ -126,7 +126,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
     public function testGetLastRow()
     {
-        $table = $this->_getSimpleTestDataTable();
+        $table = $this->getSimpleTestDataTable();
         $rowsCount = $table->getRowsCount();
 
         $this->assertEquals($table->getLastRow(), $table->getRowFromId(DataTable::ID_SUMMARY_ROW));
@@ -137,15 +137,15 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
     public function testGetRowFromIdSubDataTable()
     {
-        $table1 = $this->_getDataTable1ForTest();
+        $table1 = $this->getDataTable1ForTest();
         $idTable1 = $table1->getId();
-        $table2 = $this->_getDataTable2ForTest();
+        $table2 = $this->getDataTable2ForTest();
         $this->assertFalse($table2->getRowFromIdSubDataTable($idTable1));
 
         $table2->getFirstRow()->setSubtable($table1);
         $this->assertEquals($table2->getRowFromIdSubDataTable($idTable1), $table2->getFirstRow());
 
-        $table3 = $this->_getDataTable1ForTest();
+        $table3 = $this->getDataTable1ForTest();
         $idTable3 = $table3->getId();
         $table2->getLastRow()->setSubtable($table3);
         $this->assertEquals($table2->getRowFromIdSubDataTable($idTable3), $table2->getLastRow());
@@ -832,7 +832,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddSimpleNoRowTable2()
     {
-        $table = $this->_getDataTable1ForTest();
+        $table = $this->getDataTable1ForTest();
         $tableEmpty = new DataTable();
         $tableAfter = clone $table;
         $tableAfter->addDataTable($tableEmpty);
@@ -844,7 +844,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddSimpleNoRowTable1()
     {
-        $table = $this->_getDataTable1ForTest();
+        $table = $this->getDataTable1ForTest();
         $tableEmpty = new DataTable();
         $tableEmpty->addDataTable($table);
         $this->assertTrue(DataTable::isEqual($tableEmpty, $table));
@@ -855,12 +855,12 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddSimpleNoCommonRow()
     {
-        $table1 = $this->_getDataTable1ForTest();
-        $table2 = $this->_getDataTable2ForTest();
+        $table1 = $this->getDataTable1ForTest();
+        $table2 = $this->getDataTable2ForTest();
 
         $table1->addDataTable($table2);
 
-        $rowsExpected = array_merge($this->_getRowsDataTable1ForTest(), $this->_getRowsDataTable2ForTest());
+        $rowsExpected = array_merge($this->getRowsDataTable1ForTest(), $this->getRowsDataTable2ForTest());
         $tableExpected = new DataTable();
         $tableExpected->addRowsFromArray($rowsExpected);
 
@@ -1143,8 +1143,8 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
     public function test_serializeFails_onSubTableNotFound()
     {
         // create a simple table with a subtable
-        $table1 = $this->_getDataTable1ForTest();
-        $table2 = $this->_getDataTable2ForTest();
+        $table1 = $this->getDataTable1ForTest();
+        $table2 = $this->getDataTable2ForTest();
         $table2->getFirstRow()->setSubtable($table1);
         $idSubtable = 1; // subtableIds are consecutive, we cannot use $table->getId()
 
@@ -1184,7 +1184,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
     public function testMergeSubtablesKeepsMetadata()
     {
-        $dataTable = $this->_getDataTable1ForTest();
+        $dataTable = $this->getDataTable1ForTest();
         $dataTable->setMetadata('additionalMetadata', 'test');
         $dataTable = $dataTable->mergeSubtables();
         $this->assertEquals('test', $dataTable->getMetadata('additionalMetadata'));
@@ -1329,23 +1329,23 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         return $useless1;
     }
 
-    protected function _getDataTable1ForTest()
+    protected function getDataTable1ForTest()
     {
-        $rows = $this->_getRowsDataTable1ForTest();
+        $rows = $this->getRowsDataTable1ForTest();
         $table = new DataTable();
         $table->addRowsFromArray($rows);
         return $table;
     }
 
-    protected function _getDataTable2ForTest()
+    protected function getDataTable2ForTest()
     {
-        $rows = $this->_getRowsDataTable2ForTest();
+        $rows = $this->getRowsDataTable2ForTest();
         $table = new DataTable();
         $table->addRowsFromArray($rows);
         return $table;
     }
 
-    protected function _getRowsDataTable1ForTest()
+    protected function getRowsDataTable1ForTest()
     {
         $rows = array(
             array(Row::COLUMNS => array('label' => 'google', 'visits' => 1)),
@@ -1357,7 +1357,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         return $rows;
     }
 
-    protected function _getRowsDataTable2ForTest()
+    protected function getRowsDataTable2ForTest()
     {
         $rows = array(
             array(Row::COLUMNS => array('label' => 'test', 'visits' => 1)),

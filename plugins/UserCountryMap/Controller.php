@@ -77,7 +77,7 @@ class Controller extends \Piwik\Plugin\Controller
         );
         $config = [];
         $config['visitsSummary'] = json_decode($request->process(), true);
-        $config['countryDataUrl'] = $this->_report(
+        $config['countryDataUrl'] = $this->report(
             'UserCountry',
             'getCountry',
             $this->idSite,
@@ -87,7 +87,7 @@ class Controller extends \Piwik\Plugin\Controller
             false,
             $segment
         );
-        $config['regionDataUrl'] = $this->_report(
+        $config['regionDataUrl'] = $this->report(
             'UserCountry',
             'getRegion',
             $this->idSite,
@@ -97,7 +97,7 @@ class Controller extends \Piwik\Plugin\Controller
             true,
             $segment
         );
-        $config['cityDataUrl'] = $this->_report(
+        $config['cityDataUrl'] = $this->report(
             'UserCountry',
             'getCity',
             $this->idSite,
@@ -355,7 +355,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $url;
     }
 
-    private function _report($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false, $segmentOverride = false)
+    private function report($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false, $segmentOverride = false)
     {
         return $this->getApiRequestUrl(
             'API',

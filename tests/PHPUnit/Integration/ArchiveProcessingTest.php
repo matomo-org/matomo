@@ -64,7 +64,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
      * @param string $timezone
      * @return Site
      */
-    private function _createWebsite($timezone = 'UTC')
+    private function createWebsite($timezone = 'UTC')
     {
         $idSite = Fixture::createWebsite('2013-03-04', 0, false, false, 1, null, null, $timezone);
         Site::clearCache();
@@ -79,9 +79,9 @@ class ArchiveProcessingTest extends IntegrationTestCase
      * @param string $siteTimezone
      * @return ArchiveProcessorTest
      */
-    private function _createArchiveProcessor($periodLabel, $dateLabel, $siteTimezone)
+    private function createArchiveProcessor($periodLabel, $dateLabel, $siteTimezone)
     {
-        $site = $this->_createWebsite($siteTimezone);
+        $site = $this->createWebsite($siteTimezone);
         $date = Date::factory($dateLabel);
         $period = Period\Factory::build($periodLabel, $date);
         $segment = new Segment('', [$site->getId()], $period->getDateTimeStart(), $period->getDateTimeEnd());
@@ -90,7 +90,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         return new ArchiveProcessorTest($params);
     }
 
-    private function _createArchiveProcessorInst($periodLabel, $dateLabel, $idSite, $archiveOnly = false, $plugin = false)
+    private function createArchiveProcessorInst($periodLabel, $dateLabel, $idSite, $archiveOnly = false, $plugin = false)
     {
         $period = Period\Factory::build($periodLabel, $dateLabel);
         $segment = new Segment('', [$idSite], $period->getDateTimeStart(), $period->getDateTimeEnd());
@@ -151,7 +151,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         }
 
         $dateLabel = date('Y-m-d', $now);
-        $archiveProcessor = $this->_createArchiveProcessor('month', $dateLabel, $siteTimezone);
+        $archiveProcessor = $this->createArchiveProcessor('month', $dateLabel, $siteTimezone);
         $archiveProcessor->time = $now;
 
         // min finished timestamp considered when looking at archive timestamp
@@ -171,7 +171,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
      */
     public function testInitDayInPast()
     {
-        $archiveProcessor = $this->_createArchiveProcessor('day', '2010-01-01', 'UTC');
+        $archiveProcessor = $this->createArchiveProcessor('day', '2010-01-01', 'UTC');
 
         $this->assertEquals('2010-01-01 00:00:00', $archiveProcessor->getParams()->getDateStart()->getDateStartUTC());
         $this->assertEquals('2010-01-01 23:59:59', $archiveProcessor->getParams()->getDateEnd()->getDateEndUTC());
@@ -183,7 +183,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
     public function testInitDayInPastNonUTCWebsite()
     {
         $timezone = 'UTC+5.5';
-        $archiveProcessor = $this->_createArchiveProcessor('day', '2010-01-01', $timezone);
+        $archiveProcessor = $this->createArchiveProcessor('day', '2010-01-01', $timezone);
 
         $this->assertEquals('2009-12-31 18:30:00', $archiveProcessor->getParams()->getDateStart()->getDateStartUTC());
         $this->assertEquals('2010-01-01 18:29:59', $archiveProcessor->getParams()->getDateEnd()->getDateEndUTC());
@@ -195,7 +195,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
     public function testInitMonthInPastNonUTCWebsite()
     {
         $timezone = 'UTC-5.5';
-        $archiveProcessor = $this->_createArchiveProcessor('month', '2010-01-02', $timezone);
+        $archiveProcessor = $this->createArchiveProcessor('month', '2010-01-02', $timezone);
 
         $this->assertEquals('2010-01-01 05:30:00', $archiveProcessor->getParams()->getDateStart()->getDateStartUTC());
         $this->assertEquals('2010-02-01 05:29:59', $archiveProcessor->getParams()->getDateEnd()->getDateEndUTC());
@@ -213,7 +213,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
 
         Rules::setBrowserTriggerArchiving(true);
 
-        $archiveProcessor = $this->_createArchiveProcessor('day', $dateLabel, $siteTimezone);
+        $archiveProcessor = $this->createArchiveProcessor('day', $dateLabel, $siteTimezone);
         $archiveProcessor->time = $now;
 
         // when browsers don't trigger archives...
@@ -240,7 +240,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
 
         Rules::setBrowserTriggerArchiving(true);
 
-        $archiveProcessor = $this->_createArchiveProcessor('day', $dateLabel, $siteTimezone);
+        $archiveProcessor = $this->createArchiveProcessor('day', $dateLabel, $siteTimezone);
         $archiveProcessor->time = $now;
 
         // when browsers don't trigger archives...
@@ -270,7 +270,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
 
         Rules::setBrowserTriggerArchiving(true);
 
-        $archiveProcessor = $this->_createArchiveProcessor('day', $dateLabel, $siteTimezone);
+        $archiveProcessor = $this->createArchiveProcessor('day', $dateLabel, $siteTimezone);
         $archiveProcessor->time = $now;
 
         // when browsers don't trigger archives...
@@ -289,7 +289,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
     public function testTableInsertBatch()
     {
         $table = Common::prefixTable('site_url');
-        $data = $this->_getDataInsert();
+        $data = $this->getDataInsert();
         try {
             $didWeUseBulk = BatchInsert::tableInsertBatch(
                 $table,
@@ -302,18 +302,18 @@ class ArchiveProcessingTest extends IntegrationTestCase
             $didWeUseBulk = $e->getMessage();
         }
 
-        $this->_checkLoadDataInFileWasUsed($didWeUseBulk);
+        $this->checkLoadDataInFileWasUsed($didWeUseBulk);
 
         if ($didWeUseBulk === true) {
-            $this->_checkTableIsExpected($table, $data);
+            $this->checkTableIsExpected($table, $data);
 
             // INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc)
             BatchInsert::tableInsertBatch($table, array('idsite', 'url'), $data);
-            $this->_checkTableIsExpected($table, $data);
+            $this->checkTableIsExpected($table, $data);
         }
     }
 
-    protected function _checkLoadDataInFileWasUsed($didWeUseBulk)
+    protected function checkLoadDataInFileWasUsed($didWeUseBulk)
     {
         static $skippedOnce = false;
         if (
@@ -340,9 +340,9 @@ class ArchiveProcessingTest extends IntegrationTestCase
     public function testTableInsertBatchIterate()
     {
         $table = Common::prefixTable('site_url');
-        $data = $this->_getDataInsert();
+        $data = $this->getDataInsert();
         BatchInsert::tableInsertBatchIterate($table, array('idsite', 'url'), $data);
-        $this->_checkTableIsExpected($table, $data);
+        $this->checkTableIsExpected($table, $data);
 
         // If we insert AGAIN, expect to throw an error because the primary key already exists
         try {
@@ -350,7 +350,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         } catch (Exception $e) {
             // However if we insert with keyword REPLACE, then the new data should be saved
             BatchInsert::tableInsertBatchIterate($table, array('idsite', 'url'), $data, $ignoreWhenDuplicate = true);
-            $this->_checkTableIsExpected($table, $data);
+            $this->checkTableIsExpected($table, $data);
             return;
         }
         $this->fail('Exception expected');
@@ -364,7 +364,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $dateLabel = '2011-03-31';
         $table = ArchiveTableCreator::getBlobTable(Date::factory($dateLabel));
 
-        $data = $this->_getBlobDataInsert();
+        $data = $this->getBlobDataInsert();
         try {
             $didWeUseBulk = BatchInsert::tableInsertBatch(
                 $table,
@@ -376,16 +376,16 @@ class ArchiveProcessingTest extends IntegrationTestCase
         } catch (Exception $e) {
             $didWeUseBulk = $e->getMessage();
         }
-        $this->_checkLoadDataInFileWasUsed($didWeUseBulk);
+        $this->checkLoadDataInFileWasUsed($didWeUseBulk);
 
         // If bulk wasn't used the exception was caught and the INSERT didn't work
         if ($didWeUseBulk === true) {
-            $this->_checkTableIsExpectedBlob($table, $data);
+            $this->checkTableIsExpectedBlob($table, $data);
         }
         // INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc)
         $didWeUseBulk = BatchInsert::tableInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data, $throw = false, $charset = 'latin1');
         if ($didWeUseBulk === true) {
-            $this->_checkTableIsExpectedBlob($table, $data);
+            $this->checkTableIsExpectedBlob($table, $data);
         }
     }
 
@@ -397,9 +397,9 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $dateLabel = '2011-03-31';
         $table = ArchiveTableCreator::getBlobTable(Date::factory($dateLabel));
 
-        $data = $this->_getBlobDataInsert();
+        $data = $this->getBlobDataInsert();
         BatchInsert::tableInsertBatchIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
-        $this->_checkTableIsExpectedBlob($table, $data);
+        $this->checkTableIsExpectedBlob($table, $data);
 
         // If we insert AGAIN, expect to throw an error because the primary key already exist
         try {
@@ -407,7 +407,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         } catch (Exception $e) {
             // However if we insert with keyword REPLACE, then the new data should be saved
             BatchInsert::tableInsertBatchIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data, $ignoreWhenDuplicate = true);
-            $this->_checkTableIsExpectedBlob($table, $data);
+            $this->checkTableIsExpectedBlob($table, $data);
             return;
         }
         $this->fail('Exception expected');
@@ -430,11 +430,11 @@ class ArchiveProcessingTest extends IntegrationTestCase
             ],
         ];
 
-        $site = $this->_createWebsite('UTC');
+        $site = $this->createWebsite('UTC');
 
         foreach ($allMetrics as $date => $metrics) {
             /** @var ArchiveWriter $archiveWriter */
-            list($archiveProcessor, $archiveWriter, $params) = $this->_createArchiveProcessorInst('day', $date, $site->getId());
+            list($archiveProcessor, $archiveWriter, $params) = $this->createArchiveProcessorInst('day', $date, $site->getId());
             $archiveWriter->initNewArchive();
 
             $archiveProcessor->insertNumericRecords($metrics);
@@ -443,7 +443,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         }
 
         /** @var ArchiveProcessor $archiveProcessor */
-        list($archiveProcessor, $archiveWriter, $params) = $this->_createArchiveProcessorInst('week', '2015-02-03', $site->getId());
+        list($archiveProcessor, $archiveWriter, $params) = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId());
         $archiveWriter->initNewArchive();
 
         $archiveProcessor->captureInserts();
@@ -484,11 +484,11 @@ class ArchiveProcessingTest extends IntegrationTestCase
             ],
         ];
 
-        $site = $this->_createWebsite('UTC');
+        $site = $this->createWebsite('UTC');
 
         foreach ($allMetrics as $date => $metrics) {
             /** @var ArchiveWriter $archiveWriter */
-            list($archiveProcessor, $archiveWriter) = $this->_createArchiveProcessorInst('day', $date, $site->getId());
+            list($archiveProcessor, $archiveWriter) = $this->createArchiveProcessorInst('day', $date, $site->getId());
             $archiveWriter->initNewArchive();
 
             $archiveProcessor->insertNumericRecords($metrics);
@@ -497,7 +497,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         }
 
         /** @var ArchiveProcessor $archiveProcessor */
-        list($archiveProcessor, $archiveWriter, $params) = $this->_createArchiveProcessorInst('week', '2015-02-03', $site->getId(), 'nb_visits', 'VisitsSummary');
+        list($archiveProcessor, $archiveWriter, $params) = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId(), 'nb_visits', 'VisitsSummary');
         $params->setIsPartialArchive(true);
         $idArchive = $archiveWriter->initNewArchive();
 
@@ -543,11 +543,11 @@ class ArchiveProcessingTest extends IntegrationTestCase
             '2015-02-05' => $table3,
         ];
 
-        $site = $this->_createWebsite('UTC');
+        $site = $this->createWebsite('UTC');
 
         foreach ($tables as $date => $table) {
             /** @var ArchiveWriter $archiveWriter */
-            list($archiveProcessor, $archiveWriter) = $this->_createArchiveProcessorInst('day', $date, $site->getId());
+            list($archiveProcessor, $archiveWriter) = $this->createArchiveProcessorInst('day', $date, $site->getId());
             $archiveWriter->initNewArchive();
 
             $tableSerialized = $table->getSerialized();
@@ -556,7 +556,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
             $archiveWriter->finalizeArchive();
         }
 
-        list($archiveProcessor, $archiveWriter) = $this->_createArchiveProcessorInst('week', '2015-02-03', $site->getId());
+        list($archiveProcessor, $archiveWriter) = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId());
         $archiveWriter->initNewArchive();
 
         $archiveProcessor->captureInserts();
@@ -609,11 +609,11 @@ END;
             '2015-02-05' => $table3,
         ];
 
-        $site = $this->_createWebsite('UTC');
+        $site = $this->createWebsite('UTC');
 
         foreach ($tables as $date => $table) {
             /** @var ArchiveWriter $archiveWriter */
-            list($archiveProcessor, $archiveWriter) = $this->_createArchiveProcessorInst('day', $date, $site->getId());
+            list($archiveProcessor, $archiveWriter) = $this->createArchiveProcessorInst('day', $date, $site->getId());
             $archiveWriter->initNewArchive();
 
             $tableSerialized = $table->getSerialized();
@@ -623,7 +623,7 @@ END;
         }
 
         /** @var ArchiveProcessor $archiveProcessor */
-        list($archiveProcessor, $archiveWriter, $params) = $this->_createArchiveProcessorInst('week', '2015-02-03', $site->getId(), 'Actions_test_value', 'VisitsSummary');
+        list($archiveProcessor, $archiveWriter, $params) = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId(), 'Actions_test_value', 'VisitsSummary');
         $params->setIsPartialArchive(true);
         $idArchive = $archiveWriter->initNewArchive();
 
@@ -663,11 +663,11 @@ END;
             '2015-02-04' => $table2,
         ];
 
-        $site = $this->_createWebsite('UTC');
+        $site = $this->createWebsite('UTC');
 
         foreach ($tables as $date => $table) {
             /** @var ArchiveWriter $archiveWriter */
-            list($archiveProcessor, $archiveWriter) = $this->_createArchiveProcessorInst('day', $date, $site->getId());
+            list($archiveProcessor, $archiveWriter) = $this->createArchiveProcessorInst('day', $date, $site->getId());
             $archiveWriter->initNewArchive();
 
             $tableSerialized = $table->getSerialized();
@@ -676,7 +676,7 @@ END;
             $archiveWriter->finalizeArchive();
         }
 
-        list($archiveProcessor, $archiveWriter) = $this->_createArchiveProcessorInst('week', '2015-02-03', $site->getId());
+        list($archiveProcessor, $archiveWriter) = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId());
         $archiveWriter->initNewArchive();
 
         $archiveProcessor->captureInserts();
@@ -712,7 +712,7 @@ END;
         $this->assertEquals($expectedXml, $capturedInsertTable);
     }
 
-    protected function _checkTableIsExpected($table, $data)
+    protected function checkTableIsExpected($table, $data)
     {
         $fetched = Db::fetchAll('SELECT * FROM ' . $table);
 
@@ -722,7 +722,7 @@ END;
         }
     }
 
-    protected function _checkTableIsExpectedBlob($table, $data)
+    protected function checkTableIsExpectedBlob($table, $data)
     {
         $fetched = Db::fetchAll('SELECT * FROM ' . $table);
         foreach ($data as $id => $row) {
@@ -745,7 +745,7 @@ END;
      *        PRIMARY KEY(idsite, url)
      *    )
      */
-    protected function _getDataInsert()
+    protected function getDataInsert()
     {
         return array(
             array(1, 'test'),
@@ -772,7 +772,7 @@ END;
     /**
      * see archive_blob table
      */
-    protected function _getBlobDataInsert()
+    protected function getBlobDataInsert()
     {
         $ts = '2011-03-31 17:48:00';
         $str = '';
