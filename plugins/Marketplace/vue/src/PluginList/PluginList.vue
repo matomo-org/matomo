@@ -6,6 +6,10 @@
 -->
 
 <template>
+  <RequestTrial
+    v-model="showRequestTrialForPlugin"
+    @trialRequested="this.$emit('triggerUpdate')"
+  />
 
   <StartFreeTrial
     :current-user-email="currentUserEmail"
@@ -79,8 +83,9 @@
                     :update-nonce="updateNonce"
                     :plugin="plugin"
                     :in-modal="false"
-                    @startFreeTrial="showStartFreeTrialForPlugin = plugin.name"
                     @openDetailsModal="this.openDetailsModal(plugin)"
+                    @requestTrial="showRequestTrialForPlugin = plugin.name"
+                    @startFreeTrial="showStartFreeTrialForPlugin = plugin.name"
                   />
                 </div>
                 <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
@@ -102,12 +107,14 @@
 import { defineComponent } from 'vue';
 import { PluginName } from 'CorePluginsAdmin';
 import CTAContainer from './CTAContainer.vue';
+import RequestTrial from '../RequestTrial/RequestTrial.vue';
 import StartFreeTrial from '../StartFreeTrial/StartFreeTrial.vue';
 import PluginDetailsModal from '../PluginDetailsModal/PluginDetailsModal.vue';
 
 const { $ } = window;
 
 interface PluginListState {
+  showRequestTrialForPlugin: string;
   showStartFreeTrialForPlugin: string;
   showPluginDetailsForPlugin: Record<string, unknown> | null;
 }
@@ -162,6 +169,7 @@ export default defineComponent({
   },
   data(): PluginListState {
     return {
+      showRequestTrialForPlugin: '',
       showStartFreeTrialForPlugin: '',
       showPluginDetailsForPlugin: null,
     };
@@ -169,6 +177,7 @@ export default defineComponent({
   components: {
     PluginDetailsModal,
     CTAContainer,
+    RequestTrial,
     StartFreeTrial,
   },
   directives: {

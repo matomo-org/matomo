@@ -123,6 +123,14 @@
     </a>
   </template>
 
+  <a v-else-if="plugin.isEligibleForFreeTrial"
+     tabindex="7"
+     class="btn btn-block purchaseable"
+     href=""
+     @click.prevent="this.$emit('requestTrial');"
+     :title="translate('Marketplace_RequestTrial')"
+  >{{ translate('Marketplace_RequestTrial') }}</a>
+
   <template v-else>
     <MoreDetailsAction
       v-if="!inModal"
@@ -187,7 +195,11 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['startFreeTrial', 'openDetailsModal'],
+  emits: [
+    'openDetailsModal',
+    'requestTrial',
+    'startFreeTrial',
+  ],
   components: {
     MoreDetailsAction,
     DownloadButton,

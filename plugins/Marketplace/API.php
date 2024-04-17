@@ -10,10 +10,12 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Api\Service;
+use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
@@ -158,6 +160,43 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         $this->setLicenseKey(null);
+        return true;
+    }
+
+    /**
+     * @param string $pluginName
+     *
+     * @return bool
+     *
+     * @internal
+     */
+    public function requestTrial(string $pluginName): bool
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        if (Piwik::hasUserSuperUserAccess()) {
+            throw new Exception('Cannot request trial as a super user');
+        }
+
+        if (!$this->pluginManager->isValidPluginName($pluginName)) {
+            throw new Exception('Invalid plugin name given');
+        }
+
+        $superUsers = Piwik::getAllSuperUserAccessEmailAddresses();
+
+        foreach ($superUsers as $login => $email) {
+            $email = StaticContainer::getContainer()->make(
+                RequestTrialNotificationEmail::class,
+                [
+                    'emailAddress' => $email,
+                    'login' => $login,
+                    'pluginName' => $pluginName,
+                ]
+            );
+
+            $email->safeSend();
+        }
+
         return true;
     }
 

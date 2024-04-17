@@ -1,0 +1,14 @@
+{% set marketplaceLinkOpen = '<a href="' ~ marketplaceLink ~'">' %}
+{% set marketplaceLinkClose = '</a>' %}
+{% set pluginLinkOpen = '<a href="' ~ pluginLink ~'">' %}
+{% set pluginLinkClose = '</a>' %}
+
+<p>{{ 'General_HelloUser'|translate(login) }}</p>
+<p>{{ 'Marketplace_RequestTrialNotificationEmailIntro'|translate(pluginName) }}</p>
+<p>{{ 'Marketplace_RequestTrialNotificationEmailHowToStartIntro'|translate }}</p>
+<ol>
+    <li>{{ 'Marketplace_RequestTrialNotificationEmailHowToStartStep1'|translate(marketplaceLinkOpen, marketplaceLinkClose)|raw }}</li>
+    <li>{{ 'Marketplace_RequestTrialNotificationEmailHowToStartStep2'|translate }}</li>
+    <li>{{ 'Marketplace_RequestTrialNotificationEmailHowToStartStep3'|translate }}</li>
+</ol>
+<p>{{ 'Marketplace_RequestTrialNotificationEmailMoreInfo'|translate(pluginName, pluginLinkOpen, pluginLinkClose)|raw }}</p>
