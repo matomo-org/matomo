@@ -14,7 +14,7 @@ use Piwik\View;
 
 class HtmlEmailFooterView extends View
 {
-    const TEMPLATE_FILE = '@CoreHome/ReportRenderer/_htmlReportFooter';
+    public const TEMPLATE_FILE = '@CoreHome/ReportRenderer/_htmlReportFooter';
 
     public function __construct($unsubscribeLink = null)
     {

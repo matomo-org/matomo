@@ -21,7 +21,7 @@ use Piwik\Piwik;
 class ReportsPurger
 {
     // constant used in database purging estimate to signify a table should be dropped
-    const DROP_TABLE = -1;
+    public const DROP_TABLE = -1;
 
     /**
      * The max set of rows each table scan select should query at one time.

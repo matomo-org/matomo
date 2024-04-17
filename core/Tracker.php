@@ -39,8 +39,8 @@ class Tracker
     private static $db = null;
 
     // We use hex ID that are 16 chars in length, ie. 64 bits IDs
-    const LENGTH_HEX_ID_STRING = 16;
-    const LENGTH_BINARY_ID = 8;
+    public const LENGTH_HEX_ID_STRING = 16;
+    public const LENGTH_BINARY_ID = 8;
 
     public static $initTrackerMode = false;
 

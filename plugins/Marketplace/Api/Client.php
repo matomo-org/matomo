@@ -26,8 +26,8 @@ use Piwik\Log\LoggerInterface;
  */
 class Client
 {
-    const CACHE_TIMEOUT_IN_SECONDS = 3600;
-    const HTTP_REQUEST_TIMEOUT = 60;
+    public const CACHE_TIMEOUT_IN_SECONDS = 3600;
+    public const HTTP_REQUEST_TIMEOUT = 60;
 
     /**
      * @var Service

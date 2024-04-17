@@ -18,8 +18,8 @@ use Piwik\Date;
  */
 class Timetable
 {
-    const TIMETABLE_OPTION_STRING = "TaskScheduler.timetable";
-    const RETRY_OPTION_STRING = "TaskScheduler.retryList";
+    public const TIMETABLE_OPTION_STRING = "TaskScheduler.timetable";
+    public const RETRY_OPTION_STRING = "TaskScheduler.retryList";
 
     private $timetable;
     private $retryList;

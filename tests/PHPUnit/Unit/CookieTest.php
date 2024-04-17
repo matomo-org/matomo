@@ -15,7 +15,7 @@ use Piwik\SettingsPiwik;
 
 class CookieTest extends \PHPUnit\Framework\TestCase
 {
-    const TEST_COOKIE_NAME = 'fooBarTest';
+    public const TEST_COOKIE_NAME = 'fooBarTest';
 
     /**
      * @var Cookie

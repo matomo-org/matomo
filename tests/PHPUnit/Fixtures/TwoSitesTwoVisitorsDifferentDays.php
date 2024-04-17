@@ -24,7 +24,7 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
     public $dateTime = '2010-01-03 11:22:33';
 
     public $allowConversions = false;
-    const URL_IS_GOAL_WITH_CAMPAIGN_PARAMETERS = 'http://example.org/index.htm?pk_campaign=goal-matching-url-parameter';
+    public const URL_IS_GOAL_WITH_CAMPAIGN_PARAMETERS = 'http://example.org/index.htm?pk_campaign=goal-matching-url-parameter';
 
 
     public function setUp(): void

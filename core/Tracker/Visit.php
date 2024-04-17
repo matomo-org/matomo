@@ -36,7 +36,7 @@ use Piwik\Tracker\Visit\VisitProperties;
  */
 class Visit implements VisitInterface
 {
-    const UNKNOWN_CODE = 'xx';
+    public const UNKNOWN_CODE = 'xx';
 
     /**
      * @var GoalManager

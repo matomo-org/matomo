@@ -15,8 +15,8 @@ use Piwik\Container\StaticContainer;
 
 class ArchivingStatus
 {
-    const LOCK_KEY_PREFIX = 'Archiving';
-    const DEFAULT_ARCHIVING_TTL = 7200; // 2 hours
+    public const LOCK_KEY_PREFIX = 'Archiving';
+    public const DEFAULT_ARCHIVING_TTL = 7200; // 2 hours
 
     /**
      * @var LockBackend

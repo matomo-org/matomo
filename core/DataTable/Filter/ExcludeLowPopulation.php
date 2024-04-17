@@ -34,7 +34,7 @@ use Piwik\Metrics;
  */
 class ExcludeLowPopulation extends BaseFilter
 {
-    const MINIMUM_SIGNIFICANT_PERCENTAGE_THRESHOLD = 0.02;
+    public const MINIMUM_SIGNIFICANT_PERCENTAGE_THRESHOLD = 0.02;
 
     /**
      * The minimum value to enforce in a datatable for a specified column. Rows found with

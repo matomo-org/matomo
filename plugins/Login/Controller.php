@@ -42,7 +42,7 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
-    const NONCE_CONFIRMRESETPASSWORD = 'loginConfirmResetPassword';
+    public const NONCE_CONFIRMRESETPASSWORD = 'loginConfirmResetPassword';
 
     /**
      * @var PasswordResetter

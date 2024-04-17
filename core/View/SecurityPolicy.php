@@ -19,9 +19,9 @@ class SecurityPolicy
     /*
      * Commonly used rules
      */
-    const RULE_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval'";
-    const RULE_IMG_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval' data:";
-    const RULE_EMBEDDED_FRAME = "'self' 'unsafe-inline' 'unsafe-eval' data: https: http:";
+    public const RULE_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval'";
+    public const RULE_IMG_DEFAULT = "'self' 'unsafe-inline' 'unsafe-eval' data:";
+    public const RULE_EMBEDDED_FRAME = "'self' 'unsafe-inline' 'unsafe-eval' data: https: http:";
 
     /**
      * The policies that will generate the CSP header.

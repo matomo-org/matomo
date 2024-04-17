@@ -18,14 +18,14 @@ use Piwik\Piwik;
  */
 class LastSeenTimeLogger
 {
-    const OPTION_PREFIX = 'UsersManager.lastSeen.';
+    public const OPTION_PREFIX = 'UsersManager.lastSeen.';
 
     /**
      * The amount of time in seconds that a last seen value is considered valid. We don't want
      * to update the database for every request made by every user, so we only do it if the time
      * has been at least this many seconds from the last known time.
      */
-    const LAST_TIME_SAVE_DELTA = 300;
+    public const LAST_TIME_SAVE_DELTA = 300;
 
     /**
      * Saves the current time for a user as an option if the current request is for something

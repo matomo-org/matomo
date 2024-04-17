@@ -21,7 +21,7 @@ use Piwik\DataTable;
  */
 class DataCollection
 {
-    const METADATA_CONTAINER_ROW_KEY = '_metadata';
+    public const METADATA_CONTAINER_ROW_KEY = '_metadata';
 
     /**
      * The archive data, indexed first by site ID and then by period date range. Eg,

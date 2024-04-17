@@ -14,8 +14,8 @@ namespace Piwik\ArchiveProcessor;
  */
 class Record
 {
-    const TYPE_NUMERIC = 'numeric';
-    const TYPE_BLOB = 'blob';
+    public const TYPE_NUMERIC = 'numeric';
+    public const TYPE_BLOB = 'blob';
 
     /**
      * @var string

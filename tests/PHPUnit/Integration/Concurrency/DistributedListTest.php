@@ -19,7 +19,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class DistributedListTest extends IntegrationTestCase
 {
-    const TEST_OPTION_NAME = 'test.distributed.list';
+    public const TEST_OPTION_NAME = 'test.distributed.list';
 
     public static $defaultOptionValues = array(
         'val1',

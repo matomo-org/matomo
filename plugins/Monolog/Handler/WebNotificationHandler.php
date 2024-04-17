@@ -20,7 +20,7 @@ use Zend_Session_Exception;
  */
 class WebNotificationHandler extends AbstractProcessingHandler
 {
-    const MAX_NOTIFICATION_MESSAGE_LENGTH = 512;
+    public const MAX_NOTIFICATION_MESSAGE_LENGTH = 512;
 
     public function isHandling(array $record)
     {

@@ -14,7 +14,7 @@ use Piwik\Option;
 
 class TransactionLevel
 {
-    const TEST_OPTION_NAME = 'TransactionLevel.testOption';
+    public const TEST_OPTION_NAME = 'TransactionLevel.testOption';
 
     private $statusBackup;
 

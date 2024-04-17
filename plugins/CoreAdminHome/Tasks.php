@@ -37,7 +37,7 @@ use Piwik\SettingsPiwik;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
-    const TRACKING_CODE_CHECK_FLAG = 'trackingCodeExistsCheck';
+    public const TRACKING_CODE_CHECK_FLAG = 'trackingCodeExistsCheck';
     /**
      * @var ArchivePurger
      */

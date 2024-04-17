@@ -16,8 +16,8 @@ namespace Piwik;
  */
 class ProxyHttp
 {
-    const DEFLATE_ENCODING_REGEX = '/(?:^|, ?)(deflate)(?:,|$)/';
-    const GZIP_ENCODING_REGEX = '/(?:^|, ?)((x-)?gzip)(?:,|$)/';
+    public const DEFLATE_ENCODING_REGEX = '/(?:^|, ?)(deflate)(?:,|$)/';
+    public const GZIP_ENCODING_REGEX = '/(?:^|, ?)((x-)?gzip)(?:,|$)/';
 
     /**
      * Returns true if the current request appears to be a secure HTTPS connection

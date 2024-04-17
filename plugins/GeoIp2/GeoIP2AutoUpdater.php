@@ -38,17 +38,17 @@ use Piwik\Log\LoggerInterface;
  */
 class GeoIP2AutoUpdater extends Task
 {
-    const SCHEDULE_PERIOD_MONTHLY = 'month';
-    const SCHEDULE_PERIOD_WEEKLY = 'week';
+    public const SCHEDULE_PERIOD_MONTHLY = 'month';
+    public const SCHEDULE_PERIOD_WEEKLY = 'week';
 
-    const SCHEDULE_PERIOD_OPTION_NAME = 'geoip2.updater_period';
+    public const SCHEDULE_PERIOD_OPTION_NAME = 'geoip2.updater_period';
 
-    const LOC_URL_OPTION_NAME = 'geoip2.loc_db_url';
-    const ISP_URL_OPTION_NAME = 'geoip2.isp_db_url';
+    public const LOC_URL_OPTION_NAME = 'geoip2.loc_db_url';
+    public const ISP_URL_OPTION_NAME = 'geoip2.isp_db_url';
 
-    const LAST_RUN_TIME_OPTION_NAME = 'geoip2.updater_last_run_time';
+    public const LAST_RUN_TIME_OPTION_NAME = 'geoip2.updater_last_run_time';
 
-    const AUTO_SETUP_OPTION_NAME = 'geoip2.autosetup';
+    public const AUTO_SETUP_OPTION_NAME = 'geoip2.autosetup';
 
     private static $urlOptions = array(
         'loc' => self::LOC_URL_OPTION_NAME,

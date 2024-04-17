@@ -21,8 +21,8 @@ use Piwik\Tests\Framework\Fixture;
  */
 class OmniFixture extends Fixture
 {
-    const DEFAULT_SEGMENT = "browserCode==FF";
-    const OMNIFIXTURE_SUPERUSER_TOKEN = '9ad1de7f8b329ab919d854c556f860c1';
+    public const DEFAULT_SEGMENT = "browserCode==FF";
+    public const OMNIFIXTURE_SUPERUSER_TOKEN = '9ad1de7f8b329ab919d854c556f860c1';
 
     public $month = '2012-01';
     public $idSite = 'all';

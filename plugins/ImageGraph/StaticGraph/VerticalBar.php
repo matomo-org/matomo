@@ -13,7 +13,7 @@ namespace Piwik\Plugins\ImageGraph\StaticGraph;
  */
 class VerticalBar extends GridGraph
 {
-    const INTERLEAVE = 0.10;
+    public const INTERLEAVE = 0.10;
 
     public function renderGraph()
     {

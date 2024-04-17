@@ -18,7 +18,7 @@ use Piwik\Tracker\Request;
  */
 class ReferrerSpamFilter
 {
-    const OPTION_STORAGE_NAME = 'referrer_spam_blacklist';
+    public const OPTION_STORAGE_NAME = 'referrer_spam_blacklist';
     /**
      * @var string[]
      */

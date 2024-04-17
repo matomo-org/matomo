@@ -13,11 +13,11 @@ namespace Piwik\Plugins\Marketplace\Input;
  */
 class Sort
 {
-    const METHOD_POPULAR = 'popular';
-    const METHOD_ALPHA = 'alpha';
-    const METHOD_LAST_UPDATED = 'lastupdated';
-    const METHOD_NEWEST = 'newest';
-    const DEFAULT_SORT = self::METHOD_LAST_UPDATED;
+    public const METHOD_POPULAR = 'popular';
+    public const METHOD_ALPHA = 'alpha';
+    public const METHOD_LAST_UPDATED = 'lastupdated';
+    public const METHOD_NEWEST = 'newest';
+    public const DEFAULT_SORT = self::METHOD_LAST_UPDATED;
 
     public function getSort(string $sort): string
     {

@@ -13,15 +13,15 @@ namespace Piwik\Intl\Data\Provider;
  */
 class DateTimeFormatProvider
 {
-    const DATETIME_FORMAT_LONG    = 1;
-    const DATETIME_FORMAT_SHORT   = 2;
-    const DATE_FORMAT_LONG        = 10;
-    const DATE_FORMAT_DAY_MONTH   = 11;
-    const DATE_FORMAT_SHORT       = 12;
-    const DATE_FORMAT_MONTH_SHORT = 13;
-    const DATE_FORMAT_MONTH_LONG  = 14;
-    const DATE_FORMAT_YEAR        = 15;
-    const TIME_FORMAT             = 20;
+    public const DATETIME_FORMAT_LONG    = 1;
+    public const DATETIME_FORMAT_SHORT   = 2;
+    public const DATE_FORMAT_LONG        = 10;
+    public const DATE_FORMAT_DAY_MONTH   = 11;
+    public const DATE_FORMAT_SHORT       = 12;
+    public const DATE_FORMAT_MONTH_SHORT = 13;
+    public const DATE_FORMAT_MONTH_LONG  = 14;
+    public const DATE_FORMAT_YEAR        = 15;
+    public const TIME_FORMAT             = 20;
 
     /**
      * Returns the format pattern for the given format type

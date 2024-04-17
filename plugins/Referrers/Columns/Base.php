@@ -38,8 +38,8 @@ abstract class Base extends VisitDimension
     protected $campaignKeywords;
 
     // Used to prefix when a adsense referrer is detected
-    const LABEL_PREFIX_ADWORDS_KEYWORD = '(adwords) ';
-    const LABEL_ADWORDS_NAME = 'AdWords';
+    public const LABEL_PREFIX_ADWORDS_KEYWORD = '(adwords) ';
+    public const LABEL_ADWORDS_NAME = 'AdWords';
 
 
     /**

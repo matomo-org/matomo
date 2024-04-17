@@ -11,6 +11,6 @@ namespace Piwik\Plugins\VisitTime;
 
 class Archiver extends \Piwik\Plugin\Archiver
 {
-    const SERVER_TIME_RECORD_NAME = 'VisitTime_serverTime';
-    const LOCAL_TIME_RECORD_NAME = 'VisitTime_localTime';
+    public const SERVER_TIME_RECORD_NAME = 'VisitTime_serverTime';
+    public const LOCAL_TIME_RECORD_NAME = 'VisitTime_localTime';
 }

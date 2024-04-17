@@ -19,8 +19,8 @@ use Piwik\View;
  */
 class GenerateGitHubTestActionFile extends ConsoleCommand
 {
-    const COMMAND_NAME = 'generate:test-action';
-    const LATEST_PHP_VERSION = '8.1';
+    public const COMMAND_NAME = 'generate:test-action';
+    public const LATEST_PHP_VERSION = '8.1';
 
     protected $plugin = null;
     protected $phpVersions = null;

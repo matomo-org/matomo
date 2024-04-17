@@ -13,7 +13,7 @@ use Piwik\Plugins\DBStats\tests\Mocks\MockDataAccess;
 
 class DBStats extends \Piwik\Plugin
 {
-    const TIME_OF_LAST_TASK_RUN_OPTION = 'dbstats_time_of_last_cache_task_run';
+    public const TIME_OF_LAST_TASK_RUN_OPTION = 'dbstats_time_of_last_cache_task_run';
 
     /**
      * @see \Piwik\Plugin::registerEvents

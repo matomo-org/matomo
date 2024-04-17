@@ -18,8 +18,8 @@ use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
  */
 abstract class JqplotGraph extends Graph
 {
-    const ID = 'jqplot_graph';
-    const TEMPLATE_FILE = '@CoreVisualizations/_dataTableViz_jqplotGraph.twig';
+    public const ID = 'jqplot_graph';
+    public const TEMPLATE_FILE = '@CoreVisualizations/_dataTableViz_jqplotGraph.twig';
 
     public static function getDefaultConfig()
     {

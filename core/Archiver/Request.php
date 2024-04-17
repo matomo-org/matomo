@@ -14,7 +14,7 @@ class Request
      * If a request is aborted, the response of a CliMutli job will be a serialized array containing the
      * key/value "aborted => 1".
      */
-    const ABORT = 'abort';
+    public const ABORT = 'abort';
 
     /**
      * @var string

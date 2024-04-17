@@ -16,8 +16,8 @@ use Piwik\Plugin\ComputedMetric;
 
 class TimeTransfer extends Base
 {
-    const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
-    const COLUMN_NAME = 'time_transfer';
+    public const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
+    public const COLUMN_NAME = 'time_transfer';
 
     protected $columnName = self::COLUMN_NAME;
     protected $columnType = self::COLUMN_TYPE;

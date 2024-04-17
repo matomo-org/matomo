@@ -23,9 +23,9 @@ use Zend_Db_Exception;
  */
 class Updater
 {
-    const INDEX_CURRENT_VERSION = 0;
-    const INDEX_NEW_VERSION = 1;
-    const OPTION_KEY_MATOMO_UPDATE_HISTORY = 'MatomoUpdateHistory';
+    public const INDEX_CURRENT_VERSION = 0;
+    public const INDEX_NEW_VERSION = 1;
+    public const OPTION_KEY_MATOMO_UPDATE_HISTORY = 'MatomoUpdateHistory';
 
     private $pathUpdateFileCore;
     private $pathUpdateFilePlugins;

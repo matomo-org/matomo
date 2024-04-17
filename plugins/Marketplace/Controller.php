@@ -34,9 +34,9 @@ use Piwik\View;
 
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
-    const UPDATE_NONCE = 'Marketplace.updatePlugin';
-    const INSTALL_NONCE = 'Marketplace.installPlugin';
-    const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
+    public const UPDATE_NONCE = 'Marketplace.updatePlugin';
+    public const INSTALL_NONCE = 'Marketplace.installPlugin';
+    public const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
 
     /**
      * @var LicenseKey

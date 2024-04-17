@@ -30,11 +30,11 @@ use Piwik\Tracker\Cache;
  */
 class Rules
 {
-    const OPTION_TODAY_ARCHIVE_TTL = 'todayArchiveTimeToLive';
+    public const OPTION_TODAY_ARCHIVE_TTL = 'todayArchiveTimeToLive';
 
-    const OPTION_BROWSER_TRIGGER_ARCHIVING = 'enableBrowserTriggerArchiving';
+    public const OPTION_BROWSER_TRIGGER_ARCHIVING = 'enableBrowserTriggerArchiving';
 
-    const FLAG_TABLE_PURGED = 'lastPurge_';
+    public const FLAG_TABLE_PURGED = 'lastPurge_';
 
     /** Flag that will forcefully disable the archiving process (used in tests only) */
     public static $archivingDisabledByTests = false;

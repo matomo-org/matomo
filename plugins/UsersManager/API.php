@@ -51,7 +51,7 @@ use Piwik\Validators\BaseValidator;
  */
 class API extends \Piwik\Plugin\API
 {
-    const OPTION_NAME_PREFERENCE_SEPARATOR = '_';
+    public const OPTION_NAME_PREFERENCE_SEPARATOR = '_';
 
     public static $UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
     public static $SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = true;
@@ -98,8 +98,8 @@ class API extends \Piwik\Plugin\API
 
     private $userRepository;
 
-    const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
-    const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
+    public const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
+    public const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
 
     private static $instance = null;
 

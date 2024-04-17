@@ -12,7 +12,7 @@ use Piwik\Piwik;
 
 class PiwikJsManipulator
 {
-    const HOOK = '/*!!! pluginTrackerHook */';
+    public const HOOK = '/*!!! pluginTrackerHook */';
     /**
      * @var string
      */

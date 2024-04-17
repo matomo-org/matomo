@@ -23,8 +23,8 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
-    const CATEGORY_COUNT = 5;
-    const DEFAULT_LIFETIME_STAT = array(
+    public const CATEGORY_COUNT = 5;
+    public const DEFAULT_LIFETIME_STAT = array(
             'lifeTimeRevenue' => 0,
             'lifeTimeConversions' => 0,
             'lifeTimeEcommerceItems' => 0);

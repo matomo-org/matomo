@@ -18,7 +18,7 @@ use Piwik\Log\LoggerInterface;
  */
 class Bing implements MetricsProvider
 {
-    const URL = 'https://www.bing.com/search?setlang=en-US&rdr=1&q=site%3A';
+    public const URL = 'https://www.bing.com/search?setlang=en-US&rdr=1&q=site%3A';
 
     /**
      * @var LoggerInterface

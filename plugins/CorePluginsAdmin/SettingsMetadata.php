@@ -17,7 +17,7 @@ use Exception;
 
 class SettingsMetadata
 {
-    const PASSWORD_PLACEHOLDER = '******';
+    public const PASSWORD_PLACEHOLDER = '******';
 
     /**
      * @param Settings[]  $settingsInstances

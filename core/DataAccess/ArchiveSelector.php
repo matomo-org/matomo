@@ -38,9 +38,9 @@ use Piwik\Log\LoggerInterface;
  */
 class ArchiveSelector
 {
-    const NB_VISITS_RECORD_LOOKED_UP = "nb_visits";
+    public const NB_VISITS_RECORD_LOOKED_UP = "nb_visits";
 
-    const NB_VISITS_CONVERTED_RECORD_LOOKED_UP = "nb_visits_converted";
+    public const NB_VISITS_CONVERTED_RECORD_LOOKED_UP = "nb_visits_converted";
 
     private static function getModel()
     {

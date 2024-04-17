@@ -25,7 +25,7 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    const DEFAULT_REPORT_TYPE = ScheduledReports::EMAIL_TYPE;
+    public const DEFAULT_REPORT_TYPE = ScheduledReports::EMAIL_TYPE;
 
     public function index()
     {

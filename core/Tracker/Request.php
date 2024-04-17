@@ -56,7 +56,7 @@ class Request
      */
     private $requestMetadata = array();
 
-    const UNKNOWN_RESOLUTION = 'unknown';
+    public const UNKNOWN_RESOLUTION = 'unknown';
 
     private $customTimestampDoesNotRequireTokenauthWhenNewerThan;
 

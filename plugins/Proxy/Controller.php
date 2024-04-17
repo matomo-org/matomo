@@ -21,7 +21,7 @@ use Piwik\ProxyHttp;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    const JS_MIME_TYPE = "application/javascript; charset=UTF-8";
+    public const JS_MIME_TYPE = "application/javascript; charset=UTF-8";
 
     /**
      * Output the merged CSS file.

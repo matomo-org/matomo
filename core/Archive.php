@@ -114,9 +114,9 @@ use Piwik\Plugins\CoreAdminHome\API;
  */
 class Archive implements ArchiveQuery
 {
-    const REQUEST_ALL_WEBSITES_FLAG = 'all';
-    const ARCHIVE_ALL_PLUGINS_FLAG = 'all';
-    const ID_SUBTABLE_LOAD_ALL_SUBTABLES = 'all';
+    public const REQUEST_ALL_WEBSITES_FLAG = 'all';
+    public const ARCHIVE_ALL_PLUGINS_FLAG = 'all';
+    public const ID_SUBTABLE_LOAD_ALL_SUBTABLES = 'all';
 
     /**
      * List of archive IDs for the site, periods and segment we are querying with.

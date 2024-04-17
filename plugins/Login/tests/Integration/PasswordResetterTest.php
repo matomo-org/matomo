@@ -26,7 +26,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class PasswordResetterTest extends IntegrationTestCase
 {
-    const NEWPASSWORD = 'newpassword';
+    public const NEWPASSWORD = 'newpassword';
 
     /**
      * @var string

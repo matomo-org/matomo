@@ -44,14 +44,14 @@ class Piwik
      *
      * @api
      */
-    const LABEL_ID_GOAL_IS_ECOMMERCE_CART = 'ecommerceAbandonedCart';
+    public const LABEL_ID_GOAL_IS_ECOMMERCE_CART = 'ecommerceAbandonedCart';
 
     /**
      * The idGoal query parameter value for the special 'ecommerce' goal.
      *
      * @api
      */
-    const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';
+    public const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';
 
     /**
      * Trigger E_USER_ERROR with optional message

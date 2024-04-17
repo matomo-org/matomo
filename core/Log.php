@@ -60,18 +60,18 @@ use Piwik\Log\LoggerInterface;
 class Log extends Singleton
 {
     // log levels
-    const NONE = 0;
-    const ERROR = 1;
-    const WARN = 2;
-    const INFO = 3;
-    const DEBUG = 4;
-    const VERBOSE = 5;
+    public const NONE = 0;
+    public const ERROR = 1;
+    public const WARN = 2;
+    public const INFO = 3;
+    public const DEBUG = 4;
+    public const VERBOSE = 5;
 
     // config option names
-    const LOG_LEVEL_CONFIG_OPTION = 'log_level';
-    const LOG_WRITERS_CONFIG_OPTION = 'log_writers';
-    const LOGGER_FILE_PATH_CONFIG_OPTION = 'logger_file_path';
-    const STRING_MESSAGE_FORMAT_OPTION = 'string_message_format';
+    public const LOG_LEVEL_CONFIG_OPTION = 'log_level';
+    public const LOG_WRITERS_CONFIG_OPTION = 'log_writers';
+    public const LOGGER_FILE_PATH_CONFIG_OPTION = 'logger_file_path';
+    public const STRING_MESSAGE_FORMAT_OPTION = 'string_message_format';
 
     /**
      * The backtrace string to use when testing.

@@ -35,7 +35,7 @@ class CoreHome extends \Piwik\Plugin
      * where on the left side a link is shown for each widget and on the right side the selected widget.
      * @api
      */
-    const WIDGET_CONTAINER_LAYOUT_BY_DIMENSION = 'ByDimension';
+    public const WIDGET_CONTAINER_LAYOUT_BY_DIMENSION = 'ByDimension';
 
     /**
      * @see \Piwik\Plugin::registerEvents

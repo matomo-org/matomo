@@ -13,11 +13,11 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class JsTrackerInstallCheckIntegrationTestCase extends IntegrationTestCase
 {
-    const TEST_URL1 = 'https://some-test-site.local';
-    const TEST_URL2 = 'https://another-test-site.local';
-    const TEST_URL3 = 'https://nonexistent-test-site.local';
-    const TEST_NONCE1 = '7fa8282ad93047a4d6fe6111c93b308a';
-    const TEST_NONCE2 = '79d886010186eb60e3611cd4a5d0bcae';
+    public const TEST_URL1 = 'https://some-test-site.local';
+    public const TEST_URL2 = 'https://another-test-site.local';
+    public const TEST_URL3 = 'https://nonexistent-test-site.local';
+    public const TEST_NONCE1 = '7fa8282ad93047a4d6fe6111c93b308a';
+    public const TEST_NONCE2 = '79d886010186eb60e3611cd4a5d0bcae';
 
     /**
      * @var int

@@ -20,94 +20,94 @@ class FieldConfig
     /**
      * Shows a radio field. To use this field assign it to the `$uiControl` property.
      */
-    const UI_CONTROL_RADIO = 'radio';
+    public const UI_CONTROL_RADIO = 'radio';
 
     /**
      * Shows a text field. To use this field assign it to the `$uiControl` property.
      */
-    const UI_CONTROL_TEXT = 'text';
+    public const UI_CONTROL_TEXT = 'text';
 
     /**
      * Shows an email text field. To use this field assign it to the `$uiControl` property.
      */
-    const UI_CONTROL_EMAIL = 'email';
+    public const UI_CONTROL_EMAIL = 'email';
 
     /**
      * Shows a URL text field. To use this field assign it to the `$uiControl` property.
      */
-    const UI_CONTROL_URL = 'url';
+    public const UI_CONTROL_URL = 'url';
 
     /**
      * Shows a text area. To use this field assign it to the `$uiControl` property.
      */
-    const UI_CONTROL_TEXTAREA = 'textarea';
+    public const UI_CONTROL_TEXTAREA = 'textarea';
 
     /**
      * Shows a checkbox. To use this field assign it to the `$uiControl` property.
      */
-    const UI_CONTROL_CHECKBOX = 'checkbox';
+    public const UI_CONTROL_CHECKBOX = 'checkbox';
 
     /**
      * Shows a password field. To use this field assign it to the `$uiControl` property.
      */
-    const UI_CONTROL_PASSWORD = 'password';
+    public const UI_CONTROL_PASSWORD = 'password';
 
     /**
      * Shows a select field where a user can select multiple values.
      * The type "Array" is required for this ui control. To use this field assign it to the `$uiControl` property.
      */
-    const UI_CONTROL_MULTI_SELECT = 'multiselect';
+    public const UI_CONTROL_MULTI_SELECT = 'multiselect';
 
     /**
      * Shows a select field. To use this field assign it to the `$uiControl` property.
      */
-    const UI_CONTROL_SINGLE_SELECT = 'select';
+    public const UI_CONTROL_SINGLE_SELECT = 'select';
 
     /**
      * Shows an expandable select field which is useful when each selectable value belongs to a group.
      * To use this field assign it to the `$uiControl` property.
      */
-    const UI_CONTROL_SINGLE_EXPANDABLE_SELECT = 'expandable-select';
+    public const UI_CONTROL_SINGLE_EXPANDABLE_SELECT = 'expandable-select';
 
     /**
      * Lets a user configure an array of form fields.
      */
-    const UI_CONTROL_FIELD_ARRAY = 'field-array';
+    public const UI_CONTROL_FIELD_ARRAY = 'field-array';
 
     /**
      * Lets a user configure two form fields next to each other, and add multiple entries of those two pairs.
      */
-    const UI_CONTROL_MULTI_TUPLE = 'multituple';
+    public const UI_CONTROL_MULTI_TUPLE = 'multituple';
 
     /**
      * Generates a hidden form field. To use this field assign it to the `$uiControl` property.
      */
-    const UI_CONTROL_HIDDEN = 'hidden';
+    public const UI_CONTROL_HIDDEN = 'hidden';
 
     /**
      * Expects an integer value. Is usually used when creating a setting.
      */
-    const TYPE_INT = 'integer';
+    public const TYPE_INT = 'integer';
 
     /**
      * Expects a float value. Is usually used when creating a setting.
      */
-    const TYPE_FLOAT = 'float';
+    public const TYPE_FLOAT = 'float';
 
     /**
      * Expects a string. Is usually used when creating a setting.
      */
-    const TYPE_STRING = 'string';
+    public const TYPE_STRING = 'string';
 
     /**
      * Expects a boolean. Is usually used when creating a setting.
      */
-    const TYPE_BOOL = 'boolean';
+    public const TYPE_BOOL = 'boolean';
 
     /**
      * Expects an array containing multiple values.
      */
-    const TYPE_ARRAY = 'array';
+    public const TYPE_ARRAY = 'array';
 
     /**
      * Describes what HTML element should be used to manipulate the setting through Piwik's UI.

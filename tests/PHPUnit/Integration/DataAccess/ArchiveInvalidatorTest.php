@@ -34,8 +34,8 @@ use Piwik\Log\NullLogger;
  */
 class ArchiveInvalidatorTest extends IntegrationTestCase
 {
-    const TEST_SEGMENT_1 = 'browserCode==FF';
-    const TEST_SEGMENT_2 = 'countryCode==uk';
+    public const TEST_SEGMENT_1 = 'browserCode==FF';
+    public const TEST_SEGMENT_2 = 'countryCode==uk';
 
     /**
      * @var ArchiveInvalidator

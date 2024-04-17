@@ -17,8 +17,8 @@ use Piwik\Url;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-    const DD_SHORT_NAME_ANDROID = 'AND';
-    const DD_SHORT_NAME_IOS     = 'IOS';
+    public const DD_SHORT_NAME_ANDROID = 'AND';
+    public const DD_SHORT_NAME_IOS     = 'IOS';
 
     public function configureTopMenu(MenuTop $menu)
     {

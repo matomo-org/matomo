@@ -50,7 +50,7 @@ class ColumnDelete extends BaseFilter
      *
      * Column will be kept, if they match any name in the $columnsToKeep, or if they look like anyColumnToKeep__anythingHere
      */
-    const APPEND_TO_COLUMN_NAME_TO_KEEP = '__';
+    public const APPEND_TO_COLUMN_NAME_TO_KEEP = '__';
 
     /**
      * Delete the column, only if the value was zero

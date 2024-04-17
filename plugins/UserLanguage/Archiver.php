@@ -16,6 +16,6 @@ namespace Piwik\Plugins\UserLanguage;
  */
 class Archiver extends \Piwik\Plugin\Archiver
 {
-    const LANGUAGE_RECORD_NAME = 'UserLanguage_language';
-    const LANGUAGE_DIMENSION = "log_visit.location_browser_lang";
+    public const LANGUAGE_RECORD_NAME = 'UserLanguage_language';
+    public const LANGUAGE_DIMENSION = "log_visit.location_browser_lang";
 }

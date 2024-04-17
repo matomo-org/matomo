@@ -28,7 +28,7 @@ use Piwik\View;
  */
 class LanguagesManager extends \Piwik\Plugin
 {
-    const LANGUAGE_SELECTION_NONCE = 'LanguagesManager.selection';
+    public const LANGUAGE_SELECTION_NONCE = 'LanguagesManager.selection';
 
     /**
      * @see \Piwik\Plugin::registerEvents

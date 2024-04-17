@@ -12,7 +12,7 @@ use Piwik\Url;
 
 class Type extends \Piwik\Measurable\Type
 {
-    const ID = 'mobileapp';
+    public const ID = 'mobileapp';
     protected $name = 'MobileAppMeasurable_MobileApp';
     protected $namePlural = 'MobileAppMeasurable_MobileApps';
     protected $description = 'MobileAppMeasurable_MobileAppDescription';

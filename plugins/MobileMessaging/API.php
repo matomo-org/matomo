@@ -22,8 +22,8 @@ use Piwik\Plugins\MobileMessaging\SMSProvider;
  */
 class API extends \Piwik\Plugin\API
 {
-    const VERIFICATION_CODE_LENGTH = 5;
-    const SMS_FROM = 'Matomo';
+    public const VERIFICATION_CODE_LENGTH = 5;
+    public const SMS_FROM = 'Matomo';
 
     /** @var Model $model */
     protected $model;

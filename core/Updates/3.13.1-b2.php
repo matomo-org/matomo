@@ -21,7 +21,7 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
  */
 class Updates_3_13_1_b2 extends PiwikUpdates
 {
-    const GEO_LITE_COUNTRY_URL = 'https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz';
+    public const GEO_LITE_COUNTRY_URL = 'https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz';
 
     /**
      * @var MigrationFactory

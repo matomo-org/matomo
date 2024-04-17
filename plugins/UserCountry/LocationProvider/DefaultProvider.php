@@ -30,8 +30,8 @@ use Piwik\Url;
  */
 class DefaultProvider extends LocationProvider
 {
-    const ID = 'default';
-    const TITLE = 'General_Default';
+    public const ID = 'default';
+    public const TITLE = 'General_Default';
 
     /**
      * Guesses a visitor's location using a visitor's browser language.

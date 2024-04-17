@@ -36,8 +36,8 @@ class ExampleMetric extends RecordBuilder
      *
      * These are only example record names, so feel free to change them to suit your needs.
      */
-    const EXAMPLEPLUGIN_ARCHIVE_RECORD = "ExamplePlugin_archive_record";
-    const EXAMPLEPLUGIN_METRIC_NAME = 'ExamplePlugin_example_metric';
+    public const EXAMPLEPLUGIN_ARCHIVE_RECORD = "ExamplePlugin_archive_record";
+    public const EXAMPLEPLUGIN_METRIC_NAME = 'ExamplePlugin_example_metric';
 
     private $daysFrom = '2016-07-08';
 

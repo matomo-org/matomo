@@ -28,8 +28,8 @@ class Sort extends BaseFilter
     protected $isSecondaryColumnSortEnabled;
     protected $secondaryColumnSortCallback;
 
-    const ORDER_DESC = 'desc';
-    const ORDER_ASC  = 'asc';
+    public const ORDER_DESC = 'desc';
+    public const ORDER_ASC  = 'asc';
 
     /**
      * Constructor.

@@ -19,7 +19,7 @@ use Piwik\Piwik;
  */
 class AverageTimeOnLoad extends AveragePerformanceMetric
 {
-    const ID = 'time_on_load';
+    public const ID = 'time_on_load';
 
     public function getTranslatedName()
     {

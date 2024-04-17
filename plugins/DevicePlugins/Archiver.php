@@ -18,5 +18,5 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/DevicePlugins/functions.php';
  */
 class Archiver extends \Piwik\Plugin\Archiver
 {
-    const PLUGIN_RECORD_NAME = 'DevicePlugins_plugin';
+    public const PLUGIN_RECORD_NAME = 'DevicePlugins_plugin';
 }

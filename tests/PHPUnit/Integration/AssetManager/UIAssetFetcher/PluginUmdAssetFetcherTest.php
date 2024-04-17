@@ -17,9 +17,9 @@ use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
 class PluginUmdAssetFetcherTest extends UnitTestCase
 {
-    const TEST_PLUGINS_DIR = __DIR__ . '/plugins';
+    public const TEST_PLUGINS_DIR = __DIR__ . '/plugins';
 
-    const TEST_PLUGIN_UMD_SIZES = [
+    public const TEST_PLUGIN_UMD_SIZES = [
         'NoPluginUmd' => null,
         'TestPlugin1' => 10,
         'TestPlugin2' => 1,
@@ -32,7 +32,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         'TestPlugin6' => 2,
     ];
 
-    const TEST_PLUGIN_DEPENDENCIES = [
+    public const TEST_PLUGIN_DEPENDENCIES = [
         'NoPluginUmd' => null,
         'TestPlugin1' => [],
         'TestPlugin2' => ['TestPlugin1'],
@@ -41,13 +41,13 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         'TestPlugin5' => ['TestPlugin1', 'TestPlugin3'],
     ];
 
-    const TEST_PLUGIN_DEPENDENCIES_ON_DEMAND = [
+    public const TEST_PLUGIN_DEPENDENCIES_ON_DEMAND = [
         'OnDemand1' => ['TestPlugin1'],
         'OnDemand2' => ['TestPlugin1'],
         'OnDemand3' => ['TestPlugin1'],
     ];
 
-    const TEST_PLUGIN_DEPENDENCIES_DEPENDS_ON_ON_DEMAND = [
+    public const TEST_PLUGIN_DEPENDENCIES_DEPENDS_ON_ON_DEMAND = [
         'TestPlugin6' => ['OnDemand1'],
     ];
 

@@ -18,7 +18,7 @@ class DbMaxPacket implements Diagnostic
      */
     private $translator;
 
-    const MIN_VALUE_MAX_PACKET_MB = 64;
+    public const MIN_VALUE_MAX_PACKET_MB = 64;
 
     public function __construct(Translator $translator)
     {

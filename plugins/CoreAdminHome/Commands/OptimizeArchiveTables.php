@@ -19,8 +19,8 @@ use Piwik\Plugin\ConsoleCommand;
  */
 class OptimizeArchiveTables extends ConsoleCommand
 {
-    const ALL_TABLES_STRING = 'all';
-    const CURRENT_MONTH_STRING = 'now';
+    public const ALL_TABLES_STRING = 'all';
+    public const CURRENT_MONTH_STRING = 'now';
 
     protected function configure()
     {

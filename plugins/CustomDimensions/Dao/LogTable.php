@@ -17,7 +17,7 @@ use Exception;
 
 class LogTable
 {
-    const DEFAULT_CUSTOM_DIMENSION_COUNT = 5;
+    public const DEFAULT_CUSTOM_DIMENSION_COUNT = 5;
 
     private $scope = null;
     private $table = null;

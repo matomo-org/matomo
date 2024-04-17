@@ -18,7 +18,7 @@ use Piwik\SettingsPiwik;
 
 class NewsletterSignup
 {
-    const NEWSLETTER_SIGNUP_OPTION = 'UsersManager.newsletterSignup.';
+    public const NEWSLETTER_SIGNUP_OPTION = 'UsersManager.newsletterSignup.';
 
     public static function signupForNewsletter($userLogin, $email, $matomoOrg = false, $professionalServices = false)
     {

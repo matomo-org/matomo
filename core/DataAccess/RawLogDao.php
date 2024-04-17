@@ -20,7 +20,7 @@ use Piwik\Plugin\LogTablesProvider;
  */
 class RawLogDao
 {
-    const DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME = 'tmp_log_actions_to_keep';
+    public const DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME = 'tmp_log_actions_to_keep';
 
     /**
      * @var DimensionMetadataProvider

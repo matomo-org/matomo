@@ -20,7 +20,7 @@ use Piwik\Plugin\ViewDataTable;
  */
 class Sparkline extends ViewDataTable
 {
-    const ID = 'sparkline';
+    public const ID = 'sparkline';
 
     public function supportsComparison()
     {

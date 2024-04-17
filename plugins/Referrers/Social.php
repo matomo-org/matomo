@@ -20,10 +20,10 @@ use Piwik\Singleton;
  */
 class Social extends Singleton
 {
-    const OPTION_STORAGE_NAME = 'SocialDefinitions';
+    public const OPTION_STORAGE_NAME = 'SocialDefinitions';
 
     /** @var string location of definition file (relative to PIWIK_INCLUDE_PATH) */
-    const DEFINITION_FILE = '/vendor/matomo/searchengine-and-social-list/Socials.yml';
+    public const DEFINITION_FILE = '/vendor/matomo/searchengine-and-social-list/Socials.yml';
 
     protected $definitionList = null;
 

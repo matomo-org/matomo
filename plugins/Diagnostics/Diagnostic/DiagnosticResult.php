@@ -17,10 +17,10 @@ use Piwik\Common;
  */
 class DiagnosticResult implements \JsonSerializable
 {
-    const STATUS_ERROR = 'error';
-    const STATUS_WARNING = 'warning';
-    const STATUS_OK = 'ok';
-    const STATUS_INFORMATIONAL = 'informational';
+    public const STATUS_ERROR = 'error';
+    public const STATUS_WARNING = 'warning';
+    public const STATUS_OK = 'ok';
+    public const STATUS_INFORMATIONAL = 'informational';
 
     /**
      * @var string
