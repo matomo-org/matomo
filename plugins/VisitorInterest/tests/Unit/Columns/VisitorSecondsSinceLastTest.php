@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Piwik - free/libre analytics platform
  *
@@ -8,7 +9,6 @@
  */
 
 namespace Piwik\Plugins\VisitorInterest\tests\Unit\Columns;
-
 
 use PHPUnit\Framework\TestCase;
 use Piwik\Plugins\VisitorInterest\Columns\VisitorSecondsSinceLast;

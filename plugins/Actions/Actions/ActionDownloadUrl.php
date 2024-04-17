@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -8,6 +9,7 @@
  */
 
 namespace Piwik\Plugins\Actions\Actions;
+
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 

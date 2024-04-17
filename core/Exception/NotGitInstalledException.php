@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -8,7 +9,6 @@
  */
 
 namespace Piwik\Exception;
-
 
 class NotGitInstalledException extends Exception
 {

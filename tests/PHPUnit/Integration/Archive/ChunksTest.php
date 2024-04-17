@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -22,7 +23,6 @@ use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\Mock\Site;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Period\Factory as PeriodFactory;
-
 
 /**
  * @group ChunksTest

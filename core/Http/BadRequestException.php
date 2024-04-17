@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,7 +8,6 @@
  */
 
 namespace Piwik\Http;
-
 
 class BadRequestException extends \Exception implements HttpCodeException
 {

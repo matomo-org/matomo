@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,6 +8,7 @@
  */
 
 namespace Piwik\Plugins\WebsiteMeasurable\Settings;
+
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Settings\FieldConfig;

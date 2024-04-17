@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,8 +7,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\DevicesDetection\Reports;
 
+namespace Piwik\Plugins\DevicesDetection\Reports;
 
 abstract class Base extends \Piwik\Plugin\Report
 {

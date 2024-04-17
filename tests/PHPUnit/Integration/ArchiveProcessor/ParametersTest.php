@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -8,7 +9,6 @@
  */
 
 namespace Piwik\Tests\Integration\ArchiveProcessor;
-
 
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Segment;

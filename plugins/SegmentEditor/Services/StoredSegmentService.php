@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -10,7 +11,6 @@ namespace Piwik\Plugins\SegmentEditor\Services;
 
 use Piwik\Plugins\SegmentEditor\Model;
 use Matomo\Cache\Transient as TransientCache;
-
 
 /**
  * Service layer class for stored segments.

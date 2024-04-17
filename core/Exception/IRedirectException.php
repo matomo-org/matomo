@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -8,6 +9,7 @@
  */
 
 namespace Piwik\Exception;
+
 /**
  * Interface for exceptions which have a countdown feature until it is redirected to a URL.
  */

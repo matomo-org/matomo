@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Piwik\Plugins\CoreUpdater\ReleaseChannel;
 
 use Piwik\UpdateCheck\ReleaseChannel;

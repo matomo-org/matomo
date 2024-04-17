@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -8,8 +9,8 @@
  */
 
 namespace Piwik\ViewDataTable;
-use Piwik\Common;
 
+use Piwik\Common;
 
 /**
  * Contains base request properties for {@link Piwik\Plugin\ViewDataTable} instances. Manipulating

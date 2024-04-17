@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -17,7 +18,6 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\Settings\FakeBackend;
 use Piwik\Validators\NotEmpty;
 use Piwik\Validators\NumberRange;
-
 
 /**
  * @group Settings

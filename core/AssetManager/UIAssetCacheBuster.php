@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,6 +8,7 @@
  *
  * @method static \Piwik\AssetManager\UIAssetCacheBuster getInstance()
  */
+
 namespace Piwik\AssetManager;
 
 use Piwik\Plugin\Manager;

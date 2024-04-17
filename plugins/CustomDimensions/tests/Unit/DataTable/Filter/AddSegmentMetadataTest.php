@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,6 +8,7 @@
  */
 
 namespace Piwik\Plugins\CustomDimensions\tests\Unit\DataTable\Filter;
+
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugins\CustomDimensions\Archiver;

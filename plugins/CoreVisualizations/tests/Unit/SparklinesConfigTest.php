@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,6 +8,7 @@
  */
 
 namespace Piwik\Plugins\CoreVisualizations\tests\Unit;
+
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config;
 
 /**

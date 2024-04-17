@@ -1,4 +1,5 @@
 <?php
+
 return array(
 
     'diagnostics.informational' => Piwik\DI::add(array(

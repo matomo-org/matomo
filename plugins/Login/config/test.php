@@ -1,4 +1,5 @@
 <?php
+
 return array(
     'Piwik\Plugins\Login\SystemSettings' => Piwik\DI::decorate(function ($settings, \Piwik\Container\Container $c) {
         /** @var \Piwik\Plugins\Login\SystemSettings $settings */

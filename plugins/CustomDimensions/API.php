@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,10 +7,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\CustomDimensions;
 
 use Piwik\Common;
-
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Filesystem;

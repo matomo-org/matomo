@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,7 +7,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\BulkTracking;
+
 use Piwik\Plugins\BulkTracking\Tracker\Handler;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Tracker\RequestSet;

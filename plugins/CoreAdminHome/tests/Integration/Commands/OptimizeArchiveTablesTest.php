@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -11,7 +12,6 @@ namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
-
 
 /**
  * @group Core

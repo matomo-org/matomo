@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,7 +8,6 @@
  */
 
 namespace Piwik\Plugins\UserId;
-
 
 /**
  * Plugin adds a new Users report showing all unique user IDs and some aggregated data

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -8,6 +9,7 @@
  */
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+
 use Piwik\Common;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Metrics;

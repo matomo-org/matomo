@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -19,7 +20,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit\VisitProperties;
-
 
 /**
  * @group PrivacyManager

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,7 +8,6 @@
  */
 
 namespace Piwik\Plugins\Referrers\tests;
-
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/Referrers.php';
 

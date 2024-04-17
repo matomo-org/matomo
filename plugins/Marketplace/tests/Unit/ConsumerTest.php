@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,6 +8,7 @@
  */
 
 namespace Piwik\Plugins\Marketplace\tests\Unit;
+
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as ConsumerBuilder;

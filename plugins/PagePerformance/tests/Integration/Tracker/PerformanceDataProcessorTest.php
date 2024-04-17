@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -15,7 +16,6 @@ use Piwik\Db;
 use Piwik\Plugins\PagePerformance\Tracker\PerformanceDataProcessor;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-
 
 /**
  * @group PagePerformance

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,6 +8,7 @@
  */
 
 namespace Piwik\Plugins\CustomDimensions\tests\Unit\Dimension;
+
 use Piwik\Plugins\CustomDimensions\Dimension\CaseSensitive;
 
 /**

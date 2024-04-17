@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,11 +7,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
-
 
 /**
  * Defines a new challenge which a super user needs to complete in order to become a "Matomo expert".

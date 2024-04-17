@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -8,6 +9,7 @@
  */
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
+
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Factory;

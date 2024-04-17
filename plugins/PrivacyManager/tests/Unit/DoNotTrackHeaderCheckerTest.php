@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,7 +8,6 @@
  */
 
 namespace Piwik\Plugins\PrivacyManager\tests\Unit;
-
 
 use Piwik\Plugins\PrivacyManager\Config;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;

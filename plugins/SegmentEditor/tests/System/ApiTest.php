@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,7 +8,6 @@
  */
 
 namespace Piwik\Plugins\SegmentEditor\tests\System;
-
 
 use Piwik\Config;
 use Piwik\Http;

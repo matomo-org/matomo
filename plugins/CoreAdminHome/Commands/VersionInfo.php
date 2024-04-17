@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -10,7 +11,6 @@ namespace Piwik\Plugins\CoreAdminHome\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Version;
-
 
 class VersionInfo extends ConsoleCommand
 {

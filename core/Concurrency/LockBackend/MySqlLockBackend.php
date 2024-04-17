@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -8,7 +9,6 @@
  */
 
 namespace Piwik\Concurrency\LockBackend;
-
 
 use Piwik\Common;
 use Piwik\Concurrency\LockBackend;

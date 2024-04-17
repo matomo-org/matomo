@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This php file is used to unit test Piwik::serverStaticFile()
  * Unit tests for this method should normally be located in /tests/core/Piwik.test.php
