@@ -337,7 +337,7 @@ var _window = window,
   }
 }));
 // CONCATENATED MODULE: ./plugins/API/vue/src/Glossary/Glossary.vue?vue&type=script&lang=ts
- 
+
 // CONCATENATED MODULE: ./plugins/API/vue/src/Glossary/Glossary.vue
 
 
@@ -350,7 +350,7 @@ Glossaryvue_type_script_lang_ts.render = render
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
