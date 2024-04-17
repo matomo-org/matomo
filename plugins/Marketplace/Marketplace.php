@@ -10,7 +10,9 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
 
@@ -26,6 +28,8 @@ class Marketplace extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Controller.CoreHome.checkForUpdates' => 'checkForUpdates',
+            'Controller.CoreHome.markNotificationAsRead' => 'dismissPluginTrialNotification',
+            'Request.dispatch' => 'createPluginTrialNotification',
             'Widget.filterWidgets' => 'filterWidgets'
         );
     }
@@ -193,6 +197,26 @@ class Marketplace extends \Piwik\Plugin
     {
         if (!SettingsPiwik::isInternetEnabled()) {
             $list->remove('Marketplace_Marketplace');
+        }
+    }
+
+    public function dismissPluginTrialNotification()
+    {
+        try {
+            $notificationId = Request::fromRequest()->getStringParameter('notificationId');
+
+            PluginTrial::dismissNotificationIfNeeded($notificationId);
+        } catch (\Exception $e) {
+            // ignore any type of error
+        }
+    }
+
+    public function createPluginTrialNotification()
+    {
+        try {
+            PluginTrial::createNotificationsIfNeeded();
+        } catch (\Exception $e) {
+            // ignore any type of error
         }
     }
 

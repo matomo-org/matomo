@@ -174,28 +174,8 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsNotAnonymous();
 
-        if (Piwik::hasUserSuperUserAccess()) {
-            throw new Exception('Cannot request trial as a super user');
-        }
-
-        if (!$this->pluginManager->isValidPluginName($pluginName)) {
-            throw new Exception('Invalid plugin name given');
-        }
-
-        $superUsers = Piwik::getAllSuperUserAccessEmailAddresses();
-
-        foreach ($superUsers as $login => $email) {
-            $email = StaticContainer::getContainer()->make(
-                RequestTrialNotificationEmail::class,
-                [
-                    'emailAddress' => $email,
-                    'login' => $login,
-                    'pluginName' => $pluginName,
-                ]
-            );
-
-            $email->safeSend();
-        }
+        $pluginTrial = new PluginTrial($pluginName);
+        $pluginTrial->request();
 
         return true;
     }
