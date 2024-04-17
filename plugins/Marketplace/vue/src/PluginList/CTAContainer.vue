@@ -123,6 +123,14 @@
     </a>
   </template>
 
+  <a v-else-if="plugin.isTrialRequested"
+     tabindex="7"
+     class="btn btn-block purchaseable"
+     href=""
+     disabled="disabled"
+     :title="translate('Marketplace_TrialRequested')"
+  >{{ translate('Marketplace_TrialRequested') }}</a>
+
   <a v-else-if="plugin.isEligibleForFreeTrial"
      tabindex="7"
      class="btn btn-block purchaseable"

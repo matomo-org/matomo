@@ -151,6 +151,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_SupportMatomoThankYou';
         $translationKeys[] = 'Marketplace_TeaserExtendPiwikByUpload';
         $translationKeys[] = 'Marketplace_TrialHints';
+        $translationKeys[] = 'Marketplace_TrialRequested';
         $translationKeys[] = 'Marketplace_TrialStartErrorSupport';
         $translationKeys[] = 'Marketplace_TrialStartErrorTitle';
         $translationKeys[] = 'Marketplace_TrialStartInProgressText';

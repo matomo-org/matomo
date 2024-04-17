@@ -298,6 +298,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             if ($plugin['isDownloadable']) {
                 $plugin['downloadNonce'] = Nonce::getNonce(static::DOWNLOAD_NONCE_PREFIX . $plugin['name']);
             }
+
+            $plugin['isTrialRequested'] = false;
+
+            if ($plugin['isEligibleForFreeTrial']) {
+                $pluginTrial = new PluginTrial($plugin['name']);
+                $plugin['isTrialRequested'] = $pluginTrial->wasRequested();
+            }
         }
 
         Json::sendHeaderJSON();

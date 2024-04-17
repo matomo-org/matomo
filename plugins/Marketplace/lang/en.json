@@ -90,6 +90,7 @@
         "PluginWebsite": "Plugin Website",
         "PriceExclTax": "%1$s %2$s excl. tax.",
         "PriceFromPerPeriod": "From %1$s \/ %2$s",
+        "TrialRequested": "Trial requested",
         "RequestTrial": "Request trial",
         "RequestTrialConfirmEmailWarning": "Requesting a trial will send an email to all super users. Are you sure you want to continue?",
         "RequestTrialConfirmTitle": "Request trial for %s",
