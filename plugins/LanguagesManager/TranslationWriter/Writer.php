@@ -77,8 +77,8 @@ class Writer
      */
     protected $filteredData = array();
 
-    const UNFILTERED = 'unfiltered';
-    const FILTERED   = 'filtered';
+    public const UNFILTERED = 'unfiltered';
+    public const FILTERED   = 'filtered';
 
     protected $currentState = self::UNFILTERED;
 

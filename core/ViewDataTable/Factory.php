@@ -59,7 +59,7 @@ use Piwik\Plugin\ReportsProvider;
  */
 class Factory
 {
-    const DEFAULT_VIEW = HtmlTable::ID;
+    public const DEFAULT_VIEW = HtmlTable::ID;
 
     /**
      * Cache for getDefaultTypeViewDataTable result.

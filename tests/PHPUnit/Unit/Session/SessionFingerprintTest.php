@@ -16,7 +16,7 @@ use Piwik\Tests\Framework\Fixture;
 
 class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
 {
-    const TEST_TIME_VALUE = 4567;
+    public const TEST_TIME_VALUE = 4567;
 
     /**
      * @var SessionFingerprint

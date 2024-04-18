@@ -27,10 +27,10 @@ use Piwik\Tracker\Action;
  */
 class VisitorLog extends Visualization
 {
-    const ID = 'VisitorLog';
-    const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
-    const FOOTER_ICON_TITLE = '';
-    const FOOTER_ICON = '';
+    public const ID = 'VisitorLog';
+    public const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
+    public const FOOTER_ICON_TITLE = '';
+    public const FOOTER_ICON = '';
 
     public static function getDefaultConfig()
     {

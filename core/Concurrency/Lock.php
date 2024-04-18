@@ -15,8 +15,8 @@ use Piwik\Date;
 
 class Lock
 {
-    const MAX_KEY_LEN = 70;
-    const DEFAULT_TTL = 60;
+    public const MAX_KEY_LEN = 70;
+    public const DEFAULT_TTL = 60;
 
     /**
      * @var LockBackend

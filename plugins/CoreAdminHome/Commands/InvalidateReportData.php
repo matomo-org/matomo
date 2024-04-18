@@ -27,7 +27,7 @@ use Piwik\Log\LoggerInterface;
  */
 class InvalidateReportData extends ConsoleCommand
 {
-    const ALL_OPTION_VALUE = 'all';
+    public const ALL_OPTION_VALUE = 'all';
 
     /**
      * @var null|array<Segment>

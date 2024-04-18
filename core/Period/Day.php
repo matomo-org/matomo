@@ -16,7 +16,7 @@ use Piwik\Period;
  */
 class Day extends Period
 {
-    const PERIOD_ID = 1;
+    public const PERIOD_ID = 1;
 
     protected $label = 'day';
 

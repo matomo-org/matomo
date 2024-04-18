@@ -22,10 +22,10 @@ use Piwik\Plugin\Visualization;
  */
 class Cloud extends Visualization
 {
-    const ID = 'cloud';
-    const TEMPLATE_FILE     = "@CoreVisualizations/_dataTableViz_tagCloud.twig";
-    const FOOTER_ICON       = 'icon-tag-cloud';
-    const FOOTER_ICON_TITLE = 'General_TagCloud';
+    public const ID = 'cloud';
+    public const TEMPLATE_FILE     = "@CoreVisualizations/_dataTableViz_tagCloud.twig";
+    public const FOOTER_ICON       = 'icon-tag-cloud';
+    public const FOOTER_ICON_TITLE = 'General_TagCloud';
 
     /** Used by system tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;

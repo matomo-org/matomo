@@ -20,9 +20,9 @@ use Piwik\Plugin;
 
 class CustomDimensions extends Plugin
 {
-    const SCOPE_ACTION = 'action';
-    const SCOPE_VISIT = 'visit';
-    const SCOPE_CONVERSION = 'conversion';
+    public const SCOPE_ACTION = 'action';
+    public const SCOPE_VISIT = 'visit';
+    public const SCOPE_CONVERSION = 'conversion';
 
     /**
      * @var Configuration

@@ -23,8 +23,8 @@ require_once PIWIK_INCLUDE_PATH . '/core/Updates/2.10.0-b5.php';
  */
 class UpdateTest extends ConsoleCommandTestCase
 {
-    const VERSION_TO_UPDATE_FROM = '2.9.0';
-    const EXPECTED_SQL_FROM_2_10 = "UPDATE report SET reports = REPLACE(reports, 'UserSettings_getBrowserVersion', 'DevicesDetection_getBrowserVersions');";
+    public const VERSION_TO_UPDATE_FROM = '2.9.0';
+    public const EXPECTED_SQL_FROM_2_10 = "UPDATE report SET reports = REPLACE(reports, 'UserSettings_getBrowserVersion', 'DevicesDetection_getBrowserVersions');";
 
     private $oldScriptName = null;
 

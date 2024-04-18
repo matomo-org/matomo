@@ -27,7 +27,7 @@ class SyncScreenshots extends ConsoleCommand
      */
     private $logger;
 
-    const BUILDURL = "https://builds-artifacts.matomo.org";
+    public const BUILDURL = "https://builds-artifacts.matomo.org";
 
     public function __construct()
     {

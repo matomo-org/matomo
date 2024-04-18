@@ -26,8 +26,8 @@ use Piwik\SettingsPiwik;
  */
 class UsersManager extends \Piwik\Plugin
 {
-    const PASSWORD_MIN_LENGTH = 6;
-    const PASSWORD_MAX_LENGTH = 200;
+    public const PASSWORD_MIN_LENGTH = 6;
+    public const PASSWORD_MAX_LENGTH = 200;
 
     /**
      * @see \Piwik\Plugin::registerEvents

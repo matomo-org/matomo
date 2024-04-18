@@ -19,7 +19,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class TestCustomCap extends Access\Capability
 {
-    const ID = 'testcustomcap';
+    public const ID = 'testcustomcap';
     public function getId(): string
     {
         return self::ID;

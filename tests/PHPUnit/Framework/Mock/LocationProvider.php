@@ -14,7 +14,7 @@ use Piwik\Plugins\UserCountry\LocationProvider as CountryLocationProvider;
  */
 class LocationProvider extends CountryLocationProvider
 {
-    const ID = 'mock_provider';
+    public const ID = 'mock_provider';
 
     public static $locations = array();
     private $currentLocation = 0;

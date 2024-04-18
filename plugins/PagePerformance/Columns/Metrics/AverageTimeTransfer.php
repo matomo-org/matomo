@@ -19,7 +19,7 @@ use Piwik\Piwik;
  */
 class AverageTimeTransfer extends AveragePerformanceMetric
 {
-    const ID = 'time_transfer';
+    public const ID = 'time_transfer';
 
     public function getTranslatedName()
     {

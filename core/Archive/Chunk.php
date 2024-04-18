@@ -18,8 +18,8 @@ namespace Piwik\Archive;
  */
 class Chunk
 {
-    const ARCHIVE_APPENDIX_SUBTABLES = 'chunk';
-    const NUM_TABLES_IN_CHUNK = 100;
+    public const ARCHIVE_APPENDIX_SUBTABLES = 'chunk';
+    public const NUM_TABLES_IN_CHUNK = 100;
 
     /**
      * Gets the record name to use for a given tableId/subtableId.

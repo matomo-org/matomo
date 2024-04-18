@@ -14,9 +14,9 @@ namespace Piwik\Plugins\Marketplace\Input;
  */
 class PurchaseType
 {
-    const TYPE_FREE = 'free';
-    const TYPE_PAID = 'paid';
-    const TYPE_ALL  = '';
+    public const TYPE_FREE = 'free';
+    public const TYPE_PAID = 'paid';
+    public const TYPE_ALL  = '';
 
     public function getPurchaseType(string $type): string
     {

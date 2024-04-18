@@ -22,17 +22,17 @@ use Piwik\Tracker\GoalManager;
 
 class ProductRecord extends Base
 {
-    const SKU_FIELD = 'idaction_sku';
-    const NAME_FIELD = 'idaction_name';
-    const CATEGORY_FIELD = 'idaction_category';
-    const CATEGORY2_FIELD = 'idaction_category2';
-    const CATEGORY3_FIELD = 'idaction_category3';
-    const CATEGORY4_FIELD = 'idaction_category4';
-    const CATEGORY5_FIELD = 'idaction_category5';
+    public const SKU_FIELD = 'idaction_sku';
+    public const NAME_FIELD = 'idaction_name';
+    public const CATEGORY_FIELD = 'idaction_category';
+    public const CATEGORY2_FIELD = 'idaction_category2';
+    public const CATEGORY3_FIELD = 'idaction_category3';
+    public const CATEGORY4_FIELD = 'idaction_category4';
+    public const CATEGORY5_FIELD = 'idaction_category5';
 
-    const ITEMS_SKU_RECORD_NAME = 'Goals_ItemsSku';
-    const ITEMS_NAME_RECORD_NAME = 'Goals_ItemsName';
-    const ITEMS_CATEGORY_RECORD_NAME = 'Goals_ItemsCategory';
+    public const ITEMS_SKU_RECORD_NAME = 'Goals_ItemsSku';
+    public const ITEMS_NAME_RECORD_NAME = 'Goals_ItemsName';
+    public const ITEMS_CATEGORY_RECORD_NAME = 'Goals_ItemsCategory';
 
     protected $actionMapping = [
         self::SKU_FIELD      => 'idaction_product_sku',

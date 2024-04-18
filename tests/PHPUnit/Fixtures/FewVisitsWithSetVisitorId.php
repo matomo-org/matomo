@@ -22,7 +22,7 @@ class FewVisitsWithSetVisitorId extends Fixture
     public $idGoal = 1;
     public $dateTime = '2010-03-06 11:22:33';
 
-    const USER_ID_EXAMPLE_COM = 'email@example.com';
+    public const USER_ID_EXAMPLE_COM = 'email@example.com';
 
     public function setUp(): void
     {

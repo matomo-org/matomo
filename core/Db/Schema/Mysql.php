@@ -26,8 +26,8 @@ use Piwik\Version;
  */
 class Mysql implements SchemaInterface
 {
-    const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
-    const MAX_TABLE_NAME_LENGTH = 64;
+    public const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
+    public const MAX_TABLE_NAME_LENGTH = 64;
 
     private $tablesInstalled = null;
 

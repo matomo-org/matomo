@@ -18,8 +18,8 @@ use Piwik\Validators\Exception;
 
 class Login extends BaseValidator
 {
-    const LOGIN_MIN_LENGTH = 2;
-    const LOGIN_MAX_LENGTH = 100;
+    public const LOGIN_MIN_LENGTH = 2;
+    public const LOGIN_MAX_LENGTH = 100;
 
     private $checkUnique;
 

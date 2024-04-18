@@ -55,11 +55,11 @@ namespace Piwik\Plugins\Events;
  */
 class Archiver extends \Piwik\Plugin\Archiver
 {
-    const EVENTS_CATEGORY_ACTION_RECORD_NAME = 'Events_category_action';
-    const EVENTS_CATEGORY_NAME_RECORD_NAME = 'Events_category_name';
-    const EVENTS_ACTION_CATEGORY_RECORD_NAME = 'Events_action_category';
-    const EVENTS_ACTION_NAME_RECORD_NAME = 'Events_action_name';
-    const EVENTS_NAME_ACTION_RECORD_NAME = 'Events_name_action';
-    const EVENTS_NAME_CATEGORY_RECORD_NAME = 'Events_name_category';
-    const EVENT_NAME_NOT_SET = 'Piwik_EventNameNotSet';
+    public const EVENTS_CATEGORY_ACTION_RECORD_NAME = 'Events_category_action';
+    public const EVENTS_CATEGORY_NAME_RECORD_NAME = 'Events_category_name';
+    public const EVENTS_ACTION_CATEGORY_RECORD_NAME = 'Events_action_category';
+    public const EVENTS_ACTION_NAME_RECORD_NAME = 'Events_action_name';
+    public const EVENTS_NAME_ACTION_RECORD_NAME = 'Events_name_action';
+    public const EVENTS_NAME_CATEGORY_RECORD_NAME = 'Events_name_category';
+    public const EVENT_NAME_NOT_SET = 'Piwik_EventNameNotSet';
 }

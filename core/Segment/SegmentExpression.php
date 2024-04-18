@@ -16,48 +16,48 @@ use Exception;
  */
 class SegmentExpression
 {
-    const AND_DELIMITER = ';';
-    const OR_DELIMITER = ',';
+    public const AND_DELIMITER = ';';
+    public const OR_DELIMITER = ',';
 
-    const MATCH_EQUAL = '==';
-    const MATCH_NOT_EQUAL = '!=';
-    const MATCH_GREATER_OR_EQUAL = '>=';
-    const MATCH_LESS_OR_EQUAL = '<=';
-    const MATCH_GREATER = '>';
-    const MATCH_LESS = '<';
-    const MATCH_CONTAINS = '=@';
-    const MATCH_DOES_NOT_CONTAIN = '!@';
-    const MATCH_STARTS_WITH = '=^';
-    const MATCH_ENDS_WITH = '=$';
+    public const MATCH_EQUAL = '==';
+    public const MATCH_NOT_EQUAL = '!=';
+    public const MATCH_GREATER_OR_EQUAL = '>=';
+    public const MATCH_LESS_OR_EQUAL = '<=';
+    public const MATCH_GREATER = '>';
+    public const MATCH_LESS = '<';
+    public const MATCH_CONTAINS = '=@';
+    public const MATCH_DOES_NOT_CONTAIN = '!@';
+    public const MATCH_STARTS_WITH = '=^';
+    public const MATCH_ENDS_WITH = '=$';
 
-    const BOOL_OPERATOR_OR = 'OR';
-    const BOOL_OPERATOR_AND = 'AND';
-    const BOOL_OPERATOR_END = '';
+    public const BOOL_OPERATOR_OR = 'OR';
+    public const BOOL_OPERATOR_AND = 'AND';
+    public const BOOL_OPERATOR_END = '';
 
     // Note: you can't write this in the API, but access this feature
     // via field!=        <- IS NOT NULL
     // or via field==     <- IS NULL / empty
-    const MATCH_IS_NOT_NULL_NOR_EMPTY = '::NOT_NULL';
-    const MATCH_IS_NULL_OR_EMPTY = '::NULL';
+    public const MATCH_IS_NOT_NULL_NOR_EMPTY = '::NOT_NULL';
+    public const MATCH_IS_NULL_OR_EMPTY = '::NULL';
 
     // Special case, since we look up Page URLs/Page titles in a sub SQL query
-    const MATCH_ACTIONS_CONTAINS = 'IN';
-    const MATCH_ACTIONS_NOT_CONTAINS = 'NOTIN';
+    public const MATCH_ACTIONS_CONTAINS = 'IN';
+    public const MATCH_ACTIONS_NOT_CONTAINS = 'NOTIN';
 
     /**
      * A special match type for segments that require rejecting a visit if any action/conversion/etc. in the visit matches a condition.
      * These operands result in `idvisit NOT IN (...)` subqueries.
      */
-    const MATCH_IDVISIT_NOT_IN = 'IDVISIT_NOTIN';
+    public const MATCH_IDVISIT_NOT_IN = 'IDVISIT_NOTIN';
 
-    const INDEX_OPERAND_NAME = 0;
-    const INDEX_OPERAND_OPERATOR = 1;
-    const INDEX_OPERAND_VALUE = 2;
-    const INDEX_OPERAND_JOIN_COLUMN = 3;
-    const INDEX_OPERAND_SEGMENT_INFO = 4;
+    public const INDEX_OPERAND_NAME = 0;
+    public const INDEX_OPERAND_OPERATOR = 1;
+    public const INDEX_OPERAND_VALUE = 2;
+    public const INDEX_OPERAND_JOIN_COLUMN = 3;
+    public const INDEX_OPERAND_SEGMENT_INFO = 4;
 
-    const SQL_WHERE_DO_NOT_MATCH_ANY_ROW = "(1 = 0)";
-    const SQL_WHERE_MATCHES_ALL_ROWS = "(1 = 1)";
+    public const SQL_WHERE_DO_NOT_MATCH_ANY_ROW = "(1 = 0)";
+    public const SQL_WHERE_MATCHES_ALL_ROWS = "(1 = 1)";
 
     protected $string;
     protected $valuesBind = [];

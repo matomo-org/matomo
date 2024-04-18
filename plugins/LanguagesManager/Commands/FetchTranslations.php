@@ -18,7 +18,7 @@ use Piwik\Translation\Weblate\API;
  */
 class FetchTranslations extends TranslationBase
 {
-    const DOWNLOAD_PATH = '/weblate';
+    public const DOWNLOAD_PATH = '/weblate';
 
     protected function configure()
     {

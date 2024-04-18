@@ -190,8 +190,8 @@ class FormDatabaseSetup extends QuickForm2
  */
 class RuleCheckUserPrivileges extends HTML_QuickForm2_Rule
 {
-    const TEST_TABLE_NAME = 'piwik_test_table';
-    const TEST_TEMP_TABLE_NAME = 'piwik_test_table_temp';
+    public const TEST_TABLE_NAME = 'piwik_test_table';
+    public const TEST_TEMP_TABLE_NAME = 'piwik_test_table_temp';
 
     /**
      * Checks that the DB user entered in the form has the necessary privileges for Piwik

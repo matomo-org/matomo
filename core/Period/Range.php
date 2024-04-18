@@ -30,7 +30,7 @@ use Piwik\Period;
  */
 class Range extends Period
 {
-    const PERIOD_ID = 5;
+    public const PERIOD_ID = 5;
 
     protected $label = 'range';
     protected $today;

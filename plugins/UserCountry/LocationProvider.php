@@ -34,27 +34,27 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  */
 abstract class LocationProvider
 {
-    const NOT_INSTALLED = 0;
-    const INSTALLED = 1;
-    const BROKEN = 2;
+    public const NOT_INSTALLED = 0;
+    public const INSTALLED = 1;
+    public const BROKEN = 2;
 
-    const CURRENT_PROVIDER_OPTION_NAME = 'usercountry.location_provider';
+    public const CURRENT_PROVIDER_OPTION_NAME = 'usercountry.location_provider';
 
-    const GEOGRAPHIC_COORD_PRECISION = 3;
+    public const GEOGRAPHIC_COORD_PRECISION = 3;
 
-    const CONTINENT_CODE_KEY = 'continent_code';
-    const CONTINENT_NAME_KEY = 'continent_name';
-    const COUNTRY_CODE_KEY = 'country_code';
-    const COUNTRY_NAME_KEY = 'country_name';
-    const REGION_CODE_KEY = 'region_code';
-    const REGION_NAME_KEY = 'region_name';
-    const CITY_NAME_KEY = 'city_name';
-    const AREA_CODE_KEY = 'area_code';
-    const LATITUDE_KEY = 'lat';
-    const LONGITUDE_KEY = 'long';
-    const POSTAL_CODE_KEY = 'postal_code';
-    const ISP_KEY = 'isp';
-    const ORG_KEY = 'org';
+    public const CONTINENT_CODE_KEY = 'continent_code';
+    public const CONTINENT_NAME_KEY = 'continent_name';
+    public const COUNTRY_CODE_KEY = 'country_code';
+    public const COUNTRY_NAME_KEY = 'country_name';
+    public const REGION_CODE_KEY = 'region_code';
+    public const REGION_NAME_KEY = 'region_name';
+    public const CITY_NAME_KEY = 'city_name';
+    public const AREA_CODE_KEY = 'area_code';
+    public const LATITUDE_KEY = 'lat';
+    public const LONGITUDE_KEY = 'long';
+    public const POSTAL_CODE_KEY = 'postal_code';
+    public const ISP_KEY = 'isp';
+    public const ORG_KEY = 'org';
 
     /**
      * An array of all provider instances. Access it through static methods.

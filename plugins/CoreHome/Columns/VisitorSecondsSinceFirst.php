@@ -17,7 +17,7 @@ use Piwik\Tracker\Visitor;
 
 class VisitorSecondsSinceFirst extends VisitDimension
 {
-    const COLUMN_TYPE = 'INT(11) UNSIGNED NULL';
+    public const COLUMN_TYPE = 'INT(11) UNSIGNED NULL';
 
     protected $columnName = 'visitor_seconds_since_first';
     protected $columnType = self::COLUMN_TYPE;

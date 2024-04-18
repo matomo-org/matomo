@@ -22,7 +22,7 @@ use Piwik\Plugin\Manager;
 
 class HtmlReportEmailHeaderView extends View
 {
-    const TEMPLATE_FILE = '@CoreHome/ReportRenderer/_htmlReportHeader';
+    public const TEMPLATE_FILE = '@CoreHome/ReportRenderer/_htmlReportHeader';
 
     private static $reportFrequencyTranslationByPeriod = [
         Schedule::PERIOD_NEVER => '',

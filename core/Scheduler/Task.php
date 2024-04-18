@@ -20,11 +20,11 @@ use Piwik\Scheduler\Schedule\Schedule;
  */
 class Task
 {
-    const LOWEST_PRIORITY = 12;
-    const LOW_PRIORITY = 9;
-    const NORMAL_PRIORITY = 6;
-    const HIGH_PRIORITY = 3;
-    const HIGHEST_PRIORITY = 0;
+    public const LOWEST_PRIORITY = 12;
+    public const LOW_PRIORITY = 9;
+    public const NORMAL_PRIORITY = 6;
+    public const HIGH_PRIORITY = 3;
+    public const HIGHEST_PRIORITY = 0;
 
     /**
      * Object instance on which the method will be executed by the task scheduler

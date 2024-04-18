@@ -23,7 +23,7 @@ class Cookie
     /**
      * Don't create a cookie bigger than 1k
      */
-    const MAX_COOKIE_SIZE = 1024;
+    public const MAX_COOKIE_SIZE = 1024;
 
     /**
      * The name of the cookie
@@ -76,7 +76,7 @@ class Cookie
     /**
      * The character used to separate the tuple name=value in the cookie
      */
-    const VALUE_SEPARATOR = ':';
+    public const VALUE_SEPARATOR = ':';
 
     /**
      * Instantiate a new Cookie object and tries to load the cookie content if the cookie

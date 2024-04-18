@@ -19,8 +19,8 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class ApiTest extends IntegrationTestCase
 {
-    const TEST_USER = 'atestuser';
-    const TEST_PASSWORD = 'testpassword';
+    public const TEST_USER = 'atestuser';
+    public const TEST_PASSWORD = 'testpassword';
 
     private $testSystemSettingsPayload = [
         'CoreUpdater' => [

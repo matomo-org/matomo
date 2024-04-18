@@ -27,7 +27,7 @@ use Piwik\DataTable;
  */
 class ExampleBlob extends RecordBuilder
 {
-    const EXAMPLEPLUGIN_BLOB_RECORD_NAME = 'ExamplePlugin_exampleBlob';
+    public const EXAMPLEPLUGIN_BLOB_RECORD_NAME = 'ExamplePlugin_exampleBlob';
 
     /**
      * This method should return the list of records this RecordBuilder creates. This example

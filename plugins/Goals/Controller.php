@@ -36,7 +36,7 @@ class Controller extends \Piwik\Plugin\Controller
      * Number of "Your top converting keywords/etc are" to display in the per Goal overview page
      * @var int
      */
-    const COUNT_TOP_ROWS_TO_DISPLAY = 3;
+    public const COUNT_TOP_ROWS_TO_DISPLAY = 3;
 
     protected $goalColumnNameToLabel = array(
         'avg_order_revenue' => 'General_AverageOrderValue',

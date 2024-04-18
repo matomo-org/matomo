@@ -30,9 +30,9 @@ use Piwik\Version;
 
 class Updater
 {
-    const OPTION_LATEST_VERSION = 'UpdateCheck_LatestVersion';
-    const PATH_TO_EXTRACT_LATEST_VERSION = '/latest/';
-    const DOWNLOAD_TIMEOUT = 720;
+    public const OPTION_LATEST_VERSION = 'UpdateCheck_LatestVersion';
+    public const PATH_TO_EXTRACT_LATEST_VERSION = '/latest/';
+    public const DOWNLOAD_TIMEOUT = 720;
 
     /**
      * @var Translator

@@ -24,7 +24,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Version.php';
  */
 class MetadataLoader
 {
-    const PLUGIN_JSON_FILENAME = 'plugin.json';
+    public const PLUGIN_JSON_FILENAME = 'plugin.json';
 
     /**
      * The name of the plugin whose metadata will be loaded.

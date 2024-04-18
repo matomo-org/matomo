@@ -15,7 +15,7 @@ use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
 
 class VisitorProfile
 {
-    const VISITOR_PROFILE_MAX_VISITS_TO_SHOW = 10;
+    public const VISITOR_PROFILE_MAX_VISITS_TO_SHOW = 10;
 
     protected $profile = [];
 

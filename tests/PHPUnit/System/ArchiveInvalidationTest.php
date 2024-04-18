@@ -29,7 +29,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
  */
 class ArchiveInvalidationTest extends SystemTestCase
 {
-    const TEST_SEGMENT = 'pageUrl=@category%252F';
+    public const TEST_SEGMENT = 'pageUrl=@category%252F';
 
     /**
      * @var VisitsTwoWebsitesWithAdditionalVisits

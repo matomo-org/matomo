@@ -22,9 +22,9 @@ use Piwik\DataTable;
  */
 class LabelFilter extends DataTableManipulator
 {
-    const SEPARATOR_RECURSIVE_LABEL = '>';
-    const TERMINAL_OPERATOR = '@';
-    const FLAG_IS_ROW_EVOLUTION = 'label_index';
+    public const SEPARATOR_RECURSIVE_LABEL = '>';
+    public const TERMINAL_OPERATOR = '@';
+    public const FLAG_IS_ROW_EVOLUTION = 'label_index';
 
     private $labels;
     private $addLabelIndex;

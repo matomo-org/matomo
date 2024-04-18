@@ -56,10 +56,10 @@ use Piwik\Log\LoggerInterface;
  */
 class ArchiveInvalidator
 {
-    const TRACKER_CACHE_KEY = 'ArchiveInvalidator.rememberToInvalidate';
+    public const TRACKER_CACHE_KEY = 'ArchiveInvalidator.rememberToInvalidate';
 
-    const INVALIDATION_STATUS_QUEUED = 0;
-    const INVALIDATION_STATUS_IN_PROGRESS = 1;
+    public const INVALIDATION_STATUS_QUEUED = 0;
+    public const INVALIDATION_STATUS_IN_PROGRESS = 1;
 
     private $rememberArchivedReportIdStart = 'report_to_invalidate_';
 

@@ -26,7 +26,7 @@ use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
  */
 class SegmentSelectorControl extends UIControl
 {
-    const TEMPLATE = "@SegmentEditor/_segmentSelector";
+    public const TEMPLATE = "@SegmentEditor/_segmentSelector";
 
     /**
      * Constructor.

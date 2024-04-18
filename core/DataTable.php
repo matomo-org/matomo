@@ -166,19 +166,19 @@ require_once PIWIK_INCLUDE_PATH . "/core/DataTable/Bridges.php";
  */
 class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 {
-    const MAX_DEPTH_DEFAULT = 15;
+    public const MAX_DEPTH_DEFAULT = 15;
 
     /** Name for metadata that describes the archiving state of a report */
-    const ARCHIVE_STATE_METADATA_NAME = 'archive_state';
+    public const ARCHIVE_STATE_METADATA_NAME = 'archive_state';
 
     /** Name for metadata that describes when a report was archived. */
-    const ARCHIVED_DATE_METADATA_NAME = 'ts_archived';
+    public const ARCHIVED_DATE_METADATA_NAME = 'ts_archived';
 
     /** Name for metadata that describes which columns are empty and should not be shown. */
-    const EMPTY_COLUMNS_METADATA_NAME = 'empty_column';
+    public const EMPTY_COLUMNS_METADATA_NAME = 'empty_column';
 
     /** Name for metadata that describes the number of rows that existed before the Limit filter was applied. */
-    const TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME = 'total_rows_before_limit';
+    public const TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME = 'total_rows_before_limit';
 
     /**
      * Name for metadata that describes how individual columns should be aggregated when {@link addDataTable()}
@@ -193,36 +193,36 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * See {@link addDataTable()} and {@link DataTable\Row::sumRow()} for more information.
      */
-    const COLUMN_AGGREGATION_OPS_METADATA_NAME = 'column_aggregation_ops';
+    public const COLUMN_AGGREGATION_OPS_METADATA_NAME = 'column_aggregation_ops';
 
     /**
      * Name for metadata that stores array of generic filters that should not be run on the table.
      */
-    const GENERIC_FILTERS_TO_DISABLE_METADATA_NAME = 'generic_filters_to_disable';
+    public const GENERIC_FILTERS_TO_DISABLE_METADATA_NAME = 'generic_filters_to_disable';
 
     /** The ID of the Summary Row. */
-    const ID_SUMMARY_ROW = -1;
+    public const ID_SUMMARY_ROW = -1;
 
     /**
      * The ID of the special metadata row. This row only exists in the serialized row data and stores the datatable metadata.
      *
      * This allows us to save datatable metadata in archive data.
      */
-    const ID_ARCHIVED_METADATA_ROW = -3;
+    public const ID_ARCHIVED_METADATA_ROW = -3;
 
     /** The original label of the Summary Row. */
-    const LABEL_SUMMARY_ROW = -1;
-    const LABEL_TOTALS_ROW = -2;
-    const LABEL_ARCHIVED_METADATA_ROW = '__datatable_metadata__';
+    public const LABEL_SUMMARY_ROW = -1;
+    public const LABEL_TOTALS_ROW = -2;
+    public const LABEL_ARCHIVED_METADATA_ROW = '__datatable_metadata__';
 
     /**
      * Name for metadata that contains extra {@link Piwik\Plugin\ProcessedMetric}s for a DataTable.
      * These metrics will be added in addition to the ones specified in the table's associated
      * {@link Piwik\Plugin\Report} class.
      */
-    const EXTRA_PROCESSED_METRICS_METADATA_NAME = 'extra_processed_metrics';
+    public const EXTRA_PROCESSED_METRICS_METADATA_NAME = 'extra_processed_metrics';
 
-    const ROW_IDENTIFIER_METADATA_NAME = 'rowIdentifier';
+    public const ROW_IDENTIFIER_METADATA_NAME = 'rowIdentifier';
 
     /**
      * Maximum nesting level.

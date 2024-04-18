@@ -24,7 +24,7 @@ use Piwik\Url;
  */
 class CronArchivingLastRunCheck implements Diagnostic
 {
-    const SECONDS_IN_DAY = 86400;
+    public const SECONDS_IN_DAY = 86400;
 
     /**
      * @var Translator

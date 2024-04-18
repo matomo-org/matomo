@@ -38,7 +38,7 @@ require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
  */
 class VisitorGeolocator
 {
-    const LAT_LONG_COMPARE_EPSILON = 0.0001;
+    public const LAT_LONG_COMPARE_EPSILON = 0.0001;
 
     /**
      * @var string[]

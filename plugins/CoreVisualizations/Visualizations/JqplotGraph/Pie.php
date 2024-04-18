@@ -17,9 +17,9 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
  */
 class Pie extends JqplotGraph
 {
-    const ID = 'graphPie';
-    const FOOTER_ICON       = 'icon-chart-pie';
-    const FOOTER_ICON_TITLE = 'General_Piechart';
+    public const ID = 'graphPie';
+    public const FOOTER_ICON       = 'icon-chart-pie';
+    public const FOOTER_ICON_TITLE = 'General_Piechart';
 
     public static function getDefaultConfig()
     {

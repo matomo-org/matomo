@@ -18,7 +18,7 @@ use Piwik\Option;
  */
 class XssTesting
 {
-    const OPTION_NAME = 'Tests.xssEntries';
+    public const OPTION_NAME = 'Tests.xssEntries';
 
     public function forTwig($type, $sanitize = false)
     {

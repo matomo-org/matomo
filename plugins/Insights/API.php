@@ -22,17 +22,17 @@ class API extends \Piwik\Plugin\API
     /**
      * Include only 'movers' which are existing in the current and past report.
      */
-    const FILTER_BY_MOVERS = 'movers';
+    public const FILTER_BY_MOVERS = 'movers';
 
     /**
      * Include only 'new' rows which were not existing in the past report.
      */
-    const FILTER_BY_NEW = 'new';
+    public const FILTER_BY_NEW = 'new';
 
     /**
      * Include only 'disappeared' rows which were existing in the past report but no longer in the current report.
      */
-    const FILTER_BY_DISAPPEARED = 'disappeared';
+    public const FILTER_BY_DISAPPEARED = 'disappeared';
 
     /**
      * @var Model

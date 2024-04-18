@@ -16,7 +16,7 @@ use Piwik\Db;
 
 class MySqlLockBackend implements LockBackend
 {
-    const TABLE_NAME = 'locks';
+    public const TABLE_NAME = 'locks';
 
     /**
      * fyi: does not support list keys at the moment just because not really needed so much just yet

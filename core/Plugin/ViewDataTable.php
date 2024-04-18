@@ -143,7 +143,7 @@ use Piwik\ViewDataTable\RequestConfig as VizRequest;
  */
 abstract class ViewDataTable implements ViewInterface
 {
-    const ID = '';
+    public const ID = '';
 
     /**
      * DataTable loaded from the API for this ViewDataTable.

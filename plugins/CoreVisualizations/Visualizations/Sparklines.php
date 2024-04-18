@@ -49,7 +49,7 @@ use Piwik\View;
  */
 class Sparklines extends ViewDataTable
 {
-    const ID = 'sparklines';
+    public const ID = 'sparklines';
 
     public static function getDefaultConfig()
     {

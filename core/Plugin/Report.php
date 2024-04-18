@@ -38,13 +38,13 @@ class Report
     /**
      * The sub-namespace name in a plugin where Report components are stored.
      */
-    const COMPONENT_SUBNAMESPACE = 'Reports';
+    public const COMPONENT_SUBNAMESPACE = 'Reports';
 
     /**
      * When added to the menu, a given report eg 'getCampaigns'
      * will be routed as &action=menuGetCampaigns
      */
-    const PREFIX_ACTION_IN_MENU = 'menu';
+    public const PREFIX_ACTION_IN_MENU = 'menu';
 
     /**
      * The name of the module which is supposed to be equal to the name of the plugin. The module is detected

@@ -15,7 +15,7 @@ use Piwik\Period;
  */
 class Year extends Period
 {
-    const PERIOD_ID = 4;
+    public const PERIOD_ID = 4;
 
     protected $label = 'year';
 

@@ -26,9 +26,9 @@ class EventDispatcher
     }
 
     // implementation details for postEvent
-    const EVENT_CALLBACK_GROUP_FIRST = 0;
-    const EVENT_CALLBACK_GROUP_SECOND = 1;
-    const EVENT_CALLBACK_GROUP_THIRD = 2;
+    public const EVENT_CALLBACK_GROUP_FIRST = 0;
+    public const EVENT_CALLBACK_GROUP_SECOND = 1;
+    public const EVENT_CALLBACK_GROUP_THIRD = 2;
 
     /**
      * Array of observers (callbacks attached to events) that are not methods

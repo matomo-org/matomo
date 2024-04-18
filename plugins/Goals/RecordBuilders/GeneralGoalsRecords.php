@@ -22,9 +22,9 @@ use Piwik\Tracker\GoalManager;
 
 class GeneralGoalsRecords extends Base
 {
-    const VISITS_COUNT_FIELD = 'visitor_count_visits';
-    const LOG_CONVERSION_TABLE = 'log_conversion';
-    const SECONDS_SINCE_FIRST_VISIT_FIELD = 'visitor_seconds_since_first';
+    public const VISITS_COUNT_FIELD = 'visitor_count_visits';
+    public const LOG_CONVERSION_TABLE = 'log_conversion';
+    public const SECONDS_SINCE_FIRST_VISIT_FIELD = 'visitor_seconds_since_first';
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {

@@ -101,10 +101,10 @@ class Segment
     /**
      * Truncate the Segments to 8k
      */
-    const SEGMENT_TRUNCATE_LIMIT = 8192;
+    public const SEGMENT_TRUNCATE_LIMIT = 8192;
 
-    const CACHE_KEY = 'segmenthashes';
-    const SEGMENT_HAS_BUILT_CACHE_KEY = 'segmenthashbuilt';
+    public const CACHE_KEY = 'segmenthashes';
+    public const SEGMENT_HAS_BUILT_CACHE_KEY = 'segmenthashbuilt';
 
     /**
      * Constructor.

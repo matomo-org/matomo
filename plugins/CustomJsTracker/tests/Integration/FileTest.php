@@ -23,8 +23,8 @@ class CustomTestFile extends File
  */
 class FileTest extends IntegrationTestCase
 {
-    const NOT_EXISTING_FILE_IN_WRITABLE_DIRECTORY = 'notExisTinGFile.js';
-    const NOT_EXISTING_FILE_IN_NON_WRITABLE_DIRECTORY = 'is-not-writable/notExisTinGFile.js';
+    public const NOT_EXISTING_FILE_IN_WRITABLE_DIRECTORY = 'notExisTinGFile.js';
+    public const NOT_EXISTING_FILE_IN_NON_WRITABLE_DIRECTORY = 'is-not-writable/notExisTinGFile.js';
 
     /**
      * @var string

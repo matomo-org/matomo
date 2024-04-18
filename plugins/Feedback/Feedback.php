@@ -19,7 +19,7 @@ use Piwik\Plugins\Feedback\FeedbackReminder;
  */
 class Feedback extends \Piwik\Plugin
 {
-    const NEVER_REMIND_ME_AGAIN = "-1";
+    public const NEVER_REMIND_ME_AGAIN = "-1";
 
     /**
      * @see \Piwik\Plugin::registerEvents

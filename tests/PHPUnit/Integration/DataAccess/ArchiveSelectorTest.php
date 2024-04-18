@@ -29,7 +29,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ArchiveSelectorTest extends IntegrationTestCase
 {
-    const TEST_SEGMENT = 'operatingSystemCode==WIN';
+    public const TEST_SEGMENT = 'operatingSystemCode==WIN';
 
     protected static function configureFixture($fixture)
     {

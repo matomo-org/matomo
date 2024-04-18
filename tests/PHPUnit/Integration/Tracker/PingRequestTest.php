@@ -16,15 +16,15 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class PingRequestTest extends IntegrationTestCase
 {
-    const FIRST_VISIT_TIME = '2012-01-05 00:00:00';
-    const TEST_USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36';
-    const TEST_BROWSER_LANGUAGE = 'en-gb';
-    const TEST_COUNTRY = 'nl';
-    const TEST_REGION = '06';
-    const CHANGED_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A';
-    const CHANGED_BROWSER_LANGUAGE = 'ja';
-    const CHANGED_COUNTRY = 'jp';
-    const CHANGED_REGION = '22';
+    public const FIRST_VISIT_TIME = '2012-01-05 00:00:00';
+    public const TEST_USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36';
+    public const TEST_BROWSER_LANGUAGE = 'en-gb';
+    public const TEST_COUNTRY = 'nl';
+    public const TEST_REGION = '06';
+    public const CHANGED_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A';
+    public const CHANGED_BROWSER_LANGUAGE = 'ja';
+    public const CHANGED_COUNTRY = 'jp';
+    public const CHANGED_REGION = '22';
 
     public function setUp(): void
     {

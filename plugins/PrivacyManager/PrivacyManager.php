@@ -42,11 +42,11 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/IPAnonymizer.php';
  */
 class PrivacyManager extends Plugin
 {
-    const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
-    const OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS = "lastDelete_piwik_unused_log_actions";
-    const OPTION_LAST_DELETE_PIWIK_REPORTS = 'lastDelete_piwik_reports';
-    const OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL = "lastDelete_piwik_logs_initial";
-    const OPTION_USERID_SALT = 'useridsalt';
+    public const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
+    public const OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS = "lastDelete_piwik_unused_log_actions";
+    public const OPTION_LAST_DELETE_PIWIK_REPORTS = 'lastDelete_piwik_reports';
+    public const OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL = "lastDelete_piwik_logs_initial";
+    public const OPTION_USERID_SALT = 'useridsalt';
 
 
     // options for data purging feature array[configName => configSection]

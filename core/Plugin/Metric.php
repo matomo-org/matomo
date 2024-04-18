@@ -33,7 +33,7 @@ abstract class Metric
     /**
      * The sub-namespace name in a plugin where Metric components are stored.
      */
-    const COMPONENT_SUBNAMESPACE = 'Metrics';
+    public const COMPONENT_SUBNAMESPACE = 'Metrics';
 
     /**
      * Returns the column name of this metric, eg, `"nb_visits"` or `"avg_time_on_site"`.

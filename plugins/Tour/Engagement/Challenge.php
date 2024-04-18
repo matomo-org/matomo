@@ -21,8 +21,8 @@ use Piwik\Settings\Storage\Backend\PluginSettingsTable;
  */
 abstract class Challenge
 {
-    const APPENDIX_SKIPPED = '_skipped';
-    const APPENDIX_COMPLETED = '_completed';
+    public const APPENDIX_SKIPPED = '_skipped';
+    public const APPENDIX_COMPLETED = '_completed';
 
     private static $settings = [];
 

@@ -27,7 +27,7 @@ use Piwik\SettingsPiwik;
  */
 abstract class Graph extends Visualization
 {
-    const ID = 'graph';
+    public const ID = 'graph';
 
     public $selectableRows = array();
 
