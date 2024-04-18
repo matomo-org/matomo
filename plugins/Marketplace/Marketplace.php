@@ -10,8 +10,8 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
@@ -206,7 +206,7 @@ class Marketplace extends \Piwik\Plugin
         try {
             $notificationId = Request::fromRequest()->getStringParameter('notificationId');
 
-            PluginTrial::dismissNotificationIfNeeded($notificationId);
+            StaticContainer::get(PluginTrialService::class)->dismissNotification($notificationId);
         } catch (\Exception $e) {
             // ignore any type of error
         }
@@ -215,7 +215,7 @@ class Marketplace extends \Piwik\Plugin
     public function createPluginTrialNotification()
     {
         try {
-            PluginTrial::createNotificationsIfNeeded();
+            StaticContainer::get(PluginTrialService::class)->createNotificationsIfNeeded();
         } catch (\Exception $e) {
             // ignore any type of error
         }

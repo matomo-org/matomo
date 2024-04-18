@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\Filesystem;
@@ -26,6 +27,7 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Input\PluginName;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
+use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\ProxyHttp;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
@@ -302,8 +304,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $plugin['isTrialRequested'] = false;
 
             if ($plugin['isEligibleForFreeTrial']) {
-                $pluginTrial = new PluginTrial($plugin['name']);
-                $plugin['isTrialRequested'] = $pluginTrial->wasRequested();
+                $plugin['isTrialRequested'] = StaticContainer::get(PluginTrialService::class)->wasRequested($plugin['name']);
             }
         }
 
