@@ -96,10 +96,10 @@ final class Service
             return; // unable to parse notification id
         }
 
-        $pluginName = $notificationParts[2];
-        $userLogin = $notificationParts[3];
+        $userLogin = $notificationParts[2];
+        $pluginName = $notificationParts[3];
 
-        if ($userLogin !== Piwik::getCurrentUserLogin()) {
+        if ($userLogin !== md5(Piwik::getCurrentUserLogin())) {
             return; // Don't allow to unset notifications for other users
         }
 

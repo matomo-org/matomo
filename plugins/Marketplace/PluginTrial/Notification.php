@@ -84,6 +84,6 @@ class Notification
 
     private function getNotificationId(): string
     {
-        return sprintf('Marketplace_PluginTrialRequest_%s_%s', $this->pluginName, Piwik::getCurrentUserLogin());
+        return sprintf('Marketplace_PluginTrialRequest_%s_%s', md5(Piwik::getCurrentUserLogin()), $this->pluginName);
     }
 }
