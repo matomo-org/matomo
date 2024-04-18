@@ -55,18 +55,24 @@ class API extends \Piwik\Plugin\API
      */
     private $environment;
 
+    /**
+     * @var PluginTrialService
+     */
+    private $pluginTrialService;
+
     public function __construct(
         Service $service,
         Client $client,
         InvalidLicenses $expired,
         PluginManager $pluginManager,
-        Environment $environment
+        Environment $environment,
+        PluginTrialService $pluginTrialService
     ) {
         $this->marketplaceService = $service;
         $this->marketplaceClient  = $client;
         $this->expired = $expired;
         $this->pluginManager = $pluginManager;
-        $this->environment = $environment;
+        $this->pluginTrialService = $pluginTrialService;
     }
 
     /**
@@ -174,7 +180,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsNotAnonymous();
 
-        StaticContainer::get(PluginTrialService::class)->request($pluginName);
+        $this->pluginTrialService->request($pluginName);
 
         return true;
     }
