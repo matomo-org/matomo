@@ -35,9 +35,9 @@ use Piwik\View;
  */
 class SitesManager extends \Piwik\Plugin
 {
-    const KEEP_URL_FRAGMENT_USE_DEFAULT = 0;
-    const KEEP_URL_FRAGMENT_YES = 1;
-    const KEEP_URL_FRAGMENT_NO = 2;
+    public const KEEP_URL_FRAGMENT_USE_DEFAULT = 0;
+    public const KEEP_URL_FRAGMENT_YES = 1;
+    public const KEEP_URL_FRAGMENT_NO = 2;
 
     /**
      * @see \Piwik\Plugin::registerEvents

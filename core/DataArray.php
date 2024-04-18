@@ -272,7 +272,7 @@ class DataArray
         );
     }
 
-    const EVENT_VALUE_PRECISION = 2;
+    public const EVENT_VALUE_PRECISION = 2;
 
     /**
      * @param array $newRowToAdd

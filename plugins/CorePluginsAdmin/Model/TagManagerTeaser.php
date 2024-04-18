@@ -17,7 +17,7 @@ use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 
 class TagManagerTeaser
 {
-    const DISABLE_GLOBALLY_KEY = 'CorePluginsAdmin.disableTagManagerTeaser';
+    public const DISABLE_GLOBALLY_KEY = 'CorePluginsAdmin.disableTagManagerTeaser';
 
     /**
      * @var string

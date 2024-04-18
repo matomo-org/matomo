@@ -56,7 +56,7 @@ use Piwik\Validators\WhitelistedValue;
  */
 class API extends \Piwik\Plugin\API
 {
-    const AVG_PRICE_VIEWED = 'avg_price_viewed';
+    public const AVG_PRICE_VIEWED = 'avg_price_viewed';
 
     /**
      * Return a single goal.

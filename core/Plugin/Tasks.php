@@ -26,11 +26,11 @@ class Tasks
      */
     private $tasks = array();
 
-    const LOWEST_PRIORITY  = Task::LOWEST_PRIORITY;
-    const LOW_PRIORITY     = Task::LOW_PRIORITY;
-    const NORMAL_PRIORITY  = Task::NORMAL_PRIORITY;
-    const HIGH_PRIORITY    = Task::HIGH_PRIORITY;
-    const HIGHEST_PRIORITY = Task::HIGHEST_PRIORITY;
+    public const LOWEST_PRIORITY  = Task::LOWEST_PRIORITY;
+    public const LOW_PRIORITY     = Task::LOW_PRIORITY;
+    public const NORMAL_PRIORITY  = Task::NORMAL_PRIORITY;
+    public const HIGH_PRIORITY    = Task::HIGH_PRIORITY;
+    public const HIGHEST_PRIORITY = Task::HIGHEST_PRIORITY;
 
     /**
      * This method is called to collect all schedule tasks. Register all your tasks here that should be executed

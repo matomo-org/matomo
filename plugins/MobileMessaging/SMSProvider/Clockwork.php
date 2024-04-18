@@ -21,16 +21,16 @@ require_once PIWIK_INCLUDE_PATH . "/plugins/MobileMessaging/APIException.php";
  */
 class Clockwork extends SMSProvider
 {
-    const SOCKET_TIMEOUT = 15;
+    public const SOCKET_TIMEOUT = 15;
 
-    const BASE_API_URL = 'https://api.mediaburst.co.uk/http';
-    const CHECK_CREDIT_RESOURCE = '/credit.aspx';
-    const SEND_SMS_RESOURCE = '/send.aspx';
+    public const BASE_API_URL = 'https://api.mediaburst.co.uk/http';
+    public const CHECK_CREDIT_RESOURCE = '/credit.aspx';
+    public const SEND_SMS_RESOURCE = '/send.aspx';
 
-    const ERROR_STRING = 'Error';
+    public const ERROR_STRING = 'Error';
 
-    const MAXIMUM_FROM_LENGTH = 11;
-    const MAXIMUM_CONCATENATED_SMS = 3;
+    public const MAXIMUM_FROM_LENGTH = 11;
+    public const MAXIMUM_CONCATENATED_SMS = 3;
 
     public function getId()
     {

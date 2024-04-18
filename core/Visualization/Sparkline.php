@@ -19,10 +19,10 @@ use Piwik\View\ViewInterface;
  */
 class Sparkline implements ViewInterface
 {
-    const DEFAULT_WIDTH = 200;
-    const DEFAULT_HEIGHT = 50;
-    const MAX_WIDTH = 1000;
-    const MAX_HEIGHT = 1000;
+    public const DEFAULT_WIDTH = 200;
+    public const DEFAULT_HEIGHT = 50;
+    public const MAX_WIDTH = 1000;
+    public const MAX_HEIGHT = 1000;
 
 
     /**

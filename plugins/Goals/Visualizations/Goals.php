@@ -25,13 +25,13 @@ require_once PIWIK_INCLUDE_PATH . '/core/Twig.php';
  */
 class Goals extends HtmlTable
 {
-    const ID = 'tableGoals';
-    const FOOTER_ICON       = 'icon-goal';
-    const FOOTER_ICON_TITLE = 'General_DisplayTableWithGoalMetrics';
+    public const ID = 'tableGoals';
+    public const FOOTER_ICON       = 'icon-goal';
+    public const FOOTER_ICON_TITLE = 'General_DisplayTableWithGoalMetrics';
 
-    const GOALS_DISPLAY_NORMAL = 0;
-    const GOALS_DISPLAY_PAGES = 1;
-    const GOALS_DISPLAY_ENTRY_PAGES = 2;
+    public const GOALS_DISPLAY_NORMAL = 0;
+    public const GOALS_DISPLAY_PAGES = 1;
+    public const GOALS_DISPLAY_ENTRY_PAGES = 2;
 
     private $displayType = self::GOALS_DISPLAY_NORMAL;
 

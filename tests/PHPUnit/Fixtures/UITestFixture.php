@@ -52,7 +52,7 @@ use Piwik\CronArchive\SegmentArchiving;
  */
 class UITestFixture extends SqlDump
 {
-    const FIXTURE_LOCATION = '/tests/resources/OmniFixture-dump.sql';
+    public const FIXTURE_LOCATION = '/tests/resources/OmniFixture-dump.sql';
 
     /**
      * @var XssTesting

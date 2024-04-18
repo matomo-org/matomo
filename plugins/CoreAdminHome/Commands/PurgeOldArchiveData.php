@@ -23,7 +23,7 @@ use Piwik\Log\NullLogger;
  */
 class PurgeOldArchiveData extends ConsoleCommand
 {
-    const ALL_DATES_STRING = 'all';
+    public const ALL_DATES_STRING = 'all';
 
     /**
      * For tests.

@@ -20,9 +20,9 @@ use Piwik\SettingsPiwik;
 
 class CustomLogo
 {
-    const LOGO_HEIGHT = 300;
-    const LOGO_SMALL_HEIGHT = 100;
-    const FAVICON_HEIGHT = 32;
+    public const LOGO_HEIGHT = 300;
+    public const LOGO_SMALL_HEIGHT = 100;
+    public const FAVICON_HEIGHT = 32;
 
     public function getLogoUrl($pathOnly = false)
     {

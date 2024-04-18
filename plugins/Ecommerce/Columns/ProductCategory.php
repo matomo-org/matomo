@@ -20,7 +20,7 @@ use Piwik\Tracker\TableLogAction;
 
 class ProductCategory extends Dimension
 {
-    const PRODUCT_CATEGORY_COUNT = 5;
+    public const PRODUCT_CATEGORY_COUNT = 5;
 
     protected $type = self::TYPE_TEXT;
     protected $category = 'Goals_Ecommerce';

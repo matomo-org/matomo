@@ -16,7 +16,7 @@ use Piwik\Tracker\Action;
 
 class ReferrerUrl extends Base
 {
-    const MAX_LEN = 1500;
+    public const MAX_LEN = 1500;
     protected $columnName = 'referer_url';
     protected $type = self::TYPE_TEXT;
     protected $segmentName = 'referrerUrl';

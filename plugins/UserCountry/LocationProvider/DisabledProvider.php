@@ -19,8 +19,8 @@ use Piwik\Url;
  */
 class DisabledProvider extends LocationProvider
 {
-    const ID = 'disabled';
-    const TITLE = 'General_Disabled';
+    public const ID = 'disabled';
+    public const TITLE = 'General_Disabled';
 
     /**
      * Guesses a visitor's location using a visitor's browser language.

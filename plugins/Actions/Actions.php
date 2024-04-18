@@ -22,7 +22,7 @@ use Piwik\Tracker\Action;
  */
 class Actions extends \Piwik\Plugin
 {
-    const ACTIONS_REPORT_ROWS_DISPLAY = 100;
+    public const ACTIONS_REPORT_ROWS_DISPLAY = 100;
 
     /**
      * @see \Piwik\Plugin::registerEvents

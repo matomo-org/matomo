@@ -65,9 +65,9 @@ use Piwik\Log\LoggerInterface;
  */
 class FrontController extends Singleton
 {
-    const DEFAULT_MODULE = 'CoreHome';
-    const DEFAULT_LOGIN = 'anonymous';
-    const DEFAULT_TOKEN_AUTH = 'anonymous';
+    public const DEFAULT_MODULE = 'CoreHome';
+    public const DEFAULT_LOGIN = 'anonymous';
+    public const DEFAULT_TOKEN_AUTH = 'anonymous';
 
     // public for tests
     public static $requestId = null;

@@ -38,9 +38,9 @@ use Piwik\Plugins\CoreAdminHome\Emails\TokenAuthDeletedEmail;
 
 class Controller extends ControllerAdmin
 {
-    const NONCE_CHANGE_PASSWORD = 'changePasswordNonce';
-    const NONCE_ADD_AUTH_TOKEN = 'addAuthTokenNonce';
-    const NONCE_DELETE_AUTH_TOKEN = 'deleteAuthTokenNonce';
+    public const NONCE_CHANGE_PASSWORD = 'changePasswordNonce';
+    public const NONCE_ADD_AUTH_TOKEN = 'addAuthTokenNonce';
+    public const NONCE_DELETE_AUTH_TOKEN = 'deleteAuthTokenNonce';
 
     /**
      * @var Translator

@@ -22,11 +22,11 @@ use Piwik\BaseFactory;
  */
 abstract class StaticGraph extends BaseFactory
 {
-    const GRAPH_TYPE_BASIC_LINE = "evolution";
-    const GRAPH_TYPE_VERTICAL_BAR = "verticalBar";
-    const GRAPH_TYPE_HORIZONTAL_BAR = "horizontalBar";
-    const GRAPH_TYPE_3D_PIE = "3dPie";
-    const GRAPH_TYPE_BASIC_PIE = "pie";
+    public const GRAPH_TYPE_BASIC_LINE = "evolution";
+    public const GRAPH_TYPE_VERTICAL_BAR = "verticalBar";
+    public const GRAPH_TYPE_HORIZONTAL_BAR = "horizontalBar";
+    public const GRAPH_TYPE_3D_PIE = "3dPie";
+    public const GRAPH_TYPE_BASIC_PIE = "pie";
 
     private static $availableStaticGraphTypes = array(
         self::GRAPH_TYPE_BASIC_LINE     => 'Evolution',
@@ -36,7 +36,7 @@ abstract class StaticGraph extends BaseFactory
         self::GRAPH_TYPE_3D_PIE         => 'Pie3D',
     );
 
-    const ABSCISSA_SERIE_NAME = 'ABSCISSA';
+    public const ABSCISSA_SERIE_NAME = 'ABSCISSA';
 
     private $aliasedGraph;
 

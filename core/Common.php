@@ -25,21 +25,21 @@ use Piwik\Tracker\Cache as TrackerCache;
 class Common
 {
     // constants used to map the referrer type to an integer in the log_visit table
-    const REFERRER_TYPE_DIRECT_ENTRY = 1;
-    const REFERRER_TYPE_SEARCH_ENGINE = 2;
-    const REFERRER_TYPE_WEBSITE = 3;
-    const REFERRER_TYPE_CAMPAIGN = 6;
-    const REFERRER_TYPE_SOCIAL_NETWORK = 7;
+    public const REFERRER_TYPE_DIRECT_ENTRY = 1;
+    public const REFERRER_TYPE_SEARCH_ENGINE = 2;
+    public const REFERRER_TYPE_WEBSITE = 3;
+    public const REFERRER_TYPE_CAMPAIGN = 6;
+    public const REFERRER_TYPE_SOCIAL_NETWORK = 7;
 
     // Flag used with htmlspecialchar. See php.net/htmlspecialchars.
-    const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
+    public const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
 
     public static $isCliMode = null;
 
     /*
      * Database
      */
-    const LANGUAGE_CODE_INVALID = 'xx';
+    public const LANGUAGE_CODE_INVALID = 'xx';
 
     /**
      * Hashes a string into an integer which should be very low collision risks

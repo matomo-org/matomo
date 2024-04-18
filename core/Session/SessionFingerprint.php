@@ -37,12 +37,12 @@ use Piwik\Date;
 class SessionFingerprint
 {
     // used in case the global.ini.php becomes corrupt or doesn't update properly
-    const DEFAULT_IDLE_TIMEOUT = 3600;
+    public const DEFAULT_IDLE_TIMEOUT = 3600;
 
-    const USER_NAME_SESSION_VAR_NAME = 'user.name';
-    const SESSION_INFO_SESSION_VAR_NAME = 'session.info';
-    const SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED = 'twofactorauth.verified';
-    const SESSION_INFO_TEMP_TOKEN_AUTH = 'user.token_auth_temp';
+    public const USER_NAME_SESSION_VAR_NAME = 'user.name';
+    public const SESSION_INFO_SESSION_VAR_NAME = 'session.info';
+    public const SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED = 'twofactorauth.verified';
+    public const SESSION_INFO_TEMP_TOKEN_AUTH = 'user.token_auth_temp';
 
     public function getUser()
     {

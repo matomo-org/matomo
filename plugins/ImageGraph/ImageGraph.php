@@ -44,7 +44,7 @@ class ImageGraph extends \Piwik\Plugin
     }
 
     // Number of periods to plot on an evolution graph
-    const GRAPH_EVOLUTION_LAST_PERIODS = 30;
+    public const GRAPH_EVOLUTION_LAST_PERIODS = 30;
 
     /**
      * @param array $reports

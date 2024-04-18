@@ -31,7 +31,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class UsersManagerTest extends IntegrationTestCase
 {
-    const DATETIME_REGEX = '/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/';
+    public const DATETIME_REGEX = '/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/';
 
     /**
      * @var API

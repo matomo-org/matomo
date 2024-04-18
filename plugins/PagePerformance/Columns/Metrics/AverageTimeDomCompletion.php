@@ -22,7 +22,7 @@ use Piwik\Piwik;
  */
 class AverageTimeDomCompletion extends AveragePerformanceMetric
 {
-    const ID = 'time_dom_completion';
+    public const ID = 'time_dom_completion';
 
     public function getTranslatedName()
     {

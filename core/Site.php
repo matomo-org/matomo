@@ -41,7 +41,7 @@ use Piwik\Plugins\SitesManager\API;
  */
 class Site
 {
-    const DEFAULT_SITE_TYPE = "website";
+    public const DEFAULT_SITE_TYPE = "website";
 
     private static $intProperties = [
         'idsite',

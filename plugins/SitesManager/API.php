@@ -58,16 +58,16 @@ use Piwik\UrlHelper;
  */
 class API extends \Piwik\Plugin\API
 {
-    const DEFAULT_SEARCH_KEYWORD_PARAMETERS = 'q,query,s,search,searchword,k,keyword,keywords';
-    const OPTION_EXCLUDED_IPS_GLOBAL = 'SitesManager_ExcludedIpsGlobal';
-    const OPTION_DEFAULT_TIMEZONE = 'SitesManager_DefaultTimezone';
-    const OPTION_DEFAULT_CURRENCY = 'SitesManager_DefaultCurrency';
-    const OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL = 'SitesManager_ExcludedQueryParameters';
-    const OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL = 'SitesManager_SearchKeywordParameters';
-    const OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL = 'SitesManager_SearchCategoryParameters';
-    const OPTION_EXCLUDED_USER_AGENTS_GLOBAL = 'SitesManager_ExcludedUserAgentsGlobal';
-    const OPTION_EXCLUDED_REFERRERS_GLOBAL = 'SitesManager_ExcludedReferrersGlobal';
-    const OPTION_KEEP_URL_FRAGMENTS_GLOBAL = 'SitesManager_KeepURLFragmentsGlobal';
+    public const DEFAULT_SEARCH_KEYWORD_PARAMETERS = 'q,query,s,search,searchword,k,keyword,keywords';
+    public const OPTION_EXCLUDED_IPS_GLOBAL = 'SitesManager_ExcludedIpsGlobal';
+    public const OPTION_DEFAULT_TIMEZONE = 'SitesManager_DefaultTimezone';
+    public const OPTION_DEFAULT_CURRENCY = 'SitesManager_DefaultCurrency';
+    public const OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL = 'SitesManager_ExcludedQueryParameters';
+    public const OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL = 'SitesManager_SearchKeywordParameters';
+    public const OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL = 'SitesManager_SearchCategoryParameters';
+    public const OPTION_EXCLUDED_USER_AGENTS_GLOBAL = 'SitesManager_ExcludedUserAgentsGlobal';
+    public const OPTION_EXCLUDED_REFERRERS_GLOBAL = 'SitesManager_ExcludedReferrersGlobal';
+    public const OPTION_KEEP_URL_FRAGMENTS_GLOBAL = 'SitesManager_KeepURLFragmentsGlobal';
 
     /**
      * @var SettingsProvider

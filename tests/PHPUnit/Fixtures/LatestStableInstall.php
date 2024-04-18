@@ -19,7 +19,7 @@ use Piwik\Version;
 
 class LatestStableInstall extends Fixture
 {
-    const DOWNLOAD_TIMEOUT = 900;
+    public const DOWNLOAD_TIMEOUT = 900;
 
     /**
      * @var string

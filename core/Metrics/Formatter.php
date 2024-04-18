@@ -27,7 +27,7 @@ use Piwik\Tracker\GoalManager;
  */
 class Formatter
 {
-    const PROCESSED_METRICS_FORMATTED_FLAG = 'processed_metrics_formatted';
+    public const PROCESSED_METRICS_FORMATTED_FLAG = 'processed_metrics_formatted';
 
     /**
      * Returns a prettified string representation of a number. The result will have

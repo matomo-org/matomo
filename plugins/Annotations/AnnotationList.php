@@ -34,7 +34,7 @@ use Piwik\Site;
  */
 class AnnotationList
 {
-    const ANNOTATION_COLLECTION_OPTION_SUFFIX = '_annotations';
+    public const ANNOTATION_COLLECTION_OPTION_SUFFIX = '_annotations';
 
     /**
      * List of site IDs this instance holds annotations for.

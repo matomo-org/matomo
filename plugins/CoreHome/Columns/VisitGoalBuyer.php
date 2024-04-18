@@ -20,10 +20,10 @@ use Piwik\Tracker\Visitor;
 class VisitGoalBuyer extends VisitDimension
 {
     // log_visit.visit_goal_buyer
-    const TYPE_BUYER_NONE = 0;
-    const TYPE_BUYER_ORDERED = 1;
-    const TYPE_BUYER_OPEN_CART = GoalManager::TYPE_BUYER_OPEN_CART;
-    const TYPE_BUYER_ORDERED_AND_OPEN_CART = GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART;
+    public const TYPE_BUYER_NONE = 0;
+    public const TYPE_BUYER_ORDERED = 1;
+    public const TYPE_BUYER_OPEN_CART = GoalManager::TYPE_BUYER_OPEN_CART;
+    public const TYPE_BUYER_ORDERED_AND_OPEN_CART = GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART;
 
     protected static $visitEcommerceStatus = array(
         self::TYPE_BUYER_NONE                  => 'none',

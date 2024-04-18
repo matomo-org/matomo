@@ -28,7 +28,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvide
  */
 class ManyVisitsWithGeoIP extends Fixture
 {
-    const GEOIP_IMPL_TO_TEST = 'geoip2php';
+    public const GEOIP_IMPL_TO_TEST = 'geoip2php';
 
     public $idSite = 1;
     public $dateTime = '2010-01-03 11:22:33';

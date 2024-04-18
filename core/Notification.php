@@ -48,30 +48,30 @@ namespace Piwik;
  */
 class Notification
 {
-    const CONTEXT_SUCCESS = 'success';
-    const CONTEXT_ERROR   = 'error';
-    const CONTEXT_INFO    = 'info';
-    const CONTEXT_WARNING = 'warning';
+    public const CONTEXT_SUCCESS = 'success';
+    public const CONTEXT_ERROR   = 'error';
+    public const CONTEXT_INFO    = 'info';
+    public const CONTEXT_WARNING = 'warning';
 
     /**
      * Lowest priority value.
      */
-    const PRIORITY_MIN    = 1;
+    public const PRIORITY_MIN    = 1;
 
     /**
      * Lower priority value.
      */
-    const PRIORITY_LOW    = 25;
+    public const PRIORITY_LOW    = 25;
 
     /**
      * Higher priority value.
      */
-    const PRIORITY_HIGH   = 50;
+    public const PRIORITY_HIGH   = 50;
 
     /**
      * Highest priority value.
      */
-    const PRIORITY_MAX    = 100;
+    public const PRIORITY_MAX    = 100;
 
     /**
      * If this flag is applied, no close icon will be displayed. _Note: persistent notifications always have a close
@@ -79,31 +79,31 @@ class Notification
      *
      * See {@link $flags}.
      */
-    const FLAG_NO_CLEAR   = 1;
+    public const FLAG_NO_CLEAR   = 1;
 
     /**
      * If this flag is applied, a close icon will be displayed.
      *
      * See {@link $flags}.
      */
-    const FLAG_CLEAR  = 0;
+    public const FLAG_CLEAR  = 0;
 
     /**
      * Notifications of this type will be displayed for a few seconds and then faded out.
      */
-    const TYPE_TOAST      = 'toast';
+    public const TYPE_TOAST      = 'toast';
 
     /**
      * Notifications of this type will be displayed until the new user explicitly closes the notification.
      * The notifications will display even if the user reloads the page.
      */
-    const TYPE_PERSISTENT = 'persistent';
+    public const TYPE_PERSISTENT = 'persistent';
 
     /**
      * Notifications of this type will be displayed only once. They will disappear after a page reload or
      * change.
      */
-    const TYPE_TRANSIENT  = 'transient';
+    public const TYPE_TRANSIENT  = 'transient';
 
     /**
      * The notification title. The title is optional and is displayed directly before the message content.

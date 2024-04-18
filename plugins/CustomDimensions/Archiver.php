@@ -14,7 +14,7 @@ namespace Piwik\Plugins\CustomDimensions;
  */
 class Archiver extends \Piwik\Plugin\Archiver
 {
-    const LABEL_CUSTOM_VALUE_NOT_DEFINED = "Value not defined";
+    public const LABEL_CUSTOM_VALUE_NOT_DEFINED = "Value not defined";
 
     public static function buildRecordNameForCustomDimensionId($id)
     {

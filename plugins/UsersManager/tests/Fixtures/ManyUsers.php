@@ -22,8 +22,8 @@ use Piwik\Tests\Framework\Fixture;
  */
 class ManyUsers extends Fixture
 {
-    const SITE_COUNT = 100;
-    const USER_COUNT = 100;
+    public const SITE_COUNT = 100;
+    public const USER_COUNT = 100;
 
     public $dateTime = '2013-01-23 01:23:45';
     public $idSite = 1;

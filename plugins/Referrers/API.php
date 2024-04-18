@@ -242,7 +242,7 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    const LABEL_KEYWORD_NOT_DEFINED = "";
+    public const LABEL_KEYWORD_NOT_DEFINED = "";
 
     /**
      * @ignore

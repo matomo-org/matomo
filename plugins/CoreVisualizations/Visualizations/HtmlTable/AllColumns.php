@@ -17,9 +17,9 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  */
 class AllColumns extends HtmlTable
 {
-    const ID = 'tableAllColumns';
-    const FOOTER_ICON       = 'icon-table-more';
-    const FOOTER_ICON_TITLE = 'General_DisplayTableWithMoreMetrics';
+    public const ID = 'tableAllColumns';
+    public const FOOTER_ICON       = 'icon-table-more';
+    public const FOOTER_ICON_TITLE = 'General_DisplayTableWithMoreMetrics';
 
     public function beforeRender()
     {

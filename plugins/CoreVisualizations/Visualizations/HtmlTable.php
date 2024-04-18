@@ -27,10 +27,10 @@ use Piwik\Plugin\Visualization;
  */
 class HtmlTable extends Visualization
 {
-    const ID = 'table';
-    const TEMPLATE_FILE     = "@CoreVisualizations/_dataTableViz_htmlTable.twig";
-    const FOOTER_ICON       = 'icon-table';
-    const FOOTER_ICON_TITLE = 'General_DisplaySimpleTable';
+    public const ID = 'table';
+    public const TEMPLATE_FILE     = "@CoreVisualizations/_dataTableViz_htmlTable.twig";
+    public const FOOTER_ICON       = 'icon-table';
+    public const FOOTER_ICON_TITLE = 'General_DisplaySimpleTable';
 
     protected $siteSummary;
 

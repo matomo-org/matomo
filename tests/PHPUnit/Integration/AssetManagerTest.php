@@ -30,22 +30,22 @@ class AssetManagerTest extends IntegrationTestCase
 {
     // todo Theme->rewriteAssetPathIfOverridesFound is not tested
 
-    const TEST_PLUGINS_DIR = __DIR__ . '/plugins';
+    public const TEST_PLUGINS_DIR = __DIR__ . '/plugins';
 
-    const ASSET_MANAGER_TEST_DIR = 'tests/PHPUnit/Unit/AssetManager/';
+    public const ASSET_MANAGER_TEST_DIR = 'tests/PHPUnit/Unit/AssetManager/';
 
-    const FIRST_CACHE_BUSTER_JS = 'first-cache-buster-js';
-    const SECOND_CACHE_BUSTER_JS = 'second-cache-buster-js';
-    const FIRST_CACHE_BUSTER_SS = 'first-cache-buster-stylesheet';
-    const SECOND_CACHE_BUSTER_SS = 'second-cache-buster-stylesheet';
+    public const FIRST_CACHE_BUSTER_JS = 'first-cache-buster-js';
+    public const SECOND_CACHE_BUSTER_JS = 'second-cache-buster-js';
+    public const FIRST_CACHE_BUSTER_SS = 'first-cache-buster-stylesheet';
+    public const SECOND_CACHE_BUSTER_SS = 'second-cache-buster-stylesheet';
 
-    const CORE_PLUGIN_NAME = 'MockCorePlugin';
-    const CORE_PLUGIN_WITHOUT_ASSETS_NAME = 'MockCoreWithoutAssetPlugin';
-    const NON_CORE_PLUGIN_NAME = 'MockNonCorePlugin';
-    const CORE_THEME_PLUGIN_NAME = 'CoreThemePlugin';
-    const NON_CORE_THEME_PLUGIN_NAME = 'NonCoreThemePlugin';
-    const CORE_PLUGIN_WITH_ONLY_UMD_NAME = 'MockCorePluginOnlyUmd';
-    const NON_CORE_PLUGIN_WITH_ONLY_UMD_NAME = 'MockNonCorePluginOnlyUmd';
+    public const CORE_PLUGIN_NAME = 'MockCorePlugin';
+    public const CORE_PLUGIN_WITHOUT_ASSETS_NAME = 'MockCoreWithoutAssetPlugin';
+    public const NON_CORE_PLUGIN_NAME = 'MockNonCorePlugin';
+    public const CORE_THEME_PLUGIN_NAME = 'CoreThemePlugin';
+    public const NON_CORE_THEME_PLUGIN_NAME = 'NonCoreThemePlugin';
+    public const CORE_PLUGIN_WITH_ONLY_UMD_NAME = 'MockCorePluginOnlyUmd';
+    public const NON_CORE_PLUGIN_WITH_ONLY_UMD_NAME = 'MockNonCorePluginOnlyUmd';
 
     private $oldPluginDirsEnvVar;
     private $oldPluginDirsGlobal;

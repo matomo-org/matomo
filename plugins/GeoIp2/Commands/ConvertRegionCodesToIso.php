@@ -19,8 +19,8 @@ use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 
 class ConvertRegionCodesToIso extends ConsoleCommand
 {
-    const OPTION_NAME = 'regioncodes_converted';
-    const MAPPING_TABLE_NAME = 'fips2iso';
+    public const OPTION_NAME = 'regioncodes_converted';
+    public const MAPPING_TABLE_NAME = 'fips2iso';
 
     protected function configure()
     {

@@ -15,8 +15,8 @@ use Piwik\Plugins\CustomJsTracker\File;
 
 class PluginTrackerFiles
 {
-    const TRACKER_FILE = 'tracker.js';
-    const MIN_TRACKER_FILE = 'tracker.min.js';
+    public const TRACKER_FILE = 'tracker.js';
+    public const MIN_TRACKER_FILE = 'tracker.min.js';
 
     /**
      * @var Plugin\Manager

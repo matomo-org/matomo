@@ -22,7 +22,7 @@ use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 class SessionAuthTest extends IntegrationTestCase
 {
-    const TEST_OTHER_USER = 'testuser';
+    public const TEST_OTHER_USER = 'testuser';
 
     /**
      * @var SessionAuth

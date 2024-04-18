@@ -14,10 +14,10 @@ use Piwik\Piwik;
 
 class ReferrerAnonymizer
 {
-    const EXCLUDE_QUERY = 'exclude_query';
-    const EXCLUDE_PATH = 'exclude_path';
-    const EXCLUDE_ALL = 'exclude_all';
-    const EXCLUDE_NONE = '';
+    public const EXCLUDE_QUERY = 'exclude_query';
+    public const EXCLUDE_PATH = 'exclude_path';
+    public const EXCLUDE_ALL = 'exclude_all';
+    public const EXCLUDE_NONE = '';
 
     public function getAvailableAnonymizationOptions()
     {

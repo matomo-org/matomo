@@ -26,7 +26,7 @@ class UIControl extends \Piwik\View
      *
      * Derived classes must set this constant.
      */
-    const TEMPLATE = '';
+    public const TEMPLATE = '';
 
     /**
      * The CSS class that is used to map the root element of this control with the JavaScript class.

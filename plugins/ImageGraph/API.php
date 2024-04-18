@@ -37,12 +37,12 @@ use Piwik\SettingsServer;
  */
 class API extends \Piwik\Plugin\API
 {
-    const FILENAME_KEY = 'filename';
-    const TRUNCATE_KEY = 'truncate';
-    const WIDTH_KEY = 'width';
-    const HEIGHT_KEY = 'height';
-    const MAX_WIDTH = 2048;
-    const MAX_HEIGHT = 2048;
+    public const FILENAME_KEY = 'filename';
+    public const TRUNCATE_KEY = 'truncate';
+    public const WIDTH_KEY = 'width';
+    public const HEIGHT_KEY = 'height';
+    public const MAX_WIDTH = 2048;
+    public const MAX_HEIGHT = 2048;
 
     private static $DEFAULT_PARAMETERS = array(
         StaticGraph::GRAPH_TYPE_BASIC_LINE     => array(
@@ -84,23 +84,23 @@ class API extends \Piwik\Plugin\API
         ),
     );
 
-    const GRAPH_OUTPUT_INLINE = 0;
-    const GRAPH_OUTPUT_FILE = 1;
-    const GRAPH_OUTPUT_PHP = 2;
+    public const GRAPH_OUTPUT_INLINE = 0;
+    public const GRAPH_OUTPUT_FILE = 1;
+    public const GRAPH_OUTPUT_PHP = 2;
 
-    const DEFAULT_ORDINATE_METRIC = 'nb_visits';
-    const FONT_DIR = '/plugins/ImageGraph/fonts/';
-    const DEFAULT_FONT = 'tahoma.ttf';
-    const UNICODE_FONT = 'unifont.ttf';
-    const DEFAULT_FONT_SIZE = 9;
-    const DEFAULT_LEGEND_FONT_SIZE_OFFSET = 2;
-    const DEFAULT_TEXT_COLOR = '222222';
-    const DEFAULT_BACKGROUND_COLOR = 'FFFFFF';
-    const DEFAULT_GRID_COLOR = 'CCCCCC';
+    public const DEFAULT_ORDINATE_METRIC = 'nb_visits';
+    public const FONT_DIR = '/plugins/ImageGraph/fonts/';
+    public const DEFAULT_FONT = 'tahoma.ttf';
+    public const UNICODE_FONT = 'unifont.ttf';
+    public const DEFAULT_FONT_SIZE = 9;
+    public const DEFAULT_LEGEND_FONT_SIZE_OFFSET = 2;
+    public const DEFAULT_TEXT_COLOR = '222222';
+    public const DEFAULT_BACKGROUND_COLOR = 'FFFFFF';
+    public const DEFAULT_GRID_COLOR = 'CCCCCC';
 
     // number of row evolutions to plot when no labels are specified, can be overridden using &filter_limit
-    const DEFAULT_NB_ROW_EVOLUTIONS = 5;
-    const MAX_NB_ROW_LABELS = 10;
+    public const DEFAULT_NB_ROW_EVOLUTIONS = 5;
+    public const MAX_NB_ROW_LABELS = 10;
 
     public function get(
         $idSite,

@@ -17,9 +17,9 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
  */
 class Bar extends JqplotGraph
 {
-    const ID = 'graphVerticalBar';
-    const FOOTER_ICON       = 'icon-chart-bar';
-    const FOOTER_ICON_TITLE = 'General_VBarGraph';
+    public const ID = 'graphVerticalBar';
+    public const FOOTER_ICON       = 'icon-chart-bar';
+    public const FOOTER_ICON_TITLE = 'General_VBarGraph';
 
     public function beforeLoadDataTable()
     {

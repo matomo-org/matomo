@@ -22,8 +22,8 @@ use Piwik\Plugins\UserCountry\LocationProvider;
  */
 abstract class GeoIp2 extends LocationProvider
 {
-    const TEST_IP = '194.57.91.215';
-    const SWITCH_TO_ISO_REGIONS_OPTION_NAME = 'usercountry.switchtoisoregions';
+    public const TEST_IP = '194.57.91.215';
+    public const SWITCH_TO_ISO_REGIONS_OPTION_NAME = 'usercountry.switchtoisoregions';
 
     /**
      * Cached region name array. Data is from geoipregionvars.php.

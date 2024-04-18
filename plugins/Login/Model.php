@@ -17,7 +17,7 @@ use Piwik\Plugins\Login\Security\BruteForceDetection;
 
 class Model
 {
-    const NOTIFIED_USER_ABOUT_LOGIN_ATTEMPTS_OPTION_PREFIX = 'BruteForceDetection.suspiciousLoginCountNotified.';
+    public const NOTIFIED_USER_ABOUT_LOGIN_ATTEMPTS_OPTION_PREFIX = 'BruteForceDetection.suspiciousLoginCountNotified.';
 
     /**
      * @var

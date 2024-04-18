@@ -29,7 +29,7 @@ use Piwik\Widget\WidgetsList;
 
 class Get extends Base
 {
-    const TOTAL_DIRECT_ENTRIES_METRIC_NAME = 'Referrers_directEntries';
+    public const TOTAL_DIRECT_ENTRIES_METRIC_NAME = 'Referrers_directEntries';
 
     protected function init()
     {

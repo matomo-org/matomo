@@ -33,7 +33,7 @@ use Piwik\Db\Adapter;
  */
 class Db
 {
-    const SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
+    public const SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
 
     private static $connection = null;
     private static $readerConnection = null;

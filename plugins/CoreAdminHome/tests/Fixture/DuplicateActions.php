@@ -18,7 +18,7 @@ use Piwik\Tests\Framework\Fixture;
  */
 class DuplicateActions extends Fixture
 {
-    const DUMMY_IDVISITOR = 'c1d2a36653fd88e2';
+    public const DUMMY_IDVISITOR = 'c1d2a36653fd88e2';
 
     private static $dataToInsert = array(
         'log_action' => array(

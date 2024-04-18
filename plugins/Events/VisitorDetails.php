@@ -15,7 +15,7 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
-    const EVENT_VALUE_PRECISION = 3;
+    public const EVENT_VALUE_PRECISION = 3;
 
     public function extendActionDetails(&$action, $nextAction, $visitorDetails)
     {

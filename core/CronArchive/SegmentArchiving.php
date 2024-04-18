@@ -31,10 +31,10 @@ use Piwik\Log\LoggerInterface;
  */
 class SegmentArchiving
 {
-    const BEGINNING_OF_TIME = 'beginning_of_time';
-    const CREATION_TIME = 'segment_creation_time';
-    const LAST_EDIT_TIME = 'segment_last_edit_time';
-    const DEFAULT_BEGINNING_OF_TIME_LAST_N_YEARS = 7;
+    public const BEGINNING_OF_TIME = 'beginning_of_time';
+    public const CREATION_TIME = 'segment_creation_time';
+    public const LAST_EDIT_TIME = 'segment_last_edit_time';
+    public const DEFAULT_BEGINNING_OF_TIME_LAST_N_YEARS = 7;
 
     /**
      * @var Model

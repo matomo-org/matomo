@@ -15,7 +15,7 @@ use Piwik\Tracker\Visitor;
 
 class Profilable extends VisitDimension
 {
-    const COLUMN_TYPE = 'TINYINT(1) NULL';
+    public const COLUMN_TYPE = 'TINYINT(1) NULL';
     protected $columnName = 'profilable';
     protected $columnType = self::COLUMN_TYPE;
     protected $nameSingular = 'CoreHome_Profilable';

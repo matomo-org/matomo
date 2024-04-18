@@ -27,7 +27,7 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
         'peace "," not war', // testing a keyword containing ,
         'justice )(&^#%$ NOT \'" corruption!',
     );
-    const EXCLUDED_REFERRER_URL = 'https://excludedreferrer123.com';
+    public const EXCLUDED_REFERRER_URL = 'https://excludedreferrer123.com';
 
     public function setUp(): void
     {

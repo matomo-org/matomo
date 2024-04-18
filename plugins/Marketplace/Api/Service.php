@@ -16,8 +16,8 @@ use Piwik\Http;
  */
 class Service
 {
-    const CACHE_TIMEOUT_IN_SECONDS = 1200;
-    const HTTP_REQUEST_TIMEOUT = 60;
+    public const CACHE_TIMEOUT_IN_SECONDS = 1200;
+    public const HTTP_REQUEST_TIMEOUT = 60;
 
     /**
      * @var string

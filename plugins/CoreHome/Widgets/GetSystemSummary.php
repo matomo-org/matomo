@@ -20,8 +20,8 @@ use Piwik\Widget\WidgetConfig;
 
 class GetSystemSummary extends Widget
 {
-    const TEST_MYSQL_VERSION = 'mysql-version-redacted';
-    const TEST_PHP_VERSION = 'php-version-redacted';
+    public const TEST_MYSQL_VERSION = 'mysql-version-redacted';
+    public const TEST_PHP_VERSION = 'php-version-redacted';
     /**
      * @var StoredSegmentService
      */

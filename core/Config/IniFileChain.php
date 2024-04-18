@@ -37,7 +37,7 @@ use Piwik\Piwik;
  */
 class IniFileChain
 {
-    const CONFIG_CACHE_KEY = 'config.ini';
+    public const CONFIG_CACHE_KEY = 'config.ini';
     /**
      * Maps INI file names with their parsed contents. The order of the files signifies the order
      * in the chain. Files with lower index are overwritten/merged with files w/ a higher index.

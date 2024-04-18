@@ -17,7 +17,7 @@ use Piwik\Plugins\ImageGraph\StaticGraph;
  */
 class Exception extends StaticGraph
 {
-    const MESSAGE_RIGHT_MARGIN = 5;
+    public const MESSAGE_RIGHT_MARGIN = 5;
 
     /**
      * @var \Exception

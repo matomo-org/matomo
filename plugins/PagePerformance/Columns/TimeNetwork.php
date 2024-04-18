@@ -17,8 +17,8 @@ use Piwik\Plugin\ComputedMetric;
 
 class TimeNetwork extends Base
 {
-    const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
-    const COLUMN_NAME = 'time_network';
+    public const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
+    public const COLUMN_NAME = 'time_network';
 
     protected $columnName = self::COLUMN_NAME;
     protected $columnType = self::COLUMN_TYPE;

@@ -16,7 +16,7 @@ use Piwik\Url;
 
 class Onboarding
 {
-    const OPTION_NAME_INSTALL_MAIL = 'install_mail_sent';
+    public const OPTION_NAME_INSTALL_MAIL = 'install_mail_sent';
 
     public static function sendSysAdminMail($email)
     {

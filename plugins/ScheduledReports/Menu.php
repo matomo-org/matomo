@@ -16,8 +16,8 @@ use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-    const MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY = 'MobileMessaging_TopMenu';
-    const PDF_REPORTS_TOP_MENU_TRANSLATION_KEY = 'ScheduledReports_EmailReports';
+    public const MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY = 'MobileMessaging_TopMenu';
+    public const PDF_REPORTS_TOP_MENU_TRANSLATION_KEY = 'ScheduledReports_EmailReports';
 
     public function configureAdminMenu(MenuAdmin $menu)
     {

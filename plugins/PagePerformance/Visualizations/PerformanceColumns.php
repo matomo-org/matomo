@@ -20,9 +20,9 @@ use Piwik\Plugins\PagePerformance\PagePerformance;
  */
 class PerformanceColumns extends HtmlTable
 {
-    const ID                = 'tablePerformanceColumns';
-    const FOOTER_ICON       = 'icon-page-performance';
-    const FOOTER_ICON_TITLE = 'PagePerformance_PerformanceTable';
+    public const ID                = 'tablePerformanceColumns';
+    public const FOOTER_ICON       = 'icon-page-performance';
+    public const FOOTER_ICON_TITLE = 'PagePerformance_PerformanceTable';
 
     public function beforeRender()
     {

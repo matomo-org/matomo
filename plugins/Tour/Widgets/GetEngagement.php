@@ -19,7 +19,7 @@ use Piwik\Piwik;
 
 class GetEngagement extends Widget
 {
-    const NUM_CHALLENGES_PER_PAGE = 5;
+    public const NUM_CHALLENGES_PER_PAGE = 5;
 
     /**
      * @var Challenges

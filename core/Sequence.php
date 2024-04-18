@@ -23,7 +23,7 @@ use Piwik\Db\AdapterInterface;
  */
 class Sequence
 {
-    const TABLE_NAME = 'sequence';
+    public const TABLE_NAME = 'sequence';
     /**
      * @var string
      */

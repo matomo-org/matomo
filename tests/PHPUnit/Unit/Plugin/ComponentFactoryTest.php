@@ -20,7 +20,7 @@ use Piwik\Plugin\Report;
  */
 class ComponentFactoryTest extends TestCase
 {
-    const REPORT_CLASS_NAME = 'Piwik\\Plugin\\Report';
+    public const REPORT_CLASS_NAME = 'Piwik\\Plugin\\Report';
 
     public function setUp(): void
     {

@@ -24,9 +24,9 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class LogTest extends IntegrationTestCase
 {
-    const TESTMESSAGE = 'test%smessage';
-    const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
-    const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] [%s] %s";
+    public const TESTMESSAGE = 'test%smessage';
+    public const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
+    public const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] [%s] %s";
 
     public static $expectedExceptionOutput = '[Monolog] [<PID>] LogTest.php(%d): dummy error message
   dummy backtrace [Query: , CLI mode: 1]';

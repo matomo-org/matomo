@@ -26,7 +26,7 @@ use Piwik\Columns\Dimension;
  */
 abstract class AveragePerformanceMetric extends ProcessedMetric
 {
-    const ID = '';
+    public const ID = '';
 
     public function getName()
     {

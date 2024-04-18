@@ -17,8 +17,8 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class ComparisonRowGeneratorTest extends IntegrationTestCase
 {
-    const TEST_SEGMENT = 'browserCode==ff';
-    const OTHER_SEGMENT = 'operatingSystemCode=WIN';
+    public const TEST_SEGMENT = 'browserCode==ff';
+    public const OTHER_SEGMENT = 'operatingSystemCode=WIN';
 
     protected static function beforeTableDataCached()
     {

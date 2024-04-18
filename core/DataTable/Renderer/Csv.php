@@ -68,7 +68,7 @@ class Csv extends Renderer
     /**
      * This string is also hardcoded in archive,sh
      */
-    const NO_DATA_AVAILABLE = 'No data available';
+    public const NO_DATA_AVAILABLE = 'No data available';
 
     private $unsupportedColumns = array();
 

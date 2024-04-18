@@ -17,9 +17,9 @@ namespace Piwik;
  */
 class AuthResult
 {
-    const FAILURE = 0;
-    const SUCCESS = 1;
-    const SUCCESS_SUPERUSER_AUTH_CODE = 42;
+    public const FAILURE = 0;
+    public const SUCCESS = 1;
+    public const SUCCESS_SUPERUSER_AUTH_CODE = 42;
 
     /**
      * token_auth parameter used to authenticate in the API

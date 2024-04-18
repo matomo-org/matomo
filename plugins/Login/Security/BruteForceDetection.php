@@ -21,8 +21,8 @@ use Piwik\Log\LoggerInterface;
 
 class BruteForceDetection
 {
-    const OVERALL_LOGIN_LOCKOUT_THRESHOLD_MIN = 10;
-    const TABLE_NAME = 'brute_force_log';
+    public const OVERALL_LOGIN_LOCKOUT_THRESHOLD_MIN = 10;
+    public const TABLE_NAME = 'brute_force_log';
 
     private $minutesTimeRange;
     private $maxLogAttempts;

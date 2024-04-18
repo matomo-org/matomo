@@ -16,7 +16,7 @@ use Piwik\Unzip;
 
 class BuildTracker extends ConsoleCommand
 {
-    const YUI_COMPRESSOR_URL = 'https://github.com/yui/yuicompressor/releases/download/v2.4.8/yuicompressor-2.4.8.zip';
+    public const YUI_COMPRESSOR_URL = 'https://github.com/yui/yuicompressor/releases/download/v2.4.8/yuicompressor-2.4.8.zip';
 
     protected function configure()
     {

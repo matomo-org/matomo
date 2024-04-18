@@ -22,9 +22,9 @@ use Piwik\Site;
  */
 class StackedBarEvolution extends Evolution
 {
-    const ID = 'graphStackedBarEvolution';
-    const FOOTER_ICON_TITLE = '';
-    const FOOTER_ICON = '';
+    public const ID = 'graphStackedBarEvolution';
+    public const FOOTER_ICON_TITLE = '';
+    public const FOOTER_ICON = '';
 
     public function beforeRender()
     {

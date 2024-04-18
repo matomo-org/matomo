@@ -18,7 +18,7 @@ use Piwik\DataTable\BaseFilter;
  */
 class SafeDecodeLabel extends BaseFilter
 {
-    const APPLIED_METADATA_NAME = 'SafeDecodeLabelApplied';
+    public const APPLIED_METADATA_NAME = 'SafeDecodeLabelApplied';
 
     private $columnToDecode;
 

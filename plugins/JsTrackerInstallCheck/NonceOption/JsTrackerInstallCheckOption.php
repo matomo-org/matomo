@@ -9,11 +9,11 @@ use Piwik\SettingsPiwik;
 
 class JsTrackerInstallCheckOption
 {
-    const OPTION_NAME_PREFIX = 'JsTrackerInstallCheck_';
-    const MAX_NONCE_AGE_SECONDS = 30;
-    const NONCE_DATA_TIME = 'time';
-    const NONCE_DATA_URL = 'url';
-    const NONCE_DATA_IS_SUCCESS = 'isSuccessful';
+    public const OPTION_NAME_PREFIX = 'JsTrackerInstallCheck_';
+    public const MAX_NONCE_AGE_SECONDS = 30;
+    public const NONCE_DATA_TIME = 'time';
+    public const NONCE_DATA_URL = 'url';
+    public const NONCE_DATA_IS_SUCCESS = 'isSuccessful';
 
     /**
      * Look up a specific nonce for a site. If none exists, an empty array is returned.

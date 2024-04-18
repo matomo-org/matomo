@@ -24,7 +24,7 @@ use Piwik\Tests\Framework\Fixture;
  */
 class RawArchiveDataWithTempAndInvalidated extends Fixture
 {
-    const ROWS_PER_ARCHIVE = 5;
+    public const ROWS_PER_ARCHIVE = 5;
 
     private static $dummyArchiveData = array(
         // outdated temporary

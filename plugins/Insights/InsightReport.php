@@ -17,9 +17,9 @@ use Piwik\Piwik;
  */
 class InsightReport
 {
-    const ORDER_BY_RELATIVE   = 'relative';
-    const ORDER_BY_ABSOLUTE   = 'absolute';
-    const ORDER_BY_IMPORTANCE = 'importance';
+    public const ORDER_BY_RELATIVE   = 'relative';
+    public const ORDER_BY_ABSOLUTE   = 'absolute';
+    public const ORDER_BY_IMPORTANCE = 'importance';
 
     /**
      * @param array $reportMetadata

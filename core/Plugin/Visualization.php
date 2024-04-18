@@ -154,7 +154,7 @@ class Visualization extends ViewDataTable
      *
      * @api
      */
-    const TEMPLATE_FILE = '';
+    public const TEMPLATE_FILE = '';
 
     private $templateVars = array();
     private $reportLastUpdatedMessage = null;

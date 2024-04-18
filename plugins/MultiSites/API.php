@@ -31,20 +31,20 @@ use Piwik\Site;
  */
 class API extends \Piwik\Plugin\API
 {
-    const METRIC_TRANSLATION_KEY = 'translation';
-    const METRIC_EVOLUTION_COL_NAME_KEY = 'evolution_column_name';
-    const METRIC_RECORD_NAME_KEY = 'record_name';
-    const METRIC_COL_NAME_KEY = 'metric_column_name';
-    const METRIC_IS_ECOMMERCE_KEY = 'is_ecommerce';
+    public const METRIC_TRANSLATION_KEY = 'translation';
+    public const METRIC_EVOLUTION_COL_NAME_KEY = 'evolution_column_name';
+    public const METRIC_RECORD_NAME_KEY = 'record_name';
+    public const METRIC_COL_NAME_KEY = 'metric_column_name';
+    public const METRIC_IS_ECOMMERCE_KEY = 'is_ecommerce';
 
-    const NB_VISITS_METRIC = 'nb_visits';
-    const NB_ACTIONS_METRIC = 'nb_actions';
-    const NB_PAGEVIEWS_LABEL = 'nb_pageviews';
-    const NB_PAGEVIEWS_METRIC = 'Actions_nb_pageviews';
-    const GOAL_REVENUE_METRIC = 'revenue';
-    const GOAL_CONVERSION_METRIC = 'nb_conversions';
-    const ECOMMERCE_ORDERS_METRIC = 'orders';
-    const ECOMMERCE_REVENUE_METRIC = 'ecommerce_revenue';
+    public const NB_VISITS_METRIC = 'nb_visits';
+    public const NB_ACTIONS_METRIC = 'nb_actions';
+    public const NB_PAGEVIEWS_LABEL = 'nb_pageviews';
+    public const NB_PAGEVIEWS_METRIC = 'Actions_nb_pageviews';
+    public const GOAL_REVENUE_METRIC = 'revenue';
+    public const GOAL_CONVERSION_METRIC = 'nb_conversions';
+    public const ECOMMERCE_ORDERS_METRIC = 'orders';
+    public const ECOMMERCE_REVENUE_METRIC = 'ecommerce_revenue';
 
     private static $baseMetrics = array(
         self::NB_VISITS_METRIC   => array(

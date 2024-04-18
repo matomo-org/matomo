@@ -28,8 +28,8 @@ class DbTable implements Zend_Session_SaveHandler_Interface
     protected $config;
     protected $maxLifetime;
 
-    const TABLE_NAME = 'session';
-    const TOKEN_HASH_ALGO = 'sha512';
+    public const TABLE_NAME = 'session';
+    public const TOKEN_HASH_ALGO = 'sha512';
 
     /**
      * @param array $config

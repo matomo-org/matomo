@@ -22,7 +22,7 @@ use Piwik\Url;
  */
 class Advertising
 {
-    const CAMPAIGN_NAME_PROFESSIONAL_SERVICES = 'App_ProfessionalServices';
+    public const CAMPAIGN_NAME_PROFESSIONAL_SERVICES = 'App_ProfessionalServices';
 
     /**
      * @var Plugin\Manager

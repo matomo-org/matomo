@@ -27,8 +27,8 @@ use Piwik\View;
  */
 class ServerModule extends GeoIp2
 {
-    const ID = 'geoip2server';
-    const TITLE = 'DBIP / GeoIP 2 (%s)';
+    public const ID = 'geoip2server';
+    public const TITLE = 'DBIP / GeoIP 2 (%s)';
 
     public static $defaultGeoIpServerVars = array(
         parent::CONTINENT_CODE_KEY => 'MM_CONTINENT_CODE',

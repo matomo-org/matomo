@@ -35,7 +35,7 @@ use Piwik\Plugin;
  */
 abstract class ConversionDimension extends Dimension
 {
-    const INSTALLER_PREFIX = 'log_conversion.';
+    public const INSTALLER_PREFIX = 'log_conversion.';
 
     protected $dbTableName = 'log_conversion';
     protected $category = 'Goals_Conversion';

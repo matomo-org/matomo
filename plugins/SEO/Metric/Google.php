@@ -19,7 +19,7 @@ use Piwik\Log\LoggerInterface;
  */
 class Google implements MetricsProvider
 {
-    const SEARCH_URL = 'https://www.google.com/search?hl=en&q=site%3A';
+    public const SEARCH_URL = 'https://www.google.com/search?hl=en&q=site%3A';
 
     /**
      * @var LoggerInterface

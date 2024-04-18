@@ -17,8 +17,8 @@ use Piwik\Plugin\ComputedMetric;
 
 class TimeServer extends Base
 {
-    const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
-    const COLUMN_NAME = 'time_server';
+    public const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
+    public const COLUMN_NAME = 'time_server';
 
     protected $columnName = self::COLUMN_NAME;
     protected $columnType = self::COLUMN_TYPE;

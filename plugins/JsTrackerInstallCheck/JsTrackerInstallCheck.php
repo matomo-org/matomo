@@ -17,7 +17,7 @@ use Piwik\Tracker\Request;
 
 class JsTrackerInstallCheck extends \Piwik\Plugin
 {
-    const QUERY_PARAM_NAME = 'tracker_install_check';
+    public const QUERY_PARAM_NAME = 'tracker_install_check';
 
     public function registerEvents()
     {

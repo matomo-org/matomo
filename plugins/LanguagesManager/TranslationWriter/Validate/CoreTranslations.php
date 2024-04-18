@@ -18,11 +18,11 @@ class CoreTranslations extends ValidateAbstract
     /**
      * Error States
      */
-    const ERRORSTATE_LOCALEREQUIRED = 'Locale required';
-    const ERRORSTATE_TRANSLATORINFOREQUIRED = 'Translator info required';
-    const ERRORSTATE_LOCALEINVALID = 'Locale is invalid';
-    const ERRORSTATE_LOCALEINVALIDLANGUAGE = 'Locale is invalid - invalid language code';
-    const ERRORSTATE_LOCALEINVALIDCOUNTRY = 'Locale is invalid - invalid country code';
+    public const ERRORSTATE_LOCALEREQUIRED = 'Locale required';
+    public const ERRORSTATE_TRANSLATORINFOREQUIRED = 'Translator info required';
+    public const ERRORSTATE_LOCALEINVALID = 'Locale is invalid';
+    public const ERRORSTATE_LOCALEINVALIDLANGUAGE = 'Locale is invalid - invalid language code';
+    public const ERRORSTATE_LOCALEINVALIDCOUNTRY = 'Locale is invalid - invalid country code';
 
     protected $baseTranslations = array();
 

@@ -28,7 +28,7 @@ use Piwik\Option;
  */
 class ExampleMetric2 extends RecordBuilder
 {
-    const EXAMPLEPLUGIN_CONST_METRIC_NAME = 'ExamplePlugin_example_metric2';
+    public const EXAMPLEPLUGIN_CONST_METRIC_NAME = 'ExamplePlugin_example_metric2';
 
     /**
      * This method should return the list of records this RecordBuilder creates. This example

@@ -23,7 +23,7 @@ class VisitorRecognizer
      * Set when a visit was found. Stores the original values of the row that is currently stored in the DB when
      * the visit was selected.
      */
-    const KEY_ORIGINAL_VISIT_ROW = 'originalVisit';
+    public const KEY_ORIGINAL_VISIT_ROW = 'originalVisit';
 
     /**
      * Local variable cache for the getVisitFieldsPersist() method.

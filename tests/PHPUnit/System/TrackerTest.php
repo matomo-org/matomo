@@ -28,8 +28,8 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class TrackerTest extends IntegrationTestCase
 {
-    const TASKS_FINISHED_OPTION_NAME = "Tests.scheduledTasksFinished";
-    const TASKS_STARTED_OPTION_NAME = "Tests.scheduledTasksStarted";
+    public const TASKS_FINISHED_OPTION_NAME = "Tests.scheduledTasksFinished";
+    public const TASKS_STARTED_OPTION_NAME = "Tests.scheduledTasksStarted";
 
     public function setUp(): void
     {

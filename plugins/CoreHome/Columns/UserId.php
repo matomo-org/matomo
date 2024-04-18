@@ -27,7 +27,7 @@ use Piwik\Tracker\Action;
  */
 class UserId extends VisitDimension
 {
-    const MAXLENGTH = 200;
+    public const MAXLENGTH = 200;
 
     /**
      * @var string

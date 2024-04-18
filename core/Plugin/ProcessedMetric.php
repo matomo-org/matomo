@@ -23,7 +23,7 @@ abstract class ProcessedMetric extends Metric
     /**
      * The sub-namespace name in a plugin where ProcessedMetrics are stored.
      */
-    const COMPONENT_SUBNAMESPACE = 'Columns\\Metrics';
+    public const COMPONENT_SUBNAMESPACE = 'Columns\\Metrics';
 
     /**
      * Computes the metric using the values in a {@link Piwik\DataTable\Row}.

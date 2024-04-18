@@ -32,7 +32,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
      */
     public static $fixture;
 
-    const TEST_SEGMENT = 'browserCode==ff';
+    public const TEST_SEGMENT = 'browserCode==ff';
 
     public function test_apiOutput_whenCustomSegmentUsed_WithBrowserArchivingDisabled()
     {

@@ -27,7 +27,7 @@ use Piwik\Log\LoggerInterface;
  */
 class Row extends \ArrayObject
 {
-    const COMPARISONS_METADATA_NAME = 'comparisons';
+    public const COMPARISONS_METADATA_NAME = 'comparisons';
 
     /**
      * List of columns that cannot be summed. An associative array for speed.
@@ -54,9 +54,9 @@ class Row extends \ArrayObject
 
     private $isSummaryRow = false;
 
-    const COLUMNS = 0;
-    const METADATA = 1;
-    const DATATABLE_ASSOCIATED = 3;
+    public const COLUMNS = 0;
+    public const METADATA = 1;
+    public const DATATABLE_ASSOCIATED = 3;
 
     /**
      * Constructor.

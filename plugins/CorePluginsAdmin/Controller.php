@@ -35,9 +35,9 @@ use Piwik\View;
 
 class Controller extends Plugin\ControllerAdmin
 {
-    const ACTIVATE_NONCE = 'CorePluginsAdmin.activatePlugin';
-    const DEACTIVATE_NONCE = 'CorePluginsAdmin.deactivatePlugin';
-    const UNINSTALL_NONCE = 'CorePluginsAdmin.uninstallPlugin';
+    public const ACTIVATE_NONCE = 'CorePluginsAdmin.activatePlugin';
+    public const DEACTIVATE_NONCE = 'CorePluginsAdmin.deactivatePlugin';
+    public const UNINSTALL_NONCE = 'CorePluginsAdmin.uninstallPlugin';
 
     /**
      * @var Translator

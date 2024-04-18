@@ -27,7 +27,7 @@ use Piwik\Plugins\Marketplace\Api\Client;
  */
 class PluginInstaller
 {
-    const PATH_TO_DOWNLOAD = '/latest/plugins/';
+    public const PATH_TO_DOWNLOAD = '/latest/plugins/';
 
     private $pluginName;
 

@@ -25,8 +25,8 @@ use Piwik\SettingsServer;
  */
 class Process
 {
-    const PS_COMMAND = 'ps x';
-    const AWK_COMMAND = 'awk \'! /defunct/ {print $1}\'';
+    public const PS_COMMAND = 'ps x';
+    public const AWK_COMMAND = 'awk \'! /defunct/ {print $1}\'';
 
     private $finished = null;
     private $pidFile = '';

@@ -14,7 +14,7 @@ use Piwik\Log\LoggerInterface;
 
 class ReArchiveList extends DistributedList
 {
-    const OPTION_NAME = 'ReArchiveList';
+    public const OPTION_NAME = 'ReArchiveList';
 
     public function __construct(LoggerInterface $logger = null)
     {

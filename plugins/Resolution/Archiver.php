@@ -16,8 +16,8 @@ namespace Piwik\Plugins\Resolution;
  */
 class Archiver extends \Piwik\Plugin\Archiver
 {
-    const RESOLUTION_RECORD_NAME = 'Resolution_resolution';
-    const CONFIGURATION_RECORD_NAME = 'Resolution_configuration';
-    const RESOLUTION_DIMENSION = "log_visit.config_resolution";
-    const CONFIGURATION_DIMENSION = "CONCAT(log_visit.config_os, ';', log_visit.config_browser_name, ';', log_visit.config_resolution)";
+    public const RESOLUTION_RECORD_NAME = 'Resolution_resolution';
+    public const CONFIGURATION_RECORD_NAME = 'Resolution_configuration';
+    public const RESOLUTION_DIMENSION = "log_visit.config_resolution";
+    public const CONFIGURATION_DIMENSION = "CONCAT(log_visit.config_os, ';', log_visit.config_browser_name, ';', log_visit.config_resolution)";
 }

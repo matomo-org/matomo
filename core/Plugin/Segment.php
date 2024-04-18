@@ -38,13 +38,13 @@ class Segment
      * Segment type 'dimension'. Can be used along with {@link setType()}.
      * @api
      */
-    const TYPE_DIMENSION = 'dimension';
+    public const TYPE_DIMENSION = 'dimension';
 
     /**
      * Segment type 'metric'. Can be used along with {@link setType()}.
      * @api
      */
-    const TYPE_METRIC = 'metric';
+    public const TYPE_METRIC = 'metric';
 
     private $type;
     private $category;

@@ -17,35 +17,35 @@ use Piwik\Plugins\ImageGraph\StaticGraph;
  */
 abstract class GridGraph extends StaticGraph
 {
-    const GRAPHIC_COLOR_KEY = 'GRAPHIC_COLOR';
+    public const GRAPHIC_COLOR_KEY = 'GRAPHIC_COLOR';
 
-    const TRUNCATION_TEXT = '...';
+    public const TRUNCATION_TEXT = '...';
 
-    const DEFAULT_TICK_ALPHA = 20;
-    const DEFAULT_SERIE_WEIGHT = 0.5;
-    const LEFT_GRID_MARGIN = 20;
-    const BOTTOM_GRID_MARGIN = 10;
-    const TOP_GRID_MARGIN_HORIZONTAL_GRAPH = 10;
-    const RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH = 20;
-    const OUTER_TICK_WIDTH = 5;
-    const INNER_TICK_WIDTH = 0;
-    const LABEL_SPACE_VERTICAL_GRAPH = 7;
+    public const DEFAULT_TICK_ALPHA = 20;
+    public const DEFAULT_SERIE_WEIGHT = 0.5;
+    public const LEFT_GRID_MARGIN = 20;
+    public const BOTTOM_GRID_MARGIN = 10;
+    public const TOP_GRID_MARGIN_HORIZONTAL_GRAPH = 10;
+    public const RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH = 20;
+    public const OUTER_TICK_WIDTH = 5;
+    public const INNER_TICK_WIDTH = 0;
+    public const LABEL_SPACE_VERTICAL_GRAPH = 7;
 
-    const HORIZONTAL_LEGEND_TOP_MARGIN = 5;
-    const HORIZONTAL_LEGEND_LEFT_MARGIN = 10;
-    const HORIZONTAL_LEGEND_BOTTOM_MARGIN = 10;
-    const VERTICAL_LEGEND_TOP_MARGIN = 10;
-    const VERTICAL_LEGEND_LEFT_MARGIN = 6;
-    const VERTICAL_LEGEND_MAX_WIDTH_PCT = 0.70;
-    const LEGEND_LINE_BULLET_WIDTH = 14;
-    const LEGEND_BOX_BULLET_WIDTH = 5;
-    const LEGEND_BULLET_RIGHT_PADDING = 5;
-    const LEGEND_ITEM_HORIZONTAL_INTERSTICE = 6;
-    const LEGEND_ITEM_VERTICAL_INTERSTICE_OFFSET = 4;
-    const LEGEND_SHADOW_OPACITY = 25;
-    const LEGEND_VERTICAL_SHADOW_PADDING = 3;
-    const LEGEND_HORIZONTAL_SHADOW_PADDING = 2;
-    const PCHART_HARD_CODED_VERTICAL_LEGEND_INTERSTICE = 5;
+    public const HORIZONTAL_LEGEND_TOP_MARGIN = 5;
+    public const HORIZONTAL_LEGEND_LEFT_MARGIN = 10;
+    public const HORIZONTAL_LEGEND_BOTTOM_MARGIN = 10;
+    public const VERTICAL_LEGEND_TOP_MARGIN = 10;
+    public const VERTICAL_LEGEND_LEFT_MARGIN = 6;
+    public const VERTICAL_LEGEND_MAX_WIDTH_PCT = 0.70;
+    public const LEGEND_LINE_BULLET_WIDTH = 14;
+    public const LEGEND_BOX_BULLET_WIDTH = 5;
+    public const LEGEND_BULLET_RIGHT_PADDING = 5;
+    public const LEGEND_ITEM_HORIZONTAL_INTERSTICE = 6;
+    public const LEGEND_ITEM_VERTICAL_INTERSTICE_OFFSET = 4;
+    public const LEGEND_SHADOW_OPACITY = 25;
+    public const LEGEND_VERTICAL_SHADOW_PADDING = 3;
+    public const LEGEND_HORIZONTAL_SHADOW_PADDING = 2;
+    public const PCHART_HARD_CODED_VERTICAL_LEGEND_INTERSTICE = 5;
 
     protected function getDefaultColors()
     {

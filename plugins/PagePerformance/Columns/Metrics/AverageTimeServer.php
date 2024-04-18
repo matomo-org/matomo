@@ -21,7 +21,7 @@ use Piwik\Piwik;
  */
 class AverageTimeServer extends AveragePerformanceMetric
 {
-    const ID = 'time_server';
+    public const ID = 'time_server';
 
     public function getTranslatedName()
     {

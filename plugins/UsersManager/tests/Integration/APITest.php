@@ -35,7 +35,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class TestCap1 extends Capability
 {
-    const ID = 'test_cap1';
+    public const ID = 'test_cap1';
 
     public function getId(): string
     {
@@ -67,7 +67,7 @@ class TestCap1 extends Capability
 
 class TestCap2 extends Capability
 {
-    const ID = 'test_cap2';
+    public const ID = 'test_cap2';
 
     public function getId(): string
     {
@@ -100,7 +100,7 @@ class TestCap2 extends Capability
 
 class TestCap3 extends Capability
 {
-    const ID = 'test_cap3';
+    public const ID = 'test_cap3';
 
     public function getId(): string
     {

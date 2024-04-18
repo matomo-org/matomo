@@ -11,20 +11,20 @@ namespace Piwik\Plugins\UserCountry;
 
 class Archiver extends \Piwik\Plugin\Archiver
 {
-    const COUNTRY_RECORD_NAME = 'UserCountry_country';
-    const REGION_RECORD_NAME = 'UserCountry_region';
-    const CITY_RECORD_NAME = 'UserCountry_city';
-    const DISTINCT_COUNTRIES_METRIC = 'UserCountry_distinctCountries';
+    public const COUNTRY_RECORD_NAME = 'UserCountry_country';
+    public const REGION_RECORD_NAME = 'UserCountry_region';
+    public const CITY_RECORD_NAME = 'UserCountry_city';
+    public const DISTINCT_COUNTRIES_METRIC = 'UserCountry_distinctCountries';
 
     // separate region, city & country info in stored report labels
-    const LOCATION_SEPARATOR = '|';
+    public const LOCATION_SEPARATOR = '|';
 
-    const COUNTRY_FIELD = 'location_country';
+    public const COUNTRY_FIELD = 'location_country';
 
-    const REGION_FIELD = 'location_region';
+    public const REGION_FIELD = 'location_region';
 
-    const CITY_FIELD = 'location_city';
+    public const CITY_FIELD = 'location_city';
 
-    const LATITUDE_FIELD = 'location_latitude';
-    const LONGITUDE_FIELD = 'location_longitude';
+    public const LATITUDE_FIELD = 'location_latitude';
+    public const LONGITUDE_FIELD = 'location_longitude';
 }

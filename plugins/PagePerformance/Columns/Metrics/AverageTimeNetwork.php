@@ -21,7 +21,7 @@ use Piwik\Piwik;
  */
 class AverageTimeNetwork extends AveragePerformanceMetric
 {
-    const ID = 'time_network';
+    public const ID = 'time_network';
 
     public function getTranslatedName()
     {

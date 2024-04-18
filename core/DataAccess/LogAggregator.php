@@ -106,35 +106,35 @@ use Piwik\Log\LoggerInterface;
  */
 class LogAggregator
 {
-    const LOG_VISIT_TABLE = 'log_visit';
+    public const LOG_VISIT_TABLE = 'log_visit';
 
-    const LOG_ACTIONS_TABLE = 'log_link_visit_action';
+    public const LOG_ACTIONS_TABLE = 'log_link_visit_action';
 
-    const LOG_CONVERSION_TABLE = "log_conversion";
+    public const LOG_CONVERSION_TABLE = "log_conversion";
 
-    const REVENUE_SUBTOTAL_FIELD = 'revenue_subtotal';
+    public const REVENUE_SUBTOTAL_FIELD = 'revenue_subtotal';
 
-    const REVENUE_TAX_FIELD = 'revenue_tax';
+    public const REVENUE_TAX_FIELD = 'revenue_tax';
 
-    const REVENUE_SHIPPING_FIELD = 'revenue_shipping';
+    public const REVENUE_SHIPPING_FIELD = 'revenue_shipping';
 
-    const REVENUE_DISCOUNT_FIELD = 'revenue_discount';
+    public const REVENUE_DISCOUNT_FIELD = 'revenue_discount';
 
-    const TOTAL_REVENUE_FIELD = 'revenue';
+    public const TOTAL_REVENUE_FIELD = 'revenue';
 
-    const ITEMS_COUNT_FIELD = "items";
+    public const ITEMS_COUNT_FIELD = "items";
 
-    const CONVERSION_DATETIME_FIELD = "server_time";
+    public const CONVERSION_DATETIME_FIELD = "server_time";
 
-    const ACTION_DATETIME_FIELD = "server_time";
+    public const ACTION_DATETIME_FIELD = "server_time";
 
-    const VISIT_DATETIME_FIELD = 'visit_last_action_time';
+    public const VISIT_DATETIME_FIELD = 'visit_last_action_time';
 
-    const IDGOAL_FIELD = 'idgoal';
+    public const IDGOAL_FIELD = 'idgoal';
 
-    const FIELDS_SEPARATOR = ", \n\t\t\t";
+    public const FIELDS_SEPARATOR = ", \n\t\t\t";
 
-    const LOG_TABLE_SEGMENT_TEMPORARY_PREFIX = 'logtmpsegment';
+    public const LOG_TABLE_SEGMENT_TEMPORARY_PREFIX = 'logtmpsegment';
 
     /** @var \Piwik\Date */
     protected $dateStart;

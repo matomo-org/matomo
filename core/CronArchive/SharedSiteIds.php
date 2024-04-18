@@ -20,9 +20,9 @@ use Piwik\Option;
  */
 class SharedSiteIds
 {
-    const OPTION_DEFAULT = 'SharedSiteIdsToArchive';
-    const OPTION_ALL_WEBSITES = 'SharedSiteIdsToArchive_AllWebsites';
-    const KEY_TIMESTAMP = '_ResetQueueTime';
+    public const OPTION_DEFAULT = 'SharedSiteIdsToArchive';
+    public const OPTION_ALL_WEBSITES = 'SharedSiteIdsToArchive_AllWebsites';
+    public const KEY_TIMESTAMP = '_ResetQueueTime';
 
     /**
      * @var string

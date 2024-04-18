@@ -23,9 +23,9 @@ use Piwik\Tracker\Model;
  */
 class ModelTest extends IntegrationTestCase
 {
-    const TEST_ACTION_NAME = 'action_name';
-    const TEST_ACTION_TYPE = 1;
-    const TEST_ACTION_URL_PREFIX = 1;
+    public const TEST_ACTION_NAME = 'action_name';
+    public const TEST_ACTION_TYPE = 1;
+    public const TEST_ACTION_URL_PREFIX = 1;
 
     /**
      * @var Model

@@ -15,7 +15,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/DevicePlugins/functions.php';
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
-    const DELIMITER_PLUGIN_NAME = ", ";
+    public const DELIMITER_PLUGIN_NAME = ", ";
 
     public function extendVisitorDetails(&$visitor)
     {

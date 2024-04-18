@@ -31,7 +31,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvide
 
 class TestLogFooBarBaz extends LogTable
 {
-    const TABLE = 'log_foo_bar_baz';
+    public const TABLE = 'log_foo_bar_baz';
 
     public function install()
     {
@@ -68,7 +68,7 @@ class TestLogFooBarBaz extends LogTable
 
 class TestLogFooBar extends LogTable
 {
-    const TABLE = 'log_foo_bar';
+    public const TABLE = 'log_foo_bar';
 
     public function install()
     {
@@ -105,7 +105,7 @@ class TestLogFooBar extends LogTable
 
 class TestLogFoo extends LogTable
 {
-    const TABLE = 'log_foo';
+    public const TABLE = 'log_foo';
 
     public function install()
     {

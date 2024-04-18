@@ -19,7 +19,7 @@ use Piwik\Session\SessionNamespace;
  */
 class Manager
 {
-    const MAX_NOTIFICATIONS_IN_SESSION = 30;
+    public const MAX_NOTIFICATIONS_IN_SESSION = 30;
     /**
      * @var SessionNamespace
      */

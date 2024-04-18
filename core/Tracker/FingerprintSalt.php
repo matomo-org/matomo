@@ -15,8 +15,8 @@ use Piwik\Option;
 
 class FingerprintSalt
 {
-    const OPTION_PREFIX = 'fingerprint_salt_';
-    const DELETE_FINGERPRINT_OLDER_THAN_SECONDS = 432000; // 5 days in seconds
+    public const OPTION_PREFIX = 'fingerprint_salt_';
+    public const DELETE_FINGERPRINT_OLDER_THAN_SECONDS = 432000; // 5 days in seconds
 
     public function generateSalt()
     {

@@ -27,9 +27,9 @@ use Piwik\Plugin\Manager as PluginManager;
  */
 class Model
 {
-    const NO_CHANGES_EXIST = 0;
-    const CHANGES_EXIST = 1;
-    const NEW_CHANGES_EXIST = 2;
+    public const NO_CHANGES_EXIST = 0;
+    public const CHANGES_EXIST = 1;
+    public const NEW_CHANGES_EXIST = 2;
 
     /**
      * @var Db\AdapterInterface

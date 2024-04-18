@@ -18,9 +18,9 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 class CookieTest extends SystemTestCase
 {
-    const USERAGENT_CHROME = 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/532.0 (KHTML, like Gecko) Chrome/3.0.195.38 Safari/532.0';
-    const USERAGENT_FIREFOX = 'Mozilla/5.0 (X11; Linux i686; rv:6.0) Gecko/20100101 Firefox/6.0';
-    const USERAGENT_SAFARI = 'Mozilla/5.0 (X11; U; Linux x86_64; en-us) AppleWebKit/531.2+ (KHTML, like Gecko) Version/5.0 Safari/531.2+';
+    public const USERAGENT_CHROME = 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/532.0 (KHTML, like Gecko) Chrome/3.0.195.38 Safari/532.0';
+    public const USERAGENT_FIREFOX = 'Mozilla/5.0 (X11; Linux i686; rv:6.0) Gecko/20100101 Firefox/6.0';
+    public const USERAGENT_SAFARI = 'Mozilla/5.0 (X11; U; Linux x86_64; en-us) AppleWebKit/531.2+ (KHTML, like Gecko) Version/5.0 Safari/531.2+';
 
     private $testVars;
 

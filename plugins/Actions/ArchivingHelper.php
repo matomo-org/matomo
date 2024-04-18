@@ -30,7 +30,7 @@ use Zend_Db_Statement;
  */
 class ArchivingHelper
 {
-    const OTHERS_ROW_KEY = '';
+    public const OTHERS_ROW_KEY = '';
 
     /**
      * Ideally this should use the DataArray object instead of custom data structure

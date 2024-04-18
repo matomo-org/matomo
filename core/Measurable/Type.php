@@ -11,7 +11,7 @@ namespace Piwik\Measurable;
 
 class Type
 {
-    const ID = '';
+    public const ID = '';
     protected $name = 'General_Measurable';
     protected $namePlural = 'General_Measurables';
     protected $description = 'Default measurable type';

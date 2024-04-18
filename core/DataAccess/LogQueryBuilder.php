@@ -17,7 +17,7 @@ use Piwik\Segment\SegmentExpression;
 
 class LogQueryBuilder
 {
-    const FORCE_INNER_GROUP_BY_NO_SUBSELECT = '__##nosubquery##__';
+    public const FORCE_INNER_GROUP_BY_NO_SUBSELECT = '__##nosubquery##__';
 
     /**
      * @var LogTablesProvider

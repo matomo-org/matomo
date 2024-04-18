@@ -20,8 +20,8 @@ use Piwik\Piwik;
 
 class ComputedMetric extends ProcessedMetric
 {
-    const AGGREGATION_AVG = 'avg';
-    const AGGREGATION_RATE = 'rate';
+    public const AGGREGATION_AVG = 'avg';
+    public const AGGREGATION_RATE = 'rate';
 
     /**
      * @var string

@@ -21,7 +21,7 @@ use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
  */
 class SetConfigTest extends ConsoleCommandTestCase
 {
-    const TEST_CONFIG_PATH = '/tmp/test.config.ini.php';
+    public const TEST_CONFIG_PATH = '/tmp/test.config.ini.php';
 
     public static function setUpBeforeClass(): void
     {

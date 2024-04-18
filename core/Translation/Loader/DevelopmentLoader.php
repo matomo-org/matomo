@@ -14,7 +14,7 @@ namespace Piwik\Translation\Loader;
  */
 class DevelopmentLoader implements LoaderInterface
 {
-    const LANGUAGE_ID = 'dev';
+    public const LANGUAGE_ID = 'dev';
 
     /**
      * Decorated loader.

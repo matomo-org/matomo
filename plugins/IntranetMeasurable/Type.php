@@ -11,7 +11,7 @@ namespace Piwik\Plugins\IntranetMeasurable;
 
 class Type extends \Piwik\Measurable\Type
 {
-    const ID = 'intranet';
+    public const ID = 'intranet';
     protected $name = 'IntranetMeasurable_Intranet';
     protected $namePlural = 'IntranetMeasurable_Intranets';
     protected $description = 'IntranetMeasurable_IntranetDescription';

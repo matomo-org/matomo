@@ -28,37 +28,37 @@ use Piwik\Tracker\Visit\VisitProperties;
 class GoalManager
 {
     // log_visit.visit_goal_buyer
-    const TYPE_BUYER_OPEN_CART = 2;
-    const TYPE_BUYER_ORDERED_AND_OPEN_CART = 3;
+    public const TYPE_BUYER_OPEN_CART = 2;
+    public const TYPE_BUYER_ORDERED_AND_OPEN_CART = 3;
 
     // log_conversion.idorder is NULLable, but not log_conversion_item which defaults to zero for carts
-    const ITEM_IDORDER_ABANDONED_CART = 0;
+    public const ITEM_IDORDER_ABANDONED_CART = 0;
 
     // log_conversion.idgoal special values
-    const IDGOAL_CART = -1;
-    const IDGOAL_ORDER = 0;
+    public const IDGOAL_CART = -1;
+    public const IDGOAL_ORDER = 0;
 
-    const REVENUE_PRECISION = 2;
+    public const REVENUE_PRECISION = 2;
 
-    const MAXIMUM_PRODUCT_CATEGORIES = 5;
+    public const MAXIMUM_PRODUCT_CATEGORIES = 5;
 
     // In the GET items parameter, each item has the following array of information
-    const INDEX_ITEM_SKU = 0;
-    const INDEX_ITEM_NAME = 1;
-    const INDEX_ITEM_CATEGORY = 2;
-    const INDEX_ITEM_PRICE = 3;
-    const INDEX_ITEM_QUANTITY = 4;
+    public const INDEX_ITEM_SKU = 0;
+    public const INDEX_ITEM_NAME = 1;
+    public const INDEX_ITEM_CATEGORY = 2;
+    public const INDEX_ITEM_PRICE = 3;
+    public const INDEX_ITEM_QUANTITY = 4;
 
     // Used in the array of items, internally to this class
-    const INTERNAL_ITEM_SKU = 0;
-    const INTERNAL_ITEM_NAME = 1;
-    const INTERNAL_ITEM_CATEGORY = 2;
-    const INTERNAL_ITEM_CATEGORY2 = 3;
-    const INTERNAL_ITEM_CATEGORY3 = 4;
-    const INTERNAL_ITEM_CATEGORY4 = 5;
-    const INTERNAL_ITEM_CATEGORY5 = 6;
-    const INTERNAL_ITEM_PRICE = 7;
-    const INTERNAL_ITEM_QUANTITY = 8;
+    public const INTERNAL_ITEM_SKU = 0;
+    public const INTERNAL_ITEM_NAME = 1;
+    public const INTERNAL_ITEM_CATEGORY = 2;
+    public const INTERNAL_ITEM_CATEGORY2 = 3;
+    public const INTERNAL_ITEM_CATEGORY3 = 4;
+    public const INTERNAL_ITEM_CATEGORY4 = 5;
+    public const INTERNAL_ITEM_CATEGORY5 = 6;
+    public const INTERNAL_ITEM_PRICE = 7;
+    public const INTERNAL_ITEM_QUANTITY = 8;
 
     public static $NUMERIC_MATCH_ATTRIBUTES = [
         'visit_duration',

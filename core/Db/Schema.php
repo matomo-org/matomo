@@ -21,7 +21,7 @@ use Piwik\Singleton;
  */
 class Schema extends Singleton
 {
-    const DEFAULT_SCHEMA = 'Mysql';
+    public const DEFAULT_SCHEMA = 'Mysql';
 
     /**
      * Type of database schema

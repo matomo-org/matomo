@@ -27,7 +27,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvide
  */
 class VisitorGeolocatorTest extends IntegrationTestCase
 {
-    const TEST_IP = '1.2.3.4';
+    public const TEST_IP = '1.2.3.4';
 
     /**
      * @var LogHelper

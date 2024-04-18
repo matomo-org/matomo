@@ -14,8 +14,8 @@ use Piwik\Date;
 
 class ArchiveTableCreator
 {
-    const NUMERIC_TABLE = "numeric";
-    const BLOB_TABLE    = "blob";
+    public const NUMERIC_TABLE = "numeric";
+    public const BLOB_TABLE    = "blob";
 
     public static $tablesAlreadyInstalled = null;
 

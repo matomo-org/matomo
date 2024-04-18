@@ -28,11 +28,11 @@ use Piwik\Plugins\CoreAdminHome\Emails\RecoveryCodesRegeneratedEmail;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-    const AUTH_CODE_NONCE = 'TwoFactorAuth.saveAuthCode';
-    const LOGIN_2FA_NONCE = 'TwoFactorAuth.loginAuthCode';
-    const DISABLE_2FA_NONCE = 'TwoFactorAuth.disableAuthCode';
-    const REGENERATE_CODES_2FA_NONCE = 'TwoFactorAuth.regenerateCodes';
-    const VERIFY_PASSWORD_NONCE = 'TwoFactorAuth.verifyPassword';
+    public const AUTH_CODE_NONCE = 'TwoFactorAuth.saveAuthCode';
+    public const LOGIN_2FA_NONCE = 'TwoFactorAuth.loginAuthCode';
+    public const DISABLE_2FA_NONCE = 'TwoFactorAuth.disableAuthCode';
+    public const REGENERATE_CODES_2FA_NONCE = 'TwoFactorAuth.regenerateCodes';
+    public const VERIFY_PASSWORD_NONCE = 'TwoFactorAuth.verifyPassword';
 
     /**
      * @var SystemSettings

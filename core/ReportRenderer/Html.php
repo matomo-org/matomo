@@ -18,12 +18,12 @@ use Piwik\View;
  */
 class Html extends ReportRenderer
 {
-    const IMAGE_GRAPH_WIDTH = 700;
-    const IMAGE_GRAPH_HEIGHT = 200;
+    public const IMAGE_GRAPH_WIDTH = 700;
+    public const IMAGE_GRAPH_HEIGHT = 200;
 
-    const HTML_CONTENT_TYPE = 'text/html';
-    const HTML_FILE_EXTENSION = 'html';
-    const UNSUBSCRIBE_LINK_PLACEHOLDER = '__unsubscribeLink__';
+    public const HTML_CONTENT_TYPE = 'text/html';
+    public const HTML_FILE_EXTENSION = 'html';
+    public const UNSUBSCRIBE_LINK_PLACEHOLDER = '__unsubscribeLink__';
 
     protected $renderImageInline = false;
 

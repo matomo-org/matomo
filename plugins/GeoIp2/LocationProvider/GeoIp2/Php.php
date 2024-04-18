@@ -30,8 +30,8 @@ use Piwik\View;
  */
 class Php extends GeoIp2
 {
-    const ID = 'geoip2php';
-    const TITLE = 'DBIP / GeoIP 2 (Php)';
+    public const ID = 'geoip2php';
+    public const TITLE = 'DBIP / GeoIP 2 (Php)';
 
     /**
      * The GeoIP2 reader instances used. This array will contain at most two

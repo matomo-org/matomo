@@ -32,7 +32,7 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
  */
 class DataTablePostProcessor
 {
-    const PROCESSED_METRICS_COMPUTED_FLAG = 'processed_metrics_computed';
+    public const PROCESSED_METRICS_COMPUTED_FLAG = 'processed_metrics_computed';
 
     /**
      * @var null|Report
