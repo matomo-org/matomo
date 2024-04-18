@@ -91,6 +91,8 @@
         "PriceExclTax": "%1$s %2$s excl. tax.",
         "PriceFromPerPeriod": "From %1$s \/ %2$s",
         "TrialRequested": "Trial requested",
+        "TrialRequestedNotification1": "A user has requested to start a trial of the %1$s plugin. To start this trial for free, go to %2$sthe marketplace%3$s and click on “Start free trial”.",
+        "TrialRequestedNotification2": "For more information about the %1$s plugin, %2$sclick here%3$s.",
         "RequestTrial": "Request trial",
         "RequestTrialConfirmEmailWarning": "Requesting a trial will send an email to all super users. Are you sure you want to continue?",
         "RequestTrialConfirmTitle": "Request trial for %s",

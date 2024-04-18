@@ -17,6 +17,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
+use Piwik\Url;
 
 class PluginTrial
 {
@@ -162,10 +163,18 @@ class PluginTrial
             return; // current user already dismissed the notification
         }
 
-        $notification = new Notification(Piwik::translate('Marketplace_PluginTrialRequested'));
+        $marketplaceUrl = Url::getCurrentQueryStringWithParametersModified([
+            'module' => 'Marketplace', 'action' => 'overview'
+        ]);
+        $link = sprintf('<a href="%s#popover=browsePluginDetail%%243A%s">', $marketplaceUrl, $this->pluginName);
+        $message = '<b>' . Piwik::translate('Marketplace_TrialRequestedNotification1', [$this->pluginName, $link, '</a>']) . '</b><br><br>';
+        $message .= Piwik::translate('Marketplace_TrialRequestedNotification2', [$this->pluginName, $link, '</a>']);
+
+        $notification = new Notification($message);
         $notification->raw = true;
         $notification->context = Notification::CONTEXT_INFO;
         $notification->type = Notification::TYPE_PERSISTENT;
+        Notification\Manager::cancel($this->getNotificationId());
         Notification\Manager::notify($this->getNotificationId(), $notification);
     }
 
