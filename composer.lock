@@ -3276,20 +3276,20 @@
         },
         {
             "name": "tecnickcom/tcpdf",
-            "version": "6.6.5",
+            "version": "6.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "5fce932fcee4371865314ab7f6c0d85423c5c7ce"
+                "reference": "d4adef47ca21c90e6483d59dcb9e5b1023696937"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/5fce932fcee4371865314ab7f6c0d85423c5c7ce",
-                "reference": "5fce932fcee4371865314ab7f6c0d85423c5c7ce",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/d4adef47ca21c90e6483d59dcb9e5b1023696937",
+                "reference": "d4adef47ca21c90e6483d59dcb9e5b1023696937",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.5.0"
             },
             "type": "library",
             "autoload": {
@@ -3336,7 +3336,7 @@
             ],
             "support": {
                 "issues": "https://github.com/tecnickcom/TCPDF/issues",
-                "source": "https://github.com/tecnickcom/TCPDF/tree/6.6.5"
+                "source": "https://github.com/tecnickcom/TCPDF/tree/6.7.4"
             },
             "funding": [
                 {
@@ -3344,7 +3344,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-09-06T15:09:26+00:00"
+            "time": "2024-03-25T23:56:24+00:00"
         },
         {
             "name": "tedivm/jshrink",
