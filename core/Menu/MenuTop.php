@@ -50,7 +50,6 @@ class MenuTop extends MenuAbstract
     public function getMenu()
     {
         if (!$this->menu) {
-
             foreach ($this->getAllMenus() as $menu) {
                 $menu->configureTopMenu($this);
             }

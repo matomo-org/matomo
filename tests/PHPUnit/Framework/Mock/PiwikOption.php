@@ -16,7 +16,7 @@ class PiwikOption extends Option
 {
     private $forcedOptionValue = false;
 
-    function __construct($forcedOptionValue)
+    public function __construct($forcedOptionValue)
     {
         $this->forcedOptionValue = $forcedOptionValue;
     }

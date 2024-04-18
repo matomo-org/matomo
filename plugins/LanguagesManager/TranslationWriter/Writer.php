@@ -98,7 +98,6 @@ class Writer
             $installedPlugins = \Piwik\Plugin\Manager::getInstance()->readPluginsDirectory();
 
             if (!in_array($pluginName, $installedPlugins)) {
-
                 throw new Exception(Piwik::translate('General_ExceptionLanguageFileNotFound', array($pluginName)));
             }
 
@@ -205,7 +204,6 @@ class Writer
         }
 
         if (!empty($this->pluginName)) {
-
             if ($base == 'tmp') {
                 return sprintf('%s/plugins/%s/lang/%s.json', StaticContainer::get('path.tmp'), $this->pluginName, $lang);
             } else {
@@ -385,7 +383,6 @@ class Writer
         $cleanedTranslations = $this->translations;
 
         foreach ($this->filters as $filter) {
-
             $cleanedTranslations = $filter->filter($cleanedTranslations);
             $filteredData = $filter->getFilteredData();
             if (!empty($filteredData)) {

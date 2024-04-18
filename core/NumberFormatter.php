@@ -67,7 +67,8 @@ class NumberFormatter
      */
     public function format($value, $maximumFractionDigits = 0, $minimumFractionDigits = 0)
     {
-        if (is_string($value)
+        if (
+            is_string($value)
             && trim($value, '%') != $value
         ) {
             return $this->formatPercent($value, $maximumFractionDigits, $minimumFractionDigits);
@@ -247,7 +248,7 @@ class NumberFormatter
             }
         }
         // Assemble the final number and insert it into the pattern.
-        $value = $minorDigits ? $majorDigits . '.' . $minorDigits : $majorDigits;
+        $value = strlen($minorDigits) ? $majorDigits . '.' . $minorDigits : $majorDigits;
         $value = preg_replace('/#(?:[\.,]#+)*0(?:[,\.][0#]+)*/', $value, $pattern);
         // Localize the number.
         $value = $this->replaceSymbols($value);

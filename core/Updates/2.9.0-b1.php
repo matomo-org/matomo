@@ -70,7 +70,6 @@ class Updates_2_9_0_b1 extends Updates
 
         // for each blob archive table, rename UserSettings_browserType to DevicesDetection_browserEngines
         foreach ($archiveBlobTables as $table) {
-
             // try to rename old archives
             $query = sprintf("UPDATE IGNORE %s SET name='DevicesDetection_browserEngines' WHERE name = 'UserSettings_browserType'", $table);
             $sql[] = $this->migration->db->sql($query);

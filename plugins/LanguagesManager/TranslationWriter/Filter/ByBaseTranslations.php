@@ -35,7 +35,6 @@ class ByBaseTranslations extends FilterAbstract
         $cleanedTranslations = array();
 
         foreach ($translations as $pluginName => $pluginTranslations) {
-
             if (empty($this->baseTranslations[$pluginName])) {
                 $this->filteredData[$pluginName] = $pluginTranslations;
                 continue;

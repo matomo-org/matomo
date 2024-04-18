@@ -179,7 +179,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             }
             $dataTable->setMaximumAllowedRows($maxRows);
 
-            if ($type == Action::TYPE_PAGE_URL
+            if (
+                $type == Action::TYPE_PAGE_URL
                 || $type == Action::TYPE_PAGE_TITLE
             ) {
                 // for page urls and page titles, performance metrics exist and have to be aggregated correctly
@@ -544,7 +545,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     {
         $site = $archiveProcessor->getParams()->getSite();
 
-        if (!\Piwik\Common::isGoalPluginEnabled() ||
+        if (
+            !\Piwik\Common::isGoalPluginEnabled() ||
             GeneralConfig::getConfigValue('disable_archive_actions_goals', $site->getId())
         ) {
             return;

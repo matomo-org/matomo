@@ -169,12 +169,12 @@ class VisitRequestProcessor extends RequestProcessor
 
         $isNewVisitForced = $request->getParam('new_visit');
         $isNewVisitForced = !empty($isNewVisitForced);
-        if($isNewVisitForced) {
+        if ($isNewVisitForced) {
             Common::printDebug("-> New visit forced: &new_visit=1 in request");
             return true;
         }
 
-        if($this->trackerAlwaysNewVisitor) {
+        if ($this->trackerAlwaysNewVisitor) {
             Common::printDebug("-> New visit forced: Debug.tracker_always_new_visitor = 1 in config.ini.php");
             return true;
         }
@@ -195,8 +195,10 @@ class VisitRequestProcessor extends RequestProcessor
             return true;
         }
 
-        if (!TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $request->getIdSiteIfExists())
-            && !$this->lastUserIdWasSetAndDoesMatch($visitProperties, $request)) {
+        if (
+            !TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $request->getIdSiteIfExists())
+            && !$this->lastUserIdWasSetAndDoesMatch($visitProperties, $request)
+        ) {
             Common::printDebug("Visitor detected, but last user_id does not match...");
             return true;
         }
@@ -284,13 +286,13 @@ class VisitRequestProcessor extends RequestProcessor
     {
         $lastUserId = $visitProperties->getProperty('user_id');
 
-        if(empty($lastUserId)) {
+        if (empty($lastUserId)) {
             return true;
         }
 
         $currentUserId = $request->getForcedUserId();
 
-        if(empty($currentUserId)) {
+        if (empty($currentUserId)) {
             return true;
         }
 

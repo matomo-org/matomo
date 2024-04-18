@@ -39,7 +39,7 @@ class FileTest extends IntegrationTestCase
         // make directory not writable
         $nonWritableDir = dirname($this->dir . self::NOT_EXISTING_FILE_IN_NON_WRITABLE_DIRECTORY);
         @chmod($nonWritableDir, 0444);
-        if(is_writable($nonWritableDir)) {
+        if (is_writable($nonWritableDir)) {
             throw new \Exception("The directory $nonWritableDir should have been made non writable by this test, but it didn't work");
         }
     }
@@ -63,7 +63,7 @@ class FileTest extends IntegrationTestCase
     private function makeNotWritableFile()
     {
         $path = $this->dir . 'file-made-non-writable.js';
-        if(file_exists($path)) {
+        if (file_exists($path)) {
             chmod($path, 0777);
         }
         $file = new File($path);

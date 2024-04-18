@@ -262,7 +262,7 @@ class Http
         $contentLength = 0;
         $fileLength = 0;
 
-        if ( !empty($requestBody) && is_array($requestBody)) {
+        if (!empty($requestBody) && is_array($requestBody)) {
             $requestBodyQuery = self::buildQuery($requestBody);
         } else {
             $requestBodyQuery = $requestBody;
@@ -375,7 +375,8 @@ class Http
             $errno = null;
             $errstr = null;
 
-            if ((!empty($proxyHost) && !empty($proxyPort))
+            if (
+                (!empty($proxyHost) && !empty($proxyPort))
                 || !empty($byteRange)
             ) {
                 $httpVer = '1.1';
@@ -527,7 +528,8 @@ class Http
                 self::parseHeaderLine($headers, $line);
             }
 
-            if (feof($fsock)
+            if (
+                feof($fsock)
                 && $httpMethod != 'HEAD'
             ) {
                 throw new Exception('Unexpected end of transmission');
@@ -756,7 +758,7 @@ class Http
                 while (substr($response, 0, 5) == "HTTP/") {
                     $split = explode("\r\n\r\n", $response, 2);
 
-                    if(count($split) == 2) {
+                    if (count($split) == 2) {
                         [$header, $response] = $split;
                     } else {
                         $response = '';
@@ -784,7 +786,8 @@ class Http
             @fclose($file);
 
             $fileSize = filesize($destinationPath);
-            if ($contentLength > 0
+            if (
+                $contentLength > 0
                 && $fileSize != $contentLength
             ) {
                 throw new Exception('File size error: ' . $destinationPath . '; expected ' . $contentLength . ' bytes; received ' . $fileLength . ' bytes; saved ' . $fileSize . ' bytes to file');
@@ -894,7 +897,8 @@ class Http
     public static function downloadChunk($url, $outputPath, $isContinuation)
     {
         // make sure file doesn't already exist if we're starting a new download
-        if (!$isContinuation
+        if (
+            !$isContinuation
             && file_exists($outputPath)
         ) {
             throw new Exception(
@@ -958,7 +962,8 @@ class Http
             $getExtendedInfo = true
         );
 
-        if ($result === false
+        if (
+            $result === false
             || $result['status'] < 200
             || $result['status'] > 299
         ) {

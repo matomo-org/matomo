@@ -50,7 +50,8 @@ class RequestParser
     private function filterNonArchivingJobs($commands)
     {
         $result = array_filter($commands, function ($command) {
-            if (empty($command['trigger'])
+            if (
+                empty($command['trigger'])
                 || $command['trigger'] != 'archivephp'
             ) {
                 return false;

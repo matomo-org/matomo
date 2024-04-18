@@ -33,7 +33,7 @@ class UpdateCommunication
     {
         $isEnabled = (bool) Config::getInstance()->General['enable_update_communication'];
 
-        if($isEnabled === true && SettingsPiwik::isInternetEnabled() === true){
+        if ($isEnabled === true && SettingsPiwik::isInternetEnabled() === true) {
             return true;
         }
 
@@ -132,9 +132,11 @@ class UpdateCommunication
         $latestVersion   = $this->getLatestVersion();
         $lastVersionSent = $this->getLatestVersionSent();
 
-        if (!empty($lastVersionSent)
+        if (
+            !empty($lastVersionSent)
             && ($latestVersion == $lastVersionSent
-                || version_compare($latestVersion, $lastVersionSent) == -1)) {
+                || version_compare($latestVersion, $lastVersionSent) == -1)
+        ) {
             return true;
         }
 

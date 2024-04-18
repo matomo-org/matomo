@@ -306,9 +306,10 @@ class SiteContentDetector
             if (!isset($cacheData['detectedContent'][$type])) {
                 $cacheData['detectedContent'][$type] = [];
             }
-            foreach ($detections as $detectionId => $wasDetected)
-            if (null !== $wasDetected) {
-                $cacheData['detectedContent'][$type][$detectionId] = $wasDetected;
+            foreach ($detections as $detectionId => $wasDetected) {
+                if (null !== $wasDetected) {
+                    $cacheData['detectedContent'][$type][$detectionId] = $wasDetected;
+                }
             }
         }
 
@@ -332,15 +333,18 @@ class SiteContentDetector
             foreach ($typeDetections as $typeDetection) {
                 $this->detectedContent[$type][$typeDetection::getId()] = null;
 
-                if (in_array($type, $detectContent) ||
+                if (
+                    in_array($type, $detectContent) ||
                     in_array($typeDetection::getId(), $detectContent) ||
-                    empty($detectContent))
-                {
+                    empty($detectContent)
+                ) {
                     $this->detectedContent[$type][$typeDetection::getId()] = false;
 
                     if ($typeDetection->isDetected($this->siteResponse['data'], $this->siteResponse['headers'])) {
-                        if ($typeDetection instanceof ConsentManagerDetectionAbstract
-                            && $typeDetection->checkIsConnected($this->siteResponse['data'], $this->siteResponse['headers']) ) {
+                        if (
+                            $typeDetection instanceof ConsentManagerDetectionAbstract
+                            && $typeDetection->checkIsConnected($this->siteResponse['data'], $this->siteResponse['headers'])
+                        ) {
                             $this->connectedConsentManagers[] = $typeDetection::getId();
                         }
                         $this->detectedContent[$type][$typeDetection::getId()] = true;

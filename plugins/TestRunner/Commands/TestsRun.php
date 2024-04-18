@@ -57,7 +57,7 @@ class TestsRun extends ConsoleCommand
 
         if (!$this->isCoverageEnabled($options) && $this->isXdebugLoaded()) {
             $message = 'Did you know? You can run tests faster by disabling xdebug';
-            if($this->isXdebugCodeCoverageEnabled()) {
+            if ($this->isXdebugCodeCoverageEnabled()) {
                 $message .= ' (if you need xdebug, speed up tests by setting xdebug.coverage_enable=0)</comment>';
             }
             $output->writeln('<comment>' . $message . '</comment>');
@@ -65,7 +65,6 @@ class TestsRun extends ConsoleCommand
 
         // force xdebug usage for coverage options
         if ($this->isCoverageEnabled($options) && !$this->isXdebugLoaded()) {
-
             $output->writeln('<info>xdebug extension required for code coverage.</info>');
 
             $output->writeln('<info>searching for xdebug extension...</info>');
@@ -81,13 +80,12 @@ class TestsRun extends ConsoleCommand
                     }
                 );
             } else {
-
                 $output->writeln('<info>xdebug extension found in extension path.</info>');
             }
 
             $output->writeln("<info>using $xdebugFile as xdebug extension.</info>");
 
-            $phpunitPath = trim(shell_exec('which phpunit'));
+            $phpunitPath = trim(shell_exec('which phpunit') ?? '');
 
             $command = sprintf('php -d zend_extension=%s %s', $xdebugFile, $phpunitPath);
         }

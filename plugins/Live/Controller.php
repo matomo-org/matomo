@@ -32,7 +32,7 @@ class Controller extends \Piwik\Plugin\Controller
         parent::__construct();
     }
 
-    function index()
+    public function index()
     {
         return $this->widget();
     }

@@ -182,7 +182,6 @@ class LogDataPurger
 
         $result = array();
         foreach ($provider->getAllLogTables() as $logTable) {
-
             if ($logTable->getColumnToJoinOnIdVisit()) {
                 $result[] = Common::prefixTable($logTable->getName());
             }

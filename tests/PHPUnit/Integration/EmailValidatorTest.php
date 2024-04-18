@@ -62,16 +62,15 @@ class EmailValidatorTest extends \PHPUnit\Framework\TestCase
             $domainNameExtension = idn_to_ascii($tld, 0, INTL_IDNA_VARIANT_UTS46);
             $email = 'test@example.' . $domainNameExtension;
 
-            if(!$this->isValid($email)) {
+            if (!$this->isValid($email)) {
                 $errors[] = $domainNameExtension;
             }
         }
 
         // only fail when at least 10 domains are failing the test, so it does not fail every time IANA adds a new domain extension...
-        if(count($errors) > 5)
-        {
+        if (count($errors) > 5) {
             $out = '';
-            foreach($errors as $domainNameExtension) {
+            foreach ($errors as $domainNameExtension) {
                 $out .= "\t'$domainNameExtension' => array(1 => self::VALID_UNICODE_DOMAIN),\n";
             }
             $this->fail("Some email extensions are not supported yet, you can add these domain extensions in libs/Zend/Validate/Hostname.php: \n\n" . $out);

@@ -155,7 +155,6 @@ abstract class UIAssetFetcher
         "libs/bower_components/materialize/dist/js/materialize.min.js" => "node_modules/@materializecss/materialize/dist/js/materialize.min.js",
         "libs/bower_components/jquery.scrollTo/jquery.scrollTo.min.js" => "node_modules/jquery.scrollto/jquery.scrollTo.min.js",
         "libs/bower_components/mousetrap/mousetrap.min.js" => "node_modules/mousetrap/mousetrap.min.js",
-        "libs/bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot.min.js" => "node_modules/jquery.dotdotdot/dist/jquery.dotdotdot.js",
         "libs/bower_components/visibilityjs/lib/visibility.core.js" => "node_modules/visibilityjs/lib/visibility.core.js",
         "libs/bower_components/iframe-resizer/js/iframeResizer.min.js" => "node_modules/iframe-resizer/js/iframeResizer.min.js",
         "libs/bower_components/qrcode.js/qrcode.js" => "node_modules/qrcodejs2/qrcode.min.js",

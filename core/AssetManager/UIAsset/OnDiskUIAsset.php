@@ -40,9 +40,11 @@ class OnDiskUIAsset extends UIAsset
         $this->baseDirectory = $baseDirectory;
         $this->relativeLocation = $fileLocation;
 
-        if (!empty($relativeRootDir)
+        if (
+            !empty($relativeRootDir)
             && is_string($relativeRootDir)
-            && !Common::stringEndsWith($relativeRootDir, '/')) {
+            && !Common::stringEndsWith($relativeRootDir, '/')
+        ) {
             $relativeRootDir .= '/';
         }
 

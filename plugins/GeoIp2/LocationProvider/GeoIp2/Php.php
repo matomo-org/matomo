@@ -501,7 +501,8 @@ class Php extends GeoIp2
         // in misc, then the databases are located outside of Matomo, so we cannot update them
         $view->showGeoIPUpdateSection = true;
         $currentProviderId = LocationProvider::getCurrentProviderId();
-        if (!$geoIPDatabasesInstalled
+        if (
+            !$geoIPDatabasesInstalled
             && in_array($currentProviderId, [GeoIp2\ServerModule::ID])
             && LocationProvider::getCurrentProvider()->isWorking()
             && LocationProvider::getCurrentProvider()->isAvailable()

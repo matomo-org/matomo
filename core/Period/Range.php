@@ -324,8 +324,10 @@ class Range extends Period
      */
     protected function processOptimalSubperiods($startDate, $endDate)
     {
-        while ($startDate->isEarlier($endDate)
-            || $startDate == $endDate) {
+        while (
+            $startDate->isEarlier($endDate)
+            || $startDate == $endDate
+        ) {
             $endOfPeriod = null;
 
             $month        = new Month($startDate);
@@ -336,7 +338,8 @@ class Range extends Period
             $endOfYear   = $year->getDateEnd();
             $startOfYear = $year->getDateStart();
 
-            if ($startDate == $startOfYear
+            if (
+                $startDate == $startOfYear
                 && ($endOfYear->isEarlier($endDate)
                     || $endOfYear == $endDate
                     || $endOfYear->isLater($this->today)
@@ -349,7 +352,8 @@ class Range extends Period
             ) {
                 $this->addSubperiod($year);
                 $endOfPeriod = $endOfYear;
-            } elseif ($startDate == $startOfMonth
+            } elseif (
+                $startDate == $startOfMonth
                 && ($endOfMonth->isEarlier($endDate)
                     || $endOfMonth == $endDate
                     || $endOfMonth->isLater($this->today)
@@ -372,12 +376,14 @@ class Range extends Period
                 $firstDayNextMonth      = $startDate->addPeriod(2, 'month')->setDay(1);
                 $useMonthsNextIteration = $firstDayNextMonth->isEarlier($endDate);
 
-                if ($useMonthsNextIteration
+                if (
+                    $useMonthsNextIteration
                     && $endOfWeek->isLater($endOfMonth)
                 ) {
                     $this->fillArraySubPeriods($startDate, $endOfMonth, 'day');
                     $endOfPeriod = $endOfMonth;
-                } elseif ($this->isEndOfWeekLaterThanEndDate($endDate, $endOfWeek) &&
+                } elseif (
+                    $this->isEndOfWeekLaterThanEndDate($endDate, $endOfWeek) &&
                     ($endOfWeek->isEarlier($this->today) ||
                         $startOfWeek->toString() != $startDate->toString() ||
                         $endDate->isEarlier($this->today))
@@ -385,7 +391,8 @@ class Range extends Period
                     // If end of this week is later than end date, we use days
                     $this->fillArraySubPeriods($startDate, $endDate, 'day');
                     break 1;
-                } elseif ($startOfWeek->isEarlier($startDate)
+                } elseif (
+                    $startOfWeek->isEarlier($startDate)
                     && $endOfWeek->isEarlier($this->today)
                 ) {
                     $this->fillArraySubPeriods($startDate, $endOfWeek, 'day');

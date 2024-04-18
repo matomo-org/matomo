@@ -169,7 +169,8 @@ class GoalManager
         }
 
         // if the attribute to match is not the type of the current action
-        if ((($attribute == 'url' || $attribute == 'title') && $actionType != Action::TYPE_PAGE_URL)
+        if (
+            (($attribute == 'url' || $attribute == 'title') && $actionType != Action::TYPE_PAGE_URL)
             || ($attribute == 'file' && $actionType != Action::TYPE_DOWNLOAD)
             || ($attribute == 'external_website' && $actionType != Action::TYPE_OUTLINK)
             || ($attribute == 'manually')
@@ -291,12 +292,14 @@ class GoalManager
             $maxCustomVariables   = CustomVariables::getNumUsableCustomVariables();
 
             for ($i = 1; $i <= $maxCustomVariables; $i++) {
-                if (isset($visitorInformation['custom_var_k' . $i])
+                if (
+                    isset($visitorInformation['custom_var_k' . $i])
                     && strlen($visitorInformation['custom_var_k' . $i])
                 ) {
                     $goal['custom_var_k' . $i] = $visitorInformation['custom_var_k' . $i];
                 }
-                if (isset($visitorInformation['custom_var_v' . $i])
+                if (
+                    isset($visitorInformation['custom_var_v' . $i])
                     && strlen($visitorInformation['custom_var_v' . $i])
                 ) {
                     $goal['custom_var_v' . $i] = $visitorInformation['custom_var_v' . $i];
@@ -532,12 +535,14 @@ class GoalManager
                 $category = $item[self::INDEX_ITEM_CATEGORY];
             }
 
-            if (isset($item[self::INDEX_ITEM_PRICE])
+            if (
+                isset($item[self::INDEX_ITEM_PRICE])
                 && is_numeric($item[self::INDEX_ITEM_PRICE])
             ) {
                 $price = $this->getRevenue($item[self::INDEX_ITEM_PRICE]);
             }
-            if (!empty($item[self::INDEX_ITEM_QUANTITY])
+            if (
+                !empty($item[self::INDEX_ITEM_QUANTITY])
                 && is_numeric($item[self::INDEX_ITEM_QUANTITY])
             ) {
                 $quantity = (int)$item[self::INDEX_ITEM_QUANTITY];
@@ -787,7 +792,8 @@ class GoalManager
          */
         Piwik::postEvent('Tracker.newConversionInformation', array(&$conversion, $visitInformation, $request, $action));
 
-        if (!empty($convertedGoal)
+        if (
+            !empty($convertedGoal)
             && $this->isEventMatchingGoal($convertedGoal)
             && !empty($convertedGoal['event_value_as_revenue'])
         ) {
@@ -804,7 +810,8 @@ class GoalManager
         $idorder = $request->getParam('ec_id');
 
         $wasInserted = $this->getModel()->createConversion($conversion);
-        if (!$wasInserted
+        if (
+            !$wasInserted
             && !empty($idorder)
         ) {
             $idSite = $request->getIdSite();
@@ -970,7 +977,8 @@ class GoalManager
      */
     public static function formatRegex($pattern)
     {
-        if (strpos($pattern, '/') !== false
+        if (
+            strpos($pattern, '/') !== false
             && strpos($pattern, '\\/') === false
         ) {
             $pattern = str_replace('/', '\\/', $pattern);

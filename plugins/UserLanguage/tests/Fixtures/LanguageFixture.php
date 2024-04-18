@@ -58,7 +58,6 @@ class LanguageFixture extends Fixture
 
         $hour = 1;
         foreach ($this->getBrowserLangs() as $browserLang) {
-
             $tracker->setForceVisitDateTime(
                 Date::factory($this->dateTime)->addHour($hour++)->getDatetime()
             );

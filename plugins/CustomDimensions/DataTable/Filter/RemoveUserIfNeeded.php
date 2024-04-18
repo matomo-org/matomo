@@ -38,8 +38,10 @@ class RemoveUserIfNeeded extends BaseFilter
     public function filter($table)
     {
         $userId = new UserId();
-        if (!$userId->hasDataTableUsers($table) &&
-            !$userId->isUsedInAtLeastOneSite(array($this->idSite), $this->period, $this->date)) {
+        if (
+            !$userId->hasDataTableUsers($table) &&
+            !$userId->isUsedInAtLeastOneSite(array($this->idSite), $this->period, $this->date)
+        ) {
             $table->deleteColumn(Metrics::INDEX_NB_USERS);
         }
     }

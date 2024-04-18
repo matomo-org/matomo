@@ -85,7 +85,8 @@ class SegmentArchiving
     public function findSegmentForHash($hash, $idSite)
     {
         foreach ($this->getAllSegments() as $segment) {
-            if (!$this->isAutoArchivingEnabledFor($segment)
+            if (
+                !$this->isAutoArchivingEnabledFor($segment)
                 || !self::isSegmentForSite($segment, $idSite)
             ) {
                 continue;
@@ -120,7 +121,7 @@ class SegmentArchiving
             $this->logger->debug("process_new_segments_from set to segment_creation_time, oldest date to process is {time}", array('time' => $segmentCreatedTime));
 
             return $segmentCreatedTime;
-        } else if ($this->processNewSegmentsFrom == SegmentArchiving::LAST_EDIT_TIME) {
+        } elseif ($this->processNewSegmentsFrom == SegmentArchiving::LAST_EDIT_TIME) {
             if (empty($segmentLastEditedTime)) {
                 return null;
             }
@@ -130,7 +131,7 @@ class SegmentArchiving
             );
 
             return $segmentLastEditedTime;
-        } else if (preg_match("/^editLast([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
+        } elseif (preg_match("/^editLast([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
             if (empty($segmentLastEditedTime)) {
                 return null;
             }
@@ -142,7 +143,7 @@ class SegmentArchiving
             $this->logger->debug("process_new_segments_from set to editLast{N}, oldest date to process is {time}", array('N' => $lastN, 'time' => $result));
 
             return $result;
-        } else if (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
+        } elseif (preg_match("/^last([0-9]+)$/", $this->processNewSegmentsFrom, $matches)) {
             if (empty($segmentCreatedTime)) {
                 return null;
             }
@@ -169,7 +170,8 @@ class SegmentArchiving
             }
 
             $earliestVisitTime = $this->getEarliestVisitTimeFor($idSite);
-            if (!empty($earliestVisitTime)
+            if (
+                !empty($earliestVisitTime)
                 && $result->isEarlier($earliestVisitTime)
             ) {
                 $result = $earliestVisitTime;

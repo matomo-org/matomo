@@ -165,14 +165,14 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
 
         if ($pageViewType == 'normal') {
             self::assertTrue($visit->doTrackPageView('page title - ' . $path));
-        } else if ($pageViewType == 'outlink') {
+        } elseif ($pageViewType == 'outlink') {
             self::assertTrue($visit->doTrackAction($prefix . 'anothersite.com/' . $path, 'link'));
-        } else if ($pageViewType == 'download') {
+        } elseif ($pageViewType == 'download') {
             $downloadUrl = $prefix . 'example.org/downloads/' . $this->prefixCounter . '.tar.gz';
             self::assertTrue($visit->doTrackAction($downloadUrl, 'download'));
-        } else if ($pageViewType == 'site-search') {
+        } elseif ($pageViewType == 'site-search') {
             self::assertTrue($visit->doTrackSiteSearch($searchKeyword, $searchCategory, $this->prefixCounter));
-        } else if ($pageViewType == 'event') {
+        } elseif ($pageViewType == 'event') {
             self::assertTrue($visit->doTrackEvent($searchCategory, "event name", $searchKeyword, $this->prefixCounter));
         }
     }

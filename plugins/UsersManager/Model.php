@@ -515,7 +515,6 @@ class Model
     {
         $token = $this->getTokenByTokenAuth($tokenAuth);
         if (!empty($token)) {
-
             $lastUsage = !empty($token['last_used']) ? strtotime($token['last_used']) : 0;
             $newUsage = strtotime($dateLastUsed);
 

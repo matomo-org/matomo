@@ -286,7 +286,8 @@ class ArchiveInvalidator
             list($plugin) = explode('.', $name);
         }
 
-        if ($plugin
+        if (
+            $plugin
             && !Manager::getInstance()->isPluginActivated($plugin)
         ) {
             throw new \Exception("Plugin is not activated: '$plugin'");
@@ -301,7 +302,8 @@ class ArchiveInvalidator
             $hasMoreThanJustToday[$idSite] = true;
             $tz = Site::getTimezoneFor($idSite);
 
-            if (($period == 'day' || $period === false)
+            if (
+                ($period == 'day' || $period === false)
                 && count($dates) == 1
                 && ((string)$dates[0]) == ((string)Date::factoryInTimezone('today', $tz))
             ) {
@@ -347,10 +349,10 @@ class ArchiveInvalidator
         $isInvalidatingDays = $period == 'day' || $cascadeDown || empty($period);
         $isNotInvalidatingSegment = empty($segment) || empty($segment->getString());
 
-        if ($isInvalidatingDays
+        if (
+            $isInvalidatingDays
             && $isNotInvalidatingSegment
         ) {
-
             $hasDeletedAny = false;
 
             foreach ($idSites as $idSite) {
@@ -381,7 +383,8 @@ class ArchiveInvalidator
                 $result[$this->getYearMonth($periodObj)][$this->getUniquePeriodId($periodObj)] = $periodObj;
 
                 // cascade down
-                if ($cascadeDown
+                if (
+                    $cascadeDown
                     && $period != 'range'
                 ) {
                     $this->addChildPeriodsByYearMonth($result, $periodObj);
@@ -390,7 +393,8 @@ class ArchiveInvalidator
                 // cascade up
                 // if the period spans multiple years or months, it won't be used when aggregating parent periods, so
                 // we can avoid invalidating it
-                if ($this->shouldPropagateUp($periodObj)
+                if (
+                    $this->shouldPropagateUp($periodObj)
                     && $period != 'range'
                 ) {
                     $this->addParentPeriodsByYearMonth($result, $periodObj);
@@ -411,7 +415,8 @@ class ArchiveInvalidator
     {
         if ($period->getLabel() == 'range') {
             return;
-        } else if ($period->getLabel() == 'day'
+        } elseif (
+            $period->getLabel() == 'day'
             && $this->shouldPropagateUp($period)
         ) {
             $this->addParentPeriodsByYearMonth($result, $period);
@@ -426,7 +431,8 @@ class ArchiveInvalidator
 
     private function addParentPeriodsByYearMonth(&$result, Period $period, Date $originalDate = null)
     {
-        if ($period->getLabel() == 'year'
+        if (
+            $period->getLabel() == 'year'
             || $period->getLabel() == 'range'
             || !Period\Factory::isPeriodEnabledForAPI($period->getParentPeriodLabel())
         ) {
@@ -503,7 +509,7 @@ class ArchiveInvalidator
             }
 
             $startDate = $earliestDateToRearchive;
-        } else if (!empty($earliestDateToRearchive)) {
+        } elseif (!empty($earliestDateToRearchive)) {
             // don't allow archiving further back than the rearchive_reports_in_past_last_n_months date allows
             $startDate = $startDate->isEarlier($earliestDateToRearchive) ? $earliestDateToRearchive : $startDate;
         }
@@ -529,7 +535,8 @@ class ArchiveInvalidator
         }
 
         $this->markArchivesAsInvalidated($idSites, $dates, 'day', $segment, $cascadeDown = false, $forceInvalidateRanges = false, $name);
-        if (empty($segment)
+        if (
+            empty($segment)
             && Rules::shouldProcessSegmentsWhenReArchivingReports()
         ) {
             foreach ($idSites as $idSite) {
@@ -672,14 +679,16 @@ class ArchiveInvalidator
             }
 
             $entryPluginName = $entry['pluginName'];
-            if (!empty($pluginName)
+            if (
+                !empty($pluginName)
                 && $pluginName != $entryPluginName
             ) {
                 continue;
             }
 
             $entryReport = $entry['report'];
-            if (!empty($pluginName)
+            if (
+                !empty($pluginName)
                 && !empty($report)
                 && $report != $entryReport
             ) {
@@ -752,7 +761,8 @@ class ArchiveInvalidator
             $periodObj = $this->makePeriod($date, $period ?: 'day');
 
             // we should only delete reports for dates that are more recent than N days
-            if ($invalidationInfo->minimumDateWithLogs
+            if (
+                $invalidationInfo->minimumDateWithLogs
                 && !$ignorePurgeLogDataDate
                 && ($periodObj->getDateEnd()->isEarlier($invalidationInfo->minimumDateWithLogs)
                     || $periodObj->getDateStart()->isEarlier($invalidationInfo->minimumDateWithLogs))
@@ -774,7 +784,8 @@ class ArchiveInvalidator
         $logsDeletedWhenOlderThanDays = (int)$purgeDataSettings['delete_logs_older_than'];
         $logsDeleteEnabled = $purgeDataSettings['delete_logs_enable'];
 
-        if ($logsDeleteEnabled
+        if (
+            $logsDeleteEnabled
             && $logsDeletedWhenOlderThanDays
         ) {
             $info->minimumDateWithLogs = Date::factory('today')->subDay($logsDeletedWhenOlderThanDays);
@@ -803,7 +814,8 @@ class ArchiveInvalidator
 
     private function makePeriod($date, $period)
     {
-        if ($period === 'range'
+        if (
+            $period === 'range'
             && strpos($date, ',') === false
         ) {
             $date = $date . ',' . $date;

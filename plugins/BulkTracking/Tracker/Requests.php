@@ -99,7 +99,6 @@ class Requests
         $validRequests = array();
 
         if (!empty($requests)) {
-
             foreach ($requests as $index => $request) {
                 // if a string is sent, we assume its a URL and try to parse it
                 if (is_string($request)) {

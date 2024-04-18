@@ -137,7 +137,8 @@ class Nonce
 
         // validate origin
         $origin = self::getOrigin();
-        if (!empty($origin) &&
+        if (
+            !empty($origin) &&
             ($origin == 'null' ||
             !in_array($origin, self::getAcceptableOrigins()))
         ) {

@@ -160,7 +160,8 @@ class DistributedList
         $array = Option::get($this->optionName);
 
         $result = array();
-        if ($array
+        if (
+            $array
             && ($array = Common::safe_unserialize($array))
             && count($array)
         ) {

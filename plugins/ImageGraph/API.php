@@ -240,7 +240,7 @@ class API extends \Piwik\Plugin\API
             if (empty($columns)) {
                 if (!empty($reportColumns[self::DEFAULT_ORDINATE_METRIC])) {
                     $ordinateColumns[] = self::DEFAULT_ORDINATE_METRIC;
-                } else if (!empty($metadata['metrics'])) {
+                } elseif (!empty($metadata['metrics'])) {
                     $ordinateColumns[] = key($metadata['metrics']);
                 } else {
                     throw new Exception(
@@ -401,8 +401,7 @@ class API extends \Piwik\Plugin\API
 
                 $i = 0;
                 // $reportData instanceof DataTable
-                foreach ($reportData->getRows() as $row) // Row[]
-                {
+                foreach ($reportData->getRows() as $row) { // Row[]
                     // $row instanceof Row
                     $rowData = $row->getColumns(); // Associative Array
                     $abscissaSeries[] = Common::unsanitizeInputValue($rowData['label']);
@@ -444,7 +443,7 @@ class API extends \Piwik\Plugin\API
                         $rowData = $rows[0]->getColumns(); // associative Array
 
                         foreach ($ordinateColumns as $column) {
-                            if(!isset($rowData[$column])) {
+                            if (!isset($rowData[$column])) {
                                 continue;
                             }
                             $ordinateValue = $rowData[$column];
@@ -502,7 +501,6 @@ class API extends \Piwik\Plugin\API
         } catch (InvalidDimensionException $e) {
             throw $e;
         } catch (\Exception $e) {
-
             $graph = new \Piwik\Plugins\ImageGraph\StaticGraph\Exception();
             $graph->setWidth($width);
             $graph->setHeight($height);

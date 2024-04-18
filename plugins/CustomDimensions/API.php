@@ -243,7 +243,6 @@ class API extends \Piwik\Plugin\API
 
         $scopes = array();
         foreach (CustomDimensions::getPublicScopes() as $scope) {
-
             $configs = $this->getConfiguredCustomDimensionsHavingScope($idSite, $scope);
             $indexes = $this->getTracking($scope)->getInstalledIndexes();
 

@@ -61,8 +61,10 @@ class Handler extends Tracker\Handler
             } catch (InvalidRequestParameterException $ex) {
                 $invalidRequests[] = $index;
             } catch (Exception $e) {
-                if (stripos($e->getMessage(), 'Lock wait timeout exceeded')
-                    || Tracker::getDatabase()->isErrNo($e, 1205)) {
+                if (
+                    stripos($e->getMessage(), 'Lock wait timeout exceeded')
+                    || Tracker::getDatabase()->isErrNo($e, 1205)
+                ) {
                     continue;
                 } else {
                     throw $e;

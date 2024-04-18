@@ -82,7 +82,8 @@ class Monthly extends Schedule
             $scheduledDay = $this->day;
         }
 
-        if ($this->dayOfWeek !== null
+        if (
+            $this->dayOfWeek !== null
             && $this->week !== null
         ) {
             $newTime = $rescheduledTime + $this->week * 7 * 86400;

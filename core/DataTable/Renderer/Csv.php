@@ -229,7 +229,8 @@ class Csv extends Renderer
      */
     public function formatValue($value)
     {
-        if (is_string($value)
+        if (
+            is_string($value)
             && !is_numeric($value)
         ) {
             $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
@@ -243,7 +244,8 @@ class Csv extends Renderer
             $value = str_replace(["\t"], ' ', $value);
 
             // surround value with double quotes if it contains a double quote or a commonly used separator
-            if (strpos($value, '"') !== false
+            if (
+                strpos($value, '"') !== false
                 || strpos($value, $this->separator) !== false
                 || strpos($value, ',') !== false
                 || strpos($value, ';') !== false
@@ -270,15 +272,17 @@ class Csv extends Renderer
         // remove first % sign and if string is still a number, return it as is
         $valueWithoutFirstPercentSign = $this->removeFirstPercentSign($value);
 
-        if (empty($valueWithoutFirstPercentSign)
+        if (
+            empty($valueWithoutFirstPercentSign)
             || !is_string($value)
-            || is_numeric($valueWithoutFirstPercentSign)) {
+            || is_numeric($valueWithoutFirstPercentSign)
+        ) {
             return $value;
         }
 
         $firstCharCellValue = $valueWithoutFirstPercentSign[0];
         $isFormula = in_array($firstCharCellValue, $formulaStartsWith);
-        if($isFormula) {
+        if ($isFormula) {
             return "'" . $value;
         }
 
@@ -333,7 +337,8 @@ class Csv extends Renderer
                 // format becomes a bit more complicated. also in this case, we assume $value is not
                 // nested beyond 2 levels (ie, array(0 => array(0 => 1, 1 => 2)), but not array(
                 // 0 => array(0 => array(), 1 => array())) )
-                if ($this->translateColumnNames
+                if (
+                    $this->translateColumnNames
                     && is_array(reset($value))
                 ) {
                     foreach ($value as $level1Key => $level1Value) {
@@ -373,7 +378,8 @@ class Csv extends Renderer
 
         // specific case, we have only one column and this column wasn't named properly (indexed by a number)
         // we don't print anything in the CSV file => an empty line
-        if (sizeof($allColumns) === 1
+        if (
+            sizeof($allColumns) === 1
             && reset($allColumns)
             && !is_string(key($allColumns))
         ) {
@@ -421,7 +427,8 @@ class Csv extends Renderer
                         $name = 'metadata_' . $name;
                     }
 
-                    if (is_array($value)
+                    if (
+                        is_array($value)
                         || is_object($value)
                     ) {
                         if (!in_array($name, $this->unsupportedColumns)) {
@@ -443,7 +450,8 @@ class Csv extends Renderer
 
             if ($this->exportIdSubtable) {
                 $idsubdatatable = $row->getIdSubDataTable();
-                if ($idsubdatatable !== false
+                if (
+                    $idsubdatatable !== false
                     && $this->hideIdSubDatatable === false
                 ) {
                     $csvRow['idsubdatatable'] = $idsubdatatable;
@@ -470,7 +478,8 @@ class Csv extends Renderer
      */
     private function convertToUnicode($str)
     {
-        if ($this->convertToUnicode
+        if (
+            $this->convertToUnicode
             && function_exists('mb_convert_encoding')
         ) {
             $str = chr(255) . chr(254) . mb_convert_encoding($str, 'UTF-16LE', 'UTF-8');

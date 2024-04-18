@@ -105,7 +105,7 @@ class SegmentEditor extends \Piwik\Plugin
         $systemSummary[] = new SystemSummary\Item($key = 'segments', $message, $value = null, $url = null, $icon = 'icon-segment', $order = 6);
     }
 
-    function getSegmentEditorHtml(&$out)
+    public function getSegmentEditorHtml(&$out)
     {
         $selector = new SegmentSelectorControl();
         $out .= $selector->render();
@@ -134,7 +134,8 @@ class SegmentEditor extends \Piwik\Plugin
                 unset($segmentToAutoArchive[$index]);
             }
 
-            if (!$forceAutoArchive
+            if (
+                !$forceAutoArchive
                 && empty($segmentInfo['auto_archive'])
             ) {
                 unset($segmentToAutoArchive[$index]);
@@ -165,14 +166,16 @@ class SegmentEditor extends \Piwik\Plugin
         }
 
         // don't do check unless this is the root API request and it is an HTTP API request
-        if (!Request::isCurrentApiRequestTheRootApiRequest()
+        if (
+            !Request::isCurrentApiRequestTheRootApiRequest()
             || !Request::isRootRequestApiRequest()
         ) {
             return null;
         }
 
         // don't do check during cron archiving
-        if (SettingsServer::isArchivePhpTriggered()
+        if (
+            SettingsServer::isArchivePhpTriggered()
             || Common::isPhpCliMode()
         ) {
             return null;
@@ -231,7 +234,8 @@ class SegmentEditor extends \Piwik\Plugin
     {
         // get idSites
         $idSite = Common::getRequestVar('idSite', false);
-        if (empty($idSite)
+        if (
+            empty($idSite)
             || !is_numeric($idSite)
         ) {
             return null;
@@ -264,7 +268,8 @@ class SegmentEditor extends \Piwik\Plugin
         // check if segment archive does not exist
         $processorParams = new \Piwik\ArchiveProcessor\Parameters($site, $period, $segment);
         $archiveIdAndStats = ArchiveSelector::getArchiveIdAndVisits($processorParams, null);
-        if (!empty($archiveIdAndStats['idArchives'])
+        if (
+            !empty($archiveIdAndStats['idArchives'])
             || !empty($archiveIdAndStats['visits'])
         ) {
             return null;

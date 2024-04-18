@@ -49,7 +49,8 @@ class HtmlTable extends Visualization
 
         if ($this->isComparing()) {
             $request = $this->getRequestArray();
-            if (!empty($request['comparePeriods'])
+            if (
+                !empty($request['comparePeriods'])
                 && count($request['comparePeriods']) == 1
             ) {
                 $this->requestConfig->request_parameters_to_modify['invert_compare_change_compute'] = 1;
@@ -66,9 +67,10 @@ class HtmlTable extends Visualization
 
     public function beforeRender()
     {
-        if ($this->requestConfig->idSubtable
-            && $this->config->show_embedded_subtable) {
-
+        if (
+            $this->requestConfig->idSubtable
+            && $this->config->show_embedded_subtable
+        ) {
             $this->config->show_visualization_only = true;
         }
 
@@ -94,7 +96,8 @@ class HtmlTable extends Visualization
             $this->config->columns_to_display = $this->dataTable->getColumns();
         }
 
-        if ($this->isComparing()
+        if (
+            $this->isComparing()
             && !empty($this->dataTable)
         ) {
             $this->assignTemplateVar('comparisonTotals', $this->dataTable->getMetadata('comparisonTotals'));
@@ -121,8 +124,6 @@ class HtmlTable extends Visualization
             }
 
             if ($this->config->show_dimensions && $hasMultipleDimensions) {
-
-
                 $properties = $this->config;
                 array_shift($dimensions); // shift away first dimension, as that will be shown as label
 
@@ -184,7 +185,6 @@ class HtmlTable extends Visualization
 
 
             if ($this->config->show_dimensions && $hasMultipleDimensions) {
-
                 $this->dataTable->filter(function ($dataTable) use ($dimensions) {
                     /** @var DataTable $dataTable */
                     $rows = $dataTable->getRows();

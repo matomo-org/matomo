@@ -207,7 +207,8 @@ class Process
     {
         $reasons = [];
 
-        if (defined('PIWIK_TEST_MODE')
+        if (
+            defined('PIWIK_TEST_MODE')
             && self::isForcingAsyncProcessMode()
         ) {
             $reasons[] = 'forcing multicurl use for tests';
@@ -234,7 +235,7 @@ class Process
 
         if (!self::psExistsAndRunsCorrectly()) {
             $reasons[] = 'shell_exec(' . self::PS_COMMAND . '" 2> /dev/null") did not return a success code';
-        } else if (!$getMyPidDisabled) {
+        } elseif (!$getMyPidDisabled) {
             $pid = @\getmypid();
             if (empty($pid) || !in_array($pid, self::getRunningProcesses())) {
                 $reasons[] = 'could not find our pid (from getmypid()) in the output of `' . self::PS_COMMAND . '`';
@@ -311,7 +312,7 @@ class Process
      */
     public static function getRunningProcesses()
     {
-        $ids = explode("\n", trim(shell_exec(self::PS_COMMAND . ' 2>/dev/null | ' . self::AWK_COMMAND . ' 2>/dev/null')));
+        $ids = explode("\n", trim(shell_exec(self::PS_COMMAND . ' 2>/dev/null | ' . self::AWK_COMMAND . ' 2>/dev/null') ?? ''));
 
         $ids = array_map('intval', $ids);
         $ids = array_filter($ids, function ($id) {

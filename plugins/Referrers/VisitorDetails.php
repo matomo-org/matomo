@@ -75,18 +75,17 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getKeywordPosition()
     {
-        if ($this->getReferrerType() == 'search'
+        if (
+            $this->getReferrerType() == 'search'
             && strpos($this->getReferrerName(), 'Google') !== false
         ) {
             $url = @parse_url($this->details['referer_url']);
             if (empty($url['query'])) {
-
                 return null;
             }
 
             $position = UrlHelper::getParameterFromQueryString($url['query'], 'cd');
             if (!empty($position)) {
-
                 return $position;
             }
         }
@@ -101,10 +100,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getSearchEngineUrl()
     {
-        if ($this->getReferrerType() == 'search'
+        if (
+            $this->getReferrerType() == 'search'
             && !empty($this->details['referer_name'])
         ) {
-
             return SearchEngine::getInstance()->getUrlFromName($this->details['referer_name']);
         }
 
@@ -116,7 +115,6 @@ class VisitorDetails extends VisitorDetailsAbstract
         $searchEngineUrl = $this->getSearchEngineUrl();
 
         if (!is_null($searchEngineUrl)) {
-
             return SearchEngine::getInstance()->getLogoFromUrl($searchEngineUrl);
         }
 
@@ -125,10 +123,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getSocialNetworkUrl()
     {
-        if ($this->getReferrerType() == 'social'
+        if (
+            $this->getReferrerType() == 'social'
             && !empty($this->details['referer_name'])
         ) {
-
             return Social::getInstance()->getMainUrl($this->details['referer_url']);
         }
 
@@ -140,7 +138,6 @@ class VisitorDetails extends VisitorDetailsAbstract
         $socialNetworkUrl = $this->getSocialNetworkUrl();
 
         if (!is_null($socialNetworkUrl)) {
-
             return Social::getInstance()->getLogoFromUrl($socialNetworkUrl);
         }
 

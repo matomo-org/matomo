@@ -381,7 +381,8 @@ class Manager
             $GLOBALS['MATOMO_PLUGIN_COPY_DIR'] = $envCopyDir;
         }
 
-        if (!empty($GLOBALS['MATOMO_PLUGIN_COPY_DIR'])
+        if (
+            !empty($GLOBALS['MATOMO_PLUGIN_COPY_DIR'])
             && !in_array($GLOBALS['MATOMO_PLUGIN_COPY_DIR'], self::getPluginsDirectories())
         ) {
             throw new \Exception('"MATOMO_PLUGIN_COPY_DIR" dir must be one of "MATOMO_PLUGIN_DIRS" directories');
@@ -774,7 +775,8 @@ class Manager
         $theme = false;
         foreach ($plugins as $plugin) {
             /* @var $plugin Plugin */
-            if ($plugin->isTheme()
+            if (
+                $plugin->isTheme()
                 && $this->isPluginActivated($plugin->getPluginName())
             ) {
                 if ($plugin->getPluginName() != self::DEFAULT_THEME) {
@@ -809,8 +811,10 @@ class Manager
 
         $pluginNames = $this->getLoadedPluginsName();
         foreach ($pluginNames as $pluginName) {
-            if ($this->isPluginActivated($pluginName)
-                && !$this->isPluginAlwaysActivated($pluginName)) {
+            if (
+                $this->isPluginActivated($pluginName)
+                && !$this->isPluginAlwaysActivated($pluginName)
+            ) {
                 $counter++;
             }
         }
@@ -1136,12 +1140,13 @@ class Manager
             return $pluginsToPostPendingEventsTo;
         }
 
-        if ($newPlugin->isPremiumFeature()
+        if (
+            $newPlugin->isPremiumFeature()
             && SettingsPiwik::isInternetEnabled()
             && !Development::isEnabled()
             && $this->isPluginActivated('Marketplace')
-            && $this->isPluginActivated($pluginName)) {
-
+            && $this->isPluginActivated($pluginName)
+        ) {
             $cacheKey = 'MarketplacePluginMissingLicense' . $pluginName;
             $cache = self::getLicenseCache();
 
@@ -1377,8 +1382,10 @@ class Manager
 
         foreach ($plugins as $pluginName) {
             // if a plugin is listed in the config, but is not loaded, it does not exist in the folder
-            if (!$this->isPluginLoaded($pluginName) && !$this->isPluginBogus($pluginName) &&
-                !($this->doesPluginRequireInternetConnection($pluginName) && !SettingsPiwik::isInternetEnabled())) {
+            if (
+                !$this->isPluginLoaded($pluginName) && !$this->isPluginBogus($pluginName) &&
+                !($this->doesPluginRequireInternetConnection($pluginName) && !SettingsPiwik::isInternetEnabled())
+            ) {
                 $missingPlugins[] = $pluginName;
             }
         }
@@ -1515,8 +1522,10 @@ class Manager
     {
         // Only one theme enabled at a time
         $themeEnabled = $this->getThemeEnabled();
-        if ($themeEnabled
-            && $themeEnabled->getPluginName() != self::DEFAULT_THEME) {
+        if (
+            $themeEnabled
+            && $themeEnabled->getPluginName() != self::DEFAULT_THEME
+        ) {
             $themeAlreadyEnabled = $themeEnabled->getPluginName();
 
             $plugin = $this->loadPlugin($pluginName);
@@ -1615,9 +1624,11 @@ class Manager
         $columnName = $dimension->getColumnName();
 
         foreach ($allDimensions as $dim) {
-            if ($dim->getColumnName() === $columnName &&
+            if (
+                $dim->getColumnName() === $columnName &&
                 $dim->hasColumnType() &&
-                $dim->getModule() !== $module) {
+                $dim->getModule() !== $module
+            ) {
                 return true;
             }
         }

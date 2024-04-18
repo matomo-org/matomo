@@ -147,7 +147,6 @@ class JoinGenerator
 
         foreach ($this->tables as $i => $table) {
             if (is_array($table)) {
-
                 // join condition provided
                 $alias = isset($table['tableAlias']) ? $table['tableAlias'] : $table['table'];
 
@@ -182,7 +181,6 @@ class JoinGenerator
                 // first table
                 $this->joinString .= $tableSql;
             } else {
-
                 $join = $this->findJoinCriteriasForTables($logTable, $availableLogTables);
 
                 if ($join === null) {
@@ -191,10 +189,12 @@ class JoinGenerator
                 }
 
                 $joinName = 'LEFT JOIN';
-                if ($i > 0
+                if (
+                    $i > 0
                     && $this->tables[$i - 1]
                     && is_string($this->tables[$i - 1])
-                    && strpos($this->tables[$i - 1], LogAggregator::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX) === 0) {
+                    && strpos($this->tables[$i - 1], LogAggregator::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX) === 0
+                ) {
                     $joinName = 'INNER JOIN';
                     // when we archive a segment there will be eg `logtmpsegment$HASH` as first table.
                     // then we join log_conversion for example... if we didn't use INNER JOIN we would as a result
@@ -235,7 +235,6 @@ class JoinGenerator
 
         foreach ($availableLogTables as $availableLogTable) {
             if ($logTable->getColumnToJoinOnIdVisit() && $availableLogTable->getColumnToJoinOnIdVisit()) {
-
                 $join = sprintf(
                     "%s.%s = %s.%s",
                     $table,
@@ -268,7 +267,7 @@ class JoinGenerator
 
             $otherJoins = $logTable->getWaysToJoinToOtherLogTables();
             foreach ($otherJoins as $joinTable => $column) {
-                if($availableLogTable->getName() == $joinTable) {
+                if ($availableLogTable->getName() == $joinTable) {
                     $join = sprintf("`%s`.`%s` = `%s`.`%s`", $table, $column, $availableLogTable->getName(), $column);
                     break;
                 }
@@ -287,8 +286,10 @@ class JoinGenerator
             throw new Exception("Table '$table' can't be joined for segmentation");
         }
 
-        if ($this->tables->hasJoinedTableManually($table, $join)
-            || $this->tables->hasJoinedTableManually($table, $alternativeJoin)) {
+        if (
+            $this->tables->hasJoinedTableManually($table, $join)
+            || $this->tables->hasJoinedTableManually($table, $alternativeJoin)
+        ) {
             // already joined, no need to join it again
             return null;
         }
@@ -336,10 +337,12 @@ class JoinGenerator
             $logTableToJoin->getColumnToJoinOnIdAction()
         );
 
-        if ($index > 0
+        if (
+            $index > 0
             && $this->tables->hasAddedTableManually($tableName)
             && !$this->tables->hasJoinedTableManually($tableName, $nonVisitJoin)
-            && !$this->tables->hasJoinedTableManually($tableName, $altNonVisitJoin)) {
+            && !$this->tables->hasJoinedTableManually($tableName, $altNonVisitJoin)
+        ) {
             $tableIndex = $this->tables->findIndexOfManuallyAddedTable($tableName);
             $nonVisitJoin = '(' . $this->tables[$tableIndex]['joinOn'] . ' AND ' . $nonVisitJoin . ')';
             unset($this->tables[$tableIndex]);

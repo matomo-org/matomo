@@ -44,7 +44,7 @@ class OneVisitorTwoVisits extends Fixture
 
     private function simulateIntegerOverflow()
     {
-        if(!$this->simulateIntegerOverflow) {
+        if (!$this->simulateIntegerOverflow) {
             return;
         }
 

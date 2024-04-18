@@ -32,7 +32,7 @@ class ProcessTest extends \PHPUnit\Framework\TestCase
 
     public function tearDown(): void
     {
-        if(is_object($this->process)){
+        if (is_object($this->process)) {
             $this->process->finishProcess();
         }
         File::reset();

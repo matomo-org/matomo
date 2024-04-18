@@ -360,7 +360,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         static $depth = 0;
         // destruct can be called several times
-        if ($depth < self::$maximumDepthLevelAllowed
+        if (
+            $depth < self::$maximumDepthLevelAllowed
             && isset($this->rows)
         ) {
             $depth++;
@@ -509,7 +510,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function filter($className, $parameters = array())
     {
-        if ($className instanceof \Closure
+        if (
+            $className instanceof \Closure
             || is_array($className)
         ) {
             array_unshift($parameters, $this);
@@ -693,12 +695,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (is_int($rowId) && isset($this->rows[$rowId])) {
             return $this->rows[$rowId];
         }
-        if ($rowId == self::ID_SUMMARY_ROW
+        if (
+            $rowId == self::ID_SUMMARY_ROW
             && !empty($this->summaryRow)
         ) {
             return $this->summaryRow;
         }
-        if (empty($rowId)
+        if (
+            empty($rowId)
             && !empty($this->totalsRow)
             && $label == $this->totalsRow->getColumn('label')
         ) {
@@ -730,7 +734,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (!isset($this->rowsIndexByLabel[$label])) {
             // in case label is '-1' and there is no normal row w/ that label. Note: this is for BC since
             // in the past, it was possible to get the summary row by searching for the label '-1'
-            if ($label == self::LABEL_SUMMARY_ROW
+            if (
+                $label == self::LABEL_SUMMARY_ROW
                 && !is_null($this->summaryRow)
             ) {
                 return self::ID_SUMMARY_ROW;
@@ -785,7 +790,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRowFromId($id)
     {
-        if ($id == self::ID_SUMMARY_ROW
+        if (
+            $id == self::ID_SUMMARY_ROW
             && !is_null($this->summaryRow)
         ) {
             return $this->summaryRow;
@@ -828,7 +834,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         // if there is a upper limit on the number of allowed rows and the table is full,
         // add the new row to the summary row
-        if ($this->maximumAllowedRows > 0
+        if (
+            $this->maximumAllowedRows > 0
             && $this->getRowsCount() >= $this->maximumAllowedRows - 1
         ) {
             if ($this->summaryRow === null) {
@@ -847,7 +854,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         $this->rows[] = $row;
-        if (!$this->indexNotUpToDate
+        if (
+            !$this->indexNotUpToDate
             && $this->rebuildIndexContinuously
         ) {
             $label = $row->getColumn('label');
@@ -1225,7 +1233,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         // if we delete until the end, we delete the summary row as well
-        if (is_null($limit)
+        if (
+            is_null($limit)
             || $limit >= $count
         ) {
             $this->summaryRow = null;
@@ -1292,7 +1301,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
         foreach ($rows1 as $row1) {
             $row2 = $table2->getRowFromLabel($row1->getColumn('label'));
-            if ($row2 === false
+            if (
+                $row2 === false
                 || !Row::isEqual($row1, $row2)
             ) {
                 return false;
@@ -2000,7 +2010,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $rowFound = $this->getRowFromLabel($labelToLookFor);
         // if we find the summary row in the other table, ignore it, since we're aggregating normal rows in this method.
         // the summary row is aggregated explicitly after this method is called.
-        if (!empty($rowFound)
+        if (
+            !empty($rowFound)
             && $rowFound->isSummaryRow()
         ) {
             $rowFound = false;

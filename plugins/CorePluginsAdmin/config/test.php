@@ -8,8 +8,10 @@ return array(
             $tagManagerTeaser = new \Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser(\Piwik\Piwik::getCurrentUserLogin());
             if ($unloadTagManager) {
                 $pluginManager = \Piwik\Plugin\Manager::getInstance();
-                if ($pluginManager->isPluginActivated($pluginName)
-                    && $pluginManager->isPluginLoaded($pluginName)) {
+                if (
+                    $pluginManager->isPluginActivated($pluginName)
+                    && $pluginManager->isPluginLoaded($pluginName)
+                ) {
                     $pluginManager->unloadPlugin($pluginName);
                 }
                 $tagManagerTeaser->reset();

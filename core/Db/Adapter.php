@@ -55,7 +55,7 @@ class Adapter
                 Zend_Db_Table::setDefaultAdapter($adapter);
                 // we don't want the connection information to appear in the logs
                 $adapter->resetConfig();
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 // we don't want certain exceptions to leak information
                 $msg = self::overriddenExceptionMessage($e->getMessage());
                 if ('' !== $msg) {

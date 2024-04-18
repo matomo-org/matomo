@@ -229,10 +229,12 @@ class SegmentExpression
                     // eg. pageUrl!=DoesNotExist
                     // Not equal to NULL means it matches all rows
                     $sqlExpression = self::SQL_WHERE_MATCHES_ALL_ROWS;
-                } elseif ($matchType == self::MATCH_CONTAINS
+                } elseif (
+                    $matchType == self::MATCH_CONTAINS
                     || $matchType == self::MATCH_DOES_NOT_CONTAIN
                     || $matchType == self::MATCH_STARTS_WITH
-                    || $matchType == self::MATCH_ENDS_WITH) {
+                    || $matchType == self::MATCH_ENDS_WITH
+                ) {
                     // no action was found for CONTAINS / DOES NOT CONTAIN
                     // eg. pageUrl=@DoesNotExist -> matches no row
                     // eg. pageUrl!@DoesNotExist -> matches no rows
@@ -321,7 +323,8 @@ class SegmentExpression
             // We match NULL values when rows are excluded only when we are not doing a
             $alsoMatchNULLValues = $alsoMatchNULLValues && !empty($value);
 
-            if ($matchType === self::MATCH_ACTIONS_CONTAINS || $matchType === self::MATCH_ACTIONS_NOT_CONTAINS
+            if (
+                $matchType === self::MATCH_ACTIONS_CONTAINS || $matchType === self::MATCH_ACTIONS_NOT_CONTAINS
                 || is_null($value)
             ) {
                 $sqlExpression = "( $sqlMatch )";
@@ -422,7 +425,8 @@ class SegmentExpression
             }
         }
 
-        if ($join
+        if (
+            $join
             && ((empty($join['tableAlias']) && $table == $join['table'])
                 || $table == $join['tableAlias']
             )

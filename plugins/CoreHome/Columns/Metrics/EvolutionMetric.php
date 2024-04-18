@@ -157,7 +157,7 @@ class EvolutionMetric extends ProcessedMetric
 
         if ($dividend == 0) {
             return 0;
-        } else if ($divisor == 0) {
+        } elseif ($divisor == 0) {
             return 1;
         } else {
             return Piwik::getQuotientSafe($dividend, $divisor, $this->quotientPrecision + 2);
@@ -241,7 +241,6 @@ class EvolutionMetric extends ProcessedMetric
         $ratio = 1;
 
         if ($currentData != null && $pastData != null) {
-
             $p = $pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
 
             $pStart = $p->getDateStart()->setTime('00:00:00');

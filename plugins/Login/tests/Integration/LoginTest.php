@@ -141,7 +141,7 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_failureUserEmptyTokenAuth()
     {
-        $user = $this->_setUpUser();
+        $user = $this->setUpUser();
 
         // empty token auth
         $rc = $this->authenticate($login = $user['login'], $authToken = '');
@@ -150,7 +150,7 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_failureUserInvalidTokenAuth()
     {
-        $user = $this->_setUpUser();
+        $user = $this->setUpUser();
 
         // not a token auth
         $rc = $this->authenticate($login = $user['login'], $authToken = $user['password']);
@@ -159,7 +159,7 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_failureUserInvalidTokenAuth2()
     {
-        $user = $this->_setUpUser();
+        $user = $this->setUpUser();
 
         // not a token auth
         $rc = $this->authenticate($login = $user['login'], $authToken = md5($user['password']));
@@ -168,7 +168,7 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_failureUserEmptyLogin()
     {
-        $user = $this->_setUpUser();
+        $user = $this->setUpUser();
 
         // empty login
         $rc = $this->authenticate($login = '', $user['tokenAuth']);
@@ -177,8 +177,8 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_failureUserWithSuperUserAccessEmptyLogin()
     {
-        $user = $this->_setUpUser();
-        $this->_setUpSuperUserAccessViaDb();
+        $user = $this->setUpUser();
+        $this->setUpSuperUserAccessViaDb();
 
         // empty login
         $rc = $this->authenticate($login = '', $user['tokenAuth']);
@@ -187,7 +187,7 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_failureUserLoginTokenAuthMissmatch()
     {
-        $this->_setUpUser();
+        $this->setUpUser();
 
         // not equal
         $rc = $this->authenticate($login = 0, $authToken = 0);
@@ -196,7 +196,7 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_failureUserLoginTokenAuthMissmatch2()
     {
-        $user = $this->_setUpUser();
+        $user = $this->setUpUser();
 
         // not equal
         $rc = $this->authenticate($login = 0, $user['tokenAuth']);
@@ -205,7 +205,7 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_failureUserLoginTokenAuthMissmatch3()
     {
-        $user = $this->_setUpUser();
+        $user = $this->setUpUser();
 
         // not equal
         $rc = $this->authenticate($user['login'], $authToken = 0);
@@ -214,8 +214,8 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_failureUserWithSuperUserAccessLoginTokenAuthMissmatch()
     {
-        $user = $this->_setUpUser();
-        $this->_setUpSuperUserAccessViaDb();
+        $user = $this->setUpUser();
+        $this->setUpSuperUserAccessViaDb();
 
         // not equal
         $rc = $this->authenticate($login = null, $authToken = $user['password']);
@@ -224,7 +224,7 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_successUserTokenAuth()
     {
-        $user = $this->_setUpUser();
+        $user = $this->setUpUser();
 
         // API authentication
         $rc = $this->authenticate($login = null, $user['tokenAuth']);
@@ -233,8 +233,8 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_successUserWithSuperUserAccessByTokenAuth()
     {
-        $user = $this->_setUpUser();
-        $this->_setUpSuperUserAccessViaDb();
+        $user = $this->setUpUser();
+        $this->setUpSuperUserAccessViaDb();
 
         // API authentication
         $rc = $this->authenticate($login = null, $user['tokenAuth']);
@@ -245,7 +245,7 @@ class LoginTest extends IntegrationTestCase
     {
         DbHelper::createAnonymousUser();
 
-        $user = $this->_setUpUser();
+        $user = $this->setUpUser();
 
         // valid login & token auth
         $rc = $this->authenticate('anonymous', 'anonymous');
@@ -254,7 +254,7 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_successUserLoginAndTokenAuth()
     {
-        $user = $this->_setUpUser();
+        $user = $this->setUpUser();
 
         // valid login & token auth
         $rc = $this->authenticate($user['login'], $user['tokenAuth']);
@@ -263,8 +263,8 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_successUserWithSuperUserAccessLoginAndTokenAuth()
     {
-        $user = $this->_setUpUser();
-        $this->_setUpSuperUserAccessViaDb();
+        $user = $this->setUpUser();
+        $this->setUpSuperUserAccessViaDb();
 
         // valid login & token auth
         $rc = $this->authenticate($user['login'], $user['tokenAuth']);
@@ -273,7 +273,7 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_successWithValidPassword()
     {
-        $user = $this->_setUpUser();
+        $user = $this->setUpUser();
         $this->auth->setLogin($user['login']);
         $this->auth->setPassword($user['password']);
 
@@ -286,8 +286,8 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_successWithSuperUserPassword()
     {
-        $user = $this->_setUpUser();
-        $this->_setUpSuperUserAccessViaDb();
+        $user = $this->setUpUser();
+        $this->setUpSuperUserAccessViaDb();
 
         $this->auth->setLogin($user['login']);
         $this->auth->setPassword($user['password']);
@@ -298,7 +298,7 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_failsWithInvalidPassword()
     {
-        $user = $this->_setUpUser();
+        $user = $this->setUpUser();
         $this->auth->setLogin($user['login']);
         $this->auth->setPassword('foo bar');
 
@@ -308,7 +308,7 @@ class LoginTest extends IntegrationTestCase
 
     public function test_authenticate_prioritizesPasswordAuthentication()
     {
-        $user = $this->_setUpUser();
+        $user = $this->setUpUser();
         $this->auth->setLogin($user['login']);
         $this->auth->setPassword($user['password']); // correct password
         $this->auth->setTokenAuth('foo bar'); // invalid token
@@ -327,7 +327,7 @@ class LoginTest extends IntegrationTestCase
      */
     public function test_authenticate_withPasswordIsCaseInsensitiveForLogin()
     {
-        $user = $this->_setUpUser();
+        $user = $this->setUpUser();
         $this->auth->setLogin('uSeR');
         $this->auth->setPassword($user['password']);
 
@@ -339,7 +339,7 @@ class LoginTest extends IntegrationTestCase
         $this->assertTrue(ctype_xdigit($rc->getTokenAuth()));
     }
 
-    protected function _setUpUser()
+    protected function setUpUser()
     {
         $user = array(
           'login'            => 'user',
@@ -359,7 +359,7 @@ class LoginTest extends IntegrationTestCase
         return $user;
     }
 
-    private function _setUpSuperUserAccessViaDb()
+    private function setUpSuperUserAccessViaDb()
     {
         $userUpdater = new UserUpdater();
         $userUpdater->setSuperUserAccessWithoutCurrentPassword('user', true);

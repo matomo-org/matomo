@@ -84,8 +84,10 @@ class Response
 
         // check content size to get quick feedback and avoid lengthy diff
         $checkSizeFirst = array('pdf', 'csv', 'html');
-        if(!empty($expected->requestUrl['reportFormat'])
-            && in_array($expected->requestUrl['reportFormat'], $checkSizeFirst)) {
+        if (
+            !empty($expected->requestUrl['reportFormat'])
+            && in_array($expected->requestUrl['reportFormat'], $checkSizeFirst)
+        ) {
             Asserts::assertEquals(strlen($expectedText), strlen($actualText), $message);
         }
 
@@ -103,7 +105,7 @@ class Response
 
         if ($this->shouldDeleteLiveDates()) {
             $apiResponse = $this->removeAllLiveDatesFromXml($apiResponse);
-        } else if ($this->requestHasNonDeterministicDate()) {
+        } elseif ($this->requestHasNonDeterministicDate()) {
             // If date=lastN the <prettyDate> element will change each day, we remove XML element before comparison
 
             if ($this->requestUrl['method'] == 'API.getProcessedReport') {

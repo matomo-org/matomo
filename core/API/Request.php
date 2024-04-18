@@ -184,7 +184,8 @@ class Request
         // depending on whether the table has been loaded yet. expanded=1 causes all tables to be loaded, which
         // is why the label filter can't descend when a recursive label has been requested.
         // To fix this, we remove the expanded parameter if a label parameter is set.
-        if (isset($this->request['label']) && !empty($this->request['label'])
+        if (
+            isset($this->request['label']) && !empty($this->request['label'])
             && isset($this->request['expanded']) && $this->request['expanded']
         ) {
             unset($this->request['expanded']);
@@ -467,7 +468,8 @@ class Request
     public static function checkTokenAuthIsNotLimited($module, $action)
     {
         $isApi = ($module === 'API' && (empty($action) || $action === 'index'));
-        if ($isApi
+        if (
+            $isApi
             || Common::isPhpCliMode()
         ) {
             return;
@@ -483,7 +485,8 @@ class Request
         }
 
         $allowWriteAmin = Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] == 1;
-        if (Piwik::isUserHasSomeWriteAccess()
+        if (
+            Piwik::isUserHasSomeWriteAccess()
             && !$allowWriteAmin
         ) {
             // we allow UI authentication/ embedding widgets / reports etc only for users that have only view

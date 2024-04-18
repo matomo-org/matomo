@@ -552,12 +552,12 @@ class RangeTest extends BasePeriodTest
         $end = Date::factory('2013-10-31');
         $range = new Range('month', 'last10', 'UTC', $end);
 
-        $correct = array();
+        $correct = [];
         for ($i = 0; $i < 10; $i++) {
             $date = $end->subMonth($i);
-            $week = new Month($date);
+            $month = new Month($date);
 
-            $correct[] = implode(',', $week->toString());
+            $correct[] = implode(',', $month->toString());
         }
         $correct = array_reverse($correct);
 
@@ -565,18 +565,18 @@ class RangeTest extends BasePeriodTest
         $this->assertEquals($correct, $range->toString());
     }
 
-    public function _testRangePreviousmonth_onFirstOfMonth()
+    public function testRangePreviousmonthOnFirstOfMonth()
     {
         $end = Date::factory('2013-11-01');
         $range = new Range('month', 'previous10', 'UTC', $end);
         $end = $end->subMonth(1);
 
-        $correct = array();
+        $correct = [];
         for ($i = 0; $i < 10; $i++) {
             $date = $end->subMonth($i);
-            $week = new Month($date);
+            $month = new Month($date);
 
-            $correct[] = $week->toString();
+            $correct[] = implode(',', $month->toString());
         }
         $correct = array_reverse($correct);
 
@@ -584,17 +584,17 @@ class RangeTest extends BasePeriodTest
         $this->assertEquals($correct, $range->toString());
     }
 
-    public function _testRangeLastmonth_onFirstOfMonth()
+    public function testRangeLastmonthOnFirstOfMonth()
     {
         $end = Date::factory('2013-11-01');
         $range = new Range('month', 'last10', 'UTC', $end);
 
-        $correct = array();
+        $correct = [];
         for ($i = 0; $i < 10; $i++) {
             $date = $end->subMonth($i);
-            $week = new Month($date);
+            $month = new Month($date);
 
-            $correct[] = $week->toString();
+            $correct[] = implode(',', $month->toString());
         }
         $correct = array_reverse($correct);
 

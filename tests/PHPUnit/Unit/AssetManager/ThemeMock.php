@@ -31,7 +31,7 @@ class ThemeMock extends Theme
     /**
      * @param Plugin $plugin
      */
-    function __construct($plugin)
+    public function __construct($plugin)
     {
         $this->plugin = $plugin;
     }

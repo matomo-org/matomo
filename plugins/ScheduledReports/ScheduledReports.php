@@ -113,7 +113,7 @@ class ScheduledReports extends \Piwik\Plugin
 
     public function renameDeprecatedModuleAndAction(&$module, &$action)
     {
-        if($module == 'PDFReports') {
+        if ($module == 'PDFReports') {
             $module = 'ScheduledReports';
         }
     }
@@ -373,7 +373,8 @@ class ScheduledReports extends \Piwik\Plugin
         $reportFormat = $generatedReport->getReportFormat();
 
         $customReplyTo = null;
-        if (Config::getInstance()->General['scheduled_reports_replyto_is_user_email_and_alias']
+        if (
+            Config::getInstance()->General['scheduled_reports_replyto_is_user_email_and_alias']
             || !isset($reportDetails['login'])
         ) {
             $userModel = new UserModel();
@@ -441,7 +442,6 @@ class ScheduledReports extends \Piwik\Plugin
             try {
                 $mail->send();
             } catch (Exception $e) {
-
                 // If running from piwik.php with debug, we ignore the 'email not sent' error
                 $tracker = new Tracker();
                 if (!$tracker->isDebugModeEnabled()) {
@@ -540,7 +540,7 @@ class ScheduledReports extends \Piwik\Plugin
 
         if (!$updatedSegment['enable_all_users']) {
             // which reports would become invisible to other users?
-            foreach($reportsUsingSegment as $report) {
+            foreach ($reportsUsingSegment as $report) {
                 if ($report['login'] == Piwik::getCurrentUserLogin()) {
                     continue;
                 }
@@ -550,7 +550,7 @@ class ScheduledReports extends \Piwik\Plugin
 
         if ($updatedSegment['enable_only_idsite']) {
             // which reports from other websites are set to use this segment restricted to one website?
-            foreach($reportsUsingSegment as $report) {
+            foreach ($reportsUsingSegment as $report) {
                 if ($report['idsite'] == $updatedSegment['enable_only_idsite']) {
                     continue;
                 }

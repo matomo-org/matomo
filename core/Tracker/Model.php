@@ -179,9 +179,11 @@ class Model
         try {
             $this->getDb()->query($sql, $bind);
         } catch (Exception $e) {
-            if ($e->getCode() == 23000 ||
+            if (
+                $e->getCode() == 23000 ||
                 false !== strpos($e->getMessage(), 'Duplicate entry') ||
-                false !== strpos($e->getMessage(), 'Integrity constraint violation')) {
+                false !== strpos($e->getMessage(), 'Integrity constraint violation')
+            ) {
                 Common::printDebug('Did not create ecommerce item as item was already created');
             } else {
                 throw $e;
@@ -568,8 +570,10 @@ class Model
         $cache = Cache::getCacheGeneral();
 
         // use INDEX index_idsite_idvisitor_time (idsite, idvisitor, visit_last_action_time) if available
-        if (array_key_exists(self::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME, $cache)
-            && true === $cache[self::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME]) {
+        if (
+            array_key_exists(self::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME, $cache)
+            && true === $cache[self::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME]
+        ) {
             $from .= ' FORCE INDEX (index_idsite_idvisitor_time) ';
         }
 

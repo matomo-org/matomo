@@ -317,7 +317,8 @@ class CronArchive
         $this->allWebsites = $websitesIds;
         $this->websiteIdArchiveList = $this->makeWebsiteIdArchiveList($websitesIds);
 
-        if (method_exists($this->websiteIdArchiveList, 'isContinuingPreviousRun') &&
+        if (
+            method_exists($this->websiteIdArchiveList, 'isContinuingPreviousRun') &&
             $this->websiteIdArchiveList->isContinuingPreviousRun()
         ) {
             $this->logger->info("- Continuing ongoing archiving run by pulling from shared idSite queue.");
@@ -750,7 +751,7 @@ class CronArchive
         if (empty($response)) {
             $message .= "The response was empty. This usually means a server error. A solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. ";
 
-            if($this->supportsAsync) {
+            if ($this->supportsAsync) {
                 $message .= " For more information and the error message please check in your PHP CLI error log file. As this core:archive command triggers PHP processes over the CLI, you can find where PHP CLI logs are stored by running this command: php -i | grep error_log";
             } else {
                 $message .= " For more information and the error message please check your web server's error Log file. As this core:archive command triggers PHP processes over HTTP, you can find the error message in your Matomo's web server error logs. ";
@@ -765,7 +766,8 @@ class CronArchive
 
     private function checkResponse($response, $url)
     {
-        if (empty($response)
+        if (
+            empty($response)
             || stripos($response, 'error') !== false
         ) {
             return $this->logNetworkError($url, $response);
@@ -966,7 +968,6 @@ class CronArchive
             }
 
             foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segmentDefinition) {
-
                // check if the segment is available
                 if (!$this->isSegmentAvailable($segmentDefinition, [$idSite])) {
                     continue;
@@ -1056,7 +1057,8 @@ class CronArchive
         $tsArchived = $archiveInfo['tsArchived'];
 
         // day has changed since the archive was created, we need to reprocess it
-        if ($isYesterday
+        if (
+            $isYesterday
             && !empty($idArchive)
             && Date::factory($tsArchived)->toString() != $today->toString()
         ) {
@@ -1103,21 +1105,24 @@ class CronArchive
             }
 
             // period is disabled in API
-            if (!PeriodFactory::isPeriodEnabledForAPI($label)
+            if (
+                !PeriodFactory::isPeriodEnabledForAPI($label)
                 || PeriodFactory::isAnyLowerPeriodDisabledForAPI($label)
             ) {
                 continue;
             }
 
             // archive is for a week that is over two months, we don't need to care about the month
-            if ($label == 'month'
+            if (
+                $label == 'month'
                 && Date::factory($archiveToProcess['date1'])->toString('m') != Date::factory($archiveToProcess['date2'])->toString('m')
             ) {
                 continue;
             }
 
             // archive is for a week that is over two years, we don't need to care about the year
-            if ($label == 'year'
+            if (
+                $label == 'year'
                 && Date::factory($archiveToProcess['date1'])->toString('y') != Date::factory($archiveToProcess['date2'])->toString('y')
             ) {
                 continue;
@@ -1335,8 +1340,10 @@ class CronArchive
                 continue;
             }
 
-            if (isset($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT])
-                && is_numeric($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT])) {
+            if (
+                isset($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT])
+                && is_numeric($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT])
+            ) {
                 // If user selected one particular website ID
                 $idSites = [$userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT]];
             } else {
@@ -1432,7 +1439,8 @@ class CronArchive
             $instanceId = SettingsPiwik::getPiwikInstanceId();
 
             foreach ($processes as $process) {
-                if (strpos($process, ' core:archive') !== false &&
+                if (
+                    strpos($process, ' core:archive') !== false &&
                     strpos($process, 'console ') !== false &&
                     (!$instanceId ||
                         strpos($process, '--matomo-domain=' . $instanceId) !== false ||
@@ -1440,7 +1448,8 @@ class CronArchive
                         strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false ||
                         strpos($process, '--piwik-domain=' . $instanceId) !== false ||
                         strpos($process, '--piwik-domain="' . $instanceId . '"') !== false ||
-                        strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)) {
+                        strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)
+                ) {
                     $numRunning++;
                 }
             }

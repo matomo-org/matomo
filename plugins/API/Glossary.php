@@ -61,11 +61,12 @@ class Glossary
             }
 
             foreach ($report['metricsDocumentation'] as $metricId => $metricDocumentation) {
-
                 $metricKey = $metricId;
 
-                if(empty($report['metrics'][$metricId])
-                    && empty($report['processedMetrics'][$metricId])) {
+                if (
+                    empty($report['metrics'][$metricId])
+                    && empty($report['processedMetrics'][$metricId])
+                ) {
                     continue;
                 }
 
@@ -73,11 +74,12 @@ class Glossary
 
 
                 // Already one metric with same name, but different documentation...
-                if (isset($metrics[$metricKey])
-                    && $metrics[$metricKey]['documentation'] !== $metricDocumentation) {
-
+                if (
+                    isset($metrics[$metricKey])
+                    && $metrics[$metricKey]['documentation'] !== $metricDocumentation
+                ) {
                     // Don't show nb_hits in glossary since it duplicates others, eg. nb_downloads,
-                    if($metricKey == 'nb_hits') {
+                    if ($metricKey == 'nb_hits') {
                         continue;
                     }
 
@@ -93,8 +95,8 @@ class Glossary
                         ));
                     }
                 } else {
-
-                    if (!isset($report['metrics'][$metricId])
+                    if (
+                        !isset($report['metrics'][$metricId])
                         && !isset($report['processedMetrics'][$metricId])
                     ) {
                         // $metricId metric name not found in  $report['dimension'] report

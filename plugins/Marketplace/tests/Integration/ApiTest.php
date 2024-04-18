@@ -9,9 +9,11 @@
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\Marketplace\API;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
+use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -48,6 +50,153 @@ class ApiTest extends IntegrationTestCase
         }
 
         $this->setSuperUser();
+    }
+
+    public function test_createAccount_shouldSucceedIfMarketplaceCallsDidNotFail(): void
+    {
+        $this->assertNotHasLicenseKey();
+
+        $this->service->setOnDownloadCallback(static function ($action, $params, $postData) {
+            self::assertSame('createAccount', $action);
+            self::assertArrayHasKey('email', $postData);
+            self::assertSame('test@matomo.org', $postData['email']);
+
+            return [
+                'status' => 200,
+                'headers' => [],
+                'data' => json_encode(['license_key' => 'key'])
+            ];
+        });
+
+        self::assertTrue($this->api->createAccount('test@matomo.org'));
+
+        $this->assertHasLicenseKey();
+    }
+
+    public function test_createAccount_requiresSuperUserAccess_IfUser()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
+        $this->setUser();
+        $this->api->createAccount('test@matomo.org');
+    }
+
+    public function test_createAccount_requiresSuperUserAccess_IfAnonymous(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
+        $this->setAnonymousUser();
+        $this->api->createAccount('test@matomo.org');
+    }
+
+    public function test_createAccount_shouldThrowException_ifLicenseKeyIsAlreadySet(): void
+    {
+        $this->buildLicenseKey()->set('key');
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Marketplace_CreateAccountErrorLicenseExists');
+
+        $this->api->createAccount('test@matomo.org');
+    }
+
+    public function test_createAccount_shouldThrowException_ifEmailIsEmpty(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorEmptyValue');
+
+        $this->api->createAccount('');
+    }
+
+    public function test_createAccount_shouldThrowException_ifEmailIsInvalid(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Marketplace_CreateAccountErrorEmailInvalid');
+
+        $this->api->createAccount('invalid.email@');
+    }
+
+    public function test_createAccount_shouldThrowException_ifEmailIsNotAllowed(): void
+    {
+        $settings = StaticContainer::get(SystemSettings::class);
+        $settings->allowedEmailDomains->setValue(['example.org']);
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('UsersManager_ErrorEmailDomainNotAllowed');
+
+        $this->api->createAccount('test@matomo.org');
+    }
+
+    /**
+     * @dataProvider dataCreateAccountErrorDownloadResponses
+     */
+    public function test_createAccount_shouldThrowException_ifSomethingGoesWrong(
+        array $responseInfo,
+        string $expectedException,
+        string $expectedExceptionMessage
+    ): void {
+        $this->expectException($expectedException);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $this->service->setOnDownloadCallback(static function () use ($responseInfo) {
+            return $responseInfo;
+        });
+
+        $this->api->createAccount('test@matomo.org');
+    }
+
+    public function dataCreateAccountErrorDownloadResponses(): iterable
+    {
+        yield 'marketplace response not readable' => [
+            [
+                'status' => 500,
+                'headers' => [],
+                'data' => 'not valid json',
+            ],
+            Exception::class,
+            'Marketplace_CreateAccountErrorAPI',
+        ];
+
+        yield 'marketplace rejected email as invalid' => [
+            [
+                'status' => 400,
+                'headers' => [],
+                'data' => '',
+            ],
+            Exception::class,
+            'Marketplace_CreateAccountErrorAPIEmailInvalid',
+        ];
+
+        yield 'marketplace rejected email as duplicate' => [
+            [
+                'status' => 409,
+                'headers' => [],
+                'data' => '',
+            ],
+            Exception::class,
+            'Marketplace_CreateAccountErrorAPIEmailExists',
+        ];
+
+        yield 'unexpected response status code' => [
+            [
+                'status' => 204,
+                'headers' => [],
+                'data' => '',
+            ],
+            Exception::class,
+            'Marketplace_CreateAccountErrorAPI',
+        ];
+
+        yield 'missing license key' => [
+            [
+                'status' => 200,
+                'headers' => [],
+                'data' => '',
+            ],
+            Exception::class,
+            'Marketplace_CreateAccountErrorAPI',
+        ];
     }
 
     public function test_deleteLicenseKey_requiresSuperUserAccess_IfUser()
@@ -112,7 +261,6 @@ class ApiTest extends IntegrationTestCase
         try {
             $this->api->saveLicenseKey('key123');
         } catch (Exception $e) {
-
         }
 
         // make sure calls API the correct way
@@ -221,7 +369,7 @@ class ApiTest extends IntegrationTestCase
                 'data' => 'not valid json',
             ],
             ServiceException::class,
-            'There was an error reading the response from the Marketplace: Please try again later.',
+            'There was an error reading the response from the Marketplace. Please try again later.',
         ];
 
         yield 'error in marketplace response' => [
@@ -231,7 +379,7 @@ class ApiTest extends IntegrationTestCase
                 'data' => json_encode(['error' => 'something went wrong']),
             ],
             Exception::class,
-            'There was an error starting your free trial: Please try again later.',
+            'Marketplace_TrialStartErrorAPI',
         ];
 
         yield 'unexpected response status code' => [
@@ -241,7 +389,7 @@ class ApiTest extends IntegrationTestCase
                 'data' => '',
             ],
             Exception::class,
-            'There was an error starting your free trial: Please try again later.',
+            'Marketplace_TrialStartErrorAPI',
         ];
 
         yield 'unexpected response content string' => [
@@ -251,7 +399,7 @@ class ApiTest extends IntegrationTestCase
                 'data' => json_encode('operation successful'),
             ],
             Exception::class,
-            'There was an error starting your free trial: Please try again later.',
+            'Marketplace_TrialStartErrorAPI',
         ];
 
         yield 'unexpected response content array' => [
@@ -261,7 +409,7 @@ class ApiTest extends IntegrationTestCase
                 'data' => json_encode(['success' => true]),
             ],
             Exception::class,
-            'There was an error starting your free trial: Please try again later.',
+            'Marketplace_TrialStartErrorAPI',
         ];
     }
 

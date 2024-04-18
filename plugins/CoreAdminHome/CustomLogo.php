@@ -120,7 +120,7 @@ class CustomLogo
         $logo = $defaultLogo;
 
         $theme = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled();
-        if(!$theme) {
+        if (!$theme) {
             $themeName = Manager::DEFAULT_THEME;
         } else {
             $themeName = $theme->getPluginName();
@@ -253,7 +253,8 @@ class CustomLogo
 
     private function uploadImage($uploadFieldName, $targetHeight, $userPath)
     {
-        if (empty($_FILES[$uploadFieldName])
+        if (
+            empty($_FILES[$uploadFieldName])
             || !empty($_FILES[$uploadFieldName]['error'])
         ) {
             return false;

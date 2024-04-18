@@ -349,7 +349,6 @@ class LogAggregator
         $bind = $this->getGeneralQueryBindParams();
 
         if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
-
             $segment = new Segment('', $this->sites, $this->params->getPeriod()->getDateTimeStart(), $this->params->getPeriod()->getDateTimeEnd());
 
             $logTablesProvider = $this->getLogTableProvider();
@@ -365,13 +364,14 @@ class LogAggregator
             }
 
             foreach ($logTablesProvider->getAllLogTables() as $logTable) {
-
                 // In cases where log tables are right joined to the segment temporary table it is better for
                 // performance to allow the where condition to be applied, otherwise without a range limit the entire
                 // log table will be used
                 foreach ($from as $fromJoin) {
-                    if (!empty($fromJoin['table']) && $fromJoin['table'] === $logTable->getName() &&
-                        !empty($fromJoin['join']) && strtoupper($fromJoin['join']) === 'RIGHT JOIN') {
+                    if (
+                        !empty($fromJoin['table']) && $fromJoin['table'] === $logTable->getName() &&
+                        !empty($fromJoin['join']) && strtoupper($fromJoin['join']) === 'RIGHT JOIN'
+                    ) {
                         continue 2;
                     }
                 }
@@ -396,8 +396,7 @@ class LogAggregator
 
         if (is_array($query) && array_key_exists('sql', $query)) {
             $query['sql'] = DbHelper::addOriginHintToQuery($query['sql'], $this->queryOriginHint, $this->dateStart, $this->dateEnd, $this->sites, $this->segment);
-            if (DatabaseConfig::getConfigValue('enable_first_table_join_prefix'))
-            {
+            if (DatabaseConfig::getConfigValue('enable_first_table_join_prefix')) {
                 $query['sql'] = DbHelper::addJoinPrefixHintToQuery($query['sql'], (is_array($from) ? reset($from) : $from));
             }
         }
@@ -759,7 +758,6 @@ class LogAggregator
         $selectDimensions = [];
 
         foreach ($dimensions as $selectAs => $field) {
-
             if ($this->isFieldFunctionOrComplexExpression($field) && is_numeric($selectAs)) {
                 // an expression or field function without an alias should be used as is
                 $selectDimensions[] = $field;
@@ -1444,7 +1442,8 @@ class LogAggregator
         $cleanRow = array();
 
         foreach ($row as $label => $count) {
-            if (empty($lookForThisPrefix)
+            if (
+                empty($lookForThisPrefix)
                 || strpos($label, $lookForThisPrefix) === 0
             ) {
                 $cleanLabel = substr($label, strlen($lookForThisPrefix));

@@ -134,7 +134,8 @@ class Locations extends RecordBuilder
 
     protected function rememberCityLatLong(array $row): void
     {
-        if (!empty($row[Archiver::CITY_FIELD])
+        if (
+            !empty($row[Archiver::CITY_FIELD])
             && !empty($row[Archiver::LATITUDE_FIELD])
             && !empty($row[Archiver::LONGITUDE_FIELD])
             && empty($this->latLongForCities[$row[Archiver::CITY_FIELD]])

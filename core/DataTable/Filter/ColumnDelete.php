@@ -128,7 +128,8 @@ class ColumnDelete extends BaseFilter
                         }
                     }
 
-                    if (!$keep
+                    if (
+                        !$keep
                         && $name !== 'label' // label cannot be removed via allowlisting
                         && !isset($this->columnsToKeep[$name])
                     ) {
@@ -170,7 +171,6 @@ class ColumnDelete extends BaseFilter
             }
 
             foreach ($this->columnsToRemove as $column) {
-
                 if (is_array($row)) {
                     if (!array_key_exists($column, $row)) {
                         continue;

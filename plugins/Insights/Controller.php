@@ -45,7 +45,6 @@ class Controller extends \Piwik\Plugin\Controller
     private function prepareWidgetView($template)
     {
         if (!$this->canGenerateInsights()) {
-
             $view = new View('@Insights/cannotDisplayReport.twig');
             $this->setBasicVariablesView($view);
             return $view;

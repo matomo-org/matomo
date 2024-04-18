@@ -76,7 +76,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * @return string function name
      */
-    function getDefaultAction()
+    public function getDefaultAction()
     {
         $steps = array_keys($this->steps);
         return $steps[0];
@@ -89,7 +89,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * @param string $possibleErrorMessage Possible error message which may be set in the frontcontroller when event. Config.badConfigurationFile was triggered
      */
-    function welcome($possibleErrorMessage = null)
+    public function welcome($possibleErrorMessage = null)
     {
         // Delete merged js/css files to force regenerations based on updated activated plugin list
         Filesystem::deleteAllCacheOnUpdate();
@@ -108,7 +108,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Installation Step 2: System Check
      */
-    function systemCheck()
+    public function systemCheck()
     {
         $this->checkPiwikIsNotInstalled();
 
@@ -139,7 +139,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * Installation Step 3: Database Set-up
      * @throws Exception|Zend_Db_Adapter_Exception
      */
-    function databaseSetup()
+    public function databaseSetup()
     {
         $this->checkPiwikIsNotInstalled();
 
@@ -177,7 +177,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Installation Step 4: Table Creation
      */
-    function tablesCreation()
+    public function tablesCreation()
     {
         $this->checkPiwikIsNotInstalled();
 
@@ -197,7 +197,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->tablesInstalled = '';
 
         if (count($tablesInstalled) > 0) {
-
             // we have existing tables
             $view->tablesInstalled     = implode(', ', $tablesInstalled);
             $view->someTablesInstalled = true;
@@ -205,7 +204,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $self = $this;
             Access::doAsSuperUser(function () use ($self, $tablesInstalled, $view) {
                 Access::getInstance();
-                if ($self->hasEnoughTablesToReuseDb($tablesInstalled) &&
+                if (
+                    $self->hasEnoughTablesToReuseDb($tablesInstalled) &&
                     count(APISitesManager::getInstance()->getAllSitesId()) > 0 &&
                     count(APIUsersManager::getInstance()->getUsers()) > 0
                 ) {
@@ -213,7 +213,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 }
             });
         } else {
-
             DbHelper::createTables();
             DbHelper::createAnonymousUser();
             DbHelper::recordInstallVersion();
@@ -229,7 +228,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view->render();
     }
 
-    function reuseTables()
+    public function reuseTables()
     {
         $this->checkPiwikIsNotInstalled();
 
@@ -263,7 +262,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Installation Step 5: General Set-up (superuser login/password/email and subscriptions)
      */
-    function setupSuperUser()
+    public function setupSuperUser()
     {
         $this->checkPiwikIsNotInstalled();
 
@@ -284,7 +283,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $form = new FormSuperUser();
 
         if ($form->validate()) {
-
             try {
                 $loginName = $form->getSubmitValue('login');
                 $email = $form->getSubmitValue('email');
@@ -561,8 +559,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $files[] = AssetManager\UIAssetFetcher\PluginUmdAssetFetcher::getUmdFileToUseForPlugin('CoreHome');
         $files[] = AssetManager\UIAssetFetcher\PluginUmdAssetFetcher::getUmdFileToUseForPlugin('Installation');
 
-        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
-            && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')) {
+        if (
+            defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
+            && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')
+        ) {
             $files[] = 'tests/resources/screenshot-override/override.js';
         }
 
@@ -595,8 +595,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $protocol = ProxyHeaders::getProtocolInformation();
         }
 
-        if (!empty($protocol)
-            && !\Piwik\ProxyHttp::isHttps()) {
+        if (
+            !empty($protocol)
+            && !\Piwik\ProxyHttp::isHttps()
+        ) {
             $config->General['assume_secure_protocol'] = '1';
         }
 

@@ -357,7 +357,7 @@ class API extends \Piwik\Plugin\API
             // anonymous user should never see any results.
             Common::sendHeader('X-Matomo-Total-Results: 0');
             return [];
-        } else if (!$this->isUserHasAdminAccessTo($idSite)) {
+        } elseif (!$this->isUserHasAdminAccessTo($idSite)) {
             // if the user is not an admin to $idSite, they can only see their own user
             if ($offset > 1) {
                 Common::sendHeader('X-Matomo-Total-Results: 1');

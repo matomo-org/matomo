@@ -35,7 +35,7 @@
         "NoValue": "sem valor",
         "PageUrlParam": "Parâmetro de URL da página",
         "PluginDescription": "Estenda o Matomo às suas necessidades, definindo e rastreando dimensões personalizadas no escopo Action ou Visit",
-        "ScopeDescriptionAction": "Dimensões personalizadas no escopo 'Ação' podem ser enviadas junto com qualquer ação (visualização de página, download, evento, etc.).",
+        "ScopeDescriptionAction": "Dimensões personalizadas no âmbito 'Ação' podem ser enviadas com qualquer ação (visualização de página, descarga, evento, etc.).",
         "ScopeDescriptionActionMoreInfo": "As extrações podem ser definidas para que o valor da dimensão personalizada seja extraído do URL da página, do título da página ou de um parâmetro de consulta do URL da página.",
         "ScopeDescriptionVisit": "Dimensões personalizadas no escopo 'Visita' podem ser enviadas junto com qualquer solicitação de rastreamento e são armazenadas na visita.",
         "ScopeDescriptionVisitMoreInfo": "Se você definir valores diferentes para uma determinada dimensão durante o tempo de vida de uma visita, o último valor definido será usado.",

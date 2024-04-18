@@ -41,7 +41,6 @@ class ExcludeLowValue extends DataTable\BaseFilter
         }
 
         foreach ($table->getRows() as $key => $row) {
-
             if ($this->columnToCheckToBeTrue && !$row->getColumn($this->columnToCheckToBeTrue)) {
                 continue;
             }

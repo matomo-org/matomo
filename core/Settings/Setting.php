@@ -272,7 +272,6 @@ class Setting
                 }
             }
         } elseif ($this->type === FieldConfig::TYPE_INT || $this->type === FieldConfig::TYPE_FLOAT) {
-
             if (!is_numeric($value)) {
                 $errorMsg = Piwik::translate(
                     'CoreAdminHome_PluginSettingsValueNotAllowed',
@@ -281,7 +280,6 @@ class Setting
                 throw new \Exception($errorMsg);
             }
         } elseif ($this->type === FieldConfig::TYPE_BOOL) {
-
             if (!in_array($value, array(true, false, '0', '1', 0, 1), true)) {
                 $errorMsg = Piwik::translate(
                     'CoreAdminHome_PluginSettingsValueNotAllowed',
@@ -324,13 +322,17 @@ class Setting
 
     private function checkType(FieldConfig $field)
     {
-        if ($field->uiControl === FieldConfig::UI_CONTROL_MULTI_SELECT &&
-            $this->type !== FieldConfig::TYPE_ARRAY) {
+        if (
+            $field->uiControl === FieldConfig::UI_CONTROL_MULTI_SELECT &&
+            $this->type !== FieldConfig::TYPE_ARRAY
+        ) {
             throw new Exception('Type must be an array when using a multi select');
         }
 
-        if ($field->uiControl === FieldConfig::UI_CONTROL_MULTI_TUPLE &&
-            $this->type !== FieldConfig::TYPE_ARRAY) {
+        if (
+            $field->uiControl === FieldConfig::UI_CONTROL_MULTI_TUPLE &&
+            $this->type !== FieldConfig::TYPE_ARRAY
+        ) {
             throw new Exception('Type must be an array when using a multi pair');
         }
 

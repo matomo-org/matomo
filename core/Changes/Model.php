@@ -54,12 +54,12 @@ class Model
     {
         $pluginManager = PluginManager::getInstance();
 
-        if ($pluginManager &&
+        if (
+            $pluginManager &&
             $pluginManager->isValidPluginName($pluginName) &&
             $pluginManager->isPluginInFilesystem($pluginName) &&
-            $pluginManager->isPluginActivated($pluginName))
-        {
-
+            $pluginManager->isPluginActivated($pluginName)
+        ) {
             $plugin = $pluginManager->loadPlugin($pluginName);
             if (!$plugin) {
                 return;
@@ -99,7 +99,7 @@ class Model
      */
     public function addChange(string $pluginName, array $change): void
     {
-        if(!isset($change['version']) || !isset($change['title']) || !isset($change['description'])) {
+        if (!isset($change['version']) || !isset($change['title']) || !isset($change['description'])) {
             StaticContainer::get(LoggerInterface::class)->warning(
                 "Change item for plugin {plugin} missing version, title or description fields - ignored",
                 ['plugin' => $pluginName]
@@ -154,7 +154,7 @@ class Model
 
         if ($all === 0) {
             return self::NO_CHANGES_EXIST;
-        } else if ($all > 0 && $new === 0) {
+        } elseif ($all > 0 && $new === 0) {
             return self::CHANGES_EXIST;
         } else {
             return self::NEW_CHANGES_EXIST;

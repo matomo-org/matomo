@@ -46,7 +46,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         $this->lessCompiler->setFormatter('classic');
         try {
             $compiled = $this->lessCompiler->compile($concatenatedAssets);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             // save the concated less files so we can debug the issue
             $this->saveConcatenatedAssets($concatenatedAssets);
 
@@ -254,8 +254,10 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     {
         $rootDirectory = realpath($uiAsset->getBaseDirectory());
 
-        if ($rootDirectory != PATH_SEPARATOR
-            && substr($rootDirectory, -strlen(PATH_SEPARATOR)) !== PATH_SEPARATOR) {
+        if (
+            $rootDirectory != PATH_SEPARATOR
+            && substr($rootDirectory, -strlen(PATH_SEPARATOR)) !== PATH_SEPARATOR
+        ) {
             $rootDirectory .= PATH_SEPARATOR;
         }
         $rootDirectoryLen = strlen($rootDirectory);

@@ -94,11 +94,12 @@ class VisitGoalBuyer extends VisitDimension
         // Ecommerce buyer status
         $visitEcommerceStatus = $this->getBuyerType($request, $goalBuyer);
 
-        if ($visitEcommerceStatus != self::TYPE_BUYER_NONE
+        if (
+            $visitEcommerceStatus != self::TYPE_BUYER_NONE
             // only update if the value has changed (prevents overwriting the value in case a request has
             // updated it in the meantime)
-            && $visitEcommerceStatus != $goalBuyer) {
-
+            && $visitEcommerceStatus != $goalBuyer
+        ) {
             return $visitEcommerceStatus;
         }
 
@@ -130,7 +131,8 @@ class VisitGoalBuyer extends VisitDimension
         }
 
         // request is Add to Cart
-        if ($existingType == self::TYPE_BUYER_ORDERED
+        if (
+            $existingType == self::TYPE_BUYER_ORDERED
             || $existingType == self::TYPE_BUYER_ORDERED_AND_OPEN_CART
         ) {
             return self::TYPE_BUYER_ORDERED_AND_OPEN_CART;

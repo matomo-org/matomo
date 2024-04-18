@@ -58,7 +58,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 
         if ($input->getOption('plugin')) {
             $targetDir   = sprintf(PIWIK_INCLUDE_PATH . '/plugins/%s/tests/System/%s/', $input->getOption('plugin'), $expected ? 'expected' : 'processed');
-        } else if (preg_match('/plugin-([a-z0-9]{3,40})$/i', $repository, $match)) {
+        } elseif (preg_match('/plugin-([a-z0-9]{3,40})$/i', $repository, $match)) {
             $targetDir   = sprintf(PIWIK_INCLUDE_PATH . '/plugins/%s/tests/System/%s/', $match[1], $expected ? 'expected' : 'processed');
         }
 
@@ -146,7 +146,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 
         $artifacts = Filesystem::globr($extractionTarget, '*~~*');
 
-        foreach($artifacts as $artifact) {
+        foreach ($artifacts as $artifact) {
             $artifactName = basename($artifact);
             [$plugin, $file] = explode('~~', $artifactName);
             $pluginTargetDir = sprintf($targetDir, $plugin);

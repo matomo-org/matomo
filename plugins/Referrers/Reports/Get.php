@@ -67,7 +67,8 @@ class Get extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        if ($view->isViewDataTableId(Sparklines::ID)
+        if (
+            $view->isViewDataTableId(Sparklines::ID)
             && $view instanceof Sparklines
         ) {
             $this->addSparklineColumns($view);

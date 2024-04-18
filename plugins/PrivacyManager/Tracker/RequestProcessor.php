@@ -68,7 +68,7 @@ class RequestProcessor extends Tracker\RequestProcessor
 
     public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
     {
-        if (isset($valuesToUpdate['referer_type'])){
+        if (isset($valuesToUpdate['referer_type'])) {
             $type = $valuesToUpdate['referer_type'];
         } else {
             $type = $visitProperties->getProperty('referer_type');
@@ -100,7 +100,7 @@ class RequestProcessor extends Tracker\RequestProcessor
         if (!empty($trackerCache[PrivacyManager::OPTION_USERID_SALT])) {
             $salt = $trackerCache[PrivacyManager::OPTION_USERID_SALT];
         }
-        if(empty($salt)) {
+        if (empty($salt)) {
             return $userId;
         }
         return sha1($userId . $salt);

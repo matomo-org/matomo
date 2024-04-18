@@ -315,7 +315,7 @@ class RowEvolution
                 if (substr($change, 0, 1) == '+') {
                     $changeClass = $lowerIsBetter ? 'bad' : 'good';
                     $changeImage = $lowerIsBetter ? 'arrow_up_red' : 'arrow_up';
-                } else if (substr($change, 0, 1) == '-') {
+                } elseif (substr($change, 0, 1) == '-') {
                     $changeClass = $lowerIsBetter ? 'good' : 'bad';
                     $changeImage = $lowerIsBetter ? 'arrow_down_green' : 'arrow_down';
                 } else {
@@ -351,7 +351,8 @@ class RowEvolution
             }
 
             // TODO: this check should be determined by metric metadata, not hardcoded here
-            if ($metric == 'nb_users'
+            if (
+                $metric == 'nb_users'
                 && $first == 0
                 && $last == 0
             ) {

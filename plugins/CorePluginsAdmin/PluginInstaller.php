@@ -78,7 +78,6 @@ class PluginInstaller
                 }
             }
         } catch (\Exception $e) {
-
             if (!empty($tmpPluginZip)) {
                 Filesystem::deleteFileIfExists($tmpPluginZip);
             }
@@ -113,7 +112,6 @@ class PluginInstaller
 
             Filesystem::deleteAllCacheOnUpdate($this->pluginName);
         } catch (\Exception $e) {
-
             $this->removeFileIfExists($pathToZip);
             $this->removeFolderIfExists($tmpPluginFolder);
 
@@ -146,7 +144,6 @@ class PluginInstaller
         try {
             return $this->marketplaceClient->download($this->pluginName);
         } catch (\Exception $e) {
-
             try {
                 $downloadUrl = $this->marketplaceClient->getDownloadUrl($this->pluginName);
                 $errorMessage = sprintf('Failed to download plugin from %s: %s', $downloadUrl, $e->getMessage());

@@ -139,7 +139,8 @@ class TableLogAction
 
             $found = false;
             foreach ($actionIds as $row) {
-                if ($name == $row['name']
+                if (
+                    $name == $row['name']
                     && $type == $row['type']
                 ) {
                     $found = true;
@@ -182,7 +183,8 @@ class TableLogAction
 
             $unsanitizedValue = $valueToMatch;
             $valueToMatch = self::normaliseActionString($actionType, $valueToMatch);
-            if ($matchType == SegmentExpression::MATCH_EQUAL
+            if (
+                $matchType == SegmentExpression::MATCH_EQUAL
                 || $matchType == SegmentExpression::MATCH_NOT_EQUAL
             ) {
                 $idAction = self::getModel()->getIdActionMatchingNameAndType($valueToMatch, $actionType);
@@ -244,8 +246,10 @@ class TableLogAction
             return Action::TYPE_PAGE_TITLE;
         } elseif (stripos($segmentName, 'sitesearch') !== false) {
             return Action::TYPE_SITE_SEARCH;
-        } elseif (stripos($segmentName, 'productcategory') !== false
-            || stripos($segmentName, 'productviewcategory') !== false) {
+        } elseif (
+            stripos($segmentName, 'productcategory') !== false
+            || stripos($segmentName, 'productviewcategory') !== false
+        ) {
             return Action::TYPE_ECOMMERCE_ITEM_CATEGORY;
         } else {
             throw new \Exception("We cannot guess the action type from the segment $segmentName.");

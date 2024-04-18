@@ -216,7 +216,6 @@ class Dashboard extends \Piwik\Plugin
 
         $nameless = 1;
         foreach ($dashboards as &$dashboard) {
-
             if (empty($dashboard['name'])) {
                 $dashboard['name'] = Piwik::translate('Dashboard_DashboardOf', $login);
                 if ($nameless > 1) {

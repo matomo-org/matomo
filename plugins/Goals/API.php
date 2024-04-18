@@ -267,7 +267,8 @@ class API extends \Piwik\Plugin\API
 
     private function checkPatternIsValid($patternType, $pattern, $matchAttribute)
     {
-        if ($patternType == 'exact'
+        if (
+            $patternType == 'exact'
             && substr($pattern, 0, 4) != 'http'
             && substr($matchAttribute, 0, 6) != 'event_'
             && $matchAttribute != 'title'
@@ -313,7 +314,8 @@ class API extends \Piwik\Plugin\API
 
     private function checkPattern($pattern, $matchAttribute)
     {
-        if (in_array($matchAttribute, GoalManager::$NUMERIC_MATCH_ATTRIBUTES)
+        if (
+            in_array($matchAttribute, GoalManager::$NUMERIC_MATCH_ATTRIBUTES)
             && !is_numeric($pattern)
         ) {
             throw new \Exception("Invalid pattern for match attribute '$matchAttribute'. (got '$pattern', expected numeric value).");
@@ -480,7 +482,7 @@ class API extends \Piwik\Plugin\API
     {
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             return GoalManager::IDGOAL_ORDER;
-        } else if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+        } elseif ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
             return GoalManager::IDGOAL_CART;
         } else {
             return $idGoal;
@@ -606,7 +608,6 @@ class API extends \Piwik\Plugin\API
         $shouldAddAverageOrderRevenue = (in_array('avg_order_revenue', $requestedColumns) || empty($requestedColumns)) && $isEcommerceGoal;
 
         if ($shouldAddAverageOrderRevenue && !empty($requestedColumns)) {
-
             $avgOrder = new AverageOrderRevenue();
             $metricsToAdd = $avgOrder->getDependentMetrics();
 
@@ -872,7 +873,8 @@ class API extends \Piwik\Plugin\API
 
                 // we do not enter the IF
                 // if case idSite=1,3 AND period=day&date=datefrom,dateto,
-                if ($customVariableTableForDate instanceof DataTable
+                if (
+                    $customVariableTableForDate instanceof DataTable
                     && $customVariableTableForDate->getMetadata(Archive\DataTableFactory::TABLE_METADATA_PERIOD_INDEX)
                 ) {
                     $dateRewrite = $customVariableTableForDate->getMetadata(Archive\DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getDateStart()->toString();

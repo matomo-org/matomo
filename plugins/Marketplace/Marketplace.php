@@ -87,6 +87,8 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_BrowseMarketplace';
         $translationKeys[] = 'Marketplace_CannotUpdate';
         $translationKeys[] = 'Marketplace_CannotInstall';
+        $translationKeys[] = 'Marketplace_CreateAccountErrorAPI';
+        $translationKeys[] = 'Marketplace_CreateAccountErrorLicenseExists';
         $translationKeys[] = 'Marketplace_ConfirmRemoveLicense';
         $translationKeys[] = 'Marketplace_CurrentNumPiwikUsers';
         $translationKeys[] = 'Marketplace_Exceeded';
@@ -139,6 +141,15 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_SupportMatomoThankYou';
         $translationKeys[] = 'Marketplace_TeaserExtendPiwikByUpload';
         $translationKeys[] = 'Marketplace_TrialHints';
+        $translationKeys[] = 'Marketplace_TrialStartErrorSupport';
+        $translationKeys[] = 'Marketplace_TrialStartErrorTitle';
+        $translationKeys[] = 'Marketplace_TrialStartInProgressText';
+        $translationKeys[] = 'Marketplace_TrialStartInProgressTitle';
+        $translationKeys[] = 'Marketplace_TrialStartNoLicenseAddHere';
+        $translationKeys[] = 'Marketplace_TrialStartNoLicenseCreateAccount';
+        $translationKeys[] = 'Marketplace_TrialStartNoLicenseLegalHint';
+        $translationKeys[] = 'Marketplace_TrialStartNoLicenseText';
+        $translationKeys[] = 'Marketplace_TrialStartNoLicenseTitle';
         $translationKeys[] = 'Marketplace_UploadZipFile';
         $translationKeys[] = 'Marketplace_ViewSubscriptions';
         $translationKeys[] = 'Mobile_LoadingReport';

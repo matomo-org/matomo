@@ -262,7 +262,7 @@ var SegmentGenerator_store_SegmentGeneratorStore = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ var SegmentGenerator_store = (new SegmentGenerator_store_SegmentGeneratorStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=452cbe04
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=0fd3b9a2
 
 var _hoisted_1 = {
   class: "segment-generator",
@@ -406,7 +406,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     innerHTML: _ctx.$sanitize(_ctx.addNewAndConditionLinkText)
   }, null, 8, _hoisted_20)])])], 512);
 }
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=452cbe04
+// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=0fd3b9a2
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -652,6 +652,10 @@ var _window = window,
       this.conditions.push(condition);
     },
     addNewOrCondition: function addNewOrCondition(condition) {
+      if (!this.firstSegment) {
+        return; // skip till list of segments is available
+      }
+
       var orCondition = {
         segment: this.firstSegment,
         matches: this.firstMatch,
@@ -768,9 +772,13 @@ var _window = window,
       var condition = {
         orConditions: []
       };
+
+      if (!this.firstSegment) {
+        return; // skip till list of segments is available
+      }
+
       this.addAndCondition(condition);
       this.addNewOrCondition(condition);
-      return condition;
     },
     // NOTE: can't use a computed property since we need to recompute on changes inside the
     //       structure. don't have to if we don't do in-place changes, but with nested structures,
@@ -808,7 +816,9 @@ var _window = window,
   },
   computed: {
     firstSegment: function firstSegment() {
-      return this.queriedSegments[0].segment;
+      var _this$queriedSegments;
+
+      return ((_this$queriedSegments = this.queriedSegments[0]) === null || _this$queriedSegments === void 0 ? void 0 : _this$queriedSegments.segment) || null;
     },
     firstMatch: function firstMatch() {
       var segment = this.queriedSegments[0];

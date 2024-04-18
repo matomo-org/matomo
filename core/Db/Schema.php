@@ -38,8 +38,10 @@ class Schema extends Singleton
     private static function getSchemaClassName($schemaName)
     {
         // Upgrade from pre 2.0.4
-        if (strtolower($schemaName) == 'myisam'
-            || empty($schemaName)) {
+        if (
+            strtolower($schemaName) == 'myisam'
+            || empty($schemaName)
+        ) {
             $schemaName = self::DEFAULT_SCHEMA;
         }
 

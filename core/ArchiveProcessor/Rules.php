@@ -55,7 +55,8 @@ class Rules
      */
     public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin)
     {
-        if (!empty($plugin)
+        if (
+            !empty($plugin)
             && !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel)
         ) {
             return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
@@ -142,7 +143,8 @@ class Rules
         $idSites = array($site->getId());
         $isArchivingDisabled = Rules::isArchivingDisabledFor($idSites, $segment, $period->getLabel());
         if ($isArchivingDisabled) {
-            if ($period->getNumberOfSubperiods() == 0
+            if (
+                $period->getNumberOfSubperiods() == 0
                 && $dateStart->getTimestamp() <= $now
             ) {
                 // Today: accept any recent enough archive
@@ -217,7 +219,8 @@ class Rules
         $generalConfig = Config::getInstance()->General;
 
         if ($periodLabel === 'range') {
-            if (isset($generalConfig['archiving_range_force_on_browser_request'])
+            if (
+                isset($generalConfig['archiving_range_force_on_browser_request'])
                 && $generalConfig['archiving_range_force_on_browser_request'] == false
             ) {
                 Log::debug("Not forcing archiving for range period.");
@@ -232,7 +235,8 @@ class Rules
             return $isArchivingEnabled;
         }
 
-        if (!$isArchivingEnabled
+        if (
+            !$isArchivingEnabled
             && (!self::isBrowserArchivingAvailableForSegments() || self::isSegmentPreProcessed($idSites, $segment))
             && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
         ) {

@@ -96,7 +96,6 @@ class GetCustomDimension extends Report
         $view->config->custom_parameters['scopeOfDimension'] = $this->scopeOfDimension;
 
         if ($this->scopeOfDimension === CustomDimensions::SCOPE_VISIT) {
-
             // Goal metrics for each custom dimension  of 'visit' scope is processed in Archiver via aggregateFromConversions
             $view->config->show_goals = true;
 

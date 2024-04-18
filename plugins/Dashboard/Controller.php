@@ -32,7 +32,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->dashboard = new Dashboard();
     }
 
-    protected function _getDashboardView($template)
+    protected function getDashboardView($template)
     {
         $view = new View($template);
         $this->setGeneralVariablesView($view);
@@ -48,14 +48,14 @@ class Controller extends \Piwik\Plugin\Controller
     // this
     public function embeddedIndex()
     {
-        $view = $this->_getDashboardView('@Dashboard/embeddedIndex');
+        $view = $this->getDashboardView('@Dashboard/embeddedIndex');
         return $view->render();
     }
 
     // this is the exported widget
     public function index()
     {
-        $view = $this->_getDashboardView('@Dashboard/index');
+        $view = $this->getDashboardView('@Dashboard/index');
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->dashboards = array();
         if (!Piwik::isUserIsAnonymous()) {
@@ -169,10 +169,8 @@ class Controller extends \Piwik\Plugin\Controller
     protected function getLayout($idDashboard)
     {
         if (Piwik::isUserIsAnonymous()) {
-
             $session = new SessionNamespace("Dashboard");
             if (!isset($session->dashboardLayout)) {
-
                 return $this->dashboard->getDefaultLayout();
             }
 

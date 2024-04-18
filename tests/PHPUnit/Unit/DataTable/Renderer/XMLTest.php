@@ -32,7 +32,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
      * - datatableSimple
      * - normal datatable  with 2 row (including columns and metadata)
      */
-    protected function _getDataTableTest()
+    protected function getDataTableTest()
     {
         $dataTable = new DataTable();
 
@@ -56,7 +56,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         return $dataTable;
     }
 
-    protected function _getDataTableSimpleTest()
+    protected function getDataTableSimpleTest()
     {
         $array = array('max_actions' => 14.0, 'nb_uniq_visitors' => 57.0, 'nb_visits' => 66.0, 'nb_actions' => 151.0, 'sum_visit_length' => 5118.0, 'bounce_count' => 44.0,);
 
@@ -65,7 +65,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableSimpleOneRowTest()
+    protected function getDataTableSimpleOneRowTest()
     {
         $array = array('nb_visits' => 14.0);
 
@@ -74,13 +74,13 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableEmpty()
+    protected function getDataTableEmpty()
     {
         $table = new DataTable();
         return $table;
     }
 
-    protected function _getDataTableSimpleOneZeroRowTest()
+    protected function getDataTableSimpleOneZeroRowTest()
     {
         $array = array('nb_visits' => 0);
         $table = new Simple();
@@ -88,7 +88,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableSimpleOneFalseRowTest()
+    protected function getDataTableSimpleOneFalseRowTest()
     {
         $array = array('is_excluded' => false);
         $table = new Simple();
@@ -99,7 +99,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLTest1()
     {
-        $dataTable = $this->_getDataTableTest();
+        $dataTable = $this->getDataTableTest();
         $render = new Xml();
         $render->setTable($dataTable);
         $render->setRenderSubTables(true);
@@ -156,7 +156,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLTest2()
     {
-        $dataTable = $this->_getDataTableSimpleTest();
+        $dataTable = $this->getDataTableSimpleTest();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
@@ -174,7 +174,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLTest3()
     {
-        $dataTable = $this->_getDataTableSimpleOneRowTest();
+        $dataTable = $this->getDataTableSimpleOneRowTest();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
@@ -185,7 +185,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLTest4()
     {
-        $dataTable = $this->_getDataTableEmpty();
+        $dataTable = $this->getDataTableEmpty();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
@@ -196,7 +196,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLTest5()
     {
-        $dataTable = $this->_getDataTableSimpleOneZeroRowTest();
+        $dataTable = $this->getDataTableSimpleOneZeroRowTest();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
@@ -207,7 +207,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLTest6()
     {
-        $dataTable = $this->_getDataTableSimpleOneFalseRowTest();
+        $dataTable = $this->getDataTableSimpleOneFalseRowTest();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
@@ -218,7 +218,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLRendererSuccessfullyRendersWhenSimpleDataTableColumnsHaveInvalidXmlCharacters()
     {
-        $dataTable = $this->_getDataTableSimpleWithInvalidChars();
+        $dataTable = $this->getDataTableSimpleWithInvalidChars();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
@@ -233,7 +233,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLRendererSuccessfullyRendersWhenDataTableColumnsHaveInvalidXmlCharacters()
     {
-        $dataTable = $this->_getDataTableWithInvalidChars();
+        $dataTable = $this->getDataTableWithInvalidChars();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
@@ -252,7 +252,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
      * -------------------------
      */
 
-    protected function _getDataTableMapTest()
+    protected function getDataTableMapTest()
     {
         $array1 = array(
             array(Row::COLUMNS  => array('label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11,),
@@ -287,7 +287,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableSimpleMapTest()
+    protected function getDataTableSimpleMapTest()
     {
         $array1 = array('max_actions' => 14.0, 'nb_uniq_visitors' => 57.0,);
         $table1 = new Simple();
@@ -308,7 +308,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableSimpleOneRowMapTest()
+    protected function getDataTableSimpleOneRowMapTest()
     {
         $array1 = array('nb_visits' => 14.0);
         $table1 = new Simple();
@@ -328,34 +328,34 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableMap_containsDataTableMap_normal()
+    protected function getDataTableMap_containsDataTableMap_normal()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableMapTest(), 'idSite');
+        $table->addTable($this->getDataTableMapTest(), 'idSite');
         return $table;
     }
 
-    protected function _getDataTableMap_containsDataTableMap_simple()
+    protected function getDataTableMap_containsDataTableMap_simple()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableSimpleMapTest(), 'idSite');
+        $table->addTable($this->getDataTableSimpleMapTest(), 'idSite');
         return $table;
     }
 
-    protected function _getDataTableMap_containsDataTableMap_simpleOneRow()
+    protected function getDataTableMap_containsDataTableMap_simpleOneRow()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableSimpleOneRowMapTest(), 'idSite');
+        $table->addTable($this->getDataTableSimpleOneRowMapTest(), 'idSite');
         return $table;
     }
 
 
     public function testXMLMapTest1()
     {
-        $dataTable = $this->_getDataTableMapTest();
+        $dataTable = $this->getDataTableMapTest();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
@@ -400,7 +400,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLArrayIsMadeOfMapTest1()
     {
-        $dataTable = $this->_getDataTableMap_containsDataTableMap_normal();
+        $dataTable = $this->getDataTableMap_containsDataTableMap_normal();
 
         $render = new Xml();
         $render->setTable($dataTable);
@@ -449,7 +449,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLMapTest2()
     {
-        $dataTable = $this->_getDataTableSimpleMapTest();
+        $dataTable = $this->getDataTableSimpleMapTest();
         $render = new Xml();
         $render->setTable($dataTable);
 
@@ -471,7 +471,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLArrayIsMadeOfMapTest2()
     {
-        $dataTable = $this->_getDataTableMap_containsDataTableMap_simple();
+        $dataTable = $this->getDataTableMap_containsDataTableMap_simple();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
@@ -495,7 +495,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLMapTest3()
     {
-        $dataTable = $this->_getDataTableSimpleOneRowMapTest();
+        $dataTable = $this->getDataTableSimpleOneRowMapTest();
         $render = new Xml();
         $render->setTable($dataTable);
 
@@ -512,7 +512,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLArrayIsMadeOfMapTest3()
     {
-        $dataTable = $this->_getDataTableMap_containsDataTableMap_simpleOneRow();
+        $dataTable = $this->getDataTableMap_containsDataTableMap_simpleOneRow();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
@@ -690,7 +690,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    private function _getDataTableSimpleWithInvalidChars()
+    private function getDataTableSimpleWithInvalidChars()
     {
         $table = new DataTable\Simple();
         $table->addRowsFromSimpleArray(
@@ -699,7 +699,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    private function _getDataTableWithInvalidChars()
+    private function getDataTableWithInvalidChars()
     {
         $table = new DataTable();
         $table->addRowsFromSimpleArray(

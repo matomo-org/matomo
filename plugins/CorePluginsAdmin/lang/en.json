@@ -53,6 +53,8 @@
         "PluginRequiresInternet": "This plugin requires a working internet connection. Please check your config value for `enable_internet_features` if you want to use this feature.",
         "PluginActivated": "Plugin activated",
         "PluginFreeTrialStarted": "%1$sYour 30-day free trial has started%2$s for %3$s.",
+        "PluginFreeTrialStartedAccountCreatedMessage": "We've added your License key, initiating a 30-day free trial for %1$s. Take the next step by installing and activating your plugin.",
+        "PluginFreeTrialStartedAccountCreatedTitle": "Your account has been created",
         "Status": "Status",
         "SuccessfullyActicated": "You have successfully activated <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Extend Matomo with Plugins and Themes",

@@ -75,15 +75,15 @@ abstract class Factory
 
         if (is_string($date)) {
             [$period, $date] = self::convertRangeToDateIfNeeded($period, $date);
-            if (Period::isMultiplePeriod($date, $period)
+            if (
+                Period::isMultiplePeriod($date, $period)
                 || $period == 'range'
             ) {
-
                 return new Range($period, $date, $timezone);
             }
 
             $dateObject = Date::factory($date);
-        } else if ($date instanceof Date) {
+        } elseif ($date instanceof Date) {
             $dateObject = $date;
         } else {
             throw new \Exception("Invalid date supplied to Period\Factory::build(): " . gettype($date));

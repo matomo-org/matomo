@@ -30,7 +30,6 @@ class CodeCoverage extends ConsoleCommand
         $phpCovPath = trim(shell_exec('which phpcov') ?? '');
 
         if (empty($phpCovPath)) {
-
             $output->writeln('phpcov not installed. please install pear.phpunit.de/phpcov.');
             return self::FAILURE;
         }
@@ -57,7 +56,6 @@ class CodeCoverage extends ConsoleCommand
 
         // force xdebug usage for coverage options
         if (!extension_loaded('xdebug')) {
-
             $output->writeln('<info>xdebug extension required for code coverage.</info>');
 
             $output->writeln('<info>searching for xdebug extension...</info>');
@@ -73,7 +71,6 @@ class CodeCoverage extends ConsoleCommand
                     }
                 );
             } else {
-
                 $output->writeln('<info>xdebug extension found in extension path.</info>');
             }
 

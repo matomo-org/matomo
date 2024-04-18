@@ -58,8 +58,10 @@ class VisitsSummary extends \Piwik\Plugin
         /** @var DataTable|DataTable\Map $dataTable */
         $dataTable = $response['reportData'];
 
-        if (!$userId->hasDataTableUsers($dataTable) &&
-            !$userId->isUsedInAtLeastOneSite($idSites, $period, $date)) {
+        if (
+            !$userId->hasDataTableUsers($dataTable) &&
+            !$userId->isUsedInAtLeastOneSite($idSites, $period, $date)
+        ) {
             $report = new Get();
             $report->removeUsersFromProcessedReport($response);
         }

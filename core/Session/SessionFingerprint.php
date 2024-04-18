@@ -120,7 +120,8 @@ class SessionFingerprint
     public function getSessionStartTime()
     {
         $userInfo = $this->getUserInfo();
-        if (empty($userInfo)
+        if (
+            empty($userInfo)
             || empty($userInfo['ts'])
         ) {
             return null;
@@ -132,7 +133,8 @@ class SessionFingerprint
     public function getExpirationTime()
     {
         $userInfo = $this->getUserInfo();
-        if (empty($userInfo)
+        if (
+            empty($userInfo)
             || empty($userInfo['expiration'])
         ) {
             return null;
@@ -158,7 +160,8 @@ class SessionFingerprint
 
         $general = Config::getInstance()->General;
 
-        if (!isset($general['login_session_not_remembered_idle_timeout'])
+        if (
+            !isset($general['login_session_not_remembered_idle_timeout'])
             || (int) $general['login_session_not_remembered_idle_timeout'] <= 0
         ) {
             $nonRememberedSessionExpireTime = self::DEFAULT_IDLE_TIMEOUT;

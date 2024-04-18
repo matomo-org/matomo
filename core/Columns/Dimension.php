@@ -486,9 +486,11 @@ abstract class Dimension
      */
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
-        if ($this->segmentName && $this->category
+        if (
+            $this->segmentName && $this->category
             && ($this->sqlSegment || ($this->columnName && $this->dbTableName))
-            && $this->nameSingular) {
+            && $this->nameSingular
+        ) {
             $segment = $dimensionSegmentFactory->createSegment(null);
             $segmentsList->addSegment($segment);
         }

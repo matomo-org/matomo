@@ -30,7 +30,7 @@ class FileIntegrityCheck implements Diagnostic
     {
         $label = $this->translator->translate('Installation_SystemCheckFileIntegrity');
 
-        if(Development::isEnabled()) {
+        if (Development::isEnabled()) {
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, '(Disabled in development mode)'));
         }
 

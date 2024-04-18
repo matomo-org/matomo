@@ -134,7 +134,8 @@ class UserPreferences
             return $userSettingsDate;
         }
         // if last7, last30, etc.
-        if (strpos($userSettingsDate, 'last') === 0
+        if (
+            strpos($userSettingsDate, 'last') === 0
             || strpos($userSettingsDate, 'previous') === 0
         ) {
             return $userSettingsDate;
@@ -160,7 +161,8 @@ class UserPreferences
             return 'day';
         }
 
-        if (strpos($defaultDate, 'last') === 0
+        if (
+            strpos($defaultDate, 'last') === 0
             || strpos($defaultDate, 'previous') === 0
         ) {
             return 'range';

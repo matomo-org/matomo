@@ -113,8 +113,10 @@ function getBrowserLogo($short)
 
     $browserFamilies = BrowserParser::getAvailableBrowserFamilies();
 
-    if (array_key_exists($short, BrowserParser::getAvailableBrowsers()) &&
-        file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($path, $short))) {
+    if (
+        array_key_exists($short, BrowserParser::getAvailableBrowsers()) &&
+        file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($path, $short))
+    ) {
         return sprintf($path, $short);
     }
 
@@ -163,9 +165,11 @@ function getClientTypeLabel($label)
 
     $clientTypes = getClientTypeMapping();
 
-    if (is_numeric($label) &&
+    if (
+        is_numeric($label) &&
         array_key_exists($label, $clientTypes) &&
-        isset($translations[$clientTypes[$label]])) {
+        isset($translations[$clientTypes[$label]])
+    ) {
         return Piwik::translate($translations[$clientTypes[$label]]);
     } elseif (isset($translations[$label])) {
         return Piwik::translate($translations[$label]);
@@ -195,9 +199,11 @@ function getDeviceTypeLabel($label)
 
     $deviceTypes = DeviceParser::getAvailableDeviceTypes();
 
-    if (is_numeric($label) &&
+    if (
+        is_numeric($label) &&
         in_array($label, $deviceTypes) &&
-        isset($translations[array_search($label, $deviceTypes)])) {
+        isset($translations[array_search($label, $deviceTypes)])
+    ) {
         return Piwik::translate($translations[array_search($label, $deviceTypes)]);
     } elseif (isset($translations[$label])) {
         return Piwik::translate($translations[$label]);
@@ -365,13 +371,17 @@ function getOsLogo($short)
     $family     = getOSFamilyFullName($short);
     $osFamilies = OperatingSystemParser::getAvailableOperatingSystemFamilies();
 
-    if (!empty($short) &&
+    if (
+        !empty($short) &&
         array_key_exists($short, OperatingSystemParser::getAvailableOperatingSystems()) &&
-        file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($path, $short))) {
+        file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($path, $short))
+    ) {
         return sprintf($path, $short);
-    } elseif (!empty($family) &&
+    } elseif (
+        !empty($family) &&
         array_key_exists($family, $osFamilies) &&
-        file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($path, $osFamilies[$family][0]))) {
+        file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($path, $osFamilies[$family][0]))
+    ) {
         return sprintf($path, $osFamilies[$family][0]);
     }
     return sprintf($path, 'UNK');

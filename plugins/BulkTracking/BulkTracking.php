@@ -37,7 +37,6 @@ class BulkTracking extends \Piwik\Plugin
     public function initRequestSet(RequestSet $requestSet)
     {
         if ($this->isUsingBulkRequest()) {
-
             $bulk = $this->buildBulkRequests();
 
             list($requests, $token) = $bulk->initRequestsAndTokenAuth($bulk->getRawBulkRequest());

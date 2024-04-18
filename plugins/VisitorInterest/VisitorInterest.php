@@ -13,7 +13,7 @@ use Piwik\Piwik;
 
 class VisitorInterest extends \Piwik\Plugin
 {
-    function postLoad()
+    public function postLoad()
     {
         Piwik::addAction('Template.footerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'footerVisitsFrequency'));
     }

@@ -36,9 +36,10 @@ class EncodedEntities extends FilterAbstract
     {
         foreach ($translations as $pluginName => $pluginTranslations) {
             foreach ($pluginTranslations as $key => $translation) {
-
-                if (isset($this->baseTranslations[$pluginName][$key]) &&
-                    $this->baseTranslations[$pluginName][$key] != StaticContainer::get('Piwik\Translation\Translator')->clean($this->baseTranslations[$pluginName][$key])) {
+                if (
+                    isset($this->baseTranslations[$pluginName][$key]) &&
+                    $this->baseTranslations[$pluginName][$key] != StaticContainer::get('Piwik\Translation\Translator')->clean($this->baseTranslations[$pluginName][$key])
+                ) {
                     continue; // skip if base translation already contains encoded entities
                 }
 

@@ -46,7 +46,8 @@ class SuspiciousLoginAttemptsInLastHourEmail extends Mail
     {
         $model = new Model();
         $user = $model->getUser($this->login);
-        if (empty($user)
+        if (
+            empty($user)
             || empty($user['login'])
         ) {
             throw new \Exception('Unexpected error: unable to find user to send ' . __CLASS__);

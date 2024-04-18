@@ -165,7 +165,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
             $sql = "SELECT count(*) FROM " . Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'];
             $countBlobs = Db::get()->fetchOne($sql);
 
-            if($expectedRows != $countBlobs) {
+            if ($expectedRows != $countBlobs) {
                 $this->printDebugWhenTestFails($table);
             }
             $this->assertEquals($expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs");

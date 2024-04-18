@@ -26,7 +26,7 @@
         "IPsAlwaysBlocked": "Estes IPs são sempre bloqueados",
         "InvalidNonceOrigin": "A segurança do formulário falhou devido à origem inválida. Se você se conectou anteriormente usando HTTPS, verifique se está se conectando por meio de uma conexão segura (SSL/TLS) e tente novamente.",
         "InvalidNonceReferrer": "A segurança do formulário falhou devido a um cabeçalho \"Referenciador\" inválido. Se estiver usando um servidor proxy, você deve %1$sconfigurar o Matomo para aceitar o cabeçalho do proxy%2$s que encaminha o cabeçalho do host. Além disso, verifique se o cabeçalho \"Referenciador\" foi enviado corretamente. Se você se conectou anteriormente usando HTTPS, verifique se está se conectando por meio de uma conexão segura (SSL/TLS) e tente novamente.",
-        "InvalidNonceSSLMisconfigured": "Além disso, você pode %1$sforçar o Matomo a usar uma conexão segura%2$s: em seu arquivo de configuração%3$s defina %4$s abaixo da seção %5$s",
+        "InvalidNonceSSLMisconfigured": "Além disso, pode %1$sforçar o Matomo a usar uma conexão segura%2$s: no seu ficheiro de configuração%3$s defina %4$s abaixo da secção %5$s",
         "InvalidNonceToken": "A segurança do formulário falhou devido a uma incompatibilidade de token. Recarregue o formulário e verifique se seus cookies estão ativados.",
         "InvalidNonceUnexpectedReferrer": "A segurança do formulário falhou porque o cabeçalho \"Referenciador\" é diferente do esperado. Verifique se foi enviado corretamente.",
         "InvalidOrExpiredToken": "O token é inválido ou expirou.",

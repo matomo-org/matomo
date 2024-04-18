@@ -98,7 +98,7 @@ class FrontController extends Singleton
         try {
             $controller->init();
             $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // may fail in safe mode (eg. global.ini.php not found)
             $message = sprintf("Matomo encountered an error: %s (which lead to: %s)", $lastError['message'], $e->getMessage());
         }
@@ -189,10 +189,10 @@ class FrontController extends Singleton
                 echo $this->generateSafeModeOutputFromException($e);
                 exit;
             }
-        } catch(StylesheetLessCompileException $e) {
+        } catch (StylesheetLessCompileException $e) {
             echo $this->generateSafeModeOutputFromException($e);
             exit;
-        } catch(\Error $e) {
+        } catch (\Error $e) {
             echo $this->generateSafeModeOutputFromException($e);
             exit;
         }
@@ -231,7 +231,8 @@ class FrontController extends Singleton
     public function __destruct()
     {
         try {
-            if (class_exists('Piwik\\Profiler')
+            if (
+                class_exists('Piwik\\Profiler')
                 && !SettingsServer::isTrackerApiRequest()
             ) {
                 // in tracker mode Piwik\Tracker\Db\Pdo\Mysql does currently not implement profiling
@@ -389,10 +390,12 @@ class FrontController extends Singleton
         $module = Piwik::getModule();
         $action = Piwik::getAction();
 
-        if (empty($module)
+        if (
+            empty($module)
             || empty($action)
             || $module !== 'Installation'
-            || !in_array($action, array('getInstallationCss', 'getInstallationJs'))) {
+            || !in_array($action, array('getInstallationCss', 'getInstallationJs'))
+        ) {
             \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
         }
 
@@ -420,12 +423,14 @@ class FrontController extends Singleton
             $authAdapter = $this->makeAuthenticator();
             $success = Access::getInstance()->reloadAccess($authAdapter);
 
-            if ($success
+            if (
+                $success
                 && Piwik::isUserIsAnonymous()
                 && $authAdapter->getLogin() === 'anonymous' //double checking the login
                 && Piwik::isUserHasSomeViewAccess()
                 && Session::isSessionStarted()
-                && Session::isWritable()) { // only if session was started and writable, don't do it eg for API
+                && Session::isWritable() // only if session was started and writable, don't do it eg for API
+            ) {
                 // usually the session would be started when someone logs in using login controller. But in this
                 // case we need to init session here for anoynymous users
                 $init = StaticContainer::get(SessionInitializer::class);
@@ -439,7 +444,8 @@ class FrontController extends Singleton
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine
-        if (Common::getRequestVar('token_auth', '', 'string') !== ''
+        if (
+            Common::getRequestVar('token_auth', '', 'string') !== ''
             && Request::shouldReloadAuthUsingTokenAuth(null)
         ) {
             Request::reloadAuthUsingTokenAuth();
@@ -500,7 +506,7 @@ class FrontController extends Singleton
 
     protected function handleMaintenanceMode()
     {
-        if ((GeneralConfig::getConfigValue('maintenance_mode') != 1) || Common::isPhpCliMode() ) {
+        if ((GeneralConfig::getConfigValue('maintenance_mode') != 1) || Common::isPhpCliMode()) {
             return;
         }
 
@@ -567,14 +573,16 @@ class FrontController extends Singleton
         $isDashboardReferrer = !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'module=CoreHome&action=index') !== false;
         $isAllWebsitesReferrer = !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'module=MultiSites&action=index') !== false;
 
-        if ($isDashboardReferrer
+        if (
+            $isDashboardReferrer
             && !empty($_POST['token_auth'])
             && Common::getRequestVar('widget', 0, 'int') === 1
         ) {
             Session::close();
         }
 
-        if (($isDashboardReferrer || $isAllWebsitesReferrer)
+        if (
+            ($isDashboardReferrer || $isAllWebsitesReferrer)
             && Common::getRequestVar('viewDataTable', '', 'string') === 'sparkline'
         ) {
             Session::close();
@@ -695,7 +703,8 @@ class FrontController extends Singleton
 
     private function makeSessionAuthenticator()
     {
-        if (Common::isPhpClimode()
+        if (
+            Common::isPhpClimode()
             && !defined('PIWIK_TEST_MODE')
         ) { // don't use the session auth during CLI requests
             return null;
@@ -710,7 +719,8 @@ class FrontController extends Singleton
 
         // the session must be started before using the session authenticator,
         // so we do it here, if this is not an API request.
-        if (SettingsPiwik::isMatomoInstalled()
+        if (
+            SettingsPiwik::isMatomoInstalled()
             && ($module !== 'API' || ($action && $action !== 'index'))
             && !($module === 'CoreAdminHome' && $action === 'optOutJS')
         ) {

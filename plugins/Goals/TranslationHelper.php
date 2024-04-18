@@ -35,7 +35,7 @@ class TranslationHelper
     public function getTranslationForCompleteDescription($match, $patternType, $pattern)
     {
         $description = $this->getTranslationForMatchAttribute($match);
-        if($this->isPatternUsedForMatchAttribute($match)) {
+        if ($this->isPatternUsedForMatchAttribute($match)) {
             $description = sprintf(
                 '%s %s',
                 $description,

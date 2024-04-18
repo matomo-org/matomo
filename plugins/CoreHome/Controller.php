@@ -92,19 +92,23 @@ class Controller extends \Piwik\Plugin\Controller
         $content = $widget->render();
 
         if ($config->getName() && Common::getRequestVar('showtitle', '', 'string') === '1') {
-            if (strpos($content, '<h2') !== false
+            if (
+                strpos($content, '<h2') !== false
                 || strpos($content, ' content-title=') !== false
                 || strpos($content, 'CoreHome.EnrichedHeadline') !== false
-                || strpos($content, '<h1') !== false ) {
+                || strpos($content, '<h1') !== false
+            ) {
                 // already includes title
                 return $content;
             }
 
-            if (strpos($content, '<!-- has-content-block -->') === false
+            if (
+                strpos($content, '<!-- has-content-block -->') === false
                 && strpos($content, 'class="card"') === false
                 && strpos($content, "class='card'") === false
                 && strpos($content, 'class="card-content"') === false
-                && strpos($content, "class='card-content'") === false) {
+                && strpos($content, "class='card-content'") === false
+            ) {
                 $view = new View('@CoreHome/_singleWidget');
                 $view->title = $config->getName();
                 $view->content = $content;
@@ -115,7 +119,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $content;
     }
 
-    function redirectToCoreHomeIndex()
+    public function redirectToCoreHomeIndex()
     {
         $defaultReport = API::getInstance()->getUserPreference(
             API::PREFERENCE_DEFAULT_REPORT,
@@ -125,7 +129,8 @@ class Controller extends \Piwik\Plugin\Controller
         $action = 'index';
 
         // User preference: default report to load is the All Websites dashboard
-        if ($defaultReport == 'MultiSites'
+        if (
+            $defaultReport == 'MultiSites'
             && \Piwik\Plugin\Manager::getInstance()->isPluginActivated('MultiSites')
         ) {
             $module = 'MultiSites';
@@ -143,7 +148,7 @@ class Controller extends \Piwik\Plugin\Controller
         $controllerName = Common::getRequestVar('moduleToLoad');
         $actionName     = Common::getRequestVar('actionToLoad', 'index');
 
-        if($controllerName == 'API') {
+        if ($controllerName == 'API') {
             throw new Exception("Showing API requests in context is not supported for security reasons. Please change query parameter 'moduleToLoad'.");
         }
         if ($actionName == 'showInContext') {
@@ -184,7 +189,8 @@ class Controller extends \Piwik\Plugin\Controller
     protected function setDateTodayIfWebsiteCreatedToday()
     {
         $date = Common::getRequestVar('date', false);
-        if ($date == 'today'
+        if (
+            $date == 'today'
             || Common::getRequestVar('period', false) == 'range'
         ) {
             return;
@@ -288,7 +294,8 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $parameters = Request::getRequestArrayFromString($request = null);
         foreach ($parameters as $name => $param) {
-            if ($name == 'idSite'
+            if (
+                $name == 'idSite'
                 || $name == 'module'
                 || $name == 'action'
             ) {

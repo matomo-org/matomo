@@ -157,8 +157,7 @@ class API extends \Piwik\Plugin\API
 
         // checks for  && $typeReferrer !== 'false' && $typeReferrer !== '0' added to cover intention when
         // it is passed as a string in a GET or POST parameter
-        if ($typeReferrer !== false && $typeReferrer !== 'false' && $typeReferrer !== '0') // filter for a specific referrer type
-        {
+        if ($typeReferrer !== false && $typeReferrer !== 'false' && $typeReferrer !== '0') { // filter for a specific referrer type
             $dataTable->filter('Pattern', array('label', $typeReferrer));
         }
 
@@ -497,7 +496,6 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($hasEmptyTable) {
-
             $dataTablesForCompletion = $callbackForAdditionalData();
 
             if (!$isMap) {
@@ -774,7 +772,7 @@ class API extends \Piwik\Plugin\API
             $result = new DataTable\Simple();
             $result->addRowFromSimpleArray($newRow);
             return $result;
-        } else if ($table instanceof DataTable\Map) {
+        } elseif ($table instanceof DataTable\Map) {
             $result = new DataTable\Map();
             $result->setKeyName($table->getKeyName());
             foreach ($table->getDataTables() as $label => $childTable) {
@@ -813,7 +811,7 @@ class API extends \Piwik\Plugin\API
             foreach ($numericArchives->getFirstRow() as $name => $value) {
                 $row->setColumn($name, $value);
             }
-        } else if ($table instanceof DataTable\Map) {
+        } elseif ($table instanceof DataTable\Map) {
             foreach ($table->getDataTables() as $label => $childTable) {
                 $numericArchiveChildTable = $numericArchives->getTable($label);
                 $this->mergeNumericArchives($childTable, $numericArchiveChildTable);

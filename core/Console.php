@@ -153,7 +153,8 @@ class Console extends Application
         }
 
         $importantLogDetector = StaticContainer::get(FailureLogMessageDetector::class);
-        if (!$input->hasParameterOption('--ignore-warn')
+        if (
+            !$input->hasParameterOption('--ignore-warn')
             && $exitCode === 0
             && $importantLogDetector->hasEncounteredImportantLog()
         ) {
@@ -306,7 +307,7 @@ class Console extends Application
         $plugins = explode(',', $plugins);
 
         $commands = array();
-        foreach($plugins as $plugin) {
+        foreach ($plugins as $plugin) {
             $instance = new Plugin($plugin);
             $commands = array_merge($commands, $instance->findMultipleComponents('Commands', 'Piwik\\Plugin\\ConsoleCommand'));
         }

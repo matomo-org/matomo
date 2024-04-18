@@ -302,7 +302,8 @@ class Updater
                 require_once $file; // prefixed by PIWIK_INCLUDE_PATH
 
                 $className = $this->getUpdateClassName($componentName, $fileVersion);
-                if (!in_array($className, $this->updatedClasses)
+                if (
+                    !in_array($className, $this->updatedClasses)
                     && class_exists($className, false)
                 ) {
                     $this->executeListenerHook('onComponentUpdateFileStarting', array($componentName, $file, $className, $fileVersion));
@@ -369,7 +370,8 @@ class Updater
 
                 foreach ($files as $file) {
                     $fileVersion = basename($file, '.php');
-                    if (// if the update is from a newer version
+                    if (
+// if the update is from a newer version
                         version_compare($currentVersion, $fileVersion) == -1
                         // but we don't execute updates from non existing future releases
                         && version_compare($fileVersion, $newVersion) <= 0
@@ -478,7 +480,6 @@ class Updater
         }
 
         if (!empty($componentsWithUpdateFile)) {
-
             Access::doAsSuperUser(function () use ($componentsWithUpdateFile, &$coreError, &$deactivatedPlugins, &$errors, &$warnings) {
 
                 $pluginManager = \Piwik\Plugin\Manager::getInstance();
@@ -620,7 +621,7 @@ class Updater
             // make sure to check for them here
             if ($e instanceof Zend_Db_Exception) {
                 throw new UpdaterErrorException($e->getMessage(), $e->getCode(), $e);
-            } else if ($e instanceof MissingFilePermissionException) {
+            } elseif ($e instanceof MissingFilePermissionException) {
                 throw new UpdaterErrorException($e->getMessage(), $e->getCode(), $e);
             }{
                 throw $e;

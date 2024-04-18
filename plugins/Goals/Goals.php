@@ -36,8 +36,10 @@ class Goals extends \Piwik\Plugin
         foreach ($dimensions as $dimension) {
             $group = $dimension['category'];
             // move "Custom Variables" report to the "Goals/Sales by User attribute" category
-            if ($dimension['module'] === 'CustomVariables'
-                || $dimension['action'] == 'getVisitInformationPerServerTime') {
+            if (
+                $dimension['module'] === 'CustomVariables'
+                || $dimension['action'] == 'getVisitInformationPerServerTime'
+            ) {
                 $group = 'VisitsSummary_VisitsSummary';
             }
             unset($dimension['category']);
@@ -366,7 +368,7 @@ class Goals extends \Piwik\Plugin
                 $goalMetricsToUse = $pageGoalMetrics;
                 $goalProcessedMetricsToUse = $pageGoalProcessedMetrics;
                 $goalMetricTypesToUse = $pageGoalMetricTypes;
-            } else if (in_array($request, AddColumnsProcessedMetricsGoal::ACTIONS_ENTRY_PAGE_REPORTS_WITH_GOAL_METRICS)) {
+            } elseif (in_array($request, AddColumnsProcessedMetricsGoal::ACTIONS_ENTRY_PAGE_REPORTS_WITH_GOAL_METRICS)) {
                 $goalMetricsToUse = $entryPageGoalMetrics;
                 $goalProcessedMetricsToUse = $entryPageGoalProcessedMetrics;
                 $goalMetricTypesToUse = $entryPageGoalMetricTypes;
@@ -375,7 +377,8 @@ class Goals extends \Piwik\Plugin
             // Select this report from the API metadata array
             // and add the Goal metrics to it
             foreach ($reports as &$apiReportToUpdate) {
-                if ($apiReportToUpdate['module'] == $reportWithGoals['module']
+                if (
+                    $apiReportToUpdate['module'] == $reportWithGoals['module']
                     && $apiReportToUpdate['action'] == $reportWithGoals['action']
                     && empty($apiReportToUpdate['parameters'])
                 ) {

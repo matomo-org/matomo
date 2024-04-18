@@ -82,12 +82,12 @@ abstract class Base extends \Piwik\Plugin\Report
         $runPrettySizeFilterBeforeGeneric = false;
 
         if ($view->isViewDataTableId(HtmlTable::ID)) {
-
             // add summary row only if displaying a table
             $view->config->filters[] = array('AddSummaryRow', Piwik::translate('General_Total'));
 
             // add percentage column if desired
-            if ($addPercentColumn
+            if (
+                $addPercentColumn
                 && $addTotalSizeColumn
             ) {
                 $view->config->filters[] = array(
@@ -99,7 +99,7 @@ abstract class Base extends \Piwik\Plugin\Report
 
                 $view->requestConfig->filter_sort_column = 'percent_total';
             }
-        } else if ($view->isViewDataTableId(Graph::ID)) {
+        } elseif ($view->isViewDataTableId(Graph::ID)) {
             if ($addTotalSizeColumn) {
                 $view->config->columns_to_display = array('label', 'total_size');
 

@@ -105,7 +105,7 @@ abstract class BaseItem extends Base
         if ($viewDataTable == 'ecommerceOrder') {
             $view->config->custom_parameters['viewDataTable'] = 'table';
             $abandonedCart = false;
-        } else if ($viewDataTable == 'ecommerceAbandonedCart') {
+        } elseif ($viewDataTable == 'ecommerceAbandonedCart') {
             $view->config->custom_parameters['viewDataTable'] = 'table';
             $abandonedCart = true;
         } else {
@@ -142,7 +142,6 @@ abstract class BaseItem extends Base
 
         if ($abandonedCarts === '') {
             if ($fetchIfNotSet) {
-
                 $idSite = Common::getRequestVar('idSite', 0, 'int');
                 $period = Common::getRequestVar('period', '', 'string');
                 $date   = Common::getRequestVar('date', '', 'string');

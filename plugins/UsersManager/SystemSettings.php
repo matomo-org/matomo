@@ -62,7 +62,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                     return array();
                 }
 
-                if (!is_array($domains)){
+                if (!is_array($domains)) {
                     $domains = [$domains];
                 }
 

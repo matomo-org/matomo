@@ -5,23 +5,63 @@
 -->
 
 <template>
-  <div class="modal" id="trialRequiresLicense">
-    <p class="btn-close modal-close"><i class="icon-close"></i></p>
-    <div class="modal-content">
-      <div class="modal-text">
-        <h2>Start your free trial today</h2>
-        <p>To unlock the full potential of our premium plugins,
-          <a
-            :href="linkTo({'module':'Marketplace', 'action':'manageLicenseKey'})"
-          >add your license key</a>.</p>
-        <p>
-          <strong>Don't have a license key yet?</strong>
-          Visit our <a :href="externalRawLink('https://shop.matomo.org/my-account/')"
-                       rel="noopener noreferrer" target="_blank">online marketplace</a>,
-          create an account and start a free trial to get your license key.
-          Once you have a license key, you will be able to start any free trials from here.</p>
+  <div class="modal" id="startFreeTrial">
+    <p v-if="!trialStartInProgress" class="btn-close modal-close"><i class="icon-close"></i></p>
+
+    <template v-if="trialStartInProgress">
+      <div class="modal-content trial-start-in-progress">
+        <div class="Piwik_Popover_Loading">
+          <div class="Piwik_Popover_Loading_Name">
+            <h2>{{ translate('Marketplace_TrialStartInProgressTitle') }}</h2>
+            <p>{{ translate('Marketplace_TrialStartInProgressText') }}</p>
+          </div>
+        </div>
       </div>
-    </div>
+    </template>
+
+    <template v-else-if="trialStartError">
+      <div class="modal-content trial-start-error">
+        <div class="modal-text">
+          <h2>{{ translate('Marketplace_TrialStartErrorTitle') }}</h2>
+          <p>{{ trialStartError }}</p>
+          <p>{{ translate('Marketplace_TrialStartErrorSupport') }}</p>
+        </div>
+      </div>
+    </template>
+
+    <template v-else>
+      <div class="modal-content trial-start-no-license">
+        <div class="modal-text">
+          <h2>{{ translate('Marketplace_TrialStartNoLicenseTitle') }}</h2>
+          <p>{{ translate('Marketplace_TrialStartNoLicenseText') }}</p>
+          <Field
+              uicontrol="text"
+              name="email"
+              v-model="createAccountEmail"
+              :full-width="true"
+              :title="translate('UsersManager_Email')"
+          />
+
+          <div class="alert alert-danger"
+               v-if="createAccountError"
+               v-html="$sanitize(createAccountError)"
+          />
+
+          <p class="trial-start-legal-hint"
+             v-html="$sanitize(trialStartNoLicenseLegalHintText)"
+          />
+
+          <p>
+            <button
+                class="btn"
+                :disabled="!createAccountEmail"
+                @click="createAccountAndStartFreeTrial()"
+            >{{ translate('Marketplace_TrialStartNoLicenseCreateAccount' )}}</button>
+          </p>
+          <p class="add-existing-license" v-html="$sanitize(trialStartNoLicenseAddHereText)" />
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -29,78 +69,253 @@
 import { defineComponent } from 'vue';
 import {
   AjaxHelper,
+  externalLink,
   MatomoUrl,
   NotificationsStore,
   translate,
 } from 'CoreHome';
+import { Field } from 'CorePluginsAdmin';
+import Matomo from '../../../../CoreHome/vue/src/Matomo/Matomo';
+import KeyPressEvent = JQuery.KeyPressEvent;
+import ModalOptions = M.ModalOptions;
 
 const { $ } = window;
 
+interface StartFreeTrialState {
+  createAccountEmail: string;
+  createAccountError: string | null;
+  trialStartError: string | null;
+  trialStartInProgress: boolean;
+  trialStartSuccessNotificationMessage: string;
+  trialStartSuccessNotificationTitle: string;
+  loadingModalCloseCallback: undefined | (() => void);
+}
+
 export default defineComponent({
+  components: { Field },
   props: {
     modelValue: {
       type: String,
       required: true,
     },
+    currentUserEmail: String,
     isValidConsumer: Boolean,
+  },
+  data(): StartFreeTrialState {
+    return {
+      createAccountEmail: this.currentUserEmail || '',
+      createAccountError: null,
+      trialStartError: null,
+      loadingModalCloseCallback: undefined,
+      trialStartInProgress: false,
+      trialStartSuccessNotificationMessage: '',
+      trialStartSuccessNotificationTitle: '',
+    };
   },
   emits: ['update:modelValue', 'trialStarted'],
   watch: {
     modelValue(newValue) {
-      if (newValue) {
-        if (this.isValidConsumer) {
-          this.startFreeTrial();
-        } else {
-          this.showLicenseDialog();
-        }
+      if (!newValue) {
+        return;
+      }
+
+      if (this.isValidConsumer) {
+        this.trialStartSuccessNotificationMessage = translate(
+          'CorePluginsAdmin_PluginFreeTrialStarted',
+          '<strong>',
+          '</strong>',
+          newValue,
+        );
+
+        this.startFreeTrial();
+      } else {
+        this.trialStartSuccessNotificationTitle = translate(
+          'CorePluginsAdmin_PluginFreeTrialStartedAccountCreatedTitle',
+        );
+
+        this.trialStartSuccessNotificationMessage = translate(
+          'CorePluginsAdmin_PluginFreeTrialStartedAccountCreatedMessage',
+          newValue,
+        );
+
+        this.showLicenseDialog(false);
       }
     },
   },
-  methods: {
-    linkTo(params: QueryParameters) {
-      return `?${MatomoUrl.stringify({
-        ...MatomoUrl.urlParsed.value,
-        ...params,
+  computed: {
+    trialStartNoLicenseAddHereText() {
+      const link = `?${MatomoUrl.stringify({
+        module: 'Marketplace',
+        action: 'manageLicenseKey',
       })}`;
+
+      return translate(
+        'Marketplace_TrialStartNoLicenseAddHere',
+        `<a href="${link}">`,
+        '</a>',
+      );
+    },
+    trialStartNoLicenseLegalHintText() {
+      return translate(
+        'Marketplace_TrialStartNoLicenseLegalHint',
+        externalLink('https://shop.matomo.org/terms-conditions/'),
+        '</a>',
+        externalLink('https://matomo.org/privacy-policy/'),
+        '</a>',
+      );
+    },
+  },
+  methods: {
+    closeModal() {
+      $('#startFreeTrial').modal('close');
+    },
+    createAccountAndStartFreeTrial() {
+      if (!this.createAccountEmail) {
+        return;
+      }
+
+      this.showLoadingModal(true);
+
+      AjaxHelper.post(
+        {
+          module: 'API',
+          method: 'Marketplace.createAccount',
+        },
+        {
+          email: this.createAccountEmail,
+        },
+        {
+          createErrorNotification: false,
+        },
+      ).then(() => {
+        this.startFreeTrial();
+      }).catch((error) => {
+        if (error.message.startsWith('Marketplace_CreateAccountError')) {
+          this.showErrorModal(translate(error.message));
+
+          this.trialStartInProgress = false;
+
+          this.$emit('update:modelValue', '');
+        } else {
+          this.createAccountError = error.message;
+
+          this.trialStartInProgress = false;
+
+          this.showLicenseDialog(true);
+        }
+      });
+    },
+    showLicenseDialog(immediateTransition: boolean) {
+      const onEnter = (event: KeyPressEvent) => {
+        const keycode = event.keyCode ? event.keyCode : event.which;
+        if (keycode === 13) {
+          this.closeModal();
+          this.createAccountAndStartFreeTrial();
+        }
+      };
+
+      const modalOptions: ModalOptions = {
+        dismissible: true,
+        onOpenEnd: () => {
+          const emailField = '.modal.open #email';
+          $(emailField).focus();
+          $(emailField).off('keypress').keypress(onEnter);
+        },
+        onCloseEnd: () => {
+          this.createAccountError = null;
+
+          if (this.trialStartInProgress) {
+            return;
+          }
+
+          this.$emit('update:modelValue', '');
+        },
+      } as unknown as ModalOptions;
+
+      if (immediateTransition) {
+        modalOptions.inDuration = 0;
+      }
+
+      $('#startFreeTrial').modal(modalOptions).modal('open');
+    },
+    showErrorModal(error: string) {
+      if (this.trialStartError) {
+        return;
+      }
+
+      this.trialStartError = error;
+
+      $('#startFreeTrial').modal({
+        dismissible: true,
+        inDuration: 0,
+        onCloseEnd: () => {
+          this.trialStartError = null;
+        },
+      }).modal('open');
+    },
+    showLoadingModal(immediateTransition: boolean) {
+      if (this.trialStartInProgress) {
+        return;
+      }
+
+      this.trialStartInProgress = true;
+      this.loadingModalCloseCallback = undefined;
+
+      $('#startFreeTrial').modal({
+        dismissible: false,
+        inDuration: immediateTransition ? 0 : undefined,
+        onCloseEnd: () => {
+          if (!this.loadingModalCloseCallback) {
+            return;
+          }
+
+          this.loadingModalCloseCallback();
+
+          this.loadingModalCloseCallback = undefined;
+        },
+      }).modal('open');
     },
     startFreeTrial() {
-      const pluginName = this.modelValue;
-
-      window.Piwik_Popover.showLoading('');
+      this.showLoadingModal(false);
 
       AjaxHelper.post(
         {
           module: 'API',
           method: 'Marketplace.startFreeTrial',
         },
-        { pluginName },
-      ).then(() => {
-        window.Piwik_Popover.close();
-
-        const notificationInstanceId = NotificationsStore.show({
-          message: translate(
-            'CorePluginsAdmin_PluginFreeTrialStarted',
-            '<strong>',
-            '</strong>',
-            pluginName,
-          ),
-          context: 'success',
-          id: 'startTrialSuccess',
-          type: 'transient',
-        });
-        NotificationsStore.scrollToNotification(notificationInstanceId);
-        this.$emit('trialStarted');
-      }).catch((error) => {
-        window.Piwik_Popover.showError('', error.message);
-      }).finally(() => this.$emit('update:modelValue', ''));
-    },
-    showLicenseDialog() {
-      $('#trialRequiresLicense').modal({
-        dismissible: true,
-        onCloseEnd: () => {
-          this.$emit('update:modelValue', '');
+        {
+          pluginName: this.modelValue,
         },
-      }).modal('open');
+        {
+          createErrorNotification: false,
+        },
+      ).then(() => {
+        this.loadingModalCloseCallback = this.startFreeTrialSuccess;
+
+        this.closeModal();
+      }).catch((error) => {
+        this.showErrorModal(Matomo.helper.htmlDecode(error.message));
+
+        this.trialStartInProgress = false;
+      }).finally(() => {
+        this.$emit('update:modelValue', '');
+      });
+    },
+    startFreeTrialSuccess() {
+      const notificationInstanceId = NotificationsStore.show({
+        message: this.trialStartSuccessNotificationMessage,
+        title: this.trialStartSuccessNotificationTitle,
+        context: 'success',
+        id: 'startTrialSuccess',
+        placeat: '#notificationContainer',
+        type: 'transient',
+      });
+
+      NotificationsStore.scrollToNotification(notificationInstanceId);
+
+      this.trialStartInProgress = false;
+
+      this.$emit('trialStarted');
     },
   },
 });

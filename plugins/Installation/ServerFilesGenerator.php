@@ -228,7 +228,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
         );
         foreach ($filesToCreate as $file) {
             $path = PIWIK_DOCUMENT_ROOT . $file;
-            if(!file_exists($path)) {
+            if (!file_exists($path)) {
                 @file_put_contents($path, '');
             }
         }

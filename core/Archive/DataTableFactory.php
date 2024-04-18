@@ -176,7 +176,8 @@ class DataTableFactory
         if (empty($resultIndices)) {
             // for numeric data, if there's no index (and thus only 1 site & period in the query),
             // we want to display every queried metric name
-            if (empty($index)
+            if (
+                empty($index)
                 && $this->isNumericDataType()
             ) {
                 $index = $this->defaultRow;
@@ -391,7 +392,8 @@ class DataTableFactory
      */
     private function setSubtables($dataTable, $blobRow, $treeLevel = 0)
     {
-        if ($this->maxSubtableDepth
+        if (
+            $this->maxSubtableDepth
             && $treeLevel >= $this->maxSubtableDepth
         ) {
             // unset the subtables so DataTableManager doesn't throw
@@ -500,7 +502,8 @@ class DataTableFactory
             // ensure that the PHP renderer outputs 0 when only one column is queried.
             // w/o this code, an empty array would be created, and other parts of Piwik
             // would break.
-            if (count($this->dataNames) == 1
+            if (
+                count($this->dataNames) == 1
                 && $this->isNumericDataType()
             ) {
                 $name = reset($this->dataNames);
@@ -572,7 +575,6 @@ class DataTableFactory
         $this->setPrettySegmentMetadata($table);
 
         foreach ($index as $idsite => $row) {
-
             $meta = array();
             if (isset($row[DataCollection::METADATA_CONTAINER_ROW_KEY])) {
                 $meta = $row[DataCollection::METADATA_CONTAINER_ROW_KEY];

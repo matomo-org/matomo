@@ -148,7 +148,8 @@ class PluginsArchiver
             // if we are archiving specific reports for a single plugin then we don't need or want to create
             // Archiver instances, since they will set the archive to partial even if the requested reports aren't
             // handled by the Archiver
-            if (!empty($archiveOnlyReports)
+            if (
+                !empty($archiveOnlyReports)
                 && $archiveOnlyPlugin != $pluginName
             ) {
                 continue;
@@ -263,7 +264,8 @@ class PluginsArchiver
     private static function getPluginArchiverClass(string $pluginName): ?string
     {
         $klassName = 'Piwik\\Plugins\\' . $pluginName . '\\Archiver';
-        if (class_exists($klassName)
+        if (
+            class_exists($klassName)
             && is_subclass_of($klassName, 'Piwik\\Plugin\\Archiver')
         ) {
             return $klassName;
@@ -299,7 +301,8 @@ class PluginsArchiver
             return true;
         }
 
-        if ($this->params->getRequestedPlugin() &&
+        if (
+            $this->params->getRequestedPlugin() &&
             !\Piwik\Plugin\Manager::getInstance()->isPluginLoaded($this->params->getRequestedPlugin())
         ) {
             return false;

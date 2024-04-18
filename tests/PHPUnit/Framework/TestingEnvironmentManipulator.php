@@ -70,7 +70,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function makeGlobalSettingsProvider(GlobalSettingsProvider $original)
     {
-        if ($this->vars->configFileGlobal
+        if (
+            $this->vars->configFileGlobal
             || $this->vars->configFileLocal
             || $this->vars->configFileCommon
         ) {
@@ -122,7 +123,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function onEnvironmentBootstrapped()
     {
-        if (empty($this->vars->ignoreClearAllViewDataTableParameters)
+        if (
+            empty($this->vars->ignoreClearAllViewDataTableParameters)
             && !SettingsServer::isTrackerApiRequest()
         ) {
             try {
@@ -145,7 +147,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
         \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;
 
-        if ($this->vars->deleteArchiveTables
+        if (
+            $this->vars->deleteArchiveTables
             && !$this->vars->_archivingTablesDeleted
         ) {
             $this->vars->_archivingTablesDeleted = true;
@@ -176,7 +179,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                     $diConfigs[] = $testCase->provideContainerConfig();
                 }
             }
-        } else if ($this->vars->fixtureClass) {
+        } elseif ($this->vars->fixtureClass) {
             $fixtureClass = $this->vars->fixtureClass;
 
             if ($this->classExists($fixtureClass)) {
@@ -259,7 +262,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                     $fixturePluginsToLoad = $testCaseClass::$fixture->extraPluginsToLoad;
                 }
             }
-        } else if ($this->vars->fixtureClass) {
+        } elseif ($this->vars->fixtureClass) {
             $fixtureClass = $this->vars->fixtureClass;
             if ($this->classExists($fixtureClass)) {
                 $fixture = new $fixtureClass();
@@ -302,7 +305,6 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
         if (!empty($pluginJson['require'])) {
             foreach ($pluginJson['require'] as $possiblePluginName => $requiredVersion) {
-
                 $pluginLoader2 = new Plugin\MetadataLoader($possiblePluginName);
                 if (file_exists($pluginLoader2->getPathToPluginJson())) {
                     $plugins = $this->getPluginAndRequiredPlugins($possiblePluginName, $plugins);
@@ -321,7 +323,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     {
         if (class_exists($klass)) {
             return true;
-        } else if (empty($klass)) {
+        } elseif (empty($klass)) {
             return false;
         } else {
             throw new \Exception("TestingEnvironmentManipulator: Autoloader cannot find class '$klass'. "

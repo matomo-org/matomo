@@ -185,7 +185,7 @@ class ArchiveCronTest extends SystemTestCase
         $segments = array(ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED,
                           ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED
         );
-        foreach($segments as $index => $segment) {
+        foreach ($segments as $index => $segment) {
             // Test with a pre-processed segment
             $results[] = array(array('VisitsSummary.get', 'Live.getLastVisitsDetails', 'VisitFrequency.get'),
                                array('idSite'     => '1',
@@ -255,7 +255,6 @@ class ArchiveCronTest extends SystemTestCase
         }
 
         foreach ($this->getApiForTesting() as $testInfo) {
-
             [$api, $params] = $testInfo;
 
             if (!isset($params['testSuffix'])) {

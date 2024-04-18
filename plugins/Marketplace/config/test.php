@@ -124,9 +124,10 @@ return array(
         $isExceededUser = $c->get('test.vars.consumer') === 'exceededLicense';
         $isExpiredUser = $c->get('test.vars.consumer') === 'expiredLicense';
         $isValidUser = $c->get('test.vars.consumer') === 'validLicense';
+        $createAccountResponseCode = (int) $c->get('test.vars.createAccountResponseCode');
         $startFreeTrialSuccess = $c->get('test.vars.startFreeTrialSuccess');
 
-        $service->setOnDownloadCallback(function ($action, $params) use ($service, $isExceededUser, $isValidUser, $isExpiredUser, $startFreeTrialSuccess) {
+        $service->setOnDownloadCallback(function ($action, $params) use ($service, $isExceededUser, $isValidUser, $isExpiredUser, $startFreeTrialSuccess, $createAccountResponseCode) {
             if ($action === 'info') {
                 return $service->getFixtureContent('v2.0_info.json');
             } elseif ($action === 'consumer' && $service->getAccessToken() === 'valid') {
@@ -175,6 +176,28 @@ return array(
                     'status' => $startFreeTrialSuccess ? 201 : 400,
                     'headers' => [],
                     'data' => '',
+                ];
+            } elseif ($action === 'createAccount') {
+                $data = '';
+
+                switch ($createAccountResponseCode) {
+                    case 200:
+                        $data = $service->getFixtureContent('v2.0_createAccount_ok.json');
+                        break;
+
+                    case 400:
+                        $data = $service->getFixtureContent('v2.0_createAccount_invalid-email.json');
+                        break;
+
+                    case 409:
+                        $data = $service->getFixtureContent('v2.0_createAccount_duplicate-email.json');
+                        break;
+                }
+
+                return [
+                    'status' => $createAccountResponseCode,
+                    'headers' => [],
+                    'data' => $data,
                 ];
             } elseif ($action === 'plugins/checkUpdates') {
                 return $service->getFixtureContent('v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json');

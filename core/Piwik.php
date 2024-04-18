@@ -761,7 +761,8 @@ class Piwik
      */
     public static function checkValidLoginString($userLogin)
     {
-        if (!SettingsPiwik::isUserCredentialsSanityCheckEnabled()
+        if (
+            !SettingsPiwik::isUserCredentialsSanityCheckEnabled()
             && !empty($userLogin)
         ) {
             return;
@@ -769,7 +770,8 @@ class Piwik
         $loginMinimumLength = 2;
         $loginMaximumLength = 100;
         $l = strlen($userLogin);
-        if (!($l >= $loginMinimumLength
+        if (
+            !($l >= $loginMinimumLength
             && $l <= $loginMaximumLength
             && (preg_match('/^[A-Za-zÄäÖöÜüß0-9_.@+-]*$/D', $userLogin) > 0))
         ) {
@@ -809,7 +811,8 @@ class Piwik
     public static function isAssociativeArray($array)
     {
         reset($array);
-        if (!is_numeric(key($array))
+        if (
+            !is_numeric(key($array))
             || key($array) != 0
         ) {
             // first key must be 0

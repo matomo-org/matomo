@@ -41,7 +41,8 @@ class LocationSummary extends ProfileSummaryAbstract
         $view              = new View('@UserCountry/_profileSummary.twig');
         $view->visitorData = $this->profile;
 
-        if (Common::getRequestVar('showMap', 1) == 1
+        if (
+            Common::getRequestVar('showMap', 1) == 1
             && !empty($view->visitorData['hasLatLong'])
             && \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('UserCountryMap')
         ) {

@@ -206,7 +206,6 @@ class API extends \Piwik\Plugin\API
 
         foreach ($columns as $column) {
             foreach ($column as $widget) {
-
                 if ($this->widgetIsNotHidden($widget) && !empty($widget->parameters->module)) {
                     $module = $widget->parameters->module;
                     $action = $widget->parameters->action;

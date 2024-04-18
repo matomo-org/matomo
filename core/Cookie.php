@@ -221,7 +221,8 @@ class Cookie
     {
         $signature = substr($content, -40);
 
-        if (substr($content, -43, 3) === self::VALUE_SEPARATOR . '_=' &&
+        if (
+            substr($content, -43, 3) === self::VALUE_SEPARATOR . '_=' &&
             ($signature === sha1(substr($content, 0, -40) . SettingsPiwik::getSalt()))
         ) {
             // strip trailing: VALUE_SEPARATOR '_=' signature"
@@ -244,9 +245,11 @@ class Cookie
         $cookieStr = $this->extractSignedContent($_COOKIE[$this->name]);
         $isSigned = !empty($cookieStr);
 
-        if ($cookieStr === false
+        if (
+            $cookieStr === false
             && !empty($_COOKIE[$this->name])
-            && strpos($_COOKIE[$this->name], '=') !== false) {
+            && strpos($_COOKIE[$this->name], '=') !== false
+        ) {
             // cookie was set since Matomo 4
             $cookieStr = $_COOKIE[$this->name];
         }
@@ -295,7 +298,7 @@ class Cookie
         $cookieStrArr = [];
 
         foreach ($this->value as $name => $value) {
-            if (!is_numeric($value) && !is_string($value))  {
+            if (!is_numeric($value) && !is_string($value)) {
                 throw new \Exception('Only strings and numbers can be used in cookies. Value is of type ' . gettype($value));
             } elseif (!is_numeric($value)) {
                 $value = base64_encode($value);
@@ -484,9 +487,9 @@ class Cookie
         $expireTime = new DateTime();
         if (is_null($time) || (is_int($time) && $time < 0)) {
             $expireTime->modify("+2 years");
-        } else if (is_int($time)) {
+        } elseif (is_int($time)) {
             $expireTime->setTimestamp($time);
-        } else if (!$expireTime->modify($time)) {
+        } elseif (!$expireTime->modify($time)) {
             $expireTime->modify("+2 years");
         }
         return $expireTime->format(DateTime::COOKIE);

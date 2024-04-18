@@ -118,7 +118,6 @@ class Sparkline extends ViewDataTable
         $values = array();
 
         foreach ($dataTableMap->getDataTables() as $table) {
-
             if ($table->getRowsCount() > 1) {
                 throw new Exception("Expecting only one row per DataTable");
             }

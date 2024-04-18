@@ -42,19 +42,19 @@ class EnvironmentValidator
     {
         $this->checkConfigFileExists($this->settingsProvider->getPathGlobal());
 
-        if(SettingsPiwik::isMatomoInstalled()) {
+        if (SettingsPiwik::isMatomoInstalled()) {
             $this->checkConfigFileExists($this->settingsProvider->getPathLocal(), $startInstaller = false);
             return;
         }
 
         $startInstaller = true;
 
-        if(SettingsServer::isTrackerApiRequest()) {
+        if (SettingsServer::isTrackerApiRequest()) {
             // if Piwik is not installed yet, the piwik.php should do nothing and not return an error
             throw new NotYetInstalledException("As Matomo is not installed yet, the Tracking API cannot proceed and will exit without error.");
         }
 
-        if(Common::isPhpCliMode()) {
+        if (Common::isPhpCliMode()) {
             // in CLI, do not start/redirect to installer, simply output the exception at the top
             $startInstaller = false;
         }
@@ -76,7 +76,8 @@ class EnvironmentValidator
 
         $general = $this->settingsProvider->getSection('General');
 
-        if (isset($general['enable_installer'])
+        if (
+            isset($general['enable_installer'])
             && !$general['enable_installer']
         ) {
             throw new NotYetInstalledException('Matomo is not set up yet');
@@ -116,7 +117,7 @@ class EnvironmentValidator
     private function getMessageWhenFileExistsButNotReadable($path)
     {
         $format = " \n<b>» %s </b>";
-        if(Common::isPhpCliMode()) {
+        if (Common::isPhpCliMode()) {
             $format = "\n » %s \n";
         }
 

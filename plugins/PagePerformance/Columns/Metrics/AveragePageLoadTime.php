@@ -47,7 +47,8 @@ class AveragePageLoadTime extends ProcessedMetric
 
     public function format($value, Formatter $formatter)
     {
-        if ($formatter instanceof Formatter\Html
+        if (
+            $formatter instanceof Formatter\Html
             && !$value
         ) {
             return '-';

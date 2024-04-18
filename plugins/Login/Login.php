@@ -133,7 +133,6 @@ class Login extends \Piwik\Plugin
 
         // Only throw an exception if this is an API request
         if ($this->isModuleIsAPI()) {
-
             // Throw an exception if a token was provided but it was invalid
             if (Request::isTokenAuthProvidedSecurely()) {
                 throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid or expired.');
@@ -155,7 +154,8 @@ class Login extends \Piwik\Plugin
 
         // now check that user login (from any ip) is not blocked
         $login = $this->getUsernameUsedInPasswordLogin();
-        if (empty($login)
+        if (
+            empty($login)
             || $login == 'anonymous'
         ) {
             return; // can't do the check if we don't know the login

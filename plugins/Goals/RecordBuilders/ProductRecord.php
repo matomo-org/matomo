@@ -197,7 +197,8 @@ class ProductRecord extends Base
             Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED,
         );
         foreach ($columnsToRound as $column) {
-            if (isset($row[$column])
+            if (
+                isset($row[$column])
                 && $row[$column] == round($row[$column])
             ) {
                 $row[$column] = round($row[$column]);

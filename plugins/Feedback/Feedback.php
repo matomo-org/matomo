@@ -142,7 +142,6 @@ class Feedback extends \Piwik\Plugin
 
         // If there isn't any reminder date set, or never remind me was selected previously (-1) we determine a new date
         if ($nextReminderDate === false || $nextReminderDate <= 0) {
-
             // if user was created within the last 6 months, we set the date to 6 months after his creation date
             $userCreatedDate = Piwik::getCurrentUserCreationDate();
             if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() > $now) {

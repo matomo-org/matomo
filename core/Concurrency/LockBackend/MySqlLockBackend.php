@@ -68,9 +68,11 @@ class MySqlLockBackend implements LockBackend
         try {
             Db::query($query, array($key, $value, (int) $ttlInSeconds));
         } catch (\Exception $e) {
-            if ($e->getCode() == 23000
+            if (
+                $e->getCode() == 23000
                 || strpos($e->getMessage(), 'Duplicate entry') !== false
-                || strpos($e->getMessage(), ' 1062 ') !== false) {
+                || strpos($e->getMessage(), ' 1062 ') !== false
+            ) {
                 return false;
             }
             throw $e;

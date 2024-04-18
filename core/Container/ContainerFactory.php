@@ -85,8 +85,10 @@ class ContainerFactory
         }
 
         // User config
-        if (file_exists(PIWIK_USER_PATH . '/config/config.php')
-            && !in_array('test', $this->environments, true)) {
+        if (
+            file_exists(PIWIK_USER_PATH . '/config/config.php')
+            && !in_array('test', $this->environments, true)
+        ) {
             $builder->addDefinitions(PIWIK_USER_PATH . '/config/config.php');
         }
 

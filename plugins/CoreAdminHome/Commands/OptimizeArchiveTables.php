@@ -77,10 +77,10 @@ class OptimizeArchiveTables extends ConsoleCommand
 
             if ($dateSpecifier == self::ALL_TABLES_STRING) {
                 return $this->getAllArchiveTableMonths();
-            } else if ($dateSpecifier == self::CURRENT_MONTH_STRING) {
+            } elseif ($dateSpecifier == self::CURRENT_MONTH_STRING) {
                 $now = Date::factory('now');
                 return array(ArchiveTableCreator::getTableMonthFromDate($now));
-            } else if (strpos($dateSpecifier, 'last') === 0) {
+            } elseif (strpos($dateSpecifier, 'last') === 0) {
                 $lastN = substr($dateSpecifier, 4);
                 if (!ctype_digit($lastN)) {
                     throw new \Exception("Invalid lastN specifier '$lastN'. The end must be an integer, eg, last1 or last2.");

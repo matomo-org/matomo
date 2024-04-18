@@ -107,7 +107,8 @@ class SessionAuth implements Auth
         }
 
         $user = $userModel->getUser($userForSession);
-        if (empty($user)
+        if (
+            empty($user)
             || $user['login'] !== $userForSession // sanity check in case there's a bug in getUser()
         ) {
             return $this->makeAuthFailure();
@@ -121,9 +122,11 @@ class SessionAuth implements Auth
 
         $this->updateSessionExpireTime($sessionFingerprint);
 
-        if ($this->tokenAuth !== null
+        if (
+            $this->tokenAuth !== null
             && $this->tokenAuth !== false
-            && $this->tokenAuth !== $sessionFingerprint->getSessionTokenAuth()) {
+            && $this->tokenAuth !== $sessionFingerprint->getSessionTokenAuth()
+        ) {
             return $this->makeAuthFailure();
         }
 

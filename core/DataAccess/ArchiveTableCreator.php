@@ -76,7 +76,8 @@ class ArchiveTableCreator
      */
     public static function getTablesArchivesInstalled($type = null, $forceReload = false)
     {
-        if (is_null(self::$tablesAlreadyInstalled)
+        if (
+            is_null(self::$tablesAlreadyInstalled)
             || $forceReload
         ) {
             self::refreshTableList();

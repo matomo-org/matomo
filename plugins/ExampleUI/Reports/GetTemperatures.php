@@ -56,14 +56,12 @@ class GetTemperatures extends Base
     public function configureView(ViewDataTable $view)
     {
         if ($view->isViewDataTableId(Bar::ID)) {
-
             $view->config->y_axis_unit = '°C';
             $view->config->show_footer = false;
             $view->config->translations['value'] = "Temperature";
             $view->config->selectable_columns = array("value");
             $view->config->max_graph_elements = 24;
         } elseif ($view->isViewDataTableId('infoviz-treemap')) {
-
             $view->config->translations['value'] = "Temperature";
             $view->config->columns_to_display = array("label", "value");
             $view->config->selectable_columns = array("value");

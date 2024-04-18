@@ -492,7 +492,8 @@ class Report
 
         foreach ($allMetrics as $metric) {
             $metricName = $metric instanceof Metric ? $metric->getName() : $metric;
-            if ($metricName == 'label'
+            if (
+                $metricName == 'label'
                 || !empty($metricTypes[$metricName])
             ) {
                 continue;
@@ -1012,7 +1013,8 @@ class Report
         $provider = new ReportsProvider();
         $reports = $provider->getAllReports();
         foreach ($reports as $report) {
-            if (!$report->isSubtableReport()
+            if (
+                !$report->isSubtableReport()
                 && $report->getDimension()
                 && $report->getDimension()->getId() == $dimension->getId()
             ) {
@@ -1035,7 +1037,8 @@ class Report
         foreach ($processedMetrics as $processedMetric) {
             if ($processedMetric instanceof ProcessedMetric) { // instanceof check for backwards compatibility
                 $result[$processedMetric->getName()] = $processedMetric;
-            } elseif ($processedMetric instanceof ArchivedMetric
+            } elseif (
+                $processedMetric instanceof ArchivedMetric
                 && $processedMetric->getType() !== Dimension::TYPE_NUMBER
                 && $processedMetric->getType() !== Dimension::TYPE_FLOAT
                 && $processedMetric->getType() !== Dimension::TYPE_BOOL

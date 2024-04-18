@@ -70,7 +70,8 @@ class Lock
         $timeBetweenReexpires = $this->defaultTtl - ($this->defaultTtl / 4);
 
         $now = Date::getNowTimestamp();
-        if (!empty($this->lastAcquireTime) &&
+        if (
+            !empty($this->lastAcquireTime) &&
             $now <= $this->lastAcquireTime + $timeBetweenReexpires
         ) {
             return false;

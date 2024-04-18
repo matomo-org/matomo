@@ -42,7 +42,6 @@ class OrderBy extends BaseFilter
     {
         foreach ($this->columnsToCheck as $column) {
             if ($column) {
-
                 $valA = $a->getColumn($column);
                 $valB = $b->getColumn($column);
                 $sort = $this->sortVal($valA, $valB);

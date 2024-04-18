@@ -248,7 +248,8 @@ class API extends \Piwik\Plugin\API
                 $result[$idSite][$strDate] = $annotations->count($idSite, $date, $nextDate);
 
                 // if only one annotation, return the one annotation's text w/ the counts
-                if ($getAnnotationText
+                if (
+                    $getAnnotationText
                     && $result[$idSite][$strDate]['count'] == 1
                 ) {
                     $annotationsForSite = $annotations->search(
@@ -319,7 +320,8 @@ class API extends \Piwik\Plugin\API
      */
     private function checkDateIsValid($date, $canBeNull = false)
     {
-        if ($date === null
+        if (
+            $date === null
             && $canBeNull
         ) {
             return;

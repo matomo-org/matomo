@@ -204,10 +204,12 @@ class Controller extends \Piwik\Plugin\Controller
         }
         $value = json_decode($value, true);
 
-        if (empty($value['nonce'])
+        if (
+            empty($value['nonce'])
             || empty($value['ttl'])
             || time() > (int) $value['ttl']
-            || $nonce !== $value['nonce']) {
+            || $nonce !== $value['nonce']
+        ) {
             return json_encode(['Invalid nonce or nonce expired. ' . $task]);
         }
 
@@ -255,7 +257,8 @@ class Controller extends \Piwik\Plugin\Controller
 
     protected function redirectToDashboardWhenNoError(DbUpdater $updater)
     {
-        if (count($updater->getSqlQueriesToExecute()) == 1
+        if (
+            count($updater->getSqlQueriesToExecute()) == 1
             && !$this->coreError
             && empty($this->warningMessages)
             && empty($this->errorMessages)
@@ -276,7 +279,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         try {
             return $this->runUpdaterAndExit();
-        } catch(NoUpdatesFoundException $e) {
+        } catch (NoUpdatesFoundException $e) {
             Piwik::redirectToModule('CoreHome');
         }
     }
@@ -345,7 +348,8 @@ class Controller extends \Piwik\Plugin\Controller
         $group = null;
         foreach ($migrations as $migration) {
             $type = $migration instanceof DbMigration ? 'sql' : 'command';
-            if ($group === null
+            if (
+                $group === null
                 || $type != $group['type']
             ) {
                 $group = [

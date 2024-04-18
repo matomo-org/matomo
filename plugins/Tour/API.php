@@ -50,7 +50,6 @@ class API extends \Piwik\Plugin\API
         $login = Piwik::getCurrentUserLogin();
 
         foreach ($this->challenges->getChallenges() as $challenge) {
-
             if ($challenge->isDisabled()) {
                 continue;
             }

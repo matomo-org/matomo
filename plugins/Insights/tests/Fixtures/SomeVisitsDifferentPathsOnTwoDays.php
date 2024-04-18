@@ -65,7 +65,6 @@ class SomeVisitsDifferentPathsOnTwoDays extends Fixture
 
         foreach ($paths as $path => $numVisits) {
             for ($index = 0; $index < $numVisits; $index++) {
-
                 $tracker = self::getTracker($this->idSite, $date->getDatetime(), $defaultInit = true);
                 $date    = $date->addHour(.1);
                 $tracker->setUrl('http://example.org' . $path);

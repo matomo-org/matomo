@@ -53,6 +53,7 @@
 
   <PluginList v-if="!loading && pluginsToShow.length > 0"
               :plugins-to-show="pluginsToShow"
+              :current-user-email="currentUserEmail"
               :is-auto-update-possible="isAutoUpdatePossible"
               :is-super-user="isSuperUser"
               :is-multi-server-environment="isMultiServerEnvironment"
@@ -116,6 +117,7 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    currentUserEmail: String,
     isValidConsumer: Boolean,
     isSuperUser: Boolean,
     isAutoUpdatePossible: Boolean,

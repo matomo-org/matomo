@@ -68,7 +68,7 @@ class SiteAccessFilter
         if ($this->filterByRole) {
             if ($this->filterByRole == 'noaccess') {
                 $result[] = 'a.access IS NULL';
-            } else if ($this->filterByRole == 'some') {
+            } elseif ($this->filterByRole == 'some') {
                 $result[] = 'a.access IS NOT NULL';
             } else {
                 $result[] = 'a.access = ?';

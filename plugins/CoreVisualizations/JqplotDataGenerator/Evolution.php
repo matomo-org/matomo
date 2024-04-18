@@ -81,7 +81,6 @@ class Evolution extends JqplotDataGenerator
         // collect series data to show. each row-to-display/column-to-display permutation creates a series.
         $allSeriesData = [];
         foreach ($rowsToDisplay as $rowIdentifier) {
-
             $rowLabel = $rowIdentifier;
 
             if (!empty($this->properties['selectable_rows'])) {
@@ -265,7 +264,8 @@ class Evolution extends JqplotDataGenerator
                 $row = $childTable->getRowFromLabel($rowLabel);
             }
 
-            if (empty($row)
+            if (
+                empty($row)
                 || empty($row->getComparisons())
             ) {
                 foreach ($seriesLabels as $seriesIndex => $seriesLabelPrefix) {

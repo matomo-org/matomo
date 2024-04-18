@@ -39,7 +39,8 @@ class UpdateCheck
         }
 
         $lastTimeChecked = Option::get(self::LAST_TIME_CHECKED);
-        if ($force
+        if (
+            $force
             || $lastTimeChecked === false
             || time() - $interval > $lastTimeChecked
         ) {
@@ -116,7 +117,8 @@ class UpdateCheck
     public static function isNewestVersionAvailable()
     {
         $latestVersion = self::getLatestVersion();
-        if (!empty($latestVersion)
+        if (
+            !empty($latestVersion)
             && version_compare(Version::VERSION, $latestVersion) == -1
         ) {
             return $latestVersion;

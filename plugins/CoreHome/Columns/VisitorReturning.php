@@ -45,9 +45,9 @@ class VisitorReturning extends VisitDimension
     {
         if ($value === 1 || $value === '1' || $value === 'returning') {
             return Piwik::translate('CoreHome_VisitTypeReturning');
-        } elseif ($value === 2 || $value === '2' || $value === 'returningCustomer'){
+        } elseif ($value === 2 || $value === '2' || $value === 'returningCustomer') {
             return Piwik::translate('CoreHome_VisitTypeReturningCustomer');
-        } elseif ($value === 0 || $value === '0' || $value === 'new'){
+        } elseif ($value === 0 || $value === '0' || $value === 'new') {
             return Piwik::translate('General_New');
         }
 

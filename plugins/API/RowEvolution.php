@@ -79,7 +79,6 @@ class RowEvolution
 
                 foreach ($goalsToProcess as $idGoal) {
                     if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-
                         $metadata['metrics']['goal_ecommerceOrder_conversion_rate'] = Piwik::translate('Goals_ConversionRate', Piwik::translate('General_EcommerceOrders'));
 
                         if ((int) $showGoalMetricsForGoal === AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW) {
@@ -224,7 +223,8 @@ class RowEvolution
         // if the filter_limit query param is set, treat it as a request to limit
         // the number of labels used
         $limit = Common::getRequestVar('filter_limit', false);
-        if ($limit != false
+        if (
+            $limit != false
             && $limit >= 0
         ) {
             $labels = array_slice($labels, 0, $limit);
@@ -300,7 +300,8 @@ class RowEvolution
     {
         // rows with subtables do not contain URL metadata. this hack makes sure the label titles in row
         // evolution popovers look like URLs.
-        if ($apiModule == 'Actions'
+        if (
+            $apiModule == 'Actions'
             && in_array($apiAction, self::$actionsUrlReports)
         ) {
             $mainUrl = Site::getMainUrlFor($idSite);
@@ -328,7 +329,8 @@ class RowEvolution
     private function getRowUrlForEvolutionLabel($row, $apiModule, $apiAction, $labelUseAbsoluteUrl)
     {
         $url = $row->getMetadata('url');
-        if ($url
+        if (
+            $url
             && ($apiModule == 'Actions'
                 || ($apiModule == 'Referrers'
                     && $apiAction == 'getWebsites'))
@@ -500,15 +502,17 @@ class RowEvolution
                 $value = $firstRow ? floatval($firstRow->getColumn($metric)) : 0;
                 if ($value > 0) {
                     $firstNonZeroFound[$metric] = true;
-                } else if (!isset($firstNonZeroFound[$metric])) {
+                } elseif (!isset($firstNonZeroFound[$metric])) {
                     continue;
                 }
-                if (!isset($metricsResult[$metric]['min'])
+                if (
+                    !isset($metricsResult[$metric]['min'])
                     || $metricsResult[$metric]['min'] > $value
                 ) {
                     $metricsResult[$metric]['min'] = $value;
                 }
-                if (!isset($metricsResult[$metric]['max'])
+                if (
+                    !isset($metricsResult[$metric]['max'])
                     || $metricsResult[$metric]['max'] < $value
                 ) {
                     $metricsResult[$metric]['max'] = $value;
@@ -576,7 +580,7 @@ class RowEvolution
                     $prettyLabel = $labelRow->getColumn('label_html');
                     if ($prettyLabel !== false) {
                         $actualLabels[$labelIdx] = $prettyLabel;
-                    } else if (!empty($labelPretty[$labelIdx])) {
+                    } elseif (!empty($labelPretty[$labelIdx])) {
                         $actualLabels[$labelIdx] = $labelPretty[$labelIdx];
                     }
 
@@ -585,7 +589,7 @@ class RowEvolution
                     if (!empty($actualLabels[$labelIdx])) {
                         break;
                     }
-                } else if (!empty($labelPretty[$labelIdx])) {
+                } elseif (!empty($labelPretty[$labelIdx])) {
                     $actualLabels[$labelIdx] = $labelPretty[$labelIdx];
                 }
             }

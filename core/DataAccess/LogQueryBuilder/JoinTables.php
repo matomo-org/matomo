@@ -104,12 +104,14 @@ class JoinTables extends \ArrayObject
     public function hasJoinedTableManually($tableToFind, $joinToFind)
     {
         foreach ($this as $table) {
-            if (is_array($table)
+            if (
+                is_array($table)
                 && !empty($table['table'])
                 && $table['table'] === $tableToFind
                 && (!isset($table['tableAlias']) || $table['tableAlias'] === $tableToFind)
                 && (!isset($table['join']) || strtolower($table['join']) === 'left join')
-                && isset($table['joinOn']) && $table['joinOn'] === $joinToFind) {
+                && isset($table['joinOn']) && $table['joinOn'] === $joinToFind
+            ) {
                 return true;
             }
         }
@@ -125,11 +127,13 @@ class JoinTables extends \ArrayObject
     public function findIndexOfManuallyAddedTable($tableNameToFind)
     {
         foreach ($this as $index => $table) {
-            if (is_array($table)
+            if (
+                is_array($table)
                 && !empty($table['table'])
                 && $table['table'] === $tableNameToFind
                 && (!isset($table['join']) || strtolower($table['join']) === 'left join')
-                && (!isset($table['tableAlias']) || $table['tableAlias'] === $tableNameToFind)) {
+                && (!isset($table['tableAlias']) || $table['tableAlias'] === $tableNameToFind)
+            ) {
                 return $index;
             }
         }
@@ -280,13 +284,15 @@ class JoinTables extends \ArrayObject
     private function isInTableArray($tables, $table)
     {
         foreach ($tables as $entry) {
-            if (is_string($entry)
+            if (
+                is_string($entry)
                 && $entry == $table
             ) {
                 return true;
             }
 
-            if (is_array($entry)
+            if (
+                is_array($entry)
                 && $entry['table'] == $table
             ) {
                 return true;
@@ -351,7 +357,7 @@ class JoinTables extends \ArrayObject
             $tableName = null;
             if (is_string($info)) {
                 $tableName = $info;
-            } else if (is_array($info)) {
+            } elseif (is_array($info)) {
                 $tableName = isset($info['tableAlias']) ? $info['tableAlias'] : $info['table'];
             }
 

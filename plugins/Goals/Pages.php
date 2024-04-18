@@ -275,10 +275,10 @@ class Pages
             }
 
             foreach ($reports as $report) {
-
                 $order++;
 
-                if (empty($report['viewDataTable'])
+                if (
+                    empty($report['viewDataTable'])
                     && empty($report['abandonedCarts'])
                 ) {
                     $report['viewDataTable'] = 'tableGoals';

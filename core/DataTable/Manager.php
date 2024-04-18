@@ -87,7 +87,8 @@ class Manager extends \ArrayObject
     public function deleteAll($deleteWhenIdTableGreaterThan = 0, $deleteUntil = null)
     {
         foreach ($this as $id => $table) {
-            if ($id > $deleteWhenIdTableGreaterThan
+            if (
+                $id > $deleteWhenIdTableGreaterThan
                 && ($deleteUntil === null || $id <= $deleteUntil)
             ) {
                 $this->deleteTable($id);

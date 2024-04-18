@@ -256,7 +256,8 @@ class Pdf extends ReportRenderer
         $rowCount = $reportHasData ? $this->report->getRowsCount() + self::TABLE_HEADER_ROW_COUNT : self::NO_DATA_ROW_COUNT;
 
         // Only a page break before if the current report has some data
-        if ($reportHasData
+        if (
+            $reportHasData
             // and
             && (
                 // it is the first report
@@ -483,7 +484,8 @@ class Pdf extends ReportRenderer
 
         $columnsCount = count($this->reportColumns);
         // Computes available column width
-        if ($this->orientation == self::PORTRAIT
+        if (
+            $this->orientation == self::PORTRAIT
             && $columnsCount <= 3
         ) {
             $totalWidth = $this->reportWidthPortrait * 2 / 3;

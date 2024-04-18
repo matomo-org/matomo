@@ -44,7 +44,7 @@ class SimulateAutoIncrementIntegerOverflowTest extends SystemTestCase
         );
         $this->assertGreaterThan(4294967294, self::$fixture->maxUnsignedIntegerValue);
 
-        foreach($fieldsThatShouldNotOverflow as $table => $autoIncrementField) {
+        foreach ($fieldsThatShouldNotOverflow as $table => $autoIncrementField) {
             $table = Common::prefixTable($table);
             $value = Db::fetchOne("SELECT MAX($autoIncrementField) FROM $table ");
             $this->assertGreaterThan(self::$fixture->maxUnsignedIntegerValue, $value, 'in ' . $table);

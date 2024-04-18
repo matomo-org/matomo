@@ -15,16 +15,16 @@ class Locale
      */
     public static function setLocale($locale)
     {
-        if(!is_array($locale)){
+        if (!is_array($locale)) {
             $locale = array($locale);
         }
 
         $newLocale = array();
-        foreach($locale as $localePart){
+        foreach ($locale as $localePart) {
             $newLocale[] = $localePart;
 
             $localeVariant = str_replace('UTF-8', 'UTF8', $localePart);
-            if($localeVariant != $localePart){
+            if ($localeVariant != $localePart) {
                 $newLocale[] = $localeVariant;
             }
         }

@@ -7,7 +7,7 @@
         "MobileReport_NoPhoneNumbers": "Por favor, ative ao menos um número de telefone acessando",
         "MultiSites_Must_Be_Activated": "Para gerar textos SMS com as estatísticas do seu site, habilite o plugin MultiSites no Matomo.",
         "PhoneNumbers": "Números de telefone",
-        "PluginDescription": "Crie e baixe relatórios SMS personalizados e envie-os para o seu celular diariamente, semanalmente ou mensalmente.",
+        "PluginDescription": "Crie e descarregue relatórios SMS personalizados e envie-os para o seu celular diariamente, semanalmente ou mensalmente.",
         "SMS_Content_Too_Long": "[muito longo]",
         "SettingsMenu": "Mensagens móveis",
         "Settings_APIKey": "Chave da API",

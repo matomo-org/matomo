@@ -148,7 +148,8 @@ class UsersManager extends \Piwik\Plugin
      */
     public static function isValidPasswordString($input)
     {
-        if (!SettingsPiwik::isUserCredentialsSanityCheckEnabled()
+        if (
+            !SettingsPiwik::isUserCredentialsSanityCheckEnabled()
             && !empty($input)
         ) {
             return true;

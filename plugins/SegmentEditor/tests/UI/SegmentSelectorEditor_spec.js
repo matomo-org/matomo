@@ -122,6 +122,12 @@ describe("SegmentSelectorEditorTest", function () {
 
         await page.waitForTimeout(200);
 
+        // open and close test feature to ensure it doesn't break saving the new segment
+        await page.click('.testSegment');
+        await page.waitForSelector('#Piwik_Popover');
+        await page.waitForNetworkIdle();
+        await page.click('.ui-dialog-titlebar-close');
+
         await page.evaluate(function () {
             $('button.saveAndApply').click();
         });

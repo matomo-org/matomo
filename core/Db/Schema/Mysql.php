@@ -453,7 +453,8 @@ class Mysql implements SchemaInterface
      */
     public function getTablesInstalled($forceReload = true)
     {
-        if (is_null($this->tablesInstalled)
+        if (
+            is_null($this->tablesInstalled)
             || $forceReload === true
         ) {
             $db = $this->getDb();

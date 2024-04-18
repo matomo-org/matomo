@@ -31,8 +31,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function extendVisitorDetails(&$visitor)
     {
-        if(Site::isEcommerceEnabledFor($visitor['idSite']))
-        {
+        if (Site::isEcommerceEnabledFor($visitor['idSite'])) {
             $ecommerceMetrics                     = $this->queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor(
                 $visitor['idSite'],
                 $visitor['visitorId']
@@ -60,7 +59,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         $categories = [];
-        for($i = 1; $i <= ProductCategory::PRODUCT_CATEGORY_COUNT; $i++) {
+        for ($i = 1; $i <= ProductCategory::PRODUCT_CATEGORY_COUNT; $i++) {
             if (!empty($action['productViewCategory' . $i])) {
                 $categories[] = $action['productViewCategory' . $i];
             }
@@ -74,8 +73,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function renderActionTooltip($action, $visitInfo)
     {
-        if (!isset($action['productViewName']) && !isset($action['productViewSku']) &&
-            !isset($action['productViewPrice']) && !isset($action['productViewCategories'])) {
+        if (
+            !isset($action['productViewName']) && !isset($action['productViewSku']) &&
+            !isset($action['productViewPrice']) && !isset($action['productViewCategories'])
+        ) {
             return [];
         }
 
@@ -111,7 +112,7 @@ class VisitorDetails extends VisitorDetailsAbstract
                 if (strpos($column, 'revenue') !== false) {
                     if (!is_numeric($value)) {
                         $ecommerceDetail[$column] = 0;
-                    } else if ($value == round($value)) {
+                    } elseif ($value == round($value)) {
                         $ecommerceDetail[$column] = round($value);
                     }
                 }

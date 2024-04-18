@@ -71,6 +71,7 @@ class ClientTest extends SystemTestCase
             'latestVersion',
             'numDownloads',
             'screenshots',
+            'coverImage',
             'previews',
             'activity',
             'featured',
@@ -81,6 +82,7 @@ class ClientTest extends SystemTestCase
             'shop',
             'bundle',
             'specialOffer',
+            'category',
             'versions',
             'isDownloadable',
             'changelog',
@@ -97,6 +99,8 @@ class ClientTest extends SystemTestCase
         $this->assertFalse($plugin['isPaid']);
         $this->assertFalse($plugin['isCustomPlugin']);
         $this->assertNotEmpty($plugin['versions']);
+        $this->assertNotEmpty($plugin['coverImage']);
+        $this->assertNotEmpty($plugin['category']);
 
         $lastVersion = $plugin['versions'][count($plugin['versions']) - 1];
         $this->assertEquals(

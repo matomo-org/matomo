@@ -154,7 +154,6 @@ class ArchiveWriter
     public function insertBlobRecord($name, $values)
     {
         if (is_array($values)) {
-
             if (isset($values[0])) {
                 // we always store the root table in a single blob for fast access
                 $this->insertRecord($name, $this->compress($values[0]));
@@ -203,7 +202,8 @@ class ArchiveWriter
 
         $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, $doneValue);
 
-        if (!$this->parameters->isPartialArchive()
+        if (
+            !$this->parameters->isPartialArchive()
             // sanity check, just in case nothing was inserted (the archive status should always be inserted)
             && !empty($this->earliestNow)
         ) {

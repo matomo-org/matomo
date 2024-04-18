@@ -66,7 +66,7 @@ class VisitsInDifferentTimezones extends Fixture
         // The resulting reports should have
         // 21 visits yesterday and 13 today in UTC time (in total 34)
         // 24 visits yesterday and 9 visits today in AST timezone (in total 33)
-        for($i = 3; $i <= 36; $i++) {
+        for ($i = 3; $i <= 36; $i++) {
             $dateTime = Date::factory('yesterday')->addHour($i)->getDatetime();
 
             foreach ([$this->idSite, $this->idSite2] as $idSite) {

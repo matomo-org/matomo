@@ -709,7 +709,6 @@ class Config
     public function removeColumnToDisplay($columnToRemove)
     {
         if (!empty($this->columns_to_display)) {
-
             $key = array_search($columnToRemove, $this->columns_to_display);
             if (false !== $key) {
                 unset($this->columns_to_display[$key]);
@@ -773,8 +772,10 @@ class Config
         list($module, $action) = explode('.', $relatedReport);
 
         // don't add the related report if it references this report
-        if ($this->controllerName === $module
-            && $this->controllerAction === $action) {
+        if (
+            $this->controllerName === $module
+            && $this->controllerAction === $action
+        ) {
             if (empty($queryParams)) {
                 return;
             }

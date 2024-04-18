@@ -85,9 +85,10 @@ class BatchInsert
     {
         $loadDataInfileEnabled = Config::getInstance()->General['enable_load_data_infile'];
 
-        if ($loadDataInfileEnabled
-            && Db::get()->hasBulkLoader()) {
-
+        if (
+            $loadDataInfileEnabled
+            && Db::get()->hasBulkLoader()
+        ) {
             $path = self::getBestPathForLoadData();
             $instanceId = SettingsPiwik::getPiwikInstanceId();
             if (empty($instanceId)) {

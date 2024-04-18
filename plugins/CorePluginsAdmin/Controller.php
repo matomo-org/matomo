@@ -236,7 +236,7 @@ class Controller extends Plugin\ControllerAdmin
                 foreach ($view->pluginsHavingUpdate as $name => $plugin) {
                     $view->pluginUpdateNonces[$name] = Nonce::getNonce($plugin['name']);
                 }
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 // curl exec connection error (ie. server not connected to internet)
             }
         }
@@ -282,7 +282,6 @@ class Controller extends Plugin\ControllerAdmin
         $plugins = $this->pluginManager->loadAllPluginsAndGetTheirInfo();
 
         foreach ($plugins as $pluginName => &$plugin) {
-
             $plugin['isCorePlugin'] = $this->pluginManager->isPluginBundledWithCore($pluginName);
             $plugin['isOfficialPlugin'] = false;
 
@@ -300,7 +299,6 @@ class Controller extends Plugin\ControllerAdmin
             }
 
             if (!isset($plugin['info'])) {
-
                 $suffix = $this->translator->translate('CorePluginsAdmin_PluginNotWorkingAlternative');
                 // If the plugin has been renamed, we do not show message to ask user to update plugin
                 list($pluginNameRenamed, $methodName) = Request::getRenamedModuleAndAction($pluginName, 'index');
@@ -340,12 +338,12 @@ class Controller extends Plugin\ControllerAdmin
     {
         $pluginsFiltered = array();
         foreach ($plugins as $name => $thisPlugin) {
-
             $isTheme = false;
             if (!empty($thisPlugin['info']['theme'])) {
                 $isTheme = (bool)$thisPlugin['info']['theme'];
             }
-            if (($themesOnly && $isTheme)
+            if (
+                ($themesOnly && $isTheme)
                 || (!$themesOnly && !$isTheme)
             ) {
                 $pluginsFiltered[$name] = $thisPlugin;
@@ -376,10 +374,10 @@ class Controller extends Plugin\ControllerAdmin
         $outputFormat = strtolower($outputFormat);
 
         if (!empty($outputFormat) && 'html' !== $outputFormat) {
-
             $errorMessage = $lastError['message'];
 
-            if (!empty($lastError['backtrace'])
+            if (
+                !empty($lastError['backtrace'])
                 && \Piwik_ShouldPrintBackTraceWithMessage()
             ) {
                 $errorMessage .= $lastError['backtrace'];
@@ -505,7 +503,7 @@ class Controller extends Plugin\ControllerAdmin
             return;
         }
 
-        if($this->isAllowedToTroubleshootAsSuperUser()) {
+        if ($this->isAllowedToTroubleshootAsSuperUser()) {
             Access::doAsSuperUser(function () use ($redirectAfter) {
                 $this->doDeactivatePlugin($redirectAfter);
             });
@@ -568,7 +566,7 @@ class Controller extends Plugin\ControllerAdmin
         $license_file = $metadata->getPathToLicenseFile();
 
         $license = 'No license file found for this plugin.';
-        if(!empty($license_file)) {
+        if (!empty($license_file)) {
             $license = file_get_contents($license_file);
             $license = nl2br($license);
         }
@@ -608,7 +606,8 @@ class Controller extends Plugin\ControllerAdmin
 
         $referrer = Common::getRequestVar('referrer', false);
         $referrer = Common::unsanitizeInputValue($referrer);
-        if (!empty($referrer)
+        if (
+            !empty($referrer)
             && Url::isLocalUrl($referrer)
         ) {
             Url::redirectToUrl($referrer);

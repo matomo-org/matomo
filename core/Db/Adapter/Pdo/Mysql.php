@@ -55,7 +55,8 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
             if (!empty($config['ssl_cipher'])) {
                 $config['driver_options'][PDO::MYSQL_ATTR_SSL_CIPHER] = $config['ssl_cipher'];
             }
-            if (!empty($config['ssl_no_verify'])
+            if (
+                !empty($config['ssl_no_verify'])
                 && defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')
             ) {
                 $config['driver_options'][PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
@@ -98,7 +99,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         return $this->_connection;
     }
 
-    protected function _connect()
+    protected function _connect() // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
     {
         if ($this->_connection) {
             return;
@@ -185,7 +186,8 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         $clientVersion = $this->getClientVersion();
 
         // incompatible change to DECIMAL implementation in 5.0.3
-        if (version_compare($serverVersion, '5.0.3') >= 0
+        if (
+            version_compare($serverVersion, '5.0.3') >= 0
             && version_compare($clientVersion, '5.0.3') < 0
         ) {
             throw new Exception(Piwik::translate('General_ExceptionIncompatibleClientServerVersions', array('MySQL', $clientVersion, $serverVersion)));
@@ -339,7 +341,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * if unix_socket is set since setting both causes unexpected behaviour
      * @see http://php.net/manual/en/ref.pdo-mysql.connection.php
      */
-    protected function _dsn()
+    protected function _dsn() // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
     {
         if (!empty($this->_config['unix_socket'])) {
             unset($this->_config['host']);
