@@ -170,7 +170,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "node_modules/mousetrap/mousetrap.min.js";
 
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
-        $jsFiles[] = "plugins/Morpheus/javascripts/layout.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/require.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/uiControl.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/dataTable.js";
