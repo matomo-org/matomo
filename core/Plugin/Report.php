@@ -124,6 +124,27 @@ class Report
     protected $metricSemanticTypes = null;
 
     /**
+     * Metric aggregation types for metrics this report displays. By default, aggregation types
+     * are determined by Metric classes overriding the {@see Metric::getAggregationType()}
+     * method. Reports that do not use Metric instances but just metric string IDs, however,
+     * can set the aggregation type via this property, for example:
+     *
+     * ```
+     * protected function init()
+     * {
+     *     ...
+     *
+     *     $this->metricAggregationTypes = [
+     *         'MyPlugin_custom_metric'] = Metric::AGGREGATION_TYPE_SUM,
+     *     ];
+     * }
+     * ```
+     *
+     * @var null|(string|null)[]
+     */
+    protected $metricAggregationTypes = null;
+
+    /**
      * Set this property to true in case your report supports goal metrics. In this case, the goal metrics will be
      * automatically added to the report metadata and the report will be displayed in the Goals UI.
      * @var bool
@@ -506,6 +527,41 @@ class Report
     }
 
     /**
+     * Returns the aggregation types for metrics this report displays.
+     *
+     * Metric classes can set aggregation types via the {@link Metric::getAggregationType()}
+     * method. Derived report classes that identify metrics by their string IDs alone
+     * can set their aggregation type via the {@link self::metricAggregationTypes()}
+     * property.
+     *
+     * @return string[] maps metric name => metric aggregation type
+     * @api
+     */
+    public function getMetricAggregationTypes(): array
+    {
+        $aggregationTypes = $this->metricAggregationTypes ?: [];
+        $metrics = $this->metrics ?: [];
+
+        foreach ($metrics as $metric) {
+            if (!($metric instanceof Metric)) {
+                continue;
+            }
+
+            $metricName = $metric->getName();
+            if (
+                $metricName == 'label'
+                || !empty($metricTypes[$metricName])
+            ) {
+                continue;
+            }
+
+            $aggregationTypes[$metricName] = $metric->getAggregationType();
+        }
+
+        return $aggregationTypes;
+    }
+
+    /**
      * Returns the array of all metrics displayed by this report.
      *
      * @return array
@@ -685,6 +741,8 @@ class Report
         $report['metricTypes'] = array_map(function ($t) {
             return $t ?: 'unspecified';
         }, $report['metricTypes']);
+
+        $report['metricAggregationTypes'] = $this->getMetricAggregationTypes();
 
         if (!empty($this->actionToLoadSubTables)) {
             $report['actionToLoadSubTables'] = $this->actionToLoadSubTables;
