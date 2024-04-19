@@ -91,7 +91,7 @@ class Storage
     }
 
     /**
-     * Returns the names of plugins where trial requests are stored for
+     * Returns the names of plugins where trial requests are stored for, sorted by request time descending
      *
      * @return array
      */
@@ -101,23 +101,26 @@ class Storage
         $trialRequests = Option::getLike(sprintf(self::OPTION_NAME, '%'));
 
         foreach ($trialRequests as $trialRequest => $data) {
-            $plugins[] = str_replace(sprintf(self::OPTION_NAME, ''), '', $trialRequest);
+            $data = json_decode($data, true);
+            $plugins[str_replace(sprintf(self::OPTION_NAME, ''), '', $trialRequest)] = $data['requestTime'];
         }
 
-        return $plugins;
+        arsort($plugins);
+
+        return array_keys($plugins);
     }
 
-    private function loadStorage(): void
+    protected function loadStorage(): void
     {
         $this->storage = json_decode(Option::get($this->optionName) ?: '[]', true);
     }
 
-    private function saveStorage(): void
+    protected function saveStorage(): void
     {
         Option::set($this->optionName, json_encode($this->storage));
     }
 
-    private function clearStorage(): void
+    protected function clearStorage(): void
     {
         Option::delete($this->optionName);
     }

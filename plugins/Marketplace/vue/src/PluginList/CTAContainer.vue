@@ -125,9 +125,8 @@
 
   <a v-else-if="plugin.isTrialRequested"
      tabindex="7"
-     class="btn btn-block purchaseable"
+     class="btn btn-block purchaseable disabled"
      href=""
-     disabled="disabled"
      :title="translate('Marketplace_TrialRequested')"
   >{{ translate('Marketplace_TrialRequested') }}</a>
 

@@ -62,6 +62,10 @@ final class Service
             return;
         }
 
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return; // only super users can see and dismiss those notifications
+        }
+
         foreach (Storage::getPluginsInStorage() as $pluginName) {
             $trialRequest = new Notification($pluginName, new Storage($pluginName));
             $trialRequest->createNotificationIfNeeded();

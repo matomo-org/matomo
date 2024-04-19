@@ -55,10 +55,6 @@ class Notification
      */
     public function createNotificationIfNeeded(): void
     {
-        if (!Piwik::hasUserSuperUserAccess()) {
-            return; // Notification only displayed to super users
-        }
-
         if (!$this->storage->wasRequested() || $this->storage->isNotificationDismissed()) {
             return; // not requested or current user already dismissed the notification
         }
