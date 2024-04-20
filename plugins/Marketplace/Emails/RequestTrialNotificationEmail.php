@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * Matomo - free/libre analytics platform
@@ -7,6 +6,8 @@ declare(strict_types=1);
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+declare(strict_types=1);
 
 namespace Piwik\Plugins\Marketplace\Emails;
 

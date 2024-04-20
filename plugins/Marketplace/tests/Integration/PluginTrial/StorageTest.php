@@ -10,13 +10,8 @@
 namespace Piwik\Plugins\Marketplace\tests\Integration\Plugins;
 
 use Piwik\Config\GeneralConfig;
-use Piwik\Notification\Manager;
 use Piwik\Option;
-use Piwik\Piwik;
-use Piwik\Plugins\Marketplace\PluginTrial\Service;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
-use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**

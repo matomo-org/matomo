@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Exception;
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Marketplace\Api\Client;
@@ -72,6 +71,7 @@ class API extends \Piwik\Plugin\API
         $this->marketplaceClient  = $client;
         $this->expired = $expired;
         $this->pluginManager = $pluginManager;
+        $this->environment = $environment;
         $this->pluginTrialService = $pluginTrialService;
     }
 

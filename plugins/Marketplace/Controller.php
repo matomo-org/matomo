@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
@@ -302,9 +303,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
 
             $plugin['isTrialRequested'] = false;
+            $plugin['canTrialBeRequested'] = false;
 
             if ($plugin['isEligibleForFreeTrial']) {
                 $plugin['isTrialRequested'] = StaticContainer::get(PluginTrialService::class)->wasRequested($plugin['name']);
+                $plugin['canTrialBeRequested'] = (int) GeneralConfig::getConfigValue('plugin_trial_request_expiration_in_days') !== -1;
             }
         }
 
