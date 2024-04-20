@@ -22,6 +22,14 @@ describe('Marketplace_RequestTrial', function () {
     testEnvironment.save();
   });
 
+  after(function(){
+    delete testEnvironment.consumer;
+    delete testEnvironment.fakeIdentity;
+    delete testEnvironment.idSitesViewAccess;
+    delete testEnvironment.mockMarketplaceApiService;
+    testEnvironment.save();
+  });
+
   it('should display a "request trial" button', async function () {
     await page.goto(pluginsUrl);
     await page.waitForNetworkIdle();
@@ -51,5 +59,60 @@ describe('Marketplace_RequestTrial', function () {
     const notificationText = await notification.getProperty('textContent');
 
     expect(notificationText).to.match(/Trial requested .+ PaidPlugin1/i);
+  });
+
+  it('should show a trial requested notification to the super user in reporting view', async function () {
+    testEnvironment.idSitesViewAccess = []; // super user
+    testEnvironment.save();
+
+    await page.goto('?module=CoreHome&action=index&idSite=1&period=day&date=yesterday#?idSite=1&period=day&date=yesterday&category=General_Visitors&subcategory=Live_VisitorLog');
+
+    const notification = await page.$('.notification-info');
+    const notificationText = await notification.getProperty('textContent');
+
+    expect(notificationText).to.match(/A user has requested to start a trial .+ PaidPlugin1/i);
+  });
+
+  it('should show a trial requested notification to the super user in admin view', async function () {
+    testEnvironment.idSitesViewAccess = []; // super user
+    testEnvironment.save();
+
+    await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
+
+    const notification = await page.$('.notification-info');
+    const notificationText = await notification.getProperty('textContent');
+
+    expect(notificationText).to.match(/A user has requested to start a trial .+ PaidPlugin1/i);
+  });
+
+  it('should dismiss a trial requested notification when super user clicks on x', async function () {
+    testEnvironment.idSitesViewAccess = []; // super user
+    testEnvironment.save();
+
+    await page.click('.notification-info .close');
+    await page.waitForNetworkIdle();
+
+    expect(await page.$('.notification-info')).to.be.null;
+
+    // ensure notification is still gone after reload
+    await page.reload();
+    await page.waitForNetworkIdle();
+
+    expect(await page.$('#notificationContainer')).to.be.ok;
+    expect(await page.$('.notification-info')).to.be.null;
+  });
+
+  it('should still show a trial requested notification for another super user', async function () {
+    testEnvironment.idSitesViewAccess = []; // super user
+    testEnvironment.fakeIdentity = 'anotherSuperUser';
+    testEnvironment.save();
+
+    await page.goto('about:blank');
+    await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
+
+    const notification = await page.$('.notification-info');
+    const notificationText = await notification.getProperty('textContent');
+
+    expect(notificationText).to.match(/A user has requested to start a trial .+ PaidPlugin1/i);
   });
 });
