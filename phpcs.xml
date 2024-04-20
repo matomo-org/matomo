@@ -29,7 +29,6 @@
 
         <exclude name="Generic.Files.LineLength" />
         <exclude name="Generic.PHP.LowerCaseConstant.Found" />
-        <exclude name="PSR12.Files.FileHeader" />
         <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
     </rule>
 

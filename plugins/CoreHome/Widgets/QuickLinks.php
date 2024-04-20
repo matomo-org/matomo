@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Piwik\Plugins\CoreHome\Widgets;
-
 
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\SitesManager;

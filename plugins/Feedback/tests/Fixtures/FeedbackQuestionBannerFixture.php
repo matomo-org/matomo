@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Piwik\Plugins\Feedback\tests\Fixtures;
 
 use Piwik\Date;

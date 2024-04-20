@@ -1,4 +1,5 @@
 <?php
+
 namespace Piwik\Plugins\GeoIp2;
 
 use Piwik\Common;
