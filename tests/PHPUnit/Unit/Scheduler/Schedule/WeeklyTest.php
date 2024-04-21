@@ -128,12 +128,12 @@ class WeeklyTest extends \PHPUnit\Framework\TestCase
     public function getSetDayParametersToTest()
     {
         return array(
-            array(1, self::$JANUARY_11_1971_00_00_00),
-            array(5, self::$JANUARY_08_1971_00_00_00),
-            array('monday', self::$JANUARY_11_1971_00_00_00),
-            array('Monday', self::$JANUARY_11_1971_00_00_00),
-            array('FRIDAY', self::$JANUARY_08_1971_00_00_00),
-            array('FrIdAy', self::$JANUARY_08_1971_00_00_00)
+            array(1, 'JANUARY_11_1971_00_00_00'),
+            array(5, 'JANUARY_08_1971_00_00_00'),
+            array('monday', 'JANUARY_11_1971_00_00_00'),
+            array('Monday', 'JANUARY_11_1971_00_00_00'),
+            array('FRIDAY', 'JANUARY_08_1971_00_00_00'),
+            array('FrIdAy', 'JANUARY_08_1971_00_00_00')
         );
     }
 
@@ -169,7 +169,7 @@ class WeeklyTest extends \PHPUnit\Framework\TestCase
         $mock = $this->getWeeklyMock(self::$JANUARY_04_1971_09_00_00);
         $mock->setDay($dayToSet);
 
-        $this->assertEquals($expectedRescheduledTime, $mock->getRescheduledTime());
+        $this->assertEquals(self::$$expectedRescheduledTime, $mock->getRescheduledTime());
     }
 
     /**
