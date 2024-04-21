@@ -17,17 +17,24 @@ use Piwik\Scheduler\Schedule\Weekly;
  */
 class WeeklyTest extends \PHPUnit\Framework\TestCase
 {
-    public static $JANUARY_01_1971_09_10_00; // initialized below class declaration
-    public static $JANUARY_04_1971_00_00_00;
-    public static $JANUARY_04_1971_09_00_00;
-    public static $JANUARY_05_1971_09_00_00;
-    public static $JANUARY_11_1971_00_00_00;
-    public static $JANUARY_15_1971_00_00_00;
-    public static $JANUARY_08_1971_00_00_00;
+    private static $JANUARY_01_1971_09_10_00;
+    private static $JANUARY_04_1971_00_00_00;
+    private static $JANUARY_04_1971_09_00_00;
+    private static $JANUARY_05_1971_09_00_00;
+    private static $JANUARY_11_1971_00_00_00;
+    private static $JANUARY_15_1971_00_00_00;
+    private static $JANUARY_08_1971_00_00_00;
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
+        self::$JANUARY_01_1971_09_10_00 = mktime(9, 10, 00, 1, 1, 1971);
+        self::$JANUARY_04_1971_00_00_00 = mktime(0, 00, 00, 1, 4, 1971);
+        self::$JANUARY_04_1971_09_00_00 = mktime(9, 00, 00, 1, 4, 1971);
+        self::$JANUARY_05_1971_09_00_00 = mktime(9, 00, 00, 1, 5, 1971);
+        self::$JANUARY_11_1971_00_00_00 = mktime(0, 00, 00, 1, 11, 1971);
+        self::$JANUARY_15_1971_00_00_00 = mktime(0, 00, 00, 1, 15, 1971);
+        self::$JANUARY_08_1971_00_00_00 = mktime(0, 00, 00, 1, 8, 1971);
     }
 
     /**
@@ -178,11 +185,3 @@ class WeeklyTest extends \PHPUnit\Framework\TestCase
         return $mock;
     }
 }
-
-WeeklyTest::$JANUARY_01_1971_09_10_00 = mktime(9, 10, 00, 1, 1, 1971);
-WeeklyTest::$JANUARY_04_1971_00_00_00 = mktime(0, 00, 00, 1, 4, 1971);
-WeeklyTest::$JANUARY_04_1971_09_00_00 = mktime(9, 00, 00, 1, 4, 1971);
-WeeklyTest::$JANUARY_05_1971_09_00_00 = mktime(9, 00, 00, 1, 5, 1971);
-WeeklyTest::$JANUARY_11_1971_00_00_00 = mktime(0, 00, 00, 1, 11, 1971);
-WeeklyTest::$JANUARY_15_1971_00_00_00 = mktime(0, 00, 00, 1, 15, 1971);
-WeeklyTest::$JANUARY_08_1971_00_00_00 = mktime(0, 00, 00, 1, 8, 1971);
