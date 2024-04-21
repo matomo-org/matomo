@@ -70,7 +70,7 @@ class API extends \Piwik\Plugin\API
      * For Testing purpose only
      * @var int
      */
-    public static $_autoSuggestLookBack = 60;
+    public static $_autoSuggestLookBack = 60; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
 
     public function __construct(SettingsProvider $settingsProvider, ProcessedReport $processedReport)
     {

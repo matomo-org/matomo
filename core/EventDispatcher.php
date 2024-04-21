@@ -60,7 +60,7 @@ class EventDispatcher
 
     private $pluginHooks = array();
 
-    public static $_SKIP_EVENTS_IN_TESTS = false;
+    public static $_SKIP_EVENTS_IN_TESTS = false; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
 
     /**
      * Constructor.
