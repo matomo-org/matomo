@@ -42,7 +42,7 @@ class TrackerTest extends SystemTestCase
         $this->tracker->enableBulkTracking();
     }
 
-    public function test_response_ShouldContainBulkTrackingApiResponse()
+    public function testResponseShouldContainBulkTrackingApiResponse()
     {
         $this->tracker->doTrackPageView('Test');
         $this->tracker->doTrackPageView('Test');

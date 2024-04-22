@@ -61,7 +61,7 @@ class HandlerTest extends IntegrationTestCase
         $this->requestSet = new RequestSet();
     }
 
-    public function test_init_ShouldInitiateResponseInstance()
+    public function testInitShouldInitiateResponseInstance()
     {
         $this->handler->init($this->tracker, $this->requestSet);
 
@@ -70,7 +70,7 @@ class HandlerTest extends IntegrationTestCase
         $this->assertFalse($this->response->isSend);
     }
 
-    public function test_finish_ShouldOutputAndSendResponse()
+    public function testFinishShouldOutputAndSendResponse()
     {
         $response = $this->handler->finish($this->tracker, $this->requestSet);
 
@@ -82,7 +82,7 @@ class HandlerTest extends IntegrationTestCase
         $this->assertTrue($this->response->isSend);
     }
 
-    public function test_onException_ShouldOutputAndSendResponse()
+    public function testOnExceptionShouldOutputAndSendResponse()
     {
         $this->executeOnException($this->buildException());
 
@@ -92,7 +92,7 @@ class HandlerTest extends IntegrationTestCase
         $this->assertFalse($this->response->isSend);
     }
 
-    public function test_onException_ShouldPassExceptionToResponse()
+    public function testOnExceptionShouldPassExceptionToResponse()
     {
         $exception = $this->buildException();
 
@@ -102,19 +102,19 @@ class HandlerTest extends IntegrationTestCase
         $this->assertSame(500, $this->response->statusCode);
     }
 
-    public function test_onException_ShouldSendStatusCode400IfUnexpectedWebsite()
+    public function testOnExceptionShouldSendStatusCode400IfUnexpectedWebsite()
     {
         $this->executeOnException(new UnexpectedWebsiteFoundException('test'));
         $this->assertSame(400, $this->response->statusCode);
     }
 
-    public function test_onException_ShouldSendStatusCode400IfInvalidRequestParameterException()
+    public function testOnExceptionShouldSendStatusCode400IfInvalidRequestParameterException()
     {
         $this->executeOnException(new InvalidRequestParameterException('test'));
         $this->assertSame(400, $this->response->statusCode);
     }
 
-    public function test_onException_ShouldNotRethrowAnException()
+    public function testOnExceptionShouldNotRethrowAnException()
     {
         self::expectNotToPerformAssertions();
 
@@ -123,7 +123,7 @@ class HandlerTest extends IntegrationTestCase
         $this->handler->onException($this->tracker, $this->requestSet, $exception);
     }
 
-    public function test_onAllRequestsTracked_ShouldNeverTriggerScheduledTasksEvenIfEnabled()
+    public function testOnAllRequestsTrackedShouldNeverTriggerScheduledTasksEvenIfEnabled()
     {
         $runner = new ScheduledTasksRunner();
         $runner->shouldRun = true;
@@ -134,7 +134,7 @@ class HandlerTest extends IntegrationTestCase
         $this->assertFalse($runner->ranScheduledTasks);
     }
 
-    public function test_process_ShouldTrackAllSetRequests()
+    public function testProcessShouldTrackAllSetRequests()
     {
         $this->assertSame(0, $this->tracker->getCountOfLoggedRequests());
 
