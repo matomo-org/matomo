@@ -25,7 +25,7 @@ class MergeDataTablesTest extends \PHPUnit\Framework\TestCase
         $this->instance = new MergeDataTables();
     }
 
-    public function test_mergeDataTables_ReturnsCorrectDataWhenTwoTablesAreMerged()
+    public function testMergeDataTablesReturnsCorrectDataWhenTwoTablesAreMerged()
     {
         $table1 = new DataTable();
         $table1->addRowsFromArray([
@@ -68,7 +68,7 @@ END;
         $this->assertEquals($expectedXml, $xml);
     }
 
-    public function test_mergeDataTables_ReturnsCorrectDataWhenTwoMapsAreMerged_AndBothHaveTheSameAmountOfData()
+    public function testMergeDataTablesReturnsCorrectDataWhenTwoMapsAreMergedAndBothHaveTheSameAmountOfData()
     {
         $table1 = new DataTable\Map();
         $table1->setKeyName('period');
@@ -155,7 +155,7 @@ END;
         $this->assertEquals($expectedXml, $xml);
     }
 
-    public function test_mergeDataTables_ReturnsCorrectDataWhenTwoMapsAreMerged_AndFirstHasLessThanSecond()
+    public function testMergeDataTablesReturnsCorrectDataWhenTwoMapsAreMergedAndFirstHasLessThanSecond()
     {
         $table1 = new DataTable\Map();
         $table1->setKeyName('period');
@@ -224,7 +224,7 @@ END;
         $this->assertEquals($expectedXml, $xml);
     }
 
-    public function test_mergeDataTables_ReturnsCorrectDataWhenTwoMapsAreMerged_AndSecondHasLessThanFirst()
+    public function testMergeDataTablesReturnsCorrectDataWhenTwoMapsAreMergedAndSecondHasLessThanFirst()
     {
         $table1 = new DataTable\Map();
         $table1->setKeyName('period');
@@ -302,7 +302,7 @@ END;
         $this->assertEquals($expectedXml, $xml);
     }
 
-    public function test_mergeDataTables_ReturnsCorrectDataWhenMapsAreNested()
+    public function testMergeDataTablesReturnsCorrectDataWhenMapsAreNested()
     {
         $table1 = new DataTable\Map();
         $table1->setKeyName('site');

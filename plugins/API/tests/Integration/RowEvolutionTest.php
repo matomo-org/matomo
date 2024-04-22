@@ -26,7 +26,7 @@ class RowEvolutionTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
     }
 
-    public function test_getRowEvolution_shouldTriggerAnException_IfReportHasNoDimension()
+    public function testGetRowEvolutionShouldTriggerAnExceptionIfReportHasNoDimension()
     {
         $this->expectException(\Exception::class);
         $this->expectDeprecationMessage("Reports like VisitsSummary.get which do not have a dimension are not supported by row evolution");
@@ -34,7 +34,7 @@ class RowEvolutionTest extends IntegrationTestCase
         $rowEvolution->getRowEvolution(1, 'day', 'last7', 'VisitsSummary', 'get');
     }
 
-    public function test_getRowEvolution_shouldNotTriggerAnException_IfReportHasADimension()
+    public function testGetRowEvolutionShouldNotTriggerAnExceptionIfReportHasADimension()
     {
         $rowEvolution = new RowEvolution();
         $table = $rowEvolution->getRowEvolution(1, 'day', 'last7', 'Actions', 'getPageUrls');

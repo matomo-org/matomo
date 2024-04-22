@@ -31,21 +31,21 @@ class ConsoleRendererTest extends \PHPUnit\Framework\TestCase
         DataTable\Manager::getInstance()->deleteAll();
     }
 
-    public function test_renderSuccess_shouldAlwaysReturnTrueAndIgnoreMessage()
+    public function testRenderSuccessShouldAlwaysReturnTrueAndIgnoreMessage()
     {
         $response = $this->builder->renderSuccess('ok');
 
         $this->assertEquals('Success:ok', $response);
     }
 
-    public function test_renderException_shouldThrowTheException()
+    public function testRenderExceptionShouldThrowTheException()
     {
         $response = $this->builder->renderException('This message should be used', new \BadMethodCallException('The other message'));
 
         $this->assertEquals('Error: This message should be used', $response);
     }
 
-    public function test_renderScalar_shouldReturnTheSameValue()
+    public function testRenderScalarShouldReturnTheSameValue()
     {
         $response = $this->builder->renderScalar(true);
         $this->assertSame("- 1 ['0' => 1] [] [idsubtable = ]<br />
@@ -60,21 +60,21 @@ class ConsoleRendererTest extends \PHPUnit\Framework\TestCase
 ", $response);
     }
 
-    public function test_renderObject_shouldReturAnError()
+    public function testRenderObjectShouldReturAnError()
     {
         $response = $this->builder->renderObject(new \stdClass());
 
         $this->assertEquals('Error: The API cannot handle this data structure.', $response);
     }
 
-    public function test_renderResource_shouldReturAnError()
+    public function testRenderResourceShouldReturAnError()
     {
         $response = $this->builder->renderResource(new \stdClass());
 
         $this->assertEquals('Error: The API cannot handle this data structure.', $response);
     }
 
-    public function test_renderDataTable_shouldReturnResult()
+    public function testRenderDataTableShouldReturnResult()
     {
         $dataTable = new DataTable();
         $dataTable->addRowFromSimpleArray(array('nb_visits' => 5, 'nb_random' => 10));
@@ -85,7 +85,7 @@ class ConsoleRendererTest extends \PHPUnit\Framework\TestCase
 ", $response);
     }
 
-    public function test_renderDataTableWithObjects_shouldReturnResult()
+    public function testRenderDataTableWithObjectsShouldReturnResult()
     {
         $dataTable = new DataTable();
         $dataTable->addRowFromSimpleArray(array('nb_visits' => 5, 'nb_random' => 10));
@@ -101,7 +101,7 @@ class ConsoleRendererTest extends \PHPUnit\Framework\TestCase
 <hr />Metadata<br /><br /> <b>processedRows</b><br />0 => Object [Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite]1 => Object [stdClass]2 => 2016-01-01", $response);
     }
 
-    public function test_renderArray_ShouldReturnConsoleResult()
+    public function testRenderArrayShouldReturnConsoleResult()
     {
         $input = array(1, 2, 5, 'string', 10);
 
@@ -115,7 +115,7 @@ class ConsoleRendererTest extends \PHPUnit\Framework\TestCase
 ", $response);
     }
 
-    public function test_renderArray_ShouldConvertMultiDimensionalAssociativeArrayToJson()
+    public function testRenderArrayShouldConvertMultiDimensionalAssociativeArrayToJson()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Data structure returned is not convertible in the requested format');
