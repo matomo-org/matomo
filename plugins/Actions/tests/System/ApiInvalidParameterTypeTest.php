@@ -20,7 +20,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ApiInvalidParameterTypeTest extends IntegrationTestCase
 {
-    public function test_actionUrlSegmentValueIsProperlyEncoded_inActionsReports()
+    public function testActionUrlSegmentValueIsProperlyEncodedInActionsReports()
     {
         $url = 'http://example+site.org/a+b/index.html';
 
