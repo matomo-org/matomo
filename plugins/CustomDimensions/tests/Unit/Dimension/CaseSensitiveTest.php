@@ -19,28 +19,28 @@ use Piwik\Plugins\CustomDimensions\Dimension\CaseSensitive;
  */
 class CaseSensitiveTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_check_shouldFailWhenActiveIsEmpty()
+    public function testCheckShouldFailWhenActiveIsEmpty()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid value '' for 'caseSensitive' specified. Allowed values: '0' or '1'");
         $this->buildCaseSensitive('')->check();
     }
 
-    public function test_check_shouldFailWhenActiveIsNotValid()
+    public function testCheckShouldFailWhenActiveIsNotValid()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid value 'anyValUe' for 'caseSensitive' specified. Allowed values: '0' or '1'");
         $this->buildCaseSensitive('anyValUe')->check();
     }
 
-    public function test_check_shouldFailWhenActiveIsNumericButNot0or1()
+    public function testCheckShouldFailWhenActiveIsNumericButNot0or1()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid value '2'");
         $this->buildCaseSensitive('2')->check();
     }
 
-    public function test_check_shouldNotFailWhenActiveIsValid()
+    public function testCheckShouldNotFailWhenActiveIsValid()
     {
         self::expectNotToPerformAssertions();
 
