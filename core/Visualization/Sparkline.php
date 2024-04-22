@@ -29,12 +29,12 @@ class Sparkline implements ViewInterface
      * Width of the sparkline
      * @var int
      */
-    protected $_width = self::DEFAULT_WIDTH;
+    protected $width = self::DEFAULT_WIDTH;
     /**
      * Height of sparkline
      * @var int
      */
-    protected $_height = self::DEFAULT_HEIGHT;
+    protected $height = self::DEFAULT_HEIGHT;
     private $serieses = [];
     /**
      * @var \Davaxi\Sparkline
@@ -120,7 +120,7 @@ class Sparkline implements ViewInterface
      */
     public function getWidth()
     {
-        return $this->_width;
+        return $this->width;
     }
 
     /**
@@ -133,9 +133,9 @@ class Sparkline implements ViewInterface
             return;
         }
         if ($width > self::MAX_WIDTH) {
-            $this->_width = self::MAX_WIDTH;
+            $this->width = self::MAX_WIDTH;
         } else {
-            $this->_width = (int)$width;
+            $this->width = (int)$width;
         }
     }
 
@@ -145,7 +145,7 @@ class Sparkline implements ViewInterface
      */
     public function getHeight()
     {
-        return $this->_height;
+        return $this->height;
     }
 
     /**
@@ -158,9 +158,9 @@ class Sparkline implements ViewInterface
             return;
         }
         if ($height > self::MAX_HEIGHT) {
-            $this->_height = self::MAX_HEIGHT;
+            $this->height = self::MAX_HEIGHT;
         } else {
-            $this->_height = (int)$height;
+            $this->height = (int)$height;
         }
     }
 

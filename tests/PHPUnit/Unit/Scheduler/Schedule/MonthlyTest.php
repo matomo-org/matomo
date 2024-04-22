@@ -16,19 +16,28 @@ use Piwik\Scheduler\Schedule\Monthly;
  */
 class MonthlyTest extends \PHPUnit\Framework\TestCase
 {
-    public static $_JANUARY_01_1971_09_00_00; // initialized below class definition
-    public static $_JANUARY_02_1971_09_00_00;
-    public static $_JANUARY_05_1971_09_00_00;
-    public static $_JANUARY_15_1971_09_00_00;
-    public static $_FEBRUARY_01_1971_00_00_00;
-    public static $_FEBRUARY_02_1971_00_00_00;
-    public static $_FEBRUARY_03_1971_09_00_00;
-    public static $_FEBRUARY_21_1971_09_00_00;
-    public static $_FEBRUARY_28_1971_00_00_00;
+    private static $JANUARY_01_1971_09_00_00;
+    private static $JANUARY_02_1971_09_00_00;
+    private static $JANUARY_05_1971_09_00_00;
+    private static $JANUARY_15_1971_09_00_00;
+    private static $FEBRUARY_01_1971_00_00_00;
+    private static $FEBRUARY_02_1971_00_00_00;
+    private static $FEBRUARY_03_1971_09_00_00;
+    private static $FEBRUARY_21_1971_09_00_00;
+    private static $FEBRUARY_28_1971_00_00_00;
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
+        self::$JANUARY_01_1971_09_00_00 = mktime(9, 00, 00, 1, 1, 1971);
+        self::$JANUARY_02_1971_09_00_00 = mktime(9, 00, 00, 1, 2, 1971);
+        self::$JANUARY_05_1971_09_00_00 = mktime(9, 00, 00, 1, 5, 1971);
+        self::$JANUARY_15_1971_09_00_00 = mktime(9, 00, 00, 1, 15, 1971);
+        self::$FEBRUARY_01_1971_00_00_00 = mktime(0, 00, 00, 2, 1, 1971);
+        self::$FEBRUARY_02_1971_00_00_00 = mktime(0, 00, 00, 2, 2, 1971);
+        self::$FEBRUARY_03_1971_09_00_00 = mktime(0, 00, 00, 2, 3, 1971);
+        self::$FEBRUARY_21_1971_09_00_00 = mktime(0, 00, 00, 2, 21, 1971);
+        self::$FEBRUARY_28_1971_00_00_00 = mktime(0, 00, 00, 2, 28, 1971);
     }
 
     /**
@@ -91,8 +100,8 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
          * Expected :
          *  getRescheduledTime returns Monday February 1 1971 00:00:00 UTC
          */
-        $mock = $this->getMonthlyMock(self::$_JANUARY_01_1971_09_00_00);
-        $this->assertEquals(self::$_FEBRUARY_01_1971_00_00_00, $mock->getRescheduledTime());
+        $mock = $this->getMonthlyMock(self::$JANUARY_01_1971_09_00_00);
+        $this->assertEquals(self::$FEBRUARY_01_1971_00_00_00, $mock->getRescheduledTime());
 
         /*
          * Test 2
@@ -105,17 +114,17 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
          * Expected :
          *  getRescheduledTime returns Monday February 1 1971 00:00:00 UTC
          */
-        $mock = $this->getMonthlyMock(self::$_JANUARY_05_1971_09_00_00);
-        $this->assertEquals(self::$_FEBRUARY_01_1971_00_00_00, $mock->getRescheduledTime());
+        $mock = $this->getMonthlyMock(self::$JANUARY_05_1971_09_00_00);
+        $this->assertEquals(self::$FEBRUARY_01_1971_00_00_00, $mock->getRescheduledTime());
     }
 
     public function test_setTimezone_ShouldConvertRescheduledTime()
     {
         $oneHourInSeconds = 3600;
 
-        $mock = $this->getMonthlyMock(self::$_JANUARY_05_1971_09_00_00);
+        $mock = $this->getMonthlyMock(self::$JANUARY_05_1971_09_00_00);
         $timeUTC = $mock->getRescheduledTime();
-        $this->assertEquals(self::$_FEBRUARY_01_1971_00_00_00, $timeUTC);
+        $this->assertEquals(self::$FEBRUARY_01_1971_00_00_00, $timeUTC);
 
         $mock->setTimezone('Pacific/Auckland');
         $timeAuckland = $mock->getRescheduledTime();
@@ -158,7 +167,7 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
              * Expected :
              *  getRescheduledTime returns Monday February 1 1971 00:00:00 UTC
              */
-            array('_JANUARY_01_1971_09_00_00', 1, '_FEBRUARY_01_1971_00_00_00'),
+            array('JANUARY_01_1971_09_00_00', 1, 'FEBRUARY_01_1971_00_00_00'),
             /*
              * Test 2
              *
@@ -170,7 +179,7 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
              * Expected :
              *  getRescheduledTime returns Tuesday February 2 1971 00:00:00 UTC
              */
-            array('_JANUARY_02_1971_09_00_00', 2, '_FEBRUARY_02_1971_00_00_00'),
+            array('JANUARY_02_1971_09_00_00', 2, 'FEBRUARY_02_1971_00_00_00'),
             /*
              * Test 3
              *
@@ -182,7 +191,7 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
              * Expected :
              *  getRescheduledTime returns Tuesday February 1 1971 00:00:00 UTC
              */
-            array('_JANUARY_15_1971_09_00_00', 2, '_FEBRUARY_02_1971_00_00_00'),
+            array('JANUARY_15_1971_09_00_00', 2, 'FEBRUARY_02_1971_00_00_00'),
             /*
              * Test 4
              *
@@ -194,7 +203,7 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
              * Expected :
              *  getRescheduledTime returns Sunday February 28 1971 00:00:00 UTC
              */
-            array('_JANUARY_15_1971_09_00_00', 31, '_FEBRUARY_28_1971_00_00_00')
+            array('JANUARY_15_1971_09_00_00', 31, 'FEBRUARY_28_1971_00_00_00')
         );
     }
 
@@ -204,8 +213,8 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
     public function getValuesToTestSetDayOfWeek()
     {
         return array(
-            array(3, 0, self::$_FEBRUARY_03_1971_09_00_00),
-            array(0, 2, self::$_FEBRUARY_21_1971_09_00_00),
+            array(3, 0, 'FEBRUARY_03_1971_09_00_00'),
+            array(0, 2, 'FEBRUARY_21_1971_09_00_00'),
         );
     }
 
@@ -215,8 +224,8 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
     public function getValuesToTestSetDayOfWeekByString()
     {
         return array(
-            array('first wednesday', self::$_FEBRUARY_03_1971_09_00_00),
-            array('ThIrD sUnDaY', self::$_FEBRUARY_21_1971_09_00_00)
+            array('first wednesday', 'FEBRUARY_03_1971_09_00_00'),
+            array('ThIrD sUnDaY', 'FEBRUARY_21_1971_09_00_00')
         );
     }
 
@@ -225,9 +234,9 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
      */
     public function testMonthlyDayOfWeek($day, $week, $expectedTime)
     {
-        $mock = $this->getMonthlyMock(self::$_JANUARY_15_1971_09_00_00);
+        $mock = $this->getMonthlyMock(self::$JANUARY_15_1971_09_00_00);
         $mock->setDayOfWeek($day, $week);
-        $this->assertEquals($expectedTime, $mock->getRescheduledTime());
+        $this->assertEquals(self::$$expectedTime, $mock->getRescheduledTime());
     }
 
     /**
@@ -235,9 +244,9 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
      */
     public function testMonthlyDayOfWeekByString($dayOfWeekStr, $expectedTime)
     {
-        $mock = $this->getMonthlyMock(self::$_JANUARY_15_1971_09_00_00);
+        $mock = $this->getMonthlyMock(self::$JANUARY_15_1971_09_00_00);
         $mock->setDayOfWeekFromString($dayOfWeekStr);
-        $this->assertEquals($expectedTime, $mock->getRescheduledTime());
+        $this->assertEquals(self::$$expectedTime, $mock->getRescheduledTime());
     }
 
     /**
@@ -249,7 +258,7 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\Exception::class);
 
-        $mock = $this->getMonthlyMock(self::$_JANUARY_15_1971_09_00_00);
+        $mock = $this->getMonthlyMock(self::$JANUARY_15_1971_09_00_00);
         $mock->setDayOfWeek($day, $week);
     }
 
@@ -285,13 +294,3 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
         return $mock;
     }
 }
-
-MonthlyTest::$_JANUARY_01_1971_09_00_00 = mktime(9, 00, 00, 1, 1, 1971);
-MonthlyTest::$_JANUARY_02_1971_09_00_00 = mktime(9, 00, 00, 1, 2, 1971);
-MonthlyTest::$_JANUARY_05_1971_09_00_00 = mktime(9, 00, 00, 1, 5, 1971);
-MonthlyTest::$_JANUARY_15_1971_09_00_00 = mktime(9, 00, 00, 1, 15, 1971);
-MonthlyTest::$_FEBRUARY_01_1971_00_00_00 = mktime(0, 00, 00, 2, 1, 1971);
-MonthlyTest::$_FEBRUARY_02_1971_00_00_00 = mktime(0, 00, 00, 2, 2, 1971);
-MonthlyTest::$_FEBRUARY_03_1971_09_00_00 = mktime(0, 00, 00, 2, 3, 1971);
-MonthlyTest::$_FEBRUARY_21_1971_09_00_00 = mktime(0, 00, 00, 2, 21, 1971);
-MonthlyTest::$_FEBRUARY_28_1971_00_00_00 = mktime(0, 00, 00, 2, 28, 1971);

@@ -46,7 +46,7 @@ class PromoWidgetApplicableTest extends TestCase
         $this->assertEquals($expected, $sut->check('MyPlugin', 'Any'));
     }
 
-    protected function checkDataProvider(): \Generator
+    public function checkDataProvider(): \Generator
     {
         yield [true, true, true, true, false, false];
         yield [true, true, true, false, false, true];
