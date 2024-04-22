@@ -28,7 +28,7 @@ class CsvRendererTest extends \PHPUnit\Framework\TestCase
         $this->builder = $this->makeBuilder(array('method' => 'MultiSites_getAll', 'convertToUnicode' => 0));
     }
 
-    public function test_renderSuccess_shouldIncludeMessage()
+    public function testRenderSuccessShouldIncludeMessage()
     {
         $response = $this->builder->renderSuccess('ok');
 
@@ -36,14 +36,14 @@ class CsvRendererTest extends \PHPUnit\Framework\TestCase
 ok", $response);
     }
 
-    public function test_renderException_shouldIncludeTheMessageAndNotExceptionMessage()
+    public function testRenderExceptionShouldIncludeTheMessageAndNotExceptionMessage()
     {
         $response = $this->builder->renderException("The error message", new \Exception('The other message'));
 
         $this->assertEquals('Error: The error message', $response);
     }
 
-    public function test_renderException_shouldRespectNewlines()
+    public function testRenderExceptionShouldRespectNewlines()
     {
         $response = $this->builder->renderException("The\nerror\nmessage", new \Exception('The other message'));
 
@@ -52,21 +52,21 @@ error
 message', $response);
     }
 
-    public function test_renderObject_shouldReturAnError()
+    public function testRenderObjectShouldReturAnError()
     {
         $response = $this->builder->renderObject(new \stdClass());
 
         $this->assertEquals('Error: The API cannot handle this data structure.', $response);
     }
 
-    public function test_renderResource_shouldReturAnError()
+    public function testRenderResourceShouldReturAnError()
     {
         $response = $this->builder->renderResource(new \stdClass());
 
         $this->assertEquals('Error: The API cannot handle this data structure.', $response);
     }
 
-    public function test_renderScalar_shouldConvertToUnicodeByDefault()
+    public function testRenderScalarShouldConvertToUnicodeByDefault()
     {
         $builder  = $this->makeBuilder(array('method' => 'MultiSites_getAll'));
         $response = $builder->renderScalar(true);
@@ -74,7 +74,7 @@ message', $response);
         $this->assertStringStartsWith(chr(255) . chr(254), $response);
     }
 
-    public function test_renderScalar_shouldReturnABooleanAsIntegerWrappedInTable()
+    public function testRenderScalarShouldReturnABooleanAsIntegerWrappedInTable()
     {
         $response = $this->builder->renderScalar(true);
 
@@ -82,7 +82,7 @@ message', $response);
 1', $response);
     }
 
-    public function test_renderScalar_shouldReturnAnIntegerWrappedInTable()
+    public function testRenderScalarShouldReturnAnIntegerWrappedInTable()
     {
         $response = $this->builder->renderScalar(5);
 
@@ -90,7 +90,7 @@ message', $response);
 5', $response);
     }
 
-    public function test_renderScalar_shouldReturnAStringWrappedInValue()
+    public function testRenderScalarShouldReturnAStringWrappedInValue()
     {
         $response = $this->builder->renderScalar('The Output');
 
@@ -98,7 +98,7 @@ message', $response);
 The Output', $response);
     }
 
-    public function test_renderScalar_shouldNotRemoveLineBreaks()
+    public function testRenderScalarShouldNotRemoveLineBreaks()
     {
         $response = $this->builder->renderScalar('The\nOutput');
 
@@ -109,7 +109,7 @@ The\nOutput', $response);
     /**
      * @dataProvider getCellValuesToPrefixOrNot
      */
-    public function test_renderScalar_whenCellValueIsFormula_shouldPrefixWithQuote($value, $expectedCsvValue)
+    public function testRenderScalarWhenCellValueIsFormulaShouldPrefixWithQuote($value, $expectedCsvValue)
     {
         $response = $this->builder->renderScalar($value);
 
@@ -159,7 +159,7 @@ The\nOutput', $response);
     /**
      * @dataProvider getCellValuesToPrefixOrNot
      */
-    public function test_renderDataTable_shouldRenderFormulas($value, $expectedValue)
+    public function testRenderDataTableShouldRenderFormulas($value, $expectedValue)
     {
         $dataTable = new DataTable();
         $dataTable->addRowFromSimpleArray(array('nb_visits' => 5, 'nb_random' => $value));
@@ -169,7 +169,7 @@ The\nOutput', $response);
         $this->assertEquals("nb_visits,nb_random\n5,$expectedValue", $response);
     }
 
-    public function test_renderDataTable_shouldRenderABasicDataTable()
+    public function testRenderDataTableShouldRenderABasicDataTable()
     {
         $dataTable = new DataTable();
         $dataTable->addRowFromSimpleArray(array('nb_visits' => 5, 'nb_random' => 10));
@@ -180,7 +180,7 @@ The\nOutput', $response);
 5,10', $response);
     }
 
-    public function test_renderDataTable_shouldNotRenderSubtables_AsItIsNotSupportedYet()
+    public function testRenderDataTableShouldNotRenderSubtablesAsItIsNotSupportedYet()
     {
         $subtable = new DataTable();
         $subtable->addRowFromSimpleArray(array('nb_visits' => 2, 'nb_random' => 6));
@@ -195,7 +195,7 @@ The\nOutput', $response);
 5,10', $response);
     }
 
-    public function test_renderDataTable_shouldRenderDataTableMaps()
+    public function testRenderDataTableShouldRenderDataTableMaps()
     {
         $map = new DataTable\Map();
 
@@ -215,7 +215,7 @@ table1,5,10
 table2,3,6', $response);
     }
 
-    public function test_renderDataTable_shouldRenderSimpleDataTable()
+    public function testRenderDataTableShouldRenderSimpleDataTable()
     {
         $dataTable = new DataTable\Simple();
         $dataTable->addRowsFromArray(array('nb_visits' => 3, 'nb_random' => 6));
@@ -226,7 +226,7 @@ table2,3,6', $response);
 3,6', $response);
     }
 
-    public function test_renderArray_ShouldConvertSimpleArrayToJson()
+    public function testRenderArrayShouldConvertSimpleArrayToJson()
     {
         $input = array(1, 2, 5, 'string', 10);
 
@@ -239,14 +239,14 @@ string
 10', $response);
     }
 
-    public function test_renderArray_ShouldRenderAnEmptyArray()
+    public function testRenderArrayShouldRenderAnEmptyArray()
     {
         $response = $this->builder->renderArray(array());
 
         $this->assertEquals('No data available', $response);
     }
 
-    public function test_renderArray_ShouldConvertAssociativeArrayToJson()
+    public function testRenderArrayShouldConvertAssociativeArrayToJson()
     {
         $input = array('nb_visits' => 6, 'nb_random' => 8);
 
@@ -256,7 +256,7 @@ string
 6,8', $response);
     }
 
-    public function test_renderArray_ShouldConvertsIndexedAssociativeArrayToJson()
+    public function testRenderArrayShouldConvertsIndexedAssociativeArrayToJson()
     {
         $input = array(
             array('nb_visits' => 6, 'nb_random' => 8),
@@ -270,7 +270,7 @@ string
 3,4', $response);
     }
 
-    public function test_renderArray_ShouldConvertMultiDimensionalStandardArrayToJson()
+    public function testRenderArrayShouldConvertMultiDimensionalStandardArrayToJson()
     {
         $input = array("firstElement",
             array(
@@ -286,7 +286,7 @@ firstElement,secondElement,
 ,,thirdElement', $actual);
     }
 
-    public function test_renderArray_ShouldConvertMultiDimensionalAssociativeArrayToJson()
+    public function testRenderArrayShouldConvertMultiDimensionalAssociativeArrayToJson()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Data structure returned is not convertible in the requested format: Only integer keys supported for array columns on base level. Unsupported string 'secondElement' found for row 'array (
@@ -305,7 +305,7 @@ firstElement,secondElement,
         $this->builder->renderArray($input);
     }
 
-    public function test_renderArray_ShouldConvertMultiDimensionalIndexArrayToJson()
+    public function testRenderArrayShouldConvertMultiDimensionalIndexArrayToJson()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Data structure returned is not convertible in the requested format: Multidimensional column values not supported. Found unexpected array value for column '1' in row '0': 'array (
@@ -323,7 +323,7 @@ firstElement,secondElement,
         $this->builder->renderArray($input);
     }
 
-    public function test_renderArray_ShouldConvertMultiDimensionalMixedArrayToJson()
+    public function testRenderArrayShouldConvertMultiDimensionalMixedArrayToJson()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Data structure returned is not convertible in the requested format: Only integer keys supported for array columns on base level. Unsupported string 'thirdElement' found for row 'array (
