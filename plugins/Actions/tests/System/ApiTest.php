@@ -16,7 +16,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class ApiTest extends IntegrationTestCase
 {
-    public function test_actionUrlSegmentValueIsProperlyEncoded_inActionsReports()
+    public function testActionUrlSegmentValueIsProperlyEncodedInActionsReports()
     {
         $url = 'http://example+site.org/a+b/index.html';
 
