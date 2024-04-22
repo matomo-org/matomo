@@ -49,7 +49,7 @@ class AddSegmentValueTest extends \PHPUnit\Framework\TestCase
         return new Row(array(Row::COLUMNS => $columns));
     }
 
-    public function test_filter_shouldCopyTheLabelToMetadata_IfValueIsGiven()
+    public function testFilterShouldCopyTheLabelToMetadataIfValueIsGiven()
     {
         $this->table->filter($this->filter);
 
@@ -66,7 +66,7 @@ class AddSegmentValueTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $segmentValues);
     }
 
-    public function test_filter_ShouldIgnoreSummaryRow()
+    public function testFilterShouldIgnoreSummaryRow()
     {
         $summaryRow = $this->buildRow(array('label' => 'my test'));
         $this->table->addSummaryRow($summaryRow);
@@ -75,7 +75,7 @@ class AddSegmentValueTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($summaryRow->getMetadata('segmentValue'));
     }
 
-    public function test_filter_ShouldCallACallbackPassingTheLabel()
+    public function testFilterShouldCallACallbackPassingTheLabel()
     {
         $this->table->filter($this->filter, array(function ($label) {
             if ($label === false) {
@@ -98,7 +98,7 @@ class AddSegmentValueTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $segmentValues);
     }
 
-    public function test_filter_shouldNotGenerateASegmentValueIfReturnValueIsFalse()
+    public function testFilterShouldNotGenerateASegmentValueIfReturnValueIsFalse()
     {
         $this->table->filter($this->filter, array(function ($label) {
             if ($label === false) {

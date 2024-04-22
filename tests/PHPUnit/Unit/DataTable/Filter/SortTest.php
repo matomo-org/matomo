@@ -162,7 +162,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
     /**
      * Test to sort by visit
      */
-    public function testFilterSortNumeric_withSecondaryColumnSortLabel()
+    public function testFilterSortNumericWithSecondaryColumnSortLabel()
     {
         $rows = array(
             array('label' => 'google', 'nb_visits' => array()),
@@ -200,7 +200,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(DataTable::isEqual($table, $expectedtableReverse));
     }
 
-    public function test_sortingArrayValues_doesNotError()
+    public function testSortingArrayValuesDoesNotError()
     {
         $table = new DataTable();
         $table->addRowsFromArray(array(
@@ -220,7 +220,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
     /**
      * Test to sort by label
      */
-    public function testFilter_shouldPickStringSearchEvenIfFirstLabelIsNumeric()
+    public function testFilterShouldPickStringSearchEvenIfFirstLabelIsNumeric()
     {
         $table = $this->createDataTable(array(
             array('label' => '238975247578949'),

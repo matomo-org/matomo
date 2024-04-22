@@ -33,7 +33,7 @@ class SessionInitializerTest extends \PHPUnit\Framework\TestCase
         parent::tearDown();
     }
 
-    public function test_initSession_Throws_IfAuthenticationFailed()
+    public function testInitSessionThrowsIfAuthenticationFailed()
     {
         $this->expectExceptionMessage('Login_LoginPasswordNotCorrect');
 
@@ -41,7 +41,7 @@ class SessionInitializerTest extends \PHPUnit\Framework\TestCase
         $sessionInitializer->initSession($this->makeMockAuth(AuthResult::FAILURE));
     }
 
-    public function test_initSession_InitializesTheSessionCorrectly_IfAuthenticationSucceeds()
+    public function testInitSessionInitializesTheSessionCorrectlyIfAuthenticationSucceeds()
     {
         $sessionInitializer = new TestSessionInitializer();
         $sessionInitializer->initSession($this->makeMockAuth(AuthResult::SUCCESS));

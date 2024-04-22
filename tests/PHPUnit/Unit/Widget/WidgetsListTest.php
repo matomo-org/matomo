@@ -31,24 +31,24 @@ class WidgetsListTest extends \PHPUnit\Framework\TestCase
         $this->list = new WidgetsList();
     }
 
-    public function test_getWidgetUniqueId_withoutParameters()
+    public function testGetWidgetUniqueIdWithoutParameters()
     {
         $id = WidgetsList::getWidgetUniqueId('CoreHome', 'render');
         $this->assertSame('widgetCoreHomerender', $id);
     }
 
-    public function test_getWidgetUniqueId_withParameters()
+    public function testGetWidgetUniqueIdWithParameters()
     {
         $id = WidgetsList::getWidgetUniqueId('CoreHome', 'render', array('test1' => 'value', 'key' => array('test'), 'test2' => '4k3k'));
         $this->assertSame('widgetCoreHomerendertest1valuekeyArraytest24k3k', $id);
     }
 
-    public function test_getWidgetConfigs_shouldBeEmptyByDefault()
+    public function testGetWidgetConfigsShouldBeEmptyByDefault()
     {
         $this->assertSame(array(), $this->list->getWidgetConfigs());
     }
 
-    public function test_addWidget_shouldAddAnyWidgetConfigs()
+    public function testAddWidgetShouldAddAnyWidgetConfigs()
     {
         $this->list->addWidgetConfig($widget1 = $this->createWidget('widget1'));
         $this->list->addWidgetConfig($widget2 = $this->createWidgetContainer('widget2'));
@@ -57,7 +57,7 @@ class WidgetsListTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array($widget1, $widget2, $widget3), $this->list->getWidgetConfigs());
     }
 
-    public function test_addWidgets_shouldAddAnyWidgetConfigs()
+    public function testAddWidgetsShouldAddAnyWidgetConfigs()
     {
         $this->list->addWidgetConfigs(array(
             $widget1 = $this->createWidget('widget1'),
@@ -68,7 +68,7 @@ class WidgetsListTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array($widget1, $widget2, $widget3), $this->list->getWidgetConfigs());
     }
 
-    public function test_addToContainerWidget_shouldAddWidgetToContainerImmediately_IfContainerAlreadyExistsInList()
+    public function testAddToContainerWidgetShouldAddWidgetToContainerImmediatelyIfContainerAlreadyExistsInList()
     {
         $this->list->addWidgetConfigs(array(
             $widget1 = $this->createWidget('widget1'),
@@ -84,7 +84,7 @@ class WidgetsListTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array($widget1, $widget2, $widget3), $this->list->getWidgetConfigs());
     }
 
-    public function test_addToContainerWidget_shouldAddWidgetToContainerAsSoonAsContainerAdded_IfContainerNotAlreadyExistsInList()
+    public function testAddToContainerWidgetShouldAddWidgetToContainerAsSoonAsContainerAddedIfContainerNotAlreadyExistsInList()
     {
         $this->list->addToContainerWidget('testId', $widget4 = $this->createWidget('widget4'));
 
@@ -103,7 +103,7 @@ class WidgetsListTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getWidgetsToRemove
      */
-    public function test_remove($categoryId, $name, $expectedWidgetNamesInList)
+    public function testRemove($categoryId, $name, $expectedWidgetNamesInList)
     {
         $this->list->addWidgetConfigs(array(
             $widget1 = $this->createWidget('widget1')->setCategoryId('Visits'),
@@ -136,7 +136,7 @@ class WidgetsListTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getWidgetsDefined
      */
-    public function test_isDefined($module, $action, $exists)
+    public function testIsDefined($module, $action, $exists)
     {
         $this->list->addWidgetConfigs(array(
             $widget1 = $this->createWidget('widget1')->setModule('CoreHome')->setAction('renderMe'),

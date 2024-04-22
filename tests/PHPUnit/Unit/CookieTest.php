@@ -40,7 +40,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         return new Cookie(self::TEST_COOKIE_NAME);
     }
 
-    public function test_loadContentFromCookie()
+    public function testLoadContentFromCookie()
     {
         $_COOKIE[self::TEST_COOKIE_NAME] = 'hello=1.2:ignore=Kg==:foo=:bar=dGVzdDp2YWx1ZQ==';
         $this->cookie = $this->makeCookie();
@@ -50,7 +50,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('test:value', $this->cookie->get('bar'));
     }
 
-    public function test_loadContentFromCookie_wontUnserialiseContentIfNotSigned()
+    public function testLoadContentFromCookieWontUnserialiseContentIfNotSigned()
     {
         $val = safe_serialize(['foobar']);
         $_COOKIE[self::TEST_COOKIE_NAME] = 'hello=' . base64_encode($val) . ':_=foobar';
@@ -58,7 +58,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Common::sanitizeInputValues($val), $this->cookie->get('hello'));
     }
 
-    public function test_loadContentFromCookie_willUnserialiseContentIfSigned()
+    public function testLoadContentFromCookieWillUnserialiseContentIfSigned()
     {
         $val = safe_serialize(['foobar']);
         $cookieStr = 'hello=' . base64_encode($val) . ':_=';
@@ -67,13 +67,13 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foobar'], $this->cookie->get('hello'));
     }
 
-    public function test_get_set()
+    public function testGetSet()
     {
         $this->cookie->set('ignore', '*f1');
         $this->assertEquals('*f1', $this->cookie->get('ignore'));
     }
 
-    public function test_delete_unsetsValues()
+    public function testDeleteUnsetsValues()
     {
         $_COOKIE[self::TEST_COOKIE_NAME] = 'hello=1.2';
         $this->cookie = $this->makeCookie();
@@ -84,13 +84,13 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(false, $this->cookie->get('hello'));
     }
 
-    public function test_generateContentString_usesBase64encode_string()
+    public function testGenerateContentStringUsesBase64encodeString()
     {
         $this->cookie->set('ignore', '*');
         $this->assertEquals('ignore=Kg==', $this->cookie->generateContentString());
     }
 
-    public function test_generateContentString_usesPlainTextNumber()
+    public function testGenerateContentStringUsesPlainTextNumber()
     {
         $this->cookie->set('hello', '1.2');
         $this->assertEquals('hello=1.2', $this->cookie->generateContentString());
@@ -99,7 +99,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('hello=1.2', $this->cookie->generateContentString());
     }
 
-    public function test_generateContentString_multipleFields()
+    public function testGenerateContentStringMultipleFields()
     {
         $this->cookie->set('hello', '1.2');
         $this->cookie->set('ignore', '*');
@@ -108,7 +108,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('hello=1.2:ignore=Kg==:foo=:bar=dGVzdDp2YWx1ZQ==', $this->cookie->generateContentString());
     }
 
-    public function test_generateContentString_throwsExceptionWhenNotStringOrNumber()
+    public function testGenerateContentStringThrowsExceptionWhenNotStringOrNumber()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Only strings and numbers can be used in cookies. Value is of type array');
@@ -259,18 +259,18 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(safe_unserialize($a), "test: unserializing with illegal key");
     }
 
-    public function test_isCookieInRequest_ReturnsTrueIfCookieExists()
+    public function testIsCookieInRequestReturnsTrueIfCookieExists()
     {
         $_COOKIE['abc'] = 'value';
         $this->assertTrue(Cookie::isCookieInRequest('abc'));
     }
 
-    public function test_isCookieInRequest_ReturnsFalseIfCookieExists()
+    public function testIsCookieInRequestReturnsFalseIfCookieExists()
     {
         $this->assertFalse(Cookie::isCookieInRequest('abc'));
     }
 
-    public function test_formatCookieExpire()
+    public function testFormatCookieExpire()
     {
         //assert + 30 years
         $checkTime = $this->cookie->formatExpireTime("+ 30 years");

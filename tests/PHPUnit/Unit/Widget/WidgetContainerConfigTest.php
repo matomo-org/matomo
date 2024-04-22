@@ -33,86 +33,86 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         $this->config->setId($this->id);
     }
 
-    public function test_id_set_get()
+    public function testIdSetGet()
     {
         $this->config->setId('testId');
 
         $this->assertSame('testId', $this->config->getId());
     }
 
-    public function test_name_set_get()
+    public function testNameSetGet()
     {
         $this->config->setName('testName');
 
         $this->assertSame('testName', $this->config->getName());
     }
 
-    public function test_getName_shouldBeEmptyStringByDefault()
+    public function testGetNameShouldBeEmptyStringByDefault()
     {
         $this->assertSame('', $this->config->getName());
     }
 
-    public function test_layout_set_get()
+    public function testLayoutSetGet()
     {
         $this->config->setLayout('ByDimension');
 
         $this->assertSame('ByDimension', $this->config->getLayout());
     }
 
-    public function test_getLayout_shouldBeEmptyStringByDefault()
+    public function testGetLayoutShouldBeEmptyStringByDefault()
     {
         $this->assertSame('', $this->config->getLayout());
     }
 
-    public function test_categoryId_set_get()
+    public function testCategoryIdSetGet()
     {
         $this->config->setCategoryId('testCat');
 
         $this->assertSame('testCat', $this->config->getCategoryId());
     }
 
-    public function test_getCategoryId_shouldBeEmptyStringByDefault()
+    public function testGetCategoryIdShouldBeEmptyStringByDefault()
     {
         $this->assertSame('', $this->config->getCategoryId());
     }
 
-    public function test_subcategoryId_set_get()
+    public function testSubcategoryIdSetGet()
     {
         $this->config->setSubcategoryId('testsubcat');
 
         $this->assertSame('testsubcat', $this->config->getSubcategoryId());
     }
 
-    public function test_getSubcategoryId_shouldBeEmptyStringByDefault()
+    public function testGetSubcategoryIdShouldBeEmptyStringByDefault()
     {
         $this->assertSame('', $this->config->getSubcategoryId());
     }
 
-    public function test_module_set_get()
+    public function testModuleSetGet()
     {
         $this->config->setModule('CoreHome');
 
         $this->assertSame('CoreHome', $this->config->getModule());
     }
 
-    public function test_getModule_shouldBeTheModuleToRenderItByDefault()
+    public function testGetModuleShouldBeTheModuleToRenderItByDefault()
     {
         $this->assertSame('CoreHome', $this->config->getModule());
     }
 
-    public function test_action_set_get()
+    public function testActionSetGet()
     {
         $this->config->setAction('get');
 
         $this->assertSame('get', $this->config->getAction());
     }
 
-    public function test_getAction_shouldBeTheActionToRenderItByDefault()
+    public function testGetActionShouldBeTheActionToRenderItByDefault()
     {
         $this->assertSame('renderWidgetContainer', $this->config->getAction());
     }
 
-    public function test_order_set_get()
+    public function testOrderSetGet()
     {
         $this->config->setOrder(99);
         $this->assertSame(99, $this->config->getOrder());
@@ -121,12 +121,12 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(98, $this->config->getOrder());
     }
 
-    public function test_getOrder_shouldReturnADefaultValue()
+    public function testGetOrderShouldReturnADefaultValue()
     {
         $this->assertSame(99, $this->config->getOrder());
     }
 
-    public function test_setMiddlewareParameters_set_get()
+    public function testSetMiddlewareParametersSetGet()
     {
         $this->config->setMiddlewareParameters(array(
             'module' => 'Goals',
@@ -139,12 +139,12 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         ), $this->config->getMiddlewareParameters());
     }
 
-    public function test_getMiddlewareParameters_shouldReturnADefaultValue()
+    public function testGetMiddlewareParametersShouldReturnADefaultValue()
     {
         $this->assertSame(array(), $this->config->getMiddlewareParameters());
     }
 
-    public function test_getParameters_ShouldAddModuleAndAction()
+    public function testGetParametersShouldAddModuleAndAction()
     {
         $this->assertSame(array(
             'module' => 'CoreHome',
@@ -153,7 +153,7 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         ), $this->config->getParameters());
     }
 
-    public function test_getParameters_ShouldNotBePossibleToOverwriteModuleAndAction()
+    public function testGetParametersShouldNotBePossibleToOverwriteModuleAndAction()
     {
         $this->config->setParameters(array('module' => 'Actions', 'action' => 'index', 'containerId' => 'test'));
 
@@ -164,7 +164,7 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         ), $this->config->getParameters());
     }
 
-    public function test_addParameters_ShouldAddMoreParams()
+    public function testAddParametersShouldAddMoreParams()
     {
         $this->config->addParameters(array('test' => '1')); // should be removed by setParameters
         $this->config->addParameters(array('forceView' => '1'));
@@ -179,7 +179,7 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         ), $this->config->getParameters());
     }
 
-    public function test_setParameters_ShouldOverwriteAnyExistingParameters()
+    public function testSetParametersShouldOverwriteAnyExistingParameters()
     {
         $this->config->addParameters(array('test' => '1')); // should be removed by setParameters
         $this->config->setParameters(array('forceView' => '1'));
@@ -192,12 +192,12 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         ), $this->config->getParameters());
     }
 
-    public function test_shouldBeEnabledByDefault()
+    public function testShouldBeEnabledByDefault()
     {
         $this->assertTrue($this->config->isEnabled());
     }
 
-    public function test_enable_disable()
+    public function testEnableDisable()
     {
         $this->config->disable();
         $this->assertFalse($this->config->isEnabled());
@@ -205,7 +205,7 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->config->isEnabled());
     }
 
-    public function test_setIsEnabled()
+    public function testSetIsEnabled()
     {
         $this->config->setIsEnabled(false);
         $this->assertFalse($this->config->isEnabled());
@@ -213,7 +213,7 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->config->isEnabled());
     }
 
-    public function test_checkIsEnabled_shouldNotThrowException_IfEnabled()
+    public function testCheckIsEnabledShouldNotThrowExceptionIfEnabled()
     {
         self::expectNotToPerformAssertions();
 
@@ -221,7 +221,7 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         $this->config->checkIsEnabled();
     }
 
-    public function test_checkIsEnabled_shouldThrowException_IfDisabled()
+    public function testCheckIsEnabledShouldThrowExceptionIfDisabled()
     {
         $this->expectException(\Exception::class);
 
@@ -229,12 +229,12 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         $this->config->checkIsEnabled();
     }
 
-    public function test_shouldNotBeWidgetizable_ByDefault()
+    public function testShouldNotBeWidgetizableByDefault()
     {
         $this->assertFalse($this->config->isWidgetizeable());
     }
 
-    public function test_widgetizeable()
+    public function testWidgetizeable()
     {
         $this->config->setIsNotWidgetizable();
         $this->assertFalse($this->config->isWidgetizeable());
@@ -242,23 +242,23 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->config->isWidgetizeable());
     }
 
-    public function test_getUniqueId_shouldIncludeContainerId()
+    public function testGetUniqueIdShouldIncludeContainerId()
     {
         $this->assertSame('widgetMyTestContainer', $this->config->getUniqueId());
     }
 
-    public function test_getUniqueId_withParameters()
+    public function testGetUniqueIdWithParameters()
     {
         $this->config->addParameters(array('viewDataTable' => 'table', 'forceView' => '1', 'mtest' => array('test')));
         $this->assertSame('widgetMyTestContainerviewDataTabletableforceView1mtestArray', $this->config->getUniqueId());
     }
 
-    public function test_getWidgetConfigs_shouldBeEmptyByDefault()
+    public function testGetWidgetConfigsShouldBeEmptyByDefault()
     {
         $this->assertSame(array(), $this->config->getWidgetConfigs());
     }
 
-    public function test_widgetConfigs_shouldBeEmptyByDefault()
+    public function testWidgetConfigsShouldBeEmptyByDefault()
     {
         $this->config->addWidgetConfig($widget1 = $this->createWidgetConfig('widget1'));
         $this->config->addWidgetConfig($widget2 = $this->createWidgetConfig('widget2'));
@@ -272,7 +272,7 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         ), $this->config->getWidgetConfigs());
     }
 
-    public function test_setWidgetConfigs_canOverwriteWidgets()
+    public function testSetWidgetConfigsCanOverwriteWidgets()
     {
         $this->assertSame(array(), $this->config->getWidgetConfigs());
 

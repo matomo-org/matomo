@@ -23,7 +23,7 @@ class CacheTest extends UnitTestCase
         $this->methodsCalled = [];
     }
 
-    public function test_withDelegatedCacheClears_onlyCallsCacheClearsAtTheEndOnce()
+    public function testWithDelegatedCacheClearsOnlyCallsCacheClearsAtTheEndOnce()
     {
         $this->assertEmpty($this->methodsCalled);
         Cache::withDelegatedCacheClears(function () {

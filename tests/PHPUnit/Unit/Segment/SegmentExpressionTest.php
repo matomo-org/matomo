@@ -144,7 +144,7 @@ class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForParseColumnsFromSqlExpr
      */
-    public function test_parseColumnsFromSqlExpr($field, $expected)
+    public function testParseColumnsFromSqlExpr($field, $expected)
     {
         $actual = SegmentExpression::parseColumnsFromSqlExpr($field);
         $this->assertEquals($expected, $actual);

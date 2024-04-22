@@ -18,7 +18,7 @@ use Piwik\Validators\DateTime;
  */
 class DateTimeTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_validate_successValueNotEmpty()
+    public function testValidateSuccessValueNotEmpty()
     {
         self::expectNotToPerformAssertions();
 
@@ -28,7 +28,7 @@ class DateTimeTest extends \PHPUnit\Framework\TestCase
         $this->validate('2014-05-06T10:13:14Z');
     }
 
-    public function test_validate_successValueMayBeEmpty()
+    public function testValidateSuccessValueMayBeEmpty()
     {
         self::expectNotToPerformAssertions();
 
@@ -39,7 +39,7 @@ class DateTimeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getWrongFormat
      */
-    public function test_validate_failInvalidFormat($date)
+    public function testValidateFailInvalidFormat($date)
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('General_ValidatorErrorInvalidDateTimeFormat');
@@ -61,7 +61,7 @@ class DateTimeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_validate_invalidDate()
+    public function testValidateInvalidDate()
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('General_ExceptionInvalidDateFormat');

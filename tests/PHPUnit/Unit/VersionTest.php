@@ -23,7 +23,7 @@ class VersionTest extends \PHPUnit\Framework\TestCase
         $this->version = new Version();
     }
 
-    public function test_isStableVersion()
+    public function testIsStableVersion()
     {
         $this->assertIsStableVersion('3.3.3');
         $this->assertIsStableVersion('3.0.0');
@@ -38,7 +38,7 @@ class VersionTest extends \PHPUnit\Framework\TestCase
         $this->assertNotStableVersion('3.3.3-rc1');
     }
 
-    public function test_isVersionNumber()
+    public function testIsVersionNumber()
     {
         $this->assertIsVersionNumber('3.3.3');
         $this->assertIsVersionNumber('3.3.3-b1');
