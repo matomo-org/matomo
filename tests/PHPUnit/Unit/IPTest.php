@@ -107,7 +107,7 @@ class IPTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($test[4], IP::getIpFromHeader(), $description);
     }
 
-    public function testGetIpFromHeader_DoesNotIgnoreRemoteAddr_ifReadingFromLast()
+    public function testGetIpFromHeaderDoesNotIgnoreRemoteAddrIfReadingFromLast()
     {
         $_SERVER['REMOTE_ADDR'] = '234.50.50.23';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '192.32.45.66,234.50.50.23,90.09.12.34';
@@ -174,7 +174,7 @@ class IPTest extends \PHPUnit\Framework\TestCase
     /**
      * See https://github.com/piwik/piwik/issues/8721
      */
-    public function testGetNonProxyIpFromHeader4_ShouldReturnDefaultIp_IfDefaultIpIsGivenMultipleTimes()
+    public function testGetNonProxyIpFromHeader4ShouldReturnDefaultIpIfDefaultIpIsGivenMultipleTimes()
     {
         // 1.1.1.1 is a trusted proxy
         $_SERVER['REMOTE_ADDR'] = '1.1.1.1';
@@ -214,7 +214,7 @@ class IPTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, IP::getFirstIpFromList($csv . ', 10.10.10.10', array('10.10.10.10')));
     }
 
-    public function testGetFirstIpFromList_shouldReturnAnEmptyString_IfMultipleIpsAreGivenButAllAreExcluded()
+    public function testGetFirstIpFromListShouldReturnAnEmptyStringIfMultipleIpsAreGivenButAllAreExcluded()
     {
         // with excluded Ips
         $this->assertEquals('', IP::getFirstIpFromList('10.10.10.10, 10.10.10.10', array('10.10.10.10')));
@@ -250,7 +250,7 @@ class IPTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, IP::getLastIpFromList($csv . ', 10.10.10.10', array('10.10.10.10')));
     }
 
-    public function testGetLastIpFromList_shouldReturnAnEmptyString_IfMultipleIpsAreGivenButAllAreExcluded()
+    public function testGetLastIpFromListShouldReturnAnEmptyStringIfMultipleIpsAreGivenButAllAreExcluded()
     {
         // with excluded Ips
         $this->assertEquals('', IP::getLastIpFromList('10.10.10.10, 10.10.10.10', array('10.10.10.10')));

@@ -18,7 +18,7 @@ use Piwik\Validators\IpRanges;
  */
 class IpRangesTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_validate_success()
+    public function testValidateSuccess()
     {
         self::expectNotToPerformAssertions();
 
@@ -33,7 +33,7 @@ class IpRangesTest extends \PHPUnit\Framework\TestCase
         $this->validate(null);
     }
 
-    public function test_validate_failNotValidIpRange()
+    public function testValidateFailNotValidIpRange()
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('SitesManager_ExceptionInvalidIPFormat');

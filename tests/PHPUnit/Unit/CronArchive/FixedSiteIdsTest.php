@@ -26,19 +26,19 @@ class FixedSiteIdsTest extends \PHPUnit\Framework\TestCase
         $this->fixedSiteIds = new FixedSiteIds(array(1,2,5,9));
     }
 
-    public function test_construct_withEmptyValue()
+    public function testConstructWithEmptyValue()
     {
         $siteIds = new FixedSiteIds(null);
         $this->assertEquals(0, $siteIds->getNumSites());
         $this->assertNull($siteIds->getNextSiteId());
     }
 
-    public function test_getNumSites()
+    public function testGetNumSites()
     {
         $this->assertEquals(4, $this->fixedSiteIds->getNumSites());
     }
 
-    public function test_getNumProcessedWebsites_getNextSiteId()
+    public function testGetNumProcessedWebsitesGetNextSiteId()
     {
         $this->assertEquals(0, $this->fixedSiteIds->getNumProcessedWebsites());
         $this->assertEquals(1, $this->fixedSiteIds->getNextSiteId());

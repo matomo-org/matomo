@@ -41,7 +41,7 @@ class ArchiveTableCreatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForGetTablesArchivesInstalled
      */
-    public function test_getTablesArchivesInstalled_CorrectlyFiltersTableNames($type, $expectedTables)
+    public function testGetTablesArchivesInstalledCorrectlyFiltersTableNames($type, $expectedTables)
     {
         ArchiveTableCreator::$tablesAlreadyInstalled = $this->tables;
 

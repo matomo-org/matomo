@@ -45,7 +45,7 @@ class PrependValueToMetadataTest extends \PHPUnit\Framework\TestCase
         $this->table->addRow($row);
     }
 
-    public function test_filter_shouldNotFailIfColumnOrValueIsNotSetOrDoesNotMatch()
+    public function testFilterShouldNotFailIfColumnOrValueIsNotSetOrDoesNotMatch()
     {
         $this->table->filter($this->filter, array('test', ''));
         $this->table->filter($this->filter, array('', 'test'));
@@ -60,7 +60,7 @@ class PrependValueToMetadataTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(false, 'value', false, 'value', ''), $metadata);
     }
 
-    public function test_filter_shouldPrependValueToMetadataName_IfPossible()
+    public function testFilterShouldPrependValueToMetadataNameIfPossible()
     {
         $this->table->filter($this->filter, array('test', 'piwik_'));
 
@@ -72,7 +72,7 @@ class PrependValueToMetadataTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(false, 'value', false, 'value', ''), $metadata);
     }
 
-    public function test_filter_shouldOnlyPrependIfAMetadataNameIsSet()
+    public function testFilterShouldOnlyPrependIfAMetadataNameIsSet()
     {
         $this->table->filter($this->filter, array('other', 'prependme'));
 

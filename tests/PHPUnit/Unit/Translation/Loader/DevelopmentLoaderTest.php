@@ -22,7 +22,7 @@ class DevelopmentLoaderTest extends \PHPUnit\Framework\TestCase
         ),
     );
 
-    public function test_shouldReturnTranslationIds_ifDevelopmentLanguage()
+    public function testShouldReturnTranslationIdsIfDevelopmentLanguage()
     {
         $wrappedLoader = $this->getMockForAbstractClass('Piwik\Translation\Loader\LoaderInterface');
         $loader = new DevelopmentLoader($wrappedLoader);
@@ -43,7 +43,7 @@ class DevelopmentLoaderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $translations);
     }
 
-    public function test_shouldUseDecoratedLoader_ifNotDevelopmentLanguage()
+    public function testShouldUseDecoratedLoaderIfNotDevelopmentLanguage()
     {
         $wrappedLoader = $this->getMockForAbstractClass('Piwik\Translation\Loader\LoaderInterface');
         $loader = new DevelopmentLoader($wrappedLoader);

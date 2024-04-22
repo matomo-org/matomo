@@ -54,13 +54,13 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         return new DataCollection($dataNames, $dataType, $siteIds, $periods, $mockSegment, $defaultRow);
     }
 
-    public function test_getIndexedArray_numeric_noResultIndices_noData()
+    public function testGetIndexedArrayNumericNoResultIndicesNoData()
     {
         $collection = $this->createCollection($onlyOnePeriod = true, $onlyOneSite = true);
         $this->assertEquals(array(), $collection->getIndexedArray($resultIndices = array()));
     }
 
-    public function test_getIndexedArray_numeric_noResultIndices_withData()
+    public function testGetIndexedArrayNumericNoResultIndicesWithData()
     {
         $collection = $this->createCollection($onlyOnePeriod = true, $onlyOneSite = true);
         $collection->set($this->site1, '2012-12-12,2012-12-12', 'nb_visits', '5');
@@ -75,7 +75,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $collection->getIndexedArray($resultIndices = array()));
     }
 
-    public function test_getIndexedArray_numeric_noResultIndices_withDefaultOverwritten()
+    public function testGetIndexedArrayNumericNoResultIndicesWithDefaultOverwritten()
     {
         $collection = $this->createCollection($onlyOnePeriod = true, $onlyOneSite = true);
         $collection->set($this->site1, '2012-12-12,2012-12-12', 'nb_visits', '5');
@@ -94,7 +94,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         return array(DataTableFactory::TABLE_METADATA_SITE_INDEX => 'idSite');
     }
 
-    public function test_getIndexedArray_numeric_withSiteResultIndices_noData()
+    public function testGetIndexedArrayNumericWithSiteResultIndicesNoData()
     {
         $collection = $this->createCollection();
 
@@ -104,7 +104,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         ), $collection->getIndexedArray($this->getSiteResultIndices()));
     }
 
-    public function test_getIndexedArray_numeric_withSiteResultIndices_withData()
+    public function testGetIndexedArrayNumericWithSiteResultIndicesWithData()
     {
         $collection = $this->createCollection();
         $collection->set($this->site1, '2012-12-12,2012-12-12', 'nb_visits', '5');
@@ -123,7 +123,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $collection->getIndexedArray($this->getSiteResultIndices()));
     }
 
-    public function test_getIndexedArray_numeric_withSiteResultIndices_withDefaultOverwritten()
+    public function testGetIndexedArrayNumericWithSiteResultIndicesWithDefaultOverwritten()
     {
         $collection = $this->createCollection();
         $collection->set($this->site1, '2012-12-12,2012-12-12', 'nb_visits', '5');
@@ -149,7 +149,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         return array(DataTableFactory::TABLE_METADATA_PERIOD_INDEX => 'date');
     }
 
-    public function test_getIndexedArray_numeric_withPeriodResultIndices_noData()
+    public function testGetIndexedArrayNumericWithPeriodResultIndicesNoData()
     {
         $collection = $this->createCollection($onlyOnePeriod = false, $onlyOneSite = true);
 
@@ -159,7 +159,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         ), $collection->getIndexedArray($this->getPeriodResultIndices()));
     }
 
-    public function test_getIndexedArray_numeric_withPeriodResultIndices_withData()
+    public function testGetIndexedArrayNumericWithPeriodResultIndicesWithData()
     {
         $collection = $this->createCollection($onlyOnePeriod = false, $onlyOneSite = true);
         $collection->set($this->site1, $this->date1, 'nb_visits', '5');
@@ -178,7 +178,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $collection->getIndexedArray($this->getPeriodResultIndices()));
     }
 
-    public function test_getIndexedArray_numeric_withPeriodResultIndices_withDefaultOverwritten()
+    public function testGetIndexedArrayNumericWithPeriodResultIndicesWithDefaultOverwritten()
     {
         $collection = $this->createCollection($onlyOnePeriod = false, $onlyOneSite = true);
         $collection->set($this->site1, $this->date1, 'nb_visits', '5');
@@ -205,7 +205,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         return array_merge($this->getSiteResultIndices(), $this->getPeriodResultIndices());
     }
 
-    public function test_getIndexedArray_numeric_withPeriodAndSiteResultIndices_noData()
+    public function testGetIndexedArrayNumericWithPeriodAndSiteResultIndicesNoData()
     {
         $collection = $this->createCollection();
 
@@ -223,7 +223,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $collection->getIndexedArray($this->getPeriodAndSiteResultIndices()));
     }
 
-    public function test_getIndexedArray_numeric_withPeriodAndSiteResultIndices_withData()
+    public function testGetIndexedArrayNumericWithPeriodAndSiteResultIndicesWithData()
     {
         $collection = $this->createCollection();
         $collection->set($this->site1, $this->date1, 'nb_visits', '5');
@@ -255,7 +255,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $collection->getIndexedArray($this->getPeriodAndSiteResultIndices()));
     }
 
-    public function test_getIndexedArray_numeric_withPeriodAndSiteResultIndices_withDefaultOverwritten()
+    public function testGetIndexedArrayNumericWithPeriodAndSiteResultIndicesWithDefaultOverwritten()
     {
         $collection = $this->createCollection();
         $collection->set($this->site1, $this->date1, 'nb_visits', '5');

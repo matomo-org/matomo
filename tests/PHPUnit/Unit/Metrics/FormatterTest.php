@@ -68,7 +68,7 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getPrettyNumberTestData
      */
-    public function test_getPrettyNumber_ReturnsCorrectResult($number, $expected)
+    public function testGetPrettyNumberReturnsCorrectResult($number, $expected)
     {
         $this->assertEquals($expected, $this->formatter->getPrettyNumber($number, 2));
     }
@@ -76,7 +76,7 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getPrettyNumberLocaleTestData
      */
-    public function test_getPrettyNumber_ReturnsCorrectResult_WhenLocaleIsEuropean($number, $expected)
+    public function testGetPrettyNumberReturnsCorrectResultWhenLocaleIsEuropean($number, $expected)
     {
         StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage('de');
         $this->assertEquals($expected, $this->formatter->getPrettyNumber($number, 2));
@@ -85,7 +85,7 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getPrettySizeFromBytesTestData
      */
-    public function test_getPrettySizeFromBytes_ReturnsCorrectResult($bytesSize, $unit, $expected)
+    public function testGetPrettySizeFromBytesReturnsCorrectResult($bytesSize, $unit, $expected)
     {
         $this->assertEquals($expected, $this->formatter->getPrettySizeFromBytes($bytesSize, $unit));
     }
@@ -93,7 +93,7 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getPrettyMoneyTestData
      */
-    public function test_getPrettyMoney_ReturnsCorrectResult($value, $idSite, $language, $expected)
+    public function testGetPrettyMoneyReturnsCorrectResult($value, $idSite, $language, $expected)
     {
         StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
 
@@ -103,7 +103,7 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getPrettyPercentFromQuotientTestData
      */
-    public function test_getPrettyPercentFromQuotient_ReturnsCorrectResult($value, $language, $expected)
+    public function testGetPrettyPercentFromQuotientReturnsCorrectResult($value, $language, $expected)
     {
         StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
 
@@ -113,7 +113,7 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getPrettyTimeFromSecondsData
      */
-    public function test_getPrettyTimeFromSeconds_ReturnsCorrectResult($seconds, $expected)
+    public function testGetPrettyTimeFromSecondsReturnsCorrectResult($seconds, $expected)
     {
         if (($seconds * 100) > PHP_INT_MAX || ($seconds * 100 * -1) > PHP_INT_MAX) {
             $this->markTestSkipped("Will not pass on 32-bit machine.");

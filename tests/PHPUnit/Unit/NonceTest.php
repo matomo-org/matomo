@@ -36,7 +36,7 @@ class NonceTest extends \PHPUnit\Framework\TestCase
      * @dataProvider getAcceptableOriginsTestData
      * @group Core
      */
-    public function test_getAcceptableOrigins($host, $expected)
+    public function testGetAcceptableOrigins($host, $expected)
     {
         Config::getInstance()->General['enable_trusted_host_check'] = 0;
         Url::setHost($host);
@@ -48,7 +48,7 @@ class NonceTest extends \PHPUnit\Framework\TestCase
      * @dataProvider getTestDataForIsReferrerHostValid
      * @group Core
      */
-    public function test_isReferrerHostValid($referrer, $expectedHost, $expectedResult)
+    public function testIsReferrerHostValid($referrer, $expectedHost, $expectedResult)
     {
         $result = Nonce::isReferrerHostValid($referrer, $expectedHost);
         $this->assertEquals($expectedResult, $result);

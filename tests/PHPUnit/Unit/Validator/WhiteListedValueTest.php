@@ -18,7 +18,7 @@ use Piwik\Validators\WhitelistedValue;
  */
 class WhiteListedValueTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_validate_successValueNotEmpty()
+    public function testValidateSuccessValueNotEmpty()
     {
         self::expectNotToPerformAssertions();
 
@@ -31,7 +31,7 @@ class WhiteListedValueTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getInvalidValues
      */
-    public function test_validate_failInvalidFormat($date)
+    public function testValidateFailInvalidFormat($date)
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('General_ValidatorErrorXNotWhitelisted');
@@ -49,7 +49,7 @@ class WhiteListedValueTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_construct_throwsExceptionIfParamIsNotAnArray()
+    public function testConstructThrowsExceptionIfParamIsNotAnArray()
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('The whitelisted values need to be an array');

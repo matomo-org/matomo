@@ -56,7 +56,7 @@ class ReportWidgetFactoryTest extends \PHPUnit\Framework\TestCase
         $this->factory = new ReportWidgetFactory(new GetBasicReport());
     }
 
-    public function test_createContainerWidget_ShouldCreateAContainerBasedOnReportWithGivenId()
+    public function testCreateContainerWidgetShouldCreateAContainerBasedOnReportWithGivenId()
     {
         $config = $this->factory->createContainerWidget('myId');
 
@@ -67,7 +67,7 @@ class ReportWidgetFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(100 + 20, $config->getOrder());
     }
 
-    public function test_createWidget_ShouldCreateAContainerBasedOnReportWithGivenId()
+    public function testCreateWidgetShouldCreateAContainerBasedOnReportWithGivenId()
     {
         $config = $this->factory->createWidget();
 
@@ -87,7 +87,7 @@ class ReportWidgetFactoryTest extends \PHPUnit\Framework\TestCase
         ), $config->getParameters());
     }
 
-    public function test_createCustomWidget_ShouldCreateAContainerBasedOnReportWithGivenId()
+    public function testCreateCustomWidgetShouldCreateAContainerBasedOnReportWithGivenId()
     {
         $config = $this->factory->createCustomWidget('customAction');
 

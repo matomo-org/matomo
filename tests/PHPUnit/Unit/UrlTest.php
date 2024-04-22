@@ -474,7 +474,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
     /**
      * @group AddCampaignParametersToMatomoLink
      */
-    public function testAddCampaignParametersToMatomoLink_exceptIfDisabled()
+    public function testAddCampaignParametersToMatomoLinkExceptIfDisabled()
     {
         $this->resetGlobalVariables();
         $_GET['module'] = 'CoreHomeAdmin';
