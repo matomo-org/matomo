@@ -431,7 +431,7 @@ class ArchiveCronTest extends SystemTestCase
         $this->assertEmpty($rangeArchivesStillInvalid);
     }
 
-    public function test_archivePhpScript_DoesNotFail_WhenCommandHelpRequested()
+    public function testArchivePhpScriptDoesNotFailWhenCommandHelpRequested()
     {
         $output = $this->runArchivePhpCron(array('--help' => null), PIWIK_INCLUDE_PATH . '/misc/cron/archive.php');
 

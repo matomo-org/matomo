@@ -17,35 +17,35 @@ use Piwik\Tracker\Visitor;
 
 class VisitorSecondsSinceOrderTest extends TestCase
 {
-    public function test_onExistingVisit_returnsZeroIfTheVisitHasAnOrder()
+    public function testOnExistingVisitReturnsZeroIfTheVisitHasAnOrder()
     {
         $dim = new VisitorSecondsSinceOrder();
         $result = $dim->onExistingVisit($this->makeMockRequest([ 'ec_id' => 'abljasdf' ]), $this->makeMockVisitor(true), null);
         $this->assertEquals(0, $result);
     }
 
-    public function test_onExistingVisit_returnsTheExistingValueIfThereIsOne()
+    public function testOnExistingVisitReturnsTheExistingValueIfThereIsOne()
     {
         $dim = new VisitorSecondsSinceOrder();
         $result = $dim->onExistingVisit($this->makeMockRequest(), $this->makeMockVisitor(true, [ 'visitor_seconds_since_order' => 20 ]), null);
         $this->assertEquals(20, $result);
     }
 
-    public function test_onExistingVisit_returnsNullIfDimensionValueIsNotSetForPreviousVisit()
+    public function testOnExistingVisitReturnsNullIfDimensionValueIsNotSetForPreviousVisit()
     {
         $dim = new VisitorSecondsSinceOrder();
         $result = $dim->onExistingVisit($this->makeMockRequest(), $this->makeMockVisitor(true), null);
         $this->assertEquals(null, $result);
     }
 
-    public function test_onExistingVisit_returnsCorrectValueIfPreviousValueWasForOrder()
+    public function testOnExistingVisitReturnsCorrectValueIfPreviousValueWasForOrder()
     {
         $dim = new VisitorSecondsSinceOrder();
         $result = $dim->onExistingVisit($this->makeMockRequest([], '2020-03-04 03:04:28'), $this->makeMockVisitor(true, [], [ 'visitor_seconds_since_order' => 0, 'visit_first_action_time' => '2020-03-04 03:04:20' ]), null);
         $this->assertEquals(8, $result);
     }
 
-    public function test_onExistingVisit_returnsCorrectValueIfPreviousValueWasAfterOrder()
+    public function testOnExistingVisitReturnsCorrectValueIfPreviousValueWasAfterOrder()
     {
         $dim = new VisitorSecondsSinceOrder();
         $result = $dim->onExistingVisit($this->makeMockRequest([], '2020-03-04 03:04:28'), $this->makeMockVisitor(true, [], [ 'visitor_seconds_since_order' => 45, 'visit_first_action_time' => '2020-03-04 03:04:20' ]), null);
