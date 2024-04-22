@@ -137,7 +137,7 @@ class WeeklyTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_setTimezone_ShouldConvertRescheduledTime()
+    public function testSetTimezoneShouldConvertRescheduledTime()
     {
         $oneHourInSeconds = 3600;
 

@@ -21,7 +21,7 @@ class UrlLikeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getValidUrls
      */
-    public function test_validate_successValueIsLikeUri($validUrl)
+    public function testValidateSuccessValueIsLikeUri($validUrl)
     {
         self::expectNotToPerformAssertions();
 
@@ -55,7 +55,7 @@ class UrlLikeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getFailedUrls
      */
-    public function test_validate_failValueIsNotUrlLike($url)
+    public function testValidateFailValueIsNotUrlLike($url)
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('ValidatorErrorNotUrlLike');

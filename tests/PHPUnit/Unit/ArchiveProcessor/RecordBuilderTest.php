@@ -51,7 +51,7 @@ class RecordBuilderTest extends TestCase
         parent::tearDown();
     }
 
-    public function test_buildFromLogs_doesNothingIfRecordBuilderNotEnabled()
+    public function testBuildFromLogsDoesNothingIfRecordBuilderNotEnabled()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function isEnabled(ArchiveProcessor $archiveProcessor): bool
@@ -83,7 +83,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEmpty($this->blobRecordsInserted);
     }
 
-    public function test_buildFromLogs_insertsDataReturnedByAggregate()
+    public function testBuildFromLogsInsertsDataReturnedByAggregate()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -121,7 +121,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
     }
 
-    public function test_buildFromLogs_ignoresData_ifAssociatedRecordMetadataDoesNotExist()
+    public function testBuildFromLogsIgnoresDataIfAssociatedRecordMetadataDoesNotExist()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -145,7 +145,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEmpty($this->blobRecordsInserted);
     }
 
-    public function test_buildFromLogs_ignoresData_ifRecordMetadataValueExistsButIsInvalid()
+    public function testBuildFromLogsIgnoresDataIfRecordMetadataValueExistsButIsInvalid()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -172,7 +172,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEmpty($this->blobRecordsInserted);
     }
 
-    public function test_buildFromLogs_usesRecordSpecificLimitAndSort_whenSpecifiedInRecordMetadata()
+    public function testBuildFromLogsUsesRecordSpecificLimitAndSortWhenSpecifiedInRecordMetadata()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -211,7 +211,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
     }
 
-    public function test_buildForNonDayPeriod_doesNothingIfRecordBuilderNotEnabled()
+    public function testBuildForNonDayPeriodDoesNothingIfRecordBuilderNotEnabled()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function isEnabled(ArchiveProcessor $archiveProcessor): bool
@@ -247,7 +247,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEmpty($this->blobRecordsInserted);
     }
 
-    public function test_buildForNonDayPeriod_aggregatesAllChildReports_ifNoRequestedReportsAreSpecified()
+    public function testBuildForNonDayPeriodAggregatesAllChildReportsIfNoRequestedReportsAreSpecified()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -299,7 +299,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
     }
 
-    public function test_buildForNonDayPeriod_aggregatesOnlyRequestedReports_ifRequestedReportsSpecified_andNoneAlreadyExist()
+    public function testBuildForNonDayPeriodAggregatesOnlyRequestedReportsIfRequestedReportsSpecifiedAndNoneAlreadyExist()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -341,7 +341,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
     }
 
-    public function test_buildForNonDayPeriod_aggregatesOnlyRequestedReportsThatDoNotExist_ifSomeRequestedReportsAlreadyExist()
+    public function testBuildForNonDayPeriodAggregatesOnlyRequestedReportsThatDoNotExistIfSomeRequestedReportsAlreadyExist()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -387,7 +387,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
     }
 
-    public function test_buildForNonDayPeriod_usesCustomBlobSerializationProperties_ifSpecifiedInRecordMetadata()
+    public function testBuildForNonDayPeriodUsesCustomBlobSerializationPropertiesIfSpecifiedInRecordMetadata()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -441,7 +441,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
     }
 
-    public function test_buildForNonDayPeriod_correctlyAggregatesMetricsForMetricsThatAreRowCountsOfRecords()
+    public function testBuildForNonDayPeriodCorrectlyAggregatesMetricsForMetricsThatAreRowCountsOfRecords()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -495,7 +495,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
     }
 
-    public function test_buildForNonDayPeriod_correctlyAggregatesMetricsForMetricsThatAreRowCountsOfRecords_whenTheDependentRecordIsNotRequested()
+    public function testBuildForNonDayPeriodCorrectlyAggregatesMetricsForMetricsThatAreRowCountsOfRecordsWhenTheDependentRecordIsNotRequested()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -549,7 +549,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
     }
 
-    public function test_buildForNonDayPeriod_correctlyAggregatesMetricsForMetricsThatAreRowCountsOfRecords_whenTheDependentRecordIsRequestedAndFound()
+    public function testBuildForNonDayPeriodCorrectlyAggregatesMetricsForMetricsThatAreRowCountsOfRecordsWhenTheDependentRecordIsRequestedAndFound()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -607,7 +607,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
     }
 
-    public function test_buildForNonDayPeriod_correctlyAggregatesMetricsForMetricsThatAreRecursiveRowCountsOfRecords()
+    public function testBuildForNonDayPeriodCorrectlyAggregatesMetricsForMetricsThatAreRecursiveRowCountsOfRecords()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -683,13 +683,13 @@ class RecordBuilderTest extends TestCase
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
     }
 
-    public function test_getQueryOriginHint_usesDerivedClassNameAsTheDefaultQueryOriginHint()
+    public function testGetQueryOriginHintUsesDerivedClassNameAsTheDefaultQueryOriginHint()
     {
         $goalsRecordBuilder = new GeneralGoalsRecords();
         $this->assertEquals('GeneralGoalsRecords', $goalsRecordBuilder->getQueryOriginHint());
     }
 
-    public function test_isBuilderForAtLeastOneOf_returnsTrue_ifTheRecordBuilderHasMetadataForAtLeastOneRequestedRecord()
+    public function testIsBuilderForAtLeastOneOfReturnsTrueIfTheRecordBuilderHasMetadataForAtLeastOneRequestedRecord()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -715,7 +715,7 @@ class RecordBuilderTest extends TestCase
         $this->assertTrue($recordBuilder->isBuilderForAtLeastOneOf($archiveProcessor, ['TestPlugin_myReport', 'AnotherPlugin_anotherReport']));
     }
 
-    public function test_isBuilderForAtLeastOneOf_returnsFalse_ifTheRecordBuilderDoesNotHaveMetadataForAnyRequestedReport()
+    public function testIsBuilderForAtLeastOneOfReturnsFalseIfTheRecordBuilderDoesNotHaveMetadataForAnyRequestedReport()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array

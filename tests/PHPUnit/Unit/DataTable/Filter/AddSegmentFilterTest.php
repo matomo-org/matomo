@@ -49,7 +49,7 @@ class AddSegmentByLabelTest extends \PHPUnit\Framework\TestCase
         return new Row(array(Row::COLUMNS => $columns));
     }
 
-    public function test_filter_IfOnlyOneSegmentGiven_ShouldCopyTheValuePlain_IfOnlyOneSegmentIsGiven()
+    public function testFilterIfOnlyOneSegmentGivenShouldCopyTheValuePlainIfOnlyOneSegmentIsGiven()
     {
         $segmentName = 'city';
         $segmentStart = $segmentName . '==';
@@ -68,7 +68,7 @@ class AddSegmentByLabelTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $segmentValues);
     }
 
-    public function test_filter_IfOnlyOneSegmentGiven_ShouldIgnoreASummaryRow()
+    public function testFilterIfOnlyOneSegmentGivenShouldIgnoreASummaryRow()
     {
         $summaryRow = $this->buildRow(array('label' => 'mytest'));
         $this->table->addSummaryRow($summaryRow);
@@ -78,7 +78,7 @@ class AddSegmentByLabelTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($summaryRow->getMetadata('segment'));
     }
 
-    public function test_filter_IfTwoSegmentsAreGiven_ShouldOnlyGenerateAFilterForLabelsHavingThatManyExplodedParts()
+    public function testFilterIfTwoSegmentsAreGivenShouldOnlyGenerateAFilterForLabelsHavingThatManyExplodedParts()
     {
         // must result in 2 exploded parts for city and region
         $this->table->filter($this->filter, array(array('city', 'region'), $delimiter = ' '));
@@ -96,7 +96,7 @@ class AddSegmentByLabelTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $segmentValues);
     }
 
-    public function test_filter_IfMultipleSegmentsAreGiven_ShouldOnlyGenerateAFilterForLabelsHavingThatManyExplodedParts()
+    public function testFilterIfMultipleSegmentsAreGivenShouldOnlyGenerateAFilterForLabelsHavingThatManyExplodedParts()
     {
         // must result in 3 exploded parts city, region and country
         $this->table->filter($this->filter, array(array('city', 'region', 'country'), $delimiter = ' '));
@@ -114,7 +114,7 @@ class AddSegmentByLabelTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $segmentValues);
     }
 
-    public function test_filter_IfMultipleSegmentsAreGiven_IfShouldBePossibleToIgnorePartsByUsingAnEmptyStringAsSegmentName()
+    public function testFilterIfMultipleSegmentsAreGivenIfShouldBePossibleToIgnorePartsByUsingAnEmptyStringAsSegmentName()
     {
         // must result in 3 exploded parts city, region and country
         $this->table->filter($this->filter, array(array('city', '', 'country'), $delimiter = ' '));
@@ -132,7 +132,7 @@ class AddSegmentByLabelTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $segmentValues);
     }
 
-    public function test_filter_IfMultipleSegmentsAreGiven_ShouldIgnoreASummaryRow()
+    public function testFilterIfMultipleSegmentsAreGivenShouldIgnoreASummaryRow()
     {
         $summaryRow = $this->buildRow(array('label' => 'part1 part2'));
         $this->table->addSummaryRow($summaryRow);

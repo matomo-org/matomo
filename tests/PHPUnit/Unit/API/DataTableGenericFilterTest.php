@@ -14,7 +14,7 @@ use Piwik\DataTable;
 
 class DataTableGenericFilterTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_genericFiltersToDisableMetadata_shouldBeRespected()
+    public function testGenericFiltersToDisableMetadataShouldBeRespected()
     {
         $dataTable = new DataTable();
         $dataTable->addRowsFromSimpleArray([

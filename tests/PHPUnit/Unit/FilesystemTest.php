@@ -34,13 +34,13 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         parent::tearDown();
     }
 
-    public function test_sortFilesDescByPathLength_shouldNotFail_IfEmptyArrayGiven()
+    public function testSortFilesDescByPathLengthShouldNotFailIfEmptyArrayGiven()
     {
         $result = Filesystem::sortFilesDescByPathLength(array());
         $this->assertEquals(array(), $result);
     }
 
-    public function test_sortFilesDescByPathLength_shouldNotChangeOrder_IfAllHaveSameLength()
+    public function testSortFilesDescByPathLengthShouldNotChangeOrderIfAllHaveSameLength()
     {
         $input  = array('xyz/1.gif', 'x/xyz.gif', 'xxyyzzgg');
         $result = Filesystem::sortFilesDescByPathLength($input);
@@ -50,7 +50,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($input, $result);
     }
 
-    public function test_sortFilesDescByPathLength_shouldOrderDesc_IfDifferentLengthsGiven()
+    public function testSortFilesDescByPathLengthShouldOrderDescIfDifferentLengthsGiven()
     {
         $input  = array('xyz/1.gif', '1.gif', 'x', 'x/xyz.gif', 'xyz', 'xxyyzzgg', 'xyz/long.gif');
         $result = Filesystem::sortFilesDescByPathLength($input);
@@ -67,7 +67,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function test_directoryDiff_shouldNotReturnDifference_IfBothDirectoriesAreSame()
+    public function testDirectoryDiffShouldNotReturnDifferenceIfBothDirectoriesAreSame()
     {
         $dir    = PIWIK_INCLUDE_PATH . '/core';
         $result = Filesystem::directoryDiff($dir, $dir);
@@ -75,14 +75,14 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array(), $result);
     }
 
-    public function test_directoryDiff_shouldNotReturnAnything_IfTargetEmpty()
+    public function testDirectoryDiffShouldNotReturnAnythingIfTargetEmpty()
     {
         $result = Filesystem::directoryDiff($this->createSourceFiles(), $this->createEmptyTarget());
 
         $this->assertEquals(array(), $result);
     }
 
-    public function test_directoryDiff_shouldReturnAllTargetFiles_IfSourceIsEmpty()
+    public function testDirectoryDiffShouldReturnAllTargetFilesIfSourceIsEmpty()
     {
         $result = Filesystem::directoryDiff($this->createEmptySource(), $this->createTargetFiles());
 
@@ -123,7 +123,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         ), $result);
     }
 
-    public function test_directoryDiff_shouldReturnFilesPresentInTargetButNotSource_IfSourceAndTargetGiven()
+    public function testDirectoryDiffShouldReturnFilesPresentInTargetButNotSourceIfSourceAndTargetGiven()
     {
         $result = Filesystem::directoryDiff($this->createSourceFiles(), $this->createTargetFiles());
 
@@ -144,7 +144,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         ), $result);
     }
 
-    public function test_unlinkTargetFilesNotPresentInSource_shouldUnlinkFilesPresentInTargetButNotSource_IfSourceAndTargetGiven()
+    public function testUnlinkTargetFilesNotPresentInSourceShouldUnlinkFilesPresentInTargetButNotSourceIfSourceAndTargetGiven()
     {
         $source = $this->createSourceFiles();
         $target = $this->createTargetFiles();
@@ -166,7 +166,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         ), $result);
     }
 
-    public function test_unlinkTargetFilesNotPresentInSource_shouldNotFail_IfBothEmpty()
+    public function testUnlinkTargetFilesNotPresentInSourceShouldNotFailIfBothEmpty()
     {
         self::expectNotToPerformAssertions();
 
@@ -176,7 +176,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         Filesystem::unlinkTargetFilesNotPresentInSource($source, $target);
     }
 
-    public function test_unlinkTargetFilesNotPresentInSource_shouldUnlinkAllTargetFiles_IfSourceIsEmpty()
+    public function testUnlinkTargetFilesNotPresentInSourceShouldUnlinkAllTargetFilesIfSourceIsEmpty()
     {
         $source = $this->createEmptySource();
         $target = $this->createTargetFiles();
@@ -195,7 +195,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array(), $result);
     }
 
-    public function test_unlockTargetFilesNotPresentInSource_doNotAttemptToUnlinkFilesWithTheSameCaseInsensitiveName()
+    public function testUnlockTargetFilesNotPresentInSourceDoNotAttemptToUnlinkFilesWithTheSameCaseInsensitiveName()
     {
         $sourceInsensitive = $this->createCaseInsensitiveSourceFiles();
         $targetInsensitive = $this->createCaseInsensitiveTargetFiles();
@@ -328,7 +328,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         return $source;
     }
 
-    public function test_getFileSize_ZeroSize()
+    public function testGetFileSizeZeroSize()
     {
         File::setFileSize(0);
 
@@ -348,7 +348,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $size);
     }
 
-    public function test_getFileSize_LowSize()
+    public function testGetFileSizeLowSize()
     {
         File::setFileSize(1024);
 
@@ -371,7 +371,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $this->assertLessThanOrEqual(0.0000000011, $size);
     }
 
-    public function test_getFileSize_HighSize()
+    public function testGetFileSizeHighSize()
     {
         File::setFileSize(1073741824);
 
@@ -392,7 +392,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $this->assertLessThanOrEqual(0.0011, $size);
     }
 
-    public function test_getFileSize_ShouldRecognizeLowerUnits()
+    public function testGetFileSizeShouldRecognizeLowerUnits()
     {
         File::setFileSize(1073741824);
 
@@ -409,7 +409,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, $size);
     }
 
-    public function test_getFileSize_ShouldThrowException_IfInvalidUnit()
+    public function testGetFileSizeShouldThrowExceptionIfInvalidUnit()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid unit given');
@@ -417,7 +417,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         Filesystem::getFileSize(__FILE__, 'iV');
     }
 
-    public function test_getFileSize_ShouldReturnNull_IfFileDoesNotExists()
+    public function testGetFileSizeShouldReturnNullIfFileDoesNotExists()
     {
         File::setFileExists(false);
         $size = Filesystem::getFileSize(__FILE__);
