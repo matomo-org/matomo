@@ -52,7 +52,7 @@ class APITest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_getBulkRequest_IsAbleToHandleManyDifferentRequests()
+    public function testGetBulkRequestIsAbleToHandleManyDifferentRequests()
     {
         $token = Fixture::getTokenAuth();
         $urls = array(

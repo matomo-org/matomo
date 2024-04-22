@@ -17,7 +17,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 class GetSegmentsMetadataAPITest extends SystemTestCase
 {
-    public function test_it_contains_visitid_by_default()
+    public function testItContainsVisitidByDefault()
     {
         $request = new Request(
             'method=API.getSegmentsMetadata'
@@ -41,7 +41,7 @@ class GetSegmentsMetadataAPITest extends SystemTestCase
         $this->assertTrue($contains);
     }
 
-    public function test_it_does_not_contain_visitid_if_profile_disabled()
+    public function testItDoesNotContainVisitidIfProfileDisabled()
     {
         Cache::flushAll();
 
