@@ -66,7 +66,7 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_ExecutingCommandWithAllDates_PurgesAllExistingArchiveTables()
+    public function testExecutingCommandWithAllDatesPurgesAllExistingArchiveTables()
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:purge-old-archive-data',
@@ -85,7 +85,7 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
         self::$fixture->assertCustomRangesPurged(self::$fixture->january);
     }
 
-    public function test_ExecutingCommandWithNoDate_PurgesArchiveTableForToday()
+    public function testExecutingCommandWithNoDatePurgesArchiveTableForToday()
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:purge-old-archive-data',
@@ -103,7 +103,7 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
         self::$fixture->assertCustomRangesNotPurged(self::$fixture->january);
     }
 
-    public function test_ExecutingCommandWithSpecificDate_PurgesArchiveTableForDate()
+    public function testExecutingCommandWithSpecificDatePurgesArchiveTableForDate()
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:purge-old-archive-data',
@@ -122,7 +122,7 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
         self::$fixture->assertCustomRangesNotPurged(self::$fixture->february);
     }
 
-    public function test_ExecutingCommandWithExcludeOptions_SkipsAppropriatePurging()
+    public function testExecutingCommandWithExcludeOptionsSkipsAppropriatePurging()
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:purge-old-archive-data',

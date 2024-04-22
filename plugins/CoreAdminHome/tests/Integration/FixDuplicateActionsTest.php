@@ -41,7 +41,7 @@ class FixDuplicateActionsTest extends IntegrationTestCase
         $this->applicationTester = new ApplicationTester($application);
     }
 
-    public function test_FixDuplicateLogActions_CorrectlyRemovesDuplicates_AndFixesReferencesInOtherTables()
+    public function testFixDuplicateLogActionsCorrectlyRemovesDuplicatesAndFixesReferencesInOtherTables()
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:fix-duplicate-log-actions',

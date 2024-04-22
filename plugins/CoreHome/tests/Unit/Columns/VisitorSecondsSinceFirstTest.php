@@ -17,7 +17,7 @@ use Piwik\Tracker\Visitor;
 
 class VisitorSecondsSinceFirstTest extends TestCase
 {
-    public function test_onNewVisit_returnsZeroIfVisitorIsUnknown()
+    public function testOnNewVisitReturnsZeroIfVisitorIsUnknown()
     {
         $request = $this->makeMockRequest();
         $visitor = $this->makeMockVisitor(false);
@@ -31,7 +31,7 @@ class VisitorSecondsSinceFirstTest extends TestCase
     /**
      * @dataProvider getInvalidTestDataForOnNewVisit
      */
-    public function test_onNewVisit_returnsNullIfPreviousColumnValueOrCurrentColumnValueIsInvalid($currentProps, $oldProps)
+    public function testOnNewVisitReturnsNullIfPreviousColumnValueOrCurrentColumnValueIsInvalid($currentProps, $oldProps)
     {
         $request = $this->makeMockRequest();
         $visitor = $this->makeMockVisitor(true, $currentProps, $oldProps);
@@ -100,7 +100,7 @@ class VisitorSecondsSinceFirstTest extends TestCase
         ];
     }
 
-    public function test_onNewVisit_returnsCorrectValueWhenVisitorIsKnownAndAllFirstActionTimesPresent()
+    public function testOnNewVisitReturnsCorrectValueWhenVisitorIsKnownAndAllFirstActionTimesPresent()
     {
         $currentTime = time();
 

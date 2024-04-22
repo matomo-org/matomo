@@ -47,22 +47,22 @@ class SparklinesConfigTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_generateSparklineTooltip_noParams()
+    public function testGenerateSparklineTooltipNoParams()
     {
         $this->assertSame('', $this->config->generateSparklineTooltip([]));
     }
 
-    public function test_generateSparklineTooltip_onlyPeriod()
+    public function testGenerateSparklineTooltipOnlyPeriod()
     {
         $this->assertSame('Each data point in the sparkline represents a week.', $this->config->generateSparklineTooltip(['period' => 'week']));
     }
 
-    public function test_generateSparklineTooltip_periodAndDate()
+    public function testGenerateSparklineTooltipPeriodAndDate()
     {
         $this->assertSame('Each data point in the sparkline represents a week. Period: Feb 2 – May 5, 2022.', $this->config->generateSparklineTooltip(['period' => 'week', 'date' => '2022-02-02,2022-05-05']));
     }
 
-    public function test_generateSparklineTooltip_periodAndDateAndComparison()
+    public function testGenerateSparklineTooltipPeriodAndDateAndComparison()
     {
         $tooltip = $this->config->generateSparklineTooltip([
             'period' => 'week', 'date' => '2022-02-02,2022-05-05',
@@ -73,18 +73,18 @@ class SparklinesConfigTest extends IntegrationTestCase
         $this->assertSame($expected, $tooltip);
     }
 
-    public function test_areSparklinesLinkable_byDefaultSparklinesAreLinkable()
+    public function testAreSparklinesLinkableByDefaultSparklinesAreLinkable()
     {
         $this->assertTrue($this->config->areSparklinesLinkable());
     }
 
-    public function test_setNotLinkableWithAnyEvolutionGraph_areSparklinesLinkable_sparklinesCanBeMadeNotLinkable()
+    public function testSetNotLinkableWithAnyEvolutionGraphAreSparklinesLinkableSparklinesCanBeMadeNotLinkable()
     {
         $this->config->setNotLinkableWithAnyEvolutionGraph();
         $this->assertFalse($this->config->areSparklinesLinkable());
     }
 
-    public function test_addSparkline_shouldAddAMinimalSparklineWithOneValueAndUseDefaultOrder()
+    public function testAddSparklineShouldAddAMinimalSparklineWithOneValueAndUseDefaultOrder()
     {
         $this->config->addSparkline($this->sparklineParams(), $value = 10, $description = 'Visits');
 
@@ -106,7 +106,7 @@ class SparklinesConfigTest extends IntegrationTestCase
         $this->assertSame(array($expectedSparkline), $this->config->getSortedSparklines()['']);
     }
 
-    public function test_addSparkline_shouldAddAMinimalSparklineWithOneValueAndUseDefaultOrderWithColumn()
+    public function testAddSparklineShouldAddAMinimalSparklineWithOneValueAndUseDefaultOrderWithColumn()
     {
         $params = $this->sparklineParams();
         $params['columns'] = 'nb_visits';
@@ -118,7 +118,7 @@ class SparklinesConfigTest extends IntegrationTestCase
         $this->assertSame(array($expectedSparkline), $sparklines[''][0]['metrics']['']);
     }
 
-    public function test_addSparkline_shouldAddSparklineWithMultipleValues()
+    public function testAddSparklineShouldAddSparklineWithMultipleValues()
     {
         $this->config->addSparkline($this->sparklineParams(), $values = array(10, 20), $description = array('Visits', 'Actions'));
 
@@ -130,7 +130,7 @@ class SparklinesConfigTest extends IntegrationTestCase
             ), $sparklines[''][0]['metrics']['']);
     }
 
-    public function test_addSparkline_shouldAddSparklinesMultipleValuesWithColumns()
+    public function testAddSparklineShouldAddSparklinesMultipleValuesWithColumns()
     {
         $params = $this->sparklineParams();
         $params['columns'] = array('nb_visits', 'nb_actions');
@@ -146,7 +146,7 @@ class SparklinesConfigTest extends IntegrationTestCase
         $this->assertSame($expectedSparkline, $sparklines[''][0]['metrics']['']);
     }
 
-    public function test_addSparkline_shouldThrowAnException_IfValuesDoesNotMatchAmountOfDescriptions()
+    public function testAddSparklineShouldThrowAnExceptionIfValuesDoesNotMatchAmountOfDescriptions()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Values: 10, 20, 30 Descriptions: Visits, Actions');
@@ -154,7 +154,7 @@ class SparklinesConfigTest extends IntegrationTestCase
         $this->config->addSparkline($this->sparklineParams(), $values = array(10, 20, 30), $description = array('Visits', 'Actions'));
     }
 
-    public function test_addSparkline_shouldAddEvolution()
+    public function testAddSparklineShouldAddEvolution()
     {
         $evolution = array('currentValue' => 10, 'pastValue' => 21,
                             'tooltip' => '1 visit compared to 2 visits');
@@ -170,7 +170,7 @@ class SparklinesConfigTest extends IntegrationTestCase
         ), $sparklines[''][0]['evolution']);
     }
 
-    public function test_addSparkline_shouldAddEvolutionWhereLowerValueIsBetter()
+    public function testAddSparklineShouldAddEvolutionWhereLowerValueIsBetter()
     {
         $evolution = array('currentValue' => 20, 'pastValue' => 41,
                             'tooltip' => '2 bounces compared to 1 bounce',
@@ -187,7 +187,7 @@ class SparklinesConfigTest extends IntegrationTestCase
         ), $sparklines[''][0]['evolution']);
     }
 
-    public function test_addSparkline_shouldAddOrder()
+    public function testAddSparklineShouldAddOrder()
     {
         $this->config->addSparkline($this->sparklineParams(), $value = 10, $description = 'Visits', $evolution = null, $order = '42');
 
@@ -196,7 +196,7 @@ class SparklinesConfigTest extends IntegrationTestCase
         $this->assertSame(42, $sparklines[''][0]['order']);
     }
 
-    public function test_addSparkline_shouldBeAbleToBuildSparklineUrlBasedOnGETparams()
+    public function testAddSparklineShouldBeAbleToBuildSparklineUrlBasedOnGETparams()
     {
         $oldGet = $_GET;
         $_GET = $this->sparklineParams();
@@ -208,7 +208,7 @@ class SparklinesConfigTest extends IntegrationTestCase
         $this->assertSame('?columns=nb_visits&viewDataTable=sparkline&date=2012-03-06,2012-04-04&period=day', $sparklines[''][0]['url']);
     }
 
-    public function test_addSparkline_shouldAddSparklinesWithGroups()
+    public function testAddSparklineShouldAddSparklinesWithGroups()
     {
         $this->config->addSparkline($this->sparklineParams(), $value = 10, $description = 'Visits', $evolution = null, $order = '4', $title = 'title1', $group = 'one');
         $this->config->addSparkline($this->sparklineParams(), $value = 11, $description = 'Visits1', $evolution = null, $order = '1', $title = 'title2', $group = 'one');
@@ -298,7 +298,7 @@ class SparklinesConfigTest extends IntegrationTestCase
         $this->assertSame($expectedSparklines, $sparklines);
     }
 
-    public function test_addSparkline_shouldAddSparklineMetricsWithGroups()
+    public function testAddSparklineShouldAddSparklineMetricsWithGroups()
     {
         $metricInfos = [
             [

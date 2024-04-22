@@ -50,14 +50,14 @@ class VisitLastActionTimeTest extends IntegrationTestCase
         return new Request($request);
     }
 
-    public function test_convertHourToHourInSiteTimezone_UTC()
+    public function testConvertHourToHourInSiteTimezoneUTC()
     {
         $idSite = Fixture::createWebsite('2020-01-02 03:04:05');
         $hourConverted = VisitLastActionTime::convertHourToHourInSiteTimezone(5, $idSite);
         $this->assertEquals(5, $hourConverted);
     }
 
-    public function test_convertHourToHourInSiteTimezone_WithTimezone()
+    public function testConvertHourToHourInSiteTimezoneWithTimezone()
     {
         $idSite = Fixture::createWebsite(
             '2020-01-02 03:04:05',
@@ -73,7 +73,7 @@ class VisitLastActionTimeTest extends IntegrationTestCase
         $this->assertEquals(12, $hourConverted);
     }
 
-    public function test_convertHourToHourInSiteTimezone_WithTimezoneAndCustomDate()
+    public function testConvertHourToHourInSiteTimezoneWithTimezoneAndCustomDate()
     {
         $_GET['period'] = 'day';
         $_GET['date'] = '2020-01-02 03:04:05';
@@ -102,14 +102,14 @@ class VisitLastActionTimeTest extends IntegrationTestCase
         return $visitor;
     }
 
-    public function test_onExistingVisit_whenPing()
+    public function testOnExistingVisitWhenPing()
     {
         $request = $this->makeRequest(array('ping' => 1));
         $visitor = $this->getVisitor();
         $this->assertFalse($this->lastAction->onExistingVisit($request, $visitor, $action = null));
     }
 
-    public function test_onExistingVisit_whenNewVisitReturnsTimeFromRequest()
+    public function testOnExistingVisitWhenNewVisitReturnsTimeFromRequest()
     {
         $now = time() - 5; // -5 so we make sure this time is used and not actually now
         $request = $this->makeRequest(array('cdt' => $now));
@@ -121,7 +121,7 @@ class VisitLastActionTimeTest extends IntegrationTestCase
         $this->assertSame($expected, $this->lastAction->onExistingVisit($request, $visitor, $action = null));
     }
 
-    public function test_onExistingVisit_whenKnownVisitRequestTimeIsNewer()
+    public function testOnExistingVisitWhenKnownVisitRequestTimeIsNewer()
     {
         $now = time() - 5; // -5 so we make sure this time is used and not actually now
         $previousTime = $now - 10; // is older
@@ -136,7 +136,7 @@ class VisitLastActionTimeTest extends IntegrationTestCase
         $this->assertSame($expected, $this->lastAction->onExistingVisit($request, $visitor, $action = null));
     }
 
-    public function test_onExistingVisit_whenKnownVisitAndPreviousVisitTimeIsNewer()
+    public function testOnExistingVisitWhenKnownVisitAndPreviousVisitTimeIsNewer()
     {
         $now = time() - 5; // -5 so we make sure this time is used and not actually now
         $previousTime = $now + 10; // is newer
