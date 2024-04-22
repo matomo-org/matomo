@@ -22,7 +22,7 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
  */
 class EvolutionMetricTest extends TestCase
 {
-    public function test_shouldDoProportionalComparision_ifCurrentPeriodIncomplete()
+    public function testShouldDoProportionalComparisionIfCurrentPeriodIncomplete()
     {
         $currentData = new DataTable();
         $cPeriod = new \Piwik\Period\Week(Date::factory('2021-10-10'));
@@ -44,7 +44,7 @@ class EvolutionMetricTest extends TestCase
         $this->assertEquals(0.429, $ratio);
     }
 
-    public function test_shouldNotDoProportionalComparision_ifCurrentPeriodComplete()
+    public function testShouldNotDoProportionalComparisionIfCurrentPeriodComplete()
     {
         $currentData = new DataTable();
         $cPeriod = new \Piwik\Period\Week(Date::factory('2021-10-10'));

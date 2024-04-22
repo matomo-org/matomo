@@ -33,7 +33,7 @@ class CoreHomeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getJavaScriptsContainingNoSourceMapDefinition
      */
-    public function testFilterMergedJavaScripts_shouldNotChangeAnything_IfJsDoesNotContainAnySourceMap($content)
+    public function testFilterMergedJavaScriptsShouldNotChangeAnythingIfJsDoesNotContainAnySourceMap($content)
     {
         $expectedContent = $content;
 
@@ -45,14 +45,14 @@ class CoreHomeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getJavaScriptsContainingSourceMapDefinition
      */
-    public function testFilterMergedJavaScripts_shouldRemoveSourceMap_IfDefinedInJs($content, $expectedContent)
+    public function testFilterMergedJavaScriptsShouldRemoveSourceMapIfDefinedInJs($content, $expectedContent)
     {
         $this->coreHome->filterMergedJavaScripts($content);
 
         $this->assertSame($expectedContent, $content);
     }
 
-    public function testFilterMergedJavaScripts_shouldRemoveMultipleSourceMapDefinitionsInOneContent()
+    public function testFilterMergedJavaScriptsShouldRemoveMultipleSourceMapDefinitionsInOneContent()
     {
         $content = 'var x = 5;
 //# sourceMappingURL=whatever.js.map .map

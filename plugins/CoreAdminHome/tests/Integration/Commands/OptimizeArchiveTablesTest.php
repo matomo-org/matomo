@@ -30,7 +30,7 @@ class OptimizeArchiveTablesTest extends ConsoleCommandTestCase
     /**
      * @dataProvider getDatesToTest
      */
-    public function test_Command_OptimizesCorrectTables($dates, $expectedOptimizedTableDates)
+    public function testCommandOptimizesCorrectTables($dates, $expectedOptimizedTableDates)
     {
         $code = $this->applicationTester->run(array(
             'command' => 'database:optimize-archive-tables',

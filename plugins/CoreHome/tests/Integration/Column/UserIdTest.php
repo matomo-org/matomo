@@ -49,12 +49,12 @@ class UserIdTest extends IntegrationTestCase
         $this->setSuperUser();
     }
 
-    public function test_isUsedInAtLeastOneSite_shouldReturnFalseByDefault_WhenNothingIsTracked()
+    public function testIsUsedInAtLeastOneSiteShouldReturnFalseByDefaultWhenNothingIsTracked()
     {
         $this->assertNotUsedInAtLeastOneSite($idSites = array(1), 'day', $this->date);
     }
 
-    public function test_isUsedInAtLeastOneSite_shouldCache()
+    public function testIsUsedInAtLeastOneSiteShouldCache()
     {
         $key   = '1.month.' . $this->date;
         $cache = Cache::getTransientCache();
@@ -66,56 +66,56 @@ class UserIdTest extends IntegrationTestCase
         $this->assertFalse($cache->fetch($key));
     }
 
-    public function test_isUsedInAtLeastOneSite_shouldDetectUserIdWasUsedInAllSites_WhenOneSiteGiven()
+    public function testIsUsedInAtLeastOneSiteShouldDetectUserIdWasUsedInAllSitesWhenOneSiteGiven()
     {
         $this->trackPageviewsWithUsers();
 
         $this->assertUsedInAtLeastOneSite($idSites = array(1), 'day', $this->date);
     }
 
-    public function test_isUsedInAtLeastOneSite_shouldDetectUserIdWasUsedInAtLeastOneSite_WhenMultipleSitesGiven()
+    public function testIsUsedInAtLeastOneSiteShouldDetectUserIdWasUsedInAtLeastOneSiteWhenMultipleSitesGiven()
     {
         $this->trackPageviewsWithUsers();
 
         $this->assertUsedInAtLeastOneSite($idSites = array(1,2), 'day', $this->date);
     }
 
-    public function test_isUsedInAtLeastOneSite_shouldDetectUserIdWasNotUsedInAtLeastOneSite_WhenMultipleSitesGiven()
+    public function testIsUsedInAtLeastOneSiteShouldDetectUserIdWasNotUsedInAtLeastOneSiteWhenMultipleSitesGiven()
     {
         $this->trackPageviewsWithoutUsers();
 
         $this->assertNotUsedInAtLeastOneSite($idSites = array(1,2), 'day', $this->date);
     }
 
-    public function test_isUsedInAtLeastOneSite_shouldDetectUserIdWasNotUsed_WhenOneSiteGiven()
+    public function testIsUsedInAtLeastOneSiteShouldDetectUserIdWasNotUsedWhenOneSiteGiven()
     {
         $this->trackPageviewsWithUsers();
 
         $this->assertNotUsedInAtLeastOneSite($idSites = array(2), 'day', $this->date);
     }
 
-    public function test_isUsedInAtLeastOneSite_shouldDefaultToMonthPeriodAndDetectUserIdIsUsedAlthoughNotTodayButYesterday()
+    public function testIsUsedInAtLeastOneSiteShouldDefaultToMonthPeriodAndDetectUserIdIsUsedAlthoughNotTodayButYesterday()
     {
         $this->trackPageviewsWithUsers();
 
         $this->assertUsedInAtLeastOneSite($idSites = array(1), 'day', '2014-04-03');
     }
 
-    public function test_isUsedInAtLeastOneSite_shouldDefaultToMonthPeriodAndDetectUserIdIsUsedAlthoughNotTodayButTomorrow()
+    public function testIsUsedInAtLeastOneSiteShouldDefaultToMonthPeriodAndDetectUserIdIsUsedAlthoughNotTodayButTomorrow()
     {
         $this->trackPageviewsWithUsers();
 
         $this->assertUsedInAtLeastOneSite($idSites = array(1), 'day', '2014-04-05');
     }
 
-    public function test_isUsedInAtLeastOneSite_shouldDetectItWasNotUsedInMarchAlthoughItWasUsedInApril()
+    public function testIsUsedInAtLeastOneSiteShouldDetectItWasNotUsedInMarchAlthoughItWasUsedInApril()
     {
         $this->trackPageviewsWithUsers();
 
         $this->assertNotUsedInAtLeastOneSite($idSites = array(1), 'day', '2014-03-04');
     }
 
-    public function test_isUsedInAtLeastOneSite_shouldDetectItCorrectWithRangeDates()
+    public function testIsUsedInAtLeastOneSiteShouldDetectItCorrectWithRangeDates()
     {
         $this->trackPageviewsWithUsers();
 
@@ -125,13 +125,13 @@ class UserIdTest extends IntegrationTestCase
         $this->assertNotUsedInAtLeastOneSite($idSites = array(1), 'range', '2014-04-01,2014-04-03');
     }
 
-    public function test_hasDataTableUsers_shouldReturnFalse_IfEmptyTablesAreGiven()
+    public function testHasDataTableUsersShouldReturnFalseIfEmptyTablesAreGiven()
     {
         $this->assertNotDataTableHasUsers(new DataTable\Map());
         $this->assertNotDataTableHasUsers(new DataTable());
     }
 
-    public function test_hasDataTableUsers_shouldHandleADataTableMap()
+    public function testHasDataTableUsersShouldHandleADataTableMap()
     {
         $map = new DataTable\Map();
         $map->addTable(new DataTable(), 'label1');
@@ -150,14 +150,14 @@ class UserIdTest extends IntegrationTestCase
         $this->assertDataTableHasUsers($map);
     }
 
-    public function test_hasDataTableUsers_shouldHandleADataTable()
+    public function testHasDataTableUsersShouldHandleADataTable()
     {
         $this->assertNotDataTableHasUsers($this->getDataTableWithoutUsersColumn());
         $this->assertNotDataTableHasUsers($this->getDataTableWithZeroUsers());
         $this->assertDataTableHasUsers($this->getDataTableWithUsers());
     }
 
-    public function test_hasDataTableUsers_shouldBeAbleToDetectIfNbUsersMetricIdIsused()
+    public function testHasDataTableUsersShouldBeAbleToDetectIfNbUsersMetricIdIsused()
     {
         $table = $this->getDataTableWithZeroUsers();
         $table->renameColumn('nb_users', Metrics::INDEX_NB_USERS);
