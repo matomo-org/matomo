@@ -34,14 +34,14 @@ class FactoryTest extends IntegrationTestCase
         $this->factory = new Factory();
     }
 
-    public function test_activate_returnsActivateInstance()
+    public function testActivateReturnsActivateInstance()
     {
         $migration = $this->factory->activate($this->pluginName);
 
         $this->assertTrue($migration instanceof Activate);
     }
 
-    public function test_sql_forwardsQueryAndErrorCode()
+    public function testSqlForwardsQueryAndErrorCode()
     {
         $migration = $this->factory->activate($this->pluginName);
 

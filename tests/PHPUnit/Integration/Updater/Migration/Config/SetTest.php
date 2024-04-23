@@ -20,14 +20,14 @@ use Piwik\Updater\Migration\Config\Set;
  */
 class SetTest extends IntegrationTestCase
 {
-    public function test_toString()
+    public function testToString()
     {
         $config = $this->configSet('General', 'foo', 'bar');
 
         $this->assertSame('./console config:set --section="General" --key="foo" --value="bar"', '' . $config);
     }
 
-    public function test_exec_knownSectionKnownKey()
+    public function testExecKnownSectionKnownKey()
     {
         $this->configSet('General', 'time_before_today_archive_considered_outdated', 876)->exec();
 
@@ -35,14 +35,14 @@ class SetTest extends IntegrationTestCase
         $this->assertEquals('876', $general['time_before_today_archive_considered_outdated']);
     }
 
-    public function test_exec_knownSectionUnknownKey()
+    public function testExecKnownSectionUnknownKey()
     {
         $this->configSet('General', 'foobar', '192')->exec();
         $general = Config::getInstance()->General;
         $this->assertEquals('192', $general['foobar']);
     }
 
-    public function test_exec_unknownCategory()
+    public function testExecUnknownCategory()
     {
         $this->configSet('foobar', 'baz', 'hello')->exec();
 

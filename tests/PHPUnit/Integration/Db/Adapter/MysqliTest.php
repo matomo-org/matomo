@@ -15,7 +15,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class MysqliTest extends IntegrationTestCase
 {
-    public function test_isMysqliErrorNumber_whenNoConnectionIsSet()
+    public function testIsMysqliErrorNumberWhenNoConnectionIsSet()
     {
         $e = new Exception('Error query: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry');
         $connection = null;

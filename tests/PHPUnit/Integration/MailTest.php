@@ -43,13 +43,13 @@ class MailTest extends UnitTestCase
     /**
      * @dataProvider getEmailFilenames
      */
-    public function test_EmailFilenamesAreSanitised($raw, $expected)
+    public function testEmailFilenamesAreSanitised($raw, $expected)
     {
         $mail = new Mail();
         $this->assertEquals($expected, $mail->sanitiseString($raw));
     }
 
-    public function test_abortSendingMail()
+    public function testAbortSendingMail()
     {
         $mail = new Mail();
         $result = $mail->send();

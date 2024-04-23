@@ -36,7 +36,7 @@ class PartialArchiveTest extends IntegrationTestCase
         self::trackVisit();
     }
 
-    public function test_rangeArchiving_onlyArchivesSingleRecord_whenQueryingNumerics()
+    public function testRangeArchivingOnlyArchivesSingleRecordWhenQueryingNumerics()
     {
         // first trigger all plugins archiving
         $_GET['trigger'] = 'archivephp';
@@ -105,7 +105,7 @@ class PartialArchiveTest extends IntegrationTestCase
         ], $archiveInfo);
     }
 
-    public function test_rangeArchiving_onlyArchivesSingleRecord_whenQueryingBlobs()
+    public function testRangeArchivingOnlyArchivesSingleRecordWhenQueryingBlobs()
     {
         // first trigger all plugins archiving
         $_GET['trigger'] = 'archivephp';

@@ -38,7 +38,7 @@ class JsProxyTest extends IntegrationTestCase
         $this->assertEquals($piwik_js, $fullResponse, 'script content');
     }
 
-    public function testPiwik_WhiteLabelledJs_HasNoComment()
+    public function testPiwikWhiteLabelledJsHasNoComment()
     {
         $curlHandle = curl_init();
         curl_setopt($curlHandle, CURLOPT_URL, $this->getStaticSrvUrl() . '/js/tracker.php');

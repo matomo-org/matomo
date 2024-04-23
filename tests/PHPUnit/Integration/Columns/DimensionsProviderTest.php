@@ -29,7 +29,7 @@ class DimensionsProviderTest extends IntegrationTestCase
         $this->provider = new DimensionsProvider();
     }
 
-    public function test_factory()
+    public function testFactory()
     {
         Manager::getInstance()->loadPlugins(array('ExampleTracker'));
         $dimension = $this->provider->factory("ExampleTracker.ExampleDimension");

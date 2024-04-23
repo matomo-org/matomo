@@ -74,7 +74,7 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
      *
      * @param array<string> $pluginsToInvalidate
      */
-    public function test_getDataTableFromNumeric_returnsArchiveStateInMetadata(
+    public function testGetDataTableFromNumericReturnsArchiveStateInMetadata(
         int $nowTimestamp,
         ?string $segment,
         array $daysToRememberInvalidationsFor,

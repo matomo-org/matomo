@@ -46,14 +46,14 @@ class AdvertisingTest extends \PHPUnit\Framework\TestCase
         $this->advertising = $this->buildAdvertising($this->config);
     }
 
-    public function test_areAdsForProfessionalServicesEnabled_ActuallyEnabled()
+    public function testAreAdsForProfessionalServicesEnabledActuallyEnabled()
     {
         $enabled = $this->advertising->areAdsForProfessionalServicesEnabled();
 
         $this->assertTrue($enabled);
     }
 
-    public function test_areAdsForProfessionalServicesEnabled_Disabled()
+    public function testAreAdsForProfessionalServicesEnabledDisabled()
     {
         $this->config->General = ['piwik_professional_support_ads_enabled' => '0'];
 
@@ -62,7 +62,7 @@ class AdvertisingTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($enabled);
     }
 
-    public function test_areAdsForProfessionalServicesEnabled_UsingPreviousSettingName()
+    public function testAreAdsForProfessionalServicesEnabledUsingPreviousSettingName()
     {
         $this->config->General = ['piwik_pro_ads_enabled' => '1'];
 
@@ -71,21 +71,21 @@ class AdvertisingTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($enabled);
     }
 
-    public function test_shouldBeEnabledByDefault()
+    public function testShouldBeEnabledByDefault()
     {
         $enabled = $this->buildAdvertising(Config::getInstance());
 
         $this->assertTrue($enabled->areAdsForProfessionalServicesEnabled());
     }
 
-    public function test_addPromoCampaignParametersToUrl_withoutContentWithoutQuery()
+    public function testAddPromoCampaignParametersToUrlWithoutContentWithoutQuery()
     {
         $link = $this->advertising->addPromoCampaignParametersToUrl($this->exampleUrl, 'MyName', 'Installation_Start', '', 'MySource');
 
         $this->assertSame($this->exampleUrl . '?mtm_campaign=MyName&mtm_source=MySource&mtm_medium=Installation_Start', $link);
     }
 
-    public function test_addPromoCampaignParametersToUrl_withContentWithoutQuery()
+    public function testAddPromoCampaignParametersToUrlWithContentWithoutQuery()
     {
         $link = $this->advertising->addPromoCampaignParametersToUrl(
             $this->exampleUrl,
@@ -98,7 +98,7 @@ class AdvertisingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($this->exampleUrl . '?mtm_campaign=MyName&mtm_source=MySource&mtm_medium=Installation_Start.MyContent', $link);
     }
 
-    public function test_addPromoCampaignParametersToUrl_withQuery()
+    public function testAddPromoCampaignParametersToUrlWithQuery()
     {
         $url = $this->exampleUrl . '?foo=bar';
         $link = $this->advertising->addPromoCampaignParametersToUrl($url, 'MyName', 'Installation_Start', '', 'MySource');

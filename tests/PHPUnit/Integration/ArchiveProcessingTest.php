@@ -414,7 +414,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $this->fail('Exception expected');
     }
 
-    public function test_aggregateNumericMetrics_aggregatesCorrectly()
+    public function testAggregateNumericMetricsAggregatesCorrectly()
     {
         $allMetrics = [
             '2015-02-03' => [
@@ -468,7 +468,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $this->assertEquals($expected, $capturedInserts);
     }
 
-    public function test_aggregateNumericMetrics_handlesPartialArchives()
+    public function testAggregateNumericMetricsHandlesPartialArchives()
     {
         $allMetrics = [
             '2015-02-03' => [
@@ -522,7 +522,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $this->assertEquals($expected, $capturedInserts);
     }
 
-    public function test_aggregateDataTableRecords_aggregatesCorrectly()
+    public function testAggregateDataTableRecordsAggregatesCorrectly()
     {
         $table1 = new DataTable();
         $table1->addRowsFromSimpleArray([
@@ -588,7 +588,7 @@ END;
         $this->assertEquals($expectedXml, $capturedInsertTable);
     }
 
-    public function test_aggregateDataTableRecords_handlesPartialArchives()
+    public function testAggregateDataTableRecordsHandlesPartialArchives()
     {
         $table1 = new DataTable();
         $table1->addRowsFromSimpleArray([
@@ -640,7 +640,7 @@ END;
         $this->assertEquals(ArchiveWriter::DONE_PARTIAL, $archiveDoneFlag);
     }
 
-    public function test_aggregateDataTableRecords_handlesNegativeOneLabels()
+    public function testAggregateDataTableRecordsHandlesNegativeOneLabels()
     {
         $table1 = new DataTable();
         $table1->addRowsFromSimpleArray([

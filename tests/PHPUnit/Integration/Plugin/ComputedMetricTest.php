@@ -46,7 +46,7 @@ class ComputedMetricTest extends IntegrationTestCase
     /**
      * @dataProvider getFormatValueProvider
      */
-    public function test_formatValue($type, $value, $expected)
+    public function testFormatValue($type, $value, $expected)
     {
         $metric = $this->makeMetric('bonuce_count', 'nb_visits', ComputedMetric::AGGREGATION_AVG);
 
@@ -74,7 +74,7 @@ class ComputedMetricTest extends IntegrationTestCase
         );
     }
 
-    public function test_getName()
+    public function testGetName()
     {
         $metric = $this->makeMetric('bounces', 'nb_visits', ComputedMetric::AGGREGATION_AVG);
         $this->assertSame('avg_bounces_per_visits', $metric->getName());
@@ -95,14 +95,14 @@ class ComputedMetricTest extends IntegrationTestCase
         $this->assertSame('sum_bounces_uniq_visits_rate', $metric->getName());
     }
 
-    public function test_setName()
+    public function testSetName()
     {
         $metric = $this->makeMetric('bounces', 'nb_visits', ComputedMetric::AGGREGATION_AVG);
         $metric->setName('avg_bounces');
         $this->assertSame('avg_bounces', $metric->getName());
     }
 
-    public function test_getTranslatedName()
+    public function testGetTranslatedName()
     {
         $metric = $this->makeMetric('bounce_count', 'nb_visits', ComputedMetric::AGGREGATION_AVG);
         $this->assertSame('Avg. Actions In Visit per Visit', $metric->getTranslatedName());
@@ -111,7 +111,7 @@ class ComputedMetricTest extends IntegrationTestCase
         $this->assertSame('Bounces Rate', $metric->getTranslatedName());
     }
 
-    public function test_getDocumentation()
+    public function testGetDocumentation()
     {
         $metric = $this->makeMetric('bounce_count', 'nb_visits', ComputedMetric::AGGREGATION_AVG);
         $this->assertSame('Average value of "Actions In Visit" per "Visits".', $metric->getDocumentation());
@@ -120,13 +120,13 @@ class ComputedMetricTest extends IntegrationTestCase
         $this->assertSame('The ratio of "Actions In Visit" out of all "Visits".', $metric->getDocumentation());
     }
 
-    public function test_getDependentMetrics()
+    public function testGetDependentMetrics()
     {
         $metric = $this->makeMetric('bounce_count', 'nb_visits', ComputedMetric::AGGREGATION_AVG);
         $this->assertSame(array('bounce_count', 'nb_visits'), $metric->getDependentMetrics());
     }
 
-    public function test_setCategory()
+    public function testSetCategory()
     {
         $metric = $this->makeMetric('bounce_count', 'nb_visits', ComputedMetric::AGGREGATION_AVG);
         $metric->setCategory('123');

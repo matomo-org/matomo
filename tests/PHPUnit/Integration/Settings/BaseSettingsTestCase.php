@@ -22,7 +22,7 @@ class BaseSettingsTestCase extends IntegrationTestCase
 {
     protected $updateEventName;
 
-    public function test_constructor_shouldNotEstablishADatabaseConnection()
+    public function testConstructorShouldNotEstablishADatabaseConnection()
     {
         Db::destroyDatabaseObject();
 
@@ -33,7 +33,7 @@ class BaseSettingsTestCase extends IntegrationTestCase
         $this->assertNotDbConnectionCreated();
     }
 
-    public function test_makeSetting_ShouldAlsoAddTheSetting()
+    public function testMakeSettingShouldAlsoAddTheSetting()
     {
         $this->assertNull($this->settings->getSetting('myName'));
 
@@ -42,7 +42,7 @@ class BaseSettingsTestCase extends IntegrationTestCase
         $this->assertNotNull($this->settings->getSetting('myName'));
     }
 
-    public function test_makeSetting_ShouldFailWhenAdingSameSettingTwice()
+    public function testMakeSettingShouldFailWhenAdingSameSettingTwice()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('A setting with name "myName" does already exist for plugin "ExampleSettingsPlugin"');
@@ -51,26 +51,26 @@ class BaseSettingsTestCase extends IntegrationTestCase
         $this->makeSetting('myName');
     }
 
-    public function test_getSetting_CanRetrieveAspecificSetting()
+    public function testGetSettingCanRetrieveAspecificSetting()
     {
         $this->makeSetting('myName');
 
         $this->assertSame('myName', $this->settings->getSetting('myName')->getName());
     }
 
-    public function test_getSetting_IsCaseSensitive()
+    public function testGetSettingIsCaseSensitive()
     {
         $this->makeSetting('myName');
 
         $this->assertNull($this->settings->getSetting('myname'));
     }
 
-    public function test_getSetting_ReturnsNullWhenNoSuchSettingFound()
+    public function testGetSettingReturnsNullWhenNoSuchSettingFound()
     {
         $this->assertNull($this->settings->getSetting('myName'));
     }
 
-    public function test_getSettingsWritableByCurrentUser_returnsOnlySettingsThatAreWritable()
+    public function testGetSettingsWritableByCurrentUserReturnsOnlySettingsThatAreWritable()
     {
         $this->assertSame(array(), $this->settings->getSettingsWritableByCurrentUser());
 
@@ -90,7 +90,7 @@ class BaseSettingsTestCase extends IntegrationTestCase
         $this->assertSame($expected, $this->settings->getSettingsWritableByCurrentUser());
     }
 
-    public function test_save_triggersAnEvent()
+    public function testSaveTriggersAnEvent()
     {
         $settings = null;
 
@@ -103,13 +103,13 @@ class BaseSettingsTestCase extends IntegrationTestCase
         $this->assertSame($settings, $this->settings);
     }
 
-    public function test_getTitle_shouldDefaultToPluginName()
+    public function testGetTitleShouldDefaultToPluginName()
     {
         $this->assertNotEmpty($this->settings->getTitle());
         $this->assertSame($this->settings->getTitle(), $this->settings->getPluginName());
     }
 
-    public function test_getTitle_PrefersSetTitleOverPluginName()
+    public function testGetTitlePrefersSetTitleOverPluginName()
     {
         if (method_exists($this->settings, 'setTitle')) {
             $this->settings->setTitle('title');
@@ -126,7 +126,7 @@ class BaseSettingsTestCase extends IntegrationTestCase
         });
     }
 
-    public function test_addSetting_shouldAddNewSetting()
+    public function testAddSettingShouldAddNewSetting()
     {
         $settingName = 'testSetting';
         $setting  = $this->buildSetting($settingName);
@@ -139,7 +139,7 @@ class BaseSettingsTestCase extends IntegrationTestCase
         $this->assertSame($setting, $settings->getSetting($settingName));
     }
 
-    public function test_addSetting_throwsException_IfSameSettingAddedTwice()
+    public function testAddSettingThrowsExceptionIfSameSettingAddedTwice()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('"testSetting" does already exist');

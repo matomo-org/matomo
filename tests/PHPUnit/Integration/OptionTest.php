@@ -177,7 +177,7 @@ class OptionTest extends IntegrationTestCase
         $this->assertSame('0', Option::get('adefaultReport'));
     }
 
-    public function testDeleteLike_underscoreNotWildcard()
+    public function testDeleteLikeUnderscoreNotWildcard()
     {
         // insert guard - to test unescaped underscore
         Option::set('adefaultReport', '1', true);
@@ -199,7 +199,7 @@ class OptionTest extends IntegrationTestCase
         ), $values);
     }
 
-    public function testGetLike_underscoreNotWildcard()
+    public function testGetLikeUnderscoreNotWildcard()
     {
         // insert guard - to test unescaped underscore
         Option::set('adefaultReport', '1', true);

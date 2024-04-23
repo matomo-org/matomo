@@ -55,13 +55,13 @@ class DataTableFactoryTest extends IntegrationTestCase
         API::getInstance()->add('TEST SEGMENT', 'browserCode==ff');
     }
 
-    public function test_getSiteIdFromMetadata_no_site()
+    public function testGetSiteIdFromMetadataNoSite()
     {
         $siteid = DataTableFactory::getSiteIdFromMetadata(new DataTable());
         $this->assertNull($siteid);
     }
 
-    public function test_getSiteIdFromMetadata()
+    public function testGetSiteIdFromMetadata()
     {
         $table = new DataTable();
         $table->setMetadata('site', new Site($this->site1));
@@ -69,7 +69,7 @@ class DataTableFactoryTest extends IntegrationTestCase
         $this->assertEquals($this->site1, $siteid);
     }
 
-    public function test_makeMerged_numeric_noIndices_shouldContainDefaultRow_IfNoDataGiven()
+    public function testMakeMergedNumericNoIndicesShouldContainDefaultRowIfNoDataGiven()
     {
         $indices = $this->getResultIndices($period = false, $site = false);
         $factory = $this->createFactory($indices);
@@ -82,7 +82,7 @@ class DataTableFactoryTest extends IntegrationTestCase
         $this->assertTableMetadataEquals($this->date1, $table);
     }
 
-    public function test_makeMerged_numeric_noIndices_shouldContainOnlyOneRowWithTheData_IfAnyDataIsSet()
+    public function testMakeMergedNumericNoIndicesShouldContainOnlyOneRowWithTheDataIfAnyDataIsSet()
     {
         $indices = $this->getResultIndices($period = false, $site = false);
         $factory = $this->createFactory($indices);
@@ -97,7 +97,7 @@ class DataTableFactoryTest extends IntegrationTestCase
         $this->assertTableMetadataEquals($this->date1, $dataTable);
     }
 
-    public function test_makeMerged_numeric_periodIndices_shouldGenerateAMapOfTables_AndUseDefaultRow_IfNoData()
+    public function testMakeMergedNumericPeriodIndicesShouldGenerateAMapOfTablesAndUseDefaultRowIfNoData()
     {
         $indices = $this->getResultIndices($period = true, $site = false);
         $factory = $this->createFactory($indices);
@@ -121,7 +121,7 @@ class DataTableFactoryTest extends IntegrationTestCase
         }
     }
 
-    public function test_makeMerged_numeric_periodIndices_shouldGenerateAMapOfTables_WithData()
+    public function testMakeMergedNumericPeriodIndicesShouldGenerateAMapOfTablesWithData()
     {
         $indices = $this->getResultIndices($period = true, $site = false);
         $factory = $this->createFactory($indices);
@@ -149,7 +149,7 @@ class DataTableFactoryTest extends IntegrationTestCase
         $this->assertRowEquals($row2, $this->site1, $map->getTable($this->date2)->getFirstRow());
     }
 
-    public function test_makeMerged_numeric_periodIndices_shouldSetAKeyName()
+    public function testMakeMergedNumericPeriodIndicesShouldSetAKeyName()
     {
         $indices = $this->getResultIndices($period = true, $site = false);
         $factory = $this->createFactory($indices);
@@ -164,7 +164,7 @@ class DataTableFactoryTest extends IntegrationTestCase
         $this->assertSame('date', $map->getKeyName());
     }
 
-    public function test_makeMerged_numeric_siteIndices_shouldUseDefaultRow_IfNoData()
+    public function testMakeMergedNumericSiteIndicesShouldUseDefaultRowIfNoData()
     {
         $indices = $this->getResultIndices($period = false, $site = true);
         $factory = $this->createFactory($indices);
@@ -184,7 +184,7 @@ class DataTableFactoryTest extends IntegrationTestCase
         $this->assertTableMetadataEquals($this->date1, $table);
     }
 
-    public function test_makeMerged_numeric_siteIndices_shouldGenerateAMapOfTables_WithData()
+    public function testMakeMergedNumericSiteIndicesShouldGenerateAMapOfTablesWithData()
     {
         $indices = $this->getResultIndices($period = false, $site = true);
         $factory = $this->createFactory($indices);
@@ -207,7 +207,7 @@ class DataTableFactoryTest extends IntegrationTestCase
         $this->assertTableMetadataEquals($this->date1, $table);
     }
 
-    public function test_makeMerged_numeric_siteAndPeriodIndices_shouldUseDefaultRow_IfNoData()
+    public function testMakeMergedNumericSiteAndPeriodIndicesShouldUseDefaultRowIfNoData()
     {
         $indices = $this->getResultIndices($period = true, $site = true);
         $factory = $this->createFactory($indices);
@@ -242,7 +242,7 @@ class DataTableFactoryTest extends IntegrationTestCase
         $this->assertRowEquals($this->defaultRow, $this->site2, $map->getTable($this->date2)->getRowFromId(1));
     }
 
-    public function test_makeMerged_numeric_siteAndPeriodIndices_shouldGenerateAMapOfTables_WithData()
+    public function testMakeMergedNumericSiteAndPeriodIndicesShouldGenerateAMapOfTablesWithData()
     {
         $indices = $this->getResultIndices($period = true, $site = true);
         $factory = $this->createFactory($indices);
@@ -280,7 +280,7 @@ class DataTableFactoryTest extends IntegrationTestCase
         $this->assertRowEquals($row3, $this->site2, $map->getTable($this->date2)->getRowFromId(1));
     }
 
-    public function test_makeMerged_shouldThrowAnException_IfANonNumericDataTypeIsGiven()
+    public function testMakeMergedShouldThrowAnExceptionIfANonNumericDataTypeIsGiven()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('supposed to work with non-numeric data types but it is not tested');

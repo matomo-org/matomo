@@ -37,12 +37,12 @@ class TransactionLevelTest extends IntegrationTestCase
         $this->level = new TransactionLevel($this->db);
     }
 
-    public function test_canLikelySetTransactionLevel()
+    public function testCanLikelySetTransactionLevel()
     {
         $this->assertTrue($this->level->canLikelySetTransactionLevel());
     }
 
-    public function test_setUncommitted_restorePreviousStatus()
+    public function testSetUncommittedRestorePreviousStatus()
     {
         // mysql 8.0 using transaction_isolation
         $isolation = $this->db->fetchOne("SHOW GLOBAL VARIABLES LIKE 't%_isolation'");

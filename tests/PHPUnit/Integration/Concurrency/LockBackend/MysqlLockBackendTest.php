@@ -46,13 +46,13 @@ class MysqlLockBackendTest extends IntegrationTestCase
         return new MySqlLockBackend();
     }
 
-    public function test_deleteIfKeyHasValue_ShouldNotWork_IfKeyDoesNotExist()
+    public function testDeleteIfKeyHasValueShouldNotWorkIfKeyDoesNotExist()
     {
         $success = $this->backend->deleteIfKeyHasValue('inVaLidKeyTest', '1');
         $this->assertFalse($success);
     }
 
-    public function test_deleteIfKeyHasValue_ShouldWork_ShouldBeAbleToDeleteARegularKey()
+    public function testDeleteIfKeyHasValueShouldWorkShouldBeAbleToDeleteARegularKey()
     {
         $success = $this->backend->setIfNotExists($this->key, 'test', 60);
         $this->assertTrue($success);
@@ -61,7 +61,7 @@ class MysqlLockBackendTest extends IntegrationTestCase
         $this->assertTrue($success);
     }
 
-    public function test_deleteIfKeyHasValue_ShouldNotWork_IfValueIsDifferent()
+    public function testDeleteIfKeyHasValueShouldNotWorkIfValueIsDifferent()
     {
         $this->backend->setIfNotExists($this->key, 'test', 60);
 
@@ -69,56 +69,56 @@ class MysqlLockBackendTest extends IntegrationTestCase
         $this->assertFalse($success);
     }
 
-    public function test_setIfNotExists_ShouldWork_IfNoValueIsSetYet()
+    public function testSetIfNotExistsShouldWorkIfNoValueIsSetYet()
     {
         $success = $this->backend->setIfNotExists($this->key, 'value', 60);
         $this->assertTrue($success);
     }
 
     /**
-     * @depends test_setIfNotExists_ShouldWork_IfNoValueIsSetYet
+     * @depends testSetIfNotExists(_ShouldWork_IfNoValueIsSetYet
      */
-    public function test_setIfNotExists_ShouldNotWork_IfValueIsAlreadySet()
+    public function testSetIfNotExistsShouldNotWorkIfValueIsAlreadySet()
     {
         $success = $this->backend->setIfNotExists($this->key, 'value', 60);
         $this->assertFalse($success);
     }
 
     /**
-     * @depends test_setIfNotExists_ShouldNotWork_IfValueIsAlreadySet
+     * @depends testSetIfNotExists(_ShouldNotWork_IfValueIsAlreadySet
      */
-    public function test_setIfNotExists_ShouldAlsoNotWork_IfTryingToSetDifferentValue()
+    public function testSetIfNotExistsShouldAlsoNotWorkIfTryingToSetDifferentValue()
     {
         $success = $this->backend->setIfNotExists($this->key, 'another val', 60);
         $this->assertFalse($success);
     }
 
-    public function test_get_ShouldReturnFalse_IfKeyNotSet()
+    public function testGetShouldReturnFalseIfKeyNotSet()
     {
         $value = $this->backend->get($this->key);
         $this->assertFalse($value);
     }
 
-    public function test_get_ShouldReturnTheSetValue_IfOneIsSet()
+    public function testGetShouldReturnTheSetValueIfOneIsSet()
     {
         $this->backend->setIfNotExists($this->key, 'mytest', 60);
         $value = $this->backend->get($this->key);
         $this->assertEquals('mytest', $value);
     }
 
-    public function test_keyExists_ShouldReturnFalse_IfKeyNotSet()
+    public function testKeyExistsShouldReturnFalseIfKeyNotSet()
     {
         $value = $this->backend->keyExists($this->key);
         $this->assertFalse($value);
     }
 
-    public function test_get_ShouldReturnTrueIfValueIsSet()
+    public function testGetShouldReturnTrueIfValueIsSet()
     {
         $this->backend->setIfNotExists($this->key, 'mytest', 60);
         $this->assertTrue($this->backend->keyExists($this->key));
     }
 
-    public function test_expire_ShouldWork()
+    public function testExpireShouldWork()
     {
         $success = $this->backend->setIfNotExists($this->key, 'test', 60);
         $this->assertTrue($success);
@@ -137,7 +137,7 @@ class MysqlLockBackendTest extends IntegrationTestCase
         $this->assertTrue($success);
     }
 
-    public function test_expire_ShouldNotWorkIfValueIsDifferent()
+    public function testExpireShouldNotWorkIfValueIsDifferent()
     {
         $success = $this->backend->setIfNotExists($this->key, 'test', 60);
         $this->assertTrue($success);
@@ -146,7 +146,7 @@ class MysqlLockBackendTest extends IntegrationTestCase
         $this->assertFalse($success);
     }
 
-    public function test_expire_ShouldStilReturnTrueEvenWhenSettingSameTimeout()
+    public function testExpireShouldStilReturnTrueEvenWhenSettingSameTimeout()
     {
         $success = $this->backend->setIfNotExists($this->key, 'test', 60);
         $this->assertTrue($success);
@@ -158,7 +158,7 @@ class MysqlLockBackendTest extends IntegrationTestCase
         $this->assertTrue($success);
     }
 
-    public function test_getKeysMatchingPattern_shouldReturnMatchingKeys()
+    public function testGetKeysMatchingPatternShouldReturnMatchingKeys()
     {
         $backend = $this->createMysqlBackend();
         $backend->setIfNotExists('abcde', 'val0', 100);
@@ -180,7 +180,7 @@ class MysqlLockBackendTest extends IntegrationTestCase
         $this->assertEquals(array('Test2', 'Test3', 'test1'), $keys);
     }
 
-    public function test_getKeysMatchingPattern_shouldReturnAnEmptyArrayIfNothingMatches()
+    public function testGetKeysMatchingPatternShouldReturnAnEmptyArrayIfNothingMatches()
     {
         $backend = $this->createMysqlBackend();
         $keys    = $backend->getKeysMatchingPattern('*fere*');

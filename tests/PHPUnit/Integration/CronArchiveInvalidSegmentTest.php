@@ -59,7 +59,7 @@ class CronArchiveInvalidSegmentTest extends IntegrationTestCase
         $this->logger = new FakeLogger();
     }
 
-    public function test_output_invalidSegment()
+    public function testOutputInvalidSegment()
     {
         $archiver = new CronArchive($this->logger);
 
@@ -71,7 +71,7 @@ class CronArchiveInvalidSegmentTest extends IntegrationTestCase
         $this->assertStringContainsString('no error', $this->logger->output);
     }
 
-    public function test_output_invalidSegment_whenPluginIsNotActive()
+    public function testOutputInvalidSegmentWhenPluginIsNotActive()
     {
         Manager::getInstance()->deactivatePlugin('UserLanguage');
 

@@ -82,7 +82,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator = new ArchiveInvalidator(new Model(), new NullLogger());
     }
 
-    public function test_markArchivesAsInvalidated_skipsParentArchivesIfTheyAreDisabled()
+    public function testMarkArchivesAsInvalidatedSkipsParentArchivesIfTheyAreDisabled()
     {
         $this->insertArchiveRow(1, '2020-03-13', 'day', $doneValue = ArchiveWriter::DONE_OK, false, $varyArchiveTypes = false);
         $this->insertArchiveRow(1, '2020-03-13', 'week', $doneValue = ArchiveWriter::DONE_OK, false, $varyArchiveTypes = false);
@@ -129,7 +129,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
 
-    public function test_markArchivesAsInvalidated_doesNotInvalidatePartialArchives()
+    public function testMarkArchivesAsInvalidatedDoesNotInvalidatePartialArchives()
     {
         $this->insertArchiveRow(1, '2020-03-03', 'day', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
         $this->insertArchiveRow(1, '2020-03-03', 'week', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
@@ -194,7 +194,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
 
-    public function test_reArchiveReport_doesNothingIfIniSettingSetToZero()
+    public function testReArchiveReportDoesNothingIfIniSettingSetToZero()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -218,7 +218,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
 
-    public function test_removeInvalidationsFromDistributedList_removesEntriesFromList_WhenNoPluginSpecified()
+    public function testRemoveInvalidationsFromDistributedListRemovesEntriesFromListWhenNoPluginSpecified()
     {
         $this->invalidator->scheduleReArchiving([1,2,3], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving([1,4,5], 'MyOtherPlugin');
@@ -238,7 +238,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expected, $items);
     }
 
-    public function test_removeInvalidationsFromDistributedList_removesEntriesFromList_WhenPluginNameIsSpecified()
+    public function testRemoveInvalidationsFromDistributedListRemovesEntriesFromListWhenPluginNameIsSpecified()
     {
         $this->invalidator->scheduleReArchiving([1,2,3], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving([1,4,5], 'MyOtherPlugin');
@@ -255,7 +255,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expected, $items);
     }
 
-    public function test_removeInvalidationsFromDistributedList_removesAllSiteEntries()
+    public function testRemoveInvalidationsFromDistributedListRemovesAllSiteEntries()
     {
         $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving([1, 4, 5], 'ExamplePlugin');
@@ -271,7 +271,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expected, $items);
     }
 
-    public function test_removeInvalidationsFromDistributedList_removesEntriesFromList_WhenPluginNameAndReportIsSpecified()
+    public function testRemoveInvalidationsFromDistributedListRemovesEntriesFromListWhenPluginNameAndReportIsSpecified()
     {
         $this->invalidator->scheduleReArchiving([1,4,5], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving([1,4,5], 'ExamplePlugin', 'myReport');
@@ -290,7 +290,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expected, $items);
     }
 
-    public function test_removeInvalidations_removesAll_ifAllSitesSpecified()
+    public function testRemoveInvalidationsRemovesAllIfAllSitesSpecified()
     {
         $this->insertInvalidations([
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
@@ -311,7 +311,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $invalidations);
     }
 
-    public function test_removeInvalidations_removesAllForMultipleSites()
+    public function testRemoveInvalidationsRemovesAllForMultipleSites()
     {
         $this->insertInvalidations([
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
@@ -333,7 +333,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $invalidations);
     }
 
-    public function test_removeInvalidations_removesAllForPlugin()
+    public function testRemoveInvalidationsRemovesAllForPlugin()
     {
         $this->insertInvalidations([
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
@@ -357,7 +357,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $invalidations);
     }
 
-    public function test_removeInvalidations_removesAllForSingleReport()
+    public function testRemoveInvalidationsRemovesAllForSingleReport()
     {
         $this->insertInvalidations([
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
@@ -423,7 +423,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $invalidations);
     }
 
-    public function test_rememberToInvalidateArchivedReportsLater_shouldCreateAnEntryInCaseThereIsNoneYet()
+    public function testRememberToInvalidateArchivedReportsLaterShouldCreateAnEntryInCaseThereIsNoneYet()
     {
         //Updated for change to allow for multiple transactions to invalidate the same report without deadlock.
         $key = 'report_to_invalidate_2_2014-04-05' . '_' . getmypid();
@@ -435,7 +435,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSame('1', Option::get($keyStored));
     }
 
-    public function test_rememberToInvalidateArchivedReportsLater_shouldNotCreateEntryTwice()
+    public function testRememberToInvalidateArchivedReportsLaterShouldNotCreateEntryTwice()
     {
         $this->rememberReport(2, '2014-04-05');
         $this->rememberReport(2, '2014-04-05');
@@ -444,14 +444,14 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertCount(1, Option::getLike('%report_to_invalidate%'));
     }
 
-    public function test_getRememberedArchivedReportsThatShouldBeInvalidated_shouldNotReturnEntriesInCaseNoneAreRemembered()
+    public function testGetRememberedArchivedReportsThatShouldBeInvalidatedShouldNotReturnEntriesInCaseNoneAreRemembered()
     {
         $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
         $this->assertSame(array(), $reports);
     }
 
-    public function test_getRememberedArchivedReportsThatShouldBeInvalidated_shouldGroupEntriesByDate()
+    public function testGetRememberedArchivedReportsThatShouldBeInvalidatedShouldGroupEntriesByDate()
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -460,7 +460,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($this->getRememberedReportsByDate(), $reports);
     }
 
-    public function test_getRememberedArchivedReportsThatShouldBeInvalidatedBySite(): void
+    public function testGetRememberedArchivedReportsThatShouldBeInvalidatedBySite(): void
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -477,7 +477,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         }
     }
 
-    public function test_getDaysWithRememberedInvalidationsForSite(): void
+    public function testGetDaysWithRememberedInvalidationsForSite(): void
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -509,7 +509,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         }
     }
 
-    public function test_forgetRememberedArchivedReportsToInvalidateForSite_shouldNotDeleteAnythingInCaseNoReportForThatSite()
+    public function testForgetRememberedArchivedReportsToInvalidateForSiteShouldNotDeleteAnythingInCaseNoReportForThatSite()
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -519,7 +519,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($this->getRememberedReportsByDate(), $reports);
     }
 
-    public function test_forgetRememberedArchivedReportsToInvalidateForSite_shouldOnlyDeleteReportsBelongingToThatSite()
+    public function testForgetRememberedArchivedReportsToInvalidateForSiteShouldOnlyDeleteReportsBelongingToThatSite()
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -534,7 +534,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($expected, $reports);
     }
 
-    public function test_forgetRememberedArchivedReportsToInvalidate_shouldNotForgetAnythingIfThereIsNoMatch()
+    public function testForgetRememberedArchivedReportsToInvalidateShouldNotForgetAnythingIfThereIsNoMatch()
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -551,7 +551,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($this->getRememberedReportsByDate(), $reports);
     }
 
-    public function test_forgetRememberedArchivedReportsToInvalidate_shouldOnlyDeleteReportBelongingToThatSiteAndDate()
+    public function testForgetRememberedArchivedReportsToInvalidateShouldOnlyDeleteReportBelongingToThatSiteAndDate()
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -576,7 +576,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($expected, $reports);
     }
 
-    public function test_markArchivesAsInvalidated_shouldForgetInvalidatedSitesAndDates_IfPeriodIsDay()
+    public function testMarkArchivesAsInvalidatedShouldForgetInvalidatedSitesAndDatesIfPeriodIsDay()
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -630,7 +630,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->rememberReport(7, '2014-04-08');
     }
 
-    public function test_markArchivesAsInvalidated_invalidatesPastPurgeThreshold_ifFlagToIgnoreIsProvided()
+    public function testMarkArchivesAsInvalidatedInvalidatesPastPurgeThresholdIfFlagToIgnoreIsProvided()
     {
         PrivacyManager::savePurgeDataSettings(array(
             'delete_logs_enable' => 1,
@@ -676,7 +676,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertCount(4, $invalidatedArchiveTableEntries);
     }
 
-    public function test_markArchivesAsInvalidated_DoesNotInvalidateDatesBeforePurgeThreshold()
+    public function testMarkArchivesAsInvalidatedDoesNotInvalidateDatesBeforePurgeThreshold()
     {
         PrivacyManager::savePurgeDataSettings(array(
             'delete_logs_enable' => 1,
@@ -717,7 +717,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertCount(4, $invalidatedArchiveTableEntries);
     }
 
-    public function test_markArchivesAsInvalidated_InvalidatesCorrectlyWhenNoArchiveTablesExist()
+    public function testMarkArchivesAsInvalidatedInvalidatesCorrectlyWhenNoArchiveTablesExist()
     {
         /** @var ArchiveInvalidator $archiveInvalidator */
         $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
@@ -780,7 +780,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEqualsSorted($expectedEntries, $invalidatedArchiveTableEntries);
     }
 
-    public function test_markArchivesAsInvalidated_AddsInvalidationEntries_ButDoesNotMarkArchivesAsInvalidated_IfArchiveIsPartial()
+    public function testMarkArchivesAsInvalidatedAddsInvalidationEntriesButDoesNotMarkArchivesAsInvalidatedIfArchiveIsPartial()
     {
         // insert some partial archives
         $this->insertArchiveRow(1, '2020-03-04', 'day', ArchiveWriter::DONE_OK, false, false);
@@ -845,7 +845,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForMarkArchivesAsInvalidated
      */
-    public function test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated(
+    public function testMarkArchivesAsInvalidatedMarksCorrectArchivesAsInvalidated(
         $idSites,
         $dates,
         $period,
@@ -1598,7 +1598,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForMarkArchiveRangesAsInvalidated
      */
-    public function test_markArchivesAsInvalidated_MarksAllSubrangesOfRange($idSites, $dates, $segment, $expectedIdArchives)
+    public function testMarkArchivesAsInvalidatedMarksAllSubrangesOfRange($idSites, $dates, $segment, $expectedIdArchives)
     {
         $dates = array_map(array('Piwik\Date', 'factory'), $dates);
 
@@ -1739,7 +1739,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         );
     }
 
-    public function test_markArchivesAsInvalidated_forceInvalidatesNonExistantRangesWhenRequired()
+    public function testMarkArchivesAsInvalidatedForceInvalidatesNonExistantRangesWhenRequired()
     {
         $archives = $this->getInvalidatedArchives();
         $this->assertEmpty($archives);
@@ -1763,7 +1763,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidatedTableEntries, $invalidatedTableEntries);
     }
 
-    public function test_markArchivesAsInvalidated_invalidatesIndividualPluginNames()
+    public function testMarkArchivesAsInvalidatedInvalidatesIndividualPluginNames()
     {
         $idSites = [1];
         $dates = ['2015-01-11'];
@@ -1791,7 +1791,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         );
     }
 
-    public function test_markArchivesAsInvalidated_invalidatesIndividualReports()
+    public function testMarkArchivesAsInvalidatedInvalidatesIndividualReports()
     {
         $idSites = [1];
         $dates = ['2015-01-11'];
@@ -1819,7 +1819,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         );
     }
 
-    public function test_markArchivesAsInvalidated_doesNotInsertDuplicateInvalidations()
+    public function testMarkArchivesAsInvalidatedDoesNotInsertDuplicateInvalidations()
     {
         $this->insertArchiveRowsForTest();
 
@@ -2064,7 +2064,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
 
-    public function test_reArchiveReport_createsCorrectInvalidationEntries_forAllSitesIfAllSpecified()
+    public function testReArchiveReportCreatesCorrectInvalidationEntriesForAllSitesIfAllSpecified()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -2082,7 +2082,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals([1,2,3,4,5,6,7,8,9,10], $invalidationSites);
     }
 
-    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifReArchivingSegments()
+    public function testReArchiveReportCreatesCorrectInvalidationEntriesIfReArchivingSegments()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -2117,7 +2117,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidationNames, $invalidationNames);
     }
 
-    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNotReArchivingSegments()
+    public function testReArchiveReportCreatesCorrectInvalidationEntriesIfNotReArchivingSegments()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -2155,7 +2155,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('archive_invalidations'));
     }
 
-    public function test_scheduleReArchiving_cleanupWhenReportGiven()
+    public function testScheduleReArchivingCleanupWhenReportGiven()
     {
         $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin', '5');
         $this->invalidator->applyScheduledReArchiving();
@@ -2167,7 +2167,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         // should not end up having twice the amount of invalidations but delete existing
         $this->assertEquals($numInvalidations, $this->getNumInvalidations());
     }
-    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNoReportSpecified()
+    public function testReArchiveReportCreatesCorrectInvalidationEntriesIfNoReportSpecified()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -2223,7 +2223,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
 
-    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifReportSpecified()
+    public function testReArchiveReportCreatesCorrectInvalidationEntriesIfReportSpecified()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -2281,7 +2281,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
 
-    public function test_reArchive_acceptsCustomStartDate()
+    public function testReArchiveAcceptsCustomStartDate()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -2340,7 +2340,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
 
-    public function test_reArchive_alsoInvalidatesSegments()
+    public function testReArchiveAlsoInvalidatesSegments()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 

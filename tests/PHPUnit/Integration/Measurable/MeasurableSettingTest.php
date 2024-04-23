@@ -33,7 +33,7 @@ class MeasurableSettingTest extends IntegrationTestCase
         return $setting;
     }
 
-    public function test_setValue_getValue_shouldSucceed_IfEnoughPermission()
+    public function testSetValueGetValueShouldSucceedIfEnoughPermission()
     {
         $setting = $this->createSetting();
         $setting->setValue('test');
@@ -42,7 +42,7 @@ class MeasurableSettingTest extends IntegrationTestCase
         $this->assertSame('test', $value);
     }
 
-    public function testSetValue_shouldThrowException_IfOnlyViewPermission()
+    public function testSetValueShouldThrowExceptionIfOnlyViewPermission()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
@@ -52,7 +52,7 @@ class MeasurableSettingTest extends IntegrationTestCase
         $this->createSetting()->setValue('test');
     }
 
-    public function testSetValue_shouldThrowException_IfNoPermissionAtAll()
+    public function testSetValueShouldThrowExceptionIfNoPermissionAtAll()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');

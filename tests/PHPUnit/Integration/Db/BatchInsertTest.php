@@ -16,7 +16,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class BatchInsertTest extends IntegrationTestCase
 {
-    public function test_tableInsertBatchSql()
+    public function testTableInsertBatchSql()
     {
         $access = Common::prefixTable('access');
         $fields = array('login', 'idsite', 'access', 'idaccess');
