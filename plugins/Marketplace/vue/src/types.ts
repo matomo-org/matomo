@@ -83,13 +83,6 @@ export interface PluginDetails {
   numDownloadsPretty: TNumberOrString;
 }
 
-export interface PluginDetailsState {
-  isLoading: boolean;
-  pluginDetails: string;
-  fetchRequest: Promise<void>|null;
-  fetchRequestAbortController: AbortController|null;
-}
-
 declare global {
   interface Window {
     // TODO: figure out a narrower type definition

@@ -276,7 +276,6 @@ import { defineComponent } from 'vue';
 import {
   IPluginShopDetails, IPluginShopReviews, IPluginShopVariation,
   PluginDetails,
-  PluginDetailsState,
   TObject,
   TObjectArray,
 } from '../types';
@@ -284,6 +283,13 @@ import CTAContainer from '../PluginList/CTAContainer.vue';
 import MissingReqsNotice from '../MissingReqsNotice/MissingReqsNotice.vue';
 
 const { $ } = window;
+
+interface PluginDetailsModalState {
+  isLoading: boolean;
+  pluginDetails: string;
+  fetchRequest: Promise<void>|null;
+  fetchRequestAbortController: AbortController|null;
+}
 
 export default defineComponent({
   components: { MissingReqsNotice, CTAContainer },
@@ -333,7 +339,7 @@ export default defineComponent({
       required: true,
     },
   },
-  data(): PluginDetailsState {
+  data(): PluginDetailsModalState {
     return {
       isLoading: true,
       pluginDetails: '',
