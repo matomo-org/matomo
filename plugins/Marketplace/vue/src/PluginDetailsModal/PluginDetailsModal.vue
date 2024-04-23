@@ -106,7 +106,7 @@
                       :href="author.homepage"
                     >{{ author.name }}</a>
                     <a
-                      v-else-if="author.email"
+                      v-else-if="author.email && isValidEmail(author.email)"
                       :href="`mailto:${ encodeURIComponent(author.email) }`"
                     >{{ author.name }}</a>
                     <span v-else>{{ author.name }}</span>
