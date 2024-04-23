@@ -36,7 +36,7 @@ class ApiTest extends IntegrationTestCase
         $this->api = API::getInstance();
     }
 
-    public function test_doesIncludePluginTrackersAutomatically_failsIfNotEnoughPermission()
+    public function testDoesIncludePluginTrackersAutomaticallyFailsIfNotEnoughPermission()
     {
         $this->expectException(\Piwik\NoAccessException::class);
         $this->expectExceptionMessage('checkUserHasSomeAdminAccess');
@@ -45,7 +45,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->doesIncludePluginTrackersAutomatically();
     }
 
-    public function test_doesIncludePluginTrackersAutomatically_failsIfNotEnoughPermissionAnonymous()
+    public function testDoesIncludePluginTrackersAutomaticallyFailsIfNotEnoughPermissionAnonymous()
     {
         $this->expectException(\Piwik\NoAccessException::class);
         $this->expectExceptionMessage('checkUserHasSomeAdminAccess');
@@ -54,7 +54,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->doesIncludePluginTrackersAutomatically();
     }
 
-    public function test_doesIncludePluginTrackersAutomatically_returnsValueWhenEnoughPermission()
+    public function testDoesIncludePluginTrackersAutomaticallyReturnsValueWhenEnoughPermission()
     {
         $this->assertTrue($this->api->doesIncludePluginTrackersAutomatically());
     }

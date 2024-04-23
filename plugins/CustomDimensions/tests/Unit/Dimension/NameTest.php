@@ -25,7 +25,7 @@ class NameTest extends \PHPUnit\Framework\TestCase
         Fixture::resetTranslations();
     }
 
-    public function test_check_shouldFailWhenNameIsEmpty()
+    public function testCheckShouldFailWhenNameIsEmpty()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CustomDimensions_NameIsRequired');
@@ -36,7 +36,7 @@ class NameTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getInvalidNames
      */
-    public function test_check_shouldFailWhenNameIsInvalid($name)
+    public function testCheckShouldFailWhenNameIsInvalid($name)
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CustomDimensions_NameAllowedCharacters');
@@ -44,7 +44,7 @@ class NameTest extends \PHPUnit\Framework\TestCase
         $this->buildName($name)->check();
     }
 
-    public function test_check_shouldFailWhenNameIsTooLong()
+    public function testCheckShouldFailWhenNameIsTooLong()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CustomDimensions_NameIsTooLong');
@@ -72,7 +72,7 @@ class NameTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getValidNames
      */
-    public function test_check_shouldNotFailWhenScopeIsValid($name)
+    public function testCheckShouldNotFailWhenScopeIsValid($name)
     {
         self::expectNotToPerformAssertions();
 

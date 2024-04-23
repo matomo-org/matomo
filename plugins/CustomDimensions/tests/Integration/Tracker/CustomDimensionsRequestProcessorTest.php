@@ -57,7 +57,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_buildCustomDimensionTrackingApiName()
+    public function testBuildCustomDimensionTrackingApiName()
     {
         $this->assertNull(Processor::buildCustomDimensionTrackingApiName(''));
         $this->assertNull(Processor::buildCustomDimensionTrackingApiName('0'));
@@ -70,7 +70,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $this->assertSame('dimension4', Processor::buildCustomDimensionTrackingApiName(array('idcustomdimension' => '4')));
     }
 
-    public function test_getCachedCustomDimensionIndexes()
+    public function testGetCachedCustomDimensionIndexes()
     {
         $logTable = new LogTable(CustomDimensions::SCOPE_ACTION);
         $logTable->removeCustomDimension(1);
@@ -82,7 +82,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $this->assertSame(range(2, 5), $indexes);
     }
 
-    public function test_getCachedCustomDimensions_shouldReturnDimensionsForSiteButOnlyActiveOnes()
+    public function testGetCachedCustomDimensionsShouldReturnDimensionsForSiteButOnlyActiveOnes()
     {
         $this->configureSomeDimensions();
 
@@ -102,7 +102,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $this->assertCount(1, $dimensions);
     }
 
-    public function test_hasActionCustomDimensionConfiguredInSite_whenHasActionDimensionConfigured()
+    public function testHasActionCustomDimensionConfiguredInSiteWhenHasActionDimensionConfigured()
     {
         $this->configureSomeDimensions();
 
@@ -110,19 +110,19 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $this->assertTrue(Processor::hasActionCustomDimensionConfiguredInSite($request));
     }
 
-    public function test_hasActionCustomDimensionConfiguredInSite_whenHasOnlyVisitDimensions()
+    public function testHasActionCustomDimensionConfiguredInSiteWhenHasOnlyVisitDimensions()
     {
         $request = new Request(array('idsite' => 2));
         $this->assertFalse(Processor::hasActionCustomDimensionConfiguredInSite($request));
     }
 
-    public function test_hasActionCustomDimensionConfiguredInSite_WhenNoDimensionsAreConfgigured()
+    public function testHasActionCustomDimensionConfiguredInSiteWhenNoDimensionsAreConfgigured()
     {
         $request = new Request(array('idsite' => 1));
         $this->assertFalse(Processor::hasActionCustomDimensionConfiguredInSite($request));
     }
 
-    public function test_onExistingVisit_ShouldOnlyAddColumnsOfCustomDimensionsInScopeVisit()
+    public function testOnExistingVisitShouldOnlyAddColumnsOfCustomDimensionsInScopeVisit()
     {
         $this->configureSomeDimensions();
 
@@ -149,7 +149,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $this->assertSame($expected, $valuesToUpdate);
     }
 
-    public function test_onNewVisit_afterRequestProcessed_ShouldSaveManuallySetDimensionValues_ForActivatedDimensions()
+    public function testOnNewVisitAfterRequestProcessedShouldSaveManuallySetDimensionValuesForActivatedDimensions()
     {
         $this->configureSomeDimensions();
 
@@ -192,7 +192,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $this->assertSame($expected1, $visitProperties->getProperties());
     }
 
-    public function test_afterRequestProcessed_ShouldSaveManuallySetDimensionValues_ForActivatedDimensions()
+    public function testAfterRequestProcessedShouldSaveManuallySetDimensionValuesForActivatedDimensions()
     {
         $this->configureSomeDimensions();
 
@@ -232,7 +232,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $this->assertSame($expected1, $visitProperties->getProperties()); // should not have added visit dimensions
     }
 
-    public function test_onNewVisit_afterRequestProcessed_NoDimensionsConfigured_ShouldSaveNothing()
+    public function testOnNewVisitAfterRequestProcessedNoDimensionsConfiguredShouldSaveNothing()
     {
         $visitProperties = new VisitProperties();
         $request = new Request(array(
@@ -250,7 +250,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $this->assertSame(array(), $visitProperties->getProperties());
     }
 
-    public function test_onNewVisit_afterRequestProcessed_NoActionSet_ShouldNotFailIfThereIsNoActionSet()
+    public function testOnNewVisitAfterRequestProcessedNoActionSetShouldNotFailIfThereIsNoActionSet()
     {
         $this->configureSomeDimensions();
 
@@ -274,7 +274,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $this->assertSame($expected, $visitProperties->getProperties());
     }
 
-    public function test_afterRequestProcessed_NoActionSet_ShouldNotSaveAnEmptyValue()
+    public function testAfterRequestProcessedNoActionSetShouldNotSaveAnEmptyValue()
     {
         $this->configureSomeDimensions();
 
@@ -294,7 +294,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $this->assertSame(array('custom_dimension_4' => ''), $visitProperties->getProperties());
     }
 
-    public function test_afterRequestProcessed_NoActionSet_ShouldBeAbleToExtractAValue()
+    public function testAfterRequestProcessedNoActionSetShouldBeAbleToExtractAValue()
     {
         $configuration = new Configuration();
         $extractions = array(
@@ -334,7 +334,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $this->assertSame(array('custom_dimension_1' => '11'), $action->getCustomFields());
     }
 
-    public function test_afterRequestProcessed_NoActionSet_ShouldBeAbleToHandleCaseSensitive()
+    public function testAfterRequestProcessedNoActionSetShouldBeAbleToHandleCaseSensitive()
     {
         $configuration = new Configuration();
         $extractions = array(
@@ -354,7 +354,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         ), $action->getCustomFields());
     }
 
-    public function test_valueWithWhitespace_isTrimmed()
+    public function testValueWithWhitespaceIsTrimmed()
     {
         $this->configureSomeDimensions();
 
@@ -377,7 +377,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $this->assertSame(array(), $action->getCustomFields());
     }
 
-    public function test_veryLongValue_isTruncated()
+    public function testVeryLongValueIsTruncated()
     {
         $this->configureSomeDimensions();
 
@@ -403,7 +403,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $this->assertSame(array(), $action->getCustomFields());
     }
 
-    public function test_valueWithWhitespace_isTrimmed_extractedFromUrl()
+    public function testValueWithWhitespaceIsTrimmedExtractedFromUrl()
     {
         $configuration = new Configuration();
         $extractions = array(
@@ -430,7 +430,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         ), $visitProperties->getProperties());
     }
 
-    public function test_veryLongValue_isTrimmed_extractedFromUrl()
+    public function testVeryLongValueIsTrimmedExtractedFromUrl()
     {
         $veryLongStr =  '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890';
         $trimmedStr =   '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890';

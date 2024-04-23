@@ -27,7 +27,7 @@ class PiwikJsManipulatorTest extends IntegrationTestCase
 var myArray = [];
 ';
 
-    public function test_manipulateContent_shouldAddCodeOfTrackerPlugins()
+    public function testManipulateContentShouldAddCodeOfTrackerPlugins()
     {
         $manipulator = $this->makeManipulator(array(
             '/plugins/CustomJsTracker/tests/resources/tracker.js',
@@ -57,7 +57,7 @@ var myArray = [];
 ', $updatedContent);
     }
 
-    public function test_manipulateContent_shouldNotAddCodeOfTrackerPlugins_IfThereAreNoTrackerFiles()
+    public function testManipulateContentShouldNotAddCodeOfTrackerPluginsIfThereAreNoTrackerFiles()
     {
         $manipulator = $this->makeManipulator(array());
 

@@ -31,7 +31,7 @@ class CustomPluginTrackerFiles extends PluginTrackerFiles
  */
 class PluginTrackerFilesTest extends IntegrationTestCase
 {
-    public function test_find_ifAPluginDefinesAMinifiedAndARegularTrackerItShouldPreferTheMinifiedVersion()
+    public function testFindIfAPluginDefinesAMinifiedAndARegularTrackerItShouldPreferTheMinifiedVersion()
     {
         $trackerFiles = new CustomPluginTrackerFiles();
         $foundFiles = $trackerFiles->find();
@@ -41,7 +41,7 @@ class PluginTrackerFilesTest extends IntegrationTestCase
         $this->assertEquals('tracker.min.js', $foundFiles['CustomJsTracker']->getName());
     }
 
-    public function test_find_shouldIgnoreMinifiedVersion_IfRequested()
+    public function testFindShouldIgnoreMinifiedVersionIfRequested()
     {
         $trackerFiles = new CustomPluginTrackerFiles();
         $trackerFiles->ignoreMinified();
@@ -52,7 +52,7 @@ class PluginTrackerFilesTest extends IntegrationTestCase
         $this->assertEquals('tracker.js', $foundFiles['CustomJsTracker']->getName());
     }
 
-    public function test_find_EventsCanIgnoreFiles()
+    public function testFindEventsCanIgnoreFiles()
     {
         $trackerFiles = new CustomPluginTrackerFiles();
         $foundFiles = $trackerFiles->find();

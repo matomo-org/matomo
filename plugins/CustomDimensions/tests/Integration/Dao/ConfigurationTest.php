@@ -38,7 +38,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->tableName = Common::prefixTable('custom_dimensions');
     }
 
-    public function test_shouldInstallConfigTable()
+    public function testShouldInstallConfigTable()
     {
         $columns = DbHelper::getTableColumns($this->tableName);
         $columns = array_keys($columns);
@@ -49,7 +49,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertSame($expected, $columns);
     }
 
-    public function test_shouldBeAbleToUninstallConfigTable()
+    public function testShouldBeAbleToUninstallConfigTable()
     {
         $this->expectException(\Zend_Db_Statement_Exception::class);
         $this->expectExceptionMessage('custom_dimensions');
@@ -66,7 +66,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->config->install();
     }
 
-    public function test_configureNewDimension_shouldGenerateDimensionIdCorrectlyAndShouldNextFreeId()
+    public function testConfigureNewDimensionShouldGenerateDimensionIdCorrectlyAndShouldNextFreeId()
     {
         $cases = $this->createManyCustomDimensionCases();
 
@@ -82,7 +82,7 @@ class ConfigurationTest extends IntegrationTestCase
         }
     }
 
-    public function test_configureNewDimension_shouldNotBePossibleToAssignSameIndexForSameScopeAndIdSiteTwice()
+    public function testConfigureNewDimensionShouldNotBePossibleToAssignSameIndexForSameScopeAndIdSiteTwice()
     {
         $this->expectException(\Zend_Db_Statement_Exception::class);
         $this->expectExceptionMessage('Duplicate');
@@ -94,7 +94,7 @@ class ConfigurationTest extends IntegrationTestCase
     /**
      * @dataProvider getExtractionsProvider
      */
-    public function test_shouldSaveExtractionsSerializedAndUnserializeWhenGettingThem($expectedExtractions, $extractions)
+    public function testShouldSaveExtractionsSerializedAndUnserializeWhenGettingThem($expectedExtractions, $extractions)
     {
         $idSite = 1;
         $name = 'Test';
@@ -119,7 +119,7 @@ class ConfigurationTest extends IntegrationTestCase
     /**
      * @dataProvider getExtractionsProvider
      */
-    public function test_configureExistingDimension_shouldSerializeExtractionsAndGetThemCorrectly($expectedExtractions, $extractions)
+    public function testConfigureExistingDimensionShouldSerializeExtractionsAndGetThemCorrectly($expectedExtractions, $extractions)
     {
         $idSite = 1;
         $name = 'Test';
@@ -134,7 +134,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertSame($expectedExtractions, $dimension['extractions']);
     }
 
-    public function test_configureExistingDimension_shouldUpdateDimensionWhenIdSiteMatches()
+    public function testConfigureExistingDimensionShouldUpdateDimensionWhenIdSiteMatches()
     {
         $idSite = 1;
         $idDimension = $this->configureNewDimension();
@@ -156,7 +156,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertSame(false, $dimension['case_sensitive']);
     }
 
-    public function test_configureExistingDimension_shouldNotUpdateDimensionIfIdSiteDoesNotMatch()
+    public function testConfigureExistingDimensionShouldNotUpdateDimensionIfIdSiteDoesNotMatch()
     {
         $idDimension = $this->configureNewDimension();
 
@@ -198,7 +198,7 @@ class ConfigurationTest extends IntegrationTestCase
         return $tests;
     }
 
-    public function test_getCustomDimensionsForSite_shouldBeEmpty_IfThereAreNoCustomDimensions()
+    public function testGetCustomDimensionsForSiteShouldBeEmptyIfThereAreNoCustomDimensions()
     {
         $this->assertSame(array(), $this->config->getCustomDimensionsForSite($idSite = 1));
     }
@@ -208,7 +208,7 @@ class ConfigurationTest extends IntegrationTestCase
         return $this->config->configureNewDimension($idSite, $name, $scope, $index, $active, $extractions, $caseSensitive = true);
     }
 
-    public function test_getCustomDimension_shouldOnlyFindDimensionMatchingIdDimensionAndIdSite()
+    public function testGetCustomDimensionShouldOnlyFindDimensionMatchingIdDimensionAndIdSite()
     {
         $this->createManyCustomDimensionCases();
 
@@ -223,7 +223,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertNotEmpty($this->config->getCustomDimension($idDimension = 2, $idSite = 2));
     }
 
-    public function test_getCustomDimension_shouldReturnDimension()
+    public function testGetCustomDimensionShouldReturnDimension()
     {
         $this->createManyCustomDimensionCases();
 
@@ -242,7 +242,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertSame($expected, $dimension);
     }
 
-    public function test_getCustomDimensionsForSite_shouldFindEntriesHavingThisSite()
+    public function testGetCustomDimensionsForSiteShouldFindEntriesHavingThisSite()
     {
         $this->createManyCustomDimensionCases();
 
@@ -267,7 +267,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertSame(array(), $dimensions);
     }
 
-    public function test_getCustomDimensionsHavingIndex_shouldFindEntriesHavingIndexAndSite()
+    public function testGetCustomDimensionsHavingIndexShouldFindEntriesHavingIndexAndSite()
     {
         $this->createManyCustomDimensionCases();
 
@@ -296,7 +296,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertSame(array(), $dimensions);
     }
 
-    public function test_gdeleteConfigurationsForSite_shouldOnlyDeleteConfigsForThisSite()
+    public function testGdeleteConfigurationsForSiteShouldOnlyDeleteConfigsForThisSite()
     {
         $this->createManyCustomDimensionCases();
         $idSite = 1;
@@ -315,7 +315,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertCount(3, $dimensions);
     }
 
-    public function test_getCustomDimensionsHavingIndex_shouldOnlyDeleteConfigsForThisSite()
+    public function testGetCustomDimensionsHavingIndexShouldOnlyDeleteConfigsForThisSite()
     {
         $this->createManyCustomDimensionCases();
         $index = 1;
