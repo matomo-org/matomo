@@ -61,7 +61,7 @@ jobs:
           submodules: true
           path: matomo
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@tidb
         with:
           test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.adapter }}
@@ -82,7 +82,7 @@ jobs:
           submodules: true
           path: matomo
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@tidb
         with:
           test-type: 'JS'
           php-version: '7.2'
@@ -98,7 +98,7 @@ jobs:
           submodules: true
           path: matomo
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@tidb
         with:
           test-type: 'Client'
           node-version: '16'
@@ -117,7 +117,7 @@ jobs:
           submodules: true
           path: matomo
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@tidb
         with:
           testomatio: ${{ secrets.TESTOMATIO }}
           ui-test-options: '--num-test-groups=4 --test-group=${{ matrix.parts }}'
