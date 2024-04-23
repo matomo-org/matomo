@@ -95,7 +95,7 @@ class TrackGoalsPagesTest extends SystemTestCase
      *
      * @dataProvider getConversionPagesBeforeExpected
      */
-    public function test_conversionPagesBeforeValues($id, $expected)
+    public function testConversionPagesBeforeValues($id, $expected)
     {
         $actual = Db::get()->fetchOne('SELECT pageviews_before FROM ' . Common::prefixTable('log_conversion') .
                                       ' WHERE idlink_va = ?', [$id]);

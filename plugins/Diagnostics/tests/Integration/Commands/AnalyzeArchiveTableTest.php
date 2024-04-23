@@ -34,7 +34,7 @@ class AnalyzeArchiveTableTest extends ConsoleCommandTestCase
         VisitsSummaryAPI::getInstance()->get(self::$fixture->idSite, 'month', '2010-03-01', 'daysSinceFirstVisit==2');
     }
 
-    public function test_CommandOutput_IsAsExpected()
+    public function testCommandOutputIsAsExpected()
     {
         $expected = <<<OUTPUT
 Statistics for the archive_numeric_2010_03 and archive_blob_2010_03 tables:

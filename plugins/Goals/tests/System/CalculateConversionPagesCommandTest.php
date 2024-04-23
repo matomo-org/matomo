@@ -27,7 +27,7 @@ class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
      */
     public static $fixture = null;
 
-    public function test_CommandSuccessfullyCalculates_ForDateRange()
+    public function testCommandSuccessfullyCalculatesForDateRange()
     {
         $this->unsetPageviewsBefore();
 
@@ -46,7 +46,7 @@ class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
         $this->checkPageviewsBeforeValid();
     }
 
-    public function test_CommandSuccessfullyCalculates_ForLastN()
+    public function testCommandSuccessfullyCalculatesForLastN()
     {
         $this->unsetPageviewsBefore();
 

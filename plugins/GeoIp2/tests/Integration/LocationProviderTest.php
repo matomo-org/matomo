@@ -115,7 +115,7 @@ class LocationProviderTest extends \PHPUnit\Framework\TestCase
         ], $result);
     }
 
-    public function testGeoIP2ISP_whenIspDisabled_IspNotReturnsAnyResult()
+    public function testGeoIP2ISPWhenIspDisabledIspNotReturnsAnyResult()
     {
         $this->setIspEnabled(false);
 
@@ -127,7 +127,7 @@ class LocationProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($result);
     }
 
-    public function testGeoIP2ISP_whenIspDisabled_LocStillReturnsResult()
+    public function testGeoIP2ISPWhenIspDisabledLocStillReturnsResult()
     {
         $this->setIspEnabled(false);
 
