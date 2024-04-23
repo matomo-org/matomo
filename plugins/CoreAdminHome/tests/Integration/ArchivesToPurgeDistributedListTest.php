@@ -18,7 +18,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ArchivesToPurgeDistributedListTest extends IntegrationTestCase
 {
-    public function test_construct_CorrectlyConvertsOldListValues()
+    public function testConstructCorrectlyConvertsOldListValues()
     {
         $oldItems = array(
             '2015_01' => array(1,2,3),

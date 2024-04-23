@@ -15,7 +15,7 @@ use Piwik\DataTable\Simple;
 
 class SimpleTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_serialize_includesAllRequiredData()
+    public function testSerializeIncludesAllRequiredData()
     {
         $dataTable = new Simple();
         $dataTable->addRowFromSimpleArray([

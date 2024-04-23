@@ -16,7 +16,7 @@ class EmailStylesTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForRgbToHex
      */
-    public function test_rgbToHex_convertsRgbCorrectly($values, $expected)
+    public function testRgbToHexConvertsRgbCorrectly($values, $expected)
     {
         $this->assertEquals($expected, EmailStyles::rgbToHex($values));
     }

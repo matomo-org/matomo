@@ -30,7 +30,7 @@ class RequestsTest extends \PHPUnit\Framework\TestCase
         $this->requests = new Requests();
     }
 
-    public function test_isUsingBulkRequest_shouldReturnFalse_IfRequestIsEmpty()
+    public function testIsUsingBulkRequestShouldReturnFalseIfRequestIsEmpty()
     {
         $this->assertFalse($this->requests->isUsingBulkRequest(false));
         $this->assertFalse($this->requests->isUsingBulkRequest(null));
@@ -38,7 +38,7 @@ class RequestsTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->requests->isUsingBulkRequest(0));
     }
 
-    public function test_isUsingBulkRequest_shouldReturnFalse_IfRequestIsNotABulkRequest()
+    public function testIsUsingBulkRequestShouldReturnFalseIfRequestIsNotABulkRequest()
     {
         $this->assertFalse($this->requests->isUsingBulkRequest(5));
         $this->assertFalse($this->requests->isUsingBulkRequest('test'));
@@ -47,7 +47,7 @@ class RequestsTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->requests->isUsingBulkRequest('[5, 10, "request"]'));
     }
 
-    public function test_isUsingBulkRequest_shouldReturnTrue_IfRequestIsABulkRequest()
+    public function testIsUsingBulkRequestShouldReturnTrueIfRequestIsABulkRequest()
     {
         $request = $this->buildRequestRawData(array(array('idsite' => '1')));
         $this->assertTrue($this->requests->isUsingBulkRequest($request));
@@ -56,7 +56,7 @@ class RequestsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->requests->isUsingBulkRequest("{'requests'"));
     }
 
-    public function test_getRequestsArrayFromBulkRequest_ShouldFindRequestsAndEmptyTokenAndItShouldTrimWhitespaceFromRawData()
+    public function testGetRequestsArrayFromBulkRequestShouldFindRequestsAndEmptyTokenAndItShouldTrimWhitespaceFromRawData()
     {
         $requests = array(array('idsite' => '1'), array('idsite' => '2'));
         $request  = $this->buildRequestRawData($requests);
@@ -67,7 +67,7 @@ class RequestsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function test_getRequestsArrayFromBulkRequest_shouldRecognize()
+    public function testGetRequestsArrayFromBulkRequestShouldRecognize()
     {
         $token = md5('2');
 
@@ -78,7 +78,7 @@ class RequestsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function test_initRequestsAndTokenAuth_NoRequestsSetShouldStillFindToken()
+    public function testInitRequestsAndTokenAuthNoRequestsSetShouldStillFindToken()
     {
         $token = md5('2');
 
@@ -89,7 +89,7 @@ class RequestsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function test_initRequestsAndTokenAuth_ShouldFindRequestsAndEmptyToken()
+    public function testInitRequestsAndTokenAuthShouldFindRequestsAndEmptyToken()
     {
         $params  = array(array('idsite' => '1'), array('idsite' => '2'));
         $request = $this->buildRequestRawData($params);
@@ -109,7 +109,7 @@ class RequestsTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(2, $requests);
     }
 
-    public function test_initRequestsAndTokenAuth_ShouldFindRequestsAndASetTokenAndPassItToRequestInstances()
+    public function testInitRequestsAndTokenAuthShouldFindRequestsAndASetTokenAndPassItToRequestInstances()
     {
         $token = md5(2);
         $params  = array(array('idsite' => '1'), array('idsite' => '2'));
@@ -125,7 +125,7 @@ class RequestsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($token, $requests[1]->getTokenAuth());
     }
 
-    public function test_initRequestsAndTokenAuth_ShouldIgnoreEmptyUrls()
+    public function testInitRequestsAndTokenAuthShouldIgnoreEmptyUrls()
     {
         $token = md5(2);
         $params  = array(array('idsite' => '1'), '', array('idsite' => '2'));
@@ -141,7 +141,7 @@ class RequestsTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(2, $requests);
     }
 
-    public function test_initRequestsAndTokenAuth_ShouldResolveUrls()
+    public function testInitRequestsAndTokenAuthShouldResolveUrls()
     {
         $token = md5(2);
         $params  = array('piwik.php?idsite=1', '', 'piwik.php?idsite=3&rec=0', array('idsite' => '2'));

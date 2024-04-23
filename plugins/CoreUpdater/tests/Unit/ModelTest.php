@@ -31,14 +31,14 @@ class ModelTest extends \PHPUnit\Framework\TestCase
         $this->model = new Model();
     }
 
-    public function test_getPluginsFromDirectoy_shouldReturnEmptyArray_IfNoPluginsExist()
+    public function testGetPluginsFromDirectoyShouldReturnEmptyArrayIfNoPluginsExist()
     {
         $plugins = $this->model->getPluginsFromDirectoy(PIWIK_INCLUDE_PATH . '/config');
 
         $this->assertEquals(array(), $plugins);
     }
 
-    public function test_getPluginsFromDirectoy_shouldReturnAllDirectoriesWithinPlugins()
+    public function testGetPluginsFromDirectoyShouldReturnAllDirectoriesWithinPlugins()
     {
         $plugins = $this->model->getPluginsFromDirectoy(PIWIK_INCLUDE_PATH);
 

@@ -15,7 +15,7 @@ use Piwik\Tracker\TrackerConfig;
 
 class TrackerConfigTest extends UnitTestCase
 {
-    public function test_getConfigValue_returnsTrackerConfigValue_ifNoSiteSpecificValue()
+    public function testGetConfigValueReturnsTrackerConfigValueIfNoSiteSpecificValue()
     {
         Config::getInstance()->Tracker['setting'] = 1;
         Config::getInstance()->Tracker_10['setting'] = 0;
@@ -23,7 +23,7 @@ class TrackerConfigTest extends UnitTestCase
         $this->assertEquals(1, TrackerConfig::getConfigValue('setting', 5));
     }
 
-    public function test_getConfigValue_returnsSiteSpecificConfigValue_ifOneIsSpecified()
+    public function testGetConfigValueReturnsSiteSpecificConfigValueIfOneIsSpecified()
     {
         Config::getInstance()->Tracker['setting'] = 1;
         Config::getInstance()->Tracker_10['setting'] = 0;

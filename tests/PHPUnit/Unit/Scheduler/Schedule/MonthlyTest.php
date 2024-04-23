@@ -118,7 +118,7 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(self::$FEBRUARY_01_1971_00_00_00, $mock->getRescheduledTime());
     }
 
-    public function test_setTimezone_ShouldConvertRescheduledTime()
+    public function testSetTimezoneShouldConvertRescheduledTime()
     {
         $oneHourInSeconds = 3600;
 

@@ -17,35 +17,35 @@ use Piwik\Tracker\Visitor;
 
 class VisitorReturningTest extends TestCase
 {
-    public function test_onNewVisit_returnsReturningCustomerIfVisitHasOrder()
+    public function testOnNewVisitReturnsReturningCustomerIfVisitHasOrder()
     {
         $dim = new VisitorReturning();
         $result = $dim->onNewVisit($this->makeMockRequest([ 'ec_id' => 'abcdefg' ]), $this->makeMockVisitor(true), null);
         $this->assertEquals(VisitorReturning::IS_RETURNING_CUSTOMER, $result);
     }
 
-    public function test_onNewVisit_returnsReturningCustomerIfVisitHasSecondsSinceLastOrder()
+    public function testOnNewVisitReturnsReturningCustomerIfVisitHasSecondsSinceLastOrder()
     {
         $dim = new VisitorReturning();
         $result = $dim->onNewVisit($this->makeMockRequest(), $this->makeMockVisitor(true, [ 'visitor_seconds_since_order' => 1234 ]), null);
         $this->assertEquals(VisitorReturning::IS_RETURNING_CUSTOMER, $result);
     }
 
-    public function test_onNewVisit_returnsReturningCustomerIfPrevVisitHasSecondsSinceLastOrder()
+    public function testOnNewVisitReturnsReturningCustomerIfPrevVisitHasSecondsSinceLastOrder()
     {
         $dim = new VisitorReturning();
         $result = $dim->onNewVisit($this->makeMockRequest(), $this->makeMockVisitor(true, [], [ 'visitor_seconds_since_order' => 5678 ]), null);
         $this->assertEquals(VisitorReturning::IS_RETURNING_CUSTOMER, $result);
     }
 
-    public function test_onNewVisit_returnsReturningVisitorIfVisitorIsKnown()
+    public function testOnNewVisitReturnsReturningVisitorIfVisitorIsKnown()
     {
         $dim = new VisitorReturning();
         $result = $dim->onNewVisit($this->makeMockRequest(), $this->makeMockVisitor(true), null);
         $this->assertEquals(VisitorReturning::IS_RETURNING, $result);
     }
 
-    public function test_onNewVisit_returnsNewVisitIfVisitorIsNotKnown()
+    public function testOnNewVisitReturnsNewVisitIfVisitorIsNotKnown()
     {
         $dim = new VisitorReturning();
         $result = $dim->onNewVisit($this->makeMockRequest(), $this->makeMockVisitor(false), null);

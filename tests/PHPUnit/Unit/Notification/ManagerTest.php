@@ -29,7 +29,7 @@ class ManagerTest extends TestCase
         Manager::cancelAllNotifications();
     }
 
-    public function test_notify_addsNotificationToNotificationArray()
+    public function testNotifyAddsNotificationToNotificationArray()
     {
         $notification = new Notification('abcdefg');
         $result = Manager::notify('testid', $notification);
@@ -47,7 +47,7 @@ class ManagerTest extends TestCase
     /**
      * @dataProvider getTestDataForNotify
      */
-    public function test_notify_throwsWhenAnInvalidIdIsUsed($id, $expectedMessage)
+    public function testNotifyThrowsWhenAnInvalidIdIsUsed($id, $expectedMessage)
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage($expectedMessage);
@@ -64,7 +64,7 @@ class ManagerTest extends TestCase
         ];
     }
 
-    public function test_notify_doesNotAddNotificationIfThereAreAlreadyMoreThanThirty()
+    public function testNotifyDoesNotAddNotificationIfThereAreAlreadyMoreThanThirty()
     {
         for ($i = 0; $i < Manager::MAX_NOTIFICATIONS_IN_SESSION; ++$i) {
             Manager::notify('not' . $i, new Notification('message ' . $i));

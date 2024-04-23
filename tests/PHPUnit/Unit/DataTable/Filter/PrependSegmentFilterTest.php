@@ -45,7 +45,7 @@ class PrependSegmentTest extends \PHPUnit\Framework\TestCase
         $this->table->addRow($row);
     }
 
-    public function test_filter_shouldRemoveAllMetadataEntriesHavingTheGivenName()
+    public function testFilterShouldRemoveAllMetadataEntriesHavingTheGivenName()
     {
         $prepend = 'city=test;';
         $this->table->filter($this->filter, array($prepend));

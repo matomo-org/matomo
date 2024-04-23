@@ -19,7 +19,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class CoreHomeTest extends IntegrationTestCase
 {
-    public function test_CoreHomePlugin_ShouldListenToFilterJavaScriptEvent_AndOnlyChangeIfContainsSourceMap()
+    public function testCoreHomePluginShouldListenToFilterJavaScriptEventAndOnlyChangeIfContainsSourceMap()
     {
         $content = 'var x = 5;';
         $expectedContent = $content;
@@ -28,7 +28,7 @@ class CoreHomeTest extends IntegrationTestCase
         $this->assertEquals($expectedContent, $content);
     }
 
-    public function test_CoreHomePlugin_ShouldListenToFilterJavaScriptEvent_AndRemoveSourceMapDefinition()
+    public function testCoreHomePluginShouldListenToFilterJavaScriptEventAndRemoveSourceMapDefinition()
     {
         $content = '//# sourceMappingURL=55.map';
         Piwik::postEvent('AssetManager.filterMergedJavaScripts', array(&$content));

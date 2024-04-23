@@ -329,7 +329,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function getDataTableMap_containsDataTableMap_normal()
+    protected function getDataTableMapContainsDataTableMapNormal()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
@@ -337,7 +337,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function getDataTableMap_containsDataTableMap_simple()
+    protected function getDataTableMapContainsDataTableMapSimple()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
@@ -345,7 +345,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function getDataTableMap_containsDataTableMap_simpleOneRow()
+    protected function getDataTableMapContainsDataTableMapSimpleOneRow()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
@@ -401,7 +401,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLArrayIsMadeOfMapTest1()
     {
-        $dataTable = $this->getDataTableMap_containsDataTableMap_normal();
+        $dataTable = $this->getDataTableMapContainsDataTableMapNormal();
 
         $render = new Xml();
         $render->setTable($dataTable);
@@ -472,7 +472,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLArrayIsMadeOfMapTest2()
     {
-        $dataTable = $this->getDataTableMap_containsDataTableMap_simple();
+        $dataTable = $this->getDataTableMapContainsDataTableMapSimple();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
@@ -513,7 +513,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
 
     public function testXMLArrayIsMadeOfMapTest3()
     {
-        $dataTable = $this->getDataTableMap_containsDataTableMap_simpleOneRow();
+        $dataTable = $this->getDataTableMapContainsDataTableMapSimpleOneRow();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
@@ -609,7 +609,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    public function test_render_withRowsWithDataTableMetadata()
+    public function testRenderWithRowsWithDataTableMetadata()
     {
         $dataTable = new DataTable();
 
@@ -651,7 +651,7 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_render_withRowsWithDataTableMetadataInSimpleTable()
+    public function testRenderWithRowsWithDataTableMetadataInSimpleTable()
     {
         $dataTable = new Simple();
 

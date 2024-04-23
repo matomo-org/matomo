@@ -26,14 +26,14 @@ class MailTest extends \PHPUnit\Framework\TestCase
         $this->mail = new Mail();
     }
 
-    public function test_getRecipients()
+    public function testGetRecipients()
     {
         $result = $this->mail->getRecipients();
         $this->assertIsArray($result);
         $this->assertCount(0, $result);
     }
 
-    public function test_addTo()
+    public function testAddTo()
     {
         $recipients = [
             'test_recipient1@innocraft.com' => 'Test Recipient1',
@@ -52,7 +52,7 @@ class MailTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($recipients, $result);
     }
 
-    public function test_addTo_noName()
+    public function testAddToNoName()
     {
         $recipients = [
             'test_recipient1@innocraft.com' => '',
@@ -71,14 +71,14 @@ class MailTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($recipients, $result);
     }
 
-    public function test_getBccs()
+    public function testGetBccs()
     {
         $result = $this->mail->getBccs();
         $this->assertIsArray($result);
         $this->assertCount(0, $result);
     }
 
-    public function test_addBcc()
+    public function testAddBcc()
     {
         $bccs = [
             'test_bcc1@innocraft.com' => 'Test Bcc1',
@@ -97,7 +97,7 @@ class MailTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($bccs, $result);
     }
 
-    public function test_addBcc_noName()
+    public function testAddBccNoName()
     {
         $bccs = [
             'test_bcc1@innocraft.com' => '',
@@ -116,7 +116,7 @@ class MailTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($bccs, $result);
     }
 
-    public function test_clearAllRecipients()
+    public function testClearAllRecipients()
     {
         $recipients = [
             'test_recipient1@innocraft.com' => 'Test Recipient1',
