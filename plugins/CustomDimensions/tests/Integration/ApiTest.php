@@ -110,7 +110,7 @@ class ApiTest extends IntegrationTestCase
     public function testConfigureExistingCustomDimensionShouldFailWhenThereIsAnError($dimension)
     {
         try {
-            $this->test_configureNewDimension_shouldReturnCreatedIdOnSuccess();
+            $this->testConfigureNewDimensionShouldReturnCreatedIdOnSuccess();
             $this->api->configureExistingCustomDimension($dimension['id'], $idSite = 1, $dimension['name'], $dimension['active'], $dimension['extractions']);
         } catch (Exception $e) {
             self::assertStringContainsString($dimension['message'], $e->getMessage());
@@ -132,7 +132,7 @@ class ApiTest extends IntegrationTestCase
 
     public function testConfigureExistingCustomDimensionShouldReturnNothingOnSuccess()
     {
-        $this->test_configureNewDimension_shouldReturnCreatedIdOnSuccess();
+        $this->testConfigureNewDimensionShouldReturnCreatedIdOnSuccess();
         $return = $this->api->configureExistingCustomDimension($id = 1, $idSite = 1, 'New Valid Name äöü', '0', array(array('dimension' => 'urlparam', 'pattern' => 'newtest')), $caseSensitive = true);
 
         $this->assertNull($return);
@@ -148,7 +148,7 @@ class ApiTest extends IntegrationTestCase
 
     public function testConfigureExistingCustomDimensionShouldNotChangeCaseSensitiveIfNoValuePassed()
     {
-        $this->test_configureNewDimension_shouldReturnCreatedIdOnSuccess();
+        $this->testConfigureNewDimensionShouldReturnCreatedIdOnSuccess();
 
         // verify created with false
         $dimensions = $this->api->getConfiguredCustomDimensions(1);
