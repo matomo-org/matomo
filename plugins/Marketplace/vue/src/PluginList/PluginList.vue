@@ -14,7 +14,7 @@
     @trialStarted="this.$emit('triggerUpdate')"
   />
 
-  <PluginDetails
+  <PluginDetailsModal
     v-model="showPluginDetailsForPlugin"
     :is-super-user="isSuperUser"
     :is-plugins-admin-enabled="isPluginsAdminEnabled"
@@ -102,7 +102,7 @@ import { defineComponent } from 'vue';
 import { PluginName } from 'CorePluginsAdmin';
 import CTAContainer from './CTAContainer.vue';
 import StartFreeTrial from '../StartFreeTrial/StartFreeTrial.vue';
-import PluginDetails from '../PluginDetails/PluginDetails.vue';
+import PluginDetailsModal from '../PluginDetailsModal/PluginDetailsModal.vue';
 
 const { $ } = window;
 
@@ -170,7 +170,7 @@ export default defineComponent({
     };
   },
   components: {
-    PluginDetails,
+    PluginDetailsModal,
     CTAContainer,
     StartFreeTrial,
   },

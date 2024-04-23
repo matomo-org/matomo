@@ -1,0 +1,481 @@
+<!--
+  Matomo - free/libre analytics platform
+
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+-->
+
+<template>
+  <div ref="root" class="modal" id="pluginDetailsModal">
+    <div v-if="!isLoading" class="modal-content">
+
+      <div class="modal-content__header">
+        <span class="btn-close modal-close"><i class="icon-close"></i></span>
+
+        <h2>
+          <img v-if="plugin.featured" class="star-icon featured-icon"
+               :title="translate('Marketplace_FeaturedPlugin')"
+               src="plugins/Marketplace/images/star.svg"
+               alt=""
+          />{{ plugin && plugin.displayName ? plugin.displayName : 'Plugin details' }}</h2>
+        <div class="plugin-metadata-part1">
+          <h3 class="sr-only">Plugin details — part 1</h3>
+          <dl>
+            <div class="pair" v-if="showReviews">
+              <dt>{{ translate('Marketplace_Reviews') }}</dt>
+              <dd>
+                <img class="star-icon reviews-icon"
+                     src="plugins/Marketplace/images/star.svg"
+                     alt=""
+                /><a
+                  v-on:click="scrollElementIntoView('#reviews')"
+                >{{ pluginReviews.averageRating }}</a>
+              </dd>
+            </div>
+
+            <div class="pair" v-if="!plugin.isBundle">
+              <dt>{{ translate('CorePluginsAdmin_Version') }}</dt>
+              <dd>{{ plugin.latestVersion }}</dd>
+            </div>
+
+            <div class="pair" v-if="plugin.numDownloads > 0">
+              <dt>{{ translate('General_Downloads') }}</dt>
+              <dd>{{ plugin.numDownloadsPretty }}</dd>
+            </div>
+
+            <div class="pair" v-if="plugin.lastUpdated && !plugin.isBundle">
+              <dt>{{ translate('Marketplace_LastUpdated') }}</dt>
+              <dd>{{ plugin.lastUpdated }}</dd>
+            </div>
+
+            <div class="pair" v-if="!plugin.isBundle">
+              <dt>{{ translate('Marketplace_Developer') }}</dt>
+              <dd>
+                {{ pluginOwner }}
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="modal-content__main">
+        <div class="plugin-description">
+          <MissingReqsNotice v-if="showMissingRequirementsNoticeIfApplicable" :plugin="plugin" />
+
+          <div v-if="isMultiServerEnvironment" class="alert alert-warning">
+            {{ translate('Marketplace_MultiServerEnvironmentWarning') }}
+          </div>
+          <div v-else-if="!isAutoUpdatePossible" class="alert alert-warning">
+            <!-- eslint-disable-next-line max-len-->
+            {{ translate('Marketplace_AutoUpdateDisabledWarning', '\'[General]enable_auto_update=1\'', '\'config/config.ini.php\'') }}
+          </div>
+
+          <div v-if="showMissingLicenseDescription" class="alert alert-danger">
+            {{ translate('Marketplace_PluginLicenseMissingDescription') }}
+          </div>
+          <div v-else-if="showExceededLicenceDescription" class="alert alert-warning">
+            {{ translate('Marketplace_PluginLicenseExceededDescription') }}
+          </div>
+
+          <div v-html="$sanitize(pluginDescription)"></div>
+        </div>
+
+        <div class="plugin-metadata-part2">
+          <hr />
+          <h3 class="sr-only">Plugin details — part 2</h3>
+          <dl>
+            <div class="pair" v-if="!plugin.isBundle">
+              <dt>{{ translate('CorePluginsAdmin_Version') }}</dt>
+              <dd>{{ plugin.latestVersion }}</dd>
+            </div>
+
+            <div class="pair" v-if="pluginKeywords">
+              <dt>{{ translate('Marketplace_PluginKeywords') }}</dt>
+              <dd>{{ pluginKeywords.join(', ') }}</dd>
+            </div>
+
+            <template v-if="!plugin.isBundle">
+              <div class="pair">
+                <dt>{{ translate('Marketplace_Authors') }}</dt>
+                <dd>
+                  <template v-for="(author, index) in pluginAuthors" :key="`author-${index}`">
+                    <a
+                      v-if="author.homepage"
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      :href="author.homepage"
+                    >{{ author.name }}</a>
+                    <a
+                      v-else-if="author.email"
+                      :href="`mailto:${ encodeURIComponent(author.email) }`"
+                    >{{ author.name }}</a>
+                    <span v-else>{{ author.name }}</span>
+                    <span v-if="index < pluginAuthors.length - 1">, </span>
+                  </template>
+                </dd>
+              </div>
+
+              <div class="pair">
+                <dt>{{ translate('CorePluginsAdmin_Websites') }}</dt>
+                <dd>
+                  <a
+                    v-if="plugin.homepage"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    :href="plugin.homepage"
+                  >{{ translate('Marketplace_PluginWebsite') }}</a>
+                  <template v-if="pluginChangelogUrl">
+                    <template v-if="plugin.homepage">, </template>
+                    <a
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      :href="externalRawLink(pluginChangelogUrl)"
+                    >{{ translate('CorePluginsAdmin_Changelog') }}</a>
+                  </template>
+
+                  <template v-if="plugin.repositoryUrl">
+                    <template v-if="plugin.homepage || pluginChangelogUrl">, </template>
+                    <a
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      :href="externalRawLink(plugin.repositoryUrl)"
+                    >GitHub</a>
+                  </template>
+                </dd>
+              </div>
+
+              <div class="pair" v-if="pluginActivity && pluginActivity.numCommits">
+                <dt>{{ translate('CorePluginsAdmin_Activity') }}</dt>
+                <dd>
+                  {{ plugin.activity.numCommits }} commits
+
+                  <!-- eslint-disable-next-line max-len-->
+                  <template v-if="pluginActivity?.numContributors > 1">{{ ' ' + translate('Marketplace_ByXDevelopers', pluginActivity.numContributors) }}</template>
+                  <!-- eslint-disable-next-line max-len-->
+                  <template v-if="pluginActivity?.lastCommitDate">{{ ' ' + translate('Marketplace_LastCommitTime', pluginActivity.lastCommitDate) }}</template>
+                </dd>
+              </div>
+
+              <div class="pair" v-if="showLicenceName">
+                <dt>{{ translate('Marketplace_License') }}</dt>
+                <dd>
+                  <a v-if="pluginLatestVersion.license?.url" rel="noreferrer noopener"
+                     :href="pluginLatestVersion.license?.url"
+                     target="_blank">{{ pluginLatestVersion.license?.name }}</a>
+                  <span v-else>{{ pluginLatestVersion.license?.name }}</span>
+                </dd>
+              </div>
+
+              <template v-if="pluginSupport.length">
+                <div
+                  class="pair"
+                  v-for="(support, index) in pluginSupport"
+                  :key="`support-${index}`"
+                >
+                  <dt v-if="support.name && support.value" v-html="$sanitize(support.name)"></dt>
+                  <dd v-if="support.name && support.value" v-html="$sanitize(support.value)"></dd>
+                </div>
+              </template>
+            </template> <!-- v-if="!plugin.isBundle" -->
+          </dl>
+        </div>
+
+        <div class="plugin-screenshots" v-if="pluginScreenshots.length">
+          <hr />
+          <h3>{{ translate('Marketplace_Screenshots') }}</h3>
+          <div class="thumbnails">
+            <figure
+              v-for="screenshot in pluginScreenshots"
+              :key="`screenshot-${screenshot}`"
+            >
+              <img :src="`${screenshot}?w=800`" width="800" alt="">
+              <figcaption>{{ this.getScreenshotBaseName(screenshot) }}</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="plugin-documentation" v-if="pluginDocumentation">
+          <hr />
+          <h3>{{ translate('General_Documentation') }}</h3>
+          <div v-html="$sanitize(pluginDocumentation)"></div>
+        </div>
+
+        <div class="plugin-faq" v-if="pluginFaq">
+          <hr />
+          <h3>{{ translate('General_Faq') }}</h3>
+          <div v-html="$sanitize(pluginFaq)"></div>
+        </div>
+
+        <div class="plugin-reviews" id="reviews" v-if="showReviews">
+          <hr />
+          <h3>{{ translate('Marketplace_Reviews') }}</h3>
+          <iframe class="reviewIframe"
+                  :style="pluginReviews.height ? `height: ${pluginReviews.height}px;` : '' "
+                  :id="pluginReviews.embedUrl.replace(/[\W_]+/g, ' ')"
+                  :src="pluginReviews.embedUrl"></iframe>
+        </div>
+
+      </div>
+      <div class="modal-content__footer">
+        <div class="cta-container">
+          <CTAContainer
+            :is-super-user="isSuperUser"
+            :is-plugins-admin-enabled="isPluginsAdminEnabled"
+            :is-multi-server-environment="isMultiServerEnvironment"
+            :is-valid-consumer="isValidConsumer"
+            :is-auto-update-possible="isAutoUpdatePossible"
+            :activate-nonce="activateNonce"
+            :deactivate-nonce="deactivateNonce"
+            :install-nonce="installNonce"
+            :update-nonce="updateNonce"
+            :plugin="plugin"
+            :in-modal="true"
+            @startFreeTrial="startFreeTrial"
+          />
+        </div>
+        <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
+             class="matomo-badge matomo-badge-modal"
+             src="plugins/Marketplace/images/matomo-badge.png"
+             aria-label="Matomo plugin"
+             alt=""
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import {
+  IPluginShopDetails, IPluginShopReviews, IPluginShopVariation,
+  PluginDetails,
+  PluginDetailsState,
+  TObject,
+  TObjectArray,
+} from '../types';
+import CTAContainer from '../PluginList/CTAContainer.vue';
+import MissingReqsNotice from '../MissingReqsNotice/MissingReqsNotice.vue';
+
+const { $ } = window;
+
+export default defineComponent({
+  components: { MissingReqsNotice, CTAContainer },
+  props: {
+    modelValue: {
+      type: Object,
+      default: () => ({}),
+    },
+    activateNonce: {
+      type: String,
+      required: true,
+    },
+    deactivateNonce: {
+      type: String,
+      required: true,
+    },
+    installNonce: {
+      type: String,
+      required: true,
+    },
+    updateNonce: {
+      type: String,
+      required: true,
+    },
+    isAutoUpdatePossible: {
+      type: Boolean,
+      required: true,
+    },
+    isValidConsumer: {
+      type: Boolean,
+      required: true,
+    },
+    isMultiServerEnvironment: {
+      type: Boolean,
+      required: true,
+    },
+    isPluginsAdminEnabled: {
+      type: Boolean,
+      required: true,
+    },
+    isSuperUser: {
+      type: Boolean,
+      required: true,
+    },
+    hasSomeAdminAccess: {
+      type: Boolean,
+      required: true,
+    },
+    numUsers: {
+      type: Number,
+      required: true,
+    },
+  },
+  data(): PluginDetailsState {
+    return {
+      isLoading: true,
+      pluginDetails: '',
+      fetchRequest: null,
+      fetchRequestAbortController: null,
+    };
+  },
+  emits: ['update:modelValue', 'startFreeTrial'],
+  watch: {
+    modelValue(newValue) {
+      if (newValue) {
+        this.showPluginDetailsDialog();
+      }
+    },
+    isLoading(newValue) {
+      if (newValue === false) {
+        this.applyExternalTarget();
+        this.applyIframeResize();
+      }
+    },
+  },
+  computed: {
+    plugin(): PluginDetails {
+      return this.modelValue as PluginDetails;
+    },
+    pluginLatestVersion(): TObject {
+      const versions: TObjectArray = this.plugin.versions || [{}];
+      return versions[versions.length - 1] as TObject;
+    },
+    pluginReadmeHtml(): TObject {
+      return this.pluginLatestVersion?.readmeHtml as TObject || {};
+    },
+    pluginDescription(): string {
+      return this.pluginReadmeHtml?.description as string || '';
+    },
+    pluginDocumentation(): string {
+      return this.pluginReadmeHtml?.documentation as string || '';
+    },
+    pluginFaq(): string {
+      return this.pluginReadmeHtml?.faq as string || '';
+    },
+    pluginShop(): IPluginShopDetails {
+      return this.plugin.shop;
+    },
+    pluginShopVariations(): IPluginShopVariation[] {
+      return this.pluginShop?.variations || [];
+    },
+    pluginReviews(): IPluginShopReviews | TObject {
+      return this.pluginShop?.reviews || {};
+    },
+    pluginKeywords(): string[] {
+      return this.plugin?.keywords || [];
+    },
+    pluginAuthors(): TObjectArray {
+      const authors = this.plugin.authors || [];
+      return authors.filter((author) => author.name);
+    },
+    pluginActivity(): TObject {
+      return this.plugin.activity || {};
+    },
+    pluginChangelogUrl(): string {
+      return this.plugin.changelog.url as string || '';
+    },
+    pluginSupport(): TObjectArray[] {
+      return this.plugin.support || [];
+    },
+    isMatomoPlugin(): boolean {
+      return ['piwik', 'matomo-org'].includes(this.plugin.owner);
+    },
+    pluginOwner(): string {
+      return this.isMatomoPlugin ? 'Matomo' : this.plugin.owner;
+    },
+    showReviews(): boolean {
+      return (this.pluginReviews
+        && this.pluginReviews.embedUrl
+        && this.pluginReviews.averageRating
+      ) as boolean;
+    },
+    showMissingLicenseDescription(): boolean {
+      return this.hasSomeAdminAccess && this.plugin.isMissingLicense;
+    },
+    showExceededLicenceDescription(): boolean {
+      return this.hasSomeAdminAccess && this.plugin.hasExceededLicense;
+    },
+    showMissingRequirementsNoticeIfApplicable(): boolean {
+      return this.isSuperUser && (this.plugin.isDownloadable || this.plugin.isInstalled);
+    },
+    showLicenceName(): boolean {
+      const licence: TObject = this.pluginLatestVersion?.license as TObject || {};
+      return !!licence.name;
+    },
+    showPluginVariations(): boolean {
+      return (!this.plugin.isDownloadable || !this.isSuperUser)
+        && !this.plugin.isEligibleForFreeTrial
+        && this.plugin.isPaid
+        && !!this.pluginShopVariations.length;
+    },
+    pluginScreenshots(): string[] {
+      return this.plugin.screenshots || [];
+    },
+  },
+  methods: {
+    applyExternalTarget() {
+      setTimeout(() => {
+        const root = this.$refs.root as HTMLElement;
+        $('.modal-content__main a', root).each((index, a) => {
+          const link = $(a).attr('href');
+
+          if (link && link.indexOf('http') === 0) {
+            $(a).attr('target', '_blank');
+          }
+        });
+      });
+    },
+    scrollElementIntoView(selector: string) {
+      setTimeout(() => {
+        const root = this.$refs.root as HTMLElement;
+        const elements = $(selector, root);
+
+        if (elements.length && elements[0] && elements[0].scrollIntoView) {
+          elements[0].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+      });
+    },
+    getProtocolAndDomain(url: string) {
+      const urlObj = new URL(url);
+      return `${urlObj.protocol}//${urlObj.hostname}`;
+    },
+    applyIframeResize() {
+      setTimeout(() => {
+        const { iFrameResize } = window;
+        if (this.pluginReviews) {
+          $(() => {
+            const $iFrames = $('#pluginDetailsModal iframe.reviewIframe');
+            for (let i = 0; i < $iFrames.length; i += 1) {
+              // eslint-disable-next-line max-len
+              iFrameResize({ checkOrigin: [this.getProtocolAndDomain(this.pluginReviews.embedUrl as string)] }, $iFrames[i]);
+            }
+          });
+        }
+      });
+    },
+    getScreenshotBaseName(screenshot: string) {
+      const filename = screenshot.split('/').pop() || '';
+      return filename.substring(0, filename.lastIndexOf('.')).split('_').join(' ');
+    },
+    showPluginDetailsDialog() {
+      $('#pluginDetailsModal').modal({
+        dismissible: true,
+        onCloseEnd: () => {
+          this.$emit('update:modelValue', null);
+          this.isLoading = true;
+        },
+      }).modal('open');
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 10); // just to prevent showing the modal when the plugin data are not yet passed in
+    },
+    startFreeTrial() {
+      $('#pluginDetailsModal').modal('close');
+      setTimeout(() => {
+        this.$emit('startFreeTrial', this.plugin.name);
+      }, 250);
+    },
+  },
+});
+</script>
