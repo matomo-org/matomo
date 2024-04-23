@@ -172,8 +172,22 @@
                   v-for="(support, index) in pluginSupport"
                   :key="`support-${index}`"
                 >
-                  <dt v-if="support.name && support.value" v-html="$sanitize(support.name)"></dt>
-                  <dd v-if="support.name && support.value" v-html="$sanitize(support.value)"></dd>
+                  <template v-if="support.name && support.value">
+                    <dt v-html="$sanitize(support.name)"></dt>
+                    <dd v-if="this.isValidHttpUrl(support.value)">
+                      <a
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        :href="externalRawLink($sanitize(support.value))"
+                      >{{ $sanitize(support.value) }}</a>
+                    </dd>
+                    <dd v-else-if="this.isValidEmail(support.value)">
+                      <a
+                        :href="`mailto:${$sanitize(support.value)}`"
+                      >{{ $sanitize(support.value) }}</a>
+                    </dd>
+                    <dd v-else v-html="$sanitize(support.value)"></dd>
+                  </template>
                 </div>
               </template>
             </template> <!-- v-if="!plugin.isBundle" -->
@@ -434,6 +448,19 @@ export default defineComponent({
           elements[0].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
         }
       });
+    },
+    isValidEmail(email: string) {
+      // regex from https://stackoverflow.com/a/46181
+      // eslint-disable-next-line max-len
+      return email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    },
+    isValidHttpUrl(input: string) {
+      try {
+        const url = new URL(input);
+        return url.protocol === 'http:' || url.protocol === 'https:';
+      } catch (err) {
+        return false;
+      }
     },
     getProtocolAndDomain(url: string) {
       const urlObj = new URL(url);
