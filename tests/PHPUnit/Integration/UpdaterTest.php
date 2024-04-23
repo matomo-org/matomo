@@ -99,7 +99,7 @@ class UpdaterTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testMarkComponentSuccessfullyUpdatedShouldCreateAnOptionEntry(
+     * @depends testMarkComponentSuccessfullyUpdatedShouldCreateAnOptionEntry
      */
     public function testMarkComponentSuccessfullyUninstalledShouldCreateAnOptionEntry()
     {

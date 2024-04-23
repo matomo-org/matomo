@@ -132,7 +132,7 @@ class ArchiveTest extends IntegrationTestCase
 
         $this->assertTrue(Rules::isArchivingDisabledFor([1], new Segment('', [1]), 'day'));
 
-        $this->test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive();
+        $this->testPluginSpecificArchiveUsedEvenIfAllArchiveExistsIfThereAreNoDataInAllArchive();
     }
 
     public function testArchivingInvalidRangeDoesNotReprocessInvalidDay()

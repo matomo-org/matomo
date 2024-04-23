@@ -76,7 +76,7 @@ class MysqlLockBackendTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testSetIfNotExists(_ShouldWork_IfNoValueIsSetYet
+     * @depends testSetIfNotExistsShouldWorkIfNoValueIsSetYet
      */
     public function testSetIfNotExistsShouldNotWorkIfValueIsAlreadySet()
     {
@@ -85,7 +85,7 @@ class MysqlLockBackendTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testSetIfNotExists(_ShouldNotWork_IfValueIsAlreadySet
+     * @depends testSetIfNotExistsShouldNotWorkIfValueIsAlreadySet
      */
     public function testSetIfNotExistsShouldAlsoNotWorkIfTryingToSetDifferentValue()
     {

@@ -1779,7 +1779,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         ];
         $plugin = 'ExamplePlugin';
 
-        $this->test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated(
+        $this->testMarkArchivesAsInvalidatedMarksCorrectArchivesAsInvalidated(
             $idSites,
             $dates,
             $period,
@@ -1807,7 +1807,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         ];
         $report = 'ExamplePlugin.someReport';
 
-        $this->test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated(
+        $this->testMarkArchivesAsInvalidatedMarksCorrectArchivesAsInvalidated(
             $idSites,
             $dates,
             $period,

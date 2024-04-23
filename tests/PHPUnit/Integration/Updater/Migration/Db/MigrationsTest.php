@@ -71,7 +71,7 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testCreateTable(
+     * @depends testCreateTable
      */
     public function testAddColumn()
     {
@@ -81,7 +81,7 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testAddColumn(
+     * @depends testAddColumn
      */
     public function testAddIndex()
     {
@@ -97,7 +97,7 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testAddIndex(
+     * @depends testAddIndex
      */
     public function testDropIndex()
     {
@@ -109,7 +109,7 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testDropIndex(
+     * @depends testDropIndex
      */
     public function testAddUniqueKey()
     {
@@ -125,7 +125,7 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testAddUniqueKey(
+     * @depends testAddUniqueKey
      */
     public function testAddPrimaryIndex()
     {
@@ -138,7 +138,7 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testAddPrimaryIndex(
+     * @depends testAddPrimaryIndex
      */
     public function testDropPrimaryKey()
     {
@@ -152,7 +152,7 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testAddPrimaryIndex(
+     * @depends testAddPrimaryIndex
      */
     public function testChangeColumnType()
     {
@@ -162,7 +162,7 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testChangeColumnType(
+     * @depends testChangeColumnType
      */
     public function testInsert()
     {
@@ -180,7 +180,7 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testInsert(
+     * @depends testInsert
      */
     public function testSql()
     {
@@ -190,7 +190,7 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testSql(
+     * @depends testSql
      */
     public function testAddColumns()
     {
@@ -203,7 +203,7 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testAddColumns(
+     * @depends testAddColumns
      */
     public function testChangeColumnTypes()
     {
@@ -216,7 +216,7 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testChangeColumnTypes(
+     * @depends testChangeColumnTypes
      */
     public function testDropColumn()
     {
@@ -226,7 +226,7 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testDropColumn(
+     * @depends testDropColumn
      */
     public function testChangeColumn()
     {
@@ -236,7 +236,7 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testChangeColumn(
+     * @depends testChangeColumn
      */
     public function testDropTable()
     {
