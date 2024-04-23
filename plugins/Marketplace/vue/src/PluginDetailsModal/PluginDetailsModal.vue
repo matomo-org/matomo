@@ -196,7 +196,7 @@
                     </dd>
                     <dd v-else-if="this.isValidEmail(support.value)">
                       <a
-                        :href="`mailto:${$sanitize(support.value)}`"
+                        :href="`mailto:${ encodeURIComponent(support.value) }`"
                       >{{ $sanitize(support.value) }}</a>
                     </dd>
                     <dd v-else v-html="$sanitize(support.value)"></dd>
