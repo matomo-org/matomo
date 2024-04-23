@@ -416,12 +416,6 @@ export default defineComponent({
       const licence: TObject = this.pluginLatestVersion?.license as TObject || {};
       return !!licence.name;
     },
-    showPluginVariations(): boolean {
-      return (!this.plugin.isDownloadable || !this.isSuperUser)
-        && !this.plugin.isEligibleForFreeTrial
-        && this.plugin.isPaid
-        && !!this.pluginShopVariations.length;
-    },
     pluginScreenshots(): string[] {
       return this.plugin.screenshots || [];
     },
