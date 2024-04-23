@@ -39,7 +39,7 @@ class ModelTest extends IntegrationTestCase
         $this->model = new Model();
     }
 
-    public function test_hasVisit()
+    public function testHasVisit()
     {
         $this->model->createVisit(array(
             'idvisitor' => hex2bin('1234567812345678'),
@@ -63,14 +63,14 @@ class ModelTest extends IntegrationTestCase
         $this->assertFalse($this->model->hasVisit(3, 8));
     }
 
-    public function test_createNewIdAction_CreatesNewAction_WhenNoActionWithSameNameAndType()
+    public function testCreateNewIdActionCreatesNewActionWhenNoActionWithSameNameAndType()
     {
         $newIdAction = $this->model->createNewIdAction(self::TEST_ACTION_NAME, self::TEST_ACTION_TYPE, self::TEST_ACTION_URL_PREFIX);
 
         $this->assertLogActionTableContainsTestAction($newIdAction);
     }
 
-    public function test_createNewIdAction_DoesNotCreateDuplicateActions_AndReturnsExistingIdAction_IfActionAlreadyExists()
+    public function testCreateNewIdActionDoesNotCreateDuplicateActionsAndReturnsExistingIdActionIfActionAlreadyExists()
     {
         $this->insertSingleDuplicateAction();
 
@@ -80,7 +80,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertLogActionTableContainsTestAction(5);
     }
 
-    public function test_getIdsAction_CorrectlyReturnsRequestedActionIds()
+    public function testGetIdsActionCorrectlyReturnsRequestedActionIds()
     {
         $this->insertManyActions();
 
@@ -116,7 +116,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function test_getIdsAction_CorrectlyReturnsLowestIdActions_IfDuplicateIdActionsExistInDb()
+    public function testGetIdsActionCorrectlyReturnsLowestIdActionsIfDuplicateIdActionsExistInDb()
     {
         $this->insertManyActionsWithDuplicates();
 
@@ -140,7 +140,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function test_isSiteEmpty()
+    public function testIsSiteEmpty()
     {
         $this->assertTrue($this->model->isSiteEmpty(1));
 
@@ -150,7 +150,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertFalse($this->model->isSiteEmpty(1));
     }
 
-    public function test_createEcommerceItems_shouldNotFail_IfWritingSameItemTwice()
+    public function testCreateEcommerceItemsShouldNotFailIfWritingSameItemTwice()
     {
         $item = array(
             'idsite' => '1',

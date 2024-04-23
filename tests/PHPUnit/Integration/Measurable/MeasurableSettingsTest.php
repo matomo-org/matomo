@@ -52,7 +52,7 @@ class MeasurableSettingsTest extends IntegrationTestCase
         $this->settings = $this->createSettings();
     }
 
-    public function test_save_shouldActuallyStoreValues()
+    public function testSaveShouldActuallyStoreValues()
     {
         $this->settings->siteSearchKeywords->setValue(array('value2'));
         $this->settings->siteSearchCategory->setValue(array('value3'));
@@ -62,7 +62,7 @@ class MeasurableSettingsTest extends IntegrationTestCase
         $this->assertStoredSettingsValue(array('value3'), 'sitesearch_category_parameters');
     }
 
-    public function test_save_shouldCheckAdminPermissionsForThatSite()
+    public function testSaveShouldCheckAdminPermissionsForThatSite()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');

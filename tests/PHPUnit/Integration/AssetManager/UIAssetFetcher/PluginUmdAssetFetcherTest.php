@@ -155,7 +155,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         Manager::initPluginDirectories();
     }
 
-    public function test_getChunkFiles_whenLoadingUmdsIndividually()
+    public function testGetChunkFilesWhenLoadingUmdsIndividually()
     {
         $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
         $instance = new PluginUmdAssetFetcher($plugins, null, null, true);
@@ -172,7 +172,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
     }
 
-    public function test_getChunkFiles_whenLoadingUmdsIndividually_andNotAllPluginsActivated()
+    public function testGetChunkFilesWhenLoadingUmdsIndividuallyAndNotAllPluginsActivated()
     {
         $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
         unset($plugins[array_search('TestPlugin5', $plugins)]);
@@ -189,7 +189,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
     }
 
-    public function test_getChunkFiles_whenOneChunkConfigured()
+    public function testGetChunkFilesWhenOneChunkConfigured()
     {
         $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
         $instance = new PluginUmdAssetFetcher($plugins, null, null, false, 1);
@@ -208,7 +208,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
     }
 
-    public function test_getChunkFiles_whenNothingConfigured()
+    public function testGetChunkFilesWhenNothingConfigured()
     {
         $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
         $instance = new PluginUmdAssetFetcher($plugins, null, null, false, null);
@@ -231,7 +231,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
     }
 
-    public function test_getChunkFiles_whenMultipleChunksConfigured()
+    public function testGetChunkFilesWhenMultipleChunksConfigured()
     {
         $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
         $instance = new PluginUmdAssetFetcher($plugins, null, null, false, 2);
@@ -252,7 +252,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
     }
 
-    public function test_getChunkFiles_whenMultipleChunksConfigured_andNotAllPluginsActivated()
+    public function testGetChunkFilesWhenMultipleChunksConfiguredAndNotAllPluginsActivated()
     {
         $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
         unset($plugins[array_search('TestPlugin5', $plugins)]);
@@ -273,7 +273,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
     }
 
-    public function test_getChunkFiles_whenLoadingUmdsIndividually_andOnePluginLoadsOnDemand_andOneDependencyIsMissing()
+    public function testGetChunkFilesWhenLoadingUmdsIndividuallyAndOnePluginLoadsOnDemandAndOneDependencyIsMissing()
     {
         $plugins = array_merge(array_keys(self::TEST_PLUGIN_DEPENDENCIES), array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND));
         unset($plugins[array_search('TestPlugin1', $plugins)]);
@@ -287,7 +287,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
     }
 
-    public function test_getChunkFiles_whenLoadingUmdsIndividually_andOnePluginLoadsOnDemand_andOneNormalPluginDependsOnOnDemandPlugin()
+    public function testGetChunkFilesWhenLoadingUmdsIndividuallyAndOnePluginLoadsOnDemandAndOneNormalPluginDependsOnOnDemandPlugin()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Missing plugin dependency: TestPlugin6 requires plugins OnDemand1');
@@ -302,7 +302,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $instance->getChunkFiles();
     }
 
-    public function test_getChunkFiles_whenLoadingUmdsIndividually_andOnePluginLoadsOnDemand_andOnDemandDependencyIsMissing()
+    public function testGetChunkFilesWhenLoadingUmdsIndividuallyAndOnePluginLoadsOnDemandAndOnDemandDependencyIsMissing()
     {
         $plugins = array_merge(array_keys(self::TEST_PLUGIN_DEPENDENCIES), array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND));
         unset($plugins[array_search('OnDemand2', $plugins)]);
@@ -320,7 +320,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
     }
 
-    public function test_getChunkFiles_whenLoadingUmdsIndividually_andSomePluginsLoadOnDemand()
+    public function testGetChunkFilesWhenLoadingUmdsIndividuallyAndSomePluginsLoadOnDemand()
     {
         $plugins = array_merge(array_keys(self::TEST_PLUGIN_DEPENDENCIES), array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND));
         $instance = new PluginUmdAssetFetcher($plugins, null, null, true);
@@ -337,7 +337,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
     }
 
-    public function test_getChunkFiles_whenOneChunkConfigured_andSomePluginsLoadOnDemand()
+    public function testGetChunkFilesWhenOneChunkConfiguredAndSomePluginsLoadOnDemand()
     {
         $plugins = array_merge(array_keys(self::TEST_PLUGIN_DEPENDENCIES), array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND));
         $instance = new PluginUmdAssetFetcher($plugins, null, null, false, 1);
@@ -356,7 +356,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
     }
 
-    public function test_getChunkFiles_whenMultipleChunksConfigured_andSomePluginsLoadOnDemand()
+    public function testGetChunkFilesWhenMultipleChunksConfiguredAndSomePluginsLoadOnDemand()
     {
         $plugins = array_merge(array_keys(self::TEST_PLUGIN_DEPENDENCIES), array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND));
         $instance = new PluginUmdAssetFetcher($plugins, null, null, false, 2);
@@ -377,7 +377,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedChunkFiles, $actualChunkFiles);
     }
 
-    public function test_getCatalog_whenLoadingUmdsIndividually()
+    public function testGetCatalogWhenLoadingUmdsIndividually()
     {
         $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
         $instance = new PluginUmdAssetFetcher($plugins, null, null, true);
@@ -396,7 +396,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedAssets, $assets);
     }
 
-    public function test_getCatalog_whenRequestingASpecificChunk_andLoadingUmdsIndividually()
+    public function testGetCatalogWhenRequestingASpecificChunkAndLoadingUmdsIndividually()
     {
         $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
         $instance = new PluginUmdAssetFetcher($plugins, null, 'TestPlugin4', true);
@@ -411,7 +411,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedAssets, $assets);
     }
 
-    public function test_getCatalog_whenMultipleChunksConfigured()
+    public function testGetCatalogWhenMultipleChunksConfigured()
     {
         $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
         $instance = new PluginUmdAssetFetcher($plugins, null, null, false, 3);
@@ -430,7 +430,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedAssets, $assets);
     }
 
-    public function test_getCatalog_whenRequestingASpecificChunk_andMultipleChunksConfigured()
+    public function testGetCatalogWhenRequestingASpecificChunkAndMultipleChunksConfigured()
     {
         $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
         $instance = new PluginUmdAssetFetcher($plugins, null, '2', false, 3);
@@ -446,7 +446,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedAssets, $assets);
     }
 
-    public function test_getCatalog_whenRequestingASpecificChunk_andMultipleChunksConfigured_andChunkIsZero()
+    public function testGetCatalogWhenRequestingASpecificChunkAndMultipleChunksConfiguredAndChunkIsZero()
     {
         $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
         $instance = new PluginUmdAssetFetcher($plugins, null, '0', false, 3);
@@ -469,7 +469,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals($expectedAssets, $assets);
     }
 
-    public function test_orderPluginsByPluginDependencies()
+    public function testOrderPluginsByPluginDependencies()
     {
         $pluginList = PluginUmdAssetFetcher::orderPluginsByPluginDependencies([
             'TestPlugin4',
@@ -479,7 +479,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $this->assertEquals(['TestPlugin4', 'TestPlugin1', 'TestPlugin2'], $pluginList);
     }
 
-    public function test_orderPluginsByPluginDependencies_whenKeepUnresolvedIsFalse()
+    public function testOrderPluginsByPluginDependenciesWhenKeepUnresolvedIsFalse()
     {
         $pluginList = PluginUmdAssetFetcher::orderPluginsByPluginDependencies([
             'TestPlugin4',

@@ -43,7 +43,7 @@ class ChunksTest extends IntegrationTestCase
         Fixture::createWebsite('2015-01-01 00:00:00');
     }
 
-    public function test_subtables_willBeSplitIntoChunks()
+    public function testSubtablesWillBeSplitIntoChunks()
     {
         $numSubtablesToGenerate = 1053;
 

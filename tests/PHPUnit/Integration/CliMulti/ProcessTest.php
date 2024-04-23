@@ -39,7 +39,7 @@ class ProcessTest extends \PHPUnit\Framework\TestCase
         File::reset();
     }
 
-    public function test_construct_shouldFailInCasePidIsInvalid()
+    public function testConstructShouldFailInCasePidIsInvalid()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The given pid has an invalid format');
@@ -47,17 +47,17 @@ class ProcessTest extends \PHPUnit\Framework\TestCase
         new Process('../../htaccess');
     }
 
-    public function test_getPid()
+    public function testGetPid()
     {
         $this->assertSame('testPid', $this->process->getPid());
     }
 
-    public function test_construct_shouldBeNotStarted_IfPidJustCreated()
+    public function testConstructShouldBeNotStartedIfPidJustCreated()
     {
         $this->assertFalse($this->process->hasStarted());
     }
 
-    public function test_construct_shouldBeNotRunning_IfPidJustCreated()
+    public function testConstructShouldBeNotRunningIfPidJustCreated()
     {
         if (! Process::isSupported()) {
             $this->markTestSkipped('Not supported');
@@ -66,7 +66,7 @@ class ProcessTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->process->isRunning());
     }
 
-    public function test_startProcess_finishProcess_ShouldMarkProcessAsStarted()
+    public function testStartProcessFinishProcessShouldMarkProcessAsStarted()
     {
         if (! Process::isSupported()) {
             $this->markTestSkipped('Not supported');
@@ -97,7 +97,7 @@ class ProcessTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->process->hasFinished());
     }
 
-    public function test_isRunning_ShouldMarkProcessAsFinished_IfPidFileIsTooBig()
+    public function testIsRunningShouldMarkProcessAsFinishedIfPidFileIsTooBig()
     {
         if (! Process::isSupported()) {
             $this->markTestSkipped('Not supported');
@@ -113,7 +113,7 @@ class ProcessTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->process->hasFinished());
     }
 
-    public function test_finishProcess_ShouldNotThrowError_IfNotStartedBefore()
+    public function testFinishProcessShouldNotThrowErrorIfNotStartedBefore()
     {
         $this->process->finishProcess();
 
@@ -122,24 +122,24 @@ class ProcessTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->process->hasFinished());
     }
 
-    public function test_hasStarted_startedWhenContentFalse()
+    public function testHasStartedStartedWhenContentFalse()
     {
         $this->assertTrue($this->process->hasStarted(false));
     }
 
-    public function test_hasStarted_startedWhenPidGiven()
+    public function testHasStartedStartedWhenPidGiven()
     {
         $this->assertTrue($this->process->hasStarted('6341'));
         // remembers the process was started at some point
         $this->assertTrue($this->process->hasStarted(''));
     }
 
-    public function test_hasStarted_notStartedYetEmptyContentInPid()
+    public function testHasStartedNotStartedYetEmptyContentInPid()
     {
         $this->assertFalse($this->process->hasStarted(''));
     }
 
-    public function test_getSecondsSinceCreation()
+    public function testGetSecondsSinceCreation()
     {
         // This is not proper, but it avoids using sleep and stopping the tests for several seconds
         $r = new ReflectionProperty($this->process, 'timeCreation');

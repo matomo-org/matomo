@@ -19,7 +19,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ManagerTest extends IntegrationTestCase
 {
-    public function test_getViewDataTableParameters_shouldReturnEmptyArray_IfNothingPersisted()
+    public function testGetViewDataTableParametersShouldReturnEmptyArrayIfNothingPersisted()
     {
         $login        = 'mylogin';
         $method       = 'API.get';
@@ -28,7 +28,7 @@ class ManagerTest extends IntegrationTestCase
         $this->assertEquals(array(), $storedParams);
     }
 
-    public function test_getViewDataTableParameters_shouldOnlyReturnParams_IfLoginAndActionMatches()
+    public function testGetViewDataTableParametersShouldOnlyReturnParamsIfLoginAndActionMatches()
     {
         $params = $this->addParameters();
 
@@ -42,7 +42,7 @@ class ManagerTest extends IntegrationTestCase
         $this->assertEquals($params['params'], $storedParams);
     }
 
-    public function test_setViewDataTableParameters_inConfigProperty_shouldOnlyAllowOverridableParams()
+    public function testSetViewDataTableParametersInConfigPropertyShouldOnlyAllowOverridableParams()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Setting parameters translations is not allowed. Please report this bug to the Matomo team.');
@@ -58,7 +58,7 @@ class ManagerTest extends IntegrationTestCase
         ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
     }
 
-    public function test_setViewDataTableParameters_inConfigProperty_shouldOnlyAllowOverridableParams_bis()
+    public function testSetViewDataTableParametersInConfigPropertyShouldOnlyAllowOverridableParamsBis()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Setting parameters filters is not allowed. Please report this bug to the Matomo team.');
@@ -74,7 +74,7 @@ class ManagerTest extends IntegrationTestCase
         ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
     }
 
-    public function test_setViewDataTableParameters_inRequestConfigProperty_shouldOnlyAllowOverridableParams()
+    public function testSetViewDataTableParametersInRequestConfigPropertyShouldOnlyAllowOverridableParams()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Setting parameters apiMethodToRequestDataTable is not allowed. Please report this bug to the Matomo team.');
@@ -90,7 +90,7 @@ class ManagerTest extends IntegrationTestCase
         ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
     }
 
-    public function test_getViewDataTableParameters_removesNonOverridableParameter()
+    public function testGetViewDataTableParametersRemovesNonOverridableParameter()
     {
         $params = array(
             'flat' => '0',
@@ -116,7 +116,7 @@ class ManagerTest extends IntegrationTestCase
         $this->assertEquals($paramsExpectedWhenFetched, $processed);
     }
 
-    public function test_clearAllViewDataTableParameters_shouldRemoveAllPersistedParameters()
+    public function testClearAllViewDataTableParametersShouldRemoveAllPersistedParameters()
     {
         ViewDataTableManager::saveViewDataTableParameters('mylogin1', 'API.get1', array('flat' => 1));
         ViewDataTableManager::saveViewDataTableParameters('mylogin1', 'API.get2', array('flat' => 1));
@@ -139,7 +139,7 @@ class ManagerTest extends IntegrationTestCase
         $this->assertEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin3', 'API.get5'));
     }
 
-    public function test_clearUserViewDataTableParameters_shouldOnlyRemoveAUsersParameters()
+    public function testClearUserViewDataTableParametersShouldOnlyRemoveAUsersParameters()
     {
         ViewDataTableManager::saveViewDataTableParameters('mylogin1', 'API.get1', array('flat' => 1));
         ViewDataTableManager::saveViewDataTableParameters('mylogin1', 'API.get2', array('flat' => 1));

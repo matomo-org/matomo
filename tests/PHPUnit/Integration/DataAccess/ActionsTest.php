@@ -33,7 +33,7 @@ class ActionsTest extends IntegrationTestCase
         $this->actionsAccess = new Actions();
     }
 
-    public function test_delete_DeletesSpecifiedActions()
+    public function testDeleteDeletesSpecifiedActions()
     {
         $this->actionsAccess->delete(array(2,3,4,5));
 
@@ -44,7 +44,7 @@ class ActionsTest extends IntegrationTestCase
         $this->assertEquals($expectedActions, $actualActions);
     }
 
-    public function test_delete_ConvertsIdActionsToInt()
+    public function testDeleteConvertsIdActionsToInt()
     {
         $this->actionsAccess->delete(array("2", "0, 1"));
 

@@ -32,7 +32,7 @@ class ParametersTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForIsDayArchive
      */
-    public function test_isDayArchive_CorrectlyDetectsDayArchives($expected, $dateStr, $periodStr)
+    public function testIsDayArchiveCorrectlyDetectsDayArchives($expected, $dateStr, $periodStr)
     {
         $period = Period\Factory::build($periodStr, $dateStr);
         $params = new Parameters(new Site(1), $period, new Segment('', [1]));

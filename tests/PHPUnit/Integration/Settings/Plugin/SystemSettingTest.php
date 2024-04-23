@@ -27,7 +27,7 @@ class SystemSettingTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_constructor_shouldNotEstablishADatabaseConnection()
+    public function testConstructorShouldNotEstablishADatabaseConnection()
     {
         $this->assertNotDbConnectionCreated();
 
@@ -36,7 +36,7 @@ class SystemSettingTest extends IntegrationTestCase
         $this->assertNotDbConnectionCreated();
     }
 
-    public function test_setSettingValue_shouldThrowException_IfAUserIsTryingToSetASettingWhichNeedsSuperUserPermission()
+    public function testSetSettingValueShouldThrowExceptionIfAUserIsTryingToSetASettingWhichNeedsSuperUserPermission()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
@@ -47,7 +47,7 @@ class SystemSettingTest extends IntegrationTestCase
         $setting->setValue(2);
     }
 
-    public function test_setSettingValue_shouldThrowException_IfAnonymousIsTryingToSetASettingWhichNeedsSuperUserPermission()
+    public function testSetSettingValueShouldThrowExceptionIfAnonymousIsTryingToSetASettingWhichNeedsSuperUserPermission()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
@@ -58,7 +58,7 @@ class SystemSettingTest extends IntegrationTestCase
         $setting->setValue(2);
     }
 
-    public function test_setSettingValue_shouldSucceed_IfSuperUserTriesToSaveASettingWhichRequiresSuperUserPermission()
+    public function testSetSettingValueShouldSucceedIfSuperUserTriesToSaveASettingWhichRequiresSuperUserPermission()
     {
         $this->setSuperUser();
 
@@ -68,14 +68,14 @@ class SystemSettingTest extends IntegrationTestCase
         $this->assertSettingHasValue($setting, 2);
     }
 
-    public function test_getSettingValue_shouldBeReadableBySuperUser()
+    public function testGetSettingValueShouldBeReadableBySuperUser()
     {
         $this->setSuperUser();
         $setting = $this->buildSetting('myusersetting');
         $this->assertEquals('', $setting->getValue());
     }
 
-    public function test_getSettingValue_shouldReturnValue_IfReadbleByCurrentUserIsAllowed()
+    public function testGetSettingValueShouldReturnValueIfReadbleByCurrentUserIsAllowed()
     {
         $this->setUser();
         $setting = $this->buildSetting('myusersetting');
@@ -83,7 +83,7 @@ class SystemSettingTest extends IntegrationTestCase
         $this->assertEquals('', $setting->getValue());
     }
 
-    public function test_getSettingValue_fromConfig_IfOneIsConfiguredInsteadOfTheValueFromDatabase()
+    public function testGetSettingValueFromConfigIfOneIsConfiguredInsteadOfTheValueFromDatabase()
     {
         $this->setSuperUser();
         $setting = $this->buildSetting('myusersetting');
@@ -95,7 +95,7 @@ class SystemSettingTest extends IntegrationTestCase
         $this->assertEquals('mynewvalue', $value);
     }
 
-    public function test_getSettingValue_fromConfig_ShouldConvertToTheSpecifiedType()
+    public function testGetSettingValueFromConfigShouldConvertToTheSpecifiedType()
     {
         $this->setSuperUser();
         $setting = $this->buildSetting('myusersetting', FieldConfig::TYPE_BOOL);
@@ -105,7 +105,7 @@ class SystemSettingTest extends IntegrationTestCase
         $this->assertTrue($setting->getValue());
     }
 
-    public function test_getSettingValue_fromConfig_isCaseSensitive()
+    public function testGetSettingValueFromConfigIsCaseSensitive()
     {
         $this->setSuperUser();
         $setting = $this->buildSetting('myUsersetting');
@@ -119,7 +119,7 @@ class SystemSettingTest extends IntegrationTestCase
         $this->assertSame('1', $setting->getValue());
     }
 
-    public function test_getSettingsValue_fromConfig_ShouldSetObjectToNotWritableAsSoonAsAValueIsConfigured()
+    public function testGetSettingsValueFromConfigShouldSetObjectToNotWritableAsSoonAsAValueIsConfigured()
     {
         $this->setSuperUser();
         $setting = $this->buildSetting('myusersetting');
@@ -130,7 +130,7 @@ class SystemSettingTest extends IntegrationTestCase
         $this->assertFalse($setting->isWritableByCurrentUser());
     }
 
-    public function test_setIsWritableByCurrentUser()
+    public function testSetIsWritableByCurrentUser()
     {
         $this->setSuperUser();
         $setting = $this->buildSetting('myusersetting');
@@ -144,7 +144,7 @@ class SystemSettingTest extends IntegrationTestCase
         $this->assertTrue($setting->isWritableByCurrentUser());
     }
 
-    public function test_setSettingsValue_shouldNotBePossible_AsSoonAsAConfigValueIsConfigured()
+    public function testSetSettingsValueShouldNotBePossibleAsSoonAsAConfigValueIsConfigured()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
@@ -156,7 +156,7 @@ class SystemSettingTest extends IntegrationTestCase
         $setting->setValue('test');
     }
 
-    public function test_save_shouldSaveDifferentValuesForDifferentPluginsAndFields()
+    public function testSaveShouldSaveDifferentValuesForDifferentPluginsAndFields()
     {
         $plugin1 = $this->buildSetting('field1', null, $login = 'plugin1');
         $plugin1->setValue('value1');

@@ -70,7 +70,7 @@ class FactoryTest extends UnitTestCase
     /**
      * @dataProvider getTestDataForMakePeriodFromQueryParams
      */
-    public function test_makePeriodFromQueryParams_appliesTimezoneProperly($now, $timezone, $period, $date, $expectedLabel, $expectedRange)
+    public function testMakePeriodFromQueryParamsAppliesTimezoneProperly($now, $timezone, $period, $date, $expectedLabel, $expectedRange)
     {
         Date::$now = strtotime($now);
 
@@ -102,7 +102,7 @@ class FactoryTest extends UnitTestCase
     /**
      * @dataProvider getBuildTestData
      */
-    public function test_build_CreatesCorrectPeriodInstances(
+    public function testBuildCreatesCorrectPeriodInstances(
         $strPeriod,
         $date,
         $timezone,
@@ -134,14 +134,14 @@ class FactoryTest extends UnitTestCase
         ];
     }
 
-    public function test_makePeriodFromQueryParams()
+    public function testMakePeriodFromQueryParams()
     {
         $factory = Period\Factory::makePeriodFromQueryParams('UTC', 'range', '2019-01-01,2019-01-01');
         $this->assertTrue($factory instanceof Day);
         $this->assertEquals('2019-01-01', $factory->toString());
     }
 
-    public function test_build_CreatesCustomPeriodInstances()
+    public function testBuildCreatesCustomPeriodInstances()
     {
         Config::getInstance()->General['enabled_periods_API'] .= ',customperiod';
 
@@ -149,7 +149,7 @@ class FactoryTest extends UnitTestCase
         $this->assertInstanceOf(TestPeriod::class, $period);
     }
 
-    public function test_build_ThrowsIfPeriodIsUnrecognized()
+    public function testBuildThrowsIfPeriodIsUnrecognized()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('General_ExceptionInvalidPeriod');
@@ -157,7 +157,7 @@ class FactoryTest extends UnitTestCase
         Period\Factory::build('garbageperiod', '2015-01-01');
     }
 
-    public function test_build_ThrowsIfPeriodIsNotEnabledForApi()
+    public function testBuildThrowsIfPeriodIsNotEnabledForApi()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('General_ExceptionInvalidPeriod');

@@ -26,7 +26,7 @@ class PluginTest extends IntegrationTestCase
         Fixture::createWebsite('2020-03-04 00:00:00');
     }
 
-    public function test_schedulePluginReArchiving_shouldReArchiveFromLastDeactivationTime()
+    public function testSchedulePluginReArchivingShouldReArchiveFromLastDeactivationTime()
     {
         $time = Date::today()->subDay(3);
         Option::set(Plugin\Manager::LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX . 'ExamplePlugin', $time->getTimestamp());
@@ -38,7 +38,7 @@ class PluginTest extends IntegrationTestCase
         $this->assertEquals($time->getDatetime(), $date);
     }
 
-    public function test_schedulePluginReArchiving_shouldReArchiveFromLastCoreArchiveTimeIfEarlier()
+    public function testSchedulePluginReArchivingShouldReArchiveFromLastCoreArchiveTimeIfEarlier()
     {
         $time = Date::today()->subDay(3);
         Option::set(Plugin\Manager::LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX . 'ExamplePlugin', $time->getTimestamp());
@@ -53,7 +53,7 @@ class PluginTest extends IntegrationTestCase
         $this->assertEquals($cronTime->getDatetime(), $date);
     }
 
-    public function test_schedulePluginReArchiving_shouldReArchiveFromLastCoreArchiveTimeIfNoDeactivation()
+    public function testSchedulePluginReArchivingShouldReArchiveFromLastCoreArchiveTimeIfNoDeactivation()
     {
         $cronTime = Date::today()->subDay(5);
         Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, $cronTime->getTimestamp());
@@ -65,7 +65,7 @@ class PluginTest extends IntegrationTestCase
         $this->assertNull($date);
     }
 
-    public function test_schedulePluginReArchiving_shouldReArchiveFromNMonthsAgo_IfNoDecativationTimeOrCronTimeExists()
+    public function testSchedulePluginReArchivingShouldReArchiveFromNMonthsAgoIfNoDecativationTimeOrCronTimeExists()
     {
         $plugin = new Plugin('ExamplePlugin');
         $plugin->schedulePluginReArchiving();

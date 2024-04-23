@@ -29,14 +29,14 @@ class CacheIdTest extends IntegrationTestCase
         Fixture::resetTranslations();
     }
 
-    public function test_languageAware_shouldAppendTheLoadedLanguage()
+    public function testLanguageAwareShouldAppendTheLoadedLanguage()
     {
         $result = CacheId::languageAware('myrandomkey');
 
         $this->assertEquals('myrandomkey-en', $result);
     }
 
-    public function test_pluginAware_shouldAppendLoadedPluginsAndLanguage()
+    public function testPluginAwareShouldAppendLoadedPluginsAndLanguage()
     {
         $result = CacheId::pluginAware('myrandomkey');
 
@@ -48,7 +48,7 @@ class CacheIdTest extends IntegrationTestCase
         $this->assertEquals('en', $parts[2]);
     }
 
-    public function test_siteAware_shouldAppendIdSitesPassed()
+    public function testSiteAwareShouldAppendIdSitesPassed()
     {
         $result = CacheId::siteAware('key', [1,2,3]);
         $this->assertEquals('key-1_2_3', $result);
@@ -60,7 +60,7 @@ class CacheIdTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForSiteAware
      */
-    public function test_siteAware_shouldAppendIdSiteQueryParams_IfArgumentIsNull($getParams, $postParams, $expected)
+    public function testSiteAwareShouldAppendIdSiteQueryParamsIfArgumentIsNull($getParams, $postParams, $expected)
     {
         $_GET = $getParams;
         $_POST = $postParams;

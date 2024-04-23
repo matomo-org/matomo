@@ -29,7 +29,7 @@ class PluginListTest extends \PHPUnit\Framework\TestCase
         $this->pluginList = $this->makePluginList();
     }
 
-    public function test_sortPlugins()
+    public function testSortPlugins()
     {
         $pluginList = $this->makePluginList();
         $sorted = $pluginList->sortPlugins(array('UsersManager', 'CoreHome', 'MyCustomPlugin', 'ExampleCommand', 'MyCustomPlugin2', 'Abcdef'));
@@ -43,14 +43,14 @@ class PluginListTest extends \PHPUnit\Framework\TestCase
         ), $sorted);
     }
 
-    public function test_sortPlugins_onlyCorePlugins()
+    public function testSortPluginsOnlyCorePlugins()
     {
         $pluginList = $this->makePluginList();
         $sorted = $pluginList->sortPlugins(array('UsersManager', 'CoreHome'));
         $this->assertSame(array('CoreHome','UsersManager'), $sorted);
     }
 
-    public function test_sortPluginsAndRespectDependencies_sortsPluginsAlphabetically()
+    public function testSortPluginsAndRespectDependenciesSortsPluginsAlphabetically()
     {
         $pluginList = $this->makePluginList();
         $sorted = $pluginList->sortPluginsAndRespectDependencies(array(
@@ -66,7 +66,7 @@ class PluginListTest extends \PHPUnit\Framework\TestCase
         ), $sorted);
     }
 
-    public function test_sortPluginsAndRespectDependencies_makesSureToListRequiredDependencyFirst()
+    public function testSortPluginsAndRespectDependenciesMakesSureToListRequiredDependencyFirst()
     {
         $pluginJsonInfo = array(
             'Abcdef' => array('require' => array('MyCustomPlugin2' => '2.2.1')),
@@ -94,7 +94,7 @@ class PluginListTest extends \PHPUnit\Framework\TestCase
         ), $sorted);
     }
 
-    public function test_sortPluginsAndRespectDependencies_onlyCorePlugins()
+    public function testSortPluginsAndRespectDependenciesOnlyCorePlugins()
     {
         $pluginList = $this->makePluginList();
         $sorted = $pluginList->sortPluginsAndRespectDependencies(array('UsersManager', 'CoreHome'));

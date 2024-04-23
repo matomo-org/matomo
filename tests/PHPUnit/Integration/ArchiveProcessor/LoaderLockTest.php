@@ -19,7 +19,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class LoaderLockTest extends IntegrationTestCase
 {
-    public function test_lockerIdShort()
+    public function testLockerIdShort()
     {
         $lockId = Common::getRandomString(60);
 
@@ -27,7 +27,7 @@ class LoaderLockTest extends IntegrationTestCase
         $this->assertSame($lockId, $lock->getId());
     }
 
-    public function test_lockerIdMaxLength()
+    public function testLockerIdMaxLength()
     {
         $lockId = str_pad('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 128, '5');
         $this->assertEquals(strlen($lockId), 128);
@@ -36,7 +36,7 @@ class LoaderLockTest extends IntegrationTestCase
         $this->assertSame('0123456789abcdefghijklmnopqrstuvbafb96951317fae753ab8ec1b2dad6e6', $lock->getId());
     }
 
-    public function test_singleLocking()
+    public function testSingleLocking()
     {
         $lockId = "lock1";
         $lockOne = new LoaderLock($lockId);
@@ -49,7 +49,7 @@ class LoaderLockTest extends IntegrationTestCase
         $this->assertTrue($isLocked);
     }
 
-    public function test_multipleLocking()
+    public function testMultipleLocking()
     {
         $lockId = "lock1";
         $lockOne = new LoaderLock($lockId);
@@ -75,7 +75,7 @@ class LoaderLockTest extends IntegrationTestCase
         $lockTwo->unLock();
     }
 
-    public function test_callUnlockWhenThereIsNoLock()
+    public function testCallUnlockWhenThereIsNoLock()
     {
         $result = LoaderLock::isLockAvailable("no lock");
         $this->assertTrue($result);

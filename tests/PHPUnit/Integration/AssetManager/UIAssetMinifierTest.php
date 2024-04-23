@@ -24,7 +24,7 @@ class UIAssetMinifierTest extends \PHPUnit\Framework\TestCase
         $this->assetMinifier = UIAssetMinifier::getInstance();
     }
 
-    public function provider_isMinifiedJs()
+    public function providerIsMinifiedJs()
     {
         return array(
             array('node_modules/jquery/dist/jquery.min.js', true),
@@ -41,9 +41,9 @@ class UIAssetMinifierTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @group Core
-     * @dataProvider provider_isMinifiedJs
+     * @dataProvider providerIsMinifiedJs
      */
-    public function test_isMinifiedJs($scriptFileName, $isMinified)
+    public function testIsMinifiedJs($scriptFileName, $isMinified)
     {
         $scriptFile = new OnDiskUIAsset(PIWIK_DOCUMENT_ROOT, $scriptFileName);
 

@@ -38,18 +38,18 @@ class CacheTest extends IntegrationTestCase
         $this->cacheBackend = new Cache($this->backend);
     }
 
-    public function test_getStorageId_shouldReturnStorageOfActualPlugin()
+    public function testGetStorageIdShouldReturnStorageOfActualPlugin()
     {
         $this->assertSame('MySuperStorageKey', $this->cacheBackend->getStorageId());
     }
 
-    public function test_load_ShouldActuallyLoadDataFromBackend()
+    public function testLoadShouldActuallyLoadDataFromBackend()
     {
         $this->assertSame($this->backend->load(), $this->cacheBackend->load());
         $this->assertNotEmpty($this->cacheBackend->load());
     }
 
-    public function test_load_ShouldCacheData()
+    public function testLoadShouldCacheData()
     {
         $this->assertNotValueCached();
 
@@ -59,7 +59,7 @@ class CacheTest extends IntegrationTestCase
         $this->assertValueIsActuallyInCache();
     }
 
-    public function test_delete_ShouldClearCacheAndData()
+    public function testDeleteShouldClearCacheAndData()
     {
         $this->cacheBackend->load();
         $this->assertValueCached();
@@ -71,7 +71,7 @@ class CacheTest extends IntegrationTestCase
         $this->assertSame(array(), $this->backend->load());
     }
 
-    public function test_save_ShouldClearCacheAndUpdateData()
+    public function testSaveShouldClearCacheAndUpdateData()
     {
         $this->cacheBackend->load();
         $this->assertValueCached();

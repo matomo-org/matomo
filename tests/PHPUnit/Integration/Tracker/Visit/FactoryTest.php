@@ -24,13 +24,13 @@ use Piwik\Tracker\Visit\Factory;
  */
 class FactoryTest extends IntegrationTestCase
 {
-    public function test_make_shouldCreateDefaultInstance()
+    public function testMakeShouldCreateDefaultInstance()
     {
         $visit = Factory::make();
         $this->assertInstanceOf('Piwik\\Tracker\\Visit', $visit);
     }
 
-    public function test_make_shouldTriggerEventOnce()
+    public function testMakeShouldTriggerEventOnce()
     {
         $called = 0;
         $self   = $this;
@@ -43,7 +43,7 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame(1, $called);
     }
 
-    public function test_make_shouldPreferManuallyCreatedHandlerInstanceInEventOverDefaultHandler()
+    public function testMakeShouldPreferManuallyCreatedHandlerInstanceInEventOverDefaultHandler()
     {
         $visitToUse = new Visit();
         Piwik::addAction('Tracker.makeNewVisitObject', function (&$visit) use ($visitToUse) {
@@ -54,7 +54,7 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame($visitToUse, $visit);
     }
 
-    public function test_make_shouldTriggerExceptionInCaseWrongInstanceCreatedInHandler()
+    public function testMakeShouldTriggerExceptionInCaseWrongInstanceCreatedInHandler()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The Visit object set in the plugin');

@@ -19,7 +19,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class CacheTest extends IntegrationTestCase
 {
-    public function test_getEagerCache_shouldPersistOnceEventWasTriggered()
+    public function testGetEagerCacheShouldPersistOnceEventWasTriggered()
     {
         $storageId = 'eagercache-test-ui';
         $cache = Cache::getEagerCache();

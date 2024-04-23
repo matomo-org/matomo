@@ -21,19 +21,19 @@ class SystemSettingsTest extends BaseSettingsTestCase
 {
     protected $updateEventName = 'SystemSettings.updated';
 
-    public function test_weAreWorkingWithSystemSettings()
+    public function testWeAreWorkingWithSystemSettings()
     {
         $this->assertTrue($this->settings instanceof SystemSettings);
     }
 
-    public function test_constructor_getPluginName_canDetectPluginNameAutomatically()
+    public function testConstructorGetPluginNameCanDetectPluginNameAutomatically()
     {
         $settings = new \Piwik\Plugins\ExampleSettingsPlugin\SystemSettings();
         $this->assertSame('ExampleSettingsPlugin', $settings->getPluginName());
         $this->assertSame('ExampleSettingsPlugin', $this->settings->getPluginName());
     }
 
-    public function test_makeSetting_ShouldCreateASystemSetting()
+    public function testMakeSettingShouldCreateASystemSetting()
     {
         $setting = $this->makeSetting('myName');
 

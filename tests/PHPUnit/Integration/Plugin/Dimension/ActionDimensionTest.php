@@ -66,19 +66,19 @@ class ActionDimensionTest extends IntegrationTestCase
         $this->dimension = new FakeActionDimension();
     }
 
-    public function test_install_shouldNotReturnAnything_IfColumnTypeNotSpecified()
+    public function testInstallShouldNotReturnAnythingIfColumnTypeNotSpecified()
     {
         $this->dimension->set('columnType', '');
         $this->assertEquals(array(), $this->dimension->install());
     }
 
-    public function test_install_shouldNotReturnAnything_IfColumnNameNotSpecified()
+    public function testInstallShouldNotReturnAnythingIfColumnNameNotSpecified()
     {
         $this->dimension->set('columnName', '');
         $this->assertEquals(array(), $this->dimension->install());
     }
 
-    public function test_install_shouldAlwaysInstallLogAction_IfColumnNameAndTypeGiven()
+    public function testInstallShouldAlwaysInstallLogActionIfColumnNameAndTypeGiven()
     {
         $expected = array(
             'log_link_visit_action' => array(
@@ -89,7 +89,7 @@ class ActionDimensionTest extends IntegrationTestCase
         $this->assertEquals($expected, $this->dimension->install());
     }
 
-    public function test_update_shouldAlwaysUpdateLogVisit_IfColumnNameAndTypeGiven()
+    public function testUpdateShouldAlwaysUpdateLogVisitIfColumnNameAndTypeGiven()
     {
         $expected = array(
             'log_link_visit_action' => array(
@@ -100,12 +100,12 @@ class ActionDimensionTest extends IntegrationTestCase
         $this->assertEquals($expected, $this->dimension->update(array()));
     }
 
-    public function test_getVersion_shouldUseColumnTypeAsVersion()
+    public function testGetVersionShouldUseColumnTypeAsVersion()
     {
         $this->assertEquals('VARCHAR (255) DEFAULT 0', $this->dimension->getVersion());
     }
 
-    public function test_getSegment_ShouldReturnConfiguredSegments()
+    public function testGetSegmentShouldReturnConfiguredSegments()
     {
         $list = new SegmentsList();
         $this->dimension->configureSegments($list, new DimensionSegmentFactory($this->dimension));
@@ -117,7 +117,7 @@ class ActionDimensionTest extends IntegrationTestCase
         $this->assertInstanceOf('\Piwik\Plugin\Segment', $segments[1]);
     }
 
-    public function test_addSegment_ShouldPrefilSomeSegmentValuesIfNotDefinedYet()
+    public function testAddSegmentShouldPrefilSomeSegmentValuesIfNotDefinedYet()
     {
         $list = new SegmentsList();
         $this->dimension->configureSegments($list, new DimensionSegmentFactory($this->dimension));
@@ -128,7 +128,7 @@ class ActionDimensionTest extends IntegrationTestCase
         $this->assertEquals(Segment::TYPE_DIMENSION, $segments[0]->getType());
     }
 
-    public function test_addSegment_ShouldNotOverwritePreAssignedValues()
+    public function testAddSegmentShouldNotOverwritePreAssignedValues()
     {
         $list = new SegmentsList();
         $this->dimension->configureSegments($list, new DimensionSegmentFactory($this->dimension));
@@ -139,7 +139,7 @@ class ActionDimensionTest extends IntegrationTestCase
         $this->assertEquals(Segment::TYPE_METRIC, $segments[1]->getType());
     }
 
-    public function test_getDimensions_shouldOnlyLoadAllActionDimensionsFromACertainPlugin()
+    public function testGetDimensionsShouldOnlyLoadAllActionDimensionsFromACertainPlugin()
     {
         Manager::getInstance()->loadPlugins(array('Actions'));
         $plugin = Manager::getInstance()->loadPlugin('Actions');
@@ -154,7 +154,7 @@ class ActionDimensionTest extends IntegrationTestCase
         }
     }
 
-    public function test_getAllDimensions_shouldLoadAllDimensionsButOnlyIfLoadedPlugins()
+    public function testGetAllDimensionsShouldLoadAllDimensionsButOnlyIfLoadedPlugins()
     {
         Manager::getInstance()->loadPlugins(array('Actions', 'Events'));
 

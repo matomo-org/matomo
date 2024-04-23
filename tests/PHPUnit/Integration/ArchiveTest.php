@@ -37,7 +37,7 @@ class ArchiveTest extends IntegrationTestCase
         Fixture::createWebsite('2014-05-06', 1);
     }
 
-    public function test_queryingForNoData_doesNotCreateEmptyArchive()
+    public function testQueryingForNoDataDoesNotCreateEmptyArchive()
     {
         $tracker = Fixture::getTracker(1, '2014-05-07 07:00:00');
         $tracker->setUrl('http://matomo.net/page/1');
@@ -64,7 +64,7 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals([], $archiveRows);
     }
 
-    public function test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive()
+    public function testPluginSpecificArchiveUsedEvenIfAllArchiveExistsIfThereAreNoDataInAllArchive()
     {
         $idSite = 1;
 
@@ -121,7 +121,7 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals($expected, $metrics);
     }
 
-    public function test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive_WithBrowserArchivingDisabled()
+    public function testPluginSpecificArchiveUsedEvenIfAllArchiveExistsIfThereAreNoDataInAllArchiveWithBrowserArchivingDisabled()
     {
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_range_force_on_browser_request', 0);
@@ -132,10 +132,10 @@ class ArchiveTest extends IntegrationTestCase
 
         $this->assertTrue(Rules::isArchivingDisabledFor([1], new Segment('', [1]), 'day'));
 
-        $this->test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive();
+        $this->testPluginSpecificArchiveUsedEvenIfAllArchiveExistsIfThereAreNoDataInAllArchive();
     }
 
-    public function test_archivingInvalidRange_doesNotReprocessInvalidDay()
+    public function testArchivingInvalidRangeDoesNotReprocessInvalidDay()
     {
         $idSite = 1;
 
@@ -240,7 +240,7 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals($expected, $archives);
     }
 
-    public function test_shouldNotArchivePeriodsStartingInTheFuture()
+    public function testShouldNotArchivePeriodsStartingInTheFuture()
     {
         $idSite = 1;
 
@@ -289,7 +289,7 @@ class ArchiveTest extends IntegrationTestCase
         Date::$now = time();
     }
 
-    public function test_shouldArchivePeriodsStartingInTheFuture_IfWebSiteLocalTimeIsInNextDay()
+    public function testShouldArchivePeriodsStartingInTheFutureIfWebSiteLocalTimeIsInNextDay()
     {
         // Create a site with a timezone ahead of UTC
         $idSite = Fixture::createWebsite(
@@ -352,7 +352,7 @@ class ArchiveTest extends IntegrationTestCase
         Date::$now = time();
     }
 
-    public function test_shouldNotArchivePeriodsStartingInTheFuture_IfWebSiteLocalTimeIsInPreviousDay()
+    public function testShouldNotArchivePeriodsStartingInTheFutureIfWebSiteLocalTimeIsInPreviousDay()
     {
 
         // Create a site with a timezone behind of UTC
@@ -415,7 +415,7 @@ class ArchiveTest extends IntegrationTestCase
         Date::$now = time();
     }
 
-    public function test_archivingInvalidWeekWithSegment_doesReprocessInvalidDayWIthSegment()
+    public function testArchivingInvalidWeekWithSegmentDoesReprocessInvalidDayWIthSegment()
     {
         $idSite = 1;
 

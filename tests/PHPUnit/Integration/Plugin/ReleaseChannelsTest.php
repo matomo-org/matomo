@@ -38,7 +38,7 @@ class ReleaseChannelsTest extends IntegrationTestCase
         $this->channels = new Plugin\ReleaseChannels(StaticContainer::get('Piwik\Plugin\Manager'));
     }
 
-    public function test_getAllReleaseChannels_shouldFindAllAvailableRelaseChannels()
+    public function testGetAllReleaseChannelsShouldFindAllAvailableRelaseChannels()
     {
         $channels = $this->channels->getAllReleaseChannels();
 
@@ -49,7 +49,7 @@ class ReleaseChannelsTest extends IntegrationTestCase
         }
     }
 
-    public function test_getAllReleaseChannels_shouldOrderChannelsByOrderId()
+    public function testGetAllReleaseChannelsShouldOrderChannelsByOrderId()
     {
         $channels = $this->channels->getAllReleaseChannels();
 
@@ -66,7 +66,7 @@ class ReleaseChannelsTest extends IntegrationTestCase
     /**
      * @dataProvider getTestValidReleaseChannelIds
      */
-    public function test_isValidReleaseChannelId_shouldDetectIfReleaseChannelIsCorrectOrNot($expectedExists, $id)
+    public function testIsValidReleaseChannelIdShouldDetectIfReleaseChannelIsCorrectOrNot($expectedExists, $id)
     {
         $this->assertSame($expectedExists, $this->channels->isValidReleaseChannelId($id));
     }
