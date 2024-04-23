@@ -66,8 +66,13 @@
             {{ translate('Marketplace_MultiServerEnvironmentWarning') }}
           </div>
           <div v-else-if="!isAutoUpdatePossible" class="alert alert-warning">
-            <!-- eslint-disable-next-line max-len-->
-            {{ translate('Marketplace_AutoUpdateDisabledWarning', '\'[General]enable_auto_update=1\'', '\'config/config.ini.php\'') }}
+            {{
+              translate(
+                'Marketplace_AutoUpdateDisabledWarning',
+                '\'[General]enable_auto_update=1\'',
+                '\'config/config.ini.php\''
+              )
+            }}
           </div>
 
           <div v-if="showMissingLicenseDescription" class="alert alert-danger">
@@ -149,10 +154,18 @@
                 <dd>
                   {{ plugin.activity.numCommits }} commits
 
-                  <!-- eslint-disable-next-line max-len-->
-                  <template v-if="pluginActivity?.numContributors > 1">{{ ' ' + translate('Marketplace_ByXDevelopers', pluginActivity.numContributors) }}</template>
-                  <!-- eslint-disable-next-line max-len-->
-                  <template v-if="pluginActivity?.lastCommitDate">{{ ' ' + translate('Marketplace_LastCommitTime', pluginActivity.lastCommitDate) }}</template>
+                  <template
+                    v-if="pluginActivity?.numContributors > 1">
+                    {{
+                      ' ' + translate('Marketplace_ByXDevelopers', pluginActivity.numContributors)
+                    }}
+                  </template>
+                  <template
+                    v-if="pluginActivity?.lastCommitDate">
+                    {{
+                      ' ' + translate('Marketplace_LastCommitTime', pluginActivity.lastCommitDate)
+                    }}
+                  </template>
                 </dd>
               </div>
 
