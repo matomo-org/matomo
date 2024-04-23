@@ -26,7 +26,7 @@ class DbTableTest extends IntegrationTestCase
         $this->testInstance = new DbTable(Session::getDbTableConfig());
     }
 
-    public function test_read_returnsTheSessionDataCorrectly()
+    public function testReadReturnsTheSessionDataCorrectly()
     {
         $this->testInstance->write('testid', 'testdata');
 

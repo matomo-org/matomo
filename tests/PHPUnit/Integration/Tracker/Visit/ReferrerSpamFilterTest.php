@@ -41,10 +41,7 @@ class ReferrerSpamFilterTest extends IntegrationTestCase
         Cache::flushAll();
     }
 
-    /**
-     * @test
-     */
-    public function should_detect_spam()
+    public function testShouldDetectSpam()
     {
         $request = new Request(array(
             'urlref' => 'semalt.com',
@@ -53,10 +50,7 @@ class ReferrerSpamFilterTest extends IntegrationTestCase
         $this->assertTrue($this->filter->isSpam($request));
     }
 
-    /**
-     * @test
-     */
-    public function should_ignore_valid_referrers()
+    public function testShouldIgnoreValidReferrers()
     {
         $request = new Request(array(
             'urlref' => 'google.com',
@@ -65,20 +59,14 @@ class ReferrerSpamFilterTest extends IntegrationTestCase
         $this->assertFalse($this->filter->isSpam($request));
     }
 
-    /**
-     * @test
-     */
-    public function should_ignore_requests_with_empty_referrers()
+    public function testShouldIgnoreRequestsWithEmptyReferrers()
     {
         $request = new Request(array());
 
         $this->assertFalse($this->filter->isSpam($request));
     }
 
-    /**
-     * @test
-     */
-    public function should_load_spammer_list_from_options_if_exists()
+    public function testShouldLoadSpammerListFromOptionsIfExists()
     {
         // We store google.com in the spammer blacklist
         $list = serialize(array(

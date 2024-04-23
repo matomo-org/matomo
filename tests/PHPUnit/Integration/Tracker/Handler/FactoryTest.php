@@ -23,13 +23,13 @@ use Piwik\Tracker\Handler\Factory;
  */
 class FactoryTest extends IntegrationTestCase
 {
-    public function test_make_shouldCreateDefaultInstance()
+    public function testMakeShouldCreateDefaultInstance()
     {
         $handler = Factory::make();
         $this->assertInstanceOf('Piwik\\Tracker\\Handler', $handler);
     }
 
-    public function test_make_shouldTriggerEventOnce()
+    public function testMakeShouldTriggerEventOnce()
     {
         $called = 0;
         $self   = $this;
@@ -42,7 +42,7 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame(1, $called);
     }
 
-    public function test_make_shouldPreferManuallyCreatedHandlerInstanceInEventOverDefaultHandler()
+    public function testMakeShouldPreferManuallyCreatedHandlerInstanceInEventOverDefaultHandler()
     {
         $handlerToUse = new Handler();
         Piwik::addAction('Tracker.newHandler', function (&$handler) use ($handlerToUse) {
@@ -53,7 +53,7 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame($handlerToUse, $handler);
     }
 
-    public function test_make_shouldTriggerExceptionInCaseWrongInstanceCreatedInHandler()
+    public function testMakeShouldTriggerExceptionInCaseWrongInstanceCreatedInHandler()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The Handler object set in the plugin');

@@ -46,7 +46,7 @@ class SitesTableTest extends IntegrationTestCase
         return new SitesTable($idSite);
     }
 
-    public function test_construct_shouldThrowAnException_IfPluginNameIsEmpty()
+    public function testConstructShouldThrowAnExceptionIfPluginNameIsEmpty()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('No idSite given');
@@ -54,26 +54,26 @@ class SitesTableTest extends IntegrationTestCase
         $this->createSettings(0);
     }
 
-    public function test_load_shouldHaveValuesByDefaultForExistingSites()
+    public function testLoadShouldHaveValuesByDefaultForExistingSites()
     {
         $this->assertFieldsLoaded(array('idsite' => '1'), $this->backendSite1);
         $this->assertFieldsLoaded(array('idsite' => '2'), $this->backendSite2);
     }
 
-    public function test_load_shouldThrowException_IfSiteDoesNotExist()
+    public function testLoadShouldThrowExceptionIfSiteDoesNotExist()
     {
         $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
 
         $this->createSettings($idSite = 999)->load();
     }
 
-    public function test_getStorageId_shouldIncludePluginNameAndLogin()
+    public function testGetStorageIdShouldIncludePluginNameAndLogin()
     {
         $this->assertSame('SitesTable_1', $this->backendSite1->getStorageId());
         $this->assertSame('SitesTable_2', $this->backendSite2->getStorageId());
     }
 
-    public function test_save_ShouldOnlySaveForSpecificIdSite()
+    public function testSaveShouldOnlySaveForSpecificIdSite()
     {
         $value1 = array('ecommerce' => '1', 'sitesearch' => '0');
         $this->backendSite1->save($value1);
@@ -85,7 +85,7 @@ class SitesTableTest extends IntegrationTestCase
         $this->assertFieldsLoaded($value2, $this->backendSite2);
     }
 
-    public function test_delete_shouldNotDeleteAnything()
+    public function testDeleteShouldNotDeleteAnything()
     {
         $value = $this->saveValueForAllBackends();
 
@@ -96,7 +96,7 @@ class SitesTableTest extends IntegrationTestCase
         $this->assertFieldsLoaded($value, $this->backendSite2);
     }
 
-    public function test_save_DuplicateValuesShouldBeOverwritten()
+    public function testSaveDuplicateValuesShouldBeOverwritten()
     {
         $value = array('ecommerce' => '0', 'sitesearch' => '1');
 
@@ -108,7 +108,7 @@ class SitesTableTest extends IntegrationTestCase
         $this->assertFieldsLoaded($value, $this->backendSite1);
     }
 
-    public function test_save_ShouldNotRemoveAnyExistingUrls_WhenNoUrlsGiven()
+    public function testSaveShouldNotRemoveAnyExistingUrlsWhenNoUrlsGiven()
     {
         $value = array('ecommerce' => '0', 'sitesearch' => '1');
 
@@ -118,7 +118,7 @@ class SitesTableTest extends IntegrationTestCase
         $this->assertFieldsLoaded($value, $this->backendSite1);
     }
 
-    public function test_save_ShouldBeAbleToHandleBooleanValues()
+    public function testSaveShouldBeAbleToHandleBooleanValues()
     {
         $value = array('ecommerce' => true, 'sitesearch' => false);
         $this->backendSite1->save($value);
@@ -127,7 +127,7 @@ class SitesTableTest extends IntegrationTestCase
         $this->assertFieldsLoaded($value, $this->backendSite1);
     }
 
-    public function test_save_NotSetValues_ShouldRemain()
+    public function testSaveNotSetValuesShouldRemain()
     {
         $value = array('ecommerce' => '0', 'sitesearch' => '1');
         $this->backendSite1->save($value);
@@ -137,7 +137,7 @@ class SitesTableTest extends IntegrationTestCase
         $this->assertFieldsLoaded(array('name' => 'Piwik test'), $this->backendSite1);
     }
 
-    public function test_save_load_ShouldBeAbleToSaveAndLoadArrayValues()
+    public function testSaveLoadShouldBeAbleToSaveAndLoadArrayValues()
     {
         $value1 = array(
             'sitesearch_keyword_parameters' => array('val', 'val7', 'val5'),
@@ -148,7 +148,7 @@ class SitesTableTest extends IntegrationTestCase
         $this->assertFieldsLoaded($value1, $this->backendSite1);
     }
 
-    public function test_save_SaveMainUrlAndUrlsCorrectly_ManyUrls()
+    public function testSaveSaveMainUrlAndUrlsCorrectlyManyUrls()
     {
         $urls = array('piwik.org', 'demo.piwik.org', 'test.piwik.org');
         $value = array('urls' => $urls);
@@ -158,7 +158,7 @@ class SitesTableTest extends IntegrationTestCase
         $this->assertFieldsLoaded($value, $this->backendSite1);
     }
 
-    public function test_save_SaveMainUrlAndUrlsCorrectly_OnlyOneUrlGiven()
+    public function testSaveSaveMainUrlAndUrlsCorrectlyOnlyOneUrlGiven()
     {
         $urls = array('piwik.org');
         $value = array('urls' => $urls);

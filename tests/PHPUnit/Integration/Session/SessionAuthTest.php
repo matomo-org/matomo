@@ -38,7 +38,7 @@ class SessionAuthTest extends IntegrationTestCase
         $this->testInstance = StaticContainer::get(SessionAuth::class);
     }
 
-    public function test_authenticate_ReturnsFailure_IfNoSessionExists()
+    public function testAuthenticateReturnsFailureIfNoSessionExists()
     {
         $this->initializeSession(Fixture::ADMIN_USER_LOGIN);
 
@@ -48,7 +48,7 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
     }
 
-    public function test_authenticate_ReturnsFailure_IfAuthenticatedSession_AndPasswordChangedAfterSessionCreated()
+    public function testAuthenticateReturnsFailureIfAuthenticatedSessionAndPasswordChangedAfterSessionCreated()
     {
         $this->initializeSession(self::TEST_OTHER_USER);
 
@@ -63,7 +63,7 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEmpty($_SESSION);
     }
 
-    public function test_authenticate_ReturnsFailure_IfUsersModelReturnsIncorrectUser()
+    public function testAuthenticateReturnsFailureIfUsersModelReturnsIncorrectUser()
     {
         $this->initializeSession(self::TEST_OTHER_USER);
 
@@ -78,7 +78,7 @@ class SessionAuthTest extends IntegrationTestCase
     /**
      * @runInSeparateProcess
      */
-    public function test_authenticate_ReturnsSuccess_IfUserDataHasNoPasswordModifiedTimestamp()
+    public function testAuthenticateReturnsSuccessIfUserDataHasNoPasswordModifiedTimestamp()
     {
         $this->initializeSession(self::TEST_OTHER_USER);
 
@@ -100,7 +100,7 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::SUCCESS, $result->getCode());
     }
 
-    public function test_authenticate_ReturnsFailure_IfSessionIsExpiredWhenRememberMeUsed()
+    public function testAuthenticateReturnsFailureIfSessionIsExpiredWhenRememberMeUsed()
     {
         Date::$now = strtotime('2012-02-03 04:55:44');
         $this->initializeSession(self::TEST_OTHER_USER, true);
@@ -116,7 +116,7 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
     }
 
-    public function test_authenticate_ReturnsFailure_IfSessionIsExpiredWhenRememberMeNotUsed()
+    public function testAuthenticateReturnsFailureIfSessionIsExpiredWhenRememberMeNotUsed()
     {
         Date::$now = strtotime('2012-02-03 04:55:44');
         $this->initializeSession(self::TEST_OTHER_USER);

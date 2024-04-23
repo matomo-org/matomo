@@ -54,7 +54,7 @@ class ActionTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
     }
 
-    public function test_isCustomActionRequest()
+    public function testIsCustomActionRequest()
     {
         $request = new Request(array('ca' => '1'));
         $this->assertTrue(Action::isCustomActionRequest($request));
@@ -66,7 +66,7 @@ class ActionTest extends IntegrationTestCase
         $this->assertFalse(Action::isCustomActionRequest($request));
     }
 
-    public function test_factory_notDefaultsToPageViewWhenCustomPluginRequest()
+    public function testFactoryNotDefaultsToPageViewWhenCustomPluginRequest()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Request was meant for a plugin which is no longer activated. Request needs to be ignored.');
@@ -77,7 +77,7 @@ class ActionTest extends IntegrationTestCase
         Action::factory($request);
     }
 
-    public function test_factory_defaultsToPageviewWhenNotCustomPluginRequest()
+    public function testFactoryDefaultsToPageviewWhenNotCustomPluginRequest()
     {
         $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'));

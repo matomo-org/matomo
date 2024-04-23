@@ -52,7 +52,7 @@ class SharedSiteIdsTest extends IntegrationTestCase
         return new SharedSiteIds($siteIds, $optionalKey);
     }
 
-    public function test_construct_withEmptyValue()
+    public function testConstructWithEmptyValue()
     {
         $this->sharedSiteIds->setSiteIdsToArchive(array());
 
@@ -61,7 +61,7 @@ class SharedSiteIdsTest extends IntegrationTestCase
         $this->assertNull($siteIds->getNextSiteId());
     }
 
-    public function test_construct_withCustomOptionName()
+    public function testConstructWithCustomOptionName()
     {
         $first = new SharedSiteIds(array(1, 2), 'SharedSiteIdsToArchive_Test');
         $second = new SharedSiteIds(array(), 'SharedSiteIdsToArchive_Test');
@@ -69,17 +69,17 @@ class SharedSiteIdsTest extends IntegrationTestCase
         $this->assertEquals(array(1, 2), $second->getAllSiteIdsToArchive());
     }
 
-    public function test_getNumSites()
+    public function testGetNumSites()
     {
         $this->assertEquals(4, $this->sharedSiteIds->getNumSites());
     }
 
-    public function test_getAllSiteIdsToArchive()
+    public function testGetAllSiteIdsToArchive()
     {
         $this->assertEquals(array(1,2,5,9), $this->sharedSiteIds->getAllSiteIdsToArchive());
     }
 
-    public function test_getNumProcessedWebsites_getNextSiteId()
+    public function testGetNumProcessedWebsitesGetNextSiteId()
     {
         $this->assertEquals(0, $this->sharedSiteIds->getNumProcessedWebsites());
 
@@ -99,7 +99,7 @@ class SharedSiteIdsTest extends IntegrationTestCase
         $this->assertEquals(4, $this->sharedSiteIds->getNumProcessedWebsites());
     }
 
-    public function test_getNextSiteId_shouldDetectWhenTheQueueHasBeenResetMeanwhile()
+    public function testGetNextSiteIdShouldDetectWhenTheQueueHasBeenResetMeanwhile()
     {
         $this->assertEquals(1, $this->sharedSiteIds->getNextSiteId());
         $this->assertEquals(2, $this->sharedSiteIds->getNextSiteId());
@@ -111,7 +111,7 @@ class SharedSiteIdsTest extends IntegrationTestCase
         $this->assertNull($this->sharedSiteIds->getNextSiteId());
     }
 
-    public function test_getNextSiteId_queueWithOnlyOneSite()
+    public function testGetNextSiteIdQueueWithOnlyOneSite()
     {
         $sharedSiteIds = $this->makeSharedSiteIds(array(1), 'mytest');
 
@@ -122,7 +122,7 @@ class SharedSiteIdsTest extends IntegrationTestCase
         $this->assertNull($sharedSiteIds->getNextSiteId());
     }
 
-    public function test_usingMultipleSharedSiteIds()
+    public function testUsingMultipleSharedSiteIds()
     {
         $second = new SharedSiteIds(array(7,9,11,6,1,2));
 
@@ -155,7 +155,7 @@ class SharedSiteIdsTest extends IntegrationTestCase
         $this->assertEquals(array(), $this->sharedSiteIds->getAllSiteIdsToArchive());
     }
 
-    public function test_usingMultipleSharedSiteIdsDetectsFinishedAlready()
+    public function testUsingMultipleSharedSiteIdsDetectsFinishedAlready()
     {
         $this->sharedSiteIds = $this->makeSharedSiteIds(array(1), 'test');
 

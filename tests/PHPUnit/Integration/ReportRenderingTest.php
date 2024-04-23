@@ -18,7 +18,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class ReportRenderingTest extends IntegrationTestCase
 {
-    public function test_reportHasCorrectNotification_WhenReportHasNoData_AndArchivingHasNotRunRecently()
+    public function testReportHasCorrectNotificationWhenReportHasNoDataAndArchivingHasNotRunRecently()
     {
         $idSite = Fixture::createWebsite('2012-01-02 03:04:44');
         Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, time() - 120000);

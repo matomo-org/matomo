@@ -107,7 +107,7 @@ class UpdaterTest extends IntegrationTestCase
         return $response;
     }
 
-    public function test_doUpdate_AddsDimensions_WhenDimensionsNotInTables()
+    public function testDoUpdateAddsDimensionsWhenDimensionsNotInTables()
     {
         $updater = $this->getMockUpdater();
         $this->columnsUpdater->doUpdate($updater);
@@ -115,7 +115,7 @@ class UpdaterTest extends IntegrationTestCase
         $this->assertDimensionsAddedToTables();
     }
 
-    public function test_doUpdate_DoesNotError_WhenDimensionsAlreadyInTables()
+    public function testDoUpdateDoesNotErrorWhenDimensionsAlreadyInTables()
     {
         $this->addDimensionsToTables();
 
@@ -125,7 +125,7 @@ class UpdaterTest extends IntegrationTestCase
         $this->assertDimensionsAddedToTables();
     }
 
-    public function test_getAllVersions_ReturnsFileVersionsOfAllDimensions()
+    public function testGetAllVersionsReturnsFileVersionsOfAllDimensions()
     {
         $updater = $this->getMockUpdater();
         $actualVersions = $this->columnsUpdater->getAllVersions($updater);
@@ -144,7 +144,7 @@ class UpdaterTest extends IntegrationTestCase
     /**
      * @dataProvider getCoreDimensionsForGetAllVersionsTest
      */
-    public function test_getAllVersions_ReturnsNoVersions_ForCoreDimensions_ThatWereRefactored_AndHaveNoDbVersion($table, $columnName, $columnType)
+    public function testGetAllVersionsReturnsNoVersionsForCoreDimensionsThatWereRefactoredAndHaveNoDbVersion($table, $columnName, $columnType)
     {
         $this->addDimensionsToTables();
         $this->addDimensionToTable($table, $columnName, $columnType);

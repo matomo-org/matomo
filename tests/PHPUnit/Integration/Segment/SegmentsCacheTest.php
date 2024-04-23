@@ -21,7 +21,7 @@ use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
  */
 class SegmentsCacheTest extends IntegrationTestCase
 {
-    public function test_segment_hash_cached()
+    public function testSegmentHashCached()
     {
         $cache = Cache::getEagerCache();
         $model = new SegmentEditorModel();
@@ -37,7 +37,7 @@ class SegmentsCacheTest extends IntegrationTestCase
         $this->assertTrue($cache->contains($key1));
     }
 
-    public function test_if_segment_not_found_default_hash_returned()
+    public function testIfSegmentNotFoundDefaultHashReturned()
     {
         $definition = 'browserCode==ch';
         $defaultHash = md5(urldecode($definition));
@@ -45,7 +45,7 @@ class SegmentsCacheTest extends IntegrationTestCase
         $this->assertEquals($defaultHash, Segment::getSegmentHash($definition));
     }
 
-    public function test_cashed_hashes_for_similar_segments()
+    public function testCashedHashesForSimilarSegments()
     {
         $cache = Cache::getEagerCache();
         $model = new SegmentEditorModel();
@@ -92,7 +92,7 @@ class SegmentsCacheTest extends IntegrationTestCase
         }
     }
 
-    public function test_segment_cache_with_operator_characters()
+    public function testSegmentCacheWithOperatorCharacters()
     {
         $cache = Cache::getEagerCache();
         $model = new SegmentEditorModel();

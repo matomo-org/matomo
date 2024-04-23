@@ -21,7 +21,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ArchiveFilterTest extends IntegrationTestCase
 {
-    public function test_archiveFilter_filtersOutArchivesWhenForceReportIsSpecified()
+    public function testArchiveFilterFiltersOutArchivesWhenForceReportIsSpecified()
     {
         $filter = new ArchiveFilter();
         $filter->setForceReport('MyPlugin.myName');
@@ -42,7 +42,7 @@ class ArchiveFilterTest extends IntegrationTestCase
         $this->assertFalse($result);
     }
 
-    public function test_setSegmentsToForceFromSegmentIds_CorrectlyGetsSegmentDefinitions_FromSegmentIds()
+    public function testSetSegmentsToForceFromSegmentIdsCorrectlyGetsSegmentDefinitionsFromSegmentIds()
     {
         Rules::setBrowserTriggerArchiving(false);
         Fixture::createWebsite('2014-12-12 00:01:02');
@@ -59,7 +59,7 @@ class ArchiveFilterTest extends IntegrationTestCase
         $this->assertEquals($expectedSegments, array_values($cronarchive->getSegmentsToForce()));
     }
 
-    public function test_filterArchive_filtersSegmentArchivesForToday_IfSkippingSegmentsForToday()
+    public function testFilterArchiveFiltersSegmentArchivesForTodayIfSkippingSegmentsForToday()
     {
         Date::$now = strtotime('2020-03-04 04:05:06');
 
@@ -81,7 +81,7 @@ class ArchiveFilterTest extends IntegrationTestCase
         $this->assertFalse($result);
     }
 
-    public function test_filterArchive_filtersSegmentArchives_IfSegmentArchivingIsDisabled()
+    public function testFilterArchiveFiltersSegmentArchivesIfSegmentArchivingIsDisabled()
     {
         $filter = new ArchiveFilter();
         $filter->setDisableSegmentsArchiving(true);
@@ -93,7 +93,7 @@ class ArchiveFilterTest extends IntegrationTestCase
         $this->assertEquals($result, 'segment archiving disabled');
     }
 
-    public function test_filterArchive_filtersSegmentArchives_IfSegmentIsNotInSegmentsToForce()
+    public function testFilterArchiveFiltersSegmentArchivesIfSegmentIsNotInSegmentsToForce()
     {
         Rules::setBrowserTriggerArchiving(false);
         Fixture::createWebsite('2014-12-12 00:01:02');
@@ -119,7 +119,7 @@ class ArchiveFilterTest extends IntegrationTestCase
         $this->assertEquals('segment \'actions>=4\' is not in --force-idsegments', $result);
     }
 
-    public function test_filterArchive_filtersArchivesWhoseDateIsNotWithinArchiveDateRange()
+    public function testFilterArchiveFiltersArchivesWhoseDateIsNotWithinArchiveDateRange()
     {
         $filter = new ArchiveFilter();
         $filter->setRestrictToDateRange('2015-02-04,2015-03-01');
@@ -146,7 +146,7 @@ class ArchiveFilterTest extends IntegrationTestCase
         $this->assertEquals($result, 'archive date range (2015-06-02,2015-06-05) is not within --force-date-range');
     }
 
-    public function test_filterArchive_filtersArchivesWhosePeriodIsNotInForcePeriods()
+    public function testFilterArchiveFiltersArchivesWhosePeriodIsNotInForcePeriods()
     {
         $filter = new ArchiveFilter();
         $filter->setRestrictToPeriods(['day, month']);
@@ -167,7 +167,7 @@ class ArchiveFilterTest extends IntegrationTestCase
         $this->assertFalse($result);
     }
 
-    public function test_filterArchive_doesNotFilterArchivesThatPass()
+    public function testFilterArchiveDoesNotFilterArchivesThatPass()
     {
         Rules::setBrowserTriggerArchiving(false);
         Fixture::createWebsite('2014-12-12 00:01:02');

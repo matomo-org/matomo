@@ -45,7 +45,7 @@ class MenuTest extends IntegrationTestCase
         $this->menu = new Menu();
     }
 
-    public function test_urlForDefaultUserParams_default()
+    public function testUrlForDefaultUserParamsDefault()
     {
         $default = $this->menu->urlForDefaultUserParams();
         $this->assertEquals([
@@ -58,7 +58,7 @@ class MenuTest extends IntegrationTestCase
     /**
      * @dataProvider getPeriodsProvider
      */
-    public function test_urlForDefaultUserParams_siteWasCreatedFewDaysAgo($period)
+    public function testUrlForDefaultUserParamsSiteWasCreatedFewDaysAgo($period)
     {
         $default = $this->menu->urlForDefaultUserParams($this->idSiteOld, $period);
         $this->assertEquals([
@@ -71,7 +71,7 @@ class MenuTest extends IntegrationTestCase
     /**
      * @dataProvider getPeriodsProvider
      */
-    public function test_urlForDefaultUserParams_siteWasCreatedToday_shouldChangeDateToSiteCreationDate($period)
+    public function testUrlForDefaultUserParamsSiteWasCreatedTodayShouldChangeDateToSiteCreationDate($period)
     {
         $yesterday = Date::factory($this->dateSiteCreatedToday)->subDay(1)->toString();
         $default = $this->menu->urlForDefaultUserParams($this->idSiteToday, $period, $yesterday);
@@ -85,7 +85,7 @@ class MenuTest extends IntegrationTestCase
     /**
      * @dataProvider getPeriodsProvider
      */
-    public function test_urlForDefaultUserParams_dateInPastShouldChangeToSiteCreationDay($period)
+    public function testUrlForDefaultUserParamsDateInPastShouldChangeToSiteCreationDay($period)
     {
         $default = $this->menu->urlForDefaultUserParams($this->idSiteToday, $period, '2017-05-05');
         $this->assertEquals([
@@ -98,7 +98,7 @@ class MenuTest extends IntegrationTestCase
     /**
      * @dataProvider getPeriodsProvider
      */
-    public function test_urlForDefaultUserParams_dateInFutureShouldNotChangeDate($period)
+    public function testUrlForDefaultUserParamsDateInFutureShouldNotChangeDate($period)
     {
         $tomorrow = Date::now()->addDay(1)->toString();
         $default = $this->menu->urlForDefaultUserParams($this->idSiteToday, $period, $tomorrow);
@@ -109,7 +109,7 @@ class MenuTest extends IntegrationTestCase
         ], $default);
     }
 
-    public function test_urlForDefaultUserParams_recognisesStartOfTheWeek()
+    public function testUrlForDefaultUserParamsRecognisesStartOfTheWeek()
     {
         // date is before site creation date but it is the current week so no need to change it
         $default = $this->menu->urlForDefaultUserParams($this->idSiteToday, 'week', '2020-08-06');

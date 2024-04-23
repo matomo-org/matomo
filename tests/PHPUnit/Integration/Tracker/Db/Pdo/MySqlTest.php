@@ -30,7 +30,7 @@ class MySqlTest extends IntegrationTestCase
     }
 
 
-    public function test_isMysqlServerHasGoneAwayError()
+    public function testIsMysqlServerHasGoneAwayError()
     {
         $this->assertFalse($this->mysql->isMysqlServerHasGoneAwayError(new Exception('fff')));
         $this->assertFalse($this->mysql->isMysqlServerHasGoneAwayError(new Exception('[1234] Duplicate Entry')));
@@ -38,7 +38,7 @@ class MySqlTest extends IntegrationTestCase
         $this->assertTrue($this->mysql->isMysqlServerHasGoneAwayError(new Exception('SQLSTATE[HY000]: General error: 2006 MySQL server has gone away')));
     }
 
-    public function test_reconnect_wontFail()
+    public function testReconnectWontFail()
     {
         $e = new Exception('fff');
         $this->assertNull($this->mysql->reconnect($e));

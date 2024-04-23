@@ -88,19 +88,19 @@ class VisitDimensionTest extends IntegrationTestCase
         $this->conversionDimension = new FakeConversionVisitDimension();
     }
 
-    public function test_install_shouldNotReturnAnything_IfColumnTypeNotSpecified()
+    public function testInstallShouldNotReturnAnythingIfColumnTypeNotSpecified()
     {
         $this->dimension->set('columnType', '');
         $this->assertEquals(array(), $this->dimension->install());
     }
 
-    public function test_install_shouldNotReturnAnything_IfColumnNameNotSpecified()
+    public function testInstallShouldNotReturnAnythingIfColumnNameNotSpecified()
     {
         $this->dimension->set('columnName', '');
         $this->assertEquals(array(), $this->dimension->install());
     }
 
-    public function test_install_shouldAlwaysInstallLogVisit_IfColumnNameAndTypeGiven()
+    public function testInstallShouldAlwaysInstallLogVisitIfColumnNameAndTypeGiven()
     {
         $expected = array(
             'log_visit' => array(
@@ -111,7 +111,7 @@ class VisitDimensionTest extends IntegrationTestCase
         $this->assertEquals($expected, $this->dimension->install());
     }
 
-    public function test_install_shouldInstallLogVisitAndConversion_IfConversionMethodIsImplemented()
+    public function testInstallShouldInstallLogVisitAndConversionIfConversionMethodIsImplemented()
     {
         $expected = array(
             'log_visit' => array(
@@ -125,7 +125,7 @@ class VisitDimensionTest extends IntegrationTestCase
         $this->assertEquals($expected, $this->conversionDimension->install());
     }
 
-    public function test_update_shouldAlwaysUpdateLogVisit_IfColumnNameAndTypeGiven()
+    public function testUpdateShouldAlwaysUpdateLogVisitIfColumnNameAndTypeGiven()
     {
         $expected = array(
             'log_visit' => array(
@@ -136,7 +136,7 @@ class VisitDimensionTest extends IntegrationTestCase
         $this->assertEquals($expected, $this->dimension->update());
     }
 
-    public function test_update_shouldUpdateLogVisitAndAddConversion_IfConversionMethodIsImplementedButNotInstalledYet()
+    public function testUpdateShouldUpdateLogVisitAndAddConversionIfConversionMethodIsImplementedButNotInstalledYet()
     {
         $expected = array(
             'log_visit' => array(
@@ -150,22 +150,22 @@ class VisitDimensionTest extends IntegrationTestCase
         $this->assertEquals($expected, $this->conversionDimension->update());
     }
 
-    public function test_getVersion_shouldUseColumnTypeAsVersion()
+    public function testGetVersionShouldUseColumnTypeAsVersion()
     {
         $this->assertEquals('VARCHAR (255) DEFAULT 0', $this->dimension->getVersion());
     }
 
-    public function test_getVersion_shouldIncludeConversionMethodIntoVersionNumber_ToMakeSureUpdateMethodWillBeTriggeredWhenPluginAddedConversionMethodInNewVersion()
+    public function testGetVersionShouldIncludeConversionMethodIntoVersionNumberToMakeSureUpdateMethodWillBeTriggeredWhenPluginAddedConversionMethodInNewVersion()
     {
         $this->assertEquals('VARCHAR (255) DEFAULT 01', $this->conversionDimension->getVersion());
     }
 
-    public function test_getSegment_ShouldReturnNoSegments_IfNoneConfigured()
+    public function testGetSegmentShouldReturnNoSegmentsIfNoneConfigured()
     {
         $this->assertEquals(array(), $this->dimension->getSegments());
     }
 
-    public function test_getSegment_ShouldReturnConfiguredSegments()
+    public function testGetSegmentShouldReturnConfiguredSegments()
     {
         $segments = $this->conversionDimension->getSegments();
 
@@ -174,7 +174,7 @@ class VisitDimensionTest extends IntegrationTestCase
         $this->assertInstanceOf('\Piwik\Plugin\Segment', $segments[1]);
     }
 
-    public function test_addSegment_ShouldPrefilSomeSegmentValuesIfNotDefinedYet()
+    public function testAddSegmentShouldPrefilSomeSegmentValuesIfNotDefinedYet()
     {
         $segments = $this->conversionDimension->getSegments();
 
@@ -182,7 +182,7 @@ class VisitDimensionTest extends IntegrationTestCase
         $this->assertEquals(Segment::TYPE_DIMENSION, $segments[0]->getType());
     }
 
-    public function test_addSegment_ShouldNotOverwritePreAssignedValues()
+    public function testAddSegmentShouldNotOverwritePreAssignedValues()
     {
         $segments = $this->conversionDimension->getSegments();
 
@@ -190,7 +190,7 @@ class VisitDimensionTest extends IntegrationTestCase
         $this->assertEquals(Segment::TYPE_METRIC, $segments[1]->getType());
     }
 
-    public function test_sortDimensions_ShouldResolveDependencies()
+    public function testSortDimensionsShouldResolveDependencies()
     {
         $dimension1 = new FakeVisitDimension();
         $dimension1->set('columnName', 'column1');
@@ -215,7 +215,7 @@ class VisitDimensionTest extends IntegrationTestCase
         $this->assertSame(array($dimension3, $dimension4, $dimension2, $dimension1), $instances);
     }
 
-    public function test_sortDimensions_ShouldThrowAnException_IfCircularReferenceDetected()
+    public function testSortDimensionsShouldThrowAnExceptionIfCircularReferenceDetected()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Circular reference detected for required field column4 in dimension column2');
@@ -243,7 +243,7 @@ class VisitDimensionTest extends IntegrationTestCase
         $this->assertSame(array($dimension3, $dimension4, $dimension2, $dimension1), $instances);
     }
 
-    public function test_getDimensions_shouldOnlyLoadAllVisitDimensionsFromACertainPlugin()
+    public function testGetDimensionsShouldOnlyLoadAllVisitDimensionsFromACertainPlugin()
     {
         Manager::getInstance()->loadPlugins(array('Actions'));
         $plugin = Manager::getInstance()->loadPlugin('Actions');
@@ -259,7 +259,7 @@ class VisitDimensionTest extends IntegrationTestCase
     }
 
 
-    public function test_getAllDimensions_shouldLoadAllDimensionsButOnlyIfLoadedPlugins()
+    public function testGetAllDimensionsShouldLoadAllDimensionsButOnlyIfLoadedPlugins()
     {
         Manager::getInstance()->loadPlugins(array('Actions', 'DevicesDetection'));
 

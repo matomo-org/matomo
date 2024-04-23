@@ -39,7 +39,7 @@ class NumberFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getFormatMethodTestData
      */
-    public function test_format_CorrectlyFormatsValueAsNumberOrPercent(
+    public function testFormatCorrectlyFormatsValueAsNumberOrPercent(
         $language,
         $value,
         $maximumFractionDigits,
