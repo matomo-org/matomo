@@ -39,7 +39,7 @@ class ConfigReaderTest extends IntegrationTestCase
         FakeAccess::clearAccess($superUser = true);
     }
 
-    public function test_getConfigValuesFromFiles()
+    public function testGetConfigValuesFromFiles()
     {
         $fileConfig = $this->configReader->getConfigValuesFromFiles();
 
@@ -164,7 +164,7 @@ with multiple lines',
         $this->assertEquals($expected, $fileConfig);
     }
 
-    public function test_addConfigValuesFromPluginSettings()
+    public function testAddConfigValuesFromPluginSettings()
     {
         $settings = new SystemSettings();
 
@@ -212,7 +212,7 @@ Another line',
         $this->assertEquals($expected, $configValues);
     }
 
-    public function test_addConfigValuesFromPluginSettings_shouldAddDescriptionAndDefaultValueForExistingConfigValues()
+    public function testAddConfigValuesFromPluginSettingsShouldAddDescriptionAndDefaultValueForExistingConfigValues()
     {
         $settings = new SystemSettings();
 
@@ -235,7 +235,7 @@ Another line',
         $this->assertSame('nb_visits', $configValues['ExampleSettingsPlugin']['metric']['defaultValue']);
     }
 
-    public function test_addConfigValuesFromPluginSettings_shouldMaskValueIfTypeIsPassword()
+    public function testAddConfigValuesFromPluginSettingsShouldMaskValueIfTypeIsPassword()
     {
         $settings = new SystemSettings();
         $settings->metric->configureField()->uiControl = FieldConfig::UI_CONTROL_PASSWORD;

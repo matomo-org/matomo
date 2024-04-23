@@ -28,7 +28,7 @@ class NumericAttributeGoalTrackingTest extends IntegrationTestCase
         API::getInstance()->addGoal($idSite, 'visit duration goal', 'visit_duration', 2.5, 'greater_than');
     }
 
-    public function test_trackingVisitDurationGoal()
+    public function testTrackingVisitDurationGoal()
     {
         $t = Fixture::getTracker($this->idSite, '2013-02-03 04:00:00');
         $this->assertEquals(0, $this->getConversionCount($this->visitDurationIdGoal));
