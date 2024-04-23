@@ -73,7 +73,7 @@
           <div v-if="showMissingLicenseDescription" class="alert alert-danger">
             {{ translate('Marketplace_PluginLicenseMissingDescription') }}
           </div>
-          <div v-else-if="showExceededLicenceDescription" class="alert alert-warning">
+          <div v-else-if="showExceededLicenseDescription" class="alert alert-warning">
             {{ translate('Marketplace_PluginLicenseExceededDescription') }}
           </div>
 
@@ -156,7 +156,7 @@
                 </dd>
               </div>
 
-              <div class="pair" v-if="showLicenceName">
+              <div class="pair" v-if="showLicenseName">
                 <dt>{{ translate('Marketplace_License') }}</dt>
                 <dd>
                   <a v-if="pluginLatestVersion.license?.url" rel="noreferrer noopener"
@@ -406,15 +406,15 @@ export default defineComponent({
     showMissingLicenseDescription(): boolean {
       return this.hasSomeAdminAccess && this.plugin.isMissingLicense;
     },
-    showExceededLicenceDescription(): boolean {
+    showExceededLicenseDescription(): boolean {
       return this.hasSomeAdminAccess && this.plugin.hasExceededLicense;
     },
     showMissingRequirementsNoticeIfApplicable(): boolean {
       return this.isSuperUser && (this.plugin.isDownloadable || this.plugin.isInstalled);
     },
-    showLicenceName(): boolean {
-      const licence: TObject = this.pluginLatestVersion?.license as TObject || {};
-      return !!licence.name;
+    showLicenseName(): boolean {
+      const license: TObject = this.pluginLatestVersion?.license as TObject || {};
+      return !!license.name;
     },
     pluginScreenshots(): string[] {
       return this.plugin.screenshots || [];
