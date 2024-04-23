@@ -7,7 +7,7 @@
 
 <template>
   <template v-if="isSuperUser">
-    <div v-if="!showActionsOnly && plugin.isMissingLicense"
+    <div v-if="plugin.isMissingLicense"
          class="alert alert-danger alert-no-background">
       {{ translate('Marketplace_LicenseMissing') }}
       <span
@@ -15,7 +15,7 @@
       >(<HelpLink :plugin-name="plugin.name" />)</span>
     </div>
 
-    <div v-else-if="!showActionsOnly && plugin.hasExceededLicense"
+    <div v-else-if="plugin.hasExceededLicense"
          class="alert alert-danger alert-no-background">
       {{ translate('Marketplace_LicenseExceeded') }}
       <span
@@ -24,7 +24,7 @@
     </div>
 
     <template
-      v-else-if="!showActionsOnly && plugin.canBeUpdated && 0 == plugin.missingRequirements.length"
+      v-else-if="plugin.canBeUpdated && 0 == plugin.missingRequirements.length"
     >
       <a v-if="isAutoUpdatePossible"
          tabindex="7"
@@ -45,7 +45,7 @@
       </div>
     </template>
 
-    <div v-else-if="!showActionsOnly && plugin.isInstalled"
+    <div v-else-if="plugin.isInstalled"
          class="alert alert-success alert-no-background">
       {{ translate('General_Installed') }}
 
@@ -80,7 +80,7 @@
     >{{ translate('Marketplace_StartFreeTrial') }}</a>
 
     <MoreDetailsButton
-      v-else-if="!showActionsOnly && !plugin.isDownloadable && (
+      v-else-if="!inModal && !plugin.isDownloadable && (
                    plugin.isPaid
                    || plugin.missingRequirements.length > 0
                    || !isAutoUpdatePossible
@@ -89,7 +89,7 @@
     />
 
     <!-- eslint-disable-next-line max-len-->
-    <div v-else-if="!showActionsOnly && (plugin.missingRequirements.length > 0 || !isAutoUpdatePossible)"
+    <div v-else-if="plugin.missingRequirements.length > 0 || !isAutoUpdatePossible"
       class="alert alert-warning alert-no-background"
     >
       {{ translate('Marketplace_CannotInstall') }}
@@ -114,7 +114,7 @@
 
   <template v-else>
     <MoreDetailsButton
-      v-if="!showActionsOnly"
+      v-if="!inModal"
       :plugin-name="plugin.name"
     />
   </template>
@@ -170,7 +170,7 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
-    showActionsOnly: {
+    inModal: {
       type: Boolean,
       required: false,
       default: false,
