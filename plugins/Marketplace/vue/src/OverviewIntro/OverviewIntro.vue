@@ -65,7 +65,6 @@
       :install-nonce="installNonce"
       :update-nonce="updateNonce"
       :has-some-admin-access="hasSomeAdminAccess"
-      :num-users="numUsers"
     />
   </div>
 </template>
@@ -126,10 +125,6 @@ export default defineComponent({
     },
     numAvailablePluginsByType: {
       type: Object,
-      required: true,
-    },
-    numUsers: {
-      type: Number,
       required: true,
     },
   },

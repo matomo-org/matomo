@@ -274,7 +274,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->isPluginUploadEnabled = CorePluginsAdmin::isPluginUploadEnabled();
         $view->uploadLimit = SettingsServer::getPostMaxUploadSize();
         $view->inReportingMenu = (bool) Common::getRequestVar('embed', 0, 'int');
-        $view->numUsers = $this->environment->getNumUsers();
 
         return $view->render();
     }

@@ -65,7 +65,6 @@
               :activate-nonce="activateNonce"
               :install-nonce="installNonce"
               :update-nonce="updateNonce"
-              :num-users="numUsers"
               @triggerUpdate="this.fetchPlugins()"
   />
 
@@ -141,10 +140,6 @@ export default defineComponent({
     },
     updateNonce: {
       type: String,
-      required: true,
-    },
-    numUsers: {
-      type: Number,
       required: true,
     },
   },

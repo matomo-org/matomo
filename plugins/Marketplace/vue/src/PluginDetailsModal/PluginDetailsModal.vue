@@ -319,10 +319,6 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
-    numUsers: {
-      type: Number,
-      required: true,
-    },
   },
   data(): PluginDetailsState {
     return {
