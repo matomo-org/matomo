@@ -23,7 +23,7 @@ class AddSegmentMetadataTest extends \PHPUnit\Framework\TestCase
 {
     private $filter = 'Piwik\Plugins\CustomDimensions\DataTable\Filter\AddSegmentMetadata';
 
-    public function test_filter()
+    public function testFilter()
     {
         $dataTable = new DataTable();
         $dataTable->addRowsFromArray(array(

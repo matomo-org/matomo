@@ -21,7 +21,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
  */
 class PiwikJsContentTest extends SystemTestCase
 {
-    public function test_piwikJsAndPiwikMinJsMustHaveSameContent()
+    public function testPiwikJsAndPiwikMinJsMustHaveSameContent()
     {
         $piwikMin = PIWIK_DOCUMENT_ROOT . TrackerUpdater::ORIGINAL_PIWIK_JS;
         $piwikJs = PIWIK_DOCUMENT_ROOT . TrackerUpdater::TARGET_MATOMO_JS;
@@ -29,7 +29,7 @@ class PiwikJsContentTest extends SystemTestCase
         $this->assertSame(file_get_contents($piwikMin), file_get_contents($piwikJs));
     }
 
-    public function test_piwikJsContainsHook()
+    public function testPiwikJsContainsHook()
     {
         $piwikMin = PIWIK_DOCUMENT_ROOT . '/js/piwik.min.js';
         $content  = file_get_contents($piwikMin);

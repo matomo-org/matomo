@@ -33,14 +33,14 @@ class RemoveUserIfNeededTest extends IntegrationTestCase
         Fixture::createWebsite('2010-01-01 00:00:00');
     }
 
-    public function test_filter_shouldNotRemoveColumn_IfThereIsAValueInTableForNbUsers()
+    public function testFilterShouldNotRemoveColumnIfThereIsAValueInTableForNbUsers()
     {
         $columns = $this->filterTable($withUser = 5);
 
         $this->assertSame(array(0, false, 5), $columns);
     }
 
-    public function test_filter_withoutUsers_shouldRemoveColumn()
+    public function testFilterWithoutUsersShouldRemoveColumn()
     {
         $columns = $this->filterTable($withUser = 0);
         $this->assertSame(array(false, false, false), $columns);

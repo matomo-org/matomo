@@ -19,7 +19,7 @@ use Piwik\Plugins\CustomDimensions\Dimension\Scope;
  */
 class ScopeTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_check_shouldFailWhenScopeIsEmpty()
+    public function testCheckShouldFailWhenScopeIsEmpty()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid value '' for 'scope' specified. Available scopes are: visit, action, conversion");
@@ -27,7 +27,7 @@ class ScopeTest extends \PHPUnit\Framework\TestCase
         $this->buildScope('')->check();
     }
 
-    public function test_check_shouldFailWhenScopeIsNotValid()
+    public function testCheckShouldFailWhenScopeIsNotValid()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid value 'anyScoPe' for 'scope' specified. Available scopes are: visit, action, conversion");
@@ -35,7 +35,7 @@ class ScopeTest extends \PHPUnit\Framework\TestCase
         $this->buildScope('anyScoPe')->check();
     }
 
-    public function test_check_shouldNotFailWhenScopeIsValid()
+    public function testCheckShouldNotFailWhenScopeIsValid()
     {
         self::expectNotToPerformAssertions();
 
