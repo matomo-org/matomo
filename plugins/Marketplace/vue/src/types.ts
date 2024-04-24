@@ -5,6 +5,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { iframeResizer } from 'iframe-resizer';
+
 export type TObject = Record<string, unknown> | Record<string, never>;
 export type TObjectArray = TObject[] | [] | null;
 export type TNumberOrString = string | number | null;
@@ -85,8 +87,6 @@ export interface PluginDetails {
 
 declare global {
   interface Window {
-    // TODO: figure out a narrower type definition
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    iFrameResize: any;
+    iFrameResize: typeof iframeResizer;
   }
 }
