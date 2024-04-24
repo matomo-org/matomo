@@ -16,10 +16,11 @@ describe("RowEvolution", function () {
 
     it('should load when icon clicked in ViewDataTable', async function() {
         await page.goto(viewDataTableUrl);
-        const row = await page.waitForSelector('tbody tr:first-child');
+        await page.waitForSelector('tbody tr:first-child')
+        const row = await page.jQuery('tbody tr:contains("corruption")');
         await row.hover();
 
-        const icon = await page.waitForSelector('tbody tr:first-child a.actionRowEvolution');
+        const icon = await page.jQuery('tbody tr:contains("corruption") a.actionRowEvolution');
         await icon.click();
 
         await page.waitForSelector('.ui-dialog');
