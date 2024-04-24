@@ -174,7 +174,7 @@ EOI;
 
         $expected = <<<EOI
 test message
-#0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->testGetMessageAndWholeBacktracePrintsBacktraceIfPIWIKPRINTERRORBACKTRACEisDefined()
+#0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->testGetMessageAndWholeBacktracePrintsBacktraceIfPIWIKPRINTERRORBACKTRACEIsDefined()
 #1 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestCase->runTest()
 #2 /vendor/phpunit/phpunit/src/Framework/TestResult.php: PHPUnit\\Framework\\TestCase->runBare()
 #3 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestResult->run(Object(Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest))
