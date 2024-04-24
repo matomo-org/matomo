@@ -36,10 +36,14 @@
         {{ translate('Marketplace_CannotUpdate') }}
         <span
           style="white-space:nowrap"
+          v-if="!inModal ||
+              (plugin.missingRequirements.length === 0
+              && plugin.isDownloadable && !isAutoUpdatePossible
+              )"
         >(<MoreDetailsAction @action="$emit('openDetailsModal')" v-if="!inModal" />
           <DownloadButton
             :plugin="plugin"
-            :show-or="true"
+            :show-or="!inModal"
             :is-auto-update-possible="isAutoUpdatePossible"
           />)</span>
       </div>
@@ -98,10 +102,14 @@
       {{ translate('Marketplace_CannotInstall') }}
       <span
         style="white-space:nowrap"
+        v-if="!inModal ||
+              (plugin.missingRequirements.length === 0
+              && plugin.isDownloadable && !isAutoUpdatePossible
+              )"
       >(<MoreDetailsAction @action="$emit('openDetailsModal')" v-if="!inModal" />
         <DownloadButton
           :plugin="plugin"
-          :show-or="true"
+          :show-or="!inModal"
           :is-auto-update-possible="isAutoUpdatePossible"
         />)</span>
     </div>
