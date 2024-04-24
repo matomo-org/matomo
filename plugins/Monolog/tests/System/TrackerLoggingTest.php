@@ -36,7 +36,7 @@ class TrackerLoggingTest extends SystemTestCase
         }
     }
 
-    public function test_shouldReturnDebugOutput_IfDebugIsEnabled()
+    public function testShouldReturnDebugOutputIfDebugIsEnabled()
     {
         $this->setTrackerConfig(array('debug' => '1'));
 
@@ -44,7 +44,7 @@ class TrackerLoggingTest extends SystemTestCase
         $this->assertTrackerResponseContainsLogOutput($tracker);
     }
 
-    public function test_shouldReturnDebugOutput_IfDebugOnDemandIsEnabled()
+    public function testShouldReturnDebugOutputIfDebugOnDemandIsEnabled()
     {
         $this->setTrackerConfig(array('debug_on_demand' => '1', 'debug' => 0));
 
@@ -53,7 +53,7 @@ class TrackerLoggingTest extends SystemTestCase
         $this->assertTrackerResponseContainsLogOutput($tracker);
     }
 
-    public function test_shouldNotReturnDebugOutput_IfDebugOnDemandIsDisabled()
+    public function testShouldNotReturnDebugOutputIfDebugOnDemandIsDisabled()
     {
         $this->setTrackerConfig(array('debug_on_demand' => '0', 'debug' => 0));
 

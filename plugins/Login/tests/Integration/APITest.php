@@ -32,7 +32,7 @@ class APITest extends IntegrationTestCase
         $this->api = API::getInstance();
     }
 
-    public function test_unblockBruteForceIPs_requiresSuperUser()
+    public function testUnblockBruteForceIPsRequiresSuperUser()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess');
@@ -41,14 +41,14 @@ class APITest extends IntegrationTestCase
         $this->api->unblockBruteForceIPs();
     }
 
-    public function test_unblockBruteForceIPs_doesNotFailWhenNothingToRemove()
+    public function testUnblockBruteForceIPsDoesNotFailWhenNothingToRemove()
     {
         self::expectNotToPerformAssertions();
 
         $this->api->unblockBruteForceIPs();
     }
 
-    public function test_unblockBruteForceIPs_removesBlockedIps()
+    public function testUnblockBruteForceIPsRemovesBlockedIps()
     {
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         $bruteForce->addFailedAttempt('127.2.3.4');

@@ -34,13 +34,13 @@ class APITest extends SystemTestCase
         $testingEnvironment->save();
     }
 
-    public function test_shouldReturnHttp500_IfWrongDbInfo()
+    public function testShouldReturnHttp500IfWrongDbInfo()
     {
         $response = $this->sendHttpRequest($this->getUrl());
         $this->assertEquals(500, $response['status']);
     }
 
-    public function test_shouldReturnValidApiResponse_IfWrongDbInfo_formatXML()
+    public function testShouldReturnValidApiResponseIfWrongDbInfoFormatXML()
     {
         $response = $this->sendHttpRequest($this->getUrl());
 
@@ -51,7 +51,7 @@ class APITest extends SystemTestCase
         $this->assertStringEndsWith('</result>', $data);
     }
 
-    public function test_shouldReturnValidApiResponse_IfWrongDbInfo_formatJSON()
+    public function testShouldReturnValidApiResponseIfWrongDbInfoFormatJSON()
     {
         $response = $this->sendHttpRequest($this->getUrl() . '&format=json');
 
@@ -61,7 +61,7 @@ class APITest extends SystemTestCase
         self::assertStringContainsString('Database access denied', $data);
     }
 
-    public function test_shouldReturnEmptyResultWhenNotInstalledAndDispatchIsDisabled()
+    public function testShouldReturnEmptyResultWhenNotInstalledAndDispatchIsDisabled()
     {
         $url = Fixture::getTestRootUrl() . 'nodispatchnotinstalled.php';
         $response = $this->sendHttpRequest($url);

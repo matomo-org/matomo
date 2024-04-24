@@ -44,44 +44,44 @@ class EnvironmentTest extends IntegrationTestCase
         $this->environment = new Environment($releaseChannes);
     }
 
-    public function test_getPhpVersion()
+    public function testGetPhpVersion()
     {
         $phpVersion = explode('-', phpversion()); // cater for pre-release versions like 8.3.0-dev
         $this->assertTrue(version_compare($phpVersion[0], $this->environment->getPhpVersion(), '>='));
     }
 
-    public function test_getPiwikVersion()
+    public function testGetPiwikVersion()
     {
         $this->assertEquals(Version::VERSION, $this->environment->getPiwikVersion());
     }
 
-    public function test_setPiwikVersion_OverwritesCurrentPiwikVersion()
+    public function testSetPiwikVersionOverwritesCurrentPiwikVersion()
     {
         $this->environment->setPiwikVersion('1.12.0');
         $this->assertSame('1.12.0', $this->environment->getPiwikVersion());
     }
 
-    public function test_getNumUsers()
+    public function testGetNumUsers()
     {
         $this->assertSame(1, $this->environment->getNumUsers());
     }
 
-    public function test_getNumWebsites()
+    public function testGetNumWebsites()
     {
         $this->assertSame(3, $this->environment->getNumWebsites());
     }
 
-    public function test_getMySQLVersion()
+    public function testGetMySQLVersion()
     {
         $this->assertNotEmpty($this->environment->getMySQLVersion());
     }
 
-    public function test_getReleaseChannel()
+    public function testGetReleaseChannel()
     {
         $this->assertEquals('latest_stable', $this->environment->getReleaseChannel());
     }
 
-    public function test_doesPreferStable()
+    public function testDoesPreferStable()
     {
         $this->assertTrue($this->environment->doesPreferStable());
     }

@@ -362,7 +362,7 @@ class PluginsTest extends IntegrationTestCase
         ];
     }
 
-    public function testSearchPlugins_WithSearchAndNoPluginsFound_shouldCallCorrectApi()
+    public function testSearchPluginsWithSearchAndNoPluginsFoundShouldCallCorrectApi()
     {
         $this->service->returnFixture('v2.0_plugins-query-nomatchforthisquery.json');
         $this->plugins->setPluginsHavingUpdateCache([]);
@@ -387,7 +387,7 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame($params, $this->service->params);
     }
 
-    public function testSearchThemes_ShouldCallCorrectApi()
+    public function testSearchThemesShouldCallCorrectApi()
     {
         $this->service->returnFixture('v2.0_themes.json');
         $this->plugins->setPluginsHavingUpdateCache([]);
