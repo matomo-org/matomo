@@ -62,7 +62,7 @@ class ApiTest extends SystemTestCase
      * '/New1',           +5  // 100%
      * '/New2'            +2  // 100%
      */
-    public function test_getInsights_ShouldReturnCorrectMetadata()
+    public function testGetInsightsShouldReturnCorrectMetadata()
     {
         $insights = $this->requestInsights(array());
         $metadata = $insights->getAllTableMetadata();
@@ -125,7 +125,7 @@ class ApiTest extends SystemTestCase
         $this->assertEqualsWithDelta($expectedMetadata, $metadata, 0.0001);
     }
 
-    public function test_getInsights_ShouldGoBackInPastDependingOnComparedToParameter()
+    public function testGetInsightsShouldGoBackInPastDependingOnComparedToParameter()
     {
         $insights = $this->requestInsights(array('comparedToXPeriods' => 3));
 
@@ -134,7 +134,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals('2010-12-11', $metadata['lastDate']);
     }
 
-    public function test_getInsights_ShouldGoBackInPastDependingOnPeriod()
+    public function testGetInsightsShouldGoBackInPastDependingOnPeriod()
     {
         $insights = $this->requestInsights(array('period' => 'month'));
 
@@ -143,7 +143,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals('2010-11-14', $metadata['lastDate']);
     }
 
-    public function test_getInsights_ShouldReturnAllRowsIfMinValuesArelow()
+    public function testGetInsightsShouldReturnAllRowsIfMinValuesArelow()
     {
         $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 1));
 
@@ -159,21 +159,21 @@ class ApiTest extends SystemTestCase
         $this->assertRows($expectedLabels, $insights);
     }
 
-    public function test_getInsights_ShouldReturnReturnNothingIfminImpactPercentIsTooHigh()
+    public function testGetInsightsShouldReturnReturnNothingIfminImpactPercentIsTooHigh()
     {
         $insights = $this->requestInsights(array('minImpactPercent' => 10000, 'minGrowthPercent' => 0));
 
         $this->assertRows(array(), $insights);
     }
 
-    public function test_getInsights_ShouldReturnReturnNothingIfMinGrowthIsHigh()
+    public function testGetInsightsShouldReturnReturnNothingIfMinGrowthIsHigh()
     {
         $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 10000));
 
         $this->assertRows(array(), $insights);
     }
 
-    public function test_getInsights_ShouldOrderAbsoluteByDefault()
+    public function testGetInsightsShouldOrderAbsoluteByDefault()
     {
         $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 0));
 
@@ -189,7 +189,7 @@ class ApiTest extends SystemTestCase
         $this->assertRows($expectedLabels, $insights);
     }
 
-    public function test_getInsights_ShouldBeAbleToOrderRelative()
+    public function testGetInsightsShouldBeAbleToOrderRelative()
     {
         $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 0, 'orderBy' => 'relative'));
 
@@ -205,7 +205,7 @@ class ApiTest extends SystemTestCase
         $this->assertRows($expectedLabels, $insights);
     }
 
-    public function test_getInsights_ShouldBeAbleToOrderByImportance()
+    public function testGetInsightsShouldBeAbleToOrderByImportance()
     {
         $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 0, 'orderBy' => 'importance'));
 
@@ -221,7 +221,7 @@ class ApiTest extends SystemTestCase
         $this->assertRows($expectedLabels, $insights);
     }
 
-    public function test_getInsights_ShouldApplyTheLimit()
+    public function testGetInsightsShouldApplyTheLimit()
     {
         $insights = $this->requestInsights(array('limitIncreaser' => 1, 'limitDecreaser' => 1));
 
@@ -232,7 +232,7 @@ class ApiTest extends SystemTestCase
         $this->assertRows($expectedLabels, $insights);
     }
 
-    public function test_getInsights_ShouldBeAbleToShowOnlyMovers()
+    public function testGetInsightsShouldBeAbleToShowOnlyMovers()
     {
         $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 0, 'filterBy' => 'movers'));
 
@@ -244,7 +244,7 @@ class ApiTest extends SystemTestCase
         $this->assertRows($expectedLabels, $insights);
     }
 
-    public function test_getInsights_ShouldBeAbleToShowOnlyNew()
+    public function testGetInsightsShouldBeAbleToShowOnlyNew()
     {
         $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 0, 'filterBy' => 'new'));
 
@@ -255,7 +255,7 @@ class ApiTest extends SystemTestCase
         $this->assertRows($expectedLabels, $insights);
     }
 
-    public function test_getInsights_ShouldBeAbleToShowOnlyDisappeared()
+    public function testGetInsightsShouldBeAbleToShowOnlyDisappeared()
     {
         $insights = $this->requestInsights(array('minImpactPercent' => 0, 'minGrowthPercent' => 0, 'filterBy' => 'disappeared'));
 
@@ -266,7 +266,7 @@ class ApiTest extends SystemTestCase
         $this->assertRows($expectedLabels, $insights);
     }
 
-    public function test_canGenerateInsights()
+    public function testCanGenerateInsights()
     {
         $this->assertTrue($this->api->canGenerateInsights('2012-12-12', 'day'));
         $this->assertTrue($this->api->canGenerateInsights('2012-12-12', 'week'));

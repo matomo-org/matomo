@@ -25,7 +25,7 @@ class PluginNameTest extends IntegrationTestCase
         unset($_GET['pluginName']);
     }
 
-    public function test_findsPluginName()
+    public function testFindsPluginName()
     {
         $this->setPluginName('CoreFooBar');
 
@@ -33,7 +33,7 @@ class PluginNameTest extends IntegrationTestCase
         $this->assertSame('CoreFooBar', $pluginName->getPluginName());
     }
 
-    public function test_throws_exception_ifInvalidName()
+    public function testThrowsExceptionIfInvalidName()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid plugin name given');

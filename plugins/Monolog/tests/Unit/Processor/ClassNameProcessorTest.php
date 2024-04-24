@@ -17,10 +17,7 @@ use Piwik\Plugins\Monolog\Processor\ClassNameProcessor;
  */
 class ClassNameProcessorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @test
-     */
-    public function it_should_append_classname_to_extra()
+    public function testItShouldAppendClassnameToExtra()
     {
         $processor = new ClassNameProcessor();
 
