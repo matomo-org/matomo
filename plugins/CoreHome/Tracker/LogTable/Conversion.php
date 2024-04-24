@@ -36,4 +36,11 @@ class Conversion extends LogTable
     {
         return array('idvisit', 'idgoal', 'buster');
     }
+
+    public function getWaysToJoinToOtherLogTables()
+    {
+        return [
+            LinkVisitAction::class => 'idlink_va',
+        ];
+    }
 }

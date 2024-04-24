@@ -23,11 +23,6 @@ abstract class ProcessedMetric extends Metric
      */
     const COMPONENT_SUBNAMESPACE = 'Columns\\Metrics';
 
-    public function getAggregationType(): ?string
-    {
-        return null;
-    }
-
     /**
      * Computes the metric using the values in a {@link Piwik\DataTable\Row}.
      *

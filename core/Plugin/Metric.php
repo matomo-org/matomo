@@ -115,9 +115,18 @@ abstract class Metric
      * See the `self::AGGREGATION_TYPE_...` consts for the list of available
      * aggregation types.
      *
+     * Also note that ProcessedMetrics should generally not set an aggregation
+     * type.
+     *
      * @return string|null
      */
     public function getAggregationType(): ?string
+    {
+        return null;
+    }
+
+    // TODO docs
+    public function getScope(): ?string
     {
         return null;
     }
