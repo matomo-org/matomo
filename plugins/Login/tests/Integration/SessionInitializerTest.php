@@ -31,7 +31,7 @@ class SessionInitializerTest extends IntegrationTestCase
         StaticContainer::get(Auth::class);
     }
 
-    public function test_initSession_CreatesCookie_WhenAuthenticationIsSuccessful()
+    public function testInitSessionCreatesCookieWhenAuthenticationIsSuccessful()
     {
         $this->assertAuthCookieIsAbsent();
 
@@ -42,7 +42,7 @@ class SessionInitializerTest extends IntegrationTestCase
         $this->assertAuthCookieIsCreated($sessionInitializer->cookie);
     }
 
-    public function test_initSession_DeletesCookie_WhenAuthenticationFailed()
+    public function testInitSessionDeletesCookieWhenAuthenticationFailed()
     {
         $this->createAuthCookie();
 

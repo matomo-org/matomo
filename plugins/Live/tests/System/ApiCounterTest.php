@@ -51,7 +51,7 @@ class ApiCounterTest extends SystemTestCase
         $this->createSite();
     }
 
-    public function test_GetCounters_ShouldFail_IfUserHasNoPermission()
+    public function testGetCountersShouldFailIfUserHasNoPermission()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('checkUserHasViewAccess Fake exception');
@@ -60,14 +60,14 @@ class ApiCounterTest extends SystemTestCase
         $this->api->getCounters($this->idSite, 5);
     }
 
-    public function test_GetCounters_ShouldReturnZeroForAllCounters_IfThereAreNoVisitsEtc()
+    public function testGetCountersShouldReturnZeroForAllCountersIfThereAreNoVisitsEtc()
     {
         $counters = $this->api->getCounters($this->idSite, 5);
 
         $this->assertEquals($this->buildCounter(0, 0, 0, 0), $counters);
     }
 
-    public function test_GetCounters_ShouldOnlyReturnResultsOfLastMinutes()
+    public function testGetCountersShouldOnlyReturnResultsOfLastMinutes()
     {
         $this->trackSomeVisits();
 
@@ -94,33 +94,33 @@ class ApiCounterTest extends SystemTestCase
         ];
     }
 
-    public function test_GetCounters_ShouldHideAllColumnsIfRequested()
+    public function testGetCountersShouldHideAllColumnsIfRequested()
     {
         $exampleCounter = $this->buildCounter(0, 0, 0, 0);
         $counters = $this->api->getCounters($this->idSite, 5, false, array(), array_keys($exampleCounter[0]));
         $this->assertEquals(array(array()), $counters);
     }
 
-    public function test_GetCounters_ShouldHideSomeColumnsIfRequested()
+    public function testGetCountersShouldHideSomeColumnsIfRequested()
     {
         $counters = $this->api->getCounters($this->idSite, 20, false, array(), array('visitsConverted', 'visitors'));
         $this->assertEquals(array(array('visits' => 24, 'actions' => 60)), $counters);
     }
 
-    public function test_GetCounters_ShouldShowAllColumnsIfRequested()
+    public function testGetCountersShouldShowAllColumnsIfRequested()
     {
         $counter = $this->buildCounter(24, 60, 20, 40);
         $counters = $this->api->getCounters($this->idSite, 20, false, array_keys($counter[0]));
         $this->assertEquals($counter, $counters);
     }
 
-    public function test_GetCounters_ShouldShowSomeColumnsIfRequested()
+    public function testGetCountersShouldShowSomeColumnsIfRequested()
     {
         $counters = $this->api->getCounters($this->idSite, 20, false, array('visits', 'actions'));
         $this->assertEquals(array(array('visits' => 24, 'actions' => 60)), $counters);
     }
 
-    public function test_GetCounters_ShouldHideColumnIfGivenInShowAndHide()
+    public function testGetCountersShouldHideColumnIfGivenInShowAndHide()
     {
         $counters = $this->api->getCounters($this->idSite, 20, false, array('visits', 'actions'), array('actions'));
         $this->assertEquals(array(array('visits' => 24)), $counters);
