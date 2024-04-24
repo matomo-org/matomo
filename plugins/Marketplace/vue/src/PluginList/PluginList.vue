@@ -11,7 +11,7 @@
     :current-user-email="currentUserEmail"
     :is-valid-consumer="isValidConsumer"
     v-model="showStartFreeTrialForPlugin"
-    @trialStarted="this.$emit('triggerUpdate')"
+    @trialStarted="$emit('triggerUpdate')"
   />
 
   <PluginDetailsModal
@@ -78,7 +78,9 @@
                     :install-nonce="installNonce"
                     :update-nonce="updateNonce"
                     :plugin="plugin"
+                    :in-modal="false"
                     @startFreeTrial="showStartFreeTrialForPlugin = plugin.name"
+                    @openDetailsModal="this.openDetailsModal(plugin)"
                   />
                 </div>
                 <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
@@ -256,6 +258,9 @@ export default defineComponent({
       }
 
       event.stopPropagation();
+      this.openDetailsModal(plugin);
+    },
+    openDetailsModal(plugin: Record<string, unknown>) {
       this.showPluginDetailsForPlugin = plugin;
     },
     startTrialFromDetailsModal(pluginName: string) {

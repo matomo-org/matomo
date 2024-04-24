@@ -10,17 +10,17 @@
     <div v-if="plugin.isMissingLicense"
          class="alert alert-danger alert-no-background">
       {{ translate('Marketplace_LicenseMissing') }}
-      <span
+      <span v-if="!inModal"
         style="white-space:nowrap"
-      >(<HelpLink :plugin-name="plugin.name" />)</span>
+      >(<MoreDetailsAction @action="$emit('openDetailsModal')"/>)</span>
     </div>
 
     <div v-else-if="plugin.hasExceededLicense"
          class="alert alert-danger alert-no-background">
       {{ translate('Marketplace_LicenseExceeded') }}
-      <span
+      <span v-if="!inModal"
         style="white-space:nowrap"
-      >(<HelpLink :plugin-name="plugin.name" />)</span>
+      >(<MoreDetailsAction @action="$emit('openDetailsModal')"/>)</span>
     </div>
 
     <template
@@ -36,7 +36,7 @@
         {{ translate('Marketplace_CannotUpdate') }}
         <span
           style="white-space:nowrap"
-        >(<HelpLink :plugin-name="plugin.name" />
+        >(<MoreDetailsAction @action="$emit('openDetailsModal')" v-if="!inModal" />
           <DownloadButton
             :plugin="plugin"
             :show-or="true"
@@ -75,27 +75,30 @@
        tabindex="7"
        class="btn btn-block purchaseable"
        href=""
-       @click.prevent="this.$emit('startFreeTrial');"
+       @click.prevent="$emit('startFreeTrial');"
+       @keyup.enter="$emit('startFreeTrial')"
        :title="translate('Marketplace_StartFreeTrial')"
     >{{ translate('Marketplace_StartFreeTrial') }}</a>
 
-    <MoreDetailsButton
+    <MoreDetailsAction
       v-else-if="!inModal && !plugin.isDownloadable && (
                    plugin.isPaid
                    || plugin.missingRequirements.length > 0
                    || !isAutoUpdatePossible
                  )"
-      :plugin-name="plugin.name"
+      :show-as-button="true"
+      :label="translate('General_MoreDetails')"
+      @action="$emit('openDetailsModal')"
     />
 
-    <!-- eslint-disable-next-line max-len-->
-    <div v-else-if="plugin.missingRequirements.length > 0 || !isAutoUpdatePossible"
+    <div
+      v-else-if="plugin.missingRequirements.length > 0 || !isAutoUpdatePossible"
       class="alert alert-warning alert-no-background"
     >
       {{ translate('Marketplace_CannotInstall') }}
       <span
         style="white-space:nowrap"
-      >(<HelpLink :plugin-name="plugin.name" />
+      >(<MoreDetailsAction @action="$emit('openDetailsModal')" v-if="!inModal" />
         <DownloadButton
           :plugin="plugin"
           :show-or="true"
@@ -113,9 +116,11 @@
   </template>
 
   <template v-else>
-    <MoreDetailsButton
+    <MoreDetailsAction
       v-if="!inModal"
-      :plugin-name="plugin.name"
+      :show-as-button="true"
+      :label="translate('General_MoreDetails')"
+      @action="$emit('openDetailsModal')"
     />
   </template>
 </template>
@@ -125,8 +130,7 @@ import { defineComponent } from 'vue';
 import { MatomoUrl } from 'CoreHome';
 import { PluginName } from 'CorePluginsAdmin';
 import DownloadButton from './DownloadButton.vue';
-import HelpLink from './HelpLink.vue';
-import MoreDetailsButton from './MoreDetailsButton.vue';
+import MoreDetailsAction from './MoreDetailsAction.vue';
 
 export default defineComponent({
   props: {
@@ -172,15 +176,13 @@ export default defineComponent({
     },
     inModal: {
       type: Boolean,
-      required: false,
-      default: false,
+      required: true,
     },
   },
-  emits: ['startFreeTrial'],
+  emits: ['startFreeTrial', 'openDetailsModal'],
   components: {
+    MoreDetailsAction,
     DownloadButton,
-    HelpLink,
-    MoreDetailsButton,
   },
   directives: {
     PluginName,
