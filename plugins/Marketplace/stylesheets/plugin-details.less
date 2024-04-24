@@ -108,8 +108,19 @@
 #pluginDetailsModal {
     min-height: 50vh;
     max-height: 80vh;
-    width: 60%;
     color: #000;
+
+    width: 60%;
+
+    @media (max-width: 1200px) {
+        width: 75%;
+    }
+
+    @media (max-width: 992px) {
+        width: 90%;
+        max-height: 90vh;
+        top: 5% !important; // required to override inline style set by the modal
+    }
 
     .btn-close {
         z-index: 100;
@@ -129,11 +140,19 @@
         padding: 0;
         min-height: 50vh;
         max-height: 80vh;
+
+        @media (max-width: 992px) {
+            max-height: 90vh;
+        }
     }
 
     .modal-content__header {
         padding: 24px 24px 0;
         height: 160px;
+
+        @media (max-width: 600px) {
+            height: 160px;
+        }
 
         h2 {
             font-size: 32px;
@@ -141,6 +160,16 @@
             font-weight: 700;
             color: black;
             padding-top: 0;
+
+            @media (max-width: 600px) {
+                font-size: 24px;
+                line-height: 30px;
+            }
+
+            @media (max-width: 320px) {
+                font-size: 16px;
+                line-height: 24px;
+            }
         }
 
         .reviews-icon {
@@ -153,7 +182,17 @@
             dl {
                 display: flex;
                 flex-wrap: nowrap;
+                align-items: flex-start;
                 gap: 36px;
+
+                @media (max-width: 600px) {
+                    gap: 24px;
+                }
+
+                @media (max-width: 480px) {
+                    gap: 4px;
+                    justify-content: space-between;
+                }
             }
 
             dt {
@@ -161,6 +200,10 @@
                 margin: 4px 0 0;
                 font-size: 12px;
                 line-height: 22px;
+
+                @media (max-width: 320px) {
+                    font-size: 10px;
+                }
             }
 
             dd {
@@ -168,6 +211,14 @@
                 margin: 0; /* Remove default margin */
                 font-size: 16px;
                 line-height: 24px;
+
+                @media (max-width: 600px) {
+                    font-size: 14px;
+                }
+
+                @media (max-width: 320px) {
+                    font-size: 10px;
+                }
             }
 
             .pair {
@@ -192,6 +243,10 @@
         max-height: calc(~"80vh - 250px");
         padding: 0 24px 24px;
         color: #000;
+
+        @media (max-width: 992px) {
+            max-height: calc(~"90vh - 250px");
+        }
 
         h2, h3, h4, h5, h6 {
             margin: 20px 0 10px 0;
@@ -341,6 +396,18 @@
 
         .cta-container {
             width: 30%;
+
+            @media (max-width: 992px) {
+                width: 50%;
+            }
+
+            @media (max-width: 768px) {
+                width: 60%;
+            }
+
+            @media (max-width: 600px) {
+                width: 70%;
+            }
         }
 
         .matomo-badge-modal {
