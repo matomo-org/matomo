@@ -15,7 +15,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class MysqlTest extends IntegrationTestCase
 {
-    public function test_isPdoErrorNumber()
+    public function testIsPdoErrorNumber()
     {
         $e = new Exception('Error query: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry');
         $this->assertTrue(Mysql::isPdoErrorNumber($e, 1062));

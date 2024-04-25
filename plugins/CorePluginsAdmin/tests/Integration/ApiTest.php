@@ -48,7 +48,7 @@ class ApiTest extends IntegrationTestCase
         Access::getInstance()->reloadAccess($auth);
     }
 
-    public function test_setSystemSettings_throwsIfNoPasswordConfirmation()
+    public function testSetSystemSettingsThrowsIfNoPasswordConfirmation()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ConfirmWithPassword');
@@ -57,7 +57,7 @@ class ApiTest extends IntegrationTestCase
         \Piwik\Plugins\CorePluginsAdmin\API::getInstance()->setSystemSettings($settingValues);
     }
 
-    public function test_setSystemSettings_throwsIfPasswordConfirmationWrong()
+    public function testSetSystemSettingsThrowsIfPasswordConfirmationWrong()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
@@ -66,7 +66,7 @@ class ApiTest extends IntegrationTestCase
         \Piwik\Plugins\CorePluginsAdmin\API::getInstance()->setSystemSettings($settingValues, 'blahblah');
     }
 
-    public function test_setSystemSettings_correctlySetsSettings()
+    public function testSetSystemSettingsCorrectlySetsSettings()
     {
         $settingValues = $this->testSystemSettingsPayload;
         \Piwik\Plugins\CorePluginsAdmin\API::getInstance()->setSystemSettings($settingValues, self::TEST_PASSWORD);
@@ -76,7 +76,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals('latest_beta', $value);
     }
 
-    public function test_getSystemSettingsRedactsPasswordValues()
+    public function testGetSystemSettingsRedactsPasswordValues()
     {
         $pluginSettings = StaticContainer::get(\Piwik\Plugins\ExampleSettingsPlugin\SystemSettings::class);
         $settings = $this->getPluginSettings('ExampleSettingsPlugin', 'password');

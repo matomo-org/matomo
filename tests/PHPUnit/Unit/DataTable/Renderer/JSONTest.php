@@ -242,7 +242,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function getDataTableMap_containsDataTableMap_normal()
+    protected function getDataTableMapContainsDataTableMapNormal()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
@@ -250,7 +250,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function getDataTableMap_containsDataTableMap_simple()
+    protected function getDataTableMapContainsDataTableMapSimple()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
@@ -258,7 +258,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function getDataTableMap_containsDataTableMap_simpleOneRow()
+    protected function getDataTableMapContainsDataTableMapSimpleOneRow()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
@@ -306,7 +306,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 
     public function testJSONMapIsMadeOfMapTest1()
     {
-        $dataTable = $this->getDataTableMap_containsDataTableMap_normal();
+        $dataTable = $this->getDataTableMapContainsDataTableMapNormal();
         $render = new Json();
         $render->setTable($dataTable);
         $rendered = $render->render();
@@ -317,7 +317,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 
     public function testJSONMapIsMadeOfMapTest2()
     {
-        $dataTable = $this->getDataTableMap_containsDataTableMap_simple();
+        $dataTable = $this->getDataTableMapContainsDataTableMapSimple();
         $render = new Json();
         $render->setTable($dataTable);
         $rendered = $render->render();
@@ -330,7 +330,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 
     public function testJSONMapIsMadeOfMapTest3()
     {
-        $dataTable = $this->getDataTableMap_containsDataTableMap_simpleOneRow();
+        $dataTable = $this->getDataTableMapContainsDataTableMapSimpleOneRow();
         $render = new Json();
         $render->setTable($dataTable);
 
@@ -399,7 +399,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    public function test_render_withRowsWithDataTableMetadata()
+    public function testRenderWithRowsWithDataTableMetadata()
     {
         $dataTable = new DataTable();
 
@@ -425,7 +425,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_render_withRowsWithDataTableMetadataInSimpleTable()
+    public function testRenderWithRowsWithDataTableMetadataInSimpleTable()
     {
         $dataTable = new Simple();
 

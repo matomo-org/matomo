@@ -17,7 +17,7 @@ class ContextTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForOverwriteIdSiteForCache
      */
-    public function test_overwriteIdSiteForCache_shouldModifySuperGlobalsCorrectly(
+    public function testOverwriteIdSiteForCacheShouldModifySuperGlobalsCorrectly(
         $originalGet,
         $originalPost,
         $inTrackerMode,

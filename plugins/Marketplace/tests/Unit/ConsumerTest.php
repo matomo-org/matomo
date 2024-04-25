@@ -34,7 +34,7 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getConsumerNotAuthenticated
      */
-    public function test_isValidConsumer_shouldReturnFalse_WhenNotAuthenticedBecauseNoTokenSetOrInvalidToken($fixture)
+    public function testIsValidConsumerShouldReturnFalseWhenNotAuthenticedBecauseNoTokenSetOrInvalidToken($fixture)
     {
         $this->service->returnFixture($fixture);
         $this->assertFalse($this->buildConsumer()->isValidConsumer());
@@ -43,13 +43,13 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getConsumerAuthenticated
      */
-    public function test_isValidConsumer_shouldReturnTrue_WhenValidTokenGiven($fixture)
+    public function testIsValidConsumerShouldReturnTrueWhenValidTokenGiven($fixture)
     {
         $this->service->returnFixture($fixture);
         $this->assertTrue($this->buildConsumer()->isValidConsumer());
     }
 
-    public function test_getConsumer_shouldReturnConsumerInformation_WhenValid()
+    public function testGetConsumerShouldReturnConsumerInformationWhenValid()
     {
         $this->service->returnFixture('v2.0_consumer-access_token-consumer1_paid2_custom1.json');
 
@@ -98,14 +98,14 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->buildConsumer()->getConsumer());
     }
 
-    public function test_getConsumer_shouldNotReturnAnyInformationWhenNotAuthenticated()
+    public function testGetConsumerShouldNotReturnAnyInformationWhenNotAuthenticated()
     {
         $this->service->returnFixture('v2.0_consumer-access_token-notexistingtoken.json');
 
         $this->assertSame(array(), $this->buildConsumer()->getConsumer());
     }
 
-    public function test_getConsumer_shouldNotReturnInformationWhenAuthenticatedButNoLicense()
+    public function testGetConsumerShouldNotReturnInformationWhenAuthenticatedButNoLicense()
     {
         $this->service->returnFixture('v2.0_consumer-access_token-validbutnolicense.json');
 
@@ -134,14 +134,14 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_buildInvalidLicenseKey()
+    public function testBuildInvalidLicenseKey()
     {
         $isValid = Consumer::buildNoLicense()->isValidConsumer();
 
         $this->assertFalse($isValid);
     }
 
-    public function test_buildValidLicenseKey()
+    public function testBuildValidLicenseKey()
     {
         $isValid = Consumer::buildValidLicense()->isValidConsumer();
 

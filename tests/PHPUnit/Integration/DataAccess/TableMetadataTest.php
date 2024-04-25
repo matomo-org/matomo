@@ -30,7 +30,7 @@ class TableMetadataTest extends IntegrationTestCase
         $this->tableMetadataAccess = new TableMetadata();
     }
 
-    public function test_getColumns_CorrectlyReturnsListOfColumnNames()
+    public function testGetColumnsCorrectlyReturnsListOfColumnNames()
     {
         $expectedColumns = array('option_name', 'option_value', 'autoload');
         $columns = $this->tableMetadataAccess->getColumns(Common::prefixTable('option'));
@@ -40,7 +40,7 @@ class TableMetadataTest extends IntegrationTestCase
     /**
      * @dataProvider getTablesWithIdActionColumnsToTest
      */
-    public function test_getIdActionColumnNames_CorrectlyReturnsColumnsWithIdActionName($table, $expectedColumns)
+    public function testGetIdActionColumnNamesCorrectlyReturnsColumnsWithIdActionName($table, $expectedColumns)
     {
         $columns = $this->tableMetadataAccess->getIdActionColumnNames(Common::prefixTable($table));
         $this->assertEquals($expectedColumns, $columns);

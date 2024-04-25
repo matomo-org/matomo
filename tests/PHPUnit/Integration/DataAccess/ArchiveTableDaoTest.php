@@ -44,7 +44,7 @@ class ArchiveTableDaoTest extends IntegrationTestCase
     /**
      *
      */
-    public function test_getArchiveTableAnalysis_QueriesNumericAndBlobTable_IncludingArchivesInBlobThatAreNotInNumeric()
+    public function testGetArchiveTableAnalysisQueriesNumericAndBlobTableIncludingArchivesInBlobThatAreNotInNumeric()
     {
         $tableMonth = '2015_01';
 

@@ -24,7 +24,7 @@ class SegmentTest extends IntegrationTestCase
         API::getInstance()->configureNewCustomDimension($idSite, 'test dim', 'visit', 1);
     }
 
-    public function test_Segment_CanSeeCustomDimensionSegments()
+    public function testSegmentCanSeeCustomDimensionSegments()
     {
         $select = 'log_visit.idvisit';
         $from = 'log_visit';

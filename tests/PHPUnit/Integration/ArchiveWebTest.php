@@ -24,7 +24,7 @@ use Piwik\Tests\Framework\Fixture;
  */
 class ArchiveWebTest extends SystemTestCase
 {
-    public function test_WebArchiving()
+    public function testWebArchiving()
     {
         $host  = Fixture::getRootUrl();
         $token = Fixture::getTokenAuth();
@@ -44,7 +44,7 @@ class ArchiveWebTest extends SystemTestCase
         }
     }
 
-    public function test_WebArchiveScriptCanBeRun_WithPhpCgi_AndWithoutTokenAuth()
+    public function testWebArchiveScriptCanBeRunWithPhpCgiAndWithoutTokenAuth()
     {
         [$returnCode, $output] = $this->runArchivePhpScriptWithPhpCgi();
 

@@ -25,7 +25,7 @@ class DimensionMetadataProviderTest extends IntegrationTestCase
         $manager->loadPlugins(array('Events', 'Contents'));
     }
 
-    public function test_getActionReferenceColumnsByTable_DetectsActionReferenceDimensions_AndIncludesHardcodedColumns()
+    public function testGetActionReferenceColumnsByTableDetectsActionReferenceDimensionsAndIncludesHardcodedColumns()
     {
         $dimensionMetadataProvider = new DimensionMetadataProvider();
 
@@ -67,7 +67,7 @@ class DimensionMetadataProviderTest extends IntegrationTestCase
         $this->assertEquals($expectedColumns, $actualColumns);
     }
 
-    public function test_getActionReferenceColumnsByTable_AppliesOverrideColumnsCorrectly_WithoutAllowingDuplicates()
+    public function testGetActionReferenceColumnsByTableAppliesOverrideColumnsCorrectlyWithoutAllowingDuplicates()
     {
         $dimensionMetadataProvider = new DimensionMetadataProvider(array(
             'log_link_visit_action' => array('idaction_url',

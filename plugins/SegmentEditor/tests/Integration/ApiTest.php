@@ -42,7 +42,7 @@ class ApiTest extends IntegrationTestCase
         }
     }
 
-    public function test_getAll_forOneWebsite_returnsSortedSegments()
+    public function testGetAllForOneWebsiteReturnsSortedSegments()
     {
         $this->createAdminUser();
         $this->createSegments();
@@ -67,7 +67,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertSame($expectedOrder, $segmentNames);
     }
 
-    public function test_getAll_forAllWebsites_returnsSortedSegments()
+    public function testGetAllForAllWebsitesReturnsSortedSegments()
     {
         $this->createAdminUser();
         $this->createSegments();
@@ -94,7 +94,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertSame($expectedOrder, $segmentNames);
     }
 
-    public function test_getAll_forAllWebsites_returnsSortedSegments_asSuperUser()
+    public function testGetAllForAllWebsitesReturnsSortedSegmentsAsSuperUser()
     {
         $this->createAdminUser();
         $this->createSegments();
@@ -122,7 +122,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertSame($expectedOrder, $segmentNames);
     }
 
-    public function test_getAll_forOneWebsite_returnsSortedSegments_asSuperUser()
+    public function testGetAllForOneWebsiteReturnsSortedSegmentsAsSuperUser()
     {
         $this->createAdminUser();
         $this->createSegments();

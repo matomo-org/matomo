@@ -31,10 +31,7 @@ class RequestIdProcessorTest extends TestCase
         Common::$isCliMode = true;
     }
 
-    /**
-     * @test
-     */
-    public function it_should_append_request_id_to_extra()
+    public function testItShouldAppendRequestIdToExtra()
     {
         $processor = new RequestIdProcessor();
 
@@ -45,10 +42,7 @@ class RequestIdProcessorTest extends TestCase
         $this->assertNotEmpty($result['extra']['request_id']);
     }
 
-    /**
-     * @test
-     */
-    public function request_id_should_stay_the_same()
+    public function testRequestIdShouldStayTheSame()
     {
         $processor = new RequestIdProcessor();
 

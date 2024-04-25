@@ -53,7 +53,7 @@ class ColumnCallbackDeleteMetadataTest extends \PHPUnit\Framework\TestCase
         return $row;
     }
 
-    public function test_filter_shouldRemoveAllMetadataEntriesHavingTheGivenName()
+    public function testFilterShouldRemoveAllMetadataEntriesHavingTheGivenName()
     {
         $this->table->filter($this->filter, array('test'));
 
@@ -65,7 +65,7 @@ class ColumnCallbackDeleteMetadataTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $metadata);
     }
 
-    public function test_filter_shouldRemoveAllMetadataEntriesHavingTheGivenName_EvenIfOnlySomeRowsHaveThatMetadataName()
+    public function testFilterShouldRemoveAllMetadataEntriesHavingTheGivenNameEvenIfOnlySomeRowsHaveThatMetadataName()
     {
         $this->table->filter($this->filter, array('other'));
 
@@ -77,7 +77,7 @@ class ColumnCallbackDeleteMetadataTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $metadata);
     }
 
-    public function test_filter_shouldRemoveTheMetadataFromSubtables_IfOneIsSet()
+    public function testFilterShouldRemoveTheMetadataFromSubtablesIfOneIsSet()
     {
         $row   = $this->addRowWithMetadata(array('test' => '5', 'other' => 'value2'));
         $table = new DataTable();

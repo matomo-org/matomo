@@ -43,7 +43,7 @@ class FailuresTest extends IntegrationTestCase
         $this->failures->setNow($this->now);
     }
 
-    public function test_logFailure_getAllFailures()
+    public function testLogFailureGetAllFailures()
     {
         $this->logFailure(1, array());
         $this->logFailure(1, array('idsite' => 9999999)); // unknown idsite
@@ -103,7 +103,7 @@ class FailuresTest extends IntegrationTestCase
         ), $failures);
     }
 
-    public function test_logFailure_doesNotLogSameFailureTwice()
+    public function testLogFailureDoesNotLogSameFailureTwice()
     {
         $expected = array (
             array (
@@ -139,40 +139,40 @@ class FailuresTest extends IntegrationTestCase
         $this->assertCount(3, $failures);
     }
 
-    public function test_logFailure_anonymizesTokenWhenParamUsed()
+    public function testLogFailureAnonymizesTokenWhenParamUsed()
     {
         $this->logFailure(1, array('token_auth' => 'foobar', 'token' => 'bar', 'tokenauth' => 'baz'));
         $failures = $this->failures->getAllFailures();
         $this->assertEquals('token_auth=__TOKEN_AUTH__&token=__TOKEN_AUTH__&tokenauth=__TOKEN_AUTH__&rec=1&idsite=1', $failures[0]['request_url']);
     }
 
-    public function test_logFailure_anonymizesTokenWhenMd5ValueUsed()
+    public function testLogFailureAnonymizesTokenWhenMd5ValueUsed()
     {
         $this->logFailure(1, array('foo' => md5('foo')));
         $failures = $this->failures->getAllFailures();
         $this->assertEquals('foo=__TOKEN_AUTH__&rec=1&idsite=1', $failures[0]['request_url']);
     }
 
-    public function test_logFailure_anonymizesTokenWhenMd5SimilarValueUsed()
+    public function testLogFailureAnonymizesTokenWhenMd5SimilarValueUsed()
     {
         $this->logFailure(1, array('foo' => md5('foo') . 'ff'));
         $failures = $this->failures->getAllFailures();
         $this->assertEquals('foo=__TOKEN_AUTH__&rec=1&idsite=1', $failures[0]['request_url']);
     }
 
-    public function test_logFailure_doesNotLogExcludedRequest()
+    public function testLogFailureDoesNotLogExcludedRequest()
     {
         $this->logFailure(1, array('rec' => '0'));
         $this->assertEquals(array(), $this->failures->getAllFailures());
     }
 
-    public function test_logFailure_doesNotLogAnyUnusualHighSiteId()
+    public function testLogFailureDoesNotLogAnyUnusualHighSiteId()
     {
         $this->logFailure(1, array('idsite' => '99999999999'));
         $this->assertEquals(array(), $this->failures->getAllFailures());
     }
 
-    public function test_logFailure_doesNotLogAnyUnusualLowSiteId()
+    public function testLogFailureDoesNotLogAnyUnusualLowSiteId()
     {
         try {
             $this->logFailure(1, array('idsite' => '-1'));
@@ -183,23 +183,23 @@ class FailuresTest extends IntegrationTestCase
         $this->assertEquals(array(), $this->failures->getAllFailures());
     }
 
-    public function test_logFailure_canLogEntryForIdSite0()
+    public function testLogFailureCanLogEntryForIdSite0()
     {
         $this->logFailure(1, array('idsite' => '0'));
         $this->assertCount(1, $this->failures->getAllFailures());
     }
 
-    public function test_getAllFailures_noFailuresByDefault()
+    public function testGetAllFailuresNoFailuresByDefault()
     {
         $this->assertSame(array(), $this->failures->getAllFailures());
     }
 
-    public function test_getFailuresForSites_noFailuresByDefault()
+    public function testGetFailuresForSitesNoFailuresByDefault()
     {
         $this->assertSame(array(), $this->failures->getAllFailures());
     }
 
-    public function test_getFailuresForSites_returnsOnlyFailuresForGivenSite()
+    public function testGetFailuresForSitesReturnsOnlyFailuresForGivenSite()
     {
         $this->logFailure(1, array('idsite' => 2));
         $this->logFailure(2, array('idsite' => 2));
@@ -222,7 +222,7 @@ class FailuresTest extends IntegrationTestCase
         $this->assertCount(12, $this->failures->getFailuresForSites(array(4,3,5)));
     }
 
-    public function test_deleteTrackingFailure()
+    public function testDeleteTrackingFailure()
     {
         $this->logFailure(1, array('idsite' => 2));
         $this->logFailure(2, array('idsite' => 2));
@@ -239,7 +239,7 @@ class FailuresTest extends IntegrationTestCase
         ), $summary);
     }
 
-    public function test_deleteTrackingFailureWhenWrongIdAllAreKept()
+    public function testDeleteTrackingFailureWhenWrongIdAllAreKept()
     {
         $this->logFailure(1, array('idsite' => 2));
         $this->logFailure(2, array('idsite' => 2));
@@ -254,7 +254,7 @@ class FailuresTest extends IntegrationTestCase
         $this->assertCount(5, $this->failures->getAllFailures());
     }
 
-    public function test_deleteAllTrackingFailures()
+    public function testDeleteAllTrackingFailures()
     {
         $this->logFailure(1, array('idsite' => 2));
         $this->logFailure(2, array('idsite' => 2));
@@ -267,7 +267,7 @@ class FailuresTest extends IntegrationTestCase
         $this->assertSame([], $this->failures->getAllFailures());
     }
 
-    public function test_deleteTrackingFailures()
+    public function testDeleteTrackingFailures()
     {
         $this->logFailure(1, array('idsite' => 1));
         $this->logFailure(1, array('idsite' => 2));
@@ -281,7 +281,7 @@ class FailuresTest extends IntegrationTestCase
         $this->assertEquals([array(2,1), array(2,2)], $this->getFailureSummary());
     }
 
-    public function test_removeFailuresOlderThanDays()
+    public function testRemoveFailuresOlderThanDays()
     {
         $this->logFailure(1, array('idsite' => 2));
         $this->logFailure(2, array('idsite' => 2));

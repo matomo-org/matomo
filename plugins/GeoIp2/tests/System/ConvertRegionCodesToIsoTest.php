@@ -88,7 +88,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
         Option::delete(ConvertRegionCodesToIso::OPTION_NAME);
     }
 
-    public function testExecute_AlreadyConverted()
+    public function testExecuteAlreadyConverted()
     {
         Option::set(ConvertRegionCodesToIso::OPTION_NAME, true);
 
@@ -97,7 +97,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
         $this->assertRegExp('/Converting region codes already done/', $result);
     }
 
-    public function testExecute_ShouldConvertRegionCodes()
+    public function testExecuteShouldConvertRegionCodes()
     {
         Option::set(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME, mktime(0, 0, 0, 5, 12, 2017));
 

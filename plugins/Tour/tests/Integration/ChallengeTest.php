@@ -67,7 +67,7 @@ class ChallengeTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_skip()
+    public function testSkip()
     {
         $login = 'foo';
         $this->assertFalse($this->challenge->isSkipped($login));
@@ -84,7 +84,7 @@ class ChallengeTest extends IntegrationTestCase
         $this->assertFalse($this->challenge2->isCompleted($login));
     }
 
-    public function test_complete()
+    public function testComplete()
     {
         $login = 'foo';
         $this->assertFalse($this->challenge->isSkipped($login));

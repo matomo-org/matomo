@@ -43,7 +43,7 @@ class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
         Fixture::createWebsite('2011-01-01 00:00:00', $ecommerce = 0, 'sitename');
     }
 
-    public function test_makeEmail_ReturnsCorrectlyConfiguredEmailInstance()
+    public function testMakeEmailReturnsCorrectlyConfiguredEmailInstance()
     {
         $reportDetails = [
             'format' => 'html',
@@ -83,7 +83,7 @@ class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
         ], $attachments);
     }
 
-    public function test_makeEmail_OmitsSentFrom_IfPiwikUrlDoesNotExist()
+    public function testMakeEmailOmitsSentFromIfPiwikUrlDoesNotExist()
     {
         $this->testInstance = new AttachedFileReportEmailGenerator('.thing', 'generic/thing', false);
 
@@ -109,7 +109,7 @@ class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
         self::assertStringContainsString("Content-Type: text/html; charset=utf-8" . PHPMailer::getLE() . "Content-Transfer-Encoding: quoted-printable" . PHPMailer::getLE(), $this->mail->createBody());
     }
 
-    public function test_makeEmail_AddsSegmentInformation_IfReportIsForSavedSegment()
+    public function testMakeEmailAddsSegmentInformationIfReportIsForSavedSegment()
     {
         $idsegment = APISegmentEditor::getInstance()->add('testsegment', 'browserCode==ff');
 

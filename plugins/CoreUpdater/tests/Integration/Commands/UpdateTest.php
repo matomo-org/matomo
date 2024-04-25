@@ -51,7 +51,7 @@ class UpdateTest extends ConsoleCommandTestCase
         parent::tearDown();
     }
 
-    public function test_UpdateCommand_SuccessfullyExecutesUpdate()
+    public function testUpdateCommandSuccessfullyExecutesUpdate()
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:update',
@@ -66,7 +66,7 @@ class UpdateTest extends ConsoleCommandTestCase
         $this->assertEquals(Version::VERSION, Option::get('version_core'));
     }
 
-    public function test_UpdateCommand_DoesntExecuteSql_WhenUserSaysNo()
+    public function testUpdateCommandDoesntExecuteSqlWhenUserSaysNo()
     {
         $this->applicationTester->setInputs(['N']);
 
@@ -82,7 +82,7 @@ class UpdateTest extends ConsoleCommandTestCase
         $this->assertEquals(self::VERSION_TO_UPDATE_FROM, Option::get('version_core'));
     }
 
-    public function test_UpdateCommand_DoesNotExecuteUpdate_IfPiwikUpToDate()
+    public function testUpdateCommandDoesNotExecuteUpdateIfPiwikUpToDate()
     {
         Option::set('version_core', Version::VERSION);
 
@@ -98,7 +98,7 @@ class UpdateTest extends ConsoleCommandTestCase
         $this->assertEquals(Version::VERSION, Option::get('version_core'));
     }
 
-    public function test_UpdateCommand_ReturnsCorrectExitCode_WhenErrorOccurs()
+    public function testUpdateCommandReturnsCorrectExitCodeWhenErrorOccurs()
     {
         // create a blob table, then drop it manually so update 2.10.0-b10 will fail
         $tableName = ArchiveTableCreator::getBlobTable(Date::factory('2015-01-01'));

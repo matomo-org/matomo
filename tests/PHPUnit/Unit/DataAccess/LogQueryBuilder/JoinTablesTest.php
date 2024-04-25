@@ -31,7 +31,7 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
             'log_action'));
     }
 
-    public function test_construct_shouldThrowException_IfTableIsNotPossibleToJoin()
+    public function testConstructShouldThrowExceptionIfTableIsNotPossibleToJoin()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Table \'log_foo_bar_baz\' can\'t be used for segmentation');
@@ -39,21 +39,21 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
         $this->makeTables(array('log_visit', 'log_foo_bar_baz'));
     }
 
-    public function test_hasJoinedTable_custom()
+    public function testHasJoinedTableCustom()
     {
         $tables = $this->makeTables(array('log_visit', 'log_custom'));
         $this->assertTrue($tables->hasJoinedTable('log_visit'));
         $this->assertTrue($tables->hasJoinedTable('log_custom'));
     }
 
-    public function test_hasJoinedTable_custom2()
+    public function testHasJoinedTableCustom2()
     {
         $tables = $this->makeTables(array('log_visit', 'log_custom_other'));
         $this->assertTrue($tables->hasJoinedTable('log_visit'));
         $this->assertTrue($tables->hasJoinedTable('log_custom_other'));
     }
 
-    public function test_hasJoinedTable_shouldDetectIfTableIsAlreadyAdded()
+    public function testHasJoinedTableShouldDetectIfTableIsAlreadyAdded()
     {
         $this->assertTrue($this->tables->hasJoinedTable('log_visit'));
         $this->assertTrue($this->tables->hasJoinedTable('log_action'));
@@ -62,7 +62,7 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->tables->hasJoinedTable('log_conversion')); // we do not check for manually joined tables
     }
 
-    public function test_addTableToJoin_shouldAddGivenTable()
+    public function testAddTableToJoinShouldAddGivenTable()
     {
         $table = 'log_conversion_item';
         $this->assertFalse($this->tables->hasJoinedTable($table));
@@ -72,7 +72,7 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->tables->hasJoinedTable($table));
     }
 
-    public function test_addTableToJoin_shouldCheckIfTableCanBeUsedForSegmentation()
+    public function testAddTableToJoinShouldCheckIfTableCanBeUsedForSegmentation()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Table \'log_foo_bar_baz\' can\'t be used for segmentation');
@@ -85,14 +85,14 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->tables->hasJoinedTable($table));
     }
 
-    public function test_hasJoinedTableManually_shouldReturnTrue_IfTableJoinExistsExactlyAsGiven()
+    public function testHasJoinedTableManuallyShouldReturnTrueIfTableJoinExistsExactlyAsGiven()
     {
         $result = $this->tables->hasJoinedTableManually('log_conversion', 'log_conversion.idvisit = log_visit.idvisit');
 
         $this->assertTrue($result);
     }
 
-    public function test_hasJoinedTableManually_shouldReturnFalse_IfTableOrJoinDoesNotMatch()
+    public function testHasJoinedTableManuallyShouldReturnFalseIfTableOrJoinDoesNotMatch()
     {
         $result = $this->tables->hasJoinedTableManually('log_foo_bar_baz', 'log_conversion.idvisit = log_visit.idvisit');
         $this->assertFalse($result);
@@ -101,7 +101,7 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($result);
     }
 
-    public function test_hasJoinedTableManually_shouldReturnFalse_IfTableOrJoinHasCustomJoin()
+    public function testHasJoinedTableManuallyShouldReturnFalseIfTableOrJoinHasCustomJoin()
     {
         $this->tables = $this->makeTables(array(
             'log_visit',
@@ -112,14 +112,14 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($result);
     }
 
-    public function test_hasAddedTableManually_shouldReturnTrue_IfTableWasAddedManually()
+    public function testHasAddedTableManuallyShouldReturnTrueIfTableWasAddedManually()
     {
         $result = $this->tables->hasAddedTableManually('log_conversion');
 
         $this->assertTrue($result);
     }
 
-    public function test_hasAddedTableManually_shouldReturnFalse_IfTableWasNotAddedManually()
+    public function testHasAddedTableManuallyShouldReturnFalseIfTableWasNotAddedManually()
     {
         $result = $this->tables->hasAddedTableManually('log_foo_bar_baz');
         $this->assertFalse($result);
@@ -128,31 +128,31 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($result);
     }
 
-    public function test_getLogTable_shouldReturnInstanceOfLogTable_IfTableExists()
+    public function testGetLogTableShouldReturnInstanceOfLogTableIfTableExists()
     {
         $visit = $this->tables->getLogTable('log_visit');
         $this->assertFalse($visit instanceof Visit);
     }
 
-    public function test_getLogTable_shouldReturnNull_IfLogTableDoesNotExist()
+    public function testGetLogTableShouldReturnNullIfLogTableDoesNotExist()
     {
         $visit = $this->tables->getLogTable('log_foo_bar_baz');
         $this->assertNull($visit);
     }
 
-    public function test_findIndexOfManuallyAddedTable_shouldReturnTheIndex_IfTableWasAddedManually()
+    public function testFindIndexOfManuallyAddedTableShouldReturnTheIndexIfTableWasAddedManually()
     {
         $this->assertSame(1, $this->tables->findIndexOfManuallyAddedTable('log_conversion'));
     }
 
-    public function test_findIndexOfManuallyAddedTable_shouldReturnNull_IfTableWasNotAddedManually()
+    public function testFindIndexOfManuallyAddedTableShouldReturnNullIfTableWasNotAddedManually()
     {
         $this->assertNull($this->tables->findIndexOfManuallyAddedTable('log_visit'));
         $this->assertNull($this->tables->findIndexOfManuallyAddedTable('log_action'));
         $this->assertNull($this->tables->findIndexOfManuallyAddedTable('log_foo_bar_baz'));
     }
 
-    public function test_sort_shouldNeverSortFirstEntry_AndNotMaintainKeys()
+    public function testSortShouldNeverSortFirstEntryAndNotMaintainKeys()
     {
         $tables = $this->makeTables(array('log_action', 'log_conversion', 'log_visit', 'log_conversion_item'));
         $tables->sort();
@@ -161,7 +161,7 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $tables->getTables());
     }
 
-    public function test_sortTablesForJoin_shouldSortTablesAsSpecified()
+    public function testSortTablesForJoinShouldSortTablesAsSpecified()
     {
         $tables = array(
             'log_link_visit_action',
@@ -189,7 +189,7 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $tables->getTables());
     }
 
-    public function test_sortTablesForJoin_anotherTestMakingSureWorksOhPhp5_5()
+    public function testSortTablesForJoinAnotherTestMakingSureWorksOhPhp55()
     {
         $tables = array (
             1 => 'log_link_visit_action',
@@ -228,7 +228,7 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $tables->getTables());
     }
 
-    public function test_sortTablesForJoin_anotherTest2MakingSureWorksOhPhp5_5()
+    public function testSortTablesForJoinAnotherTest2MakingSureWorksOhPhp55()
     {
         $tables = array (
             1 => 'log_link_visit_action',
@@ -267,7 +267,7 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $tables->getTables());
     }
 
-    public function test_sortTablesForJoin_shouldSortTablesWithCustomJoinRequiringEachOther1()
+    public function testSortTablesForJoinShouldSortTablesWithCustomJoinRequiringEachOther1()
     {
         $tables = array(
             'log_link_visit_action',
@@ -347,7 +347,7 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $tables->getTables());
     }
 
-    public function test_sortTablesForJoin_shouldSortTablesWithCustomJoinRequiringEachOther2()
+    public function testSortTablesForJoinShouldSortTablesWithCustomJoinRequiringEachOther2()
     {
         $tables = array(
             'log_link_visit_action',

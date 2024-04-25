@@ -18,7 +18,7 @@ use Piwik\Translation\Loader\LoaderCache;
  */
 class LoaderCacheTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_shouldNotLoad_ifInCache()
+    public function testShouldNotLoadIfInCache()
     {
         $cache = $this->getMockBuilder('Matomo\Cache\Lazy')->disableOriginalConstructor()->getMock();
         $cache->expects($this->any())
@@ -34,7 +34,7 @@ class LoaderCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array('translations!'), $translations);
     }
 
-    public function test_shouldLoad_ifNotInCache()
+    public function testShouldLoadIfNotInCache()
     {
         $cache = $this->getMockBuilder('Matomo\Cache\Lazy')->disableOriginalConstructor()->getMock();
         $cache->expects($this->any())
@@ -52,7 +52,7 @@ class LoaderCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array('translations!'), $translations);
     }
 
-    public function test_shouldReLoad_ifDifferentDirectories()
+    public function testShouldReLoadIfDifferentDirectories()
     {
         $cache = new Lazy(new ArrayCache());
 

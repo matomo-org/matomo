@@ -53,7 +53,7 @@ class SegmentTest extends IntegrationTestCase
         self::$fixture->getTestEnvironment()->save();
     }
 
-    public function test_getHash_returnsCorrectHashWhenDefinitionIsFromGetStringFromSegmentTableDefinition()
+    public function testGetHashReturnsCorrectHashWhenDefinitionIsFromGetStringFromSegmentTableDefinition()
     {
         // definition is encoded as it would be in the URL
         $idSegment = API::getInstance()->add('test segment', 'pageUrl%3D%3Dhttps%25253A%25252F%25252Fserenity.org%25252Fparticipate%25252F');
@@ -307,7 +307,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals(32, strlen($segment->getHash()));
     }
 
-    public function test_getSelectQuery_whenNoJoin()
+    public function testGetSelectQueryWhenNoJoin()
     {
         $select = '*';
         $from = 'log_visit';
@@ -335,7 +335,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinVisitOnLogLinkVisitAction()
+    public function testGetSelectQueryWhenJoinVisitOnLogLinkVisitAction()
     {
         $select = '*';
         $from = 'log_link_visit_action';
@@ -364,7 +364,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinActionOnVisit()
+    public function testGetSelectQueryWhenJoinActionOnVisit()
     {
         $select = 'sum(log_visit.visit_total_actions) as nb_actions, max(log_visit.visit_total_actions) as max_actions, sum(log_visit.visit_total_time) as sum_visit_length';
         $from = 'log_visit';
@@ -401,7 +401,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinConversionOnLogLinkVisitAction()
+    public function testGetSelectQueryWhenJoinConversionOnLogLinkVisitAction()
     {
         $select = '*';
         $from = 'log_link_visit_action';
@@ -430,7 +430,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinActionOnConversion()
+    public function testGetSelectQueryWhenJoinActionOnConversion()
     {
         $select = '*';
         $from = 'log_conversion';
@@ -472,7 +472,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenSegmentHasComplexSqlExpression()
+    public function testGetSelectQueryWhenSegmentHasComplexSqlExpression()
     {
         $select = '*';
         $from = 'log_conversion';
@@ -498,7 +498,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinConversionOnVisit()
+    public function testGetSelectQueryWhenJoinConversionOnVisit()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
@@ -534,7 +534,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinConversionOnly()
+    public function testGetSelectQueryWhenJoinConversionOnly()
     {
         $select = 'log_conversion.*';
         $from = 'log_conversion';
@@ -562,7 +562,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinVisitOnConversion()
+    public function testGetSelectQueryWhenJoinVisitOnConversion()
     {
         $select = '*';
         $from = 'log_conversion';
@@ -591,7 +591,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinLogLinkVisitActionOnActionOnVisit_WithSameTableAlias()
+    public function testGetSelectQueryWhenJoinLogLinkVisitActionOnActionOnVisitWithSameTableAlias()
     {
         $actionType = 3;
         $idSite = 1;
@@ -641,7 +641,7 @@ class SegmentTest extends IntegrationTestCase
     }
 
 
-    public function test_getSelectQuery_whenJoiningManyCustomTablesItShouldKeepTheOrderAsDefined()
+    public function testGetSelectQueryWhenJoiningManyCustomTablesItShouldKeepTheOrderAsDefined()
     {
         $actionType = 3;
         $idSite = 1;
@@ -724,7 +724,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinLogLinkVisitActionOnActionOnVisit_WithNoTableAliasButDifferentJoin()
+    public function testGetSelectQueryWhenJoinLogLinkVisitActionOnActionOnVisitWithNoTableAliasButDifferentJoin()
     {
         $actionType = 3;
         $idSite = 1;
@@ -774,7 +774,7 @@ class SegmentTest extends IntegrationTestCase
      * visit is joined on action, then conversion is joined
      * make sure that conversion is joined on action not visit
      */
-    public function test_getSelectQuery_whenJoinVisitAndConversionOnLogLinkVisitAction()
+    public function testGetSelectQueryWhenJoinVisitAndConversionOnLogLinkVisitAction()
     {
         $select = '*';
         $from = 'log_link_visit_action';
@@ -806,7 +806,7 @@ class SegmentTest extends IntegrationTestCase
      * join conversion on visit, then actions
      * make sure actions are joined before conversions
      */
-    public function test_getSelectQuery_whenJoinConversionAndActionOnVisit_andPageUrlSet()
+    public function testGetSelectQueryWhenJoinConversionAndActionOnVisitAndPageUrlSet()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
@@ -846,7 +846,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinVisitOnAction()
+    public function testGetSelectQueryWhenJoinVisitOnAction()
     {
         $actionType = 3;
         $idSite = 1;
@@ -888,7 +888,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinLogLinkVisitActionOnActionOnVisit()
+    public function testGetSelectQueryWhenJoinLogLinkVisitActionOnActionOnVisit()
     {
         $actionType = 3;
         $idSite = 1;
@@ -940,7 +940,7 @@ class SegmentTest extends IntegrationTestCase
         Db::fetchAll($query['sql'], $query['bind']);
     }
 
-    public function test_getSelectQuery_whenJoinLogLinkVisitActionOnAction()
+    public function testGetSelectQueryWhenJoinLogLinkVisitActionOnAction()
     {
         $actionType = 3;
         $idSite = 1;
@@ -975,7 +975,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinConversionOnAction()
+    public function testGetSelectQueryWhenJoinConversionOnAction()
     {
         $actionType = 3;
         $idSite = 1;
@@ -1015,7 +1015,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenUnionOfSegmentsAreUsed()
+    public function testGetSelectQueryWhenUnionOfSegmentsAreUsed()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
@@ -1047,7 +1047,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenUnionOfSegmentsAreUsedWithNotContainsCompare_usesSubQueryWithGivenStartDate()
+    public function testGetSelectQueryWhenUnionOfSegmentsAreUsedWithNotContainsCompareUsesSubQueryWithGivenStartDate()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
@@ -1081,7 +1081,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenUnionOfSegmentsAreUsedWithNotContainsCompare_usesNoSubQueryWithoutStartDate()
+    public function testGetSelectQueryWhenUnionOfSegmentsAreUsedWithNotContainsCompareUsesNoSubQueryWithoutStartDate()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
@@ -1116,7 +1116,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenUsingNotEqualsCompareOnActionDimension()
+    public function testGetSelectQueryWhenUsingNotEqualsCompareOnActionDimension()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
@@ -1141,7 +1141,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenUsingNotEqualsAndNotContainsCompareOnActionDimensionWithIdSitesAndDates()
+    public function testGetSelectQueryWhenUsingNotEqualsAndNotContainsCompareOnActionDimensionWithIdSitesAndDates()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
@@ -1184,7 +1184,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinConversionOnLogLinkVisitAction_segmentUsesPageUrl()
+    public function testGetSelectQueryWhenJoinConversionOnLogLinkVisitActionSegmentUsesPageUrl()
     {
         $this->insertPageUrlAsAction('example.com/anypage');
         $this->insertPageUrlAsAction('example.com/anypage_bis');
@@ -1222,7 +1222,7 @@ class SegmentTest extends IntegrationTestCase
     }
 
     /**
-     * Dataprovider for test_bogusSegment_shouldThrowException
+     * Dataprovider for testBogusSegment(_shouldThrowException
      */
     public function getBogusSegments()
     {
@@ -1236,14 +1236,14 @@ class SegmentTest extends IntegrationTestCase
     /**
      * @dataProvider getBogusSegments
      */
-    public function test_bogusSegment_shouldThrowException($segment)
+    public function testBogusSegmentShouldThrowException($segment)
     {
         $this->expectException(\Exception::class);
         new Segment($segment, $idSites = array());
     }
 
 
-    public function test_getSelectQuery_whenLimit_innerQueryShouldHaveLimitAndNoGroupBy()
+    public function testGetSelectQueryWhenLimitInnerQueryShouldHaveLimitAndNoGroupBy()
     {
         $select = 'sum(log_visit.visit_total_time) as sum_visit_length';
         $from = 'log_visit';
@@ -1282,7 +1282,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenLimit_withCustomJoinsAndSameColumns()
+    public function testGetSelectQueryWhenLimitWithCustomJoinsAndSameColumns()
     {
         $select = "log_action_visit_entry_idaction_name.name AS 'EntryPageTitle', log_action_idaction_event_action.name AS 'EventAction', count(distinct log_visit.idvisit) AS 'nb_uniq_visits', count(distinct log_visit.idvisitor) AS 'nb_uniq_visitors', sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) AS 'bounce_count', sum(log_visit.visit_total_actions) AS 'sum_actions', sum(log_visit.visit_goal_converted) AS 'sum_visit_goal_converted'";
         $from = array('log_visit', array('table' => 'log_action', 'tableAlias' => 'log_action_visit_entry_idaction_name', 'joinOn' => 'log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction'), 'log_link_visit_action', array('table' => 'log_action', 'tableAlias' => 'log_action_idaction_event_action', 'joinOn' => 'log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction'));
@@ -1320,7 +1320,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenLimit_withCustomJoinsAndSameColumnsAndSimilarColumns()
+    public function testGetSelectQueryWhenLimitWithCustomJoinsAndSameColumnsAndSimilarColumns()
     {
         $select = 'log_link_visit_action.idvisit,
                    log_visit.idvisit,
@@ -1382,7 +1382,7 @@ log_visit.visit_total_actions
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenLimitAndOffset_outerQueryShouldNotHaveOffset()
+    public function testGetSelectQueryWhenLimitAndOffsetOuterQueryShouldNotHaveOffset()
     {
         $select = 'sum(log_visit.visit_total_time) as sum_visit_length';
         $from = 'log_visit';
@@ -1422,7 +1422,7 @@ log_visit.visit_total_actions
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenOffsetIsZero()
+    public function testGetSelectQueryWhenOffsetIsZero()
     {
         $select = 'sum(log_visit.visit_total_time) as sum_visit_length';
         $from = 'log_visit';
@@ -1462,7 +1462,7 @@ log_visit.visit_total_actions
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenLimitIsZero()
+    public function testGetSelectQueryWhenLimitIsZero()
     {
         $select = 'sum(log_visit.visit_total_time) as sum_visit_length';
         $from = 'log_visit';
@@ -1502,7 +1502,7 @@ log_visit.visit_total_actions
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenPageUrlExists_asStatementAND()
+    public function testGetSelectQueryWhenPageUrlExistsAsStatementAND()
     {
         $pageUrlFoundInDb = 'example.com/page.html?hello=world';
 
@@ -1539,7 +1539,7 @@ log_visit.visit_total_actions
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenPageUrlDoesNotExist_asStatementAND()
+    public function testGetSelectQueryWhenPageUrlDoesNotExistAsStatementAND()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
@@ -1564,7 +1564,7 @@ log_visit.visit_total_actions
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenPageUrlDoesNotExist_asStatementOR()
+    public function testGetSelectQueryWhenPageUrlDoesNotExistAsStatementOR()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
@@ -1589,7 +1589,7 @@ log_visit.visit_total_actions
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenManyIdActionSegmentsAreUsed_OR_AND()
+    public function testGetSelectQueryWhenManyIdActionSegmentsAreUsedORAND()
     {
         $select = 'log_visit.*';
         $from = 'log_visit';
@@ -2005,7 +2005,7 @@ log_visit.visit_total_actions
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND()
+    public function testGetSelectQueryWhenPageUrlDoesNotExistAsBothStatementsORAND()
     {
         list($pageUrlFoundInDb, $actionIdFoundInDb) = $this->insertActions();
 
@@ -2082,7 +2082,7 @@ log_visit.visit_total_actions
     }
 
     // se https://github.com/piwik/piwik/issues/9194
-    public function test_getSelectQuery_whenQueryingLogConversionWithSegmentThatUsesLogLinkVisitAction_shouldUseSubselect()
+    public function testGetSelectQueryWhenQueryingLogConversionWithSegmentThatUsesLogLinkVisitActionShouldUseSubselect()
     {
         $select = 'log_conversion.idgoal AS `idgoal`,
 			       count(*) AS `1`,
@@ -2127,7 +2127,7 @@ log_visit.visit_total_actions
     }
 
     // se https://github.com/piwik/piwik/issues/9194
-    public function test_getSelectQuery_whenQueryingLogConversionWithSegmentThatUsesLogLinkVisitActionAndGroupsForUsageInConversionsByTypeOfVisit_shouldUseSubselect()
+    public function testGetSelectQueryWhenQueryingLogConversionWithSegmentThatUsesLogLinkVisitActionAndGroupsForUsageInConversionsByTypeOfVisitShouldUseSubselect()
     {
         $select = 'log_conversion.idgoal AS `idgoal`,
                    log_conversion.referer_type AS `referer_type`,
@@ -2181,7 +2181,7 @@ log_visit.visit_total_actions
     }
 
     // see https://github.com/piwik/piwik/issues/9194
-    public function test_getSelectQuery_whenQueryingLogConversionWithSegmentThatUsesLogLinkVisitActionAndLogVisit_shouldUseSubselectGroupedByIdVisitAndBuster()
+    public function testGetSelectQueryWhenQueryingLogConversionWithSegmentThatUsesLogLinkVisitActionAndLogVisitShouldUseSubselectGroupedByIdVisitAndBuster()
     {
         $select = 'log_conversion.idgoal AS `idgoal`,
 			       count(*) AS `1`,
@@ -2230,7 +2230,7 @@ log_visit.visit_total_actions
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinCustomLogTableTwoTablesRemovedFromLogVisitFirst_thenJoinTableAdjacentToLogVisit()
+    public function testGetSelectQueryWhenJoinCustomLogTableTwoTablesRemovedFromLogVisitFirstThenJoinTableAdjacentToLogVisit()
     {
         $this->defineEntitiesNotDirectlyJoinableToVisit();
 
@@ -2257,7 +2257,7 @@ SQL;
         $this->assertEquals($expected, $sql);
     }
 
-    public function test_getSelectQuery_whenUrls()
+    public function testGetSelectQueryWhenUrls()
     {
         $select = 'sum(log_visit.idvisit)';
         $from = 'log_visit';
@@ -2346,7 +2346,7 @@ SQL;
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_segmentExpression_parseSubExpressionsIntoSqlExpressions_recognizesAvailableTablesCorrectly()
+    public function testSegmentExpressionParseSubExpressionsIntoSqlExpressionsRecognizesAvailableTablesCorrectly()
     {
         $segment = 'pageTitle=@abc';
 
@@ -2433,24 +2433,24 @@ SQL;
         );
     }
 
-    public function test_willBeArchived_ByDefault_AllSegmentsWillBeArchived()
+    public function testWillBeArchivedByDefaultAllSegmentsWillBeArchived()
     {
         $this->assertWillBeArchived($this->exampleSegment);
     }
 
-    public function test_willBeArchived_SegmentsWillNotBeArchivedWhenBrowserArchivingIsDisabledAndNoSuchSegmentExists()
+    public function testWillBeArchivedSegmentsWillNotBeArchivedWhenBrowserArchivingIsDisabledAndNoSuchSegmentExists()
     {
         $this->disableSegmentBrowserArchiving();
         $this->assertNotWillBeArchived($this->exampleSegment);
     }
 
-    public function test_willBeArchived_SegmentsWillBeArchivedWhenBrowserArchivingIsDisabledButBrowserSegmentsArchivingEnabled()
+    public function testWillBeArchivedSegmentsWillBeArchivedWhenBrowserArchivingIsDisabledButBrowserSegmentsArchivingEnabled()
     {
         $this->disableBrowserArchiving();
         $this->assertWillBeArchived($this->exampleSegment);
     }
 
-    public function test_willSegmentBeArchived_SegmentsWillBeArchivedWhenBrowserArchivingDisabledAndSegmentExistsNotAutoArchiveAndSegmentBrowserArchivingDisabled()
+    public function testWillSegmentBeArchivedSegmentsWillBeArchivedWhenBrowserArchivingDisabledAndSegmentExistsNotAutoArchiveAndSegmentBrowserArchivingDisabled()
     {
         $this->disableSegmentBrowserArchiving();
 
@@ -2459,7 +2459,7 @@ SQL;
         $this->assertWillBeArchived($this->exampleSegment);
     }
 
-    public function test_willSegmentBeArchived_SegmentsWillBeArchivedWhenBrowserArchivingDisabledButSegmentExistsWithAuthoArchive()
+    public function testWillSegmentBeArchivedSegmentsWillBeArchivedWhenBrowserArchivingDisabledButSegmentExistsWithAuthoArchive()
     {
         $this->disableSegmentBrowserArchiving();
 
@@ -2468,7 +2468,7 @@ SQL;
         $this->assertWillBeArchived($this->exampleSegment);
     }
 
-    public function test_willBeArchived_AnEmptySegmentShouldBeAlwaysArchived()
+    public function testWillBeArchivedAnEmptySegmentShouldBeAlwaysArchived()
     {
         $this->assertWillBeArchived(false);
 
@@ -2479,7 +2479,7 @@ SQL;
     /**
      * @dataProvider getTestDataForCombine
      */
-    public function test_combine_shouldCombineSegmentConditionsProperly($segment, $operator, $toCombine, $expected)
+    public function testCombineShouldCombineSegmentConditionsProperly($segment, $operator, $toCombine, $expected)
     {
         $newSegment = Segment::combine($segment, $operator, $toCombine);
         $this->assertEquals($expected, $newSegment);
@@ -2508,7 +2508,7 @@ SQL;
     /**
      * @dataProvider getTestDataForGetStoredSegmentName
      */
-    public function test_getStoredSegmentName($segment, $expectedName)
+    public function testGetStoredSegmentName($segment, $expectedName)
     {
         SegmentEditorApi::getInstance()->add('test segment 1', 'browserCode==ff');
         SegmentEditorApi::getInstance()->add('test segment 2', urlencode('browserCode==ch'));

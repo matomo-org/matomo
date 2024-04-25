@@ -21,12 +21,12 @@ class ArchiveWriterTest extends \PHPUnit\Framework\TestCase
 {
     private $recordName = 'Actions_Action_url';
 
-    public function test_insertBlobRecord_NoBlobsGiven_ShouldInsertNothing()
+    public function testInsertBlobRecordNoBlobsGivenShouldInsertNothing()
     {
         $this->assertInsertBlobRecordInsertedRecordsInBulk(array(), array());
     }
 
-    public function test_insertBlobRecord_OnlyRootTableGiven_ShouldNotMoveRootTableIntoAChunk()
+    public function testInsertBlobRecordOnlyRootTableGivenShouldNotMoveRootTableIntoAChunk()
     {
         $blobs    = array(0 => $this->getSerializedBlob());
         $expected = array(array($this->recordName, $this->getSerializedBlob()));
@@ -34,7 +34,7 @@ class ArchiveWriterTest extends \PHPUnit\Framework\TestCase
         $this->assertInsertBlobRecordInsertedRecordsInBulk($expected, $blobs);
     }
 
-    public function test_insertBlobRecord_RootAndSubTablesGiven_OnlyAfewSubtables()
+    public function testInsertBlobRecordRootAndSubTablesGivenOnlyAfewSubtables()
     {
         $blobs = $this->generateBlobs(0, 45);
 
@@ -46,7 +46,7 @@ class ArchiveWriterTest extends \PHPUnit\Framework\TestCase
         $this->assertInsertBlobRecordInsertedRecordsInBulk($expectedBlobs, $blobs);
     }
 
-    public function test_insertBlobRecord_RootAndSubTablesGiven_ShouldOnlySplitSubtablesIntoAChunk()
+    public function testInsertBlobRecordRootAndSubTablesGivenShouldOnlySplitSubtablesIntoAChunk()
     {
         $blobs = $this->generateBlobs(0, 1145);
 
@@ -69,7 +69,7 @@ class ArchiveWriterTest extends \PHPUnit\Framework\TestCase
         $this->assertInsertBlobRecordInsertedRecordsInBulk($expectedBlobs, $blobs);
     }
 
-    public function test_insertBlobRecord_ShouldInsertASingleRecord_IfNotAnArrayOfBlobsIsGiven()
+    public function testInsertBlobRecordShouldInsertASingleRecordIfNotAnArrayOfBlobsIsGiven()
     {
         $blob = $this->getSerializedBlob('_root');
 

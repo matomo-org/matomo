@@ -55,7 +55,7 @@ class SettingsProviderTest extends IntegrationTestCase
         unset($_GET['idSite']);
     }
 
-    public function test_getSystemSettings_shouldFindASystemSettingOfPlugin()
+    public function testGetSystemSettingsShouldFindASystemSettingOfPlugin()
     {
         $settings = $this->settings->getSystemSettings($this->examplePlugin);
 
@@ -63,14 +63,14 @@ class SettingsProviderTest extends IntegrationTestCase
         $this->assertSame($this->examplePlugin, $settings->getPluginName());
     }
 
-    public function test_getSystemSettings_shouldReturnNull_IfPluginHasNoSystemSettings()
+    public function testGetSystemSettingsShouldReturnNullIfPluginHasNoSystemSettings()
     {
         $settings = $this->settings->getSystemSettings('Intl');
 
         $this->assertNull($settings);
     }
 
-    public function test_getSystemSettings_shouldReturnNull_IfPluginHasSettingButIsNotLoaded()
+    public function testGetSystemSettingsShouldReturnNullIfPluginHasSettingButIsNotLoaded()
     {
         $this->pluginManager->unloadPlugin($this->examplePlugin);
         $settings = $this->settings->getSystemSettings($this->examplePlugin);
@@ -79,7 +79,7 @@ class SettingsProviderTest extends IntegrationTestCase
         $this->assertNull($settings);
     }
 
-    public function test_getAllSystemSettings_shouldFindAllSystemSettings()
+    public function testGetAllSystemSettingsShouldFindAllSystemSettings()
     {
         $settings = $this->settings->getAllSystemSettings();
 
@@ -92,7 +92,7 @@ class SettingsProviderTest extends IntegrationTestCase
         }
     }
 
-    public function test_getUserSettings_shouldFindASystemSettingOfPlugin()
+    public function testGetUserSettingsShouldFindASystemSettingOfPlugin()
     {
         $settings = $this->settings->getUserSettings($this->examplePlugin);
 
@@ -100,14 +100,14 @@ class SettingsProviderTest extends IntegrationTestCase
         $this->assertSame($this->examplePlugin, $settings->getPluginName());
     }
 
-    public function test_getUserSettings_shouldReturnNull_IfPluginHasNoSystemSettings()
+    public function testGetUserSettingsShouldReturnNullIfPluginHasNoSystemSettings()
     {
         $settings = $this->settings->getUserSettings('Intl');
 
         $this->assertNull($settings);
     }
 
-    public function test_getUserSettings_shouldReturnNull_IfPluginHasSettingButIsNotLoaded()
+    public function testGetUserSettingsShouldReturnNullIfPluginHasSettingButIsNotLoaded()
     {
         $this->pluginManager->unloadPlugin($this->examplePlugin);
         $settings = $this->settings->getUserSettings($this->examplePlugin);
@@ -116,7 +116,7 @@ class SettingsProviderTest extends IntegrationTestCase
         $this->assertNull($settings);
     }
 
-    public function test_getAllUserSettings_shouldFindAllSystemSettings()
+    public function testGetAllUserSettingsShouldFindAllSystemSettings()
     {
         $settings = $this->settings->getAllUserSettings();
 
@@ -127,7 +127,7 @@ class SettingsProviderTest extends IntegrationTestCase
         }
     }
 
-    public function test_getMeasurableSettings_shouldFindASystemSettingOfPlugin()
+    public function testGetMeasurableSettingsShouldFindASystemSettingOfPlugin()
     {
         $settings = $this->settings->getMeasurableSettings($this->examplePlugin, $idSite = 1, $idType = null);
 
@@ -135,14 +135,14 @@ class SettingsProviderTest extends IntegrationTestCase
         $this->assertSame($this->examplePlugin, $settings->getPluginName());
     }
 
-    public function test_getMeasurableSettings_shouldReturnNull_IfPluginHasNoSystemSettings()
+    public function testGetMeasurableSettingsShouldReturnNullIfPluginHasNoSystemSettings()
     {
         $settings = $this->settings->getMeasurableSettings('Intl', $idSite = 1, $idType = null);
 
         $this->assertNull($settings);
     }
 
-    public function test_getMeasurableSettings_shouldReturnNull_IfPluginHasSettingButIsNotLoaded()
+    public function testGetMeasurableSettingsShouldReturnNullIfPluginHasSettingButIsNotLoaded()
     {
         $this->pluginManager->unloadPlugin($this->examplePlugin);
         $settings = $this->settings->getMeasurableSettings($this->examplePlugin, $idSite = 1, $idType = null);
@@ -151,7 +151,7 @@ class SettingsProviderTest extends IntegrationTestCase
         $this->assertNull($settings);
     }
 
-    public function test_getAllMeasurableSettings_shouldReturnOnlyMeasurableSettings()
+    public function testGetAllMeasurableSettingsShouldReturnOnlyMeasurableSettings()
     {
         $settings = $this->settings->getAllMeasurableSettings($idSite = 1, $idType = null);
         $this->assertArrayHasKey($this->examplePlugin, $settings);

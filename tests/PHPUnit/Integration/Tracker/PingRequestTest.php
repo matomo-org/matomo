@@ -35,7 +35,7 @@ class PingRequestTest extends IntegrationTestCase
         GoalsAPI::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', $matchPattern = 'pong', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
     }
 
-    public function test_PingWithinThirtyMinutes_ExtendsExistingVisitAndLastAction_WithoutNewAction()
+    public function testPingWithinThirtyMinutesExtendsExistingVisitAndLastActionWithoutNewAction()
     {
         $tracker = $this->getTracker();
 
@@ -51,7 +51,7 @@ class PingRequestTest extends IntegrationTestCase
         $this->assertInitialVisitIsNotExtended(self::FIRST_VISIT_TIME, $checkModifiedDimensions = false, 1201);
     }
 
-    public function test_PingWithinThirtyMinutes_AndChangedDimensionValues_ExtendsExistingVisit_AndChangesAppropriateDimensions()
+    public function testPingWithinThirtyMinutesAndChangedDimensionValuesExtendsExistingVisitAndChangesAppropriateDimensions()
     {
         $tracker = $this->getTracker();
 
@@ -67,7 +67,7 @@ class PingRequestTest extends IntegrationTestCase
         $this->assertInitialVisitIsNotExtended(self::FIRST_VISIT_TIME, $checkModifiedDimensions = true, 1201);
     }
 
-    public function test_PingWithinThirtyMinutes_DoesNotTriggerGoalConversion()
+    public function testPingWithinThirtyMinutesDoesNotTriggerGoalConversion()
     {
         $tracker = $this->getTracker();
 
@@ -87,7 +87,7 @@ class PingRequestTest extends IntegrationTestCase
         $this->assertGoalConversionCount(1);
     }
 
-    public function test_PingAfterThirtyMinutes_DoesNotCreateNewVisit()
+    public function testPingAfterThirtyMinutesDoesNotCreateNewVisit()
     {
         $tracker = $this->getTracker();
 
@@ -103,7 +103,7 @@ class PingRequestTest extends IntegrationTestCase
         $this->assertPingDidNotCreateNewVisit(self::FIRST_VISIT_TIME, $checkModifiedDimensions = false);
     }
 
-    public function test_PingAfterThirtyMinutes_AndChangedDimensionValues_DoesNotCreateNewVisit()
+    public function testPingAfterThirtyMinutesAndChangedDimensionValuesDoesNotCreateNewVisit()
     {
         $tracker = $this->getTracker();
 

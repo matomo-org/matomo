@@ -86,7 +86,7 @@ class DailyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(self::$JANUARY_02_1971_00_00_00, $mock->getRescheduledTime());
     }
 
-    public function test_setTimezone_ShouldConvertRescheduledTime()
+    public function testSetTimezoneShouldConvertRescheduledTime()
     {
         $oneHourInSeconds = 3600;
 

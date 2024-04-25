@@ -29,31 +29,31 @@ class SubcategoryTest extends \PHPUnit\Framework\TestCase
         $this->subcategory = new Subcategory();
     }
 
-    public function test_categoryId_set_get()
+    public function testCategoryIdSetGet()
     {
         $this->subcategory->setCategoryId('testCategory');
 
         $this->assertSame('testCategory', $this->subcategory->getCategoryId());
     }
 
-    public function test_getCategoryId_shouldBeEmptyStringByDefault()
+    public function testGetCategoryIdShouldBeEmptyStringByDefault()
     {
         $this->assertSame('', $this->subcategory->getCategoryId());
     }
 
-    public function test_name_set_get()
+    public function testNameSetGet()
     {
         $this->subcategory->setName('testName');
 
         $this->assertSame('testName', $this->subcategory->getName());
     }
 
-    public function test_getName_shouldBeEmptyStringByDefault()
+    public function testGetNameShouldBeEmptyStringByDefault()
     {
         $this->assertSame('', $this->subcategory->getName());
     }
 
-    public function test_getName_ShouldDefaultToId_IfNoNameIsSet()
+    public function testGetNameShouldDefaultToIdIfNoNameIsSet()
     {
         $this->subcategory->setId('myTestId');
 
@@ -61,7 +61,7 @@ class SubcategoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('myTestId', $this->subcategory->getId());
     }
 
-    public function test_order_set_get()
+    public function testOrderSetGet()
     {
         $this->subcategory->setOrder(99);
         $this->assertSame(99, $this->subcategory->getOrder());
@@ -70,18 +70,18 @@ class SubcategoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(98, $this->subcategory->getOrder());
     }
 
-    public function test_getOrder_shouldReturnADefaultValue()
+    public function testGetOrderShouldReturnADefaultValue()
     {
         $this->assertSame(99, $this->subcategory->getOrder());
     }
 
-    public function test_id_set_get()
+    public function testIdSetGet()
     {
         $this->subcategory->setId('myCustomId');
         $this->assertSame('myCustomId', $this->subcategory->getId());
     }
 
-    public function test_getId_shouldBeEmptyStringByDefault()
+    public function testGetIdShouldBeEmptyStringByDefault()
     {
         $this->assertSame('', $this->subcategory->getId());
     }

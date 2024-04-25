@@ -43,7 +43,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         $t->doTrackPageView('incredible title ');
     }
 
-    public function test_ShouldThrowException_IfPeriodNotAllowed()
+    public function testShouldThrowExceptionIfPeriodNotAllowed()
     {
         $invalidPeriods = [
             'day' => ['week', 'month', 'year'],
@@ -69,7 +69,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         }
     }
 
-    public function test_ShouldReturnData_IfPeriodAllowed()
+    public function testShouldReturnDataIfPeriodAllowed()
     {
         $validPeriods = [
             'day' => ['day'],
@@ -93,7 +93,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         }
     }
 
-    public function test_ShouldThrowException_IfInvalidLimitBeforeGroup()
+    public function testShouldThrowExceptionIfInvalidLimitBeforeGroup()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('limitBeforeGrouping has to be an integer.');
@@ -108,7 +108,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         );
     }
 
-    public function test_ShouldPass_IfLimitBeforeGroupPassingIntAsString()
+    public function testShouldPassIfLimitBeforeGroupPassingIntAsString()
     {
         $report = $this->api->getTransitionsForAction(
             'http://example.org/page/one.html',
@@ -122,7 +122,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         $this->assertIsArray($report);
     }
 
-    public function test_ShouldThrowException_IfRangeDayCountIsLargerThanDayPeriod()
+    public function testShouldThrowExceptionIfRangeDayCountIsLargerThanDayPeriod()
     {
         Config::setSetting('Transitions_1', 'max_period_allowed', 'day');
         $this->expectException(\Exception::class);
@@ -136,7 +136,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         );
     }
 
-    public function test_ShouldThrowException_IfRangeDayCountIsLargerThanWeekPeriod()
+    public function testShouldThrowExceptionIfRangeDayCountIsLargerThanWeekPeriod()
     {
         Config::setSetting('Transitions_1', 'max_period_allowed', 'day');
         $this->expectException(\Exception::class);
@@ -150,7 +150,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         );
     }
 
-    public function test_ShouldThrowException_IfRangeDayCountIsLargerThanMonthPeriod()
+    public function testShouldThrowExceptionIfRangeDayCountIsLargerThanMonthPeriod()
     {
         Config::setSetting('Transitions_1', 'max_period_allowed', 'day');
         $this->expectException(\Exception::class);
@@ -164,7 +164,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         );
     }
 
-    public function test_ShouldThrowException_IfRangeDayCountIsLargerThanYearPeriod()
+    public function testShouldThrowExceptionIfRangeDayCountIsLargerThanYearPeriod()
     {
         Config::setSetting('Transitions_1', 'max_period_allowed', 'day');
         $this->expectException(\Exception::class);
@@ -178,7 +178,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         );
     }
 
-    public function test_ShouldUseSiteConfigInsteadOfGeneral_IfSiteConfigExists()
+    public function testShouldUseSiteConfigInsteadOfGeneralIfSiteConfigExists()
     {
         Config::setSetting('Transitions_1', 'max_period_allowed', null);
         Config::setSetting('Transitions', 'max_period_allowed', 'month');

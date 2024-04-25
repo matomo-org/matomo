@@ -29,11 +29,11 @@ class FewVisitsWithSetVisitorId extends Fixture
     public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
-        $this->trackVisits_setVisitorId();
-        $this->trackVisits_setUserId();
+        $this->trackVisitsSetVisitorId();
+        $this->trackVisitsSetUserId();
 
         // generate data for the period = week, month, year use cases
-        $this->trackVisits_oneWeekLater_setUserId();
+        $this->trackVisitsOneWeekLaterSetUserId();
     }
 
     public function tearDown(): void
@@ -52,7 +52,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         }
     }
 
-    private function trackVisits_setVisitorId()
+    private function trackVisitsSetVisitorId()
     {
         // total = 2 visitors, 3 page views
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
@@ -78,7 +78,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         self::checkResponse($t->doTrackPageView('incredible title!'));
     }
 
-    private function trackVisits_setUserId()
+    private function trackVisitsSetUserId()
     {
         $userId = self::USER_ID_EXAMPLE_COM;
         // total = 2 visitors, 3 page views
@@ -169,7 +169,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->doTrackEcommerceCartUpdate(10000000000 + 500 /* add some for shipping PRISM */);
     }
 
-    private function trackVisits_oneWeekLater_setUserId()
+    private function trackVisitsOneWeekLaterSetUserId()
     {
         $oneWeekLater = Date::factory($this->dateTime)->addDay(8);
 

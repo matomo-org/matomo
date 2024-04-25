@@ -17,7 +17,7 @@ use Piwik\Plugin\Manager as PluginManager;
  */
 class ReportTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_getAllReports_shouldNotFindAReport_IfNoPluginLoaded()
+    public function testGetAllReportsShouldNotFindAReportIfNoPluginLoaded()
     {
         $this->unloadAllPlugins();
 
@@ -27,7 +27,7 @@ class ReportTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array(), $report);
     }
 
-    public function test_getAllReports_ShouldFindAllAvailableReports()
+    public function testGetAllReportsShouldFindAllAvailableReports()
     {
         $this->loadExampleReportPlugin();
         $this->loadMorePlugins();

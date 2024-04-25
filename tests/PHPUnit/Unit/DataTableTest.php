@@ -152,7 +152,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($table2->getRowFromIdSubDataTable($idTable3), $table2->getLastRow());
     }
 
-    public function test_rebuildIndex()
+    public function testRebuildIndex()
     {
         $labels = array(0 => 'abc', 1 => 'def', 2 => 'ghi', 3 => 'jkl', 4 => 'mno');
         $table = new DataTable();
@@ -181,7 +181,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($rowVerify3);
     }
 
-    public function test_clone_shouldIncreasesTableId()
+    public function testCloneShouldIncreasesTableId()
     {
         $table = new DataTable();
         $rows = array(
@@ -361,7 +361,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider unserializeTestsDataProvider
      */
-    public function test_unserializeWorks_WithAllDataTableFormats($indexToRead, $label, $column2, $subtable)
+    public function testUnserializeWorksWithAllDataTableFormats($indexToRead, $label, $column2, $subtable)
     {
         $serializedDatatable = array();
         // Prior Piwik 2.13, we serialized the actual Row or DataTableSummaryRow instances, afterwards only arrays
@@ -381,7 +381,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($subtable, $row1->getIdSubDataTable());
     }
 
-    public function testSumRowMetadata_CustomAggregationOperation()
+    public function testSumRowMetadataCustomAggregationOperation()
     {
         $metadata1 = array('mytest' => 'value1');
         $metadata2 = array('mytest' => 'value2');
@@ -406,7 +406,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array('value2', 'value1'), $finalRow->getMetadata('mytest'));
     }
 
-    public function testSumRow_CustomAggregationOperation()
+    public function testSumRowCustomAggregationOperation()
     {
         $columns = array('test_int' => 145, 'test_float' => 145.5);
 
@@ -435,7 +435,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array(5, 145), $finalRow->getColumn('test_int'));
     }
 
-    public function testSumRow_ShouldThrowExceptionIfInvalidOperationIsGiven()
+    public function testSumRowShouldThrowExceptionIfInvalidOperationIsGiven()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Unknown operation \'foobarinvalid\'');
@@ -461,7 +461,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Test that adding two string column values results in an exception.
      */
-    public function testSumRow_stringException()
+    public function testSumRowStringException()
     {
         $columns = array(
             'super' => array('this column has an array string that will be 0 when algorithm sums the value'),
@@ -492,7 +492,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $table->getSerialized();
     }
 
-    public function test_getSerialized_SerializesSubtablesOfSummaryRows()
+    public function testGetSerializedSerializesSubtablesOfSummaryRows()
     {
         $table = new DataTable();
         $table->addRowFromArray(array(Row::COLUMNS => array('label' => 'dimval1', 'visits' => 245)));
@@ -693,7 +693,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($subsubtable, Manager::getInstance()->getTable($idsubsubtable));
     }
 
-    public function test_getSerialized_shouldCreateConsecutiveSubtableIds()
+    public function testGetSerializedShouldCreateConsecutiveSubtableIds()
     {
         $numRowsInRoot = 10;
         $numRowsInSubtables = 5;
@@ -760,7 +760,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function test_getSerialized_shouldExportOnlyTheSerializedArrayOfAllTableRows()
+    public function testGetSerializedShouldExportOnlyTheSerializedArrayOfAllTableRows()
     {
         $rootTable = new DataTable();
         $this->addManyRows($rootTable, 2);
@@ -781,7 +781,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ), $tables);
     }
 
-    public function test_serializationOfDataTableMetadata()
+    public function testSerializationOfDataTableMetadata()
     {
         $table = new DataTable();
         $table->addRow(new Row([
@@ -1001,7 +1001,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(DataTable::isEqual($table, $tableExpected));
     }
 
-    public function test_addDataTable_whenThereIsNoSummaryRowInOneTable_andASummaryRowInTheOtherTable()
+    public function testAddDataTableWhenThereIsNoSummaryRowInOneTableAndASummaryRowInTheOtherTable()
     {
         $table1 = new DataTable();
         $table1->addRowsFromSimpleArray([
@@ -1042,7 +1042,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedRows, $actualRows);
     }
 
-    public function test_addDataTable_whenThereIsASummaryRow_andRowWithNegativeOneLabel()
+    public function testAddDataTableWhenThereIsASummaryRowAndRowWithNegativeOneLabel()
     {
         $table1 = new DataTable();
         $table1->addRowsFromSimpleArray([
@@ -1103,7 +1103,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
     /**
      * @group Core
      */
-    public function test_disableFilter_DoesActuallyDisableAFilter()
+    public function testDisableFilterDoesActuallyDisableAFilter()
     {
         $dataTable = DataTable::makeFromSimpleArray(array_fill(0, 100, array()));
         $this->assertSame(100, $dataTable->getRowsCount());
@@ -1141,7 +1141,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         Common::destroy($rowBeingDestructed);
     }
 
-    public function test_serializeFails_onSubTableNotFound()
+    public function testSerializeFailsOnSubTableNotFound()
     {
         // create a simple table with a subtable
         $table1 = $this->getDataTable1ForTest();
@@ -1191,7 +1191,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('test', $dataTable->getMetadata('additionalMetadata'));
     }
 
-    public function test_sumRowWithLabel_addsNewRowIfTableDoesNotHaveRowWithSameLabel()
+    public function testSumRowWithLabelAddsNewRowIfTableDoesNotHaveRowWithSameLabel()
     {
         $dataTable = new DataTable();
         $dataTable->addRowsFromSimpleArray([
@@ -1217,7 +1217,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedRows, $actualRows);
     }
 
-    public function test_sumRowWithLabel_sumsWithExistingRowIfTableDoesHaveRowWithSameLabel()
+    public function testSumRowWithLabelSumsWithExistingRowIfTableDoesHaveRowWithSameLabel()
     {
         $dataTable = new DataTable();
         $dataTable->addRowsFromSimpleArray([
@@ -1242,7 +1242,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedRows, $actualRows);
     }
 
-    public function test_sumRowWithLabel_usesSummaryRowIfLabelIsSpecialRankingQueryLabel()
+    public function testSumRowWithLabelUsesSummaryRowIfLabelIsSpecialRankingQueryLabel()
     {
         $dataTable = new DataTable();
         $dataTable->addRowsFromSimpleArray([
@@ -1269,7 +1269,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedRows, $actualRows);
     }
 
-    public function test_sumRowWithLabel_defaultsNullLabelToEmptyString()
+    public function testSumRowWithLabelDefaultsNullLabelToEmptyString()
     {
         $dataTable = new DataTable();
         $dataTable->addRowsFromSimpleArray([
@@ -1295,7 +1295,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedRows, $actualRows);
     }
 
-    public function test_sumRowWithLabel_usesCustomAggregationOpsIfSupplied()
+    public function testSumRowWithLabelUsesCustomAggregationOpsIfSupplied()
     {
         $dataTable = new DataTable();
         $dataTable->addRowsFromSimpleArray([

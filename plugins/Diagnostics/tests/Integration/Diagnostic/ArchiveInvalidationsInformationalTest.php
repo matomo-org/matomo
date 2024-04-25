@@ -18,7 +18,7 @@ use Piwik\Translation\Translator;
 
 class ArchiveInvalidationsInformationalTest extends IntegrationTestCase
 {
-    public function test_execute()
+    public function testExecute()
     {
         $segmentHash = md5('something');
         $anotherSegmentHash = md5('anothersomething');

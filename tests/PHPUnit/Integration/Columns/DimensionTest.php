@@ -102,7 +102,7 @@ class ColumnDimensionTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_hasImplementedEvent_shouldDetectWhetherAMethodWasOverwrittenInTheActualPluginClass()
+    public function testHasImplementedEventShouldDetectWhetherAMethodWasOverwrittenInTheActualPluginClass()
     {
         $this->assertTrue($this->dimension->hasImplementedEvent('set'));
         $this->assertTrue($this->dimension->hasImplementedEvent('configureSegments'));
@@ -110,12 +110,12 @@ class ColumnDimensionTest extends IntegrationTestCase
         $this->assertFalse($this->dimension->hasImplementedEvent('getSegments'));
     }
 
-    public function test_getColumnName_shouldReturnTheNameOfTheColumn()
+    public function testGetColumnNameShouldReturnTheNameOfTheColumn()
     {
         $this->assertSame('test_dimension', $this->dimension->getColumnName());
     }
 
-    public function test_hasColumnType_shouldDetectWhetherAColumnTypeIsSet()
+    public function testHasColumnTypeShouldDetectWhetherAColumnTypeIsSet()
     {
         $this->assertTrue($this->dimension->hasColumnType());
 
@@ -123,12 +123,12 @@ class ColumnDimensionTest extends IntegrationTestCase
         $this->assertFalse($this->dimension->hasColumnType());
     }
 
-    public function test_getName_ShouldNotReturnANameByDefault()
+    public function testGetNameShouldNotReturnANameByDefault()
     {
         $this->assertSame('', $this->dimension->getName());
     }
 
-    public function test_getAllDimensions_shouldReturnAllKindOfDimensions()
+    public function testGetAllDimensionsShouldReturnAllKindOfDimensions()
     {
         Manager::getInstance()->loadPlugins(array('Actions', 'Events', 'DevicesDetector', 'Goals', 'CustomVariables'));
 
@@ -167,7 +167,7 @@ class ColumnDimensionTest extends IntegrationTestCase
         $this->assertTrue($foundNormal);
     }
 
-    public function test_getDimensions_shouldReturnAllKindOfDimensionsThatBelongToASpecificPlugin()
+    public function testGetDimensionsShouldReturnAllKindOfDimensionsThatBelongToASpecificPlugin()
     {
         Manager::getInstance()->loadPlugins(array('Actions', 'Events', 'DevicesDetector', 'Goals'));
 
@@ -192,7 +192,7 @@ class ColumnDimensionTest extends IntegrationTestCase
         $this->assertTrue($foundVisit);
     }
 
-    public function test_getDimensions_shouldReturnConversionDimensionsThatBelongToASpecificPlugin()
+    public function testGetDimensionsShouldReturnConversionDimensionsThatBelongToASpecificPlugin()
     {
         Manager::getInstance()->loadPlugins(array('Actions', 'Events', 'DevicesDetector', 'Goals'));
 
@@ -213,7 +213,7 @@ class ColumnDimensionTest extends IntegrationTestCase
         $this->assertTrue($foundConversion);
     }
 
-    public function test_getSegment_ShouldReturnConfiguredSegments()
+    public function testGetSegmentShouldReturnConfiguredSegments()
     {
         $segments = $this->dimension->getSegments();
 
@@ -227,7 +227,7 @@ class ColumnDimensionTest extends IntegrationTestCase
      * @param $columnType
      * @dataProvider getTypeProvider
      */
-    public function test_getType_shouldGuessTypeBasedOnColumnType($expectedType, $columnType)
+    public function testGetTypeShouldGuessTypeBasedOnColumnType($expectedType, $columnType)
     {
         $this->dimension->setColumnType($columnType);
         $this->assertSame($expectedType, $this->dimension->getType());
@@ -252,14 +252,14 @@ class ColumnDimensionTest extends IntegrationTestCase
         );
     }
 
-    public function test_addSegment_ShouldPrefilSomeSegmentValuesIfNotDefinedYetAndGuessTypeMetric()
+    public function testAddSegmentShouldPrefilSomeSegmentValuesIfNotDefinedYetAndGuessTypeMetric()
     {
         $segments = $this->dimension->getSegments();
 
         $this->assertEquals(Segment::TYPE_METRIC, $segments[0]->getType());
     }
 
-    public function test_addSegment_ShouldPrefilSomeSegmentValuesIfNotDefinedYetAndGuessTypeDimension()
+    public function testAddSegmentShouldPrefilSomeSegmentValuesIfNotDefinedYetAndGuessTypeDimension()
     {
         $this->dimension->setColumnType('TEXT NOT NULL');
         $segments = $this->dimension->getSegments();
@@ -267,14 +267,14 @@ class ColumnDimensionTest extends IntegrationTestCase
         $this->assertEquals(Segment::TYPE_DIMENSION, $segments[0]->getType());
     }
 
-    public function test_addSegment_ShouldNotOverwritePreAssignedValues()
+    public function testAddSegmentShouldNotOverwritePreAssignedValues()
     {
         $segments = $this->dimension->getSegments();
 
         $this->assertEquals(Segment::TYPE_METRIC, $segments[1]->getType());
     }
 
-    public function test_getId_ShouldCorrectlyGenerateIdFromDimensionsQualifiedClassName()
+    public function testGetIdShouldCorrectlyGenerateIdFromDimensionsQualifiedClassName()
     {
         $this->assertEquals("Test.DimensionTest", $this->dimension->getId());
     }
@@ -283,7 +283,7 @@ class ColumnDimensionTest extends IntegrationTestCase
     /**
      * @dataProvider getFormatValueProvider
      */
-    public function test_formatValue($type, $value, $expected)
+    public function testFormatValue($type, $value, $expected)
     {
         $formatter = new Formatter();
         $this->dimension->setType($type);
@@ -450,37 +450,37 @@ class ColumnDimensionTest extends IntegrationTestCase
         }
     }
 
-    public function test_groupValue()
+    public function testGroupValue()
     {
         $this->dimension->setType(Dimension::TYPE_DURATION_MS);
         $this->assertSame(800.0, $this->dimension->groupValue(800, 1));
     }
 
-    public function test_groupValue_stringValue()
+    public function testGroupValueStringValue()
     {
         $this->dimension->setType(Dimension::TYPE_DURATION_MS);
         $this->assertSame(800.0, $this->dimension->groupValue('800', 1));
     }
 
-    public function test_groupValue_largerValue()
+    public function testGroupValueLargerValue()
     {
         $this->dimension->setType(Dimension::TYPE_DURATION_MS);
         $this->assertSame(80000000.0, $this->dimension->groupValue(80000000, 1));
     }
 
-    public function test_groupValue_largerStringValue()
+    public function testGroupValueLargerStringValue()
     {
         $this->dimension->setType(Dimension::TYPE_DURATION_MS);
         $this->assertSame(80000000.0, $this->dimension->groupValue('80000000', 1));
     }
 
-    public function test_groupValue_largerValueWithDecimal()
+    public function testGroupValueLargerValueWithDecimal()
     {
         $this->dimension->setType(Dimension::TYPE_DURATION_MS);
         $this->assertSame(80000000.0, $this->dimension->groupValue(80000000.123, 1));
     }
 
-    public function test_groupValue_largerStringValueWithDecimal()
+    public function testGroupValueLargerStringValueWithDecimal()
     {
         $this->dimension->setType(Dimension::TYPE_DURATION_MS);
         $this->assertSame(80000000.0, $this->dimension->groupValue('80000000.123', 1));

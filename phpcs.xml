@@ -37,12 +37,6 @@
         <exclude-pattern>plugins/*/Updates/*</exclude-pattern>
     </rule>
 
-    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
-        <!-- Allow using method name without camel caps in tests as long as some methods are named test_* -->
-        <exclude-pattern>tests/PHPUnit/*</exclude-pattern>
-        <exclude-pattern>plugins/*/tests/*</exclude-pattern>
-    </rule>
-
     <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">
         <!-- Allow using multiple classes in one file for tests -->
         <exclude-pattern>tests/PHPUnit/*</exclude-pattern>

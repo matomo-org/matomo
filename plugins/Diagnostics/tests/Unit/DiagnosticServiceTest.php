@@ -17,7 +17,7 @@ use Piwik\Plugins\Diagnostics\tests\Mock\DiagnosticWithWarning;
 
 class DiagnosticServiceTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_runDiagnostics()
+    public function testRunDiagnostics()
     {
         $mandatoryDiagnostics = array(
             new DiagnosticWithError(),

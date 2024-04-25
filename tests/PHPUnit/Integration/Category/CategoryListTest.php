@@ -30,7 +30,7 @@ class CategoryListTest extends IntegrationTestCase
      */
     private $categories;
 
-    public function testGetAllCategoriesWithSubcategories_shouldFindCategories()
+    public function testGetAllCategoriesWithSubcategoriesShouldFindCategories()
     {
         $list = CategoryList::get();
 
@@ -60,7 +60,7 @@ class CategoryListTest extends IntegrationTestCase
         ), array_keys($list->getCategories()));
     }
 
-    public function testGetAllCategoriesWithSubcategories_shouldFindSubcategories()
+    public function testGetAllCategoriesWithSubcategoriesShouldFindSubcategories()
     {
         $list = CategoryList::get();
 
@@ -69,7 +69,7 @@ class CategoryListTest extends IntegrationTestCase
         $this->assertTrue($list->getCategory('General_Actions')->hasSubcategory('General_Pages'));
     }
 
-    public function test_getAllCategoriesWithSubcategories_shouldMergeCategoriesAndSubcategories()
+    public function testGetAllCategoriesWithSubcategoriesShouldMergeCategoriesAndSubcategories()
     {
         $this->categories->setCategories(array(
             $this->createCategory('General_Visits'),

@@ -50,7 +50,7 @@ class ClientTest extends SystemTestCase
         $this->getCache()->flushAll();
     }
 
-    public function test_getPluginInfo_existingPluginOnTheMarketplace()
+    public function testGetPluginInfoExistingPluginOnTheMarketplace()
     {
         $plugin = $this->client->getPluginInfo('SecurityInfo');
 
@@ -111,7 +111,7 @@ class ClientTest extends SystemTestCase
         $this->assertNotEmpty($lastVersion['download']);
     }
 
-    public function test_getPluginInfo_shouldThrowException_IfPluginDoesNotExistOnMarketplace()
+    public function testGetPluginInfoShouldThrowExceptionIfPluginDoesNotExistOnMarketplace()
     {
         $this->expectException(\Piwik\Plugins\Marketplace\Api\Exception::class);
         $this->expectExceptionMessage('Requested plugin does not exist.');
@@ -119,17 +119,17 @@ class ClientTest extends SystemTestCase
         $this->client->getPluginInfo('NotExistingPlugIn');
     }
 
-    public function test_getConsumer_shouldReturnNullAndNotThrowException_IfNotAuthorized()
+    public function testGetConsumerShouldReturnNullAndNotThrowExceptionIfNotAuthorized()
     {
         $this->assertNull($this->client->getConsumer());
     }
 
-    public function test_isValidConsumer_shouldReturnFalseAndNotThrowException_IfNotAuthorized()
+    public function testIsValidConsumerShouldReturnFalseAndNotThrowExceptionIfNotAuthorized()
     {
         $this->assertFalse($this->client->isValidConsumer());
     }
 
-    public function test_searchForPlugins_requestAll()
+    public function testSearchForPluginsRequestAll()
     {
         $plugins = $this->client->searchForPlugins($keywords = '', $query = '', $sort = '', $purchaseType = PurchaseType::TYPE_ALL);
 
@@ -141,7 +141,7 @@ class ClientTest extends SystemTestCase
         }
     }
 
-    public function test_searchForPlugins_onlyFree()
+    public function testSearchForPluginsOnlyFree()
     {
         $plugins = $this->client->searchForPlugins($keywords = '', $query = '', $sort = '', $purchaseType = PurchaseType::TYPE_FREE);
 
@@ -154,7 +154,7 @@ class ClientTest extends SystemTestCase
         }
     }
 
-    public function test_searchForPlugins_onlyPaid()
+    public function testSearchForPluginsOnlyPaid()
     {
         $plugins = $this->client->searchForPlugins($keywords = '', $query = '', $sort = '', $purchaseType = PurchaseType::TYPE_PAID);
 
@@ -168,7 +168,7 @@ class ClientTest extends SystemTestCase
         }
     }
 
-    public function test_searchForPlugins_withKeyword()
+    public function testSearchForPluginsWithKeyword()
     {
         $plugins = $this->client->searchForPlugins($keywords = 'login', $query = '', $sort = '', $purchaseType = PurchaseType::TYPE_ALL);
 
@@ -180,7 +180,7 @@ class ClientTest extends SystemTestCase
         }
     }
 
-    public function test_searchForThemes_requestAll()
+    public function testSearchForThemesRequestAll()
     {
         $plugins = $this->client->searchForThemes($keywords = '', $query = '', $sort = '', $purchaseType = PurchaseType::TYPE_ALL);
 
@@ -193,7 +193,7 @@ class ClientTest extends SystemTestCase
         }
     }
 
-    public function test_getDownloadUrl()
+    public function testGetDownloadUrl()
     {
         $url = $this->client->getDownloadUrl('SecurityInfo');
 
@@ -209,7 +209,7 @@ class ClientTest extends SystemTestCase
         $this->assertRegExp('/\d+\.\d+\.\d+/', $version);
     }
 
-    public function test_clientResponse_shouldBeCached()
+    public function testClientResponseShouldBeCached()
     {
         $params = array(
             'keywords' => 'login',
@@ -239,7 +239,7 @@ class ClientTest extends SystemTestCase
         $this->assertGreaterThan(30, $cachedPlugins);
     }
 
-    public function test_cachedClientResponse_shouldBeReturned()
+    public function testCachedClientResponseShouldBeReturned()
     {
         $params = array(
             'keywords' => 'login',
@@ -263,7 +263,7 @@ class ClientTest extends SystemTestCase
         $this->assertSame(array(array('name' => 'foobar')), $result);
     }
 
-    public function test_getInfoOfPluginsHavingUpdate()
+    public function testGetInfoOfPluginsHavingUpdate()
     {
         $service = new TestService($this->domain);
         $client = $this->buildClient($service);

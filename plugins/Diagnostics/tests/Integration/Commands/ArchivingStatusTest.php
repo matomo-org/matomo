@@ -45,7 +45,7 @@ class ArchivingStatusTest extends ConsoleCommandTestCase
         Date::$now = strtotime('2010-04-07 06:00:00');
     }
 
-    public function test_CommandOutput_IsAsExpected()
+    public function testCommandOutputIsAsExpected()
     {
         $expected = <<<OUTPUT
 
@@ -125,7 +125,7 @@ OUTPUT;
     }
 
 
-    public function test_CommandOutput_withStatsOption_IsAsExpected()
+    public function testCommandOutputWithStatsOptionIsAsExpected()
     {
         $expected = <<<OUTPUT
 

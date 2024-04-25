@@ -38,7 +38,7 @@ class MeasurablePropertyTest extends IntegrationTestCase
         return new FakeMeasurableSettings($idSite = 1);
     }
 
-    public function test_constructor_shouldNotEstablishADatabaseConnection()
+    public function testConstructorShouldNotEstablishADatabaseConnection()
     {
         $this->assertNotDbConnectionCreated();
 
@@ -47,7 +47,7 @@ class MeasurablePropertyTest extends IntegrationTestCase
         $this->assertNotDbConnectionCreated();
     }
 
-    public function test_constructor_shouldThrowAnExceptionWhenNotAllowedNameIsUsed()
+    public function testConstructorShouldThrowAnExceptionWhenNotAllowedNameIsUsed()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Name "name" is not allowed to be used');

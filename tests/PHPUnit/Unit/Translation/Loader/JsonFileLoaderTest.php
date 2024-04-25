@@ -16,7 +16,7 @@ use Piwik\Translation\Loader\JsonFileLoader;
  */
 class JsonFileLoaderTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_shouldLoadJsonFile()
+    public function testShouldLoadJsonFile()
     {
         $loader = new JsonFileLoader();
         $translations = $loader->load('en', array(__DIR__ . '/fixtures/dir1'));
@@ -31,7 +31,7 @@ class JsonFileLoaderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $translations);
     }
 
-    public function test_shouldIgnoreMissingFiles()
+    public function testShouldIgnoreMissingFiles()
     {
         $loader = new JsonFileLoader();
         $translations = $loader->load('foo', array(__DIR__ . '/fixtures/dir1'));
@@ -39,7 +39,7 @@ class JsonFileLoaderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array(), $translations);
     }
 
-    public function test_shouldMergeTranslations_ifLoadingMultipleFiles()
+    public function testShouldMergeTranslationsIfLoadingMultipleFiles()
     {
         $loader = new JsonFileLoader();
         $translations = $loader->load('en', array(__DIR__ . '/fixtures/dir1', __DIR__ . '/fixtures/dir2'));

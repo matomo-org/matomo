@@ -37,7 +37,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
         $fixture->createSuperUser = true;
     }
 
-    public function test_getArchiveIds_handlesCutOffGroupConcat()
+    public function testGetArchiveIdsHandlesCutOffGroupConcat()
     {
         Db::get()->query('SET SESSION group_concat_max_len=' . 20);
 
@@ -94,7 +94,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForGetArchiveIds
      */
-    public function test_getArchiveIds_returnsCorrectResult(
+    public function testGetArchiveIdsReturnsCorrectResult(
         $archiveRows,
         $siteIds,
         $periods,
@@ -281,7 +281,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForGetArchiveIdAndVisits
      */
-    public function test_getArchiveIdAndVisits_returnsCorrectResult($period, $date, $archiveRows, $segment, $minDateProcessed, $includeInvalidated, $expected)
+    public function testGetArchiveIdAndVisitsReturnsCorrectResult($period, $date, $archiveRows, $segment, $minDateProcessed, $includeInvalidated, $expected)
     {
         Fixture::createWebsite('2010-02-02 00:00:00');
 
@@ -537,7 +537,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForGetArchiveIdAndVisitsWithOnlyPartialArchives
      */
-    public function test_getArchiveIdAndVisits_whenThereAreOnlyPartialArchives($archiveRows, $requestedReports, $expected, $minDatetimeArchiveProcessedUTC = false)
+    public function testGetArchiveIdAndVisitsWhenThereAreOnlyPartialArchives($archiveRows, $requestedReports, $expected, $minDatetimeArchiveProcessedUTC = false)
     {
         Fixture::createWebsite('2010-02-02 00:00:00');
 
@@ -773,7 +773,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForGetArchiveData
      */
-    public function test_getArchiveData_returnsCorrectData(
+    public function testGetArchiveDataReturnsCorrectData(
         $archiveRows,
         $dataType,
         $idArchives,
@@ -989,7 +989,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForGetExtractIdSubtableFromBlobNameSql
      */
-    public function test_getExtractIdSubtableFromBlobNameSql_correctlyExtractsStartSubtableIdFromBlobNames($archiveRows, $blobName, $expectedRows)
+    public function testGetExtractIdSubtableFromBlobNameSqlCorrectlyExtractsStartSubtableIdFromBlobNames($archiveRows, $blobName, $expectedRows)
     {
         $this->insertArchiveData($archiveRows);
 

@@ -43,7 +43,7 @@ class AppendNameToColumnNamesTest extends \PHPUnit\Framework\TestCase
         return new Row(array(Row::COLUMNS => $columns));
     }
 
-    public function test_filter_shouldNotAppendAnything_IfNameToReplaceIsEmpty()
+    public function testFilterShouldNotAppendAnythingIfNameToReplaceIsEmpty()
     {
         $columnNamesBefore = array('nb_visits', 'nb_conversions', 'revenue', 'conversion_rate');
 
@@ -55,7 +55,7 @@ class AppendNameToColumnNamesTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($columnNamesBefore, $columnNamesAfter);
     }
 
-    public function test_filter_shoulAppendGivenStringToAllColumns_IfSet()
+    public function testFilterShoulAppendGivenStringToAllColumnsIfSet()
     {
         $nameToAppend = '_new_visit';
         $this->table->filter($this->filter, array($nameToAppend));
@@ -70,7 +70,7 @@ class AppendNameToColumnNamesTest extends \PHPUnit\Framework\TestCase
         $this->assertColumnsOfRowIdEquals($expected, $rowId = 0);
     }
 
-    public function test_filter_shoulAppendGivenStringToAllColumnsOfAllRows_EvenIfTheyHaveDifferentColumns()
+    public function testFilterShoulAppendGivenStringToAllColumnsOfAllRowsEvenIfTheyHaveDifferentColumns()
     {
         $this->addRow(array('nb_visits' => 49));
 

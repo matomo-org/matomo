@@ -38,33 +38,33 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->settings = new SystemSettings();
     }
 
-    public function test_enableBruteForceDetection_isEnabledByDefault()
+    public function testEnableBruteForceDetectionIsEnabledByDefault()
     {
         $this->assertTrue($this->settings->enableBruteForceDetection->getValue());
     }
 
-    public function test_loginAttemptsTimeRange_hasCorrectDefaultValue()
+    public function testLoginAttemptsTimeRangeHasCorrectDefaultValue()
     {
         $this->assertSame(60, $this->settings->loginAttemptsTimeRange->getValue());
     }
 
-    public function test_maxFailedLoginsPerMinutes_hasCorrectDefaultValue()
+    public function testMaxFailedLoginsPerMinutesHasCorrectDefaultValue()
     {
         $this->assertSame(20, $this->settings->maxFailedLoginsPerMinutes->getValue());
     }
 
-    public function test_whitelisteBruteForceIps_hasNoIpWhitelisted()
+    public function testWhitelisteBruteForceIpsHasNoIpWhitelisted()
     {
         $this->assertSame([], $this->settings->whitelisteBruteForceIps->getValue());
     }
 
-    public function test_whitelisteBruteForceIps_CanSuccessfullySetVariousIpsAndRanges()
+    public function testWhitelisteBruteForceIpsCanSuccessfullySetVariousIpsAndRanges()
     {
         $this->settings->whitelisteBruteForceIps->setValue($this->exampleIps);
         $this->assertSame($this->exampleIps, $this->settings->whitelisteBruteForceIps->getValue());
     }
 
-    public function test_whitelisteBruteForceIps_failsWhenContainsInvalidValue()
+    public function testWhitelisteBruteForceIpsFailsWhenContainsInvalidValue()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('SitesManager_ExceptionInvalidIPFormat');
@@ -74,7 +74,7 @@ class SystemSettingsTest extends IntegrationTestCase
         ));
     }
 
-    public function test_isWhitelistedIp_doesNotWhitelistAnyIpsByDefault()
+    public function testIsWhitelistedIpDoesNotWhitelistAnyIpsByDefault()
     {
         $this->assertFalse($this->settings->isWhitelistedIp('127.0.0.1'));
     }
@@ -82,25 +82,25 @@ class SystemSettingsTest extends IntegrationTestCase
     /**
      * @dataProvider getIpListedDataProvider
      */
-    public function test_isWhitelistedIp_isIpInList($expected, $ip)
+    public function testIsWhitelistedIpIsIpInList($expected, $ip)
     {
         $this->settings->whitelisteBruteForceIps->setValue($this->exampleIps);
         $this->assertSame($expected, $this->settings->isWhitelistedIp($ip));
         $this->assertFalse($this->settings->isBlacklistedIp($ip));
     }
 
-    public function test_blacklistedBruteForceIps_hasNoIpWhitelisted()
+    public function testBlacklistedBruteForceIpsHasNoIpWhitelisted()
     {
         $this->assertSame([], $this->settings->blacklistedBruteForceIps->getValue());
     }
 
-    public function test_blacklistedBruteForceIps_CanSuccessfullySetVariousIpsAndRanges()
+    public function testBlacklistedBruteForceIpsCanSuccessfullySetVariousIpsAndRanges()
     {
         $this->settings->blacklistedBruteForceIps->setValue($this->exampleIps);
         $this->assertSame($this->exampleIps, $this->settings->blacklistedBruteForceIps->getValue());
     }
 
-    public function test_blacklistedBruteForceIps_failsWhenContainsInvalidValue()
+    public function testBlacklistedBruteForceIpsFailsWhenContainsInvalidValue()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('SitesManager_ExceptionInvalidIPFormat');
@@ -113,7 +113,7 @@ class SystemSettingsTest extends IntegrationTestCase
     /**
      * @dataProvider getIpListedDataProvider
      */
-    public function test_isBlacklistedIp_isIpInList($expected, $ip)
+    public function testIsBlacklistedIpIsIpInList($expected, $ip)
     {
         $this->settings->blacklistedBruteForceIps->setValue($this->exampleIps);
         $this->assertSame($expected, $this->settings->isBlacklistedIp($ip));
@@ -137,7 +137,7 @@ class SystemSettingsTest extends IntegrationTestCase
         );
     }
 
-    public function test_isBlacklistedIp_doesNotWhitelistAnyIpsByDefault()
+    public function testIsBlacklistedIpDoesNotWhitelistAnyIpsByDefault()
     {
         $this->assertFalse($this->settings->isBlacklistedIp('127.0.0.1'));
     }

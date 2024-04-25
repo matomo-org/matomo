@@ -44,13 +44,13 @@ class SegmentFormatterTest extends IntegrationTestCase
         Fixture::resetTranslations();
     }
 
-    public function test_getHumanReadable_noSegmentGiven_ShouldReturnDefaultSegment()
+    public function testGetHumanReadableNoSegmentGivenShouldReturnDefaultSegment()
     {
         $readable = $this->formatter->getHumanReadable($segment = '', $this->idSite);
         $this->assertSame('All visits', $readable);
     }
 
-    public function test_getHumanReadable_ShouldTranslateAMetric()
+    public function testGetHumanReadableShouldTranslateAMetric()
     {
         $readable = $this->formatter->getHumanReadable($segment = 'visitCount>5', $this->idSite);
         $this->assertSame('Number of visits greater than "5"', $readable);
@@ -59,7 +59,7 @@ class SegmentFormatterTest extends IntegrationTestCase
         $this->assertSame('Number of visits equals "5"', $readable);
     }
 
-    public function test_getHumanReadable_ShouldTranslateADimension()
+    public function testGetHumanReadableShouldTranslateADimension()
     {
         $readable = $this->formatter->getHumanReadable($segment = 'resolution=@1024', $this->idSite);
         $this->assertSame('Resolution contains "1024"', $readable);
@@ -68,7 +68,7 @@ class SegmentFormatterTest extends IntegrationTestCase
         $this->assertSame('Resolution is "1024x768"', $readable);
     }
 
-    public function test_getHumanReadable_ShouldCombineMultipleSegmentDefinitionsWithBooleanOperator()
+    public function testGetHumanReadableShouldCombineMultipleSegmentDefinitionsWithBooleanOperator()
     {
         $readable = $this->formatter->getHumanReadable($segment = 'browserVersion!=1.0;browserEngine=$Trident', $this->idSite);
         $this->assertSame('Browser version is not "1.0" and Browser engine ends with "Trident"', $readable);
@@ -77,7 +77,7 @@ class SegmentFormatterTest extends IntegrationTestCase
         $this->assertSame('Browser version is not "1.0" or Browser engine ends with "Trident"', $readable);
     }
 
-    public function test_getHumanReadable_ShouldHandleAMissingValue()
+    public function testGetHumanReadableShouldHandleAMissingValue()
     {
         $readable = $this->formatter->getHumanReadable($segment = 'browserVersion==', $this->idSite);
         $this->assertSame('Browser version is null or empty', $readable);
@@ -86,13 +86,13 @@ class SegmentFormatterTest extends IntegrationTestCase
         $this->assertSame('Browser version is not null nor empty', $readable);
     }
 
-    public function test_getHumanReadable_ShouldHandleAUrlDecodedSegment()
+    public function testGetHumanReadableShouldHandleAUrlDecodedSegment()
     {
         $readable = $this->formatter->getHumanReadable($segment = 'pageUrl%3D%40piwik%2CvisitId!%3D1', $this->idSite);
         $this->assertSame('Page URL contains "piwik" or Visit ID is not "1"', $readable);
     }
 
-    public function test_getHumanReadable_ShouldThrowAnException_IfTheGivenSegmentNameDoesNotExist()
+    public function testGetHumanReadableShouldThrowAnExceptionIfTheGivenSegmentNameDoesNotExist()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The segment \'noTexisTinG\' does not exist');
@@ -100,7 +100,7 @@ class SegmentFormatterTest extends IntegrationTestCase
         $this->formatter->getHumanReadable($segment = 'noTexisTinG==1.0', $this->idSite);
     }
 
-    public function test_getHumanReadable_ShouldThrowAnException_IfSegmentCannotBeParsedBecauseOfInvalidFormat()
+    public function testGetHumanReadableShouldThrowAnExceptionIfSegmentCannotBeParsedBecauseOfInvalidFormat()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The segment condition \'pageUrl=!1.0\' is not valid.');

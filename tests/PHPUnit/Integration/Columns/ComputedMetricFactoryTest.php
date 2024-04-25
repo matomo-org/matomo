@@ -40,7 +40,7 @@ class ComputedMetricFactoryTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_createComputedMetric_createAvgMetric()
+    public function testCreateComputedMetricCreateAvgMetric()
     {
         $metric = $this->factory->createComputedMetric('bounce_count', 'nb_visits', ComputedMetric::AGGREGATION_AVG);
 
@@ -50,7 +50,7 @@ class ComputedMetricFactoryTest extends IntegrationTestCase
         $this->assertSame('General_Visitors', $metric->getCategoryId());
     }
 
-    public function test_createComputedMetric_createRateMetric()
+    public function testCreateComputedMetricCreateRateMetric()
     {
         $metric = $this->factory->createComputedMetric('bounce_count', 'nb_visits', ComputedMetric::AGGREGATION_RATE);
 

@@ -22,47 +22,47 @@ class SqlTest extends IntegrationTestCase
 {
     private $testQuery = 'ALTER TABLE foobar ADD COLUMN barbaz VARCHAR(1)';
 
-    public function test_toString_shouldAppendSemicolonIfNeeded()
+    public function testToStringShouldAppendSemicolonIfNeeded()
     {
         $sql = $this->sql($this->testQuery);
 
         $this->assertSame($this->testQuery . ';', '' . $sql);
     }
 
-    public function test_toString_shouldNotAppendSemicolonIfNotNeeded()
+    public function testToStringShouldNotAppendSemicolonIfNotNeeded()
     {
         $sql = $this->sql($this->testQuery . ';');
 
         $this->assertSame($this->testQuery . ';', '' . $sql);
     }
 
-    public function test_toString_shouldNotAppendSemicolonIfNoQueryGiven()
+    public function testToStringShouldNotAppendSemicolonIfNoQueryGiven()
     {
         $sql = $this->sql('');
 
         $this->assertSame('', '' . $sql);
     }
 
-    public function test_exec_shouldNotFailWhenNoQueryGiven()
+    public function testExecShouldNotFailWhenNoQueryGiven()
     {
         $sql = $this->sql('');
 
         $this->assertNull($sql->exec());
     }
 
-    public function test_constructor_shouldConvertErrorCodeToArray_IfNeeded()
+    public function testConstructorShouldConvertErrorCodeToArrayIfNeeded()
     {
         $sql = $this->sql($this->testQuery, 1091);
         $this->assertSame(array(1091), $sql->getErrorCodesToIgnore());
     }
 
-    public function test_constructor_shouldNotConvertErrorCodeToArray_IfNotNeeded()
+    public function testConstructorShouldNotConvertErrorCodeToArrayIfNotNeeded()
     {
         $sql = $this->sql($this->testQuery, array(1091, 1061));
         $this->assertSame(array(1091, 1061), $sql->getErrorCodesToIgnore());
     }
 
-    public function test_addErrorCodeToIgnore_addsOneErrorCode()
+    public function testAddErrorCodeToIgnoreAddsOneErrorCode()
     {
         $sql = $this->sql($this->testQuery, array(1091, 1061));
         $sql->addErrorCodeToIgnore(1049);

@@ -41,25 +41,25 @@ class RequestTest extends UnitTestCase
         Cache::setCacheGeneral([]);
     }
 
-    public function test_getCurrentTimestamp_ShouldReturnTheSetTimestamp_IfNoCustomValueGiven()
+    public function testGetCurrentTimestampShouldReturnTheSetTimestampIfNoCustomValueGiven()
     {
         $this->assertSame($this->time, $this->request->getCurrentTimestamp());
     }
 
-    public function test_getCurrentTimestamp_ShouldReturnTheCurrentTimestamp_IfTimestampIsInvalid()
+    public function testGetCurrentTimestampShouldReturnTheCurrentTimestampIfTimestampIsInvalid()
     {
         $request = $this->buildRequest(array('cdt' => '' . 5));
         $request->setIsAuthenticated();
         $this->assertSame($this->time, $request->getCurrentTimestamp());
     }
 
-    public function test_getCurrentTimestamp_ShouldReturnTheCurrentTimestamp_IfRelativeOffsetIsUsed()
+    public function testGetCurrentTimestampShouldReturnTheCurrentTimestampIfRelativeOffsetIsUsed()
     {
         $request = $this->buildRequest(array('cdo' => '10'));
         $this->assertSame($this->time - 10, $request->getCurrentTimestamp());
     }
 
-    public function test_getCurrentTimestamp_ShouldReturnTheCurrentTimestamp_IfRelativeOffsetIsUsedIsTooMuchInPastShouldReturnFalseWhenNotAuthenticated()
+    public function testGetCurrentTimestampShouldReturnTheCurrentTimestampIfRelativeOffsetIsUsedIsTooMuchInPastShouldReturnFalseWhenNotAuthenticated()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Custom timestamp is 99990 seconds old, requires &token_auth');
@@ -67,7 +67,7 @@ class RequestTest extends UnitTestCase
         $this->assertSame($this->time - 10, $request->getCurrentTimestamp());
     }
 
-    public function test_getCurrentTimestamp_CanUseRelativeOffsetAndCustomTimestamp()
+    public function testGetCurrentTimestampCanUseRelativeOffsetAndCustomTimestamp()
     {
         $time = time() - 20;
         $request = $this->buildRequest(array('cdo' => '10', 'cdt' => $time));
@@ -75,7 +75,7 @@ class RequestTest extends UnitTestCase
         $this->assertSame($time - 10, $request->getCurrentTimestamp());
     }
 
-    public function test_getCurrentTimestamp_CanUseNegativeRelativeOffsetAndCustomTimestamp()
+    public function testGetCurrentTimestampCanUseNegativeRelativeOffsetAndCustomTimestamp()
     {
         $time = time() - 20;
         $request = $this->buildRequest(array('cdo' => '-10', 'cdt' => $time));
@@ -83,7 +83,7 @@ class RequestTest extends UnitTestCase
         $this->assertSame($time - 10, $request->getCurrentTimestamp());
     }
 
-    public function test_getCurrentTimestamp_WithCustomTimestamp()
+    public function testGetCurrentTimestampWithCustomTimestamp()
     {
         $time = time() - 20;
         $request = $this->buildRequest(array('cdt' => $time));
@@ -91,19 +91,19 @@ class RequestTest extends UnitTestCase
         $this->assertEquals($time, $request->getCurrentTimestamp());
     }
 
-    public function test_isEmptyRequest_ShouldReturnTrue_InCaseNoParamsSet()
+    public function testIsEmptyRequestShouldReturnTrueInCaseNoParamsSet()
     {
         $request = $this->buildRequest(array());
         $this->assertTrue($request->isEmptyRequest());
     }
 
-    public function test_isEmptyRequest_ShouldReturnTrue_InCaseNullIsSet()
+    public function testIsEmptyRequestShouldReturnTrueInCaseNullIsSet()
     {
         $request = $this->buildRequest(null);
         $this->assertTrue($request->isEmptyRequest());
     }
 
-    public function test_isEmptyRequest_ShouldRecognizeEmptyRequest_EvenIfConstructorAddsAParam()
+    public function testIsEmptyRequestShouldRecognizeEmptyRequestEvenIfConstructorAddsAParam()
     {
         $_SERVER['HTTP_REFERER'] = 'http://www.example.com';
 
@@ -115,53 +115,53 @@ class RequestTest extends UnitTestCase
         unset($_SERVER['HTTP_REFERER']);
     }
 
-    public function test_isEmptyRequest_ShouldReturnFalse_InCaseAtLEastOneParamIssSet()
+    public function testIsEmptyRequestShouldReturnFalseInCaseAtLEastOneParamIssSet()
     {
         $request = $this->buildRequest(array('idsite' => 1));
         $this->assertFalse($request->isEmptyRequest());
     }
 
-    public function test_getTokenAuth_shouldReturnDefaultValue_IfNoneSet()
+    public function testGetTokenAuthShouldReturnDefaultValueIfNoneSet()
     {
         $request = $this->buildRequest(array('idsite' => 1));
         $this->assertFalse($request->getTokenAuth());
     }
 
-    public function test_getTokenAuth_shouldReturnSetTokenAuth()
+    public function testGetTokenAuthShouldReturnSetTokenAuth()
     {
         $request = $this->buildRequestWithToken(array('idsite' => 1), 'myToken');
         $this->assertEquals('myToken', $request->getTokenAuth());
     }
 
-    public function test_getForcedUserId_shouldReturnFalseByDefault()
+    public function testGetForcedUserIdShouldReturnFalseByDefault()
     {
         $this->assertFalse($this->request->getForcedUserId());
     }
 
-    public function test_getForcedUserId_shouldReturnCustomUserId_IfSet()
+    public function testGetForcedUserIdShouldReturnCustomUserIdIfSet()
     {
         $request = $this->buildRequest(array('uid' => 'mytest'));
         $this->assertEquals('mytest', $request->getForcedUserId());
     }
 
-    public function test_getForcedUserId_shouldReturnFalse_IfCustomUserIdIsEmpty()
+    public function testGetForcedUserIdShouldReturnFalseIfCustomUserIdIsEmpty()
     {
         $request = $this->buildRequest(array('uid' => ''));
         $this->assertFalse($request->getForcedUserId());
     }
 
-    public function test_getGoalRevenue_ShouldReturnDefaultValue_IfNothingSet()
+    public function testGetGoalRevenueShouldReturnDefaultValueIfNothingSet()
     {
         $this->assertFalse($this->request->getGoalRevenue(false));
     }
 
-    public function test_getGoalRevenue_ShouldReturnParam_IfSet()
+    public function testGetGoalRevenueShouldReturnParamIfSet()
     {
         $request = $this->buildRequest(array('revenue' => '5.51'));
         $this->assertSame(5.51, $request->getGoalRevenue(false));
     }
 
-    public function test_getUserIdHashed_shouldReturnSetTokenAuth()
+    public function testGetUserIdHashedShouldReturnSetTokenAuth()
     {
         $hash = $this->request->getUserIdHashed(1);
 
@@ -172,24 +172,24 @@ class RequestTest extends UnitTestCase
         $this->assertEquals('da4b9237bacccdf1', $this->request->getUserIdHashed(2));
     }
 
-    public function test_getLocalTime_shouldFallbackToCurrentDate_IfNoParamIsSet()
+    public function testGetLocalTimeShouldFallbackToCurrentDateIfNoParamIsSet()
     {
         $this->assertEquals('02:20:17', $this->request->getLocalTime());
     }
 
-    public function test_getLocalTime_shouldReturnAtLEastOneEvenIfLowerValueIsSet()
+    public function testGetLocalTimeShouldReturnAtLEastOneEvenIfLowerValueIsSet()
     {
         $request = $this->buildRequest(array('h' => 15, 'm' => 3, 's' => 4));
         $this->assertEquals('15:03:04', $request->getLocalTime());
     }
 
-    public function test_getLocalTime_shouldFallbackToPartsOfCurrentDate()
+    public function testGetLocalTimeShouldFallbackToPartsOfCurrentDate()
     {
         $request = $this->buildRequest(array('h' => 5));
         $this->assertEquals('05:20:17', $request->getLocalTime());
     }
 
-    public function test_getParam_shouldThrowException_IfTryingToAccessInvalidParam()
+    public function testGetParamShouldThrowExceptionIfTryingToAccessInvalidParam()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Requested parameter myCustomFaKeParaM is not a known Tracking API Parameter');
@@ -197,26 +197,26 @@ class RequestTest extends UnitTestCase
         $this->request->getParam('myCustomFaKeParaM');
     }
 
-    public function test_getParam_aString()
+    public function testGetParamAString()
     {
         $request = $this->buildRequest(array('url' => 'test'));
         $this->assertEquals('test', $request->getParam('url'));
     }
 
-    public function test_getParam_aInt()
+    public function testGetParamAInt()
     {
         $request = $this->buildRequest(array('new_visit' => '12'));
         $this->assertSame(12, $request->getParam('new_visit'));
     }
 
-    public function test_getPlugins_shouldReturnZeroForAllIfNothingGiven()
+    public function testGetPluginsShouldReturnZeroForAllIfNothingGiven()
     {
         $expected = array_fill(0, 8, 0);
 
         $this->assertEquals($expected, $this->request->getPlugins());
     }
 
-    public function test_getPlugins_shouldReturnAllOneIfAllGiven()
+    public function testGetPluginsShouldReturnAllOneIfAllGiven()
     {
         $plugins = array('fla', 'java', 'qt', 'realp', 'pdf', 'wma', 'ag', 'cookie');
         $request = $this->buildRequest(array_fill_keys($plugins, '1'));
@@ -224,7 +224,7 @@ class RequestTest extends UnitTestCase
         $this->assertEquals(array_fill(0, 8, 1), $request->getPlugins());
     }
 
-    public function test_getPlugins_shouldDetectSome()
+    public function testGetPluginsShouldDetectSome()
     {
         $plugins = array('fla' => 1, 'java', 'qt' => '0', 'realp' => 0, 'ag' => 1, 'cookie');
         $request = $this->buildRequest($plugins);
@@ -233,19 +233,19 @@ class RequestTest extends UnitTestCase
         $this->assertEquals($expected, $request->getPlugins());
     }
 
-    public function test_getUserAgent_ShouldReturnEmptyString_IfNoneIsSet()
+    public function testGetUserAgentShouldReturnEmptyStringIfNoneIsSet()
     {
         $this->assertEquals('', $this->request->getUserAgent());
     }
 
-    public function test_getUserAgent_ShouldDefaultToServerUa_IfPossibleAndNoneIsSet()
+    public function testGetUserAgentShouldDefaultToServerUaIfPossibleAndNoneIsSet()
     {
         $_SERVER['HTTP_USER_AGENT'] = 'MyUserAgent';
         $this->assertSame('MyUserAgent', $this->request->getUserAgent());
         unset($_SERVER['HTTP_USER_AGENT']);
     }
 
-    public function test_getUserAgent_ShouldReturnTheUaFromParams_IfOneIsSet()
+    public function testGetUserAgentShouldReturnTheUaFromParamsIfOneIsSet()
     {
         $request = $this->buildRequest(array('idsite' => '14', 'ua' => 'My Custom UA'));
         $this->assertSame('My Custom UA', $request->getUserAgent());
@@ -280,14 +280,14 @@ class RequestTest extends UnitTestCase
         }
     }
 
-    public function test_makeThirdPartyCookie_ShouldReturnAnInstanceOfCookie()
+    public function testMakeThirdPartyCookieShouldReturnAnInstanceOfCookie()
     {
         $cookie = $this->request->makeThirdPartyCookieUID();
 
         $this->assertTrue($cookie instanceof Cookie);
     }
 
-    public function test_makeThirdPartyCookie_ShouldPreconfigureTheCookieInstance()
+    public function testMakeThirdPartyCookieShouldPreconfigureTheCookieInstance()
     {
         $cookie = $this->request->makeThirdPartyCookieUID();
         $this->assertCookieContains('COOKIE _pk_uid', $cookie);
@@ -300,7 +300,7 @@ class RequestTest extends UnitTestCase
         self::assertStringContainsString($needle, $cookie . '');
     }
 
-    public function test_getLocalTime()
+    public function testGetLocalTime()
     {
         $request = $this->buildRequest(array('h' => '12', 'm' => '34', 's' => '3'));
         $this->assertSame('12:34:03', $request->getLocalTime());
@@ -310,7 +310,7 @@ class RequestTest extends UnitTestCase
         $this->assertSame('23:59:59', $request->getLocalTime());
     }
 
-    public function test_getLocalTime_shouldReturnValidTime_whenTimeWasInvalid()
+    public function testGetLocalTimeShouldReturnValidTimeWhenTimeWasInvalid()
     {
         $request = $this->buildRequest(array('h' => '26', 'm' => '60', 's' => '333'));
         $this->assertSame('00:00:00', $request->getLocalTime());
@@ -319,12 +319,12 @@ class RequestTest extends UnitTestCase
         $this->assertSame('00:00:00', $request->getLocalTime());
     }
 
-    public function test_getIpString_ShouldDefaultToServerAddress()
+    public function testGetIpStringShouldDefaultToServerAddress()
     {
         $this->assertEquals($_SERVER['REMOTE_ADDR'], $this->request->getIpString());
     }
 
-    public function test_getIpString_ShouldDefaultToServerAddress_IfCustomIpIsSetButNotAuthenticated()
+    public function testGetIpStringShouldDefaultToServerAddressIfCustomIpIsSetButNotAuthenticated()
     {
         $this->expectException(InvalidRequestParameterException::class);
         $this->expectExceptionMessage('requires valid token_auth');
@@ -332,35 +332,35 @@ class RequestTest extends UnitTestCase
         $this->assertEquals($_SERVER['REMOTE_ADDR'], $request->getIpString());
     }
 
-    public function test_getIpString_ShouldReturnCustomIp_IfAuthenticated()
+    public function testGetIpStringShouldReturnCustomIpIfAuthenticated()
     {
         $request = $this->buildRequest(array('cip' => '192.192.192.192'));
         $request->setIsAuthenticated();
         $this->assertEquals('192.192.192.192', $request->getIpString());
     }
 
-    public function test_getIp()
+    public function testGetIp()
     {
         $ip = $_SERVER['REMOTE_ADDR'];
         $this->assertEquals(IPUtils::stringToBinaryIP($ip), $this->request->getIp());
     }
 
-    public function test_getCookieName_ShouldReturnConfigValue()
+    public function testGetCookieNameShouldReturnConfigValue()
     {
         $this->assertEquals('_pk_uid', $this->request->getCookieName());
     }
 
-    public function test_getCookieExpire_ShouldReturnConfigValue()
+    public function testGetCookieExpireShouldReturnConfigValue()
     {
         $this->assertEquals($this->time + (60 * 60 * 24 * 393), $this->request->getCookieExpire());
     }
 
-    public function test_getCookiePath_ShouldBeEmptyByDefault()
+    public function testGetCookiePathShouldBeEmptyByDefault()
     {
         $this->assertEquals('', $this->request->getCookiePath());
     }
 
-    public function test_getCookiePath_ShouldReturnConfigValue()
+    public function testGetCookiePathShouldReturnConfigValue()
     {
         $oldPath = TrackerConfig::getConfigValue('cookie_path');
         TrackerConfig::setConfigValue('cookie_path', 'test');

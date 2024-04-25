@@ -35,7 +35,7 @@ class AnonymizationTest extends SystemTestCase
         $this->runApiTests($api, $params);
     }
 
-    public function test_orderIdAnonymized()
+    public function testOrderIdAnonymized()
     {
         $idOrder = Db::fetchOne('SELECT idorder FROM ' . Common::prefixTable('log_conversion'));
         $this->assertSame(40, strlen($idOrder));

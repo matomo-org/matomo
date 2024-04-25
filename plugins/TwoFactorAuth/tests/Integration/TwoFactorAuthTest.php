@@ -70,7 +70,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         unset($_GET['authCode']);
     }
 
-    public function test_onCreateAppSpecificTokenAuth_canAuthenticateWhenUserNotUsesTwoFA()
+    public function testOnCreateAppSpecificTokenAuthCanAuthenticateWhenUserNotUsesTwoFA()
     {
         $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWithout2Fa,
@@ -80,7 +80,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->assertEquals(32, strlen($token));
     }
 
-    public function test_onCreateAppSpecificTokenAuth_failsWhenNotAuthenticatedEvenWhen2FAenabled()
+    public function testOnCreateAppSpecificTokenAuthFailsWhenNotAuthenticatedEvenWhen2FAenabled()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
@@ -92,7 +92,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         ));
     }
 
-    public function test_onCreateAppSpecificTokenAuth_throwsErrorWhenMissingTokenWhenUsing2FaAndAuthenticatedCorrectly()
+    public function testOnCreateAppSpecificTokenAuthThrowsErrorWhenMissingTokenWhenUsing2FaAndAuthenticatedCorrectly()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('TwoFactorAuth_MissingAuthCodeAPI');
@@ -105,7 +105,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         ));
     }
 
-    public function test_onCreateAppSpecificTokenAuth_throwsErrorWhenInvalidTokenWhenUsing2FaAndAuthenticatedCorrectly()
+    public function testOnCreateAppSpecificTokenAuthThrowsErrorWhenInvalidTokenWhenUsing2FaAndAuthenticatedCorrectly()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('TwoFactorAuth_InvalidAuthCode');
@@ -118,7 +118,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         ));
     }
 
-    public function test_onCreateAppSpecificTokenAuth_returnsCorrectTokenWhenProvidingCorrectAuthTokenOnAuthentication()
+    public function testOnCreateAppSpecificTokenAuthReturnsCorrectTokenWhenProvidingCorrectAuthTokenOnAuthentication()
     {
         $_GET['authCode'] = $this->generateValidAuthCode($this->user2faSecret);
         $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
@@ -129,7 +129,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->assertEquals(32, strlen($token));
     }
 
-    public function test_onDeleteUser_RemovesAllRecoveryCodesWhenUsingTwoFa()
+    public function testOnDeleteUserRemovesAllRecoveryCodesWhenUsingTwoFa()
     {
         $this->assertNotEmpty($this->dao->getAllRecoveryCodesForLogin($this->userWith2Fa));
         Request::processRequest('UsersManager.deleteUser', array(
@@ -138,7 +138,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->assertEmpty($this->dao->getAllRecoveryCodesForLogin($this->userWith2Fa));
     }
 
-    public function test_onDeleteUser_DoesNotFailToDeleteUserNotUsingTwoFa()
+    public function testOnDeleteUserDoesNotFailToDeleteUserNotUsingTwoFa()
     {
         $this->expectNotToPerformAssertions();
         Request::processRequest('UsersManager.deleteUser', array(

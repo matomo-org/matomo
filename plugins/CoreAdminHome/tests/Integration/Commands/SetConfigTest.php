@@ -43,7 +43,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         $this->makeLocalConfigWritable();
     }
 
-    public function test_Command_SucceedsWhenOptionsUsed()
+    public function testCommandSucceedsWhenOptionsUsed()
     {
         $code = $this->applicationTester->run(array(
             'command' => 'config:set',
@@ -64,7 +64,7 @@ class SetConfigTest extends ConsoleCommandTestCase
     /**
      * @dataProvider getInvalidArgumentsForTest
      */
-    public function test_Command_FailsWhenInvalidArgumentsUsed($invalidArgument)
+    public function testCommandFailsWhenInvalidArgumentsUsed($invalidArgument)
     {
         $code = $this->applicationTester->run(array(
             'command' => 'config:set',
@@ -87,7 +87,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         );
     }
 
-    public function test_Command_FailsWithMissingFilePermissionException_whenConfigFileNotWritable()
+    public function testCommandFailsWithMissingFilePermissionExceptionWhenConfigFileNotWritable()
     {
         $this->makeLocalConfigNotWritable();
 
@@ -103,7 +103,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         self::assertStringContainsString('[Piwik\Exception\MissingFilePermissionException]', $this->applicationTester->getDisplay());
     }
 
-    public function test_Command_SucceedsWhenArgumentsUsed()
+    public function testCommandSucceedsWhenArgumentsUsed()
     {
         $config = Config::getInstance();
         $config->General['trusted_hosts'] = array('www.trustedhost.com');
@@ -138,7 +138,7 @@ class SetConfigTest extends ConsoleCommandTestCase
     /**
      * @dataProvider getOptionsForSettingValueToZeroTests
      */
-    public function test_Command_SucceedsWhenSettingValueToZero($options)
+    public function testCommandSucceedsWhenSettingValueToZero($options)
     {
         $config = Config::getInstance();
         $config->Tracker['debug'] = 1;

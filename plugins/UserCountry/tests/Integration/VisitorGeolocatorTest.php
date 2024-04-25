@@ -46,7 +46,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         LocationProvider::$providers[] = new MockLocationProvider();
     }
 
-    public function test_getLocation_shouldReturnLocationForProvider_IfLocationIsSetForCurrentProvider()
+    public function testGetLocationShouldReturnLocationForProviderIfLocationIsSetForCurrentProvider()
     {
         $location = array(
             'city' => 'Wroclaw',
@@ -66,7 +66,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         );
     }
 
-    public function test_getLocation_shouldReturnLocationForProvider_IfLocationCountryCodeIsNotSetShouldSetAsxx()
+    public function testGetLocationShouldReturnLocationForProviderIfLocationCountryCodeIsNotSetShouldSetAsxx()
     {
         $location = array(
             'city' => 'Wroclaw'
@@ -90,7 +90,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         );
     }
 
-    public function test_getLocation_shouldReturnLocationForProviderAndReadFromCacheIfIPIsNotChanged()
+    public function testGetLocationShouldReturnLocationForProviderAndReadFromCacheIfIPIsNotChanged()
     {
         $locations = array(
             'pl' => array(
@@ -129,7 +129,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         );
     }
 
-    public function test_get_shouldReturnDefaultProvider_IfCurrentProviderReturnFalse()
+    public function testGetShouldReturnDefaultProviderIfCurrentProviderReturnFalse()
     {
         Cache::setCacheGeneral(array('currentLocationProviderId' => 'nonexistant'));
         $geolocator = new VisitorGeolocator();
@@ -137,7 +137,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         $this->assertEquals(LocationProvider\DefaultProvider::ID, $geolocator->getProvider()->getId());
     }
 
-    public function test_get_shouldReturnCurrentProvider_IfCurrentProviderIsSet()
+    public function testGetShouldReturnCurrentProviderIfCurrentProviderIsSet()
     {
         Cache::setCacheGeneral(array('currentLocationProviderId' => MockLocationProvider::ID));
         $geolocator = new VisitorGeolocator();
@@ -225,7 +225,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     /**
      * @dataProvider getDataForAttributeExistingVisitTests
      */
-    public function test_attributeExistingVisit_CorrectlySetsLocationProperties_AndReturnsCorrectResult(
+    public function testAttributeExistingVisitCorrectlySetsLocationPropertiesAndReturnsCorrectResult(
         $mockLocation,
         $expectedVisitProperties,
         $visitProperties = array(),
@@ -248,7 +248,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         $this->assertEqualsWithDelta(array($expectedVisitProperties, $expectedVisitProperties), $conversions, $delta = 0.001);
     }
 
-    public function test_attributeExistingVisit_ReturnsNull_AndSkipsAttribution_IfIdVisitMissingFromInput()
+    public function testAttributeExistingVisitReturnsNullAndSkipsAttributionIfIdVisitMissingFromInput()
     {
         $mockLocationProvider = $this->getProviderMock();
         $geolocator = new VisitorGeolocator($mockLocationProvider);
@@ -258,7 +258,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         $this->assertNull($result);
     }
 
-    public function test_attributeExistingVisit_ReturnsNull_AndSkipsAttribution_IfIdVisitPresent_AndLocationIpMissingFromInput()
+    public function testAttributeExistingVisitReturnsNullAndSkipsAttributionIfIdVisitPresentAndLocationIpMissingFromInput()
     {
         $mockLocationProvider = $this->getProviderMock();
         $geolocator = new VisitorGeolocator($mockLocationProvider);
@@ -268,7 +268,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         $this->assertNull($result);
     }
 
-    public function test_reattributeVisitLogs_ReattributesVisitsInDateRangeAndFromSite_AndCallsCallbackWithEveryProcessedRow()
+    public function testReattributeVisitLogsReattributesVisitsInDateRangeAndFromSiteAndCallsCallbackWithEveryProcessedRow()
     {
         foreach (array(1, 2) as $idSite) {
             foreach (array('2012-01-01', '2012-01-02', '2012-01-03', '2012-01-04') as $date) {

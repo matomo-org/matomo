@@ -25,7 +25,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
         Manager::getInstance()->loadPlugins(array('API'));
     }
 
-    public function test_getResponseException_shouldFormatExceptionDependingOnFormatAndAddDebugHelp()
+    public function testGetResponseExceptionShouldFormatExceptionDependingOnFormatAndAddDebugHelp()
     {
         $builder = new ResponseBuilder('xml', array());
         $response = $builder->getResponseException(new Exception('My Message'));
@@ -38,7 +38,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_getResponse_shouldTreatAsSuccessIfNoValue()
+    public function testGetResponseShouldTreatAsSuccessIfNoValue()
     {
         $builder = new ResponseBuilder('xml', array());
         $response = $builder->getResponse(null);
@@ -49,7 +49,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_getResponse_shouldNotReturnAnythingIfContentWasOutput()
+    public function testGetResponseShouldNotReturnAnythingIfContentWasOutput()
     {
         echo 5;
         $builder = new ResponseBuilder('xml', array());
@@ -59,7 +59,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
         ob_clean();
     }
 
-    public function test_getResponse_shouldHandleScalar()
+    public function testGetResponseShouldHandleScalar()
     {
         $builder = new ResponseBuilder('xml', array());
 
@@ -76,7 +76,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
 <result>string</result>', $response);
     }
 
-    public function test_getResponse_shouldHandleDataTable()
+    public function testGetResponseShouldHandleDataTable()
     {
         $builder = new ResponseBuilder('xml', array());
 
@@ -93,7 +93,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_getResponse_shouldHandleObject()
+    public function testGetResponseShouldHandleObject()
     {
         $object   = new \stdClass();
 
@@ -109,7 +109,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($object, $response);
     }
 
-    public function test_getResponse_shouldHandleResource()
+    public function testGetResponseShouldHandleResource()
     {
         $resource = curl_init();
 
@@ -125,7 +125,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($resource, $response);
     }
 
-    public function test_getResponse_shouldHandleArray()
+    public function testGetResponseShouldHandleArray()
     {
         $builder  = new ResponseBuilder('xml', array());
         $response = $builder->getResponse(array(1, 2, 3, 'string', 10));
@@ -139,7 +139,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_getResponse_shouldHandleAssociativeArray()
+    public function testGetResponseShouldHandleAssociativeArray()
     {
         $builder = new ResponseBuilder('xml', array());
         $response = $builder->getResponse(array('test' => 'two', 'test2' => 'three'));
@@ -152,7 +152,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_getResponse_shouldHandleIndexedAssociativeArray()
+    public function testGetResponseShouldHandleIndexedAssociativeArray()
     {
         $builder  = new ResponseBuilder('xml', array());
         $response = $builder->getResponse(array(array('test' => 'two', 'test2' => 'three')));
@@ -165,7 +165,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_getResponse_shouldBeAbleToApplyFilterOnIndexedAssociativeArray()
+    public function testGetResponseShouldBeAbleToApplyFilterOnIndexedAssociativeArray()
     {
         $input = array();
         for ($i = 0; $i < 10; $i++) {
@@ -184,32 +184,32 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array('test' => 'two0'), array_shift($response));
     }
 
-    public function test_getResponse_shouldApplyFilterLimitOnIndexedArray()
+    public function testGetResponseShouldApplyFilterLimitOnIndexedArray()
     {
         $input    = range(0, 100);
         $expected = range(0, 14);
         $this->assertLimitedResponseEquals($expected, $input, $limit = 15, $offset = null);
     }
 
-    public function test_getResponse_shouldReturnEmptyArrayOnIndexedArray_IfOffsetIsTooHigh()
+    public function testGetResponseShouldReturnEmptyArrayOnIndexedArrayIfOffsetIsTooHigh()
     {
         $input = range(0, 100);
         $this->assertLimitedResponseEquals(array(), $input, $limit = 15, $offset = 200);
     }
 
-    public function test_getResponse_shouldReturnAllOnIndexedArray_IfLimitIsTooHigh()
+    public function testGetResponseShouldReturnAllOnIndexedArrayIfLimitIsTooHigh()
     {
         $input = range(0, 100);
         $this->assertLimitedResponseEquals($input, $input, $limit = 200, $offset = null);
     }
 
-    public function test_getResponse_shouldNotApplyFilterLimitOnIndexedArrayIfParamNotSet()
+    public function testGetResponseShouldNotApplyFilterLimitOnIndexedArrayIfParamNotSet()
     {
         $input = range(0, 100);
         $this->assertLimitedResponseEquals($input, $input, $limit = null, $offset = null);
     }
 
-    public function test_getResponse_shouldApplyLimitOnIndexedArray_IfLimitIsDefaultFilterLimitValue()
+    public function testGetResponseShouldApplyLimitOnIndexedArrayIfLimitIsDefaultFilterLimitValue()
     {
         $limit    = Config::getInstance()->General['API_datatable_default_limit'];
         $input    = range(0, 2000);
@@ -235,7 +235,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedResponse, $response);
     }
 
-    public function test_getResponse_shouldAlwaysApplyDefaultFilterLimit_EvenWhenResponseIsAnArray()
+    public function testGetResponseShouldAlwaysApplyDefaultFilterLimitEvenWhenResponseIsAnArray()
     {
         $input = range(0, 200);
         $limit = Config::getInstance()->General['API_datatable_default_limit'];
@@ -250,7 +250,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(range(0, 99), json_decode($response, true));
     }
 
-    public function test_getResponse_shouldApplyLimit_IfLimitIsSetBySystemButDifferentToDefaultLimit()
+    public function testGetResponseShouldApplyLimitIfLimitIsSetBySystemButDifferentToDefaultLimit()
     {
         $input = range(0, 200);
         $defaultLimit = Config::getInstance()->General['API_datatable_default_limit'];
@@ -266,40 +266,40 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(range(0, $limit - 1), json_decode($response, true));
     }
 
-    public function test_getResponse_shouldApplyFilterOffsetOnIndexedArray_IfFilterLimitIsGiven()
+    public function testGetResponseShouldApplyFilterOffsetOnIndexedArrayIfFilterLimitIsGiven()
     {
         $input    = range(0, 100);
         $expected = range(30, 44);
         $this->assertLimitedResponseEquals($expected, $input, $limit = 15, $offset = 30);
     }
 
-    public function test_getResponse_shouldApplyFilterOffsetOnIndexedArray_IfNoFilterLimitIsSetButOffset()
+    public function testGetResponseShouldApplyFilterOffsetOnIndexedArrayIfNoFilterLimitIsSetButOffset()
     {
         $input = range(0, 100);
         $expected = range(30, 100);
         $this->assertLimitedResponseEquals($expected, $input, $limit = null, $offset = 30);
     }
 
-    public function test_getResponse_shouldReturnEmptyArrayOnIndexedArray_IfFilterLimitIsZero()
+    public function testGetResponseShouldReturnEmptyArrayOnIndexedArrayIfFilterLimitIsZero()
     {
         $input = range(0, 100);
         $this->assertLimitedResponseEquals($expected = array(), $input, $limit = 0, $offset = 30);
     }
 
-    public function test_getResponse_shouldApplyFilterOffsetOnIndexedArray_IfFilterLimitIsMinusOne()
+    public function testGetResponseShouldApplyFilterOffsetOnIndexedArrayIfFilterLimitIsMinusOne()
     {
         $input = range(0, 100);
         $expected = range(30, 100);
         $this->assertLimitedResponseEquals($expected, $input, $limit = -1, $offset = 30);
     }
 
-    public function test_getResponse_shouldReturnAllOnIndexedArray_IfFilterLimitIsMinusOne()
+    public function testGetResponseShouldReturnAllOnIndexedArrayIfFilterLimitIsMinusOne()
     {
         $input = range(0, 100);
         $this->assertLimitedResponseEquals($input, $input, $limit = -1, $offset = null);
     }
 
-    public function test_getResponse_shouldApplyPattern_IfFilterColumnAndPatternIsGiven()
+    public function testGetResponseShouldApplyPatternIfFilterColumnAndPatternIsGiven()
     {
         $input = array(
             0 => array('name' => 'google', 'url' => 'www.google.com'),
@@ -325,7 +325,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, json_decode($response, true));
     }
 
-    public function test_getResponse_shouldBeAbleToApplyColumFilterAndLimitFilterOnIndexedAssociativeArray()
+    public function testGetResponseShouldBeAbleToApplyColumFilterAndLimitFilterOnIndexedAssociativeArray()
     {
         $input = array();
         for ($i = 0; $i < 10; $i++) {

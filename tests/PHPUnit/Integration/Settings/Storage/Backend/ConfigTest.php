@@ -55,7 +55,7 @@ class ConfigTest extends IntegrationTestCase
         return new Config($plugin);
     }
 
-    public function test_construct_shouldThrowAnException_IfSectionIsEmpty()
+    public function testConstructShouldThrowAnExceptionIfSectionIsEmpty()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('No section given');
@@ -63,21 +63,21 @@ class ConfigTest extends IntegrationTestCase
         $this->createSettings('');
     }
 
-    public function test_load_shouldNotHaveAnySettingsByDefault()
+    public function testLoadShouldNotHaveAnySettingsByDefault()
     {
         $this->assertSame(array(), $this->backend1->load());
         $this->assertSame(array(), $this->backend2->load());
         $this->assertSame(array(), $this->backend3->load());
     }
 
-    public function test_getStorageId_shouldIncludePluginNameAndLogin()
+    public function testGetStorageIdShouldIncludePluginNameAndLogin()
     {
         $this->assertSame('Config_MySection1', $this->backend1->getStorageId());
         $this->assertSame('Config_MySection2', $this->backend2->getStorageId());
         $this->assertSame('Config_MySection3', $this->backend3->getStorageId());
     }
 
-    public function test_save_ShouldOnlySaveForSpecificPluginAndIdSite()
+    public function testSaveShouldOnlySaveForSpecificPluginAndIdSite()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => 'val');
 
@@ -102,7 +102,7 @@ class ConfigTest extends IntegrationTestCase
         $this->assertSame($value3, $this->backend3->load());
     }
 
-    public function test_delete_shouldDeleteAllValuesForGivenSection()
+    public function testDeleteShouldDeleteAllValuesForGivenSection()
     {
         $values = array();
         foreach ($this->allBackends as $index => $backend) {
@@ -122,7 +122,7 @@ class ConfigTest extends IntegrationTestCase
         }
     }
 
-    public function test_save_DuplicateValuesShouldBeOverwritten()
+    public function testSaveDuplicateValuesShouldBeOverwritten()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => 'val');
 
@@ -136,7 +136,7 @@ class ConfigTest extends IntegrationTestCase
         $this->assertEquals($value2, $this->backend1->load());
     }
 
-    public function test_save_NoLongerExistingValues_shouldNotBeRemoved()
+    public function testSaveNoLongerExistingValuesShouldNotBeRemoved()
     {
         $value = $this->saveValueForAllBackends();
 
@@ -157,7 +157,7 @@ class ConfigTest extends IntegrationTestCase
         }
     }
 
-    public function test_save_load_ShouldBeAbleToSaveAndLoadArrayValues()
+    public function testSaveLoadShouldBeAbleToSaveAndLoadArrayValues()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => array('val', 'val7', 'val5'));
 
@@ -165,7 +165,7 @@ class ConfigTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backend3->load());
     }
 
-    public function test_save_load_ShouldBeAbleToSaveAndLoadArrayValues_OnlyOneKey()
+    public function testSaveLoadShouldBeAbleToSaveAndLoadArrayValuesOnlyOneKey()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => array('val'));
 
@@ -176,7 +176,7 @@ class ConfigTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backend3->load());
     }
 
-    public function test_save_ShouldBeAbleToSaveBoolValues()
+    public function testSaveShouldBeAbleToSaveBoolValues()
     {
         $value1 = array('Mysetting1' => true, 'Mysetting2' => array('val', 'val7', false, true, 'val5'));
 
@@ -186,7 +186,7 @@ class ConfigTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backend3->load());
     }
 
-    public function test_save_ShouldNotIgnoreNullValues()
+    public function testSaveShouldNotIgnoreNullValues()
     {
         $value1 = array('Mysetting1' => true, 'MySetting3' => null, 'Mysetting2' => array('val', null, true, 'val5'));
 

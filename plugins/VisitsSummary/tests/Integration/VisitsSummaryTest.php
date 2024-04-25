@@ -53,7 +53,7 @@ class VisitsSummaryTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_enrichProcessedReportIfVisitsSummaryGet_shouldNotRemoveUsers_IfSomeWereTracked()
+    public function testEnrichProcessedReportIfVisitsSummaryGetShouldNotRemoveUsersIfSomeWereTracked()
     {
         $this->trackPageviewsWithUsers();
 
@@ -62,7 +62,7 @@ class VisitsSummaryTest extends IntegrationTestCase
         $this->assertUsersNotRemovedFromProcessedReport($response, $expectedUsers = null, $minExpectedUsers = 1);
     }
 
-    public function test_enrichProcessedReportIfVisitsSummaryGet_shouldNotRemoveUsers_IfNoneWereTrackedThatDay_ButThatMonth()
+    public function testEnrichProcessedReportIfVisitsSummaryGetShouldNotRemoveUsersIfNoneWereTrackedThatDayButThatMonth()
     {
         $this->date = '2014-04-04';
         $this->trackPageviewsWithUsers();
@@ -75,7 +75,7 @@ class VisitsSummaryTest extends IntegrationTestCase
         $this->assertUsersNotRemovedFromProcessedReport($response, $expectedUsers = 0);
     }
 
-    public function test_isUsedInAtLeastOneSite_shouldRemoveUsers_IfNoneWereTracked()
+    public function testIsUsedInAtLeastOneSiteShouldRemoveUsersIfNoneWereTracked()
     {
         $this->trackPageviewsWithoutUsers();
 

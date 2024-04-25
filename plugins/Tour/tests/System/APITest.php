@@ -48,7 +48,7 @@ class APITest extends SystemTestCase
         return $apiToTest;
     }
 
-    public function test_skipStep()
+    public function testSkipStep()
     {
         $steps = Request::processRequest('Tour.getChallenges');
 
@@ -62,7 +62,7 @@ class APITest extends SystemTestCase
         $this->assertTrue($steps[1]['isSkipped']);
     }
 
-    public function test_skipStep_alreadyCompleted()
+    public function testSkipStepAlreadyCompleted()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Challenge already completed');
@@ -70,7 +70,7 @@ class APITest extends SystemTestCase
         Request::processRequest('Tour.skipChallenge', array('id' => 'track_data'));
     }
 
-    public function test_skipStep_invalid()
+    public function testSkipStepInvalid()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Challenge not found');
@@ -78,7 +78,7 @@ class APITest extends SystemTestCase
         Request::processRequest('Tour.skipChallenge', array('id' => 'foobarbaz'));
     }
 
-    public function test_getLevel_WhenNothingCompleted()
+    public function testGetLevelWhenNothingCompleted()
     {
         Piwik::addAction('API.Tour.getChallenges.end', function (&$challenges) {
             foreach ($challenges as &$challenge) {

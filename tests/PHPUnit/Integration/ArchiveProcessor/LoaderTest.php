@@ -46,7 +46,7 @@ class LoaderTest extends IntegrationTestCase
         Fixture::createWebsite('2012-02-03 00:00:00');
     }
 
-    public function test_pluginOnlyArchivingDoesNotRelaunchChildArchives()
+    public function testPluginOnlyArchivingDoesNotRelaunchChildArchives()
     {
         $_GET['pluginOnly'] = 1;
         $_GET['trigger'] = 'archivephp';
@@ -133,7 +133,7 @@ class LoaderTest extends IntegrationTestCase
         ], $existingArchives);
     }
 
-    public function test_pluginOnlyArchivingDoesNotRelaunchChildArchives_whenReusingAllPluginsArchives()
+    public function testPluginOnlyArchivingDoesNotRelaunchChildArchivesWhenReusingAllPluginsArchives()
     {
         // not setting pluginOnly=1 to ensure all plugins archive is created for the day w/ visits
         $_GET['trigger'] = 'archivephp';
@@ -313,7 +313,7 @@ class LoaderTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForArchiving
      */
-    public function test_pluginOnlyArchivingCreatesAndReusesCorrectArchives($archiveData, $params, $expectedArchives, $archiveTwice)
+    public function testPluginOnlyArchivingCreatesAndReusesCorrectArchives($archiveData, $params, $expectedArchives, $archiveTwice)
     {
         $_GET['pluginOnly'] = 1;
         $_GET['trigger'] = 'archivephp';
@@ -1055,7 +1055,7 @@ class LoaderTest extends IntegrationTestCase
         ];
     }
 
-    public function test_loadExistingArchiveIdFromDb_returnsFalsesIfNoArchiveFound()
+    public function testLoadExistingArchiveIdFromDbReturnsFalsesIfNoArchiveFound()
     {
         $params = new Parameters(new Site(1), Factory::build('day', '2015-03-03'), new Segment('', [1]));
         $loader = new Loader($params);
@@ -1084,7 +1084,7 @@ class LoaderTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForLoadExistingArchiveIdFromDbDebugConfig
      */
-    public function test_loadExistingArchiveIdFromDb_returnsFalsesPeriodIsForcedToArchive($periodType, $configSetting)
+    public function testLoadExistingArchiveIdFromDbReturnsFalsesPeriodIsForcedToArchive($periodType, $configSetting)
     {
         $date = $periodType == 'range' ? '2015-03-03,2015-03-04' : '2015-03-03';
         $params = new Parameters(new Site(1), Factory::build($periodType, $date), new Segment('', [1]));
@@ -1150,7 +1150,7 @@ class LoaderTest extends IntegrationTestCase
         ];
     }
 
-    public function test_loadExistingArchiveIdFromDb_returnsArchiveIfArchiveInThePast()
+    public function testLoadExistingArchiveIdFromDbReturnsArchiveIfArchiveInThePast()
     {
         $params = new Parameters(new Site(1), Factory::build('month', '2015-03-03'), new Segment('', [1]));
         $this->insertArchive($params);
@@ -1180,7 +1180,7 @@ class LoaderTest extends IntegrationTestCase
         ], $archiveInfo);
     }
 
-    public function test_loadExistingArchiveIdFromDb_returnsArchiveIfForACurrentPeriod_AndNewEnough()
+    public function testLoadExistingArchiveIdFromDbReturnsArchiveIfForACurrentPeriodAndNewEnough()
     {
         $params = new Parameters(new Site(1), Factory::build('day', 'now'), new Segment('', [1]));
         $this->insertArchive($params, $tsArchived = time() - 1);
@@ -1210,7 +1210,7 @@ class LoaderTest extends IntegrationTestCase
         ], $archiveInfo);
     }
 
-    public function test_loadExistingArchiveIdFromDb_returnsNoArchiveIfForACurrentPeriod_AndNoneAreNewEnough()
+    public function testLoadExistingArchiveIdFromDbReturnsNoArchiveIfForACurrentPeriodAndNoneAreNewEnough()
     {
         $params = new Parameters(new Site(1), Factory::build('month', 'now'), new Segment('', [1]));
         $this->insertArchive($params, $tsArchived = time() - 3 * 3600);
@@ -1243,7 +1243,7 @@ class LoaderTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForGetReportsToInvalidate
      */
-    public function test_getReportsToInvalidate_returnsCorrectReportsToInvalidate($rememberedReports, $idSite, $period, $date, $segment, $expected)
+    public function testGetReportsToInvalidateReturnsCorrectReportsToInvalidate($rememberedReports, $idSite, $period, $date, $segment, $expected)
     {
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
         foreach ($rememberedReports as $entry) {
@@ -1339,7 +1339,7 @@ class LoaderTest extends IntegrationTestCase
         ];
     }
 
-    public function test_canSkipThisArchive_returnsFalseIfSiteIsNotUsingTracker()
+    public function testCanSkipThisArchiveReturnsFalseIfSiteIsNotUsingTracker()
     {
         Piwik::addAction('CronArchive.getIdSitesNotUsingTracker', function (&$idSites) {
             $idSites[] = 1;
@@ -1351,7 +1351,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipThisArchive());
     }
 
-    public function test_canSkipThisArchive_returnsFalseIfSiteHasVisitWithinTimeframe_ForPeriodDay()
+    public function testCanSkipThisArchiveReturnsFalseIfSiteHasVisitWithinTimeframeForPeriodDay()
     {
         $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('', []));
         $loader = new Loader($params);
@@ -1363,7 +1363,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipThisArchive());
     }
 
-    public function test_canSkipThisArchive_returnsFalseIfSiteHasVisitWithinTimeframe_ForPeriodYear()
+    public function testCanSkipThisArchiveReturnsFalseIfSiteHasVisitWithinTimeframeForPeriodYear()
     {
         $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('', []));
         $loader = new Loader($params);
@@ -1375,7 +1375,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipThisArchive());
     }
 
-    public function test_canSkipThisArchive_returnsFalseIfSiteHasChildArchiveWithinPeriod_ForPeriodWeek()
+    public function testCanSkipThisArchiveReturnsFalseIfSiteHasChildArchiveWithinPeriodForPeriodWeek()
     {
         $params = new Parameters(new Site(1), Factory::build('week', '2016-02-03'), new Segment('browserCode==ch', []));
         $loader = new Loader($params);
@@ -1389,7 +1389,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipThisArchive());
     }
 
-    public function test_canSkipThisArchive_returnsFalseIfSiteHasChildArchiveWithinPeriod_ForPeriodMonth_WhenWeekChildSpansTwoMonths()
+    public function testCanSkipThisArchiveReturnsFalseIfSiteHasChildArchiveWithinPeriodForPeriodMonthWhenWeekChildSpansTwoMonths()
     {
         $params = new Parameters(new Site(1), Factory::build('month', '2016-02-01'), new Segment('browserCode==ch', []));
         $loader = new Loader($params);
@@ -1403,7 +1403,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipThisArchive());
     }
 
-    public function test_canSkipThisArchive_returnsFalseIfSiteHasChildArchiveWithinPeriod_ForPeriodYear()
+    public function testCanSkipThisArchiveReturnsFalseIfSiteHasChildArchiveWithinPeriodForPeriodYear()
     {
         $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('browserCode==ch', []));
         $loader = new Loader($params);
@@ -1417,7 +1417,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipThisArchive());
     }
 
-    public function test_canSkipThisArchive_returnsTrueIfThereAreNoVisits_NoChildArchives_AndSiteIsUsingTheTracker()
+    public function testCanSkipThisArchiveReturnsTrueIfThereAreNoVisitsNoChildArchivesAndSiteIsUsingTheTracker()
     {
         $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('', []));
         $loader = new Loader($params);
@@ -1431,7 +1431,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertTrue($loader->canSkipThisArchive());
     }
 
-    public function test_canSkipThisArchive_ignoresSegments()
+    public function testCanSkipThisArchiveIgnoresSegments()
     {
         $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('browserCode==ch', []));
         $loader = new Loader($params);
@@ -1443,7 +1443,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipThisArchive());
     }
 
-    public function test_canSkipArchiveForSegment_returnsFalseIfNoSegments()
+    public function testCanSkipArchiveForSegmentReturnsFalseIfNoSegments()
     {
         $params = new Parameters(new Site(1), Factory::build('year', '2016-02-03'), new Segment('', []));
         $loader = new Loader($params);
@@ -1451,7 +1451,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipArchiveForSegment());
     }
 
-    public function test_canSkipArchiveForSegment_returnsFalseIfPeriodEndLaterThanSegmentArchiveStartDate()
+    public function testCanSkipArchiveForSegmentReturnsFalseIfPeriodEndLaterThanSegmentArchiveStartDate()
     {
         Rules::setBrowserTriggerArchiving(false);
         $definition = 'browserCode==ch';
@@ -1463,7 +1463,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipArchiveForSegment());
     }
 
-    public function test_canSkipArchiveForSegment_returnsTrueIfPeriodEndEarlierThanSegmentArchiveStartDate()
+    public function testCanSkipArchiveForSegmentReturnsTrueIfPeriodEndEarlierThanSegmentArchiveStartDate()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -1475,7 +1475,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertTrue($loader->canSkipArchiveForSegment());
     }
 
-    public function test_canSkipArchiveForSegment_returnsFalseIfHasInvalidationForThePeriod()
+    public function testCanSkipArchiveForSegmentReturnsFalseIfHasInvalidationForThePeriod()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -1495,7 +1495,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipArchiveForSegment());
     }
 
-    public function test_canSkipArchiveForSegment_returnsTrueIfHasInvalidationForReportButWeDonSpecifyReport()
+    public function testCanSkipArchiveForSegmentReturnsTrueIfHasInvalidationForReportButWeDonSpecifyReport()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -1515,7 +1515,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertTrue($loader->canSkipArchiveForSegment());
     }
 
-    public function test_canSkipArchiveForSegment_returnsFalseIfHasInvalidationForReportWeAskedFor()
+    public function testCanSkipArchiveForSegmentReturnsFalseIfHasInvalidationForReportWeAskedFor()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -1536,7 +1536,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipArchiveForSegment());
     }
 
-    public function test_canSkipArchiveForSegment_returnsTrueIfHasNoInvalidationForReportWeAskedFor()
+    public function testCanSkipArchiveForSegmentReturnsTrueIfHasNoInvalidationForReportWeAskedFor()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -1557,7 +1557,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertTrue($loader->canSkipArchiveForSegment());
     }
 
-    public function test_canSkipArchiveForSegment_returnTrueIfPluginIsDisabled()
+    public function testCanSkipArchiveForSegmentReturnTrueIfPluginIsDisabled()
     {
         Rules::setBrowserTriggerArchiving(false);
         $config = Config::getInstance();
@@ -1579,7 +1579,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertTrue($loader->canSkipArchiveForSegment());
     }
 
-    public function test_canSkipArchiveForSegment_returnTrueIfPluginIsDisabledBySiteId()
+    public function testCanSkipArchiveForSegmentReturnTrueIfPluginIsDisabledBySiteId()
     {
         Rules::setBrowserTriggerArchiving(false);
         Config::setSetting('General_1', 'disable_archiving_segment_for_plugins', 'testPlugin');
@@ -1607,7 +1607,7 @@ class LoaderTest extends IntegrationTestCase
     }
 
 
-    public function test_forcePluginArchiving_createsPluginSpecificArchive()
+    public function testForcePluginArchivingCreatesPluginSpecificArchive()
     {
         $_GET['trigger'] = 'archivephp';
         $_GET['pluginOnly'] = '1';

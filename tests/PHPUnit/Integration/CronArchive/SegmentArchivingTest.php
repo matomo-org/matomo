@@ -30,7 +30,7 @@ class SegmentArchivingTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForGetReArchiveSegmentStartDate
      */
-    public function test_getReArchiveSegmentStartDate($processNewSegmentFrom, $segmentInfo, $expected)
+    public function testGetReArchiveSegmentStartDate($processNewSegmentFrom, $segmentInfo, $expected)
     {
         Date::$now = strtotime('2020-10-12 13:45:00');
 
@@ -148,20 +148,20 @@ class SegmentArchivingTest extends IntegrationTestCase
         ];
     }
 
-    public function test_getReArchiveSegmentStartDate_whenSiteCreationDateIsLater()
+    public function testGetReArchiveSegmentStartDateWhenSiteCreationDateIsLater()
     {
         $segmentInfo = ['ts_created' => '2019-05-03 00:00:00', 'enable_only_idsite' => 1];
-        $this->test_getReArchiveSegmentStartDate(SegmentArchiving::BEGINNING_OF_TIME, $segmentInfo, '2020-01-03');
+        $this->testGetReArchiveSegmentStartDate(SegmentArchiving::BEGINNING_OF_TIME, $segmentInfo, '2020-01-03');
     }
 
-    public function test_getReArchiveSegmentStartDate_whenEarliestVisitTimeIsLater()
+    public function testGetReArchiveSegmentStartDateWhenEarliestVisitTimeIsLater()
     {
         $t = Fixture::getTracker(1, '2020-02-05 03:00:00');
         $t->setUrl('http://abc.com');
         Fixture::checkResponse($t->doTrackPageView('abc'));
 
         $segmentInfo = ['ts_created' => '2019-05-03 00:00:00', 'enable_only_idsite' => 1];
-        $this->test_getReArchiveSegmentStartDate(SegmentArchiving::BEGINNING_OF_TIME, $segmentInfo, '2020-02-05');
+        $this->testGetReArchiveSegmentStartDate(SegmentArchiving::BEGINNING_OF_TIME, $segmentInfo, '2020-02-05');
     }
 
     protected static function configureFixture($fixture)

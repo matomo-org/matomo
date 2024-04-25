@@ -23,7 +23,7 @@ class ApiRendererTest extends \PHPUnit\Framework\TestCase
         Manager::getInstance()->loadPlugins(array('API'));
     }
 
-    public function test_factory_shouldCreateAnInstance_IfValidFormatGiven()
+    public function testFactoryShouldCreateAnInstanceIfValidFormatGiven()
     {
         $renderer = ApiRenderer::factory('xml', array());
         $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Xml', $renderer);
@@ -41,7 +41,7 @@ class ApiRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Original', $renderer);
     }
 
-    public function test_factory_shouldThrowAnException_IfInvalidFormatGiven()
+    public function testFactoryShouldThrowAnExceptionIfInvalidFormatGiven()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('General_ExceptionInvalidRendererFormat');

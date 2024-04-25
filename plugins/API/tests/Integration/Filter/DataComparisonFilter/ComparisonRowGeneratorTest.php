@@ -27,7 +27,7 @@ class ComparisonRowGeneratorTest extends IntegrationTestCase
         API::getInstance()->add('test segment', self::TEST_SEGMENT);
     }
 
-    public function test_compareTables_shouldCompareTwoDataTablesCorrectly()
+    public function testCompareTablesShouldCompareTwoDataTablesCorrectly()
     {
         $table1 = $this->makeTable([
             ['label' => 'row1', 'nb_visits' => 5, 'nb_actions' => 10],
@@ -116,7 +116,7 @@ END;
         $this->assertEquals($expectedXml, $xmlContent);
     }
 
-    public function test_compareTables_shouldUseFirstTableRowsForComparisons()
+    public function testCompareTablesShouldUseFirstTableRowsForComparisons()
     {
         $table1 = $this->makeTable([
             ['label' => 'row1', 'nb_visits' => 10, 'nb_actions' => 5],
@@ -177,7 +177,7 @@ END;
         $this->assertEquals($expectedXml, $xmlContent);
     }
 
-    public function test_compareTables_shouldCompareTwoDataTableMapsCorrectly()
+    public function testCompareTablesShouldCompareTwoDataTableMapsCorrectly()
     {
         $tableSet1 = $this->makeTableMap([
             '2012-01-01' => [
@@ -324,7 +324,7 @@ END;
         $this->assertEquals($expectedXml, $xmlContent);
     }
 
-    public function test_compareTables_shouldCompareTwoDataTaleMapsOfDifferentLengthsCorrectly_whenFirstIsLonger()
+    public function testCompareTablesShouldCompareTwoDataTaleMapsOfDifferentLengthsCorrectlyWhenFirstIsLonger()
     {
         $tableSet1 = $this->makeTableMap([
             '2012-01-01' => [
@@ -465,7 +465,7 @@ END;
         $this->assertEquals($expectedXml, $xmlContent);
     }
 
-    public function test_compareTables_shouldCompareTwoDataTaleMapsOfDifferentLengthsCorrectly_whenFirstIsShorter()
+    public function testCompareTablesShouldCompareTwoDataTaleMapsOfDifferentLengthsCorrectlyWhenFirstIsShorter()
     {
         $tableSet1 = $this->makeTableMap([
             '2012-01-01' => [

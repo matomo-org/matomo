@@ -30,7 +30,7 @@ class ModelTest extends IntegrationTestCase
         $this->testInstance = new Model();
     }
 
-    public function test_getTotalLoginAttemptsInLastHourForLogin_returnsDistinctCountOfIpForTheRightLogin()
+    public function testGetTotalLoginAttemptsInLastHourForLoginReturnsDistinctCountOfIpForTheRightLogin()
     {
         Date::$now = strtotime('2020-02-03 05:00:00');
 
@@ -46,7 +46,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(2, $count);
     }
 
-    public function test_getTotalLoginAttemptsInlastHourForLogin_returnsZeroIfAllAttemptsAreBeforeLastHour()
+    public function testGetTotalLoginAttemptsInlastHourForLoginReturnsZeroIfAllAttemptsAreBeforeLastHour()
     {
         Date::$now = strtotime('2020-02-03 05:00:00');
 
@@ -62,7 +62,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(0, $count);
     }
 
-    public function test_hasNotifiedUserAboutSuspiciousLogins_returnsFalseIfJsonValueIsBroken()
+    public function testHasNotifiedUserAboutSuspiciousLoginsReturnsFalseIfJsonValueIsBroken()
     {
         $optionName = 'BruteForceDetection.suspiciousLoginCountNotified.theuser';
         Option::set($optionName, 'aslkdfjsadlkfj');
@@ -71,7 +71,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertFalse($result);
     }
 
-    public function test_hasNotifiedUserAboutSuspiciousLogins_returnsFalseIfJsonValueIsNegative()
+    public function testHasNotifiedUserAboutSuspiciousLoginsReturnsFalseIfJsonValueIsNegative()
     {
         $optionName = 'BruteForceDetection.suspiciousLoginCountNotified.theuser';
         Option::set($optionName, '-5');
@@ -80,13 +80,13 @@ class ModelTest extends IntegrationTestCase
         $this->assertFalse($result);
     }
 
-    public function test_hasNotifiedUserAboutSuspiciousLogins_returnsFalseIfThereWasNoLastTimeSent()
+    public function testHasNotifiedUserAboutSuspiciousLoginsReturnsFalseIfThereWasNoLastTimeSent()
     {
         $result = $this->testInstance->hasNotifiedUserAboutSuspiciousLogins('theuser');
         $this->assertFalse($result);
     }
 
-    public function test_hasNotifiedUserAboutSuspiciousLogins_returnsFalseIfLastTimeSentIsBeforeTwoWeeks()
+    public function testHasNotifiedUserAboutSuspiciousLoginsReturnsFalseIfLastTimeSentIsBeforeTwoWeeks()
     {
         $optionName = 'BruteForceDetection.suspiciousLoginCountNotified.theuser';
         Option::set($optionName, \Piwik\Date::now()->subWeek(3)->getTimestamp());
@@ -95,7 +95,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertFalse($result);
     }
 
-    public function test_hasNotifiedUserAboutSuspiciousLogins_returnsTrueIfLastTimeSentIsWithinTwoWeeks()
+    public function testHasNotifiedUserAboutSuspiciousLoginsReturnsTrueIfLastTimeSentIsWithinTwoWeeks()
     {
         $optionName = 'BruteForceDetection.suspiciousLoginCountNotified.theuser';
         Option::set($optionName, \Piwik\Date::now()->subWeek(1)->getTimestamp());
@@ -104,7 +104,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertTrue($result);
     }
 
-    public function test_getDistinctIpsAttemptingLoginsInLastHour_returnsCountOfDistinctIpsOfFailedLoginsForUserInLastHour()
+    public function testGetDistinctIpsAttemptingLoginsInLastHourReturnsCountOfDistinctIpsOfFailedLoginsForUserInLastHour()
     {
         Date::$now = strtotime('2020-02-03 05:00:00');
 
@@ -120,7 +120,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(3, $count);
     }
 
-    public function test_markSuspiciousLoginsNotifiedEmailSent_setsTheOptionValueToNow()
+    public function testMarkSuspiciousLoginsNotifiedEmailSentSetsTheOptionValueToNow()
     {
         Date::$now = strtotime('2020-02-03 05:00:00');
 

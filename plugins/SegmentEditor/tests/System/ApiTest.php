@@ -17,7 +17,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 class ApiTest extends SystemTestCase
 {
-    public function test_segmentHashWorkflow_whenSegmentIsCrazyEncoded()
+    public function testSegmentHashWorkflowWhenSegmentIsCrazyEncoded()
     {
         $segment = 'pageUrl=@%252F1';
 
@@ -65,7 +65,7 @@ class ApiTest extends SystemTestCase
     /**
     * @dataProvider definitionsDataProvider
     */
-    public function test_generatedSegmentHash($definition)
+    public function testGeneratedSegmentHash($definition)
     {
         Fixture::createWebsite('2020-03-03 00:00:00');
 

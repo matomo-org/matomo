@@ -53,7 +53,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $this->segmentTableCount = 0;
     }
 
-    public function test_construction_ShouldFail_WhenReportHasNoSubtableAndSegmentFetchingIsDisabled()
+    public function testConstructionShouldFailWhenReportHasNoSubtableAndSegmentFetchingIsDisabled()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Unsupported pivot: report \'ExampleReport.getExampleReport\' has no subtable dimension.');
@@ -63,7 +63,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         new PivotByDimension(new DataTable(), "ExampleReport.GetExampleReport", "UserCountry.City", 'nb_visits', $columnLimit = -1, $enableFetchBySegment = false);
     }
 
-    public function test_construction_ShouldFail_WhenDimensionIsNotSubtableAndSegmentFetchingIsDisabled()
+    public function testConstructionShouldFailWhenDimensionIsNotSubtableAndSegmentFetchingIsDisabled()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Unsupported pivot: the subtable dimension for \'Referrers.getKeywords\' does not match the requested pivotBy dimension.');
@@ -73,7 +73,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         new PivotByDimension(new DataTable(), "Referrers.getKeywords", "UserCountry.City", "nb_visits", $columnLimit = -1, $enableFetchBySegment = false);
     }
 
-    public function test_construction_ShouldFail_WhenDimensionIsNotSubtableAndSegmentFetchingIsEnabledButThereIsNoSegment()
+    public function testConstructionShouldFailWhenDimensionIsNotSubtableAndSegmentFetchingIsEnabledButThereIsNoSegment()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Unsupported pivot: No segment for dimension of report \'Resolution.getConfiguration\'');
@@ -83,7 +83,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         new PivotByDimension(new DataTable(), "Resolution.GetConfiguration", "Referrers.Keyword", "nb_visits");
     }
 
-    public function test_construction_ShouldFail_WhenDimensionDoesNotExist()
+    public function testConstructionShouldFailWhenDimensionDoesNotExist()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid dimension \'ExampleTracker.InvalidDimension\'');
@@ -93,7 +93,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         new PivotByDimension(new DataTable(), "ExampleReport.GetExampleReport", "ExampleTracker.InvalidDimension", 'nb_visits');
     }
 
-    public function test_construction_ShouldFail_WhenThereIsNoReportForADimension()
+    public function testConstructionShouldFailWhenThereIsNoReportForADimension()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Unsupported pivot: No report for pivot dimension \'ExampleTracker.ExampleDimension\'');
@@ -103,7 +103,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         new PivotByDimension(new DataTable(), "ExampleReport.GetExampleReport", "ExampleTracker.ExampleDimension", "nb_visits");
     }
 
-    public function test_construction_ShouldFail_WhenSpecifiedReportIsNotValid()
+    public function testConstructionShouldFailWhenSpecifiedReportIsNotValid()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Unable to find report \'ExampleReport.InvalidReport\'');
@@ -113,7 +113,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         new PivotByDimension(new DataTable(), "ExampleReport.InvalidReport", "Referrers.Keyword", "nb_visits");
     }
 
-    public function test_filter_ReturnsEmptyResult_WhenTableToFilterIsEmpty()
+    public function testFilterReturnsEmptyResultWhenTableToFilterIsEmpty()
     {
         $this->loadPlugins('Referrers', 'UserCountry');
 
@@ -125,7 +125,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $this->assertEquals(array(), $table->getRows());
     }
 
-    public function test_filter_CorrectlyCreatesPivotTable_WhenUsingSubtableReport()
+    public function testFilterCorrectlyCreatesPivotTableWhenUsingSubtableReport()
     {
         $this->loadPlugins('Referrers', 'UserCountry');
 
@@ -142,7 +142,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $this->assertTableRowsEquals($expectedRows, $table);
     }
 
-    public function test_filter_CorrectlyCreatesPivotTable_WhenUsingSegment()
+    public function testFilterCorrectlyCreatesPivotTableWhenUsingSegment()
     {
         $this->loadPlugins('Referrers', 'UserCountry');
 
@@ -165,7 +165,7 @@ class PivotByDimensionTest extends IntegrationTestCase
     /**
      * @backupGlobals enabled
      */
-    public function test_filter_UsesCorrectSegment_WhenPivotingSegmentedReport()
+    public function testFilterUsesCorrectSegmentWhenPivotingSegmentedReport()
     {
         $this->loadPlugins('Referrers', 'UserCountry');
 
@@ -184,7 +184,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $this->assertEquals($expectedSegmentParams, $this->segmentUsedToGetIntersected);
     }
 
-    public function test_filter_CorrectlyCreatesPivotTable_WhenPivotMetricDoesNotExistInTable()
+    public function testFilterCorrectlyCreatesPivotTableWhenPivotMetricDoesNotExistInTable()
     {
         $this->loadPlugins('Referrers', 'UserCountry');
 
@@ -201,7 +201,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $this->assertTableRowsEquals($expectedRows, $table);
     }
 
-    public function test_filter_CorrectlyCreatesPivotTable_WhenSubtablesHaveNoRows()
+    public function testFilterCorrectlyCreatesPivotTableWhenSubtablesHaveNoRows()
     {
         if (!Manager::getInstance()->isPluginInstalled('CustomVariables')) {
             $this->markTestSkipped('Test requires CustomVariables plugin to run');
@@ -232,7 +232,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $this->assertTableRowsEquals($expectedRows, $table);
     }
 
-    public function test_filter_CorrectlyDefaultsPivotByColumn_WhenNoneProvided()
+    public function testFilterCorrectlyDefaultsPivotByColumnWhenNoneProvided()
     {
         $this->loadPlugins('Referrers', 'UserCountry');
 
@@ -249,7 +249,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $this->assertTableRowsEquals($expectedRows, $table);
     }
 
-    public function test_filter_CorrectlyLimitsTheColumnNumber_WhenColumnLimitProvided()
+    public function testFilterCorrectlyLimitsTheColumnNumberWhenColumnLimitProvided()
     {
         $this->loadPlugins('Referrers', 'UserCountry');
 

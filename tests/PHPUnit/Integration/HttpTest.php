@@ -184,7 +184,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getMethodsToTest
      */
-    public function testHttpPost_ViaString($method)
+    public function testHttpPostViaString($method)
     {
         $result = Http::sendHttpRequestBy(
             $method,
@@ -210,7 +210,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getMethodsToTest
      */
-    public function testHttpPost_ViaArray($method)
+    public function testHttpPostViaArray($method)
     {
         $result = Http::sendHttpRequestBy(
             $method,
@@ -303,7 +303,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getMethodsToTest
      */
-    public function testHttpDownloadChunk_responseSizeLimitedToChunk($method)
+    public function testHttpDownloadChunkResponseSizeLimitedToChunk($method)
     {
         $result = Http::sendHttpRequestBy(
             $method,
@@ -328,7 +328,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getRedirectUrls
      */
-    public function test_redirects($url, $method, $isValid, $message)
+    public function testRedirects($url, $method, $isValid, $message)
     {
         if ($isValid === false) {
             $this->expectException(\Exception::class);
@@ -362,7 +362,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function test_http_postsEvent()
+    public function testHttpPostsEvent()
     {
         $params = null;
         $params2 = null;
@@ -421,7 +421,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         ), '{"adf2":"44","afc23":"ab12","method":"post"}', 200), $params2);
     }
 
-    public function test_http_returnsResultOfPostedEvent()
+    public function testHttpReturnsResultOfPostedEvent()
     {
         Piwik::addAction('Http.sendHttpRequest', function ($url, $args, &$response, &$status, &$headers) {
             $response = '{test: true}';
@@ -457,7 +457,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getProtocolUrls
      */
-    public function test_invalid_protocols($url, $message)
+    public function testInvalidProtocols($url, $message)
     {
         self::expectException(\Exception::class);
         self::expectExceptionMessage($message);
@@ -478,7 +478,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getBlockedHostUrls
      */
-    public function test_blocked_hosts($url, $isValid, $message = '')
+    public function testBlockedHosts($url, $isValid, $message = '')
     {
         EventDispatcher::getInstance()->addObserver('Http.sendHttpRequest', function ($aUrl, $httpEventParams, &$response, &$status, &$headers) {
             $response = 'prevented request';

@@ -56,7 +56,7 @@ class RequestProcessorTest extends IntegrationTestCase
         }
     }
 
-    public function test_onNewVisit_anonymiseReferrer_byDefaultNothingAnonymised()
+    public function testOnNewVisitAnonymiseReferrerByDefaultNothingAnonymised()
     {
         $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
         $request = $this->makeRequest([]);
@@ -65,7 +65,7 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertVisitProperties($visit, Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
     }
 
-    public function test_onNewVisit_anonymiseReferrer_byPath()
+    public function testOnNewVisitAnonymiseReferrerByPath()
     {
         $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_PATH;
         $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'barbaz', 'foo.com');
@@ -75,7 +75,7 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertVisitProperties($visit, Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/', '', 'foo.com');
     }
 
-    public function test_onNewVisit_anonymiseReferrer_website_excludeAll()
+    public function testOnNewVisitAnonymiseReferrerWebsiteExcludeAll()
     {
         $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
         $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
@@ -85,7 +85,7 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertVisitProperties($visit, Common::REFERRER_TYPE_WEBSITE, '', '', '');
     }
 
-    public function test_onNewVisit_anonymiseReferrer_search_ExcludeAll()
+    public function testOnNewVisitAnonymiseReferrerSearchExcludeAll()
     {
         $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
         $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_SEARCH_ENGINE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
@@ -95,7 +95,7 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertVisitProperties($visit, Common::REFERRER_TYPE_SEARCH_ENGINE, '', '', 'barbaz');
     }
 
-    public function test_onExistingVisit_anonymiseReferrer_byDefaultNothingAnonymised()
+    public function testOnExistingVisitAnonymiseReferrerByDefaultNothingAnonymised()
     {
         $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_NONE;
         $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
@@ -106,7 +106,7 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertVisitProperties($update, Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
     }
 
-    public function test_onExistingVisit_anonymiseReferrer_byPath()
+    public function testOnExistingVisitAnonymiseReferrerByPath()
     {
         $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_PATH;
         $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'barbaz', 'foo.com');
@@ -117,7 +117,7 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertVisitProperties($update, Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/', '', 'foo.com');
     }
 
-    public function test_onExistingVisit_anonymiseReferrer_website_excludeAll()
+    public function testOnExistingVisitAnonymiseReferrerWebsiteExcludeAll()
     {
         $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
         $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
@@ -128,7 +128,7 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertVisitProperties($update, Common::REFERRER_TYPE_WEBSITE, '', '', '');
     }
 
-    public function test_onExistingVisit_anonymiseReferrer_search_ExcludeAll()
+    public function testOnExistingVisitAnonymiseReferrerSearchExcludeAll()
     {
         $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
         $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_SEARCH_ENGINE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
@@ -160,7 +160,7 @@ class RequestProcessorTest extends IntegrationTestCase
         return $visit;
     }
 
-    public function test_manipulateRequest_enabledButNoUserIdNorOrderIdSet()
+    public function testManipulateRequestEnabledButNoUserIdNorOrderIdSet()
     {
         $this->config->anonymizeUserId = true;
         $this->config->anonymizeOrderId = true;
@@ -171,7 +171,7 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertSame(array('idsite' => '3'), $request->getParams());
     }
 
-    public function test_manipulateRequest_enabledButEmptyValuesSet()
+    public function testManipulateRequestEnabledButEmptyValuesSet()
     {
         $this->config->anonymizeUserId = true;
         $this->config->anonymizeOrderId = true;
@@ -182,7 +182,7 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertSame(array('idsite' => '3', 'uid' => '', 'ec_id' => ''), $request->getParams());
     }
 
-    public function test_manipulateRequest_anonymizeUserIdOnly()
+    public function testManipulateRequestAnonymizeUserIdOnly()
     {
         $this->config->anonymizeUserId = true;
         $this->config->anonymizeOrderId = false;
@@ -193,7 +193,7 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertSame(array('idsite' => '3', 'uid' => '11d45007a54ea2dce76e57b9a1c2f0644b79687e', 'ec_id' => 'baz'), $request->getParams());
     }
 
-    public function test_manipulateRequest_anonymizeOrderIdOnly()
+    public function testManipulateRequestAnonymizeOrderIdOnly()
     {
         $this->config->anonymizeUserId = false;
         $this->config->anonymizeOrderId = true;
@@ -209,7 +209,7 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertSame(array('idsite' => '3', 'uid' => 'foobar'), $params);
     }
 
-    public function test_manipulateRequest_anonymizeOrderIdIsAlwaysDifferent()
+    public function testManipulateRequestAnonymizeOrderIdIsAlwaysDifferent()
     {
         $this->config->anonymizeUserId = false;
         $this->config->anonymizeOrderId = true;
@@ -225,7 +225,7 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->assertNotSame($params1['ec_id'], $params2['ec_id']);
     }
 
-    public function test_manipulateRequest_anonymizeDisabled()
+    public function testManipulateRequestAnonymizeDisabled()
     {
         $this->config->anonymizeUserId = false;
         $this->config->anonymizeOrderId = false;

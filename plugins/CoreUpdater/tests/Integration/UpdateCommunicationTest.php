@@ -28,7 +28,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
         parent::setUp();
     }
 
-    public function test_isEnabled()
+    public function testIsEnabled()
     {
         $updateCommunication = new UpdateCommunication();
 
@@ -44,7 +44,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
     /**
      * @dataProvider provideSendNotificationData
      */
-    public function test_sendNotificationIfUpdateAvailable($latestVersion, $lastSentVersion, $expects, $expectedLastSentVersion)
+    public function testSendNotificationIfUpdateAvailable($latestVersion, $lastSentVersion, $expects, $expectedLastSentVersion)
     {
         $this->setLatestVersion($latestVersion);
         $this->setLastSentVersion($lastSentVersion);
@@ -68,7 +68,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
         );
     }
 
-    public function test_sendNotifications_shouldSentCorrectEmail()
+    public function testSendNotificationsShouldSentCorrectEmail()
     {
         $rootUrl = Fixture::getTestRootUrl();
         $rootUrlEscaped = str_replace(array(':', '/'), array('&#x3A;', '&#x2F;'), $rootUrl);
@@ -93,7 +93,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
         $this->assertEmailForVersion('33.0.0', $message);
     }
 
-    public function test_sendNotifications_shouldNotIncludeChangelogIfNotMajorVersionUpdate()
+    public function testSendNotificationsShouldNotIncludeChangelogIfNotMajorVersionUpdate()
     {
         $rootUrl = Fixture::getTestRootUrl();
         $rootUrlEscaped = str_replace(array(':', '/'), array('&#x3A;', '&#x2F;'), $rootUrl);

@@ -533,7 +533,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getMergedCoreJavaScript_NotGenerated()
+    public function testGetMergedCoreJavaScriptNotGenerated()
     {
         $this->setJSCacheBuster(self::FIRST_CACHE_BUSTER_JS);
 
@@ -545,7 +545,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getMergedNonCoreJavaScript_NotGenerated()
+    public function testGetMergedNonCoreJavaScriptNotGenerated()
     {
         $this->setJSCacheBuster(self::FIRST_CACHE_BUSTER_JS);
 
@@ -557,7 +557,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getMergedNonCoreJavaScript_NotGenerated_NoNonCorePlugin()
+    public function testGetMergedNonCoreJavaScriptNotGeneratedNoNonCorePlugin()
     {
         $this->setUpCorePluginOnly();
 
@@ -573,7 +573,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getMergedCoreJavaScript_AlreadyGenerated_MergedAssetsDisabled_UpToDate()
+    public function testGetMergedCoreJavaScriptAlreadyGeneratedMergedAssetsDisabledUpToDate()
     {
         $this->disableMergedAssets();
 
@@ -591,7 +591,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getMergedCoreJavaScript_AlreadyGenerated_MergedAssetsDeactivated_Stale()
+    public function testGetMergedCoreJavaScriptAlreadyGeneratedMergedAssetsDeactivatedStale()
     {
         $this->disableMergedAssets();
 
@@ -613,7 +613,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getMergedStylesheet_NotGenerated()
+    public function testGetMergedStylesheetNotGenerated()
     {
         $this->setStylesheetCacheBuster(self::FIRST_CACHE_BUSTER_SS);
 
@@ -626,7 +626,7 @@ class AssetManagerTest extends IntegrationTestCase
      * We always regenerate if cache buster changes
      * @group Core
      */
-    public function test_getMergedStylesheet_Generated_MergedAssetsEnabled_Stale()
+    public function testGetMergedStylesheetGeneratedMergedAssetsEnabledStale()
     {
         $this->activateMergedAssets();
 
@@ -649,7 +649,7 @@ class AssetManagerTest extends IntegrationTestCase
      * We always regenerate if cache buster changes
      * @group Core
      */
-    public function test_getMergedStylesheet_Generated_MergedAssetsDisabled_Stale()
+    public function testGetMergedStylesheetGeneratedMergedAssetsDisabledStale()
     {
         $this->disableMergedAssets();
 
@@ -671,7 +671,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getMergedStylesheet_Generated_MergedAssetsDisabled_UpToDate()
+    public function testGetMergedStylesheetGeneratedMergedAssetsDisabledUpToDate()
     {
         $this->disableMergedAssets();
 
@@ -689,7 +689,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getCssInclusionDirective()
+    public function testGetCssInclusionDirective()
     {
         $expectedCssInclusionDirective = '<link rel="stylesheet" type="text/css" href="index.php?module=Proxy&action=getCss" />' . "\n";
 
@@ -699,7 +699,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getJsInclusionDirective_MergedAssetsDisabled()
+    public function testGetJsInclusionDirectiveMergedAssetsDisabled()
     {
         $this->disableMergedAssets();
 
@@ -720,7 +720,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getJsInclusionDirective_MergedAssetsEnabled()
+    public function testGetJsInclusionDirectiveMergedAssetsEnabled()
     {
         $expectedJsInclusionDirective =
             $this->getJsTranslationScript() .
@@ -736,7 +736,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getCompiledBaseCss()
+    public function testGetCompiledBaseCss()
     {
         $this->setStylesheetCacheBuster(self::FIRST_CACHE_BUSTER_SS);
 
@@ -758,7 +758,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_removeMergedAssets()
+    public function testRemoveMergedAssets()
     {
         list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset, $chunks) = $this->generateAllMergedAssets();
 
@@ -777,7 +777,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_removeMergedAssets_PluginNameSpecified_PluginWithoutAssets()
+    public function testRemoveMergedAssetsPluginNameSpecifiedPluginWithoutAssets()
     {
         list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset, $chunks) = $this->generateAllMergedAssets();
 
@@ -796,7 +796,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_removeMergedAssets_PluginNameSpecified_CorePlugin()
+    public function testRemoveMergedAssetsPluginNameSpecifiedCorePlugin()
     {
         list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset, $chunks) = $this->generateAllMergedAssets();
 
@@ -815,7 +815,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_removeMergedAssets_PluginNameSpecified_NonCoreThemeWithAssets()
+    public function testRemoveMergedAssetsPluginNameSpecifiedNonCoreThemeWithAssets()
     {
         list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset, $chunks) = $this->generateAllMergedAssets();
 

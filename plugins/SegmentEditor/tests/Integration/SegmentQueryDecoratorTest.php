@@ -60,7 +60,7 @@ class SegmentQueryDecoratorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForSegmentSqlTest
      */
-    public function test_SegmentSql_IsCorrectlyDecoratedWithIdSegment($segment, $triggerValue, $expectedPrefix)
+    public function testSegmentSqlIsCorrectlyDecoratedWithIdSegment($segment, $triggerValue, $expectedPrefix)
     {
         if (!empty($triggerValue)) {
             $_GET['trigger'] = $triggerValue;

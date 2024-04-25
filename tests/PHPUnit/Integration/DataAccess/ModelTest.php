@@ -39,7 +39,7 @@ class ModelTest extends IntegrationTestCase
         $this->model->createArchiveTable($this->tableName, 'archive_numeric');
     }
 
-    public function test_getInvalidatedArchiveIdsSafeToDelete_handlesCutOffGroupMaxLenCorrectly()
+    public function testGetInvalidatedArchiveIdsSafeToDeleteHandlesCutOffGroupMaxLenCorrectly()
     {
         Db::get()->query('SET SESSION group_concat_max_len=32');
 
@@ -81,7 +81,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expected, $ids);
     }
 
-    public function test_resetFailedArchivingJobs_updatesCorrectStatuses()
+    public function testResetFailedArchivingJobsUpdatesCorrectStatuses()
     {
         Date::$now = strtotime('2020-03-03 04:00:00');
 
@@ -108,7 +108,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expected, $idinvalidationStatus);
     }
 
-    public function test_insertNewArchiveId()
+    public function testInsertNewArchiveId()
     {
         $this->assertAllocatedArchiveId(1);
         $this->assertAllocatedArchiveId(2);
@@ -128,7 +128,7 @@ class ModelTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForHasChildArchivesInPeriod
      */
-    public function test_hasChildArchivesInPeriod_returnsFalseIfThereIsNoChildPeriod($archivesToInsert, $idSite, $date, $period, $expected)
+    public function testHasChildArchivesInPeriodReturnsFalseIfThereIsNoChildPeriod($archivesToInsert, $idSite, $date, $period, $expected)
     {
         $this->insertArchiveData($archivesToInsert);
 
@@ -137,7 +137,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function test_hasInvalidationForPeriodAndName_returnsTrueIfExists()
+    public function testHasInvalidationForPeriodAndNameReturnsTrueIfExists()
     {
         $date = '2021-03-23';
         $this->insertInvalidations([
@@ -149,7 +149,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertTrue($result);
     }
 
-    public function test_hasInvalidationForPeriodAndName_returnsTrueIfExistsForReport()
+    public function testHasInvalidationForPeriodAndNameReturnsTrueIfExistsForReport()
     {
         $date = '2021-03-23';
         $this->insertInvalidations([
@@ -161,7 +161,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertTrue($result);
     }
 
-    public function test_hasInvalidationForPeriodAndName_returnsFalseIfNotExistsForReport()
+    public function testHasInvalidationForPeriodAndNameReturnsFalseIfNotExistsForReport()
     {
         $date = '2021-03-23';
         $this->insertInvalidations([
@@ -173,7 +173,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertFalse($result);
     }
 
-    public function test_hasInvalidationForPeriodAndName_returnsFalseIfNotExists()
+    public function testHasInvalidationForPeriodAndNameReturnsFalseIfNotExists()
     {
         $date = '2021-03-23';
         $date2 = '2021-03-22';
@@ -344,7 +344,7 @@ class ModelTest extends IntegrationTestCase
         ];
     }
 
-    public function test_getNextInvalidatedArchive_returnsCorrectOrder()
+    public function testGetNextInvalidatedArchiveReturnsCorrectOrder()
     {
         $this->insertInvalidations([
             ['date1' => '2015-03-30', 'date2' => '2015-03-30', 'period' => 1, 'name' => 'done' . md5('testsegment8')],
@@ -646,7 +646,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_deleteInvalidationsForDeletedSites()
+    public function testDeleteInvalidationsForDeletedSites()
     {
         Fixture::createWebsite('2014-01-01 00:00:00');
 

@@ -44,7 +44,7 @@ class UserPreferencesTest extends IntegrationTestCase
         FakeAccess::$identity = $identity;
     }
 
-    public function test_getDefaultReport_WhenLoginNotExists()
+    public function testGetDefaultReportWhenLoginNotExists()
     {
         self::expectException(\Exception::class);
         self::expectExceptionMessage('User does not exist');
@@ -56,7 +56,7 @@ class UserPreferencesTest extends IntegrationTestCase
         );
     }
 
-    public function test_getDefaultReport_WhenWrongPreference()
+    public function testGetDefaultReportWhenWrongPreference()
     {
         self::expectException(\Exception::class);
         self::expectExceptionMessage('Not supported preference name');
@@ -68,18 +68,18 @@ class UserPreferencesTest extends IntegrationTestCase
         );
     }
 
-    public function test_getDefaultReport_ShouldReturnFalseByDefault()
+    public function testGetDefaultReportShouldReturnFalseByDefault()
     {
         $this->assertEquals(false, $this->userPreferences->getDefaultReport());
     }
 
-    public function test_getDefaultReport_ShouldReturnTheRawValueIfNotNumeric()
+    public function testGetDefaultReportShouldReturnTheRawValueIfNotNumeric()
     {
         $this->setDefaultReport('MultiSites');
         $this->assertEquals('MultiSites', $this->userPreferences->getDefaultReport());
     }
 
-    public function test_getDefaultReport_ShouldNotReturnSiteIdIfNoPermissionForSite()
+    public function testGetDefaultReportShouldNotReturnSiteIdIfNoPermissionForSite()
     {
         $this->createSite();
         $this->setDefaultReport(1);
@@ -87,32 +87,32 @@ class UserPreferencesTest extends IntegrationTestCase
         $this->assertEquals(false, $this->userPreferences->getDefaultReport());
     }
 
-    public function test_getDefaultReport_ShouldReturnSiteIdIfPermissionForSite()
+    public function testGetDefaultReportShouldReturnSiteIdIfPermissionForSite()
     {
         $this->createSite();
         $this->setDefaultReport(1);
         $this->assertEquals(1, $this->userPreferences->getDefaultReport());
     }
 
-    public function test_getDefaultWebsiteId_ShouldReturnFalseByDefault()
+    public function testGetDefaultWebsiteIdShouldReturnFalseByDefault()
     {
         $this->assertEquals(false, $this->userPreferences->getDefaultWebsiteId());
     }
 
-    public function test_getDefaultWebsiteId_ShouldReturnASiteIfOneExistsAndHasAccess()
+    public function testGetDefaultWebsiteIdShouldReturnASiteIfOneExistsAndHasAccess()
     {
         $this->createSite();
         $this->assertEquals(1, $this->userPreferences->getDefaultWebsiteId());
     }
 
-    public function test_getDefaultWebsiteId_ShouldReturnFalseIfASiteExistsButHasNoAccess()
+    public function testGetDefaultWebsiteIdShouldReturnFalseIfASiteExistsButHasNoAccess()
     {
         $this->createSite();
         $this->setAnonymous();
         $this->assertEquals(false, $this->userPreferences->getDefaultWebsiteId());
     }
 
-    public function test_getDefaultWebsiteId_ShouldReturnASiteEvenIfMultiSitesIsDefaultReport()
+    public function testGetDefaultWebsiteIdShouldReturnASiteEvenIfMultiSitesIsDefaultReport()
     {
         $this->setDefaultReport('MultiSites');
         $this->createSite();
@@ -122,7 +122,7 @@ class UserPreferencesTest extends IntegrationTestCase
     /**
      * @dataProvider provideDefaultDates
      */
-    public function test_getDefaultDateAndPeriod($defaultDate, $expectedDate, $expectedPeriod)
+    public function testGetDefaultDateAndPeriod($defaultDate, $expectedDate, $expectedPeriod)
     {
         $this->setDefaultDate($defaultDate);
         $this->assertEquals($expectedDate, $this->userPreferences->getDefaultDate());
@@ -141,7 +141,7 @@ class UserPreferencesTest extends IntegrationTestCase
         );
     }
 
-    public function test_getDefaultPeriod_ShouldOnlyReturnAllowedPeriods()
+    public function testGetDefaultPeriodShouldOnlyReturnAllowedPeriods()
     {
         // Only allow for week period
         Config::getInstance()->General['enabled_periods_UI'] = 'week';
@@ -154,7 +154,7 @@ class UserPreferencesTest extends IntegrationTestCase
         $this->assertEquals('yesterday', $this->userPreferences->getDefaultDate());
     }
 
-    public function test_getDefaultDate_ShouldOnlyReturnDateInAllowedPeriods()
+    public function testGetDefaultDateShouldOnlyReturnDateInAllowedPeriods()
     {
         // Only allow for week period
         Config::getInstance()->General['enabled_periods_UI'] = 'day';

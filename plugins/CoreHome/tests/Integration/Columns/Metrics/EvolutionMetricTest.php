@@ -30,12 +30,12 @@ class EvolutionMetricTest extends IntegrationTestCase
         Fixture::createWebsite('2022-01-01 00:00:00');
     }
 
-    public function test_shouldNotBreakIfSummaryRowGiven()
+    public function testShouldNotBreakIfSummaryRowGiven()
     {
         $this->assertNoFailureOnComputeForLabel(DataTable::ID_SUMMARY_ROW);
     }
 
-    public function test_shouldNotBreakIfTotalsRowGiven()
+    public function testShouldNotBreakIfTotalsRowGiven()
     {
         $this->assertNoFailureOnComputeForLabel(DataTable::LABEL_TOTALS_ROW);
     }

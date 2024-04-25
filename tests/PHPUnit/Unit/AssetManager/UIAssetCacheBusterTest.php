@@ -27,7 +27,7 @@ class UIAssetCacheBusterTest extends TestCase
     /**
      * @group Core
      */
-    public function test_md5BasedCacheBuster()
+    public function testMd5BasedCacheBuster()
     {
         $this->assertEquals('098f6bcd4621d373cade4e832627b4f6', $this->cacheBuster->md5BasedCacheBuster('test'));
     }

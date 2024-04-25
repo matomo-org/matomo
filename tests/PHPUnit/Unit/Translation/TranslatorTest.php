@@ -17,7 +17,7 @@ use Piwik\Translation\Translator;
  */
 class TranslatorTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_translate_shouldReturnTranslationId_ifNoTranslationFound()
+    public function testTranslateShouldReturnTranslationIdIfNoTranslationFound()
     {
         $loader = $this->createLoader();
         $translator = new Translator($loader, array());
@@ -25,7 +25,7 @@ class TranslatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('General_foo', $translator->translate('General_foo'));
     }
 
-    public function test_translate_shouldReturnTranslation()
+    public function testTranslateShouldReturnTranslation()
     {
         $loader = $this->createLoader(array(
             'General' => array(
@@ -37,7 +37,7 @@ class TranslatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Hello world', $translator->translate('General_foo'));
     }
 
-    public function test_translate_shouldReplacePlaceholders()
+    public function testTranslateShouldReplacePlaceholders()
     {
         $loader = $this->createLoader(array(
             'General' => array(
@@ -49,7 +49,7 @@ class TranslatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Hello John', $translator->translate('General_foo', 'John'));
     }
 
-    public function test_translate_withADifferentLanguage()
+    public function testTranslateWithADifferentLanguage()
     {
         $translator = new Translator(new JsonFileLoader(), array(__DIR__ . '/Loader/fixtures/dir1'));
 
@@ -60,14 +60,14 @@ class TranslatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Bonjour', $translator->translate('General_test1'));
     }
 
-    public function test_translate_shouldFallback_ifTranslationNotFound()
+    public function testTranslateShouldFallbackIfTranslationNotFound()
     {
         $translator = new Translator(new JsonFileLoader(), array(__DIR__ . '/Loader/fixtures/dir1'));
         $translator->setCurrentLanguage('fr');
         $this->assertEquals('Hello', $translator->translate('General_test2'));
     }
 
-    public function test_addDirectory_shouldImportNewTranslations()
+    public function testAddDirectoryShouldImportNewTranslations()
     {
         $translator = new Translator(new JsonFileLoader(), array(__DIR__ . '/Loader/fixtures/dir1'));
         // translation not found
@@ -78,7 +78,7 @@ class TranslatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Hello 3', $translator->translate('General_test3'));
     }
 
-    public function test_addDirectory_shouldImportOverExistingTranslations()
+    public function testAddDirectoryShouldImportOverExistingTranslations()
     {
         $translator = new Translator(new JsonFileLoader(), array(__DIR__ . '/Loader/fixtures/dir1'));
         $this->assertEquals('Hello', $translator->translate('General_test2'));
@@ -90,7 +90,7 @@ class TranslatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getAndListingData
      */
-    public function test_createAndListing(array $items, string $language, string $expectedResult)
+    public function testCreateAndListing(array $items, string $language, string $expectedResult)
     {
         $translator = new Translator(new JsonFileLoader(), array(PIWIK_INCLUDE_PATH . '/plugins/Intl/lang'));
 

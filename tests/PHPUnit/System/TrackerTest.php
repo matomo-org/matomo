@@ -61,20 +61,20 @@ class TrackerTest extends IntegrationTestCase
      *
      * With invalid token_auth the request would still work
      */
-    public function test_trackingApiWithBulkRequests_viaCurl_withWrongTokenAuth()
+    public function testTrackingApiWithBulkRequestsViaCurlWithWrongTokenAuth()
     {
         $token_auth = '33dc3f2536d3025974cccb4b4d2d98f4';
         $this->issueBulkTrackingRequest($token_auth, $expectTrackingToSucceed = true);
     }
 
-    public function test_trackingApiWithBulkRequests_viaCurl_withCorrectTokenAuth()
+    public function testTrackingApiWithBulkRequestsViaCurlWithCorrectTokenAuth()
     {
         $token_auth = Fixture::getTokenAuth();
         \Piwik\Filesystem::deleteAllCacheOnUpdate();
         $this->issueBulkTrackingRequest($token_auth, $expectTrackingToSucceed = true);
     }
 
-    public function test_trackingEcommerceOrder_WithHtmlEscapedText_InsertsCorrectLogs()
+    public function testTrackingEcommerceOrderWithHtmlEscapedTextInsertsCorrectLogs()
     {
         // item sku, item name, item category, item price, item quantity
         // NOTE: used to test with '&#x1D306;' character, however, mysql on travis fails with this when
@@ -106,7 +106,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertActionEquals('baz ☃ qux', $conversionItems[2]['idaction_category']);
     }
 
-    public function test_trackingEcommerceOrder_WithAmpersandAndQuotes_InsertsCorrectLogs()
+    public function testTrackingEcommerceOrderWithAmpersandAndQuotesInsertsCorrectLogs()
     {
         // item sku, item name, item category, item price, item quantity
         $ecItems = array(array("\"scarysku&", "superscarymovie'", 'scary <> movies', 12.99, 1));
@@ -126,7 +126,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertActionEquals('scary <> movies', $conversionItems[0]['idaction_category']);
     }
 
-    public function test_trackingEcommerceOrder_WithNameAndSKUArrays()
+    public function testTrackingEcommerceOrderWithNameAndSKUArrays()
     {
         // item sku, item name, item category, item price, item quantity
         $ecItems = array(array(["sku1", "sku2"], ["name1", "name2"], 'category1', 12.99, 1));
@@ -146,7 +146,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertActionEquals('category1', $conversionItems[0]['idaction_category']);
     }
 
-    public function test_trackingEcommerceOrder_DoesNotFail_WhenEmptyEcommerceItemsParamUsed()
+    public function testTrackingEcommerceOrderDoesNotFailWhenEmptyEcommerceItemsParamUsed()
     {
         // item sku, item name, item category, item price, item quantity
         $urlToTest = $this->getEcommerceItemsUrl("");
@@ -158,7 +158,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertEquals(0, count($this->getConversionItems()));
     }
 
-    public function test_trackingEcommerceOrder_DoesNotFail_WhenNonArrayUsedWithEcommerceItemsParam()
+    public function testTrackingEcommerceOrderDoesNotFailWhenNonArrayUsedWithEcommerceItemsParam()
     {
         // item sku, item name, item category, item price, item quantity
         $urlToTest = $this->getEcommerceItemsUrl("45");
@@ -170,7 +170,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertEquals(0, count($this->getConversionItems()));
     }
 
-    public function test_trackingEcommerceOrder_FailsWhenNonUniqueOrderIsUsed()
+    public function testTrackingEcommerceOrderFailsWhenNonUniqueOrderIsUsed()
     {
         $ecItems = array(array("\"scarysku&", "superscarymovie'", 'scary <> movies', 12.99, 1));
 
@@ -189,7 +189,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertEquals(1, count($this->getConversionItems()));
     }
 
-    public function test_trackingWithLangParameter_ForwardsLangParameter_ToDefaultLocationProvider()
+    public function testTrackingWithLangParameterForwardsLangParameterToDefaultLocationProvider()
     {
         LocationProvider::$providers = null;
         LocationProvider::getAllProviders();
@@ -208,7 +208,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertEquals('be', $visitCountry);
     }
 
-    public function test_scheduledTasks_CanBeRunThroughTracker_WithoutIncludingOutputInTrackerOutput()
+    public function testScheduledTasksCanBeRunThroughTrackerWithoutIncludingOutputInTrackerOutput()
     {
         $this->setScheduledTasksToRunInTracker();
 
@@ -220,7 +220,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertScheduledTasksWereRun();
     }
 
-    public function test_scheduledTasks_CanBeRunThroughTracker_WithOutputIncluded_IfDebugQueryParamUsed()
+    public function testScheduledTasksCanBeRunThroughTrackerWithOutputIncludedIfDebugQueryParamUsed()
     {
         $environment = $this->setScheduledTasksToRunInTracker();
         $environment->overrideConfig('log', 'log_writers', array('screen'));
@@ -246,7 +246,7 @@ class TrackerTest extends IntegrationTestCase
     /**
      * @dataProvider getTypesOfErrorsForScheduledTasksTrackerFailureTest
      */
-    public function test_scheduledTasks_DoNotFailTracking_WhenScheduledTaskFails($doFatalError)
+    public function testScheduledTasksDoNotFailTrackingWhenScheduledTaskFails($doFatalError)
     {
         $this->setScheduledTasksToRunInTracker();
         $this->addFailingScheduledTaskToTracker($doFatalError);

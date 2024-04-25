@@ -17,7 +17,7 @@ use Piwik\Tracker\Visitor;
 
 class VisitsCountTest extends TestCase
 {
-    public function test_onNewVisit_returnsZeroIfPreviousVisitCountDoesNotExist()
+    public function testOnNewVisitReturnsZeroIfPreviousVisitCountDoesNotExist()
     {
         $request = $this->makeMockRequest();
         $visitor = $this->makeMockVisitor(false);
@@ -28,7 +28,7 @@ class VisitsCountTest extends TestCase
         $this->assertEquals(1, $visitCount);
     }
 
-    public function test_onNewVisit_returnsIncrementedValueIfPreviousVisitCountIsPresent()
+    public function testOnNewVisitReturnsIncrementedValueIfPreviousVisitCountIsPresent()
     {
         $request = $this->makeMockRequest();
         $visitor = $this->makeMockVisitor(false, [], ['visitor_count_visits' => 10]);
