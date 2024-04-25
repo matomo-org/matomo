@@ -12,10 +12,17 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\Sort;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Dimension\ConversionDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\CoreHome\Tracker\LogTable\Conversion;
+use Piwik\Plugins\CoreHome\Tracker\LogTable\LinkVisitAction;
+use Piwik\Plugins\CoreHome\Tracker\LogTable\Visit;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
@@ -567,6 +574,11 @@ class Report
      */
     public function getMetricAggregationTypes(): array
     {
+        $reportScope = $this->getScope();
+        if (empty($reportScope)) {
+            return [];
+        }
+
         $aggregationTypes = $this->metricAggregationTypes ?: [];
         $metrics = $this->metrics ?: [];
 
@@ -581,12 +593,26 @@ class Report
             $metricName = $metric->getName();
             if (
                 $metricName == 'label'
-                || !empty($metricTypes[$metricName])
+                || !empty($aggregationTypes[$metricName])
             ) {
                 continue;
             }
 
             $aggregationTypes[$metricName] = $metric->getAggregationType();
+        }
+
+        // remove aggregation types for metrics that cannot be aggregated
+        // within the context of this report
+        //
+        // TODO: more detailed description (either here or in getMetricScopes())
+        $metricScopes = $this->getMetricScopes();
+        foreach ($aggregationTypes as $metricName => $aggregationType) {
+            $metricScope = $metricScopes[$metricName];
+            if (empty($metricScope)
+                || !$this->isScopeSameOrSupersetOf($metricScope, $reportScope)
+            ) {
+                unset($aggregationTypes[$metricName]);
+            }
         }
 
         return $aggregationTypes;
@@ -1263,5 +1289,48 @@ class Report
         }
 
         return $metricType;
+    }
+
+    private function getScope(): ?string
+    {
+        $dimension = $this->getDimension();
+        if (empty($dimension)) {
+            return null;
+        }
+
+        if ($dimension instanceof ConversionDimension) {
+            return Conversion::class;
+        } else if ($dimension instanceof ActionDimension) {
+            return LinkVisitAction::class;
+        } else if ($dimension instanceof VisitDimension) {
+            return Visit::class;
+        }
+
+        return null;
+    }
+
+    private function isScopeSameOrSupersetOf(?string $scope, string $supersetScope): bool
+    {
+        while ($scope) {
+            if ($scope === $supersetScope) {
+                return true;
+            }
+
+            $logTableProvider = StaticContainer::get(LogTablesProvider::class);
+
+            $scopeTable = $logTableProvider->getLogTable($scope);
+            if (empty($scopeTable)) {
+                return false;
+            }
+
+            $supersetScopeTable = $logTableProvider->getLogTable($supersetScope);
+            if (empty($supersetScopeTable)) {
+                return false;
+            }
+
+            $scope = $scopeTable->getParentTable();
+        }
+
+        return false;
     }
 }

@@ -41,4 +41,9 @@ class LinkVisitAction extends LogTable
     {
         return array('idlink_va');
     }
+
+    public function getParentTable(): ?string
+    {
+        return Visit::class;
+    }
 }
