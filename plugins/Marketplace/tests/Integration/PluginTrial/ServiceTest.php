@@ -28,6 +28,7 @@ class ServiceTest extends IntegrationTestCase
         parent::setUp();
 
         GeneralConfig::setConfigValue('plugin_trial_request_expiration_in_days', 1);
+        \Zend_Session::$_unitTestEnabled = true;
         Manager::cancelAllNotifications();
     }
 
@@ -71,6 +72,16 @@ class ServiceTest extends IntegrationTestCase
 
         $service = new Service();
         self::assertTrue($service->wasRequested('PremiumPlugin'));
+    }
+
+    public function testCancel()
+    {
+        $this->setRequested();
+
+        $service = new Service();
+        self::assertTrue($service->wasRequested('PremiumPlugin'));
+        $service->cancelRequest('PremiumPlugin');
+        self::assertFalse($service->wasRequested('PremiumPlugin'));
     }
 
     public function testCreateAndDismissNotifications()

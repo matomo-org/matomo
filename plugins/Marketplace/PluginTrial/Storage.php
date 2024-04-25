@@ -91,6 +91,16 @@ class Storage
     }
 
     /**
+     * Removes the trial request from storage
+     *
+     * @return void
+     */
+    public function clearStorage(): void
+    {
+        Option::delete($this->optionName);
+    }
+
+    /**
      * Returns the names of plugins where trial requests are stored for, sorted by request time descending
      *
      * @return array
@@ -118,10 +128,5 @@ class Storage
     protected function saveStorage(): void
     {
         Option::set($this->optionName, json_encode($this->storage));
-    }
-
-    protected function clearStorage(): void
-    {
-        Option::delete($this->optionName);
     }
 }

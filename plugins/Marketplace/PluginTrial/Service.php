@@ -111,6 +111,22 @@ final class Service
         $pluginTrial->setNotificationDismissed();
     }
 
+    /**
+     * Cancels a plugin trial request
+     *
+     * @param string $pluginName
+     * @return void
+     * @throws Exception
+     */
+    public function cancelRequest(string $pluginName): void
+    {
+        $request = new Request($pluginName, new Storage($pluginName));
+        $request->cancel();
+
+        $notification = new Notification($pluginName, new Storage($pluginName));
+        $notification->removeFromSession();
+    }
+
     public function isEnabled(): bool
     {
         return -1 !== (int) GeneralConfig::getConfigValue('plugin_trial_request_expiration_in_days');

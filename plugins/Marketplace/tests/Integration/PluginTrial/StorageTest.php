@@ -35,7 +35,7 @@ class StorageTest extends IntegrationTestCase
         $storage = new Storage('Inval$dPlü§1n');
     }
 
-    public function testRequested()
+    public function testWasRequested()
     {
         $storage = new Storage('PremiumPlugin');
         self::assertFalse($storage->wasRequested());
@@ -48,7 +48,21 @@ class StorageTest extends IntegrationTestCase
         self::assertTrue($storage->wasRequested());
     }
 
-    public function testRequestedClearsStorageWhenOutdated()
+    public function testClearStorage()
+    {
+        // Manually create a request that is 25 hours old
+        Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
+            'requestTime' => time() - (25 * 3600),
+            'dismissed' => [],
+            'requestedBy' => 'olaf',
+        ]));
+
+        $storage = new Storage('PremiumPlugin');
+        $storage->clearStorage();
+        self::assertFalse(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'));
+    }
+
+    public function testWasRequestedClearsStorageWhenOutdated()
     {
         // Manually create a request that is 25 hours old
         Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([

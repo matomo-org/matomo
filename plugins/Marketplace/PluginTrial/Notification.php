@@ -45,6 +45,7 @@ class Notification
     public function setNotificationDismissed(): void
     {
         $this->storage->setNotificationDismissed();
+        $this->removeFromSession();
     }
 
     /**
@@ -76,6 +77,16 @@ class Notification
         $notification->type = MatomoNotification::TYPE_PERSISTENT;
         MatomoNotification\Manager::cancel($this->getNotificationId());
         MatomoNotification\Manager::notify($this->getNotificationId(), $notification);
+    }
+
+    /**
+     * Removes a notification from current users session
+     *
+     * @return void
+     */
+    public function removeFromSession(): void
+    {
+        MatomoNotification\Manager::cancel($this->getNotificationId());
     }
 
     private function getNotificationId(): string

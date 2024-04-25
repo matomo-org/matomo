@@ -25,6 +25,7 @@ class NotificationTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
+        \Zend_Session::$_unitTestEnabled = true;
         Manager::cancelAllNotifications();
     }
 

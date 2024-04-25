@@ -53,6 +53,20 @@ class Request
         $this->sendEmailToSuperUsers();
     }
 
+    /**
+     * Cancels a trial request
+     *
+     * @return void
+     */
+    public function cancel(): void
+    {
+        if (!$this->wasRequested()) {
+            return; // not requested
+        }
+
+        $this->storage->clearStorage();
+    }
+
 
     /**
      * Returns if a plugin was already requested

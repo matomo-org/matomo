@@ -30,6 +30,8 @@ class Marketplace extends \Piwik\Plugin
             'Controller.CoreHome.checkForUpdates' => 'checkForUpdates',
             'Controller.CoreHome.markNotificationAsRead' => 'dismissPluginTrialNotification',
             'Request.dispatch' => 'createPluginTrialNotification',
+            'PluginManager.pluginInstalled' => 'removePluginTrialRequest',
+            'PluginManager.pluginActivated' => 'removePluginTrialRequest',
             'Widget.filterWidgets' => 'filterWidgets'
         );
     }
@@ -201,7 +203,7 @@ class Marketplace extends \Piwik\Plugin
         }
     }
 
-    public function dismissPluginTrialNotification()
+    public function dismissPluginTrialNotification(): void
     {
         try {
             $notificationId = Request::fromRequest()->getStringParameter('notificationId');
@@ -212,10 +214,19 @@ class Marketplace extends \Piwik\Plugin
         }
     }
 
-    public function createPluginTrialNotification()
+    public function createPluginTrialNotification(): void
     {
         try {
             StaticContainer::get(PluginTrialService::class)->createNotificationsIfNeeded();
+        } catch (\Exception $e) {
+            // ignore any type of error
+        }
+    }
+
+    public function removePluginTrialRequest(string $pluginName): void
+    {
+        try {
+            StaticContainer::get(PluginTrialService::class)->cancelRequest($pluginName);
         } catch (\Exception $e) {
             // ignore any type of error
         }

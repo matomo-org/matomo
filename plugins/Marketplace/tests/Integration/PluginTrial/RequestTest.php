@@ -48,6 +48,16 @@ class RequestTest extends IntegrationTestCase
         $request->create();
     }
 
+    public function testCancel()
+    {
+        $storageMock = self::createMock(Storage::class);
+        $storageMock->method('wasRequested')->willReturn(true);
+        $storageMock->expects(self::once())->method('clearStorage');
+
+        $request = new Request('PremiumPlugin', $storageMock);
+        $request->cancel();
+    }
+
     public function testCreateSucceedsAndSendsMail()
     {
         Fixture::createSuperUser();
