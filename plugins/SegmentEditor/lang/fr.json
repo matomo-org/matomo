@@ -1,7 +1,7 @@
 {
     "SegmentEditor": {
         "AddANDorORCondition": "Ajouter la condition %s",
-        "AddNewSegment": "Ajouter un nouveau segment",
+        "AddNewSegment": "Ajouter un segment",
         "AddThisToMatomo": "Ajouter ce segment à Matomo",
         "AddingSegmentForAllWebsitesDisabled": "Ajouter des segments pour tous les sites a été désactivé.",
         "AreYouSureDeleteSegment": "Êtes-vous sûr(e) de vouloir supprimer ce segment ?",
