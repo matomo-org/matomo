@@ -28,7 +28,7 @@ class AnonymizeReferrerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getReferrerUrls
      */
-    public function test_anonymiseReferrerUrl($expected, $url, $option)
+    public function testAnonymiseReferrerUrl($expected, $url, $option)
     {
         $value = $this->anonymizer->anonymiseReferrerUrl($url, $option);
         $this->assertSame($expected, $value);
@@ -37,7 +37,7 @@ class AnonymizeReferrerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getReferrerNames
      */
-    public function test_anonymiseReferrerName($expected, $name, $type, $option)
+    public function testAnonymiseReferrerName($expected, $name, $type, $option)
     {
         $value = $this->anonymizer->anonymiseReferrerName($name, $type, $option);
         $this->assertSame($expected, $value);
@@ -57,7 +57,7 @@ class AnonymizeReferrerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getReferrerKeywords
      */
-    public function test_anonymiseReferrerKeyword($expected, $keyword, $type, $option)
+    public function testAnonymiseReferrerKeyword($expected, $keyword, $type, $option)
     {
         $value = $this->anonymizer->anonymiseReferrerKeyword($keyword, $type, $option);
         $this->assertSame($expected, $value);

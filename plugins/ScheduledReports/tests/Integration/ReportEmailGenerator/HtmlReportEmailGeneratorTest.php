@@ -35,7 +35,7 @@ class HtmlReportEmailGeneratorTest extends IntegrationTestCase
         $this->testInstance = new HtmlReportEmailGenerator();
     }
 
-    public function test_makeEmail_ReturnsCorrectlyConfiguredEmailInstance()
+    public function testMakeEmailReturnsCorrectlyConfiguredEmailInstance()
     {
         $reportDetails = [
             'format' => 'html',

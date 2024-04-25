@@ -50,7 +50,7 @@ class ReferrerKeywordTest extends IntegrationTestCase
     /**
      * @dataProvider getReferrerUrls
      */
-    public function test_onNewVisit_shouldDetectCorrectReferrerType($expectedType, $idSite, $url, $referrerUrl)
+    public function testOnNewVisitShouldDetectCorrectReferrerType($expectedType, $idSite, $url, $referrerUrl)
     {
         $request = $this->getRequest(['idsite' => $idSite, 'url' => $url, 'urlref' => $referrerUrl]);
         $type = $this->keyword->onNewVisit($request, $this->getNewVisitor(), $action = null);
@@ -97,7 +97,7 @@ class ReferrerKeywordTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForOnExistingVisit
      */
-    public function test_onExistingVisit_shouldSometimesOverwriteReferrerInfo($expectedKeyword, $idSite, $url, $referrerUrl, $existingType)
+    public function testOnExistingVisitShouldSometimesOverwriteReferrerInfo($expectedKeyword, $idSite, $url, $referrerUrl, $existingType)
     {
         $request = $this->getRequest(['idsite' => $idSite, 'url' => $url, 'urlref' => $referrerUrl]);
         $visitor = $this->getNewVisitor();

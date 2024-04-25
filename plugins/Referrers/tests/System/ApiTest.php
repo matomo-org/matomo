@@ -129,7 +129,7 @@ class ApiTest extends SystemTestCase
         return $apiToTest;
     }
 
-    public function test_forceNewVisit_shouldNotForceANewVisitWhenNoKeywordIsSetAndNoReferrerWasSetInitially()
+    public function testForceNewVisitShouldNotForceANewVisitWhenNoKeywordIsSetAndNoReferrerWasSetInitially()
     {
         $dateTime = '2015-01-02';
         $idSite = self::$fixture->idSite;
@@ -154,7 +154,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
     }
 
-    public function test_forceNewVisit_shouldNotForceANewVisitWhenNoKeywordIsSetAndReferrerHostChanges()
+    public function testForceNewVisitShouldNotForceANewVisitWhenNoKeywordIsSetAndReferrerHostChanges()
     {
         $dateTime = '2015-01-03';
         $idSite = self::$fixture->idSite;
@@ -179,7 +179,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
     }
 
-    public function test_forceNewVisit_shouldForceANewVisitWhenNoKeywordIsSetAndCampaignNameIsUpperCase()
+    public function testForceNewVisitShouldForceANewVisitWhenNoKeywordIsSetAndCampaignNameIsUpperCase()
     {
         $dateTime = '2015-01-04';
         $idSite = self::$fixture->idSite;
@@ -204,7 +204,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
     }
 
-    public function test_forceNewVisit_shouldNotForceANewVisitWhenKeywordIsLongerThanDbColumnLength()
+    public function testForceNewVisitShouldNotForceANewVisitWhenKeywordIsLongerThanDbColumnLength()
     {
         $dateTime = '2015-01-05';
         $idSite = self::$fixture->idSite;
@@ -236,7 +236,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals(substr($longReferrer, 0, 255), $referrers->getFirstRow()->getColumn('label'));
     }
 
-    public function test_forceNewVisit_shouldNotForceNewVisitWhenReferrerNameIsLongerThanDbColumnLength()
+    public function testForceNewVisitShouldNotForceNewVisitWhenReferrerNameIsLongerThanDbColumnLength()
     {
         $dateTime = '2015-01-06';
         $idSite = self::$fixture->idSite;
@@ -262,7 +262,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
     }
 
-    public function test_referrersReport_sameUrlButDifferentProtocol_flat()
+    public function testReferrersReportSameUrlButDifferentProtocolFlat()
     {
         $dateTime = '2015-01-07';
         $idSite = self::$fixture->idSite;
@@ -290,7 +290,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals(2, $firstRow->getColumn('nb_visits'));
     }
 
-    public function test_referrersReport_sameUrlButDifferentProtocol_hierarchical()
+    public function testReferrersReportSameUrlButDifferentProtocolHierarchical()
     {
         $dateTime = '2015-01-08';
         $idSite = self::$fixture->idSite;
@@ -325,7 +325,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_visits'));
     }
 
-    public function test_searchEngineWithHiddenKeywordIsTrackedCorrectly()
+    public function testSearchEngineWithHiddenKeywordIsTrackedCorrectly()
     {
         $dateTime = '2015-01-09';
         $idSite = self::$fixture->idSite;
@@ -343,7 +343,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
     }
 
-    public function test_forceNewVisit_shouldNotForceANewVisitWhenCampaignIsTheSameAndSecondReferrerIsExcluded()
+    public function testForceNewVisitShouldNotForceANewVisitWhenCampaignIsTheSameAndSecondReferrerIsExcluded()
     {
         $dateTime = '2015-01-10';
         $idSite = self::$fixture->idSite;

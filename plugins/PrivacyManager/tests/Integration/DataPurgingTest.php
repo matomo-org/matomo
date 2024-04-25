@@ -248,7 +248,7 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertEquals(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->getTableCount($archiveTables['blob'][1])); // February
     }
 
-    public function test_LogDataPurging_WorksWhenVisitsInPastTracked()
+    public function testLogDataPurgingWorksWhenVisitsInPastTracked()
     {
         DbHelper::deleteArchiveTables();
 

@@ -16,7 +16,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
 
 class UrlsFromWebsiteIdTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_filter_ignoresDomainsPortssAndPortsInRecord()
+    public function testFilterIgnoresDomainsPortssAndPortsInRecord()
     {
         $table = new DataTable();
         $table->addRowsFromSimpleArray([
