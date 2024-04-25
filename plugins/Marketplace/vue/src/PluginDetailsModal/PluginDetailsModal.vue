@@ -257,6 +257,7 @@
             :update-nonce="updateNonce"
             :plugin="plugin"
             :in-modal="true"
+            @requestTrial="requestTrial"
             @startFreeTrial="startFreeTrial"
           />
         </div>
@@ -342,7 +343,11 @@ export default defineComponent({
       isLoading: true,
     };
   },
-  emits: ['update:modelValue', 'startFreeTrial'],
+  emits: [
+    'requestTrial',
+    'startFreeTrial',
+    'update:modelValue',
+  ],
   watch: {
     modelValue(newValue) {
       if (newValue) {
@@ -484,6 +489,12 @@ export default defineComponent({
     getScreenshotBaseName(screenshot: string) {
       const filename = screenshot.split('/').pop() || '';
       return filename.substring(0, filename.lastIndexOf('.')).split('_').join(' ');
+    },
+    requestTrial() {
+      $('#pluginDetailsModal').modal('close');
+      setTimeout(() => {
+        this.$emit('requestTrial', this.plugin);
+      }, 250);
     },
     showPluginDetailsDialog() {
       $('#pluginDetailsModal').modal({

@@ -30,6 +30,7 @@
     :activate-nonce="activateNonce"
     :install-nonce="installNonce"
     :update-nonce="updateNonce"
+    @requestTrial="this.showRequestTrialForPlugin = $event"
     @startFreeTrial="this.showStartFreeTrialForPlugin = $event"
   />
 
