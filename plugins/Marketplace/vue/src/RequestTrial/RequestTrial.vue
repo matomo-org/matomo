@@ -6,7 +6,7 @@
 
 <template>
   <div class="ui-confirm" ref="confirm">
-    <h2>{{ translate('Marketplace_RequestTrialConfirmTitle', modelValue) }}</h2>
+    <h2>{{ translate('Marketplace_RequestTrialConfirmTitle', plugin?.displayName) }}</h2>
     <p>{{ translate('Marketplace_RequestTrialConfirmEmailWarning') }}</p>
     <input role="yes" type="button" :value="translate('General_Yes')"/>
     <input role="no" type="button" :value="translate('General_No')"/>
@@ -18,12 +18,13 @@ import { defineComponent } from 'vue';
 
 import { AjaxHelper, NotificationsStore, translate } from 'CoreHome';
 import Matomo from '../../../../CoreHome/vue/src/Matomo/Matomo';
+import { PluginDetails } from '../types';
 
 export default defineComponent({
   props: {
     modelValue: {
-      type: String,
-      required: true,
+      type: Object,
+      default: () => ({}),
     },
   },
   emits: ['update:modelValue', 'trialRequested'],
@@ -37,30 +38,35 @@ export default defineComponent({
         this.$refs.confirm as HTMLElement,
         {
           yes: () => {
-            this.requestTrial(this.modelValue);
+            this.requestTrial();
           },
         },
         {
           onCloseEnd: () => {
-            this.$emit('update:modelValue', '');
+            this.$emit('update:modelValue', null);
           },
         },
       );
     },
   },
+  computed: {
+    plugin(): PluginDetails {
+      return this.modelValue as PluginDetails;
+    },
+  },
   methods: {
-    requestTrial(pluginName: string) {
+    requestTrial() {
       AjaxHelper.post(
         {
           module: 'API',
           method: 'Marketplace.requestTrial',
         },
-        { pluginName },
+        { pluginName: this.plugin.name },
       ).then(() => {
         const notificationInstanceId = NotificationsStore.show({
           message: translate(
             'Marketplace_RequestTrialSubmitted',
-            pluginName,
+            this.plugin.displayName,
           ),
           context: 'success',
           id: 'requestTrialSuccess',

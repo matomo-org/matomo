@@ -274,7 +274,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
-  IPluginShopDetails, IPluginShopReviews, IPluginShopVariation,
+  IPluginShopDetails,
+  IPluginShopReviews,
   PluginDetails,
   TObject,
   TObjectArray,
@@ -286,9 +287,6 @@ const { $ } = window;
 
 interface PluginDetailsModalState {
   isLoading: boolean;
-  pluginDetails: string;
-  fetchRequest: Promise<void>|null;
-  fetchRequestAbortController: AbortController|null;
 }
 
 export default defineComponent({
@@ -342,9 +340,6 @@ export default defineComponent({
   data(): PluginDetailsModalState {
     return {
       isLoading: true,
-      pluginDetails: '',
-      fetchRequest: null,
-      fetchRequestAbortController: null,
     };
   },
   emits: ['update:modelValue', 'startFreeTrial'],
@@ -383,9 +378,6 @@ export default defineComponent({
     },
     pluginShop(): IPluginShopDetails {
       return this.plugin.shop;
-    },
-    pluginShopVariations(): IPluginShopVariation[] {
-      return this.pluginShop?.variations || [];
     },
     pluginReviews(): IPluginShopReviews | TObject {
       return this.pluginShop?.reviews || {};
@@ -509,7 +501,7 @@ export default defineComponent({
     startFreeTrial() {
       $('#pluginDetailsModal').modal('close');
       setTimeout(() => {
-        this.$emit('startFreeTrial', this.plugin.name);
+        this.$emit('startFreeTrial', this.plugin);
       }, 250);
     },
   },

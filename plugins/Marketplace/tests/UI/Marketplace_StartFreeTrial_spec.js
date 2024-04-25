@@ -122,7 +122,7 @@ describe('Marketplace_StartFreeTrial', function () {
       const notification = await page.$('.notification-success');
       const notificationText = await notification.getProperty('textContent');
 
-      expect(notificationText).to.match(/added your License key, .* free trial for PaidPlugin1/i);
+      expect(notificationText).to.match(/added your License key, .* free trial for Paid Plugin 1/i);
     });
   });
 
@@ -169,7 +169,7 @@ describe('Marketplace_StartFreeTrial', function () {
       const notification = await page.$('.notification-success');
       const notificationText = await notification.getProperty('textContent');
 
-      expect(notificationText).to.match(/free trial has started .+ PaidPlugin1/i);
+      expect(notificationText).to.match(/free trial has started .+ Paid Plugin 1/i);
     });
   });
 });

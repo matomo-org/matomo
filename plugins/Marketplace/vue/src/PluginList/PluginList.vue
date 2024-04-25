@@ -84,8 +84,8 @@
                     :plugin="plugin"
                     :in-modal="false"
                     @openDetailsModal="this.openDetailsModal(plugin)"
-                    @requestTrial="showRequestTrialForPlugin = plugin.name"
-                    @startFreeTrial="showStartFreeTrialForPlugin = plugin.name"
+                    @requestTrial="showRequestTrialForPlugin = plugin"
+                    @startFreeTrial="showStartFreeTrialForPlugin = plugin"
                   />
                 </div>
                 <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
@@ -114,8 +114,8 @@ import PluginDetailsModal from '../PluginDetailsModal/PluginDetailsModal.vue';
 const { $ } = window;
 
 interface PluginListState {
-  showRequestTrialForPlugin: string;
-  showStartFreeTrialForPlugin: string;
+  showRequestTrialForPlugin: Record<string, unknown> | null;
+  showStartFreeTrialForPlugin: Record<string, unknown> | null;
   showPluginDetailsForPlugin: Record<string, unknown> | null;
 }
 
@@ -169,8 +169,8 @@ export default defineComponent({
   },
   data(): PluginListState {
     return {
-      showRequestTrialForPlugin: '',
-      showStartFreeTrialForPlugin: '',
+      showRequestTrialForPlugin: null,
+      showStartFreeTrialForPlugin: null,
       showPluginDetailsForPlugin: null,
     };
   },
@@ -271,9 +271,6 @@ export default defineComponent({
     },
     openDetailsModal(plugin: Record<string, unknown>) {
       this.showPluginDetailsForPlugin = plugin;
-    },
-    startTrialFromDetailsModal(pluginName: string) {
-      this.showStartFreeTrialForPlugin = pluginName;
     },
   },
 });

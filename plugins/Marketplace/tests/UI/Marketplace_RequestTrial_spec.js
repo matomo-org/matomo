@@ -47,7 +47,7 @@ describe('Marketplace_RequestTrial', function () {
     const confirmHeadline = await page.$('.modal.open h2');
     const confirmHeadlineText = await confirmHeadline.getProperty('textContent');
 
-    expect(confirmHeadlineText).to.match(/Request trial .+ PaidPlugin1/i);
+    expect(confirmHeadlineText).to.match(/Request trial .+ Paid Plugin 1/i);
   });
 
   it('should display a success notification after requesting a trial', async function () {
@@ -58,7 +58,7 @@ describe('Marketplace_RequestTrial', function () {
     const notification = await page.$('.notification-success');
     const notificationText = await notification.getProperty('textContent');
 
-    expect(notificationText).to.match(/Trial requested .+ PaidPlugin1/i);
+    expect(notificationText).to.match(/Trial requested .+ Paid Plugin 1/i);
   });
 
   it('should show a trial requested notification to the super user in reporting view', async function () {
