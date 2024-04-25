@@ -39,12 +39,12 @@ class DataFinderTest extends SystemTestCase
         $this->dataFinder = new DataFinder();
     }
 
-    public function test_hasTracked()
+    public function testHasTracked()
     {
         $this->assertTrue($this->dataFinder->hasTrackedData());
     }
 
-    public function test_hasAddedWebsite()
+    public function testHasAddedWebsite()
     {
         Fixture::createWebsite('2014-03-04 00:00:00');
 
@@ -52,7 +52,7 @@ class DataFinderTest extends SystemTestCase
         $this->assertTrue($this->dataFinder->hasAddedWebsite(Fixture::ADMIN_USER_LOGIN));
     }
 
-    public function test_hasAddedSegment()
+    public function testHasAddedSegment()
     {
         $this->assertFalse($this->dataFinder->hasAddedSegment(Fixture::ADMIN_USER_LOGIN));
 
@@ -62,7 +62,7 @@ class DataFinderTest extends SystemTestCase
         $this->assertTrue($this->dataFinder->hasAddedSegment(Fixture::ADMIN_USER_LOGIN));
     }
 
-    public function test_hasAddedOrCustomisedDashboard()
+    public function testHasAddedOrCustomisedDashboard()
     {
         $this->assertFalse($this->dataFinder->hasAddedOrCustomisedDashboard(Fixture::ADMIN_USER_LOGIN));
 
@@ -72,7 +72,7 @@ class DataFinderTest extends SystemTestCase
         $this->assertTrue($this->dataFinder->hasAddedOrCustomisedDashboard(Fixture::ADMIN_USER_LOGIN));
     }
 
-    public function test_hasAddedNewEmailReport()
+    public function testHasAddedNewEmailReport()
     {
         $this->assertFalse($this->dataFinder->hasAddedNewEmailReport(Fixture::ADMIN_USER_LOGIN));
 

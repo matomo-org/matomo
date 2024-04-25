@@ -54,7 +54,7 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
         $this->testInstance = new TestReportEmailGenerator();
     }
 
-    public function test_makeEmail_CreatesCorrectlyConfiguredMailInstance()
+    public function testMakeEmailCreatesCorrectlyConfiguredMailInstance()
     {
         $reportDetails = [];
 
@@ -99,7 +99,7 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
         ], $attachments);
     }
 
-    public function test_makeEmail_UsesCustomReplyTo_IfSupplied()
+    public function testMakeEmailUsesCustomReplyToIfSupplied()
     {
         $reportDetails = [];
 

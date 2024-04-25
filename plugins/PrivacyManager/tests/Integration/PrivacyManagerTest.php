@@ -45,7 +45,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_getPurgeDataSettings_shouldUseOnlyConfigValuesIfUIisDisabled()
+    public function testGetPurgeDataSettingsShouldUseOnlyConfigValuesIfUIisDisabled()
     {
         $this->setUIEnabled(false);
 
@@ -55,7 +55,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertEquals($expected, $settings);
     }
 
-    public function test_getPurgeDataSettings_shouldAlsoUseOptionValuesIfUIisEnabled()
+    public function testGetPurgeDataSettingsShouldAlsoUseOptionValuesIfUIisEnabled()
     {
         $this->setUIEnabled(true);
 
@@ -69,7 +69,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertEquals($expected, $settings);
     }
 
-    public function test_haveLogsBeenPurged_whenDateIsRecent()
+    public function testHaveLogsBeenPurgedWhenDateIsRecent()
     {
         $this->setUIEnabled(true);
         $_GET['date'] = Date::now()->subDay(self::DELETE_LOGS_OLDER_THAN - 2)->toString();
@@ -78,7 +78,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertFalse(PrivacyManager::haveLogsBeenPurged($dataTable = null));
     }
 
-    public function test_haveLogsBeenPurged_whenDateIsPastLogDeleteAndNoDataTableIsGiven()
+    public function testHaveLogsBeenPurgedWhenDateIsPastLogDeleteAndNoDataTableIsGiven()
     {
         $this->setUIEnabled(true);
         $_GET['date'] = Date::now()->subDay(self::DELETE_LOGS_OLDER_THAN + 2)->toString();
@@ -87,7 +87,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertTrue(PrivacyManager::haveLogsBeenPurged($dataTable = null));
     }
 
-    public function test_haveLogsBeenPurged_whenDateIsPastLogDeleteButLogsAreDisabled()
+    public function testHaveLogsBeenPurgedWhenDateIsPastLogDeleteButLogsAreDisabled()
     {
         $this->setUIEnabled(true);
         \Piwik\Option::set('delete_logs_enable', 0);
@@ -98,7 +98,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertFalse(PrivacyManager::haveLogsBeenPurged($dataTable = null));
     }
 
-    public function test_haveLogsBeenPurged_whenDateIsPastLogDeleteShouldNotBeDeletedIfDataTableHasData()
+    public function testHaveLogsBeenPurgedWhenDateIsPastLogDeleteShouldNotBeDeletedIfDataTableHasData()
     {
         $this->setUIEnabled(true);
         $_GET['date'] = Date::now()->subDay(self::DELETE_LOGS_OLDER_THAN + 2)->toString();
@@ -111,7 +111,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertFalse(PrivacyManager::haveLogsBeenPurged($dataTable));
     }
 
-    public function test_haveLogsBeenPurged_whenDateIsPastLogDeleteShouldBeDeletedIfDataTableHasNoData()
+    public function testHaveLogsBeenPurgedWhenDateIsPastLogDeleteShouldBeDeletedIfDataTableHasNoData()
     {
         $this->setUIEnabled(true);
         $_GET['date'] = Date::now()->subDay(self::DELETE_LOGS_OLDER_THAN + 2)->toString();
@@ -121,7 +121,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertTrue(PrivacyManager::haveLogsBeenPurged($dataTable));
     }
 
-    public function test_haveLogsBeenPurged_whenPassingManualLogDeletionDateValue_shouldAssumeLogDeletionIsEnabled()
+    public function testHaveLogsBeenPurgedWhenPassingManualLogDeletionDateValueShouldAssumeLogDeletionIsEnabled()
     {
         $this->setUIEnabled(true);
         \Piwik\Option::set('delete_logs_enable', 0);
@@ -137,7 +137,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertTrue(PrivacyManager::haveLogsBeenPurged($dataTable = null, $days = 500));
     }
 
-    public function test_savePurgeDataSettings()
+    public function testSavePurgeDataSettings()
     {
         PrivacyManager::savePurgeDataSettings(
             [

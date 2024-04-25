@@ -46,7 +46,7 @@ class DashboardTest extends IntegrationTestCase
                                 ->getMock();
     }
 
-    public function test__construct_shouldFetchSitesWithNeededColumns_AndReturnEvenSitesHavingNoVisits()
+    public function testConstructShouldFetchSitesWithNeededColumnsAndReturnEvenSitesHavingNoVisits()
     {
         $dayToFetch = '2012-12-13';
         $lastDate   = '2012-12-12';
@@ -160,7 +160,7 @@ class DashboardTest extends IntegrationTestCase
         $this->assertEquals($expectedSites, $dashboard->getSites(array(), $limit = 10));
     }
 
-    public function test__construct_shouldActuallyFindSitesWhenSeaching()
+    public function testConstructShouldActuallyFindSitesWhenSeaching()
     {
         $dashboard = new Dashboard('day', '2012-12-13', false);
         $this->assertSame($this->numSitesToCreate, $dashboard->getNumSites());
@@ -202,19 +202,19 @@ class DashboardTest extends IntegrationTestCase
         $this->assertSame(1, $dashboard->getNumSites());
     }
 
-    public function test_getNumSites_shouldBeZeroIfNoSitesAreSet()
+    public function testGetNumSitesShouldBeZeroIfNoSitesAreSet()
     {
         $this->assertSame(0, $this->dashboard->getNumSites());
     }
 
-    public function test_getNumSites_shouldReturnTheNumberOfSetSites()
+    public function testGetNumSitesShouldReturnTheNumberOfSetSites()
     {
         $this->setSitesTable(4);
 
         $this->assertSame(4, $this->dashboard->getNumSites());
     }
 
-    public function test_getNumSites_ShouldCountGroupsIntoResult()
+    public function testGetNumSitesShouldCountGroupsIntoResult()
     {
         $sites = $this->setSitesTable(20);
 
@@ -232,7 +232,7 @@ class DashboardTest extends IntegrationTestCase
         $this->assertSame(20 + 3, $this->dashboard->getNumSites());
     }
 
-    public function test_getSites_shouldReturnAnArrayOfSites()
+    public function testGetSitesShouldReturnAnArrayOfSites()
     {
         $this->setSitesTable(8);
 
@@ -241,7 +241,7 @@ class DashboardTest extends IntegrationTestCase
         $this->assertEquals($expectedSites, $this->dashboard->getSites(array(), $limit = 20));
     }
 
-    public function test_getSites_shouldApplyALimit()
+    public function testGetSitesShouldApplyALimit()
     {
         $this->setSitesTable(8);
 
@@ -250,7 +250,7 @@ class DashboardTest extends IntegrationTestCase
         $this->assertEquals($expectedSites, $this->dashboard->getSites(array(), $limit = 4));
     }
 
-    public function test_getSites_ShouldApplyLimitCorrectIfThereAreLessFirstLevelRowsThenLimit()
+    public function testGetSitesShouldApplyLimitCorrectIfThereAreLessFirstLevelRowsThenLimit()
     {
         $sites = $this->setSitesTable(8);
 
@@ -290,7 +290,7 @@ class DashboardTest extends IntegrationTestCase
         $this->assertEquals($expectedSites, $this->dashboard->getSites(array('filter_offset' => 5), $limit = 6));
     }
 
-    public function test_getSites_ShouldReturnOneMoreGroup_IfFirstSiteBelongsToAGroupButGroupWouldBeNormallyNotInResult()
+    public function testGetSitesShouldReturnOneMoreGroupIfFirstSiteBelongsToAGroupButGroupWouldBeNormallyNotInResult()
     {
         $sites = $this->setSitesTable(8);
 
@@ -325,7 +325,7 @@ class DashboardTest extends IntegrationTestCase
         $this->assertEquals($expectedSites, $this->dashboard->getSites(array('filter_offset' => 3), $limit = 4));
     }
 
-    public function test_getSites_WithGroup_shouldApplyALimitAndKeepSitesWithinGroup()
+    public function testGetSitesWithGroupShouldApplyALimitAndKeepSitesWithinGroup()
     {
         $sites = $this->setSitesTable(20);
 
@@ -362,7 +362,7 @@ class DashboardTest extends IntegrationTestCase
         $this->assertEquals($expectedSites, $this->dashboard->getSites(array(), $limit = 4));
     }
 
-    public function test_search_shouldUpdateTheNumberOfAvailableSites()
+    public function testSearchShouldUpdateTheNumberOfAvailableSites()
     {
         $this->setSitesTable(100);
 
@@ -372,7 +372,7 @@ class DashboardTest extends IntegrationTestCase
         $this->assertSame(12, $this->dashboard->getNumSites());
     }
 
-    public function test_search_shouldOnlyKeepMatchingSites()
+    public function testSearchShouldOnlyKeepMatchingSites()
     {
         $this->setSitesTable(100);
 
@@ -383,7 +383,7 @@ class DashboardTest extends IntegrationTestCase
         $this->assertEquals($expectedSites, $this->dashboard->getSites(array(), $limit = 20));
     }
 
-    public function test_search_noSiteMatches()
+    public function testSearchNoSiteMatches()
     {
         $this->setSitesTable(100);
 
@@ -393,7 +393,7 @@ class DashboardTest extends IntegrationTestCase
         $this->assertEquals(array(), $this->dashboard->getSites(array(), $limit = 20));
     }
 
-    public function test_search_WithGroup_shouldDoesSearchInGroupNameAndMatchesEvenSitesHavingThatGroupName()
+    public function testSearchWithGroupShouldDoesSearchInGroupNameAndMatchesEvenSitesHavingThatGroupName()
     {
         $sites = $this->setSitesTable(20);
 
@@ -479,7 +479,7 @@ class DashboardTest extends IntegrationTestCase
         $this->assertEquals(array_slice($expectedSites, 0, 8), $matchingSites);
     }
 
-    public function test_search_WithGroup_IfASiteMatchesButNotTheGroupName_ItShouldKeepTheGroupThough()
+    public function testSearchWithGroupIfASiteMatchesButNotTheGroupNameItShouldKeepTheGroupThough()
     {
         $sites = $this->setSitesTable(20);
 
@@ -525,14 +525,14 @@ class DashboardTest extends IntegrationTestCase
         $this->assertEquals($expectedSites, $matchingSites);
     }
 
-    public function test_getLastDate_shouldReturnTheLastDate_IfAnyIsSet()
+    public function testGetLastDateShouldReturnTheLastDateIfAnyIsSet()
     {
         $this->setSitesTable(1);
 
         $this->assertSame('2012-12-12', $this->dashboard->getLastDate());
     }
 
-    public function test_getLastDate_shouldReturnAnEmptyString_IfNoLastDateIsSet()
+    public function testGetLastDateShouldReturnAnEmptyStringIfNoLastDateIsSet()
     {
         $this->dashboard->setSitesTable(new DataTable());
 

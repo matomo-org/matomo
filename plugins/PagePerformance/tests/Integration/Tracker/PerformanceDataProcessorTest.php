@@ -36,7 +36,7 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 02:03:04');
     }
 
-    public function test_shouldUpdatePerformanceTimingsInOngoingEventRequest()
+    public function testShouldUpdatePerformanceTimingsInOngoingEventRequest()
     {
         $tracker = Fixture::getTracker(1, Date::now()->toString('Y-m-d H:i:s'));
         $tracker->setUrl('http://example.org/test');
@@ -52,7 +52,7 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
         $this->checkActionHasTimings($idPageView, 12, 77, 412, 1055, 333, 66);
     }
 
-    public function test_shouldUpdatePerformanceTimingsInOngoingPingRequest()
+    public function testShouldUpdatePerformanceTimingsInOngoingPingRequest()
     {
         $tracker = Fixture::getTracker(1, Date::now()->toString('Y-m-d H:i:s'));
         $tracker->setUrl('http://example.org/test');
@@ -68,7 +68,7 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
         $this->checkActionHasTimings($idPageView, 5, 66, 445, 1025, 12, 111);
     }
 
-    public function test_shouldNotUpdatePerformanceTimingsInOngoingPageViewRequest()
+    public function testShouldNotUpdatePerformanceTimingsInOngoingPageViewRequest()
     {
         $tracker = Fixture::getTracker(1, Date::now()->toString('Y-m-d H:i:s'));
         $tracker->setUrl('http://example.org/test');
@@ -86,7 +86,7 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
         $this->checkActionHasTimings($tracker->idPageview, 0, 66, 445, 1025, 12, 111);
     }
 
-    public function test_shouldNotUseObviouslyTooHighNumbers()
+    public function testShouldNotUseObviouslyTooHighNumbers()
     {
         $tracker = Fixture::getTracker(1, Date::now()->toString('Y-m-d H:i:s'));
         $tracker->setUrl('http://example.org/test');

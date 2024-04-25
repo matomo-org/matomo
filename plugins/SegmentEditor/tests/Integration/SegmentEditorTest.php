@@ -50,7 +50,7 @@ class SegmentEditorTest extends IntegrationTestCase
         APISitesManager::getInstance()->addSite('test', 'http://example.org');
     }
 
-    public function testAddInvalidSegment_ShouldThrow()
+    public function testAddInvalidSegmentShouldThrow()
     {
         $this->expectException(\Exception::class);
 
@@ -61,7 +61,7 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->fail("Exception not raised.");
     }
 
-    public function test_AddAndGet_SimpleSegment()
+    public function testAddAndGetSimpleSegment()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -88,7 +88,7 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->assertEquals($segment, $expected);
     }
 
-    public function test_AddAndGet_AnotherSegment()
+    public function testAddAndGetAnotherSegment()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -132,7 +132,7 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->assertEquals($segments, array());
     }
 
-    public function test_UpdateSegment()
+    public function testUpdateSegment()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -183,7 +183,7 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->assertEquals($newSegment['name'], $nameSegment1);
     }
 
-    public function test_deleteSegment()
+    public function testDeleteSegment()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -203,7 +203,7 @@ class SegmentEditorTest extends IntegrationTestCase
         API::getInstance()->get($idSegment1);
     }
 
-    public function test_transferAllUserSegmentsToSuperUser()
+    public function testTransferAllUserSegmentsToSuperUser()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -225,7 +225,7 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->assertEquals('super', $segment['login']);
     }
 
-    public function test_deletedUserLostTheSegments()
+    public function testDeletedUserLostTheSegments()
     {
         Rules::setBrowserTriggerArchiving(false);
         $model = new Model();

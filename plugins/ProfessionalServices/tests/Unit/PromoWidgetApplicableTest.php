@@ -20,7 +20,7 @@ class PromoWidgetApplicableTest extends TestCase
     /**
      * @dataProvider checkDataProvider
      */
-    public function test_check_shouldOnlyReturnTrue_IfAdShouldBeShown(bool $adsForProfessionalServicesEnabled, bool $marketplaceEnabled, bool $internetAccessEnabled, bool $pluginActivated, bool $isDismissed, bool $expected): void
+    public function testCheckShouldOnlyReturnTrueIfAdShouldBeShown(bool $adsForProfessionalServicesEnabled, bool $marketplaceEnabled, bool $internetAccessEnabled, bool $pluginActivated, bool $isDismissed, bool $expected): void
     {
         $manager = $this->createMock(Manager::class);
         $manager->method('isPluginActivated')->willReturnMap(
