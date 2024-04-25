@@ -33,31 +33,34 @@ export default defineComponent({
         return;
       }
 
-      Matomo.helper.modalConfirm((this.$refs.confirm as HTMLElement), {
-        no: () => {
-          this.$emit('update:modelValue', '');
+      Matomo.helper.modalConfirm(
+        this.$refs.confirm as HTMLElement,
+        {
+          yes: () => {
+            this.requestTrial(this.modelValue);
+          },
         },
-        yes: () => {
-          this.requestTrial();
+        {
+          onCloseEnd: () => {
+            this.$emit('update:modelValue', '');
+          },
         },
-      });
+      );
     },
   },
   methods: {
-    requestTrial() {
+    requestTrial(pluginName: string) {
       AjaxHelper.post(
         {
           module: 'API',
           method: 'Marketplace.requestTrial',
         },
-        {
-          pluginName: this.modelValue,
-        },
+        { pluginName },
       ).then(() => {
         const notificationInstanceId = NotificationsStore.show({
           message: translate(
             'Marketplace_RequestTrialSubmitted',
-            this.modelValue,
+            pluginName,
           ),
           context: 'success',
           id: 'requestTrialSuccess',
@@ -68,8 +71,6 @@ export default defineComponent({
         NotificationsStore.scrollToNotification(notificationInstanceId);
 
         this.$emit('trialRequested');
-      }).finally(() => {
-        this.$emit('update:modelValue', '');
       });
     },
   },
