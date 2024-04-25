@@ -48,6 +48,8 @@
         "OriginThirdParty": "Από τρίτες πηγές",
         "PluginActivated": "Το πρόσθετο ενεργοποιήθηκε",
         "PluginFreeTrialStarted": "%1$sΗ δοκιμή των 30 ημερών έχει ξεκινήσει%2$s για %3$s.",
+        "PluginFreeTrialStartedAccountCreatedMessage": "Έχουμε προσθέσει το κλειδί της άδειάς σας, ξεκινώντας την 30-ημερών δωρεάν δοκιμή για το %1$s. Κάνετε το επόμενο βήμα με εγκατάσταση και ενεργοποίηση του προσθέτου σας.",
+        "PluginFreeTrialStartedAccountCreatedTitle": "Ο λογαριασμός σας δημιουργήθηκε",
         "PluginHomepage": "Ιστοσελίδα πρόσθετου",
         "PluginNotCompatibleWith": "Το πρόσθετο %1$s δεν είναι συμβατό με το %2$s.",
         "PluginNotDownloadable": "Το πρόσθετο δεν είναι διαθέσιμο για κατέβασμα.",
