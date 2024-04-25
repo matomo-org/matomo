@@ -22,14 +22,22 @@ describe("Marketplace", function () {
     var exceededLicense = 'exceededLicense';
     var validLicense = 'validLicense';
 
-    async function loadPluginDetailPage(pluginName, isFreePlugin)
+    async function loadPluginDetailPage(pluginTitle, isFreePlugin)
     {
         await page.goto('about:blank');
         await page.goto(isFreePlugin ? pluginsUrl : paidPluginsUrl);
-        const elem = await page.waitForSelector('.card-content [matomo-plugin-name*="' + pluginName + '"]');
+
+        const elem = await page.jQuery(
+          '.card-content .card-title:contains("' + pluginTitle + '")',
+          { waitFor: true }
+        );
+
         await elem.click();
+        await page.waitForSelector('#pluginDetailsModal .modal-content__main', { visible: true });
+
+        // give it some time to fetch, animate, and render everything properly
         await page.waitForNetworkIdle();
-        await page.waitForSelector('.ui-dialog .pluginDetails');
+        await page.waitForTimeout(100);
     }
 
     async function captureSelector(screenshotName, selector)
@@ -66,9 +74,16 @@ describe("Marketplace", function () {
         await captureMarketplace(screenshotName, ',#notificationContainer');
     }
 
-    async function captureWithDialog(screenshotName)
+    async function captureWithPluginDetails(screenshotName)
     {
-        await captureSelector(screenshotName, '.ui-dialog');
+        const selector = '#pluginDetailsModal .modal-content';
+
+        // screenshotting the Materialize modal consistently
+        // clips wrong and captures nothing,
+        // unless the screenshot is attempted twice
+        await page.screenshotSelector(selector);
+
+        expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
     }
 
     function assumePaidPluginsActivated()
@@ -155,9 +170,9 @@ describe("Marketplace", function () {
             setEnvironment(mode, noLicense);
 
             var isFree = true;
-            await loadPluginDetailPage('TreemapVisualization', isFree);
+            await loadPluginDetailPage('Treemap Visualization', isFree);
 
-            await captureWithDialog('free_plugin_details_' + mode);
+            await captureWithPluginDetails('free_plugin_details_' + mode);
         });
 
         it('should show paid plugin details when having no license', async function() {
@@ -165,9 +180,9 @@ describe("Marketplace", function () {
 
             assumePaidPluginsActivated();
             var isFree = false;
-            await loadPluginDetailPage('PaidPlugin1', isFree);
+            await loadPluginDetailPage('Paid Plugin 1', isFree);
 
-            await captureWithDialog('paid_plugin_details_no_license_' + mode);
+            await captureWithPluginDetails('paid_plugin_details_no_license_' + mode);
         });
 
         it('should show paid plugin details when having valid license', async function() {
@@ -175,9 +190,9 @@ describe("Marketplace", function () {
 
             assumePaidPluginsActivated();
             var isFree = false;
-            await loadPluginDetailPage('PaidPlugin1', isFree);
+            await loadPluginDetailPage('Paid Plugin 1', isFree);
 
-            await captureWithDialog('paid_plugin_details_valid_license_' + mode + '_installed');
+            await captureWithPluginDetails('paid_plugin_details_valid_license_' + mode + '_installed');
         });
 
         it('should show paid plugin details when having valid license', async function() {
@@ -185,9 +200,9 @@ describe("Marketplace", function () {
 
             assumePaidPluginsActivated();
             var isFree = false;
-            await loadPluginDetailPage('PaidPlugin1', isFree);
+            await loadPluginDetailPage('Paid Plugin 1', isFree);
 
-            await captureWithDialog('paid_plugin_details_exceeded_license_' + mode);
+            await captureWithPluginDetails('paid_plugin_details_exceeded_license_' + mode);
         });
     });
 

@@ -72,6 +72,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'CorePluginsAdmin_ThemesDescription';
         $translationKeys[] = 'CorePluginsAdmin_ViewAllMarketplacePlugins';
         $translationKeys[] = 'CoreUpdater_UpdateTitle';
+        $translationKeys[] = 'General_Documentation';
         $translationKeys[] = 'General_Download';
         $translationKeys[] = 'General_Downloads';
         $translationKeys[] = 'General_Help';
@@ -154,6 +155,31 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_UploadZipFile';
         $translationKeys[] = 'Marketplace_ViewSubscriptions';
         $translationKeys[] = 'Mobile_LoadingReport';
+        $translationKeys[] = 'Marketplace_AddToCart';
+        $translationKeys[] = 'Marketplace_Authors';
+        $translationKeys[] = 'Marketplace_AutoUpdateDisabledWarning';
+        $translationKeys[] = 'Marketplace_ByXDevelopers';
+        $translationKeys[] = 'Marketplace_ClickToCompletePurchase';
+        $translationKeys[] = 'Marketplace_CurrentNumPiwikUsers';
+        $translationKeys[] = 'Marketplace_Developer';
+        $translationKeys[] = 'Marketplace_FeaturedPlugin';
+        $translationKeys[] = 'Marketplace_LastCommitTime';
+        $translationKeys[] = 'Marketplace_LastUpdated';
+        $translationKeys[] = 'Marketplace_License';
+        $translationKeys[] = 'Marketplace_MultiServerEnvironmentWarning';
+        $translationKeys[] = 'Marketplace_NumDownloadsLatestVersion';
+        $translationKeys[] = 'Marketplace_PluginKeywords';
+        $translationKeys[] = 'Marketplace_PluginLicenseExceededDescription';
+        $translationKeys[] = 'Marketplace_PluginLicenseMissingDescription';
+        $translationKeys[] = 'Marketplace_PluginWebsite';
+        $translationKeys[] = 'Marketplace_PriceExclTax';
+        $translationKeys[] = 'Marketplace_Reviews';
+        $translationKeys[] = 'Marketplace_Screenshots';
+        $translationKeys[] = 'Marketplace_ShownPriceIsExclTax';
+        $translationKeys[] = 'Marketplace_TryFreeTrialTitle';
+        $translationKeys[] = 'CorePluginsAdmin_Activity';
+        $translationKeys[] = 'CorePluginsAdmin_Version';
+        $translationKeys[] = 'CorePluginsAdmin_Websites';
     }
 
     /**

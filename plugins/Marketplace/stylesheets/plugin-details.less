@@ -102,5 +102,313 @@
     img {
         max-width: 100%;
     }
+}
 
+// plugin details modal
+#pluginDetailsModal {
+    max-height: 80vh;
+    color: #000;
+
+    width: 60%;
+
+    @media (max-width: 1200px) {
+        width: 75%;
+    }
+
+    @media (max-width: 992px) {
+        width: 90%;
+        max-height: 90vh;
+        top: 5% !important; // required to override inline style set by the modal
+    }
+
+    .btn-close {
+        z-index: 100;
+    }
+
+    .star-icon {
+        height: 24px;
+        width: 24px;
+        margin-right: 4px;
+        vertical-align: unset;
+    }
+
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 0;
+        max-height: 80vh;
+
+        @media (max-width: 992px) {
+            max-height: 90vh;
+        }
+    }
+
+    .modal-content__header {
+        padding: 24px 24px 0;
+        height: 160px;
+
+        @media (max-width: 600px) {
+            height: 160px;
+        }
+
+        h2 {
+            font-size: 32px;
+            line-height: 48px;
+            font-weight: 700;
+            color: black;
+            padding-top: 0;
+
+            @media (max-width: 600px) {
+                font-size: 24px;
+                line-height: 30px;
+            }
+
+            @media (max-width: 320px) {
+                font-size: 16px;
+                line-height: 24px;
+            }
+        }
+
+        .reviews-icon {
+            vertical-align: bottom;
+            // equivalent to #F6DA50 from https://isotropic.co/tool/hex-color-to-css-filter/
+            filter: invert(68%) sepia(54%) saturate(424%) hue-rotate(13deg) brightness(110%) contrast(102%);
+        }
+
+        .plugin-metadata-part1 {
+            dl {
+                display: flex;
+                flex-wrap: nowrap;
+                align-items: flex-start;
+                gap: 36px;
+
+                @media (max-width: 600px) {
+                    gap: 24px;
+                }
+
+                @media (max-width: 480px) {
+                    gap: 4px;
+                    justify-content: space-between;
+                }
+            }
+
+            dt {
+                flex-basis: 100%;
+                margin: 4px 0 0;
+                font-size: 12px;
+                line-height: 22px;
+
+                @media (max-width: 320px) {
+                    font-size: 10px;
+                }
+            }
+
+            dd {
+                flex-basis: 100%; /* Use full width */
+                margin: 0; /* Remove default margin */
+                font-size: 16px;
+                line-height: 24px;
+
+                @media (max-width: 600px) {
+                    font-size: 14px;
+                }
+
+                @media (max-width: 320px) {
+                    font-size: 10px;
+                }
+            }
+
+            .pair {
+                display: flex;
+                flex-direction: column;
+            }
+
+            a {
+                color: #000;
+
+                &:hover {
+                    color: @theme-color-link;
+                }
+            }
+        }
+    }
+
+    .modal-content__main {
+        position: relative;
+        overflow-y: scroll;
+        max-height: calc(~"80vh - 250px");
+        padding: 0 24px 24px;
+        color: #000;
+
+        @media (max-width: 992px) {
+            max-height: calc(~"90vh - 250px");
+        }
+
+        h2, h3, h4, h5, h6 {
+            margin: 20px 0 10px 0;
+            color: #000000;
+        }
+
+        // h2 should not appear in the content but at it does for some plugins
+        h2, h3 {
+            font-size: 24px;
+            line-height: 30px;
+        }
+
+        h4 {
+            font-size: 20px;
+            line-height: 24px;
+        }
+
+        h5 {
+            font-size: 16px;
+            line-height: 20px;
+        }
+
+        h6 {
+            font-size: 12px;
+            line-height: 16px;
+        }
+
+        iframe{
+            width:100%;
+            border: 0;
+            background-image: url('plugins/Morpheus/images/loading-blue.gif');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        blockquote {
+            margin: 20px 0;
+            padding-left: 1.5rem;
+            border-left: 5px solid #ee6e73;
+        }
+
+        ul, ol {
+            list-style: initial;
+            padding-left: 20px;
+        }
+
+        p, ul, li {
+            text-align: left;
+            line-height: 20px;
+            list-style: initial;
+        }
+
+        p {
+            margin: 0 0 10px;
+        }
+
+        a {
+            color: @theme-color-link;
+        }
+
+        img {
+            max-width: 95%;
+        }
+
+        // styles for main content from marketplace
+        .main-div-readme {
+            display: flex;
+        }
+
+        .left-div-readme {
+            width: 50%;
+        }
+
+        .right-div-readme {
+            flex-grow: 1; width: 50%;
+        }
+
+        .plugin-metadata-part2 {
+            dl {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                font-size: 14px;
+                line-height: 22px;
+            }
+
+            dt {
+                font-weight: 700;
+                min-width: 15%;
+                padding-right: 10px;
+            }
+
+            dd {
+                text-align: right;
+            }
+
+            .pair {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 8px 0;
+                border-bottom: 1px solid #aaa;
+
+                &:last-of-type {
+                    border-bottom: 0;
+                }
+            }
+        }
+
+        .plugin-screenshots {
+            .thumbnails {
+                text-align: center;
+
+                figure {
+                    margin: 24px auto;
+                    border: 1px solid #e0e0e0;
+                    display: inline-block;;
+                }
+
+                img {
+                    max-width: 100%;
+                }
+
+                figcaption {
+                    padding: 8px;
+                    background: #e0e0e0;
+                    text-align: left;
+                }
+            }
+        }
+
+        hr {
+            height: 1px;
+            overflow: hidden;
+            background-image: url('plugins/Marketplace/images/divider.svg');
+            border: 0;
+            margin: 36px 0;
+        }
+    }
+
+    .modal-content__footer {
+        padding: 24px;
+        height: 90px;
+        border-top: 1px solid #aaa;
+        display: flex;
+        justify-content: space-between;
+
+        .cta-container {
+            width: 30%;
+
+            @media (max-width: 992px) {
+                width: 50%;
+            }
+
+            @media (max-width: 768px) {
+                width: 60%;
+            }
+
+            @media (max-width: 600px) {
+                width: 70%;
+            }
+        }
+
+        .matomo-badge-modal {
+            position: initial;
+        }
+    }
 }
