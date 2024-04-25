@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Marketplace\PluginTrial;
 use Exception;
 use Piwik\Config\GeneralConfig;
 use Piwik\Piwik;
+use Piwik\Session;
 
 final class Service
 {
@@ -123,8 +124,10 @@ final class Service
         $request = new Request($pluginName, new Storage($pluginName));
         $request->cancel();
 
-        $notification = new Notification($pluginName, new Storage($pluginName));
-        $notification->removeFromSession();
+        if (Piwik::hasUserSuperUserAccess() && Session::isStarted()) {
+            $notification = new Notification($pluginName, new Storage($pluginName));
+            $notification->removeFromSession();
+        }
     }
 
     public function isEnabled(): bool
