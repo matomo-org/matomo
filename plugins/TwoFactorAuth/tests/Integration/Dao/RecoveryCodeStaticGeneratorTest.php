@@ -31,17 +31,17 @@ class RecoveryCodeStaticGeneratorTest extends IntegrationTestCase
         $this->generator = new RecoveryCodeStaticGenerator();
     }
 
-    public function test_generatorCode_length()
+    public function testGeneratorCodeLength()
     {
         $this->assertSame(16, mb_strlen($this->generator->generateCode()));
     }
 
-    public function test_generatorCode_alwaysDifferent()
+    public function testGeneratorCodeAlwaysDifferent()
     {
         $this->assertNotEquals($this->generator->generateCode(), $this->generator->generateCode());
     }
 
-    public function test_generatorCode_increases()
+    public function testGeneratorCodeIncreases()
     {
         $this->assertSame('1100000000000000', $this->generator->generateCode());
         $this->assertSame('1200000000000000', $this->generator->generateCode());

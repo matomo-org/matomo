@@ -53,7 +53,7 @@ class TokenSecureOnlyTest extends IntegrationTestCase
     /**
      * Secure only tokens should return a 401 code if used in a GET request
      */
-    public function test_secureOnlyToken_accessDeniedIfGet()
+    public function testSecureOnlyTokenAccessDeniedIfGet()
     {
         $url = Fixture::getTestRootUrl() . '?' . http_build_query([
                 'module' => 'API',
@@ -75,7 +75,7 @@ class TokenSecureOnlyTest extends IntegrationTestCase
     /**
      * Secure only tokens should return a 200 code if used in a POST request
      */
-    public function test_secureOnlyToken_accessGrantedIfPost()
+    public function testSecureOnlyTokenAccessGrantedIfPost()
     {
         $url = Fixture::getTestRootUrl() . '?' . http_build_query([
                 'module' => 'API',

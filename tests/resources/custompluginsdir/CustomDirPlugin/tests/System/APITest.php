@@ -24,7 +24,7 @@ class APITest extends SystemTestCase
      */
     public static $fixture = null; // initialized below class definition
 
-    public function test_api()
+    public function testApi()
     {
         $this->assertEquals(42, Request::processRequest('CustomDirPlugin.getCustomAnswerToLive'));
     }

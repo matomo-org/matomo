@@ -119,7 +119,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
 
     // TODO: this test should be in an integration test for Piwik\Archive. setup code for getting metrics from different
     //       plugins is non-trivial, so not done now.
-    public function test_Archive_getNumeric_ReturnsMetricsFromDifferentPlugins_WhenThoseMetricsAreRequested()
+    public function testArchiveGetNumericReturnsMetricsFromDifferentPluginsWhenThoseMetricsAreRequested()
     {
         // Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
         // at the same time works.

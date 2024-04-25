@@ -26,7 +26,7 @@ class CustomClassTest extends \PHPUnit\Framework\TestCase
         // tear down here if needed
     }
 
-    public function test_autoloading_customplugin_works()
+    public function testAutoloadingCustompluginWorks()
     {
         $customClass = new CustomClass();
         $this->assertTrue($customClass instanceof CustomClass);

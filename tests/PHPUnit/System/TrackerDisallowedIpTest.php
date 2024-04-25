@@ -30,7 +30,7 @@ class TrackerDisallowedIpTest extends IntegrationTestCase
         Fixture::createSuperUser(false);
     }
 
-    public function test_authenticatedRequest_ShouldWorkWhenAuthenticationRequired()
+    public function testAuthenticatedRequestShouldWorkWhenAuthenticationRequired()
     {
         // authentication required due to an older date and custom ip
         $tracker = Fixture::getTracker(1, '2021-02-02 16:00:00', $defaultInit = true, $useLocalTracker = false);
@@ -40,7 +40,7 @@ class TrackerDisallowedIpTest extends IntegrationTestCase
         $this->assertEquals(1, Db::fetchOne('SELECT count(*) FROM ' . Common::prefixTable('log_visit')));
     }
 
-    public function test_unauthenticatedRequest_ShouldWorkWhenAuthenticationNotRequired()
+    public function testUnauthenticatedRequestShouldWorkWhenAuthenticationNotRequired()
     {
         $tracker = Fixture::getTracker(1, date('Y-m-d H:i:s'), $defaultInit = false, $useLocalTracker = false);
         Fixture::checkResponse($tracker->doTrackPageView('test'));
@@ -48,7 +48,7 @@ class TrackerDisallowedIpTest extends IntegrationTestCase
         $this->assertEquals(1, Db::fetchOne('SELECT count(*) FROM ' . Common::prefixTable('log_visit')));
     }
 
-    public function test_unauthenticatedRequest_ShouldNotWorkWhenAuthenticationRequired()
+    public function testUnauthenticatedRequestShouldNotWorkWhenAuthenticationRequired()
     {
         // authentication required due to an older date
         $tracker = Fixture::getTracker(1, '2021-02-02 16:00:00', $defaultInit = false, $useLocalTracker = false);

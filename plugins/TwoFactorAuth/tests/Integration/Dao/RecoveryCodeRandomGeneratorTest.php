@@ -31,12 +31,12 @@ class RecoveryCodeRandomGeneratorTest extends IntegrationTestCase
         $this->generator = new RecoveryCodeRandomGenerator();
     }
 
-    public function test_generatorCode_length()
+    public function testGeneratorCodeLength()
     {
         $this->assertSame(16, mb_strlen($this->generator->generateCode()));
     }
 
-    public function test_generatorCode_alwaysDifferent()
+    public function testGeneratorCodeAlwaysDifferent()
     {
         $this->assertNotEquals($this->generator->generateCode(), $this->generator->generateCode());
     }

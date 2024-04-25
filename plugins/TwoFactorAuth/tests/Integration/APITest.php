@@ -58,7 +58,7 @@ class APITest extends IntegrationTestCase
         $this->twoFa = StaticContainer::get(TwoFactorAuthentication::class);
     }
 
-    public function test_resetTwoFactorAuth_failsWhenNotPermissions()
+    public function testResetTwoFactorAuthFailsWhenNotPermissions()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess Fake exception');
@@ -67,7 +67,7 @@ class APITest extends IntegrationTestCase
         $this->api->resetTwoFactorAuth('login', Fixture::ADMIN_USER_PASSWORD);
     }
 
-    public function test_resetTwoFactorAuth_resetsSecret()
+    public function testResetTwoFactorAuthResetsSecret()
     {
         $this->recoveryCodes->createRecoveryCodesForLogin('mylogin1');
         $this->recoveryCodes->createRecoveryCodesForLogin('mylogin2');

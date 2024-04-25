@@ -33,7 +33,7 @@ class GetTest extends \PHPUnit\Framework\TestCase
         $this->get = new Get();
     }
 
-    public function test_removeUsersFromProcessedReport_shouldNotDoAnything_IfNothingRelatedToUsersIsGiven()
+    public function testRemoveUsersFromProcessedReportShouldNotDoAnythingIfNothingRelatedToUsersIsGiven()
     {
         $response = array();
         $this->get->removeUsersFromProcessedReport($response);
@@ -44,28 +44,28 @@ class GetTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array($this->column => '10', 'test' => 'whatever', 'columns' => array($this->column)), $response);
     }
 
-    public function test_removeUsersFromProcessedReport_shouldRemoveMetrics_IfUserIsGiven()
+    public function testRemoveUsersFromProcessedReportShouldRemoveMetricsIfUserIsGiven()
     {
         $response = array('metadata' => array('metrics' => array('nb_visits' => 'Visits', $this->column => 'Users')));
         $this->get->removeUsersFromProcessedReport($response);
         $this->assertSame(array('metadata' => array('metrics' => array('nb_visits' => 'Visits'))), $response);
     }
 
-    public function test_removeUsersFromProcessedReport_shouldRemoveMetricsDocumentation_IfUserIsGiven()
+    public function testRemoveUsersFromProcessedReportShouldRemoveMetricsDocumentationIfUserIsGiven()
     {
         $response = array('metadata' => array('metricsDocumentation' => array('nb_visits' => 'Visits', $this->column => 'Users')));
         $this->get->removeUsersFromProcessedReport($response);
         $this->assertSame(array('metadata' => array('metricsDocumentation' => array('nb_visits' => 'Visits'))), $response);
     }
 
-    public function test_removeUsersFromProcessedReport_shouldRemoveColumn_IfUserIsGiven()
+    public function testRemoveUsersFromProcessedReportShouldRemoveColumnIfUserIsGiven()
     {
         $response = array('columns' => array('nb_visits' => 'Visits', $this->column => 'Users'));
         $this->get->removeUsersFromProcessedReport($response);
         $this->assertSame(array('columns' => array('nb_visits' => 'Visits')), $response);
     }
 
-    public function test_removeUsersFromProcessedReport_shouldRemoveUsersColumnFromDataTable_IfUserIsGiven()
+    public function testRemoveUsersFromProcessedReportShouldRemoveUsersColumnFromDataTableIfUserIsGiven()
     {
         $table = $this->getDataTableWithUsers();
         $this->assertSame(array(20), $table->getColumn($this->column)); // verify column present
@@ -77,7 +77,7 @@ class GetTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(10), $table->getColumn('nb_visits'));
     }
 
-    public function test_removeUsersFromProcessedReport_shouldRemoveUsersColumnFromDataTableMap_IfUserIsGiven()
+    public function testRemoveUsersFromProcessedReportShouldRemoveUsersColumnFromDataTableMapIfUserIsGiven()
     {
         $table = new DataTable\Map();
         $table->addTable($this->getDataTableWithUsers(), 'label');

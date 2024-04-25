@@ -121,7 +121,7 @@ class ConsoleTest extends ConsoleCommandTestCase
         StaticContainer::get(FailureLogMessageDetector::class)->reset();
     }
 
-    public function test_Console_ReturnsCorrectExitCode_IfCommandEmitsWarning()
+    public function testConsoleReturnsCorrectExitCodeIfCommandEmitsWarning()
     {
         $exitCode = $this->applicationTester->run([
             'command' => 'test-command-with-warning',
@@ -129,7 +129,7 @@ class ConsoleTest extends ConsoleCommandTestCase
         $this->assertEquals(1, $exitCode);
     }
 
-    public function test_Console_ReturnsCorrectExitCode_IfCommandEmitsError()
+    public function testConsoleReturnsCorrectExitCodeIfCommandEmitsError()
     {
         $exitCode = $this->applicationTester->run([
             'command' => 'test-command-with-error',
@@ -137,7 +137,7 @@ class ConsoleTest extends ConsoleCommandTestCase
         $this->assertEquals(1, $exitCode);
     }
 
-    public function test_Console_ReturnsCorrectExitCode_IfCommandDoesNotEmitAnything()
+    public function testConsoleReturnsCorrectExitCodeIfCommandDoesNotEmitAnything()
     {
         $exitCode = $this->applicationTester->run([
             'command' => 'test-command-with-error',
@@ -146,7 +146,7 @@ class ConsoleTest extends ConsoleCommandTestCase
         $this->assertEquals(0, $exitCode);
     }
 
-    public function test_Console_handlesFatalErrorsCorrectly()
+    public function testConsoleHandlesFatalErrorsCorrectly()
     {
         $cliPhp = new CliPhp();
         $php = $cliPhp->findPhpBinary();
@@ -188,7 +188,7 @@ END;
         $this->assertStringMatchesFormat($expected, $output);
     }
 
-    public function test_Console_handlesExceptionsCorrectly()
+    public function testConsoleHandlesExceptionsCorrectly()
     {
         $command = Fixture::getCliCommandBase();
         $command .= ' test-command-with-exception';

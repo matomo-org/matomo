@@ -33,7 +33,7 @@ class RecoveryCodeDaoTest extends IntegrationTestCase
         $this->dao = StaticContainer::get(RecoveryCodeDao::class);
     }
 
-    public function test_shouldInstallTable()
+    public function testShouldInstallTable()
     {
         $columns = DbHelper::getTableColumns($this->dao->getPrefixedTableName());
         $columns = array_keys($columns);
@@ -41,12 +41,12 @@ class RecoveryCodeDaoTest extends IntegrationTestCase
         $this->assertEquals(['idrecoverycode', 'login', 'recovery_code'], $columns);
     }
 
-    public function test_getAllRecoveryCodesForLogin_emptyByDefault()
+    public function testGetAllRecoveryCodesForLoginEmptyByDefault()
     {
         $this->assertEquals([], $this->dao->getAllRecoveryCodesForLogin('login1'));
     }
 
-    public function test_insertRecoveryCode_getAllRecoveryCodesForLogin()
+    public function testInsertRecoveryCodeGetAllRecoveryCodesForLogin()
     {
         $this->dao->insertRecoveryCode('login1', '123456');
         $this->dao->insertRecoveryCode('login1', '654321');
@@ -55,7 +55,7 @@ class RecoveryCodeDaoTest extends IntegrationTestCase
         $this->assertEquals(['333111'], $this->dao->getAllRecoveryCodesForLogin('login2'));
     }
 
-    public function test_deleteRecoveryCode()
+    public function testDeleteRecoveryCode()
     {
         $this->insertManyCodesDifferentLogins();
         $this->assertEquals(['123456', '654321'], $this->dao->getAllRecoveryCodesForLogin('login1'));
@@ -74,7 +74,7 @@ class RecoveryCodeDaoTest extends IntegrationTestCase
         $this->assertEquals(0, $this->dao->deleteRecoveryCode('login2', '654321')); // cannot be deleted again
     }
 
-    public function test_deleteAllRecoveryCodesForLogin()
+    public function testDeleteAllRecoveryCodesForLogin()
     {
         $this->insertManyCodesDifferentLogins();
         $this->assertEquals(['123456', '654321'], $this->dao->getAllRecoveryCodesForLogin('login1'));
@@ -87,7 +87,7 @@ class RecoveryCodeDaoTest extends IntegrationTestCase
         $this->assertEquals([], $this->dao->getAllRecoveryCodesForLogin('login2'));
     }
 
-    public function test_useRecoveryCode()
+    public function testUseRecoveryCode()
     {
         $this->insertManyCodesDifferentLogins();
         $this->assertEquals(['123456', '654321'], $this->dao->getAllRecoveryCodesForLogin('login1'));
@@ -109,7 +109,7 @@ class RecoveryCodeDaoTest extends IntegrationTestCase
         $this->assertEquals([], $this->dao->getAllRecoveryCodesForLogin('login2'));
     }
 
-    public function test_createRecoveryCodesForLogin()
+    public function testCreateRecoveryCodesForLogin()
     {
         $this->assertEquals([], $this->dao->getAllRecoveryCodesForLogin('login1'));
         $this->dao->createRecoveryCodesForLogin('login1');
@@ -135,7 +135,7 @@ class RecoveryCodeDaoTest extends IntegrationTestCase
         }
     }
 
-    public function test_createRecoveryCodesForLogin_DifferentPerLogin()
+    public function testCreateRecoveryCodesForLoginDifferentPerLogin()
     {
         $this->dao->createRecoveryCodesForLogin('login1');
         $this->dao->createRecoveryCodesForLogin('login2');

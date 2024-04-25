@@ -107,7 +107,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
      *
      * @depends      testApi
      */
-    public function test_checkArchiveRecords_whenPeriodIsRange()
+    public function testCheckArchiveRecordsWhenPeriodIsRange()
     {
         $archivePurger = StaticContainer::get(ArchivePurger::class);
         foreach (self::$fixture->dateTimes as $date) {
@@ -180,7 +180,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
      *
      * @depends      testApi
      */
-    public function test_checkArchiveRecords_shouldMergeSubtablesIntoOneRow()
+    public function testCheckArchiveRecordsShouldMergeSubtablesIntoOneRow()
     {
         $tests = array(
             'archive_blob_2010_12' => 3,
