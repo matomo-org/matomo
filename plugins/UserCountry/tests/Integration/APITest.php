@@ -41,7 +41,7 @@ class APITest extends IntegrationTestCase
         LocationProvider::getAllProviders();
     }
 
-    public function test_setLocationProvider()
+    public function testSetLocationProvider()
     {
         $locationProvider = GeoIp2\Php::ID;
         $this->api->setLocationProvider($locationProvider);
@@ -52,7 +52,7 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($locationProvider, Common::getCurrentLocationProviderId());
     }
 
-    public function test_setLocationProviderInvalid()
+    public function testSetLocationProviderInvalid()
     {
         $this->expectException(\Exception::class);
 
@@ -60,7 +60,7 @@ class APITest extends IntegrationTestCase
         $this->api->setLocationProvider($locationProvider);
     }
 
-    public function test_setLocationProviderNoSuperUser()
+    public function testSetLocationProviderNoSuperUser()
     {
         $this->expectException(\Exception::class);
 
@@ -70,7 +70,7 @@ class APITest extends IntegrationTestCase
         $this->api->setLocationProvider($locationProvider);
     }
 
-    public function test_setLocationProviderDisabledInConfig()
+    public function testSetLocationProviderDisabledInConfig()
     {
         $this->expectException(\Exception::class);
 
@@ -83,7 +83,7 @@ class APITest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForGetLocationFromIP
      */
-    public function test_getLocationFromIP($ipAddress, $expected, $ipAddressHeader = null)
+    public function testGetLocationFromIP($ipAddress, $expected, $ipAddressHeader = null)
     {
         if (!empty($ipAddressHeader)) {
             $_SERVER['REMOTE_ADDR'] = $ipAddressHeader;

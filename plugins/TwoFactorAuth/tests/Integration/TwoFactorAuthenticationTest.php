@@ -54,23 +54,23 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
         $this->twoFa = new TwoFactorAuthentication($this->settings, $this->dao, $secretGenerator);
     }
 
-    public function test_generateSecret()
+    public function testGenerateSecret()
     {
         $this->assertSame(16, mb_strlen($this->twoFa->generateSecret()));
     }
 
-    public function test_isUserRequiredToHaveTwoFactorEnabled_notByDefault()
+    public function testIsUserRequiredToHaveTwoFactorEnabledNotByDefault()
     {
         $this->assertFalse($this->twoFa->isUserRequiredToHaveTwoFactorEnabled());
     }
 
-    public function test_isUserRequiredToHaveTwoFactorEnabled()
+    public function testIsUserRequiredToHaveTwoFactorEnabled()
     {
         $this->settings->twoFactorAuthRequired->setValue(1);
         $this->assertTrue($this->twoFa->isUserRequiredToHaveTwoFactorEnabled());
     }
 
-    public function test_saveSecret_disable2FAforUser_isUserUsingTwoFactorAuthentication()
+    public function testSaveSecretDisable2FAforUserIsUserUsingTwoFactorAuthentication()
     {
         $this->dao->createRecoveryCodesForLogin('mylogin');
 
@@ -85,7 +85,7 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
         $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin'));
     }
 
-    public function test_disable2FAforUser_removesAllRecoveryCodes()
+    public function testDisable2FAforUserRemovesAllRecoveryCodes()
     {
         $this->dao->createRecoveryCodesForLogin('mylogin');
         $this->assertNotEmpty($this->dao->getAllRecoveryCodesForLogin('mylogin'));
@@ -93,7 +93,7 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
         $this->assertEquals([], $this->dao->getAllRecoveryCodesForLogin('mylogin'));
     }
 
-    public function test_saveSecret_neverWorksForAnonymous()
+    public function testSaveSecretNeverWorksForAnonymous()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Anonymous cannot use');
@@ -101,7 +101,7 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
         $this->twoFa->saveSecret('anonymous', '123456');
     }
 
-    public function test_saveSecret_notWorksWhenNoRecoveryCodesCreated()
+    public function testSaveSecretNotWorksWhenNoRecoveryCodesCreated()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('no recovery codes have been created');
@@ -109,12 +109,12 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
         $this->twoFa->saveSecret('not', '123456');
     }
 
-    public function test_isUserUsingTwoFactorAuthentication_neverWorksForAnonymous()
+    public function testIsUserUsingTwoFactorAuthenticationNeverWorksForAnonymous()
     {
         $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('anonymous'));
     }
 
-    public function test_validateAuthCodeDuringSetup()
+    public function testValidateAuthCodeDuringSetup()
     {
         $secret = '789123';
         $this->assertFalse($this->twoFa->validateAuthCodeDuringSetup('123456', $secret));
@@ -124,7 +124,7 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
         $this->assertTrue($this->twoFa->validateAuthCodeDuringSetup($authCode, $secret));
     }
 
-    public function test_validateAuthCode_userIsNotUsingTwoFa()
+    public function testValidateAuthCodeUserIsNotUsingTwoFa()
     {
         $this->assertFalse($this->twoFa->validateAuthCode('mylogin', '123456'));
         $this->assertFalse($this->twoFa->validateAuthCode('mylogin', false));
@@ -133,7 +133,7 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
         $this->assertFalse($this->twoFa->validateAuthCode('mylogin', 0));
     }
 
-    public function test_validateAuthCode_userIsUsingTwoFa_authenticatesThroughApp()
+    public function testValidateAuthCodeUserIsUsingTwoFaAuthenticatesThroughApp()
     {
         $secret1 = '123456';
         $secret2 = '654321';
@@ -156,7 +156,7 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
         $this->assertFalse($this->twoFa->validateAuthCode('mylogin1', 0));
     }
 
-    public function test_validateAuthCode_userIsUsingTwoFa_sameCodeCannotBeUsedTwice()
+    public function testValidateAuthCodeUserIsUsingTwoFaSameCodeCannotBeUsedTwice()
     {
         $secret1 = '654321';
         $secret2 = '654321';
@@ -182,7 +182,7 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
         $this->assertCount(2, $options);
     }
 
-    public function test_validateAuthCode_userIsUsingTwoFa_authenticatesThroughRecoveryCode()
+    public function testValidateAuthCodeUserIsUsingTwoFaAuthenticatesThroughRecoveryCode()
     {
         $this->dao->createRecoveryCodesForLogin('mylogin1');
         $this->dao->createRecoveryCodesForLogin('mylogin2');
@@ -209,7 +209,7 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
         }
     }
 
-    public function test_cleanupTwoFaCodesUsedRecently()
+    public function testCleanupTwoFaCodesUsedRecently()
     {
         $this->twoFa->cleanupTwoFaCodesUsedRecently();
 

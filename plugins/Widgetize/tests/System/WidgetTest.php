@@ -45,7 +45,7 @@ class WidgetTest extends SystemTestCase
         parent::tearDown();
     }
 
-    public function test_allWidgetUniqueIdsAreActuallyUnique()
+    public function testAllWidgetUniqueIdsAreActuallyUnique()
     {
         $uniqueIds = array();
         foreach (WidgetsList::get()->getWidgetConfigs() as $widget) {
@@ -55,7 +55,7 @@ class WidgetTest extends SystemTestCase
         $this->assertEquals(array_unique($uniqueIds), $uniqueIds);
     }
 
-    public function test_AvailableWidgetListIsUpToDate()
+    public function testAvailableWidgetListIsUpToDate()
     {
         $namesOfWidgetsThatAreAPI = array_map(function ($widget) {
             return $widget['uniqueId'];
@@ -81,7 +81,7 @@ class WidgetTest extends SystemTestCase
      *
      * @dataProvider availableWidgetsProvider
      */
-    public function test_WidgetIsRenderable_ToPreventBreakingTheAPI($widget)
+    public function testWidgetIsRenderableToPreventBreakingTheAPI($widget)
     {
         $params     = $widget['parameters'];
         $parameters = array();

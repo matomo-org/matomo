@@ -288,7 +288,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertTrue($passwordHelper->verify(UsersManager::getPasswordHash($password), $user['password']));
     }
 
-    public function test_addUser_shouldAllowAdminUsersToCreateUsers()
+    public function testAddUserShouldAllowAdminUsersToCreateUsers()
     {
         FakeAccess::$superUser = false;
         FakeAccess::$idSitesAdmin = [1];
@@ -313,7 +313,7 @@ class UsersManagerTest extends IntegrationTestCase
         ], $access);
     }
 
-    public function test_addUser_shouldNotAllowAdminUsersToCreateUsers_WithNoInitialSiteWithAccess()
+    public function testAddUserShouldNotAllowAdminUsersToCreateUsersWithNoInitialSiteWithAccess()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_AddUserNoInitialAccessError');
@@ -324,7 +324,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->addUser('userLogin2', 'password', 'userlogin2@email.com');
     }
 
-    public function test_addUser_shouldNotAllowAdminUsersToCreateUsersWithAccessToSite_ThatAdminUserDoesNotHaveAccessTo()
+    public function testAddUserShouldNotAllowAdminUsersToCreateUsersWithAccessToSiteThatAdminUserDoesNotHaveAccessTo()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('checkUserHasAdminAccess Fake exception');
@@ -360,7 +360,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->deleteUser(null);
     }
 
-    public function testDeleteUser_ShouldFail_InCaseTheUserIsTheOnlyRemainingSuperUser()
+    public function testDeleteUserShouldFailInCaseTheUserIsTheOnlyRemainingSuperUser()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ExceptionDeleteOnlyUserWithSuperUserAccess');
@@ -411,7 +411,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals(array(), $this->api->getSitesAccessFromUser("geggeqgeqag"));
     }
 
-    public function testDeleteUser_deletesUserOptions()
+    public function testDeleteUserDeletesUserOptions()
     {
         Fixture::createSuperUser();
         $this->api->addUser("geggeqgeqag", "geqgeagae", "test@test.com");
@@ -435,7 +435,7 @@ class UsersManagerTest extends IntegrationTestCase
     /**
      * normal case
      */
-    public function test_GetUser()
+    public function testGetUser()
     {
         $login = "geggeq55eqag";
         $password = "mypassword";
@@ -501,7 +501,7 @@ class UsersManagerTest extends IntegrationTestCase
         );
     }
 
-    public function testGetUsers_withViewAccess_shouldThrowAnException()
+    public function testGetUsersWithViewAccessShouldThrowAnException()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('checkUserHasSomeAdminAccess Fake exception');
@@ -558,7 +558,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertSame('geggeqge632ge56a4qag', $this->api->getUserLoginFromUserEmail('teSGgT@tesgt.com'));
     }
 
-    public function testGetUserLoginFromUserEmail_shouldThrowException_IfUserDoesNotExist()
+    public function testGetUserLoginFromUserEmailShouldThrowExceptionIfUserDoesNotExist()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
@@ -566,7 +566,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->getUserLoginFromUserEmail('unknownUser@teSsgt.com');
     }
 
-    public function testGetUserLoginFromUserEmail_shouldThrowException_IfUserDoesNotHaveAtLeastAdminPermission()
+    public function testGetUserLoginFromUserEmailShouldThrowExceptionIfUserDoesNotHaveAtLeastAdminPermission()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('checkUserHasSomeAdminAccess Fake exception');
@@ -594,7 +594,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setUserAccess("gegg4564eqgeqag", "viewnotknown", 1);
     }
 
-    public function testSetUserAccess_ShouldFail_SuperUserAccessIsNotAllowed()
+    public function testSetUserAccessShouldFailSuperUserAccessIsNotAllowed()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
@@ -604,7 +604,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setUserAccess("gegg4564eqgeqag", "superuser", 1);
     }
 
-    public function testSetUserAccess_ShouldFail_IfLoginIsConfigSuperUserLogin()
+    public function testSetUserAccessShouldFailIfLoginIsConfigSuperUserLogin()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
@@ -613,7 +613,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setUserAccess('superusertest', 'view', 1);
     }
 
-    public function testSetUserAccess_ShouldFail_IfLoginIsUserWithSuperUserAccess()
+    public function testSetUserAccessShouldFailIfLoginIsUserWithSuperUserAccess()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ExceptionUserHasSuperUserAccess');
@@ -670,7 +670,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals($idSites, array_keys($access));
     }
 
-    public function testSetUserAccess_ShouldNotBeAbleToSetAnyAccess_IfIdSitesIsEmpty()
+    public function testSetUserAccessShouldNotBeAbleToSetAnyAccessIfIdSitesIsEmpty()
     {
         $this->expectException(\Exception::class);
 
@@ -815,7 +815,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals($wanted1, $access1);
     }
 
-    public function testSetSuperUserAccess_ShouldFail_IfUserHasNotSuperUserPermission()
+    public function testSetSuperUserAccessShouldFailIfUserHasNotSuperUserPermission()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess Fake exception');
@@ -826,7 +826,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setSuperUserAccess('nologin', false, $pwd);
     }
 
-    public function testSetSuperUserAccess_ShouldFail_IfUserWithGivenLoginDoesNotExist()
+    public function testSetSuperUserAccessShouldFailIfUserWithGivenLoginDoesNotExist()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
@@ -835,7 +835,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setSuperUserAccess('nologin', false, $pwd);
     }
 
-    public function testSetSuperUserAccess_ShouldFail_IfUserIsAnonymous()
+    public function testSetSuperUserAccessShouldFailIfUserIsAnonymous()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ExceptionEditAnonymous');
@@ -844,7 +844,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setSuperUserAccess('anonymous', true, $pwd);
     }
 
-    public function testSetSuperUserAccess_ShouldFail_IfUserIsOnlyRemainingUserWithSuperUserAccess()
+    public function testSetSuperUserAccessShouldFailIfUserIsOnlyRemainingUserWithSuperUserAccess()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ExceptionRemoveSuperUserAccessOnlySuperUser');
@@ -857,7 +857,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->setSuperUserAccess('login1', false, $pwd);
     }
 
-    public function testSetSuperUserAccess_ShouldDeleteAllExistingAccessEntries()
+    public function testSetSuperUserAccessShouldDeleteAllExistingAccessEntries()
     {
         $pwd = $this->createCurrentUser();
 
@@ -876,7 +876,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals(array(), $this->model->getSitesAccessFromUser('login1'));
     }
 
-    public function testSetSuperUserAccess_ShouldAddAndRemoveSuperUserAccessOnlyForGivenLogin()
+    public function testSetSuperUserAccessShouldAddAndRemoveSuperUserAccessOnlyForGivenLogin()
     {
         $pwd = $this->createCurrentUser();
 
@@ -984,7 +984,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->updateUser($login, "passowordOK", false, false, "geqgeag");
     }
 
-    public function testUpdateUserFailsWrongCurrentPassword_requiresThePasswordOfCurrentLoggedInUser()
+    public function testUpdateUserFailsWrongCurrentPasswordRequiresThePasswordOfCurrentLoggedInUser()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');

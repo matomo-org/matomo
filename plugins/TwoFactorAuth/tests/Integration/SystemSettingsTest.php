@@ -32,12 +32,12 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->settings = new SystemSettings();
     }
 
-    public function test_twoFactorAuthRequired_defaultDisabled()
+    public function testTwoFactorAuthRequiredDefaultDisabled()
     {
         $this->assertFalse($this->settings->twoFactorAuthRequired->getValue());
     }
 
-    public function test_twoFactorAuthTitle_defaultTitle()
+    public function testTwoFactorAuthTitleDefaultTitle()
     {
         $this->assertEquals('Analytics - ' . Url::getCurrentHost(), $this->settings->twoFactorAuthTitle->getValue());
     }

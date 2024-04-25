@@ -313,7 +313,7 @@ class APITest extends IntegrationTestCase
         $this->api->setUserPreference($user2, 'ohOH_myPreferenceName', 'valueForUser2');
     }
 
-    public function test_addUser_FailsWhenEmailDomainNotAllowed()
+    public function testAddUserFailsWhenEmailDomainNotAllowed()
     {
         $this->expectExceptionMessage('UsersManager_ErrorEmailDomainNotAllowed');
 
@@ -355,7 +355,7 @@ class APITest extends IntegrationTestCase
     }
 
 
-    public function test_updateUser_FailsWhenEmailDomainNotAllowed()
+    public function testUpdateUserFailsWhenEmailDomainNotAllowed()
     {
         $this->expectExceptionMessage('UsersManager_ErrorEmailDomainNotAllowed');
 

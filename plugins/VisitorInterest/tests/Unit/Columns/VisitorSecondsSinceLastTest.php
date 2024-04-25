@@ -17,7 +17,7 @@ use Piwik\Tracker\Visitor;
 
 class VisitorSecondsSinceLastTest extends TestCase
 {
-    public function test_onNewVisit_returnsZeroIfVisitorIsUnknown()
+    public function testOnNewVisitReturnsZeroIfVisitorIsUnknown()
     {
         $dim = new VisitorSecondsSinceLast();
 
@@ -25,7 +25,7 @@ class VisitorSecondsSinceLastTest extends TestCase
         $this->assertEquals(0, $value);
     }
 
-    public function test_onNewVisit_returnsZeroIfPreviousVisitorLastActionTimeIsZero()
+    public function testOnNewVisitReturnsZeroIfPreviousVisitorLastActionTimeIsZero()
     {
         $dim = new VisitorSecondsSinceLast();
 
@@ -33,7 +33,7 @@ class VisitorSecondsSinceLastTest extends TestCase
         $this->assertEquals(0, $value);
     }
 
-    public function test_onNewVisit_returnsTimeInBetweenIfKnownVisit()
+    public function testOnNewVisitReturnsTimeInBetweenIfKnownVisit()
     {
         $dim = new VisitorSecondsSinceLast();
 

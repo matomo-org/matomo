@@ -128,7 +128,7 @@ class ImportLogsTest extends SystemTestCase
      *       If the log importer were refactored, the invalid requests test could be a unit test in
      *       python.
      */
-    public function test_LogImporter_CreatesSitesWhenDynamicResolverUsed_AndReportsOnInvalidRequests()
+    public function testLogImporterCreatesSitesWhenDynamicResolverUsedAndReportsOnInvalidRequests()
     {
         $this->simulateInvalidTrackerRequest();
 
@@ -152,7 +152,7 @@ class ImportLogsTest extends SystemTestCase
         self::assertStringContainsString("The following lines were not tracked by Matomo, either due to a malformed tracker request or error in the tracker:\n\n10, 11", $output);
     }
 
-    public function test_LogImporter_RetriesWhenServerFails()
+    public function testLogImporterRetriesWhenServerFails()
     {
         $this->simulateTrackerFailure();
 

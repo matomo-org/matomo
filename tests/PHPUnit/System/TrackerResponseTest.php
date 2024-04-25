@@ -40,7 +40,7 @@ class TrackerResponseTest extends SystemTestCase
         $this->tracker = Fixture::getTracker($idSite, $dateTime, $defaultInit = true);
     }
 
-    public function test_response_ShouldContainAnImage()
+    public function testResponseShouldContainAnImage()
     {
         $response = $this->tracker->doTrackPageView('Test');
 
@@ -48,7 +48,7 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertNotEmpty($response);
     }
 
-    public function test_response_ShouldBeEmpty_IfImageIsDisabled()
+    public function testResponseShouldBeEmptyIfImageIsDisabled()
     {
         $this->tracker->disableSendImageResponse();
 
@@ -57,7 +57,7 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertSame('', $response);
     }
 
-    public function test_response_ShouldSend200ResponseCode_IfImageIsEnabled()
+    public function testResponseShouldSend200ResponseCodeIfImageIsEnabled()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
         $url .= '&token_auth=' . Fixture::getTokenAuth();
@@ -67,7 +67,7 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertEquals('no-store', $response['headers']['Cache-Control']);
     }
 
-    public function test_response_ShouldSend204ResponseCode_IfImageIsDisabled()
+    public function testResponseShouldSend204ResponseCodeIfImageIsDisabled()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
         $url .= '&token_auth=' . Fixture::getTokenAuth();
@@ -79,7 +79,7 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertEquals('no-store', $response['headers']['Cache-Control']);
     }
 
-    public function test_response_ShouldSend400ResponseCode_IfSiteIdIsInvalid()
+    public function testResponseShouldSend400ResponseCodeIfSiteIdIsInvalid()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
         $url .= '&idsite=100';
@@ -88,7 +88,7 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertEquals(400, $response['status']);
     }
 
-    public function test_response_ShouldSend400ResponseCode_IfIdGoalIsInvalid()
+    public function testResponseShouldSend400ResponseCodeIfIdGoalIsInvalid()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
         $url .= '&idgoal=9999';
@@ -97,7 +97,7 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertEquals(400, $response['status']);
     }
 
-    public function test_response_ShouldSend400ResponseCode_IfSiteIdIsNegative()
+    public function testResponseShouldSend400ResponseCodeIfSiteIdIsNegative()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
         $url .= '&idsite=-1';
@@ -106,7 +106,7 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertEquals(400, $response['status']);
     }
 
-    public function test_response_ShouldSend400ResponseCode_IfSiteIdIsZero()
+    public function testResponseShouldSend400ResponseCodeIfSiteIdIsZero()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
         $url .= '&idsite=0';
@@ -115,7 +115,7 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertEquals(400, $response['status']);
     }
 
-    public function test_response_ShouldSend400ResponseCode_IfInvalidRequestParameterIsGiven()
+    public function testResponseShouldSend400ResponseCodeIfInvalidRequestParameterIsGiven()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
         $url .= '&token_auth=' . Fixture::getTokenAuth();
@@ -133,7 +133,7 @@ class TrackerResponseTest extends SystemTestCase
 
     // See https://github.com/piwik/piwik/issues/7850 piwik.php is used by plugins and monitoring systems to test for Piwik installation.
     // it is important to return a 200 if someone does a GET request with no parameters
-    public function test_response_ShouldReturnPiwikMessageWithHttp200_InCaseOfEmptyGETRequest()
+    public function testResponseShouldReturnPiwikMessageWithHttp200InCaseOfEmptyGETRequest()
     {
         $url = Fixture::getTrackerUrl();
         $response = Http::sendHttpRequest($url, 10, null, null, 0, false, false, true);
@@ -143,7 +143,7 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertEquals($expected, $response['data']);
     }
 
-    public function test_response_ShouldReturnPiwikMessageWithHttp400_InCaseOfInvalidRequestOrIfNothingIsTracked()
+    public function testResponseShouldReturnPiwikMessageWithHttp400InCaseOfInvalidRequestOrIfNothingIsTracked()
     {
         $url = Fixture::getTrackerUrl();
         $response = $this->sendHttpRequest($url . '?rec=1');
@@ -154,7 +154,7 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertEquals($expected, $response['data']);
     }
 
-    public function test_response_ShouldReturnPiwikMessageWithHttp503_InCaseOfMaintenanceMode()
+    public function testResponseShouldReturnPiwikMessageWithHttp503InCaseOfMaintenanceMode()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
         $url .= '&token_auth=' . Fixture::getTokenAuth();

@@ -32,7 +32,7 @@ class PivotByQueryParamTest extends SystemTestCase
         Config::getInstance()->General['pivot_by_filter_enable_fetch_by_segment'] = 1;
     }
 
-    public function test_PivotBySubtableDimension_CreatesCorrectPivotTable()
+    public function testPivotBySubtableDimensionCreatesCorrectPivotTable()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -45,7 +45,7 @@ class PivotByQueryParamTest extends SystemTestCase
         ));
     }
 
-    public function test_PivotBySubtableDimension_WhenEntireHirearchyIsNotLoaded()
+    public function testPivotBySubtableDimensionWhenEntireHirearchyIsNotLoaded()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -58,7 +58,7 @@ class PivotByQueryParamTest extends SystemTestCase
         ));
     }
 
-    public function test_PivotBySubtableDimension_CreatesCorrectPivotTable_WhenPeriodIsDateRange()
+    public function testPivotBySubtableDimensionCreatesCorrectPivotTableWhenPeriodIsDateRange()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -68,7 +68,7 @@ class PivotByQueryParamTest extends SystemTestCase
         ));
     }
 
-    public function test_PivotBySegment_CreatesCorrectPivotTable()
+    public function testPivotBySegmentCreatesCorrectPivotTable()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -80,7 +80,7 @@ class PivotByQueryParamTest extends SystemTestCase
         ));
     }
 
-    public function test_PivotBySegment_CreatesCorrectPivotTable_WhenSegmentUsedInRequest()
+    public function testPivotBySegmentCreatesCorrectPivotTableWhenSegmentUsedInRequest()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -93,7 +93,7 @@ class PivotByQueryParamTest extends SystemTestCase
         ));
     }
 
-    public function test_PivotBySegment_CreatesCorrectPivotTable_WhenPeriodIsRange()
+    public function testPivotBySegmentCreatesCorrectPivotTableWhenPeriodIsRange()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -103,7 +103,7 @@ class PivotByQueryParamTest extends SystemTestCase
         ));
     }
 
-    public function test_PivotByParam_PlaysNiceWithOtherQueryParams()
+    public function testPivotByParamPlaysNiceWithOtherQueryParams()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -122,8 +122,9 @@ class PivotByQueryParamTest extends SystemTestCase
 
     // TODO: known issue: some segment/report relationships are more complicated; for example, UserCountry.GetCity labels are combinations
     // of city, region & country dimensions, so the segment to get an intersected table needs all 3 of those.
-    public function SHOULD_test_PivotByParam_PlaysNiceWithQueuedFilters()
+    public function testPivotByParamPlaysNiceWithQueuedFilters()
     {
+        $this->markTestSkipped();
         $this->assertApiResponseEqualsExpected("DevicesDetection.getBrowsers", array( // should have logo metadata in output
             'idSite' => self::$fixture->idSite,
             'date' => Date::factory(self::$fixture->dateTime)->toString(),
@@ -134,7 +135,7 @@ class PivotByQueryParamTest extends SystemTestCase
         ));
     }
 
-    public function test_PivotByParam_WorksWithReportWhoseSubtableIsSelf()
+    public function testPivotByParamWorksWithReportWhoseSubtableIsSelf()
     {
         $this->assertApiResponseEqualsExpected("Actions.getPageUrls", array(
             'idSite' => self::$fixture->idSite,
@@ -146,7 +147,7 @@ class PivotByQueryParamTest extends SystemTestCase
         ));
     }
 
-    public function test_PivotByParam_WorksWithColumnLimiting()
+    public function testPivotByParamWorksWithColumnLimiting()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -158,7 +159,7 @@ class PivotByQueryParamTest extends SystemTestCase
         ));
     }
 
-    public function test_PivotByParam_WorksWithJsonOutput()
+    public function testPivotByParamWorksWithJsonOutput()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -171,7 +172,7 @@ class PivotByQueryParamTest extends SystemTestCase
         ));
     }
 
-    public function test_PivotByParam_WorksWithCsvOutput()
+    public function testPivotByParamWorksWithCsvOutput()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => self::$fixture->idSite,
@@ -184,7 +185,7 @@ class PivotByQueryParamTest extends SystemTestCase
         ));
     }
 
-    public function test_PivotByParam_PlaysNiceWithDataTableMaps()
+    public function testPivotByParamPlaysNiceWithDataTableMaps()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", array(
             'idSite' => 'all',
@@ -196,7 +197,7 @@ class PivotByQueryParamTest extends SystemTestCase
         ));
     }
 
-    public function test_PivotByParam_WorksWithCustomDimension()
+    public function testPivotByParamWorksWithCustomDimension()
     {
         $this->assertApiResponseEqualsExpected("UserCountry.getCountry", [
             'idSite' => self::$fixture->idSite,
@@ -206,7 +207,7 @@ class PivotByQueryParamTest extends SystemTestCase
         ]);
     }
 
-    public function test_PivotByParam_WorksWithCustomDimensionReport()
+    public function testPivotByParamWorksWithCustomDimensionReport()
     {
         $this->assertApiResponseEqualsExpected("CustomDimensions.getCustomDimension", [
             'idSite' => self::$fixture->idSite,
@@ -217,7 +218,7 @@ class PivotByQueryParamTest extends SystemTestCase
         ]);
     }
 
-    public function test_PivotByParam_FailsWithCustomDimension_AndMultipleSites()
+    public function testPivotByParamFailsWithCustomDimensionAndMultipleSites()
     {
         $this->assertApiResponseEqualsExpected("UserCountry.getCountry", [
             'idSite' => 'all',

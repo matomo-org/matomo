@@ -80,7 +80,7 @@ class ApiTest extends SystemTestCase
         }
     }
 
-    public function test_getUserPreference_loginIsOptional()
+    public function testGetUserPreferenceLoginIsOptional()
     {
         $response = Request::processRequest('UsersManager.getUserPreference', array(
             'preferenceName' => API::PREFERENCE_DEFAULT_REPORT
@@ -93,7 +93,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals('yesterday', $response);
     }
 
-    public function test_getUserPreference_loginCanBeSet()
+    public function testGetUserPreferenceLoginCanBeSet()
     {
         $response = Request::processRequest('UsersManager.getUserPreference', array(
             'userLogin' => Piwik::getCurrentUserLogin(),
@@ -127,7 +127,7 @@ class ApiTest extends SystemTestCase
         return $apiToTest;
     }
 
-    public function test_createAppSpecificTokenAuthWithCrypticPassword()
+    public function testCreateAppSpecificTokenAuthWithCrypticPassword()
     {
         $password = 'p§$%"@&<~#\'\\/+ >*^!°p';
         API::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = false;
@@ -141,7 +141,7 @@ class ApiTest extends SystemTestCase
         $this->assertSame('login6', $user['login']);
     }
 
-    public function test_createAppSpecificTokenAuth()
+    public function testCreateAppSpecificTokenAuth()
     {
         $this->model->deleteAllTokensForUser('login1');
         $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test');
@@ -151,7 +151,7 @@ class ApiTest extends SystemTestCase
         $this->assertSame('login1', $user['login']);
     }
 
-    public function test_createAppSpecificTokenAuth_canLoginByEmail()
+    public function testCreateAppSpecificTokenAuthCanLoginByEmail()
     {
         $this->model->deleteAllTokensForUser('login1');
         $token = $this->api->createAppSpecificTokenAuth('login1@example.com', 'password', 'test');
@@ -161,7 +161,7 @@ class ApiTest extends SystemTestCase
         $this->assertSame('login1', $user['login']);
     }
 
-    public function test_createAppSpecificTokenAuth_failsWhenPasswordNotValid()
+    public function testCreateAppSpecificTokenAuthFailsWhenPasswordNotValid()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The current password you entered is not correct.');
@@ -170,7 +170,7 @@ class ApiTest extends SystemTestCase
         $this->api->createAppSpecificTokenAuth('login1', 'foooooo', 'test');
     }
 
-    public function test_createAppSpecificTokenAuth_withExpireDate()
+    public function testCreateAppSpecificTokenAuthWithExpireDate()
     {
         $this->model->deleteAllTokensForUser('login1');
         $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', '2026-01-02 03:04:05');
@@ -183,7 +183,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals('2026-01-02 03:04:05', $tokens[0]['date_expired']);
     }
 
-    public function test_createAppSpecificTokenAuth_withExpireHours()
+    public function testCreateAppSpecificTokenAuthWithExpireHours()
     {
         $expireInHours = 48;
         $this->model->deleteAllTokensForUser('login1');

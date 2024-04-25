@@ -61,39 +61,39 @@ class CliMultiTest extends SystemTestCase
         \Piwik\Common::$isCliMode = true;
     }
 
-    public function test_request_shouldNotFailAndReturnNoResponse_IfNoUrlsAreGiven()
+    public function testRequestShouldNotFailAndReturnNoResponseIfNoUrlsAreGiven()
     {
         $response = $this->cliMulti->request(array());
 
         $this->assertEquals(array(), $response);
     }
 
-    public function test_request_shouldFail_IfUrlsIsNotAnArray()
+    public function testRequestShouldFailIfUrlsIsNotAnArray()
     {
         $this->expectException('TypeError');
         $this->cliMulti->request('');
     }
 
-    public function test_request_shouldReturnResultAsArray_IfOnlyOneUrlIsGiven()
+    public function testRequestShouldReturnResultAsArrayIfOnlyOneUrlIsGiven()
     {
         $urls = $this->buildUrls('getAnswerToLife');
 
         $this->assertRequestReturnsValidResponses($urls, array('getAnswerToLife'));
     }
 
-    public function test_request_shouldRunAsync()
+    public function testRequestShouldRunAsync()
     {
         $this->assertTrue($this->cliMulti->supportsAsync);
     }
 
-    public function test_request_shouldRequestAllUrls_IfMultipleUrlsAreGiven()
+    public function testRequestShouldRequestAllUrlsIfMultipleUrlsAreGiven()
     {
         $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife');
 
         $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife'));
     }
 
-    public function test_request_shouldRequestAllUrls_IfMultipleUrlsAreGiven_WithConcurrentRequestLimit()
+    public function testRequestShouldRequestAllUrlsIfMultipleUrlsAreGivenWithConcurrentRequestLimit()
     {
         $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion');
 
@@ -101,7 +101,7 @@ class CliMultiTest extends SystemTestCase
         $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion'));
     }
 
-    public function test_request_shouldRequestAllUrls_IfMultipleUrlsAreGiven_WithHighConcurrentRequestLimit()
+    public function testRequestShouldRequestAllUrlsIfMultipleUrlsAreGivenWithHighConcurrentRequestLimit()
     {
         $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion');
 
@@ -109,14 +109,14 @@ class CliMultiTest extends SystemTestCase
         $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion'));
     }
 
-    public function test_request_shouldReturnSameAmountOfResponses_IfSameUrlAppearsMultipleTimes()
+    public function testRequestShouldReturnSameAmountOfResponsesIfSameUrlAppearsMultipleTimes()
     {
         $urls = $this->buildUrls('getAnswerToLife', 'getAnswerToLife', 'getPiwikVersion');
 
         $this->assertRequestReturnsValidResponses($urls, array('getAnswerToLife', 'getAnswerToLife', 'getPiwikVersion'));
     }
 
-    public function test_request_shouldCleanupAllTempFiles_OnceAllRequestsAreFinished()
+    public function testRequestShouldCleanupAllTempFilesOnceAllRequestsAreFinished()
     {
         $filesBefore = $this->getFilesInTmpFolder();
 
@@ -128,7 +128,7 @@ class CliMultiTest extends SystemTestCase
         $this->assertGreaterThan(1, $filesAfter);
     }
 
-    public function test_request_shouldWorkInCaseItDoesNotRunFromCli()
+    public function testRequestShouldWorkInCaseItDoesNotRunFromCli()
     {
         $urls = $this->buildUrls('getAnswerToLife', 'getAnswerToLife');
 
@@ -140,14 +140,14 @@ class CliMultiTest extends SystemTestCase
      * This is a known issue, we do not get a content in case Piwik ends with an exit or redirect, but we have to make
      * sure we detect the request has finished though
      */
-    public function test_request_shouldDetectFinishOfRequest_IfNoParamsAreGiven()
+    public function testRequestShouldDetectFinishOfRequestIfNoParamsAreGiven()
     {
         $this->cliMulti->runAsSuperUser();
         $response = $this->cliMulti->request(array($this->completeUrl('')));
         self::assertStringContainsString('Error: no website was found', $response[0]);
     }
 
-    public function test_request_shouldBeAbleToRenderARegularPageInPiwik()
+    public function testRequestShouldBeAbleToRenderARegularPageInPiwik()
     {
         Fixture::createWebsite('2014-01-01 00:00:00');
 
@@ -160,7 +160,7 @@ class CliMultiTest extends SystemTestCase
         $this->assertTrue(false !== strpos($response[0], 'Widgetize the full dashboard') . $message);
     }
 
-    public function test_shouldFallback_IfAsyncIsNotSupported()
+    public function testShouldFallbackIfAsyncIsNotSupported()
     {
         $this->cliMulti->supportsAsync = false;
 
@@ -169,7 +169,7 @@ class CliMultiTest extends SystemTestCase
         $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion'));
     }
 
-    public function test_cleanupNotRemovedFiles_shouldOnlyRemoveFiles_IfTheyAreOlderThanOneWeek()
+    public function testCleanupNotRemovedFilesShouldOnlyRemoveFilesIfTheyAreOlderThanOneWeek()
     {
         $timeOneWeekAgo = strtotime('-1 week');
 
@@ -196,7 +196,7 @@ class CliMultiTest extends SystemTestCase
         $this->assertFileNotExists($tmpDir . 'toberemoved.output');
     }
 
-    public function test_shouldSupportRequestObjects()
+    public function testShouldSupportRequestObjects()
     {
         $wasCalled = false;
         $request = new Request('url');
