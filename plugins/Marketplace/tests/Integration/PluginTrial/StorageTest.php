@@ -53,6 +53,7 @@ class StorageTest extends IntegrationTestCase
         // Manually create a request that is 25 hours old
         Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
             'requestTime' => time() - (25 * 3600),
+            'displayName' => 'Premium Plugin',
             'dismissed' => [],
             'requestedBy' => 'olaf',
         ]));
@@ -67,6 +68,7 @@ class StorageTest extends IntegrationTestCase
         // Manually create a request that is 25 hours old
         Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
             'requestTime' => time() - (25 * 3600),
+            'displayName' => 'Premium Plugin',
             'dismissed' => [],
             'requestedBy' => 'olaf',
         ]));
@@ -91,11 +93,13 @@ class StorageTest extends IntegrationTestCase
         // Manually create some requests
         Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
             'requestTime' => time() - 10,
+            'displayName' => 'A useful plugin',
             'dismissed' => [],
             'requestedBy' => 'olaf',
         ]));
         Option::set('Marketplace.PluginTrialRequest.BestPluginEver', json_encode([
             'requestTime' => time(),
+            'displayName' => '',
             'dismissed' => ['admin'],
             'requestedBy' => 'peter',
         ]));

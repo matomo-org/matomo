@@ -36,12 +36,14 @@ class Storage
     /**
      * Creates a trial request for the current user
      *
+     * @param string $pluginDisplayName
      * @return void
      */
-    public function setRequested(): void
+    public function setRequested(string $pluginDisplayName = ''): void
     {
         $this->storage = [
             'requestTime' => time(),
+            'displayName' => $pluginDisplayName,
             'dismissed' => [],
             'requestedBy' => Piwik::getCurrentUserLogin(),
         ];
@@ -78,6 +80,16 @@ class Storage
     {
         $this->storage['dismissed'][] = Piwik::getCurrentUserLogin();
         $this->saveStorage();
+    }
+
+    /**
+     * Returns the display name for the plugin stored when requesting the trial
+     *
+     * @return string
+     */
+    public function getDisplayName(): string
+    {
+        return $this->storage['displayName'] ?: $this->pluginName;
     }
 
     /**

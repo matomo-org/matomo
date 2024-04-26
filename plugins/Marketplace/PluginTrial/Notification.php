@@ -67,9 +67,9 @@ class Notification
         $link = sprintf('<a href="%s#popover=browsePluginDetail%%243A%s">', $marketplaceUrl, $this->pluginName);
         $message = '<b>' . Piwik::translate(
             'Marketplace_TrialRequestedNotification1',
-            [$this->pluginName, $link, '</a>']
+            [htmlentities($this->storage->getDisplayName()), $link, '</a>']
         ) . '</b><br><br>';
-        $message .= Piwik::translate('Marketplace_TrialRequestedNotification2', [$this->pluginName, $link, '</a>']);
+        $message .= Piwik::translate('Marketplace_TrialRequestedNotification2', [htmlentities($this->storage->getDisplayName()), $link, '</a>']);
 
         $notification = new MatomoNotification($message);
         $notification->raw = true;

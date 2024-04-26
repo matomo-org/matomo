@@ -23,22 +23,25 @@ final class Service
     /**
      * Creates a trial request (and sends a mail to all super users)
      *
+     * @param string $pluginName
+     * @param string $pluginDisplayName
      * @return void
      */
-    public function request(string $pluginName): void
+    public function request(string $pluginName, string $pluginDisplayName): void
     {
         if (!$this->isEnabled()) {
             return;
         }
 
         $request = new Request($pluginName, new Storage($pluginName));
-        $request->create();
+        $request->create($pluginDisplayName);
     }
 
 
     /**
      * Returns if a plugin was already requested
      *
+     * @param string $pluginName
      * @return bool
      */
     public function wasRequested(string $pluginName): bool

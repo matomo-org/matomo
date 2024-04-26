@@ -40,15 +40,16 @@ class Request
     /**
      * Creates a trial request and sends a mail to all super users
      *
+     * @param string $displayName
      * @return void
      */
-    public function create(): void
+    public function create(string $pluginDisplayName = ''): void
     {
         if ($this->wasRequested()) {
             return; // already requested
         }
 
-        $this->storage->setRequested();
+        $this->storage->setRequested($pluginDisplayName);
 
         $this->sendEmailToSuperUsers();
     }

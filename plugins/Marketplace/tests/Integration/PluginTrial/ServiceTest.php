@@ -37,7 +37,7 @@ class ServiceTest extends IntegrationTestCase
         GeneralConfig::setConfigValue('plugin_trial_request_expiration_in_days', -1);
 
         $service = new Service();
-        $service->request('PremiumPlugin');
+        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
 
         $this->assertRequested(false);
     }

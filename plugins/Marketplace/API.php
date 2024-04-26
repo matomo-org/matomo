@@ -176,7 +176,7 @@ class API extends \Piwik\Plugin\API
      *
      * @internal
      */
-    public function requestTrial(string $pluginName): bool
+    public function requestTrial(string $pluginName, string $pluginDisplayName = ''): bool
     {
         Piwik::checkUserIsNotAnonymous();
 
@@ -184,7 +184,7 @@ class API extends \Piwik\Plugin\API
             throw new Exception('Cannot request trial as a super user');
         }
 
-        $this->pluginTrialService->request($pluginName);
+        $this->pluginTrialService->request($pluginName, $pluginDisplayName);
 
         return true;
     }
