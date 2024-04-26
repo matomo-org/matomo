@@ -216,7 +216,7 @@ export default defineComponent({
       if (pluginToShow.length === 1) {
         [this.showPluginDetailsForPlugin] = pluginToShow as Record<string, unknown>[];
       } else if (pluginType !== '' || query !== '') {
-        // plugin was not found in current list, son unset filters to retry
+        // plugin was not found in current list, so unset filters to retry
         MatomoUrl.updateHash({
           ...MatomoUrl.hashParsed.value,
           pluginType: 'plugins',
