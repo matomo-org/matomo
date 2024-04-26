@@ -257,8 +257,8 @@
             :update-nonce="updateNonce"
             :plugin="plugin"
             :in-modal="true"
-            @requestTrial="requestTrial"
-            @startFreeTrial="startFreeTrial"
+            @requestTrial="emitTrialEvent('requestTrial')"
+            @startFreeTrial="emitTrialEvent('startFreeTrial')"
           />
         </div>
         <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
@@ -490,10 +490,13 @@ export default defineComponent({
       const filename = screenshot.split('/').pop() || '';
       return filename.substring(0, filename.lastIndexOf('.')).split('_').join(' ');
     },
-    requestTrial() {
+    emitTrialEvent(eventName: 'requestTrial'|'startFreeTrial') {
+      const { plugin } = this;
+
       $('#pluginDetailsModal').modal('close');
+
       setTimeout(() => {
-        this.$emit('requestTrial', this.plugin);
+        this.$emit(eventName, plugin);
       }, 250);
     },
     showPluginDetailsDialog() {
@@ -508,12 +511,6 @@ export default defineComponent({
       setTimeout(() => {
         this.isLoading = false;
       }, 10); // just to prevent showing the modal when the plugin data are not yet passed in
-    },
-    startFreeTrial() {
-      $('#pluginDetailsModal').modal('close');
-      setTimeout(() => {
-        this.$emit('startFreeTrial', this.plugin);
-      }, 250);
     },
   },
 });

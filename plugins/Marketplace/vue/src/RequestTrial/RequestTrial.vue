@@ -38,7 +38,7 @@ export default defineComponent({
         this.$refs.confirm as HTMLElement,
         {
           yes: () => {
-            this.requestTrial();
+            this.requestTrial(newValue);
           },
         },
         {
@@ -55,18 +55,18 @@ export default defineComponent({
     },
   },
   methods: {
-    requestTrial() {
+    requestTrial(plugin: PluginDetails) {
       AjaxHelper.post(
         {
           module: 'API',
           method: 'Marketplace.requestTrial',
         },
-        { pluginName: this.plugin.name, pluginDisplayName: this.plugin.displayName },
+        { pluginName: plugin.name, pluginDisplayName: plugin.displayName },
       ).then(() => {
         const notificationInstanceId = NotificationsStore.show({
           message: translate(
             'Marketplace_RequestTrialSubmitted',
-            this.plugin.displayName,
+            plugin.displayName,
           ),
           context: 'success',
           id: 'requestTrialSuccess',
