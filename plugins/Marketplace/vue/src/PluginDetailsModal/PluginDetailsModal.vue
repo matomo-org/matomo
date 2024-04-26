@@ -274,6 +274,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { MatomoUrl } from 'CoreHome';
 import {
   IPluginShopDetails,
   IPluginShopReviews,
@@ -503,6 +504,10 @@ export default defineComponent({
       $('#pluginDetailsModal').modal({
         dismissible: true,
         onCloseEnd: () => {
+          MatomoUrl.updateHash({
+            ...MatomoUrl.hashParsed.value,
+            showPlugin: null,
+          });
           this.$emit('update:modelValue', null);
           this.isLoading = true;
         },
