@@ -32,14 +32,19 @@ class RequestTrialNotificationEmail extends Mail
      * @var string
      */
     private $pluginName;
+    /**
+     * @var string
+     */
+    private $pluginDisplayName;
 
-    public function __construct(string $login, string $emailAddress, string $pluginName)
+    public function __construct(string $login, string $emailAddress, string $pluginName, string $pluginDisplayName)
     {
         parent::__construct();
 
         $this->emailAddress = $emailAddress;
         $this->login = $login;
         $this->pluginName = $pluginName;
+        $this->pluginDisplayName = $pluginDisplayName;
 
         $this->setUpEmail();
     }
@@ -52,7 +57,7 @@ class RequestTrialNotificationEmail extends Mail
         return Piwik::translate(
             'Marketplace_RequestTrialNotificationEmailSubject',
             [
-                $this->pluginName,
+                $this->pluginDisplayName,
             ]
         );
     }
@@ -67,7 +72,7 @@ class RequestTrialNotificationEmail extends Mail
 
         $view->login = $this->login;
         $view->marketplaceLink = $piwikUrl . 'index.php?module=Marketplace&action=overview';
-        $view->pluginName = $this->pluginName;
+        $view->pluginName = $this->pluginDisplayName;
 
         // @see JavaScript broadcast#propagateNewPopoverParameter
         $view->pluginLink =

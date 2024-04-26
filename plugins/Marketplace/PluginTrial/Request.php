@@ -94,6 +94,7 @@ class Request
                     'emailAddress' => $email,
                     'login' => $login,
                     'pluginName' => $this->pluginName,
+                    'pluginDisplayName' => $this->storage->getDisplayName(),
                 ]
             );
 
