@@ -174,6 +174,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return bool
      *
+     * @unsanitized
      * @internal
      */
     public function requestTrial(string $pluginName, string $pluginDisplayName = ''): bool
