@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Marketplace\tests\Integration\Plugins;
+namespace Piwik\Plugins\Marketplace\tests\Integration\PluginTrial;
 
 use Piwik\Config\GeneralConfig;
 use Piwik\Option;

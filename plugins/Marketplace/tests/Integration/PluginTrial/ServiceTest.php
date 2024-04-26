@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Marketplace\tests\Integration\Plugins;
+namespace Piwik\Plugins\Marketplace\tests\Integration\PluginTrial;
 
 use Piwik\Config\GeneralConfig;
 use Piwik\Notification\Manager;
@@ -47,7 +47,7 @@ class ServiceTest extends IntegrationTestCase
         $this->assertRequested(false);
 
         $service = new Service();
-        $service->request('PremiumPlugin');
+        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
 
         $this->assertRequested(true);
     }
@@ -87,8 +87,8 @@ class ServiceTest extends IntegrationTestCase
     public function testCreateAndDismissNotifications()
     {
         $service = new Service();
-        $service->request('PremiumPlugin');
-        $service->request('PremiumPlugin2');
+        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
+        $service->request('PremiumPlugin2', 'Pretty Premium Plugin 2');
 
         $service->createNotificationsIfNeeded();
 
