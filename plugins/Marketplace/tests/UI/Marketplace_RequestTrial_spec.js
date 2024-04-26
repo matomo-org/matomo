@@ -70,7 +70,7 @@ describe('Marketplace_RequestTrial', function () {
     const notification = await page.$('.notification-info');
     const notificationText = await notification.getProperty('textContent');
 
-    expect(notificationText).to.match(/A user has requested to start a trial .+ PaidPlugin1/i);
+    expect(notificationText).to.match(/A user has requested to start a trial .+ Paid Plugin 1/i);
   });
 
   it('should show a trial requested notification to the super user in admin view', async function () {
@@ -82,7 +82,7 @@ describe('Marketplace_RequestTrial', function () {
     const notification = await page.$('.notification-info');
     const notificationText = await notification.getProperty('textContent');
 
-    expect(notificationText).to.match(/A user has requested to start a trial .+ PaidPlugin1/i);
+    expect(notificationText).to.match(/A user has requested to start a trial .+ Paid Plugin 1/i);
   });
 
   it('should dismiss a trial requested notification when super user clicks on x', async function () {
@@ -113,6 +113,6 @@ describe('Marketplace_RequestTrial', function () {
     const notification = await page.$('.notification-info');
     const notificationText = await notification.getProperty('textContent');
 
-    expect(notificationText).to.match(/A user has requested to start a trial .+ PaidPlugin1/i);
+    expect(notificationText).to.match(/A user has requested to start a trial .+ Paid Plugin 1/i);
   });
 });
