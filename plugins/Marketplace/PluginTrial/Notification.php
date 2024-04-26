@@ -64,7 +64,7 @@ class Notification
             'module' => 'Marketplace',
             'action' => 'overview'
         ]);
-        $link = sprintf('<a href="%s#popover=browsePluginDetail%%243A%s">', $marketplaceUrl, $this->pluginName);
+        $link = sprintf('<a href="%s#?showPlugin=%s">', $marketplaceUrl, $this->pluginName);
         $message = '<b>' . Piwik::translate(
             'Marketplace_TrialRequestedNotification1',
             [htmlentities($this->storage->getDisplayName()), $link, '</a>']

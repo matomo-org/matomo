@@ -105,8 +105,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { PluginName } from 'CorePluginsAdmin';
+import { defineComponent, watch } from 'vue';
+import { MatomoUrl } from 'CoreHome';
 import CTAContainer from './CTAContainer.vue';
 import RequestTrial from '../RequestTrial/RequestTrial.vue';
 import StartFreeTrial from '../StartFreeTrial/StartFreeTrial.vue';
@@ -181,14 +181,12 @@ export default defineComponent({
     RequestTrial,
     StartFreeTrial,
   },
-  directives: {
-    PluginName,
-  },
   emits: ['triggerUpdate'],
   watch: {
     pluginsToShow(newValue, oldValue) {
       if (newValue && newValue !== oldValue) {
         this.shrinkDescriptionIfMultilineTitle();
+        this.parseShowPluginParameter();
       }
     },
   },
@@ -196,8 +194,36 @@ export default defineComponent({
     $(window).resize(() => {
       this.shrinkDescriptionIfMultilineTitle();
     });
+    watch(() => MatomoUrl.hashParsed.value.showPlugin, (newValue, oldValue) => {
+      if (newValue && newValue !== oldValue) {
+        this.parseShowPluginParameter();
+      }
+    });
+    this.parseShowPluginParameter();
   },
   methods: {
+    parseShowPluginParameter() {
+      const { showPlugin, pluginType, query } = MatomoUrl.hashParsed.value;
+
+      if (!showPlugin) {
+        return;
+      }
+
+      const pluginToShow = this.pluginsToShow.filter(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (plugin: any) => plugin.name === showPlugin,
+      );
+      if (pluginToShow.length === 1) {
+        [this.showPluginDetailsForPlugin] = pluginToShow as Record<string, unknown>[];
+      } else if (pluginType !== '' || query !== '') {
+        // plugin was not found in current list, son unset filters to retry
+        MatomoUrl.updateHash({
+          ...MatomoUrl.hashParsed.value,
+          pluginType: 'plugins',
+          query: null,
+        });
+      }
+    },
     shrinkDescriptionIfMultilineTitle() {
       const $nodes = $('.marketplace .card-holder');
       if (!$nodes || !$nodes.length) {

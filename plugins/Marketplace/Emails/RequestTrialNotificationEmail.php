@@ -77,8 +77,7 @@ class RequestTrialNotificationEmail extends Mail
         // @see JavaScript broadcast#propagateNewPopoverParameter
         $view->pluginLink =
             $piwikUrl
-            . 'index.php?module=Marketplace&action=overview#?popover='
-            . urlencode('browsePluginDetail$3A' . $this->pluginName);
+            . 'index.php?module=Marketplace&action=overview#?showPlugin=' . $this->pluginName;
 
         return $view;
     }
