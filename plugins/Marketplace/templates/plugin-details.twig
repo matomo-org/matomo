@@ -116,11 +116,6 @@
                                        rel="noreferrer noopener"
                                        href="{{ plugin.consumer.loginUrl|default('')|e('html_attr') }}"
                                     >{{ 'Marketplace_UpgradeSubscription'|translate }}</a>
-                                {% else %}
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <br />
                                 {% endif %}
                             {% elseif isSuperUser %}
                                 {% if not isAutoUpdatePossible %}
@@ -130,29 +125,14 @@
                                     <a class="install update"
                                        href="{{ linkTo({'module': 'Marketplace', 'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': updateNonce}) }}"
                                     >{{ 'CoreUpdater_UpdateTitle'|translate }}</a>
-                                {% elseif plugin.isInstalled %}
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <br />
-                                {% elseif 0 < plugin.missingRequirements|length %}
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <br />
-                                {% else %}
+                                {% elseif not plugin.isInstalled and 0 == plugin.missingRequirements|length %}
                                     <a href="{{ linkTo({'module': 'Marketplace', 'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': installNonce}) }}"
                                        class="install">{{ 'Marketplace_ActionInstall'|translate }}</a>
                                 {% endif %}
-                            {% else %}
-                                <br />
-                                <br />
-                                <br />
-                                <br />
                             {% endif %}
                         </div>
 
-                        {% if plugin.specialOffer is defined and plugin.specialOffer %}<p style="color: green;"><br />{{ plugin.specialOffer }}</p>{% endif %}
+                        {% if plugin.specialOffer is defined and plugin.specialOffer %}<p style="color: green;">{{ plugin.specialOffer }}<br /><br /></p>{% endif %}
 
                         <p><br /></p>
                         <dl>
