@@ -43,6 +43,7 @@
     }
 
     #pluginDetailsTabs {
+        border-right: 1px solid silver;
         margin-top: 25px;
     }
 
@@ -56,7 +57,9 @@
 
     .metadata {
         padding-left: 0.75rem;
-        margin-left: 0.75rem;
+
+        // -1px to force overlapping border overlapping with content
+        margin-left: calc(~"0.75rem - 1px");
         border-left: 1px solid silver;
     }
 
