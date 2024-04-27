@@ -687,6 +687,8 @@ class Report
             return $t ?: 'unspecified';
         }, $report['metricTypes']);
 
+        $report['processedMetricFormulas'] = $this->getProcessedMetricFormulas();
+
         if (!empty($this->actionToLoadSubTables)) {
             $report['actionToLoadSubTables'] = $this->actionToLoadSubTables;
         }
@@ -1175,5 +1177,28 @@ class Report
         }
 
         return $metricType;
+    }
+
+    private function getProcessedMetricFormulas(): ?array
+    {
+        if (empty($this->processedMetrics)) {
+            return null;
+        }
+
+        $formulas = [];
+        foreach ($this->processedMetrics as $processedMetric) {
+            if (!($processedMetric instanceof ProcessedMetric)) {
+                continue;
+            }
+
+            $formula = $processedMetric->getFormula();
+            if (empty($formula)) {
+                continue;
+            }
+
+            $formulas[$processedMetric->getName()] = $formula;
+        }
+
+        return $formulas;
     }
 }

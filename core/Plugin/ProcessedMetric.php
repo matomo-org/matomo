@@ -87,4 +87,14 @@ abstract class ProcessedMetric extends Metric
     {
         // empty
     }
+
+    /**
+     * TODO
+     *
+     * @return string|null
+     */
+    public function getFormula(): ?string
+    {
+        return null;
+    }
 }

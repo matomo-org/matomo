@@ -119,4 +119,9 @@ class AveragePageGenerationTime extends ProcessedMetric
     {
         return Dimension::TYPE_DURATION_S;
     }
+
+    public function getFormula(): ?string
+    {
+        return 'sum_time_generation / nb_hits_with_time_generation';
+    }
 }
