@@ -60,7 +60,7 @@ class SessionAuthTest extends IntegrationTestCase
         $result = $this->testInstance->authenticate();
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
 
-        $this->assertEmpty($_SESSION);
+        $this->assertEmpty($_SESSION, 'Expected $_SESSION to be empty. Instead got: ' . var_export($_SESSION, true));
     }
 
     public function testAuthenticateReturnsFailureIfUsersModelReturnsIncorrectUser()

@@ -18225,6 +18225,9 @@ ThemesIntrovue_type_script_lang_ts.render = ThemesIntrovue_type_template_id_355b
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+var PluginName_window = window,
+    PluginName_$ = PluginName_window.$;
 window.broadcast.addPopoverHandler('browsePluginDetail', function (value) {
   var pluginName = value;
   var activeTab = null;
@@ -18232,6 +18235,16 @@ window.broadcast.addPopoverHandler('browsePluginDetail', function (value) {
   if (value.indexOf('!') !== -1) {
     activeTab = value.slice(value.indexOf('!') + 1);
     pluginName = value.slice(0, value.indexOf('!'));
+  } // use marketplace popover if marketplace is loaded
+
+
+  if (external_CoreHome_["MatomoUrl"].urlParsed.value.module === 'Marketplace' && external_CoreHome_["MatomoUrl"].urlParsed.value.action === 'overview') {
+    window.broadcast.propagateNewPopoverParameter('');
+    external_CoreHome_["MatomoUrl"].updateHash(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
+      showPlugin: pluginName,
+      popover: null
+    }));
+    return;
   }
 
   var url = "module=Marketplace&action=pluginDetails&pluginName=".concat(encodeURIComponent(pluginName));
@@ -18255,8 +18268,6 @@ function onClickPluginNameLink(binding, event) {
   window.broadcast.propagateNewPopoverParameter('browsePluginDetail', pluginName);
 }
 
-var PluginName_window = window,
-    PluginName_$ = PluginName_window.$;
 /* harmony default export */ var PluginName = ({
   mounted: function mounted(element, binding) {
     var pluginName = binding.value.pluginName;

@@ -11,7 +11,10 @@ namespace Piwik\Plugins\Marketplace\tests\Integration;
 
 use Exception;
 use Piwik\Container\StaticContainer;
+use Piwik\Mail;
+use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\API;
+use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
 use Piwik\Plugins\UsersManager\SystemSettings;
@@ -226,6 +229,57 @@ class ApiTest extends IntegrationTestCase
         $this->api->deleteLicenseKey();
 
         $this->assertNotHasLicenseKey();
+    }
+
+    public function testRequestTrialRequiresRegularUserAccessIfSuperUser()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Cannot request trial as a super user');
+
+        $this->api->requestTrial('testPlugin');
+    }
+
+    public function testRequestTrialRequiresRegularUserAccessIfAnonymous(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('General_YouMustBeLoggedIn');
+
+        $this->setAnonymousUser();
+        $this->api->requestTrial('testPlugin');
+    }
+
+    public function testRequestTrialRequiresValidPluginName(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Invalid plugin name given');
+
+        $this->setUser();
+        $this->api->requestTrial('this/is/not/valid');
+    }
+
+    public function testRequestTrialSendsEmailToAllSuperUsers(): void
+    {
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$sentMail) {
+            $sentMail = $mail;
+        });
+
+        $this->setUser();
+
+        self::assertTrue($this->api->requestTrial('testPlugin'));
+
+        self::assertNotNull($sentMail);
+        self::assertInstanceOf(RequestTrialNotificationEmail::class, $sentMail);
+        self::assertSame(['hello@example.org' => ''], $sentMail->getRecipients());
+
+        self::assertSame(
+            'Marketplace_RequestTrialNotificationEmailSubject',
+            $sentMail->getSubject()
+        );
+
+        self::assertStringContainsString(
+            'Marketplace_RequestTrialNotificationEmailIntro',
+            $sentMail->getBodyHtml()
+        );
     }
 
     public function testSaveLicenseKeyRequiresSuperUserAccessIfUser()

@@ -777,6 +777,10 @@ enable_load_data_infile = 1
 ; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
 enable_plugins_admin = 1
 
+; Defines when a plugin trial request expires and a new one can be requested
+; By settings this value to -1 plugin trial requests will be disabled
+plugin_trial_request_expiration_in_days = 28
+
 ; By setting this option to 0 the users management will be disabled
 enable_users_admin = 1
 

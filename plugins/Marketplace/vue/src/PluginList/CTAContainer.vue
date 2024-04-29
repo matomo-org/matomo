@@ -123,6 +123,21 @@
     </a>
   </template>
 
+  <a v-else-if="plugin.isTrialRequested"
+     tabindex="7"
+     class="btn btn-block purchaseable disabled"
+     href=""
+     :title="translate('Marketplace_TrialRequested')"
+  >{{ translate('Marketplace_TrialRequested') }}</a>
+
+  <a v-else-if="plugin.canTrialBeRequested"
+     tabindex="7"
+     class="btn btn-block purchaseable"
+     href=""
+     @click.prevent="this.$emit('requestTrial');"
+     :title="translate('Marketplace_RequestTrial')"
+  >{{ translate('Marketplace_RequestTrial') }}</a>
+
   <template v-else>
     <MoreDetailsAction
       v-if="!inModal"
@@ -136,7 +151,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { MatomoUrl } from 'CoreHome';
-import { PluginName } from 'CorePluginsAdmin';
 import DownloadButton from './DownloadButton.vue';
 import MoreDetailsAction from './MoreDetailsAction.vue';
 
@@ -187,13 +201,14 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['startFreeTrial', 'openDetailsModal'],
+  emits: [
+    'openDetailsModal',
+    'requestTrial',
+    'startFreeTrial',
+  ],
   components: {
     MoreDetailsAction,
     DownloadButton,
-  },
-  directives: {
-    PluginName,
   },
   methods: {
     linkToActivate(pluginName: string) {

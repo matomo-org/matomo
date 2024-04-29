@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin;
+use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
+use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
 
@@ -26,6 +28,10 @@ class Marketplace extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Controller.CoreHome.checkForUpdates' => 'checkForUpdates',
+            'Controller.CoreHome.markNotificationAsRead' => 'dismissPluginTrialNotification',
+            'Request.dispatch' => 'createPluginTrialNotification',
+            'PluginManager.pluginInstalled' => 'removePluginTrialRequest',
+            'PluginManager.pluginActivated' => 'removePluginTrialRequest',
             'Widget.filterWidgets' => 'filterWidgets'
         );
     }
@@ -129,6 +135,10 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_PluginUploadDisabled';
         $translationKeys[] = 'Marketplace_PriceFromPerPeriod';
         $translationKeys[] = 'Marketplace_RemoveLicenseKey';
+        $translationKeys[] = 'Marketplace_RequestTrial';
+        $translationKeys[] = 'Marketplace_RequestTrialConfirmEmailWarning';
+        $translationKeys[] = 'Marketplace_RequestTrialConfirmTitle';
+        $translationKeys[] = 'Marketplace_RequestTrialSubmitted';
         $translationKeys[] = 'Marketplace_RichMenuIntro';
         $translationKeys[] = 'Marketplace_Show';
         $translationKeys[] = 'Marketplace_Sort';
@@ -143,6 +153,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_SupportMatomoThankYou';
         $translationKeys[] = 'Marketplace_TeaserExtendPiwikByUpload';
         $translationKeys[] = 'Marketplace_TrialHints';
+        $translationKeys[] = 'Marketplace_TrialRequested';
         $translationKeys[] = 'Marketplace_TrialStartErrorSupport';
         $translationKeys[] = 'Marketplace_TrialStartErrorTitle';
         $translationKeys[] = 'Marketplace_TrialStartInProgressText';
@@ -189,6 +200,35 @@ class Marketplace extends \Piwik\Plugin
     {
         if (!SettingsPiwik::isInternetEnabled()) {
             $list->remove('Marketplace_Marketplace');
+        }
+    }
+
+    public function dismissPluginTrialNotification(): void
+    {
+        try {
+            $notificationId = Request::fromRequest()->getStringParameter('notificationId');
+
+            StaticContainer::get(PluginTrialService::class)->dismissNotification($notificationId);
+        } catch (\Exception $e) {
+            // ignore any type of error
+        }
+    }
+
+    public function createPluginTrialNotification(): void
+    {
+        try {
+            StaticContainer::get(PluginTrialService::class)->createNotificationsIfNeeded();
+        } catch (\Exception $e) {
+            // ignore any type of error
+        }
+    }
+
+    public function removePluginTrialRequest(string $pluginName): void
+    {
+        try {
+            StaticContainer::get(PluginTrialService::class)->cancelRequest($pluginName);
+        } catch (\Exception $e) {
+            // ignore any type of error
         }
     }
 

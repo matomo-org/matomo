@@ -15,6 +15,7 @@ use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Api\Service;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
+use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
 use Piwik\Plugins\UsersManager\Validators\Email;
@@ -53,18 +54,25 @@ class API extends \Piwik\Plugin\API
      */
     private $environment;
 
+    /**
+     * @var PluginTrialService
+     */
+    private $pluginTrialService;
+
     public function __construct(
         Service $service,
         Client $client,
         InvalidLicenses $expired,
         PluginManager $pluginManager,
-        Environment $environment
+        Environment $environment,
+        PluginTrialService $pluginTrialService
     ) {
         $this->marketplaceService = $service;
         $this->marketplaceClient  = $client;
         $this->expired = $expired;
         $this->pluginManager = $pluginManager;
         $this->environment = $environment;
+        $this->pluginTrialService = $pluginTrialService;
     }
 
     /**
@@ -158,6 +166,27 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         $this->setLicenseKey(null);
+        return true;
+    }
+
+    /**
+     * @param string $pluginName
+     *
+     * @return bool
+     *
+     * @unsanitized
+     * @internal
+     */
+    public function requestTrial(string $pluginName, string $pluginDisplayName = ''): bool
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        if (Piwik::hasUserSuperUserAccess()) {
+            throw new Exception('Cannot request trial as a super user');
+        }
+
+        $this->pluginTrialService->request($pluginName, $pluginDisplayName);
+
         return true;
     }
 
