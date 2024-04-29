@@ -47,6 +47,21 @@
         margin-top: 25px;
     }
 
+    // some plugins receive inline style from the marketplace
+    // override them for consistency
+    .main-div-readme {
+        display: flex;
+    }
+
+    .left-div-readme {
+        width: 50%;
+    }
+
+    .right-div-readme {
+        flex-grow: initial;
+        width: 48%;
+    }
+
     .contentDetails p {
         margin: 0 0 10px;
     }
@@ -331,7 +346,8 @@
         }
 
         .right-div-readme {
-            width: 48%;
+            flex-grow: 1;
+            width: 50%;
         }
 
         .plugin-metadata-part2 {
