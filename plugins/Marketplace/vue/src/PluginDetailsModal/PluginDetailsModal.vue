@@ -7,7 +7,11 @@
 
 <template>
   <div ref="root" class="modal" id="pluginDetailsModal">
-    <div v-if="!isLoading" class="modal-content">
+    <div
+      v-if="!isLoading"
+      class="modal-content"
+      :class="{ 'modal-content--simple-header': !hasHeaderMetadata }"
+    >
 
       <div class="modal-content__header">
         <span class="btn-close modal-close"><i class="icon-close"></i></span>
@@ -19,6 +23,7 @@
                alt=""
           />{{ plugin && plugin.displayName ? plugin.displayName : 'Plugin details' }}</h2>
         <div class="plugin-metadata-part1">
+        <div class="plugin-metadata-part1" v-if="hasHeaderMetadata">
           <h3 class="sr-only">Plugin details — part 1</h3>
           <dl>
             <div class="pair" v-if="showReviews">
@@ -431,6 +436,12 @@ export default defineComponent({
     },
     pluginScreenshots(): string[] {
       return this.plugin.screenshots || [];
+    },
+    hasHeaderMetadata(): boolean {
+      return this.showReviews
+        || !this.plugin.isBundle
+        || this.plugin.numDownloads > 0
+        || (this.plugin.lastUpdated && !this.plugin.isBundle);
     },
   },
   methods: {

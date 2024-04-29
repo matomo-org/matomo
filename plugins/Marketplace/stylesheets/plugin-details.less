@@ -182,6 +182,25 @@
             // full screen takeover
             min-height: 100vh;
         }
+
+        &--simple-header {
+            .modal-content__header {
+                height: 90px;
+            }
+
+            .modal-content__main {
+                max-height: calc(~"80vh - 180px");
+
+                @media (max-width: 992px) {
+                    max-height: calc(~"90vh - 180px");
+                }
+
+                @media (max-width: 480px) {
+                    // full screen takeover
+                    min-height: calc(~"100vh - 180px");
+                }
+            }
+        }
     }
 
     .modal-content__header {
