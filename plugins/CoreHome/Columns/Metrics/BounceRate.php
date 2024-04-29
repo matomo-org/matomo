@@ -57,4 +57,9 @@ class BounceRate extends ProcessedMetric
     {
         return Dimension::TYPE_PERCENT;
     }
+
+    public function getFormula(): ?string
+    {
+        return "bounce_count / nb_visits";
+    }
 }

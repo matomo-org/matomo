@@ -50,4 +50,9 @@ class AverageEventValue extends ProcessedMetric
     {
         return Dimension::TYPE_NUMBER;
     }
+
+    public function getFormula(): ?string
+    {
+        return "sum_event_value / nb_evens_with_value";
+    }
 }

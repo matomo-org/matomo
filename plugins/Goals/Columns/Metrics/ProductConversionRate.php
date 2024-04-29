@@ -58,4 +58,14 @@ class ProductConversionRate extends ProcessedMetric
     {
         return Dimension::TYPE_PERCENT;
     }
+    public function getFormula(): ?string
+    {
+        // TODO: can we refactor the use of this class to avoid having something complicated like this here?
+        return <<<FORMULA
+CASE
+    WHEN orders > 0 THEN orders / nb_visits
+    ELSE abandoned_carts / nb_visits
+END
+FORMULA;
+    }
 }

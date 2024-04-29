@@ -68,4 +68,16 @@ class AveragePrice extends ProcessedMetric
     {
         return Dimension::TYPE_MONEY;
     }
+
+    public function getFormula(): ?string
+    {
+        // TODO: can we refactor the use of this class to avoid having something complicated like this here?
+        // TODO: check that this works in looker?
+        return <<<FORMULA
+CASE
+    WHEN orders > 0 THEN price / orders
+    ELSE price / abandoned_carts 
+END
+FORMULA;
+    }
 }

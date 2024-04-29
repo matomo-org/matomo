@@ -22,6 +22,9 @@ use Piwik\Piwik;
 use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
 
+// TODO: issue about allowing formula for evolution values (will require including past data in report as temporary data, and calculating using that)
+//       same for VisitsPercent.
+
 /**
  * Calculates evolution values for any other metric. An evolution is the percent change from a
  * point in the past to the present. They are computed as:

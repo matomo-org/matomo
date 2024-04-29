@@ -264,4 +264,9 @@ class ComputedMetric extends ProcessedMetric
     {
         return $this->getDetectedType();
     }
+
+    public function getFormula(): ?string
+    {
+        return "{$this->metric1} / {$this->metric2}";
+    }
 }

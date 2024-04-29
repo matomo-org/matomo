@@ -56,4 +56,9 @@ class ExitRate extends ProcessedMetric
     {
         return Dimension::TYPE_PERCENT;
     }
+
+    public function getFormula(): ?string
+    {
+        return "exit_nb_visits / nb_visits";
+    }
 }

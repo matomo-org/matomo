@@ -66,4 +66,9 @@ class AverageOrderRevenue extends ProcessedMetric
     {
         return Dimension::TYPE_MONEY;
     }
+
+    public function getFormula(): ?string
+    {
+        return "revenue / nb_conversions";
+    }
 }
