@@ -450,10 +450,18 @@
             @media (max-width: 600px) {
                 width: 70%;
             }
+
+            @media (max-width: 480px) {
+                width: 100%;
+            }
         }
 
         .matomo-badge-modal {
             position: initial;
+
+            @media (max-width: 480px) {
+                display: none;
+            }
         }
     }
 }
