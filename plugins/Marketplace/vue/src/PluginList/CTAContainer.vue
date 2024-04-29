@@ -15,6 +15,14 @@
       >(<MoreDetailsAction @action="$emit('openDetailsModal')"/>)</span>
     </div>
 
+    <a v-else-if="inModal && plugin.hasExceededLicense && plugin.consumer.loginUrl"
+       class="btn btn-block"
+       tabindex="7"
+       target="_blank"
+       rel="noreferrer noopener"
+       :href="externalRawLink(plugin.consumer.loginUrl)"
+    >{{ translate('Marketplace_UpgradeSubscription') }}</a>
+
     <div v-else-if="plugin.hasExceededLicense"
          class="alert alert-danger alert-no-background">
       {{ translate('Marketplace_LicenseExceeded') }}
