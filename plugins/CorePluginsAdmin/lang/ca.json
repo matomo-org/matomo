@@ -48,6 +48,8 @@
         "OriginThirdParty": "Tercers",
         "PluginActivated": "Connector activat",
         "PluginFreeTrialStarted": "%1$sLa vostra prova gratuïta de 30 dies ha començat%2$s per a %3$s.",
+        "PluginFreeTrialStartedAccountCreatedMessage": "Hem afegit la vostra clau de llicència i hem iniciat una prova gratuïta de 30 dies per a %1$s. Feu el següent pas instal·lant i activant el vostre connector.",
+        "PluginFreeTrialStartedAccountCreatedTitle": "S'ha creat el vostre compte",
         "PluginHomepage": "Pàgina d'inici del connector",
         "PluginNotCompatibleWith": "El connector %1$s no és compatible amb %2$s.",
         "PluginNotDownloadable": "El connector no es pot descarregar.",
