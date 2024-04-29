@@ -43,7 +43,23 @@
     }
 
     #pluginDetailsTabs {
+        border-right: 1px solid silver;
         margin-top: 25px;
+    }
+
+    // some plugins receive inline style from the marketplace
+    // override them for consistency
+    .main-div-readme {
+        display: flex;
+    }
+
+    .left-div-readme {
+        width: 50%;
+    }
+
+    .right-div-readme {
+        flex-grow: initial;
+        width: 48%;
     }
 
     .contentDetails p {
@@ -52,6 +68,17 @@
 
     .description {
         padding-right: 25px;
+    }
+
+    .metadata {
+        padding-left: 0.75rem;
+
+        // -1px to force overlapping border overlapping with content
+        margin-left: calc(~"0.75rem - 1px");
+        border-left: 1px solid silver;
+
+        // prevent text overflow
+        word-break: break-word;
     }
 
     .variationPicker {
@@ -69,6 +96,7 @@
     .download,
     .install {
         padding: 11px 19px;
+        margin-bottom: 20px;
         font-size: 17.5px;
         -webkit-border-radius: 6px;
         -moz-border-radius: 6px;
@@ -318,7 +346,8 @@
         }
 
         .right-div-readme {
-            flex-grow: 1; width: 50%;
+            flex-grow: 1;
+            width: 50%;
         }
 
         .plugin-metadata-part2 {

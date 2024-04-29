@@ -190,7 +190,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->activeTab    = $activeTab;
         $view->isAutoUpdatePossible = SettingsPiwik::isAutoUpdatePossible();
         $view->isAutoUpdateEnabled = SettingsPiwik::isAutoUpdateEnabled();
-        $view->numUsers = $this->environment->getNumUsers();
 
         return $view->render();
     }
