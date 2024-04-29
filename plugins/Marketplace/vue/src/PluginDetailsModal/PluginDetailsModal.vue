@@ -434,10 +434,11 @@ export default defineComponent({
       return this.plugin.screenshots || [];
     },
     hasHeaderMetadata(): boolean {
-      return this.showReviews
+      return (this.showReviews
         || !this.plugin.isBundle
-        || this.plugin.numDownloads > 0
-        || (this.plugin.lastUpdated && !this.plugin.isBundle);
+        || (this.plugin.numDownloads || 0) > 0
+        || (this.plugin.lastUpdated && !this.plugin.isBundle)
+      ) as boolean;
     },
   },
   methods: {
