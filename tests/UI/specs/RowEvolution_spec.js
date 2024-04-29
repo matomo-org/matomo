@@ -82,16 +82,16 @@ describe("RowEvolution", function () {
 
     it('should load row evolution for goals view', async function() {
         await page.goto(viewDataTableUrl + '&forceView=1&viewDataTable=tableGoals');
-        const row = await page.waitForSelector('tbody tr:first-child');
+
+        await page.waitForSelector('tbody tr:first-child')
+        const row = await page.jQuery('tbody tr:contains("corruption")');
         await row.hover();
 
-        const icon = await page.waitForSelector('tbody tr:first-child a.actionRowEvolution');
+        const icon = await page.jQuery('tbody tr:contains("corruption") a.actionRowEvolution');
         await icon.click();
 
-        await page.waitForSelector('.ui-dialog');
+        const dialog = await page.waitForSelector('.ui-dialog');
         await page.waitForNetworkIdle();
-
-        const dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('row_evolution_goal_view');
     });
 
