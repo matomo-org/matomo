@@ -214,7 +214,10 @@ export default defineComponent({
         (plugin: any) => plugin.name === showPlugin,
       );
       if (pluginToShow.length === 1) {
-        [this.showPluginDetailsForPlugin] = pluginToShow as Record<string, unknown>[];
+        const [plugin] = pluginToShow as Record<string, unknown>[];
+
+        this.openDetailsModal(plugin);
+        this.scrollPluginCardIntoView(plugin);
       } else if (pluginType !== '' || query !== '') {
         // plugin was not found in current list, so unset filters to retry
         MatomoUrl.updateHash({
@@ -298,6 +301,21 @@ export default defineComponent({
     },
     openDetailsModal(plugin: Record<string, unknown>) {
       this.showPluginDetailsForPlugin = plugin;
+    },
+    scrollPluginCardIntoView(plugin: Record<string, unknown>) {
+      const $titles = $(`.pluginListContainer .card-title:contains("${plugin.displayName}")`);
+
+      if ($titles.length !== 1) {
+        return;
+      }
+
+      const $cards = $titles.parents('.card');
+
+      if ($cards.length !== 1 || !$cards[0].scrollIntoView) {
+        return;
+      }
+
+      $cards[0].scrollIntoView({ block: 'start', behavior: 'smooth' });
     },
   },
 });
