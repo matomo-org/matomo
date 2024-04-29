@@ -17,12 +17,8 @@
         <span class="btn-close modal-close"><i class="icon-close"></i></span>
 
         <h2>
-          <img v-if="plugin.featured" class="star-icon featured-icon"
-               :title="translate('Marketplace_FeaturedPlugin')"
-               src="plugins/Marketplace/images/star.svg"
-               alt=""
-          />{{ plugin && plugin.displayName ? plugin.displayName : 'Plugin details' }}</h2>
-        <div class="plugin-metadata-part1">
+          {{ plugin && plugin.displayName ? plugin.displayName : 'Plugin details' }}
+        </h2>
         <div class="plugin-metadata-part1" v-if="hasHeaderMetadata">
           <h3 class="sr-only">Plugin details — part 1</h3>
           <dl>
