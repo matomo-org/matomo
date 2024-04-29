@@ -134,10 +134,6 @@
 
                         {% if plugin.specialOffer is defined and plugin.specialOffer %}<p style="color: green;">{{ plugin.specialOffer }}<br /><br /></p>{% endif %}
 
-                        {% if (plugin.specialOffer is defined and plugin.specialOffer) or (not plugin.isDownloadable or not isSuperUser) or isSuperUser %}
-                        <p><br /></p>
-                        {% endif %}
-
                         <dl>
                             {% if not isBundle %}
                                 <dt>{{ 'CorePluginsAdmin_Version'|translate }}</dt>
