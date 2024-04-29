@@ -149,6 +149,13 @@
         top: 5% !important; // required to override inline style set by the modal
     }
 
+    @media (max-width: 480px) {
+        // full screen takeover
+        min-width: 100vw;
+        min-height: 100vh;
+        top: 0 !important; // required to override inline style set by the modal
+    }
+
     .btn-close {
         z-index: 100;
     }
@@ -169,6 +176,11 @@
 
         @media (max-width: 992px) {
             max-height: 90vh;
+        }
+
+        @media (max-width: 480px) {
+            // full screen takeover
+            min-height: 100vh;
         }
     }
 
@@ -271,6 +283,10 @@
 
         @media (max-width: 992px) {
             max-height: calc(~"90vh - 250px");
+        }
+
+        @media (max-width: 480px) {
+            max-height: calc(~"100vh - 250px");
         }
 
         h2, h3, h4, h5, h6 {
