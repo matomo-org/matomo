@@ -231,6 +231,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_AddTotalsRowDataTable';
         $translationKeys[] = 'CoreHome_RemoveTotalsRowDataTable';
         $translationKeys[] = 'CoreHome_PeriodHasOnlyRawData';
+        $translationKeys[] = 'CoreHome_PeriodHasOnlyRawDataNoVisitsLog';
         $translationKeys[] = 'SitesManager_NotFound';
         $translationKeys[] = 'Annotations_ViewAndAddAnnotations';
         $translationKeys[] = 'General_RowEvolutionRowActionTooltipTitle';

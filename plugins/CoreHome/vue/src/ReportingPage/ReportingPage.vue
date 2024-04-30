@@ -61,11 +61,17 @@ import AjaxHelper from '../AjaxHelper/AjaxHelper';
 function showOnlyRawDataNotification() {
   const params = 'category=General_Visitors&subcategory=Live_VisitorLog';
   const url = window.broadcast.buildReportingUrl(params);
+  let message = translate('CoreHome_PeriodHasOnlyRawData', `<a href="${url}">`, '</a>');
+
+  if (!Matomo.visitorLogEnabled) {
+    message = translate('CoreHome_PeriodHasOnlyRawDataNoVisitsLog');
+  }
+
   NotificationsStore.show({
     id: 'onlyRawData',
     animate: false,
     context: 'info',
-    message: translate('CoreHome_PeriodHasOnlyRawData', `<a href="${url}">`, '</a>'),
+    message,
     type: 'transient',
   });
 }
@@ -130,7 +136,9 @@ export default defineComponent({
         this.hasNoVisits = false;
       }
 
-      this.renderPage(newValue.category as string, newValue.subcategory as string);
+      setTimeout(() => {
+        this.renderPage(newValue.category as string, newValue.subcategory as string);
+      }, 0);
     });
 
     Matomo.on('loadPage', (category: string, subcategory: string) => {
@@ -212,10 +220,6 @@ export default defineComponent({
       this.renderPage(parsed.category as string, parsed.subcategory as string);
     },
     showOnlyRawDataMessageIfRequired() {
-      if (!Matomo.visitorLogEnabled) {
-        return;
-      }
-
       if (this.hasRawData && this.hasNoVisits) {
         showOnlyRawDataNotification();
       }
@@ -278,11 +282,9 @@ export default defineComponent({
         }
 
         return AjaxHelper.fetch({
-          method: 'Live.getLastVisitsDetails',
-          filter_limit: 1,
-          doNotFetchActions: 1,
+          method: 'Live.getMostRecentVisitsDateTime',
         }).then((lastVisits) => {
-          if (!lastVisits || lastVisits.length === 0) {
+          if (!lastVisits || lastVisits.value === '') {
             this.hasRawData = false;
             hideOnlyRawDataNoticifation();
             return;

@@ -127,6 +127,7 @@
         "EngagementSubcategoryHelp1": "The Engagement section provides reports that help to quantify how many new and returning visitors you get. You can also review reports that break down the average time and number of pages per visit, as well as the number of times a visitor has been to your site and the most common number of days between visits.",
         "EngagementSubcategoryHelp2": "This can help you to optimise for frequency and high-interaction visits in addition to maximising your reach.",
         "PeriodHasOnlyRawData": "It looks like reports for this period have not been processed yet. Do you want to see what's happening now? Check out the %1$sVisits log%2$s or choose a different date period until the reports are generated.",
+        "PeriodHasOnlyRawDataNoVisitsLog": "It looks like reports for this period have not been processed yet. Please come back later or choose a different date period until the reports are generated.",
         "StartDate": "Start Date",
         "EndDate": "End Date"
     }
