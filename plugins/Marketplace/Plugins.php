@@ -430,7 +430,7 @@ class Plugins
      * @param $plugin
      * @return void
      */
-    protected function prettifyNumberOfDownloads(&$plugin): void
+    private function prettifyNumberOfDownloads(&$plugin): void
     {
         $num = $nice = $plugin['numDownloads'] ?? 0;
 
