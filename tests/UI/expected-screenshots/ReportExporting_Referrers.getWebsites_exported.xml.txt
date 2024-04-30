@@ -2,29 +2,29 @@
 <result>
 	<row>
 		<label>referrer.com</label>
-		<nb_visits>11</nb_visits>
-		<nb_actions>45</nb_actions>
+		<nb_visits>12</nb_visits>
+		<nb_actions>52</nb_actions>
 		<max_actions>7</max_actions>
-		<sum_visit_length>7398</sum_visit_length>
+		<sum_visit_length>9020</sum_visit_length>
 		<bounce_count>2</bounce_count>
-		<nb_visits_converted>11</nb_visits_converted>
+		<nb_visits_converted>12</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>23</nb_conversions>
-				<nb_visits_converted>11</nb_visits_converted>
-				<revenue>115</revenue>
+				<nb_conversions>24</nb_conversions>
+				<nb_visits_converted>12</nb_visits_converted>
+				<revenue>120</revenue>
 			</row>
 			<row idgoal='2'>
-				<nb_conversions>11</nb_conversions>
-				<nb_visits_converted>11</nb_visits_converted>
-				<revenue>55</revenue>
+				<nb_conversions>12</nb_conversions>
+				<nb_visits_converted>12</nb_visits_converted>
+				<revenue>60</revenue>
 			</row>
 		</goals>
-		<nb_conversions>34</nb_conversions>
-		<revenue>170</revenue>
-		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
+		<nb_conversions>36</nb_conversions>
+		<revenue>180</revenue>
+		<sum_daily_nb_uniq_visitors>12</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
-		<idsubdatatable>8</idsubdatatable>
+		<idsubdatatable>1</idsubdatatable>
 		<segment>referrerName==referrer.com</segment>
 		<subtable>
 			<row>
@@ -50,6 +50,17 @@
 				<sum_daily_nb_users>0</sum_daily_nb_users>
 			</row>
 			<row>
+				<label>http://referrer.com/page.htm?param=valuewith some spaces</label>
+				<nb_visits>2</nb_visits>
+				<nb_actions>14</nb_actions>
+				<max_actions>7</max_actions>
+				<sum_visit_length>3244</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
 				<label>http://referrer.com/&lt;script&gt;_x(8)&lt;/script&gt;</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
@@ -59,17 +70,6 @@
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>1</sum_daily_nb_users>
-			</row>
-			<row>
-				<label>http://referrer.com/page.htm?param=valuewith some spaces</label>
-				<nb_visits>1</nb_visits>
-				<nb_actions>7</nb_actions>
-				<max_actions>7</max_actions>
-				<sum_visit_length>1622</sum_visit_length>
-				<bounce_count>0</bounce_count>
-				<nb_visits_converted>1</nb_visits_converted>
-				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<sum_daily_nb_users>0</sum_daily_nb_users>
 			</row>
 			<row>
 				<label>http://referrer.com/{{constructor.constructor(&quot;_x(21)&quot;)()}}</label>
@@ -94,9 +94,9 @@
 		<nb_visits_converted>8</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>14</nb_conversions>
+				<nb_conversions>13</nb_conversions>
 				<nb_visits_converted>8</nb_visits_converted>
-				<revenue>70</revenue>
+				<revenue>65</revenue>
 			</row>
 			<row idgoal='2'>
 				<nb_conversions>8</nb_conversions>
@@ -104,11 +104,11 @@
 				<revenue>40</revenue>
 			</row>
 		</goals>
-		<nb_conversions>22</nb_conversions>
-		<revenue>110</revenue>
+		<nb_conversions>21</nb_conversions>
+		<revenue>105</revenue>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>5</idsubdatatable>
+		<idsubdatatable>6</idsubdatatable>
 		<segment>referrerName==www.referrer1.com</segment>
 		<subtable>
 			<row>
@@ -181,7 +181,7 @@
 		<revenue>110</revenue>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>6</idsubdatatable>
+		<idsubdatatable>7</idsubdatatable>
 		<segment>referrerName==www.referrer2.com</segment>
 		<subtable>
 			<row>
@@ -254,7 +254,7 @@
 		<revenue>105</revenue>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>7</idsubdatatable>
+		<idsubdatatable>8</idsubdatatable>
 		<segment>referrerName==www.referrer3.com</segment>
 		<subtable>
 			<row>
@@ -327,7 +327,7 @@
 		<revenue>105</revenue>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>14</idsubdatatable>
+		<idsubdatatable>17</idsubdatatable>
 		<segment>referrerName==www.referrer0.com</segment>
 		<subtable>
 			<row>
@@ -378,7 +378,7 @@
 		<revenue>90</revenue>
 		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>15</idsubdatatable>
+		<idsubdatatable>18</idsubdatatable>
 		<segment>referrerName==www.referrer4.com</segment>
 		<subtable>
 			<row>
@@ -429,7 +429,7 @@
 		<revenue>40</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>3</sum_daily_nb_users>
-		<idsubdatatable>2</idsubdatatable>
+		<idsubdatatable>3</idsubdatatable>
 		<segment>referrerName==whatever0.com</segment>
 		<subtable>
 			<row>
@@ -477,9 +477,9 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>4</nb_conversions>
+				<nb_conversions>6</nb_conversions>
 				<nb_visits_converted>2</nb_visits_converted>
-				<revenue>20</revenue>
+				<revenue>30</revenue>
 			</row>
 			<row idgoal='2'>
 				<nb_conversions>2</nb_conversions>
@@ -487,11 +487,11 @@
 				<revenue>10</revenue>
 			</row>
 		</goals>
-		<nb_conversions>6</nb_conversions>
-		<revenue>30</revenue>
+		<nb_conversions>8</nb_conversions>
+		<revenue>40</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>13</idsubdatatable>
+		<idsubdatatable>16</idsubdatatable>
 		<segment>referrerName==anothersite.com</segment>
 		<subtable>
 			<row>
@@ -513,6 +513,32 @@
 				<sum_visit_length>722</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>1</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>mutantrights.org</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>3</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<idsubdatatable>11</idsubdatatable>
+		<segment>referrerName==mutantrights.org</segment>
+		<subtable>
+			<row>
+				<label>http://mutantrights.org</label>
+				<nb_visits>2</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>3</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
 			</row>
@@ -542,7 +568,7 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
-		<idsubdatatable>3</idsubdatatable>
+		<idsubdatatable>4</idsubdatatable>
 		<segment>referrerName==whatever1.com</segment>
 		<subtable>
 			<row>
@@ -593,7 +619,7 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>12</idsubdatatable>
+		<idsubdatatable>15</idsubdatatable>
 		<segment>referrerName==www.external.com.vn</segment>
 		<subtable>
 			<row>
@@ -614,6 +640,58 @@
 				<max_actions>4</max_actions>
 				<sum_visit_length>1082</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>xavierinstitute.org</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>3</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<idsubdatatable>14</idsubdatatable>
+		<segment>referrerName==xavierinstitute.org</segment>
+		<subtable>
+			<row>
+				<label>http://xavierinstitute.org</label>
+				<nb_visits>2</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>3</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<nb_visits_converted>2</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>apocalypsenow.org</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>3</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<idsubdatatable>9</idsubdatatable>
+		<segment>referrerName==apocalypsenow.org</segment>
+		<subtable>
+			<row>
+				<label>http://apocalypsenow.org</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>3</sum_visit_length>
+				<bounce_count>1</bounce_count>
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
@@ -644,7 +722,7 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>9</idsubdatatable>
+		<idsubdatatable>10</idsubdatatable>
 		<segment>referrerName==mutantregistration.com</segment>
 		<subtable>
 			<row>
@@ -684,7 +762,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>10</idsubdatatable>
+		<idsubdatatable>12</idsubdatatable>
 		<segment>referrerName==myotherreferrerwebsite.com</segment>
 		<subtable>
 			<row>
@@ -724,7 +802,7 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>11</idsubdatatable>
+		<idsubdatatable>13</idsubdatatable>
 		<segment>referrerName==myreferrerwebsite.com</segment>
 		<subtable>
 			<row>
@@ -764,7 +842,7 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>16</idsubdatatable>
+		<idsubdatatable>19</idsubdatatable>
 		<segment>referrerName==piwik.org</segment>
 		<subtable>
 			<row>
@@ -804,7 +882,7 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>17</idsubdatatable>
+		<idsubdatatable>20</idsubdatatable>
 		<segment>referrerName==sn110w.snt110.mail.live.com</segment>
 		<subtable>
 			<row>
@@ -844,7 +922,7 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<idsubdatatable>1</idsubdatatable>
+		<idsubdatatable>2</idsubdatatable>
 		<segment>referrerName==whatever.com1</segment>
 		<subtable>
 			<row>
@@ -884,7 +962,7 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<idsubdatatable>4</idsubdatatable>
+		<idsubdatatable>5</idsubdatatable>
 		<segment>referrerName==whatever3.com</segment>
 		<subtable>
 			<row>
