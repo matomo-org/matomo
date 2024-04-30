@@ -15,7 +15,7 @@ class PluginsTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getNumberOfDownloadsData
      */
-    public function test_prettifyNumberOfDownloads($numDownloads, $expectedPrettyDownloads)
+    public function testPrettifyNumberOfDownloads($numDownloads, $expectedPrettyDownloads)
     {
         $pluginsClass = new Plugins(
             $this->createMock('Piwik\Plugins\Marketplace\Api\Client'),
