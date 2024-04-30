@@ -339,6 +339,23 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Returns the most recent date time an action was performed for the given idSite
+     *
+     * @param int|string $idSite
+     * @param string|null $period
+     * @param string|null $date
+     * @return string
+     * @throws Exception
+     */
+    public function getMostRecentVisitsDateTime($idSite, string $period = null, string $date = null): string
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $model = new Model();
+        return $model->getMostRecentVisitsDateTime($idSite, $period, $date);
+    }
+
+    /**
      * For an array of visits, query the list of pages for this visit
      * as well as make the data human readable
      * @param DataTable $dataTable
