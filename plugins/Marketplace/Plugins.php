@@ -437,7 +437,7 @@ class Plugins
         if (($num >= 1000) && ($num < 100000)) {
             $nice = round($num / 1000, 1, PHP_ROUND_HALF_DOWN) . 'k';
         } elseif (($num >= 100000) && ($num < 1000000)) {
-            $nice = floor($num / 100000) . 'k';
+            $nice = floor($num / 1000) . 'k';
         } elseif ($num >= 1000000) {
             $nice = floor($num / 1000000) . 'm';
         }
