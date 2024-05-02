@@ -152,7 +152,7 @@ class ApiTest extends SystemTestCase
             [
                 'idSite'                 => 1,
                 'date'                   => self::$fixture->dateTime,
-                'periods'                => ['day'],
+                'periods'                => ['day', 'week'],
             ],
         ];
 
