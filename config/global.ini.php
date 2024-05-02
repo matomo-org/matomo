@@ -774,7 +774,7 @@ php_binary_path = ""
 
 ; In some rare cases it may be useful to explicitly tell Matomo not to use LOAD DATA INFILE
 ; This may for example be useful when doing Mysql AWS replication
-enable_load_data_infile = 1
+enable_load_data_infile = 0
 
 ; By setting this option to 0:
 ; - links to Enable/Disable/Uninstall plugins will be hidden and disabled
