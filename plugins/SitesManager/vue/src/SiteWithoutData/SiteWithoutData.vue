@@ -189,6 +189,8 @@ export default defineComponent({
     checkIfSiteHasData() {
       const params: QueryParameters = {
         method: 'Live.getMostRecentVisitsDateTime',
+        date: 'today',
+        period: 'day',
         idSite: Matomo.idSite,
       };
 
