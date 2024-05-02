@@ -90,19 +90,24 @@ return array(
                 $plugin['shop']['reviews']['embedUrl'] = '';
             }
 
+            // preg_replace patterns
+            $from = [
+                '@^https?://.*?/([^/]*?)/images/([^/]*?)/(.*?)$@',
+                '@^https?://.*?/img/categories/(.*?)$@i',
+            ];
+            $to = [
+                'plugins/Marketplace/tests/resources/images/plugins/$1/images/$2/$3',
+                'plugins/Marketplace/tests/resources/images/categories/$1',
+            ];
+
             if (!empty($plugin['coverImage'])) {
-                $plugin['coverImage'] = preg_replace(
-                    [
-                        '@^https?://.*?/([^/]*?)/images/([^/]*?)/(.*?)$@',
-                        '@^https?://.*?/img/categories/(.*?)$@i',
-                    ],
-                    [
-                        'plugins/Marketplace/tests/resources/images/plugins/$1/images/$2/$3',
-                        'plugins/Marketplace/tests/resources/images/categories/$1',
-                    ],
-                    $plugin['coverImage'],
-                    1
-                );
+                $plugin['coverImage'] = preg_replace($from, $to, $plugin['coverImage'], 1);
+            }
+
+            if (!empty($plugin['screenshots']) && is_array($plugin['screenshots'])) {
+                foreach ($plugin['screenshots'] as $key => $screenshotUrl) {
+                    $plugin['screenshots'][$key] = preg_replace($from, $to, $screenshotUrl, 1);
+                }
             }
         }
 
