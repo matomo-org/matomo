@@ -136,13 +136,17 @@ export default defineComponent({
         this.hasNoVisits = false;
       }
 
-      setTimeout(() => {
-        this.renderPage(newValue.category as string, newValue.subcategory as string);
-      }, 0);
+      this.renderPage(
+        newValue.category as string,
+        newValue.subcategory as string,
+        newValue.period as string,
+        newValue.date as string,
+      );
     });
 
     Matomo.on('loadPage', (category: string, subcategory: string) => {
-      this.renderPage(category, subcategory);
+      const parsedUrl = MatomoUrl.parsed.value;
+      this.renderPage(category, subcategory, parsedUrl.period as string, parsedUrl.date as string);
     });
   },
   computed: {
@@ -151,19 +155,15 @@ export default defineComponent({
     },
   },
   methods: {
-    renderPage(category: string, subcategory: string) {
+    renderPage(category: string, subcategory: string, period: string, date: string) {
       if (!category || !subcategory) {
         ReportingPageStoreInstance.resetPage();
         this.loading = false;
         return;
       }
 
-      const parsedUrl = MatomoUrl.parsed.value;
-      const currentPeriod = parsedUrl.period as string;
-      const currentDate = parsedUrl.date as string;
-
       try {
-        Periods.parse(currentPeriod, currentDate);
+        Periods.parse(period, date);
       } catch (e) {
         NotificationsStore.show({
           id: 'invalidDate',
@@ -184,7 +184,7 @@ export default defineComponent({
 
       NotificationsStore.clearTransientNotifications();
 
-      if (Periods.parse(currentPeriod, currentDate).containsToday()) {
+      if (Periods.parse(period, date).containsToday()) {
         this.showOnlyRawDataMessageIfRequired();
       }
 
@@ -217,7 +217,12 @@ export default defineComponent({
     },
     renderInitialPage() {
       const parsed = MatomoUrl.parsed.value;
-      this.renderPage(parsed.category as string, parsed.subcategory as string);
+      this.renderPage(
+        parsed.category as string,
+        parsed.subcategory as string,
+        parsed.period as string,
+        parsed.date as string,
+      );
     },
     showOnlyRawDataMessageIfRequired() {
       if (this.hasRawData && this.hasNoVisits) {
