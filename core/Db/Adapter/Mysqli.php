@@ -188,6 +188,21 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
     }
 
     /**
+     * Returns true if the user has the privilege to create tables
+     *
+     * @return bool
+     */
+    public function hasCreatePrivilege()
+    {
+        $grantedPrivileges = $this->fetchAll('SHOW GRANTS');
+        if ($grantedPrivileges) {
+            $result = array_shift($grantedPrivileges[0]);
+            return strpos($result, 'CREATE') ? true : false;
+        }
+        return false;
+    }
+
+    /**
      * Test error number
      *
      * @param Exception $e
