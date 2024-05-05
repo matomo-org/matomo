@@ -135,7 +135,7 @@
         "TrialStartErrorSupport": "If the error persists, contact our Support team.",
         "TrialStartErrorTitle": "Something went wrong",
         "TrialStartInProgressText": "It should only take a few seconds.",
-        "TrialStartInProgressTitle": "Loading... almost there!",
+        "TrialStartInProgressTitle": "Loading… almost there!",
         "TrialStartNoLicenseAddHere": "Already have a license key? %1$sAdd it here%2$s",
         "TrialStartNoLicenseCreateAccount": "Create Account",
         "TrialStartNoLicenseLegalHint": "By creating an account you accept the %1$sMatomo Marketplace Terms and Conditions%2$s. We will process your personal data in accordance with our %3$sPrivacy Policy.%4$s",
