@@ -38,8 +38,15 @@ jobs:
       matrix:
         type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
         php: [ '7.2', '8.2', '8.3' ]
+        schema: [ 'Mysql', 'Mariadb' ]
         adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
         exclude:
+          - php: '7.2'
+            schema: 'Mariadb'
+          - php: '8.2'
+            schema: 'Mysql'
+          - php: '8.3'
+            schema: 'Mariadb'
           - php: '7.2'
             adapter: 'MYSQLI'
           - php: '8.2'
@@ -54,10 +61,11 @@ jobs:
           submodules: true
           path: matomo
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@mariadb
         with:
           test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.adapter }}
+          mysql-schema: ${{ matrix.schema }}
           php-version: ${{ matrix.php }}
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
