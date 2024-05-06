@@ -149,6 +149,13 @@
         top: 5% !important; // required to override inline style set by the modal
     }
 
+    @media (max-width: 480px) {
+        // full screen takeover
+        min-width: 100vw;
+        min-height: 100vh;
+        top: 0 !important; // required to override inline style set by the modal
+    }
+
     .btn-close {
         z-index: 100;
     }
@@ -169,6 +176,30 @@
 
         @media (max-width: 992px) {
             max-height: 90vh;
+        }
+
+        @media (max-width: 480px) {
+            // full screen takeover
+            min-height: 100vh;
+        }
+
+        &--simple-header {
+            .modal-content__header {
+                height: 90px;
+            }
+
+            .modal-content__main {
+                max-height: calc(~"80vh - 180px");
+
+                @media (max-width: 992px) {
+                    max-height: calc(~"90vh - 180px");
+                }
+
+                @media (max-width: 480px) {
+                    // full screen takeover
+                    min-height: calc(~"100vh - 180px");
+                }
+            }
         }
     }
 
@@ -271,6 +302,10 @@
 
         @media (max-width: 992px) {
             max-height: calc(~"90vh - 250px");
+        }
+
+        @media (max-width: 480px) {
+            max-height: calc(~"100vh - 250px");
         }
 
         h2, h3, h4, h5, h6 {
@@ -388,18 +423,21 @@
 
                 figure {
                     margin: 24px auto;
-                    border: 1px solid #e0e0e0;
-                    display: inline-block;;
+                    background: #f7f7f7;
+                    border: 24px solid #f7f7f7;
+                    border-bottom-width: 16px;
                 }
 
                 img {
                     max-width: 100%;
+                    margin: 0 auto;
                 }
 
                 figcaption {
-                    padding: 8px;
-                    background: #e0e0e0;
+                    padding: 16px 0 0;
                     text-align: left;
+                    line-height: 24px;
+                    font-weight: 700;
                 }
             }
         }
@@ -434,10 +472,18 @@
             @media (max-width: 600px) {
                 width: 70%;
             }
+
+            @media (max-width: 480px) {
+                width: 100%;
+            }
         }
 
         .matomo-badge-modal {
             position: initial;
+
+            @media (max-width: 480px) {
+                display: none;
+            }
         }
     }
 }
