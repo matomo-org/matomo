@@ -170,6 +170,11 @@ abstract class SystemTestCase extends TestCase
         return getenv('MYSQL_ADAPTER') == 'MYSQLI';
     }
 
+    public static function isMariaDb()
+    {
+        return getenv('MYSQL_SCHEMA') === 'Mariadb' || Config::getInstance()->database['schema'] === 'Mariadb';
+    }
+
     /**
      * Return 4 Api Urls for testing scheduled reports :
      * - one in HTML format with all available reports

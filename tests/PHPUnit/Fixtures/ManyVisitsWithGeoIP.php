@@ -158,7 +158,7 @@ class ManyVisitsWithGeoIP extends Fixture
         }
 
         // first visit
-        $date = Date::factory($this->dateTime)->addDay($visitorCounter);
+        $date = Date::factory($this->dateTime)->addDay($visitorCounter)->addPeriod($fixtureCounter, 'SECOND');
         $t->setForceVisitDateTime($date->getDatetime());
         $t->setUrl("http://piwik.net/grue/lair");
         $t->setCustomVariable(1, 'Cvar 1 name', 'Cvar1 value is ' . $visitorCounter, 'visit');
