@@ -71,12 +71,12 @@ import { defineComponent } from 'vue';
 import {
   AjaxHelper,
   externalLink,
+  Matomo,
   MatomoUrl,
   NotificationsStore,
   translate,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
-import Matomo from '../../../../CoreHome/vue/src/Matomo/Matomo';
 import KeyPressEvent = JQuery.KeyPressEvent;
 import ModalOptions = M.ModalOptions;
 import { PluginDetails } from '../types';

@@ -16,8 +16,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { AjaxHelper, NotificationsStore, translate } from 'CoreHome';
-import Matomo from '../../../../CoreHome/vue/src/Matomo/Matomo';
+import {
+  AjaxHelper,
+  Matomo,
+  NotificationsStore,
+  translate,
+} from 'CoreHome';
 import { PluginDetails } from '../types';
 
 export default defineComponent({
