@@ -508,9 +508,29 @@ export default defineComponent({
         this.$emit(eventName, plugin);
       }, 250);
     },
+    enablePageScroll() {
+      $('html').css({ overflow: '', 'margin-right': '' });
+    },
+    disablePageScroll() {
+      const $html = $('html');
+      const initialDocWidth = $html.width() || 0;
+
+      $html.css({ overflow: 'hidden' });
+
+      const noScrollDocWidth = $html.width() || 0;
+
+      // set margin-right value equal to width of the scrollbar
+      const scrollbarWidth = Math.max(0, noScrollDocWidth - initialDocWidth);
+      if (scrollbarWidth) {
+        $html.css({ 'margin-right': `${scrollbarWidth}px` });
+      }
+    },
     showPluginDetailsDialog() {
       $('#pluginDetailsModal').modal({
         dismissible: true,
+        onOpenStart: () => {
+          this.disablePageScroll();
+        },
         onCloseEnd: () => {
           MatomoUrl.updateHash({
             ...MatomoUrl.hashParsed.value,
@@ -518,6 +538,7 @@ export default defineComponent({
           });
           this.$emit('update:modelValue', null);
           this.isLoading = true;
+          this.enablePageScroll();
         },
       }).modal('open');
 
