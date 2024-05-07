@@ -195,6 +195,16 @@ expect.file = function (filename) {
     return chai.expect(chaiFiles.file(getExpectedFilePath(filename)));
 };
 
+expect.fileMatchesContent = function (filename, content) {
+    prefix = app.runner.suite.title; // note: runner is made global by run-tests.js
+    filename = prefix + '_' + filename;
+
+    fs.writeFileSync(getProcessedFilePath(filename), content);
+
+    const fileContent = chaiFiles.file(getExpectedFilePath(filename));
+    return chai.expect(fileContent).to.equal(content);
+};
+
 function isCommandNotFound(result) {
     return result.status === 127
         || (result.error != null && result.error.code === 'ENOENT');

@@ -7,30 +7,30 @@
 	<result date="2012">
 		<row>
 			<label>referrer.com</label>
-			<nb_visits>11</nb_visits>
-			<nb_actions>45</nb_actions>
+			<nb_visits>12</nb_visits>
+			<nb_actions>52</nb_actions>
 			<max_actions>7</max_actions>
-			<sum_visit_length>7398</sum_visit_length>
+			<sum_visit_length>9020</sum_visit_length>
 			<bounce_count>2</bounce_count>
-			<nb_visits_converted>11</nb_visits_converted>
+			<nb_visits_converted>12</nb_visits_converted>
 			<goals>
 				<row idgoal='1'>
-					<nb_conversions>23</nb_conversions>
-					<nb_visits_converted>11</nb_visits_converted>
-					<revenue>115</revenue>
+					<nb_conversions>24</nb_conversions>
+					<nb_visits_converted>12</nb_visits_converted>
+					<revenue>120</revenue>
 				</row>
 				<row idgoal='2'>
-					<nb_conversions>11</nb_conversions>
-					<nb_visits_converted>11</nb_visits_converted>
-					<revenue>55</revenue>
+					<nb_conversions>12</nb_conversions>
+					<nb_visits_converted>12</nb_visits_converted>
+					<revenue>60</revenue>
 				</row>
 			</goals>
-			<nb_conversions>34</nb_conversions>
-			<revenue>170</revenue>
-			<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
+			<nb_conversions>36</nb_conversions>
+			<revenue>180</revenue>
+			<sum_daily_nb_uniq_visitors>12</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>2</sum_daily_nb_users>
 			<segment>referrerName==referrer.com</segment>
-			<idsubdatatable>8</idsubdatatable>
+			<idsubdatatable>1</idsubdatatable>
 		</row>
 	</result>
 </results>

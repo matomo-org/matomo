@@ -34,7 +34,7 @@ describe("ReportExporting", function () {
             });
             var pageContents = await page.downloadUrl(url);
 
-            expect.file('Referrers.getWebsites_exported.' + format.toLowerCase() + '.txt').to.equal(pageContents);
+            expect.fileMatchesContent('Referrers.getWebsites_exported.' + format.toLowerCase() + '.txt', pageContents);
         });
     }
 
@@ -60,7 +60,7 @@ describe("ReportExporting", function () {
             });
             var pageContents = await page.downloadUrl(url);
 
-            expect.file('VisitsSummary.get_exported.' + format.toLowerCase() + '.txt').to.equal(pageContents);
+            expect.fileMatchesContent('VisitsSummary.get_exported.' + format.toLowerCase() + '.txt', pageContents);
         });
     }
 
@@ -96,7 +96,7 @@ describe("ReportExporting", function () {
             });
             var pageContents = await page.downloadUrl(url);
 
-            expect.file('RowEvolution_exported.' + format.toLowerCase() + '.txt').to.equal(pageContents);
+            expect.fileMatchesContent('RowEvolution_exported.' + format.toLowerCase() + '.txt', pageContents);
         });
     }
 
