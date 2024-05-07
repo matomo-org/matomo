@@ -189,7 +189,9 @@ class Model
         // aborted at different stages and we can't really know all the possible codes at which it may be aborted etc
         $isMaxExecutionTimeError = $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED)
                                    || $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
-                                   || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false;
+                                   || $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_STATEMENT_TIME_EXCEEDED_QUERY_INTERRUPTED)
+                                   || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false
+                                   || strpos($e->getMessage(), 'max_statement_time exceeded') !== false;
 
         if (false === $isMaxExecutionTimeError) {
             return;

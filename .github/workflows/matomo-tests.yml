@@ -50,7 +50,7 @@ jobs:
           - php: '7.2'
             adapter: 'MYSQLI'
           - php: '8.2'
-            adapter: 'PDO_MYSQL'
+            adapter: 'MYSQLI'
           - php: '8.3'
             adapter: 'PDO_MYSQL'
     steps:
