@@ -51,7 +51,7 @@ class OverwriteUserIdFixture extends Fixture
                 $t->setVisitorId(substr(md5($numVisits . $key . $userId), 0, 16));
                 $t->setUrl('http://example.org/my/dir/page' . $numVisits);
 
-                $visitDateTime = Date::factory($this->dateTime)->addPeriod($numVisits, 'minute')->getDatetime();
+                $visitDateTime = Date::factory($this->dateTime)->addPeriod($numVisits, 'minute')->addPeriod($key, 'second')->getDatetime();
                 $t->setForceVisitDateTime($visitDateTime);
 
                 self::assertTrue($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
