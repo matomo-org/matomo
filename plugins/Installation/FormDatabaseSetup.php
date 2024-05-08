@@ -97,7 +97,7 @@ class FormDatabaseSetup extends QuickForm2
             'host'          => '127.0.0.1',
             'type'          => $defaultDatabaseType,
             'tables_prefix' => 'matomo_',
-            'schema' => 'Mysql',
+            'schema'        => 'Mysql',
         );
 
         $defaultsEnvironment = array('host', 'adapter', 'tables_prefix', 'username', 'schema', 'password', 'dbname');

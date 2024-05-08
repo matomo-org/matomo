@@ -85,7 +85,7 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
             ['SET STATEMENT max_statement_time=2 FOR SELECT * FROM table', 'SELECT * FROM table', 1.5, 'Mariadb'],
             ['SET STATEMENT max_statement_time=20 FOR SELECT column FROM (SELECT * FROM table)', 'SELECT column FROM (SELECT * FROM table)', 20, 'Mariadb'],
             ['SELECT * FROM table', 'SELECT * FROM table', 0, 'Mariadb'],
-            ['SET STATEMENT max_statement_time=2 FOR SELECT * FROM table', 'SET STATEMENT max_statement_time=2 FOR SELECT * FROM table', 3.5, 'Mariadb'], // should not append/change MAX_EXECUTION_TIME hint if already present
+            ['SET STATEMENT max_statement_time=2 FOR SELECT * FROM table', 'SET STATEMENT max_statement_time=2 FOR SELECT * FROM table', 3.5, 'Mariadb'], // should not append/change max_statement_time hint if already present
             ['UPDATE table SET column = value', 'UPDATE table SET column = value', 150, 'Mariadb'],
         ];
     }
