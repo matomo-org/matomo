@@ -341,7 +341,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the most recent date time (in UTC) an action was performed for the given idSite
      * If period and date is given the most recent visit in that period is returned
-     * If no action was performed in this timeframe and empty string is returned
+     * If no action was performed in this timeframe an empty string is returned
      *
      * @param int|string $idSite
      * @param string|null $period
