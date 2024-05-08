@@ -14,7 +14,7 @@
         "DatabaseSetupDatabaseName": "Database Name",
         "DatabaseSetupLogin": "Login",
         "DatabaseSetupServer": "Database Server",
-        "DatabaseSetupSchema": "Database Schema",
+        "DatabaseSetupEngine": "Database Engine",
         "DatabaseSetupTablePrefix": "Table Prefix",
         "Email": "Email",
         "Extension": "extension",

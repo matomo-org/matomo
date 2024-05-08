@@ -83,9 +83,9 @@ class FormDatabaseSetup extends QuickForm2
             ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupAdapter')));
 
         $this->addElement('select', 'schema')
-            ->setLabel(Piwik::translate('Installation_DatabaseSetupSchema'))
+            ->setLabel(Piwik::translate('Installation_DatabaseSetupEngine'))
             ->loadOptions(['Mysql' => 'MySQL', 'Mariadb' => 'MariaDB'])
-            ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupSchema')));
+            ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupEngine')));
 
         $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn'));
 
