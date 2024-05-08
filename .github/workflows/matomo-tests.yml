@@ -38,15 +38,15 @@ jobs:
       matrix:
         type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
         php: [ '7.2', '8.2', '8.3' ]
-        schema: [ 'Mysql', 'Mariadb' ]
+        engine: [ 'Mysql', 'Mariadb' ]
         adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
         exclude:
           - php: '7.2'
-            schema: 'Mariadb'
+            engine: 'Mariadb'
           - php: '8.2'
-            schema: 'Mysql'
+            engine: 'Mysql'
           - php: '8.3'
-            schema: 'Mariadb'
+            engine: 'Mariadb'
           - php: '7.2'
             adapter: 'MYSQLI'
           - php: '8.2'
@@ -65,7 +65,7 @@ jobs:
         with:
           test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.adapter }}
-          mysql-schema: ${{ matrix.schema }}
+          mysql-engine: ${{ matrix.engine }}
           php-version: ${{ matrix.php }}
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
