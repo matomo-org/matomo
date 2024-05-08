@@ -188,13 +188,10 @@ export default defineComponent({
     },
     checkIfSiteHasData() {
       const params: QueryParameters = {
-        module: 'API',
-        method: 'Live.getLastVisitsDetails',
+        method: 'Live.getMostRecentVisitsDateTime',
         date: 'today',
         period: 'day',
-        filter_limit: 1,
         idSite: Matomo.idSite,
-        doNotFetchActions: 0,
       };
 
       const options = {
@@ -203,7 +200,7 @@ export default defineComponent({
       };
 
       AjaxHelper.fetch(params, options).then((response) => {
-        if (response.length > 0) {
+        if (response && response.value !== '') {
           window.broadcast.propagateNewPage('date=today');
           return;
         }
