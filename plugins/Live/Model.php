@@ -122,6 +122,16 @@ class Model
         return $foundVisits;
     }
 
+    /**
+     * Return the most recent date time of any visit for the given idSite
+     * If period / date are provided the method return the most recent date time within that period
+     *
+     * @param $idSite
+     * @param $period
+     * @param $date
+     * @return string
+     * @throws Exception
+     */
     public function getMostRecentVisitsDateTime($idSite, $period = null, $date = null): string
     {
         $readerDb = Db::getReader();
