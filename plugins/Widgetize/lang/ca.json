@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "DirectLink": "› Enllaç directe",
-        "DisplayDashboardInIframe": "També podeu mostrar el tauler complet de Matomo a la vostra aplicació o lloc web en un IFRAME (%1$svegeu exemple%2$s). El paràmetre de data es pot establir en una data del calendari específica, \"avui\" o \"ahir\". El paràmetre de període es pot configurar a \"dia\", \"setmana\", \"mes\" o\n \"any\". El paràmetre d'idioma es pot configurar al codi d'idioma d'una traducció, com ara language=fr. Per exemple, per a idSite=1 i date=yesterday, podeu escriure:",
+        "DisplayDashboardInIframe": "També podeu mostrar el tauler complet de Matomo a la vostra aplicació o lloc web en un IFRAME (%1$svegeu exemple%2$s). El paràmetre de data es pot establir en una data del calendari específica, \"avui\" o \"ahir\". El paràmetre de període es pot configurar a \"dia\", \"setmana\", \"mes\" o \"any\". El paràmetre d'idioma es pot configurar al codi d'idioma d'una traducció, com ara language=fr. Per exemple, per a idSite=1 i date=yesterday, podeu escriure:",
         "DisplayDashboardInIframeAllSites": "També podeu transformar en giny el tauler de control de tots els llocs web dins d'un IFRAME (%1$svegeu exemple%2$s)",
         "EmbedIframe": "› Incrusta un Iframe",
         "Intro": "Amb Matomo podeu %1$sexportar els vostres informes d'anàlisi web%2$s al vostre bloc, lloc web o tauler d'intranet... amb un sol clic.",

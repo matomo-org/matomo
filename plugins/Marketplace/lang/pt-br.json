@@ -17,6 +17,8 @@
         "CannotUpdate": "Não foi possível atualizar",
         "ClickToCompletePurchase": "Clique para completar a compra.",
         "ConfirmRemoveLicense": "Você tem certeza que deseja remover sua chave de licença? Você não receberá mais atualizações para nenhum de seus plugins comprados.",
+        "CreateAccountErrorAPI": "Ocorreu um erro ao criar sua conta da loja. Por favor, tente novamente mais tarde.",
+        "CreateAccountErrorAPIEmailInvalid": "O e-mail fornecido não possui um formato válido.",
         "CurrentNumPiwikUsers": "Seu Matomo atualmente possui %1$s usuários registrados.",
         "Developer": "Desenvolvedor",
         "DevelopersLearnHowToDevelopPlugins": "Desenvolvedores: Saibam como estender e personalizar o Matomo %1$sdesenvolvendo plugins ou temas%2$s.",

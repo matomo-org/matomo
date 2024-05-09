@@ -1,7 +1,18 @@
 {
     "ProfessionalServices": {
         "AltTextPreviewImageFor": "Vorschaubild für %1$s",
+        "CTALearnMore": "Erfahre mehr über %1$s",
+        "CTAStartFreeTrial": "Kostenlose Testphase starten",
         "DismissPromoWidget": "Wenn dieses Feature nicht relevant für deine Ziele ist, kannst du diesen Abschnitt %1$sverbergen%2$s.",
+        "DismissedNotification": "Das %1$s Menü wird nicht mehr angezeigt, es sei denn, das Plugin wird auf deiner Matomo-Instanz installiert.",
+        "FormAnalyticsFeature01": "Verstehen Sie, wie Besucher mit Ihren Formularen interagieren, um Verbesserungsmöglichkeiten zu finden.",
+        "FormAnalyticsFeature03": "Erhalten Sie tiefere Einblicke, wie verschiedene Besuchergruppen mit Ihren Formularen interagieren und passen Sie Ihre Strategien entsprechend an.",
+        "FunnelsFeature02": "Analysieren Sie das Verhalten der Besucher basierend auf verschiedenen Kriterien und erhalten Sie wertvolle Einblicke, wie verschiedene Besuchergruppen mit Ihrer Seite interagieren.",
+        "FunnelsFeature03": "Treffen Sie fundierte Entscheidungen, indem Sie Optimierungsmöglichkeiten identifizieren, die Besucherbindung erhöhen und das Umsatzwachstum durch ein tieferes Verständnis der Besucherwege vorantreiben.",
+        "HeatmapsFeature01": "Erhalten Sie visuelle Darstellungen der Interaktionen von Besuchern auf Ihrer Webseite, die es einfach machen zu verstehen, wie Besucher mit Ihrem Inhalt interagieren.",
+        "HeatmapsFeature02": "Erhalten Sie aussagekräftige Daten, um das Layout Ihrer Webseite, die Platzierung von Inhalten und das Besuchererlebnis zu optimieren.",
+        "MediaAnalyticsFeature01": "Erhalten Sie detaillierte Einblicke in das Engagement der Besucher mit Audio- und Videoinhalten, um zu verstehen, was bei Ihrem Publikum Anklang findet.",
+        "MediaAnalyticsFeature02": "Beginnen Sie sofort mit der Feinabstimmung Ihrer Inhaltsstrategie, keine komplexen Konfigurationen erforderlich.",
         "PromoAbTesting": "A/B-Tests",
         "PromoCrashAnalytics": "Abstürze",
         "PromoCustomReports": "Benutzerdefinierte Berichte",
@@ -11,6 +22,8 @@
         "PromoMediaAnalytics": "Medien",
         "PromoOverview": "Übersicht",
         "PromoSessionRecording": "Sitzungsaufzeichnungen",
+        "PromoUnlockPowerOf": "Entfessle die Kraft von %1$s",
+        "SessionRecordingsFeature01": "Sehen Sie in Echtzeit, wie Besucher mit Ihrer Seite interagieren und entdecken Sie wertvolle Einblicke, um das Besuchererlebnis zu verbessern.",
         "WidgetPremiumServicesForPiwik": "Premium-Funktionen &amp; Dienstleistungen für Matomo"
     }
 }

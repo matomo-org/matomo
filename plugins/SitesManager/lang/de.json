@@ -153,7 +153,7 @@
         "SiteWithoutDataVueFollowStep1": "Installieren Sie das \"%1$s\" npm-Paket.",
         "SiteWithoutDataVueFollowStep2": "Initialisieren Sie %1$s in %2$s mit den Details Ihrer Matomo-Instanz (Beispielcode unten).",
         "SiteWithoutDataVueFollowStep2ExampleCode": "Beispielcode für %1$s",
-        "SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo": "Konfigurieren Sie hier Ihren Matomo-Server und Ihre Website",
+        "SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo": "Konfigurieren Sie Ihren Matomo-Server und Ihre Seite, indem Sie folgendes bereitstellen:",
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView": "Um eine Seitenansicht aufzuzeichnen",
         "SiteWithoutDataVueFollowStepCompleted": "%1$sHerzlichen Glückwunsch!%2$s Sie haben den Matomo Analytics-Tracking-Code erfolgreich über das \"%3$s\" npm-Paket installiert. Überprüfen Sie, ob die Zugriffe in Ihrer Matomo-Instanz sichtbar sind, indem Sie Ihre Website besuchen.",
         "SiteWithoutDataVueFollowStepNote1": "Sie können nun über %1$s auf Matomo in Ihren Komponenten zugreifen.",

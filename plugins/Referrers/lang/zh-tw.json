@@ -9,7 +9,7 @@
         "CampaignGroup": "活動群組",
         "CampaignGroupHelp": "此參數用於追蹤一個分辨單一群體或受衆的活動群組。活動群組有助於追蹤多個有著相似目標活動的整體表現。",
         "CampaignId": "活動 ID",
-        "CampaignIdHelp": "此參數用於追蹤一個活動  ID：由最多 100 個數字、字母或符號組成的一個獨特識別符。",
+        "CampaignIdHelp": "此參數用於追蹤一個活動 ID：由最多 100 個數字、字母或符號組成的一個獨特識別符。",
         "CampaignKeywordHelp": "你可以利用關鍵字或子類別來分辨多個同名的廣告。",
         "CampaignMedium": "廣告活動媒介",
         "CampaignMediumHelp": "用於描述營銷動態，像是按次付費活動「PPC」、付費搜尋廣告「SEM」或是追蹤一個產品在聯盟網站上的「評價」。",
