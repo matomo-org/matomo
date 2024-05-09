@@ -168,7 +168,7 @@ echo -e "Going to build Matomo $VERSION (Major version: $MAJOR_VERSION)"
 
 if ! echo "$VERSION" | grep -E 'rc|b|a|alpha|beta|dev|build|p[0-9]{14}' -i
 then
-    if curl --output /dev/null --silent --head --fail "https://builds.matomo.org/$F-$VERSION.zip"
+    if curl --output /dev/null --silent --head --fail "https://builds.matomo.org/matomo-$VERSION.zip"
     then
         echo "--> Error: stable version $VERSION has already been built (not expected). <-- "
     fi
