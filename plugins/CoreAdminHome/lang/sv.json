@@ -58,6 +58,8 @@
         "JSTracking_CrossDomain_NeedsMultipleDomains": "Notering: Om du vill använda korsdomän måste du ange mer än ett domännamn (webbadresser) för din webbplats.",
         "JSTracking_CustomCampaignQueryParam": "Använd egna frågeparametrars namn för kampanjnamn och nyckelord",
         "JSTracking_CustomCampaignQueryParamDesc": "Observera: %1$sMatomo kommer automatiskt upptäcka parametrar för Google Analytics. %2$s",
+        "JSTracking_DisableCampaignParameters": "Inaktivera spårning av kampanjparametrar",
+        "JSTracking_DisableCampaignParametersDesc": "När det här alternativet är valt kommer Matomo inte att spåra kampanjparametrar och de tas bort från spårade URLar.",
         "JSTracking_DisableCookies": "Inaktivera spårnings cookies",
         "JSTracking_DisableCookiesDesc": "Inaktiverar alla förstapartskakor. Befintliga Matomo-kakor för denna webbsida kommer att raderas vid nästa sidvisning.",
         "JSTracking_EnableCrossDomainLinking": "Möjliggör cross domain-länkning",
