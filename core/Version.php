@@ -50,7 +50,7 @@ final class Version
             if (\preg_match('/-p(\d{14})$/', $version, $matches)) {
                 $dt = DateTime::createFromFormat('YmdHis', $matches[1]);
 
-                return false !== $dt && !\array_sum((array) $dt::getLastErrors());
+                return false !== $dt && !\array_sum(array_map('intval', (array) $dt::getLastErrors()));
             }
         }
 
