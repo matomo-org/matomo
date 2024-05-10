@@ -21,7 +21,7 @@ class LatestPreview extends ReleaseChannel
 
     public function getName()
     {
-        return Piwik::translate('CoreUpdater_LatestPreviewRelease');
+        return 'latest_preview';
     }
 
     public function doesPreferStable()
