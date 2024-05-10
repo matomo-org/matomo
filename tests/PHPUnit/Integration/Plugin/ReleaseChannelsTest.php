@@ -42,7 +42,7 @@ class ReleaseChannelsTest extends IntegrationTestCase
     {
         $channels = $this->channels->getAllReleaseChannels();
 
-        $this->assertCount(4, $channels);
+        $this->assertCount(5, $channels);
 
         foreach ($channels as $channel) {
             $this->assertTrue($channel instanceof ReleaseChannel);
@@ -77,6 +77,7 @@ class ReleaseChannelsTest extends IntegrationTestCase
             array($exists = true, $id = 'latest_stable'),
             array($exists = true, $id = 'latest_beta'),
             array($exists = true, $id = 'latest_5x_stable'),
+            array($exists = true, $id = 'latest_preview'),
             array($exists = true, $id = 'laTest_stable'), // we do not check for exact match
             array($exists = false, $id = ''),
             array($exists = false, $id = 'latest'),
