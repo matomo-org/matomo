@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\CoreUpdater\ReleaseChannel;
 
-use Piwik\Piwik;
 use Piwik\Plugins\CoreUpdater\ReleaseChannel;
 
 class LatestPreview extends ReleaseChannel
