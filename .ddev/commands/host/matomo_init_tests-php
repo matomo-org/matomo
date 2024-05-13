@@ -6,9 +6,6 @@
 
 # @see: https://developer.matomo.org/guides/tests-php
 
-echo "Enabled development mode ..."
-ddev exec './console development:enable'
-
 echo "Run npm install ..."
 ddev npm install
 
@@ -19,6 +16,9 @@ echo "TODO: Configure section tests in config/config.ini.php "
 echo "@see https://developer.matomo.org/guides/tests-php#requirements"
 read -n 1 -s -r -p "Press any key when ready to continue ..."
 echo ""
+
+echo "Enabled development mode ..."
+ddev exec './console development:enable'
 
 echo "Migrate the test database: setup OmniFixture ..."
 ddev exec './console tests:setup-fixture OmniFixture'
