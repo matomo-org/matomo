@@ -38,7 +38,7 @@ body:
       label: Customer and Website Name
       description: Customer Name and Website Name
     validations:
-      required: true
+      required: false
   - type: dropdown
     id: installation
     attributes:
