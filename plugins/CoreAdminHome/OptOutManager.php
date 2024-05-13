@@ -421,7 +421,7 @@ JS;
     
             var div = document.getElementById(settings.divId);
             if (!div) {
-                public const warningDiv = document.createElement("div");
+                const warningDiv = document.createElement("div");
                 var msg = 'Unable to find opt-out content div: "'+settings.divId+'"';
                 warningDiv.id = settings.divId+'-warning';
                 warningDiv.innerHTML = errorBlock+msg+'</p>';
