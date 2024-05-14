@@ -68,6 +68,7 @@
         "PageDownShortcutDescription": "per arribar al final de la pàgina",
         "PageUpShortcutDescription": "per anar al capdamunt de la pàgina",
         "PeriodHasOnlyRawData": "Sembla que els informes d'aquest període encara no s'han processat. Vols veure què passa ara? Consulteu el %1$sRegistre de visites%2$s o trieu un període de dates diferent mentre no es generin els informes.",
+        "PeriodHasOnlyRawDataNoVisitsLog": "Sembla que els informes d'aquest període encara no s'han processat, però estaran disponibles d'aquí a unes hores. Podeu triar un període diferent fins que es generin els informes.",
         "PeriodRange": "Rang",
         "PivotBySubtable": "Aquest informe no està orientat %1$s Gira per %2$s",
         "Profilable": "Perfilable",
