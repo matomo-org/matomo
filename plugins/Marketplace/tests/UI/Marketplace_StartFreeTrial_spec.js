@@ -65,6 +65,7 @@ describe('Marketplace_StartFreeTrial', function () {
       await goToPluginsPage();
       await page.click(startFreeTrialSelector);
       await page.waitForSelector(noLicenseModalSelector, { visible: true });
+      await page.waitFor(100); // wait for correct placement
 
       await screenshotModalSelector(noLicenseModalSelector, 'no_license_modal');
     });
