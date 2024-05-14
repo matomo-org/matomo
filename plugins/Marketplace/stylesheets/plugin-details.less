@@ -43,7 +43,23 @@
     }
 
     #pluginDetailsTabs {
+        border-right: 1px solid silver;
         margin-top: 25px;
+    }
+
+    // some plugins receive inline style from the marketplace
+    // override them for consistency
+    .main-div-readme {
+        display: flex;
+    }
+
+    .left-div-readme {
+        width: 50%;
+    }
+
+    .right-div-readme {
+        flex-grow: initial;
+        width: 48%;
     }
 
     .contentDetails p {
@@ -52,6 +68,17 @@
 
     .description {
         padding-right: 25px;
+    }
+
+    .metadata {
+        padding-left: 0.75rem;
+
+        // -1px to force overlapping border overlapping with content
+        margin-left: calc(~"0.75rem - 1px");
+        border-left: 1px solid silver;
+
+        // prevent text overflow
+        word-break: break-word;
     }
 
     .variationPicker {
@@ -69,6 +96,7 @@
     .download,
     .install {
         padding: 11px 19px;
+        margin-bottom: 20px;
         font-size: 17.5px;
         -webkit-border-radius: 6px;
         -moz-border-radius: 6px;
@@ -121,6 +149,13 @@
         top: 5% !important; // required to override inline style set by the modal
     }
 
+    @media (max-width: 480px) {
+        // full screen takeover
+        min-width: 100vw;
+        min-height: 100vh;
+        top: 0 !important; // required to override inline style set by the modal
+    }
+
     .btn-close {
         z-index: 100;
     }
@@ -141,6 +176,30 @@
 
         @media (max-width: 992px) {
             max-height: 90vh;
+        }
+
+        @media (max-width: 480px) {
+            // full screen takeover
+            min-height: 100vh;
+        }
+
+        &--simple-header {
+            .modal-content__header {
+                height: 90px;
+            }
+
+            .modal-content__main {
+                max-height: calc(~"80vh - 180px");
+
+                @media (max-width: 992px) {
+                    max-height: calc(~"90vh - 180px");
+                }
+
+                @media (max-width: 480px) {
+                    // full screen takeover
+                    min-height: calc(~"100vh - 180px");
+                }
+            }
         }
     }
 
@@ -245,6 +304,10 @@
             max-height: calc(~"90vh - 250px");
         }
 
+        @media (max-width: 480px) {
+            max-height: calc(~"100vh - 250px");
+        }
+
         h2, h3, h4, h5, h6 {
             margin: 20px 0 10px 0;
             color: #000000;
@@ -318,7 +381,8 @@
         }
 
         .right-div-readme {
-            flex-grow: 1; width: 50%;
+            flex-grow: 1;
+            width: 50%;
         }
 
         .plugin-metadata-part2 {
@@ -359,18 +423,21 @@
 
                 figure {
                     margin: 24px auto;
-                    border: 1px solid #e0e0e0;
-                    display: inline-block;;
+                    background: #f7f7f7;
+                    border: 24px solid #f7f7f7;
+                    border-bottom-width: 16px;
                 }
 
                 img {
                     max-width: 100%;
+                    margin: 0 auto;
                 }
 
                 figcaption {
-                    padding: 8px;
-                    background: #e0e0e0;
+                    padding: 16px 0 0;
                     text-align: left;
+                    line-height: 24px;
+                    font-weight: 700;
                 }
             }
         }
@@ -405,10 +472,18 @@
             @media (max-width: 600px) {
                 width: 70%;
             }
+
+            @media (max-width: 480px) {
+                width: 100%;
+            }
         }
 
         .matomo-badge-modal {
             position: initial;
+
+            @media (max-width: 480px) {
+                display: none;
+            }
         }
     }
 }

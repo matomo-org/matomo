@@ -6,6 +6,10 @@
 -->
 
 <template>
+  <RequestTrial
+    v-model="showRequestTrialForPlugin"
+    @trialRequested="this.$emit('triggerUpdate')"
+  />
 
   <StartFreeTrial
     :current-user-email="currentUserEmail"
@@ -26,6 +30,7 @@
     :activate-nonce="activateNonce"
     :install-nonce="installNonce"
     :update-nonce="updateNonce"
+    @requestTrial="this.showRequestTrialForPlugin = $event"
     @startFreeTrial="this.showStartFreeTrialForPlugin = $event"
   />
 
@@ -79,8 +84,9 @@
                     :update-nonce="updateNonce"
                     :plugin="plugin"
                     :in-modal="false"
-                    @startFreeTrial="showStartFreeTrialForPlugin = plugin.name"
                     @openDetailsModal="this.openDetailsModal(plugin)"
+                    @requestTrial="showRequestTrialForPlugin = plugin"
+                    @startFreeTrial="showStartFreeTrialForPlugin = plugin"
                   />
                 </div>
                 <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
@@ -99,16 +105,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { PluginName } from 'CorePluginsAdmin';
+import { defineComponent, watch } from 'vue';
+import { MatomoUrl } from 'CoreHome';
 import CTAContainer from './CTAContainer.vue';
+import RequestTrial from '../RequestTrial/RequestTrial.vue';
 import StartFreeTrial from '../StartFreeTrial/StartFreeTrial.vue';
 import PluginDetailsModal from '../PluginDetailsModal/PluginDetailsModal.vue';
 
 const { $ } = window;
 
 interface PluginListState {
-  showStartFreeTrialForPlugin: string;
+  showRequestTrialForPlugin: Record<string, unknown> | null;
+  showStartFreeTrialForPlugin: Record<string, unknown> | null;
   showPluginDetailsForPlugin: Record<string, unknown> | null;
 }
 
@@ -162,23 +170,23 @@ export default defineComponent({
   },
   data(): PluginListState {
     return {
-      showStartFreeTrialForPlugin: '',
+      showRequestTrialForPlugin: null,
+      showStartFreeTrialForPlugin: null,
       showPluginDetailsForPlugin: null,
     };
   },
   components: {
     PluginDetailsModal,
     CTAContainer,
+    RequestTrial,
     StartFreeTrial,
-  },
-  directives: {
-    PluginName,
   },
   emits: ['triggerUpdate'],
   watch: {
     pluginsToShow(newValue, oldValue) {
       if (newValue && newValue !== oldValue) {
         this.shrinkDescriptionIfMultilineTitle();
+        this.parseShowPluginParameter();
       }
     },
   },
@@ -186,8 +194,39 @@ export default defineComponent({
     $(window).resize(() => {
       this.shrinkDescriptionIfMultilineTitle();
     });
+    watch(() => MatomoUrl.hashParsed.value.showPlugin, (newValue, oldValue) => {
+      if (newValue && newValue !== oldValue) {
+        this.parseShowPluginParameter();
+      }
+    });
+    this.parseShowPluginParameter();
   },
   methods: {
+    parseShowPluginParameter() {
+      const { showPlugin, pluginType, query } = MatomoUrl.hashParsed.value;
+
+      if (!showPlugin) {
+        return;
+      }
+
+      const pluginToShow = this.pluginsToShow.filter(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (plugin: any) => plugin.name === showPlugin,
+      );
+      if (pluginToShow.length === 1) {
+        const [plugin] = pluginToShow as Record<string, unknown>[];
+
+        this.openDetailsModal(plugin);
+        this.scrollPluginCardIntoView(plugin);
+      } else if (pluginType !== '' || query !== '') {
+        // plugin was not found in current list, so unset filters to retry
+        MatomoUrl.updateHash({
+          ...MatomoUrl.hashParsed.value,
+          pluginType: 'plugins',
+          query: null,
+        });
+      }
+    },
     shrinkDescriptionIfMultilineTitle() {
       const $nodes = $('.marketplace .card-holder');
       if (!$nodes || !$nodes.length) {
@@ -263,8 +302,20 @@ export default defineComponent({
     openDetailsModal(plugin: Record<string, unknown>) {
       this.showPluginDetailsForPlugin = plugin;
     },
-    startTrialFromDetailsModal(pluginName: string) {
-      this.showStartFreeTrialForPlugin = pluginName;
+    scrollPluginCardIntoView(plugin: Record<string, unknown>) {
+      const $titles = $(`.pluginListContainer .card-title:contains("${plugin.displayName}")`);
+
+      if ($titles.length !== 1) {
+        return;
+      }
+
+      const $cards = $titles.parents('.card');
+
+      if ($cards.length !== 1 || !$cards[0].scrollIntoView) {
+        return;
+      }
+
+      $cards[0].scrollIntoView({ block: 'start', behavior: 'smooth' });
     },
   },
 });

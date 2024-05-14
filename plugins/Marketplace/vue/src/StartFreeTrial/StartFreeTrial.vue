@@ -71,14 +71,15 @@ import { defineComponent } from 'vue';
 import {
   AjaxHelper,
   externalLink,
+  Matomo,
   MatomoUrl,
   NotificationsStore,
   translate,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
-import Matomo from '../../../../CoreHome/vue/src/Matomo/Matomo';
 import KeyPressEvent = JQuery.KeyPressEvent;
 import ModalOptions = M.ModalOptions;
+import { PluginDetails } from '../types';
 
 const { $ } = window;
 
@@ -96,8 +97,8 @@ export default defineComponent({
   components: { Field },
   props: {
     modelValue: {
-      type: String,
-      required: true,
+      type: Object,
+      default: () => ({}),
     },
     currentUserEmail: String,
     isValidConsumer: Boolean,
@@ -125,7 +126,7 @@ export default defineComponent({
           'CorePluginsAdmin_PluginFreeTrialStarted',
           '<strong>',
           '</strong>',
-          newValue,
+          this.plugin.displayName,
         );
 
         this.startFreeTrial();
@@ -136,7 +137,7 @@ export default defineComponent({
 
         this.trialStartSuccessNotificationMessage = translate(
           'CorePluginsAdmin_PluginFreeTrialStartedAccountCreatedMessage',
-          newValue,
+          this.plugin.displayName,
         );
 
         this.showLicenseDialog(false);
@@ -144,6 +145,9 @@ export default defineComponent({
     },
   },
   computed: {
+    plugin(): PluginDetails {
+      return this.modelValue as PluginDetails;
+    },
     trialStartNoLicenseAddHereText() {
       const link = `?${MatomoUrl.stringify({
         module: 'Marketplace',
@@ -196,7 +200,7 @@ export default defineComponent({
 
           this.trialStartInProgress = false;
 
-          this.$emit('update:modelValue', '');
+          this.$emit('update:modelValue', null);
         } else {
           this.createAccountError = error.message;
 
@@ -229,7 +233,7 @@ export default defineComponent({
             return;
           }
 
-          this.$emit('update:modelValue', '');
+          this.$emit('update:modelValue', null);
         },
       } as unknown as ModalOptions;
 
@@ -285,7 +289,7 @@ export default defineComponent({
           method: 'Marketplace.startFreeTrial',
         },
         {
-          pluginName: this.modelValue,
+          pluginName: this.plugin.name,
         },
         {
           createErrorNotification: false,
@@ -299,7 +303,7 @@ export default defineComponent({
 
         this.trialStartInProgress = false;
       }).finally(() => {
-        this.$emit('update:modelValue', '');
+        this.$emit('update:modelValue', null);
       });
     },
     startFreeTrialSuccess() {

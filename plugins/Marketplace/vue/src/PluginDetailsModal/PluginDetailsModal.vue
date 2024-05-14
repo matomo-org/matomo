@@ -7,18 +7,19 @@
 
 <template>
   <div ref="root" class="modal" id="pluginDetailsModal">
-    <div v-if="!isLoading" class="modal-content">
+    <div
+      v-if="!isLoading"
+      class="modal-content"
+      :class="{ 'modal-content--simple-header': !hasHeaderMetadata }"
+    >
 
       <div class="modal-content__header">
         <span class="btn-close modal-close"><i class="icon-close"></i></span>
 
         <h2>
-          <img v-if="plugin.featured" class="star-icon featured-icon"
-               :title="translate('Marketplace_FeaturedPlugin')"
-               src="plugins/Marketplace/images/star.svg"
-               alt=""
-          />{{ plugin && plugin.displayName ? plugin.displayName : 'Plugin details' }}</h2>
-        <div class="plugin-metadata-part1">
+          {{ plugin && plugin.displayName ? plugin.displayName : 'Plugin details' }}
+        </h2>
+        <div class="plugin-metadata-part1" v-if="hasHeaderMetadata">
           <h3 class="sr-only">Plugin details — part 1</h3>
           <dl>
             <div class="pair" v-if="showReviews">
@@ -257,7 +258,8 @@
             :update-nonce="updateNonce"
             :plugin="plugin"
             :in-modal="true"
-            @startFreeTrial="startFreeTrial"
+            @requestTrial="emitTrialEvent('requestTrial')"
+            @startFreeTrial="emitTrialEvent('startFreeTrial')"
           />
         </div>
         <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
@@ -273,8 +275,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { MatomoUrl } from 'CoreHome';
 import {
-  IPluginShopDetails, IPluginShopReviews, IPluginShopVariation,
+  IPluginShopDetails,
+  IPluginShopReviews,
   PluginDetails,
   TObject,
   TObjectArray,
@@ -286,9 +290,6 @@ const { $ } = window;
 
 interface PluginDetailsModalState {
   isLoading: boolean;
-  pluginDetails: string;
-  fetchRequest: Promise<void>|null;
-  fetchRequestAbortController: AbortController|null;
 }
 
 export default defineComponent({
@@ -342,12 +343,13 @@ export default defineComponent({
   data(): PluginDetailsModalState {
     return {
       isLoading: true,
-      pluginDetails: '',
-      fetchRequest: null,
-      fetchRequestAbortController: null,
     };
   },
-  emits: ['update:modelValue', 'startFreeTrial'],
+  emits: [
+    'requestTrial',
+    'startFreeTrial',
+    'update:modelValue',
+  ],
   watch: {
     modelValue(newValue) {
       if (newValue) {
@@ -383,9 +385,6 @@ export default defineComponent({
     },
     pluginShop(): IPluginShopDetails {
       return this.plugin.shop;
-    },
-    pluginShopVariations(): IPluginShopVariation[] {
-      return this.pluginShop?.variations || [];
     },
     pluginReviews(): IPluginShopReviews | TObject {
       return this.pluginShop?.reviews || {};
@@ -433,6 +432,13 @@ export default defineComponent({
     },
     pluginScreenshots(): string[] {
       return this.plugin.screenshots || [];
+    },
+    hasHeaderMetadata(): boolean {
+      return (this.showReviews
+        || !this.plugin.isBundle
+        || (this.plugin.numDownloads || 0) > 0
+        || (this.plugin.lastUpdated && !this.plugin.isBundle)
+      ) as boolean;
     },
   },
   methods: {
@@ -493,10 +499,23 @@ export default defineComponent({
       const filename = screenshot.split('/').pop() || '';
       return filename.substring(0, filename.lastIndexOf('.')).split('_').join(' ');
     },
+    emitTrialEvent(eventName: 'requestTrial'|'startFreeTrial') {
+      const { plugin } = this;
+
+      $('#pluginDetailsModal').modal('close');
+
+      setTimeout(() => {
+        this.$emit(eventName, plugin);
+      }, 250);
+    },
     showPluginDetailsDialog() {
       $('#pluginDetailsModal').modal({
         dismissible: true,
         onCloseEnd: () => {
+          MatomoUrl.updateHash({
+            ...MatomoUrl.hashParsed.value,
+            showPlugin: null,
+          });
           this.$emit('update:modelValue', null);
           this.isLoading = true;
         },
@@ -505,12 +524,6 @@ export default defineComponent({
       setTimeout(() => {
         this.isLoading = false;
       }, 10); // just to prevent showing the modal when the plugin data are not yet passed in
-    },
-    startFreeTrial() {
-      $('#pluginDetailsModal').modal('close');
-      setTimeout(() => {
-        this.$emit('startFreeTrial', this.plugin.name);
-      }, 250);
     },
   },
 });

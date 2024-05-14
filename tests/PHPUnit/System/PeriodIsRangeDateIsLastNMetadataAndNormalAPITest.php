@@ -84,6 +84,7 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
                 $result[] = array($apiToCall, array('idSite'    => $idSite, 'date' => $date,
                                                     'periods'   => array('range'), 'segment' => $segment,
                                                     'testSuffix' => $testSuffix,
+                                                    'apiNotToCall' => ['Live.getMostRecentVisitsDateTime'],
                                                     'otherRequestParameters' => array(
                                                         'lastMinutes' => 60 * 24 * 2,
                                                         'visitorId' => $visitorId,

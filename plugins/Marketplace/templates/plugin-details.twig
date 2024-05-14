@@ -110,42 +110,12 @@
                     <div class="metadata">
                         <div class="actionButton">
                             {% if not plugin.isDownloadable or not isSuperUser %}
-                                {% if hasSomeAdminAccess and plugin.hasExceededLicense is defined and plugin.hasExceededLicense and plugin.consumer %}
-                                    {% if plugin.consumer.loginUrl is defined and plugin.consumer.loginUrl %}
-                                        <a class="install update"
-                                           target="_blank"
-                                           rel="noreferrer noopener"
-                                           href="{{ plugin.consumer.loginUrl|default('')|e('html_attr') }}"
-                                        >{{ 'Marketplace_UpgradeSubscription'|translate }}</a>
-                                    {% endif %}
-
-                                {% elseif not plugin.isDownloadable and plugin.isPaid and plugin.shop is defined and plugin.shop %}
-
-                                    {% if plugin.shop.variations|length %}
-
-                                        <h4 style="color:#5bb75b;font-weight: bold;font-size: 1.2em;">{{ 'Marketplace_TryFreeTrialTitle'|translate }}</h4>
-                                        <div class="input-field variationPicker">
-                                            <select title="{{ 'Marketplace_ShownPriceIsExclTax'|translate|e('html_attr') }} {{ 'Marketplace_CurrentNumPiwikUsers'|translate(numUsers)|e('html_attr') }}">
-                                                {% for variation in plugin.shop.variations %}
-                                                    <option value="{{ variation.addToCartUrl }}"
-                                                            title="{{ 'Marketplace_PriceExclTax'|translate(variation.price, variation.currency)|e('html_attr') }} {{ 'Marketplace_CurrentNumPiwikUsers'|translate(numUsers)|e('html_attr') }}"
-                                                            {% if variation.recommended is defined and variation.recommended %}selected{% endif %}
-                                                    >{{ variation.name }} - {{ variation.prettyPrice }} / {{ variation.period }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-
-                                        <a class="install update addToCartLink" target="_blank"
-                                           title="{{ 'Marketplace_ClickToCompletePurchase'|translate|e('html_attr') }}"
-                                           rel="noreferrer noopener"
-                                           href="{{ plugin.shop.url|default('')|e('html_attr') }}"
-                                        >{{ 'Marketplace_AddToCart'|translate }}</a>
-                                    {% else %}
-                                        <a class="install update" target="_blank"
-                                           rel="noreferrer noopener"
-                                           href="{% if plugin.shop is defined and plugin.shop and plugin.shop.url %}{{ plugin.shop.url|e('html_attr') }}{% else %}{{ plugin.homepage|e('html_attr') }}{% endif %}"
-                                        >{{ 'General_MoreDetails'|translate }}</a>
-                                    {% endif %}
+                                {% if hasSomeAdminAccess and plugin.hasExceededLicense is defined and plugin.hasExceededLicense and plugin.consumer and plugin.consumer.loginUrl is defined and plugin.consumer.loginUrl %}
+                                    <a class="install update"
+                                       target="_blank"
+                                       rel="noreferrer noopener"
+                                       href="{{ plugin.consumer.loginUrl|default('')|e('html_attr') }}"
+                                    >{{ 'Marketplace_UpgradeSubscription'|translate }}</a>
                                 {% endif %}
                             {% elseif isSuperUser %}
                                 {% if not isAutoUpdatePossible %}
@@ -155,31 +125,15 @@
                                     <a class="install update"
                                        href="{{ linkTo({'module': 'Marketplace', 'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': updateNonce}) }}"
                                     >{{ 'CoreUpdater_UpdateTitle'|translate }}</a>
-                                {% elseif plugin.isInstalled %}
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <br />
-                                {% elseif 0 < plugin.missingRequirements|length %}
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <br />
-                                {% else %}
+                                {% elseif not plugin.isInstalled and 0 == plugin.missingRequirements|length %}
                                     <a href="{{ linkTo({'module': 'Marketplace', 'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': installNonce}) }}"
                                        class="install">{{ 'Marketplace_ActionInstall'|translate }}</a>
                                 {% endif %}
-                            {% else %}
-                                <br />
-                                <br />
-                                <br />
-                                <br />
                             {% endif %}
                         </div>
 
-                        {% if plugin.specialOffer is defined and plugin.specialOffer %}<p style="color: green;"><br />{{ plugin.specialOffer }}</p>{% endif %}
+                        {% if plugin.specialOffer is defined and plugin.specialOffer %}<p style="color: green;">{{ plugin.specialOffer }}<br /><br /></p>{% endif %}
 
-                        <p><br /></p>
                         <dl>
                             {% if not isBundle %}
                                 <dt>{{ 'CorePluginsAdmin_Version'|translate }}</dt>

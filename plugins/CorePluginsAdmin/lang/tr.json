@@ -48,6 +48,8 @@
         "OriginThirdParty": "Üçüncü taraf",
         "PluginActivated": "Eklenti etkinleştirildi",
         "PluginFreeTrialStarted": "%3$s için %1$s30 günlük ücretsiz deneme süreniz başladı%2$s.",
+        "PluginFreeTrialStartedAccountCreatedMessage": "Lisans anahtarınızı ekledik ve %1$s için 30 günlük ücretsiz deneme başlattık. Eklentinizi kurup etkinleştirerek bir sonraki adımı atın.",
+        "PluginFreeTrialStartedAccountCreatedTitle": "Hesabınız oluşturuldu",
         "PluginHomepage": "Eklenti sayfası",
         "PluginNotCompatibleWith": "%1$s eklentisi %2$s ile uyumlu değil.",
         "PluginNotDownloadable": "Eklenti indirilebilir değil.",

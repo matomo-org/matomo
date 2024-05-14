@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Marketplace;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\Filesystem;
@@ -26,6 +28,7 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Input\PluginName;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
+use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\ProxyHttp;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
@@ -187,7 +190,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->activeTab    = $activeTab;
         $view->isAutoUpdatePossible = SettingsPiwik::isAutoUpdatePossible();
         $view->isAutoUpdateEnabled = SettingsPiwik::isAutoUpdateEnabled();
-        $view->numUsers = $this->environment->getNumUsers();
 
         return $view->render();
     }
@@ -297,6 +299,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         foreach ($plugins as &$plugin) {
             if ($plugin['isDownloadable']) {
                 $plugin['downloadNonce'] = Nonce::getNonce(static::DOWNLOAD_NONCE_PREFIX . $plugin['name']);
+            }
+
+            $plugin['isTrialRequested'] = false;
+            $plugin['canTrialBeRequested'] = false;
+
+            if ($plugin['isEligibleForFreeTrial']) {
+                $plugin['isTrialRequested'] = StaticContainer::get(PluginTrialService::class)->wasRequested($plugin['name']);
+                $plugin['canTrialBeRequested'] = (int) GeneralConfig::getConfigValue('plugin_trial_request_expiration_in_days') !== -1;
             }
         }
 

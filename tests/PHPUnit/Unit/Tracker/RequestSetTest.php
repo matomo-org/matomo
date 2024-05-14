@@ -116,18 +116,22 @@ class RequestSetTest extends UnitTestCase
 
     public function testSetRequestsShouldIgnoreEmptyRequestsButNotArrays()
     {
-        $requests = array(
-            $this->buildRequest(5),
+        $request1 = $this->buildRequest(5);
+        $request2 = $this->buildRequest(2);
+        $request3 = $this->buildRequest(6);
+
+        $requests = [
+            $request1,
             null,
-            $this->buildRequest(2),
+            $request2,
             0,
-            $this->buildRequest(6),
-            array()
-        );
+            $request3,
+            []
+        ];
 
         $this->requestSet->setRequests($requests);
 
-        $expected = array($this->buildRequest(5), $this->buildRequest(2), $this->buildRequest(6), new Request(array()));
+        $expected = [$request1, $request2, $request3, new Request([])];
         $this->assertEquals($expected, $this->requestSet->getRequests());
     }
 

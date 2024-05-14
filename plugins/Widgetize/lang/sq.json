@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "DirectLink": "› Lidhje e Drejtpërdrejtë",
-        "DisplayDashboardInIframe": "Mundeni gjithashtu të shfaqni pultin e plotë të Matomo-s në aplikacionin apo sajtin tuaj, brenda një IFRAME (%1$sshihni shembull%2$s). Parametrit datë mund t’i jepet një vlerë e caktuar date kalendarike, “today”, ose “yesterday”. Parametrit të periudhës mund t’i jepet vlera “day”, “week”, “month” ose\n “year”. Parametrit të gjuhës mund t’i jepet vlera e kodit të gjuhës së përkthimit, bie fjala, language=fr. Për shembull, për idSite=1 dhe date=yesterday, mund të shkruani:",
+        "DisplayDashboardInIframe": "Mundeni gjithashtu të shfaqni pultin e plotë të Matomo-s në aplikacionin apo sajtin tuaj, brenda një IFRAME (%1$sshihni shembull%2$s). Parametrit datë mund t’i jepet një vlerë e caktuar date kalendarike, “today”, ose “yesterday”. Parametrit të periudhës mund t’i jepet vlera “day”, “week”, “month” ose “year”. Parametrit të gjuhës mund t’i jepet vlera e kodit të gjuhës së përkthimit, bie fjala, language=fr. Për shembull, për idSite=1 dhe date=yesterday, mund të shkruani:",
         "DisplayDashboardInIframeAllSites": "Mundeni edhe të widget-izoni krej pultin e sajti në një IFRAME (%1$sshihni shembullin%2$s)",
         "EmbedIframe": "› Trupëzoni Iframe",
         "Intro": "Me Matomo-n, mundeni të %1$seksportoni raportet tuaj të Statistikave Web%2$s në pultin e blogut, sajtit ose intranetit tuaj… me një klikim.",

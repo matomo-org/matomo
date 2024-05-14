@@ -78,7 +78,7 @@
         "DeleteSelectedVisits": "Ta bort valda besök",
         "DeleteVisitsConfirm": "Är du säker på att du vill ta bort de markerade besöken? Denna åtgärd kan inte ångras.",
         "DeletionFromMatomoOnly": "Observera också att all data bara kommer att raderas från Matomo-databasen men inte från dina webbserverloggar. Observera också att om du importerar historisk data på nytt, till exempel från loggar, att tidigare raderade data kan importeras igen.",
-        "DoNotTrack_Deprecated": "Stödet för Do Not Track har avslutats. Allt eftersom fler webbläsare började sända denna signar utan att ge användaren valmöjligheten att ändra det eller helt tog bort stödet i webbläsaren, så kommer vi inte längre att rekommendera att aktivera den här funktionen i Matomo. Funktionen kan tas bort i en kommande version av Matomo.",
+        "DoNotTrack_Deprecated": "Stödet för Do Not Track har avslutats. Allt eftersom fler webbläsare började sända denna signal utan att ge användaren valmöjligheten att ändra det eller helt tog bort stödet i webbläsaren, så kommer vi inte längre att rekommendera att aktivera den här funktionen i Matomo. Funktionen kan tas bort i en kommande version av Matomo.",
         "DoNotTrack_Description": "\"Do Not Track\" är en teknologi och policy som tillåter användare att avstå från spårning av webbplatser dom besöker, det inkluderar analystjänster, reklamnätverk och sociala plattformer.",
         "DoNotTrack_Disable": "Inaktivera Do Not Track",
         "DoNotTrack_Disabled": "Matomo spårar för närvarande alla besök, även om användare specificerat \"Begär att webbplaster inte spårar mig\" i sina webbläsare.",

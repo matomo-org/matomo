@@ -27,7 +27,7 @@ describe("Transitions", function () {
     it('should load the transitions popup correctly for the page titles report', async function() {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPageTitles");
 
-        await (await page.jQuery('div.dataTable tbody tr:eq(2)')).hover();
+        await (await page.jQuery('div.dataTable tbody tr:contains("Sapce Quest")')).hover();
         await (await page.jQuery('a.actionTransitions:visible')).hover(); // necessary to get popover to display
         await (await page.jQuery('a.actionTransitions:visible')).click();
 

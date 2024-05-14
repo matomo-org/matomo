@@ -82,6 +82,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
             $field->availableValues = array();
             foreach ($releaseChannels->getAllReleaseChannels() as $channel) {
+                if (!$channel->isSelectableInSettings()) {
+                    continue;
+                }
                 $name = $channel->getName();
                 $description = $channel->getDescription();
                 if (!empty($description)) {

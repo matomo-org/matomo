@@ -47,6 +47,8 @@
         "OriginOfficial": "官方",
         "OriginThirdParty": "第三方",
         "PluginActivated": "外掛已啟用",
+        "PluginFreeTrialStarted": "%1$s你的 30 天免費試用%3$s已經開始%2$s。",
+        "PluginFreeTrialStartedAccountCreatedTitle": "你的帳號已經建立",
         "PluginHomepage": "外掛首頁",
         "PluginNotCompatibleWith": "%1$s 個外掛和 %2$s 不相容。",
         "PluginNotDownloadable": "外掛無法下載。",

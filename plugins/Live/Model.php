@@ -122,6 +122,43 @@ class Model
         return $foundVisits;
     }
 
+    /**
+     * Return the most recent date time of any visit for the given idSite
+     * If period / date are provided the method return the most recent date time within that period
+     *
+     * @param $idSite
+     * @param $period
+     * @param $date
+     * @return string
+     * @throws Exception
+     */
+    public function getMostRecentVisitsDateTime($idSite, $period = null, $date = null): string
+    {
+        $readerDb = Db::getReader();
+
+        [$where, $bind] = $this->getIdSitesWhereClause($idSite, Common::prefixTable('log_visit'));
+
+        [$dateStart, $dateEnd] = $this->getStartAndEndDate($idSite, $period, $date);
+
+        if (!empty($dateStart)) {
+            $where .= ' AND visit_last_action_time >= ?';
+            $bind[] = $dateStart;
+        }
+
+        if (!empty($dateEnd)) {
+            $where .= ' AND visit_last_action_time <= ?';
+            $bind[] = $dateEnd;
+        }
+
+        $dateTime = $readerDb->fetchOne(sprintf(
+            'SELECT visit_last_action_time from %s WHERE %s ORDER BY visit_last_action_time DESC LIMIT 1',
+            Common::prefixTable('log_visit'),
+            $where
+        ), $bind);
+
+        return $dateTime ?: '';
+    }
+
     private function executeLogVisitsQuery($sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit)
     {
         $readerDb = Db::getReader();
