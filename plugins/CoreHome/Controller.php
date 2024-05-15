@@ -18,6 +18,8 @@ use Piwik\FrontController;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\FeatureFlags\Features\Example;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\Widget;
@@ -37,12 +39,17 @@ class Controller extends \Piwik\Plugin\Controller
      * @var Translator
      */
     private $translator;
+    /**
+     * @var FeatureFlagManager
+     */
+    private $featureFlagManager;
 
-    public function __construct(Translator $translator)
+    public function __construct(Translator $translator, FeatureFlagManager $featureFlagManager)
     {
         $this->translator = $translator;
 
         parent::__construct();
+        $this->featureFlagManager = $featureFlagManager;
     }
 
     public function getDefaultAction()
@@ -184,6 +191,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $view->showMenu = true;
         $view->content = '';
+        $view->exampleFeatureEnabled = $this->featureFlagManager->isFeatureActive(Example::getInstance());
         return $view;
     }
 
