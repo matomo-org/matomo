@@ -21,7 +21,7 @@
       <div class="comparison-type">{{ translate('General_Segment') }}</div>
       <div
         class="title"
-        :title="comparison.title + '<br/>' + decodeURIComponent(comparison.params.segment)"
+        :title="getTitleTooltip(comparison)"
       >
         <a
           target="_blank"
@@ -167,6 +167,10 @@ export default defineComponent({
 
       return (this.comparisonTooltips[periodComparison.index] || {})[segmentComparison.index];
     },
+    getTitleTooltip(comparison: AnyComparison): string {
+      return `${this.htmlentities(comparison.title)}<br/>`
+        + `${this.htmlentities(decodeURIComponent(comparison.params.segment))}`;
+    },
     getUrlToSegment(segment: string) {
       const hash = { ...MatomoUrl.hashParsed.value };
       delete hash.comparePeriods;
@@ -253,6 +257,9 @@ export default defineComponent({
 
       tooltip += '</div>';
       return tooltip;
+    },
+    htmlentities(str: string): string {
+      return Matomo.helper.htmlEntities(str);
     },
   },
   mounted() {
