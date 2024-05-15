@@ -41,13 +41,13 @@ final class Version
 
     private function isNonStableVersion($version): bool
     {
-        return (bool) preg_match('/^\d+\.\d+\.\d+((-.{1,4}\d+(-p\d{14})?)|(-dev-p\d{14}))$/i', $version);
+        return (bool) preg_match('/^\d+\.\d+\.\d+((-.{1,4}\d+(\.\d{14})?)|(-alpha\.\d{14}))$/i', $version);
     }
 
     public function isPreviewVersion($version): bool
     {
-        if (\preg_match('/^\d+\.\d+\.\d+((-(rc|b|beta)\d+(-p\d{14})?)|(-dev-p\d{14}))?$/i', $version)) {
-            if (\preg_match('/-p(\d{14})$/', $version, $matches)) {
+        if (\preg_match('/^\d+\.\d+\.\d+((-(rc|b|beta)\d+(\.\d{14})?)|(-alpha\.\d{14}))?$/i', $version)) {
+            if (\preg_match('/\.(\d{14})$/', $version, $matches)) {
                 $dt = DateTime::createFromFormat('YmdHis', $matches[1]);
 
                 return false !== $dt && !\array_sum(array_map('intval', (array) $dt::getLastErrors()));

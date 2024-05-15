@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Unit;
 
+use Composer\Semver\VersionParser;
 use Piwik\Version;
 
 class VersionTest extends \PHPUnit\Framework\TestCase
@@ -57,10 +58,10 @@ class VersionTest extends \PHPUnit\Framework\TestCase
 
     public function testIsPreviewVersion()
     {
-        $this->assertIsPreviewVersion('3.3.3-dev-p20240509114000');
-        $this->assertIsPreviewVersion('3.3.3-dev-p33331224183000');
-        $this->assertIsPreviewVersion('3.3.3-b1-p20240509114000');
-        $this->assertIsPreviewVersion('100.999.9191-rc4-p20240509114000');
+        $this->assertIsPreviewVersion('3.3.3-alpha.20240509114000');
+        $this->assertIsPreviewVersion('3.3.3-alpha.33331224183000');
+        $this->assertIsPreviewVersion('3.3.3-b1.20240509114000');
+        $this->assertIsPreviewVersion('100.999.9191-rc4.20240509114000');
 
         $this->assertNotPreviewVersion('3.3');
         $this->assertNotPreviewVersion('3.3.');
@@ -68,17 +69,18 @@ class VersionTest extends \PHPUnit\Framework\TestCase
         $this->assertNotPreviewVersion('a3.3.3');
         $this->assertNotPreviewVersion('3.0.0b');
         $this->assertNotPreviewVersion('3.3.3-b1');
-        $this->assertNotPreviewVersion('3.3.3-b1-pp20240509114000');
-        $this->assertNotPreviewVersion('3.3.3-b1-p20240509114000a');
+        $this->assertNotPreviewVersion('3.3.3-b1.p20240509114000');
+        $this->assertNotPreviewVersion('3.3.3-b1.20240509114000a');
         $this->assertNotPreviewVersion('3.3.3-rc1');
-        $this->assertNotPreviewVersion('3.3.3-p20240509114000');
+        $this->assertNotPreviewVersion('3.3.3-dev.20240509114000');
+        $this->assertNotPreviewVersion('3.3.3.20240509114000');
         $this->assertNotPreviewVersion('p20240509114000');
-        $this->assertNotPreviewVersion('3.3.3-b1-p202405091140');
-        $this->assertNotPreviewVersion('3.3.3-b1-p20243309114000');
-        $this->assertNotPreviewVersion('3.3.3-b1-p20240544114000');
-        $this->assertNotPreviewVersion('3.3.3-b1-p20240509554000');
-        $this->assertNotPreviewVersion('3.3.3-b1-p20240509117700');
-        $this->assertNotPreviewVersion('3.3.3-b1-p20240509114088');
+        $this->assertNotPreviewVersion('3.3.3-b1.202405091140');
+        $this->assertNotPreviewVersion('3.3.3-b1.20243309114000');
+        $this->assertNotPreviewVersion('3.3.3-b1.20240544114000');
+        $this->assertNotPreviewVersion('3.3.3-b1.20240509554000');
+        $this->assertNotPreviewVersion('3.3.3-b1.20240509117700');
+        $this->assertNotPreviewVersion('3.3.3-b1.20240509114088');
     }
 
     private function assertIsStableVersion($versionNumber)
@@ -115,5 +117,40 @@ class VersionTest extends \PHPUnit\Framework\TestCase
     {
         $isPreviewVersion = $this->version->isPreviewVersion($versionNumber);
         $this->assertFalse($isPreviewVersion);
+    }
+
+    /**
+     * @dataProvider getLowerVersionCompares
+     */
+    public function testVersionContraints($v1, $v2)
+    {
+        $v = new VersionParser();
+        $v1p = $v->parseConstraints($v1);
+        $v2p = $v->parseConstraints('<' . $v2);
+
+        self::assertTrue($v2p->matches($v1p));
+    }
+
+    /**
+     * @dataProvider getLowerVersionCompares
+     */
+    public function testVersionCompares($v1, $v2)
+    {
+        self::assertTrue(version_compare($v1, $v2, '<'));
+    }
+
+    public function getLowerVersionCompares()
+    {
+        return [
+            [ '5.1.0', '6.0.0-b1' ],
+            [ '5.1.0-alpha.20240517231100', '5.1.0-b1' ],
+            [ '5.1.0-alpha.20240517231100', '5.1.0-rc1' ],
+            [ '5.1.0-alpha.20240517231100', '5.1.0-alpha.20240617231100' ],
+            [ '5.1.0-b1.20240517231100', '5.1.0-b2' ],
+            [ '5.1.0-b1.20240517231100', '5.1.0-rc1' ],
+            [ '5.1.0-b1.20240517221100', '5.1.0-b1.20240517231100' ],
+            [ '5.1.0-rc1.20240517231100', '5.1.0-rc2' ],
+            [ '5.1.0-rc1.20240517221100', '5.1.0-rc1.20240517231100' ],
+        ];
     }
 }

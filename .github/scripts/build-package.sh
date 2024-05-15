@@ -166,7 +166,7 @@ echo "Working directory is '$CURRENT_DIR'..."
 
 echo -e "Going to build Matomo $VERSION (Major version: $MAJOR_VERSION)"
 
-if ! echo "$VERSION" | grep -E 'rc|b|a|alpha|beta|dev|build|p[0-9]{14}' -i
+if ! echo "$VERSION" | grep -E 'rc|b|a|alpha|beta|dev|build' -i
 then
     if curl --output /dev/null --silent --head --fail "https://builds.matomo.org/matomo-$VERSION.zip"
     then
@@ -219,9 +219,7 @@ echo "Git tag: $(git describe --exact-match --tags HEAD)"
 echo "Git path: $CURRENT_DIR/$LOCAL_REPO"
 echo "Matomo version in core/Version.php: $(php -r "include_once 'core/Version.php'; echo \Piwik\Version::VERSION;")"
 
-IS_PREVIEW_VERSION=$(php -r "include_once 'core/Version.php'; \$v = new \Piwik\Version(); echo (int) \$v->isPreviewVersion('$VERSION');")
-
-if [ "$VERSION" != "build" ] && [ "$IS_PREVIEW_VERSION" == "0" ]
+if [ "$VERSION" != "build" ]
 then
   [ "$(grep "'$VERSION'" core/Version.php | wc -l)" = "1" ] || die "version $VERSION does not match core/Version.php";
 fi
