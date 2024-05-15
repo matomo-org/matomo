@@ -89,6 +89,7 @@ class Manager
         'Proxy',
         'LanguagesManager',
         'WebsiteMeasurable',
+        'FeatureFlags',
 
         // default Piwik theme, always enabled
         self::DEFAULT_THEME,

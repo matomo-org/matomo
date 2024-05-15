@@ -1277,7 +1277,6 @@ PluginsInstalled[] = Installation
 PluginsInstalled[] = Monolog
 PluginsInstalled[] = Intl
 PluginsInstalled[] = JsTrackerInstallCheck
-PluginsInstalled[] = FeatureFlags
 
 [PagePerformance]
 ; The configuration below provides the possibility to enable capping of values used for generating 'sum/total' and 'average' metrics for page performance reports.
