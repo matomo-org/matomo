@@ -78,7 +78,7 @@ class ModelTest extends IntegrationTestCase
         $this->model->addUserAccess($this->login, Write::ID, array(2));
         $this->model->addUserAccess($this->login, View::ID, array(1));
         $access = $this->model->getSitesAccessFromUser($this->login);
-        // The order might differ depending on the database, so sort by 'idaction'
+        // The order might differ depending on the database, so sort by 'site'
         usort($access, function ($a, $b) {
             return $a['site'] - $b['site'];
         });
