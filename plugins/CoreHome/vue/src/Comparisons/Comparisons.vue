@@ -22,7 +22,7 @@
       <div
         class="title"
         :title="htmlentities(comparison.title) + '<br/>'
-          + decodeURIComponent(comparison.params.segment)"
+          + htmlentities(decodeURIComponent(comparison.params.segment))"
       >
         <a
           target="_blank"
