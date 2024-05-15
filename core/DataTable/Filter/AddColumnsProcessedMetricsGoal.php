@@ -151,7 +151,9 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
         // Add standard processed metrics
         parent::filter($table);
 
-        $goals = $this->getGoalsInTable($table);
+        $allGoals = $this->getGoalsInTable($table);
+
+        $goals = $allGoals;
         if (!empty($this->goalsToProcess)) {
             $goals = array_unique(array_merge($goals, $this->goalsToProcess));
             sort($goals);
@@ -161,7 +163,7 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
 
         $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
 
-        $extraProcessedMetrics[] = new RevenuePerVisit();
+        $extraProcessedMetrics[] = new RevenuePerVisit($allGoals);
         if ($this->processOnlyIdGoal != self::GOALS_MINIMAL_REPORT) {
             foreach ($goals as $idGoal) {
                 if (
