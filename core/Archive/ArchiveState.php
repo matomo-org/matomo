@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Piwik\Archive;
 
-use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataTable;
 use Piwik\Date;
@@ -23,16 +22,6 @@ class ArchiveState
     public const COMPLETE = 'complete';
     public const INCOMPLETE = 'incomplete';
     public const INVALIDATED = 'invalidated';
-
-    /**
-     * @var ArchiveInvalidator
-     */
-    private $invalidator;
-
-    public function __construct(ArchiveInvalidator $invalidator = null)
-    {
-        $this->invalidator = $invalidator ?? StaticContainer::get(ArchiveInvalidator::class);
-    }
 
     /**
      * @param array{date1: string, date2: string, idsite: string, ts_archived: string} $archiveData
@@ -56,14 +45,12 @@ class ArchiveState
 
         foreach ($periodsTsArchived as $idSite => $periods) {
             $site = new Site($idSite);
-            $incompleteDays = $this->invalidator->getDaysWithRememberedInvalidationsForSite($site->getId());
 
             foreach ($periods as $period => $tsArchived) {
                 $state = $this->checkArchiveStates($site, $period, $archiveIds, $archiveStates);
 
                 $range = new Range('day', $period);
                 $state = $this->checkTsArchived($state, $site, $range, $tsArchived);
-                $state = $this->checkDaysRememberedToBeIncomplete($state, $range, $incompleteDays);
 
                 if (null === $state) {
                     // do not set metadata, if no state was determined,
@@ -111,34 +98,6 @@ class ArchiveState
         // all archives not invalidated should be complete
         // includes DONE_OK, DONE_OK_TEMPORARY and DONE_PARTIAL
         return self::COMPLETE;
-    }
-
-    /**
-     * @param array<string> $incompleteDays
-     */
-    private function checkDaysRememberedToBeIncomplete(
-        ?string $state,
-        Range $range,
-        array $incompleteDays
-    ): ?string {
-        if ([] === $incompleteDays || in_array($state, [self::INCOMPLETE, self::INVALIDATED])) {
-            // only missing archives or those detected as complete are relevant
-            // for remembered invalidations marking them as incomplete
-            return $state;
-        }
-
-        foreach ($range->getSubperiods() as $subPeriod) {
-            $subPeriodDay = $subPeriod->toString('Y-m-d');
-
-            if (!in_array($subPeriodDay, $incompleteDays)) {
-                continue;
-            }
-
-            // archive has received more requests after it was already processed
-            return self::INCOMPLETE;
-        }
-
-        return $state;
     }
 
     private function checkTsArchived(

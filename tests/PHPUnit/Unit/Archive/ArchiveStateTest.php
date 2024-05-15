@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Piwik\Tests\Unit\Archive;
 
 use PHPUnit\Framework\TestCase;
-use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataCollection;
 use Piwik\DataAccess\ArchiveWriter;
@@ -37,7 +36,6 @@ class ArchiveStateTest extends TestCase
         string $date2,
         string $tsArchived,
         int $archiveState,
-        array $daysWithRememberedInvalidations,
         string $expectedMetadataState
     ): void {
         $this->setUpSite([]);
@@ -51,12 +49,7 @@ class ArchiveStateTest extends TestCase
 
         $collection = $this->createCollection($archiveData);
 
-        $archiveInvalidator = self::createMock(ArchiveInvalidator::class);
-        $archiveInvalidator
-            ->method('getDaysWithRememberedInvalidationsForSite')
-            ->willReturn($daysWithRememberedInvalidations);
-
-        $archiveState = new ArchiveState($archiveInvalidator);
+        $archiveState = new ArchiveState();
         $archiveState->addMetadataToResultCollection($collection, $archiveData, $archiveIds, $archiveStates);
 
         $this->assertMetadataState($expectedMetadataState, $collection);
@@ -69,25 +62,6 @@ class ArchiveStateTest extends TestCase
             '2020-01-31',
             '2020-02-01 10:00:00',
             ArchiveWriter::DONE_OK,
-            [],
-            ArchiveState::COMPLETE
-        ];
-
-        yield 'day in range remembered as invalidated' => [
-            '2020-01-01',
-            '2020-01-31',
-            '2020-02-01 10:00:00',
-            ArchiveWriter::DONE_OK,
-            ['2020-01-16'],
-            ArchiveState::INCOMPLETE
-        ];
-
-        yield 'date outside range remembered as invalidated' => [
-            '2020-01-01',
-            '2020-01-31',
-            '2020-02-01 10:00:00',
-            ArchiveWriter::DONE_OK,
-            ['2020-03-16'],
             ArchiveState::COMPLETE
         ];
 
@@ -96,7 +70,6 @@ class ArchiveStateTest extends TestCase
             '2020-01-31',
             '2020-02-01 10:00:00',
             ArchiveWriter::DONE_INVALIDATED,
-            [],
             ArchiveState::INVALIDATED
         ];
     }
@@ -112,9 +85,6 @@ class ArchiveStateTest extends TestCase
     ): void {
         $this->setUpSite(['timezone' => $timezone]);
 
-        $archiveInvalidator = self::createMock(ArchiveInvalidator::class);
-        $archiveInvalidator->method('getDaysWithRememberedInvalidationsForSite')->willReturn([]);
-
         [$archiveData, $archiveIds, $archiveStates] = $this->createArchiveInfo(
             $date,
             $date,
@@ -124,7 +94,7 @@ class ArchiveStateTest extends TestCase
 
         $collection = $this->createCollection($archiveData);
 
-        $archiveState = new ArchiveState($archiveInvalidator);
+        $archiveState = new ArchiveState();
         $archiveState->addMetadataToResultCollection($collection, $archiveData, $archiveIds, $archiveStates);
 
         $this->assertMetadataState($expectedState, $collection);
@@ -165,9 +135,6 @@ class ArchiveStateTest extends TestCase
     {
         $this->setUpSite([]);
 
-        $archiveInvalidator = self::createMock(ArchiveInvalidator::class);
-        $archiveInvalidator->method('getDaysWithRememberedInvalidationsForSite')->willReturn([]);
-
         [$archiveData, $archiveIds] = $this->createArchiveInfo(
             '2020-01-31',
             '2020-01-31',
@@ -177,32 +144,10 @@ class ArchiveStateTest extends TestCase
 
         $collection = $this->createCollection($archiveData);
 
-        $archiveState = new ArchiveState($archiveInvalidator);
+        $archiveState = new ArchiveState();
         $archiveState->addMetadataToResultCollection($collection, $archiveData, $archiveIds, []);
 
         $this->assertMetadataState(null, $collection);
-    }
-
-    public function testRememberedInvalidationSetsMissingArchiveIncomplete(): void
-    {
-        $this->setUpSite([]);
-
-        $archiveInvalidator = self::createMock(ArchiveInvalidator::class);
-        $archiveInvalidator->method('getDaysWithRememberedInvalidationsForSite')->willReturn(['2020-01-31']);
-
-        [$archiveData, $archiveIds] = $this->createArchiveInfo(
-            '2020-01-31',
-            '2020-01-31',
-            '2020-02-01 10:00:00',
-            ArchiveWriter::DONE_OK
-        );
-
-        $collection = $this->createCollection($archiveData);
-
-        $archiveState = new ArchiveState($archiveInvalidator);
-        $archiveState->addMetadataToResultCollection($collection, $archiveData, $archiveIds, []);
-
-        $this->assertMetadataState(ArchiveState::INCOMPLETE, $collection);
     }
 
     private function assertMetadataState(?string $expectedState, DataCollection $collection): void
