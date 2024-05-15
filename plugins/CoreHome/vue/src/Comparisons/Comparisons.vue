@@ -21,7 +21,8 @@
       <div class="comparison-type">{{ translate('General_Segment') }}</div>
       <div
         class="title"
-        :title="comparison.title + '<br/>' + decodeURIComponent(comparison.params.segment)"
+        :title="htmlentities(comparison.title) + '<br/>'
+          + decodeURIComponent(comparison.params.segment)"
       >
         <a
           target="_blank"
@@ -253,6 +254,9 @@ export default defineComponent({
 
       tooltip += '</div>';
       return tooltip;
+    },
+    htmlentities(str: string): string {
+      return Matomo.helper.htmlEntities(str);
     },
   },
   mounted() {

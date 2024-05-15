@@ -1003,6 +1003,7 @@ $(document).ready(function() {
                         }
                     }
 
+                    params.name = piwikHelper.htmlEntities(params.name);
                     $.extend( self.props.availableSegments[idx], params);
                     self.rebuild();
 
