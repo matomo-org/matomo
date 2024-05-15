@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreHome;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\FrontController;
@@ -20,6 +21,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\FeatureFlags\Features\Example;
+use Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\Widget;
@@ -39,17 +41,19 @@ class Controller extends \Piwik\Plugin\Controller
      * @var Translator
      */
     private $translator;
+
     /**
      * @var FeatureFlagManager
      */
     private $featureFlagManager;
 
-    public function __construct(Translator $translator, FeatureFlagManager $featureFlagManager)
+    public function __construct(Translator $translator)
     {
         $this->translator = $translator;
 
         parent::__construct();
-        $this->featureFlagManager = $featureFlagManager;
+
+        $this->featureFlagManager = new FeatureFlagManager([new ConfigFeatureFlagStorage(Config::getInstance())]);
     }
 
     public function getDefaultAction()

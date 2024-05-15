@@ -75,6 +75,7 @@ class Manager
     protected $pluginToAlwaysActivate = array(
         'BulkTracking',
         'CoreVue',
+        'FeatureFlags',
         'CoreHome',
         'CoreUpdater',
         'CoreAdminHome',
@@ -89,7 +90,6 @@ class Manager
         'Proxy',
         'LanguagesManager',
         'WebsiteMeasurable',
-        'FeatureFlags',
 
         // default Piwik theme, always enabled
         self::DEFAULT_THEME,
