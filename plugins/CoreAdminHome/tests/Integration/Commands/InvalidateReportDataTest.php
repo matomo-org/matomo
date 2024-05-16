@@ -10,9 +10,17 @@
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
 use Monolog\Handler\AbstractProcessingHandler;
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\CronArchive;
+use Piwik\Date;
+use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\API as CustomDimensionsAPI;
+use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
+use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 
@@ -495,6 +503,65 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2015-05-04 ], period = [ day ], segment = [ dimension1==test ], cascade = [ 0 ]',
             ],
         ];
+    }
+
+    public function testInvalidationOfDependentSegments()
+    {
+        $testDate = Date::today()->subDay(10)->toString();
+
+        // disable browser archiving
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+        Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
+
+        SegmentEditorAPI::getInstance()->add('fr segment', 'languageCode==fr', 1, true);
+
+        // track a visitor
+        $t = Fixture::getTracker(1, $testDate . ' 12:00:00', true);
+        $t->setUserAgent('Mozilla/5.0 (compatible; MSIE 10.0; Windows Vista; Trident/5.0');
+        $t->setIp('10.11.12.13');
+        $t->setUrl('http://piwik.net/randomsite');
+        $t->doTrackPageView('random site');
+
+        // With a returning visit
+        $t->setForceVisitDateTime($testDate . ' 17:00:00');
+        $t->setForceNewVisit();
+        $t->doTrackPageView('random site');
+
+        // track a second visitor
+        $t = Fixture::getTracker(1, $testDate . ' 12:30:00', true);
+        $t->setIp('20.21.22.23');
+        $t->setUserAgent('Mozilla/5.0 (compatible; MSIE 10.0; Windows 8; Trident/5.0)');
+        $t->setUrl('http://piwik.net/randomsite');
+        $t->doTrackPageView('random site');
+
+        $archiver = new CronArchive();
+        $archiver->main();
+
+        $result = VisitsSummaryAPI::getInstance()->get(1, 'week', $testDate, 'languageCode==fr');
+        self::assertEquals(3, $result->getFirstRow()->getColumn('nb_visits'));
+
+        $result = VisitFrequencyAPI::getInstance()->get(1, 'week', $testDate, 'languageCode==fr');
+        self::assertEquals(1, $result->getFirstRow()->getColumn('nb_visits_returning'));
+        self::assertEquals(2, $result->getFirstRow()->getColumn('nb_visits_new'));
+
+        // Remove one visit
+        $datasubject = StaticContainer::get(DataSubjects::class);
+        $datasubject->deleteDataSubjectsWithoutInvalidatingArchives([['idvisit' => '1']]);
+
+        // Invalidate the segment
+        CoreAdminHomeAPI::getInstance()->invalidateArchivedReports('1', $testDate, 'day', 'languageCode==fr');
+
+        // re-run archiving
+        $archiver = new CronArchive();
+        $archiver->main();
+
+        $result = VisitsSummaryAPI::getInstance()->get(1, 'week', $testDate, 'languageCode==fr');
+        self::assertEquals(2, $result->getFirstRow()->getColumn('nb_visits'));
+
+        // check that metrics built with dependent segment archives are updated as well
+        $result = VisitFrequencyAPI::getInstance()->get(1, 'week', $testDate, 'languageCode==fr');
+        self::assertEquals(1, $result->getFirstRow()->getColumn('nb_visits_returning'));
+        self::assertEquals(1, $result->getFirstRow()->getColumn('nb_visits_new'));
     }
 
     /**
