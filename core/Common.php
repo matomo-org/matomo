@@ -1093,7 +1093,12 @@ class Common
     public static function sendHeader($header, $replace = true)
     {
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
-            [$headerName, $headerValue] = explode(':', $header, 2);
+            if (strpos($header, ':') !== false) {
+                [$headerName, $headerValue] = explode(':', $header, 2);
+            } else {
+                $headerName = $header;
+                $headerValue = '';
+            }
 
             if (!array_key_exists($headerName, self::$headersSentInTests) || $replace) {
                 self::$headersSentInTests[$headerName] = $headerValue;

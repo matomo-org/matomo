@@ -748,7 +748,6 @@ class APITest extends IntegrationTestCase
         ];
         self::assertEquals($expected, $users);
         self::assertResultCountHeader(1);
-
     }
 
     public function testGetUsersPlusRoleShouldReturnUsersWithNoAccessCorrectly()
