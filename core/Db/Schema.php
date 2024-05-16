@@ -221,4 +221,14 @@ class Schema extends Singleton
     {
         return $this->getSchema()->addMaxExecutionTimeHintToQuery($sql, $limit);
     }
+
+    /**
+     * Returns if the schema support complexe column updates
+     *
+     * @return bool
+     */
+    public function supportsComplexColumnUpdates(): bool
+    {
+        return $this->getSchema()->supportsComplexColumnUpdates();
+    }
 }

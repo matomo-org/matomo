@@ -115,4 +115,13 @@ interface SchemaInterface
      * @return string
      */
     public function addMaxExecutionTimeHintToQuery(string $sql, float $limit): string;
+
+    /**
+     * Returns if the database supports column updates in table updates.
+     * Some database engines are performing sanity checks for table updates. Those might include checking if all columns used
+     * already exist. In such a case queries like this might fail: `ALTER TABLE t ADD COLUMN b, ADD INDEX i (b)`
+     *
+     * @return bool
+     */
+    public function supportsComplexColumnUpdates(): bool;
 }
