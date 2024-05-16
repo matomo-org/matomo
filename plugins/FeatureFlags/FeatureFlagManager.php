@@ -21,7 +21,7 @@ class FeatureFlagManager
         $this->storages = $storages;
     }
 
-    public function isFeatureActive(Feature $feature): bool
+    public function isFeatureActive(FeatureFlag $feature): bool
     {
         $featureActive = false;
 

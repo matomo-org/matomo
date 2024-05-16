@@ -12,7 +12,7 @@ namespace Piwik\Plugins\FeatureFlags\tests\Integration;
 use PHPUnit\Framework\TestCase;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage;
-use Piwik\Plugins\FeatureFlags\tests\Integration\Features\FakeFeature;
+use Piwik\Plugins\FeatureFlags\tests\Integration\FeatureFlags\FakeFeatureFlag;
 use Piwik\Tests\Framework\Mock\FakeConfig;
 
 class FeatureFlagTests extends TestCase
@@ -25,6 +25,6 @@ class FeatureFlagTests extends TestCase
 
         $featureFlagManager = new FeatureFlagManager([$configFeatureFlagStorage]);
 
-        $this->assertTrue($featureFlagManager->isFeatureActive(new FakeFeature()));
+        $this->assertTrue($featureFlagManager->isFeatureActive(new FakeFeatureFlag()));
     }
 }

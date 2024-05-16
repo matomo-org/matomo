@@ -10,7 +10,7 @@
 namespace Piwik\Plugins\FeatureFlags\tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Piwik\Plugins\FeatureFlags\Feature;
+use Piwik\Plugins\FeatureFlags\FeatureFlag;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\FeatureFlags\FeatureFlagStorageInterface;
 
@@ -29,7 +29,7 @@ class FeatureFlagManagerTest extends TestCase
             $storages[] = $mock;
         }
 
-        $mockFeature = $this->createMock(Feature::class);
+        $mockFeature = $this->createMock(FeatureFlag::class);
 
         $sut = new FeatureFlagManager($storages);
 

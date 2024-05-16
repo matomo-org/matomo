@@ -7,11 +7,11 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\FeatureFlags\Features;
+namespace Piwik\Plugins\FeatureFlags\FeatureFlags;
 
-use Piwik\Plugins\FeatureFlags\Feature;
+use Piwik\Plugins\FeatureFlags\FeatureFlag;
 
-class Example extends Feature
+class ExampleFeatureFlag extends FeatureFlag
 {
     public function getName(): string
     {

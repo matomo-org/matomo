@@ -20,7 +20,7 @@ use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\FeatureFlags\Features\Example;
+use Piwik\Plugins\FeatureFlags\FeatureFlags\ExampleFeatureFlag;
 use Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\SettingsPiwik;
@@ -195,7 +195,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $view->showMenu = true;
         $view->content = '';
-        $view->exampleFeatureEnabled = $this->featureFlagManager->isFeatureActive(Example::getInstance());
+        $view->exampleFeatureEnabled = $this->featureFlagManager->isFeatureActive(ExampleFeatureFlag::getInstance());
         return $view;
     }
 
