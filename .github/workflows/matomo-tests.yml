@@ -38,7 +38,7 @@ jobs:
       matrix:
         type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
         php: [ '7.2', '8.2', '8.3' ]
-        engine: [ 'Mysql', 'Mariadb' ]
+        engine: [ 'Tidb' ]
         adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
         exclude:
           - php: '7.2'
@@ -124,6 +124,7 @@ jobs:
           test-type: 'UI'
           php-version: '7.2'
           node-version: '16'
+          mysql-engine: 'Tidb'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
