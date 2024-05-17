@@ -82,6 +82,11 @@ class FormDatabaseSetup extends QuickForm2
             ->loadOptions($adapters)
             ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupAdapter')));
 
+        $this->addElement('select', 'schema')
+            ->setLabel(Piwik::translate('Installation_DatabaseSetupEngine'))
+            ->loadOptions(['Mysql' => 'MySQL', 'Mariadb' => 'MariaDB'])
+            ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupEngine')));
+
         $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn'));
 
         $defaultDatabaseType = Config::getInstance()->database['type'];
@@ -92,9 +97,10 @@ class FormDatabaseSetup extends QuickForm2
             'host'          => '127.0.0.1',
             'type'          => $defaultDatabaseType,
             'tables_prefix' => 'matomo_',
+            'schema'        => 'Mysql',
         );
 
-        $defaultsEnvironment = array('host', 'adapter', 'tables_prefix', 'username', 'password', 'dbname');
+        $defaultsEnvironment = array('host', 'adapter', 'tables_prefix', 'username', 'schema', 'password', 'dbname');
         foreach ($defaultsEnvironment as $name) {
             $envName = 'DATABASE_' . strtoupper($name); // fyi getenv is case insensitive
             $envNameMatomo = 'MATOMO_' . $envName;
@@ -137,7 +143,7 @@ class FormDatabaseSetup extends QuickForm2
             'tables_prefix' => (is_null($tables_prefix)) ? $tables_prefix : trim($tables_prefix),
             'adapter'       => $adapter,
             'port'          => $port,
-            'schema'        => Config::getInstance()->database['schema'],
+            'schema'        => $this->getSubmitValue('schema'),
             'type'          => $this->getSubmitValue('type'),
             'enable_ssl'    => false
         );

@@ -91,6 +91,11 @@ class ModelTest extends IntegrationTestCase
             array('name' => 'action2', 'type' => 2)
         ));
 
+        // The order might differ depending on the database, so sort by 'idaction'
+        usort($result, function ($a, $b) {
+            return $a['idaction'] - $b['idaction'];
+        });
+
         $expectedResult = array(
             array(
                 'idaction' => '2',

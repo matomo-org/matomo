@@ -353,6 +353,8 @@ class ModelTest extends IntegrationTestCase
     public function testMakeLogVisitsQueryStringAddsMaxExecutionHintIfConfigured()
     {
         $this->setMaxExecutionTime(30);
+        Config\DatabaseConfig::setConfigValue('schema', 'Mysql');
+        Db\Schema::unsetInstance();
 
         $model = new Model();
         list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
