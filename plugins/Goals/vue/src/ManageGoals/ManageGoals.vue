@@ -41,8 +41,7 @@
                   :is="beforeGoalListActionsHeadComponent"
                 ></component>
 
-                <th v-if="userCanEditGoals">{{ translate('General_Edit') }}</th>
-                <th v-if="userCanEditGoals">{{ translate('General_Delete') }}</th>
+                <th>{{ translate('General_Actions') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -84,23 +83,19 @@
                   :is="beforeGoalListActionsBodyComponent[goal.idgoal]"
                 ></component>
 
-                <td v-if="userCanEditGoals" style="padding-top:2px">
+                <td style="padding-top:2px">
                   <button
+                    v-if="userCanEditGoals"
                     @click="editGoal(goal.idgoal)"
-                    class="table-action"
+                    class="table-action icon-edit"
                     :title="translate('General_Edit')"
-                  >
-                    <span class="icon-edit"></span>
-                  </button>
-                </td>
-                <td v-if="userCanEditGoals" style="padding-top:2px">
+                  ></button>
                   <button
+                    v-if="userCanEditGoals"
                     @click="deleteGoal(goal.idgoal)"
-                    class="table-action"
+                    class="table-action icon-delete"
                     :title="translate('General_Delete')"
-                  >
-                    <span class="icon-delete"></span>
-                  </button>
+                  ></button>
                 </td>
               </tr>
             </tbody>
