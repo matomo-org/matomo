@@ -47,9 +47,11 @@ class Updates_1_2_rc1 extends Updates
         return array(
             // Various performance improvements schema updates
             $this->migration->db->sql('ALTER TABLE `' . Common::prefixTable('log_visit') . '`
-                DROP `visit_server_date`,
                 DROP INDEX `index_idsite_date_config`,
-                DROP INDEX `index_idsite_datetime_config`,
+                DROP INDEX `index_idsite_datetime_config`
+               ', array(Updater\Migration\Db::ERROR_CODE_UNKNOWN_COLUMN, Updater\Migration\Db::ERROR_CODE_COLUMN_NOT_EXISTS)),
+            $this->migration->db->sql('ALTER TABLE `' . Common::prefixTable('log_visit') . '`
+                DROP `visit_server_date`,
                 ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
                 ADD `config_id` BINARY(8) NOT NULL AFTER `config_md5config`
                ', array(Updater\Migration\Db::ERROR_CODE_UNKNOWN_COLUMN, Updater\Migration\Db::ERROR_CODE_COLUMN_NOT_EXISTS)),
