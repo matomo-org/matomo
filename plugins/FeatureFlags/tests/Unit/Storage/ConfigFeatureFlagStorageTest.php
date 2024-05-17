@@ -11,7 +11,7 @@ namespace Piwik\Plugins\FeatureFlags\tests\Unit\Storage;
 
 use PHPUnit\Framework\TestCase;
 use Piwik\Config;
-use Piwik\Plugins\FeatureFlags\FeatureFlag;
+use Piwik\Plugins\FeatureFlags\FeatureFlagInterface;
 use Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage;
 
 class ConfigFeatureFlagStorageTest extends TestCase
@@ -22,7 +22,7 @@ class ConfigFeatureFlagStorageTest extends TestCase
         $configMock->method('__get')->willThrowException(new \Exception());
 
         $sut = new ConfigFeatureFlagStorage($configMock);
-        $mockFeature = $this->createMock(FeatureFlag::class);
+        $mockFeature = $this->createMock(FeatureFlagInterface::class);
 
         $this->assertFalse($sut->isFeatureActive($mockFeature));
     }
@@ -36,7 +36,7 @@ class ConfigFeatureFlagStorageTest extends TestCase
         ]);
 
         $sut = new ConfigFeatureFlagStorage($configMock);
-        $mockFeature = $this->createMock(FeatureFlag::class);
+        $mockFeature = $this->createMock(FeatureFlagInterface::class);
         $mockFeature->method('getName')->willReturn('NotSet');
 
         $this->assertNull($sut->isFeatureActive($mockFeature));
@@ -51,7 +51,7 @@ class ConfigFeatureFlagStorageTest extends TestCase
         ]);
 
         $sut = new ConfigFeatureFlagStorage($configMock);
-        $mockFeature = $this->createMock(FeatureFlag::class);
+        $mockFeature = $this->createMock(FeatureFlagInterface::class);
         $mockFeature->method('getName')->willReturn('UnitTest');
 
         $this->assertTrue($sut->isFeatureActive($mockFeature));
@@ -66,7 +66,7 @@ class ConfigFeatureFlagStorageTest extends TestCase
         ]);
 
         $sut = new ConfigFeatureFlagStorage($configMock);
-        $mockFeature = $this->createMock(FeatureFlag::class);
+        $mockFeature = $this->createMock(FeatureFlagInterface::class);
         $mockFeature->method('getName')->willReturn('UnitTest');
 
         $this->assertFalse($sut->isFeatureActive($mockFeature));

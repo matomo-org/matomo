@@ -11,7 +11,7 @@ namespace Piwik\Plugins\FeatureFlags\Storage;
 
 use Exception;
 use Piwik\Config;
-use Piwik\Plugins\FeatureFlags\FeatureFlag;
+use Piwik\Plugins\FeatureFlags\FeatureFlagInterface;
 use Piwik\Plugins\FeatureFlags\FeatureFlagStorageInterface;
 
 class ConfigFeatureFlagStorage implements FeatureFlagStorageInterface
@@ -25,12 +25,21 @@ class ConfigFeatureFlagStorage implements FeatureFlagStorageInterface
      */
     private $config;
 
+    /**
+     * @internal
+     * @param Config $config
+     */
     public function __construct(Config $config)
     {
         $this->config = $config;
     }
 
-    public function isFeatureActive(FeatureFlag $feature): ?bool
+    /**
+     * @internal
+     * @param FeatureFlagInterface $feature
+     * @return bool|null
+     */
+    public function isFeatureActive(FeatureFlagInterface $feature): ?bool
     {
         try {
             $featureFlagsConfig = $this->config->FeatureFlags;

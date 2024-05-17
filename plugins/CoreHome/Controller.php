@@ -13,14 +13,16 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\FrontController;
+use Piwik\Log\LoggerInterface;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\FeatureFlags\Features\Example;
+use Piwik\Plugins\FeatureFlags\FeatureFlags\Example;
 use Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\SettingsPiwik;
@@ -53,7 +55,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         parent::__construct();
 
-        $this->featureFlagManager = new FeatureFlagManager([new ConfigFeatureFlagStorage(Config::getInstance())]);
+        $this->featureFlagManager = new FeatureFlagManager([new ConfigFeatureFlagStorage(Config::getInstance())], StaticContainer::get(LoggerInterface::class));
     }
 
     public function getDefaultAction()
@@ -195,7 +197,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $view->showMenu = true;
         $view->content = '';
-        $view->exampleFeatureEnabled = $this->featureFlagManager->isFeatureActive(ExampleFeatureFlag::getInstance());
+        $view->exampleFeatureEnabled = $this->featureFlagManager->isFeatureActive(Example::class);
         return $view;
     }
 

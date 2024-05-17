@@ -9,12 +9,7 @@
 
 namespace Piwik\Plugins\FeatureFlags;
 
-abstract class FeatureFlag
+interface FeatureFlagInterface
 {
-    abstract public function getName(): string;
-
-    public static function getInstance(): FeatureFlag
-    {
-        return new static();
-    }
+    public function getName(): string;
 }

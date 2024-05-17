@@ -16,9 +16,9 @@ interface FeatureFlagStorageInterface
      *
      * If the flag isn't set for the particular storage context then will return null
      *
-     * @param FeatureFlag $feature
+     * @param FeatureFlagInterface $feature
      *
      * @return bool|null
      */
-    public function isFeatureActive(FeatureFlag $feature): ?bool;
+    public function isFeatureActive(FeatureFlagInterface $feature): ?bool;
 }

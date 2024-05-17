@@ -1,5 +1,7 @@
 <?php
 
+use Piwik\Log\Logger;
+
 return [
     /**
      * The order of the these storage mechanisms for the feature flags determines how they cascade down.
@@ -10,5 +12,5 @@ return [
         Piwik\DI::get('Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage'),
     ],
     'Piwik\Plugins\FeatureFlags\FeatureFlagManager' => Piwik\DI::autowire()
-        ->constructor(Piwik\DI::get('featureflag.storages'))
+        ->constructor(Piwik\DI::get('featureflag.storages'), Piwik\DI::get(Logger::class))
 ];

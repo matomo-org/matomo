@@ -9,9 +9,9 @@
 
 namespace Piwik\Plugins\FeatureFlags\tests\Integration\FeatureFlags;
 
-use Piwik\Plugins\FeatureFlags\FeatureFlag;
+use Piwik\Plugins\FeatureFlags\FeatureFlagInterface;
 
-class FakeFeatureFlag extends FeatureFlag
+class FakeFeatureFlag implements FeatureFlagInterface
 {
     public function getName(): string
     {

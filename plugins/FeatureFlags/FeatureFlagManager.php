@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugins\FeatureFlags;
 
+use Piwik\Log\Logger;
+use Piwik\Log\LoggerInterface;
+
 class FeatureFlagManager
 {
     /**
@@ -16,17 +19,33 @@ class FeatureFlagManager
      */
     private $storages;
 
-    public function __construct(array $storages)
+    /**
+     * @var Logger
+     */
+    private $logger;
+
+    public function __construct(array $storages, LoggerInterface $logger)
     {
         $this->storages = $storages;
+        $this->logger = $logger;
     }
 
-    public function isFeatureActive(FeatureFlag $feature): bool
+    /**
+     * @param string $featureFlag The ::class name of a class that implements FeatureFlagInterface
+     * @return bool
+     */
+    public function isFeatureActive(string $featureFlag): bool
     {
+        $featureFlagObj = $this->createFeatureFlagObjFromString($featureFlag);
+
+        if ($featureFlagObj === null) {
+            return false;
+        }
+
         $featureActive = false;
 
         foreach ($this->storages as $storage) {
-            $isActive = $storage->isFeatureActive($feature);
+            $isActive = $storage->isFeatureActive($featureFlagObj);
 
             if ($isActive !== null) {
                 $featureActive = $isActive;
@@ -34,5 +53,19 @@ class FeatureFlagManager
         }
 
         return $featureActive;
+    }
+
+    private function createFeatureFlagObjFromString(string $featureFlag): ?FeatureFlagInterface
+    {
+        if (!is_subclass_of($featureFlag, FeatureFlagInterface::class)) {
+            $this->logger->debug('isFeatureActive failed due to invalid feature being passed in',
+                [
+                    'featureFlag' => $featureFlag
+                ]
+            );
+            return null;
+        }
+
+        return new $featureFlag;
     }
 }
