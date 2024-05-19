@@ -41,7 +41,7 @@
                   :is="beforeGoalListActionsHeadComponent"
                 ></component>
 
-                <th>{{ translate('General_Actions') }}</th>
+                <th v-if="userCanEditGoals">{{ translate('General_Actions') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -83,7 +83,7 @@
                   :is="beforeGoalListActionsBodyComponent[goal.idgoal]"
                 ></component>
 
-                <td style="padding-top:2px">
+                <td v-if="userCanEditGoals" style="padding-top:2px">
                   <button
                     v-if="userCanEditGoals"
                     @click="editGoal(goal.idgoal)"
