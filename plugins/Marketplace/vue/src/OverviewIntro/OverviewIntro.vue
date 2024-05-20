@@ -162,6 +162,8 @@ export default defineComponent({
       return (
         !this.updating
         && !this.installDisabled
+        && this.getIsValidConsumer
+        && this.isSuperUser
         && this.isAutoUpdatePossible
         && this.isPluginsAdminEnabled
         && this.getPaidPluginsToInstallAtOnce?.length
