@@ -77,11 +77,16 @@ class ModelTest extends IntegrationTestCase
         $this->model->addUserAccess($this->login, Write::ID, array(3));
         $this->model->addUserAccess($this->login, Write::ID, array(2));
         $this->model->addUserAccess($this->login, View::ID, array(1));
+        $access = $this->model->getSitesAccessFromUser($this->login);
+        // The order might differ depending on the database, so sort by 'site'
+        usort($access, function ($a, $b) {
+            return $a['site'] - $b['site'];
+        });
         $this->assertEquals(array(
-          array('site' => '3', 'access' => Write::ID),
-          array('site' => '2', 'access' => Write::ID),
-          array('site' => '1', 'access' => View::ID),
-        ), $this->model->getSitesAccessFromUser($this->login));
+            array('site' => '1', 'access' => View::ID),
+            array('site' => '2', 'access' => Write::ID),
+            array('site' => '3', 'access' => Write::ID),
+        ), $access);
     }
 
     public function testGetSitesAccessFromUserMultipleSitesSomeNoLongerExist()

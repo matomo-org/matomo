@@ -10,7 +10,7 @@ var tourEngagement = {
         $challenge.find('.icon-hide').removeClass('icon-hide').addClass('icon-ok');
 
         var ajaxRequest = new ajaxHelper();
-        ajaxRequest.addParams({module: 'API', method: 'Tour.skipChallenge', id: key}, 'get');
+        ajaxRequest.addParams({module: 'API', method: 'Tour.skipChallenge', id: key, format: 'json'}, 'get');
         ajaxRequest.withTokenInUrl();
         ajaxRequest.setFormat('json');
         ajaxRequest.send();

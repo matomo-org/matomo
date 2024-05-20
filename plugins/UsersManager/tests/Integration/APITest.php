@@ -15,6 +15,7 @@ use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
 use Piwik\API\Request;
 use Piwik\Auth\Password;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
@@ -181,13 +182,13 @@ class APITest extends IntegrationTestCase
         $self           = $this;
         Piwik::addAction('UsersManager.removeSiteAccess', function ($login, $idSites) use (&$eventTriggered, $self) {
             $eventTriggered = true;
-            $self->assertEquals($self->login, $login);
-            $self->assertEquals([1, 2], $idSites);
+            self::assertEquals($self->login, $login);
+            self::assertEquals([1, 2], $idSites);
         });
 
         $this->api->setUserAccess($this->login, 'noaccess', [1, 2]);
 
-        $this->assertTrue($eventTriggered, 'UsersManager.removeSiteAccess event was not triggered');
+        self::assertTrue($eventTriggered, 'UsersManager.removeSiteAccess event was not triggered');
     }
 
     public function testSetUserAccessShouldNotTriggerRemoveSiteAccessEventIfAccessIsAdded()
@@ -199,25 +200,25 @@ class APITest extends IntegrationTestCase
 
         $this->api->setUserAccess($this->login, 'admin', [1, 2]);
 
-        $this->assertFalse($eventTriggered, 'UsersManager.removeSiteAccess event was triggered but should not');
+        self::assertFalse($eventTriggered, 'UsersManager.removeSiteAccess event was triggered but should not');
     }
 
     public function testGetAllUsersPreferencesIsEmptyWhenNoPreference()
     {
         $preferences = $this->api->getAllUsersPreferences(['preferenceName']);
-        $this->assertEmpty($preferences);
+        self::assertEmpty($preferences);
     }
 
     public function testGetAllUsersPreferencesIsEmptyWhenNoPreferenceAndMultipleRequested()
     {
         $preferences = $this->api->getAllUsersPreferences(['preferenceName', 'randomDoesNotExist']);
-        $this->assertEmpty($preferences);
+        self::assertEmpty($preferences);
     }
 
     public function testGetUserPreferenceShouldReturnADefaultPreferenceIfNoneIsSet()
     {
         $siteId = $this->api->getUserPreference(API::PREFERENCE_DEFAULT_REPORT, $this->login);
-        $this->assertEquals('1', $siteId);
+        self::assertEquals('1', $siteId);
     }
 
     public function testGetUserPreferenceShouldReturnASetreferenceIfNoneIsSet()
@@ -225,20 +226,20 @@ class APITest extends IntegrationTestCase
         $this->api->setUserPreference($this->login, API::PREFERENCE_DEFAULT_REPORT, 5);
 
         $siteId = $this->api->getUserPreference(API::PREFERENCE_DEFAULT_REPORT, $this->login);
-        $this->assertEquals('5', $siteId);
+        self::assertEquals('5', $siteId);
     }
 
     public function testInitUserPreferenceWithDefaultShouldSaveTheDefaultPreferenceIfPreferenceIsNotSet()
     {
         // make sure there is no value saved so it will use default preference
         $siteId = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT));
-        $this->assertFalse($siteId);
+        self::assertFalse($siteId);
 
         $this->api->initUserPreferenceWithDefault($this->login, API::PREFERENCE_DEFAULT_REPORT);
 
         // make sure it did save the preference
         $siteId = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT));
-        $this->assertEquals('1', $siteId);
+        self::assertEquals('1', $siteId);
     }
 
     public function testInitUserPreferenceWithDefaultShouldNotSaveTheDefaultPreferenceIfPreferenceIsAlreadySet()
@@ -247,13 +248,13 @@ class APITest extends IntegrationTestCase
         Option::set($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT), '999');
 
         $siteId = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT));
-        $this->assertEquals('999', $siteId);
+        self::assertEquals('999', $siteId);
 
         $this->api->initUserPreferenceWithDefault($this->login, API::PREFERENCE_DEFAULT_REPORT);
 
         // make sure it did not save the preference
         $siteId = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT));
-        $this->assertEquals('999', $siteId);
+        self::assertEquals('999', $siteId);
     }
 
     public function testGetAllUsersPreferencesShouldGetMultiplePreferences()
@@ -284,7 +285,7 @@ class APITest extends IntegrationTestCase
                                                            'randomDoesNotExist',
                                                        ]);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     public function testGetAllUsersPreferencesWhenLoginContainsUnderscore()
@@ -301,7 +302,7 @@ class APITest extends IntegrationTestCase
         ];
         $result   = $this->api->getAllUsersPreferences([API::PREFERENCE_DEFAULT_REPORT, 'randomDoesNotExist']);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     public function testSetUserPreferenceThrowsWhenPreferenceNameContainsUnderscore()
@@ -338,16 +339,16 @@ class APITest extends IntegrationTestCase
         $model = new Model();
         $user  = $model->getUser($this->login);
 
-        $this->assertSame('email@example.com', $user['email']);
+        self::assertSame('email@example.com', $user['email']);
 
         $passwordHelper = new Password();
 
-        $this->assertTrue($passwordHelper->verify(UsersManager::getPasswordHash('newPassword'), $user['password']));
+        self::assertTrue($passwordHelper->verify(UsersManager::getPasswordHash('newPassword'), $user['password']));
 
         $subjects = array_map(function (Mail $mail) {
             return $mail->getSubject();
         }, $capturedMails);
-        $this->assertEquals([
+        self::assertEquals([
                                 'UsersManager_EmailChangeNotificationSubject', // sent twice to old email and new
                                 'UsersManager_EmailChangeNotificationSubject',
                                 'UsersManager_PasswordChangeNotificationSubject',
@@ -383,7 +384,7 @@ class APITest extends IntegrationTestCase
         $subjects = array_map(function (Mail $mail) {
             return $mail->getSubject();
         }, $capturedMails);
-        $this->assertEquals([], $subjects);
+        self::assertEquals([], $subjects);
     }
 
 
@@ -399,7 +400,7 @@ class APITest extends IntegrationTestCase
         $this->api->updateUser($this->login, false, strtoupper($this->email));
         FakeAccess::$identity = $identity;
 
-        $this->assertEquals([], $capturedMails);
+        self::assertEquals([], $capturedMails);
     }
 
     public function testUpdateUserDoesNotChangePasswordIfFalsey()
@@ -414,8 +415,8 @@ class APITest extends IntegrationTestCase
 
         $user = $model->getUser($this->login);
 
-        $this->assertSame($userBefore['password'], $user['password']);
-        $this->assertSame($userBefore['ts_password_modified'], $user['ts_password_modified']);
+        self::assertSame($userBefore['password'], $user['password']);
+        self::assertSame($userBefore['ts_password_modified'], $user['ts_password_modified']);
     }
 
     public function testUpdateUserFailsIfPasswordTooLong()
@@ -453,7 +454,7 @@ class APITest extends IntegrationTestCase
         $this->api->updateUser($user2, $password, $user2, false, $password);
 
         $user2Array = $this->api->getUser($user2);
-        $this->assertEquals($user2Array['email'], $user2);
+        self::assertEquals($user2Array['email'], $user2);
     }
 
     public function testCannotCreateUserIfEmailExistsAsUsername()
@@ -482,7 +483,7 @@ class APITest extends IntegrationTestCase
 
         // new user doesn't have access to anything
         $access = $this->api->getSitesAccessFromUser($user2);
-        $this->assertEmpty($access);
+        self::assertEmpty($access);
 
         $userUpdater = new UserUpdater();
         $userUpdater->setSuperUserAccessWithoutCurrentPassword($user2, true);
@@ -503,7 +504,7 @@ class APITest extends IntegrationTestCase
                 'access' => 'admin',
             ],
         ];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
     }
 
     public function testGetUsersPlusRoleShouldReturnNothingForAnonymousUser()
@@ -512,7 +513,8 @@ class APITest extends IntegrationTestCase
         $this->setCurrentUser('anonymous', 'view', 1);
 
         $users = $this->api->getUsersPlusRole(1);
-        $this->assertEquals([], $users);
+        self::assertEquals([], $users);
+        self::assertResultCountHeader(0);
     }
 
     public function testGetUsersPlusRoleShouldReturnSelfIfUserDoesNotHaveAdminAccessToSite()
@@ -531,7 +533,8 @@ class APITest extends IntegrationTestCase
                 'superuser_access' => '0',
             ],
         ];
-        $this->assertEquals($expected, $users);
+        self::assertEquals($expected, $users);
+        self::assertResultCountHeader(1);
     }
 
     public function testGetUsersPlusRoleShouldIgnoreOffsetIfLimitIsNotSupplied()
@@ -550,7 +553,8 @@ class APITest extends IntegrationTestCase
                 'superuser_access' => '0',
             ],
         ];
-        $this->assertEquals($expected, $users);
+        self::assertEquals($expected, $users);
+        self::assertResultCountHeader(1);
     }
 
     public function testGetUsersPlusRoleShouldNotAllowSuperuserFilterIfUserIsNotSuperUser()
@@ -570,7 +574,8 @@ class APITest extends IntegrationTestCase
                 'superuser_access' => '0',
             ],
         ];
-        $this->assertEquals($expected, $users);
+        self::assertEquals($expected, $users);
+        self::assertResultCountHeader(1);
     }
 
     public function testGetUsersPlusRoleShouldReturnAllUsersAndAccessIfUserHasAdminAccess()
@@ -604,7 +609,8 @@ class APITest extends IntegrationTestCase
                 'superuser_access' => false,
             ],
         ];
-        $this->assertEquals($expected, $users);
+        self::assertEquals($expected, $users);
+        self::assertResultCountHeader(3);
     }
 
     public function testGetUsersPlusRoleForAdminShouldLimitUsersToThoseWithAccessToSitesAsCurrentUsersAdminSites()
@@ -645,7 +651,8 @@ class APITest extends IntegrationTestCase
                 'superuser_access' => false,
             ],
         ];
-        $this->assertEquals($expected, $users);
+        self::assertEquals($expected, $users);
+        self::assertResultCountHeader(4);
     }
 
     public function testGetUsersPlusRoleShouldReturnAllUsersAndAccessIfUserHasSuperuserAccess()
@@ -700,7 +707,8 @@ class APITest extends IntegrationTestCase
                 'uses_2fa'         => false,
             ],
         ];
-        $this->assertEquals($expected, $users);
+        self::assertEquals($expected, $users);
+        self::assertResultCountHeader(5);
     }
 
     public function testGetUsersPlusRoleShouldFilterUsersByAccessCorrectly()
@@ -729,7 +737,8 @@ class APITest extends IntegrationTestCase
                 'superuser_access' => false,
             ],
         ];
-        $this->assertEquals($expected, $users);
+        self::assertEquals($expected, $users);
+        self::assertResultCountHeader(2);
 
         // check new write role filtering works
         $users = $this->api->getUsersPlusRole(1, null, null, null, 'write');
@@ -737,7 +746,8 @@ class APITest extends IntegrationTestCase
         $expected = [
             ['login' => 'userLogin6', 'role' => 'write', 'capabilities' => [], 'superuser_access' => false],
         ];
-        $this->assertEquals($expected, $users);
+        self::assertEquals($expected, $users);
+        self::assertResultCountHeader(1);
     }
 
     public function testGetUsersPlusRoleShouldReturnUsersWithNoAccessCorrectly()
@@ -775,7 +785,8 @@ class APITest extends IntegrationTestCase
                 'uses_2fa'         => false,
             ],
         ];
-        $this->assertEquals($expected, $users);
+        self::assertEquals($expected, $users);
+        self::assertResultCountHeader(3);
     }
 
     public function testGetUsersPlusRoleShouldSearchForSuperUsersCorrectly()
@@ -808,7 +819,8 @@ class APITest extends IntegrationTestCase
                 'uses_2fa'         => false,
             ],
         ];
-        $this->assertEquals($expected, $users);
+        self::assertEquals($expected, $users);
+        self::assertResultCountHeader(2);
     }
 
     public function testGetUsersPlusRoleShouldSearchByTextCorrectly()
@@ -839,7 +851,8 @@ class APITest extends IntegrationTestCase
                 'uses_2fa'         => false,
             ],
         ];
-        $this->assertEquals($expected, $users);
+        self::assertEquals($expected, $users);
+        self::assertResultCountHeader(2);
     }
 
     public function testGetUsersPlusRoleShouldApplyLimitAndOffsetCorrectly()
@@ -870,7 +883,8 @@ class APITest extends IntegrationTestCase
                 'uses_2fa'         => false,
             ],
         ];
-        $this->assertEquals($expected, $users);
+        self::assertEquals($expected, $users);
+        self::assertResultCountHeader(5);
     }
 
     public function testGetSitesAccessForUserShouldReturnAccessForUser()
@@ -885,7 +899,8 @@ class APITest extends IntegrationTestCase
             ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
             ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
         ];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
+        self::assertResultCountHeader(3);
     }
 
     public function testGetUserCapabilitiesAfterFilter()
@@ -895,7 +910,8 @@ class APITest extends IntegrationTestCase
 
         $access = $this->api->getSitesAccessForUser('userLoginCapabilities', null, 1, null, 'view');
 
-        $this->assertEquals(['tagmanager_write'], $access[0]['capabilities']);
+        self::assertEquals(['tagmanager_write'], $access[0]['capabilities']);
+        self::assertResultCountHeader(1);
     }
 
     public function testGetSitesAccessForUserShouldIgnoreOffsetIfLimitNotSupplied()
@@ -910,7 +926,8 @@ class APITest extends IntegrationTestCase
             ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
             ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
         ];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
+        self::assertResultCountHeader(3);
     }
 
     public function testGetSitesAccessForUserShouldApplyLimitAndOffsetCorrectly()
@@ -924,7 +941,8 @@ class APITest extends IntegrationTestCase
             ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
             ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
         ];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
+        self::assertResultCountHeader(3);
     }
 
     public function testGetSitesAccessForUserShouldSearchSitesCorrectly()
@@ -959,7 +977,8 @@ class APITest extends IntegrationTestCase
             ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
             ['idsite' => '1', 'site_name' => 'searchTerm site', 'role' => 'admin', 'capabilities' => []],
         ];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
+        self::assertResultCountHeader(3);
     }
 
     public function testGetSitesAccessForUserShouldFilterByAccessCorrectly()
@@ -973,7 +992,8 @@ class APITest extends IntegrationTestCase
             ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
             ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
         ];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
+        self::assertResultCountHeader(2);
     }
 
     public function testGetSitesAccessForUserShouldLimitSitesIfUserIsAdmin()
@@ -990,7 +1010,8 @@ class APITest extends IntegrationTestCase
             ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
             ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
         ];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
+        self::assertResultCountHeader(2);
     }
 
     public function testGetSitesAccessForUserShouldLimitSitesIfUserIsAdminAndStillSelectNoAccessSitesCorrectly()
@@ -1006,7 +1027,8 @@ class APITest extends IntegrationTestCase
             ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
             ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
         ];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
+        self::assertResultCountHeader(2);
     }
 
     public function testGetSitesAccessForUserShouldSelectSitesCorrectlyIfAtLeastViewRequested()
@@ -1019,7 +1041,8 @@ class APITest extends IntegrationTestCase
             ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
             ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'admin', 'capabilities' => []],
         ];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
+        self::assertResultCountHeader(2);
     }
 
     public function testGetSitesAccessForUserShouldReportIfUserHasNoAccessToSites()
@@ -1030,14 +1053,15 @@ class APITest extends IntegrationTestCase
             ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
             ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
         ];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
 
         // test when search returns empty result
         $this->api->setUserAccess('userLogin', 'view', 1);
 
         $access   = $this->api->getSitesAccessForUser('userLogin', null, null, 'asdklfjds');
         $expected = [];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
+        self::assertResultCountHeader(0);
     }
 
     public function testSetUserAccessMultipleRolesCannotBeSet()
@@ -1129,7 +1153,7 @@ class APITest extends IntegrationTestCase
             ['site' => '1', 'access' => TestCap2::ID],
             ['site' => '1', 'access' => TestCap3::ID],
         ];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
     }
 
     public function testSetUserAccessSetRoleAsString()
@@ -1137,7 +1161,7 @@ class APITest extends IntegrationTestCase
         $this->api->setUserAccess($this->login, View::ID, [1]);
 
         $access = $this->model->getSitesAccessFromUser($this->login);
-        $this->assertEquals([['site' => '1', 'access' => 'view']], $access);
+        self::assertEquals([['site' => '1', 'access' => 'view']], $access);
     }
 
     public function testSetUserAccessSetRoleAsArray()
@@ -1145,7 +1169,7 @@ class APITest extends IntegrationTestCase
         $this->api->setUserAccess($this->login, [View::ID], [1]);
 
         $access = $this->model->getSitesAccessFromUser($this->login);
-        $this->assertEquals([['site' => '1', 'access' => 'view']], $access);
+        self::assertEquals([['site' => '1', 'access' => 'view']], $access);
     }
 
     public function testAddCapabilitiesFailsWhenNotCapabilityIsGivenAsString()
@@ -1184,18 +1208,18 @@ class APITest extends IntegrationTestCase
             ['site' => '1', 'access' => TestCap2::ID],
             ['site' => '1', 'access' => TestCap3::ID],
         ];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
 
         $this->api->addCapabilities($this->login, [TestCap2::ID, TestCap3::ID], [1]);
 
         $access = $this->model->getSitesAccessFromUser($this->login);
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
 
         $this->api->addCapabilities($this->login, [TestCap2::ID, TestCap1::ID, TestCap3::ID], [1]);
 
         $expected[] = ['site' => '1', 'access' => TestCap1::ID];
         $access     = $this->model->getSitesAccessFromUser($this->login);
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
     }
 
     public function testAddCapabilitiesDoesNotAddCapabilityToUserWithNoRole()
@@ -1205,7 +1229,7 @@ class APITest extends IntegrationTestCase
 
         $access = $this->model->getSitesAccessFromUser($this->login);
 
-        $this->assertEquals([], $access);
+        self::assertEquals([], $access);
 
         $this->api->addCapabilities($this->login, array(TestCap2::ID, TestCap3::ID), array(1));
     }
@@ -1219,7 +1243,7 @@ class APITest extends IntegrationTestCase
         $expected = [
             ['site' => '1', 'access' => 'write'],
         ];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
 
         $this->api->addCapabilities($this->login, [TestCap2::ID, TestCap3::ID], [1]);
 
@@ -1227,7 +1251,7 @@ class APITest extends IntegrationTestCase
         $access     = $this->model->getSitesAccessFromUser($this->login);
 
         // did not add TestCap2
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
     }
 
     public function testAddCapabilitiesDoesAddCapabilitiesWhichAreNotIncludedInRoleYetAlready()
@@ -1239,12 +1263,12 @@ class APITest extends IntegrationTestCase
         $expected = [
             ['site' => '1', 'access' => 'admin'],
         ];
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
 
         $this->api->addCapabilities($this->login, [TestCap2::ID, TestCap1::ID, TestCap3::ID], [1]);
 
         $access = $this->model->getSitesAccessFromUser($this->login);
-        $this->assertEquals($expected, $access);
+        self::assertEquals($expected, $access);
     }
 
     public function testRemoveCapabilitiesFailsWhenNotCapabilityIsGivenAsString()
@@ -1277,12 +1301,12 @@ class APITest extends IntegrationTestCase
         $this->api->setUserAccess($this->login, $addAccess, [1]);
 
         $access = $this->getAccessInSite($this->login, 1);
-        $this->assertEquals($addAccess, $access);
+        self::assertEquals($addAccess, $access);
 
         $this->api->removeCapabilities($this->login, [TestCap3::ID, TestCap2::ID], 1);
 
         $access = $this->getAccessInSite($this->login, 1);
-        $this->assertEquals([View::ID, TestCap1::ID], $access);
+        self::assertEquals([View::ID, TestCap1::ID], $access);
     }
 
     public function testSetSuperUserAccessFailsIfCurrentPasswordIsIncorrect()
@@ -1357,8 +1381,8 @@ class APITest extends IntegrationTestCase
 
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
         $user = $this->model->isPendingUser('pendingLoginTest');
-        $this->assertTrue($user);
-        $this->assertTrue($eventWasFired);
+        self::assertTrue($user);
+        self::assertTrue($eventWasFired);
     }
 
     public function testInviteUserAsAdmin()
@@ -1368,7 +1392,7 @@ class APITest extends IntegrationTestCase
 
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
         $user = $this->model->isPendingUser('pendingLoginTest');
-        $this->assertTrue($user);
+        self::assertTrue($user);
     }
 
     public function testInviteUserAsAdminForAnotherSiteDoesntWork()
@@ -1410,14 +1434,14 @@ class APITest extends IntegrationTestCase
         $expired = Date::factory($user['invite_expired_at'])->getTimestamp();
         $now     = Date::now()->getTimestamp();
         $diff    = $expired - $now;
-        $this->assertEquals($expiredDays, $diff / 3600 / 24);
+        self::assertEquals($expiredDays, $diff / 3600 / 24);
     }
 
     public function testResendInviteAsSuperUser()
     {
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
         $user = $this->model->isPendingUser('pendingLoginTest');
-        $this->assertTrue($user);
+        self::assertTrue($user);
 
         $eventWasFired = false;
 
@@ -1448,7 +1472,7 @@ class APITest extends IntegrationTestCase
 
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
         $user = $this->model->isPendingUser('pendingLoginTest');
-        $this->assertTrue($user);
+        self::assertTrue($user);
 
         $eventWasFired = false;
 
@@ -1475,7 +1499,7 @@ class APITest extends IntegrationTestCase
 
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
         $user = $this->model->isPendingUser('pendingLoginTest');
-        $this->assertTrue($user);
+        self::assertTrue($user);
 
         // degraded to write access
         $this->setCurrentUser('adminUser', 'admin', []);
@@ -1496,7 +1520,7 @@ class APITest extends IntegrationTestCase
 
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
         $user = $this->model->isPendingUser('pendingLoginTest');
-        $this->assertTrue($user);
+        self::assertTrue($user);
 
         // another admin tries to resend invite
         $this->setCurrentUser('anotherAdminUser', 'admin', 1);
@@ -1512,7 +1536,7 @@ class APITest extends IntegrationTestCase
 
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
         $user = $this->model->isPendingUser('pendingLoginTest');
-        $this->assertTrue($user);
+        self::assertTrue($user);
 
         $this->setCurrentUser('superUserLogin', 'superuser', 1);
 
@@ -1528,7 +1552,7 @@ class APITest extends IntegrationTestCase
 
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
         $user = $this->model->isPendingUser('pendingLoginTest');
-        $this->assertTrue($user);
+        self::assertTrue($user);
 
         $this->api->deleteUser('pendingLoginTest');
         self::assertEmpty($this->model->getUser('pendingLoginTest'));
@@ -1545,7 +1569,7 @@ class APITest extends IntegrationTestCase
 
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
         $user = $this->model->isPendingUser('pendingLoginTest');
-        $this->assertTrue($user);
+        self::assertTrue($user);
 
         $this->setCurrentUser('adminUser2', 'admin', 1);
 
@@ -1617,6 +1641,12 @@ class APITest extends IntegrationTestCase
         } elseif ($accessLevel == 'write') {
             FakeAccess::$idSitesWrite = is_array($idSite) ? $idSite : [$idSite];
         }
+    }
+
+    private static function assertResultCountHeader($expected)
+    {
+        self::assertArrayHasKey('X-Matomo-Total-Results', Common::$headersSentInTests, 'X-Matomo-Total-Results header not sent');
+        self::assertEquals($expected, Common::$headersSentInTests['X-Matomo-Total-Results']);
     }
 
     private function cleanUsers(&$users)

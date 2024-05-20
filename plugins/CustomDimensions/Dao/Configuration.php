@@ -71,7 +71,7 @@ class Configuration
 
     public function getCustomDimensionsForSite($idSite)
     {
-        $query = "SELECT * FROM " . $this->tableNamePrefixed . " WHERE idsite = ?";
+        $query = "SELECT * FROM " . $this->tableNamePrefixed . " WHERE idsite = ? ORDER BY idcustomdimension";
         return $this->fetchAllDimensionsEnriched($query, array($idSite));
     }
 
@@ -86,7 +86,7 @@ class Configuration
 
     public function getCustomDimensionsHavingIndex($scope, $index)
     {
-        $query = "SELECT * FROM " . $this->tableNamePrefixed . " WHERE `index` = ? and scope = ?";
+        $query = "SELECT * FROM " . $this->tableNamePrefixed . " WHERE `index` = ? and scope = ? ORDER BY idcustomdimension";
         return $this->fetchAllDimensionsEnriched($query, array($index, $scope));
     }
 

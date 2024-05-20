@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<idVisit>2</idVisit>
-		<visitIp>10.10.10.11</visitIp>
-		<userId>user1</userId>
+		<idVisit>6</idVisit>
+		<visitIp>10.10.10.31</visitIp>
+		<userId>user3</userId>
 		<actions>1</actions>
 	</row>
 	<row>
@@ -13,15 +13,15 @@
 		<actions>1</actions>
 	</row>
 	<row>
-		<idVisit>6</idVisit>
-		<visitIp>10.10.10.31</visitIp>
-		<userId>user3</userId>
+		<idVisit>2</idVisit>
+		<visitIp>10.10.10.11</visitIp>
+		<userId>user1</userId>
 		<actions>1</actions>
 	</row>
 	<row>
-		<idVisit>1</idVisit>
-		<visitIp>10.10.10.10</visitIp>
-		<userId>user1</userId>
+		<idVisit>5</idVisit>
+		<visitIp>10.10.10.30</visitIp>
+		<userId>user3</userId>
 		<actions>1</actions>
 	</row>
 	<row>
@@ -31,9 +31,9 @@
 		<actions>1</actions>
 	</row>
 	<row>
-		<idVisit>5</idVisit>
-		<visitIp>10.10.10.30</visitIp>
-		<userId>user3</userId>
+		<idVisit>1</idVisit>
+		<visitIp>10.10.10.10</visitIp>
+		<userId>user1</userId>
 		<actions>1</actions>
 	</row>
 </result>

@@ -90,7 +90,7 @@ class ImportLogsTest extends SystemTestCase
 
         // Running a few interesting tests for Log Replay use case
         $apiMethods = array();
-        if (getenv('MYSQL_ADAPTER') != 'MYSQLI') {
+        if (getenv('MYSQL_ADAPTER') != 'MYSQLI' && getenv('MYSQL_ENGINE') != 'Mariadb') {
             // Mysqli rounds latitude/longitude
             $apiMethods = array('Live.getLastVisitsDetails');
         }

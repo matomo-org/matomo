@@ -643,6 +643,33 @@ class Mysql implements SchemaInterface
         }
     }
 
+    /**
+     * Adds a MAX_EXECUTION_TIME hint into a SELECT query if $limit is bigger than 0
+     *
+     * @param string $sql  query to add hint to
+     * @param float $limit  time limit in seconds
+     * @return string
+     */
+    public function addMaxExecutionTimeHintToQuery(string $sql, float $limit): string
+    {
+        if ($limit <= 0) {
+            return $sql;
+        }
+
+        $sql = trim($sql);
+        $pos = stripos($sql, 'SELECT');
+        $isMaxExecutionTimeoutAlreadyPresent = (stripos($sql, 'MAX_EXECUTION_TIME(') !== false);
+        if ($pos !== false && !$isMaxExecutionTimeoutAlreadyPresent) {
+            $timeInMs = $limit * 1000;
+            $timeInMs = (int) $timeInMs;
+            $maxExecutionTimeHint = ' /*+ MAX_EXECUTION_TIME(' . $timeInMs . ') */ ';
+
+            $sql = substr_replace($sql, 'SELECT ' . $maxExecutionTimeHint, $pos, strlen('SELECT'));
+        }
+
+        return $sql;
+    }
+
     private function getTablePrefix()
     {
         return $this->getDbSettings()->getTablePrefix();

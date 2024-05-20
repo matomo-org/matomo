@@ -94,9 +94,9 @@
 		<nb_visits_converted>8</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>13</nb_conversions>
+				<nb_conversions>14</nb_conversions>
 				<nb_visits_converted>8</nb_visits_converted>
-				<revenue>65</revenue>
+				<revenue>70</revenue>
 			</row>
 			<row idgoal='2'>
 				<nb_conversions>8</nb_conversions>
@@ -104,8 +104,8 @@
 				<revenue>40</revenue>
 			</row>
 		</goals>
-		<nb_conversions>21</nb_conversions>
-		<revenue>105</revenue>
+		<nb_conversions>22</nb_conversions>
+		<revenue>110</revenue>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<idsubdatatable>6</idsubdatatable>
@@ -240,9 +240,9 @@
 		<nb_visits_converted>8</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>13</nb_conversions>
+				<nb_conversions>14</nb_conversions>
 				<nb_visits_converted>8</nb_visits_converted>
-				<revenue>65</revenue>
+				<revenue>70</revenue>
 			</row>
 			<row idgoal='2'>
 				<nb_conversions>8</nb_conversions>
@@ -250,8 +250,8 @@
 				<revenue>40</revenue>
 			</row>
 		</goals>
-		<nb_conversions>21</nb_conversions>
-		<revenue>105</revenue>
+		<nb_conversions>22</nb_conversions>
+		<revenue>110</revenue>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<idsubdatatable>8</idsubdatatable>
