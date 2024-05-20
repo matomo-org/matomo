@@ -13,7 +13,6 @@ use PHPUnit\Framework\TestCase;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage;
 use Piwik\Plugins\FeatureFlags\tests\Integration\FeatureFlags\FakeFeatureFlag;
-use Piwik\Plugins\FeatureFlags\tests\Integration\FeatureFlags\FakeFeatureFlagInterface;
 use Piwik\Tests\Framework\Mock\FakeConfig;
 use Piwik\Tests\Framework\Mock\FakeLogger;
 

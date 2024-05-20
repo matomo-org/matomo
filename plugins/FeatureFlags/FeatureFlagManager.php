@@ -66,7 +66,8 @@ class FeatureFlagManager
     private function createFeatureFlagObjFromString(string $featureFlag): ?FeatureFlagInterface
     {
         if (!in_array($featureFlag, $this->availableFeatureFlags)) {
-            $this->logger->debug('isFeatureActive failed due to not being configured in DI',
+            $this->logger->debug(
+                'isFeatureActive failed due to not being configured in DI',
                 [
                     'featureFlag' => $featureFlag
                 ]
@@ -75,7 +76,8 @@ class FeatureFlagManager
         }
 
         if (!is_subclass_of($featureFlag, FeatureFlagInterface::class)) {
-            $this->logger->debug('isFeatureActive failed due to class not implementing FeatureFlagInterface',
+            $this->logger->debug(
+                'isFeatureActive failed due to class not implementing FeatureFlagInterface',
                 [
                     'featureFlag' => $featureFlag
                 ]
@@ -83,6 +85,6 @@ class FeatureFlagManager
             return null;
         }
 
-        return new $featureFlag;
+        return new $featureFlag();
     }
 }
