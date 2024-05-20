@@ -48,7 +48,6 @@ class ManageFeatureFlags extends ConsoleCommand
     protected function doExecute(): int
     {
         $input = $this->getInput();
-        $output = $this->getOutput();
 
         $name = $input->getOption('name');
         $action = $input->getOption('action');
@@ -68,10 +67,13 @@ class ManageFeatureFlags extends ConsoleCommand
             switch ($action) {
                 case self::ACTION_OPTIONS[0]: // Enable
                     $storage->enableFeatureFlag($featureFlag);
+                    break;
                 case self::ACTION_OPTIONS[1]: // Disable
                     $storage->disableFeatureFlag($featureFlag);
+                    break;
                 case self::ACTION_OPTIONS[2]: // Delete
                     $storage->deleteFeatureFlag($featureFlag);
+                    break;
             }
         }
 
@@ -85,7 +87,7 @@ class ManageFeatureFlags extends ConsoleCommand
             if (!is_subclass_of($featureFlagClass, FeatureFlagInterface::class)) {
                 continue;
             }
-            if ((new $featureFlagClass)->getName() === $name) {
+            if ((new $featureFlagClass())->getName() === $name) {
                 return new $featureFlagClass();
             }
         }
