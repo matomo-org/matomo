@@ -1,6 +1,11 @@
 <?php
 
+namespace Piwik\Plugins\FeatureFlags\config;
+
+use Piwik\DI;
 use Piwik\Log\Logger;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\FeatureFlags\FeatureFlags\Example;
 
 return [
     /**
@@ -9,8 +14,11 @@ return [
      * The first one will be overwritten by the second one (if set).
      */
     'featureflag.storages' => [
-        Piwik\DI::get('Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage'),
+        DI::get('Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage'),
     ],
-    'Piwik\Plugins\FeatureFlags\FeatureFlagManager' => Piwik\DI::autowire()
-        ->constructor(Piwik\DI::get('featureflag.storages'), Piwik\DI::get(Logger::class))
+    FeatureFlagManager::class => DI::autowire()
+        ->constructor(DI::get('featureflag.storages'), DI::get('featureflag.feature_flags'), DI::get(Logger::class)),
+    'featureflag.feature_flags' => DI::add([
+        Example::class
+    ]),
 ];

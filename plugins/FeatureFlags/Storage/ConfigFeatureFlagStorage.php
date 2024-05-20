@@ -58,6 +58,51 @@ class ConfigFeatureFlagStorage implements FeatureFlagStorageInterface
         return $flagValue === self::CONFIG_FEATURE_ENABLED_VALUE;
     }
 
+    /**
+     * @internal
+     * @param FeatureFlagInterface $feature
+     * @return void
+     */
+    public function disableFeatureFlag(FeatureFlagInterface $feature): void
+    {
+        if (!isset($this->config->FeatureFlags[$this->getConfigNameForFeature($feature->getName())])) {
+            return;
+        }
+
+        $this->config->FeatureFlags[$this->getConfigNameForFeature($feature->getName())] = "disabled";
+        $this->config->forceSave();
+    }
+
+    /**
+     * @internal
+     * @param FeatureFlagInterface $feature
+     * @return void
+     */
+    public function enableFeatureFlag(FeatureFlagInterface $feature): void
+    {
+        if (!isset($this->config->FeatureFlags)) {
+            $this->config->FeatureFlags = [];
+        }
+
+        $this->config->FeatureFlags[$this->getConfigNameForFeature($feature->getName())] = "enabled";
+        $this->config->forceSave();
+    }
+
+    /**
+     * @internal
+     * @param FeatureFlagInterface $feature
+     * @return void
+     */
+    public function deleteFeatureFlag(FeatureFlagInterface $feature): void
+    {
+        if (!isset($this->config->FeatureFlags[$this->getConfigNameForFeature($feature->getName())])) {
+            return;
+        }
+
+        unset($this->config->FeatureFlags[$this->getConfigNameForFeature($feature->getName())]);
+        $this->config->forceSave();
+    }
+
     private function getConfigNameForFeature(string $featureName): string
     {
         return $featureName . self::CONFIG_FEATURE_NAME_SUFFIX;

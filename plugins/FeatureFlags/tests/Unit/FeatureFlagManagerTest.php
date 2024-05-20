@@ -14,13 +14,14 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\FeatureFlags\FeatureFlagInterface;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\FeatureFlags\FeatureFlagStorageInterface;
+use Piwik\Plugins\Marketplace\Api\Exception;
 
 class FeatureFlagManagerTest extends TestCase
 {
     public function testIsFeatureActiveReturnsFalseIfUnknownFeaturePassed()
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $sut = new FeatureFlagManager([], $logger);
+        $sut = new FeatureFlagManager([], [], $logger);
 
         $this->assertFalse($sut->isFeatureActive('UnknownFeature'));
     }
@@ -30,13 +31,35 @@ class FeatureFlagManagerTest extends TestCase
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects($this->once())
             ->method('debug')
-            ->with('isFeatureActive failed due to invalid feature being passed in', [
+            ->with('isFeatureActive failed due to not being configured in DI', [
                 'featureFlag' => 'UnknownFeature'
             ]);
 
-        $sut = new FeatureFlagManager([], $logger);
+        $sut = new FeatureFlagManager([], [], $logger);
 
         $sut->isFeatureActive('UnknownFeature');
+    }
+
+    public function testIsFeatureActiveReturnsFalseIfClassPassedInDoesntImplementCorrectInterface()
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $sut = new FeatureFlagManager([], [\Exception::class], $logger);
+
+        $this->assertFalse($sut->isFeatureActive(Exception::class));
+    }
+
+    public function testIsFeatureActiveLogsDebugIfClassPassedInDoesntImplementCorrectInterface()
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())
+            ->method('debug')
+            ->with('isFeatureActive failed due to class not implementing FeatureFlagInterface', [
+                'featureFlag' => \Exception::class
+            ]);
+
+        $sut = new FeatureFlagManager([], [\Exception::class], $logger);
+
+        $this->assertFalse($sut->isFeatureActive(\Exception::class));
     }
 
     /**
@@ -55,7 +78,13 @@ class FeatureFlagManagerTest extends TestCase
 
         $mockFeature = $this->createMock(FeatureFlagInterface::class);
 
-        $sut = new FeatureFlagManager($storages, $logger);
+        $sut = new FeatureFlagManager(
+            $storages,
+            [
+                get_class($mockFeature)
+            ],
+            $logger
+        );
 
         $this->assertEquals($expectedOutcome, $sut->isFeatureActive(get_class($mockFeature)));
     }

@@ -12,10 +12,12 @@ namespace Piwik\Plugins\FeatureFlags\tests\Integration;
 use PHPUnit\Framework\TestCase;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage;
+use Piwik\Plugins\FeatureFlags\tests\Integration\FeatureFlags\FakeFeatureFlag;
 use Piwik\Plugins\FeatureFlags\tests\Integration\FeatureFlags\FakeFeatureFlagInterface;
 use Piwik\Tests\Framework\Mock\FakeConfig;
+use Piwik\Tests\Framework\Mock\FakeLogger;
 
-class FeatureFlagTests extends TestCase
+class FeatureFlagManagerTests extends TestCase
 {
     public function testConfigStorageReadsFeatureFlagsCorrectly(): void
     {
@@ -23,8 +25,12 @@ class FeatureFlagTests extends TestCase
 
         $configFeatureFlagStorage = new ConfigFeatureFlagStorage($config);
 
-        $featureFlagManager = new FeatureFlagManager([$configFeatureFlagStorage]);
+        $featureFlagManager = new FeatureFlagManager(
+            [$configFeatureFlagStorage],
+            [FakeFeatureFlag::class],
+            new FakeLogger()
+        );
 
-        $this->assertTrue($featureFlagManager->isFeatureActive(new FakeFeatureFlagInterface()));
+        $this->assertTrue($featureFlagManager->isFeatureActive(FakeFeatureFlag::class));
     }
 }

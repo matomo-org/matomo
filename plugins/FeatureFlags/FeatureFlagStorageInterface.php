@@ -21,4 +21,25 @@ interface FeatureFlagStorageInterface
      * @return bool|null
      */
     public function isFeatureActive(FeatureFlagInterface $feature): ?bool;
+
+    /**
+     * @internal
+     * @param FeatureFlagInterface $feature
+     * @return void
+     */
+    public function disableFeatureFlag(FeatureFlagInterface $feature): void;
+
+    /**
+     * @internal
+     * @param FeatureFlagInterface $feature
+     * @return void
+     */
+    public function enableFeatureFlag(FeatureFlagInterface $feature): void;
+
+    /**
+     * @internal
+     * @param FeatureFlagInterface $feature
+     * @return void
+     */
+    public function deleteFeatureFlag(FeatureFlagInterface $feature): void;
 }

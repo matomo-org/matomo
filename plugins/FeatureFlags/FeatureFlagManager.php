@@ -20,13 +20,21 @@ class FeatureFlagManager
     private $storages;
 
     /**
+     * List of feature flags ::class that implement FeatureFlagInterface
+     *
+     * @var string[]
+     */
+    private $availableFeatureFlags;
+
+    /**
      * @var Logger
      */
     private $logger;
 
-    public function __construct(array $storages, LoggerInterface $logger)
+    public function __construct(array $storages, array $availableFeatureFlags, LoggerInterface $logger)
     {
         $this->storages = $storages;
+        $this->availableFeatureFlags = $availableFeatureFlags;
         $this->logger = $logger;
     }
 
@@ -57,8 +65,17 @@ class FeatureFlagManager
 
     private function createFeatureFlagObjFromString(string $featureFlag): ?FeatureFlagInterface
     {
+        if (!in_array($featureFlag, $this->availableFeatureFlags)) {
+            $this->logger->debug('isFeatureActive failed due to not being configured in DI',
+                [
+                    'featureFlag' => $featureFlag
+                ]
+            );
+            return null;
+        }
+
         if (!is_subclass_of($featureFlag, FeatureFlagInterface::class)) {
-            $this->logger->debug('isFeatureActive failed due to invalid feature being passed in',
+            $this->logger->debug('isFeatureActive failed due to class not implementing FeatureFlagInterface',
                 [
                     'featureFlag' => $featureFlag
                 ]

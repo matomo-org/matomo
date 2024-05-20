@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Piwik\Config;
 use Piwik\Plugins\FeatureFlags\FeatureFlagInterface;
 use Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage;
+use Piwik\Tests\Framework\Mock\FakeConfig;
 
 class ConfigFeatureFlagStorageTest extends TestCase
 {
@@ -70,5 +71,108 @@ class ConfigFeatureFlagStorageTest extends TestCase
         $mockFeature->method('getName')->willReturn('UnitTest');
 
         $this->assertFalse($sut->isFeatureActive($mockFeature));
+    }
+
+    public function testDisableFeatureFlagDoesntUpdateIfFeatureDoesntExists(): void
+    {
+        $configMock = $this->createMock(Config::class);
+        $configMock->expects($this->never())->method('__set');
+        $configMock->expects($this->never())->method('forceSave');
+
+        $mockFeature = $this->createMock(FeatureFlagInterface::class);
+
+        $sut = new ConfigFeatureFlagStorage($configMock);
+        $sut->disableFeatureFlag($mockFeature);
+    }
+
+    public function testDisableFeatureFlagUpdatesConfigAndForcesSaveOfConfig(): void
+    {
+        $configMock = $this->getMockBuilder(FakeConfig::class)
+            ->setMethodsExcept(['__get', '__set', '__construct'])
+            ->setConstructorArgs([
+                'configValues' => [
+                    'FeatureFlags' =>
+                    [
+                        'TestFeature_feature' => 'enabled'
+                    ]
+                ]
+            ])
+            ->getMock();
+
+        $configMock->expects($this->once())->method('forceSave');
+
+        $mockFeature = $this->createMock(FeatureFlagInterface::class);
+        $mockFeature->method('getName')->willReturn('TestFeature');
+
+        $sut = new ConfigFeatureFlagStorage($configMock);
+        $sut->disableFeatureFlag($mockFeature);
+
+        $this->assertEquals(
+            [
+                'TestFeature_feature' => 'disabled'
+            ],
+            $configMock->FeatureFlags
+        );
+    }
+
+    public function testEnableFeatureFlagUpdatesConfig(): void
+    {
+        $configMock = $this->getMockBuilder(FakeConfig::class)
+            ->setMethodsExcept(['__get', '__set', '__construct'])
+            ->setConstructorArgs([
+                'configValues' => []
+            ])
+            ->getMock();
+
+        $configMock->expects($this->once())->method('forceSave');
+
+        $mockFeature = $this->createMock(FeatureFlagInterface::class);
+        $mockFeature->method('getName')->willReturn('TestFeature');
+
+        $sut = new ConfigFeatureFlagStorage($configMock);
+        $sut->enableFeatureFlag($mockFeature);
+
+        $this->assertEquals(
+            [
+                'TestFeature_feature' => 'enabled'
+            ],
+            $configMock->FeatureFlags
+        );
+    }
+
+    public function testDeleteFeatureDoesNothingIfFeatureDoesntExist(): void
+    {
+        $configMock = $this->createMock(Config::class);
+        $configMock->expects($this->never())->method('forceSave');
+
+        $mockFeature = $this->createMock(FeatureFlagInterface::class);
+        $mockFeature->method('getName')->willReturn('TestFeature');
+
+        $sut = new ConfigFeatureFlagStorage($configMock);
+        $sut->deleteFeatureFlag($mockFeature);
+    }
+
+    public function testDeleteFeatureRemovesFlagFromConfig(): void
+    {
+        $configMock = $this->getMockBuilder(FakeConfig::class)
+            ->setMethodsExcept(['__get', '__set', '__construct'])
+            ->setConstructorArgs([
+                'configValues' => [
+                    'FeatureFlags' =>
+                        [
+                            'TestFeature_feature' => 'enabled'
+                        ]
+                ]
+            ])
+            ->getMock();
+        $configMock->expects($this->once())->method('forceSave');
+
+        $mockFeature = $this->createMock(FeatureFlagInterface::class);
+        $mockFeature->method('getName')->willReturn('TestFeature');
+
+        $sut = new ConfigFeatureFlagStorage($configMock);
+        $sut->deleteFeatureFlag($mockFeature);
+
+        $this->assertEquals([], $configMock->FeatureFlags);
     }
 }
