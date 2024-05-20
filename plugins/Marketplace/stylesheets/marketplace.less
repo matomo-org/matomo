@@ -17,48 +17,41 @@
     }
 }
 
-.marketplace-paid-intro {
-    .licenseKeyText {
-        min-width: 210px;
-        .form-group,
-        .form-group > .input-field {
-            margin-top: 0;
-            margin-bottom: 0;
-        }
+.marketplaceIntro {
+    p {
+        margin-top: 0;
+        padding-bottom: 10px;
     }
+}
 
-    .licenseToolbar {
-        flex-wrap: wrap;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-
-        > a, > div {
-            margin-right: 16px;
-            margin-bottom: 1rem;
-        }
-
-        > a, > div:not(.licenseKeyText) {
-            white-space: nowrap;
-        }
-    }
-
+.installAllPaidPlugins {
+    margin: 8px 0;
 }
 
 #installAllPaidPluginsAtOnce {
-  ul {
-      li {
-          list-style-type: disc;
-          list-style-position: inside;
-          margin-top: 8px;
-      }
-  }
+    ul {
+        margin-top: 24px;
+        font-size: 14px;
 
-  a.btn {
-      color: #fff;
-  }
+        li {
+            list-style-type: disc;
+            list-style-position: inside;
+            margin-top: 8px;
+        }
+    }
+
+    a.btn {
+        color: #fff;
+    }
 }
 
 .marketplace {
+    max-width: 1300px;
+
+    .enrichedHeadline {
+        min-height: 27px;
+    }
+
     .marketplaceActions.row,
     .pluginListContainer.row {
         margin: 0 -0.75rem;
@@ -111,6 +104,7 @@
             flex-direction: column;
             flex-grow: 0;
             position: relative;
+            margin-top: 8px;
             height: 550px;
             border: 1px solid #ccc;
             border-radius: 4px;

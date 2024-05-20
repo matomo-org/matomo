@@ -220,6 +220,24 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
     }
 
+    private function getPaidPluginsToInstallAtOnceData(array $paidPlugins): array
+    {
+        $paidPluginsToInstallAtOnce = [];
+        if (SettingsPiwik::isAutoUpdatePossible()) {
+            foreach ($paidPlugins as $paidPlugin) {
+                if (
+                    $this->canPluginBeInstalled($paidPlugin)
+                    || ($this->pluginManager->isPluginInstalled($paidPlugin['name'], true)
+                        && !$this->pluginManager->isPluginActivated($paidPlugin['name']))
+                ) {
+                    $paidPluginsToInstallAtOnce[] = $paidPlugin['displayName'];
+                }
+            }
+        }
+
+        return $paidPluginsToInstallAtOnce;
+    }
+
     public function overview()
     {
         $view = $this->configureViewAndCheckPermission('@Marketplace/overview');
@@ -236,20 +254,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'premium' => count($paidPlugins),
         ];
 
-        $paidPluginsToInstallAtOnce = array();
-        if (SettingsPiwik::isAutoUpdatePossible()) {
-            foreach ($paidPlugins as $paidPlugin) {
-                if (
-                    $this->canPluginBeInstalled($paidPlugin)
-                    || ($this->pluginManager->isPluginInstalled($paidPlugin['name'], true)
-                        && !$this->pluginManager->isPluginActivated($paidPlugin['name']))
-                ) {
-                    $paidPluginsToInstallAtOnce[] = $paidPlugin['name'];
-                }
-            }
-        }
-
-        $view->paidPluginsToInstallAtOnce = $paidPluginsToInstallAtOnce;
+        $view->paidPluginsToInstallAtOnce = $this->getPaidPluginsToInstallAtOnceData($paidPlugins);
         $view->isValidConsumer = $this->consumer->isValidConsumer();
         $view->pluginTypeOptions = array(
             'plugins' => Piwik::translate('General_Plugins'),
@@ -278,6 +283,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->inReportingMenu = (bool) Common::getRequestVar('embed', 0, 'int');
 
         return $view->render();
+    }
+
+    public function updateOverview(): string
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $paidPlugins = $this->plugins->getAllPaidPlugins();
+
+        $updateData = [
+            'paidPluginsToInstallAtOnce' => $this->getPaidPluginsToInstallAtOnceData($paidPlugins),
+            'isValidConsumer' => $this->consumer->isValidConsumer(),
+        ];
+
+        Json::sendHeaderJSON();
+        return json_encode($updateData);
     }
 
     public function searchPlugins(): string
@@ -501,8 +521,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function dieIfPluginsAdminIsDisabled()
     {
         if (!CorePluginsAdmin::isPluginsAdminEnabled()) {
-            throw new \Exception('Enabling, disabling and uninstalling plugins has been disabled by Piwik admins.
-            Please contact your Piwik admins with your request so they can assist you.');
+            throw new \Exception('Enabling, disabling and uninstalling plugins has been disabled by Matomo admins.
+            Please contact your Matomo admins with your request so they can assist you.');
         }
     }
 
