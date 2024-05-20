@@ -67,14 +67,11 @@ class ManageFeatureFlags extends ConsoleCommand
         foreach (StaticContainer::get('featureflag.storages') as $storage) {
             switch ($action) {
                 case self::ACTION_OPTIONS[0]: // Enable
-                        $storage->enableFeatureFlag($featureFlag);
-                    break;
-                case self::ACTION_OPTIONS[1]; // Disable
-                        $storage->disableFeatureFlag($featureFlag);
-                    break;
-                case self::ACTION_OPTIONS[2]; // Delete
-                        $storage->deleteFeatureFlag($featureFlag);
-                    break;
+                    $storage->enableFeatureFlag($featureFlag);
+                case self::ACTION_OPTIONS[1]: // Disable
+                    $storage->disableFeatureFlag($featureFlag);
+                case self::ACTION_OPTIONS[2]: // Delete
+                    $storage->deleteFeatureFlag($featureFlag);
             }
         }
 
@@ -89,7 +86,7 @@ class ManageFeatureFlags extends ConsoleCommand
                 continue;
             }
             if ((new $featureFlagClass)->getName() === $name) {
-                return new $featureFlagClass;
+                return new $featureFlagClass();
             }
         }
 
