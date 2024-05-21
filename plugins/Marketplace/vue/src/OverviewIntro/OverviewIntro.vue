@@ -31,12 +31,6 @@
       />
     </div>
 
-    <UploadPluginDialog
-      :is-plugin-upload-enabled="isPluginUploadEnabled"
-      :upload-limit="uploadLimit"
-      :install-nonce="installNonce"
-    />
-
     <Marketplace
       :plugin-type-options="pluginTypeOptions"
       :default-sort="defaultSort"
@@ -65,7 +59,6 @@ import {
   AjaxHelper,
   ContentIntro, EnrichedHeadline, MatomoUrl,
 } from 'CoreHome';
-import { PluginName, UploadPluginDialog } from 'CorePluginsAdmin';
 import Marketplace from '../Marketplace/Marketplace.vue';
 import InstallAllPaidPluginsButton
   from '../InstallAllPaidPluginsButton/InstallAllPaidPluginsButton.vue';
@@ -131,12 +124,10 @@ export default defineComponent({
   components: {
     InstallAllPaidPluginsButton,
     EnrichedHeadline,
-    UploadPluginDialog,
     Marketplace,
   },
   directives: {
     ContentIntro,
-    PluginName,
   },
   data(): OverviewIntroState {
     return {
