@@ -121,8 +121,6 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_NoSubscriptionsFound';
         $translationKeys[] = 'Marketplace_NoThemesFound';
         $translationKeys[] = 'Marketplace_NoValidSubscriptionNoUpdates';
-        $translationKeys[] = 'Marketplace_NotAllowedToBrowseMarketplacePlugins';
-        $translationKeys[] = 'Marketplace_NotAllowedToBrowseMarketplaceThemes';
         $translationKeys[] = 'Marketplace_NoticeRemoveMarketplaceFromReportingMenu';
         $translationKeys[] = 'Marketplace_OverviewPluginSubscriptions';
         $translationKeys[] = 'Marketplace_OverviewPluginSubscriptionsAllDetails';
