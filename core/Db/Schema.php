@@ -223,7 +223,7 @@ class Schema extends Singleton
     }
 
     /**
-     * Returns if the schema support complexe column updates
+     * Returns if the schema support complex column updates
      *
      * @return bool
      */
