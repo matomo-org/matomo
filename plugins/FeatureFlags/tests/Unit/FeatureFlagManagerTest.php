@@ -21,7 +21,7 @@ class FeatureFlagManagerTest extends TestCase
     public function testIsFeatureActiveReturnsFalseIfUnknownFeaturePassed()
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $sut = new FeatureFlagManager([], [], $logger);
+        $sut = new FeatureFlagManager([], $logger);
 
         $this->assertFalse($sut->isFeatureActive('UnknownFeature'));
     }
@@ -31,35 +31,13 @@ class FeatureFlagManagerTest extends TestCase
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects($this->once())
             ->method('debug')
-            ->with('isFeatureActive failed due to not being configured in DI', [
+            ->with('isFeatureActive failed due to class not implementing FeatureFlagInterface', [
                 'featureFlag' => 'UnknownFeature'
             ]);
 
-        $sut = new FeatureFlagManager([], [], $logger);
+        $sut = new FeatureFlagManager([], $logger);
 
         $sut->isFeatureActive('UnknownFeature');
-    }
-
-    public function testIsFeatureActiveReturnsFalseIfClassPassedInDoesntImplementCorrectInterface()
-    {
-        $logger = $this->createMock(LoggerInterface::class);
-        $sut = new FeatureFlagManager([], [\Exception::class], $logger);
-
-        $this->assertFalse($sut->isFeatureActive(Exception::class));
-    }
-
-    public function testIsFeatureActiveLogsDebugIfClassPassedInDoesntImplementCorrectInterface()
-    {
-        $logger = $this->createMock(LoggerInterface::class);
-        $logger->expects($this->once())
-            ->method('debug')
-            ->with('isFeatureActive failed due to class not implementing FeatureFlagInterface', [
-                'featureFlag' => \Exception::class
-            ]);
-
-        $sut = new FeatureFlagManager([], [\Exception::class], $logger);
-
-        $this->assertFalse($sut->isFeatureActive(\Exception::class));
     }
 
     /**
@@ -80,9 +58,6 @@ class FeatureFlagManagerTest extends TestCase
 
         $sut = new FeatureFlagManager(
             $storages,
-            [
-                get_class($mockFeature)
-            ],
             $logger
         );
 
