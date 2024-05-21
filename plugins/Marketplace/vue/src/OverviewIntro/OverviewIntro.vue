@@ -28,6 +28,8 @@
       <InstallAllPaidPluginsButton
         :paid-plugins-to-install-at-once="getPaidPluginsToInstallAtOnce"
         :install-nonce="installNonce"
+        :disabled="installDisabled"
+        :loading="installLoading"
       />
     </div>
 
@@ -70,6 +72,7 @@ interface OverviewIntroState {
   fetchRequestAbortController: AbortController|null;
   updateData: TObject|null,
   installDisabled: boolean;
+  installLoading: boolean;
 }
 
 export default defineComponent({
@@ -136,6 +139,7 @@ export default defineComponent({
       fetchRequestAbortController: null,
       updateData: null,
       installDisabled: false,
+      installLoading: false,
     };
   },
   computed: {
@@ -150,15 +154,14 @@ export default defineComponent({
         : this.paidPluginsToInstallAtOnce) as TObjectArray;
     },
     installAllPaidPluginsVisible(): boolean {
-      return (
-        !this.updating
-        && !this.installDisabled
-        && this.getIsValidConsumer
+      return ((this.getIsValidConsumer
         && this.isSuperUser
         && this.isAutoUpdatePossible
         && this.isPluginsAdminEnabled
         && this.getPaidPluginsToInstallAtOnce?.length
-      ) as boolean;
+      ) || (
+        this.installDisabled && this.installLoading
+      )) as boolean;
     },
     showThemes(): boolean {
       return MatomoUrl.hashParsed.value.pluginType as string === 'themes';
@@ -167,9 +170,15 @@ export default defineComponent({
   methods: {
     disableInstallAllPlugins() {
       this.installDisabled = true;
+      this.installLoading = true;
+    },
+    enableInstallAllPlugins() {
+      this.installDisabled = false;
+      this.installLoading = false;
     },
     updateOverviewData() {
       this.updating = true;
+      this.disableInstallAllPlugins();
 
       if (this.fetchRequestAbortController) {
         this.fetchRequestAbortController.abort();
@@ -193,8 +202,8 @@ export default defineComponent({
         this.updateData = response;
       }).finally(() => {
         this.updating = false;
-        this.installDisabled = false;
         this.fetchRequestAbortController = null;
+        this.enableInstallAllPlugins();
       });
     },
   },

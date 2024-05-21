@@ -156,7 +156,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=51f21a69
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=01a18ac9
 
 var _hoisted_1 = {
   class: "row marketplaceActions",
@@ -231,10 +231,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onTriggerUpdate: _cache[0] || (_cache[0] = function ($event) {
       return _this.updateMarketplace();
     }),
-    onRequestTrialClicked: _cache[1] || (_cache[1] = function ($event) {
+    onRequestTrialClick: _cache[1] || (_cache[1] = function ($event) {
       return _this.$emit('trialActionStart');
     }),
-    onStartFreeTrialClicked: _cache[2] || (_cache[2] = function ($event) {
+    onStartFreeTrialClick: _cache[2] || (_cache[2] = function ($event) {
       return _this.$emit('trialActionStart');
     })
   }, null, 8, ["plugins-to-show", "current-user-email", "is-auto-update-possible", "is-super-user", "is-multi-server-environment", "has-some-admin-access", "is-plugins-admin-enabled", "is-valid-consumer", "deactivate-nonce", "activate-nonce", "install-nonce", "update-nonce"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.loading && _ctx.pluginsToShow.length == 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
@@ -256,7 +256,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 64);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=51f21a69
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=01a18ac9
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -2320,22 +2320,28 @@ var lcfirst = function lcfirst(s) {
 Marketplacevue_type_script_lang_ts.render = render
 
 /* harmony default export */ var Marketplace = (Marketplacevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/InstallAllPaidPluginsButton/InstallAllPaidPluginsButton.vue?vue&type=template&id=434d2746
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/InstallAllPaidPluginsButton/InstallAllPaidPluginsButton.vue?vue&type=template&id=1d0cceb8
 
-var InstallAllPaidPluginsButtonvue_type_template_id_434d2746_hoisted_1 = {
+var InstallAllPaidPluginsButtonvue_type_template_id_1d0cceb8_hoisted_1 = ["disabled"];
+var InstallAllPaidPluginsButtonvue_type_template_id_1d0cceb8_hoisted_2 = {
   class: "ui-confirm",
   id: "installAllPaidPluginsAtOnce",
   ref: "installAllPaidPluginsAtOnce"
 };
-var InstallAllPaidPluginsButtonvue_type_template_id_434d2746_hoisted_2 = ["data-href", "value"];
-var InstallAllPaidPluginsButtonvue_type_template_id_434d2746_hoisted_3 = ["value"];
-function InstallAllPaidPluginsButtonvue_type_template_id_434d2746_render(_ctx, _cache, $props, $setup, $data, $options) {
+var InstallAllPaidPluginsButtonvue_type_template_id_1d0cceb8_hoisted_3 = ["data-href", "value"];
+var InstallAllPaidPluginsButtonvue_type_template_id_1d0cceb8_hoisted_4 = ["value"];
+function InstallAllPaidPluginsButtonvue_type_template_id_1d0cceb8_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_MatomoLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoLoader");
+
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
     class: "btn",
     onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
       return _ctx.onInstallAllPaidPlugins();
-    }, ["prevent"]))
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_InstallPurchasedPlugins')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", InstallAllPaidPluginsButtonvue_type_template_id_434d2746_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_InstallAllPurchasedPlugins')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_InstallThesePlugins')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.paidPluginsToInstallAtOnce, function (pluginDisplayName) {
+    }, ["prevent"])),
+    disabled: _ctx.disabled
+  }, [_ctx.loading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_MatomoLoader, {
+    key: 0
+  })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_InstallPurchasedPlugins')), 1)], 8, InstallAllPaidPluginsButtonvue_type_template_id_1d0cceb8_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", InstallAllPaidPluginsButtonvue_type_template_id_1d0cceb8_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_InstallAllPurchasedPlugins')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_InstallThesePlugins')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.paidPluginsToInstallAtOnce, function (pluginDisplayName) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       key: pluginDisplayName
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(pluginDisplayName), 1);
@@ -2344,18 +2350,21 @@ function InstallAllPaidPluginsButtonvue_type_template_id_434d2746_render(_ctx, _
     type: "button",
     "data-href": _ctx.installAllPaidPluginsLink,
     value: _ctx.translate('Marketplace_InstallAllPurchasedPluginsAction', _ctx.paidPluginsToInstallAtOnce.length)
-  }, null, 8, InstallAllPaidPluginsButtonvue_type_template_id_434d2746_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, null, 8, InstallAllPaidPluginsButtonvue_type_template_id_1d0cceb8_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     role: "cancel",
     type: "button",
     value: _ctx.translate('General_Cancel')
-  }, null, 8, InstallAllPaidPluginsButtonvue_type_template_id_434d2746_hoisted_3)])], 512)], 64);
+  }, null, 8, InstallAllPaidPluginsButtonvue_type_template_id_1d0cceb8_hoisted_4)])], 512)], 64);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/InstallAllPaidPluginsButton/InstallAllPaidPluginsButton.vue?vue&type=template&id=434d2746
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/InstallAllPaidPluginsButton/InstallAllPaidPluginsButton.vue?vue&type=template&id=1d0cceb8
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/InstallAllPaidPluginsButton/InstallAllPaidPluginsButton.vue?vue&type=script&lang=ts
 
 
 /* harmony default export */ var InstallAllPaidPluginsButtonvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  components: {
+    MatomoLoader: external_CoreHome_["MatomoLoader"]
+  },
   props: {
     paidPluginsToInstallAtOnce: {
       type: Array,
@@ -2364,6 +2373,15 @@ function InstallAllPaidPluginsButtonvue_type_template_id_434d2746_render(_ctx, _
     installNonce: {
       type: String,
       required: true
+    },
+    loading: {
+      type: Boolean,
+      required: true
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   methods: {
@@ -2387,7 +2405,7 @@ function InstallAllPaidPluginsButtonvue_type_template_id_434d2746_render(_ctx, _
 
 
 
-InstallAllPaidPluginsButtonvue_type_script_lang_ts.render = InstallAllPaidPluginsButtonvue_type_template_id_434d2746_render
+InstallAllPaidPluginsButtonvue_type_script_lang_ts.render = InstallAllPaidPluginsButtonvue_type_template_id_1d0cceb8_render
 
 /* harmony default export */ var InstallAllPaidPluginsButton = (InstallAllPaidPluginsButtonvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/ManageLicenseKey/ManageLicenseKey.vue?vue&type=template&id=8dd04b4e
@@ -2838,29 +2856,27 @@ function GetPremiumFeaturesvue_type_template_id_0ec62128_render(_ctx, _cache, $p
 GetPremiumFeaturesvue_type_script_lang_ts.render = GetPremiumFeaturesvue_type_template_id_0ec62128_render
 
 /* harmony default export */ var GetPremiumFeatures = (GetPremiumFeaturesvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=template&id=6b401110
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=template&id=06cf9880
 
-var OverviewIntrovue_type_template_id_6b401110_hoisted_1 = {
+var OverviewIntrovue_type_template_id_06cf9880_hoisted_1 = {
   class: "marketplaceIntro"
 };
-var OverviewIntrovue_type_template_id_6b401110_hoisted_2 = {
+var OverviewIntrovue_type_template_id_06cf9880_hoisted_2 = {
   key: 0
 };
-var OverviewIntrovue_type_template_id_6b401110_hoisted_3 = {
+var OverviewIntrovue_type_template_id_06cf9880_hoisted_3 = {
   key: 1
 };
-var OverviewIntrovue_type_template_id_6b401110_hoisted_4 = {
+var OverviewIntrovue_type_template_id_06cf9880_hoisted_4 = {
   key: 0,
   class: "installAllPaidPlugins"
 };
-function OverviewIntrovue_type_template_id_6b401110_render(_ctx, _cache, $props, $setup, $data, $options) {
+function OverviewIntrovue_type_template_id_06cf9880_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
 
   var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
 
   var _component_InstallAllPaidPluginsButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("InstallAllPaidPluginsButton");
-
-  var _component_UploadPluginDialog = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("UploadPluginDialog");
 
   var _component_Marketplace = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Marketplace");
 
@@ -2873,14 +2889,12 @@ function OverviewIntrovue_type_template_id_6b401110_render(_ctx, _cache, $props,
       return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_Marketplace')), 1)];
     }),
     _: 1
-  }, 8, ["feature-name"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", OverviewIntrovue_type_template_id_6b401110_hoisted_1, [!_ctx.isSuperUser ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", OverviewIntrovue_type_template_id_6b401110_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_Intro')), 1)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", OverviewIntrovue_type_template_id_6b401110_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_IntroSuperUser')), 1))]), _ctx.installAllPaidPluginsVisible ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", OverviewIntrovue_type_template_id_6b401110_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_InstallAllPaidPluginsButton, {
+  }, 8, ["feature-name"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", OverviewIntrovue_type_template_id_06cf9880_hoisted_1, [!_ctx.isSuperUser ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", OverviewIntrovue_type_template_id_06cf9880_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_Intro')), 1)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", OverviewIntrovue_type_template_id_06cf9880_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_IntroSuperUser')), 1))]), _ctx.installAllPaidPluginsVisible ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", OverviewIntrovue_type_template_id_06cf9880_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_InstallAllPaidPluginsButton, {
     "paid-plugins-to-install-at-once": _ctx.getPaidPluginsToInstallAtOnce,
-    "install-nonce": _ctx.installNonce
-  }, null, 8, ["paid-plugins-to-install-at-once", "install-nonce"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_UploadPluginDialog, {
-    "is-plugin-upload-enabled": _ctx.isPluginUploadEnabled,
-    "upload-limit": _ctx.uploadLimit,
-    "install-nonce": _ctx.installNonce
-  }, null, 8, ["is-plugin-upload-enabled", "upload-limit", "install-nonce"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Marketplace, {
+    "install-nonce": _ctx.installNonce,
+    disabled: _ctx.installDisabled,
+    loading: _ctx.installLoading
+  }, null, 8, ["paid-plugins-to-install-at-once", "install-nonce", "disabled", "loading"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Marketplace, {
     "plugin-type-options": _ctx.pluginTypeOptions,
     "default-sort": _ctx.defaultSort,
     "plugin-sort-options": _ctx.pluginSortOptions,
@@ -2904,10 +2918,9 @@ function OverviewIntrovue_type_template_id_6b401110_render(_ctx, _cache, $props,
     })
   }, null, 8, ["plugin-type-options", "default-sort", "plugin-sort-options", "num-available-plugins-by-type", "current-user-email", "is-auto-update-possible", "is-super-user", "is-multi-server-environment", "is-plugins-admin-enabled", "is-valid-consumer", "deactivate-nonce", "activate-nonce", "install-nonce", "update-nonce", "has-some-admin-access"])], 512)), [[_directive_content_intro]]);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=template&id=6b401110
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=template&id=06cf9880
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=script&lang=ts
-
 
 
 
@@ -2964,12 +2977,10 @@ function OverviewIntrovue_type_template_id_6b401110_render(_ctx, _cache, $props,
   components: {
     InstallAllPaidPluginsButton: InstallAllPaidPluginsButton,
     EnrichedHeadline: external_CoreHome_["EnrichedHeadline"],
-    UploadPluginDialog: external_CorePluginsAdmin_["UploadPluginDialog"],
     Marketplace: Marketplace
   },
   directives: {
-    ContentIntro: external_CoreHome_["ContentIntro"],
-    PluginName: external_CorePluginsAdmin_["PluginName"]
+    ContentIntro: external_CoreHome_["ContentIntro"]
   },
   data: function data() {
     return {
@@ -2977,7 +2988,8 @@ function OverviewIntrovue_type_template_id_6b401110_render(_ctx, _cache, $props,
       fetchRequest: null,
       fetchRequestAbortController: null,
       updateData: null,
-      installDisabled: false
+      installDisabled: false,
+      installLoading: false
     };
   },
   computed: {
@@ -2990,7 +3002,7 @@ function OverviewIntrovue_type_template_id_6b401110_render(_ctx, _cache, $props,
     installAllPaidPluginsVisible: function installAllPaidPluginsVisible() {
       var _this$getPaidPluginsT;
 
-      return !this.updating && !this.installDisabled && this.getIsValidConsumer && this.isSuperUser && this.isAutoUpdatePossible && this.isPluginsAdminEnabled && ((_this$getPaidPluginsT = this.getPaidPluginsToInstallAtOnce) === null || _this$getPaidPluginsT === void 0 ? void 0 : _this$getPaidPluginsT.length);
+      return this.getIsValidConsumer && this.isSuperUser && this.isAutoUpdatePossible && this.isPluginsAdminEnabled && ((_this$getPaidPluginsT = this.getPaidPluginsToInstallAtOnce) === null || _this$getPaidPluginsT === void 0 ? void 0 : _this$getPaidPluginsT.length) || this.installDisabled && this.installLoading;
     },
     showThemes: function showThemes() {
       return external_CoreHome_["MatomoUrl"].hashParsed.value.pluginType === 'themes';
@@ -2999,11 +3011,17 @@ function OverviewIntrovue_type_template_id_6b401110_render(_ctx, _cache, $props,
   methods: {
     disableInstallAllPlugins: function disableInstallAllPlugins() {
       this.installDisabled = true;
+      this.installLoading = true;
+    },
+    enableInstallAllPlugins: function enableInstallAllPlugins() {
+      this.installDisabled = false;
+      this.installLoading = false;
     },
     updateOverviewData: function updateOverviewData() {
       var _this = this;
 
       this.updating = true;
+      this.disableInstallAllPlugins();
 
       if (this.fetchRequestAbortController) {
         this.fetchRequestAbortController.abort();
@@ -3022,8 +3040,9 @@ function OverviewIntrovue_type_template_id_6b401110_render(_ctx, _cache, $props,
         _this.updateData = response;
       }).finally(function () {
         _this.updating = false;
-        _this.installDisabled = false;
         _this.fetchRequestAbortController = null;
+
+        _this.enableInstallAllPlugins();
       });
     }
   }
@@ -3034,7 +3053,7 @@ function OverviewIntrovue_type_template_id_6b401110_render(_ctx, _cache, $props,
 
 
 
-OverviewIntrovue_type_script_lang_ts.render = OverviewIntrovue_type_template_id_6b401110_render
+OverviewIntrovue_type_script_lang_ts.render = OverviewIntrovue_type_template_id_06cf9880_render
 
 /* harmony default export */ var OverviewIntro = (OverviewIntrovue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/SubscriptionOverview/SubscriptionOverview.vue?vue&type=template&id=21b40b13

@@ -66,8 +66,8 @@
               :install-nonce="installNonce"
               :update-nonce="updateNonce"
               @trigger-update="this.updateMarketplace()"
-              @request-trial-clicked="this.$emit('trialActionStart')"
-              @start-free-trial-clicked="this.$emit('trialActionStart')"
+              @request-trial-click="this.$emit('trialActionStart')"
+              @start-free-trial-click="this.$emit('trialActionStart')"
   />
 
   <ContentBlock v-if="!loading && pluginsToShow.length == 0">

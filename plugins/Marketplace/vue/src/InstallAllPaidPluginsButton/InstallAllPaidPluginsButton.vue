@@ -9,7 +9,9 @@
   <button
     class="btn"
     @click.prevent="onInstallAllPaidPlugins()"
+    :disabled="disabled"
   >
+    <MatomoLoader v-if="loading" />
     {{ translate('Marketplace_InstallPurchasedPlugins') }}
   </button>
   <div
@@ -47,9 +49,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Matomo, MatomoUrl } from 'CoreHome';
+import { Matomo, MatomoUrl, MatomoLoader } from 'CoreHome';
 
 export default defineComponent({
+  components: { MatomoLoader },
   props: {
     paidPluginsToInstallAtOnce: {
       type: Array,
@@ -58,6 +61,15 @@ export default defineComponent({
     installNonce: {
       type: String,
       required: true,
+    },
+    loading: {
+      type: Boolean,
+      required: true,
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   methods: {
