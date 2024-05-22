@@ -26,7 +26,6 @@ class FeatureFlagManagerTests extends TestCase
 
         $featureFlagManager = new FeatureFlagManager(
             [$configFeatureFlagStorage],
-            [FakeFeatureFlag::class],
             new FakeLogger()
         );
 
