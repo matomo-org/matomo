@@ -368,8 +368,7 @@ PageRenderer.prototype._logMessage = function (message) {
 };
 
 PageRenderer.prototype.clearCookies = function () {
-    // see https://github.com/GoogleChrome/puppeteer/issues/1632#issuecomment-353086292
-    return this.webpage._client.send('Network.clearBrowserCookies');
+    return (await this.webpage.target().createCDPSession()).send('Network.clearBrowserCookies');
 };
 
 PageRenderer.prototype._setupWebpageEvents = function () {
@@ -397,7 +396,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         this.webpage.addStyleTag({content: '* { caret-color: transparent !important; -webkit-transition: none !important; transition: none !important; -webkit-animation: none !important; animation: none !important; }'});
     });
 
-    this.webpage._client.on('Page.lifecycleEvent', (event) => {
+    (await this.webpage.target().createCDPSession()).on('Page.lifecycleEvent', (event) => {
         this.lifeCycleEventEmitter.emit('lifecycleEvent', event);
     });
 
