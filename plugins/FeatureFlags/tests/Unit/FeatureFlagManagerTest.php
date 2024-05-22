@@ -14,7 +14,6 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\FeatureFlags\FeatureFlagInterface;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\FeatureFlags\FeatureFlagStorageInterface;
-use Piwik\Plugins\Marketplace\Api\Exception;
 
 class FeatureFlagManagerTest extends TestCase
 {
