@@ -20,14 +20,14 @@ class DeleteFeatureFlagCommandTest extends ConsoleCommandTestCase
     {
         $container = StaticContainer::getContainer();
         $container->set('featureflag.dir_of_feature_flags', DI::string('tests/System/Commands/FeatureFlags'));
-        $container->get(Config::class)->FeatureFlags =  ['SystemTest_feature' => 'enabled'];
+        $container->get(Config::class)->FeatureFlags = ['ExampleFeatureThatDoesntExistAsClass_feature' => 'enabled'];
 
         $this->applicationTester->run([
             'command' => 'featureflags:delete',
-            'featureFlagName' => 'SystemTest'
+            'featureFlagName' => 'ExampleFeatureThatDoesntExistAsClass'
         ]);
 
         $flags = $container->get(Config::class)->FeatureFlags;
-        $this->assertArrayNotHasKey('SystemTest_feature', $flags);
+        $this->assertArrayNotHasKey('ExampleFeatureThatDoesntExistAsClass_feature', $flags);
     }
 }

@@ -37,9 +37,11 @@ interface FeatureFlagStorageInterface
     public function enableFeatureFlag(FeatureFlagInterface $feature): void;
 
     /**
+     * Delete a feature flag even if it doesn't exist in code as a class
+     *
      * @internal
-     * @param FeatureFlagInterface $feature
+     * @param string $feature
      * @return void
      */
-    public function deleteFeatureFlag(FeatureFlagInterface $feature): void;
+    public function deleteFeatureFlag(string $featureName): void;
 }

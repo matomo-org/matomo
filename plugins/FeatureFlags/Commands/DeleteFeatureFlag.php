@@ -11,7 +11,6 @@ namespace Piwik\Plugins\FeatureFlags\Commands;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Plugins\FeatureFlags\Commands\FeatureFlagFinder\FeatureFlagFinder;
 use Piwik\Plugins\FeatureFlags\FeatureFlagStorageInterface;
 
 class DeleteFeatureFlag extends ConsoleCommand
@@ -25,16 +24,15 @@ class DeleteFeatureFlag extends ConsoleCommand
 
     protected function doExecute(): int
     {
-        $input = $this->getInput();
-        $featureFlag = FeatureFlagFinder::findFeatureFlagByName($input->getArgument('featureFlagName'));
+        $featureFlagName = $this->getInput()->getArgument('featureFlagName');
 
-        if ($featureFlag === null) {
+        if ($featureFlagName === null) {
             throw new \Exception("Feature flag could not be found");
         }
 
         /** @var FeatureFlagStorageInterface $storage */
         foreach (StaticContainer::get('featureflag.storages') as $storage) {
-            $storage->deleteFeatureFlag($featureFlag);
+            $storage->deleteFeatureFlag($featureFlagName);
         }
 
         return self::SUCCESS;

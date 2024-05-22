@@ -90,16 +90,16 @@ class ConfigFeatureFlagStorage implements FeatureFlagStorageInterface
 
     /**
      * @internal
-     * @param FeatureFlagInterface $feature
+     * @param string $feature
      * @return void
      */
-    public function deleteFeatureFlag(FeatureFlagInterface $feature): void
+    public function deleteFeatureFlag(string $featureName): void
     {
-        if (!isset($this->config->FeatureFlags[$this->getConfigNameForFeature($feature->getName())])) {
+        if (!isset($this->config->FeatureFlags[$this->getConfigNameForFeature($featureName)])) {
             return;
         }
 
-        unset($this->config->FeatureFlags[$this->getConfigNameForFeature($feature->getName())]);
+        unset($this->config->FeatureFlags[$this->getConfigNameForFeature($featureName)]);
         $this->config->forceSave();
     }
 

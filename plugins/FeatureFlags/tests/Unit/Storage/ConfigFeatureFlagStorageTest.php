@@ -145,11 +145,8 @@ class ConfigFeatureFlagStorageTest extends TestCase
         $configMock = $this->createMock(Config::class);
         $configMock->expects($this->never())->method('forceSave');
 
-        $mockFeature = $this->createMock(FeatureFlagInterface::class);
-        $mockFeature->method('getName')->willReturn('TestFeature');
-
         $sut = new ConfigFeatureFlagStorage($configMock);
-        $sut->deleteFeatureFlag($mockFeature);
+        $sut->deleteFeatureFlag('UnknownFeature');
     }
 
     public function testDeleteFeatureRemovesFlagFromConfig(): void
@@ -167,11 +164,8 @@ class ConfigFeatureFlagStorageTest extends TestCase
             ->getMock();
         $configMock->expects($this->once())->method('forceSave');
 
-        $mockFeature = $this->createMock(FeatureFlagInterface::class);
-        $mockFeature->method('getName')->willReturn('TestFeature');
-
         $sut = new ConfigFeatureFlagStorage($configMock);
-        $sut->deleteFeatureFlag($mockFeature);
+        $sut->deleteFeatureFlag('TestFeature');
 
         $this->assertEquals([], $configMock->FeatureFlags);
     }
