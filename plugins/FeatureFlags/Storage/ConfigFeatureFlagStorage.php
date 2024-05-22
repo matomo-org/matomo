@@ -69,7 +69,7 @@ class ConfigFeatureFlagStorage implements FeatureFlagStorageInterface
             return;
         }
 
-        $this->config->FeatureFlags[$this->getConfigNameForFeature($feature->getName())] = "disabled";
+        $this->config->FeatureFlags[$this->getConfigNameForFeature($feature->getName())] = self::CONFIG_FEATURE_DISABLED_VALUE;
         $this->config->forceSave();
     }
 
@@ -84,7 +84,7 @@ class ConfigFeatureFlagStorage implements FeatureFlagStorageInterface
             $this->config->FeatureFlags = [];
         }
 
-        $this->config->FeatureFlags[$this->getConfigNameForFeature($feature->getName())] = "enabled";
+        $this->config->FeatureFlags[$this->getConfigNameForFeature($feature->getName())] = self::CONFIG_FEATURE_ENABLED_VALUE;
         $this->config->forceSave();
     }
 
