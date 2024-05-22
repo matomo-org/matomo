@@ -90,7 +90,7 @@
               v-html="$sanitize(getMatchedSiteName(site.name))"
               tabindex="4"
               :href="getUrlForSiteId(site.idsite)"
-              :title="site.name"
+              :title="htmlEntities(site.name)"
             />
           </li>
         </ul>
@@ -402,6 +402,9 @@ export default defineComponent({
       });
 
       return `?${newQuery}#?${newHash}`;
+    },
+    htmlEntities(v: string) {
+      return Matomo.helper.htmlEntities(v);
     },
   },
 });
