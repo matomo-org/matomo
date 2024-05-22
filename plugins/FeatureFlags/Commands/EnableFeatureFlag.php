@@ -19,7 +19,7 @@ class EnableFeatureFlag extends ConsoleCommand
     protected function configure()
     {
         $this->setName('featureflags:enable');
-        $this->setDescription('Enable a given feature flag)');
+        $this->setDescription('Enable a given feature flag');
         $this->addRequiredArgument('featureFlagName');
     }
 

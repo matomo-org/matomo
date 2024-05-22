@@ -19,7 +19,7 @@ class DisableFeatureFlag extends ConsoleCommand
     protected function configure()
     {
         $this->setName('featureflags:disable');
-        $this->setDescription('Disables a given feature flag)');
+        $this->setDescription('Disables a given feature flag');
         $this->addRequiredArgument('featureFlagName');
     }
 
