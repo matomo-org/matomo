@@ -57,7 +57,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         $this->featureFlagManager = new FeatureFlagManager(
             [new ConfigFeatureFlagStorage(Config::getInstance())],
-            [Example::class],
             StaticContainer::get(LoggerInterface::class)
         );
     }
