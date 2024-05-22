@@ -1,0 +1,4 @@
+{
+  "name": "FeatureFlags",
+  "description": "Provides ability to enable/disable/delete feature flags, for testing things internally"
+}
