@@ -172,5 +172,40 @@ describe('Marketplace_StartFreeTrial', function () {
 
       expect(notificationText).to.match(/free trial has started .+ Paid Plugin 1/i);
     });
+
+    it('should display the Install all paid plugins button in a loading state', async function () {
+      setEnvironment(true);
+
+      await goToPluginsPage();
+
+      await page.click(startFreeTrialSelector);
+      await page.waitForSelector(inProgressModalSelector, { visible: true });
+      await page.waitForSelector(inProgressModalSelector, { hidden: true });
+      await page.waitForSelector('.notification-success', { visible: true });
+
+      await page.waitForSelector('.installAllPaidPlugins .matomo-loader', { visible: true });
+
+      expect(await page.screenshotSelector('.marketplace .installAllPaidPlugins button'))
+        .to.matchImage('installAllPaidPlugins_loading');
+    });
+
+    it('should display the Install all paid plugins button in an active state', async function () {
+      setEnvironment(true);
+
+      await goToPluginsPage();
+
+      await page.click(startFreeTrialSelector);
+      await page.waitForSelector(inProgressModalSelector, { visible: true });
+      await page.waitForSelector(inProgressModalSelector, { hidden: true });
+      await page.waitForSelector('.notification-success', { visible: true });
+
+      await page.waitForSelector('.installAllPaidPlugins .matomo-loader', { visible: true });
+      await page.waitForNetworkIdle();
+      await page.waitForTimeout(250);
+      await page.waitForSelector('.installAllPaidPlugins .matomo-loader', { hidden: true });
+
+      expect(await page.screenshotSelector('.marketplace .installAllPaidPlugins button'))
+        .to.matchImage('installAllPaidPlugins_active');
+    });
   });
 });
