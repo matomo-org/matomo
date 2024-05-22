@@ -84,7 +84,6 @@ var PageRenderer = function (baseUrl, page, originalUserAgent) {
     this.selectorMarkerClass = 0;
     this.pageLogs = [];
     this.baseUrl = baseUrl;
-    this.lifeCycleEventEmitter = new EventEmitter();
     this.activeRequestCount = 0;
 
     if (this.baseUrl.substring(-1) !== '/') {
@@ -367,7 +366,7 @@ PageRenderer.prototype._logMessage = function (message) {
     this.pageLogs.push(message);
 };
 
-PageRenderer.prototype.clearCookies = function () {
+PageRenderer.prototype.clearCookies = async function () {
     return (await this.webpage.target().createCDPSession()).send('Network.clearBrowserCookies');
 };
 
@@ -394,10 +393,6 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         });
 
         this.webpage.addStyleTag({content: '* { caret-color: transparent !important; -webkit-transition: none !important; transition: none !important; -webkit-animation: none !important; animation: none !important; }'});
-    });
-
-    (await this.webpage.target().createCDPSession()).on('Page.lifecycleEvent', (event) => {
-        this.lifeCycleEventEmitter.emit('lifecycleEvent', event);
     });
 
     const parsedPiwikUrl = parseUrl(config.piwikUrl);
