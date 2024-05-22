@@ -30,7 +30,8 @@ async function main() {
 
     const browser = await puppeteer.launch(config.browserConfig);
     const webpage = await browser.newPage();
-    await (await webpage.target().createCDPSession()).send('Animation.setPlaybackRate', { playbackRate: 50 }); // make animations run 50 times faster, so we don't have to wait as much
+    const CPDSession = await webpage.target().createCDPSession();
+    await CPDSession.send('Animation.setPlaybackRate', { playbackRate: 50 }); // make animations run 50 times faster, so we don't have to wait as much
 
     // assume the URI points to a folder and make sure Piwik won't cut off the last path segment
     if (config.phpServer.REQUEST_URI.slice(-1) !== '/') {
@@ -39,7 +40,7 @@ async function main() {
 
     const originalUserAgent = await browser.userAgent();
 
-    setUpGlobals(config, webpage, originalUserAgent);
+    setUpGlobals(config, webpage, CPDSession, originalUserAgent);
 
     mocha = new Mocha({
         ui: 'bdd',

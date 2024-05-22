@@ -10,7 +10,7 @@ const path = require('path');
 const chai = require('chai');
 const { PageRenderer } = require('./page-renderer');
 
-module.exports = function setUpGlobals(config, page, originalUserAgent) {
+module.exports = function setUpGlobals(config, page, CPDSession, originalUserAgent) {
     global.config = config;
 
     global.PIWIK_INCLUDE_PATH = path.join(__dirname, '..', '..', '..', '..');
@@ -23,7 +23,8 @@ module.exports = function setUpGlobals(config, page, originalUserAgent) {
     global.testEnvironment = require('./test-environment').TestingEnvironment;
     global.app = require('./app').Application;
     global.expect = chai.expect;
-    global.page = new PageRenderer(config.piwikUrl + path.join("tests", "PHPUnit", "proxy"), page, originalUserAgent);
+    global.page = new PageRenderer(config.piwikUrl + path.join("tests", "PHPUnit", "proxy"), page, CPDSession, originalUserAgent);
+    global.CPDSession = CPDSession;
     // The following variables need to be in sync with Fixture::ADMIN_USER_LOGIN and Fixture::ADMIN_USER_PASSWORD
     global.superUserLogin = 'superUserLogin';
     global.superUserPassword = 'pas3!"§$%&/()=?\'ㄨ<|-_#*+~>word';

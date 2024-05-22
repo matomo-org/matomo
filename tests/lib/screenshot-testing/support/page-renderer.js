@@ -77,13 +77,15 @@ const AUTO_WAIT_METHODS = {// TODO: remove this to keep it consistent?
     'reload': true,
 };
 
-var PageRenderer = function (baseUrl, page, originalUserAgent) {
+var PageRenderer = function (baseUrl, page, CPDSession, originalUserAgent) {
     this.webpage = page;
+    this.CPDSession = CPDSession;
     this.originalUserAgent = originalUserAgent;
 
     this.selectorMarkerClass = 0;
     this.pageLogs = [];
     this.baseUrl = baseUrl;
+    this.lifeCycleEventEmitter = new EventEmitter();
     this.activeRequestCount = 0;
 
     if (this.baseUrl.substring(-1) !== '/') {
@@ -366,8 +368,9 @@ PageRenderer.prototype._logMessage = function (message) {
     this.pageLogs.push(message);
 };
 
-PageRenderer.prototype.clearCookies = async function () {
-    return (await this.webpage.target().createCDPSession()).send('Network.clearBrowserCookies');
+PageRenderer.prototype.clearCookies = function () {
+    // see https://github.com/GoogleChrome/puppeteer/issues/1632#issuecomment-353086292
+    return this.CPDSession.send('Network.clearBrowserCookies');
 };
 
 PageRenderer.prototype._setupWebpageEvents = function () {
@@ -393,6 +396,10 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         });
 
         this.webpage.addStyleTag({content: '* { caret-color: transparent !important; -webkit-transition: none !important; transition: none !important; -webkit-animation: none !important; animation: none !important; }'});
+    });
+
+    this.CPDSession.on('Page.lifecycleEvent', (event) => {
+        this.lifeCycleEventEmitter.emit('lifecycleEvent', event);
     });
 
     const parsedPiwikUrl = parseUrl(config.piwikUrl);
