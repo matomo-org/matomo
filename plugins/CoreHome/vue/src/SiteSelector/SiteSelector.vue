@@ -356,11 +356,11 @@ export default defineComponent({
       if (index === -1
         || this.isLoading // only highlight when we know the displayed results are for a search
       ) {
-        return Matomo.helper.htmlEntities(siteName);
+        return this.htmlEntities(siteName);
       }
 
-      const previousPart = Matomo.helper.htmlEntities(siteName.substring(0, index));
-      const lastPart = Matomo.helper.htmlEntities(
+      const previousPart = this.htmlEntities(siteName.substring(0, index));
+      const lastPart = this.htmlEntities(
         siteName.substring(index + this.searchTerm.length),
       );
 
