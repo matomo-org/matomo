@@ -10,7 +10,7 @@
     "chai-image-assert": "^1.2.0",
     "fs-extra": "^7.0.1",
     "mocha": "^8.2.0",
-    "puppeteer": "^21.0.0",
+    "puppeteer": "^20.0.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "url-parse": "^1.5.3",
