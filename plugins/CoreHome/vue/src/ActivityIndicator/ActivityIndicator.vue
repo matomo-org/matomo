@@ -7,7 +7,7 @@
 
 <template>
   <div v-show="loading" class="loadingPiwik">
-    <img src="plugins/Morpheus/images/loading-blue.gif" alt=""/>
+    <MatomoLoader />
     <span>{{ loadingMessage }}</span>
   </div>
 </template>
@@ -15,8 +15,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { translate } from '../translate';
+import MatomoLoader from '../MatomoLoader/MatomoLoader';
 
 export default defineComponent({
+  components: { MatomoLoader },
   props: {
     loading: {
       type: Boolean,
