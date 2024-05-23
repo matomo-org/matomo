@@ -434,15 +434,18 @@ JS;
                 div.innerHTML = errorBlock+settings.OptOutErrorNoCookies+'</p>';
                 return;
             }
-            if (location.protocol !== 'https:') {
-                div.innerHTML = errorBlock+settings.OptOutErrorNotHttps+'</p>';
-                return;
-            }        
+
             if (errorMessage !== null) {
                 div.innerHTML = errorBlock+errorMessage+'</p>';
                 return;
             }
+
             var content = '';        
+
+            if (location.protocol !== 'https:') {
+                content += errorBlock + settings.OptOutErrorNotHttps + '</p>';
+            }
+
             if (consent) {
                 if (settings.showIntro) {
                     content += '<p>'+settings.YouMayOptOut2+' '+settings.YouMayOptOut3+'</p>';                       
