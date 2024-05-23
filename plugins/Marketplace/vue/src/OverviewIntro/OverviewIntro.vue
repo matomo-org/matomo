@@ -50,7 +50,8 @@
       :update-nonce="updateNonce"
       :has-some-admin-access="hasSomeAdminAccess"
       @triggerUpdate="this.updateOverviewData()"
-      @trialActionStart="this.disableInstallAllPlugins()"
+      @startTrialStart="this.disableInstallAllPlugins(true)"
+      @startTrialStop="this.disableInstallAllPlugins(false)"
     />
   </div>
 </template>
@@ -168,9 +169,9 @@ export default defineComponent({
     },
   },
   methods: {
-    disableInstallAllPlugins() {
+    disableInstallAllPlugins(isLoading: boolean) {
       this.installDisabled = true;
-      this.installLoading = true;
+      this.installLoading = isLoading;
     },
     enableInstallAllPlugins() {
       this.installDisabled = false;
@@ -178,7 +179,9 @@ export default defineComponent({
     },
     updateOverviewData() {
       this.updating = true;
-      this.disableInstallAllPlugins();
+      if (this.isSuperUser) {
+        this.disableInstallAllPlugins(true);
+      }
 
       if (this.fetchRequestAbortController) {
         this.fetchRequestAbortController.abort();

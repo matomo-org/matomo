@@ -15,7 +15,9 @@
     :current-user-email="currentUserEmail"
     :is-valid-consumer="isValidConsumer"
     v-model="showStartFreeTrialForPlugin"
-    @trialStarted="$emit('triggerUpdate')"
+    @trialStarted="this.$emit('triggerUpdate');"
+    @startTrialStart="this.$emit('startTrialStart');"
+    @startTrialStop="this.$emit('startTrialStop');"
   />
 
   <PluginDetailsModal
@@ -30,8 +32,8 @@
     :activate-nonce="activateNonce"
     :install-nonce="installNonce"
     :update-nonce="updateNonce"
-    @requestTrial="this.showRequestTrialForPlugin = $event"
-    @startFreeTrial="this.showStartFreeTrialForPlugin = $event"
+    @requestTrial="this.requestTrial($event)"
+    @startFreeTrial="this.startFreeTrial($event)"
   />
 
   <div class="pluginListContainer row" v-if="pluginsToShow.length > 0">
@@ -182,7 +184,7 @@ export default defineComponent({
     RequestTrial,
     StartFreeTrial,
   },
-  emits: ['triggerUpdate', 'startFreeTrialClick', 'requestTrialClick'],
+  emits: ['triggerUpdate', 'startTrialStart', 'startTrialStop'],
   watch: {
     pluginsToShow(newValue, oldValue) {
       if (newValue && newValue !== oldValue) {
@@ -320,11 +322,9 @@ export default defineComponent({
     },
     requestTrial(plugin: TObject) {
       this.showRequestTrialForPlugin = plugin;
-      this.$emit('requestTrialClick');
     },
     startFreeTrial(plugin: TObject) {
       this.showStartFreeTrialForPlugin = plugin;
-      this.$emit('startFreeTrialClick');
     },
   },
 });

@@ -66,8 +66,8 @@
               :install-nonce="installNonce"
               :update-nonce="updateNonce"
               @trigger-update="this.updateMarketplace()"
-              @request-trial-click="this.$emit('trialActionStart')"
-              @start-free-trial-click="this.$emit('trialActionStart')"
+              @start-trial-start="this.$emit('startTrialStart')"
+              @start-trial-stop="this.$emit('startTrialStop')"
   />
 
   <ContentBlock v-if="!loading && pluginsToShow.length == 0">
@@ -161,7 +161,7 @@ export default defineComponent({
       pluginsToShow: [],
     };
   },
-  emits: ['triggerUpdate', 'trialActionStart'],
+  emits: ['triggerUpdate', 'startTrialStart', 'startTrialStop'],
   mounted() {
     Matomo.postEvent('Marketplace.Marketplace.mounted', { element: this.$refs.root });
     watch(() => MatomoUrl.hashParsed.value, () => {
