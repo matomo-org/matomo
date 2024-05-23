@@ -22,5 +22,5 @@ return [
      */
     'featureflag.dir_of_feature_flags' => 'FeatureFlags',
     FeatureFlagManager::class => DI::autowire()
-        ->constructor(DI::get('featureflag.storages'), DI::get('featureflag.feature_flags'), DI::get(Logger::class)),
+        ->constructor(DI::get('featureflag.storages'), DI::get(Logger::class)),
 ];
