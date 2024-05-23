@@ -18,7 +18,7 @@ class DeleteFeatureFlag extends ConsoleCommand
     protected function configure()
     {
         $this->setName('featureflags:delete');
-        $this->setDescription('Deletes a given feature flag');
+        $this->setDescription('Delete a given feature flag');
         $this->addRequiredArgument('featureFlagName');
     }
 
