@@ -63,9 +63,14 @@ class RowEvolution
 
         // if goal metrics should be shown, we replace the metrics
         if ($showGoalMetricsForGoal !== false) {
-            $metadata['metrics'] = [
-                'nb_visits' => $metadata['metrics']['nb_visits'],
-            ];
+            if (array_key_exists('nb_visits', $metadata['metrics'])) {
+                $metadata['metrics'] = [
+                    'nb_visits' => $metadata['metrics']['nb_visits'],
+                ];
+            } else {
+                // if no visits are available, simply use the first available metric
+                $metadata['metrics'] = array_slice($metadata['metrics'], 0, 1);
+            }
 
             // Use ecommerce specific metrics / column names when only showing ecommerce metrics
             if ($showGoalMetricsForGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
