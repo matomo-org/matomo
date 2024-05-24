@@ -37,18 +37,18 @@ describe('Marketplace_StartFreeTrial', function () {
     expect(await page.screenshotSelector(selector)).to.matchImage(name);
   }
 
+  function setEnvironment(createAccountResponseCode) {
+    testEnvironment.overrideConfig('General', 'enable_plugins_admin', '1');
+
+    testEnvironment.idSitesViewAccess = [];
+    testEnvironment.mockMarketplaceApiService = 1;
+    testEnvironment.createAccountResponseCode = createAccountResponseCode;
+    testEnvironment.startFreeTrialSuccess = true;
+    testEnvironment.save();
+  }
+
   describe('create new account and start free trial', function() {
     this.title = parentSuite.title; // to make sure the screenshot prefix is the same
-
-    function setEnvironment(createAccountResponseCode) {
-      testEnvironment.overrideConfig('General', 'enable_plugins_admin', '1');
-
-      testEnvironment.mockMarketplaceApiService = 1;
-      testEnvironment.createAccountResponseCode = createAccountResponseCode;
-      testEnvironment.startFreeTrialSuccess = true;
-      testEnvironment.save();
-    }
-
     async function typeEmail(email) {
       const emailInputSelector = `${noLicenseModalSelector} input[name="email"]`;
 
@@ -173,4 +173,41 @@ describe('Marketplace_StartFreeTrial', function () {
       expect(notificationText).to.match(/free trial has started .+ Paid Plugin 1/i);
     });
   });
+
+  describe('install all paid plugins', function() {
+    this.title = parentSuite.title; // to make sure the screenshot prefix is the same
+
+    it('should display the Install all paid plugins button in a loading state', async function () {
+      setEnvironment(true);
+
+      await goToPluginsPage();
+
+      await page.click(startFreeTrialSelector);
+      await page.waitForSelector(inProgressModalSelector, { visible: true });
+      await page.waitForSelector(inProgressModalSelector, { hidden: true });
+      await page.waitForSelector('.notification-success', { visible: true });
+
+      await page.waitForSelector('.installAllPaidPlugins .matomo-loader', { visible: true });
+
+      expect(await page.screenshotSelector('.marketplace .installAllPaidPlugins button'))
+        .to.matchImage('installAllPaidPlugins_loading');
+    });
+
+    it('should display the Install all paid plugins button in an active state', async function () {
+      await page.waitForSelector('.installAllPaidPlugins .matomo-loader', { hidden: true });
+
+      const installAllPaidPlugins = await page.$('.installAllPaidPlugins');
+
+      expect(installAllPaidPlugins).to.not.match(/matomo-loader/i);
+    });
+
+    it('should show a dialog showing a list of all possible plugins to install', async function() {
+      // expects an active 'Install paid plugins' button from previous test
+      await page.click('.installAllPaidPlugins button');
+      await page.mouse.move(-10, -10);
+      await page.waitForTimeout(250);
+
+      await screenshotModalSelector('.modal.open', 'install_all_paid_plugins_at_once');
+    });
+  })
 });

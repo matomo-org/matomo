@@ -65,7 +65,9 @@
               :activate-nonce="activateNonce"
               :install-nonce="installNonce"
               :update-nonce="updateNonce"
-              @triggerUpdate="this.fetchPlugins()"
+              @trigger-update="this.updateMarketplace()"
+              @start-trial-start="this.$emit('startTrialStart')"
+              @start-trial-stop="this.$emit('startTrialStop')"
   />
 
   <ContentBlock v-if="!loading && pluginsToShow.length == 0">
@@ -159,6 +161,7 @@ export default defineComponent({
       pluginsToShow: [],
     };
   },
+  emits: ['triggerUpdate', 'startTrialStart', 'startTrialStop'],
   mounted() {
     Matomo.postEvent('Marketplace.Marketplace.mounted', { element: this.$refs.root });
     watch(() => MatomoUrl.hashParsed.value, () => {
@@ -217,7 +220,10 @@ export default defineComponent({
         sort: event,
       });
     },
-    fetchPlugins() {
+    updateMarketplace() {
+      this.fetchPlugins(() => this.$emit('triggerUpdate'));
+    },
+    fetchPlugins(cb: (() => void) | void) {
       this.loading = true;
       this.pluginsToShow = [];
 
@@ -245,6 +251,9 @@ export default defineComponent({
         },
       ).then((response) => {
         this.pluginsToShow = response;
+        if (typeof cb === 'function') {
+          cb();
+        }
       }).finally(() => {
         this.loading = false;
         this.fetchRequestAbortController = null;

@@ -15,7 +15,9 @@
     :current-user-email="currentUserEmail"
     :is-valid-consumer="isValidConsumer"
     v-model="showStartFreeTrialForPlugin"
-    @trialStarted="$emit('triggerUpdate')"
+    @trialStarted="this.$emit('triggerUpdate');"
+    @startTrialStart="this.$emit('startTrialStart');"
+    @startTrialStop="this.$emit('startTrialStop');"
   />
 
   <PluginDetailsModal
@@ -30,8 +32,8 @@
     :activate-nonce="activateNonce"
     :install-nonce="installNonce"
     :update-nonce="updateNonce"
-    @requestTrial="this.showRequestTrialForPlugin = $event"
-    @startFreeTrial="this.showStartFreeTrialForPlugin = $event"
+    @requestTrial="this.requestTrial($event)"
+    @startFreeTrial="this.startFreeTrial($event)"
   />
 
   <div class="pluginListContainer row" v-if="pluginsToShow.length > 0">
@@ -85,8 +87,8 @@
                     :plugin="plugin"
                     :in-modal="false"
                     @openDetailsModal="this.openDetailsModal(plugin)"
-                    @requestTrial="showRequestTrialForPlugin = plugin"
-                    @startFreeTrial="showStartFreeTrialForPlugin = plugin"
+                    @requestTrial="this.requestTrial(plugin)"
+                    @startFreeTrial="this.startFreeTrial(plugin)"
                   />
                 </div>
                 <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
@@ -111,13 +113,14 @@ import CTAContainer from './CTAContainer.vue';
 import RequestTrial from '../RequestTrial/RequestTrial.vue';
 import StartFreeTrial from '../StartFreeTrial/StartFreeTrial.vue';
 import PluginDetailsModal from '../PluginDetailsModal/PluginDetailsModal.vue';
+import { TObject } from '../types';
 
 const { $ } = window;
 
 interface PluginListState {
-  showRequestTrialForPlugin: Record<string, unknown> | null;
-  showStartFreeTrialForPlugin: Record<string, unknown> | null;
-  showPluginDetailsForPlugin: Record<string, unknown> | null;
+  showRequestTrialForPlugin: TObject | null;
+  showStartFreeTrialForPlugin: TObject | null;
+  showPluginDetailsForPlugin: TObject | null;
 }
 
 export default defineComponent({
@@ -181,7 +184,7 @@ export default defineComponent({
     RequestTrial,
     StartFreeTrial,
   },
-  emits: ['triggerUpdate'],
+  emits: ['triggerUpdate', 'startTrialStart', 'startTrialStop'],
   watch: {
     pluginsToShow(newValue, oldValue) {
       if (newValue && newValue !== oldValue) {
@@ -214,7 +217,7 @@ export default defineComponent({
         (plugin: any) => plugin.name === showPlugin,
       );
       if (pluginToShow.length === 1) {
-        const [plugin] = pluginToShow as Record<string, unknown>[];
+        const [plugin] = pluginToShow as TObject[];
 
         this.openDetailsModal(plugin);
         this.scrollPluginCardIntoView(plugin);
@@ -289,7 +292,7 @@ export default defineComponent({
         }
       });
     },
-    clickCard(event: MouseEvent, plugin: Record<string, unknown>) {
+    clickCard(event: MouseEvent, plugin: TObject) {
       // check if the target is a link or is a descendant of a link
       // to skip direct clicks on links within the card, we want those honoured
       if ($(event.target as HTMLElement).closest('a:not(.card-title-link)').length) {
@@ -299,10 +302,10 @@ export default defineComponent({
       event.stopPropagation();
       this.openDetailsModal(plugin);
     },
-    openDetailsModal(plugin: Record<string, unknown>) {
+    openDetailsModal(plugin: TObject) {
       this.showPluginDetailsForPlugin = plugin;
     },
-    scrollPluginCardIntoView(plugin: Record<string, unknown>) {
+    scrollPluginCardIntoView(plugin: TObject) {
       const $titles = $(`.pluginListContainer .card-title:contains("${plugin.displayName}")`);
 
       if ($titles.length !== 1) {
@@ -316,6 +319,12 @@ export default defineComponent({
       }
 
       $cards[0].scrollIntoView({ block: 'start', behavior: 'smooth' });
+    },
+    requestTrial(plugin: TObject) {
+      this.showRequestTrialForPlugin = plugin;
+    },
+    startFreeTrial(plugin: TObject) {
+      this.showStartFreeTrialForPlugin = plugin;
     },
   },
 });
