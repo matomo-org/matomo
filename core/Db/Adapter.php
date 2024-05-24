@@ -87,18 +87,6 @@ class Adapter
     }
 
     /**
-     * Get default port for named adapter
-     *
-     * @param string $adapterName
-     * @return int
-     */
-    public static function getDefaultPortForAdapter($adapterName)
-    {
-        $className = self::getAdapterClassName($adapterName);
-        return call_user_func(array($className, 'getDefaultPort'));
-    }
-
-    /**
      * Get list of adapters
      *
      * @return array
@@ -118,7 +106,7 @@ class Adapter
         foreach ($adapterNames as $adapterName) {
             $className = '\Piwik\Db\Adapter\\' . $adapterName;
             if (call_user_func(array($className, 'isEnabled'))) {
-                $adapters[strtoupper($adapterName)] = call_user_func(array($className, 'getDefaultPort'));
+                $adapters[] = strtoupper($adapterName);
             }
         }
 

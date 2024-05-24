@@ -46,7 +46,7 @@ class FormDatabaseSetup extends QuickForm2
 
         $availableAdapters = Adapter::getAdapters();
         $adapters = array();
-        foreach ($availableAdapters as $adapter => $port) {
+        foreach ($availableAdapters as $adapter) {
             $adapters[$adapter] = $adapter;
             if (Adapter::isRecommendedAdapter($adapter)) {
                 $adapters[$adapter] .= ' (' . Piwik::translate('General_Recommended') . ')';
@@ -56,6 +56,10 @@ class FormDatabaseSetup extends QuickForm2
         $this->addElement('text', 'host')
             ->setLabel(Piwik::translate('Installation_DatabaseSetupServer'))
             ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupServer')));
+
+        $this->addElement('text', 'port')
+            ->setLabel(Piwik::translate('Installation_DatabaseSetupServerPort'))
+            ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupServerPort')));
 
         $user = $this->addElement('text', 'username')
             ->setLabel(Piwik::translate('Installation_DatabaseSetupLogin'));
@@ -98,9 +102,10 @@ class FormDatabaseSetup extends QuickForm2
             'type'          => $defaultDatabaseType,
             'tables_prefix' => 'matomo_',
             'schema'        => 'Mysql',
+            'port'          => '3306',
         );
 
-        $defaultsEnvironment = array('host', 'adapter', 'tables_prefix', 'username', 'schema', 'password', 'dbname');
+        $defaultsEnvironment = array('host', 'adapter', 'tables_prefix', 'username', 'schema', 'password', 'dbname', 'port');
         foreach ($defaultsEnvironment as $name) {
             $envName = 'DATABASE_' . strtoupper($name); // fyi getenv is case insensitive
             $envNameMatomo = 'MATOMO_' . $envName;
@@ -130,11 +135,9 @@ class FormDatabaseSetup extends QuickForm2
         }
 
         $adapter = $this->getSubmitValue('adapter');
-        $port = Adapter::getDefaultPortForAdapter($adapter);
-
         $host = $this->getSubmitValue('host');
         $tables_prefix = $this->getSubmitValue('tables_prefix');
-        
+
         $dbInfos = array(
             'host'          => (is_null($host)) ? $host : trim($host),
             'username'      => $this->getSubmitValue('username'),
@@ -142,7 +145,7 @@ class FormDatabaseSetup extends QuickForm2
             'dbname'        => $dbname,
             'tables_prefix' => (is_null($tables_prefix)) ? $tables_prefix : trim($tables_prefix),
             'adapter'       => $adapter,
-            'port'          => $port,
+            'port'          => $this->getSubmitValue('port'),
             'schema'        => $this->getSubmitValue('schema'),
             'type'          => $this->getSubmitValue('type'),
             'enable_ssl'    => false
