@@ -1,0 +1,40 @@
+#!/bin/bash
+
+## Description: Initialize Matomo including test environment
+## Usage: matomo:init:tests
+## Example: ddev matomo:init:tests
+
+echo "Run composer install ..."
+ddev composer install
+
+echo "Run npm install ..."
+ddev npm install
+
+echo "Copy initial config files ..."
+echo "@see https://developer.matomo.org/guides/tests-php#requirements"
+echo "@see https://developer.matomo.org/guides/tests-ui#configuring-ui-tests"
+ddev exec 'if [ ! -f config/config.ini.php ]; then cp .ddev/initial-config/config.ini.php config/config.ini.php; fi'
+ddev exec 'if [ ! -f tests/UI/config.js ]; then cp .ddev/initial-config/tests/UI/config.js tests/UI/config.js; fi'
+
+echo "Enable development mode and disable assets merging ..."
+ddev exec './console development:enable'
+ddev exec './console config:set Development.disable_merged_assets 1'
+
+echo "Initialise test database: setup OmniFixture ..."
+ddev exec './console tests:setup-fixture OmniFixture'
+
+echo "Install the JavaScript dependencies for the UI tests ..."
+ddev exec 'cd tests/lib/screenshot-testing && npm install'
+
+echo "TODO: Locally install the git-lfs extension to be able to download and commit UI screenshots."
+echo "@see https://github.com/git-lfs/git-lfs#installing"
+echo "@see https://git-lfs.com/"
+read -n 1 -s -r -p "Press any key when ready to continue ..."
+echo ""
+
+echo "[git] Pull screenshots for UI tests ..."
+git lfs pull --exclude=
+
+echo "Done: Matomo tests setup initialisation finished."
+echo ""
+

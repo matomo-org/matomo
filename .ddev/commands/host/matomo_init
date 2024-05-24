@@ -1,0 +1,13 @@
+#!/bin/bash
+
+## Description: Initialize Matomo including test environment
+## Usage: matomo:init
+## Example: ddev matomo:init
+
+echo "Copy initial config file ..."
+echo "@see https://developer.matomo.org/guides/tests-php#requirements"
+ddev exec 'if [ ! -f config/config.ini.php ]; then cp .ddev/initial-config/config.ini.php config/config.ini.php; fi'
+
+echo "Done: Basic Matomo instance initialisation finished."
+echo ""
+
