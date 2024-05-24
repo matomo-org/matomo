@@ -702,8 +702,18 @@ class Manager
     {
         Log::debug("Loaded plugins: " . implode(", ", array_keys($this->getLoadedPlugins())));
 
+        $pluginsActivated = $this->pluginList->getActivatedPlugins();
+
         foreach ($this->getLoadedPlugins() as $plugin) {
             $this->installPluginIfNecessary($plugin);
+
+            $pluginName = $plugin->getPluginName();
+
+            // if a new plugin was added that is always activated, ensure activate is called once nevertheless
+            // otherwise the `activate` method of the plugin might never get called.
+            if ($this->isPluginAlwaysActivated($pluginName) && !in_array($pluginName, $pluginsActivated)) {
+                $this->activatePlugin($pluginName);
+            }
         }
     }
 
