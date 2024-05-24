@@ -1,5 +1,12 @@
 [
   {
+    "title": "Funnels - Enhanced Analysis and Comparison Capabilities",
+    "description": "Funnels now offer an improved visualization and data table that provide a clear breakdown of proceeded visits, new entries, exits, and skipped steps at each stage, making it easier to identify areas for optimization. The comparison functionality is improved to allow for a more useful analysis of funnel performance across different segments and date ranges.",
+    "version": "5.1.0-b5",
+    "link_name": "For more information go here",
+    "link": "https://matomo.org/blog/2024/05/funnels-feature-updates?mtm_campaign=in-app-funnels-notification&mtm_kwd=funnels&mtm_source=in-app&mtm_medium=notification&mtm_content=funnels-feature-updates&mtm_group=in-app"
+  },
+  {
     "title": "New Plugin Alert: Never miss a bug again with Crash Analytics!",
     "description": "This powerful new Matomo On-Premise plugin automatically tracks JavaScript errors in real-time, allowing for rapid bug resolution. With custom alerts, scheduled crash reports and the ability to precisely trace the steps a web visitor took to generate a bug, you can enhance your website's reliability, boost conversion rates and ultimately drive revenue.",
     "version": "5.0.0-rc3",
