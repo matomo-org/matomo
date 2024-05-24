@@ -268,7 +268,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Sort::METHOD_ALPHA => Piwik::translate('Marketplace_SortByAlpha'),
         );
         $view->defaultSort = Sort::DEFAULT_SORT;
-        $view->hasLicenseKey = $this->licenseKey->has();
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
         $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
         $view->deactivateNonce = Nonce::getNonce(PluginsController::DEACTIVATE_NONCE);
