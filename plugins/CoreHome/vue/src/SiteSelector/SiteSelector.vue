@@ -74,7 +74,10 @@
           @click="onAllSitesClick($event)"
         />
       </div>
-      <div class="custom_select_container">
+      <div
+        class="custom_select_container"
+        v-tooltips="{ content: tooltipContent }"
+      >
         <ul
           class="custom_select_ul_list"
           @click="showSitesList = false"
@@ -90,7 +93,7 @@
               v-html="$sanitize(getMatchedSiteName(site.name))"
               tabindex="4"
               :href="getUrlForSiteId(site.idsite)"
-              :title="htmlEntities(site.name)"
+              :title="site.name"
             />
           </li>
         </ul>
@@ -118,6 +121,7 @@
 
 <script lang="ts">
 import { DeepReadonly, defineComponent } from 'vue';
+import Tooltips from '../Tooltips/Tooltips';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
 import AllSitesLink from './AllSitesLink.vue';
@@ -183,6 +187,7 @@ export default defineComponent({
   directives: {
     FocusAnywhereButHere,
     FocusIf,
+    Tooltips,
   },
   watch: {
     searchTerm() {
@@ -293,6 +298,12 @@ export default defineComponent({
       }
 
       return null;
+    },
+    tooltipContent() {
+      return function tooltipContent(this: HTMLElement) {
+        const title = $(this).attr('title') || '';
+        return Matomo.helper.htmlEntities(title);
+      };
     },
   },
   methods: {
