@@ -43,6 +43,7 @@ describe('Marketplace_StartFreeTrial', function () {
     function setEnvironment(createAccountResponseCode) {
       testEnvironment.overrideConfig('General', 'enable_plugins_admin', '1');
 
+      testEnvironment.idSitesViewAccess = [];
       testEnvironment.mockMarketplaceApiService = 1;
       testEnvironment.createAccountResponseCode = createAccountResponseCode;
       testEnvironment.startFreeTrialSuccess = true;
@@ -208,4 +209,17 @@ describe('Marketplace_StartFreeTrial', function () {
         .to.matchImage('installAllPaidPlugins_active');
     });
   });
+
+  describe('install all paid plugins', function() {
+    it('should show a dialog showing a list of all possible plugins to install', async function() {
+      setEnvironment(true);
+
+      await goToPluginsPage();
+      await page.click('.installAllPaidPlugins button');
+      await page.mouse.move(-10, -10);
+
+      await screenshotModalSelector('_install_all_paid_plugins_at_once', '.modal.open');
+    });
+
+  })
 });

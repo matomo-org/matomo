@@ -206,18 +206,6 @@ describe("Marketplace", function () {
         });
     });
 
-    var mode = 'superuser';
-
-    it('should show a dialog showing a list of all possible plugins to install', async function() {
-        setEnvironment(mode, validLicense);
-
-        await page.goto(pluginsUrl);
-        await page.click('.installAllPaidPlugins button');
-        await page.mouse.move(-10, -10);
-
-        await captureModal(mode + '_install_all_paid_plugins_at_once', '.modal.open');
-    });
-
     [noLicense, expiredLicense, exceededLicense].forEach(function (consumer) {
         // when there is no license it should not show a warning! as it could be due to network problems etc
         it('should show a warning if license is ' + consumer, async function() {
