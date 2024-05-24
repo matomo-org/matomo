@@ -95,6 +95,19 @@ describe("Goals", function () {
         expect(await report.screenshot()).to.matchImage('goals_by_entry_page_titles');
     });
 
+    it('should load row evolution with goal metrics', async function() {
+        const row = await page.waitForSelector('.reportsByDimensionView tbody tr:first-child');
+        await row.hover();
+
+        const icon = await page.waitForSelector('.reportsByDimensionView tbody tr:first-child a.actionRowEvolution');
+        await icon.click();
+
+        await page.waitForSelector('.ui-dialog');
+        await page.waitForNetworkIdle();
+
+        const dialog = await page.$('.ui-dialog');
+        expect(await dialog.screenshot()).to.matchImage('goals_by_entry_page_titles_row_evolution');
+    });
 
     it('should show action goals visualization for page urls', async function() {
 
