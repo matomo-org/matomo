@@ -156,7 +156,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=6447da95
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=1f96d556
 
 var _hoisted_1 = {
   class: "row marketplaceActions",
@@ -256,7 +256,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 64);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=6447da95
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=1f96d556
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -2266,10 +2266,14 @@ var lcfirst = function lcfirst(s) {
       }));
     },
     updateMarketplace: function updateMarketplace() {
-      this.fetchPlugins(this.$emit('triggerUpdate'));
+      var _this2 = this;
+
+      this.fetchPlugins(function () {
+        return _this2.$emit('triggerUpdate');
+      });
     },
     fetchPlugins: function fetchPlugins(cb) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.loading = true;
       this.pluginsToShow = [];
@@ -2293,14 +2297,14 @@ var lcfirst = function lcfirst(s) {
         withTokenInUrl: true,
         abortController: this.fetchRequestAbortController
       }).then(function (response) {
-        _this2.pluginsToShow = response;
+        _this3.pluginsToShow = response;
 
         if (typeof cb === 'function') {
           cb();
         }
       }).finally(function () {
-        _this2.loading = false;
-        _this2.fetchRequestAbortController = null;
+        _this3.loading = false;
+        _this3.fetchRequestAbortController = null;
       });
     }
   },
