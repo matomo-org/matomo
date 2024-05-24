@@ -221,7 +221,7 @@ export default defineComponent({
       });
     },
     updateMarketplace() {
-      this.fetchPlugins(this.$emit('triggerUpdate'));
+      this.fetchPlugins(() => this.$emit('triggerUpdate'));
     },
     fetchPlugins(cb: (() => void) | void) {
       this.loading = true;
