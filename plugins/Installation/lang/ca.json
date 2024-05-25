@@ -16,6 +16,7 @@
         "DatabaseSetup": "Configuració de la base de dades",
         "DatabaseSetupAdapter": "Adaptador",
         "DatabaseSetupDatabaseName": "Nom de la base de dades",
+        "DatabaseSetupEngine": "Motor de base de dades",
         "DatabaseSetupLogin": "Iniciar sessió",
         "DatabaseSetupServer": "Servidor de la base de dades",
         "DatabaseSetupTablePrefix": "Prefix de taula",

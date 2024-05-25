@@ -16,6 +16,7 @@
         "DatabaseSetup": "Εγκατάσταση βάσης δεδομένων",
         "DatabaseSetupAdapter": "Προσαρμογέας",
         "DatabaseSetupDatabaseName": "Όνομα βάσης δεδομένων",
+        "DatabaseSetupEngine": "Μηχανή Βάσης Δεδομένων",
         "DatabaseSetupLogin": "Είσοδος",
         "DatabaseSetupServer": "Διακομιστής βάσης δεδομένων",
         "DatabaseSetupTablePrefix": "Πρόθεμα πινάκων",
