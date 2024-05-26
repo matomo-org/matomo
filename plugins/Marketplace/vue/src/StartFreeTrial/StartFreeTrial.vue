@@ -114,7 +114,7 @@ export default defineComponent({
       trialStartSuccessNotificationTitle: '',
     };
   },
-  emits: ['update:modelValue', 'trialStarted'],
+  emits: ['update:modelValue', 'trialStarted', 'startTrialStart', 'startTrialStop'],
   watch: {
     modelValue(newValue) {
       if (!newValue) {
@@ -282,6 +282,7 @@ export default defineComponent({
     },
     startFreeTrial() {
       this.showLoadingModal(false);
+      this.$emit('startTrialStart');
 
       AjaxHelper.post(
         {
@@ -302,6 +303,7 @@ export default defineComponent({
         this.showErrorModal(Matomo.helper.htmlDecode(error.message));
 
         this.trialStartInProgress = false;
+        this.$emit('startTrialStop');
       }).finally(() => {
         this.$emit('update:modelValue', null);
       });
