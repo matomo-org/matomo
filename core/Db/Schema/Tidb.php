@@ -24,4 +24,9 @@ class Tidb extends Mysql
     {
         return false;
     }
+
+    public function getDefaultPort(): int
+    {
+        return 4000;
+    }
 }

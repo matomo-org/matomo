@@ -27,6 +27,8 @@ use Zend_Db_Adapter_Exception;
  */
 class FormDatabaseSetup extends QuickForm2
 {
+    const MASKED_PASSWORD_VALUE = '**********';
+
     function __construct($id = 'databasesetupform', $method = 'post', $attributes = null, $trackSubmit = false)
     {
         parent::__construct($id, $method, $attributes = array('autocomplete' => 'off'), $trackSubmit);
@@ -46,7 +48,7 @@ class FormDatabaseSetup extends QuickForm2
 
         $availableAdapters = Adapter::getAdapters();
         $adapters = array();
-        foreach ($availableAdapters as $adapter => $port) {
+        foreach ($availableAdapters as $adapter) {
             $adapters[$adapter] = $adapter;
             if (Adapter::isRecommendedAdapter($adapter)) {
                 $adapters[$adapter] .= ' (' . Piwik::translate('General_Recommended') . ')';
@@ -98,21 +100,37 @@ class FormDatabaseSetup extends QuickForm2
             'type'          => $defaultDatabaseType,
             'tables_prefix' => 'matomo_',
             'schema'        => 'Mysql',
+            'port'          => '3306',
         );
 
         $defaultsEnvironment = array('host', 'adapter', 'tables_prefix', 'username', 'schema', 'password', 'dbname');
         foreach ($defaultsEnvironment as $name) {
-            $envName = 'DATABASE_' . strtoupper($name); // fyi getenv is case insensitive
-            $envNameMatomo = 'MATOMO_' . $envName;
-            if (getenv($envNameMatomo)) {
-                $defaults[$name] = getenv($envNameMatomo);
-            } elseif (getenv($envName)) {
-                $defaults[$name] = getenv($envName);
+            $envValue = $this->getEnvironmentSetting($name);
+
+            if (null !== $envValue) {
+                $defaults[$name] = $envValue;
             }
+        }
+
+        if (array_key_exists('password', $defaults)) {
+            $defaults['password'] = self::MASKED_PASSWORD_VALUE; // ensure not to show password in UI
         }
 
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array($defaults));
+    }
+
+    private function getEnvironmentSetting(string $name): ?string
+    {
+        $envName = 'DATABASE_' . strtoupper($name); // fyi getenv is case insensitive
+        $envNameMatomo = 'MATOMO_' . $envName;
+        if (is_string(getenv($envNameMatomo))) {
+            return getenv($envNameMatomo);
+        } elseif (is_string(getenv($envName))) {
+            return getenv($envName);
+        }
+
+        return null;
     }
 
     /**
@@ -130,20 +148,27 @@ class FormDatabaseSetup extends QuickForm2
         }
 
         $adapter = $this->getSubmitValue('adapter');
-        $port = Adapter::getDefaultPortForAdapter($adapter);
-
         $host = $this->getSubmitValue('host');
         $tables_prefix = $this->getSubmitValue('tables_prefix');
-        
+
+        $password = $this->getSubmitValue('password');
+        $passwordFromEnv = $this->getEnvironmentSetting('password');
+
+        if ($password === self::MASKED_PASSWORD_VALUE && null !== $passwordFromEnv) {
+            $password = $passwordFromEnv;
+        }
+
+        $schema = $this->getSubmitValue('schema');
+
         $dbInfos = array(
             'host'          => (is_null($host)) ? $host : trim($host),
             'username'      => $this->getSubmitValue('username'),
-            'password'      => $this->getSubmitValue('password'),
+            'password'      => $password,
             'dbname'        => $dbname,
             'tables_prefix' => (is_null($tables_prefix)) ? $tables_prefix : trim($tables_prefix),
             'adapter'       => $adapter,
-            'port'          => $port,
-            'schema'        => $this->getSubmitValue('schema'),
+            'port'          => Db\Schema::getDefaultPortForSchema($schema),
+            'schema'        => $schema,
             'type'          => $this->getSubmitValue('type'),
             'enable_ssl'    => false
         );
