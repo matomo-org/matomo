@@ -670,6 +670,11 @@ class Mysql implements SchemaInterface
         return $sql;
     }
 
+    public function supportsComplexColumnUpdates(): bool
+    {
+        return true;
+    }
+
     private function getTablePrefix()
     {
         return $this->getDbSettings()->getTablePrefix();

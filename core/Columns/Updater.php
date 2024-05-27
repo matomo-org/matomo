@@ -10,6 +10,7 @@
 namespace Piwik\Columns;
 
 use Piwik\Common;
+use Piwik\Db\Schema;
 use Piwik\DbHelper;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -83,8 +84,15 @@ class Updater extends \Piwik\Updates
                 continue;
             }
 
-            $sql = "ALTER TABLE `" . Common::prefixTable($table) . "` " . implode(', ', $columns);
-            $sqls[] = new Migration\Db\Sql($sql, $errorCodes);
+            if (Schema::getInstance()->supportsComplexColumnUpdates()) {
+                $sql = "ALTER TABLE `" . Common::prefixTable($table) . "` " . implode(', ', $columns);
+                $sqls[] = new Migration\Db\Sql($sql, $errorCodes);
+            } else {
+                foreach ($columns as $column) {
+                    $sql = "ALTER TABLE `" . Common::prefixTable($table) . "` " . $column;
+                    $sqls[] = new Migration\Db\Sql($sql, $errorCodes);
+                }
+            }
         }
 
         return $sqls;
