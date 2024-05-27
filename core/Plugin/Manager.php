@@ -72,7 +72,7 @@ class Manager
     protected $doLoadAlwaysActivatedPlugins = true;
 
     // These are always activated and cannot be deactivated
-    protected $pluginToAlwaysActivate = array(
+    protected static $pluginToAlwaysActivate = array(
         'FeatureFlags',
         'BulkTracking',
         'CoreVue',
@@ -252,7 +252,7 @@ class Manager
      */
     private function isPluginAlwaysActivated($name)
     {
-        return in_array($name, $this->pluginToAlwaysActivate);
+        return in_array($name, self::$pluginToAlwaysActivate);
     }
 
     /**
@@ -1227,6 +1227,16 @@ class Manager
     }
 
     /**
+     * Return the list of plugins that are always activated
+     *
+     * @return string[]
+     */
+    public static function getAlwaysActivatedPlugins(): array
+    {
+        return self::$pluginToAlwaysActivate;
+    }
+
+    /**
      * Loads the plugin filename and instantiates the plugin with the given name, eg. UserCountry.
      * Contrary to loadPlugins() it does not activate the plugin, it only loads it.
      *
@@ -1726,7 +1736,7 @@ class Manager
     {
         $pluginsToLoad = array_unique($pluginsToLoad);
         if ($this->doLoadAlwaysActivatedPlugins) {
-            $pluginsToLoad = array_merge($pluginsToLoad, $this->pluginToAlwaysActivate);
+            $pluginsToLoad = array_merge($pluginsToLoad, self::$pluginToAlwaysActivate);
         }
         $pluginsToLoad = array_unique($pluginsToLoad);
         $pluginsToLoad = $this->pluginList->sortPlugins($pluginsToLoad);
