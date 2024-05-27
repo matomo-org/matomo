@@ -79,6 +79,7 @@ class Filechecks
             $directoryList = "<code>chown -R " . self::getUserAndGroup() . " " . $realpath . "</code><br />" . $directoryList;
         }
 
+        $optionalUserInfo = '';
         if (function_exists('shell_exec')) {
             $currentUser = self::getUser();
             if (!empty($currentUser)) {
