@@ -107,12 +107,12 @@ class FormDatabaseSetup extends QuickForm2
         foreach ($defaultsEnvironment as $name) {
             $envValue = $this->getEnvironmentSetting($name);
 
-            if (!empty($envValue)) {
+            if (null !== $envValue) {
                 $defaults[$name] = $envValue;
             }
         }
 
-        if (!empty($defaults['password'])) {
+        if (array_key_exists('password', $defaults)) {
             $defaults['password'] = self::MASKED_PASSWORD_VALUE; // ensure not to show password in UI
         }
 
@@ -120,13 +120,13 @@ class FormDatabaseSetup extends QuickForm2
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array($defaults));
     }
 
-    private function getEnvironmentSetting(string $name)
+    private function getEnvironmentSetting(string $name): ?string
     {
         $envName = 'DATABASE_' . strtoupper($name); // fyi getenv is case insensitive
         $envNameMatomo = 'MATOMO_' . $envName;
-        if (getenv($envNameMatomo)) {
+        if (is_string(getenv($envNameMatomo))) {
             return getenv($envNameMatomo);
-        } elseif (getenv($envName)) {
+        } elseif (is_string(getenv($envName))) {
             return getenv($envName);
         }
 
@@ -152,9 +152,10 @@ class FormDatabaseSetup extends QuickForm2
         $tables_prefix = $this->getSubmitValue('tables_prefix');
 
         $password = $this->getSubmitValue('password');
+        $passwordFromEnv = $this->getEnvironmentSetting('password');
 
-        if ($password === self::MASKED_PASSWORD_VALUE) {
-            $password = $this->getEnvironmentSetting('password');
+        if ($password === self::MASKED_PASSWORD_VALUE && null !== $passwordFromEnv) {
+            $password = $passwordFromEnv;
         }
 
         $schema = $this->getSubmitValue('schema');
