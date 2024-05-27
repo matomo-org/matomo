@@ -47,15 +47,6 @@ describe("Marketplace", function () {
         expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
     }
 
-    async function captureModal(screenshotName, selector)
-    {
-        await page.waitForFunction("$('" + selector + "').length > 0");
-        await page.waitForNetworkIdle();
-
-        const elem = await page.$(selector);
-        expect(await elem.screenshot()).to.matchImage(screenshotName);
-    }
-
     async function captureMarketplace(screenshotName, selector)
     {
         if (!selector) {
