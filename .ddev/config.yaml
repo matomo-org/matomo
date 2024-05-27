@@ -28,13 +28,14 @@ nodejs_version: "16"
 # name: <projectname> # Name of the project, automatically provides
 #   http://projectname.ddev.site and https://projectname.ddev.site
 
-# type: <projecttype>  # backdrop, craftcms, django4, drupal6/7/8/9/10, laravel, magento, magento2, php, python, shopware6, silverstripe, typo3, wordpress
-# See https://ddev.readthedocs.io/en/latest/users/quickstart/ for more
+# type: <projecttype>  # backdrop, craftcms, django4, drupal, drupal6, drupal7, laravel, magento, magento2, php, python, shopware6, silverstripe, typo3, wordpress
+# See https://ddev.readthedocs.io/en/stable/users/quickstart/ for more
 # information on the different project types
+# "drupal" covers recent Drupal 8+
 
 # docroot: <relative_path> # Relative path to the directory containing index.php.
 
-# php_version: "8.1"  # PHP version to use, "5.6", "7.0", "7.1", "7.2", "7.3", "7.4", "8.0", "8.1", "8.2", "8.3"
+# php_version: "8.2"  # PHP version to use, "5.6", "7.0", "7.1", "7.2", "7.3", "7.4", "8.0", "8.1", "8.2", "8.3"
 
 # You can explicitly specify the webimage but this
 # is not recommended, as the images are often closely tied to DDEV's' behavior,
@@ -44,7 +45,7 @@ nodejs_version: "16"
 
 # database:
 #   type: <dbtype> # mysql, mariadb, postgres
-#   version: <version> # database version, like "10.4" or "8.0"
+#   version: <version> # database version, like "10.11" or "8.0"
 #   MariaDB versions can be 5.5-10.8 and 10.11, MySQL versions can be 5.5-8.0
 #   PostgreSQL versions can be 9-16.
 
@@ -85,7 +86,7 @@ nodejs_version: "16"
 # Alternatively, an explicit Composer version may be specified, for example "2.2.18".
 # To reinstall Composer after the image was built, run "ddev debug refresh".
 
-# nodejs_version: "18"
+# nodejs_version: "20"
 # change from the default system Node.js version to any other version.
 # Numeric version numbers can be complete (i.e. 18.15.0) or
 # incomplete (18, 17.2, 16). 'lts' and 'latest' can be used as well along with
@@ -93,6 +94,9 @@ nodejs_version: "16"
 # see https://www.npmjs.com/package/n#specifying-nodejs-versions
 # Note that you can continue using 'ddev nvm' or nvm inside the web container
 # to change the project's installed node version if you need to.
+
+# corepack_enable: false
+# Change to 'true' to 'corepack enable' and gain access to latest versions of yarn/pnpm
 
 # additional_hostnames:
 #  - somename
@@ -151,8 +155,8 @@ nodejs_version: "16"
 #   - "mutagen": enables Mutagen for this project.
 #   - "nfs":     enables NFS for this project.
 #
-# See https://ddev.readthedocs.io/en/latest/users/install/performance/#nfs
-# See https://ddev.readthedocs.io/en/latest/users/install/performance/#mutagen
+# See https://ddev.readthedocs.io/en/stable/users/install/performance/#nfs
+# See https://ddev.readthedocs.io/en/stable/users/install/performance/#mutagen
 
 # fail_on_hook_fail: False
 # Decide whether 'ddev start' should be interrupted by a failing hook
