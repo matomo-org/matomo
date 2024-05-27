@@ -2,7 +2,7 @@ name: matomo
 type: php
 docroot: ""
 php_version: "8.3"
-webserver_type: nginx-fpm
+webserver_type: apache-fpm
 router_http_port: "80"
 router_https_port: "443"
 xdebug_enabled: false
