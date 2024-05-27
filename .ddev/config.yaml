@@ -23,6 +23,7 @@ composer_version: "2"
 web_environment: []
 nodejs_version: "16"
 corepack_enable: true
+disable_upload_dirs_warning: true
 
 # Key features of DDEV's config.yaml:
 
