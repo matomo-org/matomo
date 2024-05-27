@@ -42,18 +42,9 @@ describe("Marketplace", function () {
 
     async function captureSelector(screenshotName, selector)
     {
-        await page.waitForFunction("$('" + selector + "').length > 0");
+        await page.waitForSelector(selector, { visible: true });
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
-    }
-
-    async function captureModal(screenshotName, selector)
-    {
-        await page.waitForFunction("$('" + selector + "').length > 0");
-        await page.waitForNetworkIdle();
-
-        const elem = await page.$(selector);
-        expect(await elem.screenshot()).to.matchImage(screenshotName);
     }
 
     async function captureMarketplace(screenshotName, selector)
@@ -125,7 +116,7 @@ describe("Marketplace", function () {
 
                 await page.goto('?module=CorePluginsAdmin&action=plugins&idSite=1&period=day&date=yesterday&activated=');
 
-                await captureSelector('updates_' + mode, '#content .card:first');
+                await captureSelector('updates_' + mode, '#content div[vue-entry="CorePluginsAdmin.PluginsTableWithUpdates"]');
             });
         }
 
@@ -203,6 +194,16 @@ describe("Marketplace", function () {
             await loadPluginDetailPage('Paid Plugin 1', isFree);
 
             await captureWithPluginDetails('paid_plugin_details_exceeded_license_' + mode);
+        });
+    });
+
+    [expiredLicense, exceededLicense, validLicense, noLicense].forEach(function (consumer) {
+        it('should show a subscription overview for ' + consumer, async function() {
+            setEnvironment('superuser', consumer);
+
+            await page.goto('?module=Marketplace&action=subscriptionOverview');
+
+            await captureSelector('subscription_overview_' + consumer, '#content');
         });
     });
 
