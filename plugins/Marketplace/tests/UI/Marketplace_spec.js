@@ -42,7 +42,7 @@ describe("Marketplace", function () {
 
     async function captureSelector(screenshotName, selector)
     {
-        await page.waitForFunction("$('" + selector + "').length > 0");
+        await page.waitForSelector(selector, { visible: true });
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
     }
@@ -125,7 +125,7 @@ describe("Marketplace", function () {
 
                 await page.goto('?module=CorePluginsAdmin&action=plugins&idSite=1&period=day&date=yesterday&activated=');
 
-                await captureSelector('updates_' + mode, '#content .card:first');
+                await captureSelector('updates_' + mode, '#content div[vue-entry="CorePluginsAdmin.PluginsTableWithUpdates"]');
             });
         }
 
