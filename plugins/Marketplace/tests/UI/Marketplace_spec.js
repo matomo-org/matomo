@@ -197,6 +197,16 @@ describe("Marketplace", function () {
         });
     });
 
+    [expiredLicense, exceededLicense, validLicense, noLicense].forEach(function (consumer) {
+        it('should show a subscription overview for ' + consumer, async function() {
+            setEnvironment('superuser', consumer);
+
+            await page.goto('?module=Marketplace&action=subscriptionOverview');
+
+            await captureSelector('subscription_overview_' + consumer, '#content');
+        });
+    });
+
     [noLicense, expiredLicense, exceededLicense].forEach(function (consumer) {
         // when there is no license it should not show a warning! as it could be due to network problems etc
         it('should show a warning if license is ' + consumer, async function() {
