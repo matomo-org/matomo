@@ -18,7 +18,7 @@ ddev exec 'if [ ! -f tests/UI/config.js ]; then cp .ddev/initial-config/tests/UI
 
 echo "Enable development mode and disable assets merging ..."
 ddev exec './console development:enable'
-ddev exec './console config:set Development.disable_merged_assets 1'
+ddev exec './console config:set Development.disable_merged_assets=1'
 
 echo "Initialise test database: setup OmniFixture ..."
 ddev exec './console tests:setup-fixture OmniFixture'

@@ -8,6 +8,12 @@ echo "Copy initial config file ..."
 echo "@see https://developer.matomo.org/guides/tests-php#requirements"
 ddev exec 'if [ ! -f config/config.ini.php ]; then cp .ddev/initial-config/config.ini.php config/config.ini.php; fi'
 
+echo "Run composer install ..."
+ddev composer install
+
+echo "Configure to force HTTPS ..."
+ddev exec './console config:set General.force_ssl=1'
+
 echo "Done: Basic Matomo instance initialisation finished."
 echo ""
 
