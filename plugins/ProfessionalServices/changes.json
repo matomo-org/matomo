@@ -1,9 +1,9 @@
 [
   {
     "title": "Funnels - Enhanced Analysis and Comparison Capabilities",
-    "description": "Funnels now offer an improved visualization and data table that provide a clear breakdown of proceeded visits, new entries, exits, and skipped steps at each stage, making it easier to identify areas for optimization. The comparison functionality is improved to allow for a more useful analysis of funnel performance across different segments and date ranges.",
+    "description": "Funnels now have an improved visualisation that provides a clear breakdown of proceeded visits, new entries, exits, and skipped steps at each stage, making it easier to identify areas for optimisation. The comparison functionality is improved to allow for a more useful analysis of funnel performance across different segments and date ranges.",
     "version": "5.1.0-b5",
-    "link_name": "For more information go here",
+    "link_name": "Click here for more information",
     "link": "https://matomo.org/blog/2024/05/funnels-feature-updates?mtm_campaign=in-app-funnels-notification&mtm_kwd=funnels&mtm_source=in-app&mtm_medium=notification&mtm_content=funnels-feature-updates&mtm_group=in-app"
   },
   {
