@@ -14,7 +14,6 @@
         "DatabaseSetupDatabaseName": "Database Name",
         "DatabaseSetupLogin": "Login",
         "DatabaseSetupServer": "Database Server",
-        "DatabaseSetupServerPort": "Database Server Port",
         "DatabaseSetupEngine": "Database Engine",
         "DatabaseSetupTablePrefix": "Table Prefix",
         "Email": "Email",

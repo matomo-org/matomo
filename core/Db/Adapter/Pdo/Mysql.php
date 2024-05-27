@@ -134,6 +134,17 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     }
 
     /**
+     * Return default port.
+     *
+     * @deprecated Use Schema::getDefaultPortForSchema instead
+     * @return int
+     */
+    public static function getDefaultPort()
+    {
+        return 3306;
+    }
+
+    /**
      * Check MySQL version
      *
      * @throws Exception

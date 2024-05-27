@@ -675,6 +675,11 @@ class Mysql implements SchemaInterface
         return true;
     }
 
+    public function getDefaultPort(): int
+    {
+        return 3306;
+    }
+
     private function getTablePrefix()
     {
         return $this->getDbSettings()->getTablePrefix();

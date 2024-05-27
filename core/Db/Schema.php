@@ -48,6 +48,19 @@ class Schema extends Singleton
         return '\Piwik\Db\Schema\\' . $class;
     }
 
+    /**
+     * Return the default port for the provided database schema
+     *
+     * @param string $schemaName
+     * @return int
+     */
+    public static function getDefaultPortForSchema(string $schemaName): int
+    {
+        $schemaClassName = self::getSchemaClassName($schemaName);
+        /** @var SchemaInterface $schemaClass */
+        $schemaClass = new $schemaClassName();
+        return $schemaClass->getDefaultPort();
+    }
 
     /**
      * Load schema

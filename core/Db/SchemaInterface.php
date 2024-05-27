@@ -124,4 +124,11 @@ interface SchemaInterface
      * @return bool
      */
     public function supportsComplexColumnUpdates(): bool;
+
+    /**
+     * Return the default port used by this database engine
+     *
+     * @return int
+     */
+    public function getDefaultPort(): int;
 }

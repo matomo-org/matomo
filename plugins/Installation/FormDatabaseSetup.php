@@ -59,10 +59,6 @@ class FormDatabaseSetup extends QuickForm2
             ->setLabel(Piwik::translate('Installation_DatabaseSetupServer'))
             ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupServer')));
 
-        $this->addElement('text', 'port')
-            ->setLabel(Piwik::translate('Installation_DatabaseSetupServerPort'))
-            ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupServerPort')));
-
         $user = $this->addElement('text', 'username')
             ->setLabel(Piwik::translate('Installation_DatabaseSetupLogin'));
         $user->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupLogin')));
@@ -107,7 +103,7 @@ class FormDatabaseSetup extends QuickForm2
             'port'          => '3306',
         );
 
-        $defaultsEnvironment = array('host', 'adapter', 'tables_prefix', 'username', 'schema', 'password', 'dbname', 'port');
+        $defaultsEnvironment = array('host', 'adapter', 'tables_prefix', 'username', 'schema', 'password', 'dbname');
         foreach ($defaultsEnvironment as $name) {
             $envValue = $this->getEnvironmentSetting($name);
 
@@ -161,6 +157,8 @@ class FormDatabaseSetup extends QuickForm2
             $password = $this->getEnvironmentSetting('password');
         }
 
+        $schema = $this->getSubmitValue('schema');
+
         $dbInfos = array(
             'host'          => (is_null($host)) ? $host : trim($host),
             'username'      => $this->getSubmitValue('username'),
@@ -168,8 +166,8 @@ class FormDatabaseSetup extends QuickForm2
             'dbname'        => $dbname,
             'tables_prefix' => (is_null($tables_prefix)) ? $tables_prefix : trim($tables_prefix),
             'adapter'       => $adapter,
-            'port'          => $this->getSubmitValue('port'),
-            'schema'        => $this->getSubmitValue('schema'),
+            'port'          => Db\Schema::getDefaultPortForSchema($schema),
+            'schema'        => $schema,
             'type'          => $this->getSubmitValue('type'),
             'enable_ssl'    => false
         );

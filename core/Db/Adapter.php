@@ -87,6 +87,19 @@ class Adapter
     }
 
     /**
+     * Get default port for named adapter
+     *
+     * @deprecated use Schema::getDefaultPortForSchema instead
+     * @param string $adapterName
+     * @return int
+     */
+    public static function getDefaultPortForAdapter($adapterName)
+    {
+        $className = self::getAdapterClassName($adapterName);
+        return call_user_func(array($className, 'getDefaultPort'));
+    }
+
+    /**
      * Get list of adapters
      *
      * @return array
