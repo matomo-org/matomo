@@ -16,6 +16,7 @@
         "DatabaseSetup": "Veri tabanı kurulumu",
         "DatabaseSetupAdapter": "Bağdaştırıcı",
         "DatabaseSetupDatabaseName": "Veri tabanı adı",
+        "DatabaseSetupEngine": "Veri Tabanı Motoru",
         "DatabaseSetupLogin": "Kullanıcı adı",
         "DatabaseSetupServer": "Veri tabanı sunucusu",
         "DatabaseSetupTablePrefix": "Tablo ön eki",

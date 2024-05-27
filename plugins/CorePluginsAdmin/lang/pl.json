@@ -47,6 +47,8 @@
         "OriginOfficial": "Oficjalne",
         "OriginThirdParty": "Osoby trzecie",
         "PluginActivated": "Wtyczka włączona",
+        "PluginFreeTrialStarted": "%1$sTwój 30-dniowy okres próbny rozpoczął się%2$s do %3$s.",
+        "PluginFreeTrialStartedAccountCreatedTitle": "Twoje konto zostało utworzone",
         "PluginHomepage": "Strona główna Wtyczki",
         "PluginNotCompatibleWith": "%1$s jest niekompatybilny z %2$s.",
         "PluginNotDownloadable": "Wtyczki nie można pobrać.",
@@ -86,6 +88,6 @@
         "WhyUsingATagManager": "Dlaczego Tag Manager?",
         "WhyUsingATagManagerDetails1": "Tag Manager uczyni Twoje życie łatwiejsze! Nie potrzebujesz już czekać na programistę, aby zmodyfikował część strony, ponieważ Tag Manager daje ci swobodę modyfikowania tych zmian i wdrażania ich na Twoją stronę.",
         "WhyUsingATagManagerDetails2": "To nie może być wygodniejsze i nie tylko pozwala szybciej wprowadzać zmiany, ale także obniża koszty.",
-        "WhyUsingATagManagerDetails3": "Dzięki temu zespoły marketingowe, cyfrowy i chłopaki z IT będą zadowoleni... To wygrana dla wszystkich!"
+        "WhyUsingATagManagerDetails3": "Dzięki temu zespoły marketingowe, cyfrowe i chłopaki z IT będą zadowoleni… To wygrana dla wszystkich!"
     }
 }
