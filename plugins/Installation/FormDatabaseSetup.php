@@ -239,9 +239,13 @@ class RuleCheckUserPrivileges extends HTML_QuickForm2_Rule
             foreach ($queries as $sql) {
                 try {
                     if (in_array($privilegeType, array('SELECT'))) {
-                        $db->fetchAll($sql);
+                        $ret = $db->fetchAll($sql);
                     } else {
-                        $db->exec($sql);
+                        $ret = $db->exec($sql);
+                    }
+                    // In case an exception is not thrown check the return
+                    if ($ret === -1) {
+                        return false;
                     }
                 } catch (Exception $ex) {
                     if ($this->isAccessDenied($ex)) {
