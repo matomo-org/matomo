@@ -27,7 +27,7 @@ class SecurityFiles extends ConsoleCommand
     protected function doExecute(): int
     {
         ServerFilesGenerator::createFilesForSecurity();
-        $this->getOutput()->writeln('Done. To check if this worked please open the system report or run `./console diagnostics:run` and look out for the private directories check. If it doesn\'t work you may need to execute this command using a user that has write permissions or maybe you are not using Apache or IIS web server. Please note you may need to execut this command every time you update Matomo to a newer version.');
+        $this->getOutput()->writeln('Done. To check if this worked please open the system report or run `./console diagnostics:run` and look out for the private directories check. If it doesn\'t work you may need to execute this command using a user that has write permissions or maybe you are not using Apache or IIS web server. Please note you may need to execute this command every time you update Matomo to a newer version.');
 
         return self::SUCCESS;
     }
