@@ -537,11 +537,10 @@ class Mysql implements SchemaInterface
     public function createTable($nameWithoutPrefix, $createDefinition)
     {
         $statement = sprintf(
-            "CREATE TABLE IF NOT EXISTS `%s` ( %s ) %s %s;",
+            "CREATE TABLE IF NOT EXISTS `%s` ( %s ) %s;",
             Common::prefixTable($nameWithoutPrefix),
             $createDefinition,
-            $this->getTableCreateOptions(),
-            $this->getTableRowFormat()
+            $this->getTableCreateOptions()
         );
 
         try {
@@ -688,8 +687,15 @@ class Mysql implements SchemaInterface
     {
         $engine = $this->getTableEngine();
         $charset = $this->getUsedCharset();
+        $rowFormat = $this->getTableRowFormat();
 
-        return "ENGINE=$engine DEFAULT CHARSET=$charset";
+        $options = "ENGINE=$engine DEFAULT CHARSET=$charset";
+
+        if ('' !== $rowFormat) {
+            $options .= " $rowFormat";
+        }
+
+        return $options;
     }
 
     private function getTableRowFormat(): string
