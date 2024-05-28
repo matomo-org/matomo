@@ -41,8 +41,7 @@ class Mysql implements SchemaInterface
     {
         $engine       = $this->getTableEngine();
         $prefixTables = $this->getTablePrefix();
-        $dbSettings   = new Db\Settings();
-        $charset      = $dbSettings->getUsedCharset();
+        $charset      = $this->getUsedCharset();
 
         $tables = array(
             'user'    => "CREATE TABLE {$prefixTables}user (
@@ -538,8 +537,7 @@ class Mysql implements SchemaInterface
      */
     public function createTable($nameWithoutPrefix, $createDefinition)
     {
-        $dbSettings   = new Db\Settings();
-        $charset      = $dbSettings->getUsedCharset();
+        $charset = $this->getUsedCharset();
 
         $statement = sprintf(
             "CREATE TABLE IF NOT EXISTS `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=%s %s;",
@@ -547,7 +545,7 @@ class Mysql implements SchemaInterface
             $createDefinition,
             $this->getTableEngine(),
             $charset,
-            $dbSettings->getRowFormat()
+            $this->getTableRowFormat()
         );
 
         try {
@@ -690,6 +688,11 @@ class Mysql implements SchemaInterface
         return $this->getDbSettings()->getEngine();
     }
 
+    private function getTableRowFormat(): string
+    {
+        return $this->getDbSettings()->getRowFormat();
+    }
+
     private function getDb()
     {
         return Db::get();
@@ -720,5 +723,10 @@ class Mysql implements SchemaInterface
         // '_' matches any character; force it to be literal
         $prefixTables = str_replace('_', '\_', $prefixTables);
         return $prefixTables;
+    }
+
+    private function getUsedCharset(): string
+    {
+        return $this->getDbSettings()->getUsedCharset();
     }
 }
