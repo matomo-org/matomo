@@ -36,6 +36,8 @@
         "InstallPurchasedPlugins": "Instalar plugins comprados",
         "InstallThesePlugins": "Isto irá instalar e ativar os seguintes plugins:",
         "InstallingPlugin": "Instalando %s",
+        "Intro": "Expanda a funcionalidade do Matomo com plugins e mude sua aparência com temas. Você pode solicitar avaliações de plugins premium ou pedir ao seu administrador para instalar plugins ou temas para você.",
+        "IntroSuperUser": "Expanda a funcionalidade do Matomo com plugins e mude sua aparência com temas. Inicie avaliações gratuitas de plugins premium ou instale plugins e temas gratuitos diretamente.",
         "LastCommitTime": "(último commit %s)",
         "LastUpdated": "Última atualização",
         "LatestMarketplaceUpdates": "Atualizações mais recentes da loja de aplicativos",

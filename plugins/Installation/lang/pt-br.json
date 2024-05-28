@@ -16,6 +16,7 @@
         "DatabaseSetup": "Setup do banco de dados",
         "DatabaseSetupAdapter": "adaptador",
         "DatabaseSetupDatabaseName": "nome do banco de dados",
+        "DatabaseSetupEngine": "Mecanismo de banco de dados",
         "DatabaseSetupLogin": "login",
         "DatabaseSetupServer": "servidor de banco de dados",
         "DatabaseSetupTablePrefix": "prefixo da tabela",
