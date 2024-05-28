@@ -36,6 +36,8 @@
         "InstallPurchasedPlugins": "Erworbene Plugins installieren",
         "InstallThesePlugins": "Folgende Plugins werden hierdurch installiert und aktiviert:",
         "InstallingPlugin": "Installiere %s",
+        "Intro": "Erweitern Sie die Funktionalität von Matomo mit Plugins und ändern Sie das Aussehen mit Themes. Sie können Testphasen für Premium-Plugins anfordern oder Ihren Administrator bitten, Plugins oder Themes für Sie zu installieren.",
+        "IntroSuperUser": "Erweitern Sie die Funktionalität von Matomo mit Plugins und ändern Sie das Aussehen mit Themes. Starten Sie kostenlose Testphasen für Premium-Plugins oder installieren Sie direkt kostenlose Plugins und Themes.",
         "LastCommitTime": "(letzter Commit %s)",
         "LastUpdated": "Letzte Aktualisierung",
         "LatestMarketplaceUpdates": "Neueste Marketplace Updates",

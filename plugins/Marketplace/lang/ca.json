@@ -36,6 +36,8 @@
         "InstallPurchasedPlugins": "Instal·leu els connectors comprats",
         "InstallThesePlugins": "Això instal·larà i activarà els connectors següents:",
         "InstallingPlugin": "S'està instal·lant %s",
+        "Intro": "Amplieu la funcionalitat de Matomo amb connectors i canvieu-ne l'aparença amb temes. Podeu sol·licitar proves per a connectors premium o demanar al vostre administrador que us instal·li complements o temes.",
+        "IntroSuperUser": "Amplieu la funcionalitat de Matomo amb connectors i canvieu-ne l'aparença amb temes. Inicieu proves gratuïtes per a connectors premium o instal·leu directament complements i temes gratuïts.",
         "LastCommitTime": "(última confirmació %s)",
         "LastUpdated": "Última actualització",
         "LatestMarketplaceUpdates": "Últimes actualitzacions del mercat",

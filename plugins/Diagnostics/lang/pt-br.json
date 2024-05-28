@@ -19,6 +19,7 @@
         "EnableRequiredDirectoriesDiagnostic": "Esta verificação foi ignorada porque esta verificação está desabilitada no arquivo config. Para habilitar esta verificação, configure [General] enable_required_directories_diagnostic = 1 no arquivo 'config/config.ini.php'.",
         "HideUnchanged": "Se você quiser ver apenas valores alterados você pode %1$socultar todos os valores inalterados%2$s.",
         "HtaccessWarningNginx": "Para garantir que os arquivos confidenciais não possam ser acessados diretamente, é recomendável configurar seu servidor web para restringir o acesso a determinados diretórios. Para obter mais informações, consulte a %1$sconfiguração oficial do servidor nginx %2$s",
+        "MariaDbNotConfigured": "A versão do seu banco de dados indica que você pode estar usando um servidor MariaDb. Se for esse o caso, certifique-se de definir <code>[database] schema = Mariadb</code> no arquivo \"config/config.ini.php\", para garantir que todos os recursos do banco de dados funcionem conforme o esperado.",
         "MysqlMaxPacketSize": "Tamanho máximo de pacote",
         "MysqlMaxPacketSizeWarning": "É recomendado configurar um tamanho máximo de pacote (%1$smax_allowed_packet%2$s) no seu banco de dados MySQL de pelo menos %3$s. Atualmente está configurado %4$s.",
         "MysqlTemporaryTablesWarning": "A permissão CREATE TEMPORARY TABLES do MySQL é requerida para que o Matomo funcione corretamente.",
