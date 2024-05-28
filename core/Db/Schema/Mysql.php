@@ -673,17 +673,7 @@ class Mysql implements SchemaInterface
         return 3306;
     }
 
-    private function getTablePrefix()
-    {
-        return $this->getDbSettings()->getTablePrefix();
-    }
-
-    private function getTableEngine()
-    {
-        return $this->getDbSettings()->getEngine();
-    }
-
-    private function getTableCreateOptions(): string
+    protected function getTableCreateOptions(): string
     {
         $engine = $this->getTableEngine();
         $charset = $this->getUsedCharset();
@@ -698,9 +688,24 @@ class Mysql implements SchemaInterface
         return $options;
     }
 
-    private function getTableRowFormat(): string
+    protected function getTableEngine()
+    {
+        return $this->getDbSettings()->getEngine();
+    }
+
+    protected function getTableRowFormat(): string
     {
         return $this->getDbSettings()->getRowFormat();
+    }
+
+    protected function getUsedCharset(): string
+    {
+        return $this->getDbSettings()->getUsedCharset();
+    }
+
+    private function getTablePrefix()
+    {
+        return $this->getDbSettings()->getTablePrefix();
     }
 
     private function getDb()
@@ -733,10 +738,5 @@ class Mysql implements SchemaInterface
         // '_' matches any character; force it to be literal
         $prefixTables = str_replace('_', '\_', $prefixTables);
         return $prefixTables;
-    }
-
-    private function getUsedCharset(): string
-    {
-        return $this->getDbSettings()->getUsedCharset();
     }
 }

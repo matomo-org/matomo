@@ -29,4 +29,23 @@ class Tidb extends Mysql
     {
         return 4000;
     }
+
+    protected function getTableCreateOptions(): string
+    {
+        $engine = $this->getTableEngine();
+        $charset = $this->getUsedCharset();
+        $rowFormat = $this->getTableRowFormat();
+
+        $options = "ENGINE=$engine DEFAULT CHARSET=$charset";
+
+        if ('utf8mb4' === $charset) {
+            $options .= ' COLLATE=utf8mb4_0900_ai_ci';
+        }
+
+        if ('' !== $rowFormat) {
+            $options .= " $rowFormat";
+        }
+
+        return $options;
+    }
 }
