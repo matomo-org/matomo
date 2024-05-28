@@ -30,7 +30,7 @@ class Tidb extends Mysql
         return 4000;
     }
 
-    protected function getTableCreateOptions(): string
+    public function getTableCreateOptions(): string
     {
         $engine = $this->getTableEngine();
         $charset = $this->getUsedCharset();

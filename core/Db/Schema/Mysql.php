@@ -673,7 +673,7 @@ class Mysql implements SchemaInterface
         return 3306;
     }
 
-    protected function getTableCreateOptions(): string
+    public function getTableCreateOptions(): string
     {
         $engine = $this->getTableEngine();
         $charset = $this->getUsedCharset();
