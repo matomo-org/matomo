@@ -335,8 +335,8 @@ class ProxyHttp
         )[1]['function'];
 
         $content = implode(', ', $args);
-        $content = trim($content) ? ': ' . $content : '';
+        $content = trim($content) ? ' : ' . $content : '';
 
-        trigger_error(sprintf('DBG[%s]%s', $caller, $content));
+        trigger_error(sprintf('[DBG] %s%s', $caller, $content));
     }
 }

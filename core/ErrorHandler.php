@@ -201,7 +201,7 @@ class ErrorHandler
 
     private static function createLogMessage($errno, $errstr, $errfile, $errline)
     {
-        if (str_contains($errstr, 'DBG[')) {
+        if (str_contains($errstr, '[DBG]')) {
             return $errstr;
         }
 
