@@ -43,6 +43,8 @@ export default defineComponent({
   computed: {
     notifications() {
       return NotificationsStore.state.notifications.filter((n) => {
+        if (n.message.indexOf('User Notice') !== -1) return false;
+
         if (this.group) {
           return this.group === n.group;
         }
