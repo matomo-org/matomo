@@ -33,14 +33,14 @@ class Controller extends \Piwik\Plugin\Controller
     public function getCss()
     {
         try {
-            trigger_error('1st getCss');
+            ProxyHttp::dbg('1st run');
             $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet();
         } catch (StylesheetLessCompileException $exception) {
-            trigger_error('2nd getCss');
+            ProxyHttp::dbg('2nd run');
             $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet();
         }
         $location = $cssMergedFile->getAbsoluteLocation();
-        trigger_error($location);
+        ProxyHttp::dbg('CSS path: ' . $location);
         ProxyHttp::serverStaticFile($location, "text/css");
     }
 

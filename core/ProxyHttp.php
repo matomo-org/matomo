@@ -73,6 +73,8 @@ class ProxyHttp
         $byteEnd = false,
         $filename = false
     ) {
+        self::dbg($file, $filename);
+
         // if the file cannot be found return HTTP status code '404'
         if (empty($file) || !file_exists($file)) {
             Common::sendResponseCode(404);
@@ -323,5 +325,18 @@ class ProxyHttp
     public static function gzencode($data)
     {
         return gzencode($data, 9);
+    }
+
+    public static function dbg(...$args)
+    {
+        $caller = debug_backtrace(
+            !DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS,
+            2
+        )[1]['function'];
+
+        $content = implode(', ', $args);
+        $content = trim($content) ? ': ' . $content : '';
+
+        trigger_error(sprintf('DBG[%s]%s', $caller, $content));
     }
 }

@@ -199,6 +199,7 @@ class AssetManager extends Singleton
      */
     public function getMergedStylesheet()
     {
+        ProxyHttp::dbg();
         $mergedAsset = $this->getMergedStylesheetAsset();
 
         $assetFetcher = new StylesheetUIAssetFetcher(Manager::getInstance()->getLoadedPluginsName(), $this->theme);
@@ -272,6 +273,7 @@ class AssetManager extends Singleton
      */
     public function removeMergedAssets($pluginName = false)
     {
+        ProxyHttp::dbg();
         $assetsToRemove = array($this->getMergedStylesheetAsset());
 
         if ($pluginName) {
@@ -328,6 +330,7 @@ class AssetManager extends Singleton
      */
     public function getAssetDirectory()
     {
+        ProxyHttp::dbg();
         $mergedFileDirectory = StaticContainer::get('path.tmp') . '/assets';
 
         if (!is_dir($mergedFileDirectory)) {
@@ -459,6 +462,7 @@ class AssetManager extends Singleton
      */
     public function removeAssets($uiAssets)
     {
+        ProxyHttp::dbg();
         foreach ($uiAssets as $uiAsset) {
             $uiAsset->delete();
         }
@@ -469,6 +473,7 @@ class AssetManager extends Singleton
      */
     public function getMergedStylesheetAsset()
     {
+        ProxyHttp::dbg();
         return $this->getMergedUIAsset(self::MERGED_CSS_FILE);
     }
 
@@ -494,11 +499,13 @@ class AssetManager extends Singleton
      */
     private function getMergedUIAsset($fileName)
     {
+        ProxyHttp::dbg($fileName);
         return new OnDiskUIAsset($this->getAssetDirectory(), $fileName);
     }
 
     public static function compileCustomStylesheets($files)
     {
+        ProxyHttp::dbg();
         $assetManager = new AssetManager();
 
         $fetcher = new StaticUIAssetFetcher($files, $priorityOrder = array(), $theme = null);

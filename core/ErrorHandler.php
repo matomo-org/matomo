@@ -160,6 +160,15 @@ class ErrorHandler
             case E_NOTICE:
             case E_USER_WARNING:
             case E_USER_NOTICE:
+                try {
+                    StaticContainer::get(LoggerInterface::class)->warning(
+                        self::createLogMessage($errno, $errstr, $errfile, $errline)
+                    );
+                } catch (\Exception $ex) {
+                    // ignore (it's possible for this to happen if the StaticContainer hasn't been created yet)
+                }
+
+                break;
             case E_STRICT:
             case E_RECOVERABLE_ERROR:
             case E_DEPRECATED:
@@ -192,6 +201,10 @@ class ErrorHandler
 
     private static function createLogMessage($errno, $errstr, $errfile, $errline)
     {
+        if (str_contains($errstr, 'DBG[')) {
+            return $errstr;
+        }
+
         return sprintf(
             "%s(%d): %s - %s - Matomo " . (class_exists('Piwik\Version') ? Version::VERSION : '') . " - Please report this message in the Matomo forums: https://forum.matomo.org (please do a search first as it might have been reported already)",
             $errfile,
