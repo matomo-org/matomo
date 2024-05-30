@@ -21,6 +21,7 @@ use Piwik\AssetManager\UIAssetFetcher\PluginUmdAssetFetcher;
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\AssetManager\UIAssetMerger\JScriptUIAssetMerger;
 use Piwik\AssetManager\UIAssetMerger\StylesheetUIAssetMerger;
+use Piwik\Cache as PiwikCache;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager;
 
@@ -273,7 +274,6 @@ class AssetManager extends Singleton
      */
     public function removeMergedAssets($pluginName = false)
     {
-        ProxyHttp::dbg();
         $assetsToRemove = array($this->getMergedStylesheetAsset());
 
         if ($pluginName) {
@@ -462,10 +462,34 @@ class AssetManager extends Singleton
      */
     public function removeAssets($uiAssets)
     {
-        ProxyHttp::dbg();
         foreach ($uiAssets as $uiAsset) {
+            ProxyHttp::dbg($uiAsset->getAbsoluteLocation());
             $uiAsset->delete();
         }
+    }
+
+    private function getUITestsSafeFileName(string $name): string
+    {
+        $filename = $name;
+
+        if (StaticContainer::get('tests.ui')) {
+            $cacheId = CacheId::pluginAware($name);
+            $cache = PiwikCache::getLazyCache(); // tried TransientCache with no difference
+            if ($cache->contains($cacheId)) {
+                $filename = $cache->fetch($cacheId);
+            } else {
+                $ts = str_replace('.', '_', microtime(true));
+                $filename = str_replace(
+                    ['.css', '.js'],
+                    [sprintf('.%s.css', $ts), sprintf('.%s.js', $ts)],
+                    $name
+                );
+
+                $cache->save($cacheId, $filename);
+            }
+        }
+
+        return $filename;
     }
 
     /**
@@ -473,8 +497,7 @@ class AssetManager extends Singleton
      */
     public function getMergedStylesheetAsset()
     {
-        ProxyHttp::dbg();
-        return $this->getMergedUIAsset(self::MERGED_CSS_FILE);
+        return $this->getMergedUIAsset($this->getUITestsSafeFileName(self::MERGED_CSS_FILE));
     }
 
     /**
@@ -482,7 +505,7 @@ class AssetManager extends Singleton
      */
     private function getMergedCoreJSAsset()
     {
-        return $this->getMergedUIAsset(self::MERGED_CORE_JS_FILE);
+        return $this->getMergedUIAsset($this->getUITestsSafeFileName(self::MERGED_CORE_JS_FILE));
     }
 
     /**
@@ -490,7 +513,7 @@ class AssetManager extends Singleton
      */
     protected function getMergedNonCoreJSAsset()
     {
-        return $this->getMergedUIAsset(self::MERGED_NON_CORE_JS_FILE);
+        return $this->getMergedUIAsset($this->getUITestsSafeFileName(self::MERGED_NON_CORE_JS_FILE));
     }
 
     /**
