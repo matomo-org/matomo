@@ -1359,7 +1359,6 @@
                 h = Math.min(maxHeight, h);
             }
 
-            map.container.height(h - 2);
             map.resize(w, h);
 
             if (w < 355) $('.UserCountryMap .tableIcon span').hide();
