@@ -12,6 +12,8 @@ use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
 
 return [
 
+    'tests.ui' => true,
+
     // UI tests will remove the port from all URLs to the test server. if a test
     // requires the ports in UI tests (eg, Overlay), add the api/controller methods
     // to one of these blacklists
