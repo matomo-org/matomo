@@ -33,7 +33,7 @@ return array(
         );
         $handler = new ConsoleHandler(null, true, $verbosityMap);
         $handler->setFormatter(new \Piwik\Plugins\Monolog\Formatter\ConsoleFormatter([
-            'date_format' => 'Y-m-d H:i:s',
+            'date_format' => 'Y-m-d H:i:s.u',
             'format' => $c->get('log.console.format'),
             'multiline' => true
         ]));
