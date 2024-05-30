@@ -33,6 +33,7 @@ class Filesystem
      */
     public static function deleteAllCacheOnUpdate($pluginName = false)
     {
+        ProxyHttp::dbg($pluginName, self::$skipCacheClearOnUpdate);
         if (self::$skipCacheClearOnUpdate) {
             return;
         }
