@@ -334,7 +334,9 @@ class ProxyHttp
             2
         )[1]['function'];
 
-        $content = implode(', ', array_map('json_encode', $args));
+        $content = implode(', ', array_map(function ($item) {
+            return is_scalar($item) ? $item : json_encode($item);
+        }, $args));
         $content = trim($content) ? ' | ' . $content : '';
 
         trigger_error(sprintf('[DBG] | %s%s', $caller, $content));

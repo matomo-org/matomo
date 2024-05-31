@@ -262,6 +262,4 @@ return [
     \Piwik\Segment\SegmentsList::class => function () {
         return \Piwik\Segment\SegmentsList::get();
     },
-
-    'tests.ui' => false,
 ];

@@ -196,12 +196,13 @@ class AssetManager extends Singleton
      * Return the css merged file absolute location.
      * If there is none, the generation process will be triggered.
      *
+     * @param bool $useUniqueFilenames
      * @return UIAsset
      */
-    public function getMergedStylesheet()
+    public function getMergedStylesheet(bool $useUniqueFilenames = false)
     {
-        ProxyHttp::dbg();
-        $mergedAsset = $this->getMergedStylesheetAsset();
+        ProxyHttp::dbg((string)$useUniqueFilenames);
+        $mergedAsset = $this->getMergedStylesheetAsset($useUniqueFilenames);
 
         $assetFetcher = new StylesheetUIAssetFetcher(Manager::getInstance()->getLoadedPluginsName(), $this->theme);
 
@@ -216,22 +217,24 @@ class AssetManager extends Singleton
      * Return the core js merged file absolute location.
      * If there is none, the generation process will be triggered.
      *
+     * @param bool $useUniqueFilenames
      * @return UIAsset
      */
-    public function getMergedCoreJavaScript()
+    public function getMergedCoreJavaScript(bool $useUniqueFilenames = false)
     {
-        return $this->getMergedJavascript($this->getCoreJScriptFetcher(), $this->getMergedCoreJSAsset());
+        return $this->getMergedJavascript($this->getCoreJScriptFetcher(), $this->getMergedCoreJSAsset($useUniqueFilenames));
     }
 
     /**
      * Return the non core js merged file absolute location.
      * If there is none, the generation process will be triggered.
      *
+     * @param bool $useUniqueFilenames
      * @return UIAsset
      */
-    public function getMergedNonCoreJavaScript()
+    public function getMergedNonCoreJavaScript(bool $useUniqueFilenames = false)
     {
-        return $this->getMergedJavascript($this->getNonCoreJScriptFetcher(), $this->getMergedNonCoreJSAsset());
+        return $this->getMergedJavascript($this->getNonCoreJScriptFetcher(), $this->getMergedNonCoreJSAsset($useUniqueFilenames));
     }
 
     /**
@@ -274,6 +277,7 @@ class AssetManager extends Singleton
      */
     public function removeMergedAssets($pluginName = false)
     {
+        ProxyHttp::dbg($pluginName);
         $assetsToRemove = array($this->getMergedStylesheetAsset());
 
         if ($pluginName) {
@@ -330,7 +334,6 @@ class AssetManager extends Singleton
      */
     public function getAssetDirectory()
     {
-        ProxyHttp::dbg();
         $mergedFileDirectory = StaticContainer::get('path.tmp') . '/assets';
 
         if (!is_dir($mergedFileDirectory)) {
@@ -468,25 +471,21 @@ class AssetManager extends Singleton
         }
     }
 
-    private function getUITestsSafeFileName(string $name): string
+    private function getUniqueFileName(string $name): string
     {
-        $filename = $name;
+        $cacheId = CacheId::pluginAware($name);
+        $cache = PiwikCache::getTransientCache();
+        if ($cache->contains($cacheId)) {
+            $filename = $cache->fetch($cacheId);
+        } else {
+            $ts = str_replace('.', '_', microtime(true));
+            $filename = str_replace(
+                ['.css', '.js'],
+                [sprintf('.%s.css', $ts), sprintf('.%s.js', $ts)],
+                $name
+            );
 
-        if (StaticContainer::get('tests.ui')) {
-            $cacheId = CacheId::pluginAware($name);
-            $cache = PiwikCache::getLazyCache(); // tried TransientCache with no difference
-            if ($cache->contains($cacheId)) {
-                $filename = $cache->fetch($cacheId);
-            } else {
-                $ts = str_replace('.', '_', microtime(true));
-                $filename = str_replace(
-                    ['.css', '.js'],
-                    [sprintf('.%s.css', $ts), sprintf('.%s.js', $ts)],
-                    $name
-                );
-
-                $cache->save($cacheId, $filename);
-            }
+            $cache->save($cacheId, $filename);
         }
 
         return $filename;
@@ -495,25 +494,37 @@ class AssetManager extends Singleton
     /**
      * @return UIAsset
      */
-    public function getMergedStylesheetAsset()
+    public function getMergedStylesheetAsset(bool $useUniqueFilenames = false)
     {
-        return $this->getMergedUIAsset($this->getUITestsSafeFileName(self::MERGED_CSS_FILE));
+        ProxyHttp::dbg((string)$useUniqueFilenames);
+        $filename = $useUniqueFilenames
+            ? $this->getUniqueFileName(self::MERGED_CSS_FILE)
+            : self::MERGED_CSS_FILE;
+        return $this->getMergedUIAsset($filename);
     }
 
     /**
      * @return UIAsset
      */
-    private function getMergedCoreJSAsset()
+    private function getMergedCoreJSAsset(bool $useUniqueFilenames = false)
     {
-        return $this->getMergedUIAsset($this->getUITestsSafeFileName(self::MERGED_CORE_JS_FILE));
+        ProxyHttp::dbg((string)$useUniqueFilenames);
+        $filename = $useUniqueFilenames
+            ? $this->getUniqueFileName(self::MERGED_CORE_JS_FILE)
+            : self::MERGED_CORE_JS_FILE;
+        return $this->getMergedUIAsset($filename);
     }
 
     /**
      * @return UIAsset
      */
-    protected function getMergedNonCoreJSAsset()
+    protected function getMergedNonCoreJSAsset(bool $useUniqueFilenames = false)
     {
-        return $this->getMergedUIAsset($this->getUITestsSafeFileName(self::MERGED_NON_CORE_JS_FILE));
+        ProxyHttp::dbg((string)$useUniqueFilenames);
+        $filename = $useUniqueFilenames
+            ? $this->getUniqueFileName(self::MERGED_NON_CORE_JS_FILE)
+            : self::MERGED_NON_CORE_JS_FILE;
+        return $this->getMergedUIAsset($filename);
     }
 
     /**

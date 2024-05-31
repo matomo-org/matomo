@@ -28,6 +28,7 @@ use Piwik\Plugin;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\ProxyHttp;
 use Piwik\Settings\Storage as SettingsStorage;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -558,6 +559,7 @@ class Manager
      */
     public function deactivatePlugin($pluginName)
     {
+        ProxyHttp::dbg($pluginName);
         $plugins = $this->pluginList->getActivatedPlugins();
         if (!in_array($pluginName, $plugins)) {
             // plugin is already deactivated
@@ -640,6 +642,7 @@ class Manager
      */
     public function uninstallPlugin($pluginName)
     {
+        ProxyHttp::dbg($pluginName);
         if ($this->isPluginLoaded($pluginName)) {
             throw new \Exception("To uninstall the plugin $pluginName, first disable it in Matomo > Settings > Plugins");
         }
@@ -679,6 +682,7 @@ class Manager
      */
     private function clearCache($pluginName)
     {
+        ProxyHttp::dbg($pluginName);
         $this->resetTransientCache();
         Filesystem::deleteAllCacheOnUpdate($pluginName);
     }
@@ -725,6 +729,7 @@ class Manager
      */
     public function activatePlugin($pluginName)
     {
+        ProxyHttp::dbg($pluginName);
         $plugins = $this->pluginList->getActivatedPlugins();
         if (in_array($pluginName, $plugins)) {
             // plugin is already activated
@@ -1446,6 +1451,7 @@ class Manager
         }
 
         if ($saveConfig) {
+            ProxyHttp::dbg($pluginName);
             PiwikConfig::getInstance()->forceSave();
             $this->clearCache($pluginName);
         }
