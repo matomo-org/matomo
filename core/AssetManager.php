@@ -464,28 +464,57 @@ class AssetManager extends Singleton
         }
     }
 
-    /**
-     * @return UIAsset
-     */
-    public function getMergedStylesheetAsset()
+    private function getUniqueFileName(string $name): string
     {
-        return $this->getMergedUIAsset(self::MERGED_CSS_FILE);
+        $cacheId = CacheId::pluginAware($name);
+        $cache = PiwikCache::getTransientCache();
+        if ($cache->contains($cacheId)) {
+            $filename = $cache->fetch($cacheId);
+        } else {
+            $ts = str_replace('.', '_', microtime(true));
+            $filename = str_replace(
+                ['.css', '.js'],
+                [sprintf('.%s.css', $ts), sprintf('.%s.js', $ts)],
+                $name
+            );
+
+            $cache->save($cacheId, $filename);
+        }
+
+        return $filename;
     }
 
     /**
      * @return UIAsset
      */
-    private function getMergedCoreJSAsset()
+    public function getMergedStylesheetAsset(bool $useUniqueFilenames = false)
     {
-        return $this->getMergedUIAsset(self::MERGED_CORE_JS_FILE);
+        $filename = $useUniqueFilenames
+            ? $this->getUniqueFileName(self::MERGED_CSS_FILE)
+            : self::MERGED_CSS_FILE;
+        return $this->getMergedUIAsset($filename);
     }
 
     /**
      * @return UIAsset
      */
-    protected function getMergedNonCoreJSAsset()
+    private function getMergedCoreJSAsset(bool $useUniqueFilenames = false)
     {
-        return $this->getMergedUIAsset(self::MERGED_NON_CORE_JS_FILE);
+        $filename = $useUniqueFilenames
+            ? $this->getUniqueFileName(self::MERGED_CORE_JS_FILE)
+            : self::MERGED_CORE_JS_FILE;
+        return $this->getMergedUIAsset($filename);
+    }
+
+    /**
+     * @return UIAsset
+     */
+    protected function getMergedNonCoreJSAsset(bool $useUniqueFilenames = false)
+    {
+        $filename = $useUniqueFilenames
+            ? $this->getUniqueFileName(self::MERGED_NON_CORE_JS_FILE)
+            : self::MERGED_NON_CORE_JS_FILE;
+        return $this->getMergedUIAsset($filename);
     }
 
     /**

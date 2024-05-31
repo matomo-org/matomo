@@ -33,9 +33,9 @@ class Controller extends \Piwik\Plugin\Controller
     public function getCss()
     {
         try {
-            $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet();
+            $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet(true);
         } catch (StylesheetLessCompileException $exception) {
-            $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet();
+            $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet(true);
         }
         ProxyHttp::serverStaticFile($cssMergedFile->getAbsoluteLocation(), "text/css");
     }
@@ -48,7 +48,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getCoreJs()
     {
-        $jsMergedFile = AssetManager::getInstance()->getMergedCoreJavaScript();
+        $jsMergedFile = AssetManager::getInstance()->getMergedCoreJavaScript(true);
         $this->serveJsFile($jsMergedFile);
     }
 
@@ -60,7 +60,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getNonCoreJs()
     {
-        $jsMergedFile = AssetManager::getInstance()->getMergedNonCoreJavaScript();
+        $jsMergedFile = AssetManager::getInstance()->getMergedNonCoreJavaScript(true);
         $this->serveJsFile($jsMergedFile);
     }
 
