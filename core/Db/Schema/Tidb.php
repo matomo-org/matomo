@@ -9,6 +9,8 @@
 
 namespace Piwik\Db\Schema;
 
+use Piwik\DbHelper;
+
 /**
  * Mariadb schema
  */
@@ -44,6 +46,18 @@ class Tidb extends Mysql
 
         if ('' !== $rowFormat) {
             $options .= " $rowFormat";
+        }
+
+        return $options;
+    }
+
+    protected function getDatabaseCreateOptions(): string
+    {
+        $charset = DbHelper::getDefaultCharset();
+        $options = "DEFAULT CHARACTER SET $charset";
+
+        if ('utf8mb4' === $charset) {
+            $options .= ' COLLATE=utf8mb4_0900_ai_ci';
         }
 
         return $options;

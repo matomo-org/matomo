@@ -520,10 +520,10 @@ class Mysql implements SchemaInterface
             $dbName = $this->getDbName();
         }
 
+        $createOptions = $this->getDatabaseCreateOptions();
         $dbName = str_replace('`', '', $dbName);
-        $charset    = DbHelper::getDefaultCharset();
 
-        Db::exec("CREATE DATABASE IF NOT EXISTS `" . $dbName . "` DEFAULT CHARACTER SET " . $charset);
+        Db::exec("CREATE DATABASE IF NOT EXISTS `$dbName` $createOptions");
     }
 
     /**
@@ -686,6 +686,13 @@ class Mysql implements SchemaInterface
         }
 
         return $options;
+    }
+
+    protected function getDatabaseCreateOptions(): string
+    {
+        $charset = DbHelper::getDefaultCharset();
+
+        return "DEFAULT CHARACTER SET $charset";
     }
 
     protected function getTableEngine()
