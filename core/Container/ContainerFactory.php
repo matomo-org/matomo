@@ -122,6 +122,7 @@ class ContainerFactory
         // add plugin environment configs
         $plugins = $this->pluginList->getActivatedPlugins();
         $plugins = array_unique(array_merge($plugins, Manager::getAlwaysActivatedPlugins()));
+        sort($plugins); // initial alphabetical sort, could be reordered below if custom sorting is provided
 
         if ($this->shouldSortPlugins()) {
             $plugins = $this->sortPlugins($plugins);
@@ -141,6 +142,7 @@ class ContainerFactory
     {
         $plugins = $this->pluginList->getActivatedPlugins();
         $plugins = array_unique(array_merge($plugins, Manager::getAlwaysActivatedPlugins()));
+        sort($plugins); // initial alphabetical sort, could be reordered below if custom sorting is provided
 
         if ($this->shouldSortPlugins()) {
             $plugins = $this->sortPlugins($plugins);
