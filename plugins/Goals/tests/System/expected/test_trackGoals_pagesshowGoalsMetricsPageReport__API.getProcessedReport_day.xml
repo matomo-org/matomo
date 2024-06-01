@@ -13,6 +13,8 @@
 		<metrics>
 			<nb_hits>Pageviews</nb_hits>
 			<nb_visits>Unique Pageviews</nb_visits>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
 		</metrics>
 		<metricsDocumentation>
 			<nb_hits>The number of times this page was visited.</nb_hits>
@@ -20,6 +22,8 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+			<nb_conversions>The total number of conversions for all goals.</nb_conversions>
+			<revenue>The total revenue generated for all goals.</revenue>
 		</metricsDocumentation>
 		<processedMetrics>
 			<avg_time_on_page>Avg. time on page</avg_time_on_page>
@@ -34,6 +38,8 @@
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
 		</metricTypes>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
 		<relatedReports>
@@ -74,6 +80,8 @@
 		<label>Page Title</label>
 		<nb_hits>Pageviews</nb_hits>
 		<nb_visits>Unique Pageviews</nb_visits>
+		<nb_conversions>Conversions</nb_conversions>
+		<revenue>Revenue</revenue>
 		<avg_time_on_page>Avg. time on page</avg_time_on_page>
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<exit_rate>Exit rate</exit_rate>
@@ -100,6 +108,8 @@
 			<goal_2_nb_conversions_page_rate>100%</goal_2_nb_conversions_page_rate>
 			<avg_time_on_page>00:06:00</avg_time_on_page>
 			<exit_rate>0%</exit_rate>
+			<nb_conversions>0</nb_conversions>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label> Page C</label>
@@ -122,6 +132,8 @@
 			<goal_2_nb_conversions_page_rate>100%</goal_2_nb_conversions_page_rate>
 			<avg_time_on_page>00:01:30</avg_time_on_page>
 			<exit_rate>100%</exit_rate>
+			<nb_conversions>0</nb_conversions>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label> Page B</label>
@@ -144,6 +156,8 @@
 			<goal_2_nb_conversions_page_rate>100%</goal_2_nb_conversions_page_rate>
 			<avg_time_on_page>00:06:00</avg_time_on_page>
 			<exit_rate>0%</exit_rate>
+			<nb_conversions>0</nb_conversions>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label> Page A - X</label>
@@ -166,6 +180,8 @@
 			<goal_2_nb_conversions_page_rate />
 			<avg_time_on_page>00:06:00</avg_time_on_page>
 			<exit_rate>0%</exit_rate>
+			<nb_conversions>0</nb_conversions>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label> Page A - Z</label>
@@ -188,6 +204,8 @@
 			<goal_2_nb_conversions_page_rate />
 			<avg_time_on_page>00:06:00</avg_time_on_page>
 			<exit_rate>0%</exit_rate>
+			<nb_conversions>0</nb_conversions>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label> Page D</label>
@@ -210,6 +228,8 @@
 			<goal_2_nb_conversions_page_rate />
 			<avg_time_on_page>00:00:00</avg_time_on_page>
 			<exit_rate>100%</exit_rate>
+			<nb_conversions>0</nb_conversions>
+			<revenue>$0</revenue>
 		</row>
 	</reportData>
 	<reportMetadata>

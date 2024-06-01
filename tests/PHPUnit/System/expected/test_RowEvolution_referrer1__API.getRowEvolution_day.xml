@@ -9,6 +9,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_conversions>3</nb_conversions>
+				<revenue>0</revenue>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -24,6 +26,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_conversions>3</nb_conversions>
+				<revenue>0</revenue>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -39,6 +43,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_conversions>3</nb_conversions>
+				<revenue>0</revenue>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -54,6 +60,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_conversions>3</nb_conversions>
+				<revenue>0</revenue>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -69,6 +77,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_conversions>3</nb_conversions>
+				<revenue>0</revenue>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -84,6 +94,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_conversions>3</nb_conversions>
+				<revenue>0</revenue>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -112,6 +124,14 @@
 			<nb_users>
 				<name>Users</name>
 			</nb_users>
+			<nb_conversions>
+				<name>Conversions</name>
+				<min>0</min>
+				<max>3</max>
+			</nb_conversions>
+			<revenue>
+				<name>Revenue</name>
+			</revenue>
 			<nb_actions_per_visit>
 				<name>Actions per Visit</name>
 				<min>0</min>

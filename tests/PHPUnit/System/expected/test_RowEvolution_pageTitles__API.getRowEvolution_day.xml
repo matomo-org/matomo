@@ -124,6 +124,12 @@
 				<min>0</min>
 				<max>1</max>
 			</nb_visits>
+			<nb_conversions>
+				<name>Conversions</name>
+			</nb_conversions>
+			<revenue>
+				<name>Revenue</name>
+			</revenue>
 			<avg_time_on_page>
 				<name>Avg. time on page</name>
 			</avg_time_on_page>

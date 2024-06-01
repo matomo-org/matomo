@@ -104,6 +104,12 @@
 				<min>0</min>
 				<max>1</max>
 			</entry_bounce_count>
+			<nb_conversions>
+				<name>Conversions</name>
+			</nb_conversions>
+			<revenue>
+				<name>Revenue</name>
+			</revenue>
 			<bounce_rate>
 				<name>Bounce Rate</name>
 				<min>0</min>

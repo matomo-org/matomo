@@ -12,6 +12,8 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
@@ -21,6 +23,8 @@
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<nb_conversions>The total number of conversions for all goals.</nb_conversions>
+			<revenue>The total revenue generated for all goals.</revenue>
 		</metricsDocumentation>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
@@ -35,6 +39,8 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
 		</metricTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>

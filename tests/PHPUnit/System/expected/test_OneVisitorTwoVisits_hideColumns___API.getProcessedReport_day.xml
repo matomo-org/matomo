@@ -10,14 +10,22 @@
 		<action>getPageTitles</action>
 		<dimension>Page Title</dimension>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
+		</metrics>
 		<metricsDocumentation>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+			<nb_conversions>The total number of conversions for all goals.</nb_conversions>
+			<revenue>The total revenue generated for all goals.</revenue>
 		</metricsDocumentation>
 		<processedMetrics>
 			<exit_rate>Exit rate</exit_rate>
 		</processedMetrics>
 		<metricTypes>
 			<exit_rate>percent</exit_rate>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
 		</metricTypes>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
 		<relatedReports>
@@ -55,24 +63,34 @@
 	</metadata>
 	<columns>
 		<label>Page Title</label>
+		<nb_conversions>Conversions</nb_conversions>
+		<revenue>Revenue</revenue>
 		<exit_rate>Exit rate</exit_rate>
 	</columns>
 	<reportData>
 		<row>
 			<label>Checkout</label>
 			<exit_rate>100%</exit_rate>
+			<nb_conversions>0</nb_conversions>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label> incredible title!</label>
 			<exit_rate>0%</exit_rate>
+			<nb_conversions>0</nb_conversions>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label> Looking at homepage (again)...</label>
 			<exit_rate>100%</exit_rate>
+			<nb_conversions>0</nb_conversions>
+			<revenue>$0</revenue>
 		</row>
 		<row>
 			<label> Second page view - should be registered as URL</label>
 			<exit_rate>0%</exit_rate>
+			<nb_conversions>0</nb_conversions>
+			<revenue>$0</revenue>
 		</row>
 	</reportData>
 	<reportMetadata>
