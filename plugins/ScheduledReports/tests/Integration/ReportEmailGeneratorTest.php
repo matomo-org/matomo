@@ -17,18 +17,9 @@
 namespace Piwik\Plugins\ScheduledReports\tests\Integration;
 
 use PHPMailer\PHPMailer\PHPMailer;
-use Piwik\Mail;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-
-class TestReportEmailGenerator extends ReportEmailGenerator
-{
-    protected function configureEmail(Mail $mail, GeneratedReport $report)
-    {
-        // empty
-    }
-}
 
 /**
  * @group ReportEmailGeneratorTest
@@ -38,7 +29,7 @@ class TestReportEmailGenerator extends ReportEmailGenerator
 class ReportEmailGeneratorTest extends IntegrationTestCase
 {
     /**
-     * @var TestReportEmailGenerator
+     * @var ReportEmailGenerator
      */
     private $testInstance;
 
@@ -51,7 +42,8 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->testInstance = new TestReportEmailGenerator();
+        $mock = self::getMockBuilder(ReportEmailGenerator::class)->onlyMethods(['configureEmail']);
+        $this->testInstance = $mock->getMock();
     }
 
     public function testMakeEmailCreatesCorrectlyConfiguredMailInstance()
