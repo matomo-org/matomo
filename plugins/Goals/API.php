@@ -116,7 +116,6 @@ class API extends \Piwik\Plugin\API
             uasort($goals, function ($a, $b) {
                 if ($a['name'] == $b['name']) {
                     return $a['idgoal'] > $b['idgoal'] ? -1 : 1;
-
                 }
 
                 return strcasecmp($a['name'], $b['name']);
