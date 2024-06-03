@@ -195,11 +195,12 @@ class AssetManager extends Singleton
      * Return the css merged file absolute location.
      * If there is none, the generation process will be triggered.
      *
+     * @param bool $useUniqueFilenames
      * @return UIAsset
      */
-    public function getMergedStylesheet()
+    public function getMergedStylesheet(bool $useUniqueFilenames = false)
     {
-        $mergedAsset = $this->getMergedStylesheetAsset();
+        $mergedAsset = $this->getMergedStylesheetAsset($useUniqueFilenames);
 
         $assetFetcher = new StylesheetUIAssetFetcher(Manager::getInstance()->getLoadedPluginsName(), $this->theme);
 
@@ -214,22 +215,24 @@ class AssetManager extends Singleton
      * Return the core js merged file absolute location.
      * If there is none, the generation process will be triggered.
      *
+     * @param bool $useUniqueFilenames
      * @return UIAsset
      */
-    public function getMergedCoreJavaScript()
+    public function getMergedCoreJavaScript(bool $useUniqueFilenames = false)
     {
-        return $this->getMergedJavascript($this->getCoreJScriptFetcher(), $this->getMergedCoreJSAsset());
+        return $this->getMergedJavascript($this->getCoreJScriptFetcher(), $this->getMergedCoreJSAsset($useUniqueFilenames));
     }
 
     /**
      * Return the non core js merged file absolute location.
      * If there is none, the generation process will be triggered.
      *
+     * @param bool $useUniqueFilenames
      * @return UIAsset
      */
-    public function getMergedNonCoreJavaScript()
+    public function getMergedNonCoreJavaScript(bool $useUniqueFilenames = false)
     {
-        return $this->getMergedJavascript($this->getNonCoreJScriptFetcher(), $this->getMergedNonCoreJSAsset());
+        return $this->getMergedJavascript($this->getNonCoreJScriptFetcher(), $this->getMergedNonCoreJSAsset($useUniqueFilenames));
     }
 
     /**

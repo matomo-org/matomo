@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Proxy;
 use Piwik\AssetManager;
 use Piwik\AssetManager\UIAsset;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Plugin\Manager;
 use Piwik\ProxyHttp;
@@ -33,9 +34,9 @@ class Controller extends \Piwik\Plugin\Controller
     public function getCss()
     {
         try {
-            $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet(true);
+            $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet(StaticContainer::get('tests.ui'));
         } catch (StylesheetLessCompileException $exception) {
-            $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet(true);
+            $cssMergedFile = AssetManager::getInstance()->getMergedStylesheet(StaticContainer::get('tests.ui'));
         }
         ProxyHttp::serverStaticFile($cssMergedFile->getAbsoluteLocation(), "text/css");
     }
@@ -48,19 +49,19 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getCoreJs()
     {
-        $jsMergedFile = AssetManager::getInstance()->getMergedCoreJavaScript(true);
+        $jsMergedFile = AssetManager::getInstance()->getMergedCoreJavaScript(StaticContainer::get('tests.ui'));
         $this->serveJsFile($jsMergedFile);
     }
 
     /**
-     * Output the merged non core JavaScript file.
+     * Output the merged non-core JavaScript file.
      * This method is called when the asset manager is enabled.
      *
      * @see core/AssetManager.php
      */
     public function getNonCoreJs()
     {
-        $jsMergedFile = AssetManager::getInstance()->getMergedNonCoreJavaScript(true);
+        $jsMergedFile = AssetManager::getInstance()->getMergedNonCoreJavaScript(StaticContainer::get('tests.ui'));
         $this->serveJsFile($jsMergedFile);
     }
 
