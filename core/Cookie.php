@@ -184,7 +184,7 @@ class Cookie
         $this->setP3PHeader();
 
         $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain);
-        $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain, TRUE, FALSE, 'None');
+        $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain, true, false, 'None');
 
         $this->clear();
     }
