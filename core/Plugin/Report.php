@@ -133,6 +133,19 @@ class Report
     protected $hasGoalMetrics = false;
 
     /**
+     * Set this property to true if your report supports goal metrics, but does not also include overall summed goal
+     * metrics (total conversions and total revenue across all goals).
+     *
+     * By default, Matomo assumes reports that set {@see self::$hasGoalMetrics} to `true` provide these overall
+     * metrics, but some reports are not able to compute them.
+     *
+     * Only used if {@see self::$hasGoalMetrics} is true.
+     * @var bool
+     * @api
+     */
+    protected $hasGoalSumMetrics = true;
+
+    /**
      * Set this property to false in case your report can't/shouldn't be flattened.
      * In this case, flattener won't be applied even if parameter is provided in a request
      * @var bool
@@ -591,6 +604,15 @@ class Report
     public function hasGoalMetrics()
     {
         return $this->hasGoalMetrics;
+    }
+
+    /**
+     * @return bool
+     * @ignore
+     */
+    public function hasGoalSumMetrics()
+    {
+        return $this->hasGoalSumMetrics;
     }
 
     /**

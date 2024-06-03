@@ -44,6 +44,7 @@ class GetPageUrls extends Base
 
         $this->subcategoryId = 'General_Pages';
         $this->hasGoalMetrics = true;
+        $this->hasGoalSumMetrics = false;
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)

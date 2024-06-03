@@ -64,7 +64,8 @@ class CustomDimensions extends Plugin
                 'name'     => $dimension['name'],
                 'module'   => $this->pluginName,
                 'action'   => 'getCustomDimension',
-                'parameters' => array('idDimension' => $dimension['idcustomdimension'])
+                'parameters' => array('idDimension' => $dimension['idcustomdimension']),
+                'hasGoalSumMetrics' => true,
             );
         }
     }
