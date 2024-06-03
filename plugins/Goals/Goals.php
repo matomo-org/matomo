@@ -387,7 +387,8 @@ class Goals extends \Piwik\Plugin
                     && empty($apiReportToUpdate['parameters'])
                 ) {
                     // add overall Goal metrics computed during archiving by EnrichRecordWithGoalMetricSums
-                    if (!isset($reportsWithGoals['hasGoalSumMetrics'])
+                    if (
+                        !isset($reportsWithGoals['hasGoalSumMetrics'])
                         || $reportWithGoals['hasGoalSumMetrics']
                     ) {
                         $apiReportToUpdate['metrics']['nb_conversions'] = $goalMetrics['nb_conversions'];
