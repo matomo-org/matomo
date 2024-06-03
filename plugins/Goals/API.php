@@ -80,10 +80,11 @@ class API extends \Piwik\Plugin\API
      * Returns all Goals for a given website, or list of websites
      *
      * @param string|array $idSite Array or Comma separated list of website IDs to request the goals for
+     * @param bool $orderByName
      *
      * @return array Array of Goal attributes
      */
-    public function getGoals($idSite)
+    public function getGoals($idSite, bool $orderByName = false): array
     {
         $cacheId = self::getCacheId($idSite);
         $cache = $this->getGoalsInfoStaticCache();
@@ -94,7 +95,7 @@ class API extends \Piwik\Plugin\API
             $idSite = Site::getIdSitesFromIdSitesString($idSite);
 
             if (empty($idSite)) {
-                return array();
+                return [];
             }
 
             Piwik::checkUserHasViewAccess($idSite);
@@ -109,7 +110,20 @@ class API extends \Piwik\Plugin\API
             $cache->save($cacheId, $cleanedGoals);
         }
 
-        return $cache->fetch($cacheId);
+        $goals = $cache->fetch($cacheId);
+
+        if ($orderByName) {
+            uasort($goals, function ($a, $b) {
+                if ($a['name'] == $b['name']) {
+                    return $a['idgoal'] > $b['idgoal'] ? -1 : 1;
+
+                }
+
+                return strcasecmp($a['name'], $b['name']);
+            });
+        }
+
+        return $goals;
     }
 
     private function formatGoal($goal)
