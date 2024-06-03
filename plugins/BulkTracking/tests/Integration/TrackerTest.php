@@ -17,14 +17,6 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker;
 use Piwik\Tests\Framework\Mock\Tracker\RequestSet;
 
-class TestIntegrationTracker extends Tracker
-{
-    protected function loadTrackerPlugins()
-    {
-        // if we reload the plugins we would lose the injected data :(
-    }
-}
-
 /**
  * @group TrackerTest
  * @group Tracker
@@ -32,7 +24,7 @@ class TestIntegrationTracker extends Tracker
 class TrackerTest extends BulkTrackingTestCase
 {
     /**
-     * @var TestIntegrationTracker
+     * @var Tracker
      */
     private $tracker;
 
@@ -40,7 +32,7 @@ class TrackerTest extends BulkTrackingTestCase
     {
         parent::setUp();
 
-        $this->tracker = new TestIntegrationTracker();
+        $this->tracker = new Tracker();
 
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
