@@ -65,7 +65,7 @@ class ConfigReaderTest extends IntegrationTestCase
                             'value' => '${@piwik(crash))}',
                             'description' => '',
                             'isCustomValue' => false,
-                            'defaultValue' => NULL,
+                            'defaultValue' => null,
                         ),
                 ),
             'CategoryOnlyInGlobalFile' =>
@@ -130,14 +130,14 @@ with multiple lines',
                             'value' => '******',
                             'description' => '',
                             'isCustomValue' => true,
-                            'defaultValue' => NULL,
+                            'defaultValue' => null,
                         ),
                     'login' =>
                         array (
                             'value' => 'tes"t',
                             'description' => '',
                             'isCustomValue' => true,
-                            'defaultValue' => NULL,
+                            'defaultValue' => null,
                         ),
                 ),
             'TestOnlyInCommon' =>
@@ -147,7 +147,7 @@ with multiple lines',
                             'value' => 'commonValue',
                             'description' => '',
                             'isCustomValue' => false,
-                            'defaultValue' => NULL,
+                            'defaultValue' => null,
                         ),
                 ),
             'Tracker' =>
@@ -157,7 +157,7 @@ with multiple lines',
                             'value' => 'commonConfigTrackerValue',
                             'description' => '',
                             'isCustomValue' => false,
-                            'defaultValue' => NULL,
+                            'defaultValue' => null,
                         ),
                 ),
         );
@@ -175,14 +175,14 @@ with multiple lines',
                 array (
                     'metric' =>
                         array (
-                            'value' => NULL,
+                            'value' => null,
                             'description' => 'Choose the metric that should be displayed in the browser tab',
                             'isCustomValue' => false,
                             'defaultValue' => 'nb_visits',
                         ),
                     'browsers' =>
                         array (
-                            'value' => NULL,
+                            'value' => null,
                             'description' => 'The value will be only displayed in the following browsers',
                             'isCustomValue' => false,
                             'defaultValue' =>
@@ -194,7 +194,7 @@ with multiple lines',
                         ),
                     'description' =>
                         array (
-                            'value' => NULL,
+                            'value' => null,
                             'description' => 'This description will be displayed next to the value',
                             'isCustomValue' => false,
                             'defaultValue' => 'This is the value: 
@@ -202,10 +202,10 @@ Another line',
                         ),
                     'password' =>
                         array (
-                            'value' => NULL,
+                            'value' => null,
                             'description' => 'Password for the 3rd API where we fetch the value',
                             'isCustomValue' => false,
-                            'defaultValue' => NULL,
+                            'defaultValue' => null,
                         ),
                 ),
         );
@@ -221,7 +221,7 @@ Another line',
                 array (
                     'metric' =>
                         array (
-                            'value' => NULL,
+                            'value' => null,
                             'description' => '',
                             'isCustomValue' => false,
                             'defaultValue' => null,
