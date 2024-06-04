@@ -42,14 +42,13 @@ describe("Transitions", function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages&"
                     + "popover=RowAction$3ATransitions$3Aurl$3Ahttp$3A$2F$2Fpiwik.net$2Fdocs$2Fmanage-websites$2F");
         await page.waitForNetworkIdle();
-        await page.waitForTimeout(500);
 
-        // for some reason the tooltip isn't shown on the screenshot (even if the whole page is taken)
-        // but it seems to be placed in the HTML code so, we check for it's contents
         await (await page.$('.Transitions_CurveTextRight')).hover();
-        await page.waitForSelector('.ui-tooltip');
-        const toolTipHtml = await page.evaluate(() => $('.ui-tooltip:visible').html());
-        expect(toolTipHtml).to.equal('<div class="ui-tooltip-content"><strong>4 (out of 4)</strong> to internal pages</div>');
+        await page.waitForSelector('.ui-tooltip', { visible: true });
+
+        // the tooltip will, in most cases, not be visible in the screenshot
+        // removing and re-adding a clone to the DOM seems to fix that problem
+        await page.evaluate(() => $('.ui-dialog').append($('.ui-tooltip').remove().clone()));
 
         expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('transitions_popup_urls');
     });
