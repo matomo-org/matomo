@@ -470,7 +470,7 @@ class AssetManager extends Singleton
     private function getUniqueFileName(string $name): string
     {
         $cacheId = CacheId::pluginAware($name);
-        $cache = PiwikCache::getTransientCache();
+        $cache = Cache::getTransientCache();
         if ($cache->contains($cacheId)) {
             $filename = $cache->fetch($cacheId);
         } else {
