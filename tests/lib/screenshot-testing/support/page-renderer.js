@@ -367,9 +367,10 @@ PageRenderer.prototype._logMessage = function (message) {
     this.pageLogs.push(message);
 };
 
-PageRenderer.prototype.clearCookies = function () {
+PageRenderer.prototype.clearCookies = async function () {
     // see https://github.com/GoogleChrome/puppeteer/issues/1632#issuecomment-353086292
-    return this.webpage._client.send('Network.clearBrowserCookies');
+    await this.webpage._client.send('Network.clearBrowserCookies');
+    await this.webpage.waitForTimeout(250);
 };
 
 PageRenderer.prototype._setupWebpageEvents = function () {
