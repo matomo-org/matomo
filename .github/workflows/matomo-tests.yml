@@ -63,6 +63,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
+          testomatio: ${{ secrets.TESTOMATIO }}
           test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.adapter }}
           mysql-engine: ${{ matrix.engine }}

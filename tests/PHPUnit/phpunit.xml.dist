@@ -92,5 +92,7 @@
         </exclude>
     </whitelist>
 </filter>
-
+<listeners>
+    <listener class="Testomatio\Reporter\PHPUnit" file="../../vendor/testomatio/reporter/src/PHPUnit.php" />
+</listeners>
 </phpunit>

@@ -71,7 +71,8 @@
         "squizlabs/php_codesniffer": "~3.6",
         "phpstan/phpdoc-parser": "~1.24.0",
         "symfony/var-dumper": "~5.4.0",
-        "symfony/yaml": "~5.4.0"
+        "symfony/yaml": "~5.4.0",
+        "testomatio/reporter": "~0.3.2"
     },
     "autoload": {
         "psr-4": {
