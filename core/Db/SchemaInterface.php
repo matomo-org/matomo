@@ -131,4 +131,11 @@ interface SchemaInterface
      * @return int
      */
     public function getDefaultPort(): int;
+
+    /**
+     * Return the table options to use for a CREATE TABLE statement.
+     *
+     * @return string
+     */
+    public function getTableCreateOptions(): string;
 }
