@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31ecc44fbe4c7921bc88e06f6ce1f9f1",
+    "content-hash": "5ef44994ebabf17c7eeb43467d6fd88f",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -5324,28 +5324,28 @@
         },
         {
             "name": "testomatio/reporter",
-            "version": "0.3.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/testomatio/php-reporter.git",
-                "reference": "da812e284c8ef32e1522fd8fc4058ca06b3b5e9d"
+                "url": "https://github.com/caddoo/php-reporter.git",
+                "reference": "b3eca9824e40e51b878c0790c7b9e703154e151b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/testomatio/php-reporter/zipball/da812e284c8ef32e1522fd8fc4058ca06b3b5e9d",
-                "reference": "da812e284c8ef32e1522fd8fc4058ca06b3b5e9d",
+                "url": "https://api.github.com/repos/caddoo/php-reporter/zipball/b3eca9824e40e51b878c0790c7b9e703154e151b",
+                "reference": "b3eca9824e40e51b878c0790c7b9e703154e151b",
                 "shasum": ""
             },
             "require": {
                 "nategood/httpful": "~0.2"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "Testomatio\\Reporter\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -5357,10 +5357,9 @@
             ],
             "description": "Testomat.io reporter for PHPUnit & Codeception",
             "support": {
-                "issues": "https://github.com/testomatio/php-reporter/issues",
-                "source": "https://github.com/testomatio/php-reporter/tree/0.3.2"
+                "source": "https://github.com/caddoo/php-reporter/tree/master"
             },
-            "time": "2023-08-18T10:32:55+00:00"
+            "time": "2024-06-05T07:54:50+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -5418,7 +5417,8 @@
     "stability-flags": {
         "lox/xhprof": 20,
         "matomo/referrer-spam-list": 20,
-        "matomo/searchengine-and-social-list": 20
+        "matomo/searchengine-and-social-list": 20,
+        "testomatio/reporter": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

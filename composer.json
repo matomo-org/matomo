@@ -17,6 +17,12 @@
             "homepage": "https://matomo.org/team/"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/caddoo/php-reporter.git"
+        }
+    ],
     "support": {
         "forum": "https://forum.matomo.org/",
         "issues": "https://github.com/matomo-org/matomo/issues",
@@ -72,7 +78,7 @@
         "phpstan/phpdoc-parser": "~1.24.0",
         "symfony/var-dumper": "~5.4.0",
         "symfony/yaml": "~5.4.0",
-        "testomatio/reporter": "~0.3.2"
+        "testomatio/reporter": "dev-master"
     },
     "autoload": {
         "psr-4": {
