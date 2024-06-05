@@ -39,10 +39,8 @@ class Mysql implements SchemaInterface
      */
     public function getTablesCreateSql()
     {
-        $engine       = $this->getTableEngine();
         $prefixTables = $this->getTablePrefix();
-        $dbSettings   = new Db\Settings();
-        $charset      = $dbSettings->getUsedCharset();
+        $tableOptions = $this->getTableCreateOptions();
 
         $tables = array(
             'user'    => "CREATE TABLE {$prefixTables}user (
@@ -62,7 +60,7 @@ class Mysql implements SchemaInterface
                           ts_changes_shown TIMESTAMP NULL,
                             PRIMARY KEY(login),
                             UNIQUE INDEX `uniq_email` (`email`)
-                          ) ENGINE=$engine DEFAULT CHARSET=$charset
+                          ) $tableOptions
             ",
             'user_token_auth' => "CREATE TABLE {$prefixTables}user_token_auth (
                           idusertokenauth BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -77,7 +75,7 @@ class Mysql implements SchemaInterface
                           secure_only TINYINT(2) unsigned NOT NULL DEFAULT '0',
                             PRIMARY KEY(idusertokenauth),
                             UNIQUE KEY uniq_password(password)
-                          ) ENGINE=$engine DEFAULT CHARSET=$charset
+                          ) $tableOptions
             ",
 
             'twofactor_recovery_code'    => "CREATE TABLE {$prefixTables}twofactor_recovery_code (
@@ -85,7 +83,7 @@ class Mysql implements SchemaInterface
                           login VARCHAR(100) NOT NULL,
                           recovery_code VARCHAR(40) NOT NULL,
                             PRIMARY KEY(idrecoverycode)
-                          ) ENGINE=$engine DEFAULT CHARSET=$charset
+                          ) $tableOptions
             ",
 
             'access'  => "CREATE TABLE {$prefixTables}access (
@@ -95,7 +93,7 @@ class Mysql implements SchemaInterface
                           access VARCHAR(50) NULL,
                             PRIMARY KEY(idaccess),
                             INDEX index_loginidsite (login, idsite)
-                          ) ENGINE=$engine DEFAULT CHARSET=$charset
+                          ) $tableOptions
             ",
 
             'site'    => "CREATE TABLE {$prefixTables}site (
@@ -119,7 +117,7 @@ class Mysql implements SchemaInterface
                             keep_url_fragment TINYINT NOT NULL DEFAULT 0,
                             creator_login VARCHAR(100) NULL,
                               PRIMARY KEY(idsite)
-                            ) ENGINE=$engine DEFAULT CHARSET=$charset
+                            ) $tableOptions
             ",
 
             'plugin_setting' => "CREATE TABLE {$prefixTables}plugin_setting (
@@ -131,7 +129,7 @@ class Mysql implements SchemaInterface
                               `idplugin_setting` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                               PRIMARY KEY (idplugin_setting),
                               INDEX(plugin_name, user_login)
-                            ) ENGINE=$engine DEFAULT CHARSET=$charset
+                            ) $tableOptions
             ",
 
             'site_setting'    => "CREATE TABLE {$prefixTables}site_setting (
@@ -143,14 +141,14 @@ class Mysql implements SchemaInterface
                               `idsite_setting` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                               PRIMARY KEY (idsite_setting),
                               INDEX(idsite, plugin_name)
-                            ) ENGINE=$engine DEFAULT CHARSET=$charset
+                            ) $tableOptions
             ",
 
             'site_url'    => "CREATE TABLE {$prefixTables}site_url (
                               idsite INTEGER(10) UNSIGNED NOT NULL,
                               url VARCHAR(190) NOT NULL,
                                 PRIMARY KEY(idsite, url)
-                              ) ENGINE=$engine DEFAULT CHARSET=$charset
+                              ) $tableOptions
             ",
 
             'goal'       => "CREATE TABLE `{$prefixTables}goal` (
@@ -167,7 +165,7 @@ class Mysql implements SchemaInterface
                               `deleted` tinyint(4) NOT NULL default '0',
                               `event_value_as_revenue` tinyint(4) NOT NULL default '0',
                                 PRIMARY KEY  (`idsite`,`idgoal`)
-                              ) ENGINE=$engine DEFAULT CHARSET=$charset
+                              ) $tableOptions
             ",
 
             'logger_message'      => "CREATE TABLE {$prefixTables}logger_message (
@@ -177,7 +175,7 @@ class Mysql implements SchemaInterface
                                       level VARCHAR(16) NULL,
                                       message TEXT NULL,
                                         PRIMARY KEY(idlogger_message)
-                                      ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                      ) $tableOptions
             ",
 
             'log_action'          => "CREATE TABLE {$prefixTables}log_action (
@@ -188,7 +186,7 @@ class Mysql implements SchemaInterface
                                       url_prefix TINYINT(2) NULL,
                                         PRIMARY KEY(idaction),
                                         INDEX index_type_hash (type, hash)
-                                      ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                      ) $tableOptions
             ",
 
             'log_visit'   => "CREATE TABLE {$prefixTables}log_visit (
@@ -202,7 +200,7 @@ class Mysql implements SchemaInterface
                                 INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time),
                                 INDEX index_idsite_datetime (idsite, visit_last_action_time),
                                 INDEX index_idsite_idvisitor_time (idsite, idvisitor, visit_last_action_time DESC)
-                              ) ENGINE=$engine DEFAULT CHARSET=$charset
+                              ) $tableOptions
             ",
 
             'log_conversion_item'   => "CREATE TABLE `{$prefixTables}log_conversion_item` (
@@ -223,7 +221,7 @@ class Mysql implements SchemaInterface
                                         deleted TINYINT(1) UNSIGNED NOT NULL,
                                           PRIMARY KEY(idvisit, idorder, idaction_sku),
                                           INDEX index_idsite_servertime ( idsite, server_time )
-                                        ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                        ) $tableOptions
             ",
 
             'log_conversion'      => "CREATE TABLE `{$prefixTables}log_conversion` (
@@ -247,7 +245,7 @@ class Mysql implements SchemaInterface
                                         PRIMARY KEY (idvisit, idgoal, buster),
                                         UNIQUE KEY unique_idsite_idorder (idsite, idorder),
                                         INDEX index_idsite_datetime ( idsite, server_time )
-                                      ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                      ) $tableOptions
             ",
 
             'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
@@ -261,7 +259,7 @@ class Mysql implements SchemaInterface
                                         pageview_position MEDIUMINT UNSIGNED DEFAULT NULL,
                                           PRIMARY KEY(idlink_va),
                                           INDEX index_idvisit(idvisit)
-                                        ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                        ) $tableOptions
             ",
 
             'log_profiling'   => "CREATE TABLE {$prefixTables}log_profiling (
@@ -271,7 +269,7 @@ class Mysql implements SchemaInterface
                                   idprofiling BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                                     PRIMARY KEY (idprofiling),
                                     UNIQUE KEY query(query(100))
-                                  ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                  ) $tableOptions
             ",
 
             'option'        => "CREATE TABLE `{$prefixTables}option` (
@@ -280,7 +278,7 @@ class Mysql implements SchemaInterface
                                 autoload TINYINT NOT NULL DEFAULT '1',
                                   PRIMARY KEY ( option_name ),
                                   INDEX autoload( autoload )
-                                ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                ) $tableOptions
             ",
 
             'session'       => "CREATE TABLE {$prefixTables}session (
@@ -289,7 +287,7 @@ class Mysql implements SchemaInterface
                                 lifetime INTEGER,
                                 data MEDIUMTEXT,
                                   PRIMARY KEY ( id )
-                                ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                ) $tableOptions
             ",
 
             'archive_numeric'     => "CREATE TABLE {$prefixTables}archive_numeric (
@@ -304,7 +302,7 @@ class Mysql implements SchemaInterface
                                         PRIMARY KEY(idarchive, name),
                                         INDEX index_idsite_dates_period(idsite, date1, date2, period, name(6)),
                                         INDEX index_period_archived(period, ts_archived)
-                                      ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                      ) $tableOptions
             ",
 
             'archive_blob'        => "CREATE TABLE {$prefixTables}archive_blob (
@@ -318,7 +316,7 @@ class Mysql implements SchemaInterface
                                       value MEDIUMBLOB NULL,
                                         PRIMARY KEY(idarchive, name),
                                         INDEX index_period_archived(period, ts_archived)
-                                      ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                      ) $tableOptions
             ",
 
             'archive_invalidations' => "CREATE TABLE `{$prefixTables}archive_invalidations` (
@@ -335,14 +333,14 @@ class Mysql implements SchemaInterface
                                             `report` VARCHAR(255) NULL,
                                             PRIMARY KEY(idinvalidation),
                                             INDEX index_idsite_dates_period_name(idsite, date1, period)
-                                        ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                        ) $tableOptions
             ",
 
             'sequence'        => "CREATE TABLE {$prefixTables}sequence (
                                       `name` VARCHAR(120) NOT NULL,
                                       `value` BIGINT(20) UNSIGNED NOT NULL ,
                                       PRIMARY KEY(`name`)
-                                  ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                  ) $tableOptions
             ",
 
             'brute_force_log'        => "CREATE TABLE {$prefixTables}brute_force_log (
@@ -352,7 +350,7 @@ class Mysql implements SchemaInterface
                                       `login` VARCHAR(100) NULL,
                                         INDEX index_ip_address(ip_address),
                                       PRIMARY KEY(`id_brute_force_log`)
-                                      ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                      ) $tableOptions
             ",
 
             'tracking_failure'        => "CREATE TABLE {$prefixTables}tracking_failure (
@@ -361,14 +359,14 @@ class Mysql implements SchemaInterface
                                       `date_first_occurred` DATETIME NOT NULL ,
                                       `request_url` MEDIUMTEXT NOT NULL ,
                                       PRIMARY KEY(`idsite`, `idfailure`)
-                                  ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                  ) $tableOptions
             ",
             'locks'                   => "CREATE TABLE `{$prefixTables}locks` (
                                       `key` VARCHAR(" . Lock::MAX_KEY_LEN . ") NOT NULL,
                                       `value` VARCHAR(255) NULL DEFAULT NULL,
                                       `expiry_time` BIGINT UNSIGNED DEFAULT 9999999999,
                                       PRIMARY KEY (`key`)
-                                  ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                  ) $tableOptions
             ",
             'changes'             => "CREATE TABLE `{$prefixTables}changes` (
                                       `idchange` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -381,7 +379,7 @@ class Mysql implements SchemaInterface
                                       `link` VARCHAR(255) NULL,       
                                       PRIMARY KEY(`idchange`),
                                       UNIQUE KEY unique_plugin_version_title (`plugin_name`, `version`, `title`(100))                            
-                                  ) ENGINE=$engine DEFAULT CHARSET=$charset
+                                  ) $tableOptions
             ",
         );
 
@@ -522,10 +520,10 @@ class Mysql implements SchemaInterface
             $dbName = $this->getDbName();
         }
 
+        $createOptions = $this->getDatabaseCreateOptions();
         $dbName = str_replace('`', '', $dbName);
-        $charset    = DbHelper::getDefaultCharset();
 
-        Db::exec("CREATE DATABASE IF NOT EXISTS `" . $dbName . "` DEFAULT CHARACTER SET " . $charset);
+        Db::exec("CREATE DATABASE IF NOT EXISTS `$dbName` $createOptions");
     }
 
     /**
@@ -538,16 +536,11 @@ class Mysql implements SchemaInterface
      */
     public function createTable($nameWithoutPrefix, $createDefinition)
     {
-        $dbSettings   = new Db\Settings();
-        $charset      = $dbSettings->getUsedCharset();
-
         $statement = sprintf(
-            "CREATE TABLE IF NOT EXISTS `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=%s %s;",
+            "CREATE TABLE IF NOT EXISTS `%s` ( %s ) %s;",
             Common::prefixTable($nameWithoutPrefix),
             $createDefinition,
-            $this->getTableEngine(),
-            $charset,
-            $dbSettings->getRowFormat()
+            $this->getTableCreateOptions()
         );
 
         try {
@@ -680,14 +673,46 @@ class Mysql implements SchemaInterface
         return 3306;
     }
 
+    public function getTableCreateOptions(): string
+    {
+        $engine = $this->getTableEngine();
+        $charset = $this->getUsedCharset();
+        $rowFormat = $this->getTableRowFormat();
+
+        $options = "ENGINE=$engine DEFAULT CHARSET=$charset";
+
+        if ('' !== $rowFormat) {
+            $options .= " $rowFormat";
+        }
+
+        return $options;
+    }
+
+    protected function getDatabaseCreateOptions(): string
+    {
+        $charset = DbHelper::getDefaultCharset();
+
+        return "DEFAULT CHARACTER SET $charset";
+    }
+
+    protected function getTableEngine()
+    {
+        return $this->getDbSettings()->getEngine();
+    }
+
+    protected function getTableRowFormat(): string
+    {
+        return $this->getDbSettings()->getRowFormat();
+    }
+
+    protected function getUsedCharset(): string
+    {
+        return $this->getDbSettings()->getUsedCharset();
+    }
+
     private function getTablePrefix()
     {
         return $this->getDbSettings()->getTablePrefix();
-    }
-
-    private function getTableEngine()
-    {
-        return $this->getDbSettings()->getEngine();
     }
 
     private function getDb()
