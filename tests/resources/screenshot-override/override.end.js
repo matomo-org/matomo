@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     function updateSystemCheck() {
         $('.system-check tr:contains(Time) td:nth-child(2)').text('Not showing in tests');
         $('.system-check tr:contains(Datetime) td:nth-child(2)').text('Not showing in tests');
@@ -9,6 +8,7 @@ $(document).ready(function () {
         $('.system-check tr:contains(Server Info) td:nth-child(2)').text('Not showing in tests');
         $('.system-check tr:contains(PHP Disabled functions)').hide();
     }
+
     updateSystemCheck();
 
     if (window.piwikHelper) {
@@ -24,20 +24,4 @@ $(document).ready(function () {
     $('.ui-inline-help:contains(UTC time is)').hide();
 
     $('[notification-id=ControllerAdmin_HttpIsUsed]').hide();
-
-    $.fx.off = true;
-
-    // disable materialize animations (Materialize version > 1)
-    if (typeof M !== 'undefined' && M.anime) {
-        var oldAnime = M.anime;
-        M.anime = function (params) {
-            if (!params) {
-                params = {};
-            }
-            params.duration = 0;
-            return oldAnime(params);
-        };
-    } else if ($.Velocity) {
-        $.Velocity.mock = true;
-    }
 });
