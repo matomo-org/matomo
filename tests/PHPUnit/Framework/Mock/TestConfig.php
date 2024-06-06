@@ -11,12 +11,25 @@ namespace Piwik\Tests\Framework\Mock;
 
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
+use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 class TestConfig extends Config
 {
-    private $allowSave = false;
-    private $doSetTestEnvironment = false;
+    /**
+     * @var bool
+     */
+    private $allowSave;
+
+    /**
+     * @var bool
+     */
+    private $doSetTestEnvironment;
+
+    /**
+     * @var TestingEnvironmentVariables
+     */
+    private $testingEnvironment;
 
     public function __construct(GlobalSettingsProvider $provider, TestingEnvironmentVariables $testingEnvironment, $allowSave = false, $doSetTestEnvironment = true)
     {
@@ -24,6 +37,7 @@ class TestConfig extends Config
 
         $this->allowSave = $allowSave;
         $this->doSetTestEnvironment = $doSetTestEnvironment;
+        $this->testingEnvironment = $testingEnvironment;
 
         $this->reload();
 
@@ -42,6 +56,24 @@ class TestConfig extends Config
         if ($this->allowSave) {
             parent::forceSave();
         }
+
+        if (!$this->doSetTestEnvironment) {
+            return;
+        }
+
+        $environmentPlugins = $this->testingEnvironment->configOverride['PluginsInstalled']['PluginsInstalled'] ?? [];
+        $installedPlugins = Manager::getInstance()->getInstalledPluginsName();
+
+        $onlyEnvironment = array_diff($environmentPlugins, $installedPlugins);
+        $onlyInstalled = array_diff($installedPlugins, $environmentPlugins);
+
+        if ([] === $onlyEnvironment && [] === $onlyInstalled) {
+            // environment matches list of installed plugins
+            return;
+        }
+
+        $this->testingEnvironment->overrideConfig('PluginsInstalled', 'PluginsInstalled', $installedPlugins);
+        $this->testingEnvironment->save();
     }
 
     public function setTestEnvironment()

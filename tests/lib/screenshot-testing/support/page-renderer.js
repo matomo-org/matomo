@@ -367,9 +367,10 @@ PageRenderer.prototype._logMessage = function (message) {
     this.pageLogs.push(message);
 };
 
-PageRenderer.prototype.clearCookies = function () {
+PageRenderer.prototype.clearCookies = async function () {
     // see https://github.com/GoogleChrome/puppeteer/issues/1632#issuecomment-353086292
-    return this.webpage._client.send('Network.clearBrowserCookies');
+    await this.webpage._client.send('Network.clearBrowserCookies');
+    await this.webpage.waitForTimeout(250);
 };
 
 PageRenderer.prototype._setupWebpageEvents = function () {
@@ -456,20 +457,6 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         if (!VERBOSE) {
             this._logMessage('Unable to load resource (URL:' + request.url() + '): ' + errorMessage);
         }
-
-        var type = '';
-        if (type = request.url().match(/action=get(Css|CoreJs|NonCoreJs|UmdJs)/)) {
-            if (errorMessage === 'net::ERR_ABORTED' && (!response || response.status() !== 500)) {
-                console.log(type[1]+' request aborted.');
-            } else if (request.url().indexOf('&reload=') === -1) {
-                console.log('Loading '+type[1]+' failed (' + errorMessage + ')... Try adding it with another tag.');
-                var method = type[1] == 'Css' ? 'addStyleTag' : 'addScriptTag';
-                await this.webpage[method]({url: request.url() + '&reload=' + Date.now()}); // add another get parameter to ensure browser doesn't use cache
-                await this.waitForNetworkIdle(); // wait for request to finish before continuing with tests
-            } else {
-                console.log('Reloading '+type[1]+' failed (' + errorMessage + ').');
-            }
-        }
     });
 
     this.webpage.on('requestfinished', async (request) => {
@@ -487,26 +474,6 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             }
             const message = 'Response (size "' + bodyLength + '", status "' + response.status() + '"): ' + request.url() + "\n" + bodyContent.substring(0, 2000);
             this._logMessage(message);
-        }
-
-        // if response of css or js request does not start with /*, we assume it had an error and try to load it again
-        // Note: We can't do that in requestfailed only, as the response code might be 200 even if it throws an exception
-        var type = '';
-        if (type = request.url().match(/action=get(Css|CoreJs|NonCoreJs)/)) {
-            var body = await response.buffer();
-            if (body.toString().substring(0, 2) === '/*') {
-                return;
-            }
-            if (request.url().indexOf('&reload=') === -1) {
-                console.log('Loading '+type[1]+' failed... Try adding it with another tag.');
-                var method = type[1] == 'Css' ? 'addStyleTag' : 'addScriptTag';
-                await this.waitForNetworkIdle(); // wait for other requests to finish before trying to reload
-                await this.webpage[method]({url: request.url() + '&reload=' + Date.now()}); // add another get parameter to ensure browser doesn't use cache
-                await this.webpage.waitForTimeout(1000);
-            } else {
-                console.log('Reloading '+type[1]+' failed.');
-            }
-            console.log('Response (size "' + body.length + '", status "' + response.status() + ', headers "' + JSON.stringify(response.headers()) + '"): ' + request.url() + "\n" + body.toString());
         }
     });
 
