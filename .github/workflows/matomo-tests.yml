@@ -70,5 +70,4 @@ jobs:
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: ${{ matrix.php == '7.2' }}
-          phpunit-test-options: --log-junit results.xml
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
