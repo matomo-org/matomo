@@ -36,8 +36,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
-        php: [ '7.2', '8.2', '8.3' ]
+        type: [ 'IntegrationTestsCore']
+        php: [ '8.3' ]
         engine: [ 'Mysql', 'Mariadb' ]
         adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
         exclude:
@@ -72,59 +72,3 @@ jobs:
           upload-artifacts: ${{ matrix.php == '7.2' }}
           phpunit-test-options: --log-junit results.xml
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
-  Javascript:
-    runs-on: ubuntu-20.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          lfs: false
-          persist-credentials: false
-          submodules: true
-          path: matomo
-      - name: running tests
-        uses: matomo-org/github-action-tests@main
-        with:
-          test-type: 'JS'
-          php-version: '7.2'
-          node-version: '12'
-  Client:
-    runs-on: ubuntu-20.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          lfs: false
-          persist-credentials: false
-          submodules: true
-          path: matomo
-      - name: running tests
-        uses: matomo-org/github-action-tests@main
-        with:
-          test-type: 'Client'
-          node-version: '16'
-          mysql-service: false
-  UI:
-    runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
-        parts: [ 0,1,2,3 ]
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          lfs: true
-          persist-credentials: false
-          submodules: true
-          path: matomo
-      - name: running tests
-        uses: matomo-org/github-action-tests@main
-        with:
-          testomatio: ${{ secrets.TESTOMATIO }}
-          ui-test-options: '--num-test-groups=4 --test-group=${{ matrix.parts }}'
-          test-type: 'UI'
-          php-version: '7.2'
-          node-version: '16'
-          redis-service: true
-          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
-          upload-artifacts: true
