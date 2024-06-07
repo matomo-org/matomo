@@ -1,0 +1,9 @@
+[database_tests]
+host = "db"
+username = "root"
+password = "root"
+
+[tests]
+http_host = "matomo.ddev.site"
+request_uri = "/"
+port = 80
