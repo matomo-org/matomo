@@ -17,6 +17,7 @@ hooks:
           service: db
         - exec: MYSQL_PWD=root mysql -uroot -e "CREATE DATABASE IF NOT EXISTS _UITestFixture; GRANT ALL ON _UITestFixture.* to 'db'@'%';"
           service: db
+        - exec-host: ddev matomo:init
 webimage_extra_packages: [build-essential, chromium, fonts-dejavu, fonts-liberation, gconf-service, imagemagick, imagemagick-doc, libappindicator1, libasound2, libatk1.0-0, libcairo2, libdrm2, libgbm1, libgconf-2-4, libgdk-pixbuf2.0-0, libgtk-3-0, libnspr4, libnss3, libpango-1.0-0, libpangocairo-1.0-0, libx11-xcb1, libxcomposite1, libxcursor1, libxdamage1, libxfixes3, libxi6, libxrandr2, libxrender1, libxshmfence1, libxss1, libxtst6, ttf-mscorefonts-installer, xdg-utils]
 use_dns_when_possible: true
 composer_version: "2"
