@@ -20,7 +20,11 @@ hooks:
 webimage_extra_packages: [build-essential, chromium, fonts-dejavu, fonts-liberation, gconf-service, imagemagick, imagemagick-doc, libappindicator1, libasound2, libatk1.0-0, libcairo2, libdrm2, libgbm1, libgconf-2-4, libgdk-pixbuf2.0-0, libgtk-3-0, libnspr4, libnss3, libpango-1.0-0, libpangocairo-1.0-0, libx11-xcb1, libxcomposite1, libxcursor1, libxdamage1, libxfixes3, libxi6, libxrandr2, libxrender1, libxshmfence1, libxss1, libxtst6, ttf-mscorefonts-installer, xdg-utils]
 use_dns_when_possible: true
 composer_version: "2"
-web_environment: []
+web_environment:
+    - MATOMO_DATABASE_HOST=db
+    - MATOMO_DATABASE_USERNAME=db
+    - MATOMO_DATABASE_PASSWORD=db
+    - MATOMO_DATABASE_DBNAME=db
 nodejs_version: "16"
 corepack_enable: true
 disable_upload_dirs_warning: true
