@@ -1,0 +1,9 @@
+#!/bin/bash
+
+## Description: Run Matomo console
+## Usage: matomo:console <parameters>
+## Example: "ddev matomo:console development:enable" or "ddev matomo:console config:set Development.disable_merged_assets=1"
+## ExecRaw: true
+## HostWorkingDir: true
+
+/var/www/html/console "$@"
