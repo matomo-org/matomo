@@ -42,10 +42,10 @@ See https://matomo.org/docs/requirements/.
 ## Install Matomo
 
   * [Download Matomo](https://matomo.org/download/)
-  * Upload matomo to your webserver
+  * Upload Matomo to your webserver
   * Point your browser to the directory
   * Follow the steps
-  * Add the given javascript code to your pages
+  * Add the given JavaScript code to your pages
   * (You may also generate fake data to experiment, by enabling the plugin VisitorGenerator)
 
 See https://matomo.org/docs/installation/.
