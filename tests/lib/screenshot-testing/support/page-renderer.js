@@ -120,6 +120,9 @@ PageRenderer.prototype.createPage = async function () {
       width: 1350,
       height: 768,
     });
+    await this.webpage.setExtraHTTPHeaders({
+      'Accept-Language': 'en-US'
+    });
     this._setupWebpageEvents();
 };
 
