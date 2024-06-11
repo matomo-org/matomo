@@ -191,6 +191,10 @@ Application.prototype.loadTestModules = function () {
     mocha.suite.suites.forEach(function (suite) {
         var fixture = typeof suite.fixture === 'undefined' ? "Piwik\\Tests\\Fixtures\\UITestFixture" : suite.fixture;
 
+        suite.beforeAll(async function () {
+            await page.createPage();
+        });
+
         suite.beforeAll(function (done) {
             this.timeout(0); // no timeout for fixture setup (this requires normal anonymous function, not fat arrow function)
 
@@ -208,7 +212,8 @@ Application.prototype.loadTestModules = function () {
             });
         });
 
-        // move to before other hooks
+        // move in front of other beforeAll hooks (called twice as we're adding two beforeAll handlers)
+        suite._beforeAll.unshift(suite._beforeAll.pop());
         suite._beforeAll.unshift(suite._beforeAll.pop());
 
         suite.afterAll(function (done) {
@@ -311,10 +316,6 @@ Application.prototype.doRunTests = function (mocha) {
                 }
             });
         }
-    });
-
-    this.runner.on('suite', function() {
-        page.webpage.mouse.move(-10, -10);
     });
 
     this.runner.on('test', function () {

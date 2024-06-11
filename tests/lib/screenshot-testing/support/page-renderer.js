@@ -77,8 +77,9 @@ const AUTO_WAIT_METHODS = {// TODO: remove this to keep it consistent?
     'reload': true,
 };
 
-var PageRenderer = function (baseUrl, page, originalUserAgent) {
-    this.webpage = page;
+var PageRenderer = function (baseUrl, browser, originalUserAgent) {
+
+    this.browser = browser;
     this.originalUserAgent = originalUserAgent;
 
     this.selectorMarkerClass = 0;
@@ -90,19 +91,6 @@ var PageRenderer = function (baseUrl, page, originalUserAgent) {
     if (this.baseUrl.substring(-1) !== '/') {
         this.baseUrl = this.baseUrl + '/';
     }
-
-    PAGE_PROPERTIES_TO_PROXY.forEach((propertyName) => {
-        Object.defineProperty(this, propertyName, {
-            value: page[propertyName],
-            writable: false,
-        });
-    });
-
-    this.webpage.setViewport({
-        width: 1350,
-        height: 768,
-    });
-    this._setupWebpageEvents();
 };
 
 PageRenderer.prototype._reset = function () {
@@ -111,6 +99,32 @@ PageRenderer.prototype._reset = function () {
         width: 1350,
         height: 768,
     });
+};
+
+PageRenderer.prototype.createPage = async function () {
+    if (this.browserContext) {
+      await this.browserContext.close();
+    }
+    this.browserContext = await this.browser.createIncognitoBrowserContext();
+    this.webpage = await this.browserContext.newPage();
+
+    PAGE_PROPERTIES_TO_PROXY.forEach((propertyName) => {
+      Object.defineProperty(this, propertyName, {
+        value: this.webpage[propertyName],
+        writable: true,
+      });
+    });
+
+    await this.webpage._client.send('Animation.setPlaybackRate', { playbackRate: 50 }); // make animations run 50 times faster, so we don't have to wait as much
+    await this.webpage.setViewport({
+      width: 1350,
+      height: 768,
+    });
+    await this.webpage.mouse.move(0, 0);
+    await this.webpage.setExtraHTTPHeaders({
+      'Accept-Language': 'en-US'
+    });
+    this._setupWebpageEvents();
 };
 
 /**
