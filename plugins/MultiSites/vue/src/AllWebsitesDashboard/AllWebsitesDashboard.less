@@ -4,10 +4,60 @@
 
     // @see Morpheus/_default.less body
     line-height: 1.33;
+
+    .dashboardHeader {
+      margin: 20px 10px;
+    }
   }
 
   > .col {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  #periodString {
+    // override #periodString
+    float: none;
+    margin-right: 0;
+    position: initial;
+  }
+
+  .periodSelector {
+    // @see #root .top_controls .piwikTopControl
+    font-size: 11px;
+
+    // required to align dropdown
+    position: relative;
+
+    .dropdown {
+      right: 0;
+    }
+  }
+
+  .dashboardHeader {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    row-gap: 20px;
+
+    .card-title {
+      margin-bottom: 0;
+    }
+  }
+
+  @media all and (max-width: 600px) {
+    #periodString {
+      width: 100%;
+    }
+
+    .periodSelector {
+      width: 100%;
+
+      .dropdown {
+        right: auto;
+      }
+    }
   }
 }

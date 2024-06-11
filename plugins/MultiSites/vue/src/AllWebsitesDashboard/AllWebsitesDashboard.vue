@@ -6,22 +6,42 @@
 -->
 
 <template>
-  <h1 class="card-title">
-    <EnrichedHeadline
-        :feature-name="translate('MultiSites_AllWebsitesDashboardTitle')"
+  <div class="dashboardHeader">
+    <h1 class="card-title">
+      <EnrichedHeadline
+          :feature-name="translate('MultiSites_AllWebsitesDashboardTitle')"
+      >
+        {{ translate('MultiSites_AllWebsitesDashboardTitle') }}
+      </EnrichedHeadline>
+    </h1>
+
+    <div v-if="!isWidgetized"
+         id="periodString"
+         class="borderedControl"
     >
-      {{ translate('MultiSites_AllWebsitesDashboardTitle') }}
-    </EnrichedHeadline>
-  </h1>
+      <PeriodSelector :periods="selectablePeriods" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { EnrichedHeadline } from 'CoreHome';
+import { EnrichedHeadline, PeriodSelector } from 'CoreHome';
 
 export default defineComponent({
   components: {
     EnrichedHeadline,
+    PeriodSelector,
+  },
+  props: {
+    isWidgetized: {
+      type: Boolean,
+      required: true,
+    },
+    selectablePeriods: {
+      type: Array,
+      required: true,
+    },
   },
 });
 </script>

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row" id="multisitesAllWebsitesDashboard">
+    <div class="reporting-page row" id="multisitesAllWebsitesDashboard">
         <div class="col s12 m12 l10 offset-l1">
             {% if isWidgetized %}
                 <div id="main">
@@ -15,7 +15,10 @@
                     <div class="card-content">
             {% endif %}
 
-            <div vue-entry="MultiSites.AllWebsitesDashboard"></div>
+            <div vue-entry="MultiSites.AllWebsitesDashboard"
+                 is-widgetized="{{ isWidgetized|json_encode }}"
+                 selectable-periods="{{ enabledPeriods|json_encode|e('html_attr') }}"
+            ></div>
 
             {% if isWidgetized %}
                 </div>
