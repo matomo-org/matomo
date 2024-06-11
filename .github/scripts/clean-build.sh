@@ -8,18 +8,18 @@
 # in isFileDeletedFromPackage()
 # ------------
 
-echo -e "Deleting un-needed files..."
+echo -e "Deleting files not needed for a release..."
 
 # Delete all `tests/` and `Tests/` folders
 find ./ -iname 'tests' -type d -prune -exec rm -rf {} \;
 
-# Delete all di config files for test environments
+# Delete all DI config files for test environments
 rm -rf config/environment/test.php
 rm -rf config/environment/ui-test.php
 rm -rf plugins/*/config/test.php
 rm -rf plugins/*/config/ui-test.php
 
-# Delete un-used files from the matomo-icons repository
+# Delete unused files from the matomo-icons repository
 rm -rf plugins/Morpheus/icons/src*
 rm -rf plugins/Morpheus/icons/tools*
 rm -rf plugins/Morpheus/icons/flag-icon-css*
@@ -68,7 +68,7 @@ rm -rf vendor/twig/twig/test/
 rm -rf vendor/twig/twig/doc/
 rm -rf vendor/twig/twig/.php-cs-fixer.dist.php
 
-# Delete un-used fonts
+# Delete unused fonts
 rm -rf vendor/tecnickcom/tcpdf/fonts/ae_fonts_2.0
 rm -rf vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf-2.33
 rm -rf vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf-2.34
@@ -101,7 +101,7 @@ rm -rf vendor/szymach/c-pchart/resources/fonts/pf_arma_five*
 rm -rf vendor/szymach/c-pchart/resources/fonts/Silkscreen*
 rm -rf vendor/szymach/c-pchart/resources/fonts/verdana*
 
-# not needed js files
+# Not needed JS files
 rm -rf node_modules/angular/angular.min.js.gzip
 rm -rf node_modules/angular/angular.js
 
@@ -203,12 +203,12 @@ rm -f config/config.php
 rm -rf tmp/*
 rm -f HIRING.md
 
-# delete unwanted git folders, recursively
+# Delete unwanted git folders, recursively
 for x in .git .github ; do
     find . -name "$x" -exec rm -rf {} \; 2>/dev/null
 done
 
-# delete unwanted common files, recursively
+# Delete unwanted common files, recursively
 for x in .gitignore .gitmodules .gitattributes .git-blame-ignore-revs .bowerrc .bower.json bower.json \
     .coveralls.yml .editorconfig .gitkeep .jshintrc .php_cs .php_cs.dist \
     phpunit.xml.dist phpunit.xml .phpcs.xml.dist phpcs.xml Gruntfile.js gruntfile.js \
@@ -220,3 +220,6 @@ for x in .gitignore .gitmodules .gitattributes .git-blame-ignore-revs .bowerrc .
     phpstan.neon phpstan.neon.dist package.xml .stylelintrc.json; do
     find . -name "$x" -exec rm -f {} \;
 done
+
+# Delete DDEV environment files
+rm -rf .ddev
