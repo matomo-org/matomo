@@ -212,7 +212,7 @@ Application.prototype.loadTestModules = function () {
             });
         });
 
-        // move to before other hooks
+        // move in front of other beforeAll hooks (called twice as we're adding two beforeAll handlers)
         suite._beforeAll.unshift(suite._beforeAll.pop());
         suite._beforeAll.unshift(suite._beforeAll.pop());
 
