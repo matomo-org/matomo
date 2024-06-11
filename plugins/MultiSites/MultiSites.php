@@ -72,6 +72,7 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'General_Faq';
         $translations[] = 'Feedback_CommunityHelp';
         $translations[] = 'Feedback_ProfessionalHelp';
+        $translations[] = 'MultiSites_AllWebsitesDashboardTitle';
         $translations[] = 'MultiSites_EvolutionComparisonIncomplete';
         $translations[] = 'MultiSites_EvolutionComparisonProportional';
         $translations[] = 'MultiSites_EvolutionComparisonDay';
@@ -82,6 +83,7 @@ class MultiSites extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
+        $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.less";
         $stylesheets[] = "plugins/MultiSites/vue/src/Dashboard/Dashboard.less";
     }
 }

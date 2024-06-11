@@ -6,6 +6,7 @@
         "TopLinkTooltip": "Compare Web Analytics stats for all of your Websites.",
         "SingleWebsitesDashboardDocumentation": "This report gives you an informational overview for a specific website, containing the most general metrics about your visitors.",
         "AllWebsitesDashboardDocumentation": "This report gives you an informational overview for each of your websites, containing the most general metrics about your visitors.",
+        "AllWebsitesDashboardTitle": "All Websites",
         "EvolutionComparisonIncomplete": "The currently selected time period is %1$s complete.",
         "EvolutionComparisonProportional": "When the previous period was also %1$s complete, there would have been an estimated %2$s %3$s\n(out of a total of %4$s %3$s in the previous period).",
         "EvolutionComparisonDay": "%1$s %2$s this day compared to %3$s %2$s in the previous partial period (%4$s) Evolution: %5$s",

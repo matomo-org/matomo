@@ -13,20 +13,28 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\MultiSites\FeatureFlags\ImprovedAllWebsitesDashboard;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {
     /**
+     * @var FeatureFlagManager
+     */
+    private $featureFlagManager;
+
+    /**
      * @var Translator
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    public function __construct(Translator $translator, FeatureFlagManager $featureFlagManager)
     {
         parent::__construct();
 
+        $this->featureFlagManager = $featureFlagManager;
         $this->translator = $translator;
     }
 
@@ -50,7 +58,11 @@ class Controller extends \Piwik\Plugin\Controller
         $date = Piwik::getDate('today');
         $period = Piwik::getPeriod('day');
 
-        $view = new View("@MultiSites/getSitesInfo");
+        if ($this->featureFlagManager->isFeatureActive(ImprovedAllWebsitesDashboard::class)) {
+            $view = new View('@MultiSites/allWebsitesDashboard');
+        } else {
+            $view = new View('@MultiSites/getSitesInfo');
+        }
 
         $view->isWidgetized         = $isWidgetized;
         $view->displayRevenueColumn = Common::isGoalPluginEnabled();
