@@ -26,8 +26,14 @@
     <rule ref="PSR12">
         <!-- can't use this as long as we have functions.php files that need to be required manually -->
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols" />
+    </rule>
 
-        <exclude name="Generic.Files.LineLength" />
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="400"/>
+        </properties>
+        <exclude-pattern>tests/PHPUnit/*</exclude-pattern>
+        <exclude-pattern>plugins/*/tests/*</exclude-pattern>
     </rule>
 
     <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
