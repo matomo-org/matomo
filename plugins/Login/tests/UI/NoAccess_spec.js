@@ -14,19 +14,14 @@ describe("NoAccess", function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.overrideConfig('General', 'login_session_not_remembered_idle_timeout', 1)
         testEnvironment.save();
-
-        await page.clearCookies();
     });
 
     after(async function () {
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
-
-        await page.clearCookies();
     });
 
     it("should login successfully with user credentials and show error when a site without access is viewed", async function() {
-        await page.clearCookies();
         await page.goto("?idSite=2");
         await page.waitForNetworkIdle();
         await page.type("#login_form_login", "oliverqueen");

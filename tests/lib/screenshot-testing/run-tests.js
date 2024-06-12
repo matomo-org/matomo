@@ -29,17 +29,14 @@ async function main() {
     }
 
     const browser = await puppeteer.launch(config.browserConfig);
-    const webpage = await browser.newPage();
-    await webpage._client.send('Animation.setPlaybackRate', { playbackRate: 50 }); // make animations run 50 times faster, so we don't have to wait as much
+    const originalUserAgent = await browser.userAgent();
 
     // assume the URI points to a folder and make sure Piwik won't cut off the last path segment
     if (config.phpServer.REQUEST_URI.slice(-1) !== '/') {
         config.phpServer.REQUEST_URI += '/';
     }
 
-    const originalUserAgent = await browser.userAgent();
-
-    setUpGlobals(config, webpage, originalUserAgent);
+    setUpGlobals(config, browser, originalUserAgent);
 
     mocha = new Mocha({
         ui: 'bdd',
