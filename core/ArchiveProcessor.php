@@ -780,7 +780,9 @@ class ArchiveProcessor
                 $newSegment,
                 false,
                 false,
-                $plugin
+                $plugin,
+                false,
+                true
             );
 
             $parameters = new ArchiveProcessor\Parameters($params->getSite(), $params->getPeriod(), $newSegment);

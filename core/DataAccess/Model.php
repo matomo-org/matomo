@@ -114,7 +114,8 @@ class Model
         $allPeriodsToInvalidate,
         Segment $segment = null,
         $forceInvalidateNonexistentRanges = false,
-        $name = null
+        $name = null,
+        $doNotCreateInvalidations = false
     ) {
         if (empty($idSites)) {
             return 0;
@@ -188,6 +189,10 @@ class Model
 
                 Db::query($sql);
             }
+        }
+
+        if (true === $doNotCreateInvalidations) {
+            return count($idArchives);
         }
 
         // we add every archive we need to invalidate + the archives that do not already exist to archive_invalidations.
