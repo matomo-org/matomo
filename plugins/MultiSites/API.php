@@ -175,10 +175,8 @@ class API extends \Piwik\Plugin\API
         // Both calls above have called Site::setSitesFromArray. We now get these sites:
         $sitesToProblablyAdd = Site::getSites();
         $idSites = [];
-        if (!empty($sitesToProblablyAdd)) {
-            foreach ($sitesToProblablyAdd as $site) {
-                $idSites[] = $site['idsite'];
-            }
+        foreach ($sitesToProblablyAdd as $site) {
+            $idSites[] = $site['idsite'];
         }
 
         return $idSites;
