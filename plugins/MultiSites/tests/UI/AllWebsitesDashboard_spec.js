@@ -55,4 +55,15 @@ describe('AllWebsitesDashboard', function () {
             expect(await page.screenshotSelector('#main')).to.matchImage('widgetized');
         });
     });
+
+    describe('Dashboard Controls', function () {
+        it('should link to the SitesManager', async function () {
+            await page.goto(dashboardUrl);
+            await page.waitForNetworkIdle();
+            await page.click('.dashboardControls .btn');
+            await page.waitForNetworkIdle();
+
+            await page.waitForSelector('.modal .add-site-dialog', { visible: true });
+        });
+    });
 });

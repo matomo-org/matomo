@@ -22,11 +22,37 @@
       <PeriodSelector :periods="selectablePeriods" />
     </div>
   </div>
+
+  <div class="dashboardControls">
+    <div class="siteSearch">
+      <input
+          type="text"
+          :placeholder="translate('Actions_SubmenuSitesearch')"
+      />
+
+      <span
+          class="icon-search"
+          :title="translate('General_ClickToSearch')"
+      />
+    </div>
+
+    <a v-if="!isWidgetized && hasSuperUserAccess"
+       class="btn"
+       :href="addSiteUrl"
+    >
+      {{ translate('SitesManager_AddSite') }}
+    </a>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { EnrichedHeadline, PeriodSelector } from 'CoreHome';
+import {
+  EnrichedHeadline,
+  Matomo,
+  MatomoUrl,
+  PeriodSelector,
+} from 'CoreHome';
 
 export default defineComponent({
   components: {
@@ -41,6 +67,20 @@ export default defineComponent({
     selectablePeriods: {
       type: Array,
       required: true,
+    },
+  },
+  computed: {
+    addSiteUrl(): string {
+      return `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        ...MatomoUrl.hashParsed.value,
+        module: 'SitesManager',
+        action: 'index',
+        showaddsite: '1',
+      })}`;
+    },
+    hasSuperUserAccess(): boolean {
+      return Matomo.hasSuperUserAccess;
     },
   },
 });

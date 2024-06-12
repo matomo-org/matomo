@@ -15,6 +15,11 @@
     padding-right: 0;
   }
 
+  [vue-entry="MultiSites.AllWebsitesDashboard"] {
+    display: flex;
+    flex-direction: column;
+  }
+
   #periodString {
     // override #periodString
     float: none;
@@ -31,6 +36,46 @@
 
     .dropdown {
       right: 0;
+    }
+  }
+
+  .dashboardControls {
+    align-items: flex-end;
+    column-gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 10px;
+
+    .btn {
+      margin-bottom: 8px;
+    }
+
+    .siteSearch {
+      flex-basis: 0;
+      flex-grow: 1;
+      max-width: 300px;
+      position: relative;
+
+      input {
+        box-sizing: border-box;
+        height: 2.5rem;
+        padding-left: 0.3125rem;
+        padding-right: 2.5rem;
+        width: 100%;
+      }
+
+      label {
+        position: static;
+      }
+
+      .icon-search {
+        position: absolute;
+        right: 0.625rem;
+        top: 0.625rem;
+        cursor: pointer;
+        font-size: 1.25rem;
+      }
     }
   }
 
@@ -57,6 +102,22 @@
 
       .dropdown {
         right: auto;
+      }
+    }
+
+    .dashboardControls {
+      flex-direction: column-reverse;
+      margin-left: 0;
+      margin-right: 0;
+
+      .btn {
+        margin-bottom: 20px;
+        width: 100%;
+      }
+
+      .siteSearch {
+        max-width: none;
+        width: 100%;
       }
     }
   }
