@@ -23,6 +23,8 @@
     </div>
   </div>
 
+  <KPICardContainer :model-value="kpis" />
+
   <div class="dashboardControls">
     <div class="siteSearch">
       <input
@@ -54,12 +56,20 @@ import {
   PeriodSelector,
 } from 'CoreHome';
 
+import KPICardContainer from './KPICardContainer.vue';
+import { KPICardData } from '../types';
+
 export default defineComponent({
   components: {
     EnrichedHeadline,
+    KPICardContainer,
     PeriodSelector,
   },
   props: {
+    displayRevenue: {
+      type: Boolean,
+      required: true,
+    },
     isWidgetized: {
       type: Boolean,
       required: true,
@@ -78,6 +88,47 @@ export default defineComponent({
         action: 'index',
         showaddsite: '1',
       })}`;
+    },
+    kpis(): KPICardData[] {
+      const kpis: KPICardData[] = [
+        {
+          icon: 'icon-user',
+          title: 'MultiSites_TotalVisits',
+          value: '2,345',
+          evolutionPeriod: 'last time',
+          evolutionTrend: 1,
+          evolutionValue: '1,234%',
+        },
+        {
+          icon: 'icon-show',
+          title: 'MultiSites_TotalPageviews',
+          value: '3,456',
+          evolutionPeriod: 'last time',
+          evolutionTrend: 0,
+          evolutionValue: '0,0%',
+        },
+        {
+          icon: 'icon-hits',
+          title: 'MultiSites_TotalHits',
+          value: '2,345',
+          evolutionPeriod: 'last time',
+          evolutionTrend: -1,
+          evolutionValue: '3,456%',
+        },
+      ];
+
+      if (this.displayRevenue) {
+        kpis.push({
+          icon: 'icon-dollar-sign',
+          title: 'General_TotalRevenue',
+          value: '2,345',
+          evolutionPeriod: 'last time',
+          evolutionTrend: 0,
+          evolutionValue: '0,0%',
+        });
+      }
+
+      return kpis;
     },
     hasSuperUserAccess(): boolean {
       return Matomo.hasSuperUserAccess;

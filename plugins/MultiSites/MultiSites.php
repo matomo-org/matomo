@@ -57,6 +57,7 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'General_EvolutionSummaryGeneric';
         $translations[] = 'General_AllWebsitesDashboard';
         $translations[] = 'General_NVisits';
+        $translations[] = 'General_TotalRevenue';
         $translations[] = 'MultiSites_Evolution';
         $translations[] = 'SitesManager_AddSite';
         $translations[] = 'General_Next';
@@ -79,6 +80,9 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'MultiSites_EvolutionComparisonWeek';
         $translations[] = 'MultiSites_EvolutionComparisonMonth';
         $translations[] = 'MultiSites_EvolutionComparisonYear';
+        $translations[] = 'MultiSites_TotalHits';
+        $translations[] = 'MultiSites_TotalPageviews';
+        $translations[] = 'MultiSites_TotalVisits';
     }
 
     public function getStylesheetFiles(&$stylesheets)

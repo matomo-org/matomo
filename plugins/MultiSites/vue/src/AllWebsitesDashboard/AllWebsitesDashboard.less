@@ -92,6 +92,82 @@
     }
   }
 
+  .kpiCardContainer {
+    align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 40px 20px 40px;
+    overflow-x: auto;
+
+    .kpiCard {
+      flex-basis: 0;
+      flex-grow: 1;
+      margin: 20px 0;
+      padding: 0 40px;
+      white-space: nowrap;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+
+    .kpiCardDivider {
+      align-self: stretch;
+      background-image: url('plugins/MultiSites/images/kpi_divider.svg');
+      margin: 20px 0;
+      width: 1px;
+    }
+
+    .kpiCardIcon {
+      font-size: 0.9rem;
+      position: relative;
+      top: 1px;
+    }
+
+    .kpiCardTitle {
+      color: #76838f;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+
+    .kpiCardValue {
+      font-size: 3rem;
+      font-weight: bold;
+      padding: 0.25rem 0;
+    }
+
+    .kpiCardEvolution {
+      color: #76838f;
+      font-size: 0.9rem;
+    }
+
+    .kpiCardEvolutionIcon {
+      font-size: 0.7rem;
+    }
+
+    .kpiCardEvolutionTrend {
+      font-size: 1rem;
+    }
+
+    .kpiTrendNegative {
+      color: red;
+    }
+
+    .kpiTrendNeutral {
+      .kpiCardEvolutionIcon {
+        color: #ccc;
+      }
+    }
+
+    .kpiTrendPositive {
+      color: green;
+    }
+  }
+
   @media all and (max-width: 600px) {
     #periodString {
       width: 100%;
@@ -119,6 +195,11 @@
         max-width: none;
         width: 100%;
       }
+    }
+
+    .kpiCardContainer {
+      margin-left: 20px;
+      margin-right: 20px;
     }
   }
 }

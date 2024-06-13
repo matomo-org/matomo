@@ -16,6 +16,7 @@
             {% endif %}
 
             <div vue-entry="MultiSites.AllWebsitesDashboard"
+                 display-revenue="{{ displayRevenueColumn|json_encode }}"
                  is-widgetized="{{ isWidgetized|json_encode }}"
                  selectable-periods="{{ enabledPeriods|json_encode|e('html_attr') }}"
             ></div>

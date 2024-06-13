@@ -41,6 +41,12 @@ describe('AllWebsitesDashboard', function () {
     describe('Rendering', function () {
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
+        afterEach(function() {
+            delete testEnvironment.pluginsToUnload;
+
+            testEnvironment.save();
+        });
+
         it('should load the all websites dashboard correctly', async function () {
             await page.goto(dashboardUrl);
             await page.waitForNetworkIdle();
@@ -53,6 +59,16 @@ describe('AllWebsitesDashboard', function () {
             await page.waitForNetworkIdle();
 
             expect(await page.screenshotSelector('#main')).to.matchImage('widgetized');
+        });
+
+        it('should not display revenue if disabled', async function () {
+            testEnvironment.pluginsToUnload = ['Goals'];
+            testEnvironment.save();
+
+            await page.goto(dashboardUrl);
+            await page.waitForNetworkIdle();
+
+            expect(await page.screenshotSelector('#main')).to.matchImage('no_revenue');
         });
     });
 
