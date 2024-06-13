@@ -284,6 +284,8 @@ class ArchiveInvalidator
         $plugin = null;
         if ($name && strpos($name, '.') !== false) {
             list($plugin) = explode('.', $name);
+        } elseif ($name) {
+            $plugin = $name;
         }
 
         if (
