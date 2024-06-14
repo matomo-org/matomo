@@ -70,7 +70,7 @@ jobs:
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: ${{ matrix.php == '7.2' }}
-          testomatio: ${{ matrix.type == 'UnitTests' && '' || secrets.TESTOMATIO_INTEGRATION }}
+          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
   Javascript:
     runs-on: ubuntu-20.04
     timeout-minutes: 15
