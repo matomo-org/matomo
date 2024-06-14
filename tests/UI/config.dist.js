@@ -40,7 +40,7 @@ exports.chai = 'chai-1.9.0';
 /**
  * Mocha reporters to use (can be multiple delimited by a comma).
  */
-if (process.env.TESTOMATIO && process.env.GITHUB_IS_PULL_REQUEST === 'false') {
+if (process.env.TESTOMATIO && process.env.SHOULD_SEND_TO_TESTOMATIO === 'true') {
   exports.reporter = 'mocha-multi-reporters';
   exports.reporterOptions = {
     reporterEnabled: 'spec, @testomatio/reporter/lib/adapter/mocha.js',
