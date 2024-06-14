@@ -111,6 +111,8 @@ class ArchiveProcessor
 
     private $numberOfVisitsConverted = false;
 
+    private $processedDependentSegments = [];
+
     public function __construct(Parameters $params, ArchiveWriter $archiveWriter, LogAggregator $logAggregator)
     {
         $this->params = $params;
@@ -770,6 +772,12 @@ class ArchiveProcessor
             return;
         }
 
+        // In case VisitsSummary should be processed as dependent segment, but (other) plugin for that segment was
+        // processed before, we can skip archiving, as VisitsSummary was already indirectly triggered.
+        if (in_array($newSegment->getOriginalString(), $this->processedDependentSegments) && $plugin === 'VisitsSummary') {
+            return;
+        }
+
         self::$isRootArchivingRequest = false;
         try {
             $invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
@@ -790,6 +798,8 @@ class ArchiveProcessor
 
             $archiveLoader = new ArchiveProcessor\Loader($parameters);
             $archiveLoader->prepareArchive($plugin);
+
+            $this->processedDependentSegments[] = $newSegment->getOriginalString();
         } finally {
             self::$isRootArchivingRequest = true;
         }
