@@ -772,6 +772,17 @@ class ArchiveProcessor
 
         self::$isRootArchivingRequest = false;
         try {
+            $invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
+            $invalidator->markArchivesAsInvalidated(
+                $idSites,
+                [$params->getDateStart()],
+                $params->getPeriod()->getLabel(),
+                $newSegment,
+                false,
+                false,
+                $plugin
+            );
+
             $parameters = new ArchiveProcessor\Parameters($params->getSite(), $params->getPeriod(), $newSegment);
             $parameters->onlyArchiveRequestedPlugin();
 
