@@ -113,9 +113,9 @@ class Model
         $idSites,
         $allPeriodsToInvalidate,
         Segment $segment = null,
-        $forceInvalidateNonexistentRanges = false,
-        $name = null,
-        $doNotCreateInvalidations = false
+        bool $forceInvalidateNonexistentRanges = false,
+        ?string $name = null,
+        bool $doNotCreateInvalidations = false
     ) {
         if (empty($idSites)) {
             return 0;

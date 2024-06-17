@@ -772,8 +772,9 @@ class ArchiveProcessor
             return;
         }
 
-        // In case VisitsSummary should be processed as dependent segment, but (other) plugin for that segment was
-        // processed before, we can skip archiving, as VisitsSummary was already indirectly triggered.
+        // The below check is meant to avoid archiving the VisitsSummary more often than needed
+        // If e.g. one plugin depends on a certain segment it will indirectly process VisitsSummary first.
+        // So another plugin depending on VisitsSummary for the same segment doesn't need to be processed.
         if (in_array($newSegment->getOriginalString(), $this->processedDependentSegments) && $plugin === 'VisitsSummary') {
             return;
         }

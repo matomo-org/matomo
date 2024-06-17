@@ -277,11 +277,11 @@ class ArchiveInvalidator
         array $dates,
         $period,
         Segment $segment = null,
-        $cascadeDown = false,
-        $forceInvalidateNonexistentRanges = false,
-        $name = null,
-        $ignorePurgeLogDataDate = false,
-        $doNotCreateInvalidations = false
+        bool $cascadeDown = false,
+        bool $forceInvalidateNonexistentRanges = false,
+        ?string $name = null,
+        bool $ignorePurgeLogDataDate = false,
+        bool $doNotCreateInvalidations = false
     ) {
         $plugin = null;
         if ($name && strpos($name, '.') !== false) {
@@ -710,10 +710,10 @@ class ArchiveInvalidator
         $idSites,
         $dates,
         Segment $segment = null,
-        $removeRanges = false,
-        $forceInvalidateNonexistentRanges = false,
-        $name = null,
-        $doNotCreateInvalidations = false
+        bool $removeRanges = false,
+        bool $forceInvalidateNonexistentRanges = false,
+        ?string $name = null,
+        bool $doNotCreateInvalidations = false
     ) {
         $idSites = array_map('intval', $idSites);
 
