@@ -56,6 +56,7 @@ import {
   PeriodSelector,
 } from 'CoreHome';
 
+import DashboardStore from './AllWebsitesDashboard.store';
 import KPICardContainer from './KPICardContainer.vue';
 import { KPICardData } from '../types';
 
@@ -79,6 +80,9 @@ export default defineComponent({
       required: true,
     },
   },
+  mounted() {
+    DashboardStore.refreshData();
+  },
   computed: {
     addSiteUrl(): string {
       return `?${MatomoUrl.stringify({
@@ -90,30 +94,32 @@ export default defineComponent({
       })}`;
     },
     kpis(): KPICardData[] {
+      const { dashboardKPIs } = DashboardStore.state.value;
+
       const kpis: KPICardData[] = [
         {
           icon: 'icon-user',
           title: 'MultiSites_TotalVisits',
-          value: '2,345',
-          evolutionPeriod: 'last time',
-          evolutionTrend: 1,
-          evolutionValue: '1,234%',
+          value: dashboardKPIs.visits,
+          evolutionPeriod: dashboardKPIs.evolutionPeriod,
+          evolutionTrend: dashboardKPIs.visitsTrend,
+          evolutionValue: dashboardKPIs.visitsEvolution,
         },
         {
           icon: 'icon-show',
           title: 'MultiSites_TotalPageviews',
-          value: '3,456',
-          evolutionPeriod: 'last time',
-          evolutionTrend: 0,
-          evolutionValue: '0,0%',
+          value: dashboardKPIs.pageviews,
+          evolutionPeriod: dashboardKPIs.evolutionPeriod,
+          evolutionTrend: dashboardKPIs.pageviewsTrend,
+          evolutionValue: dashboardKPIs.pageviewsEvolution,
         },
         {
           icon: 'icon-hits',
           title: 'MultiSites_TotalHits',
-          value: '2,345',
-          evolutionPeriod: 'last time',
-          evolutionTrend: -1,
-          evolutionValue: '3,456%',
+          value: dashboardKPIs.hits,
+          evolutionPeriod: dashboardKPIs.evolutionPeriod,
+          evolutionTrend: dashboardKPIs.hitsTrend,
+          evolutionValue: dashboardKPIs.hitsEvolution,
         },
       ];
 
@@ -121,10 +127,10 @@ export default defineComponent({
         kpis.push({
           icon: 'icon-dollar-sign',
           title: 'General_TotalRevenue',
-          value: '2,345',
-          evolutionPeriod: 'last time',
-          evolutionTrend: 0,
-          evolutionValue: '0,0%',
+          value: dashboardKPIs.revenue,
+          evolutionPeriod: dashboardKPIs.evolutionPeriod,
+          evolutionTrend: dashboardKPIs.revenueTrend,
+          evolutionValue: dashboardKPIs.revenueEvolution,
         });
       }
 
