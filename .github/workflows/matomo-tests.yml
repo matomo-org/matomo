@@ -61,7 +61,7 @@ jobs:
           submodules: true
           path: matomo
       - name: running tests
-        uses: matomo-org/github-action-tests@dev-18010-phpunit-testomatio-bulk
+        uses: matomo-org/github-action-tests@main
         with:
           test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.adapter }}
