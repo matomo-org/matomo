@@ -6,6 +6,7 @@
  */
 
 import { computed, reactive, readonly } from 'vue';
+import { Matomo } from 'CoreHome';
 
 import { EvolutionTrend } from '../types';
 
@@ -33,7 +34,7 @@ interface DashboardStoreState {
 class DashboardStore {
   private privateState = reactive<DashboardStoreState>({
     dashboardKPIs: {
-      evolutionPeriod: '?',
+      evolutionPeriod: 'day',
       hits: '?',
       hitsEvolution: '?',
       hitsTrend: 0,
@@ -57,7 +58,7 @@ class DashboardStore {
 
     window.setTimeout(() => {
       this.privateState.dashboardKPIs = {
-        evolutionPeriod: 'last time',
+        evolutionPeriod: Matomo.period as string,
         hits: '2,345',
         hitsEvolution: '3,456%',
         hitsTrend: -1,

@@ -19,8 +19,7 @@
         <span :class="`kpiCardEvolutionIcon ${evolutionTrendIcon}`" />
         {{ kpi.evolutionValue }}
       </span>
-      From
-      {{ kpi.evolutionPeriod }}
+      {{ translate(evolutionTrendFrom) }}
     </div>
   </div>
 </template>
@@ -38,6 +37,20 @@ export default defineComponent({
     },
   },
   computed: {
+    evolutionTrendFrom(): string {
+      switch (this.kpi.evolutionPeriod) {
+        case 'day':
+          return 'MultiSites_EvolutionFromPreviousDay';
+        case 'week':
+          return 'MultiSites_EvolutionFromPreviousWeek';
+        case 'month':
+          return 'MultiSites_EvolutionFromPreviousMonth';
+        case 'year':
+          return 'MultiSites_EvolutionFromPreviousYear';
+        default:
+          return 'MultiSites_EvolutionFromPreviousPeriod';
+      }
+    },
     evolutionTrendClass(): string {
       if (this.kpi.evolutionTrend === 1) {
         return 'kpiTrendPositive';

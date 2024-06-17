@@ -13,6 +13,11 @@
         "EvolutionComparisonWeek": "%1$s %2$s this week compared to %3$s %2$s in the previous partial period (%4$s) Evolution: %5$s",
         "EvolutionComparisonMonth": "%1$s %2$s this month compared to %3$s %2$s in the previous partial period (%4$s) Evolution: %5$s",
         "EvolutionComparisonYear": "%1$s %2$s this year compared to %3$s %2$s in the previous partial period (%4$s) Evolution: %5$s",
+        "EvolutionFromPreviousDay": "From previous day",
+        "EvolutionFromPreviousMonth": "From previous month",
+        "EvolutionFromPreviousPeriod": "From previous period",
+        "EvolutionFromPreviousWeek": "From previous week",
+        "EvolutionFromPreviousYear": "From previous year",
         "TotalHits": "Total Hits",
         "TotalPageviews": "Total Pageviews",
         "TotalVisits": "Total Visits"

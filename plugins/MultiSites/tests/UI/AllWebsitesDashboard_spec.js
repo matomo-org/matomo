@@ -82,4 +82,25 @@ describe('AllWebsitesDashboard', function () {
             await page.waitForSelector('.modal .add-site-dialog', { visible: true });
         });
     });
+
+    describe('Period Selector', function () {
+        async function getPeriodSelectorTitle() {
+            const periodSelector = await page.$('.periodSelector .title');
+            const periodSelectorTitle = await periodSelector.getProperty('textContent');
+
+            return (await periodSelectorTitle.jsonValue()).trim();
+        }
+
+        it('should allow changing periods', async function () {
+            await page.goto(dashboardUrl);
+            await page.waitForNetworkIdle();
+
+            expect(await getPeriodSelectorTitle()).to.equal('2013-01-23');
+
+            await page.click('.periodSelector .move-period-prev');
+            await page.waitForNetworkIdle();
+
+            expect(await getPeriodSelectorTitle()).to.equal('2013-01-22');
+        });
+    });
 });

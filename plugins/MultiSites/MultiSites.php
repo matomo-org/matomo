@@ -80,6 +80,11 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'MultiSites_EvolutionComparisonWeek';
         $translations[] = 'MultiSites_EvolutionComparisonMonth';
         $translations[] = 'MultiSites_EvolutionComparisonYear';
+        $translations[] = 'MultiSites_EvolutionFromPreviousDay';
+        $translations[] = 'MultiSites_EvolutionFromPreviousMonth';
+        $translations[] = 'MultiSites_EvolutionFromPreviousPeriod';
+        $translations[] = 'MultiSites_EvolutionFromPreviousWeek';
+        $translations[] = 'MultiSites_EvolutionFromPreviousYear';
         $translations[] = 'MultiSites_TotalHits';
         $translations[] = 'MultiSites_TotalPageviews';
         $translations[] = 'MultiSites_TotalVisits';

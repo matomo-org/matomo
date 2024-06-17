@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, watch } from 'vue';
 import {
   EnrichedHeadline,
   Matomo,
@@ -84,6 +84,8 @@ export default defineComponent({
     },
   },
   mounted() {
+    watch(() => MatomoUrl.hashParsed.value, () => DashboardStore.refreshData());
+
     DashboardStore.refreshData();
   },
   computed: {
