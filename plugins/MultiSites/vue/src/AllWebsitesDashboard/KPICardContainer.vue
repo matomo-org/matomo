@@ -7,7 +7,20 @@
 
 <template>
   <div class="kpiCardContainer">
+    <template v-if="isLoading">
+      <div class="kpiCard kpiCardLoading">
+        <div class="kpiCardTitle">&nbsp;</div>
+        <div class="kpiCardValue">
+          <MatomoLoader />
+        </div>
+        <div class="kpiCardEvolution">
+          <span class="kpiCardEvolutionTrend">&nbsp;</span>
+        </div>
+      </div>
+    </template>
+
     <template
+        v-else
         v-for="(kpi, index) in kpis"
         :key="`kpi-card-${index}`"
     >
@@ -22,15 +35,18 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { MatomoLoader } from 'CoreHome';
 
 import KPICard from './KPICard.vue';
 import { KPICardData } from '../types';
 
 export default defineComponent({
   components: {
+    MatomoLoader,
     KPICard,
   },
   props: {
+    isLoading: Boolean,
     modelValue: {
       type: Array,
       required: true,

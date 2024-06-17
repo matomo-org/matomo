@@ -23,7 +23,10 @@
     </div>
   </div>
 
-  <KPICardContainer :model-value="kpis" />
+  <KPICardContainer
+      :is-loading="isLoadingKPIs"
+      :model-value="kpis"
+  />
 
   <div class="dashboardControls">
     <div class="siteSearch">
@@ -92,6 +95,9 @@ export default defineComponent({
         action: 'index',
         showaddsite: '1',
       })}`;
+    },
+    isLoadingKPIs(): boolean {
+      return DashboardStore.state.value.isLoadingKPIs;
     },
     kpis(): KPICardData[] {
       const { dashboardKPIs } = DashboardStore.state.value;

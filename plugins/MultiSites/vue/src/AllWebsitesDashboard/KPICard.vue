@@ -27,6 +27,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+
 import { KPICardData } from '../types';
 
 export default defineComponent({

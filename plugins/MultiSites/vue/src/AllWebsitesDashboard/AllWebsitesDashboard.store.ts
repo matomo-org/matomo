@@ -27,6 +27,7 @@ interface DashboardKPIData {
 
 interface DashboardStoreState {
   dashboardKPIs: DashboardKPIData;
+  isLoadingKPIs: boolean;
 }
 
 class DashboardStore {
@@ -46,26 +47,33 @@ class DashboardStore {
       visitsEvolution: '?',
       visitsTrend: 0,
     },
+    isLoadingKPIs: false,
   });
 
   readonly state = computed(() => readonly(this.privateState));
 
   refreshData() {
-    this.privateState.dashboardKPIs = {
-      evolutionPeriod: 'last time',
-      hits: '2,345',
-      hitsEvolution: '3,456%',
-      hitsTrend: -1,
-      pageviews: '3,456',
-      pageviewsEvolution: '0,0%',
-      pageviewsTrend: 0,
-      revenue: '2,345',
-      revenueEvolution: '0,0%',
-      revenueTrend: 0,
-      visits: '2,345',
-      visitsEvolution: '1,234%',
-      visitsTrend: 1,
-    };
+    this.privateState.isLoadingKPIs = true;
+
+    window.setTimeout(() => {
+      this.privateState.dashboardKPIs = {
+        evolutionPeriod: 'last time',
+        hits: '2,345',
+        hitsEvolution: '3,456%',
+        hitsTrend: -1,
+        pageviews: '3,456',
+        pageviewsEvolution: '0,0%',
+        pageviewsTrend: 0,
+        revenue: '2,345',
+        revenueEvolution: '0,0%',
+        revenueTrend: 0,
+        visits: '2,345',
+        visitsEvolution: '1,234%',
+        visitsTrend: 1,
+      };
+
+      this.privateState.isLoadingKPIs = false;
+    }, 2500);
   }
 }
 
