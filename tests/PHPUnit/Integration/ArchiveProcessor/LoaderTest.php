@@ -191,8 +191,9 @@ class LoaderTest extends IntegrationTestCase
                 'date2' => '2020-01-20',
                 'period' => '1',
             ],
+            // archive 4 is missing as VisitsSummary is archived twice, as it doesn't contain data
             [
-                'idarchive' => '4',
+                'idarchive' => '5',
                 'name' => 'donefea44bece172bc9696ae57c26888bf8a.VisitsSummary',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -200,7 +201,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '1',
             ],
             [
-                'idarchive' => '5',
+                'idarchive' => '6',
                 'name' => 'donefea44bece172bc9696ae57c26888bf8a.Goals',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -251,8 +252,9 @@ class LoaderTest extends IntegrationTestCase
                 'date2' => '2020-01-20',
                 'period' => '1',
             ],
+            // archive 4 is missing as VisitsSummary is archived twice, as it doesn't contain data
             [
-                'idarchive' => '4',
+                'idarchive' => '5',
                 'name' => 'donefea44bece172bc9696ae57c26888bf8a.VisitsSummary',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -260,7 +262,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '1',
             ],
             [
-                'idarchive' => '5',
+                'idarchive' => '6',
                 'name' => 'donefea44bece172bc9696ae57c26888bf8a.Goals',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -270,7 +272,7 @@ class LoaderTest extends IntegrationTestCase
 
             // start of new archives
             [
-                'idarchive' => '6',
+                'idarchive' => '7',
                 'name' => 'done.VisitsSummary',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -278,7 +280,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '2',
             ],
             [
-                'idarchive' => '7',
+                'idarchive' => '8',
                 'name' => 'done.VisitsSummary',
                 'value' => '1',
                 'date1' => '2020-01-22',
@@ -286,7 +288,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '1',
             ],
             [
-                'idarchive' => '8',
+                'idarchive' => '9',
                 'name' => 'done.ExamplePlugin',
                 'value' => '5',
                 'date1' => '2020-01-20',
@@ -294,7 +296,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '2',
             ],
             [
-                'idarchive' => '9',
+                'idarchive' => '10',
                 'name' => 'done.ExamplePlugin',
                 'value' => '5',
                 'date1' => '2020-01-22',
@@ -742,24 +744,6 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'nb_visits',
                         'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '2',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'done.ExamplePlugin',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '2',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'ExamplePlugin_example_metric',
-                        'value' => '-603',
                     ),
                     array (
                         'idarchive' => '3',
