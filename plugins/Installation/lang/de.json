@@ -16,6 +16,7 @@
         "DatabaseSetup": "Datenbank einrichten",
         "DatabaseSetupAdapter": "Adapter",
         "DatabaseSetupDatabaseName": "Datenbankname",
+        "DatabaseSetupEngine": "Datenbank Engine",
         "DatabaseSetupLogin": "Benutzer",
         "DatabaseSetupServer": "Datenbank-Server",
         "DatabaseSetupTablePrefix": "Tabellen-Präfix",

@@ -15,6 +15,7 @@ use Piwik\Config\DatabaseConfig;
 use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
+use Piwik\Db\Schema;
 use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Site;
@@ -338,9 +339,10 @@ class LogAggregatorTest extends IntegrationTestCase
         } catch (\Zend_Db_Statement_Exception $e) {
             $isMaxExecutionTimeError = $this->logAggregator->getDb()->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED)
                 || $this->logAggregator->getDb()->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
-                || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false;
+                || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false
+                || strpos($e->getMessage(), 'max_statement_time exceeded') !== false;
 
-            $this->assertTrue($isMaxExecutionTimeError);
+            $this->assertTrue($isMaxExecutionTimeError, $e->getMessage());
         }
     }
 
@@ -538,6 +540,9 @@ class LogAggregatorTest extends IntegrationTestCase
         ];
 
         DatabaseConfig::setConfigValue('enable_first_table_join_prefix', '1');
+        DatabaseConfig::setConfigValue('schema', 'Mysql');
+        Schema::unsetInstance();
+
         $this->logAggregator->setQueryOriginHint('MyPluginName');
 
         $query = $this->logAggregator->getQueryByDimensionSql(

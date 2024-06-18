@@ -32,6 +32,12 @@ describe("WidgetizedDashboard", function () {
         await removeDashboard(0);
     };
 
+    var clickDashboardMenuItem = async function (item) {
+        await page.click('.dashboard-manager .title');
+        await page.waitForTimeout(50);
+        await page.click('li[data-action="' + item + '"]');
+    }
+
     var setup = async function() {
         // make sure live widget doesn't refresh constantly for UI tests
         testEnvironment.overrideConfig('General', 'live_widget_refresh_after_seconds', 1000000);
@@ -176,16 +182,18 @@ describe("WidgetizedDashboard", function () {
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
         await button.click();
 
-        await page.mouse.move(-10, -10);
+        // wait until widget was removed and modal closed
+        await page.waitForFunction((widget) => $(widget).length === 0);
         await page.waitForTimeout(250);
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move_removed');
+        // check that one widget remains
+        const widgetsCount = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
+        expect(widgetsCount).to.equal(1);
     });
 
     it("should change dashboard layout when new layout is selected", async function() {
-        await page.click('.dashboard-manager .title');
-        await page.click('li[data-action="showChangeDashboardLayoutDialog"]');
-        await page.click('.modal.open div[layout="50-50"]');
+        await clickDashboardMenuItem('showChangeDashboardLayoutDialog');
+        await (await page.waitForSelector('.modal.open div[layout="50-50"]')).click();
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Save)');
         await button.click();
         await page.mouse.move(-10, -10);
@@ -195,23 +203,21 @@ describe("WidgetizedDashboard", function () {
     });
 
     it("should rename dashboard when dashboard rename process completed", async function() {
-        await page.evaluate(() => $('.evolution-annotations').css('display','none'));
-        await page.click('.dashboard-manager .title');
-        await page.click('li[data-action="renameDashboard"]');
+        await clickDashboardMenuItem('renameDashboard');
+        await page.waitForSelector('.modal.open');
+
         await page.evaluate(() => $('#newDashboardName').val('newname'));
         await page.waitForTimeout(250);
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Save)');
         await button.click();
-        await page.mouse.move(-10, -10);
-        await page.waitForNetworkIdle();
-
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('rename');
+        await page.waitForFunction(() => $('#Dashboard_embeddedIndex_1').text().trim() === 'newname');
+        await page.waitForTimeout(100); // wait for javascript to finish everything
     });
 
     it("should copy dashboard successfully when copy dashboard process completed", async function() {
-        await page.click('.dashboard-manager .title');
-        await page.click('li[data-action="copyDashboardToUser"]');
-        await page.waitForTimeout(100); // wait for animation
+        await clickDashboardMenuItem('copyDashboardToUser');
+        await page.waitForSelector('.modal.open');
+
         await page.evaluate(function () {
             $('#copyDashboardName').val('');
         });
@@ -223,46 +229,60 @@ describe("WidgetizedDashboard", function () {
         await page.waitForFunction("$('.ui-confirm :contains(\"Current dashboard successfully copied to selected user.\").length > 0')");
 
         await page.goto(url.replace("idDashboard=1", "idDashboard=6"));
-        await page.mouse.move(-10, -10);
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('copied');
+        const dashboardCount = await page.evaluate(() => $('#Dashboard ul li').length);
+        expect(dashboardCount).to.equal(6);
+
+        const widgetsCount = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
+        expect(widgetsCount).to.equal(1);
+
+        const dashboardName = await page.evaluate(() => $('#Dashboard_embeddedIndex_6').text().trim());
+        expect(dashboardName).to.equal('new <dash> 💩');
     });
 
     it("should reset dashboard when reset dashboard process completed", async function() {
-        await page.click('.dashboard-manager .title');
-        await page.click('li[data-action="resetDashboard"]');
+        await clickDashboardMenuItem('resetDashboard');
         await page.waitForSelector('.modal.open');
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
         await button.click();
         await page.waitForNetworkIdle();
-        await page.mouse.move(-10, -10);
         await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
-        await page.waitForTimeout(500); // wait for widgets to render fully
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('reset');
+        // after resetting dashboard should have 10 widgets
+        const widgetsCount = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
+        expect(widgetsCount).to.equal(10);
     });
 
     it("should remove dashboard when remove dashboard process completed", async function() {
-        await page.click('.dashboard-manager .title');
-        await page.click('li[data-action="removeDashboard"]');
+        await clickDashboardMenuItem('removeDashboard');
         await page.waitForSelector('.modal.open');
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
         await button.click();
-        await page.mouse.move(-10, -10);
         await page.waitForTimeout(200);
         await page.waitForNetworkIdle();
         await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('removed');
+        // dashboard should be removed from list, so 5 remaining dashboards
+        const dashboardCount = await page.evaluate(() => $('#Dashboard ul li').length);
+        expect(dashboardCount).to.equal(5);
+        const dashboardNames = await page.evaluate(() => $('#Dashboard ul').text().trim());
+        expect(dashboardNames).to.not.contain('new <dash> 💩');
+
+        // first dashboard should be loaded, which contains 1 widget
+        const activeDashboardName = await page.evaluate(() => $('#Dashboard ul li.active').text().trim());
+        expect(activeDashboardName).to.equal('newname');
+        const widgetsCount = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
+        expect(widgetsCount).to.equal(1);
     });
 
     it("should not fail when default widget selection changed", async function() {
         await page.goto(url);
-        await page.click('.dashboard-manager .title');
-        await page.click('li[data-action="setAsDefaultWidgets"]');
+        await clickDashboardMenuItem('setAsDefaultWidgets');
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
         await button.click();
         await page.waitForTimeout(200);
@@ -272,8 +292,7 @@ describe("WidgetizedDashboard", function () {
     });
 
     it("should create new dashboard with new default widget selection when create dashboard process completed", async function() {
-        await page.click('.dashboard-manager .title');
-        await page.click('li[data-action="createDashboard"]');
+        await clickDashboardMenuItem('createDashboard');
         await page.waitForSelector('#createDashboardName', { visible: true });
 
         // try to type the text a few times, as it sometimes doesn't get the full value
@@ -296,11 +315,20 @@ describe("WidgetizedDashboard", function () {
 
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
-        await page.mouse.move(-10, -10);
         await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
+        // dashboard should be added to list, so 6 dashboards available
+        const dashboardCount = await page.evaluate(() => $('#Dashboard ul li').length);
+        expect(dashboardCount).to.equal(6);
+        const dashboardNames = await page.evaluate(() => $('#Dashboard ul').text().trim());
+        expect(dashboardNames).to.contain(name);
+
+        // new dashboard should be loaded, which contains 1 widget
+        const activeDashboardName = await page.evaluate(() => $('#Dashboard ul li.active').text().trim());
+        expect(activeDashboardName).to.equal(name);
+        const widgetsCount = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
+        expect(widgetsCount).to.equal(1);
     });
 
     it("should load segmented dashboard", async function() {
@@ -317,7 +345,12 @@ describe("WidgetizedDashboard", function () {
         var tokenAuth = "a4ca4238a0b923820dcc509a6f75849f";
         await page.goto(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth);
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('loaded_token_auth');
+        // list of dashboard should be hidden
+        expect(await page.$('#Dashboard')).to.be.not.ok;
+
+        // should show one widget on dashboard
+        const widgetsCount = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
+        expect(widgetsCount).to.equal(1);
     });
 
     it("should fail to load with invalid token_auth", async function() {
@@ -327,8 +360,9 @@ describe("WidgetizedDashboard", function () {
         var tokenAuth = "anyInvalidToken";
         await page.goto(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth);
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('invalid_token_auth');
+        // should show login page with error message
+        expect(await page.$('#loginPage')).to.be.ok;
+        const errorMessage = await page.evaluate(() => $('.message_container').text());
+        expect(errorMessage).to.contain('You must be logged in to access this functionality.');
     });
-
-
 });

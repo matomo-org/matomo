@@ -41,7 +41,7 @@ describe("CoreUpdaterDb", function () {
         await page.goto("");
         await page.evaluate(function () {
             $('p').each(function () {
-                var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, '');
+                var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+|-alpha)?(\.[0-9]{14})?/g, '');
                 $(this).html(replace);
             });
         });
@@ -65,7 +65,7 @@ describe("CoreUpdaterDb", function () {
         await page.goto("");
         await page.evaluate(function () {
             $('p').each(function () {
-                var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, '');
+                var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+|-alpha)?(\.[0-9]{14})?/g, '');
                 $(this).html(replace);
             });
         });

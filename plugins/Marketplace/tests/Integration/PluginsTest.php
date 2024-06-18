@@ -206,7 +206,7 @@ class PluginsTest extends IntegrationTestCase
             'donate' =>
                  [
                     'flattr' => 'https://flattr.com/profile/test1',
-                    'bitcoin' => NULL,
+                    'bitcoin' => null,
                 ],
             'support' =>
                  [
@@ -288,15 +288,15 @@ class PluginsTest extends IntegrationTestCase
                  [
                     'numCommits' => '31',
                     'numContributors' => '3',
-                    'lastCommitDate' => NULL,
+                    'lastCommitDate' => null,
                 ],
             'featured' => false,
             'isFree' => true,
             'isPaid' => false,
             'isCustomPlugin' => false,
-            'shop' => NULL,
+            'shop' => null,
             'isDownloadable' => true,
-            'consumer' =>  ['license' => NULL,],
+            'consumer' =>  ['license' => null,],
             'isInstalled' => false,
             'isActivated' => false,
             'isInvalid' => true,

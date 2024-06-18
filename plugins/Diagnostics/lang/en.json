@@ -5,6 +5,7 @@
         "MysqlTransactionLevel": "Changing transaction isolation level not supported. Archiving will still work but it may be slower and it is recommended to change for example the `binlog_format` to `row` if possible.",
         "MysqlMaxPacketSize": "Max Packet Size",
         "MysqlMaxPacketSizeWarning": "It is recommended to configure a '%1$smax_allowed_packet%2$s' size in your MySQL database of at least %3$s. Configured is currently %4$s.",
+        "MariaDbNotConfigured": "Your database version indicates you might be using a MariaDb server. If this is the case, please ensure to set <code>[database] schema = Mariadb</code> in the \"config/config.ini.php\" file, to ensure all database feature work as expected.",
         "ConfigFileIntroduction": "Here you can view the Matomo configuration. If you are running Matomo in a load balanced environment, the page might be different depending on from which server this page is loaded. Rows with a different background color are changed config values that are specified for example in the %1$s file.",
         "EnableRequiredDirectoriesDiagnostic": "This check was skipped as this check is disabled in the config. To enable this check set [General] enable_required_directories_diagnostic = 1 in the \"config/config.ini.php\" file.",
         "HideUnchanged": "If you want to see only changed values you can %1$shide all unchanged values%2$s.",

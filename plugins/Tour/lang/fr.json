@@ -1,6 +1,7 @@
 {
     "Tour": {
         "AddAnnotation": "Ajouter une annotation",
+        "AddAnotherWebsite": "Ajouter un autre site web",
         "AddReport": "Ajouter un rapport planifié",
         "AddSegment": "Ajouter un segment",
         "BecomeMatomoExpert": "Devenir un expert Matomo",
@@ -21,6 +22,7 @@
         "Engagement": "Engagement",
         "FlattenActions": "Aplatir un rapport de page",
         "FlattenActionsDescription": "Accédez à Comportement → Pages et cliquez sur l'icône en forme de rouage en bas du rapport pour l'aplatir. Cela modifie la hiérarchie d'un rapport groupé à une liste.",
+        "InviteUser": "Inviter un utilisateur",
         "MatomoBeginner": "Matomo débutant",
         "MatomoExpert": "Expert Matomo",
         "MatomoIntermediate": "Matomo intermédiaire",

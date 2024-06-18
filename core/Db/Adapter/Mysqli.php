@@ -70,6 +70,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
     /**
      * Return default port.
      *
+     * @deprecated Use Schema::getDefaultPortForSchema instead
      * @return int
      */
     public static function getDefaultPort()

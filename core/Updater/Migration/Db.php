@@ -89,6 +89,11 @@ abstract class Db extends Migration
     public const ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED = 3024;
 
     /**
+     * MariaDb only: Query execution was interrupted (max_statement_time exceeded)
+     */
+    public const ERROR_CODE_MAX_STATEMENT_TIME_EXCEEDED_QUERY_INTERRUPTED = 1969;
+
+    /**
      * Sort aborted: Query execution was interrupted, maximum statement execution time exceeded
      */
     public const ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED = 1028;

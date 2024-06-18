@@ -39,7 +39,7 @@ class UrlHelper
     protected static function inArrayMatchesRegex($test, $patterns): bool
     {
         foreach ($patterns as $val) {
-            if (@preg_match($val, null) === false) {
+            if (@preg_match($val, '') === false) {
                 if (strcasecmp($val, $test) === 0) {
                     return true;
                 }

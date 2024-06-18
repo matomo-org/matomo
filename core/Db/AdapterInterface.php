@@ -22,6 +22,7 @@ interface AdapterInterface
 
     /**
      * Return default port.
+     * @deprecated Use Schema::getDefaultPortForSchema instead
      *
      * @return int
      */

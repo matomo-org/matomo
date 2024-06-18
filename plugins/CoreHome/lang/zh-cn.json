@@ -68,6 +68,7 @@
         "PageDownShortcutDescription": "到达页面底部",
         "PageUpShortcutDescription": "到达页面顶部",
         "PeriodHasOnlyRawData": "为该期间提供的报告看起来还没有处理掉。你想看看现在的情况么？点击%1$s访问记录%2$s或者选择一个不同的时段直到报告生成。",
+        "PeriodHasOnlyRawDataNoVisitsLog": "为该期间提供的报告还没有处理好，但将在几小时内可用。你可以选择一个不同的时段直到报告生成。",
         "PeriodRange": "时间段",
         "PivotBySubtable": "这个报表尚未 pivot %1$s 以 %2$s 的身份 pivot",
         "Profilable": "可剖析",

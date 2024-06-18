@@ -36,6 +36,12 @@ class Common
 
     public static $isCliMode = null;
 
+    /**
+     * Filled and used during tests only
+     * @var array
+     */
+    public static $headersSentInTests = [];
+
     /*
      * Database
      */
@@ -1086,6 +1092,19 @@ class Common
      */
     public static function sendHeader($header, $replace = true)
     {
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            if (strpos($header, ':') !== false) {
+                [$headerName, $headerValue] = explode(':', $header, 2);
+            } else {
+                $headerName = $header;
+                $headerValue = '';
+            }
+
+            if (!array_key_exists($headerName, self::$headersSentInTests) || $replace) {
+                self::$headersSentInTests[$headerName] = $headerValue;
+            }
+        }
+
         // don't send header in CLI mode
         if (!Common::isPhpCliMode() and !headers_sent()) {
             header($header, $replace);
@@ -1099,6 +1118,10 @@ class Common
      */
     public static function stripHeader($name)
     {
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            unset(self::$headersSentInTests[$name]);
+        }
+
         // don't strip header in CLI mode
         if (!Common::isPhpCliMode() and !headers_sent()) {
             header_remove($name);

@@ -899,7 +899,7 @@ abstract class SystemTestCase extends TestCase
 
     public static function getAllowedModulesToFilterApiResponse($api)
     {
-        return (self::$allowedModulesApiWise[$api] ?? NULL);
+        return (self::$allowedModulesApiWise[$api] ?? null);
     }
 
     public static function setAllowedCategoriesToFilterApiResponse($api, $category)
@@ -909,7 +909,7 @@ abstract class SystemTestCase extends TestCase
 
     public static function getAllowedCategoriesToFilterApiResponse($api)
     {
-        return (self::$allowedCategoriesApiWise[$api] ?? NULL);
+        return (self::$allowedCategoriesApiWise[$api] ?? null);
     }
 
     private static function filterReportsCallback(&$reports, $info, $api, $filterKey, $filterValues)

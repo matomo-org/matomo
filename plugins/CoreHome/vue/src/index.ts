@@ -25,6 +25,7 @@ export { default as getFormattedEvolution } from './getFormattedEvolution';
 export { default as clone } from './clone';
 export { default as VueEntryContainer } from './VueEntryContainer/VueEntryContainer.vue';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
+export { default as MatomoLoader } from './MatomoLoader/MatomoLoader.vue';
 export * from './translate';
 export * from './externalLink';
 export { default as Alert } from './Alert/Alert.vue';

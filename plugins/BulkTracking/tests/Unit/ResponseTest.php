@@ -14,14 +14,6 @@ use Piwik\Tests\Framework\Mock\Tracker;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Exception;
 
-class TestResponse extends Response
-{
-    protected function logExceptionToErrorLog($e)
-    {
-        // prevent console from outputting the error_log message
-    }
-}
-
 /**
  * @group BulkTracking
  * @group ResponseTest
@@ -30,7 +22,7 @@ class TestResponse extends Response
 class ResponseTest extends UnitTestCase
 {
     /**
-     * @var TestResponse
+     * @var Response
      */
     private $response;
 
@@ -38,7 +30,8 @@ class ResponseTest extends UnitTestCase
     {
         parent::setUp();
 
-        $this->response = new TestResponse();
+        $mock = self::getMockBuilder(Response::class)->onlyMethods(['logExceptionToErrorLog']);
+        $this->response = $mock->getMock();
         $this->response->init(new Tracker());
     }
 

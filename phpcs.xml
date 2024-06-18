@@ -28,7 +28,6 @@
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols" />
 
         <exclude name="Generic.Files.LineLength" />
-        <exclude name="Generic.PHP.LowerCaseConstant.Found" />
     </rule>
 
     <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">

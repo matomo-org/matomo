@@ -309,7 +309,16 @@ class UITestFixture extends SqlDump
             Filesystem::unlinkRecursive($realDir, true);
         }
 
-        $files = ['index.html', 'page-1.html', 'page-2.html', 'page-3.html', 'page-4.html', 'page-5.html', 'page-6.html'];
+        $files = [
+            'index.html',
+            'opt-out.php',
+            'page-1.html',
+            'page-2.html',
+            'page-3.html',
+            'page-4.html',
+            'page-5.html',
+            'page-6.html'
+        ];
 
         // copy templates to overlay-test-site-real
         mkdir($realDir);

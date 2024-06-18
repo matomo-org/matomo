@@ -42,18 +42,9 @@ describe("Marketplace", function () {
 
     async function captureSelector(screenshotName, selector)
     {
-        await page.waitForFunction("$('" + selector + "').length > 0");
+        await page.waitForSelector(selector, { visible: true });
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
-    }
-
-    async function captureModal(screenshotName, selector)
-    {
-        await page.waitForFunction("$('" + selector + "').length > 0");
-        await page.waitForNetworkIdle();
-
-        const elem = await page.$(selector);
-        expect(await elem.screenshot()).to.matchImage(screenshotName);
     }
 
     async function captureMarketplace(screenshotName, selector)
@@ -125,7 +116,7 @@ describe("Marketplace", function () {
 
                 await page.goto('?module=CorePluginsAdmin&action=plugins&idSite=1&period=day&date=yesterday&activated=');
 
-                await captureSelector('updates_' + mode, '#content .card:first');
+                await captureSelector('updates_' + mode, '#content div[vue-entry="CorePluginsAdmin.PluginsTableWithUpdates"]');
             });
         }
 
@@ -204,88 +195,6 @@ describe("Marketplace", function () {
 
             await captureWithPluginDetails('paid_plugin_details_exceeded_license_' + mode);
         });
-    });
-
-    var mode = 'superuser';
-
-    it('should show a dialog showing a list of all possible plugins to install', async function() {
-        setEnvironment(mode, validLicense);
-
-        await page.goto(pluginsUrl);
-        await page.click('.installAllPaidPlugins');
-        await page.mouse.move(-10, -10);
-
-        await captureModal(mode + '_install_all_paid_plugins_at_once', '.modal.open');
-    });
-
-    it('should show an error message when invalid license key entered', async function() {
-        setEnvironment(mode, noLicense);
-
-        await page.goto('about:blank');
-        await page.goto(pluginsUrl);
-        await page.type('#license_key', 'invalid');
-        await page.waitForTimeout(200);
-        await page.click('.marketplace-paid-intro'); // click outside so change event is triggered
-        await page.click('#submit_license_key input');
-        await page.waitForNetworkIdle();
-        await page.waitForTimeout(200);
-
-        await captureWithNotification(mode + '_invalid_license_key_entered');
-    });
-
-    it('should show a confirmation before removing a license key', async function() {
-        setEnvironment(mode, validLicense);
-
-        await page.goto('about:blank');
-        await page.goto(pluginsUrl);
-        await page.click('#remove_license_key input');
-
-        await captureModal(mode + '_remove_license_key_confirmation', '.modal.open');
-    });
-
-    it('should show a confirmation before removing a license key', async function() {
-        setEnvironment(mode, noLicense);
-
-        elem = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
-        await elem.click();
-
-        await captureMarketplace(mode + '_remove_license_key_confirmed');
-    });
-
-    it('should show a success message when valid license key entered', async function() {
-        setEnvironment(mode, noLicense);
-
-        await page.goto('about:blank');
-        await page.goto(pluginsUrl);
-        await page.type('#license_key', 'valid');
-        await page.waitForTimeout(200);
-
-        setEnvironment(mode, validLicense);
-        await page.click('#submit_license_key input');
-
-        await captureMarketplace(mode + '_valid_license_key_entered');
-    });
-
-    it('should hide activate / deactivate buttons if plugins admin is disabled', async function() {
-        setEnvironment(mode, noLicense);
-        testEnvironment.overrideConfig('General', 'enable_plugins_admin', '0');
-        testEnvironment.save();
-
-        await page.goto('about:blank');
-        await page.goto(pluginsUrl);
-
-        await captureMarketplace( mode + '_enable_plugins_admin');
-    });
-
-    it('should hide activate / deactivate buttons if plugins admin is disabled when also multi server environment is enabled', async function() {
-        setEnvironment('multiUserEnvironment', noLicense);
-        testEnvironment.overrideConfig('General', 'enable_plugins_admin', '0');
-        testEnvironment.save();
-
-        await page.goto('about:blank');
-        await page.goto(pluginsUrl);
-
-        await captureMarketplace(mode + '_enable_plugins_admin_with_multiserver_enabled');
     });
 
     [expiredLicense, exceededLicense, validLicense, noLicense].forEach(function (consumer) {

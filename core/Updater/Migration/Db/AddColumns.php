@@ -10,6 +10,7 @@
 namespace Piwik\Updater\Migration\Db;
 
 use Piwik\DataAccess\TableMetadata;
+use Piwik\Db\Schema;
 
 /**
  * @see Factory::addColumns()
@@ -42,8 +43,18 @@ class AddColumns extends Sql
             $changes[] = $part;
         }
 
-        $sql = sprintf("ALTER TABLE `%s` %s", $table, implode(', ', $changes));
+        if (Schema::getInstance()->supportsComplexColumnUpdates()) {
+            $sql = sprintf("ALTER TABLE `%s` %s", $table, implode(', ', $changes));
 
-        parent::__construct($sql, static::ERROR_CODE_DUPLICATE_COLUMN);
+            parent::__construct($sql, static::ERROR_CODE_DUPLICATE_COLUMN);
+        } else {
+            $queriesToPerform = [];
+
+            foreach ($changes as $change) {
+                $queriesToPerform[] = sprintf("ALTER TABLE `%s` %s", $table, $change);
+            }
+
+            parent::__construct(implode(';', $queriesToPerform), static::ERROR_CODE_DUPLICATE_COLUMN);
+        }
     }
 }

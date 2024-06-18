@@ -1265,6 +1265,7 @@ Plugins[] = Tour
 Plugins[] = PagePerformance
 Plugins[] = CustomDimensions
 Plugins[] = JsTrackerInstallCheck
+Plugins[] = FeatureFlags
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

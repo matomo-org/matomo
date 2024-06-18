@@ -35,6 +35,7 @@
         "GlobalSettings": "Ustawienia ogólne",
         "GlobalWebsitesSettings": "Ogólna konfiguracja stron",
         "HelpExcludedIpAddresses": "Wprowadź listę adresów IP, po jednym w linii, których Matomo ma nie śledzić. Możesz też użyć zapisu CIDR np. %1$s lub użyć widcard'ów np. %2$s lub %3$s",
+        "Integrations": "Integracje",
         "JsTrackingTagHelp": "Oto kod śledzący w JavaScript do umieszczenia na wszystkich twoich stronach",
         "KeepURLFragments": "Śledzenie fragmentów adresów URL strony",
         "KeepURLFragmentsHelp": "Jeżeli przycisk wyboru (checkbox) poniżej nie jest zaznaczony, fragmenty zawarte w adresie strony (zawartość po prawej stronie %1$s) nie będzie wzięte pod uwagę przy śledzeniu: %2$szostanie rozpoznane jako %3$s",

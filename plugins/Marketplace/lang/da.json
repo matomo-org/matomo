@@ -23,8 +23,6 @@
         "NewVersion": "ny version",
         "NoPluginsFound": "Ingen udvidelsesmoduler fundet",
         "NoThemesFound": "Ingen temaer fundet",
-        "NotAllowedToBrowseMarketplacePlugins": "Du kan gennemse listen over programudvidelser, der kan installeres for at tilpasse eller udvide din Matomo platform. Kontakt din administrator, hvis du har brug for nogen af disse installeret.",
-        "NotAllowedToBrowseMarketplaceThemes": "Du kan gennemse listen over temaer, der kan installeres for at tilpasse udseendet af Matomo platformen. Kontakt din administrator for at få nogen af disse installeret.",
         "NumDownloadsLatestVersion": "Nyeste version: %s Overførsler",
         "PaidPlugins": "Betalte funktioner",
         "PluginKeywords": "Søgeord",

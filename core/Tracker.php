@@ -325,22 +325,6 @@ class Tracker
         }
     }
 
-    protected function loadTrackerPlugins()
-    {
-        try {
-            $pluginManager  = PluginManager::getInstance();
-            $pluginsTracker = $pluginManager->loadTrackerPlugins();
-
-            $this->logger->debug("Loading plugins: { {plugins} }", [
-                'plugins' => implode(", ", $pluginsTracker),
-            ]);
-        } catch (Exception $e) {
-            $this->logger->error('Error loading tracker plugins: {exception}', [
-                'exception' => $e,
-            ]);
-        }
-    }
-
     private function handleFatalErrors()
     {
         register_shutdown_function(function () {

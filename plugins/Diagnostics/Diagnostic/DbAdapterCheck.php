@@ -55,7 +55,7 @@ class DbAdapterCheck implements Diagnostic
         $results = array();
         $adapters = Adapter::getAdapters();
 
-        foreach ($adapters as $adapter => $port) {
+        foreach ($adapters as $adapter) {
             $label = $adapter . ' ' . $this->translator->translate('Installation_Extension');
 
             $results[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK);

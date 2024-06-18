@@ -105,8 +105,8 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_InstallAllPurchasedPluginsAction';
         $translationKeys[] = 'Marketplace_InstallPurchasedPlugins';
         $translationKeys[] = 'Marketplace_InstallThesePlugins';
-        $translationKeys[] = 'Marketplace_InstallingNewPluginsViaMarketplaceOrUpload';
-        $translationKeys[] = 'Marketplace_InstallingNewThemesViaMarketplaceOrUpload';
+        $translationKeys[] = 'Marketplace_Intro';
+        $translationKeys[] = 'Marketplace_IntroSuperUser';
         $translationKeys[] = 'Marketplace_LicenseExceeded';
         $translationKeys[] = 'Marketplace_LicenseExceededPossibleCause';
         $translationKeys[] = 'Marketplace_LicenseKey';
@@ -121,16 +121,11 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_NoSubscriptionsFound';
         $translationKeys[] = 'Marketplace_NoThemesFound';
         $translationKeys[] = 'Marketplace_NoValidSubscriptionNoUpdates';
-        $translationKeys[] = 'Marketplace_NotAllowedToBrowseMarketplacePlugins';
-        $translationKeys[] = 'Marketplace_NotAllowedToBrowseMarketplaceThemes';
         $translationKeys[] = 'Marketplace_NoticeRemoveMarketplaceFromReportingMenu';
         $translationKeys[] = 'Marketplace_OverviewPluginSubscriptions';
         $translationKeys[] = 'Marketplace_OverviewPluginSubscriptionsAllDetails';
         $translationKeys[] = 'Marketplace_OverviewPluginSubscriptionsMissingInfo';
         $translationKeys[] = 'Marketplace_OverviewPluginSubscriptionsMissingLicense';
-        $translationKeys[] = 'Marketplace_PaidPluginsNoLicenseKeyIntro';
-        $translationKeys[] = 'Marketplace_PaidPluginsNoLicenseKeyIntroNoSuperUserAccess';
-        $translationKeys[] = 'Marketplace_PaidPluginsWithLicenseKeyIntro';
         $translationKeys[] = 'Marketplace_PluginSubscriptionsList';
         $translationKeys[] = 'Marketplace_PluginUploadDisabled';
         $translationKeys[] = 'Marketplace_PriceFromPerPeriod';
