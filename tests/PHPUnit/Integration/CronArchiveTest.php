@@ -463,118 +463,204 @@ class CronArchiveTest extends IntegrationTestCase
         return $mock;
     }
 
-    public function testCanWeSkipInvalidatingBecauseThereIsAUsablePeriodReturnsTrueIfPeriodHasTodayAndExistingArchiveIsNewEnough()
-    {
-        Fixture::createWebsite('2019-04-04 03:45:45');
-
-        Date::$now = strtotime('2020-04-05');
-
-        $archiver = new CronArchive();
-
-        $params = new Parameters(new Site(1), Factory::build('week', '2020-04-05'), new Segment('', [1]));
-
-        $tsArchived = Date::now()->subSeconds(100)->getDatetime();
-
-        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
-        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
-            1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_OK, $tsArchived
-        ]);
-
-        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
-        $this->assertTrue($actual);
-    }
-
-    public function testCanWeSkipInvalidatingBecauseThereIsAUsablePeriodReturnsTrueIfPeriodHasTodayAndExistingArchiveIsNewEnoughAndInvalidated()
-    {
+    /**
+     * @dataProvider getArchivingTestData
+     */
+    public function testCanWeSkipInvalidatingBecauseThereIsAUsablePeriodReturnsExpectedValue(
+        string $timezone,
+        string $nowDateTime,
+        string $dayToArchive,
+        string $periodToArchive,
+        string $tsArchived,
+        int $archiveStatus,
+        bool $expected
+    ) {
         Rules::setBrowserTriggerArchiving(false);
 
-        Fixture::createWebsite('2019-04-04 03:45:45');
+        Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, 0, 0, $timezone);
 
-        Date::$now = strtotime('2020-04-05');
+        Date::$now = strtotime($nowDateTime);
 
-        $archiver = new CronArchive();
-
-        $params = new Parameters(new Site(1), Factory::build('week', '2020-04-05'), new Segment('', [1]));
-
-        $tsArchived = Date::now()->subSeconds(100)->getDatetime();
-
-        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
-        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
-            1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_INVALIDATED, $tsArchived
-        ]);
-
-        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
-        $this->assertTrue($actual);
-    }
-
-    public function testCanWeSkipInvalidatingBecauseThereIsAUsablePeriodReturnsIfPeriodDoesNotHaveTodayAndExistingArchiveIsOk()
-    {
-        Rules::setBrowserTriggerArchiving(false);
-
-        Fixture::createWebsite('2019-04-04 03:45:45');
-
-        Date::$now = strtotime('2020-04-05');
+        if ($dayToArchive === 'yesterday' || $dayToArchive === 'today') {
+            $dateToArchive = Date::factoryInTimezone($dayToArchive, $timezone)->toString();
+        } else {
+            $dateToArchive = $dayToArchive;
+        }
+        $period = Factory::build($periodToArchive, $dateToArchive);
 
         $archiver = new CronArchive();
 
-        $params = new Parameters(new Site(1), Factory::build('day', '2020-03-05'), new Segment('', [1]));
+        $params = new Parameters(new Site(1), $period, new Segment('', [1]));
 
-        $tsArchived = Date::now()->subHour(0.1)->getDatetime();
-
-        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-05'));
+        $archiveTable = ArchiveTableCreator::getNumericTable($period->getDateStart());
         Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
-            1, 1, 1, '2020-03-05', '2020-03-05', 'done', ArchiveWriter::DONE_OK, $tsArchived
-        ]);
-
-        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
-        $this->assertTrue($actual);
-    }
-
-    public function testCanWeSkipInvalidatingBecauseThereIsAUsablePeriodReturnsFalseIfDayHasChangedAndDateIsYesterday()
-    {
-        Rules::setBrowserTriggerArchiving(false);
-
-        Fixture::createWebsite('2019-04-04 03:45:45');
-
-        Date::$now = strtotime('2020-04-05');
-
-        $archiver = new CronArchive();
-
-        $params = new Parameters(new Site(1), Factory::build('day', '2020-04-04'), new Segment('', [1]));
-
-        $tsArchived = Date::now()->subDay(1)->getDatetime();
-
-        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-04-04'));
-        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
-            1, 1, 1, '2020-04-04', '2020-04-04', 'done', ArchiveWriter::DONE_OK, $tsArchived
-        ]);
-
-        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
-        $this->assertFalse($actual);
-    }
-
-    public function testCanWeSkipInvalidatingBecauseThereIsAUsablePeriodReturnsTrueIfDayHasNotChangedAndDateIsYesterday()
-    {
-        Rules::setBrowserTriggerArchiving(false);
-
-        Fixture::createWebsite('2019-04-04 03:45:45');
-
-        Date::$now = strtotime('2020-04-05 06:23:40');
-
-        $archiver = new CronArchive();
-
-        $params = new Parameters(new Site(1), Factory::build('day', '2020-04-04'), new Segment('', [1]));
-
-        $tsArchived = Date::now()->subSeconds(1500)->getDatetime();
-
-        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-04-04'));
-        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
-            1, 1, 1, '2020-04-04', '2020-04-04', 'done', ArchiveWriter::DONE_OK, $tsArchived
+            1, 1, $period::PERIOD_ID, $period->getDateStart()->toString(), $period->getDateEnd()->toString(), 'done', $archiveStatus, $tsArchived
         ]);
 
         // $doNotIncludeTtlInExistingArchiveCheck is set to true when running invalidateRecentDate('yesterday');
-        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck = true);
-        $this->assertTrue($actual);
+        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $dayToArchive === 'yesterday');
+        $this->assertSame($expected, $actual);
+    }
+
+    public function getArchivingTestData(): iterable
+    {
+        $timezones = [
+            'UTC-12',
+            'America/Caracas', // UTC-4
+            'UTC-0.5',
+            'UTC',
+            'Asia/Kathmandu', // UTC+5:45
+            'Australia/Brisbane', // UTC+10
+            'UTC+14',
+        ];
+
+        foreach ($timezones as $timezone) {
+            $offset = Date::getUtcOffset($timezone);
+
+            yield "Invalidating yesterday should not be skipped if an archive for yesterday was built before day switch in sites timezone ($timezone)" => [
+                $timezone,
+                Date::factory('2020-04-05 00:22:00')->subSeconds($offset)->getDatetime(),
+                'yesterday',
+                'day',
+                Date::factory('2020-04-04 23:45:40')->subSeconds($offset)->getDatetime(),
+                ArchiveWriter::DONE_OK,
+                false
+            ];
+
+            yield "Invalidating yesterday should not be skipped if an archive for yesterday was built some time before day switch in sites timezone ($timezone)" => [
+                $timezone,
+                Date::factory('2020-04-05 06:22:00')->subSeconds($offset)->getDatetime(),
+                'yesterday',
+                'day',
+                Date::factory('2020-04-04 18:25:35')->subSeconds($offset)->getDatetime(),
+                ArchiveWriter::DONE_OK,
+                false
+            ];
+
+            yield "Invalidating yesterday should not be skipped if an archive for yesterday was built long before day switch in sites timezone ($timezone)" => [
+                $timezone,
+                Date::factory('2020-04-05 19:22:00')->subSeconds($offset)->getDatetime(),
+                'yesterday',
+                'day',
+                Date::factory('2020-04-04 09:25:35')->subSeconds($offset)->getDatetime(),
+                ArchiveWriter::DONE_OK,
+                false
+            ];
+
+            yield "Invalidating yesterday should be skipped if an archive for yesterday was built after day switch in sites timezone ($timezone)" => [
+                $timezone,
+                Date::factory('2020-04-05 00:22:00')->subSeconds($offset)->getDatetime(),
+                'yesterday',
+                'day',
+                Date::factory('2020-04-05 00:05:40')->subSeconds($offset)->getDatetime(),
+                ArchiveWriter::DONE_OK,
+                true
+            ];
+
+            yield "Invalidating yesterday should be skipped if an archive for yesterday was built some time after day switch in sites timezone ($timezone)" => [
+                $timezone,
+                Date::factory('2020-04-05 16:22:00')->subSeconds($offset)->getDatetime(),
+                'yesterday',
+                'day',
+                Date::factory('2020-04-05 09:05:40')->subSeconds($offset)->getDatetime(),
+                ArchiveWriter::DONE_OK,
+                true
+            ];
+
+            yield "Invalidating yesterday should be skipped if an archive for yesterday was built long after day switch in sites timezone ($timezone)" => [
+                $timezone,
+                Date::factory('2020-04-05 22:22:00')->subSeconds($offset)->getDatetime(),
+                'yesterday',
+                'day',
+                Date::factory('2020-04-05 19:05:40')->subSeconds($offset)->getDatetime(),
+                ArchiveWriter::DONE_OK,
+                true
+            ];
+
+            // this test looks actually wrong. As an older period should always be invalidated even if it was archived recently
+            yield "Invalidation should be skipped when checking an older date that was archived within ttl ($timezone)" => [
+                $timezone,
+                Date::factory('2020-04-05 00:00:00')->subSeconds($offset)->getDatetime(),
+                '2020-03-05',
+                'day',
+                Date::factory('2020-04-04 23:49:44')->subSeconds($offset)->getDatetime(),
+                ArchiveWriter::DONE_OK,
+                true
+            ];
+
+            yield "Invalidation should not be skipped when checking an older period that was not archived within ttl ($timezone)" => [
+                $timezone,
+                Date::factory('2020-04-05 04:00:00')->subSeconds($offset)->getDatetime(),
+                '2020-03-05',
+                'week',
+                Date::factory('2020-04-03 23:49:44')->subSeconds($offset)->getDatetime(),
+                ArchiveWriter::DONE_OK,
+                false
+            ];
+
+            // this test looks actually wrong. As an older period should always be invalidated even if it was archived recently
+            yield "Invalidation should be skipped when checking an older period that was archived within ttl ($timezone)" => [
+                $timezone,
+                Date::factory('2020-04-05 04:00:00')->subSeconds($offset)->getDatetime(),
+                '2020-03-05',
+                'week',
+                Date::factory('2020-04-05 03:55:44')->subSeconds($offset)->getDatetime(),
+                ArchiveWriter::DONE_OK,
+                true
+            ];
+
+            // ttl is defined by time_before_today_archive_considered_outdated (default = 900)
+            yield "Invalidating today should be skipped when checking today archive, which is newer than ttl ($timezone)" => [
+                $timezone,
+                Date::factory('2020-04-05 19:15:00')->subSeconds($offset)->getDatetime(),
+                'today',
+                'day',
+                Date::factory('2020-04-05 19:05:00')->subSeconds($offset)->getDatetime(),
+                ArchiveWriter::DONE_OK,
+                true
+            ];
+
+            // ttl is defined by time_before_today_archive_considered_outdated (default = 900)
+            yield "Invalidating today should not be skipped when checking today archive, which is older than ttl ($timezone)" => [
+                $timezone,
+                Date::factory('2020-04-05 19:15:00')->subSeconds($offset)->getDatetime(),
+                'today',
+                'day',
+                Date::factory('2020-04-05 16:05:00')->subSeconds($offset)->getDatetime(),
+                ArchiveWriter::DONE_OK,
+                false
+            ];
+
+            yield "Invalidating current week should be skipped if a recently built archive is valid ($timezone)" => [
+                $timezone,
+                Date::factory('2020-04-05 19:15:00')->subSeconds($offset)->getDatetime(),
+                'today',
+                'week',
+                Date::factory('2020-04-05 19:13:40')->subSeconds($offset)->getDatetime(),
+                ArchiveWriter::DONE_OK,
+                true
+            ];
+
+            yield "Invalidating current week should also be skipped if a recently built archive is already invalidated ($timezone)" => [
+                $timezone,
+                Date::factory('2020-04-05 19:15:00')->subSeconds($offset)->getDatetime(),
+                'today',
+                'week',
+                Date::factory('2020-04-05 19:13:40')->subSeconds($offset)->getDatetime(),
+                ArchiveWriter::DONE_INVALIDATED,
+                true
+            ];
+
+            yield "Invalidating current week should not be skipped if a recently built archive is older than ttl ($timezone)" => [
+                $timezone,
+                Date::factory('2020-04-05 19:15:00')->subSeconds($offset)->getDatetime(),
+                'today',
+                'week',
+                Date::factory('2020-04-05 18:28:40')->subSeconds($offset)->getDatetime(),
+                ArchiveWriter::DONE_OK,
+                false
+            ];
+        }
     }
 
     public function testGetColumnNamesFromTable()
