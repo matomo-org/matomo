@@ -68,6 +68,7 @@
         "PageDownShortcutDescription": "前往網頁最下方",
         "PageUpShortcutDescription": "回到網頁最上方",
         "PeriodHasOnlyRawData": "似乎這一時段的報表尚未處理完成。想看看現在的狀況嗎？查看%1$s訪問紀錄%2$s或選擇不同的時段，直到有生成的報告。",
+        "PeriodHasOnlyRawDataNoVisitsLog": "此期間的報表似乎還沒處理好，但將會在數小時內就完成。在報表生成前，可以先選擇其他日期期間的報表。",
         "PeriodRange": "範圍",
         "PivotBySubtable": "此報表尚未圖形化 %1$s 以 %2$s 圖形化",
         "Profilable": "可紀錄的",

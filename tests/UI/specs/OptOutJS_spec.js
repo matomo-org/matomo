@@ -12,10 +12,6 @@ describe('OptOutJS', function () {
 
     const siteUrl = '/tests/resources/overlay-test-site-real/opt-out.php?implementation=js';
 
-    after(async () => {
-        await page.clearCookies();
-    });
-
     async function expectHasConsentToBe(useTracker, expectedState) {
         let hasConsent;
 

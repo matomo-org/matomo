@@ -149,6 +149,7 @@ describe('VersionInfoHeaderMessage', function() {
             messageDropdown.innerHTML = messageDropdown.innerHTML.replace(matomoVersion, '5.x-uitest');
           }, selectorComponent, selectorMessageDropdown);
 
+          await page.mouse.move(-10, -10);
           await page.hover(selectorMessage);
           await page.waitForSelector(selectorMessageDropdown, {visible: true, timeout: 250});
 

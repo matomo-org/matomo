@@ -16,6 +16,7 @@
         "DatabaseSetup": "資料庫設定",
         "DatabaseSetupAdapter": "介面卡",
         "DatabaseSetupDatabaseName": "資料庫名稱",
+        "DatabaseSetupEngine": "資料庫引擎",
         "DatabaseSetupLogin": "資料庫帳號",
         "DatabaseSetupServer": "資料庫伺服器",
         "DatabaseSetupTablePrefix": "資料表前綴",

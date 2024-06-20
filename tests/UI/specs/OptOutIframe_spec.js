@@ -22,9 +22,6 @@ describe("OptOutIframe", function () {
     }
 
     after(async () => {
-        await page.clearCookies();
-    });
-    after(async () => {
         await page.setUserAgent(page.originalUserAgent);
     });
 

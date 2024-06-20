@@ -90,6 +90,16 @@ class Schema extends Singleton
     }
 
     /**
+     * Get the table options to use for a CREATE TABLE statement.
+     *
+     * @return string
+     */
+    public function getTableCreateOptions(): string
+    {
+        return $this->getSchema()->getTableCreateOptions();
+    }
+
+    /**
      * Get the SQL to create a specific Piwik table
      *
      * @param string $tableName name of the table to create
