@@ -67,6 +67,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
             Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DOWNLOADS_RECORD_NAME),
             Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_UNIQ_DOWNLOADS_RECORD_NAME),
+            Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_HITS_RECORD_NAME),
         ];
     }
 
@@ -76,6 +77,16 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         ArchivingHelper::reloadConfig();
 
         $tablesByType = $this->makeReportTables();
+
+        $query = $archiveProcessor->getLogAggregator()->queryActionsByDimension(
+            [],
+            '',
+            ['count(distinct log_link_visit_action.idlink_va) as `' . PiwikMetrics::INDEX_NB_HITS . '`'],
+            [],
+            null
+        );
+        $data = $query->fetch();
+        $nbHits = $data[PiwikMetrics::INDEX_NB_HITS];
 
         $this->archiveDayActions(
             $archiveProcessor,
@@ -136,6 +147,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             Archiver::SITE_SEARCH_RECORD_NAME => $tablesByType[Action::TYPE_SITE_SEARCH],
 
             // numeric records
+            Archiver::METRIC_HITS_RECORD_NAME => $nbHits,
+
             Archiver::METRIC_SEARCHES_RECORD_NAME => $nbSearches,
             Archiver::METRIC_KEYWORDS_RECORD_NAME => $nbKeywords,
 

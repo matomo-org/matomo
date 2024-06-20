@@ -91,6 +91,9 @@ class Metrics
     // Unique visitors fingerprints (useful to process unique visitors across websites)
     public const INDEX_NB_UNIQ_FINGERPRINTS = 43;
 
+    // Total number of hits
+    public const INDEX_NB_HITS = 44;
+
     // Goal reports
     public const INDEX_GOAL_NB_CONVERSIONS = 1;
     public const INDEX_GOAL_REVENUE = 2;
@@ -125,6 +128,7 @@ class Metrics
         Metrics::INDEX_GOALS                                 => 'goals',
         Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS            => 'sum_daily_nb_uniq_visitors',
         Metrics::INDEX_SUM_DAILY_NB_USERS                    => 'sum_daily_nb_users',
+        Metrics::INDEX_NB_HITS                               => 'nb_hits',
 
         // Actions metrics
         Metrics::INDEX_PAGE_NB_HITS                          => 'nb_hits',
@@ -528,6 +532,7 @@ class Metrics
             self::INDEX_NB_VISITS,
             self::INDEX_NB_UNIQ_VISITORS,
             self::INDEX_NB_ACTIONS,
+            self::INDEX_NB_HITS,
             self::INDEX_PAGE_NB_HITS,
             self::INDEX_NB_VISITS_CONVERTED,
             self::INDEX_NB_CONVERSIONS,
