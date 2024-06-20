@@ -13,15 +13,19 @@ import { EvolutionTrend } from '../types';
 interface DashboardKPIData {
   evolutionPeriod: string;
   hits: string;
+  hitsBadge: string;
   hitsEvolution: string;
   hitsTrend: EvolutionTrend;
   pageviews: string;
+  pageviewsBadge: string;
   pageviewsEvolution: string;
   pageviewsTrend: EvolutionTrend;
   revenue: string;
+  revenueBadge: string;
   revenueEvolution: string;
   revenueTrend: EvolutionTrend;
   visits: string;
+  visitsBadge: string;
   visitsEvolution: string;
   visitsTrend: EvolutionTrend;
 }
@@ -46,8 +50,15 @@ interface DashboardStoreState {
   isLoadingKPIs: boolean;
 }
 
+interface GetDashboardMockDataResponseTotals extends DashboardMetrics {
+  nb_hits_badge: string;
+  nb_pageviews_badge: string;
+  nb_visits_badge: string;
+  revenue_badge: string;
+}
+
 interface GetDashboardMockDataResponse {
-  totals: DashboardMetrics;
+  totals: GetDashboardMockDataResponseTotals;
 }
 
 class DashboardStore {
@@ -57,15 +68,19 @@ class DashboardStore {
     dashboardKPIs: {
       evolutionPeriod: 'day',
       hits: '?',
+      hitsBadge: '',
       hitsEvolution: '?',
       hitsTrend: 0,
       pageviews: '?',
+      pageviewsBadge: '',
       pageviewsEvolution: '?',
       pageviewsTrend: 0,
       revenue: '?',
+      revenueBadge: '',
       revenueEvolution: '?',
       revenueTrend: 0,
       visits: '?',
+      visitsBadge: '',
       visitsEvolution: '?',
       visitsTrend: 0,
     },
@@ -152,15 +167,19 @@ class DashboardStore {
     this.privateState.dashboardKPIs = {
       evolutionPeriod: Matomo.period as string,
       hits: response.totals.nb_hits,
+      hitsBadge: response.totals.nb_hits_badge,
       hitsEvolution: response.totals.hits_evolution,
       hitsTrend: response.totals.hits_evolution_trend,
       pageviews: response.totals.nb_pageviews,
+      pageviewsBadge: response.totals.nb_pageviews_badge,
       pageviewsEvolution: response.totals.pageviews_evolution,
       pageviewsTrend: response.totals.pageviews_evolution_trend,
       revenue: response.totals.revenue,
+      revenueBadge: response.totals.revenue_badge,
       revenueEvolution: response.totals.revenue_evolution,
       revenueTrend: response.totals.revenue_evolution_trend,
       visits: response.totals.nb_visits,
+      visitsBadge: response.totals.nb_visits_badge,
       visitsEvolution: response.totals.visits_evolution,
       visitsTrend: response.totals.visits_evolution_trend,
     };

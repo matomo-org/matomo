@@ -11,6 +11,7 @@ export interface KPICardData {
   evolutionPeriod: string;
   evolutionTrend: EvolutionTrend;
   evolutionValue: string;
+  badge: string;
   icon: string;
   title: string;
   value: string;

@@ -420,6 +420,7 @@ class API extends \Piwik\Plugin\API
                 'hits_evolution'            => $numberFormatter->formatPercent(2.8, 2, 2),
                 'hits_evolution_trend'      => 1,
                 'nb_hits'                   => $numberFormatter->formatNumber(582303),
+                'nb_hits_badge'             => '<strong>Plan:</strong> 600K hits/month',
                 'nb_pageviews'              => $numberFormatter->formatNumber(26027),
                 'nb_visits'                 => $numberFormatter->formatNumber(10118),
                 'pageviews_evolution'       => $numberFormatter->formatPercent(0.3, 2, 2),

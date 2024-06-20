@@ -25,7 +25,7 @@
         :key="`kpi-card-${index}`"
     >
       <template v-if="index > 0">
-        <div class="kpiCardDivider">&nbsp;</div>
+        <div :class="{ kpiCardDivider: true, kpiCardDividerBadge: hasKpiBadge }">&nbsp;</div>
       </template>
 
       <KPICard :model-value="kpi" />
@@ -53,6 +53,9 @@ export default defineComponent({
     },
   },
   computed: {
+    hasKpiBadge(): boolean {
+      return this.kpis.some((kpi) => !!kpi.badge);
+    },
     kpis(): KPICardData[] {
       return this.modelValue as KPICardData[];
     },

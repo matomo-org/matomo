@@ -21,6 +21,11 @@
       </span>
       {{ translate(evolutionTrendFrom) }}
     </div>
+
+    <div v-if="kpi.badge"
+         v-html="$sanitize(kpi.badge)"
+         class="kpiCardBadge"
+    ></div>
   </div>
 </template>
 
