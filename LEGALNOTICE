@@ -290,7 +290,7 @@ THIRD-PARTY CONTENT
 	Link: https://icomoon.io/#icons-icomoon
 	License: GPL
 
-	Name: FontAwesome icons ("icon-minus-square", "icon-plus-square", "icon-arrowup", "icon-arrowdown", "icon-outlink", "icon-chevron-right", "icon-chevron-left", "icon-chevron-down", "icon-chevron-up") in plugins/Morpheus/fonts
+	Name: FontAwesome icons ("icon-minus-square", "icon-plus-square", "icon-arrowup", "icon-arrowdown", "icon-outlink", "icon-chevron-right", "icon-chevron-left", "icon-chevron-down", "icon-chevron-up", "icon-circle") in plugins/Morpheus/fonts
 	Link: https://fontawesome.com/
 	License: CC BY 4.0
 
@@ -298,7 +298,7 @@ THIRD-PARTY CONTENT
     Link: https://pictogrammers.com/
     License: Apache License Version 2.0
 
-    Name: Feather icons ("icon-marketplace") in plugins/Morpheus/fonts
+    Name: Feather icons ("icon-dollar-sign", "icon-marketplace") in plugins/Morpheus/fonts
     Link: https://feathericons.com/
     License: MIT (Expat)
 
