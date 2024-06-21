@@ -498,7 +498,7 @@ class CronArchiveTest extends IntegrationTestCase
         ]);
 
         // $doNotIncludeTtlInExistingArchiveCheck is set to true when running invalidateRecentDate('yesterday');
-        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $dayToArchive === 'yesterday');
+        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $dayToArchive === 'today');
         $this->assertSame($expected, $actual);
     }
 
@@ -577,8 +577,7 @@ class CronArchiveTest extends IntegrationTestCase
                 true
             ];
 
-            // this test looks actually wrong. As an older period should always be invalidated even if it was archived recently
-            yield "Invalidation should be skipped when checking an older date that was archived within ttl ($timezone)" => [
+            yield "Invalidation should not be skipped when checking an older date that was archived within ttl ($timezone)" => [
                 $timezone,
                 Date::factory('2020-04-05 00:00:00')->subSeconds($offset)->getDatetime(),
                 '2020-03-05',
@@ -598,15 +597,14 @@ class CronArchiveTest extends IntegrationTestCase
                 false
             ];
 
-            // this test looks actually wrong. As an older period should always be invalidated even if it was archived recently
-            yield "Invalidation should be skipped when checking an older period that was archived within ttl ($timezone)" => [
+            yield "Invalidation should not be skipped when checking an older period that was archived within ttl ($timezone)" => [
                 $timezone,
                 Date::factory('2020-04-05 04:00:00')->subSeconds($offset)->getDatetime(),
                 '2020-03-05',
                 'week',
                 Date::factory('2020-04-05 03:55:44')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                true
+                false
             ];
 
             // ttl is defined by time_before_today_archive_considered_outdated (default = 900)

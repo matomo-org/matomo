@@ -919,14 +919,11 @@ class CronArchive
             'date' => $date->getDatetime(),
         ]);
 
-        // if we are invalidating yesterday here, we are only interested in checking if there is no archive for yesterday, or the day has changed since
-        // the last archive was archived (in which there may have been more visits before midnight). so we disable the ttl check, since any archive
-        // will be good enough, if the date hasn't changed.
-        $isYesterday = $dateStr == 'yesterday';
-        $this->invalidateWithSegments([$idSite], $date->toString(), 'day', false, $doNotIncludeTtlInExistingArchiveCheck = $isYesterday);
+        // Only when invalidating today we check if there are already any usable archives that were built within TTL
+        $this->invalidateWithSegments([$idSite], $date->toString(), 'day', false, $dateStr === 'today');
     }
 
-    private function invalidateWithSegments($idSites, $date, $period, $_forceInvalidateNonexistent = false, $doNotIncludeTtlInExistingArchiveCheck = false)
+    private function invalidateWithSegments($idSites, $date, $period, $_forceInvalidateNonexistent = false, bool $includeTtlInExistingArchiveCheck = false)
     {
         if ($date instanceof Date) {
             $date = $date->toString();
@@ -954,7 +951,7 @@ class CronArchive
                     $periodObj->getDateTimeEnd()->setTimezone($site->getTimezone())
                 )
             );
-            if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck)) {
+            if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $includeTtlInExistingArchiveCheck)) {
                 $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
             } else {
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports(
@@ -982,7 +979,7 @@ class CronArchive
                         $periodObj->getDateTimeEnd()->setTimezone($site->getTimezone())
                     )
                 );
-                if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck)) {
+                if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $includeTtlInExistingArchiveCheck)) {
                     $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
                 } else {
                     if (empty($this->segmentArchiving)) {
@@ -1040,7 +1037,7 @@ class CronArchive
      *
      * @params Parameters $params The parameters for the archive we want to invalidate.
      */
-    public function canWeSkipInvalidatingBecauseThereIsAUsablePeriod(Parameters $params, $doNotIncludeTtlInExistingArchiveCheck = false): bool
+    public function canWeSkipInvalidatingBecauseThereIsAUsablePeriod(Parameters $params, bool $includeTtlInExistingArchiveCheck = false): bool
     {
         $timezone = Site::getTimezoneFor($params->getSite()->getId());
         $today = Date::factoryInTimezone('today', $timezone);
@@ -1050,8 +1047,8 @@ class CronArchive
         $isYesterday = $params->getPeriod()->getLabel() === 'day' && $params->getPeriod()->getDateStart()->toString() === $yesterday->toString();
         $isPeriodIncludesToday = $params->getPeriod()->isDateInPeriod($today);
 
-        $minArchiveProcessedTime = $doNotIncludeTtlInExistingArchiveCheck ? null :
-            Date::now()->subSeconds(Rules::getPeriodArchiveTimeToLiveDefault($params->getPeriod()->getLabel()));
+        $minArchiveProcessedTime = $includeTtlInExistingArchiveCheck ?
+            Date::now()->subSeconds(Rules::getPeriodArchiveTimeToLiveDefault($params->getPeriod()->getLabel())) : null;
 
         // empty plugins param since we only check for an 'all' archive
         $archiveInfo = ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTime, $includeInvalidated = $isPeriodIncludesToday);
