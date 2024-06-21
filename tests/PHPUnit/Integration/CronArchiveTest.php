@@ -584,7 +584,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'day',
                 Date::factory('2020-04-04 23:49:44')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                true
+                false
             ];
 
             yield "Invalidation should not be skipped when checking an older period that was not archived within ttl ($timezone)" => [

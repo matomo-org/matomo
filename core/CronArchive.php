@@ -1065,6 +1065,11 @@ class CronArchive
             return false;
         }
 
+        // periods that don't include today or yesterday should always be invalidated when requested
+        if (!$isPeriodIncludesToday && !$isYesterday) {
+            return false;
+        }
+
         return !empty($idArchive);
     }
 
