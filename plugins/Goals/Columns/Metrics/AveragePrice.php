@@ -71,13 +71,6 @@ class AveragePrice extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        // TODO: can we refactor the use of this class to avoid having something complicated like this here?
-        // TODO: check that this works in looker?
-        return <<<FORMULA
-CASE
-    WHEN orders > 0 THEN price / orders
-    ELSE price / abandoned_carts 
-END
-FORMULA;
+        return '$orders > 0 ? ($price / $orders) : ($price / $abandoned_carts)';
     }
 }

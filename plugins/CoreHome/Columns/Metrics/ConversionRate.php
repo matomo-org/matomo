@@ -58,6 +58,6 @@ class ConversionRate extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return "nb_visits_converted / nb_visits";
+        return '$nb_visits_converted / $nb_visits';
     }
 }

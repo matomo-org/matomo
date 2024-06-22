@@ -54,12 +54,6 @@ class AverageQuantity extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        // TODO: can we refactor the use of this class to avoid having something complicated like this here?
-        return <<<FORMULA
-CASE
-    WHEN orders > 0 THEN quantity / orders
-    ELSE quantity / abandoned_carts 
-END
-FORMULA;
+        return '$orders > 0 ? ($quantity / $orders) : ($quantity / $abandoned_carts)';
     }
 }
