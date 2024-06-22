@@ -80,4 +80,16 @@ class VisitsPercent extends ProcessedMetric
     {
         return Dimension::TYPE_PERCENT;
     }
+
+    public function computeExtraTemporaryMetrics(Row $row): array
+    {
+        return [
+            'total_visits' => $this->cachedTotalVisits,
+        ];
+    }
+
+    public function getFormula(): ?string
+    {
+        return '$visits / $total_visits';
+    }
 }
