@@ -19,7 +19,9 @@ use Piwik\DataTable\Row;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
 use Piwik\Plugins\Goals\Archiver;
+use Piwik\Plugins\MultiSites\Columns\Metrics\EcommerceOnlyEvolutionMetric;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsPiwik;
@@ -397,8 +399,8 @@ class API extends \Piwik\Plugin\API
             $extraProcessedMetrics = $currentData->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
             foreach ($apiMetrics as $metricSettings) {
                 $evolutionMetricClass = $this->isEcommerceEvolutionMetric($metricSettings)
-                                      ? "Piwik\\Plugins\\MultiSites\\Columns\\Metrics\\EcommerceOnlyEvolutionMetric"
-                                      : "Piwik\\Plugins\\CoreHome\\Columns\\Metrics\\EvolutionMetric";
+                                      ? EcommerceOnlyEvolutionMetric::class
+                                      : EvolutionMetric::class;
 
                 $extraProcessedMetrics = is_array($extraProcessedMetrics) ? $extraProcessedMetrics : [];
                 $extraProcessedMetrics[] = new $evolutionMetricClass(

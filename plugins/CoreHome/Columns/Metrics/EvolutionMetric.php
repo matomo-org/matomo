@@ -22,9 +22,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
 
-// TODO: issue about allowing formula for evolution values (will require including past data in report as temporary data, and calculating using that)
-//       same for VisitsPercent.
-
 /**
  * Calculates evolution values for any other metric. An evolution is the percent change from a
  * point in the past to the present. They are computed as:
@@ -138,12 +135,11 @@ class EvolutionMetric extends ProcessedMetric
         return ($computedValue < 0 ? -1 : ($computedValue > 0 ? 1 : 0));
     }
 
-    public function compute(Row $row)
+    public function computeExtraTemporaryMetrics(Row $row): array
     {
-        $columnName = $this->getWrappedName();
-        $pastRow = $this->getPastRowFromCurrent($row);
+        $columnName = $this->getWrappedName(); // TODO: set this during construction
 
-        $currentValue = $this->getMetric($row, $columnName);
+        $pastRow = $this->getPastRowFromCurrent($row);
         $pastValue = $pastRow ? $this->getMetric($pastRow, $columnName) : 0;
 
         // Reduce past value proportionally to match the percent of the current period which is complete, if applicable
@@ -155,6 +151,16 @@ class EvolutionMetric extends ProcessedMetric
         $row->setMetadata('periodName', $period->getLabel());
         $row->setMetadata('previousRange', $period->getLocalizedShortString());
         $pastValue = ($pastValue * $ratio);
+
+        return [ "past_{$columnName}" => $pastValue ];
+    }
+
+    public function compute(Row $row)
+    {
+        $columnName = $this->getWrappedName();
+
+        $pastValue = $this->getExtraMetric($row, "past_{$columnName}");
+        $currentValue = $this->getMetric($row, $columnName);
 
         $dividend = $currentValue - $pastValue;
         $divisor = $pastValue;
@@ -279,5 +285,13 @@ class EvolutionMetric extends ProcessedMetric
     public function getSemanticType(): ?string
     {
         return Dimension::TYPE_PERCENT;
+    }
+
+    public function getFormula(): ?string
+    {
+        $columnName = '$' . $this->getWrappedName();
+        $pastColumnName = '$past_' . $columnName;
+
+        return "$pastColumnName == 0 ? 1 : (($columnName - $pastColumnName) / $pastColumnName)";
     }
 }

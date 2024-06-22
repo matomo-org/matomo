@@ -25,6 +25,8 @@ abstract class ProcessedMetric extends Metric
      */
     public const COMPONENT_SUBNAMESPACE = 'Columns\\Metrics';
 
+    private $cachedExtraTemporaryMetrics = [];
+
     /**
      * Computes the metric using the values in a {@link Piwik\DataTable\Row}.
      *
@@ -54,6 +56,17 @@ abstract class ProcessedMetric extends Metric
     public function getTemporaryMetrics()
     {
         return array();
+    }
+
+    /**
+     * TODO
+     *
+     * @param Row $row
+     * @return array
+     */
+    public function computeExtraTemporaryMetrics(Row $row): array
+    {
+        return [];
     }
 
     /**
@@ -96,5 +109,40 @@ abstract class ProcessedMetric extends Metric
     public function getFormula(): ?string
     {
         return null;
+    }
+
+    /**
+     * TODO
+     *
+     * @return mixed
+     */
+    public function getExtraMetric(Row $row, string $metricName)
+    {
+        $extraMetrics = $this->getAllExtraMetrics($row);
+        return $extraMetrics[$metricName];
+    }
+
+    /**
+     * TODO
+     *
+     * @param Row $row
+     * @return array
+     */
+    public function getAllExtraMetrics(Row $row): array
+    {
+        if (empty($this->cachedExtraTemporaryMetrics)) {
+            $extraTempMetrics = $this->computeExtraTemporaryMetrics($row);
+            $this->cachedExtraTemporaryMetrics = $extraTempMetrics;
+        }
+
+        return $this->cachedExtraTemporaryMetrics;
+    }
+
+    /**
+     * @internal
+     */
+    public function clearTemporaryMetricCache()
+    {
+        $this->cachedExtraTemporaryMetrics = [];
     }
 }

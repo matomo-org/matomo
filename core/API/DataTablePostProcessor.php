@@ -494,6 +494,8 @@ class DataTablePostProcessor
             return;
         }
 
+        $showRawMetrics = (new \Piwik\Request($this->request))->getBoolParameter('showRawMetrics');
+
         $dataTable->setMetadata(self::PROCESSED_METRICS_COMPUTED_FLAG, true);
 
         foreach ($processedMetrics as $name => $processedMetric) {
@@ -506,6 +508,8 @@ class DataTablePostProcessor
                     continue;
                 }
 
+                $processedMetric->clearTemporaryMetricCache();
+
                 $computedValue = $processedMetric->compute($row);
                 if ($computedValue !== false) {
                     $row->addColumn($name, $computedValue);
@@ -514,6 +518,10 @@ class DataTablePostProcessor
                     if ($processedMetric instanceof EvolutionMetric) {
                         $row->addColumn($processedMetric->getTrendName(), $processedMetric->getTrendValue($computedValue));
                     }
+                }
+
+                if ($showRawMetrics) {
+                    $row->addColumns($processedMetric->getAllExtraMetrics());
                 }
             }
         }
