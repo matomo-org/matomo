@@ -70,4 +70,16 @@ class VisitorsFromReferrerPercent extends ProcessedMetric
     {
         return Dimension::TYPE_PERCENT;
     }
+
+    public function computeExtraTemporaryMetrics(Row $row): array
+    {
+        return [
+            'total_visits' => $this->totalVisits,
+        ];
+    }
+
+    public function getFormula(): ?string
+    {
+        return '$' . $this->referrerSourceColumn . ' / $total_visits';
+    }
 }

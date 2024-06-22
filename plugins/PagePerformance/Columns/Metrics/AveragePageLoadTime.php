@@ -69,4 +69,10 @@ class AveragePageLoadTime extends ProcessedMetric
     {
         return Dimension::TYPE_DURATION_S;
     }
+
+    public function getFormula(): ?string
+    {
+        $parts = array_map(function ($n) { return '$' . $n; }, $this->getDependentMetrics());
+        return implode(' + ', $parts);
+    }
 }

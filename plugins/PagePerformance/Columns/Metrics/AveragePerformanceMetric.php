@@ -106,4 +106,9 @@ abstract class AveragePerformanceMetric extends ProcessedMetric
     {
         return Dimension::TYPE_DURATION_S;
     }
+
+    public function getFormula(): ?string
+    {
+        return '$sum_' . static::ID . ' / $nb_hits_with_' . static::ID;
+    }
 }
