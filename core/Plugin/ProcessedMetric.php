@@ -145,4 +145,28 @@ abstract class ProcessedMetric extends Metric
     {
         $this->cachedExtraTemporaryMetrics = [];
     }
+
+    // TODO: merge with other PR
+    // TODO: add to report metadata
+    // TODO: implement in processed metrics that need it
+
+    /**
+     * TODO
+     *
+     * @return array
+     */
+    public function getExtraMetricAggregationTypes(): array
+    {
+        return [];
+    }
+
+    /**
+     * TODO
+     *
+     * @return array
+     */
+    public function getExtraMetricSemanticTypes(): array
+    {
+        return [];
+    }
 }
