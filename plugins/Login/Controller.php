@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Login;
@@ -42,7 +41,7 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
-    const NONCE_CONFIRMRESETPASSWORD = 'loginConfirmResetPassword';
+    public const NONCE_CONFIRMRESETPASSWORD = 'loginConfirmResetPassword';
 
     /**
      * @var PasswordResetter

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\DataTable\Filter;
 
 use Piwik\Archive\DataTableFactory;
@@ -68,41 +69,41 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
     /**
      * Process metrics for entry page views, with ECommerce
      */
-    const GOALS_ENTRY_PAGES_ECOMMERCE = -6;
+    public const GOALS_ENTRY_PAGES_ECOMMERCE = -6;
 
     /**
      * Process for page views, with ECommerce
      */
-    const GOALS_PAGES_ECOMMERCE = -5;
+    public const GOALS_PAGES_ECOMMERCE = -5;
 
     /**
      * Process metrics for entry page views
      */
-    const GOALS_ENTRY_PAGES = -4;
+    public const GOALS_ENTRY_PAGES = -4;
 
     /**
      * Process for page views
      */
-    const GOALS_PAGES = -3;
+    public const GOALS_PAGES = -3;
 
     /**
      * Process main goal metrics: conversion rate, revenue per visit
      */
-    const GOALS_MINIMAL_REPORT = -2;
+    public const GOALS_MINIMAL_REPORT = -2;
 
     /**
      * Process main goal metrics, and conversion rate per goal
      */
-    const GOALS_OVERVIEW = -1;
+    public const GOALS_OVERVIEW = -1;
 
     /**
      * Process all goal and per-goal metrics
      */
-    const GOALS_FULL_TABLE = 0;
+    public const GOALS_FULL_TABLE = 0;
 
-    const ACTIONS_PAGE_REPORTS_WITH_GOAL_METRICS = ['Actions.getPageUrls', 'Actions.getPageTitles'];
+    public const ACTIONS_PAGE_REPORTS_WITH_GOAL_METRICS = ['Actions.getPageUrls', 'Actions.getPageTitles'];
 
-    const ACTIONS_ENTRY_PAGE_REPORTS_WITH_GOAL_METRICS = ['Actions.getEntryPageUrls', 'Actions.getEntryPageTitles'];
+    public const ACTIONS_ENTRY_PAGE_REPORTS_WITH_GOAL_METRICS = ['Actions.getEntryPageUrls', 'Actions.getEntryPageTitles'];
 
     /**
      * @var string

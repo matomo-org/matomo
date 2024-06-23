@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\API\tests\Unit;
@@ -27,14 +28,14 @@ class OriginalRendererTest extends \PHPUnit\Framework\TestCase
         $this->builder = $this->makeBuilder(array());
     }
 
-    public function test_renderSuccess_shouldAlwaysReturnTrueAndIgnoreMessage()
+    public function testRenderSuccessShouldAlwaysReturnTrueAndIgnoreMessage()
     {
         $response = $this->builder->renderSuccess('ok');
 
         $this->assertTrue($response);
     }
 
-    public function test_renderException_shouldThrowTheException()
+    public function testRenderExceptionShouldThrowTheException()
     {
         $this->expectException(\BadMethodCallException::class);
         $this->expectExceptionMessage('The other message');
@@ -42,7 +43,7 @@ class OriginalRendererTest extends \PHPUnit\Framework\TestCase
         $this->builder->renderException('This message should be ignored', new \BadMethodCallException('The other message'));
     }
 
-    public function test_renderScalar_shouldReturnTheSameValue()
+    public function testRenderScalarShouldReturnTheSameValue()
     {
         $response = $this->builder->renderScalar(true);
         $this->assertSame(true, $response);
@@ -54,7 +55,7 @@ class OriginalRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('string', $response);
     }
 
-    public function test_renderObject_shouldReturnTheSameValue()
+    public function testRenderObjectShouldReturnTheSameValue()
     {
         $response = $this->builder->renderObject($this);
         $this->assertSame($this, $response);
@@ -64,14 +65,14 @@ class OriginalRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($stdObject, $response);
     }
 
-    public function test_renderResource_shouldReturnTheSameValue()
+    public function testRenderResourceShouldReturnTheSameValue()
     {
         $resource = curl_init();
         $response = $this->builder->renderResource($resource);
         $this->assertSame($resource, $response);
     }
 
-    public function test_renderDataTable_shouldReturnSameInstanceAndNotSerializeByDefault()
+    public function testRenderDataTableShouldReturnSameInstanceAndNotSerializeByDefault()
     {
         $dataTable = new DataTable();
         $dataTable->addRowFromSimpleArray(array('nb_visits' => 5, 'nb_random' => 10));
@@ -81,7 +82,7 @@ class OriginalRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($dataTable, $response);
     }
 
-    public function test_renderDataTable_shouldSerializeIfEnabled()
+    public function testRenderDataTableShouldSerializeIfEnabled()
     {
         $dataTable = new DataTable();
         $dataTable->addRowFromSimpleArray(array('nb_visits' => 5, 'nb_random' => 10));
@@ -96,7 +97,7 @@ class OriginalRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $response);
     }
 
-    public function test_renderArray_ShouldReturnSameArrayAndNotSerializeByDefault()
+    public function testRenderArrayShouldReturnSameArrayAndNotSerializeByDefault()
     {
         $input = array(1, 2, 5, 'string', 10);
 
@@ -105,7 +106,7 @@ class OriginalRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($input, $response);
     }
 
-    public function test_renderArray_ShouldSerializeIfEnabled()
+    public function testRenderArrayShouldSerializeIfEnabled()
     {
         $builder  = $this->makeBuilder(array('serialize' => 1));
         $input    = array(1, 2, 5, 'string', 10);
@@ -115,7 +116,7 @@ class OriginalRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('a:5:{i:0;i:1;i:1;i:2;i:2;i:5;i:3;s:6:"string";i:4;i:10;}', $response);
     }
 
-    public function test_renderArray_ShouldConvertMultiDimensionalAssociativeArrayToJson()
+    public function testRenderArrayShouldConvertMultiDimensionalAssociativeArrayToJson()
     {
         $input = array(
             "firstElement"  => "isFirst",

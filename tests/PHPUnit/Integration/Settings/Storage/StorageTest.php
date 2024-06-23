@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Settings\Storage;
@@ -45,44 +46,44 @@ class StorageTest extends IntegrationTestCase
         $this->storage = $this->buildStorage();
     }
 
-    public function test_getBackend()
+    public function testGetBackend()
     {
         $this->assertSame($this->backend, $this->storage->getBackend());
     }
 
-    public function test_getValue_shouldReturnDefaultValue_IfNoValueIsSet()
+    public function testGetValueShouldReturnDefaultValueIfNoValueIsSet()
     {
         $value = $this->storage->getValue('UnkNownFielD', $default = '123', FieldConfig::TYPE_STRING);
         $this->assertSame($default, $value);
     }
 
-    public function test_getValue_shouldReturnDefaultValue_AndNotCastDefaultValue()
+    public function testGetValueShouldReturnDefaultValueAndNotCastDefaultValue()
     {
         $value = $this->storage->getValue('UnkNownFielD', $default = '123', FieldConfig::TYPE_INT);
         $this->assertSame($default, $value);
     }
 
-    public function test_getValue_shouldReturnASavedValueFromBackend()
+    public function testGetValueShouldReturnASavedValueFromBackend()
     {
         $value = $this->getValueFromStorage($this->settingName);
         $this->assertSame('value1', $value);
     }
 
-    public function test_setValue_getValue_shouldSetAndGetActualValue()
+    public function testSetValueGetValueShouldSetAndGetActualValue()
     {
         $this->storage->setValue($this->settingName, 'myRandomVal');
         $value = $this->getValueFromStorage($this->settingName);
         $this->assertEquals('myRandomVal', $value);
     }
 
-    public function test_setValue_getValue_shouldCastValueWhenGettingTheValue()
+    public function testSetValueGetValueShouldCastValueWhenGettingTheValue()
     {
         $this->storage->setValue($this->settingName, '1');
         $value = $this->getValueFromStorage($this->settingName, FieldConfig::TYPE_BOOL);
         $this->assertTrue($value);
     }
 
-    public function test_setValue_shouldNotSaveItInDatabase()
+    public function testSetValueShouldNotSaveItInDatabase()
     {
         $loaded = $this->backend->load();
         $this->storage->setValue($this->settingName, 'myRandomVal');
@@ -90,7 +91,7 @@ class StorageTest extends IntegrationTestCase
         $this->assertSame($loaded, $this->loadValuesFromBackend());
     }
 
-    public function test_save_shouldPersistValueInDatabase()
+    public function testSaveShouldPersistValueInDatabase()
     {
         $this->storage->setValue($this->settingName, 'myRandomVal');
         $this->storage->save();
@@ -101,7 +102,7 @@ class StorageTest extends IntegrationTestCase
         );
     }
 
-    public function test_save_shouldPersistMultipleValues_ContainingInt()
+    public function testSaveShouldPersistMultipleValuesContainingInt()
     {
         $this->storage->setValue($this->settingName, 'myRandomVal');
         $this->storage->setValue('mySecondName', 5);
@@ -113,7 +114,7 @@ class StorageTest extends IntegrationTestCase
         );
     }
 
-    public function test_save_shouldNotClearTrackerCacheEntries_IfThereWasNoChange()
+    public function testSaveShouldNotClearTrackerCacheEntriesIfThereWasNoChange()
     {
         TrackerCache::setCacheGeneral(array('testSetting' => 1));
 
@@ -124,7 +125,7 @@ class StorageTest extends IntegrationTestCase
         $this->assertArrayHasKey('testSetting', TrackerCache::getCacheGeneral());
     }
 
-    public function test_save_shouldClearTrackerCacheEntries_IfThereWasActuallyAChange()
+    public function testSaveShouldClearTrackerCacheEntriesIfThereWasActuallyAChange()
     {
         TrackerCache::setCacheGeneral(array('testSetting' => 1));
 

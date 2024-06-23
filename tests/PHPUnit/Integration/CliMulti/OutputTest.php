@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\CliMulti;
@@ -54,7 +55,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function test_construct_shouldFail_IfInvalidOutputIdGiven()
+    public function testConstructShouldFailIfInvalidOutputIdGiven()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The given output id has an invalid format');
@@ -66,7 +67,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
      * @dataProvider outputProvider
      * @param OutputInterface $output
      */
-    public function test_getOutputId($output)
+    public function testGetOutputId($output)
     {
         $this->assertSame('myid', $output->getOutputId());
     }
@@ -75,12 +76,12 @@ class OutputTest extends \PHPUnit\Framework\TestCase
      * @dataProvider outputProvider
      * @param OutputInterface $output
      */
-    public function test_exists_ShouldReturnsFalse_IfNothingWrittenYet(OutputInterface $output)
+    public function testExistsShouldReturnsFalseIfNothingWrittenYet(OutputInterface $output)
     {
         $this->assertFalse($output->exists());
     }
 
-    public function test_getPathToFile_shouldReturnFullPath()
+    public function testGetPathToFileShouldReturnFullPath()
     {
         $output = new Output('myid');
         $expectedEnd = '/climulti/myid.output';
@@ -93,7 +94,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
      * @dataProvider outputProvider
      * @param OutputInterface $output
      */
-    public function test_isAbormal_ShouldReturnFalse_IfFileDoesNotExist(OutputInterface $output)
+    public function testIsAbormalShouldReturnFalseIfFileDoesNotExist(OutputInterface $output)
     {
         $this->assertFalse($output->isAbnormal());
     }
@@ -102,7 +103,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
      * @dataProvider outputProvider
      * @param OutputInterface $output
      */
-    public function test_isAbormal_ShouldReturnTrue_IfFilesizeIsNotTooBig(OutputInterface $output)
+    public function testIsAbormalShouldReturnTrueIfFilesizeIsNotTooBig(OutputInterface $output)
     {
         File::setFileSize(1024 * 1024 * 99);
         File::setFileExists(true);
@@ -110,7 +111,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($output->isAbnormal());
     }
 
-    public function test_isAbormal_ShouldReturnTrue_IfFilesizeIsTooBig()
+    public function testIsAbormalShouldReturnTrueIfFilesizeIsTooBig()
     {
         File::setFileSize(1024 * 1024 * 101);
         File::setFileExists(true);
@@ -124,7 +125,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
      * @dataProvider outputProvider
      * @param OutputInterface $output
      */
-    public function test_exists_ShouldReturnTrue_IfSomethingIsWritten(OutputInterface $output)
+    public function testExistsShouldReturnTrueIfSomethingIsWritten(OutputInterface $output)
     {
         $output->write('test');
 
@@ -139,7 +140,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
      * @dataProvider outputProvider
      * @param OutputInterface $output
      */
-    public function test_get_shouldReturnNull_IfNothingWritten(OutputInterface $output)
+    public function testGetShouldReturnNullIfNothingWritten(OutputInterface $output)
     {
         $this->assertFalse($output->get());
     }
@@ -148,7 +149,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
      * @dataProvider outputProvider
      * @param OutputInterface $output
      */
-    public function test_get_write_shouldReturnTheActualOutput_IfExists(OutputInterface $output)
+    public function testGetWriteShouldReturnTheActualOutputIfExists(OutputInterface $output)
     {
         $anyContent = 'My Actual Content';
         $output->write($anyContent);
@@ -160,7 +161,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
      * @dataProvider outputProvider
      * @param OutputInterface $output
      */
-    public function test_write_shouldNotAppend_IfWriteIsCalledTwice(OutputInterface $output)
+    public function testWriteShouldNotAppendIfWriteIsCalledTwice(OutputInterface $output)
     {
         $anyContent = 'My Actual Content';
         $output->write($anyContent);
@@ -173,7 +174,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
      * @dataProvider outputProvider
      * @param OutputInterface $output
      */
-    public function test_write_shouldSaveAnEmptyString_IfContentIsNull(OutputInterface $output)
+    public function testWriteShouldSaveAnEmptyStringIfContentIsNull(OutputInterface $output)
     {
         $output->write(null);
 
@@ -185,7 +186,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
      * @dataProvider outputProvider
      * @param OutputInterface $output
      */
-    public function test_destroy_ShouldRemove_IfAnyOutputIsWritten(OutputInterface $output)
+    public function testDestroyShouldRemoveIfAnyOutputIsWritten(OutputInterface $output)
     {
         $output->write('test');
 
@@ -201,7 +202,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
      * @dataProvider outputProvider
      * @param OutputInterface $output
      */
-    public function test_destroy_ShouldNotFail_IfNothingIsWritten(OutputInterface $output)
+    public function testDestroyShouldNotFailIfNothingIsWritten(OutputInterface $output)
     {
         $output->destroy();
 
@@ -209,7 +210,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($output->get());
     }
 
-    public function test_twoDifferentOutputHandles_ShouldWriteInDifferentFiles()
+    public function testTwoDifferentOutputHandlesShouldWriteInDifferentFiles()
     {
         $output1 = new Output('id1');
         $output2 = new Output('id2');

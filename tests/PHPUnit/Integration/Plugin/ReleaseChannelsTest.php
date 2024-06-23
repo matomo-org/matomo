@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Plugin;
@@ -37,18 +38,18 @@ class ReleaseChannelsTest extends IntegrationTestCase
         $this->channels = new Plugin\ReleaseChannels(StaticContainer::get('Piwik\Plugin\Manager'));
     }
 
-    public function test_getAllReleaseChannels_shouldFindAllAvailableRelaseChannels()
+    public function testGetAllReleaseChannelsShouldFindAllAvailableRelaseChannels()
     {
         $channels = $this->channels->getAllReleaseChannels();
 
-        $this->assertCount(4, $channels);
+        $this->assertCount(5, $channels);
 
         foreach ($channels as $channel) {
             $this->assertTrue($channel instanceof ReleaseChannel);
         }
     }
 
-    public function test_getAllReleaseChannels_shouldOrderChannelsByOrderId()
+    public function testGetAllReleaseChannelsShouldOrderChannelsByOrderId()
     {
         $channels = $this->channels->getAllReleaseChannels();
 
@@ -65,7 +66,7 @@ class ReleaseChannelsTest extends IntegrationTestCase
     /**
      * @dataProvider getTestValidReleaseChannelIds
      */
-    public function test_isValidReleaseChannelId_shouldDetectIfReleaseChannelIsCorrectOrNot($expectedExists, $id)
+    public function testIsValidReleaseChannelIdShouldDetectIfReleaseChannelIsCorrectOrNot($expectedExists, $id)
     {
         $this->assertSame($expectedExists, $this->channels->isValidReleaseChannelId($id));
     }
@@ -76,6 +77,7 @@ class ReleaseChannelsTest extends IntegrationTestCase
             array($exists = true, $id = 'latest_stable'),
             array($exists = true, $id = 'latest_beta'),
             array($exists = true, $id = 'latest_5x_stable'),
+            array($exists = true, $id = 'latest_preview'),
             array($exists = true, $id = 'laTest_stable'), // we do not check for exact match
             array($exists = false, $id = ''),
             array($exists = false, $id = 'latest'),

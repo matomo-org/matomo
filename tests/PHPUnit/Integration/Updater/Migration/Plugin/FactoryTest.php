@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Updater\Migration\Plugin;
@@ -33,14 +34,14 @@ class FactoryTest extends IntegrationTestCase
         $this->factory = new Factory();
     }
 
-    public function test_activate_returnsActivateInstance()
+    public function testActivateReturnsActivateInstance()
     {
         $migration = $this->factory->activate($this->pluginName);
 
         $this->assertTrue($migration instanceof Activate);
     }
 
-    public function test_sql_forwardsQueryAndErrorCode()
+    public function testSqlForwardsQueryAndErrorCode()
     {
         $migration = $this->factory->activate($this->pluginName);
 

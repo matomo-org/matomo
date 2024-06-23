@@ -1,22 +1,45 @@
 <!--
   Matomo - free/libre analytics platform
-  @link https://matomo.org
-  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
 <template>
+  <RequestTrial
+    v-model="showRequestTrialForPlugin"
+    @trialRequested="this.$emit('triggerUpdate')"
+  />
 
   <StartFreeTrial
     :current-user-email="currentUserEmail"
     :is-valid-consumer="isValidConsumer"
     v-model="showStartFreeTrialForPlugin"
-    @trialStarted="this.$emit('triggerUpdate')"
+    @trialStarted="this.$emit('triggerUpdate');"
+    @startTrialStart="this.$emit('startTrialStart');"
+    @startTrialStop="this.$emit('startTrialStop');"
+  />
+
+  <PluginDetailsModal
+    v-model="showPluginDetailsForPlugin"
+    :is-super-user="isSuperUser"
+    :is-plugins-admin-enabled="isPluginsAdminEnabled"
+    :is-multi-server-environment="isMultiServerEnvironment"
+    :is-valid-consumer="isValidConsumer"
+    :is-auto-update-possible="isAutoUpdatePossible"
+    :has-some-admin-access="hasSomeAdminAccess"
+    :deactivate-nonce="deactivateNonce"
+    :activate-nonce="activateNonce"
+    :install-nonce="installNonce"
+    :update-nonce="updateNonce"
+    @requestTrial="this.requestTrial($event)"
+    @startFreeTrial="this.startFreeTrial($event)"
   />
 
   <div class="pluginListContainer row" v-if="pluginsToShow.length > 0">
     <div class="col s12 m6 l4" v-for="plugin in pluginsToShow" :key="plugin.name">
       <div :class="`card-holder ${plugin.numDownloads > 0 ? 'card-with-downloads' : '' }`"
-           @click="clickCard">
+           @click="clickCard($event, plugin)">
         <div class="card">
           <div class="card-content">
             <img :src="`${plugin.coverImage}?w=880&h=480`" alt="" class="cover-image">
@@ -38,7 +61,7 @@
                     {{ translate('Marketplace_Free') }}
                   </template>
                 </div>
-                <a v-plugin-name="{ pluginName: plugin.name }"
+                <a @click.prevent="clickCard($event, plugin)"
                    class="card-title-link" href="#" tabindex="7">
                   <div class="card-focus"></div>
                   <h2 class="card-title">{{ plugin.displayName }}<span
@@ -62,7 +85,10 @@
                     :install-nonce="installNonce"
                     :update-nonce="updateNonce"
                     :plugin="plugin"
-                    @startFreeTrial="showStartFreeTrialForPlugin = plugin.name"
+                    :in-modal="false"
+                    @openDetailsModal="this.openDetailsModal(plugin)"
+                    @requestTrial="this.requestTrial(plugin)"
+                    @startFreeTrial="this.startFreeTrial(plugin)"
                   />
                 </div>
                 <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
@@ -81,15 +107,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { PluginName } from 'CorePluginsAdmin';
+import { defineComponent, watch } from 'vue';
+import { MatomoUrl } from 'CoreHome';
 import CTAContainer from './CTAContainer.vue';
+import RequestTrial from '../RequestTrial/RequestTrial.vue';
 import StartFreeTrial from '../StartFreeTrial/StartFreeTrial.vue';
+import PluginDetailsModal from '../PluginDetailsModal/PluginDetailsModal.vue';
+import { TObject } from '../types';
 
 const { $ } = window;
 
 interface PluginListState {
-  showStartFreeTrialForPlugin: string;
+  showRequestTrialForPlugin: TObject | null;
+  showStartFreeTrialForPlugin: TObject | null;
+  showPluginDetailsForPlugin: TObject | null;
 }
 
 export default defineComponent({
@@ -119,6 +150,10 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    hasSomeAdminAccess: {
+      type: Boolean,
+      required: true,
+    },
     activateNonce: {
       type: String,
       required: true,
@@ -138,21 +173,23 @@ export default defineComponent({
   },
   data(): PluginListState {
     return {
-      showStartFreeTrialForPlugin: '',
+      showRequestTrialForPlugin: null,
+      showStartFreeTrialForPlugin: null,
+      showPluginDetailsForPlugin: null,
     };
   },
   components: {
+    PluginDetailsModal,
     CTAContainer,
+    RequestTrial,
     StartFreeTrial,
   },
-  directives: {
-    PluginName,
-  },
-  emits: ['triggerUpdate'],
+  emits: ['triggerUpdate', 'startTrialStart', 'startTrialStop'],
   watch: {
     pluginsToShow(newValue, oldValue) {
       if (newValue && newValue !== oldValue) {
         this.shrinkDescriptionIfMultilineTitle();
+        this.parseShowPluginParameter();
       }
     },
   },
@@ -160,8 +197,39 @@ export default defineComponent({
     $(window).resize(() => {
       this.shrinkDescriptionIfMultilineTitle();
     });
+    watch(() => MatomoUrl.hashParsed.value.showPlugin, (newValue, oldValue) => {
+      if (newValue && newValue !== oldValue) {
+        this.parseShowPluginParameter();
+      }
+    });
+    this.parseShowPluginParameter();
   },
   methods: {
+    parseShowPluginParameter() {
+      const { showPlugin, pluginType, query } = MatomoUrl.hashParsed.value;
+
+      if (!showPlugin) {
+        return;
+      }
+
+      const pluginToShow = this.pluginsToShow.filter(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (plugin: any) => plugin.name === showPlugin,
+      );
+      if (pluginToShow.length === 1) {
+        const [plugin] = pluginToShow as TObject[];
+
+        this.openDetailsModal(plugin);
+        this.scrollPluginCardIntoView(plugin);
+      } else if (pluginType !== '' || query !== '') {
+        // plugin was not found in current list, so unset filters to retry
+        MatomoUrl.updateHash({
+          ...MatomoUrl.hashParsed.value,
+          pluginType: 'plugins',
+          query: null,
+        });
+      }
+    },
     shrinkDescriptionIfMultilineTitle() {
       const $nodes = $('.marketplace .card-holder');
       if (!$nodes || !$nodes.length) {
@@ -224,26 +292,39 @@ export default defineComponent({
         }
       });
     },
-    clickCard(event: MouseEvent) {
+    clickCard(event: MouseEvent, plugin: TObject) {
       // check if the target is a link or is a descendant of a link
       // to skip direct clicks on links within the card, we want those honoured
-      if ($(event.target as HTMLElement).closest('a').length) {
+      if ($(event.target as HTMLElement).closest('a:not(.card-title-link)').length) {
         return;
       }
 
-      const titleLink = $(event.target as HTMLElement)
-        .closest('.card-holder')
-        .find('a.card-title-link')
-        .get(0);
+      event.stopPropagation();
+      this.openDetailsModal(plugin);
+    },
+    openDetailsModal(plugin: TObject) {
+      this.showPluginDetailsForPlugin = plugin;
+    },
+    scrollPluginCardIntoView(plugin: TObject) {
+      const $titles = $(`.pluginListContainer .card-title:contains("${plugin.displayName}")`);
 
-      if (titleLink) {
-        event.stopPropagation();
-
-        // jQuery dispatching can result in the new event having the .card-holder
-        // as the event target, resulting in an endless dispatch cycle
-        // Using a native event without bubbling circumvents this issue
-        titleLink.dispatchEvent(new Event('click', { bubbles: false }));
+      if ($titles.length !== 1) {
+        return;
       }
+
+      const $cards = $titles.parents('.card');
+
+      if ($cards.length !== 1 || !$cards[0].scrollIntoView) {
+        return;
+      }
+
+      $cards[0].scrollIntoView({ block: 'start', behavior: 'smooth' });
+    },
+    requestTrial(plugin: TObject) {
+      this.showRequestTrialForPlugin = plugin;
+    },
+    startFreeTrial(plugin: TObject) {
+      this.showStartFreeTrialForPlugin = plugin;
     },
   },
 });

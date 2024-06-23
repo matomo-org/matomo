@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
@@ -17,9 +17,9 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  */
 class AllColumns extends HtmlTable
 {
-    const ID = 'tableAllColumns';
-    const FOOTER_ICON       = 'icon-table-more';
-    const FOOTER_ICON_TITLE = 'General_DisplayTableWithMoreMetrics';
+    public const ID = 'tableAllColumns';
+    public const FOOTER_ICON       = 'icon-table-more';
+    public const FOOTER_ICON_TITLE = 'General_DisplayTableWithMoreMetrics';
 
     public function beforeRender()
     {

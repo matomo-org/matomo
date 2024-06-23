@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Login;
@@ -17,7 +17,7 @@ use Piwik\Plugins\Login\Security\BruteForceDetection;
 
 class Model
 {
-    const NOTIFIED_USER_ABOUT_LOGIN_ATTEMPTS_OPTION_PREFIX = 'BruteForceDetection.suspiciousLoginCountNotified.';
+    public const NOTIFIED_USER_ABOUT_LOGIN_ATTEMPTS_OPTION_PREFIX = 'BruteForceDetection.suspiciousLoginCountNotified.';
 
     /**
      * @var

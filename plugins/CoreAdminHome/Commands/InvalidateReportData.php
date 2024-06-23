@@ -3,8 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreAdminHome\Commands;
@@ -27,7 +27,7 @@ use Piwik\Log\LoggerInterface;
  */
 class InvalidateReportData extends ConsoleCommand
 {
-    const ALL_OPTION_VALUE = 'all';
+    public const ALL_OPTION_VALUE = 'all';
 
     /**
      * @var null|array<Segment>

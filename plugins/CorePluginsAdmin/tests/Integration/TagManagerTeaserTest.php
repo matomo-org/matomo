@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CorePluginsAdmin\tests\Integration;
@@ -39,18 +40,18 @@ class TagManagerTeaserTest extends IntegrationTestCase
         return new TagManagerTeaser($login);
     }
 
-    public function test_isEnabledGloballyByDefault()
+    public function testIsEnabledGloballyByDefault()
     {
         $this->assertTrue($this->teaser->isEnabledGlobally());
     }
 
-    public function test_disableGlobally()
+    public function testDisableGlobally()
     {
         $this->teaser->disableGlobally();
         $this->assertFalse($this->teaser->isEnabledGlobally());
     }
 
-    public function test_reset()
+    public function testReset()
     {
         $this->teaser->disableGlobally();
         $this->assertFalse($this->teaser->isEnabledGlobally());
@@ -58,7 +59,7 @@ class TagManagerTeaserTest extends IntegrationTestCase
         $this->assertTrue($this->teaser->isEnabledGlobally());
     }
 
-    public function test_disableGlobally_removesUserSettings()
+    public function testDisableGloballyRemovesUserSettings()
     {
         $this->teaser->disableForUser();
         $this->assertFalse($this->teaser->isEnabledForUser());
@@ -70,12 +71,12 @@ class TagManagerTeaserTest extends IntegrationTestCase
         $this->assertTrue($this->teaser->isEnabledForUser());
     }
 
-    public function test_isEnabledForCurrentUserByDefault()
+    public function testIsEnabledForCurrentUserByDefault()
     {
         $this->assertTrue($this->teaser->isEnabledForUser());
     }
 
-    public function test_disableForUser()
+    public function testDisableForUser()
     {
         $this->teaser->disableForUser();
         $this->assertFalse($this->teaser->isEnabledForUser());
@@ -88,13 +89,13 @@ class TagManagerTeaserTest extends IntegrationTestCase
         $this->assertTrue($otherUser->isEnabledForUser());
     }
 
-    public function test_shouldShowTeaser()
+    public function testShouldShowTeaser()
     {
         $this->assertTrue($this->teaser->shouldShowTeaser());
         $this->assertTrue($this->teaser->isEnabledGlobally());
     }
 
-    public function test_shouldShowTeaser_shouldNotBeShownWhenTagManagerEnabled()
+    public function testShouldShowTeaserShouldNotBeShownWhenTagManagerEnabled()
     {
         Plugin\Manager::getInstance()->activatePlugin('TagManager');
         $this->assertFalse($this->teaser->shouldShowTeaser());

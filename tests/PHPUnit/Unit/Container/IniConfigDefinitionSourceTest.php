@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Container;
@@ -14,20 +15,14 @@ use Piwik\Container\IniConfigDefinitionSource;
 
 class IniConfigDefinitionSourceTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @test
-     */
-    public function getDefinition_whenNotMatchingPrefix_shouldReturnNull()
+    public function testGetDefinitionWhenNotMatchingPrefixShouldReturnNull()
     {
         $definitionSource = new IniConfigDefinitionSource($this->createConfig(), 'prefix.');
 
         $this->assertNull($definitionSource->getDefinition('foo'));
     }
 
-    /**
-     * @test
-     */
-    public function getDefinition_withUnknownConfigSection_shouldReturnEmptyArray()
+    public function testGetDefinitionWithUnknownConfigSectionShouldReturnEmptyArray()
     {
         $definitionSource = new IniConfigDefinitionSource(new GlobalSettingsProvider());
 
@@ -39,30 +34,21 @@ class IniConfigDefinitionSourceTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(), $definition->getValue());
     }
 
-    /**
-     * @test
-     */
-    public function getDefinition_withUnknownConfigSectionAndKey_shouldReturnNull()
+    public function testGetDefinitionWithUnknownConfigSectionAndKeyShouldReturnNull()
     {
         $definitionSource = new IniConfigDefinitionSource(new GlobalSettingsProvider());
 
         $this->assertNull($definitionSource->getDefinition('ini.foo.bar'));
     }
 
-    /**
-     * @test
-     */
-    public function getDefinition_withUnknownConfigKey_shouldReturnNull()
+    public function testGetDefinitionWithUnknownConfigKeyShouldReturnNull()
     {
         $definitionSource = new IniConfigDefinitionSource(new GlobalSettingsProvider());
 
         $this->assertNull($definitionSource->getDefinition('ini.General.foo'));
     }
 
-    /**
-     * @test
-     */
-    public function getDefinition_withExistingConfigSection_shouldReturnValueDefinition()
+    public function testGetDefinitionWithExistingConfigSectionShouldReturnValueDefinition()
     {
         $config = $this->createConfig();
         $config->expects($this->once())
@@ -81,10 +67,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array('foo' => 'bar'), $definition->getValue());
     }
 
-    /**
-     * @test
-     */
-    public function getDefinition_withExistingConfigKey_shouldReturnValueDefinition()
+    public function testGetDefinitionWithExistingConfigKeyShouldReturnValueDefinition()
     {
         $config = $this->createConfig();
         $config->expects($this->once())

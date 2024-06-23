@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UserId\tests\Fixtures;
 
 use Piwik\Date;
@@ -49,7 +51,7 @@ class OverwriteUserIdFixture extends Fixture
                 $t->setVisitorId(substr(md5($numVisits . $key . $userId), 0, 16));
                 $t->setUrl('http://example.org/my/dir/page' . $numVisits);
 
-                $visitDateTime = Date::factory($this->dateTime)->addPeriod($numVisits, 'minute')->getDatetime();
+                $visitDateTime = Date::factory($this->dateTime)->addPeriod($numVisits, 'minute')->addPeriod($key, 'second')->getDatetime();
                 $t->setForceVisitDateTime($visitDateTime);
 
                 self::assertTrue($t->doTrackPageView('incredible title ' . ($numVisits % 3)));

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\Exception\DI\NotFoundException;
@@ -19,9 +20,9 @@ use Piwik\SettingsPiwik;
 
 class CustomLogo
 {
-    const LOGO_HEIGHT = 300;
-    const LOGO_SMALL_HEIGHT = 100;
-    const FAVICON_HEIGHT = 32;
+    public const LOGO_HEIGHT = 300;
+    public const LOGO_SMALL_HEIGHT = 100;
+    public const FAVICON_HEIGHT = 32;
 
     public function getLogoUrl($pathOnly = false)
     {

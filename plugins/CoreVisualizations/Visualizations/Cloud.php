@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
@@ -22,10 +23,10 @@ use Piwik\Plugin\Visualization;
  */
 class Cloud extends Visualization
 {
-    const ID = 'cloud';
-    const TEMPLATE_FILE     = "@CoreVisualizations/_dataTableViz_tagCloud.twig";
-    const FOOTER_ICON       = 'icon-tag-cloud';
-    const FOOTER_ICON_TITLE = 'General_TagCloud';
+    public const ID = 'cloud';
+    public const TEMPLATE_FILE     = "@CoreVisualizations/_dataTableViz_tagCloud.twig";
+    public const FOOTER_ICON       = 'icon-tag-cloud';
+    public const FOOTER_ICON_TITLE = 'General_TagCloud';
 
     /** Used by system tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;

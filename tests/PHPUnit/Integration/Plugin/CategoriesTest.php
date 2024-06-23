@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Plugin;
@@ -44,7 +45,7 @@ class CategoriesTest extends IntegrationTestCase
         unset($_GET['idSite']);
     }
 
-    public function test_getAllCategories_shouldOnlyFindCategories()
+    public function testGetAllCategoriesShouldOnlyFindCategories()
     {
         $categories = $this->categories->getAllCategories();
 
@@ -55,7 +56,7 @@ class CategoriesTest extends IntegrationTestCase
         }
     }
 
-    public function test_getAllCategories_shouldHaveACategoryIdDefined()
+    public function testGetAllCategoriesShouldHaveACategoryIdDefined()
     {
         $categories = $this->categories->getAllCategories();
 
@@ -64,7 +65,7 @@ class CategoriesTest extends IntegrationTestCase
         }
     }
 
-    public function test_getAllSubcategories_shouldOnlyFindSubcategories()
+    public function testGetAllSubcategoriesShouldOnlyFindSubcategories()
     {
         $subcategories = $this->categories->getAllSubcategories();
 
@@ -76,7 +77,7 @@ class CategoriesTest extends IntegrationTestCase
         }
     }
 
-    public function test_getAllSubcategories_shouldHaveACategoryIdAndSubcategoryIdDefined()
+    public function testGetAllSubcategoriesShouldHaveACategoryIdAndSubcategoryIdDefined()
     {
         $subcategories = $this->categories->getAllSubcategories();
 

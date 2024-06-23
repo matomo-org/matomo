@@ -48,6 +48,8 @@
         "OriginThirdParty": "Dritt-Anbieter",
         "PluginActivated": "Plugin aktiviert",
         "PluginFreeTrialStarted": "%1$sDeine 30-tägige kostenlose Testphase hat begonnen%2$s für %3$s.",
+        "PluginFreeTrialStartedAccountCreatedMessage": "Wir haben Ihren Lizenzschlüssel hinzugefügt und eine 30-tägige kostenlose Testversion für %1$s gestartet. Machen Sie den nächsten Schritt, indem Sie Ihr Plugin installieren und aktivieren.",
+        "PluginFreeTrialStartedAccountCreatedTitle": "Ihr Benutzerkonto wurde erstellt",
         "PluginHomepage": "Plugin Webseite",
         "PluginNotCompatibleWith": "Das Plugin %1$s ist nicht kompatibel mit %2$s.",
         "PluginNotDownloadable": "Das Plugin kann nicht heruntergeladen werden.",

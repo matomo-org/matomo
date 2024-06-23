@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\ImageGraph;
 
 use Piwik\API\Request;
@@ -43,7 +44,7 @@ class ImageGraph extends \Piwik\Plugin
     }
 
     // Number of periods to plot on an evolution graph
-    const GRAPH_EVOLUTION_LAST_PERIODS = 30;
+    public const GRAPH_EVOLUTION_LAST_PERIODS = 30;
 
     /**
      * @param array $reports

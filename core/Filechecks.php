@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Piwik\Exception\MissingFilePermissionException;
@@ -78,6 +79,7 @@ class Filechecks
             $directoryList = "<code>chown -R " . self::getUserAndGroup() . " " . $realpath . "</code><br />" . $directoryList;
         }
 
+        $optionalUserInfo = '';
         if (function_exists('shell_exec')) {
             $currentUser = self::getUser();
             if (!empty($currentUser)) {

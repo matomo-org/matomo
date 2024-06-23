@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Exception;
@@ -24,21 +25,27 @@ use Piwik\Tracker\Cache as TrackerCache;
 class Common
 {
     // constants used to map the referrer type to an integer in the log_visit table
-    const REFERRER_TYPE_DIRECT_ENTRY = 1;
-    const REFERRER_TYPE_SEARCH_ENGINE = 2;
-    const REFERRER_TYPE_WEBSITE = 3;
-    const REFERRER_TYPE_CAMPAIGN = 6;
-    const REFERRER_TYPE_SOCIAL_NETWORK = 7;
+    public const REFERRER_TYPE_DIRECT_ENTRY = 1;
+    public const REFERRER_TYPE_SEARCH_ENGINE = 2;
+    public const REFERRER_TYPE_WEBSITE = 3;
+    public const REFERRER_TYPE_CAMPAIGN = 6;
+    public const REFERRER_TYPE_SOCIAL_NETWORK = 7;
 
     // Flag used with htmlspecialchar. See php.net/htmlspecialchars.
-    const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
+    public const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
 
     public static $isCliMode = null;
+
+    /**
+     * Filled and used during tests only
+     * @var array
+     */
+    public static $headersSentInTests = [];
 
     /*
      * Database
      */
-    const LANGUAGE_CODE_INVALID = 'xx';
+    public const LANGUAGE_CODE_INVALID = 'xx';
 
     /**
      * Hashes a string into an integer which should be very low collision risks
@@ -1085,6 +1092,19 @@ class Common
      */
     public static function sendHeader($header, $replace = true)
     {
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            if (strpos($header, ':') !== false) {
+                [$headerName, $headerValue] = explode(':', $header, 2);
+            } else {
+                $headerName = $header;
+                $headerValue = '';
+            }
+
+            if (!array_key_exists($headerName, self::$headersSentInTests) || $replace) {
+                self::$headersSentInTests[$headerName] = $headerValue;
+            }
+        }
+
         // don't send header in CLI mode
         if (!Common::isPhpCliMode() and !headers_sent()) {
             header($header, $replace);
@@ -1098,6 +1118,10 @@ class Common
      */
     public static function stripHeader($name)
     {
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            unset(self::$headersSentInTests[$name]);
+        }
+
         // don't strip header in CLI mode
         if (!Common::isPhpCliMode() and !headers_sent()) {
             header_remove($name);

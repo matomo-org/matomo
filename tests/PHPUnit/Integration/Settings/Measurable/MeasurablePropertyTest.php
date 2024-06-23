@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Settings\Plugin;
@@ -37,7 +38,7 @@ class MeasurablePropertyTest extends IntegrationTestCase
         return new FakeMeasurableSettings($idSite = 1);
     }
 
-    public function test_constructor_shouldNotEstablishADatabaseConnection()
+    public function testConstructorShouldNotEstablishADatabaseConnection()
     {
         $this->assertNotDbConnectionCreated();
 
@@ -46,7 +47,7 @@ class MeasurablePropertyTest extends IntegrationTestCase
         $this->assertNotDbConnectionCreated();
     }
 
-    public function test_constructor_shouldThrowAnExceptionWhenNotAllowedNameIsUsed()
+    public function testConstructorShouldThrowAnExceptionWhenNotAllowedNameIsUsed()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Name "name" is not allowed to be used');

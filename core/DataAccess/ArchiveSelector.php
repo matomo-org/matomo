@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\DataAccess;
 
 use Exception;
@@ -38,9 +39,9 @@ use Piwik\Log\LoggerInterface;
  */
 class ArchiveSelector
 {
-    const NB_VISITS_RECORD_LOOKED_UP = "nb_visits";
+    public const NB_VISITS_RECORD_LOOKED_UP = "nb_visits";
 
-    const NB_VISITS_CONVERTED_RECORD_LOOKED_UP = "nb_visits_converted";
+    public const NB_VISITS_CONVERTED_RECORD_LOOKED_UP = "nb_visits_converted";
 
     private static function getModel()
     {

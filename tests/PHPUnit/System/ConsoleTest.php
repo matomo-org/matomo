@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\System;
@@ -120,7 +121,7 @@ class ConsoleTest extends ConsoleCommandTestCase
         StaticContainer::get(FailureLogMessageDetector::class)->reset();
     }
 
-    public function test_Console_ReturnsCorrectExitCode_IfCommandEmitsWarning()
+    public function testConsoleReturnsCorrectExitCodeIfCommandEmitsWarning()
     {
         $exitCode = $this->applicationTester->run([
             'command' => 'test-command-with-warning',
@@ -128,7 +129,7 @@ class ConsoleTest extends ConsoleCommandTestCase
         $this->assertEquals(1, $exitCode);
     }
 
-    public function test_Console_ReturnsCorrectExitCode_IfCommandEmitsError()
+    public function testConsoleReturnsCorrectExitCodeIfCommandEmitsError()
     {
         $exitCode = $this->applicationTester->run([
             'command' => 'test-command-with-error',
@@ -136,7 +137,7 @@ class ConsoleTest extends ConsoleCommandTestCase
         $this->assertEquals(1, $exitCode);
     }
 
-    public function test_Console_ReturnsCorrectExitCode_IfCommandDoesNotEmitAnything()
+    public function testConsoleReturnsCorrectExitCodeIfCommandDoesNotEmitAnything()
     {
         $exitCode = $this->applicationTester->run([
             'command' => 'test-command-with-error',
@@ -145,7 +146,7 @@ class ConsoleTest extends ConsoleCommandTestCase
         $this->assertEquals(0, $exitCode);
     }
 
-    public function test_Console_handlesFatalErrorsCorrectly()
+    public function testConsoleHandlesFatalErrorsCorrectly()
     {
         $cliPhp = new CliPhp();
         $php = $cliPhp->findPhpBinary();
@@ -166,7 +167,7 @@ class ConsoleTest extends ConsoleCommandTestCase
 
         $expected = <<<END
 
-Fatal error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) in /tests/PHPUnit/System/ConsoleTest.php on line 84
+Fatal error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) in /tests/PHPUnit/System/ConsoleTest.php on line 85
 *** IN SAFEMODE ***
 Matomo encountered an error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) (which lead to: Error: array (
   'type' => 1,
@@ -187,7 +188,7 @@ END;
         $this->assertStringMatchesFormat($expected, $output);
     }
 
-    public function test_Console_handlesExceptionsCorrectly()
+    public function testConsoleHandlesExceptionsCorrectly()
     {
         $command = Fixture::getCliCommandBase();
         $command .= ' test-command-with-exception';

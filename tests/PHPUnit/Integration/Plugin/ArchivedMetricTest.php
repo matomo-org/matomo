@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Plugin;
@@ -59,7 +60,7 @@ class ArchivedMetricTest extends IntegrationTestCase
     /**
      * @dataProvider getFormatValueProvider
      */
-    public function test_formatValue($type, $value, $expected)
+    public function testFormatValue($type, $value, $expected)
     {
         $formatter = new Formatter();
         $this->metric->setType($type);
@@ -84,40 +85,40 @@ class ArchivedMetricTest extends IntegrationTestCase
             array($type = Dimension::TYPE_BYTE, $value = 3912, $expected = '3.8 K'),
         );
     }
-    public function test_getQuery_returnsDefaultColumns()
+    public function testGetQueryReturnsDefaultColumns()
     {
         $this->assertSame('log_visit.location_country', $this->metric->getQuery());
     }
 
-    public function test_getQuery_whenNoAggregationSet()
+    public function testGetQueryWhenNoAggregationSet()
     {
         $metric = $this->makeMetric('');
         $this->assertSame('log_visit.location_country', $metric->getQuery());
     }
 
-    public function test_getQuery_whenAggregationSet()
+    public function testGetQueryWhenAggregationSet()
     {
         $metric = $this->makeMetric('count(%s)');
         $this->assertSame('count(log_visit.location_country)', $metric->getQuery());
     }
 
-    public function test_setQuery()
+    public function testSetQuery()
     {
         $this->metric->setQuery('count(log_visit.foobar) + 1');
         $this->assertSame('count(log_visit.foobar) + 1', $this->metric->getQuery());
     }
 
-    public function test_setDimension()
+    public function testSetDimension()
     {
         $this->assertSame($this->dimension, $this->metric->getDimension());
     }
 
-    public function test_getDbTableName()
+    public function testGetDbTableName()
     {
         $this->assertSame('log_visit', $this->metric->getDbTableName());
     }
 
-    public function test_setCategory_getCategoryId()
+    public function testSetCategoryGetCategoryId()
     {
         $this->assertSame('', $this->metric->getCategoryId());
         $this->metric->setCategory('General_Visitors');

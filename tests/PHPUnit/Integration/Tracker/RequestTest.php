@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Tracker;
@@ -54,25 +55,25 @@ class RequestTest extends IntegrationTestCase
         $this->time = 1416795617;
     }
 
-    public function test_getVisitorId_noData()
+    public function testGetVisitorIdNoData()
     {
         $request = $this->buildRequest(array());
         $this->assertFalse($request->getVisitorId());
     }
 
-    public function test_getVisitorId_idParam()
+    public function testGetVisitorIdIdParam()
     {
         $request = $this->buildRequest(array('_id' => '1234567890ABCDEF'));
         $this->assertSame('1234567890abcdef', bin2hex($request->getVisitorId()));
     }
 
-    public function test_getVisitorId_userIdOverwritesVisitorId()
+    public function testGetVisitorIdUserIdOverwritesVisitorId()
     {
         $request = $this->buildRequest(array('_id' => '1234567890ABCDEF', 'uid' => 'foo'));
         $this->assertSame('0beec7b5ea3f0fdb', bin2hex($request->getVisitorId()));
     }
 
-    public function test_getVisitorId_notOverwritesWhenDisabled()
+    public function testGetVisitorIdNotOverwritesWhenDisabled()
     {
         $config = Config::getInstance();
         $tracker = $config->Tracker;
@@ -82,7 +83,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertSame('1234567890abcdef', bin2hex($request->getVisitorId()));
     }
 
-    public function test_cdt_ShouldNotTrackTheRequest_IfNotAuthenticatedAndTimestampIsNotRecent()
+    public function testCdtShouldNotTrackTheRequestIfNotAuthenticatedAndTimestampIsNotRecent()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Custom timestamp is 86500 seconds old');
@@ -100,20 +101,20 @@ class RequestTest extends IntegrationTestCase
         $config->Tracker = $tracker;
     }
 
-    public function test_isRequestExcluded_nothingConfigured()
+    public function testIsRequestExcludedNothingConfigured()
     {
         $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
         $this->assertFalse($request->isRequestExcluded());
     }
 
-    public function test_isRequestExcluded_notValidExpression()
+    public function testIsRequestExcludedNotValidExpression()
     {
         $this->setTrackerExcludedConfig('foo=bar');
         $request = $this->buildRequest(array('foo' => 'bar'));
         $this->assertFalse($request->isRequestExcluded());
     }
 
-    public function test_isRequestExcluded_emptyRightValue()
+    public function testIsRequestExcludedEmptyRightValue()
     {
         $this->setTrackerExcludedConfig('foo==');
 
@@ -138,7 +139,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertTrue($request->isRequestExcluded());
     }
 
-    public function test_isRequestExcluded_equals()
+    public function testIsRequestExcludedEquals()
     {
         $this->setTrackerExcludedConfig('foo==bar');
 
@@ -152,7 +153,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertFalse($request->isRequestExcluded());
     }
 
-    public function test_isRequestExcluded_not_equals()
+    public function testIsRequestExcludedNotEquals()
     {
         $this->setTrackerExcludedConfig('foo!=bar');
 
@@ -166,7 +167,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertTrue($request->isRequestExcluded());
     }
 
-    public function test_isRequestExcluded_contains()
+    public function testIsRequestExcludedContains()
     {
         $this->setTrackerExcludedConfig('foo=@bar');
 
@@ -183,7 +184,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertFalse($request->isRequestExcluded());
     }
 
-    public function test_isRequestExcluded_notContains()
+    public function testIsRequestExcludedNotContains()
     {
         $this->setTrackerExcludedConfig('foo!@bar');
 
@@ -206,7 +207,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertTrue($request->isRequestExcluded());
     }
 
-    public function test_isRequestExcluded_startsWith()
+    public function testIsRequestExcludedStartsWith()
     {
         $this->setTrackerExcludedConfig('foo=^bar');
 
@@ -223,7 +224,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertFalse($request->isRequestExcluded());
     }
 
-    public function test_isRequestExcluded_endsWith()
+    public function testIsRequestExcludedEndsWith()
     {
         $this->setTrackerExcludedConfig('foo=$bar');
 
@@ -240,7 +241,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertFalse($request->isRequestExcluded());
     }
 
-    public function test_isRequestExcluded_multipleComparisons()
+    public function testIsRequestExcludedMultipleComparisons()
     {
         $this->setTrackerExcludedConfig('foo==test,bar==foo%2Cbar');
 
@@ -257,7 +258,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertFalse($request->isRequestExcluded());
     }
 
-    public function test_cdt_ShouldReturnTheCustomTimestamp_IfNotAuthenticatedButTimestampIsRecent()
+    public function testCdtShouldReturnTheCustomTimestampIfNotAuthenticatedButTimestampIsRecent()
     {
         $request = $this->buildRequest(array('cdt' => '' . ($this->time - 5)));
         $request->setCurrentTimestamp($this->time);
@@ -265,7 +266,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertSame(($this->time - 5), $request->getCurrentTimestamp());
     }
 
-    public function test_cdt_ShouldReturnTheCustomTimestamp_IfAuthenticatedAndValid()
+    public function testCdtShouldReturnTheCustomTimestampIfAuthenticatedAndValid()
     {
         $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
         $request->setCurrentTimestamp($this->time);
@@ -273,14 +274,14 @@ class RequestTest extends IntegrationTestCase
         $this->assertSame(($this->time - 86500), $request->getCurrentTimestamp());
     }
 
-    public function test_cdt_ShouldReturnTheCustomTimestamp_IfTimestampIsInFuture()
+    public function testCdtShouldReturnTheCustomTimestampIfTimestampIsInFuture()
     {
         $request = $this->buildRequest(array('cdt' => '' . ($this->time + 30800)));
         $request->setCurrentTimestamp($this->time);
         $this->assertSame($this->time, $request->getCurrentTimestamp());
     }
 
-    public function test_cdt_ShouldReturnTheCustomTimestamp_ShouldUseStrToTime_IfItIsNotATime()
+    public function testCdtShouldReturnTheCustomTimestampShouldUseStrToTimeIfItIsNotATime()
     {
         $request = $this->buildRequest(array('cdt' => '10 years ago'));
         $request->setCurrentTimestamp($this->time);
@@ -289,13 +290,13 @@ class RequestTest extends IntegrationTestCase
         $this->assertNotEmpty($request->getCurrentTimestamp());
     }
 
-    public function test_getIdSite()
+    public function testGetIdSite()
     {
         $request = $this->buildRequest(array('idsite' => '14'));
         $this->assertSame(14, $request->getIdSite());
     }
 
-    public function test_getIdSite_shouldNotThrowException_IfValueIsZero()
+    public function testGetIdSiteShouldNotThrowExceptionIfValueIsZero()
     {
         $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
         $this->expectExceptionMessage('Invalid idSite: \'0\'');
@@ -304,7 +305,7 @@ class RequestTest extends IntegrationTestCase
         $request->getIdSite();
     }
 
-    public function test_getIdSite_shouldThrowException_IfValueIsLowerThanZero()
+    public function testGetIdSiteShouldThrowExceptionIfValueIsLowerThanZero()
     {
         $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
         $this->expectExceptionMessage('Invalid idSite: \'-1\'');
@@ -313,31 +314,31 @@ class RequestTest extends IntegrationTestCase
         $request->getIdSite();
     }
 
-    public function test_getIpString_ShouldDefaultToServerAddress()
+    public function testGetIpStringShouldDefaultToServerAddress()
     {
         $this->assertEquals($_SERVER['REMOTE_ADDR'], $this->request->getIpString());
     }
 
-    public function test_getIpString_ShouldReturnCustomIp_IfAuthenticated()
+    public function testGetIpStringShouldReturnCustomIpIfAuthenticated()
     {
         $request = $this->buildRequest(array('cip' => '192.192.192.192'));
         $request->setIsAuthenticated();
         $this->assertEquals('192.192.192.192', $request->getIpString());
     }
 
-    public function test_getIp()
+    public function testGetIp()
     {
         $ip = $_SERVER['REMOTE_ADDR'];
         $this->assertEquals(IPUtils::stringToBinaryIP($ip), $this->request->getIp());
     }
 
 
-    public function test_isAuthenticated_ShouldBeNotAuthenticatedInTestsByDefault()
+    public function testIsAuthenticatedShouldBeNotAuthenticatedInTestsByDefault()
     {
         $this->assertFalse($this->request->isAuthenticated());
     }
 
-    public function test_isAuthenticated_ShouldBeAuthenticatedIfCheckIsDisabledInConfig()
+    public function testIsAuthenticatedShouldBeAuthenticatedIfCheckIsDisabledInConfig()
     {
         $oldConfig = TrackerConfig::getConfigValue('tracking_requests_require_authentication');
         TrackerConfig::setConfigValue('tracking_requests_require_authentication', 0);
@@ -347,14 +348,14 @@ class RequestTest extends IntegrationTestCase
         TrackerConfig::setConfigValue('tracking_requests_require_authentication', $oldConfig);
     }
 
-    public function test_isAuthenticated_ShouldReadTheIsAuthenticatedPropertyAndIgnoreACheck()
+    public function testIsAuthenticatedShouldReadTheIsAuthenticatedPropertyAndIgnoreACheck()
     {
         $this->assertFalse($this->request->isAuthenticated());
         $this->request->setIsAuthenticated();
         $this->assertTrue($this->request->isAuthenticated());
     }
 
-    public function test_isAuthenticated_ShouldWorkIfTokenIsCorrect()
+    public function testIsAuthenticatedShouldWorkIfTokenIsCorrect()
     {
         $token = $this->createAdminUserForSite(2);
 
@@ -365,7 +366,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertTrue($request->isAuthenticated());
     }
 
-    public function test_isAuthenticated_ShouldAlwaysWorkForSuperUser()
+    public function testIsAuthenticatedShouldAlwaysWorkForSuperUser()
     {
         Fixture::createSuperUser(false);
         $token = Fixture::getTokenAuth();
@@ -377,7 +378,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertTrue($request->isAuthenticated());
     }
 
-    public function test_authenticateSuperUserOrAdmin_ShouldFailIfTokenIsEmpty()
+    public function testAuthenticateSuperUserOrAdminShouldFailIfTokenIsEmpty()
     {
         $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite('', 2);
         $this->assertFalse($isAuthenticated);
@@ -386,7 +387,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertFalse($isAuthenticated);
     }
 
-    public function test_authenticateSuperUserOrAdmin_ShouldPostAuthInitEvent_IfTokenIsGiven()
+    public function testAuthenticateSuperUserOrAdminShouldPostAuthInitEventIfTokenIsGiven()
     {
         $called = 0;
         Piwik::addAction('Request.initAuthenticationObject', function () use (&$called) {
@@ -406,7 +407,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertSame(2, $called);
     }
 
-    public function test_authenticateSuperUserOrAdmin_ShouldNotBeAllowedToAccessSitesHavingInvalidId()
+    public function testAuthenticateSuperUserOrAdminShouldNotBeAllowedToAccessSitesHavingInvalidId()
     {
         $token = $this->createAdminUserForSite(2);
 
@@ -417,7 +418,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertFalse($isAuthenticated);
     }
 
-    public function test_authenticateSuperUserOrAdmin_ShouldWorkIfTokenIsCorrect()
+    public function testAuthenticateSuperUserOrAdminShouldWorkIfTokenIsCorrect()
     {
         $token = $this->createAdminUserForSite(2);
 
@@ -428,7 +429,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertTrue($isAuthenticated);
     }
 
-    public function test_authenticateSuperUserOrAdmin_ShouldAlwaysWorkForSuperUser()
+    public function testAuthenticateSuperUserOrAdminShouldAlwaysWorkForSuperUser()
     {
         Fixture::createSuperUser(false);
         $token = Fixture::getTokenAuth();
@@ -455,7 +456,7 @@ class RequestTest extends IntegrationTestCase
         return $token;
     }
 
-    public function test_getIdSite_shouldTriggerEventAndReturnThatIdSite()
+    public function testGetIdSiteShouldTriggerEventAndReturnThatIdSite()
     {
         $self = $this;
         Piwik::addAction('Tracker.Request.getIdSite', function (&$idSite, $params) use ($self) {
@@ -508,7 +509,7 @@ class RequestTest extends IntegrationTestCase
         );
     }
 
-    public function test_getIdSite_shouldTriggerExceptionWhenSiteNotExists()
+    public function testGetIdSiteShouldTriggerExceptionWhenSiteNotExists()
     {
         $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
         $this->expectExceptionMessage('An unexpected website was found in the request: website id was set to \'155\'');

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\VisitTime\tests\Unit;
@@ -47,50 +48,50 @@ class AddSegmentByLabelInUTCTest extends \PHPUnit\Framework\TestCase
         return new Row(array(Row::COLUMNS => $columns));
     }
 
-    public function test_filter_shouldNotChangeHoursIfTimezoneIsUTCAlready()
+    public function testFilterShouldNotChangeHoursIfTimezoneIsUTCAlready()
     {
         $this->table->filter($this->filter, array('UTC', 'day', 'today'));
 
         $this->assertSegmentValues(array('0', '1', '2', '12', '13', '14', '20'));
     }
 
-    public function test_filter_shouldConvertHoursFromTimezoneIntoUTC_Minus1()
+    public function testFilterShouldConvertHoursFromTimezoneIntoUTCMinus1()
     {
         $this->table->filter($this->filter, array('UTC-1', 'day', 'today'));
         $this->assertSegmentValues(array('1', '2', '3', '13', '14', '15', '21'));
     }
 
-    public function test_filter_shouldConvertHoursFromTimezoneIntoUTC_Plus1()
+    public function testFilterShouldConvertHoursFromTimezoneIntoUTCPlus1()
     {
         $this->table->filter($this->filter, array('UTC+1', 'day', 'today'));
         $this->assertSegmentValuesInUTCplus1();
     }
 
-    public function test_filter_shouldHandleRangePeriod_Plus1()
+    public function testFilterShouldHandleRangePeriodPlus1()
     {
         $this->table->filter($this->filter, array('UTC+1', 'range', '2015-02-02,2015-02-14'));
         $this->assertSegmentValuesInUTCplus1();
     }
 
-    public function test_filter_shouldHandleRangePeriodWithLast7_Plus1()
+    public function testFilterShouldHandleRangePeriodWithLast7Plus1()
     {
         $this->table->filter($this->filter, array('UTC+1', 'range', 'last7'));
         $this->assertSegmentValuesInUTCplus1();
     }
 
-    public function test_filter_shouldHandleDayPeriodWithRange_Plus1()
+    public function testFilterShouldHandleDayPeriodWithRangePlus1()
     {
         $this->table->filter($this->filter, array('UTC+1', 'day', '2015-02-02,2015-02-14'));
         $this->assertSegmentValuesInUTCplus1();
     }
 
-    public function test_filter_shouldHandleWeekWithLast7_Plus1()
+    public function testFilterShouldHandleWeekWithLast7Plus1()
     {
         $this->table->filter($this->filter, array('UTC+1', 'day', 'last7'));
         $this->assertSegmentValuesInUTCplus1();
     }
 
-    public function test_filter_shouldIgnoreSummaryRow()
+    public function testFilterShouldIgnoreSummaryRow()
     {
         $row = $this->buildRow(array('label' => 'other'));
         $this->table->addSummaryRow($row);

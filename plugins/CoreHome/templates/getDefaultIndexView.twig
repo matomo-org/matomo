@@ -10,6 +10,11 @@
 {% endblock %}
 
 {% block content %}
+
+    {% if exampleFeatureEnabled %}
+        <!-- Feature flag example enabled -->
+    {% endif %}
+
     {{ ajax.requestErrorDiv(contactEmail|default(''), areAdsForProfessionalServicesEnabled, currentModule, showMoreFaqInfo) }}
     {{ ajax.loadingDiv() }}
 

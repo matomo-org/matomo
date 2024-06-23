@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Auth\Password;
@@ -36,8 +37,8 @@ use Piwik\Validators\NotEmpty;
  */
 class Model
 {
-    const MAX_LENGTH_TOKEN_DESCRIPTION = 100;
-    const TOKEN_HASH_ALGO = 'sha512';
+    public const MAX_LENGTH_TOKEN_DESCRIPTION = 100;
+    public const TOKEN_HASH_ALGO = 'sha512';
 
     private static $rawPrefix = 'user';
     private $userTable;
@@ -209,7 +210,7 @@ class Model
             $joins .= " LEFT JOIN " . Common::prefixTable('access') . " b on a.idsite = b.idsite AND a.login = b.login";
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, GROUP_CONCAT(' . $selector . ' SEPARATOR "|") as access
+        $sql = 'SELECT s.idsite as idsite, s.name as site_name, GROUP_CONCAT(' . $selector . ' SEPARATOR "|") as access
                   FROM ' . Common::prefixTable('access') . " a
                 $joins
                 $where
@@ -223,7 +224,12 @@ class Model
             $entry['access'] = explode('|', $entry['access'] ?? '');
         }
 
-        $count = $db->fetchOne("SELECT FOUND_ROWS()");
+        $sql = 'SELECT COUNT(DISTINCT s.idsite)
+                 FROM ' . Common::prefixTable('access') . " a
+                $joins
+                $where";
+
+        $count = $db->fetchOne($sql, $bind);
 
         return [$access, $count];
     }
@@ -810,7 +816,7 @@ class Model
             }
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, GROUP_CONCAT(a.access SEPARATOR "|") as access
+        $sql = 'SELECT u.*, GROUP_CONCAT(a.access SEPARATOR "|") as access
                   FROM ' . $this->userTable . " u
                 $joins
                 $where
@@ -825,7 +831,12 @@ class Model
             $user['access'] = explode('|', $user['access'] ?? '');
         }
 
-        $count = $db->fetchOne("SELECT FOUND_ROWS()");
+        $sql = 'SELECT COUNT(DISTINCT u.login)
+                  FROM ' . $this->userTable . " u
+                $joins
+                $where";
+
+        $count = $db->fetchOne($sql, $bind);
 
         return [$users, $count];
     }

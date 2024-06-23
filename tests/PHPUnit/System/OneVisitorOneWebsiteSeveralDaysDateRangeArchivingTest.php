@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\System;
 
 use Piwik\Archive\ArchivePurger;
@@ -105,7 +107,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
      *
      * @depends      testApi
      */
-    public function test_checkArchiveRecords_whenPeriodIsRange()
+    public function testCheckArchiveRecordsWhenPeriodIsRange()
     {
         $archivePurger = StaticContainer::get(ArchivePurger::class);
         foreach (self::$fixture->dateTimes as $date) {
@@ -178,7 +180,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
      *
      * @depends      testApi
      */
-    public function test_checkArchiveRecords_shouldMergeSubtablesIntoOneRow()
+    public function testCheckArchiveRecordsShouldMergeSubtablesIntoOneRow()
     {
         $tests = array(
             'archive_blob_2010_12' => 3,

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Updater\Migration\Db;
@@ -38,28 +39,28 @@ class DropColumnsTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_validAndInvalidColumnsAndDuplicateColumns()
+    public function testValidAndInvalidColumnsAndDuplicateColumns()
     {
         $sql = $this->dropColumns(array('barbaz', 'notexstis', 'barbaz'));
 
         $this->assertQueryWorks($sql, 'ALTER TABLE `foobar` DROP COLUMN `barbaz`;');
     }
 
-    public function test_onlyInvalidColumns()
+    public function testOnlyInvalidColumns()
     {
         $sql = $this->dropColumns(array('notexstis', 'foobar1234'));
 
         $this->assertQueryWorks($sql, '');
     }
 
-    public function test_onlyOneColumn()
+    public function testOnlyOneColumn()
     {
         $sql = $this->dropColumns(array('foobaz'));
 
         $this->assertQueryWorks($sql, 'ALTER TABLE `foobar` DROP COLUMN `foobaz`;');
     }
 
-    public function test_multipleColumns()
+    public function testMultipleColumns()
     {
         $sql = $this->dropColumns(array('barbaz', 'notexstis', 'barbaz', 'foobaz'));
 

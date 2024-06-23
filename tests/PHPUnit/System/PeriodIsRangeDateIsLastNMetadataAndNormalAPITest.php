@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\System;
 
 use Piwik\Date;
@@ -82,6 +84,7 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
                 $result[] = array($apiToCall, array('idSite'    => $idSite, 'date' => $date,
                                                     'periods'   => array('range'), 'segment' => $segment,
                                                     'testSuffix' => $testSuffix,
+                                                    'apiNotToCall' => ['Live.getMostRecentVisitsDateTime'],
                                                     'otherRequestParameters' => array(
                                                         'lastMinutes' => 60 * 24 * 2,
                                                         'visitorId' => $visitorId,

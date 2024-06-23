@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Integration;
 
 use Piwik\Log\Logger;
@@ -22,7 +24,7 @@ use Piwik\Tests\Framework\Fixture;
  */
 class ArchiveWebTest extends SystemTestCase
 {
-    public function test_WebArchiving()
+    public function testWebArchiving()
     {
         $host  = Fixture::getRootUrl();
         $token = Fixture::getTokenAuth();
@@ -42,7 +44,7 @@ class ArchiveWebTest extends SystemTestCase
         }
     }
 
-    public function test_WebArchiveScriptCanBeRun_WithPhpCgi_AndWithoutTokenAuth()
+    public function testWebArchiveScriptCanBeRunWithPhpCgiAndWithoutTokenAuth()
     {
         [$returnCode, $output] = $this->runArchivePhpScriptWithPhpCgi();
 

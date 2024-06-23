@@ -1,12 +1,12 @@
 /*!
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 export { default as Marketplace } from './Marketplace/Marketplace.vue';
-export { default as LicenseKey } from './LicenseKey/LicenseKey.vue';
+export { default as InstallAllPaidPluginsButton } from './InstallAllPaidPluginsButton/InstallAllPaidPluginsButton.vue';
 export { default as ManageLicenseKey } from './ManageLicenseKey/ManageLicenseKey.vue';
 export { default as GetNewPlugins } from './GetNewPlugins/GetNewPlugins.vue';
 export { default as GetNewPluginsAdmin } from './GetNewPluginsAdmin/GetNewPluginsAdmin.vue';

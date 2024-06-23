@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\ScheduledReports;
 
 use Piwik\Access;
@@ -25,7 +26,7 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    const DEFAULT_REPORT_TYPE = ScheduledReports::EMAIL_TYPE;
+    public const DEFAULT_REPORT_TYPE = ScheduledReports::EMAIL_TYPE;
 
     public function index()
     {

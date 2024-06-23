@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreVue\Commands;
@@ -17,9 +18,9 @@ use Piwik\Plugin\Manager;
 
 class Build extends ConsoleCommand
 {
-    const RECOMMENDED_NODE_VERSION = '16.0.0';
-    const RECOMMENDED_NPM_VERSION = '7.0.0';
-    const RETRY_COUNT = 2;
+    public const RECOMMENDED_NODE_VERSION = '16.0.0';
+    public const RECOMMENDED_NPM_VERSION = '7.0.0';
+    public const RETRY_COUNT = 2;
 
     protected function configure()
     {

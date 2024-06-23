@@ -1,7 +1,8 @@
 <!--
   Matomo - free/libre analytics platform
-  @link https://matomo.org
-  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
 <template>
@@ -187,13 +188,10 @@ export default defineComponent({
     },
     checkIfSiteHasData() {
       const params: QueryParameters = {
-        module: 'API',
-        method: 'Live.getLastVisitsDetails',
+        method: 'Live.getMostRecentVisitsDateTime',
         date: 'today',
         period: 'day',
-        filter_limit: 1,
         idSite: Matomo.idSite,
-        doNotFetchActions: 0,
       };
 
       const options = {
@@ -202,7 +200,7 @@ export default defineComponent({
       };
 
       AjaxHelper.fetch(params, options).then((response) => {
-        if (response.length > 0) {
+        if (response && response.value !== '') {
           window.broadcast.propagateNewPage('date=today');
           return;
         }

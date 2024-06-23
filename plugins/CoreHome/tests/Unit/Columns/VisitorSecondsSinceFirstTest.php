@@ -1,10 +1,10 @@
 <?php
+
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreHome\tests\Unit\Columns;
@@ -17,7 +17,7 @@ use Piwik\Tracker\Visitor;
 
 class VisitorSecondsSinceFirstTest extends TestCase
 {
-    public function test_onNewVisit_returnsZeroIfVisitorIsUnknown()
+    public function testOnNewVisitReturnsZeroIfVisitorIsUnknown()
     {
         $request = $this->makeMockRequest();
         $visitor = $this->makeMockVisitor(false);
@@ -31,7 +31,7 @@ class VisitorSecondsSinceFirstTest extends TestCase
     /**
      * @dataProvider getInvalidTestDataForOnNewVisit
      */
-    public function test_onNewVisit_returnsNullIfPreviousColumnValueOrCurrentColumnValueIsInvalid($currentProps, $oldProps)
+    public function testOnNewVisitReturnsNullIfPreviousColumnValueOrCurrentColumnValueIsInvalid($currentProps, $oldProps)
     {
         $request = $this->makeMockRequest();
         $visitor = $this->makeMockVisitor(true, $currentProps, $oldProps);
@@ -100,7 +100,7 @@ class VisitorSecondsSinceFirstTest extends TestCase
         ];
     }
 
-    public function test_onNewVisit_returnsCorrectValueWhenVisitorIsKnownAndAllFirstActionTimesPresent()
+    public function testOnNewVisitReturnsCorrectValueWhenVisitorIsKnownAndAllFirstActionTimesPresent()
     {
         $currentTime = time();
 

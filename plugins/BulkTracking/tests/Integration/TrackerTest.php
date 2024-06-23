@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\BulkTracking\tests\Integration;
@@ -16,14 +17,6 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker;
 use Piwik\Tests\Framework\Mock\Tracker\RequestSet;
 
-class TestIntegrationTracker extends Tracker
-{
-    protected function loadTrackerPlugins()
-    {
-        // if we reload the plugins we would lose the injected data :(
-    }
-}
-
 /**
  * @group TrackerTest
  * @group Tracker
@@ -31,7 +24,7 @@ class TestIntegrationTracker extends Tracker
 class TrackerTest extends BulkTrackingTestCase
 {
     /**
-     * @var TestIntegrationTracker
+     * @var Tracker
      */
     private $tracker;
 
@@ -39,7 +32,7 @@ class TrackerTest extends BulkTrackingTestCase
     {
         parent::setUp();
 
-        $this->tracker = new TestIntegrationTracker();
+        $this->tracker = new Tracker();
 
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
@@ -47,27 +40,27 @@ class TrackerTest extends BulkTrackingTestCase
         $this->injectRawDataToBulk($this->getDummyRequest());
     }
 
-    public function test_main_shouldIncreaseLoggedRequestsCounter()
+    public function testMainShouldIncreaseLoggedRequestsCounter()
     {
         $this->tracker->main($this->getHandler(), $this->getEmptyRequestSet());
 
         $this->assertSame(2, $this->tracker->getCountOfLoggedRequests());
     }
 
-    public function test_main_shouldUseBulkHandler()
+    public function testMainShouldUseBulkHandler()
     {
         $handler = $this->getHandler();
         $this->assertTrue($handler instanceof Handler);
     }
 
-    public function test_main_shouldReturnBulkTrackingResponse()
+    public function testMainShouldReturnBulkTrackingResponse()
     {
         $response = $this->tracker->main($this->getHandler(), $this->getEmptyRequestSet());
 
         $this->assertSame('{"status":"success","tracked":2,"invalid":0}', $response);
     }
 
-    public function test_main_shouldReturnErrorResponse_InCaseOfAnyError()
+    public function testMainShouldReturnErrorResponseInCaseOfAnyError()
     {
         $requestSet = new RequestSet();
         $requestSet->enableThrowExceptionOnInit();
@@ -80,7 +73,7 @@ class TrackerTest extends BulkTrackingTestCase
         $this->assertSame('{"status":"error","tracked":0,"invalid":0}', $response);
     }
 
-    public function test_main_shouldReturnErrorResponse_IfNotAuthorized()
+    public function testMainShouldReturnErrorResponseIfNotAuthorized()
     {
         $this->injectRawDataToBulk($this->getDummyRequest(), true);
 
@@ -92,7 +85,7 @@ class TrackerTest extends BulkTrackingTestCase
         $this->assertSame('{"status":"error","tracked":0,"invalid":0}', $response);
     }
 
-    public function test_main_shouldActuallyTrack()
+    public function testMainShouldActuallyTrack()
     {
         $this->assertEmpty($this->getIdVisit(1));
         $this->assertEmpty($this->getIdVisit(2));
@@ -113,7 +106,7 @@ class TrackerTest extends BulkTrackingTestCase
         $this->assertEmpty($this->getIdVisit(3));
     }
 
-    public function test_main_shouldReportInvalidIndices_IfInvalidRequestsIncluded_AndRequestAuthenticated()
+    public function testMainShouldReportInvalidIndicesIfInvalidRequestsIncludedAndRequestAuthenticated()
     {
         $this->injectRawDataToBulk($this->getDummyRequest($token = Fixture::getTokenAuth(), $idSite = array(1, -100)));
 
@@ -125,7 +118,7 @@ class TrackerTest extends BulkTrackingTestCase
         $this->assertEquals('{"status":"success","tracked":1,"invalid":1,"invalid_indices":[1]}', $response);
     }
 
-    public function test_main_shouldReportInvalidCount_IfInvalidRequestsIncluded_AndRequestNotAuthenticated()
+    public function testMainShouldReportInvalidCountIfInvalidRequestsIncludedAndRequestNotAuthenticated()
     {
         $this->injectRawDataToBulk($this->getDummyRequest($token = null, $idSite = array(1, -100)));
 

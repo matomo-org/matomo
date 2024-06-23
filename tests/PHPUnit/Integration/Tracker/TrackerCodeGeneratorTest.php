@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Tracker;
@@ -20,7 +21,7 @@ use Piwik\Tracker\TrackerCodeGenerator;
  */
 class TrackerCodeGeneratorTest extends IntegrationTestCase
 {
-    public function testJavascriptTrackingCode_withAllOptions()
+    public function testJavascriptTrackingCodeWithAllOptions()
     {
         $generator = new TrackerCodeGenerator();
 
@@ -84,7 +85,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
         $this->assertEquals($expected, $jsTag);
     }
 
-    public function testJavascriptTrackingCode_noScriptTrackingDisabled_defaultTrackingCode()
+    public function testJavascriptTrackingCodeNoScriptTrackingDisabledDefaultTrackingCode()
     {
         $generator = new TrackerCodeGenerator();
 
@@ -113,7 +114,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     /**
      * Tests the generated JS code with protocol override
      */
-    public function testJavascriptTrackingCode_withAllOptionsAndProtocolOverwrite()
+    public function testJavascriptTrackingCodeWithAllOptionsAndProtocolOverwrite()
     {
         $generator = new TrackerCodeGenerator();
 
@@ -174,7 +175,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     /**
      * Tests the generated JS code with options before tracker url
      */
-    public function testJavascriptTrackingCode_withAllOptionsAndOptionsBeforeTrackerUrl()
+    public function testJavascriptTrackingCodeWithAllOptionsAndOptionsBeforeTrackerUrl()
     {
         $generator = new TrackerCodeGenerator();
 
@@ -236,7 +237,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     /**
      * Tests the generated JS code with options before tracker url
      */
-    public function testJavascriptTrackingCode_loadSync()
+    public function testJavascriptTrackingCodeLoadSync()
     {
         $generator = new TrackerCodeGenerator();
 
@@ -322,7 +323,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
         $this->assertEquals($expected, $jsTag);
     }
 
-    public function testJavascriptTrackingCode_withForceSsl()
+    public function testJavascriptTrackingCodeWithForceSsl()
     {
         Config::getInstance()->General['force_ssl'] = 1;
 

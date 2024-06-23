@@ -1,14 +1,13 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Session;
-
 
 use Piwik\Date;
 use Piwik\Session\SessionFingerprint;
@@ -16,7 +15,7 @@ use Piwik\Tests\Framework\Fixture;
 
 class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
 {
-    const TEST_TIME_VALUE = 4567;
+    public const TEST_TIME_VALUE = 4567;
 
     /**
      * @var SessionFingerprint
@@ -37,18 +36,18 @@ class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
         parent::tearDown();
     }
 
-    public function test_getUser_ReturnsUserNameSessionVar_WhenSessionVarIsSet()
+    public function testGetUserReturnsUserNameSessionVarWhenSessionVarIsSet()
     {
         $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME] = 'testuser';
         $this->assertEquals('testuser', $this->testInstance->getUser());
     }
 
-    public function test_getUser_ReturnsNull_WhenSessionVarIsNotSet()
+    public function testGetUserReturnsNullWhenSessionVarIsNotSet()
     {
         $this->assertNull($this->testInstance->getUser());
     }
 
-    public function test_getUserInfo_ReturnsUserInfoSessionVar_WhenSessionVarIsSet()
+    public function testGetUserInfoReturnsUserInfoSessionVarWhenSessionVarIsSet()
     {
         $sessionVarValue = [
             'ip' => 'someip',
@@ -58,12 +57,12 @@ class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($sessionVarValue, $this->testInstance->getUserInfo());
     }
 
-    public function test_getUserInfo_ReturnsNull_WhenSessionVarIsNotSet()
+    public function testGetUserInfoReturnsNullWhenSessionVarIsNotSet()
     {
         $this->assertNull($this->testInstance->getUserInfo());
     }
 
-    public function test_initialize_SetsSessionVarsToCurrentRequest()
+    public function testInitializeSetsSessionVarsToCurrentRequest()
     {
         $this->testInstance->initialize('testuser', Fixture::ADMIN_USER_TOKEN, true, self::TEST_TIME_VALUE);
 
@@ -75,7 +74,7 @@ class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_initialize_hasVerifiedTwoFactor()
+    public function testInitializeHasVerifiedTwoFactor()
     {
         $this->testInstance->initialize('testuser', Fixture::ADMIN_USER_TOKEN, self::TEST_TIME_VALUE);
 
@@ -87,7 +86,7 @@ class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->testInstance->hasVerifiedTwoFactor());
     }
 
-    public function test_updateSessionExpireTime_SetsANewExpirationTime()
+    public function testUpdateSessionExpireTimeSetsANewExpirationTime()
     {
         $this->testInstance->initialize('testuser', Fixture::ADMIN_USER_TOKEN, false, self::TEST_TIME_VALUE);
 
@@ -101,7 +100,7 @@ class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_getSessionStartTime_ReturnsCorrectValue()
+    public function testGetSessionStartTimeReturnsCorrectValue()
     {
         $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [
             'ts' => 123,
@@ -109,18 +108,18 @@ class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(123, $this->testInstance->getSessionStartTime());
     }
 
-    public function test_getSessionStartTime_ReturnsNull_IfThereIsNoSessionInfo()
+    public function testGetSessionStartTimeReturnsNullIfThereIsNoSessionInfo()
     {
         $this->assertNull($this->testInstance->getSessionStartTime());
     }
 
-    public function test_getSessionStartTime_ReturnsNull_IfThereIsNoSessionStartTime()
+    public function testGetSessionStartTimeReturnsNullIfThereIsNoSessionStartTime()
     {
         $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [];
         $this->assertNull($this->testInstance->getSessionStartTime());
     }
 
-    public function test_destroy_RemovesSessionFingerprintSessionVars()
+    public function testDestroyRemovesSessionFingerprintSessionVars()
     {
         $_SESSION['someotherdata'] = 'somedata';
         $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME] = 'someuser';

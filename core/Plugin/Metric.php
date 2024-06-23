@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugin;
 
 use Piwik\DataTable;
@@ -33,7 +35,7 @@ abstract class Metric
     /**
      * The sub-namespace name in a plugin where Metric components are stored.
      */
-    const COMPONENT_SUBNAMESPACE = 'Metrics';
+    public const COMPONENT_SUBNAMESPACE = 'Metrics';
 
     const AGGREGATION_TYPE_AVG = 'avg';
     const AGGREGATION_TYPE_COUNT = 'count';

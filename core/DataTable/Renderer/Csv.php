@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\DataTable\Renderer;
 
 use Piwik\Common;
@@ -67,7 +68,7 @@ class Csv extends Renderer
     /**
      * This string is also hardcoded in archive,sh
      */
-    const NO_DATA_AVAILABLE = 'No data available';
+    public const NO_DATA_AVAILABLE = 'No data available';
 
     private $unsupportedColumns = array();
 

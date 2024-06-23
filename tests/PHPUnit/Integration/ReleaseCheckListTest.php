@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -29,7 +30,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 {
     private $globalConfig;
 
-    const MINIMUM_PHP_VERSION = '7.2.5';
+    public const MINIMUM_PHP_VERSION = '7.2.5';
 
     public function setUp(): void
     {
@@ -39,20 +40,20 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         parent::setUp();
     }
 
-    public function test_TestCaseHasSetGroupsMethod()
+    public function testTestCaseHasSetGroupsMethod()
     {
         // refs https://github.com/matomo-org/matomo/pull/16615 ensures setGroups method still exists in phpunit
         // checking this way as it is not an official API
         $this->assertTrue(method_exists(TestCase::class, 'setGroups'));
     }
 
-    public function test_minimumPHPVersion_isEnforced()
+    public function testMinimumPHPVersionIsEnforced()
     {
         global $piwik_minimumPHPVersion;
         $this->assertEquals(self::MINIMUM_PHP_VERSION, $piwik_minimumPHPVersion, 'minimum PHP version global variable correctly defined');
     }
 
-    public function test_minimumPhpVersion_isDefinedInComposerJson()
+    public function testMinimumPhpVersionIsDefinedInComposerJson()
     {
         $composerJson = $this->getComposerJsonAsArray();
         // platform value is currently higher than minimum required php version to circumvent minimum requirement of wikimedia/less.php
@@ -62,7 +63,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedRequirePhp, $composerJson['require']['php']);
     }
 
-    public function test_icoFilesIconsShouldBeInPngFormat()
+    public function testIcoFilesIconsShouldBeInPngFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.ico');
 
@@ -81,7 +82,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->checkFilesAreInPngFormat($files);
     }
 
-    public function test_pngFilesIconsShouldBeInPngFormat()
+    public function testPngFilesIconsShouldBeInPngFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.png');
         // filter expected screenshots as they might not be checked out and downloaded when stored in git-lfs
@@ -93,7 +94,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->checkFilesAreInPngFormat($files);
     }
 
-    public function test_gifFilesIconsShouldBeInGifFormat()
+    public function testGifFilesIconsShouldBeInGifFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.gif');
         $this->checkFilesAreInGifFormat($files);
@@ -101,7 +102,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->checkFilesAreInGifFormat($files);
     }
 
-    public function test_jpgImagesShouldBeInJpgFormat()
+    public function testJpgImagesShouldBeInJpgFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.jpg');
         $this->checkFilesAreInJpgFormat($files);
@@ -113,7 +114,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->checkFilesAreInJpgFormat($files);
     }
 
-    public function test_screenshotsStoredInLfs()
+    public function testScreenshotsStoredInLfs()
     {
         $screenshots = Filesystem::globr(PIWIK_INCLUDE_PATH . '/tests/UI/expected-screenshots', '*.png');
         $screenshotsPlugins = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins/*/tests/UI/expected-screenshots', '*.png');
@@ -324,7 +325,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      * This tests that all PHP files start with <?php
      * This would help detect errors such as a php file starting with spaces
      */
-    public function test_phpFilesStartWithRightCharacter()
+    public function testPhpFilesStartWithRightCharacter()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.php');
 
@@ -357,31 +358,31 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->assertGreaterThan(2000, $tested, 'should have tested at least thousand of  php files');
     }
 
-    public function test_jsfilesDoNotContainFakeSpaces()
+    public function testJsfilesDoNotContainFakeSpaces()
     {
         $js = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.js');
         $this->checkFilesDoNotHaveWeirdSpaces($js);
     }
 
-    public function test_phpfilesDoNotContainFakeSpaces()
+    public function testPhpfilesDoNotContainFakeSpaces()
     {
         $js = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.php');
         $this->checkFilesDoNotHaveWeirdSpaces($js);
     }
 
-    public function test_twigfilesDoNotContainFakeSpaces()
+    public function testTwigfilesDoNotContainFakeSpaces()
     {
         $js = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.twig');
         $this->checkFilesDoNotHaveWeirdSpaces($js);
     }
 
-    public function test_htmlfilesDoNotContainFakeSpaces()
+    public function testHtmlfilesDoNotContainFakeSpaces()
     {
         $js = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.html');
         $this->checkFilesDoNotHaveWeirdSpaces($js);
     }
 
-    public function test_directoriesShouldBeChmod755()
+    public function testDirectoriesShouldBeChmod755()
     {
         $pluginsPath = realpath(PIWIK_INCLUDE_PATH . '/plugins/');
 
@@ -417,7 +418,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      *
      * This fails when a new folder is added to plugins/* and forgot to enable or mark as disabled in Manager.php.
      */
-    public function test_DirectoriesInPluginsFolder_areKnown()
+    public function testDirectoriesInPluginsFolderAreKnown()
     {
         $pluginsBundledWithPiwik = Config::getInstance()->getFromGlobalConfig('Plugins');
         $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
@@ -509,7 +510,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(preg_match($pattern, $contents) == 0);
     }
 
-    public function test_piwikJs_minified_isUpToDate()
+    public function testPiwikJsMinifiedIsUpToDate()
     {
         shell_exec("sed '/<DEBUG>/,/<\/DEBUG>/d' < " . PIWIK_DOCUMENT_ROOT . "/js/piwik.js | sed 's/eval/replacedEvilString/' | java -jar " . PIWIK_DOCUMENT_ROOT . "/tests/resources/yuicompressor/yuicompressor-2.4.8.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > " . PIWIK_DOCUMENT_ROOT . "/piwik-minified.js");
 
@@ -525,7 +526,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_piwikJs_SameAsMatomoJs()
+    public function testPiwikJsSameAsMatomoJs()
     {
         $this->assertFileEquals(
             PIWIK_DOCUMENT_ROOT . '/matomo.js',
@@ -612,7 +613,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the Piwik files are not too big, to ensure the downloadable ZIP package is not too large
      */
-    public function test_TotalPiwikFilesSize_isWithinReasonnableSize()
+    public function testTotalPiwikFilesSizeIsWithinReasonnableSize()
     {
         if (!SystemTestCase::isCIEnvironment()) {
             // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
@@ -644,7 +645,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->assertGreaterThan($minimumTotalFilesizesExpectedInMb * 1024 * 1024, $sumFilesizes, "expected to have at least $minimumTotalFilesizesExpectedInMb Mb of files in Piwik codebase.");
     }
 
-    public function test_noUpdatesInCorePlugins()
+    public function testNoUpdatesInCorePlugins()
     {
         $manager = Manager::getInstance();
         $plugins = $manager->loadAllPluginsAndGetTheirInfo();
@@ -688,7 +689,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array('CustomDimensions', 'DevicesDetection', 'ExamplePlugin', 'Goals', 'LanguagesManager'), array_values(array_unique($pluginsWithUpdates)));
     }
 
-    public function test_bowerComponentsBc_referencesFilesThatExists()
+    public function testBowerComponentsBcReferencesFilesThatExists()
     {
         $filesThatDoNotExist = [];
         foreach (UIAssetFetcher::$bowerComponentFileMappings as $oldFile => $newFile) {
@@ -701,7 +702,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             . implode(', ', $filesThatDoNotExist));
     }
 
-    public function test_noVueHtmlWithoutSanitize()
+    public function testNoVueHtmlWithoutSanitize()
     {
         $command = 'grep -r "v-html=" ' . PIWIK_INCLUDE_PATH . '/plugins --include=*.vue | grep -v "v-html=[\'\\"]\\$sanitize"';
         $output = shell_exec($command);

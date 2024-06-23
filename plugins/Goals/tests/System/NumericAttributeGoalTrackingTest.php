@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Goals\tests\System;
@@ -28,7 +28,7 @@ class NumericAttributeGoalTrackingTest extends IntegrationTestCase
         API::getInstance()->addGoal($idSite, 'visit duration goal', 'visit_duration', 2.5, 'greater_than');
     }
 
-    public function test_trackingVisitDurationGoal()
+    public function testTrackingVisitDurationGoal()
     {
         $t = Fixture::getTracker($this->idSite, '2013-02-03 04:00:00');
         $this->assertEquals(0, $this->getConversionCount($this->visitDurationIdGoal));

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Plugin\Dimension;
@@ -24,7 +25,7 @@ class DimensionMetadataProviderTest extends IntegrationTestCase
         $manager->loadPlugins(array('Events', 'Contents'));
     }
 
-    public function test_getActionReferenceColumnsByTable_DetectsActionReferenceDimensions_AndIncludesHardcodedColumns()
+    public function testGetActionReferenceColumnsByTableDetectsActionReferenceDimensionsAndIncludesHardcodedColumns()
     {
         $dimensionMetadataProvider = new DimensionMetadataProvider();
 
@@ -66,7 +67,7 @@ class DimensionMetadataProviderTest extends IntegrationTestCase
         $this->assertEquals($expectedColumns, $actualColumns);
     }
 
-    public function test_getActionReferenceColumnsByTable_AppliesOverrideColumnsCorrectly_WithoutAllowingDuplicates()
+    public function testGetActionReferenceColumnsByTableAppliesOverrideColumnsCorrectlyWithoutAllowingDuplicates()
     {
         $dimensionMetadataProvider = new DimensionMetadataProvider(array(
             'log_link_visit_action' => array('idaction_url',

@@ -1,15 +1,18 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Marketplace;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\Filesystem;
@@ -25,6 +28,7 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Input\PluginName;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
+use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\ProxyHttp;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
@@ -34,9 +38,9 @@ use Piwik\View;
 
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
-    const UPDATE_NONCE = 'Marketplace.updatePlugin';
-    const INSTALL_NONCE = 'Marketplace.installPlugin';
-    const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
+    public const UPDATE_NONCE = 'Marketplace.updatePlugin';
+    public const INSTALL_NONCE = 'Marketplace.installPlugin';
+    public const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
 
     /**
      * @var LicenseKey
@@ -186,7 +190,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->activeTab    = $activeTab;
         $view->isAutoUpdatePossible = SettingsPiwik::isAutoUpdatePossible();
         $view->isAutoUpdateEnabled = SettingsPiwik::isAutoUpdateEnabled();
-        $view->numUsers = $this->environment->getNumUsers();
 
         return $view->render();
     }
@@ -217,6 +220,24 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
     }
 
+    private function getPaidPluginsToInstallAtOnceData(array $paidPlugins): array
+    {
+        $paidPluginsToInstallAtOnce = [];
+        if (SettingsPiwik::isAutoUpdatePossible()) {
+            foreach ($paidPlugins as $paidPlugin) {
+                if (
+                    $this->canPluginBeInstalled($paidPlugin)
+                    || ($this->pluginManager->isPluginInstalled($paidPlugin['name'], true)
+                        && !$this->pluginManager->isPluginActivated($paidPlugin['name']))
+                ) {
+                    $paidPluginsToInstallAtOnce[] = $paidPlugin['displayName'];
+                }
+            }
+        }
+
+        return $paidPluginsToInstallAtOnce;
+    }
+
     public function overview()
     {
         $view = $this->configureViewAndCheckPermission('@Marketplace/overview');
@@ -233,20 +254,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'premium' => count($paidPlugins),
         ];
 
-        $paidPluginsToInstallAtOnce = array();
-        if (SettingsPiwik::isAutoUpdatePossible()) {
-            foreach ($paidPlugins as $paidPlugin) {
-                if (
-                    $this->canPluginBeInstalled($paidPlugin)
-                    || ($this->pluginManager->isPluginInstalled($paidPlugin['name'], true)
-                        && !$this->pluginManager->isPluginActivated($paidPlugin['name']))
-                ) {
-                    $paidPluginsToInstallAtOnce[] = $paidPlugin['name'];
-                }
-            }
-        }
-
-        $view->paidPluginsToInstallAtOnce = $paidPluginsToInstallAtOnce;
+        $view->paidPluginsToInstallAtOnce = $this->getPaidPluginsToInstallAtOnceData($paidPlugins);
         $view->isValidConsumer = $this->consumer->isValidConsumer();
         $view->pluginTypeOptions = array(
             'plugins' => Piwik::translate('General_Plugins'),
@@ -260,7 +268,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Sort::METHOD_ALPHA => Piwik::translate('Marketplace_SortByAlpha'),
         );
         $view->defaultSort = Sort::DEFAULT_SORT;
-        $view->hasLicenseKey = $this->licenseKey->has();
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
         $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
         $view->deactivateNonce = Nonce::getNonce(PluginsController::DEACTIVATE_NONCE);
@@ -275,6 +282,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->inReportingMenu = (bool) Common::getRequestVar('embed', 0, 'int');
 
         return $view->render();
+    }
+
+    public function updateOverview(): string
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $paidPlugins = $this->plugins->getAllPaidPlugins();
+
+        $updateData = [
+            'paidPluginsToInstallAtOnce' => $this->getPaidPluginsToInstallAtOnceData($paidPlugins),
+            'isValidConsumer' => $this->consumer->isValidConsumer(),
+        ];
+
+        Json::sendHeaderJSON();
+        return json_encode($updateData);
     }
 
     public function searchPlugins(): string
@@ -296,6 +318,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         foreach ($plugins as &$plugin) {
             if ($plugin['isDownloadable']) {
                 $plugin['downloadNonce'] = Nonce::getNonce(static::DOWNLOAD_NONCE_PREFIX . $plugin['name']);
+            }
+
+            $plugin['isTrialRequested'] = false;
+            $plugin['canTrialBeRequested'] = false;
+
+            if ($plugin['isEligibleForFreeTrial']) {
+                $plugin['isTrialRequested'] = StaticContainer::get(PluginTrialService::class)->wasRequested($plugin['name']);
+                $plugin['canTrialBeRequested'] = (int) GeneralConfig::getConfigValue('plugin_trial_request_expiration_in_days') !== -1;
             }
         }
 
@@ -490,8 +520,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function dieIfPluginsAdminIsDisabled()
     {
         if (!CorePluginsAdmin::isPluginsAdminEnabled()) {
-            throw new \Exception('Enabling, disabling and uninstalling plugins has been disabled by Piwik admins.
-            Please contact your Piwik admins with your request so they can assist you.');
+            throw new \Exception('Enabling, disabling and uninstalling plugins has been disabled by Matomo admins.
+            Please contact your Matomo admins with your request so they can assist you.');
         }
     }
 

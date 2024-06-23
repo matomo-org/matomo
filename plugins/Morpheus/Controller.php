@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Morpheus;
@@ -21,6 +22,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $snippets = [];
 
+        // @phpcs:disable Generic.Files.LineLength
         $snippets[] = [
             'id' => 'ActivityIndicator',
             'title' => 'Loading indicator',
@@ -863,6 +865,7 @@ export default defineComponent({
                 'plugin'
             ],
         ];
+        // @phpcs:enable Generic.Files.LineLength
 
         return $this->renderTemplate('demo', [
             'snippets' => $snippets,

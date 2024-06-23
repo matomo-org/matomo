@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Updater\Migration\Db;
@@ -22,21 +23,21 @@ class BoundSqlTest extends IntegrationTestCase
 {
     private $testQuery = 'ALTER TABLE foobar ADD COLUMN barbaz VARCHAR(1)';
 
-    public function test_toString_shouldAppendSemicolonIfNeeded()
+    public function testToStringShouldAppendSemicolonIfNeeded()
     {
         $sql = $this->boundSql($this->testQuery, array());
 
         $this->assertSame($this->testQuery . ';', '' . $sql);
     }
 
-    public function test_toString_shouldNotAppendSemicolonIfNotNeeded()
+    public function testToStringShouldNotAppendSemicolonIfNotNeeded()
     {
         $sql = $this->boundSql($this->testQuery . ';');
 
         $this->assertSame($this->testQuery . ';', '' . $sql);
     }
 
-    public function test_toString_shouldReplacePlaceHolders()
+    public function testToStringShouldReplacePlaceHolders()
     {
         $sql = $this->boundSql('DELETE FROM table WHERE x=?, foobar = ?, xyz = ?', array(
             'my value 1', 5, 'test\' val\ue"'
@@ -45,13 +46,13 @@ class BoundSqlTest extends IntegrationTestCase
         $this->assertSame("DELETE FROM table WHERE x='my value 1', foobar = 5, xyz = 'test\' val\\\\ue\\\"';", '' . $sql);
     }
 
-    public function test_constructor_shouldConvertErrorCodeToArray_IfNeeded()
+    public function testConstructorShouldConvertErrorCodeToArrayIfNeeded()
     {
         $sql = $this->boundSql($this->testQuery, array(), 1091);
         $this->assertSame(array(1091), $sql->getErrorCodesToIgnore());
     }
 
-    public function test_constructor_shouldNotConvertErrorCodeToArray_IfNotNeeded()
+    public function testConstructorShouldNotConvertErrorCodeToArrayIfNotNeeded()
     {
         $sql = $this->boundSql($this->testQuery, array(), array(1091, 1061));
         $this->assertSame(array(1091, 1061), $sql->getErrorCodesToIgnore());

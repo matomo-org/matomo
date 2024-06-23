@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -18,7 +18,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class ReportRenderingTest extends IntegrationTestCase
 {
-    public function test_reportHasCorrectNotification_WhenReportHasNoData_AndArchivingHasNotRunRecently()
+    public function testReportHasCorrectNotificationWhenReportHasNoDataAndArchivingHasNotRunRecently()
     {
         $idSite = Fixture::createWebsite('2012-01-02 03:04:44');
         Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, time() - 120000);

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\GeoIp2\tests\Integration;
 
 use Piwik\Config;
@@ -114,7 +115,7 @@ class LocationProviderTest extends \PHPUnit\Framework\TestCase
         ], $result);
     }
 
-    public function testGeoIP2ISP_whenIspDisabled_IspNotReturnsAnyResult()
+    public function testGeoIP2ISPWhenIspDisabledIspNotReturnsAnyResult()
     {
         $this->setIspEnabled(false);
 
@@ -126,7 +127,7 @@ class LocationProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($result);
     }
 
-    public function testGeoIP2ISP_whenIspDisabled_LocStillReturnsResult()
+    public function testGeoIP2ISPWhenIspDisabledLocStillReturnsResult()
     {
         $this->setIspEnabled(false);
 

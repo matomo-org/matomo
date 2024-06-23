@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik;
@@ -37,23 +37,23 @@ use Piwik\Intl\Data\Provider\DateTimeFormatProvider;
 class Date
 {
     /** Number of seconds in a day. */
-    const NUM_SECONDS_IN_DAY = 86400;
+    public const NUM_SECONDS_IN_DAY = 86400;
 
     /** The default date time string format. */
-    const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+    public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
     /** Timestamp when first website came online - Tue, 06 Aug 1991 00:00:00 GMT. */
-    const FIRST_WEBSITE_TIMESTAMP = 681436800;
+    public const FIRST_WEBSITE_TIMESTAMP = 681436800;
 
-    const DATETIME_FORMAT_LONG    = DateTimeFormatProvider::DATE_FORMAT_LONG;
-    const DATETIME_FORMAT_SHORT   = DateTimeFormatProvider::DATETIME_FORMAT_SHORT;
-    const DATE_FORMAT_LONG        = DateTimeFormatProvider::DATE_FORMAT_LONG;
-    const DATE_FORMAT_DAY_MONTH   = DateTimeFormatProvider::DATE_FORMAT_DAY_MONTH;
-    const DATE_FORMAT_SHORT       = DateTimeFormatProvider::DATE_FORMAT_SHORT;
-    const DATE_FORMAT_MONTH_SHORT = DateTimeFormatProvider::DATE_FORMAT_MONTH_SHORT;
-    const DATE_FORMAT_MONTH_LONG  = DateTimeFormatProvider::DATE_FORMAT_MONTH_LONG;
-    const DATE_FORMAT_YEAR        = DateTimeFormatProvider::DATE_FORMAT_YEAR;
-    const TIME_FORMAT             = DateTimeFormatProvider::TIME_FORMAT;
+    public const DATETIME_FORMAT_LONG    = DateTimeFormatProvider::DATE_FORMAT_LONG;
+    public const DATETIME_FORMAT_SHORT   = DateTimeFormatProvider::DATETIME_FORMAT_SHORT;
+    public const DATE_FORMAT_LONG        = DateTimeFormatProvider::DATE_FORMAT_LONG;
+    public const DATE_FORMAT_DAY_MONTH   = DateTimeFormatProvider::DATE_FORMAT_DAY_MONTH;
+    public const DATE_FORMAT_SHORT       = DateTimeFormatProvider::DATE_FORMAT_SHORT;
+    public const DATE_FORMAT_MONTH_SHORT = DateTimeFormatProvider::DATE_FORMAT_MONTH_SHORT;
+    public const DATE_FORMAT_MONTH_LONG  = DateTimeFormatProvider::DATE_FORMAT_MONTH_LONG;
+    public const DATE_FORMAT_YEAR        = DateTimeFormatProvider::DATE_FORMAT_YEAR;
+    public const TIME_FORMAT             = DateTimeFormatProvider::TIME_FORMAT;
 
     // for tests
     public static $now = null;

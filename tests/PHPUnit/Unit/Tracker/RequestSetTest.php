@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Tracker;
@@ -37,7 +38,7 @@ class RequestSetTest extends UnitTestCase
         return new TestRequestSet();
     }
 
-    public function test_internalBuildRequest_ShoulBuildOneRequest()
+    public function testInternalBuildRequestShoulBuildOneRequest()
     {
         $request = new Request(array('idsite' => '2'));
         $request->setCurrentTimestamp($this->time);
@@ -45,7 +46,7 @@ class RequestSetTest extends UnitTestCase
         $this->assertEquals($request, $this->buildRequest(2));
     }
 
-    public function test_internalBuildRequests_ShoulBuildASetOfRequests()
+    public function testInternalBuildRequestsShoulBuildASetOfRequests()
     {
         $this->assertEquals(array(), $this->buildRequests(0));
 
@@ -58,18 +59,18 @@ class RequestSetTest extends UnitTestCase
         ), $this->buildRequests(3));
     }
 
-    public function test_getRequests_shouldReturnEmptyArray_IfThereAreNoRequestsInitializedYet()
+    public function testGetRequestsShouldReturnEmptyArrayIfThereAreNoRequestsInitializedYet()
     {
         $this->assertEquals(array(), $this->requestSet->getRequests());
     }
 
-    public function test_setRequests_shouldNotFail_IfEmptyArrayGiven()
+    public function testSetRequestsShouldNotFailIfEmptyArrayGiven()
     {
         $this->requestSet->setRequests(array());
         $this->assertEquals(array(), $this->requestSet->getRequests());
     }
 
-    public function test_setRequests_shouldSetAndOverwriteRequests()
+    public function testSetRequestsShouldSetAndOverwriteRequests()
     {
         $this->requestSet->setRequests($this->buildRequests(3));
         $this->assertEquals($this->buildRequests(3), $this->requestSet->getRequests());
@@ -87,7 +88,7 @@ class RequestSetTest extends UnitTestCase
         $this->assertEquals(array(), $this->requestSet->getRequests());
     }
 
-    public function test_setRequests_shouldConvertNonRequestInstancesToARequestInstance()
+    public function testSetRequestsShouldConvertNonRequestInstancesToARequestInstance()
     {
         $requests = array(
             $this->buildRequest(5),
@@ -113,29 +114,33 @@ class RequestSetTest extends UnitTestCase
         $this->assertCount(5, $setRequests);
     }
 
-    public function test_setRequests_shouldIgnoreEmptyRequestsButNotArrays()
+    public function testSetRequestsShouldIgnoreEmptyRequestsButNotArrays()
     {
-        $requests = array(
-            $this->buildRequest(5),
+        $request1 = $this->buildRequest(5);
+        $request2 = $this->buildRequest(2);
+        $request3 = $this->buildRequest(6);
+
+        $requests = [
+            $request1,
             null,
-            $this->buildRequest(2),
+            $request2,
             0,
-            $this->buildRequest(6),
-            array()
-        );
+            $request3,
+            []
+        ];
 
         $this->requestSet->setRequests($requests);
 
-        $expected = array($this->buildRequest(5), $this->buildRequest(2), $this->buildRequest(6), new Request(array()));
+        $expected = [$request1, $request2, $request3, new Request([])];
         $this->assertEquals($expected, $this->requestSet->getRequests());
     }
 
-    public function test_getNumberOfRequests_shouldReturnZeroIfNothingSet()
+    public function testGetNumberOfRequestsShouldReturnZeroIfNothingSet()
     {
         $this->assertEquals(0, $this->requestSet->getNumberOfRequests());
     }
 
-    public function test_getNumberOfRequests_shouldReturnNumberOfRequests()
+    public function testGetNumberOfRequestsShouldReturnNumberOfRequests()
     {
         $this->requestSet->setRequests($this->buildRequests(3));
         $this->assertSame(3, $this->requestSet->getNumberOfRequests());
@@ -147,7 +152,7 @@ class RequestSetTest extends UnitTestCase
         $this->assertSame(1, $this->requestSet->getNumberOfRequests());
     }
 
-    public function test_hasRequests_shouldReturnFalse_IfNotInitializedYetOrNoDataSet()
+    public function testHasRequestsShouldReturnFalseIfNotInitializedYetOrNoDataSet()
     {
         $this->assertFalse($this->requestSet->hasRequests());
 
@@ -155,7 +160,7 @@ class RequestSetTest extends UnitTestCase
         $this->assertFalse($this->requestSet->hasRequests());
     }
 
-    public function test_hasRequests_shouldReturnTrue_IfAtLeastOneRequestIsSet()
+    public function testHasRequestsShouldReturnTrueIfAtLeastOneRequestIsSet()
     {
         $this->assertFalse($this->requestSet->hasRequests());
 
@@ -169,19 +174,19 @@ class RequestSetTest extends UnitTestCase
         $this->assertFalse($this->requestSet->hasRequests());
     }
 
-    public function test_getTokenAuth_ShouldReturnFalse_IfNoTokenIsSetAndNoRequestParam()
+    public function testGetTokenAuthShouldReturnFalseIfNoTokenIsSetAndNoRequestParam()
     {
         $this->assertFalse($this->requestSet->getTokenAuth());
     }
 
-    public function test_getTokenAuth_setTokenAuth_shouldOverwriteTheToken()
+    public function testGetTokenAuthSetTokenAuthShouldOverwriteTheToken()
     {
         $this->requestSet->setTokenAuth('MKyKTokenTestIn');
 
         $this->assertEquals('MKyKTokenTestIn', $this->requestSet->getTokenAuth());
     }
 
-    public function test_getTokenAuth_setTokenAuth_shouldBePossibleToClearASetToken()
+    public function testGetTokenAuthSetTokenAuthShouldBePossibleToClearASetToken()
     {
         $this->requestSet->setTokenAuth('MKyKTokenTestIn');
         $this->assertNotEmpty($this->requestSet->getTokenAuth());
@@ -190,7 +195,7 @@ class RequestSetTest extends UnitTestCase
         $this->assertFalse($this->requestSet->getTokenAuth()); // does now fallback to get param
     }
 
-    public function test_getTokenAuth_ShouldFallbackToRequestParam_IfNoTokenSet()
+    public function testGetTokenAuthShouldFallbackToRequestParamIfNoTokenSet()
     {
         $_GET['token_auth'] = 'MyTokenAuthTest';
 
@@ -199,7 +204,7 @@ class RequestSetTest extends UnitTestCase
         unset($_GET['token_auth']);
     }
 
-    public function test_getEnvironment_shouldReturnCurrentServerVar()
+    public function testGetEnvironmentShouldReturnCurrentServerVar()
     {
         $this->assertEquals(array(
             'server' => $_SERVER,
@@ -207,21 +212,21 @@ class RequestSetTest extends UnitTestCase
         ), $this->requestSet->getEnvironment());
     }
 
-    public function test_intertnalFakeEnvironment_shouldActuallyReturnAValue()
+    public function testIntertnalFakeEnvironmentShouldActuallyReturnAValue()
     {
         $myEnv = $this->getFakeEnvironment();
         self::assertIsArray($myEnv);
         $this->assertNotEmpty($myEnv);
     }
 
-    public function test_setEnvironment_shouldOverwriteAnEnvironment()
+    public function testSetEnvironmentShouldOverwriteAnEnvironment()
     {
         $this->requestSet->setEnvironment($this->getFakeEnvironment());
 
         $this->assertEquals($this->getFakeEnvironment(), $this->requestSet->getEnvironment());
     }
 
-    public function test_restoreEnvironment_shouldRestoreAPreviouslySetEnvironment()
+    public function testRestoreEnvironmentShouldRestoreAPreviouslySetEnvironment()
     {
         $serverBackup = $_SERVER;
         $cookieBackup = $_COOKIE;
@@ -236,7 +241,7 @@ class RequestSetTest extends UnitTestCase
         $_COOKIE = $cookieBackup;
     }
 
-    public function test_rememberEnvironment_shouldSaveCurrentEnvironment()
+    public function testRememberEnvironmentShouldSaveCurrentEnvironment()
     {
         $expected = array('server' => $_SERVER, 'cookie' => $_COOKIE);
 
@@ -250,7 +255,7 @@ class RequestSetTest extends UnitTestCase
         $this->assertEquals($expected['cookie'], $_COOKIE);
     }
 
-    public function test_getState_shouldReturnCurrentStateOfRequestSet()
+    public function testGetStateShouldReturnCurrentStateOfRequestSet()
     {
         $this->requestSet->setRequests($this->buildRequests(2));
         $this->requestSet->setTokenAuth('mytoken');
@@ -271,7 +276,7 @@ class RequestSetTest extends UnitTestCase
         $this->assertEquals(array('server' => $_SERVER, 'cookie' => $_COOKIE), $state['env']);
     }
 
-    public function test_getState_shouldRememberAnyAddedParamsFromRequestConstructor()
+    public function testGetStateShouldRememberAnyAddedParamsFromRequestConstructor()
     {
         $_SERVER['HTTP_REFERER'] = 'test';
 
@@ -294,7 +299,7 @@ class RequestSetTest extends UnitTestCase
         $this->assertEquals(array('idsite' => 1, 'url' => 'test'), $requests[0]->getParams());
     }
 
-    public function test_restoreState_shouldRestoreRequestSet()
+    public function testRestoreStateShouldRestoreRequestSet()
     {
         $serverBackup = $_SERVER;
 
@@ -330,7 +335,7 @@ class RequestSetTest extends UnitTestCase
         $this->assertSame($serverBackup, $_SERVER);
     }
 
-    public function test_restoreState_ifRequestWasEmpty_ShouldBeStillEmptyWhenRestored()
+    public function testRestoreStateIfRequestWasEmptyShouldBeStillEmptyWhenRestored()
     {
         $_SERVER['HTTP_REFERER'] = 'test';
 
@@ -346,7 +351,7 @@ class RequestSetTest extends UnitTestCase
         $this->assertTrue($requests[0]->isEmptyRequest());
     }
 
-    public function test_restoreState_shouldResetTheStoredEnvironmentBeforeRestoringRequests()
+    public function testRestoreStateShouldResetTheStoredEnvironmentBeforeRestoringRequests()
     {
         $this->requestSet->setRequests(array(new Request(array())));
         $state = $this->requestSet->getState();

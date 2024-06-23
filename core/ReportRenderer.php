@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik;
@@ -23,20 +22,20 @@ use Piwik\Plugins\ImageGraph\API;
  */
 abstract class ReportRenderer extends BaseFactory
 {
-    const DEFAULT_REPORT_FONT_FAMILY = 'dejavusans';
-    const REPORT_TEXT_COLOR = "13,13,13";
-    const REPORT_TITLE_TEXT_COLOR = "13,13,13";
-    const TABLE_HEADER_BG_COLOR = "255,255,255";
-    const TABLE_HEADER_TEXT_COLOR = "13,13,13";
-    const TABLE_HEADER_TEXT_TRANSFORM = "uppercase";
-    const TABLE_HEADER_TEXT_WEIGHT = "normal";
-    const TABLE_CELL_BORDER_COLOR = "217,217,217";
-    const TABLE_BG_COLOR = "242,242,242";
+    public const DEFAULT_REPORT_FONT_FAMILY = 'dejavusans';
+    public const REPORT_TEXT_COLOR = "13,13,13";
+    public const REPORT_TITLE_TEXT_COLOR = "13,13,13";
+    public const TABLE_HEADER_BG_COLOR = "255,255,255";
+    public const TABLE_HEADER_TEXT_COLOR = "13,13,13";
+    public const TABLE_HEADER_TEXT_TRANSFORM = "uppercase";
+    public const TABLE_HEADER_TEXT_WEIGHT = "normal";
+    public const TABLE_CELL_BORDER_COLOR = "217,217,217";
+    public const TABLE_BG_COLOR = "242,242,242";
 
-    const HTML_FORMAT = 'html';
-    const PDF_FORMAT = 'pdf';
-    const CSV_FORMAT = 'csv';
-    const TSV_FORMAT = 'tsv';
+    public const HTML_FORMAT = 'html';
+    public const PDF_FORMAT = 'pdf';
+    public const CSV_FORMAT = 'csv';
+    public const TSV_FORMAT = 'tsv';
 
     protected $idSite = 'all';
 

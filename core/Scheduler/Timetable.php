@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Scheduler;
@@ -18,8 +18,8 @@ use Piwik\Date;
  */
 class Timetable
 {
-    const TIMETABLE_OPTION_STRING = "TaskScheduler.timetable";
-    const RETRY_OPTION_STRING = "TaskScheduler.retryList";
+    public const TIMETABLE_OPTION_STRING = "TaskScheduler.timetable";
+    public const RETRY_OPTION_STRING = "TaskScheduler.retryList";
 
     private $timetable;
     private $retryList;

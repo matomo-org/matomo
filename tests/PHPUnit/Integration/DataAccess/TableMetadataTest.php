@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Integration\DataAccess;
 
 use Piwik\Common;
@@ -28,7 +30,7 @@ class TableMetadataTest extends IntegrationTestCase
         $this->tableMetadataAccess = new TableMetadata();
     }
 
-    public function test_getColumns_CorrectlyReturnsListOfColumnNames()
+    public function testGetColumnsCorrectlyReturnsListOfColumnNames()
     {
         $expectedColumns = array('option_name', 'option_value', 'autoload');
         $columns = $this->tableMetadataAccess->getColumns(Common::prefixTable('option'));
@@ -38,7 +40,7 @@ class TableMetadataTest extends IntegrationTestCase
     /**
      * @dataProvider getTablesWithIdActionColumnsToTest
      */
-    public function test_getIdActionColumnNames_CorrectlyReturnsColumnsWithIdActionName($table, $expectedColumns)
+    public function testGetIdActionColumnNamesCorrectlyReturnsColumnsWithIdActionName($table, $expectedColumns)
     {
         $columns = $this->tableMetadataAccess->getIdActionColumnNames(Common::prefixTable($table));
         $this->assertEquals($expectedColumns, $columns);

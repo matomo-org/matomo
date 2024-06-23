@@ -1,7 +1,7 @@
 {
     "VisitorInterest": {
         "BetweenXYMinutes": "%1$s-%2$s min",
-        "BetweenXYSeconds": "%1$s-%2$ss",
+        "BetweenXYSeconds": "%1$s–%2$ss",
         "ColumnPagesPerVisit": "Liczba stron w czasie wizyty",
         "ColumnVisitDuration": "Czas trwania odwiedzin",
         "Engagement": "Zaangażowanie",
@@ -10,7 +10,6 @@
         "PluginDescription": "Raporty zaangażowania użytkowników: liczba odwiedzonych stron, czas trwania odwiedzin w serwisie, dni od ostatniej wizyty i więcej.",
         "VisitNum": "Liczba wizyt",
         "VisitsByDaysSinceLast": "Odwiedziny wg. dni od ostatnich odwiedzin",
-        "visitsByVisitCount": "Odwiedziny wg. liczby odwiedzin",
         "VisitsPerDuration": "Odwiedziny do czasu trwania wizyty",
         "VisitsPerNbOfPages": "Odwiedziny do liczby odwiedzonych stron",
         "WidgetLengths": "Czas wizyt",
@@ -19,6 +18,7 @@
         "WidgetPagesDocumentation": "Ten raport zawiera zestawienie liczby odwiedzin, podczas których odwiedzono określoną liczbę stron. Wstępnie raport ten ma postać chmury tagów, a najpopularniejsze wartości wyróżnia większa czcionka.",
         "WidgetVisitsByDaysSinceLast": "Odwiedziny do liczby dni od ostatniej wizyty",
         "WidgetVisitsByDaysSinceLastDocumentation": "Raport ten prezentuje liczbę ponownych wizyt wykonanych przez użytkowników po upływie liczby dni.",
-        "WidgetVisitsByNumDocumentation": "Raport prezentuje liczbę wizyt, które złożone były n-ty raz, tzn. odwiedzających, którzy odwiedzili Twój serwis po raz n-ty."
+        "WidgetVisitsByNumDocumentation": "Raport prezentuje liczbę wizyt, które złożone były n-ty raz, tzn. odwiedzających, którzy odwiedzili Twój serwis po raz n-ty.",
+        "visitsByVisitCount": "Odwiedziny wg. liczby odwiedzin"
     }
 }

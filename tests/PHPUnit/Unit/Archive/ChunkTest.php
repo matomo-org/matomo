@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Archive;
@@ -31,7 +32,7 @@ class ChunkTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getRecordNameForTableIdDataProvider
      */
-    public function test_getRecordNameForTableId_shouldSplitChunksIntoBitsOf100($expectedChunk, $tableId)
+    public function testGetRecordNameForTableIdShouldSplitChunksIntoBitsOf100($expectedChunk, $tableId)
     {
         $this->assertEquals($this->recordName . '_chunk_' . $expectedChunk, $this->chunk->getRecordNameForTableId($this->recordName, $tableId));
     }
@@ -57,7 +58,7 @@ class ChunkTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider isRecordNameAChunkDataProvider
      */
-    public function test_isRecordNameAChunk_shouldSplitChunksIntoBitsOf100($isChunk, $recordName)
+    public function testIsRecordNameAChunkShouldSplitChunksIntoBitsOf100($isChunk, $recordName)
     {
         $this->assertSame($isChunk, $this->chunk->isRecordNameAChunk($recordName));
     }
@@ -80,7 +81,7 @@ class ChunkTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_moveArchiveBlobsIntoChunks_NoChunksGiven()
+    public function testMoveArchiveBlobsIntoChunksNoChunksGiven()
     {
         $this->assertSame(array(), $this->chunk->moveArchiveBlobsIntoChunks($this->recordName, array()));
     }
@@ -88,7 +89,7 @@ class ChunkTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider isRecordNameAChunkDataProvider
      */
-    public function test_moveArchiveBlobsIntoChunks_shouldSplitBlobsIntoChunks()
+    public function testMoveArchiveBlobsIntoChunksShouldSplitBlobsIntoChunks()
     {
         $array = array_fill(0, 245, 'test');
         $expected = array(
@@ -103,7 +104,7 @@ class ChunkTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getRecordNameWithoutChunkAppendixDataProvider
      */
-    public function test_getRecordNameWithoutChunkAppendix_shouldSplitChunksIntoBitsOf100($realName, $recordName)
+    public function testGetRecordNameWithoutChunkAppendixShouldSplitChunksIntoBitsOf100($realName, $recordName)
     {
         $this->assertSame($realName, $this->chunk->getRecordNameWithoutChunkAppendix($recordName));
     }

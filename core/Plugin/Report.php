@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugin;
 
 use Piwik\API\Proxy;
@@ -45,13 +46,13 @@ class Report
     /**
      * The sub-namespace name in a plugin where Report components are stored.
      */
-    const COMPONENT_SUBNAMESPACE = 'Reports';
+    public const COMPONENT_SUBNAMESPACE = 'Reports';
 
     /**
      * When added to the menu, a given report eg 'getCampaigns'
      * will be routed as &action=menuGetCampaigns
      */
-    const PREFIX_ACTION_IN_MENU = 'menu';
+    public const PREFIX_ACTION_IN_MENU = 'menu';
 
     /**
      * The name of the module which is supposed to be equal to the name of the plugin. The module is detected

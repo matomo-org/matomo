@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -37,7 +38,7 @@ class DbTest extends IntegrationTestCase
     }
 
     // this test is for PDO which will fail if execute() is called w/ a null param value
-    public function test_insertWithNull()
+    public function testInsertWithNull()
     {
         $GLOBALS['abc'] = 1;
         $table = Common::prefixTable('testtable');
@@ -60,30 +61,30 @@ class DbTest extends IntegrationTestCase
         $this->assertEquals($expected, $values);
     }
 
-    public function test_getColumnNamesFromTable()
+    public function testGetColumnNamesFromTable()
     {
         $this->assertColumnNames('access', array('idaccess', 'login', 'idsite', 'access'));
         $this->assertColumnNames('option', array('option_name', 'option_value', 'autoload'));
     }
 
-    public function test_getDb()
+    public function testGetDb()
     {
         $db = Db::get();
         $this->assertNotEmpty($db);
         $this->assertTrue($db instanceof Db\AdapterInterface);
     }
 
-    public function test_hasReaderDatabaseObject_byDefaultNotInUse()
+    public function testHasReaderDatabaseObjectByDefaultNotInUse()
     {
         $this->assertFalse(Db::hasReaderDatabaseObject());
     }
 
-    public function test_hasReaderConfigured_byDefaultNotConfigured()
+    public function testHasReaderConfiguredByDefaultNotConfigured()
     {
         $this->assertFalse(Db::hasReaderConfigured());
     }
 
-    public function test_getReader_whenNotConfigured_StillReturnsRegularDbConnection()
+    public function testGetReaderWhenNotConfiguredStillReturnsRegularDbConnection()
     {
         $this->assertFalse(Db::hasReaderConfigured());// ensure no reader is configured
         $db = Db::getReader();
@@ -91,7 +92,7 @@ class DbTest extends IntegrationTestCase
         $this->assertTrue($db instanceof Db\AdapterInterface);
     }
 
-    public function test_withReader()
+    public function testWithReader()
     {
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
@@ -107,7 +108,7 @@ class DbTest extends IntegrationTestCase
         $this->assertFalse(Db::hasReaderDatabaseObject());
     }
 
-    public function test_withReader_createsDifferentConnectionForDb()
+    public function testWithReaderCreatesDifferentConnectionForDb()
     {
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
@@ -115,7 +116,7 @@ class DbTest extends IntegrationTestCase
         $this->assertNotSame($db->getConnection(), Db::get()->getConnection());
     }
 
-    public function test_withoutReader_usesSameDbConnection()
+    public function testWithoutReaderUsesSameDbConnection()
     {
         $this->assertFalse(Db::hasReaderConfigured());
         $this->assertFalse(Db::hasReaderDatabaseObject());
@@ -124,7 +125,7 @@ class DbTest extends IntegrationTestCase
         $this->assertSame($db->getConnection(), Db::get()->getConnection());
     }
 
-    public function test_withReader_canReconnectToWriterIfServerHasGoneAway(): void
+    public function testWithReaderCanReconnectToWriterIfServerHasGoneAway(): void
     {
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
@@ -136,7 +137,7 @@ class DbTest extends IntegrationTestCase
         self::assertNotSame($connectionId, $reconnectionId);
     }
 
-    public function test_withReader_doesNotInterceptNonGoneAwayErrors(): void
+    public function testWithReaderDoesNotInterceptNonGoneAwayErrors(): void
     {
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
@@ -165,7 +166,7 @@ class DbTest extends IntegrationTestCase
         self::assertSame($expectedConnectionId, $connectionId);
     }
 
-    public function test_withoutReader_doesNotReconnectIfServerHasGoneAway(): void
+    public function testWithoutReaderDoesNotReconnectIfServerHasGoneAway(): void
     {
         $this->setUpMySQLHasGoneAwayConnection();
 
@@ -200,7 +201,7 @@ class DbTest extends IntegrationTestCase
     /**
      * @dataProvider getIsOptimizeInnoDBTestData
      */
-    public function test_isOptimizeInnoDBSupported_ReturnsCorrectResult($version, $expectedResult)
+    public function testIsOptimizeInnoDBSupportedReturnsCorrectResult($version, $expectedResult)
     {
         $result = Db::isOptimizeInnoDBSupported($version);
         $this->assertEquals($expectedResult, $result);
@@ -209,7 +210,7 @@ class DbTest extends IntegrationTestCase
     /**
      * @dataProvider getDbAdapter
      */
-    public function test_SqlMode_IsSet_PDO($adapter, $expectedClass)
+    public function testSqlModeIsSetPDO($adapter, $expectedClass)
     {
         Db::destroyDatabaseObject();
         Config::getInstance()->database['adapter'] = $adapter;
@@ -222,7 +223,7 @@ class DbTest extends IntegrationTestCase
         $this->assertSame($expected, $result);
     }
 
-    public function test_getDbLock_shouldThrowAnException_IfDbLockNameIsTooLong()
+    public function testGetDbLockShouldThrowAnExceptionIfDbLockNameIsTooLong()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('name has to be 64 characters or less');
@@ -230,7 +231,7 @@ class DbTest extends IntegrationTestCase
         Db::getDbLock(str_pad('test', 65, '1'));
     }
 
-    public function test_getDbLock_shouldGetLock()
+    public function testGetDbLockShouldGetLock()
     {
         $db = Db::get();
         $this->assertTrue(Db::getDbLock('MyLock'));
@@ -253,7 +254,7 @@ class DbTest extends IntegrationTestCase
     /**
      * @dataProvider getDbAdapter
      */
-    public function test_getRowCount($adapter, $expectedClass)
+    public function testGetRowCount($adapter, $expectedClass)
     {
         Db::destroyDatabaseObject();
         Config::getInstance()->database['adapter'] = $adapter;

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\DataAccess;
@@ -48,7 +49,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->idSite = Fixture::createWebsite('2019-08-29');
     }
 
-    public function test_finalizeArchive_removesOldArchivesIfNotPartial()
+    public function testFinalizeArchiveRemovesOldArchivesIfNotPartial()
     {
         Date::$now = strtotime('2020-04-05 03:00:00');
 
@@ -77,7 +78,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->assertEquals($expected, $this->getAllColsOfAllNumericRows($date));
     }
 
-    public function test_finalizeArchive_doesNotRemoveOldArchivesIfPartial()
+    public function testFinalizeArchiveDoesNotRemoveOldArchivesIfPartial()
     {
         Date::$now = strtotime('2020-04-05 03:00:00');
 
@@ -108,7 +109,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->assertEquals($expected, $this->getAllColsOfAllNumericRows($date));
     }
 
-    public function test_finaliseArchive_writesArchiveStatusToFile()
+    public function testFinaliseArchiveWritesArchiveStatusToFile()
     {
         $period = 'day';
         $date = '2019-08-29';
@@ -120,7 +121,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->assertNumericArchiveExists(Day::PERIOD_ID, $date, 'done', ArchiveWriter::DONE_OK);
     }
 
-    public function test_initNewArchive_doesNotWiteNewArchiveStatusToFileRightAway()
+    public function testInitNewArchiveDoesNotWiteNewArchiveStatusToFileRightAway()
     {
         $period = 'day';
         $date = '2019-08-29';
@@ -136,7 +137,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->assertNumericArchiveExists(Day::PERIOD_ID, $date, 'done', ArchiveWriter::DONE_ERROR);
     }
 
-    public function test_insertRecord_notFlushedUntilFinaliseCalled()
+    public function testInsertRecordNotFlushedUntilFinaliseCalled()
     {
         $period = 'day';
         $date = '2019-08-29';
@@ -152,7 +153,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->assertNumericArchiveExists(Day::PERIOD_ID, $date, $fieldName, 29);
     }
 
-    public function test_insertRecord_numericAndBlobRecords()
+    public function testInsertRecordNumericAndBlobRecords()
     {
         $period = 'day';
         $date = '2019-08-29';
@@ -171,7 +172,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->assertNumericArchiveNotExists(Day::PERIOD_ID, $date, $blobFieldName);
     }
 
-    public function test_insertRecord_multipleCallsBeforeFlushing()
+    public function testInsertRecordMultipleCallsBeforeFlushing()
     {
         $period = 'day';
         $date = '2019-08-29';
@@ -198,7 +199,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         }
     }
 
-    public function test_insertRecord_flushesAfterFiftyNumericRecords()
+    public function testInsertRecordFlushesAfterFiftyNumericRecords()
     {
         $period = 'day';
         $date = '2019-08-29';

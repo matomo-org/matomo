@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UserCountry\tests\System;
 
 use Piwik\Common;
@@ -59,7 +60,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
         self::$fixture->setLocationProvider('GeoIP2-City.mmdb');
     }
 
-    public function testExecute_ShouldThrowException_IfArgumentIsMissing()
+    public function testExecuteShouldThrowExceptionIfArgumentIsMissing()
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments');
@@ -67,7 +68,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
         $this->executeCommand(null);
     }
 
-    public function testExecute_ShouldReturnMessage_IfDatesAreInvalid()
+    public function testExecuteShouldReturnMessageIfDatesAreInvalid()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('General_ExceptionInvalidDateFormat');
@@ -75,7 +76,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
         $this->executeCommand('test');
     }
 
-    public function testExecute_ShouldReturnEmptyWorkingProcessLogs_IfThereIsNoData()
+    public function testExecuteShouldReturnEmptyWorkingProcessLogsIfThereIsNoData()
     {
         $this->assertRegExp(
             '/Re-attribution for date range: 2014-06-01 to 2014-06-06. 0 visits to process with provider "geoip2php"./',
@@ -83,7 +84,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
         );
     }
 
-    public function testExecute_ShouldReturnLogAfterWorkingWithSomeData()
+    public function testExecuteShouldReturnLogAfterWorkingWithSomeData()
     {
         $result = $this->executeCommand('2010-01-03,2010-06-03');
 

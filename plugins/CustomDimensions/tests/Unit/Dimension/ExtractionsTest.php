@@ -1,12 +1,14 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomDimensions\tests\Unit\Dimension;
+
 use Piwik\Plugins\CustomDimensions\Dimension\Extractions;
 
 /**
@@ -17,7 +19,7 @@ use Piwik\Plugins\CustomDimensions\Dimension\Extractions;
  */
 class ExtractionsTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_check_shouldFailWhenExtractionsIsNotAnArray()
+    public function testCheckShouldFailWhenExtractionsIsNotAnArray()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("extractions has to be an array");
@@ -25,7 +27,7 @@ class ExtractionsTest extends \PHPUnit\Framework\TestCase
         $this->buildExtractions('')->check();
     }
 
-    public function test_check_shouldFailWhenExtractionsDoesNotContainArrays()
+    public function testCheckShouldFailWhenExtractionsDoesNotContainArrays()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Each extraction within extractions has to be an array");
@@ -36,7 +38,7 @@ class ExtractionsTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getInvalidExtraction
      */
-    public function test_check_shouldFailWhenExtractionsDoesNotContainValidExtraction($extraction)
+    public function testCheckShouldFailWhenExtractionsDoesNotContainValidExtraction($extraction)
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Each extraction within extractions must have a key "dimension" and "pattern" only');
@@ -55,7 +57,7 @@ class ExtractionsTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_check_shouldAlsoCheckExtractionAndFailIfValueIsInvalid()
+    public function testCheckShouldAlsoCheckExtractionAndFailIfValueIsInvalid()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invald dimension 'invalId' used in an extraction. Available dimensions are: url, urlparam, action_name");
@@ -65,7 +67,7 @@ class ExtractionsTest extends \PHPUnit\Framework\TestCase
         $this->buildExtractions(array($extraction1, $extraction2))->check();
     }
 
-    public function test_check_shouldNotFailWhenExtractionsDefinitionIsValid()
+    public function testCheckShouldNotFailWhenExtractionsDefinitionIsValid()
     {
         $extraction1 = array('dimension' => 'url', 'pattern' => 'index(.+).html');
         $extraction2 = array('dimension' => 'urlparam', 'pattern' => 'index');

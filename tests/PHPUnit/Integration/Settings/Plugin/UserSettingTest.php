@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Settings\Plugin;
@@ -27,7 +28,7 @@ class UserSettingTest extends IntegrationTestCase
         return new FakeUserSettings();
     }
 
-    public function test_constructor_shouldNotEstablishADatabaseConnection()
+    public function testConstructorShouldNotEstablishADatabaseConnection()
     {
         $this->assertNotDbConnectionCreated();
 
@@ -36,7 +37,7 @@ class UserSettingTest extends IntegrationTestCase
         $this->assertNotDbConnectionCreated();
     }
 
-    public function test_constructor_shouldEstablishADatabaseConnection_AsSoonAsWeGetAValue()
+    public function testConstructorShouldEstablishADatabaseConnectionAsSoonAsWeGetAValue()
     {
         $this->setSuperUser();
         Db::destroyDatabaseObject();
@@ -50,7 +51,7 @@ class UserSettingTest extends IntegrationTestCase
         $this->assertDbConnectionCreated();
     }
 
-    public function test_constructor_shouldEstablishADatabaseConnection_AsSoonAsWeSetAValue()
+    public function testConstructorShouldEstablishADatabaseConnectionAsSoonAsWeSetAValue()
     {
         $this->setSuperUser();
         Db::destroyDatabaseObject();
@@ -66,7 +67,7 @@ class UserSettingTest extends IntegrationTestCase
         $this->assertDbConnectionCreated();
     }
 
-    public function test_setSettingValue_shouldThrowException_IfAnonymousIsTryingToSetASettingWhichNeedsUserPermission()
+    public function testSetSettingValueShouldThrowExceptionIfAnonymousIsTryingToSetASettingWhichNeedsUserPermission()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
@@ -77,7 +78,7 @@ class UserSettingTest extends IntegrationTestCase
         $setting->setValue(2);
     }
 
-    public function test_setSettingValue_shouldSucceed_IfUserIsTryingToSetASettingWhichNeedsUserPermission()
+    public function testSetSettingValueShouldSucceedIfUserIsTryingToSetASettingWhichNeedsUserPermission()
     {
         $this->setUser();
         $setting = $this->buildSetting('mysystem');
@@ -86,7 +87,7 @@ class UserSettingTest extends IntegrationTestCase
         $this->assertSettingHasValue($setting, 2);
     }
 
-    public function test_setSettingValue_shouldCastValue_IfTypeIsSetButNoFilter()
+    public function testSetSettingValueShouldCastValueIfTypeIsSetButNoFilter()
     {
         $this->setUser();
 
@@ -116,7 +117,7 @@ class UserSettingTest extends IntegrationTestCase
         $this->assertSettingHasValue($setting, '31xm42');
     }
 
-    public function test_setSettingValue_shouldApplyFilterAndNotCast_IfAFilterIsSet()
+    public function testSetSettingValueShouldApplyFilterAndNotCastIfAFilterIsSet()
     {
         $this->setUser();
 
@@ -138,7 +139,7 @@ class UserSettingTest extends IntegrationTestCase
         $this->assertSettingHasValue($setting, 43939, 'integer');
     }
 
-    public function test_setSettingValue_shouldValidateAValue_IfAFilterIsSet()
+    public function testSetSettingValueShouldValidateAValueIfAFilterIsSet()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Validation Fail');
@@ -159,7 +160,7 @@ class UserSettingTest extends IntegrationTestCase
         $setting->setValue('31xm42');
     }
 
-    public function test_getSettingValue_shouldReturnUncastedDefaultValue_IfNoValueIsSet()
+    public function testGetSettingValueShouldReturnUncastedDefaultValueIfNoValueIsSet()
     {
         $this->setUser();
 
@@ -170,7 +171,7 @@ class UserSettingTest extends IntegrationTestCase
         $this->assertSettingHasValue($setting, 'mytestvalue', 'string');
     }
 
-    public function test_getSettingValue_shouldReturnValue_IfValueExistsAndUserHasPermission()
+    public function testGetSettingValueShouldReturnValueIfValueExistsAndUserHasPermission()
     {
         $this->setUser();
         $setting = $this->buildSetting('myusersetting', FieldConfig::TYPE_ARRAY);
@@ -179,7 +180,7 @@ class UserSettingTest extends IntegrationTestCase
         $this->assertSettingHasValue($setting, array(2,3,4));
     }
 
-    public function test_save_shouldSaveDifferentValuesForDifferentUsersAndFields()
+    public function testSaveShouldSaveDifferentValuesForDifferentUsersAndFields()
     {
         $login1 = $this->buildSetting('field1', null, '', $login = 'user1');
         $login1->setValue('value1');

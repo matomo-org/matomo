@@ -48,6 +48,8 @@
         "OriginThirdParty": "તૃતીય-પક્ષનું",
         "PluginActivated": "પ્લગઇન સક્રિય કર્યું",
         "PluginFreeTrialStarted": "%1$sતમારું 30 દિવસનું મફત પરીક્ષણ શરૂ થયું છે%2$s %3$s માટે.",
+        "PluginFreeTrialStartedAccountCreatedMessage": "અમે તમારી લાઇસન્સ કી ઉમેરી છે, %1$s માટે 30-દિવસની મફત અજમાયશ શરૂ કરી છે. તમારા પ્લગઇનને ઇન્સ્ટોલ અને સક્રિય કરીને આગળનું પગલું લો.",
+        "PluginFreeTrialStartedAccountCreatedTitle": "તમારું એકાઉન્ટ બનાવવામાં આવ્યું છે",
         "PluginHomepage": "પ્લગઇન હોમપેજ",
         "PluginNotCompatibleWith": "%1$s પ્લગઇન %2$s સાથે સુસંગત નથી.",
         "PluginNotDownloadable": "પ્લગઇન ડાઉનલોડ કરી શકાતું નથી.",

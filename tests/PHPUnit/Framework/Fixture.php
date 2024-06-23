@@ -3,8 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Framework;
@@ -77,20 +77,20 @@ use ReflectionClass;
  */
 class Fixture extends \PHPUnit\Framework\Assert
 {
-    const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
-    const IMAGES_GENERATED_FOR_PHP = '7.2';
-    const IMAGES_GENERATED_FOR_GD = '2.3.3';
-    const DEFAULT_SITE_NAME = 'Piwik test';
+    public const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
+    public const IMAGES_GENERATED_FOR_PHP = '7.2';
+    public const IMAGES_GENERATED_FOR_GD = '2.3.3';
+    public const DEFAULT_SITE_NAME = 'Piwik test';
 
-    const ADMIN_USER_LOGIN = 'superUserLogin';
-    const ADMIN_USER_PASSWORD = 'pas3!"§$%&/()=?\'ㄨ<|-_#*+~>word';
-    const ADMIN_USER_TOKEN = 'c4ca4238a0b923820dcc509a6f75849b';
+    public const ADMIN_USER_LOGIN = 'superUserLogin';
+    public const ADMIN_USER_PASSWORD = 'pas3!"§$%&/()=?\'ㄨ<|-_#*+~>word';
+    public const ADMIN_USER_TOKEN = 'c4ca4238a0b923820dcc509a6f75849b';
 
-    const VIEW_USER_LOGIN = 'viewUserLogin';
-    const VIEW_USER_PASSWORD = 'viewUserPass';
-    const VIEW_USER_TOKEN = 'a4ca4238a0b923820dcc509a6f75849f';
+    public const VIEW_USER_LOGIN = 'viewUserLogin';
+    public const VIEW_USER_PASSWORD = 'viewUserPass';
+    public const VIEW_USER_TOKEN = 'a4ca4238a0b923820dcc509a6f75849f';
 
-    const PERSIST_FIXTURE_DATA_ENV = 'PERSIST_FIXTURE_DATA';
+    public const PERSIST_FIXTURE_DATA_ENV = 'PERSIST_FIXTURE_DATA';
 
     public $dbName = false;
 
@@ -399,6 +399,7 @@ class Fixture extends \PHPUnit\Framework\Assert
         FrontController::$requestId = null;
         Cache::$cache = null;
         Common::$isCliMode = null;
+        Common::$headersSentInTests = [];
         MockFileMethods::reset();
         Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();

@@ -1,8 +1,8 @@
 /*!
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 import './noAdblockFlag';
@@ -25,6 +25,7 @@ export { default as getFormattedEvolution } from './getFormattedEvolution';
 export { default as clone } from './clone';
 export { default as VueEntryContainer } from './VueEntryContainer/VueEntryContainer.vue';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
+export { default as MatomoLoader } from './MatomoLoader/MatomoLoader.vue';
 export * from './translate';
 export * from './externalLink';
 export { default as Alert } from './Alert/Alert.vue';

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\SegmentEditor\tests\System;
@@ -31,9 +32,9 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
      */
     public static $fixture;
 
-    const TEST_SEGMENT = 'browserCode==ff';
+    public const TEST_SEGMENT = 'browserCode==ff';
 
-    public function test_apiOutput_whenCustomSegmentUsed_WithBrowserArchivingDisabled()
+    public function testApiOutputWhenCustomSegmentUsedWithBrowserArchivingDisabled()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -48,7 +49,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         ]);
     }
 
-    public function test_apiOutput_whenRealTimeProcessedSegmentUsed_WithBrowserArchivingDisabled()
+    public function testApiOutputWhenRealTimeProcessedSegmentUsedWithBrowserArchivingDisabled()
     {
         $idSegment = API::getInstance()->add('testsegment', self::TEST_SEGMENT, self::$fixture->idSite, $autoArchive = false);
 
@@ -68,7 +69,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         ]);
     }
 
-    public function test_apiOutput_whenUnprocessedAutoArchiveSegmentUsed_WithBrowserArchivingDisabled()
+    public function testApiOutputWhenUnprocessedAutoArchiveSegmentUsedWithBrowserArchivingDisabled()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -88,7 +89,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         ]);
     }
 
-    public function test_apiOutput_whenUnprocessedAutoArchiveSegmentUsed_WithBrowserArchivingDisabled_AndEncodedSegment()
+    public function testApiOutputWhenUnprocessedAutoArchiveSegmentUsedWithBrowserArchivingDisabledAndEncodedSegment()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -108,7 +109,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         ]);
     }
 
-    public function test_apiOutput_whenPreprocessedSegmentUsed_WithBrowserArchivingDisabled()
+    public function testApiOutputWhenPreprocessedSegmentUsedWithBrowserArchivingDisabled()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -137,7 +138,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         ]);
     }
 
-    public function test_apiOutput_whenPreprocessedCustomSegmentUsed_WithBrowserArchivingDisabled()
+    public function testApiOutputWhenPreprocessedCustomSegmentUsedWithBrowserArchivingDisabled()
     {
         VisitsSummary\API::getInstance()->get(
             self::$fixture->idSite,
@@ -159,7 +160,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         ]);
     }
 
-    public function test_apiOutput_whenPreprocessedSegmentUsed_WithNoData_AndBrowserArchivingDisabled()
+    public function testApiOutputWhenPreprocessedSegmentUsedWithNoDataAndBrowserArchivingDisabled()
     {
         $this->clearLogData();
 
@@ -188,7 +189,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         ]);
     }
 
-    public function test_apiOutput_whenNoLogDataAndUnprocessedSegmentUsed_AndBrowserArchivingDisabled()
+    public function testApiOutputWhenNoLogDataAndUnprocessedSegmentUsedAndBrowserArchivingDisabled()
     {
         $this->clearLogData();
 
@@ -210,7 +211,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         ]);
     }
 
-    public function test_apiOutput_whenMultipleSitesRequested_OneWithDataOneNot_AndBrowserArchivingDisabled()
+    public function testApiOutputWhenMultipleSitesRequestedOneWithDataOneNotAndBrowserArchivingDisabled()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -230,7 +231,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         ]);
     }
 
-    public function test_add_realTimeEnabledInApi_whenRealTimeDisabledInConfig()
+    public function testAddRealTimeEnabledInApiWhenRealTimeDisabledInConfig()
     {
         $this->expectExceptionMessage('Real time segments are disabled. You need to enable auto archiving.');
         $this->expectException(\Exception::class);
@@ -242,7 +243,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         API::getInstance()->add('testsegment', self::TEST_SEGMENT, $idSite = false, $autoArchive = false);
     }
 
-    public function test_add_realTimeEnabledInApi_whenRealTimeEnabledInConfigShouldWork()
+    public function testAddRealTimeEnabledInApiWhenRealTimeEnabledInConfigShouldWork()
     {
         $config = Config::getInstance();
         $general = $config->General;

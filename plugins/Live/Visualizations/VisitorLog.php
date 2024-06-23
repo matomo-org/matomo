@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Live\Visualizations;
 
 use Piwik\Common;
@@ -27,10 +28,10 @@ use Piwik\Tracker\Action;
  */
 class VisitorLog extends Visualization
 {
-    const ID = 'VisitorLog';
-    const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
-    const FOOTER_ICON_TITLE = '';
-    const FOOTER_ICON = '';
+    public const ID = 'VisitorLog';
+    public const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
+    public const FOOTER_ICON_TITLE = '';
+    public const FOOTER_ICON = '';
 
     public static function getDefaultConfig()
     {

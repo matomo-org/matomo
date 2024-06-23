@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugin;
@@ -40,8 +40,8 @@ use Piwik\Updater;
  */
 class Manager
 {
-    const LAST_PLUGIN_ACTIVATION_TIME_OPTION_PREFIX = 'LastPluginActivation.';
-    const LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX = 'LastPluginDeactivation.';
+    public const LAST_PLUGIN_ACTIVATION_TIME_OPTION_PREFIX = 'LastPluginActivation.';
+    public const LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX = 'LastPluginDeactivation.';
 
     /**
      * @return self
@@ -67,12 +67,13 @@ class Manager
     /**
      * Default theme used in Piwik.
      */
-    const DEFAULT_THEME = "Morpheus";
+    public const DEFAULT_THEME = "Morpheus";
 
     protected $doLoadAlwaysActivatedPlugins = true;
 
     // These are always activated and cannot be deactivated
-    protected $pluginToAlwaysActivate = array(
+    protected static $pluginToAlwaysActivate = array(
+        'FeatureFlags',
         'BulkTracking',
         'CoreVue',
         'CoreHome',
@@ -195,7 +196,7 @@ class Manager
     }
 
     // If a plugin hooks onto at least an event starting with "Tracker.", we load the plugin during tracker
-    const TRACKER_EVENT_PREFIX = 'Tracker.';
+    public const TRACKER_EVENT_PREFIX = 'Tracker.';
 
     /**
      * @param $pluginName
@@ -251,7 +252,7 @@ class Manager
      */
     private function isPluginAlwaysActivated($name)
     {
-        return in_array($name, $this->pluginToAlwaysActivate);
+        return in_array($name, self::$pluginToAlwaysActivate);
     }
 
     /**
@@ -701,8 +702,18 @@ class Manager
     {
         Log::debug("Loaded plugins: " . implode(", ", array_keys($this->getLoadedPlugins())));
 
+        $pluginsActivated = $this->pluginList->getActivatedPlugins();
+
         foreach ($this->getLoadedPlugins() as $plugin) {
             $this->installPluginIfNecessary($plugin);
+
+            $pluginName = $plugin->getPluginName();
+
+            // if a new plugin was added that is always activated, ensure activate is called once nevertheless
+            // otherwise the `activate` method of the plugin might never get called.
+            if ($this->isPluginAlwaysActivated($pluginName) && !in_array($pluginName, $pluginsActivated)) {
+                $this->activatePlugin($pluginName);
+            }
         }
     }
 
@@ -1216,6 +1227,16 @@ class Manager
     }
 
     /**
+     * Return the list of plugins that are always activated
+     *
+     * @return string[]
+     */
+    public static function getAlwaysActivatedPlugins(): array
+    {
+        return self::$pluginToAlwaysActivate;
+    }
+
+    /**
      * Loads the plugin filename and instantiates the plugin with the given name, eg. UserCountry.
      * Contrary to loadPlugins() it does not activate the plugin, it only loads it.
      *
@@ -1715,7 +1736,7 @@ class Manager
     {
         $pluginsToLoad = array_unique($pluginsToLoad);
         if ($this->doLoadAlwaysActivatedPlugins) {
-            $pluginsToLoad = array_merge($pluginsToLoad, $this->pluginToAlwaysActivate);
+            $pluginsToLoad = array_merge($pluginsToLoad, self::$pluginToAlwaysActivate);
         }
         $pluginsToLoad = array_unique($pluginsToLoad);
         $pluginsToLoad = $this->pluginList->sortPlugins($pluginsToLoad);

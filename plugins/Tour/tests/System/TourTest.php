@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Tour\tests\System;
 
 use Piwik\API\Request;
@@ -35,7 +36,7 @@ class TourTest extends SystemTestCase
         parent::setUp();
     }
 
-    public function test_hasCreatedGoal()
+    public function testHasCreatedGoal()
     {
         $goal = StaticContainer::get(ChallengeCreatedGoal::class);
 
@@ -48,7 +49,7 @@ class TourTest extends SystemTestCase
         $this->assertTrue($goal->isCompleted(Piwik::getCurrentUserLogin()));
     }
 
-    public function test_hasAddedUser()
+    public function testHasAddedUser()
     {
         $user = StaticContainer::get(ChallengeInvitedUser::class);
         $this->assertFalse($user->isCompleted(Piwik::getCurrentUserLogin()));
@@ -58,7 +59,7 @@ class TourTest extends SystemTestCase
         $this->assertTrue($user->isCompleted(Piwik::getCurrentUserLogin()));
     }
 
-    public function test_hasAddedAnnotation()
+    public function testHasAddedAnnotation()
     {
         $annotation = StaticContainer::get(ChallengeAddedAnnotation::class);
         $this->assertFalse($annotation->isCompleted(Piwik::getCurrentUserLogin()));

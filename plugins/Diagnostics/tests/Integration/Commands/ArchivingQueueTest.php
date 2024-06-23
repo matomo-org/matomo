@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Diagnostics\tests\Integration\Commands;
@@ -37,7 +38,7 @@ class ArchivingQueueTest extends ConsoleCommandTestCase
         Date::$now = strtotime('2010-03-07 06:00:00');
     }
 
-    public function test_CommandOutput_IsAsExpected()
+    public function testCommandOutputIsAsExpected()
     {
         $expected = <<<OUTPUT
 +--------------+---------+------+--------+-------------------------+---------------------+---------------+---------+------------+--------+
@@ -58,7 +59,7 @@ OUTPUT;
         $this->assertStringMatchesFormat($expected, $actual);
     }
 
-    public function test_CommandOutput_withJsonOption_IsAsExpected()
+    public function testCommandOutputWithJsonOptionIsAsExpected()
     {
         $expected = '[{"Invalidation":1,"Segment":null,"Site":1,"Period":"Day","Date":"2010-03-06","TimeQueued":"2010-03-07 01:00:00","Waiting":18000,"Started":null,"Processing":"","Status":"Queued"},{"Invalidation":2,"Segment":null,"Site":1,"Period":"Week","Date":"2010-03-01 - 2010-03-07","TimeQueued":"2010-03-07 01:00:00","Waiting":18000,"Started":null,"Processing":"","Status":"Queued"},{"Invalidation":3,"Segment":null,"Site":1,"Period":"Month","Date":"2010-03","TimeQueued":"2010-03-07 01:00:00","Waiting":18000,"Started":null,"Processing":"","Status":"Queued"},{"Invalidation":4,"Segment":null,"Site":1,"Period":"Year","Date":"2010","TimeQueued":"2010-03-07 01:00:00","Waiting":18000,"Started":null,"Processing":"","Status":"Queued"}]';
         $this->applicationTester->run(array(

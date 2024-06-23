@@ -1,13 +1,13 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link http://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Feedback\tests\Unit;
-
 
 use Piwik\Date;
 use Piwik\Option;
@@ -77,7 +77,7 @@ class FeedbackTest extends IntegrationTestCase
     }
 
 
-    public function test_shouldPromptForFeedback_AnonymousUser()
+    public function testShouldPromptForFeedbackAnonymousUser()
     {
         FakeAccess::$identity = '';
 
@@ -85,40 +85,40 @@ class FeedbackTest extends IntegrationTestCase
     }
 
 
-    public function test_shouldPromptForFeedback_dontRemindUserAgain()
+    public function testShouldPromptForFeedbackDontRemindUserAgain()
     {
         Option::set('Feedback.nextFeedbackReminder.user1', '-1');
 
         $this->assertFalse($this->feedback->showQuestionBanner());
     }
 
-    public function test_shouldPromptForFeedback_nextReminderDateInPast()
+    public function testShouldPromptForFeedbackNextReminderDateInPast()
     {
         FakeAccess::$identity = 'user1';
         Option::set('Feedback.nextFeedbackReminder.user1', '2019-05-31');
         $this->assertTrue($this->feedback->showQuestionBanner());
     }
 
-    public function test_shouldPromptForFeedack_nextReminderDateToday()
+    public function testShouldPromptForFeedackNextReminderDateToday()
     {
         Option::set('Feedback.nextFeedbackReminder.user1', '2018-10-31');
         $this->assertTrue($this->feedback->showQuestionBanner());
     }
 
-    public function test_shouldPromptForFeedback_user_oldThanHalfYear()
+    public function testShouldPromptForFeedbackUserOldThanHalfYear()
     {
         FakeAccess::$identity = 'user1';
         Option::deleteLike('Feedback.nextFeedbackReminder.user1');
         $this->assertFalse($this->feedback->showQuestionBanner());
     }
 
-    public function test_shouldNotPromptForFeedback_user_LessThanHalfYear()
+    public function testShouldNotPromptForFeedbackUserLessThanHalfYear()
     {
         FakeAccess::$identity = 'user2';
         $this->assertFalse($this->feedback->showQuestionBanner());
     }
 
-    public function test_shouldSendFeedbackForFeature()
+    public function testShouldSendFeedbackForFeature()
     {
         $api = API::getInstance();
 

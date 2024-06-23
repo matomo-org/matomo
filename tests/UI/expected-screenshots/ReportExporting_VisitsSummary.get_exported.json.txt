@@ -1,1 +1,1 @@
-{"2008":[],"2009":[],"2010":[],"2011":[],"2012":{"nb_visits":394,"nb_actions":845,"nb_visits_converted":278,"bounce_count":231,"sum_visit_length":123307,"max_actions":20,"bounce_rate":"59%","nb_actions_per_visit":2.1,"avg_time_on_site":"5 min 13s"}}
+{"2008":[],"2009":[],"2010":[],"2011":[],"2012":{"nb_visits":390,"nb_actions":887,"nb_visits_converted":274,"bounce_count":220,"sum_visit_length":122103,"max_actions":20,"bounce_rate":"56%","nb_actions_per_visit":2.3,"avg_time_on_site":"5 min 13s"}}

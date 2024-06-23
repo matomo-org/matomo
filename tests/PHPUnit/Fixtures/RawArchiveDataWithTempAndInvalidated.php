@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -22,7 +24,7 @@ use Piwik\Tests\Framework\Fixture;
  */
 class RawArchiveDataWithTempAndInvalidated extends Fixture
 {
-    const ROWS_PER_ARCHIVE = 5;
+    public const ROWS_PER_ARCHIVE = 5;
 
     private static $dummyArchiveData = array(
         // outdated temporary

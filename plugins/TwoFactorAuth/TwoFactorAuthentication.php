@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\TwoFactorAuth;
 
 use Piwik\Common;
@@ -21,14 +23,14 @@ require_once PIWIK_DOCUMENT_ROOT . '/libs/Authenticator/TwoFactorAuthenticator.p
 
 class TwoFactorAuthentication
 {
-    const OPTION_PREFIX_TWO_FA_CODE_USED = 'twofa_codes_used_';
+    public const OPTION_PREFIX_TWO_FA_CODE_USED = 'twofa_codes_used_';
 
     /**
      * Make sure the same fa code was not used in the last X minutes.
      * Technically, even 2 minutes be fine since every token is only valid for 30 sec and we only allow the 2 most
      * recent tokens.
      */
-    const BLOCK_TWOFA_CODE_MINUTES = 10;
+    public const BLOCK_TWOFA_CODE_MINUTES = 10;
 
     /**
      * @var SystemSettings

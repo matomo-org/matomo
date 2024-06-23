@@ -4,7 +4,7 @@
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Goals\tests\System;
@@ -95,7 +95,7 @@ class TrackGoalsPagesTest extends SystemTestCase
      *
      * @dataProvider getConversionPagesBeforeExpected
      */
-    public function test_conversionPagesBeforeValues($id, $expected)
+    public function testConversionPagesBeforeValues($id, $expected)
     {
         $actual = Db::get()->fetchOne('SELECT pageviews_before FROM ' . Common::prefixTable('log_conversion') .
                                       ' WHERE idlink_va = ?', [$id]);

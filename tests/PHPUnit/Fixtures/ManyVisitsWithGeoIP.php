@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Cache;
@@ -26,7 +28,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvide
  */
 class ManyVisitsWithGeoIP extends Fixture
 {
-    const GEOIP_IMPL_TO_TEST = 'geoip2php';
+    public const GEOIP_IMPL_TO_TEST = 'geoip2php';
 
     public $idSite = 1;
     public $dateTime = '2010-01-03 11:22:33';
@@ -156,7 +158,7 @@ class ManyVisitsWithGeoIP extends Fixture
         }
 
         // first visit
-        $date = Date::factory($this->dateTime)->addDay($visitorCounter);
+        $date = Date::factory($this->dateTime)->addDay($visitorCounter)->addPeriod($fixtureCounter, 'second');
         $t->setForceVisitDateTime($date->getDatetime());
         $t->setUrl("http://piwik.net/grue/lair");
         $t->setCustomVariable(1, 'Cvar 1 name', 'Cvar1 value is ' . $visitorCounter, 'visit');

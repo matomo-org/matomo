@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Marketplace\tests\System\Api;
@@ -23,26 +24,26 @@ class ServiceTest extends SystemTestCase
 {
     private $domain = 'http://plugins.piwik.org';
 
-    public function test_shouldUseVersion2()
+    public function testShouldUseVersion2()
     {
         $service = $this->buildService();
         $this->assertSame('2.0', $service->getVersion());
     }
 
-    public function test_getDomain_shouldReturnPassedDomain()
+    public function testGetDomainShouldReturnPassedDomain()
     {
         $service = $this->buildService();
         $this->assertSame($this->domain, $service->getDomain());
     }
 
-    public function test_authenticate_getAccessToken_shouldSaveToken_IfOnlyHasAlNumValues()
+    public function testAuthenticateGetAccessTokenShouldSaveTokenIfOnlyHasAlNumValues()
     {
         $service = $this->buildService();
         $service->authenticate('123456789abcdefghij');
         $this->assertSame('123456789abcdefghij', $service->getAccessToken());
     }
 
-    public function test_hasAccessToken()
+    public function testHasAccessToken()
     {
         $service = $this->buildService();
         $this->assertFalse($service->hasAccessToken());
@@ -50,21 +51,21 @@ class ServiceTest extends SystemTestCase
         $this->assertTrue($service->hasAccessToken());
     }
 
-    public function test_authenticate_getAccessToken_emptyTokenShouldUnsetToken()
+    public function testAuthenticateGetAccessTokenEmptyTokenShouldUnsetToken()
     {
         $service = $this->buildService();
         $service->authenticate('');
         $this->assertNull($service->getAccessToken());
     }
 
-    public function test_authenticate_getAccessToken_invalidTokenContainingInvalidCharactersShouldBeIgnored()
+    public function testAuthenticateGetAccessTokenInvalidTokenContainingInvalidCharactersShouldBeIgnored()
     {
         $service = $this->buildService();
         $service->authenticate('123_-4?');
         $this->assertNull($service->getAccessToken());
     }
 
-    public function test_fetch_shouldCallMarketplaceApiWithActionAndReturnArrays()
+    public function testFetchShouldCallMarketplaceApiWithActionAndReturnArrays()
     {
         $service = $this->buildService();
         $response = $service->fetch('plugins', array());
@@ -77,7 +78,7 @@ class ServiceTest extends SystemTestCase
         }
     }
 
-    public function test_fetch_shouldCallMarketplaceApiWithGivenParamsAndReturnArrays()
+    public function testFetchShouldCallMarketplaceApiWithGivenParamsAndReturnArrays()
     {
         $keyword = 'login';
         $service = $this->buildService();
@@ -89,7 +90,7 @@ class ServiceTest extends SystemTestCase
         }
     }
 
-    public function test_fetch_shouldThrowException_WhenNotBeingAuthenticated()
+    public function testFetchShouldThrowExceptionWhenNotBeingAuthenticated()
     {
         $this->expectException(\Piwik\Plugins\Marketplace\Api\Service\Exception::class);
         $this->expectExceptionCode(101);
@@ -99,7 +100,7 @@ class ServiceTest extends SystemTestCase
         $service->fetch('consumer', array());
     }
 
-    public function test_fetch_shouldThrowException_WhenBeingAuthenticatedWithInvalidTokens()
+    public function testFetchShouldThrowExceptionWhenBeingAuthenticatedWithInvalidTokens()
     {
         $this->expectException(\Piwik\Plugins\Marketplace\Api\Service\Exception::class);
         $this->expectExceptionCode(101);
@@ -110,7 +111,7 @@ class ServiceTest extends SystemTestCase
         $service->fetch('consumer', array());
     }
 
-    public function test_download_shouldReturnRawResultForAbsoluteUrl()
+    public function testDownloadShouldReturnRawResultForAbsoluteUrl()
     {
         $service = $this->buildService();
         $response = $service->download($this->domain . '/api/2.0/plugins');
@@ -120,7 +121,7 @@ class ServiceTest extends SystemTestCase
         $this->assertStringStartsWith('{"plugins"', $response);
     }
 
-    public function test_download_shouldSaveResultInFileIfPathGiven()
+    public function testDownloadShouldSaveResultInFileIfPathGiven()
     {
         $path = StaticContainer::get('path.tmp') . '/marketplace_test_file.json';
 
@@ -138,7 +139,7 @@ class ServiceTest extends SystemTestCase
         Filesystem::deleteFileIfExists($path);
     }
 
-    public function test_timeout_invalidService_ShouldFailIfNotReachable()
+    public function testTimeoutInvalidServiceShouldFailIfNotReachable()
     {
         // The exact exception may vary depending on the connection backend being used (curl, sockets, fopen, etc), so
         // we just check that some exception is thrown when the method is passed an invalid domain

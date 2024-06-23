@@ -1,16 +1,20 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
 use Exception;
 use Piwik\Container\StaticContainer;
+use Piwik\Mail;
+use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\API;
+use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
 use Piwik\Plugins\UsersManager\SystemSettings;
@@ -52,7 +56,7 @@ class ApiTest extends IntegrationTestCase
         $this->setSuperUser();
     }
 
-    public function test_createAccount_shouldSucceedIfMarketplaceCallsDidNotFail(): void
+    public function testCreateAccountShouldSucceedIfMarketplaceCallsDidNotFail(): void
     {
         $this->assertNotHasLicenseKey();
 
@@ -73,7 +77,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertHasLicenseKey();
     }
 
-    public function test_createAccount_requiresSuperUserAccess_IfUser()
+    public function testCreateAccountRequiresSuperUserAccessIfUser()
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess');
@@ -82,7 +86,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->createAccount('test@matomo.org');
     }
 
-    public function test_createAccount_requiresSuperUserAccess_IfAnonymous(): void
+    public function testCreateAccountRequiresSuperUserAccessIfAnonymous(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess');
@@ -91,7 +95,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->createAccount('test@matomo.org');
     }
 
-    public function test_createAccount_shouldThrowException_ifLicenseKeyIsAlreadySet(): void
+    public function testCreateAccountShouldThrowExceptionIfLicenseKeyIsAlreadySet(): void
     {
         $this->buildLicenseKey()->set('key');
 
@@ -101,7 +105,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->createAccount('test@matomo.org');
     }
 
-    public function test_createAccount_shouldThrowException_ifEmailIsEmpty(): void
+    public function testCreateAccountShouldThrowExceptionIfEmailIsEmpty(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('General_ValidatorErrorEmptyValue');
@@ -109,7 +113,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->createAccount('');
     }
 
-    public function test_createAccount_shouldThrowException_ifEmailIsInvalid(): void
+    public function testCreateAccountShouldThrowExceptionIfEmailIsInvalid(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Marketplace_CreateAccountErrorEmailInvalid');
@@ -117,7 +121,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->createAccount('invalid.email@');
     }
 
-    public function test_createAccount_shouldThrowException_ifEmailIsNotAllowed(): void
+    public function testCreateAccountShouldThrowExceptionIfEmailIsNotAllowed(): void
     {
         $settings = StaticContainer::get(SystemSettings::class);
         $settings->allowedEmailDomains->setValue(['example.org']);
@@ -131,7 +135,7 @@ class ApiTest extends IntegrationTestCase
     /**
      * @dataProvider dataCreateAccountErrorDownloadResponses
      */
-    public function test_createAccount_shouldThrowException_ifSomethingGoesWrong(
+    public function testCreateAccountShouldThrowExceptionIfSomethingGoesWrong(
         array $responseInfo,
         string $expectedException,
         string $expectedExceptionMessage
@@ -199,7 +203,7 @@ class ApiTest extends IntegrationTestCase
         ];
     }
 
-    public function test_deleteLicenseKey_requiresSuperUserAccess_IfUser()
+    public function testDeleteLicenseKeyRequiresSuperUserAccessIfUser()
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess');
@@ -208,7 +212,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->deleteLicenseKey();
     }
 
-    public function test_deleteLicenseKey_requiresSuperUserAccess_IfAnonymous()
+    public function testDeleteLicenseKeyRequiresSuperUserAccessIfAnonymous()
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess');
@@ -217,7 +221,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->deleteLicenseKey();
     }
 
-    public function test_deleteLicenseKey_shouldRemoveAnExistingKey()
+    public function testDeleteLicenseKeyShouldRemoveAnExistingKey()
     {
         $this->buildLicenseKey()->set('key');
         $this->assertHasLicenseKey();
@@ -227,7 +231,58 @@ class ApiTest extends IntegrationTestCase
         $this->assertNotHasLicenseKey();
     }
 
-    public function test_saveLicenseKey_requiresSuperUserAccess_IfUser()
+    public function testRequestTrialRequiresRegularUserAccessIfSuperUser()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Cannot request trial as a super user');
+
+        $this->api->requestTrial('testPlugin');
+    }
+
+    public function testRequestTrialRequiresRegularUserAccessIfAnonymous(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('General_YouMustBeLoggedIn');
+
+        $this->setAnonymousUser();
+        $this->api->requestTrial('testPlugin');
+    }
+
+    public function testRequestTrialRequiresValidPluginName(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Invalid plugin name given');
+
+        $this->setUser();
+        $this->api->requestTrial('this/is/not/valid');
+    }
+
+    public function testRequestTrialSendsEmailToAllSuperUsers(): void
+    {
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$sentMail) {
+            $sentMail = $mail;
+        });
+
+        $this->setUser();
+
+        self::assertTrue($this->api->requestTrial('testPlugin'));
+
+        self::assertNotNull($sentMail);
+        self::assertInstanceOf(RequestTrialNotificationEmail::class, $sentMail);
+        self::assertSame(['hello@example.org' => ''], $sentMail->getRecipients());
+
+        self::assertSame(
+            'Marketplace_RequestTrialNotificationEmailSubject',
+            $sentMail->getSubject()
+        );
+
+        self::assertStringContainsString(
+            'Marketplace_RequestTrialNotificationEmailIntro',
+            $sentMail->getBodyHtml()
+        );
+    }
+
+    public function testSaveLicenseKeyRequiresSuperUserAccessIfUser()
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess');
@@ -236,7 +291,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->saveLicenseKey('key');
     }
 
-    public function test_saveLicenseKey_requiresSuperUserAccess_IfAnonymous()
+    public function testSaveLicenseKeyRequiresSuperUserAccessIfAnonymous()
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess');
@@ -245,7 +300,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->saveLicenseKey('key');
     }
 
-    public function test_saveLicenseKey_shouldThrowException_IfTokenIsNotValid()
+    public function testSaveLicenseKeyShouldThrowExceptionIfTokenIsNotValid()
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Marketplace_ExceptionLinceseKeyIsNotValid');
@@ -254,7 +309,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->saveLicenseKey('key');
     }
 
-    public function test_saveLicenseKey_shouldCallTheApiTheCorrectWay()
+    public function testSaveLicenseKeyShouldCallTheApiTheCorrectWay()
     {
         $this->service->returnFixture('v2.0_consumer-access_token-valid_but_expired.json');
 
@@ -270,7 +325,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertNotHasLicenseKey();
     }
 
-    public function test_saveLicenseKey_shouldActuallySaveToken_IfValid()
+    public function testSaveLicenseKeyShouldActuallySaveTokenIfValid()
     {
         $this->service->returnFixture('v2.0_consumer_validate-access_token-consumer1_paid2_custom1.json');
         $success = $this->api->saveLicenseKey('123licensekey');
@@ -280,7 +335,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertSame('123licensekey', $this->buildLicenseKey()->get());
     }
 
-    public function test_saveLicenseKey_shouldThrowException_IfConnectionToMarketplaceFailed()
+    public function testSaveLicenseKeyShouldThrowExceptionIfConnectionToMarketplaceFailed()
     {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage('Host not reachable');
@@ -289,7 +344,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->saveLicenseKey('123licensekey');
     }
 
-    public function test_startFreeTrial_requiresSuperUserAccess_IfUser()
+    public function testStartFreeTrialRequiresSuperUserAccessIfUser()
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess');
@@ -298,7 +353,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->startFreeTrial('testPlugin');
     }
 
-    public function test_startFreeTrial_requiresSuperUserAccess_IfAnonymous(): void
+    public function testStartFreeTrialRequiresSuperUserAccessIfAnonymous(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess');
@@ -307,7 +362,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->startFreeTrial('testPlugin');
     }
 
-    public function test_startFreeTrial_requiresValidPluginName(): void
+    public function testStartFreeTrialRequiresValidPluginName(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Invalid plugin name given');
@@ -315,7 +370,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->startFreeTrial('this/is/not/valid');
     }
 
-    public function test_startFreeTrial_shouldThrowException_ifMarketplaceRequestEncountersHttpError(): void
+    public function testStartFreeTrialShouldThrowExceptionIfMarketplaceRequestEncountersHttpError(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Host not reachable');
@@ -324,7 +379,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->startFreeTrial('testPlugin');
     }
 
-    public function test_startFreeTrial_shouldSucceedIfMarketplaceCallsDidNotFail(): void
+    public function testStartFreeTrialShouldSucceedIfMarketplaceCallsDidNotFail(): void
     {
         $pluginName = 'testPlugin';
         $expectedAction = 'plugins/' . $pluginName . '/freeTrial';
@@ -345,7 +400,7 @@ class ApiTest extends IntegrationTestCase
     /**
      * @dataProvider dataStartFreeTrialErrorDownloadResponses
      */
-    public function test_startFreeTrial_shouldThrowException_ifSomethingGoesWrong(
+    public function testStartFreeTrialShouldThrowExceptionIfSomethingGoesWrong(
         array $responseInfo,
         string $expectedException,
         string $expectedExceptionMessage

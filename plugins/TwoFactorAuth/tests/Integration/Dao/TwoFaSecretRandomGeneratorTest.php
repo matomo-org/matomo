@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\TwoFactorAuth\tests\Integration\Dao;
@@ -30,12 +31,12 @@ class TwoFaSecretRandomGeneratorTest extends IntegrationTestCase
         $this->generator = new TwoFaSecretRandomGenerator();
     }
 
-    public function test_generatorCode_length()
+    public function testGeneratorCodeLength()
     {
         $this->assertSame(16, mb_strlen($this->generator->generateSecret()));
     }
 
-    public function test_generatorCode_alwaysDifferent()
+    public function testGeneratorCodeAlwaysDifferent()
     {
         $this->assertNotEquals($this->generator->generateSecret(), $this->generator->generateSecret());
     }

@@ -1,8 +1,8 @@
 /*!
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 Segmentation = (function($) {
@@ -1003,6 +1003,7 @@ $(document).ready(function() {
                         }
                     }
 
+                    params.name = piwikHelper.htmlEntities(params.name);
                     $.extend( self.props.availableSegments[idx], params);
                     self.rebuild();
 

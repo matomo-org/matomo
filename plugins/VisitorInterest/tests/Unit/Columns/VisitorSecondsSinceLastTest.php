@@ -1,14 +1,13 @@
 <?php
+
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\VisitorInterest\tests\Unit\Columns;
-
 
 use PHPUnit\Framework\TestCase;
 use Piwik\Plugins\VisitorInterest\Columns\VisitorSecondsSinceLast;
@@ -18,7 +17,7 @@ use Piwik\Tracker\Visitor;
 
 class VisitorSecondsSinceLastTest extends TestCase
 {
-    public function test_onNewVisit_returnsZeroIfVisitorIsUnknown()
+    public function testOnNewVisitReturnsZeroIfVisitorIsUnknown()
     {
         $dim = new VisitorSecondsSinceLast();
 
@@ -26,7 +25,7 @@ class VisitorSecondsSinceLastTest extends TestCase
         $this->assertEquals(0, $value);
     }
 
-    public function test_onNewVisit_returnsZeroIfPreviousVisitorLastActionTimeIsZero()
+    public function testOnNewVisitReturnsZeroIfPreviousVisitorLastActionTimeIsZero()
     {
         $dim = new VisitorSecondsSinceLast();
 
@@ -34,7 +33,7 @@ class VisitorSecondsSinceLastTest extends TestCase
         $this->assertEquals(0, $value);
     }
 
-    public function test_onNewVisit_returnsTimeInBetweenIfKnownVisit()
+    public function testOnNewVisitReturnsTimeInBetweenIfKnownVisit()
     {
         $dim = new VisitorSecondsSinceLast();
 

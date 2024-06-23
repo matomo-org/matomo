@@ -3,8 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\System;
@@ -25,7 +25,7 @@ use Piwik\Tests\Framework\Fixture;
  */
 class BackwardsCompatibility1XTest extends SystemTestCase
 {
-    const FIXTURE_LOCATION = '/tests/resources/piwik-1.13-dump.sql';
+    public const FIXTURE_LOCATION = '/tests/resources/piwik-1.13-dump.sql';
 
     /** @var SqlDump $fixture */
     public static $fixture = null; // initialized below class

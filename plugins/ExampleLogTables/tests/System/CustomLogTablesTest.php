@@ -1,4 +1,5 @@
 <?php
+
 namespace Piwik\Plugins\ExampleLogTables\tests\System;
 
 use Piwik\Plugins\ExampleLogTables\tests\Fixtures\VisitsWithUserIdAndCustomData;

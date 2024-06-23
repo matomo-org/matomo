@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\API\Request;
@@ -37,7 +38,7 @@ use Piwik\SettingsPiwik;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
-    const TRACKING_CODE_CHECK_FLAG = 'trackingCodeExistsCheck';
+    public const TRACKING_CODE_CHECK_FLAG = 'trackingCodeExistsCheck';
     /**
      * @var ArchivePurger
      */

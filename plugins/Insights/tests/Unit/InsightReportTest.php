@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Insights\tests\Unit;
@@ -93,7 +94,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider provideOrderTestData
      */
-    public function test_generateInsight_Order($orderBy, $expectedOrder)
+    public function testGenerateInsightOrder($orderBy, $expectedOrder)
     {
         $report = $this->generateInsight(2, 2, 2, 17, -17, $orderBy);
 
@@ -109,7 +110,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_generateInsight_Order_ShouldThrowException_IfInvalid()
+    public function testGenerateInsightOrderShouldThrowExceptionIfInvalid()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Unsupported orderBy');
@@ -120,7 +121,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider provideMinGrowthTestData
      */
-    public function test_generateInsight_MinGrowth($minGrowthPositive, $minGrowthNegative, $expectedOrder)
+    public function testGenerateInsightMinGrowth($minGrowthPositive, $minGrowthNegative, $expectedOrder)
     {
         $report = $this->generateInsight(2, 2, 2, $minGrowthPositive, $minGrowthNegative, InsightReport::ORDER_BY_ABSOLUTE);
         $this->assertOrder($report, $expectedOrder);
@@ -144,7 +145,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider provideLimitTestData
      */
-    public function test_generateInsight_Limit($limitIncrease, $limitDecrease, $expectedOrder)
+    public function testGenerateInsightLimit($limitIncrease, $limitDecrease, $expectedOrder)
     {
         $report = $this->generateInsight(2, 2, 2, 20, -20, InsightReport::ORDER_BY_ABSOLUTE, $limitIncrease, $limitDecrease);
 
@@ -161,7 +162,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_generateInsight_NoMovers()
+    public function testGenerateInsightNoMovers()
     {
         $report = $this->generateInsight(-1, 2, 2, 20, -20);
 
@@ -171,7 +172,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider provideMinImpactMoversTestData
      */
-    public function test_generateInsight_MinImpactMovers($minMoversPercent, $expectedOrder)
+    public function testGenerateInsightMinImpactMovers($minMoversPercent, $expectedOrder)
     {
         $report = $this->generateInsight($minMoversPercent, -1, -1, 17, -17);
 
@@ -188,7 +189,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_generateInsight_NoNew()
+    public function testGenerateInsightNoNew()
     {
         $report = $this->generateInsight(2, -1, 2, 17, -17);
 
@@ -198,7 +199,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider provideMinImpactNewTestData
      */
-    public function test_generateInsight_MinImpactNew($minNewPercent, $expectedOrder)
+    public function testGenerateInsightMinImpactNew($minNewPercent, $expectedOrder)
     {
         $report = $this->generateInsight(-1, $minNewPercent, -1, 17, -17);
 
@@ -216,7 +217,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_generateInsight_NoDisappeared()
+    public function testGenerateInsightNoDisappeared()
     {
         $report = $this->generateInsight(2, 2, -1, 17, -17);
 
@@ -226,7 +227,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider provideMinImpactDisappearedData
      */
-    public function test_generateInsight_MinDisappeared($minDisappearedPercent, $expectedOrder)
+    public function testGenerateInsightMinDisappeared($minDisappearedPercent, $expectedOrder)
     {
         $report = $this->generateInsight(-1, -1, $minDisappearedPercent, 17, -17);
         $this->assertOrder($report, $expectedOrder);
@@ -244,7 +245,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_generateInsights_ShouldSetCorrectMetadata()
+    public function testGenerateInsightsShouldSetCorrectMetadata()
     {
         $report = $this->generateInsight(2, 4, 8, 17, -21);
         $metadata = $report->getAllTableMetadata();
@@ -276,7 +277,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedMetadata, $metadata);
     }
 
-    public function test_markMoversAndShakers()
+    public function testMarkMoversAndShakers()
     {
         $report = $this->generateInsight(2, 2, 2, 5, -5);
         $this->insightReport->markMoversAndShakers($report, $this->currentTable, $this->pastTable, 160, 100);
@@ -288,7 +289,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
         $this->assertMoversAndShakers($report, $movers, $nonMovers);
     }
 
-    public function test_markMoversAndShakers_shouldAddMetadata()
+    public function testMarkMoversAndShakersShouldAddMetadata()
     {
         $report = $this->generateInsight(2, 2, 2, 5, -5);
         $this->insightReport->markMoversAndShakers($report, $this->currentTable, $this->pastTable, 200, 100);
@@ -301,7 +302,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(100, $metadata['evolutionTotal']);
     }
 
-    public function test_generateMoversAndShakers()
+    public function testGenerateMoversAndShakers()
     {
         // increase by 60% --> minGrowth 80%
         $report = $this->generateMoverAndShaker(160, 100);
@@ -333,7 +334,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function test_generateMoversAndShakers_Metadata()
+    public function testGenerateMoversAndShakersMetadata()
     {
         $report   = $this->generateMoverAndShaker(150, 50);
         $metadata = $report->getAllTableMetadata();
@@ -360,7 +361,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(-50, $metadata['evolutionTotal']);
     }
 
-    public function test_generateMoversAndShakers_ParameterCalculation()
+    public function testGenerateMoversAndShakersParameterCalculation()
     {
         $report   = $this->generateMoverAndShaker(3000, 50); // evolution of 5900%
         $metadata = $report->getAllTableMetadata();

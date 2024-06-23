@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\API;
@@ -49,7 +50,7 @@ class RequestTest extends IntegrationTestCase
         Fixture::createWebsite('2018-02-03 00:00:00');
     }
 
-    public function test_process_shouldNotReloadAccessIfNoTokenAuthIsGiven()
+    public function testProcessShouldNotReloadAccessIfNoTokenAuthIsGiven()
     {
         $this->assertAccessNotReloaded();
 
@@ -59,7 +60,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertSameUserAsBeforeIsAuthenticated();
     }
 
-    public function test_process_shouldNotReloadAccessIfSameAuthTokenIsAlreadyLoaded()
+    public function testProcessShouldNotReloadAccessIfSameAuthTokenIsAlreadyLoaded()
     {
         $this->assertAccessNotReloaded();
 
@@ -69,7 +70,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertSameUserAsBeforeIsAuthenticated();
     }
 
-    public function test_process_shouldReloadAccessIfAuthTokenIsDifferent()
+    public function testProcessShouldReloadAccessIfAuthTokenIsDifferent()
     {
         // make sure tokenAuth is different then set 'AnYTOkEN' token
         $this->assertEquals('token', $this->access->getTokenAuth());
@@ -83,7 +84,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertSameUserAsBeforeIsAuthenticated();
     }
 
-    public function test_process_shouldReloadAccessIfAuthTokenIsDifferentButEmpty()
+    public function testProcessShouldReloadAccessIfAuthTokenIsDifferentButEmpty()
     {
         $this->assertEquals('token', $this->access->getTokenAuth());
         $this->assertAccessReloadedAndRestored('');
@@ -94,7 +95,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertSameUserAsBeforeIsAuthenticated();
     }
 
-    public function test_process_shouldKeepSuperUserPermission_IfAccessWasManuallySet()
+    public function testProcessShouldKeepSuperUserPermissionIfAccessWasManuallySet()
     {
         $this->access->setSuperUserAccess(true);
         $this->assertAccessReloadedAndRestored('difFenrenT');
@@ -107,7 +108,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertTrue($this->access->hasSuperUserAccess());
     }
 
-    public function test_isApiRequest_shouldDetectIfItIsApiRequestOrNot()
+    public function testIsApiRequestShouldDetectIfItIsApiRequestOrNot()
     {
         $this->assertFalse(Request::isApiRequest(array()));
         $this->assertFalse(Request::isApiRequest(array('module' => '', 'method' => '')));
@@ -117,7 +118,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertTrue(Request::isApiRequest(array('module' => 'API', 'method' => 'test.method')));
     }
 
-    public function test_checkTokenAuthIsNotLimited_allowsSuperUserTokenAuth_ifCurrentRequestIsForAPI()
+    public function testCheckTokenAuthIsNotLimitedAllowsSuperUserTokenAuthIfCurrentRequestIsForAPI()
     {
         $this->expectNotToPerformAssertions();
 
@@ -127,7 +128,7 @@ class RequestTest extends IntegrationTestCase
         Request::checkTokenAuthIsNotLimited('API', 'index');
     }
 
-    public function test_checkTokenAuthIsNotLimited_allowsSuperUserTokenAuth_ifCurrentlyInCliMode()
+    public function testCheckTokenAuthIsNotLimitedAllowsSuperUserTokenAuthIfCurrentlyInCliMode()
     {
         $this->expectNotToPerformAssertions();
 
@@ -137,7 +138,7 @@ class RequestTest extends IntegrationTestCase
         Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
     }
 
-    public function test_checkTokenAuthIsNotLimited_doesNotAllowSuperUserTokenAuth_ifCurrentlyInUiRequest()
+    public function testCheckTokenAuthIsNotLimitedDoesNotAllowSuperUserTokenAuthIfCurrentlyInUiRequest()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Widgetize_TooHighAccessLevel');
@@ -148,7 +149,7 @@ class RequestTest extends IntegrationTestCase
         Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
     }
 
-    public function test_checkTokenAuthIsNotLimited_doesNotAllowSuperUserTokenAuth_ifCurrentlyInUiRequestAndEnableConfigSet()
+    public function testCheckTokenAuthIsNotLimitedDoesNotAllowSuperUserTokenAuthIfCurrentlyInUiRequestAndEnableConfigSet()
     {
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 1;
 
@@ -161,7 +162,7 @@ class RequestTest extends IntegrationTestCase
         Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
     }
 
-    public function test_checkTokenAuthIsNotLimited_doesNotAllowWriteTokenAuth_ifConfigNotSet()
+    public function testCheckTokenAuthIsNotLimitedDoesNotAllowWriteTokenAuthIfConfigNotSet()
     {
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
 
@@ -180,7 +181,7 @@ class RequestTest extends IntegrationTestCase
         Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
     }
 
-    public function test_checkTokenAuthIsNotLimited_doesNotAllowAdminTokenAuth_ifConfigNotSet()
+    public function testCheckTokenAuthIsNotLimitedDoesNotAllowAdminTokenAuthIfConfigNotSet()
     {
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
 
@@ -199,7 +200,7 @@ class RequestTest extends IntegrationTestCase
         Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
     }
 
-    public function test_checkTokenAuthIsNotLimited_allowsWriteTokenAuth_ifConfigSet()
+    public function testCheckTokenAuthIsNotLimitedAllowsWriteTokenAuthIfConfigSet()
     {
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 1;
 
@@ -215,7 +216,7 @@ class RequestTest extends IntegrationTestCase
         Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
     }
 
-    public function test_checkTokenAuthIsNotLimited_allowsAdminTokenAuth_ifConfigSet()
+    public function testCheckTokenAuthIsNotLimitedAllowsAdminTokenAuthIfConfigSet()
     {
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 1;
 
@@ -231,7 +232,7 @@ class RequestTest extends IntegrationTestCase
         Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
     }
 
-    public function test_checkTokenAuthIsNotLimited_allowsViewTokenAuth_ifConfigSet()
+    public function testCheckTokenAuthIsNotLimitedAllowsViewTokenAuthIfConfigSet()
     {
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 1;
 
@@ -247,7 +248,7 @@ class RequestTest extends IntegrationTestCase
         Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
     }
 
-    public function test_checkTokenAuthIsNotLimited_allowsViewTokenAuth_ifConfigNotSet()
+    public function testCheckTokenAuthIsNotLimitedAllowsViewTokenAuthIfConfigNotSet()
     {
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
 

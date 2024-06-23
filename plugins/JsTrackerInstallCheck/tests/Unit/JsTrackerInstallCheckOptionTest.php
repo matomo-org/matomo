@@ -4,7 +4,7 @@
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\JsTrackerInstallCheck\tests\Unit;
@@ -16,11 +16,11 @@ use Piwik\Plugins\JsTrackerInstallCheck\NonceOption\JsTrackerInstallCheckOption;
 
 class JsTrackerInstallCheckOptionTest extends TestCase
 {
-    const TEST_URL1 = 'https://some-test-site.local';
-    const TEST_URL2 = 'https://another-test-site.local';
-    const TEST_URL3 = 'https://nonexistent-test-site.local';
-    const TEST_NONCE1 = '7fa8282ad93047a4d6fe6111c93b308a';
-    const TEST_NONCE2 = '79d886010186eb60e3611cd4a5d0bcae';
+    public const TEST_URL1 = 'https://some-test-site.local';
+    public const TEST_URL2 = 'https://another-test-site.local';
+    public const TEST_URL3 = 'https://nonexistent-test-site.local';
+    public const TEST_NONCE1 = '7fa8282ad93047a4d6fe6111c93b308a';
+    public const TEST_NONCE2 = '79d886010186eb60e3611cd4a5d0bcae';
 
     /**
      * @var JsTrackerInstallCheckOption

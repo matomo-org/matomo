@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Settings\Storage\Backend;
@@ -59,7 +60,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         return new PluginSettingsTable($plugin, $login);
     }
 
-    public function test_construct_shouldThrowAnException_IfPluginNameIsEmpty()
+    public function testConstructShouldThrowAnExceptionIfPluginNameIsEmpty()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('No plugin name given');
@@ -67,7 +68,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->createSettings('', '');
     }
 
-    public function test_construct_shouldThrowAnException_IfUserLoginFalse()
+    public function testConstructShouldThrowAnExceptionIfUserLoginFalse()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid user login name');
@@ -75,7 +76,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->createSettings('MyPlugin', false);
     }
 
-    public function test_construct_shouldThrowAnException_IfUserLoginNull()
+    public function testConstructShouldThrowAnExceptionIfUserLoginNull()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid user login name');
@@ -83,7 +84,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->createSettings('MyPlugin', null);
     }
 
-    public function test_load_shouldNotHaveAnySettingsByDefault()
+    public function testLoadShouldNotHaveAnySettingsByDefault()
     {
         $this->assertSame(array(), $this->backendPlugin1->load());
         $this->assertSame(array(), $this->backendPlugin2->load());
@@ -91,7 +92,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->assertSame(array(), $this->backendUser2->load());
     }
 
-    public function test_getStorageId_shouldIncludePluginNameAndLogin()
+    public function testGetStorageIdShouldIncludePluginNameAndLogin()
     {
         $this->assertSame('PluginSettings_MyPluginName_User_', $this->backendPlugin1->getStorageId());
         $this->assertSame('PluginSettings_MyPluginName2_User_', $this->backendPlugin2->getStorageId());
@@ -99,7 +100,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->assertSame('PluginSettings_MyPluginName_User_user2', $this->backendUser2->getStorageId());
     }
 
-    public function test_save_ShouldOnlySaveForSpecificPlugin_NoUserGiven()
+    public function testSaveShouldOnlySaveForSpecificPluginNoUserGiven()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => 'val');
 
@@ -119,7 +120,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->assertSame(array(), $this->backendUser2->load());
     }
 
-    public function test_save_ShouldOnlySaveForSpecificPluginAndUser()
+    public function testSaveShouldOnlySaveForSpecificPluginAndUser()
     {
         $values = array_fill(0, count($this->allBackends), array());
 
@@ -133,7 +134,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         }
     }
 
-    public function test_delete_shouldDeleteAllValuesButOnlyForSpecificPluginAndLogin()
+    public function testDeleteShouldDeleteAllValuesButOnlyForSpecificPluginAndLogin()
     {
         $values = array();
         foreach ($this->allBackends as $index => $backend) {
@@ -153,7 +154,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         }
     }
 
-    public function test_save_DuplicateValuesShouldBeOverwritten()
+    public function testSaveDuplicateValuesShouldBeOverwritten()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => 'val');
 
@@ -167,7 +168,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value2, $this->backendPlugin1->load());
     }
 
-    public function test_save_NoLongerExistingValues_shouldBeRemoved()
+    public function testSaveNoLongerExistingValuesShouldBeRemoved()
     {
         $value = $this->saveValueForAllBackends();
 
@@ -184,7 +185,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         }
     }
 
-    public function test_save_load_ShouldBeAbleToSaveAndLoadArrayValues()
+    public function testSaveLoadShouldBeAbleToSaveAndLoadArrayValues()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => array('val', 'val7', 'val5'));
 
@@ -192,7 +193,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backendUser1->load());
     }
 
-    public function test_save_load_ShouldBeAbleToSaveAndLoadObjectValues()
+    public function testSaveLoadShouldBeAbleToSaveAndLoadObjectValues()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => (object) array('val', 'val7', 'val5'));
 
@@ -202,7 +203,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backendUser1->load());
     }
 
-    public function test_save_load_ShouldBeAbleToSaveNestedArrays()
+    public function testSaveLoadShouldBeAbleToSaveNestedArrays()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => array(array('foo' => 'bar'),array('foo' => 'baz')));
 
@@ -210,7 +211,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backendUser1->load());
     }
 
-    public function test_save_load_ShouldBeAbleToSaveAndLoadArrayValues_OnlyOneKey()
+    public function testSaveLoadShouldBeAbleToSaveAndLoadArrayValuesOnlyOneKey()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => array('val'));
 
@@ -222,7 +223,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backendUser1->load());
     }
 
-    public function test_save_ShouldBeAbleToSaveBoolValues()
+    public function testSaveShouldBeAbleToSaveBoolValues()
     {
         $value1 = array('Mysetting1' => true, 'Mysetting2' => array('val', 'val7', false, true, 'val5'));
 
@@ -232,7 +233,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backendUser1->load());
     }
 
-    public function test_save_ShouldIgnoreNullValuesButNotInArray()
+    public function testSaveShouldIgnoreNullValuesButNotInArray()
     {
         $value1 = array('Mysetting1' => true, 'MySetting3' => null, 'Mysetting2' => array('val', null, true, 'val5'));
 
@@ -242,7 +243,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backendUser1->load());
     }
 
-    public function test_removeAllUserSettingsForUser_shouldOnlyRemoveSettingsForThatUser()
+    public function testRemoveAllUserSettingsForUserShouldOnlyRemoveSettingsForThatUser()
     {
         $value = $this->saveValueForAllBackends();
 
@@ -257,7 +258,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         }
     }
 
-    public function test_removeAllUserSettingsForUser_shouldThrowAnExceptionIfLoginIsEmpty()
+    public function testRemoveAllUserSettingsForUserShouldThrowAnExceptionIfLoginIsEmpty()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('No userLogin specified');
@@ -265,7 +266,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         PluginSettingsTable::removeAllUserSettingsForUser('');
     }
 
-    public function test_removeAllSettingsForPlugin_shouldOnlyRemoveSettingsForThatPlugin()
+    public function testRemoveAllSettingsForPluginShouldOnlyRemoveSettingsForThatPlugin()
     {
         $value = $this->saveValueForAllBackends();
 

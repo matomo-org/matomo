@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use DateTime;
@@ -23,7 +24,7 @@ class Cookie
     /**
      * Don't create a cookie bigger than 1k
      */
-    const MAX_COOKIE_SIZE = 1024;
+    public const MAX_COOKIE_SIZE = 1024;
 
     /**
      * The name of the cookie
@@ -76,7 +77,7 @@ class Cookie
     /**
      * The character used to separate the tuple name=value in the cookie
      */
-    const VALUE_SEPARATOR = ':';
+    public const VALUE_SEPARATOR = ':';
 
     /**
      * Instantiate a new Cookie object and tries to load the cookie content if the cookie
@@ -183,7 +184,7 @@ class Cookie
         $this->setP3PHeader();
 
         $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain);
-        $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain, TRUE, FALSE, 'None');
+        $this->setCookie($this->name, 'deleted', time() - 31536001, $this->path, $this->domain, true, false, 'None');
 
         $this->clear();
     }

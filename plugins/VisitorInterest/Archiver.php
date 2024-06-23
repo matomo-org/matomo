@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\VisitorInterest;
@@ -12,10 +12,10 @@ namespace Piwik\Plugins\VisitorInterest;
 class Archiver extends \Piwik\Plugin\Archiver
 {
     // third element is unit (s for seconds, default is munutes)
-    const TIME_SPENT_RECORD_NAME = 'VisitorInterest_timeGap';
-    const PAGES_VIEWED_RECORD_NAME = 'VisitorInterest_pageGap';
-    const VISITS_COUNT_RECORD_NAME = 'VisitorInterest_visitsByVisitCount';
-    const DAYS_SINCE_LAST_RECORD_NAME = 'VisitorInterest_daysSinceLastVisit';
+    public const TIME_SPENT_RECORD_NAME = 'VisitorInterest_timeGap';
+    public const PAGES_VIEWED_RECORD_NAME = 'VisitorInterest_pageGap';
+    public const VISITS_COUNT_RECORD_NAME = 'VisitorInterest_visitsByVisitCount';
+    public const DAYS_SINCE_LAST_RECORD_NAME = 'VisitorInterest_daysSinceLastVisit';
 
     public static $timeGap = array(
         array(0, 10, 's'),

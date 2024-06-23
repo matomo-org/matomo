@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\ArchiveProcessor;
@@ -15,8 +15,8 @@ use Piwik\Container\StaticContainer;
 
 class ArchivingStatus
 {
-    const LOCK_KEY_PREFIX = 'Archiving';
-    const DEFAULT_ARCHIVING_TTL = 7200; // 2 hours
+    public const LOCK_KEY_PREFIX = 'Archiving';
+    public const DEFAULT_ARCHIVING_TTL = 7200; // 2 hours
 
     /**
      * @var LockBackend

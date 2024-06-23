@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Actions;
 
 use PDOStatement;
@@ -29,7 +30,7 @@ use Zend_Db_Statement;
  */
 class ArchivingHelper
 {
-    const OTHERS_ROW_KEY = '';
+    public const OTHERS_ROW_KEY = '';
 
     /**
      * Ideally this should use the DataArray object instead of custom data structure

@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Session;
@@ -22,7 +22,7 @@ use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 class SessionAuthTest extends IntegrationTestCase
 {
-    const TEST_OTHER_USER = 'testuser';
+    public const TEST_OTHER_USER = 'testuser';
 
     /**
      * @var SessionAuth
@@ -38,7 +38,7 @@ class SessionAuthTest extends IntegrationTestCase
         $this->testInstance = StaticContainer::get(SessionAuth::class);
     }
 
-    public function test_authenticate_ReturnsFailure_IfNoSessionExists()
+    public function testAuthenticateReturnsFailureIfNoSessionExists()
     {
         $this->initializeSession(Fixture::ADMIN_USER_LOGIN);
 
@@ -48,7 +48,7 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
     }
 
-    public function test_authenticate_ReturnsFailure_IfAuthenticatedSession_AndPasswordChangedAfterSessionCreated()
+    public function testAuthenticateReturnsFailureIfAuthenticatedSessionAndPasswordChangedAfterSessionCreated()
     {
         $this->initializeSession(self::TEST_OTHER_USER);
 
@@ -60,10 +60,10 @@ class SessionAuthTest extends IntegrationTestCase
         $result = $this->testInstance->authenticate();
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
 
-        $this->assertEmpty($_SESSION);
+        $this->assertEmpty($_SESSION, 'Expected $_SESSION to be empty. Instead got: ' . var_export($_SESSION, true));
     }
 
-    public function test_authenticate_ReturnsFailure_IfUsersModelReturnsIncorrectUser()
+    public function testAuthenticateReturnsFailureIfUsersModelReturnsIncorrectUser()
     {
         $this->initializeSession(self::TEST_OTHER_USER);
 
@@ -78,7 +78,7 @@ class SessionAuthTest extends IntegrationTestCase
     /**
      * @runInSeparateProcess
      */
-    public function test_authenticate_ReturnsSuccess_IfUserDataHasNoPasswordModifiedTimestamp()
+    public function testAuthenticateReturnsSuccessIfUserDataHasNoPasswordModifiedTimestamp()
     {
         $this->initializeSession(self::TEST_OTHER_USER);
 
@@ -100,7 +100,7 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::SUCCESS, $result->getCode());
     }
 
-    public function test_authenticate_ReturnsFailure_IfSessionIsExpiredWhenRememberMeUsed()
+    public function testAuthenticateReturnsFailureIfSessionIsExpiredWhenRememberMeUsed()
     {
         Date::$now = strtotime('2012-02-03 04:55:44');
         $this->initializeSession(self::TEST_OTHER_USER, true);
@@ -116,7 +116,7 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
     }
 
-    public function test_authenticate_ReturnsFailure_IfSessionIsExpiredWhenRememberMeNotUsed()
+    public function testAuthenticateReturnsFailureIfSessionIsExpiredWhenRememberMeNotUsed()
     {
         Date::$now = strtotime('2012-02-03 04:55:44');
         $this->initializeSession(self::TEST_OTHER_USER);

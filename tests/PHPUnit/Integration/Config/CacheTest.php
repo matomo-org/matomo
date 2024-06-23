@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Integration\Config\Cache;
 
 use Piwik\Config;
@@ -51,7 +53,7 @@ class CacheTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_doFetch_noValueSaved_shouldReturnFalse()
+    public function testDoFetchNoValueSavedShouldReturnFalse()
     {
         $noValue = $this->cache->doFetch(IniFileChain::CONFIG_CACHE_KEY);
         $this->assertFalse($noValue);
@@ -60,7 +62,7 @@ class CacheTest extends IntegrationTestCase
     /**
      * @dataProvider getRandmHosts
      */
-    public function test_construct_failsWhenUsingRandomHost($host)
+    public function testConstructFailsWhenUsingRandomHost($host)
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Unsupported host');
@@ -78,7 +80,7 @@ class CacheTest extends IntegrationTestCase
         ];
     }
 
-    public function test_doSave_doFetch_savesAndReadsData()
+    public function testDoSaveDoFetchSavesAndReadsData()
     {
         $value = array('mergedSettings' => 'foobar', 'settingsChain' => array('bar' => 'baz'));
         $this->cache->doSave(IniFileChain::CONFIG_CACHE_KEY, $value, 60);
@@ -89,7 +91,7 @@ class CacheTest extends IntegrationTestCase
         $this->assertEquals($value, $this->cache->doFetch(IniFileChain::CONFIG_CACHE_KEY));
     }
 
-    public function test_doDelete()
+    public function testDoDelete()
     {
         $value = array('mergedSettings' => 'foobar', 'settingsChain' => array('bar' => 'baz'));
         $this->cache->doSave(IniFileChain::CONFIG_CACHE_KEY, $value, 60);
@@ -106,7 +108,7 @@ class CacheTest extends IntegrationTestCase
         $this->assertFalse($cache->doFetch(IniFileChain::CONFIG_CACHE_KEY));
     }
 
-    public function test_isValidHost()
+    public function testIsValidHost()
     {
         $this->assertTrue($this->cache->isValidHost(array('General' => array('trusted_hosts' => array('foo.com', $this->testHost, 'bar.baz')))));
         $this->assertFalse($this->cache->isValidHost(array('General' => array('trusted_hosts' => array('foo.com', 'bar.baz')))));

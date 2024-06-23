@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Container;
@@ -120,6 +121,7 @@ class ContainerFactory
 
         // add plugin environment configs
         $plugins = $this->pluginList->getActivatedPlugins();
+        $plugins = array_unique(array_merge($plugins, Manager::getAlwaysActivatedPlugins()));
 
         if ($this->shouldSortPlugins()) {
             $plugins = $this->sortPlugins($plugins);
@@ -138,6 +140,7 @@ class ContainerFactory
     private function addPluginConfigs(ContainerBuilder $builder)
     {
         $plugins = $this->pluginList->getActivatedPlugins();
+        $plugins = array_unique(array_merge($plugins, Manager::getAlwaysActivatedPlugins()));
 
         if ($this->shouldSortPlugins()) {
             $plugins = $this->sortPlugins($plugins);

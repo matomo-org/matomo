@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\PrivacyManager\tests\System;
 
 use Piwik\API\Request;
@@ -39,7 +41,7 @@ class PurgeDataTest extends SystemTestCase
         parent::tearDownAfterClass();
     }
 
-    public function test_purgeData_keepAllExceptDay()
+    public function testPurgeDataKeepAllExceptDay()
     {
         $this->assertHasOneDownload('day');
         $this->assertHasOneDownload('week');
@@ -57,7 +59,7 @@ class PurgeDataTest extends SystemTestCase
         $this->assertHasOneDownload('year');
     }
 
-    public function test_purgeData_keepOnlyDay()
+    public function testPurgeDataKeepOnlyDay()
     {
         $this->assertHasOneDownload('day');
         $this->assertHasOneDownload('week');
@@ -77,7 +79,7 @@ class PurgeDataTest extends SystemTestCase
         $this->assertHasNoDownload('year');
     }
 
-    public function test_purgeData_shouldNotPurgeAnything_IfDeleteReportsOlderThanIsFarBackInThePast()
+    public function testPurgeDataShouldNotPurgeAnythingIfDeleteReportsOlderThanIsFarBackInThePast()
     {
         $this->assertHasOneDownload('day');
         $this->assertHasOneDownload('week');
@@ -95,7 +97,7 @@ class PurgeDataTest extends SystemTestCase
         $this->assertHasOneDownload('year');
     }
 
-    public function test_purgeData_shouldPurgeAllPeriodsExceptBasicMetrics_IfNoPeriodToKeepIsGiven()
+    public function testPurgeDataShouldPurgeAllPeriodsExceptBasicMetricsIfNoPeriodToKeepIsGiven()
     {
         $this->assertHasOneDownload('day');
         $this->assertHasOneDownload('week');
@@ -117,7 +119,7 @@ class PurgeDataTest extends SystemTestCase
         $this->assertHasNoDownload('year');
     }
 
-    public function test_purgeData_shouldPurgeEverything_IfNoPeriodToKeepIsGivenAndBasicMetricsNotKept()
+    public function testPurgeDataShouldPurgeEverythingIfNoPeriodToKeepIsGivenAndBasicMetricsNotKept()
     {
         $this->assertHasOneDownload('day');
         $this->assertHasOneDownload('week');
@@ -139,7 +141,7 @@ class PurgeDataTest extends SystemTestCase
         $this->assertHasNoDownload('year');
     }
 
-    public function test_purgeData_shouldPurgeEverything_IfNoPeriodToKeepIsGivenAndBasicMetricsNotKeptSegmentsKept()
+    public function testPurgeDataShouldPurgeEverythingIfNoPeriodToKeepIsGivenAndBasicMetricsNotKeptSegmentsKept()
     {
         $this->assertHasOneDownload('day');
         $this->assertHasOneDownload('week');

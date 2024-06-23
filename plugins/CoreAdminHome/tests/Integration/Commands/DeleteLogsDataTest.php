@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
 use Piwik\Container\StaticContainer;
@@ -25,7 +27,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
     /**
      * @dataProvider getTestDataForInvalidDateRangeTest
      */
-    public function test_Command_Fails_WhenInvalidDateRangeSupplied($dateRange)
+    public function testCommandFailsWhenInvalidDateRangeSupplied($dateRange)
     {
         $this->applicationTester->setInputs(["N\n"]);
         $result = $this->applicationTester->run(array(
@@ -50,7 +52,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         );
     }
 
-    public function test_Command_Fails_WhenInvalidSiteIdSupplied()
+    public function testCommandFailsWhenInvalidSiteIdSupplied()
     {
         $this->applicationTester->setInputs(["N\n"]);
         $result = $this->applicationTester->run(array(
@@ -67,7 +69,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
     /**
      * @dataProvider getTestDataForInvalidIterationStepTest
      */
-    public function test_Command_Fails_WhenInvalidIterationStepSupplied($limit)
+    public function testCommandFailsWhenInvalidIterationStepSupplied($limit)
     {
         $this->applicationTester->setInputs(["N\n"]);
         $result = $this->applicationTester->run(array(
@@ -90,7 +92,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         );
     }
 
-    public function test_Command_SkipsLogDeletionIfUserDoesNotConfirm()
+    public function testCommandSkipsLogDeletionIfUserDoesNotConfirm()
     {
         $this->applicationTester->setInputs(["N\n"]);
         $dateRange = '2012-08-09,2012-08-11';
@@ -107,7 +109,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         $this->assertNotRegExp("/Successfully deleted [0-9]+ rows from all log tables/", $this->applicationTester->getDisplay());
     }
 
-    public function test_Command_CorrectlyDeletesRequestedLogFiles()
+    public function testCommandCorrectlyDeletesRequestedLogFiles()
     {
         $this->applicationTester->setInputs(["Y\n"]);
         $dateRange = '2012-08-09,2012-08-11';

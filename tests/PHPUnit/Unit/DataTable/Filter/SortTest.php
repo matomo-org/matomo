@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\DataTable\Filter;
@@ -161,7 +162,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
     /**
      * Test to sort by visit
      */
-    public function testFilterSortNumeric_withSecondaryColumnSortLabel()
+    public function testFilterSortNumericWithSecondaryColumnSortLabel()
     {
         $rows = array(
             array('label' => 'google', 'nb_visits' => array()),
@@ -199,7 +200,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(DataTable::isEqual($table, $expectedtableReverse));
     }
 
-    public function test_sortingArrayValues_doesNotError()
+    public function testSortingArrayValuesDoesNotError()
     {
         $table = new DataTable();
         $table->addRowsFromArray(array(
@@ -219,7 +220,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
     /**
      * Test to sort by label
      */
-    public function testFilter_shouldPickStringSearchEvenIfFirstLabelIsNumeric()
+    public function testFilterShouldPickStringSearchEvenIfFirstLabelIsNumeric()
     {
         $table = $this->createDataTable(array(
             array('label' => '238975247578949'),

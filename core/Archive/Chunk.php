@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Archive;
@@ -18,8 +18,8 @@ namespace Piwik\Archive;
  */
 class Chunk
 {
-    const ARCHIVE_APPENDIX_SUBTABLES = 'chunk';
-    const NUM_TABLES_IN_CHUNK = 100;
+    public const ARCHIVE_APPENDIX_SUBTABLES = 'chunk';
+    public const NUM_TABLES_IN_CHUNK = 100;
 
     /**
      * Gets the record name to use for a given tableId/subtableId.

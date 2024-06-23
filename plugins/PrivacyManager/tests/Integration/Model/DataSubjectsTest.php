@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\PrivacyManager\tests\Integration\Model;
@@ -66,7 +67,7 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->theFixture->trackingTime = $this->originalTrackingTime;
     }
 
-    public function test_deleteDataSubjectsWithoutInvalidatingArchives_deleteVisitsWithoutIdsite()
+    public function testDeleteDataSubjectsWithoutInvalidatingArchivesDeleteVisitsWithoutIdsite()
     {
         $this->theFixture->setUpWebsites();
         $this->theFixture->trackVisits($idSite = 1, 1);
@@ -113,7 +114,7 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->assertNotEmpty($this->getOneVisit(1, 2, TestLogFoo::TABLE));
     }
 
-    public function test_deleteDataSubjectsWithoutInvalidatingArchives_deleteVisitWithAndWithoutIdSite()
+    public function testDeleteDataSubjectsWithoutInvalidatingArchivesDeleteVisitWithAndWithoutIdSite()
     {
         $this->theFixture->setUpWebsites();
         $this->theFixture->trackVisits($idSite = 1, 1);
@@ -159,7 +160,7 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->assertNotEmpty($this->getOneVisit(1, 2, TestLogFoo::TABLE));
     }
 
-    public function test_deleteExport_deleteOneVisit()
+    public function testDeleteExportDeleteOneVisit()
     {
         $this->theFixture->setUpWebsites();
         $this->theFixture->trackVisits($idSite = 1, 1);
@@ -195,7 +196,7 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->assertNotEmpty($this->getOneVisit(1, 2, TestLogFoo::TABLE));
     }
 
-    public function test_deleteExport_deleteAllVisits()
+    public function testDeleteExportDeleteAllVisits()
     {
         $this->theFixture->setUpWebsites();
         $this->theFixture->trackVisits($idSite = 1, 1);
@@ -230,7 +231,7 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->assertSame(array(), $this->getAllLogFooBarBaz());
     }
 
-    public function test_deleteDataSubjectsForDeletedSites_RemovesLogDataThatDoesNotBelongToASite()
+    public function testDeleteDataSubjectsForDeletedSitesRemovesLogDataThatDoesNotBelongToASite()
     {
         $this->theFixture->setUpWebsites();
         $this->theFixture->trackVisits($idSite = 1, 1);
@@ -308,7 +309,7 @@ class DataSubjectsTest extends IntegrationTestCase
         ], $this->getAllLogFooBarBaz());
     }
 
-    public function test_deleteDataSubjectsForDeletedSites_IgnoresSitesNewerThanThoseInList()
+    public function testDeleteDataSubjectsForDeletedSitesIgnoresSitesNewerThanThoseInList()
     {
         $this->theFixture->setUpWebsites();
         $this->theFixture->trackVisits($idSite = 1, 1);
@@ -390,7 +391,7 @@ class DataSubjectsTest extends IntegrationTestCase
         ], $this->getAllLogFooBarBaz());
     }
 
-    public function test_deleteOneVisit_doesInvalidateArchive()
+    public function testDeleteOneVisitDoesInvalidateArchive()
     {
         $this->theFixture->setUpWebsites();
         $this->theFixture->trackVisits($idSite = 1, 2);
@@ -408,7 +409,7 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->assertArchivesHaveNotBeenInvalidated($secondVisitDate, $idSite);
     }
 
-    public function test_deleteTwoVisits_doesInvalidateArchive()
+    public function testDeleteTwoVisitsDoesInvalidateArchive()
     {
         $this->theFixture->setUpWebsites();
         $this->theFixture->trackVisits($idSite = 1, 2);
@@ -427,7 +428,7 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->assertArchivesHaveBeenInvalidated($secondVisitDate, $idSite);
     }
 
-    public function test_deleteVisitsForMultipleSites_doesInvalidateArchive()
+    public function testDeleteVisitsForMultipleSitesDoesInvalidateArchive()
     {
         $this->theFixture->setUpWebsites();
         for ($idSite = 1; $idSite <= 2; $idSite++) {
@@ -451,7 +452,7 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->assertArchivesHaveNotBeenInvalidated($secondVisitDate, 2);
     }
 
-    public function test_deleteOneVisit_alreadyMarkedForInvalidation()
+    public function testDeleteOneVisitAlreadyMarkedForInvalidation()
     {
         $this->theFixture->setUpWebsites();
         $this->theFixture->trackVisits($idSite = 1, 2);
@@ -469,7 +470,7 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->assertArchivesHaveBeenInvalidated($visitDate, $idSite);
     }
 
-    public function test_deleteOneVisit_siteInDifferentTimezone()
+    public function testDeleteOneVisitSiteInDifferentTimezone()
     {
         ini_set('date.timezone', 'UTC');
         $websiteTimezone = 'UTC+5';

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Translation\Loader;
@@ -17,7 +18,7 @@ use Piwik\Validators\CharacterLength;
  */
 class CharacterLengthTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_validate_successValueNotEmpty()
+    public function testValidateSuccessValueNotEmpty()
     {
         self::expectNotToPerformAssertions();
 
@@ -28,21 +29,21 @@ class CharacterLengthTest extends \PHPUnit\Framework\TestCase
         $this->validate('testwewe', 0, 10);
     }
 
-    public function test_validate_failValueIsTooShort()
+    public function testValidateFailValueIsTooShort()
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('General_ValidatorErrorCharacterTooShort');
         $this->validate('myte', 5);
     }
 
-    public function test_validate_failValueIsTooLong()
+    public function testValidateFailValueIsTooLong()
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('General_ValidatorErrorCharacterTooLong');
         $this->validate('mytestfoo', null, 4);
     }
 
-    public function test_validate_failValueIsTooNotInRange()
+    public function testValidateFailValueIsTooNotInRange()
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('General_ValidatorErrorCharacterTooLong');

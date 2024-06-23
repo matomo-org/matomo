@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Exception;
@@ -34,9 +35,9 @@ use Piwik\View;
 
 class Controller extends Plugin\ControllerAdmin
 {
-    const ACTIVATE_NONCE = 'CorePluginsAdmin.activatePlugin';
-    const DEACTIVATE_NONCE = 'CorePluginsAdmin.deactivatePlugin';
-    const UNINSTALL_NONCE = 'CorePluginsAdmin.uninstallPlugin';
+    public const ACTIVATE_NONCE = 'CorePluginsAdmin.activatePlugin';
+    public const DEACTIVATE_NONCE = 'CorePluginsAdmin.deactivatePlugin';
+    public const UNINSTALL_NONCE = 'CorePluginsAdmin.uninstallPlugin';
 
     /**
      * @var Translator

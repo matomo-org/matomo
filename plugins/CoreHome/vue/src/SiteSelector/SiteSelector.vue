@@ -1,7 +1,8 @@
 <!--
   Matomo - free/libre analytics platform
-  @link https://matomo.org
-  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
 <template>
@@ -73,7 +74,10 @@
           @click="onAllSitesClick($event)"
         />
       </div>
-      <div class="custom_select_container">
+      <div
+        class="custom_select_container"
+        v-tooltips="{ content: tooltipContent }"
+      >
         <ul
           class="custom_select_ul_list"
           @click="showSitesList = false"
@@ -117,6 +121,7 @@
 
 <script lang="ts">
 import { DeepReadonly, defineComponent } from 'vue';
+import Tooltips from '../Tooltips/Tooltips';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
 import AllSitesLink from './AllSitesLink.vue';
@@ -182,6 +187,7 @@ export default defineComponent({
   directives: {
     FocusAnywhereButHere,
     FocusIf,
+    Tooltips,
   },
   watch: {
     searchTerm() {
@@ -293,6 +299,12 @@ export default defineComponent({
 
       return null;
     },
+    tooltipContent() {
+      return function tooltipContent(this: HTMLElement) {
+        const title = $(this).attr('title') || '';
+        return Matomo.helper.htmlEntities(title);
+      };
+    },
   },
   methods: {
     onSearchTermChanged() {
@@ -355,11 +367,11 @@ export default defineComponent({
       if (index === -1
         || this.isLoading // only highlight when we know the displayed results are for a search
       ) {
-        return Matomo.helper.htmlEntities(siteName);
+        return this.htmlEntities(siteName);
       }
 
-      const previousPart = Matomo.helper.htmlEntities(siteName.substring(0, index));
-      const lastPart = Matomo.helper.htmlEntities(
+      const previousPart = this.htmlEntities(siteName.substring(0, index));
+      const lastPart = this.htmlEntities(
         siteName.substring(index + this.searchTerm.length),
       );
 
@@ -401,6 +413,9 @@ export default defineComponent({
       });
 
       return `?${newQuery}#?${newHash}`;
+    },
+    htmlEntities(v: string) {
+      return Matomo.helper.htmlEntities(v);
     },
   },
 });

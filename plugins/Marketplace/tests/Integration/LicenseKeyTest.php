@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Marketplace\tests\Integration;
@@ -31,13 +32,13 @@ class LicenseKeyTest extends IntegrationTestCase
         $this->licenseKey = $this->buildLicenseKey();
     }
 
-    public function test_get_noLicenseKeyIsSetByDefault()
+    public function testGetNoLicenseKeyIsSetByDefault()
     {
         $this->assertFalse($this->licenseKey->get());
         $this->assertFalse($this->licenseKey->has());
     }
 
-    public function test_set_get_persistsALicenseKey()
+    public function testSetGetPersistsALicenseKey()
     {
         $key = 'foobarBaz';
         $this->licenseKey->set($key);
@@ -47,7 +48,7 @@ class LicenseKeyTest extends IntegrationTestCase
         $this->assertPersistedLicenseKeyEquals($key);
     }
 
-    public function test_set_shouldOverwriteAnExistingKey()
+    public function testSetShouldOverwriteAnExistingKey()
     {
         $this->setExampleLicenseKey();
 
@@ -57,7 +58,7 @@ class LicenseKeyTest extends IntegrationTestCase
         $this->assertPersistedLicenseKeyEquals($key);
     }
 
-    public function test_set_deletesAnExistingLicenseKey_IfValueIsFalse()
+    public function testSetDeletesAnExistingLicenseKeyIfValueIsFalse()
     {
         $this->setExampleLicenseKey();
 
@@ -65,7 +66,7 @@ class LicenseKeyTest extends IntegrationTestCase
         $this->assertFalse($this->licenseKey->has());
     }
 
-    public function test_set_deletesAnExistingLicenseKey_IfValueIsNotSet()
+    public function testSetDeletesAnExistingLicenseKeyIfValueIsNotSet()
     {
         $this->setExampleLicenseKey();
 
@@ -73,7 +74,7 @@ class LicenseKeyTest extends IntegrationTestCase
         $this->assertFalse($this->licenseKey->has());
     }
 
-    public function test_has_detectsWhetherANonEmptyKeyIsSet()
+    public function testHasDetectsWhetherANonEmptyKeyIsSet()
     {
         $this->assertNotHasPersistedLicenseKey();
         $this->setExampleLicenseKey();

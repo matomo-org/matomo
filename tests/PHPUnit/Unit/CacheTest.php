@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit;
@@ -15,14 +16,14 @@ use Piwik\Cache;
  */
 class CacheTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_getLazyCache_shouldCreateAnInstanceOfLazy()
+    public function testGetLazyCacheShouldCreateAnInstanceOfLazy()
     {
         $cache = Cache::getLazyCache();
 
         $this->assertTrue($cache instanceof \Matomo\Cache\Lazy);
     }
 
-    public function test_getLazyCache_shouldAlwaysReturnTheSameInstance()
+    public function testGetLazyCacheShouldAlwaysReturnTheSameInstance()
     {
         $cache1 = Cache::getLazyCache();
         $cache2 = Cache::getLazyCache();
@@ -30,14 +31,14 @@ class CacheTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($cache1, $cache2);
     }
 
-    public function test_getEagerCache_shouldCreateAnInstanceOfEager()
+    public function testGetEagerCacheShouldCreateAnInstanceOfEager()
     {
         $cache = Cache::getEagerCache();
 
         $this->assertTrue($cache instanceof \Matomo\Cache\Eager);
     }
 
-    public function test_getEagerCache_shouldAlwaysReturnTheSameInstance()
+    public function testGetEagerCacheShouldAlwaysReturnTheSameInstance()
     {
         $cache1 = Cache::getEagerCache();
         $cache2 = Cache::getEagerCache();
@@ -45,14 +46,14 @@ class CacheTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($cache1, $cache2);
     }
 
-    public function test_getTransientCache_shouldCreateAnInstanceOfTransient()
+    public function testGetTransientCacheShouldCreateAnInstanceOfTransient()
     {
         $cache = Cache::getTransientCache();
 
         $this->assertTrue($cache instanceof \Matomo\Cache\Transient);
     }
 
-    public function test_getTransientCache_shouldAlwaysReturnTheSameInstance()
+    public function testGetTransientCacheShouldAlwaysReturnTheSameInstance()
     {
         $cache1 = Cache::getTransientCache();
         $cache2 = Cache::getTransientCache();
@@ -60,7 +61,7 @@ class CacheTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($cache1, $cache2);
     }
 
-    public function test_flushAll_shouldActuallyFlushAllCaches()
+    public function testFlushAllShouldActuallyFlushAllCaches()
     {
         $cache1 = Cache::getTransientCache();
         $cache2 = Cache::getLazyCache();

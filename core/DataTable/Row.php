@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\DataTable;
 
 use Exception;
@@ -26,7 +27,7 @@ use Piwik\Log\LoggerInterface;
  */
 class Row extends \ArrayObject
 {
-    const COMPARISONS_METADATA_NAME = 'comparisons';
+    public const COMPARISONS_METADATA_NAME = 'comparisons';
 
     /**
      * List of columns that cannot be summed. An associative array for speed.
@@ -53,9 +54,9 @@ class Row extends \ArrayObject
 
     private $isSummaryRow = false;
 
-    const COLUMNS = 0;
-    const METADATA = 1;
-    const DATATABLE_ASSOCIATED = 3;
+    public const COLUMNS = 0;
+    public const METADATA = 1;
+    public const DATATABLE_ASSOCIATED = 3;
 
     /**
      * Constructor.

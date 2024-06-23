@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UserCountry\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
@@ -16,13 +17,13 @@ use Piwik\Timer;
 
 class AttributeHistoricalDataWithLocations extends ConsoleCommand
 {
-    const DATES_RANGE_ARGUMENT = 'dates-range';
-    const PERCENT_STEP_ARGUMENT = 'percent-step';
-    const PERCENT_STEP_ARGUMENT_DEFAULT = 5;
-    const PROVIDER_ARGUMENT = 'provider';
-    const SEGMENT_LIMIT_OPTION = 'segment-limit';
-    const SEGMENT_LIMIT_OPTION_DEFAULT = 1000;
-    const FORCE_OPTION = 'force';
+    public const DATES_RANGE_ARGUMENT = 'dates-range';
+    public const PERCENT_STEP_ARGUMENT = 'percent-step';
+    public const PERCENT_STEP_ARGUMENT_DEFAULT = 5;
+    public const PROVIDER_ARGUMENT = 'provider';
+    public const SEGMENT_LIMIT_OPTION = 'segment-limit';
+    public const SEGMENT_LIMIT_OPTION_DEFAULT = 1000;
+    public const FORCE_OPTION = 'force';
 
     /**
      * @var RawLogDao

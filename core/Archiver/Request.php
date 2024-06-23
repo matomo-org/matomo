@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Archiver;
 
 class Request
@@ -14,7 +15,7 @@ class Request
      * If a request is aborted, the response of a CliMutli job will be a serialized array containing the
      * key/value "aborted => 1".
      */
-    const ABORT = 'abort';
+    public const ABORT = 'abort';
 
     /**
      * @var string

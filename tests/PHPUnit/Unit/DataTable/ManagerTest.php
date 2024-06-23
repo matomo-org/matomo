@@ -28,7 +28,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         return new DataTable();
     }
 
-    public function test_getTable_shouldThrowException_IfTableIdDoesNotExist()
+    public function testGetTableShouldThrowExceptionIfTableIdDoesNotExist()
     {
         $this->expectException(\Piwik\DataTable\TableNotFoundException::class);
         $this->expectExceptionMessage('table id 1 not found in memory');
@@ -36,7 +36,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $this->manager->getTable(1);
     }
 
-    public function test_getTable_shouldFindAnExistingTable_IfTableExists()
+    public function testGetTableShouldFindAnExistingTableIfTableExists()
     {
         $table1 = $this->createTestDataTable();
         $this->manager->addTable($table1);
@@ -46,7 +46,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($table1, $table2);
     }
 
-    public function test_addTable_shouldIncreaseTheTableId()
+    public function testAddTableShouldIncreaseTheTableId()
     {
         $table = $this->createTestDataTable();
         $id = $this->manager->addTable($table);
@@ -59,7 +59,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(2, $id);
     }
 
-    public function test_getMostRecentTableId_shouldAlwaysReturnTheMostRecentlyCreatedId()
+    public function testGetMostRecentTableIdShouldAlwaysReturnTheMostRecentlyCreatedId()
     {
         $this->assertSame(0, $this->manager->getMostRecentTableId());
 
@@ -74,7 +74,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(5, $this->manager->getMostRecentTableId());
     }
 
-    public function test_setTableDeleted_shouldActuallyUnsetTheTable()
+    public function testSetTableDeletedShouldActuallyUnsetTheTable()
     {
         $this->addDataTables(1);
 
@@ -83,7 +83,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertDataTablesInManager(array(1 => null));
     }
 
-    public function test_setTableDeleted_shouldOnlyUnsetOneTableHavingTheGivenId()
+    public function testSetTableDeletedShouldOnlyUnsetOneTableHavingTheGivenId()
     {
         $tables = $this->addDataTables(3);
 
@@ -92,7 +92,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertDataTablesInManager(array(1 => $tables[1], 2 => null, 3 => $tables[3]));
     }
 
-    public function test_deleteTable_shouldNotDeleteAnything_IfTableDoesNotExist()
+    public function testDeleteTableShouldNotDeleteAnythingIfTableDoesNotExist()
     {
         $tables = $this->addDataTables(1);
 
@@ -103,7 +103,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertDataTablesInManager($tables);
     }
 
-    public function test_deleteTable_shouldSetTheGivenDataTableDeleted_IfIdExists()
+    public function testDeleteTableShouldSetTheGivenDataTableDeletedIfIdExists()
     {
         $tables = $this->addDataTables(3);
 
@@ -112,7 +112,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertDataTablesInManager(array(1 => $tables[1], 2 => null, 3 => $tables[3]));
     }
 
-    public function test_deleteAll_shouldActuallyRemoveAllTables()
+    public function testDeleteAllShouldActuallyRemoveAllTables()
     {
         $this->addDataTables(3);
 
@@ -121,7 +121,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertDataTablesInManager(array());
     }
 
-    public function test_deleteAll_shouldRemoveAllTables_HigherThanTheGivenId()
+    public function testDeleteAllShouldRemoveAllTablesHigherThanTheGivenId()
     {
         $tables = $this->addDataTables(4);
 
@@ -130,7 +130,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertDataTablesInManager(array(1 => $tables[1], 2 => $tables[2], 3 => null, 4 => null));
     }
 
-    public function test_deleteAll_shouldNotRemoveAnything_IfIdIsTooHighToMatchAny()
+    public function testDeleteAllShouldNotRemoveAnythingIfIdIsTooHighToMatchAny()
     {
         $tables = $this->addDataTables(4);
 
@@ -139,7 +139,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertDataTablesInManager($tables);
     }
 
-    public function test_deleteAll_shouldNotAlterTheNextDataTableId_IfAnIdIsGiven()
+    public function testDeleteAllShouldNotAlterTheNextDataTableIdIfAnIdIsGiven()
     {
         $this->addDataTables(4);
 
@@ -148,7 +148,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertMostRecentDataTableId(4);
     }
 
-    public function test_deleteAll_shouldResetNextDataTableId_IfAllTablesAreDeleted()
+    public function testDeleteAllShouldResetNextDataTableIdIfAllTablesAreDeleted()
     {
         $this->addDataTables(4);
         $this->assertMostRecentDataTableId(4); // verify it is not yet 0
@@ -161,7 +161,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertMostRecentDataTableId(0);
     }
 
-    public function test_deleteTablesExceptIgnored_shouldRemoveAllTables_ButIgnoreTheGivenOnes()
+    public function testDeleteTablesExceptIgnoredShouldRemoveAllTablesButIgnoreTheGivenOnes()
     {
         $tables = $this->addDataTables(8);
 
@@ -179,7 +179,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         ));
     }
 
-    public function test_deleteTablesExceptIgnored_shouldRemoveAllTables_IfNoIgnoredAreGiven()
+    public function testDeleteTablesExceptIgnoredShouldRemoveAllTablesIfNoIgnoredAreGiven()
     {
         $tables = $this->addDataTables(5);
 
@@ -194,7 +194,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         ));
     }
 
-    public function test_deleteTablesExceptIgnored_shouldNotResetMostRecentDataTableId_EvenWhenDeletingAll()
+    public function testDeleteTablesExceptIgnoredShouldNotResetMostRecentDataTableIdEvenWhenDeletingAll()
     {
         $this->addDataTables(5);
 

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Piwik - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreHome\tests\Integration\Columns\Metrics;
@@ -29,12 +30,12 @@ class EvolutionMetricTest extends IntegrationTestCase
         Fixture::createWebsite('2022-01-01 00:00:00');
     }
 
-    public function test_shouldNotBreakIfSummaryRowGiven()
+    public function testShouldNotBreakIfSummaryRowGiven()
     {
         $this->assertNoFailureOnComputeForLabel(DataTable::ID_SUMMARY_ROW);
     }
 
-    public function test_shouldNotBreakIfTotalsRowGiven()
+    public function testShouldNotBreakIfTotalsRowGiven()
     {
         $this->assertNoFailureOnComputeForLabel(DataTable::LABEL_TOTALS_ROW);
     }

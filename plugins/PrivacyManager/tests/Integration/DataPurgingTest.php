@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
 use Piwik\Archive;
@@ -58,18 +60,18 @@ class DataPurgingTest extends IntegrationTestCase
     // constants used in checking whether numeric tables are populated correctly.
     // 'done' entries exist for every period, even if there's no metric data, so we need the
     // total archive count for each month.
-    const TOTAL_JAN_ARCHIVE_COUNT = 37; // 31 + 4 + 1 + 1;
-    const TOTAL_FEB_ARCHIVE_COUNT = 34; // 29 + 4 + 1;
+    public const TOTAL_JAN_ARCHIVE_COUNT = 37; // 31 + 4 + 1 + 1;
+    public const TOTAL_FEB_ARCHIVE_COUNT = 34; // 29 + 4 + 1;
 
     // the number of archive entries for a single metric if no purging is done. this #
     // is dependent on the number of periods for which there were visits.
-    const JAN_METRIC_ARCHIVE_COUNT = 11; // 5 days + 4 weeks + 1 month + 1 year
-    const FEB_METRIC_ARCHIVE_COUNT = 11; // 6 days + 4 weeks + 1 month
+    public const JAN_METRIC_ARCHIVE_COUNT = 11; // 5 days + 4 weeks + 1 month + 1 year
+    public const FEB_METRIC_ARCHIVE_COUNT = 11; // 6 days + 4 weeks + 1 month
 
-    const JAN_DONE_FLAGS_COUNT = 61;
+    public const JAN_DONE_FLAGS_COUNT = 61;
 
     // fake metric/report name used to make sure unwanted metrics are purged
-    const GARBAGE_FIELD = 'abcdefg';
+    public const GARBAGE_FIELD = 'abcdefg';
 
     private static $idSite = 1;
     private static $dateTime = '2012-02-28';
@@ -246,7 +248,7 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertEquals(self::FEB_METRIC_ARCHIVE_COUNT + 1, $this->getTableCount($archiveTables['blob'][1])); // February
     }
 
-    public function test_LogDataPurging_WorksWhenVisitsInPastTracked()
+    public function testLogDataPurgingWorksWhenVisitsInPastTracked()
     {
         DbHelper::deleteArchiveTables();
 

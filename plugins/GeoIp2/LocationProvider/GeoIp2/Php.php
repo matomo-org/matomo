@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 
 use GeoIp2\Database\Reader;
@@ -29,8 +30,8 @@ use Piwik\View;
  */
 class Php extends GeoIp2
 {
-    const ID = 'geoip2php';
-    const TITLE = 'DBIP / GeoIP 2 (Php)';
+    public const ID = 'geoip2php';
+    public const TITLE = 'DBIP / GeoIP 2 (Php)';
 
     /**
      * The GeoIP2 reader instances used. This array will contain at most two

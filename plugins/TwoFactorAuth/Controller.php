@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\TwoFactorAuth;
 
 use Piwik\Common;
@@ -26,11 +28,11 @@ use Piwik\Plugins\CoreAdminHome\Emails\RecoveryCodesRegeneratedEmail;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-    const AUTH_CODE_NONCE = 'TwoFactorAuth.saveAuthCode';
-    const LOGIN_2FA_NONCE = 'TwoFactorAuth.loginAuthCode';
-    const DISABLE_2FA_NONCE = 'TwoFactorAuth.disableAuthCode';
-    const REGENERATE_CODES_2FA_NONCE = 'TwoFactorAuth.regenerateCodes';
-    const VERIFY_PASSWORD_NONCE = 'TwoFactorAuth.verifyPassword';
+    public const AUTH_CODE_NONCE = 'TwoFactorAuth.saveAuthCode';
+    public const LOGIN_2FA_NONCE = 'TwoFactorAuth.loginAuthCode';
+    public const DISABLE_2FA_NONCE = 'TwoFactorAuth.disableAuthCode';
+    public const REGENERATE_CODES_2FA_NONCE = 'TwoFactorAuth.regenerateCodes';
+    public const VERIFY_PASSWORD_NONCE = 'TwoFactorAuth.verifyPassword';
 
     /**
      * @var SystemSettings

@@ -168,7 +168,7 @@ echo -e "Going to build Matomo $VERSION (Major version: $MAJOR_VERSION)"
 
 if ! echo "$VERSION" | grep -E 'rc|b|a|alpha|beta|dev|build' -i
 then
-    if curl --output /dev/null --silent --head --fail "https://builds.matomo.org/$F-$VERSION.zip"
+    if curl --output /dev/null --silent --head --fail "https://builds.matomo.org/matomo-$VERSION.zip"
     then
         echo "--> Error: stable version $VERSION has already been built (not expected). <-- "
     fi
@@ -219,7 +219,8 @@ echo "Git tag: $(git describe --exact-match --tags HEAD)"
 echo "Git path: $CURRENT_DIR/$LOCAL_REPO"
 echo "Matomo version in core/Version.php: $(php -r "include_once 'core/Version.php'; echo \Piwik\Version::VERSION;")"
 
-if [ "$VERSION" != "build" ]; then
+if [ "$VERSION" != "build" ]
+then
   [ "$(grep "'$VERSION'" core/Version.php | wc -l)" = "1" ] || die "version $VERSION does not match core/Version.php";
 fi
 

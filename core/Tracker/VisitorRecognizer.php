@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tracker;
@@ -22,7 +23,7 @@ class VisitorRecognizer
      * Set when a visit was found. Stores the original values of the row that is currently stored in the DB when
      * the visit was selected.
      */
-    const KEY_ORIGINAL_VISIT_ROW = 'originalVisit';
+    public const KEY_ORIGINAL_VISIT_ROW = 'originalVisit';
 
     /**
      * Local variable cache for the getVisitFieldsPersist() method.

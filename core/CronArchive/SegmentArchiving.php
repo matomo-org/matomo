@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\CronArchive;
 
 use Doctrine\Common\Cache\Cache;
@@ -29,10 +31,10 @@ use Piwik\Log\LoggerInterface;
  */
 class SegmentArchiving
 {
-    const BEGINNING_OF_TIME = 'beginning_of_time';
-    const CREATION_TIME = 'segment_creation_time';
-    const LAST_EDIT_TIME = 'segment_last_edit_time';
-    const DEFAULT_BEGINNING_OF_TIME_LAST_N_YEARS = 7;
+    public const BEGINNING_OF_TIME = 'beginning_of_time';
+    public const CREATION_TIME = 'segment_creation_time';
+    public const LAST_EDIT_TIME = 'segment_last_edit_time';
+    public const DEFAULT_BEGINNING_OF_TIME_LAST_N_YEARS = 7;
 
     /**
      * @var Model

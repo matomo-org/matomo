@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit;
@@ -76,7 +77,7 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForIsLookLikeSafeUrl
      */
-    public function test_isLookLikeSafeUrl($url, $isSafe)
+    public function testIsLookLikeSafeUrl($url, $isSafe)
     {
         $this->assertEquals($isSafe, UrlHelper::isLookLikeSafeUrl($url));
     }
@@ -255,7 +256,7 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
     /**
      * @group Core
      */
-    public function test_getHostFromUrl()
+    public function testGetHostFromUrl()
     {
         $this->assertEquals('', UrlHelper::getHostFromUrl(''));
         $this->assertEquals('', UrlHelper::getHostFromUrl(null));
@@ -273,7 +274,7 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
     /**
      * @group Core
      */
-    public function test_getQueryFromUrl_ShouldReturnEmtpyString_IfNoQuery()
+    public function testGetQueryFromUrlShouldReturnEmtpyStringIfNoQuery()
     {
         $this->assertEquals('', UrlHelper::getQueryFromUrl('', array()));
         $this->assertEquals('', UrlHelper::getQueryFromUrl(null, array()));
@@ -283,14 +284,14 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
     /**
      * @group Core
      */
-    public function test_getQueryFromUrl_ShouldReturnOnlyTheQueryPartOfTheUrl_IfNoAdditionalParamsGiven()
+    public function testGetQueryFromUrlShouldReturnOnlyTheQueryPartOfTheUrlIfNoAdditionalParamsGiven()
     {
         $this->assertEquals('foo=bar&foo2=bar2&test[]=1', UrlHelper::getQueryFromUrl('http://example.com/?foo=bar&foo2=bar2&test[]=1', array()));
         $this->assertEquals('foo=bar&foo2=bar2&test[]=1', UrlHelper::getQueryFromUrl('/?foo=bar&foo2=bar2&test[]=1', array()));
         $this->assertEquals('segment=pageTitle!@%40Hello%20World;pageTitle!@Peace%20Love%20', UrlHelper::getQueryFromUrl('/?segment=pageTitle!@%40Hello%20World;pageTitle!@Peace%20Love%20', array()));
     }
 
-    public function test_getQueryFromUrl_whenUrlParameterIsDuplicatedInQueryString_returnsLastFoundValue()
+    public function testGetQueryFromUrlWhenUrlParameterIsDuplicatedInQueryStringReturnsLastFoundValue()
     {
         // Currently when the same parameter is used several times in the query string,
         // only the last set value is returned by UrlHelper::getParameterFromQueryString
@@ -302,7 +303,7 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
     /**
      * @group Core
      */
-    public function test_getQueryFromUrl_ShouldAddAdditionalParams_IfGiven()
+    public function testGetQueryFromUrlShouldAddAdditionalParamsIfGiven()
     {
         $this->assertEquals('foo=bar&foo2=bar2&test[]=1&add=foo', UrlHelper::getQueryFromUrl('http://example.com/?foo=bar&foo2=bar2&test[]=1', array('add' => 'foo')));
         $this->assertEquals('add=foo', UrlHelper::getQueryFromUrl('/', array('add' => 'foo')));

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\ProfessionalServices\tests\Unit;
@@ -19,7 +20,7 @@ class PromoWidgetApplicableTest extends TestCase
     /**
      * @dataProvider checkDataProvider
      */
-    public function test_check_shouldOnlyReturnTrue_IfAdShouldBeShown(bool $adsForProfessionalServicesEnabled, bool $marketplaceEnabled, bool $internetAccessEnabled, bool $pluginActivated, bool $isDismissed, bool $expected): void
+    public function testCheckShouldOnlyReturnTrueIfAdShouldBeShown(bool $adsForProfessionalServicesEnabled, bool $marketplaceEnabled, bool $internetAccessEnabled, bool $pluginActivated, bool $isDismissed, bool $expected): void
     {
         $manager = $this->createMock(Manager::class);
         $manager->method('isPluginActivated')->willReturnMap(
@@ -45,7 +46,7 @@ class PromoWidgetApplicableTest extends TestCase
         $this->assertEquals($expected, $sut->check('MyPlugin', 'Any'));
     }
 
-    protected function checkDataProvider(): \Generator
+    public function checkDataProvider(): \Generator
     {
         yield [true, true, true, true, false, false];
         yield [true, true, true, false, false, true];

@@ -3,8 +3,8 @@
  *
  * Only Raw Data Notification screenshot tests.
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("OnlyRawDataNotification", function () {
@@ -30,5 +30,15 @@ describe("OnlyRawDataNotification", function () {
         await page.waitForSelector('.widget');
         const notificationContainer = await page.$('#notificationContainer');
         expect(await notificationContainer.screenshot()).to.matchImage('show_notification_when_only_raw_data_exists');
+    });
+
+    it("should show notification when only raw data exists and visits log is disabled", async function () {
+        testEnvironment.overrideConfig('Live', 'disable_visitor_log', 1);
+        testEnvironment.save();
+        await page.goto('about:blank');
+        await page.goto(pageUrl);
+        await page.waitForSelector('.widget');
+        const notificationContainer = await page.$('#notificationContainer');
+        expect(await notificationContainer.screenshot()).to.matchImage('show_notification_when_only_raw_data_exists_no_visits_log');
     });
 });

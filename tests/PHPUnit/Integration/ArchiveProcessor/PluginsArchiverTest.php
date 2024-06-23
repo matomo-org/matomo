@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Integration\Archive;
 
 use Piwik\ArchiveProcessor\PluginsArchiver;
@@ -74,7 +76,7 @@ class PluginsArchiverTest extends IntegrationTestCase
         return $params;
     }
 
-    public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringEnabled()
+    public function testPurgeOutdatedArchivesPurgesCorrectTemporaryArchivesWhileKeepingNewerTemporaryArchivesWithBrowserTriggeringEnabled()
     {
         $this->expectException(\Piwik\ArchiveProcessor\PluginsArchiverException::class);
         $this->expectExceptionCode(42);
@@ -83,7 +85,7 @@ class PluginsArchiverTest extends IntegrationTestCase
         $this->pluginsArchiver->callAggregateAllPlugins(1, 1);
     }
 
-    public function test_archiveMultipleSites()
+    public function testArchiveMultipleSites()
     {
         self::expectNotToPerformAssertions();
 

@@ -1,12 +1,14 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  *
  */
+
 namespace Piwik\Plugins\LanguagesManager;
 
 use Exception;
@@ -28,7 +30,7 @@ use Piwik\View;
  */
 class LanguagesManager extends \Piwik\Plugin
 {
-    const LANGUAGE_SELECTION_NONCE = 'LanguagesManager.selection';
+    public const LANGUAGE_SELECTION_NONCE = 'LanguagesManager.selection';
 
     /**
      * @see \Piwik\Plugin::registerEvents

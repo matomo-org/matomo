@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 
 use Piwik\Common;
@@ -39,7 +41,7 @@ class FixDuplicateActionsTest extends IntegrationTestCase
         $this->applicationTester = new ApplicationTester($application);
     }
 
-    public function test_FixDuplicateLogActions_CorrectlyRemovesDuplicates_AndFixesReferencesInOtherTables()
+    public function testFixDuplicateLogActionsCorrectlyRemovesDuplicatesAndFixesReferencesInOtherTables()
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:fix-duplicate-log-actions',

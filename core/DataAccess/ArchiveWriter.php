@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\DataAccess;
@@ -32,14 +32,14 @@ class ArchiveWriter
      *
      * @var int
      */
-    const DONE_OK = 1;
+    public const DONE_OK = 1;
     /**
      * Flag stored at the start of the archiving
      * When requesting an Archive, we make sure that non-finished archive are not considered valid
      *
      * @var int
      */
-    const DONE_ERROR = 2;
+    public const DONE_ERROR = 2;
 
     /**
      * Flag indicates the archive is over a period that is not finished, eg. the current day, current week, etc.
@@ -51,21 +51,21 @@ class ArchiveWriter
      * @deprecated it should not be used anymore as temporary archives have been removed. It still exists though for
      *             historical reasons.
      */
-    const DONE_OK_TEMPORARY = 3;
+    public const DONE_OK_TEMPORARY = 3;
 
     /**
      * Flag indicated that archive is done but was marked as invalid later and needs to be re-processed during next archiving process
      *
      * @var int
      */
-    const DONE_INVALIDATED = 4;
+    public const DONE_INVALIDATED = 4;
 
     /**
      * Flag indicating that the archive is
      *
      * @var int
      */
-    const DONE_PARTIAL = 5;
+    public const DONE_PARTIAL = 5;
 
     protected $fields = ['idarchive',
         'idsite',
@@ -81,7 +81,7 @@ class ArchiveWriter
         'blob' => []
     ];
 
-    const MAX_SPOOL_SIZE = 50;
+    public const MAX_SPOOL_SIZE = 50;
 
     /**
      * @var int|false

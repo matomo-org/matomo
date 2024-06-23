@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
@@ -37,9 +38,9 @@ use Piwik\Plugins\CoreAdminHome\Emails\TokenAuthDeletedEmail;
 
 class Controller extends ControllerAdmin
 {
-    const NONCE_CHANGE_PASSWORD = 'changePasswordNonce';
-    const NONCE_ADD_AUTH_TOKEN = 'addAuthTokenNonce';
-    const NONCE_DELETE_AUTH_TOKEN = 'deleteAuthTokenNonce';
+    public const NONCE_CHANGE_PASSWORD = 'changePasswordNonce';
+    public const NONCE_ADD_AUTH_TOKEN = 'addAuthTokenNonce';
+    public const NONCE_DELETE_AUTH_TOKEN = 'deleteAuthTokenNonce';
 
     /**
      * @var Translator

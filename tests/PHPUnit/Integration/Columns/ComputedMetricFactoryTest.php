@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Columns;
@@ -39,7 +40,7 @@ class ComputedMetricFactoryTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_createComputedMetric_createAvgMetric()
+    public function testCreateComputedMetricCreateAvgMetric()
     {
         $metric = $this->factory->createComputedMetric('bounce_count', 'nb_visits', ComputedMetric::AGGREGATION_AVG);
 
@@ -49,7 +50,7 @@ class ComputedMetricFactoryTest extends IntegrationTestCase
         $this->assertSame('General_Visitors', $metric->getCategoryId());
     }
 
-    public function test_createComputedMetric_createRateMetric()
+    public function testCreateComputedMetricCreateRateMetric()
     {
         $metric = $this->factory->createComputedMetric('bounce_count', 'nb_visits', ComputedMetric::AGGREGATION_RATE);
 

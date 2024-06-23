@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -38,7 +39,7 @@ class CronArchiveTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForRepairInvalidationsIfNeeded
      */
-    public function test_repairInvalidationsIfNeeded_insertsProperInvalidations(
+    public function testRepairInvalidationsIfNeededInsertsProperInvalidations(
         $existingInvalidations,
         $archive,
         $expectedInvalidations
@@ -72,37 +73,37 @@ class CronArchiveTest extends IntegrationTestCase
                         'date1' => '2020-03-04',
                         'date2' => '2020-03-04',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'period' => '2',
                         'date1' => '2020-03-02',
                         'date2' => '2020-03-08',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'period' => '3',
                         'date1' => '2020-03-01',
                         'date2' => '2020-03-31',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'period' => '4',
                         'date1' => '2020-01-01',
                         'date2' => '2020-12-31',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
                 ],
@@ -123,7 +124,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'date1' => '2020-03-02',
                         'date2' => '2020-03-08',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
                     array ( // status = 1 version
@@ -133,27 +134,27 @@ class CronArchiveTest extends IntegrationTestCase
                         'date1' => '2020-03-02',
                         'date2' => '2020-03-08',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'period' => '3',
                         'date1' => '2020-03-01',
                         'date2' => '2020-03-31',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'period' => '4',
                         'date1' => '2020-01-01',
                         'date2' => '2020-12-31',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
                 ],
@@ -174,7 +175,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'date1' => '2020-03-01',
                         'date2' => '2020-03-31',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
                     array (
@@ -184,17 +185,17 @@ class CronArchiveTest extends IntegrationTestCase
                         'date1' => '2020-03-02',
                         'date2' => '2020-03-08',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'period' => '4',
                         'date1' => '2020-01-01',
                         'date2' => '2020-12-31',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
                 ],
@@ -214,17 +215,17 @@ class CronArchiveTest extends IntegrationTestCase
                         'date1' => '2020-02-24',
                         'date2' => '2020-03-01',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'period' => '4',
                         'date1' => '2020-01-01',
                         'date2' => '2020-12-31',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
                 ],
@@ -277,11 +278,11 @@ class CronArchiveTest extends IntegrationTestCase
                         'date1' => '2020-03-02',
                         'date2' => '2020-03-08',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2020-03-04 03:04:04',
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'period' => '3',
                         'date1' => '2020-03-01',
@@ -291,7 +292,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'ts_invalidated' => '2020-03-04 03:04:04',
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'period' => '4',
                         'date1' => '2020-01-01',
@@ -318,7 +319,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'date1' => '2021-12-27',
                         'date2' => '2022-01-02',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2022-03-04 01:00:00',
                     ),
                     array (
@@ -328,7 +329,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'date1' => '2022-01-01',
                         'date2' => '2022-12-31',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                         'ts_invalidated' => '2022-03-04 01:00:00',
                     ),
                 ],
@@ -339,7 +340,7 @@ class CronArchiveTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForInvalidateRecentDate
      */
-    public function test_invalidateRecentDate_invalidatesCorrectPeriodsAndSegments(
+    public function testInvalidateRecentDateInvalidatesCorrectPeriodsAndSegments(
         $dateStr,
         $segments,
         $expectedInvalidationCalls
@@ -462,7 +463,7 @@ class CronArchiveTest extends IntegrationTestCase
         return $mock;
     }
 
-    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsTrueIfPeriodHasToday_AndExistingArchiveIsNewEnough()
+    public function testCanWeSkipInvalidatingBecauseThereIsAUsablePeriodReturnsTrueIfPeriodHasTodayAndExistingArchiveIsNewEnough()
     {
         Fixture::createWebsite('2019-04-04 03:45:45');
 
@@ -483,7 +484,7 @@ class CronArchiveTest extends IntegrationTestCase
         $this->assertTrue($actual);
     }
 
-    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsTrueIfPeriodHasToday_AndExistingArchiveIsNewEnoughAndInvalidated()
+    public function testCanWeSkipInvalidatingBecauseThereIsAUsablePeriodReturnsTrueIfPeriodHasTodayAndExistingArchiveIsNewEnoughAndInvalidated()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -506,7 +507,7 @@ class CronArchiveTest extends IntegrationTestCase
         $this->assertTrue($actual);
     }
 
-    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsIfPeriodDoesNotHaveToday_AndExistingArchiveIsOk()
+    public function testCanWeSkipInvalidatingBecauseThereIsAUsablePeriodReturnsIfPeriodDoesNotHaveTodayAndExistingArchiveIsOk()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -529,7 +530,7 @@ class CronArchiveTest extends IntegrationTestCase
         $this->assertTrue($actual);
     }
 
-    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsFalseIfDayHasChangedAndDateIsYesterday()
+    public function testCanWeSkipInvalidatingBecauseThereIsAUsablePeriodReturnsFalseIfDayHasChangedAndDateIsYesterday()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -552,7 +553,7 @@ class CronArchiveTest extends IntegrationTestCase
         $this->assertFalse($actual);
     }
 
-    public function test_canWeSkipInvalidatingBecauseThereIsAUsablePeriod_returnsTrueIfDayHasNotChangedAndDateIsYesterday()
+    public function testCanWeSkipInvalidatingBecauseThereIsAUsablePeriodReturnsTrueIfDayHasNotChangedAndDateIsYesterday()
     {
         Rules::setBrowserTriggerArchiving(false);
 
@@ -576,7 +577,7 @@ class CronArchiveTest extends IntegrationTestCase
         $this->assertTrue($actual);
     }
 
-    public function test_getColumnNamesFromTable()
+    public function testGetColumnNamesFromTable()
     {
         Fixture::createWebsite('2014-12-12 00:01:02');
         Fixture::createWebsite('2014-12-12 00:01:02');
@@ -618,7 +619,7 @@ class CronArchiveTest extends IntegrationTestCase
         $this->assertSame('2014-04-06', $invalidatedReports[2][1]);
     }
 
-    public function test_wasSegmentCreatedRecently()
+    public function testWasSegmentCreatedRecently()
     {
         Fixture::createWebsite('2014-12-12 00:01:02');
 
@@ -642,7 +643,7 @@ class CronArchiveTest extends IntegrationTestCase
         $this->assertFalse($cronarchive->wasSegmentChangedRecently('actions>=999', $allSegments));
     }
 
-    public function test_skipSegmentsToday()
+    public function testSkipSegmentsToday()
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
             '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
@@ -672,7 +673,7 @@ class CronArchiveTest extends IntegrationTestCase
         self::assertStringNotContainsString('Segment "actions>=2" was created recently', $logger->output);
     }
 
-    public function test_output()
+    public function testOutput()
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
             '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
@@ -784,7 +785,7 @@ LOG;
         $this->assertStringMatchesFormat($expected, $output);
     }
 
-    public function test_output_withSkipIdSites()
+    public function testOutputWithSkipIdSites()
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
             '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
@@ -907,7 +908,7 @@ LOG;
         return $output;
     }
 
-    public function test_shouldNotStopProcessingWhenOneSiteIsInvalid()
+    public function testShouldNotStopProcessingWhenOneSiteIsInvalid()
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
             '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -38,7 +39,7 @@ class NumberFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getFormatMethodTestData
      */
-    public function test_format_CorrectlyFormatsValueAsNumberOrPercent(
+    public function testFormatCorrectlyFormatsValueAsNumberOrPercent(
         $language,
         $value,
         $maximumFractionDigits,

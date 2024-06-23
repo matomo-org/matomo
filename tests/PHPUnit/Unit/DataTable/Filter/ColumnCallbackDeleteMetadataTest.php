@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Core\DataTable\Filter;
@@ -52,7 +53,7 @@ class ColumnCallbackDeleteMetadataTest extends \PHPUnit\Framework\TestCase
         return $row;
     }
 
-    public function test_filter_shouldRemoveAllMetadataEntriesHavingTheGivenName()
+    public function testFilterShouldRemoveAllMetadataEntriesHavingTheGivenName()
     {
         $this->table->filter($this->filter, array('test'));
 
@@ -64,7 +65,7 @@ class ColumnCallbackDeleteMetadataTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $metadata);
     }
 
-    public function test_filter_shouldRemoveAllMetadataEntriesHavingTheGivenName_EvenIfOnlySomeRowsHaveThatMetadataName()
+    public function testFilterShouldRemoveAllMetadataEntriesHavingTheGivenNameEvenIfOnlySomeRowsHaveThatMetadataName()
     {
         $this->table->filter($this->filter, array('other'));
 
@@ -76,7 +77,7 @@ class ColumnCallbackDeleteMetadataTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $metadata);
     }
 
-    public function test_filter_shouldRemoveTheMetadataFromSubtables_IfOneIsSet()
+    public function testFilterShouldRemoveTheMetadataFromSubtablesIfOneIsSet()
     {
         $row   = $this->addRowWithMetadata(array('test' => '5', 'other' => 'value2'));
         $table = new DataTable();

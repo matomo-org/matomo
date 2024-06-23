@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomDimensions\tests\Integration\Dao;
@@ -60,26 +61,26 @@ class LogTableTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_shouldInstall5Indexes_ByDefault()
+    public function testShouldInstall5IndexesByDefault()
     {
         $this->assertSame(5, $this->logVisit->getNumInstalledIndexes());
         $this->assertSame(5, $this->logAction->getNumInstalledIndexes());
         $this->assertSame(5, $this->logConverison->getNumInstalledIndexes());
     }
 
-    public function test_install_shouldInstallColumn_LogLinkVisitAction_TimeSpent()
+    public function testInstallShouldInstallColumnLogLinkVisitActionTimeSpent()
     {
         $columnn = DbHelper::getTableColumns(Common::prefixTable('log_link_visit_action'));
         $this->assertArrayHasKey('time_spent', $columnn);
     }
 
-    public function test_install_shouldInstallColumn_LogVisit_LastIdlinkVa()
+    public function testInstallShouldInstallColumnLogVisitLastIdlinkVa()
     {
         $columnn = DbHelper::getTableColumns(Common::prefixTable('log_visit'));
         $this->assertArrayHasKey('last_idlink_va', $columnn);
     }
 
-    public function test_uninstall_shouldRemoveAllInstalledColumns()
+    public function testUninstallShouldRemoveAllInstalledColumns()
     {
         $this->logVisit->uninstall();
         $this->logAction->uninstall();
@@ -90,7 +91,7 @@ class LogTableTest extends IntegrationTestCase
         $this->assertSame(0, $this->logConverison->getNumInstalledIndexes());
     }
 
-    public function test_uninstall_shouldInstallColumn_LogLinkVisitAction_TimeSpent()
+    public function testUninstallShouldInstallColumnLogLinkVisitActionTimeSpent()
     {
         $this->logAction->uninstall();
 
@@ -98,7 +99,7 @@ class LogTableTest extends IntegrationTestCase
         $this->assertArrayNotHasKey('time_spent', $columnn);
     }
 
-    public function test_uninstall_shouldInstallColumn_LogVisit_LastIdlinkVa()
+    public function testUninstallShouldInstallColumnLogVisitLastIdlinkVa()
     {
         $this->logVisit->uninstall();
 
@@ -106,7 +107,7 @@ class LogTableTest extends IntegrationTestCase
         $this->assertArrayNotHasKey('last_idlink_va', $columnn);
     }
 
-    public function test_install_shouldMakeSureThereAreAtLeast5Installed()
+    public function testInstallShouldMakeSureThereAreAtLeast5Installed()
     {
         $this->logVisit->removeCustomDimension(3);
         $this->logVisit->removeCustomDimension(4);
@@ -121,7 +122,7 @@ class LogTableTest extends IntegrationTestCase
         $this->assertSame(array(2,5,6,7,8), $this->logVisit->getInstalledIndexes());
     }
 
-    public function test_getInstalledIndexes_shouldReturnInstalledIndexes()
+    public function testGetInstalledIndexesShouldReturnInstalledIndexes()
     {
         $expected = range(1, 5);
         $this->assertSame($expected, $this->logVisit->getInstalledIndexes());
@@ -141,7 +142,7 @@ class LogTableTest extends IntegrationTestCase
         $this->assertSame($expected, $this->logConverison->getInstalledIndexes());
     }
 
-    public function test_getNumInstalledIndexes_shouldReturnInstalledIndexes()
+    public function testGetNumInstalledIndexesShouldReturnInstalledIndexes()
     {
         $expected = 5;
         $this->assertSame($expected, $this->logVisit->getNumInstalledIndexes());
@@ -161,7 +162,7 @@ class LogTableTest extends IntegrationTestCase
         $this->assertSame($expected, $this->logConverison->getNumInstalledIndexes());
     }
 
-    public function test_buildCustomDimensionColumnName()
+    public function testBuildCustomDimensionColumnName()
     {
         $this->assertNull(LogTable::buildCustomDimensionColumnName('0'));
         $this->assertNull(LogTable::buildCustomDimensionColumnName(''));
@@ -176,7 +177,7 @@ class LogTableTest extends IntegrationTestCase
         $this->assertSame('custom_dimension_95', LogTable::buildCustomDimensionColumnName(array('index' => '95')));
     }
 
-    public function test_removeCustomDimension_shouldRemoveASpecificIndex()
+    public function testRemoveCustomDimensionShouldRemoveASpecificIndex()
     {
         // should remove nothing as not a valid index
         $this->logVisit->removeCustomDimension(0);
@@ -191,7 +192,7 @@ class LogTableTest extends IntegrationTestCase
         $this->assertSame(array(2,4,5), $this->logVisit->getInstalledIndexes());
     }
 
-    public function test_addManyCustomDimensions_shouldAddNewColumns()
+    public function testAddManyCustomDimensionsShouldAddNewColumns()
     {
         // should add nothing as not a valid index
         $this->logVisit->addManyCustomDimensions(0);
@@ -217,7 +218,7 @@ class LogTableTest extends IntegrationTestCase
     /**
      * @dataProvider getDimensionColumnTestNames
      */
-    public function test_isCustomDimensionColumn($expected, $name)
+    public function testIsCustomDimensionColumn($expected, $name)
     {
         $this->assertSame($expected, LogTable::isCustomDimensionColumn($name));
     }

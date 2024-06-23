@@ -4,7 +4,7 @@
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Live\tests\System;
@@ -41,13 +41,9 @@ class ApiTest extends SystemTestCase
 
     public function getApiForTesting()
     {
-        $api = [
-            'Live.getVisitorProfile',
-        ];
-
         $apiToTest   = [];
         $apiToTest[] = [
-            $api,
+            ['Live.getVisitorProfile'],
             [
                 'idSite'     => 1,
                 'date'       => self::$fixture->dateTime,
@@ -56,7 +52,7 @@ class ApiTest extends SystemTestCase
             ],
         ];
         $apiToTest[] = [
-            $api,
+            ['Live.getVisitorProfile'],
             [
                 'idSite'                 => 1,
                 'date'                   => self::$fixture->dateTime,
@@ -149,6 +145,14 @@ class ApiTest extends SystemTestCase
                     'hideColumnsRecursively' => 0,
                 ],
                 'testSuffix'             => 'hideColumnsNonRecursive',
+            ],
+        ];
+        $apiToTest[] = [
+            ['Live.getMostRecentVisitsDateTime'],
+            [
+                'idSite'                 => 1,
+                'date'                   => self::$fixture->dateTime,
+                'periods'                => ['day', 'week'],
             ],
         ];
 

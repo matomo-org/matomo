@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Container\StaticContainer;
@@ -21,10 +22,10 @@ use Piwik\Piwik;
  */
 abstract class SMSProvider
 {
-    const MAX_GSM_CHARS_IN_ONE_UNIQUE_SMS = 160;
-    const MAX_GSM_CHARS_IN_ONE_CONCATENATED_SMS = 153;
-    const MAX_UCS2_CHARS_IN_ONE_UNIQUE_SMS = 70;
-    const MAX_UCS2_CHARS_IN_ONE_CONCATENATED_SMS = 67;
+    public const MAX_GSM_CHARS_IN_ONE_UNIQUE_SMS = 160;
+    public const MAX_GSM_CHARS_IN_ONE_CONCATENATED_SMS = 153;
+    public const MAX_UCS2_CHARS_IN_ONE_UNIQUE_SMS = 70;
+    public const MAX_UCS2_CHARS_IN_ONE_CONCATENATED_SMS = 67;
 
     /**
      * Get the ID of the SMS Provider. Eg 'Clockwork' or 'FreeMobile'

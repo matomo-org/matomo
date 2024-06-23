@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Core\DataTable\Filter;
@@ -62,7 +63,7 @@ class AddSegmentByLabelMappingTest extends \PHPUnit\Framework\TestCase
         return new Row(array(Row::COLUMNS => $columns));
     }
 
-    public function test_filter_shouldNotFail_IfMappingIsEmpty()
+    public function testFilterShouldNotFailIfMappingIsEmpty()
     {
         $this->table->filter($this->filter, array('segmentName', $this->getEmptyMapping()));
 
@@ -70,7 +71,7 @@ class AddSegmentByLabelMappingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(false, false, false, false, false, false), $metadata);
     }
 
-    public function test_filter_shouldMapOnlyValuesThatExistInMapping()
+    public function testFilterShouldMapOnlyValuesThatExistInMapping()
     {
         $this->table->filter($this->filter, array('segmentName', $this->getMapping()));
 
@@ -79,7 +80,7 @@ class AddSegmentByLabelMappingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $metadata);
     }
 
-    public function test_filter_shouldUrlEncodeValues()
+    public function testFilterShouldUrlEncodeValues()
     {
         $mapping = array(
             1 => 'Core tests',

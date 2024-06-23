@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Translation\Loader;
@@ -20,7 +21,7 @@ class UrlLikeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getValidUrls
      */
-    public function test_validate_successValueIsLikeUri($validUrl)
+    public function testValidateSuccessValueIsLikeUri($validUrl)
     {
         self::expectNotToPerformAssertions();
 
@@ -54,7 +55,7 @@ class UrlLikeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getFailedUrls
      */
-    public function test_validate_failValueIsNotUrlLike($url)
+    public function testValidateFailValueIsNotUrlLike($url)
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('ValidatorErrorNotUrlLike');

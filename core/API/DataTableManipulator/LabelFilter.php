@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\API\DataTableManipulator;
 
 use Piwik\API\DataTableManipulator;
@@ -22,9 +23,9 @@ use Piwik\DataTable;
  */
 class LabelFilter extends DataTableManipulator
 {
-    const SEPARATOR_RECURSIVE_LABEL = '>';
-    const TERMINAL_OPERATOR = '@';
-    const FLAG_IS_ROW_EVOLUTION = 'label_index';
+    public const SEPARATOR_RECURSIVE_LABEL = '>';
+    public const TERMINAL_OPERATOR = '@';
+    public const FLAG_IS_ROW_EVOLUTION = 'label_index';
 
     private $labels;
     private $addLabelIndex;

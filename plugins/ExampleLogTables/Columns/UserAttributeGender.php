@@ -1,4 +1,5 @@
 <?php
+
 namespace Piwik\Plugins\ExampleLogTables\Columns;
 
 use Piwik\Columns\Dimension;

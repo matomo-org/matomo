@@ -3,8 +3,8 @@
  *
  * transitions screenshot tests
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("Transitions", function () {
@@ -27,7 +27,7 @@ describe("Transitions", function () {
     it('should load the transitions popup correctly for the page titles report', async function() {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPageTitles");
 
-        await (await page.jQuery('div.dataTable tbody tr:eq(2)')).hover();
+        await (await page.jQuery('div.dataTable tbody tr:contains("Space Quest")')).hover();
         await (await page.jQuery('a.actionTransitions:visible')).hover(); // necessary to get popover to display
         await (await page.jQuery('a.actionTransitions:visible')).click();
 
@@ -42,14 +42,13 @@ describe("Transitions", function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages&"
                     + "popover=RowAction$3ATransitions$3Aurl$3Ahttp$3A$2F$2Fpiwik.net$2Fdocs$2Fmanage-websites$2F");
         await page.waitForNetworkIdle();
-        await page.waitForTimeout(500);
 
-        // for some reason the tooltip isn't shown on the screenshot (even if the whole page is taken)
-        // but it seems to be placed in the HTML code so, we check for it's contents
         await (await page.$('.Transitions_CurveTextRight')).hover();
-        await page.waitForSelector('.ui-tooltip');
-        const toolTipHtml = await page.evaluate(() => $('.ui-tooltip:visible').html());
-        expect(toolTipHtml).to.equal('<div class="ui-tooltip-content"><strong>4 (out of 4)</strong> to internal pages</div>');
+        await page.waitForSelector('.ui-tooltip', { visible: true });
+
+        // the tooltip will, in most cases, not be visible in the screenshot
+        // removing and re-adding a clone to the DOM seems to fix that problem
+        await page.evaluate(() => $('.ui-dialog').append($('.ui-tooltip').remove().clone()));
 
         expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('transitions_popup_urls');
     });

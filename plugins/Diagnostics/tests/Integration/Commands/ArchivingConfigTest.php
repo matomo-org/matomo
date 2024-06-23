@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Diagnostics\tests\Integration\Commands;
@@ -26,7 +27,7 @@ class ArchivingConfigTest extends ConsoleCommandTestCase
         parent::setUpBeforeClass();
     }
 
-    public function test_CommandOutput_IsAsExpected()
+    public function testCommandOutputIsAsExpected()
     {
         $expected = <<<OUTPUT
 +----------+-------------------------------------------------------------+-------------------+
@@ -77,7 +78,7 @@ OUTPUT;
         $this->assertStringMatchesFormat($expected, $actual);
     }
 
-    public function test_CommandOutput_withJsonOption_IsAsExpected()
+    public function testCommandOutputWithJsonOptionIsAsExpected()
     {
         $expected = '[["Total Invalidation Count","0"],["In Progress Invalidation Count","0"],["Scheduled Invalidation Count","0"],["Earliest invalidation ts_started",""],["Latest invalidation ts_started",""],["Earliest invalidation ts_invalidated",""],["Latest invalidation ts_invalidated",""],["Number of segment invalidations","0"],["Number of plugin invalidations","0"],["List of plugins being invalidated",""]]';
         $this->applicationTester->run([

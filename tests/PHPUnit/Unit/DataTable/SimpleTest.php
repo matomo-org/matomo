@@ -1,13 +1,13 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\DataTable;
-
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
@@ -15,7 +15,7 @@ use Piwik\DataTable\Simple;
 
 class SimpleTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_serialize_includesAllRequiredData()
+    public function testSerializeIncludesAllRequiredData()
     {
         $dataTable = new Simple();
         $dataTable->addRowFromSimpleArray([

@@ -1,14 +1,13 @@
 <?php
+
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreHome\tests\Unit\Columns;
-
 
 use PHPUnit\Framework\TestCase;
 use Piwik\Plugins\CoreHome\Columns\VisitsCount;
@@ -18,7 +17,7 @@ use Piwik\Tracker\Visitor;
 
 class VisitsCountTest extends TestCase
 {
-    public function test_onNewVisit_returnsZeroIfPreviousVisitCountDoesNotExist()
+    public function testOnNewVisitReturnsZeroIfPreviousVisitCountDoesNotExist()
     {
         $request = $this->makeMockRequest();
         $visitor = $this->makeMockVisitor(false);
@@ -29,7 +28,7 @@ class VisitsCountTest extends TestCase
         $this->assertEquals(1, $visitCount);
     }
 
-    public function test_onNewVisit_returnsIncrementedValueIfPreviousVisitCountIsPresent()
+    public function testOnNewVisitReturnsIncrementedValueIfPreviousVisitCountIsPresent()
     {
         $request = $this->makeMockRequest();
         $visitor = $this->makeMockVisitor(false, [], ['visitor_count_visits' => 10]);

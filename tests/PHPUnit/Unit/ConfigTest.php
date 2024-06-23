@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit;
@@ -79,7 +80,7 @@ class ConfigTest extends TestCase
         $this->assertEquals($expectedArray, $array['my_array']);
     }
 
-    public function test_CommonConfig_Overrides()
+    public function testCommonConfigOverrides()
     {
         $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
         $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
@@ -483,7 +484,7 @@ class ConfigTest extends TestCase
         $this->assertEquals('${@piwik(crash))}', $config->Category['key3']);
     }
 
-    public function test_forceSave_writesNothingIfThereAreNoChanges()
+    public function testForceSaveWritesNothingIfThereAreNoChanges()
     {
         $sourceConfigFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
         $configFile = PIWIK_INCLUDE_PATH . '/tmp/tmp.config.ini.php';

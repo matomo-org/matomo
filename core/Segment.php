@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Exception;
@@ -101,10 +102,10 @@ class Segment
     /**
      * Truncate the Segments to 8k
      */
-    const SEGMENT_TRUNCATE_LIMIT = 8192;
+    public const SEGMENT_TRUNCATE_LIMIT = 8192;
 
-    const CACHE_KEY = 'segmenthashes';
-    const SEGMENT_HAS_BUILT_CACHE_KEY = 'segmenthashbuilt';
+    public const CACHE_KEY = 'segmenthashes';
+    public const SEGMENT_HAS_BUILT_CACHE_KEY = 'segmenthashbuilt';
 
     /**
      * Constructor.

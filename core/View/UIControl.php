@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\View;
 
 use Exception;
@@ -25,7 +26,7 @@ class UIControl extends \Piwik\View
      *
      * Derived classes must set this constant.
      */
-    const TEMPLATE = '';
+    public const TEMPLATE = '';
 
     /**
      * The CSS class that is used to map the root element of this control with the JavaScript class.

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
@@ -22,16 +24,16 @@ class FewVisitsWithSetVisitorId extends Fixture
     public $idGoal = 1;
     public $dateTime = '2010-03-06 11:22:33';
 
-    const USER_ID_EXAMPLE_COM = 'email@example.com';
+    public const USER_ID_EXAMPLE_COM = 'email@example.com';
 
     public function setUp(): void
     {
         $this->setUpWebsitesAndGoals();
-        $this->trackVisits_setVisitorId();
-        $this->trackVisits_setUserId();
+        $this->trackVisitsSetVisitorId();
+        $this->trackVisitsSetUserId();
 
         // generate data for the period = week, month, year use cases
-        $this->trackVisits_oneWeekLater_setUserId();
+        $this->trackVisitsOneWeekLaterSetUserId();
     }
 
     public function tearDown(): void
@@ -50,7 +52,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         }
     }
 
-    private function trackVisits_setVisitorId()
+    private function trackVisitsSetVisitorId()
     {
         // total = 2 visitors, 3 page views
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
@@ -76,7 +78,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         self::checkResponse($t->doTrackPageView('incredible title!'));
     }
 
-    private function trackVisits_setUserId()
+    private function trackVisitsSetUserId()
     {
         $userId = self::USER_ID_EXAMPLE_COM;
         // total = 2 visitors, 3 page views
@@ -167,7 +169,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->doTrackEcommerceCartUpdate(10000000000 + 500 /* add some for shipping PRISM */);
     }
 
-    private function trackVisits_oneWeekLater_setUserId()
+    private function trackVisitsOneWeekLaterSetUserId()
     {
         $oneWeekLater = Date::factory($this->dateTime)->addDay(8);
 

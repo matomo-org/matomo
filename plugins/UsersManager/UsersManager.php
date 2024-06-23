@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\UsersManager;
@@ -26,8 +25,8 @@ use Piwik\SettingsPiwik;
  */
 class UsersManager extends \Piwik\Plugin
 {
-    const PASSWORD_MIN_LENGTH = 6;
-    const PASSWORD_MAX_LENGTH = 200;
+    public const PASSWORD_MIN_LENGTH = 6;
+    public const PASSWORD_MAX_LENGTH = 200;
 
     /**
      * @see \Piwik\Plugin::registerEvents

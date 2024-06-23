@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik;
@@ -65,9 +65,9 @@ use Piwik\Log\LoggerInterface;
  */
 class FrontController extends Singleton
 {
-    const DEFAULT_MODULE = 'CoreHome';
-    const DEFAULT_LOGIN = 'anonymous';
-    const DEFAULT_TOKEN_AUTH = 'anonymous';
+    public const DEFAULT_MODULE = 'CoreHome';
+    public const DEFAULT_LOGIN = 'anonymous';
+    public const DEFAULT_TOKEN_AUTH = 'anonymous';
 
     // public for tests
     public static $requestId = null;

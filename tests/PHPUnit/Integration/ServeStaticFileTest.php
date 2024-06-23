@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This php file is used to unit test Piwik::serverStaticFile()
  * Unit tests for this method should normally be located in /tests/core/Piwik.test.php
@@ -62,7 +63,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
      *
      * @group Core
      */
-    public function test_phpOutputCompression()
+    public function testPhpOutputCompression()
     {
         $this->assertFalse(ProxyHttp::isPhpOutputCompressed());
     }
@@ -72,7 +73,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
      *
      * @group Core
      */
-    public function test_nullFile()
+    public function testNullFile()
     {
         $curlHandle = curl_init();
         curl_setopt($curlHandle, CURLOPT_URL, $this->getNullFileSrvModeUrl());
@@ -90,7 +91,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
      *
      * @group Core
      */
-    public function test_ghostFile()
+    public function testGhostFile()
     {
         $curlHandle = curl_init();
         curl_setopt($curlHandle, CURLOPT_URL, $this->getGhostFileSrvModeUrl());
@@ -108,7 +109,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
      *
      * @group Core
      */
-    public function test_nonReadableFile()
+    public function testNonReadableFile()
     {
         /**
          * This test would fail on a windows environment because it is not possible to remove reading rights on a
@@ -145,7 +146,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
      *
      * @group Core
      */
-    public function test_firstAccessNoCompression()
+    public function testFirstAccessNoCompression()
     {
         $curlHandle = curl_init();
         curl_setopt($curlHandle, CURLOPT_URL, $this->getTestFileSrvModeUrl());
@@ -190,7 +191,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
      *
      * @group Core
      */
-    public function test_secondAccessNoCompression()
+    public function testSecondAccessNoCompression()
     {
         $curlHandle = curl_init();
         curl_setopt($curlHandle, CURLOPT_URL, $this->getTestFileSrvModeUrl());
@@ -213,7 +214,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
      *
      * @group Core
      */
-    public function test_secondAccessNoCompressionExpiredFile()
+    public function testSecondAccessNoCompressionExpiredFile()
     {
         $curlHandle = curl_init();
         curl_setopt($curlHandle, CURLOPT_URL, $this->getTestFileSrvModeUrl());
@@ -237,7 +238,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
      *
      * @group Core
      */
-    public function test_responseReadableWithPhpCompression()
+    public function testResponseReadableWithPhpCompression()
     {
         $curlHandle = curl_init();
         curl_setopt($curlHandle, CURLOPT_URL, $this->setZlibOutputRequest(($this->getTestFileSrvModeUrl())));
@@ -262,7 +263,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
      *
      * @group Core
      */
-    public function test_deflateCompression()
+    public function testDeflateCompression()
     {
         $this->removeCompressedFiles();
 
@@ -296,7 +297,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
      *
      * @group Core
      */
-    public function test_gzipCompression()
+    public function testGzipCompression()
     {
         $this->removeCompressedFiles();
 
@@ -327,7 +328,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
      *
      * @group Core
      */
-    public function test_compressionCache()
+    public function testCompressionCache()
     {
         $this->removeCompressedFiles();
         $deflateFileLocation = $this->getCompressedFileLocation() . ".deflate";
@@ -368,7 +369,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
      *
      * @group Core
      */
-    public function test_compressionCacheInvalidation()
+    public function testCompressionCacheInvalidation()
     {
         $this->removeCompressedFiles();
         $deflateFileLocation = $this->getCompressedFileLocation() . ".deflate";
@@ -404,7 +405,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
     /**
      * @group Core
      */
-    public function test_partialFileServeNoCompression()
+    public function testPartialFileServeNoCompression()
     {
         $this->removeCompressedFiles();
 
@@ -436,7 +437,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
      * @group Core
      * @group TestToExec
      */
-    public function test_partialFileServeWithCompression()
+    public function testPartialFileServeWithCompression()
     {
         $this->removeCompressedFiles();
 
@@ -468,7 +469,7 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
     /**
      * @group Core
      */
-    public function test_wholeFileServeWithByteRange()
+    public function testWholeFileServeWithByteRange()
     {
         $this->removeCompressedFiles();
 

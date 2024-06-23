@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreUpdater\tests\ReleaseChannel;
@@ -46,12 +47,12 @@ class ReleaseChannelTest extends IntegrationTestCase
         $this->channel = new MyReleaseChannel();
     }
 
-    public function test_getDownloadUrlWithoutScheme_shouldReturnUrlWithVersionNumberButWithoutScheme()
+    public function testGetDownloadUrlWithoutSchemeShouldReturnUrlWithVersionNumberButWithoutScheme()
     {
         $this->assertSame('://builds.matomo.org/piwik-2.15.0-b5.zip', $this->channel->getDownloadUrlWithoutScheme('2.15.0-b5'));
     }
 
-    public function test_getUrlToCheckForLatestAvailableVersion()
+    public function testGetUrlToCheckForLatestAvailableVersion()
     {
         $version = Version::VERSION;
         $phpVersion = urlencode(PHP_VERSION);
@@ -63,7 +64,7 @@ class ReleaseChannelTest extends IntegrationTestCase
         $this->assertStringStartsWith("https://api.matomo.org/1.0/getLatestVersion/?piwik_version=$version&php_version=$phpVersion&mysql_version=$mysqlVersion&release_channel=my_channel&url=$url&trigger=&timezone=", $urlToCheck);
     }
 
-    public function test_doesPreferStable()
+    public function testDoesPreferStable()
     {
         $this->assertTrue($this->channel->doesPreferStable());
     }

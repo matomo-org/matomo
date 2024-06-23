@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Proxy;
 
 use Piwik\AssetManager;
@@ -21,7 +22,7 @@ use Piwik\ProxyHttp;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    const JS_MIME_TYPE = "application/javascript; charset=UTF-8";
+    public const JS_MIME_TYPE = "application/javascript; charset=UTF-8";
 
     /**
      * Output the merged CSS file.

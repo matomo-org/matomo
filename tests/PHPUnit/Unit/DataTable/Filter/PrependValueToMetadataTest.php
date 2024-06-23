@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Core\DataTable\Filter;
@@ -44,7 +45,7 @@ class PrependValueToMetadataTest extends \PHPUnit\Framework\TestCase
         $this->table->addRow($row);
     }
 
-    public function test_filter_shouldNotFailIfColumnOrValueIsNotSetOrDoesNotMatch()
+    public function testFilterShouldNotFailIfColumnOrValueIsNotSetOrDoesNotMatch()
     {
         $this->table->filter($this->filter, array('test', ''));
         $this->table->filter($this->filter, array('', 'test'));
@@ -59,7 +60,7 @@ class PrependValueToMetadataTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(false, 'value', false, 'value', ''), $metadata);
     }
 
-    public function test_filter_shouldPrependValueToMetadataName_IfPossible()
+    public function testFilterShouldPrependValueToMetadataNameIfPossible()
     {
         $this->table->filter($this->filter, array('test', 'piwik_'));
 
@@ -71,7 +72,7 @@ class PrependValueToMetadataTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(false, 'value', false, 'value', ''), $metadata);
     }
 
-    public function test_filter_shouldOnlyPrependIfAMetadataNameIsSet()
+    public function testFilterShouldOnlyPrependIfAMetadataNameIsSet()
     {
         $this->table->filter($this->filter, array('other', 'prependme'));
 

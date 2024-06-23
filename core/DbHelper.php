@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Exception;
@@ -286,30 +287,15 @@ class DbHelper
     }
 
     /**
-     * Adds a MAX_EXECUTION_TIME hint into a SELECT query if $limit is bigger than 1
+     * Adds a MAX_EXECUTION_TIME hint into a SELECT query if $limit is bigger than 0
      *
      * @param string $sql  query to add hint to
-     * @param int $limit  time limit in seconds
+     * @param float $limit  time limit in seconds
      * @return string
      */
-    public static function addMaxExecutionTimeHintToQuery($sql, $limit)
+    public static function addMaxExecutionTimeHintToQuery(string $sql, float $limit): string
     {
-        if ($limit <= 0) {
-            return $sql;
-        }
-
-        $sql = trim($sql);
-        $pos = stripos($sql, 'SELECT');
-        $isMaxExecutionTimeoutAlreadyPresent = (stripos($sql, 'MAX_EXECUTION_TIME(') !== false);
-        if ($pos !== false && !$isMaxExecutionTimeoutAlreadyPresent) {
-            $timeInMs = $limit * 1000;
-            $timeInMs = (int) $timeInMs;
-            $maxExecutionTimeHint = ' /*+ MAX_EXECUTION_TIME(' . $timeInMs . ') */ ';
-
-            $sql = substr_replace($sql, 'SELECT ' . $maxExecutionTimeHint, $pos, strlen('SELECT'));
-        }
-
-        return $sql;
+        return Schema::getInstance()->addMaxExecutionTimeHintToQuery($sql, $limit);
     }
 
     /**

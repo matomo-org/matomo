@@ -1,14 +1,13 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Referrers\Reports;
-
 
 use Piwik\API\Request;
 use Piwik\Common;
@@ -30,7 +29,7 @@ use Piwik\Widget\WidgetsList;
 
 class Get extends Base
 {
-    const TOTAL_DIRECT_ENTRIES_METRIC_NAME = 'Referrers_directEntries';
+    public const TOTAL_DIRECT_ENTRIES_METRIC_NAME = 'Referrers_directEntries';
 
     protected function init()
     {

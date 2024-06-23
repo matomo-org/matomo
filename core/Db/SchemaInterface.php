@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Db;
@@ -15,7 +15,7 @@ namespace Piwik\Db;
 interface SchemaInterface
 {
     /**
-     * Get the SQL to create a specific Piwik table
+     * Get the SQL to create a specific Matomo table
      *
      * @param string $tableName
      * @return string  SQL
@@ -23,7 +23,7 @@ interface SchemaInterface
     public function getTableCreateSql($tableName);
 
     /**
-     * Get the SQL to create Piwik tables
+     * Get the SQL to create Matomo tables
      *
      * @return array  array of strings containing SQL
      */
@@ -32,7 +32,7 @@ interface SchemaInterface
     /**
      * Creates a new table in the database.
      *
-     * @param string $nameWithoutPrefix   The name of the table without any piwik prefix.
+     * @param string $nameWithoutPrefix   The name of the table without any prefix.
      * @param string $createDefinition    The table create definition
      */
     public function createTable($nameWithoutPrefix, $createDefinition);
@@ -75,7 +75,7 @@ interface SchemaInterface
     public function truncateAllTables();
 
     /**
-     * Names of all the prefixed tables in piwik
+     * Names of all the prefixed tables in Matomo
      * Doesn't use the DB
      *
      * @return array  Table names
@@ -105,4 +105,37 @@ interface SchemaInterface
      * @return bool  True if tables exist; false otherwise
      */
     public function hasTables();
+
+    /**
+     * Adds a max execution time query hint into a SELECT query if $limit is bigger than 0
+     * (floating values for limit might be rounded to full seconds depending on DB support)
+     *
+     * @param string $sql  query to add hint to
+     * @param float $limit  time limit in seconds
+     * @return string
+     */
+    public function addMaxExecutionTimeHintToQuery(string $sql, float $limit): string;
+
+    /**
+     * Returns if the database supports column updates in table updates.
+     * Some database engines are performing sanity checks for table updates. Those might include checking if all columns used
+     * already exist. In such a case queries like this might fail: `ALTER TABLE t ADD COLUMN b, ADD INDEX i (b)`
+     *
+     * @return bool
+     */
+    public function supportsComplexColumnUpdates(): bool;
+
+    /**
+     * Return the default port used by this database engine
+     *
+     * @return int
+     */
+    public function getDefaultPort(): int;
+
+    /**
+     * Return the table options to use for a CREATE TABLE statement.
+     *
+     * @return string
+     */
+    public function getTableCreateOptions(): string;
 }

@@ -1,14 +1,13 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Archiver;
-
 
 use Piwik\Archiver\Request;
 use Piwik\Date;
@@ -24,7 +23,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForChangeDate
      */
-    public function test_changeDate_replacesDateProperly($url, $newDate, $expectedNewUrl)
+    public function testChangeDateReplacesDateProperly($url, $newDate, $expectedNewUrl)
     {
         $request = new Request($url);
         $request->changeDate($newDate);
@@ -55,7 +54,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForMakeSureDateIsNotSingleDayRange
      */
-    public function test_makeSureDateIsNotSingleDayRange($url, $expectedResult)
+    public function testMakeSureDateIsNotSingleDayRange($url, $expectedResult)
     {
         $request = new Request($url);
         $request->makeSureDateIsNotSingleDayRange();

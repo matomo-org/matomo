@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Tracker;
@@ -150,7 +151,7 @@ class Visit2Test extends IntegrationTestCase
         });
     }
 
-    public function test_handleNewVisitWithoutConversion_shouldTriggerDimensions()
+    public function testHandleNewVisitWithoutConversionShouldTriggerDimensions()
     {
         $request = new Request(array());
         $visitProperties = new Visit\VisitProperties();
@@ -173,7 +174,7 @@ class Visit2Test extends IntegrationTestCase
         $this->assertFalse($visitor->getVisitorColumn('custom_dimension_4'));
     }
 
-    public function test_handleNewVisitWithConversion_shouldTriggerDimensions()
+    public function testHandleNewVisitWithConversionShouldTriggerDimensions()
     {
         $request = new Request(array());
         $visitProperties = new Visit\VisitProperties();
@@ -192,7 +193,7 @@ class Visit2Test extends IntegrationTestCase
         $this->assertEquals('converted3', $visitor->getVisitorColumn('custom_dimension_3'));
     }
 
-    public function test_handleExistingVisitWithoutConversion_shouldTriggerDimensions()
+    public function testHandleExistingVisitWithoutConversionShouldTriggerDimensions()
     {
         $request = new Request(array());
         $visitProperties = new Visit\VisitProperties();
@@ -216,7 +217,7 @@ class Visit2Test extends IntegrationTestCase
         $this->assertEquals('existing3extended', $visitor->getVisitorColumn('custom_dimension_4'));
     }
 
-    public function test_handleExistingVisitWithConversion_shouldTriggerDimensions()
+    public function testHandleExistingVisitWithConversionShouldTriggerDimensions()
     {
         $request = new Request(array());
         $visitProperties = new Visit\VisitProperties();

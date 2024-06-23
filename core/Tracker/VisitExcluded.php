@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tracker;
 
 use Piwik\Cache as PiwikCache;
@@ -371,7 +372,7 @@ class VisitExcluded
                     return true;
                 }
                 // if the string is a valid regex, and the user agent matches, this visit should be excluded
-                if (@preg_match($excludedUserAgent, null) !== false) {
+                if (@preg_match($excludedUserAgent, '') !== false) {
                     return preg_match($excludedUserAgent, $this->userAgent) ? true : false;
                 }
             }

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Core\DataTable\Filter;
@@ -44,7 +45,7 @@ class PrependSegmentTest extends \PHPUnit\Framework\TestCase
         $this->table->addRow($row);
     }
 
-    public function test_filter_shouldRemoveAllMetadataEntriesHavingTheGivenName()
+    public function testFilterShouldRemoveAllMetadataEntriesHavingTheGivenName()
     {
         $prepend = 'city=test;';
         $this->table->filter($this->filter, array($prepend));

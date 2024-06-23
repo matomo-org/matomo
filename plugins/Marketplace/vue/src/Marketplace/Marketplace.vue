@@ -1,7 +1,8 @@
 <!--
   Matomo - free/libre analytics platform
-  @link https://matomo.org
-  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
 <template>
@@ -57,13 +58,16 @@
               :is-auto-update-possible="isAutoUpdatePossible"
               :is-super-user="isSuperUser"
               :is-multi-server-environment="isMultiServerEnvironment"
+              :has-some-admin-access="hasSomeAdminAccess"
               :is-plugins-admin-enabled="isPluginsAdminEnabled"
               :is-valid-consumer="isValidConsumer"
               :deactivate-nonce="deactivateNonce"
               :activate-nonce="activateNonce"
               :install-nonce="installNonce"
               :update-nonce="updateNonce"
-              @triggerUpdate="this.fetchPlugins()"
+              @trigger-update="this.updateMarketplace()"
+              @start-trial-start="this.$emit('startTrialStart')"
+              @start-trial-stop="this.$emit('startTrialStop')"
   />
 
   <ContentBlock v-if="!loading && pluginsToShow.length == 0">
@@ -123,6 +127,7 @@ export default defineComponent({
     isAutoUpdatePossible: Boolean,
     isPluginsAdminEnabled: Boolean,
     isMultiServerEnvironment: Boolean,
+    hasSomeAdminAccess: Boolean,
     installNonce: {
       type: String,
       required: true,
@@ -156,6 +161,7 @@ export default defineComponent({
       pluginsToShow: [],
     };
   },
+  emits: ['triggerUpdate', 'startTrialStart', 'startTrialStop'],
   mounted() {
     Matomo.postEvent('Marketplace.Marketplace.mounted', { element: this.$refs.root });
     watch(() => MatomoUrl.hashParsed.value, () => {
@@ -214,7 +220,10 @@ export default defineComponent({
         sort: event,
       });
     },
-    fetchPlugins() {
+    updateMarketplace() {
+      this.fetchPlugins(() => this.$emit('triggerUpdate'));
+    },
+    fetchPlugins(cb: (() => void) | void) {
       this.loading = true;
       this.pluginsToShow = [];
 
@@ -242,6 +251,9 @@ export default defineComponent({
         },
       ).then((response) => {
         this.pluginsToShow = response;
+        if (typeof cb === 'function') {
+          cb();
+        }
       }).finally(() => {
         this.loading = false;
         this.fetchRequestAbortController = null;

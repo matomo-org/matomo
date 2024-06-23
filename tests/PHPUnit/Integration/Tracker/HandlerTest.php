@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Tracker;
@@ -60,7 +61,7 @@ class HandlerTest extends IntegrationTestCase
         $this->requestSet = new RequestSet();
     }
 
-    public function test_init_ShouldInitiateResponseInstance()
+    public function testInitShouldInitiateResponseInstance()
     {
         $this->handler->init($this->tracker, $this->requestSet);
 
@@ -69,7 +70,7 @@ class HandlerTest extends IntegrationTestCase
         $this->assertFalse($this->response->isSend);
     }
 
-    public function test_finish_ShouldOutputAndSendResponse()
+    public function testFinishShouldOutputAndSendResponse()
     {
         $response = $this->handler->finish($this->tracker, $this->requestSet);
 
@@ -80,7 +81,7 @@ class HandlerTest extends IntegrationTestCase
         $this->assertTrue($this->response->isSend);
     }
 
-    public function test_finish_ShoulAlsoReturnAPossibleRenderedException()
+    public function testFinishShoulAlsoReturnAPossibleRenderedException()
     {
         $this->executeOnException($this->buildException());
         $response = $this->handler->finish($this->tracker, $this->requestSet);
@@ -88,7 +89,7 @@ class HandlerTest extends IntegrationTestCase
         $this->assertEquals('MyMessage', $response);
     }
 
-    public function test_onException_ShouldOutputResponse()
+    public function testOnExceptionShouldOutputResponse()
     {
         $this->executeOnException($this->buildException());
 
@@ -98,7 +99,7 @@ class HandlerTest extends IntegrationTestCase
         $this->assertFalse($this->response->isSend);
     }
 
-    public function test_onException_ShouldPassExceptionToResponse()
+    public function testOnExceptionShouldPassExceptionToResponse()
     {
         $exception = $this->buildException();
 
@@ -108,19 +109,19 @@ class HandlerTest extends IntegrationTestCase
         $this->assertSame(500, $this->response->statusCode);
     }
 
-    public function test_onException_ShouldSendStatusCode400IfUnexpectedWebsite()
+    public function testOnExceptionShouldSendStatusCode400IfUnexpectedWebsite()
     {
         $this->executeOnException(new UnexpectedWebsiteFoundException('test'));
         $this->assertSame(400, $this->response->statusCode);
     }
 
-    public function test_onException_ShouldSendStatusCode400IfInvalidRequestParameterException()
+    public function testOnExceptionShouldSendStatusCode400IfInvalidRequestParameterException()
     {
         $this->executeOnException(new InvalidRequestParameterException('test'));
         $this->assertSame(400, $this->response->statusCode);
     }
 
-    public function test_onException_ShouldNotRethrowExceptionToExitTrackerImmediately()
+    public function testOnExceptionShouldNotRethrowExceptionToExitTrackerImmediately()
     {
         self::expectNotToPerformAssertions();
 
@@ -129,7 +130,7 @@ class HandlerTest extends IntegrationTestCase
         $this->handler->onException($this->tracker, $this->requestSet, $exception);
     }
 
-    public function test_onAllRequestsTracked_ShouldTriggerScheduledTasksIfEnabled()
+    public function testOnAllRequestsTrackedShouldTriggerScheduledTasksIfEnabled()
     {
         $runner = new ScheduledTasksRunner();
         $runner->shouldRun = true;
@@ -140,7 +141,7 @@ class HandlerTest extends IntegrationTestCase
         $this->assertTrue($runner->ranScheduledTasks);
     }
 
-    public function test_onAllRequestsTracked_ShouldNotTriggerScheduledTasksIfDisabled()
+    public function testOnAllRequestsTrackedShouldNotTriggerScheduledTasksIfDisabled()
     {
         $runner = new ScheduledTasksRunner();
         $runner->shouldRun = false;
@@ -151,7 +152,7 @@ class HandlerTest extends IntegrationTestCase
         $this->assertFalse($runner->ranScheduledTasks);
     }
 
-    public function test_process_ShouldTrackAllSetRequests()
+    public function testProcessShouldTrackAllSetRequests()
     {
         $this->assertSame(0, $this->tracker->getCountOfLoggedRequests());
 

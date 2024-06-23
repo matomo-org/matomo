@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreVisualizations\tests\Integration;
@@ -51,7 +52,7 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
     /**
      * @dataProvider getNumDaysDifferenceProvider
      */
-    public function test_getNumDaysDifference($expected, $date1, $date2)
+    public function testGetNumDaysDifference($expected, $date1, $date2)
     {
         $this->assertSame($expected, $this->selector->getNumDaysDifference(Date::factory($date1), Date::factory($date2)));
     }
@@ -69,13 +70,13 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
         ];
     }
 
-    public function test_getComparisonPeriodObjects_whenNoPeriodsGiven()
+    public function testGetComparisonPeriodObjectsWhenNoPeriodsGiven()
     {
         $this->assertEquals([], $this->selector->getComparisonPeriodObjects(false, false));
         $this->assertEquals([], $this->selector->getComparisonPeriodObjects([], []));
     }
 
-    public function test_getComparisonPeriodObjects_whenOnlyOnePeriodGiven()
+    public function testGetComparisonPeriodObjectsWhenOnlyOnePeriodGiven()
     {
         /** @var Period[] $periods */
         $periods = $this->selector->getComparisonPeriodObjects(['day'], ['2022-01-02']);
@@ -84,7 +85,7 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
         $this->assertCount(1, $periods);
     }
 
-    public function test_getComparisonPeriodObjects_whenMultipleComparisonPeriodsGiven()
+    public function testGetComparisonPeriodObjectsWhenMultipleComparisonPeriodsGiven()
     {
         /** @var Period[] $periods */
         $periods = $this->selector->getComparisonPeriodObjects(['week', 'month'], ['2022-01-02', '2020-05-09']);
@@ -99,7 +100,7 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
         $this->assertCount(2, $periods);
     }
 
-    public function test_getHighestPeriodInCommon_noComparision()
+    public function testGetHighestPeriodInCommonNoComparision()
     {
         $day = Period\Factory::build('day', 'today');
         $week = Period\Factory::build('week', 'today');
@@ -118,7 +119,7 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
         $this->assertHighestPeriodInCommon('month', $largeRange, []);
     }
 
-    public function test_getHighestPeriodInCommon_withComparision()
+    public function testGetHighestPeriodInCommonWithComparision()
     {
         $day = Period\Factory::build('day', 'today');
         $week = Period\Factory::build('week', 'today');
@@ -138,7 +139,7 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
         $this->assertHighestPeriodInCommon('day', $largeRange, [$largeRange, $week]);
     }
 
-    public function test_setSparklineDatePeriods_whenNotComparing()
+    public function testSetSparklineDatePeriodsWhenNotComparing()
     {
         $day = Period\Factory::build('day', '2022-05-02');
         $week = Period\Factory::build('week', '2022-05-02');
@@ -157,7 +158,7 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
         $this->assertSetSparklineDatePeriods(['period' => 'month','date' => '2020-10-02,2022-10-03'], $largeRange, []);
     }
 
-    public function test_setSparklineDatePeriods_whenComparing()
+    public function testSetSparklineDatePeriodsWhenComparing()
     {
         $day = Period\Factory::build('day', '2022-05-02');
         $dayPrevious = Period\Factory::build('day', '2022-05-01');

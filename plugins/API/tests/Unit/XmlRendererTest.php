@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\API\tests\Unit;
@@ -33,7 +34,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
         DataTable\Manager::getInstance()->deleteAll();
     }
 
-    public function test_renderSuccess_shouldIncludeMessage()
+    public function testRenderSuccessShouldIncludeMessage()
     {
         $response = $this->builder->renderSuccess('ok');
 
@@ -43,7 +44,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_renderException_shouldIncludeTheMessageAndNotExceptionMessage()
+    public function testRenderExceptionShouldIncludeTheMessageAndNotExceptionMessage()
     {
         $response = $this->builder->renderException("The error message", new \Exception('The other message'));
 
@@ -53,7 +54,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_renderObject_shouldReturAnError()
+    public function testRenderObjectShouldReturAnError()
     {
         $response = $this->builder->renderObject(new \stdClass());
 
@@ -63,7 +64,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_renderResource_shouldReturAnError()
+    public function testRenderResourceShouldReturAnError()
     {
         $response = $this->builder->renderResource(new \stdClass());
 
@@ -73,7 +74,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_renderScalar_shouldReturnABooleanAsIntegerWrappedInResult()
+    public function testRenderScalarShouldReturnABooleanAsIntegerWrappedInResult()
     {
         $response = $this->builder->renderScalar(true);
 
@@ -81,7 +82,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 <result>1</result>', $response);
     }
 
-    public function test_renderScalar_shouldReturnAnIntegerWrappedInResult()
+    public function testRenderScalarShouldReturnAnIntegerWrappedInResult()
     {
         $response = $this->builder->renderScalar(5);
 
@@ -89,7 +90,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 <result>5</result>', $response);
     }
 
-    public function test_renderScalar_shouldReturnAStringWrappedInValue()
+    public function testRenderScalarShouldReturnAStringWrappedInValue()
     {
         $response = $this->builder->renderScalar('The Output');
 
@@ -97,7 +98,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 <result>The Output</result>', $response);
     }
 
-    public function test_renderScalar_shouldNotRemoveLineBreaks()
+    public function testRenderScalarShouldNotRemoveLineBreaks()
     {
         $response = $this->builder->renderScalar('The\nOutput');
 
@@ -105,7 +106,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 <result>The\nOutput</result>', $response);
     }
 
-    public function test_renderDataTable_shouldRenderABasicDataTable()
+    public function testRenderDataTableShouldRenderABasicDataTable()
     {
         $dataTable = new DataTable();
         $dataTable->addRowFromSimpleArray(array('nb_visits' => 5, 'nb_random' => 10));
@@ -121,7 +122,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_renderDataTable_shouldRenderSubtables()
+    public function testRenderDataTableShouldRenderSubtables()
     {
         $subtable = new DataTable();
         $subtable->addRowFromSimpleArray(array('nb_visits' => 2, 'nb_random' => 6));
@@ -142,7 +143,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_renderDataTable_shouldRenderDataTableMaps()
+    public function testRenderDataTableShouldRenderDataTableMaps()
     {
         $map = new DataTable\Map();
 
@@ -174,7 +175,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 </results>', $response);
     }
 
-    public function test_renderDataTable_shouldRenderSimpleDataTable()
+    public function testRenderDataTableShouldRenderSimpleDataTable()
     {
         $dataTable = new DataTable\Simple();
         $dataTable->addRowsFromArray(array('nb_visits' => 3, 'nb_random' => 6));
@@ -188,7 +189,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_renderArray_ShouldConvertSimpleArrayToJson()
+    public function testRenderArrayShouldConvertSimpleArrayToJson()
     {
         $input = array(1, 2, 5, 'string', 10);
 
@@ -204,7 +205,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_renderArray_ShouldRenderAnEmptyArray()
+    public function testRenderArrayShouldRenderAnEmptyArray()
     {
         $response = $this->builder->renderArray(array());
 
@@ -212,7 +213,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 <result />', $response);
     }
 
-    public function test_renderArray_ShouldConvertAssociativeArrayToJson()
+    public function testRenderArrayShouldConvertAssociativeArrayToJson()
     {
         $input = array('nb_visits' => 6, 'nb_random' => 8);
 
@@ -227,7 +228,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_renderArray_ShouldConvertsIndexedAssociativeArrayToJson()
+    public function testRenderArrayShouldConvertsIndexedAssociativeArrayToJson()
     {
         $input = array(
             array('nb_visits' => 6, 'nb_random' => 8),
@@ -249,7 +250,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 </result>', $response);
     }
 
-    public function test_renderArray_ShouldConvertMultiDimensionalStandardArrayToJson()
+    public function testRenderArrayShouldConvertMultiDimensionalStandardArrayToJson()
     {
         $input = array("firstElement",
             array(
@@ -270,7 +271,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 </result>', $actual);
     }
 
-    public function test_renderArray_ShouldConvertMultiDimensionalAssociativeArrayToJson()
+    public function testRenderArrayShouldConvertMultiDimensionalAssociativeArrayToJson()
     {
         $input = array(
             "firstElement"  => "isFirst",
@@ -292,7 +293,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 </result>', $actual);
     }
 
-    public function test_renderArray_ShouldConvertMultiDimensionalIndexArrayToJson()
+    public function testRenderArrayShouldConvertMultiDimensionalIndexArrayToJson()
     {
         $input = array(array("firstElement",
             array(
@@ -315,7 +316,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
 </result>', $actual);
     }
 
-    public function test_renderArray_ShouldConvertMultiDimensionalMixedArrayToJson()
+    public function testRenderArrayShouldConvertMultiDimensionalMixedArrayToJson()
     {
         $input = array(
             "firstElement" => "isFirst",

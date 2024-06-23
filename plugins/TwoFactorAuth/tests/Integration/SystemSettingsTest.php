@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\TwoFactorAuth\tests\Integration;
@@ -31,12 +32,12 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->settings = new SystemSettings();
     }
 
-    public function test_twoFactorAuthRequired_defaultDisabled()
+    public function testTwoFactorAuthRequiredDefaultDisabled()
     {
         $this->assertFalse($this->settings->twoFactorAuthRequired->getValue());
     }
 
-    public function test_twoFactorAuthTitle_defaultTitle()
+    public function testTwoFactorAuthTitleDefaultTitle()
     {
         $this->assertEquals('Analytics - ' . Url::getCurrentHost(), $this->settings->twoFactorAuthTitle->getValue());
     }

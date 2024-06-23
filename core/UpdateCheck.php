@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
@@ -15,12 +16,12 @@ use Piwik\Container\StaticContainer;
  */
 class UpdateCheck
 {
-    const CHECK_INTERVAL = 28800; // every 8 hours
-    const UI_CLICK_CHECK_INTERVAL = 10; // every 10s when user clicks UI link
-    const LAST_CHECK_FAILED = 'UpdateCheck_LastCheckFailed';
-    const LAST_TIME_CHECKED = 'UpdateCheck_LastTimeChecked';
-    const LATEST_VERSION = 'UpdateCheck_LatestVersion';
-    const SOCKET_TIMEOUT = 5;
+    public const CHECK_INTERVAL = 28800; // every 8 hours
+    public const UI_CLICK_CHECK_INTERVAL = 10; // every 10s when user clicks UI link
+    public const LAST_CHECK_FAILED = 'UpdateCheck_LastCheckFailed';
+    public const LAST_TIME_CHECKED = 'UpdateCheck_LastTimeChecked';
+    public const LATEST_VERSION = 'UpdateCheck_LatestVersion';
+    public const SOCKET_TIMEOUT = 5;
 
     /**
      * Check for a newer version

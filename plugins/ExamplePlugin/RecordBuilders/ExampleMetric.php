@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\ExamplePlugin\RecordBuilders;
@@ -36,8 +37,8 @@ class ExampleMetric extends RecordBuilder
      *
      * These are only example record names, so feel free to change them to suit your needs.
      */
-    const EXAMPLEPLUGIN_ARCHIVE_RECORD = "ExamplePlugin_archive_record";
-    const EXAMPLEPLUGIN_METRIC_NAME = 'ExamplePlugin_example_metric';
+    public const EXAMPLEPLUGIN_ARCHIVE_RECORD = "ExamplePlugin_archive_record";
+    public const EXAMPLEPLUGIN_METRIC_NAME = 'ExamplePlugin_example_metric';
 
     private $daysFrom = '2016-07-08';
 

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\DataTable\Renderer;
@@ -204,7 +205,7 @@ val#"val#2"';
         $this->assertEquals($expected, $actual);
     }
 
-    public function testCSVTest7_shouldNotRenderMetadataThatContainsAnArray()
+    public function testCSVTest7ShouldNotRenderMetadataThatContainsAnArray()
     {
         $dataTable = $this->getDataTableHavingAnArrayInRowMetadata();
         $render = new Csv();
@@ -303,7 +304,7 @@ sub6,3,,renderrrrrr";
         return $table;
     }
 
-    protected function getDataTableMap_containsDataTableMap_normal()
+    protected function getDataTableMapContainsDataTableMapNormal()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
@@ -311,7 +312,7 @@ sub6,3,,renderrrrrr";
         return $table;
     }
 
-    protected function getDataTableMap_containsDataTableMap_simple()
+    protected function getDataTableMapContainsDataTableMapSimple()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
@@ -319,7 +320,7 @@ sub6,3,,renderrrrrr";
         return $table;
     }
 
-    protected function getDataTableMap_containsDataTableMap_simpleOneRow()
+    protected function getDataTableMapContainsDataTableMapSimpleOneRow()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
@@ -372,7 +373,7 @@ sub6,3,,renderrrrrr";
 
     public function testCSVMapisMadeOfMapTest1()
     {
-        $dataTable = $this->getDataTableMap_containsDataTableMap_normal();
+        $dataTable = $this->getDataTableMapContainsDataTableMapNormal();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;
@@ -389,7 +390,7 @@ sub6,3,,renderrrrrr";
 
     public function testCSVMapIsMadeOfMapTest2()
     {
-        $dataTable = $this->getDataTableMap_containsDataTableMap_simple();
+        $dataTable = $this->getDataTableMapContainsDataTableMapSimple();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;
@@ -402,7 +403,7 @@ sub6,3,,renderrrrrr";
 
     public function testCSVMapIsMadeOfMapTest3()
     {
-        $dataTable = $this->getDataTableMap_containsDataTableMap_simpleOneRow();
+        $dataTable = $this->getDataTableMapContainsDataTableMapSimpleOneRow();
         $render = new Csv();
         $render->setTable($dataTable);
         $render->convertToUnicode = false;

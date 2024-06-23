@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -41,7 +42,7 @@ class LogDeleterTest extends IntegrationTestCase
         $this->insertTestData();
     }
 
-    public function test_deleteVisits_RemovesVisitsAndOtherRelatedLogs()
+    public function testDeleteVisitsRemovesVisitsAndOtherRelatedLogs()
     {
         $this->logDeleter->deleteVisits(array(2, 3));
 
@@ -51,7 +52,7 @@ class LogDeleterTest extends IntegrationTestCase
         $this->assertVisitExists(4);
     }
 
-    public function test_deleteVisitsFor_DeletesVisitsForSpecifiedRangeAndSites_AndInvokesCallbackAfterEveryChunkIsDeleted()
+    public function testDeleteVisitsForDeletesVisitsForSpecifiedRangeAndSitesAndInvokesCallbackAfterEveryChunkIsDeleted()
     {
         $iterationCount = 0;
         $this->logDeleter->deleteVisitsFor('2012-01-01', '2012-01-02 05:05:05', 2, $iterationStep = 1, function () use (&$iterationCount) {

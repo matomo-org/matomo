@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -18,7 +19,7 @@ use Piwik\EventDispatcher;
  */
 class DocumentationGeneratorTest extends TestCase
 {
-    public function test_CheckIfModule_ContainsHideAnnotation()
+    public function testCheckIfModuleContainsHideAnnotation()
     {
         $annotation = '@hideExceptForSuperUser test test';
         $mock = $this->getMockBuilder('ReflectionClass')
@@ -30,7 +31,7 @@ class DocumentationGeneratorTest extends TestCase
         $this->assertTrue($documentationGenerator->checkIfClassCommentContainsHideAnnotation($mock));
     }
 
-    public function test_CheckDocumentation()
+    public function testCheckDocumentation()
     {
         $moduleToCheck = 'this is documentation which contains @hideExceptForSuperUser';
         $documentationAfterCheck = 'this is documentation which contains ';
@@ -38,7 +39,7 @@ class DocumentationGeneratorTest extends TestCase
         $this->assertEquals($documentationGenerator->checkDocumentation($moduleToCheck), $documentationAfterCheck);
     }
 
-    public function test_CheckIfMethodComment_ContainsHideAnnotation_andText()
+    public function testCheckIfMethodCommentContainsHideAnnotationAndText()
     {
         $annotation = '@hideForAll test test';
         EventDispatcher::getInstance()->addObserver(
@@ -50,7 +51,7 @@ class DocumentationGeneratorTest extends TestCase
         $this->assertEquals(Proxy::getInstance()->shouldHideAPIMethod($annotation), true);
     }
 
-    public function test_CheckIfMethodComment_ContainsHideAnnotation_only()
+    public function testCheckIfMethodCommentContainsHideAnnotationOnly()
     {
         $annotation = '@hideForAll';
         EventDispatcher::getInstance()->addObserver(
@@ -62,7 +63,7 @@ class DocumentationGeneratorTest extends TestCase
         $this->assertEquals(Proxy::getInstance()->shouldHideAPIMethod($annotation), true);
     }
 
-    public function test_CheckIfMethodComment_DoesNotContainHideAnnotation()
+    public function testCheckIfMethodCommentDoesNotContainHideAnnotation()
     {
         $annotation = '@not found here';
         EventDispatcher::getInstance()->addObserver(

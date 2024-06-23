@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreConsole\tests\System;
 
 use Piwik\Archive\ArchivePurger;
@@ -42,10 +44,10 @@ use Piwik\Tests\Framework\Fixture;
  */
 class ArchiveCronTest extends SystemTestCase
 {
-    const NEW_SEGMENT = 'operatingSystemCode==IOS';
-    const NEW_SEGMENT_NAME = 'segmentForToday';
-    const ENCODED_SEGMENT = 'pageUrl=@%252F';
-    const ENCODED_SEGMENT_NAME = 'segmentWithEncoding';
+    public const NEW_SEGMENT = 'operatingSystemCode==IOS';
+    public const NEW_SEGMENT_NAME = 'segmentForToday';
+    public const ENCODED_SEGMENT = 'pageUrl=@%252F';
+    public const ENCODED_SEGMENT_NAME = 'segmentWithEncoding';
 
     /**
      * @var ManySitesImportedLogs
@@ -429,7 +431,7 @@ class ArchiveCronTest extends SystemTestCase
         $this->assertEmpty($rangeArchivesStillInvalid);
     }
 
-    public function test_archivePhpScript_DoesNotFail_WhenCommandHelpRequested()
+    public function testArchivePhpScriptDoesNotFailWhenCommandHelpRequested()
     {
         $output = $this->runArchivePhpCron(array('--help' => null), PIWIK_INCLUDE_PATH . '/misc/cron/archive.php');
 

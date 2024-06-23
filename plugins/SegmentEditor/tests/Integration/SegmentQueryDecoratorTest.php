@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\SegmentEditor\tests\Integration;
@@ -59,7 +60,7 @@ class SegmentQueryDecoratorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForSegmentSqlTest
      */
-    public function test_SegmentSql_IsCorrectlyDecoratedWithIdSegment($segment, $triggerValue, $expectedPrefix)
+    public function testSegmentSqlIsCorrectlyDecoratedWithIdSegment($segment, $triggerValue, $expectedPrefix)
     {
         if (!empty($triggerValue)) {
             $_GET['trigger'] = $triggerValue;

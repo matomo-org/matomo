@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Translation\Loader;
@@ -20,7 +21,7 @@ class EmailTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getValidEmails
      */
-    public function test_validate_successValueIsLikeUri($validEmail)
+    public function testValidateSuccessValueIsLikeUri($validEmail)
     {
         self::expectNotToPerformAssertions();
 
@@ -39,7 +40,7 @@ class EmailTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getFailedEmails
      */
-    public function test_validate_failValueIsNotValidEmail($email)
+    public function testValidateFailValueIsNotValidEmail($email)
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('ValidatorErrorNotEmailLike');

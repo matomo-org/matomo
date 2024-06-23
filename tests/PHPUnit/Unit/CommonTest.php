@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit;
@@ -26,14 +27,14 @@ use Piwik\Tests\Framework\Mock\FakeLogger;
  */
 class CommonTest extends TestCase
 {
-    public function test_getProcessId()
+    public function testGetProcessId()
     {
         $this->assertEquals(getmypid(), Common::getProcessId());
         //assure always returns same value
         $this->assertEquals(getmypid(), Common::getProcessId());
     }
 
-    public function test_hashEquals()
+    public function testHashEquals()
     {
         $this->assertFalse(Common::hashEquals('foo', 'bar'));
         $this->assertFalse(Common::hashEquals('foo', 'fo'));
@@ -202,7 +203,7 @@ class CommonTest extends TestCase
         yield 'String value with many fraction digits' => ['14.051545421864646123', 14.051545421864645];
     }
 
-    public function testGetRequestVar_GetStringIntegerGiven()
+    public function testGetRequestVarGetStringIntegerGiven()
     {
         $_GET['test'] = 1413;
         $value        = Common::getRequestVar('test', null, 'string');

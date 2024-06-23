@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\CliMulti;
 
 use Piwik\CliMulti;
@@ -23,8 +25,8 @@ use Piwik\SettingsServer;
  */
 class Process
 {
-    const PS_COMMAND = 'ps x';
-    const AWK_COMMAND = 'awk \'! /defunct/ {print $1}\'';
+    public const PS_COMMAND = 'ps x';
+    public const AWK_COMMAND = 'awk \'! /defunct/ {print $1}\'';
 
     private $finished = null;
     private $pidFile = '';

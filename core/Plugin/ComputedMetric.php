@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugin;
 
 use Piwik\Archive\DataTableFactory;
@@ -18,8 +20,8 @@ use Piwik\Piwik;
 
 class ComputedMetric extends ProcessedMetric
 {
-    const AGGREGATION_AVG = 'avg';
-    const AGGREGATION_RATE = 'rate';
+    public const AGGREGATION_AVG = 'avg';
+    public const AGGREGATION_RATE = 'rate';
 
     /**
      * @var string

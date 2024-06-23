@@ -1,10 +1,10 @@
 <?php
+
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreHome\tests\Unit\Columns;
@@ -17,35 +17,35 @@ use Piwik\Tracker\Visitor;
 
 class VisitorReturningTest extends TestCase
 {
-    public function test_onNewVisit_returnsReturningCustomerIfVisitHasOrder()
+    public function testOnNewVisitReturnsReturningCustomerIfVisitHasOrder()
     {
         $dim = new VisitorReturning();
         $result = $dim->onNewVisit($this->makeMockRequest([ 'ec_id' => 'abcdefg' ]), $this->makeMockVisitor(true), null);
         $this->assertEquals(VisitorReturning::IS_RETURNING_CUSTOMER, $result);
     }
 
-    public function test_onNewVisit_returnsReturningCustomerIfVisitHasSecondsSinceLastOrder()
+    public function testOnNewVisitReturnsReturningCustomerIfVisitHasSecondsSinceLastOrder()
     {
         $dim = new VisitorReturning();
         $result = $dim->onNewVisit($this->makeMockRequest(), $this->makeMockVisitor(true, [ 'visitor_seconds_since_order' => 1234 ]), null);
         $this->assertEquals(VisitorReturning::IS_RETURNING_CUSTOMER, $result);
     }
 
-    public function test_onNewVisit_returnsReturningCustomerIfPrevVisitHasSecondsSinceLastOrder()
+    public function testOnNewVisitReturnsReturningCustomerIfPrevVisitHasSecondsSinceLastOrder()
     {
         $dim = new VisitorReturning();
         $result = $dim->onNewVisit($this->makeMockRequest(), $this->makeMockVisitor(true, [], [ 'visitor_seconds_since_order' => 5678 ]), null);
         $this->assertEquals(VisitorReturning::IS_RETURNING_CUSTOMER, $result);
     }
 
-    public function test_onNewVisit_returnsReturningVisitorIfVisitorIsKnown()
+    public function testOnNewVisitReturnsReturningVisitorIfVisitorIsKnown()
     {
         $dim = new VisitorReturning();
         $result = $dim->onNewVisit($this->makeMockRequest(), $this->makeMockVisitor(true), null);
         $this->assertEquals(VisitorReturning::IS_RETURNING, $result);
     }
 
-    public function test_onNewVisit_returnsNewVisitIfVisitorIsNotKnown()
+    public function testOnNewVisitReturnsNewVisitIfVisitorIsNotKnown()
     {
         $dim = new VisitorReturning();
         $result = $dim->onNewVisit($this->makeMockRequest(), $this->makeMockVisitor(false), null);

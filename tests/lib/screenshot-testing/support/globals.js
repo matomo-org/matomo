@@ -3,14 +3,14 @@
  *
  * UI tests config
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 const path = require('path');
 const chai = require('chai');
 const { PageRenderer } = require('./page-renderer');
 
-module.exports = function setUpGlobals(config, page, originalUserAgent) {
+module.exports = function setUpGlobals(config, browser, originalUserAgent) {
     global.config = config;
 
     global.PIWIK_INCLUDE_PATH = path.join(__dirname, '..', '..', '..', '..');
@@ -23,7 +23,7 @@ module.exports = function setUpGlobals(config, page, originalUserAgent) {
     global.testEnvironment = require('./test-environment').TestingEnvironment;
     global.app = require('./app').Application;
     global.expect = chai.expect;
-    global.page = new PageRenderer(config.piwikUrl + path.join("tests", "PHPUnit", "proxy"), page, originalUserAgent);
+    global.page = new PageRenderer(config.piwikUrl + path.join("tests", "PHPUnit", "proxy"), browser, originalUserAgent);
     // The following variables need to be in sync with Fixture::ADMIN_USER_LOGIN and Fixture::ADMIN_USER_PASSWORD
     global.superUserLogin = 'superUserLogin';
     global.superUserPassword = 'pas3!"§$%&/()=?\'ㄨ<|-_#*+~>word';

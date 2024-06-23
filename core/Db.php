@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Exception;
@@ -32,7 +33,7 @@ use Piwik\Db\Adapter;
  */
 class Db
 {
-    const SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
+    public const SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
 
     private static $connection = null;
     private static $readerConnection = null;

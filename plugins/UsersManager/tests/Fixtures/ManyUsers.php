@@ -4,7 +4,7 @@
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\UsersManager\tests\Fixtures;
@@ -22,8 +22,8 @@ use Piwik\Tests\Framework\Fixture;
  */
 class ManyUsers extends Fixture
 {
-    const SITE_COUNT = 100;
-    const USER_COUNT = 100;
+    public const SITE_COUNT = 100;
+    public const USER_COUNT = 100;
 
     public $dateTime = '2013-01-23 01:23:45';
     public $idSite = 1;

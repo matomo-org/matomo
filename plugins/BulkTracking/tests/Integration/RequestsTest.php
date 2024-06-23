@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\BulkTracking\tests\Integration;
@@ -45,7 +46,7 @@ class RequestsTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_requiresAuthentication_shouldReturnTrue_IfEnabled()
+    public function testRequiresAuthenticationShouldReturnTrueIfEnabled()
     {
         $oldConfig = TrackerConfig::getConfigValue('bulk_requests_require_authentication');
         TrackerConfig::setConfigValue('bulk_requests_require_authentication', 1);
@@ -55,7 +56,7 @@ class RequestsTest extends IntegrationTestCase
         TrackerConfig::setConfigValue('bulk_requests_require_authentication', $oldConfig);
     }
 
-    public function test_requiresAuthentication_shouldReturnFalse_IfDisabled()
+    public function testRequiresAuthenticationShouldReturnFalseIfDisabled()
     {
         $oldConfig = TrackerConfig::getConfigValue('bulk_requests_require_authentication');
         TrackerConfig::setConfigValue('bulk_requests_require_authentication', 0);
@@ -65,7 +66,7 @@ class RequestsTest extends IntegrationTestCase
         TrackerConfig::setConfigValue('bulk_requests_require_authentication', $oldConfig);
     }
 
-    public function test_authenticateRequests_shouldThrowAnException_IfTokenAuthIsEmpty()
+    public function testAuthenticateRequestsShouldThrowAnExceptionIfTokenAuthIsEmpty()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('token_auth must be specified when using Bulk Tracking Import');
@@ -74,7 +75,7 @@ class RequestsTest extends IntegrationTestCase
         $this->requests->authenticateRequests($requests);
     }
 
-    public function test_authenticateRequests_shouldThrowAnException_IfAnyTokenAuthIsEmpty()
+    public function testAuthenticateRequestsShouldThrowAnExceptionIfAnyTokenAuthIsEmpty()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('token_auth must be specified when using Bulk Tracking Import');
@@ -83,7 +84,7 @@ class RequestsTest extends IntegrationTestCase
         $this->requests->authenticateRequests($requests);
     }
 
-    public function test_authenticateRequests_shouldThrowAnException_IfTokenIsNotValid()
+    public function testAuthenticateRequestsShouldThrowAnExceptionIfTokenIsNotValid()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('token_auth specified does not have Admin permission for idsite=1');
@@ -95,7 +96,7 @@ class RequestsTest extends IntegrationTestCase
         $this->requests->authenticateRequests($requests);
     }
 
-    public function test_authenticateRequests_shouldNotFail_IfAllTokensAreValid()
+    public function testAuthenticateRequestsShouldNotFailIfAllTokensAreValid()
     {
         self::expectNotToPerformAssertions();
 
@@ -105,7 +106,7 @@ class RequestsTest extends IntegrationTestCase
         $this->requests->authenticateRequests($requests);
     }
 
-    public function test_authenticateRequests_shouldNotFail_IfEmptyRequestSetGiven()
+    public function testAuthenticateRequestsShouldNotFailIfEmptyRequestSetGiven()
     {
         self::expectNotToPerformAssertions();
 

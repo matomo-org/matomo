@@ -3,8 +3,8 @@
  *
  * Screenshot tests for Marketplace.
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("Marketplace", function () {
@@ -22,30 +22,29 @@ describe("Marketplace", function () {
     var exceededLicense = 'exceededLicense';
     var validLicense = 'validLicense';
 
-    async function loadPluginDetailPage(pluginName, isFreePlugin)
+    async function loadPluginDetailPage(pluginTitle, isFreePlugin)
     {
         await page.goto('about:blank');
         await page.goto(isFreePlugin ? pluginsUrl : paidPluginsUrl);
-        const elem = await page.waitForSelector('.card-content [matomo-plugin-name*="' + pluginName + '"]');
+
+        const elem = await page.jQuery(
+          '.card-content .card-title:contains("' + pluginTitle + '")',
+          { waitFor: true }
+        );
+
         await elem.click();
+        await page.waitForSelector('#pluginDetailsModal .modal-content__main', { visible: true });
+
+        // give it some time to fetch, animate, and render everything properly
         await page.waitForNetworkIdle();
-        await page.waitForSelector('.ui-dialog .pluginDetails');
+        await page.waitForTimeout(100);
     }
 
     async function captureSelector(screenshotName, selector)
     {
-        await page.waitForFunction("$('" + selector + "').length > 0");
+        await page.waitForSelector(selector, { visible: true });
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
-    }
-
-    async function captureModal(screenshotName, selector)
-    {
-        await page.waitForFunction("$('" + selector + "').length > 0");
-        await page.waitForNetworkIdle();
-
-        const elem = await page.$(selector);
-        expect(await elem.screenshot()).to.matchImage(screenshotName);
     }
 
     async function captureMarketplace(screenshotName, selector)
@@ -66,9 +65,16 @@ describe("Marketplace", function () {
         await captureMarketplace(screenshotName, ',#notificationContainer');
     }
 
-    async function captureWithDialog(screenshotName)
+    async function captureWithPluginDetails(screenshotName)
     {
-        await captureSelector(screenshotName, '.ui-dialog');
+        const selector = '#pluginDetailsModal .modal-content';
+
+        // screenshotting the Materialize modal consistently
+        // clips wrong and captures nothing,
+        // unless the screenshot is attempted twice
+        await page.screenshotSelector(selector);
+
+        expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
     }
 
     function assumePaidPluginsActivated()
@@ -110,7 +116,7 @@ describe("Marketplace", function () {
 
                 await page.goto('?module=CorePluginsAdmin&action=plugins&idSite=1&period=day&date=yesterday&activated=');
 
-                await captureSelector('updates_' + mode, '#content .card:first');
+                await captureSelector('updates_' + mode, '#content div[vue-entry="CorePluginsAdmin.PluginsTableWithUpdates"]');
             });
         }
 
@@ -155,9 +161,9 @@ describe("Marketplace", function () {
             setEnvironment(mode, noLicense);
 
             var isFree = true;
-            await loadPluginDetailPage('TreemapVisualization', isFree);
+            await loadPluginDetailPage('Treemap Visualization', isFree);
 
-            await captureWithDialog('free_plugin_details_' + mode);
+            await captureWithPluginDetails('free_plugin_details_' + mode);
         });
 
         it('should show paid plugin details when having no license', async function() {
@@ -165,9 +171,9 @@ describe("Marketplace", function () {
 
             assumePaidPluginsActivated();
             var isFree = false;
-            await loadPluginDetailPage('PaidPlugin1', isFree);
+            await loadPluginDetailPage('Paid Plugin 1', isFree);
 
-            await captureWithDialog('paid_plugin_details_no_license_' + mode);
+            await captureWithPluginDetails('paid_plugin_details_no_license_' + mode);
         });
 
         it('should show paid plugin details when having valid license', async function() {
@@ -175,9 +181,9 @@ describe("Marketplace", function () {
 
             assumePaidPluginsActivated();
             var isFree = false;
-            await loadPluginDetailPage('PaidPlugin1', isFree);
+            await loadPluginDetailPage('Paid Plugin 1', isFree);
 
-            await captureWithDialog('paid_plugin_details_valid_license_' + mode + '_installed');
+            await captureWithPluginDetails('paid_plugin_details_valid_license_' + mode + '_installed');
         });
 
         it('should show paid plugin details when having valid license', async function() {
@@ -185,92 +191,10 @@ describe("Marketplace", function () {
 
             assumePaidPluginsActivated();
             var isFree = false;
-            await loadPluginDetailPage('PaidPlugin1', isFree);
+            await loadPluginDetailPage('Paid Plugin 1', isFree);
 
-            await captureWithDialog('paid_plugin_details_exceeded_license_' + mode);
+            await captureWithPluginDetails('paid_plugin_details_exceeded_license_' + mode);
         });
-    });
-
-    var mode = 'superuser';
-
-    it('should show a dialog showing a list of all possible plugins to install', async function() {
-        setEnvironment(mode, validLicense);
-
-        await page.goto(pluginsUrl);
-        await page.click('.installAllPaidPlugins');
-        await page.mouse.move(-10, -10);
-
-        await captureModal(mode + '_install_all_paid_plugins_at_once', '.modal.open');
-    });
-
-    it('should show an error message when invalid license key entered', async function() {
-        setEnvironment(mode, noLicense);
-
-        await page.goto('about:blank');
-        await page.goto(pluginsUrl);
-        await page.type('#license_key', 'invalid');
-        await page.waitForTimeout(200);
-        await page.click('.marketplace-paid-intro'); // click outside so change event is triggered
-        await page.click('#submit_license_key input');
-        await page.waitForNetworkIdle();
-        await page.waitForTimeout(200);
-
-        await captureWithNotification(mode + '_invalid_license_key_entered');
-    });
-
-    it('should show a confirmation before removing a license key', async function() {
-        setEnvironment(mode, validLicense);
-
-        await page.goto('about:blank');
-        await page.goto(pluginsUrl);
-        await page.click('#remove_license_key input');
-
-        await captureModal(mode + '_remove_license_key_confirmation', '.modal.open');
-    });
-
-    it('should show a confirmation before removing a license key', async function() {
-        setEnvironment(mode, noLicense);
-
-        elem = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
-        await elem.click();
-
-        await captureMarketplace(mode + '_remove_license_key_confirmed');
-    });
-
-    it('should show a success message when valid license key entered', async function() {
-        setEnvironment(mode, noLicense);
-
-        await page.goto('about:blank');
-        await page.goto(pluginsUrl);
-        await page.type('#license_key', 'valid');
-        await page.waitForTimeout(200);
-
-        setEnvironment(mode, validLicense);
-        await page.click('#submit_license_key input');
-
-        await captureMarketplace(mode + '_valid_license_key_entered');
-    });
-
-    it('should hide activate / deactivate buttons if plugins admin is disabled', async function() {
-        setEnvironment(mode, noLicense);
-        testEnvironment.overrideConfig('General', 'enable_plugins_admin', '0');
-        testEnvironment.save();
-
-        await page.goto('about:blank');
-        await page.goto(pluginsUrl);
-
-        await captureMarketplace( mode + '_enable_plugins_admin');
-    });
-
-    it('should hide activate / deactivate buttons if plugins admin is disabled when also multi server environment is enabled', async function() {
-        setEnvironment('multiUserEnvironment', noLicense);
-        testEnvironment.overrideConfig('General', 'enable_plugins_admin', '0');
-        testEnvironment.save();
-
-        await page.goto('about:blank');
-        await page.goto(pluginsUrl);
-
-        await captureMarketplace(mode + '_enable_plugins_admin_with_multiserver_enabled');
     });
 
     [expiredLicense, exceededLicense, validLicense, noLicense].forEach(function (consumer) {

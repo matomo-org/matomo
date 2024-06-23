@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\Api;
@@ -40,7 +41,7 @@ class ClientTest extends IntegrationTestCase
         $this->client = $this->buildClient();
     }
 
-    public function test_download()
+    public function testDownload()
     {
         $this->service->returnFixture('v2.0_plugins_TreemapVisualization_info.json');
 
@@ -54,7 +55,7 @@ class ClientTest extends IntegrationTestCase
         $this->assertStringEndsWith('.zip', $file);
     }
 
-    public function test_getPluginInfo_shouldThrowException_IfNotAllowedToRequestPlugin()
+    public function testGetPluginInfoShouldThrowExceptionIfNotAllowedToRequestPlugin()
     {
         $this->expectException(\Piwik\Plugins\Marketplace\Api\Exception::class);
         $this->expectExceptionMessage('Requested plugin does not exist.');

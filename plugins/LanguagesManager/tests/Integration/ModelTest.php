@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\LanguagesManager\tests\Integration;
@@ -31,7 +32,7 @@ class ModelTest extends IntegrationTestCase
         parent::setUp();
     }
 
-    public function test_install_ShouldNotFailAndActuallyCreateTheDatabases()
+    public function testInstallShouldNotFailAndActuallyCreateTheDatabases()
     {
         $this->assertContainTables(array('user_language'));
 
@@ -39,7 +40,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertCount(3, $columns);
     }
 
-    public function test_uninstall_ShouldNotFailAndRemovesAllAlertTables()
+    public function testUninstallShouldNotFailAndRemovesAllAlertTables()
     {
         Model::uninstall();
 
@@ -48,7 +49,7 @@ class ModelTest extends IntegrationTestCase
         Model::install();
     }
 
-    public function test_handlesUserLanguageEntriesCorrectly()
+    public function testHandlesUserLanguageEntriesCorrectly()
     {
         $this->model->setLanguageForUser('admin', 'de');
 
@@ -61,7 +62,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertTableEntryCount(0);
     }
 
-    public function test_handlesUserTimeFormatEntriesCorrectly()
+    public function testHandlesUserTimeFormatEntriesCorrectly()
     {
         $this->model->set12HourClock('admin', false);
 
@@ -74,7 +75,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertTableEntryCount(0);
     }
 
-    public function test_handlesUserLanguageAndTimeFormatEntriesCorrectly()
+    public function testHandlesUserLanguageAndTimeFormatEntriesCorrectly()
     {
         $this->model->setLanguageForUser('admin', 'de');
 

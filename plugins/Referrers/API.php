@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Referrers;
 
 use Exception;
@@ -241,7 +242,7 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    const LABEL_KEYWORD_NOT_DEFINED = "";
+    public const LABEL_KEYWORD_NOT_DEFINED = "";
 
     /**
      * @ignore

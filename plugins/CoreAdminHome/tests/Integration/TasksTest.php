@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 
 use Piwik\Archive\ArchivePurger;
@@ -81,7 +83,7 @@ class TasksTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_purgeInvalidatedArchives_PurgesCorrectInvalidatedArchives_AndOnlyPurgesDataForDatesAndSites_InInvalidatedReportsDistributedList()
+    public function testPurgeInvalidatedArchivesPurgesCorrectInvalidatedArchivesAndOnlyPurgesDataForDatesAndSitesInInvalidatedReportsDistributedList()
     {
         $this->setUpInvalidatedReportsDistributedList($dates = array($this->february));
 
@@ -97,14 +99,14 @@ class TasksTest extends IntegrationTestCase
         $this->assertEmpty($yearMonths);
     }
 
-    public function test_purgeOutdatedArchives_SkipsPurging_WhenBrowserArchivingDisabled_AndCronArchiveTriggerNotPresent()
+    public function testPurgeOutdatedArchivesSkipsPurgingWhenBrowserArchivingDisabledAndCronArchiveTriggerNotPresent()
     {
         Rules::setBrowserTriggerArchiving(false);
         $wasPurged = $this->tasks->purgeOutdatedArchives();
         $this->assertFalse($wasPurged);
     }
 
-    public function test_purgeOutdatedArchives_Purges_WhenBrowserArchivingEnabled_AndCronArchiveTriggerPresent()
+    public function testPurgeOutdatedArchivesPurgesWhenBrowserArchivingEnabledAndCronArchiveTriggerPresent()
     {
         Rules::setBrowserTriggerArchiving(false);
         Rules::$disablePureOutdatedArchive = true;
@@ -113,7 +115,7 @@ class TasksTest extends IntegrationTestCase
         $this->assertTrue($wasPurged);
     }
 
-    public function test_schedule_addsRightAmountOfTasks()
+    public function testScheduleAddsRightAmountOfTasks()
     {
         Fixture::createWebsite('2012-01-01 00:00:00');
         Fixture::createWebsite(Date::now()->subDay(5)->getDatetime());
@@ -147,7 +149,7 @@ class TasksTest extends IntegrationTestCase
         $this->assertEquals($expected, $tasks);
     }
 
-    public function test_checkSiteHasTrackedVisits_doesNothingIfTheSiteHasVisits()
+    public function testCheckSiteHasTrackedVisitsDoesNothingIfTheSiteHasVisits()
     {
         $idSite = Fixture::createWebsite('2012-01-01 00:00:00');
 
@@ -161,7 +163,7 @@ class TasksTest extends IntegrationTestCase
         $this->assertEmpty($this->mail);
     }
 
-    public function test_checkSiteHasTrackedVisits_doesNothingIfSiteHasNoCreationUser()
+    public function testCheckSiteHasTrackedVisitsDoesNothingIfSiteHasNoCreationUser()
     {
         $idSite = Fixture::createWebsite('2012-01-01 00:00:00');
         Db::query("UPDATE " . Common::prefixTable('site') . ' SET creator_login = NULL WHERE idsite = ' . $idSite . ';');
@@ -173,7 +175,7 @@ class TasksTest extends IntegrationTestCase
         $this->assertEmpty($this->mail);
     }
 
-    public function test_checkSitesHasTrackedVisits_sendsJsCodeMissingEmailIfSiteHasNoVisitsAndCreationUser()
+    public function testCheckSitesHasTrackedVisitsSendsJsCodeMissingEmailIfSiteHasNoVisitsAndCreationUser()
     {
         $idSite = Fixture::createWebsite('2012-01-01 00:00:00');
 
@@ -190,7 +192,7 @@ class TasksTest extends IntegrationTestCase
         $this->assertEquals($mail->getIdSite(), $idSite);
     }
 
-    public function test_cleanupTrackingFailures_doesNotCauseAnyException()
+    public function testCleanupTrackingFailuresDoesNotCauseAnyException()
     {
         self::expectNotToPerformAssertions();
 
@@ -198,13 +200,13 @@ class TasksTest extends IntegrationTestCase
         $this->tasks->cleanupTrackingFailures();
     }
 
-    public function test_notifyTrackingFailures_doesNotSendAnyMailWhenThereAreNoTrackingRequests()
+    public function testNotifyTrackingFailuresDoesNotSendAnyMailWhenThereAreNoTrackingRequests()
     {
         $this->tasks->notifyTrackingFailures();
         $this->assertNull($this->mail);
     }
 
-    public function test_notifyTrackingFailures_sendsMailWhenThereAreTrackingFailures()
+    public function testNotifyTrackingFailuresSendsMailWhenThereAreTrackingFailures()
     {
         $failures = new Failures();
         $failures->logFailure(1, new Request(array('idsite' => 9999, 'rec' => 1)));

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\ScheduledReports\tests\Integration;
@@ -60,7 +61,7 @@ class ApiTest extends IntegrationTestCase
         APIScheduledReports::$cache = array();
     }
 
-    public function test_sendReport_overridesParametersCorrectly()
+    public function testSendReportOverridesParametersCorrectly()
     {
         $reportIds = [
             'UserCountry_getCity',
@@ -516,7 +517,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals($expectedReportTitle, $reportTitle);
     }
 
-    public function test_generateReport_CatchesIndividualReportProcessExceptions_WithoutFailingToGenerateWholeReport()
+    public function testGenerateReportCatchesIndividualReportProcessExceptionsWithoutFailingToGenerateWholeReport()
     {
         $realProxy = new Proxy();
 
@@ -576,7 +577,7 @@ class ApiTest extends IntegrationTestCase
      *
      * @param string|false $period
      */
-    public function test_generateReport_generatesAReportForAllValidDatePeriodCombinations(
+    public function testGenerateReportGeneratesAReportForAllValidDatePeriodCombinations(
         string $date,
         $period
     ): void {
@@ -647,7 +648,7 @@ class ApiTest extends IntegrationTestCase
         ];
     }
 
-    public function test_generateReport_throwsIfMultiplePeriodsRequested()
+    public function testGenerateReportThrowsIfMultiplePeriodsRequested()
     {
         $this->expectException(\Piwik\Http\BadRequestException::class);
         $this->expectExceptionMessage('This API method does not support multiple periods.');
@@ -680,7 +681,7 @@ class ApiTest extends IntegrationTestCase
      *
      * @param string|false $period
      */
-    public function test_generateReport_throwsIfInvalidDatePeriodCombinationRequested(
+    public function testGenerateReportThrowsIfInvalidDatePeriodCombinationRequested(
         string $date,
         $period
     ): void {
@@ -737,7 +738,7 @@ class ApiTest extends IntegrationTestCase
         ];
     }
 
-    public function test_generateReport_throwsIfInvalidReportRequested(): void
+    public function testGenerateReportThrowsIfInvalidReportRequested(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Requested report couldn't be found.");
@@ -750,7 +751,7 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    public function test_addReport_validatesEvolutionPeriodForParam()
+    public function testAddReportValidatesEvolutionPeriodForParam()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid evolutionPeriodFor value');
@@ -806,7 +807,7 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    public function test_addReport_validatesEvolutionPeriodNParam()
+    public function testAddReportValidatesEvolutionPeriodNParam()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Evolution period amount must be a positive number');
@@ -832,7 +833,7 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    public function test_addReport_throwsIfEvolutionPeriodNParamIsEach_AndLastNSupplied()
+    public function testAddReportThrowsIfEvolutionPeriodNParamIsEachAndLastNSupplied()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The evolutionPeriodN param has no effect when evolutionPeriodFor is "each".');
@@ -903,7 +904,7 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    public function test_updateReport_validatesEvolutionPeriodForParam()
+    public function testUpdateReportValidatesEvolutionPeriodForParam()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid evolutionPeriodFor value');
@@ -942,7 +943,7 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    public function test_updateReport_validatesEvolutionPeriodNParam()
+    public function testUpdateReportValidatesEvolutionPeriodNParam()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Evolution period amount must be a positive number');
@@ -982,7 +983,7 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    public function test_updateReport_throwsIfEvolutionPeriodNParamIsEach_AndLastNSupplied()
+    public function testUpdateReportThrowsIfEvolutionPeriodNParamIsEachAndLastNSupplied()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The evolutionPeriodN param has no effect when evolutionPeriodFor is "each".');
@@ -1022,7 +1023,7 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    public function test_addReport_onlySavesUniqueEmailAddresses()
+    public function testAddReportOnlySavesUniqueEmailAddresses()
     {
         $data = array(
             'idsite'      => $this->idSite,

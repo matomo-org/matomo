@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\AssetManager;
@@ -26,7 +27,7 @@ class UIAssetCacheBusterTest extends TestCase
     /**
      * @group Core
      */
-    public function test_md5BasedCacheBuster()
+    public function testMd5BasedCacheBuster()
     {
         $this->assertEquals('098f6bcd4621d373cade4e832627b4f6', $this->cacheBuster->md5BasedCacheBuster('test'));
     }

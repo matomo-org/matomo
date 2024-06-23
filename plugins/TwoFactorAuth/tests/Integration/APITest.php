@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\TwoFactorAuth\tests\Integration;
@@ -57,7 +58,7 @@ class APITest extends IntegrationTestCase
         $this->twoFa = StaticContainer::get(TwoFactorAuthentication::class);
     }
 
-    public function test_resetTwoFactorAuth_failsWhenNotPermissions()
+    public function testResetTwoFactorAuthFailsWhenNotPermissions()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('checkUserHasSuperUserAccess Fake exception');
@@ -66,7 +67,7 @@ class APITest extends IntegrationTestCase
         $this->api->resetTwoFactorAuth('login', Fixture::ADMIN_USER_PASSWORD);
     }
 
-    public function test_resetTwoFactorAuth_resetsSecret()
+    public function testResetTwoFactorAuthResetsSecret()
     {
         $this->recoveryCodes->createRecoveryCodesForLogin('mylogin1');
         $this->recoveryCodes->createRecoveryCodesForLogin('mylogin2');

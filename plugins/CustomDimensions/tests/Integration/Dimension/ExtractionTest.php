@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomDimensions\tests\Integration\Dimension;
@@ -33,7 +34,7 @@ class ExtractionTest extends IntegrationTestCase
         }
     }
 
-    public function test_non_capturing_group()
+    public function testNonCapturingGroup()
     {
         $extraction = $this->buildExtraction('url', '.com/(?:test)/.*camelCase=(.*)');
 
@@ -43,7 +44,7 @@ class ExtractionTest extends IntegrationTestCase
         $this->assertSame('fooBarBaz', $value);
     }
 
-    public function test_non_capturing_group_within_capture_group()
+    public function testNonCapturingGroupWithinCaptureGroup()
     {
         $extraction = $this->buildExtraction('url', '.com/.*(?:camel=|camelCase=(.*))');
 
@@ -53,7 +54,7 @@ class ExtractionTest extends IntegrationTestCase
         $this->assertSame('fooBarBaz', $value);
     }
 
-    public function test_multiple_non_capturing_groups()
+    public function testMultipleNonCapturingGroups()
     {
         $extraction = $this->buildExtraction('url', '.com/(?:test)/.*(?:camel=|camelCase=(.*))');
 
@@ -63,7 +64,7 @@ class ExtractionTest extends IntegrationTestCase
         $this->assertSame('fooBarBaz', $value);
     }
 
-    public function test_toArray()
+    public function testToArray()
     {
         $extraction = $this->buildExtraction('url', '.com/(.+)/index');
         $value = $extraction->toArray();
@@ -71,7 +72,7 @@ class ExtractionTest extends IntegrationTestCase
         $this->assertSame(array('dimension' => 'url', 'pattern' => '.com/(.+)/index'), $value);
     }
 
-    public function test_extract_url_withMatch()
+    public function testExtractUrlWithMatch()
     {
         $extraction = $this->buildExtraction('url', '.com/(.+)/index');
 
@@ -81,7 +82,7 @@ class ExtractionTest extends IntegrationTestCase
         $this->assertSame('test', $value);
     }
 
-    public function test_extract_url_withNoPattern()
+    public function testExtractUrlWithNoPattern()
     {
         $extraction = $this->buildExtraction('url', 'example');
 
@@ -91,7 +92,7 @@ class ExtractionTest extends IntegrationTestCase
         $this->assertNull($value);
     }
 
-    public function test_extract_url_withPatternButNoMatch()
+    public function testExtractUrlWithPatternButNoMatch()
     {
         $extraction = $this->buildExtraction('url', 'examplePiwik(.+)');
 
@@ -101,7 +102,7 @@ class ExtractionTest extends IntegrationTestCase
         $this->assertNull($value);
     }
 
-    public function test_actionName_match()
+    public function testActionNameMatch()
     {
         $extraction = $this->buildExtraction('action_name', 'My(.+)Title');
 
@@ -111,7 +112,7 @@ class ExtractionTest extends IntegrationTestCase
         $this->assertSame(' Test ', $value);
     }
 
-    public function test_extract_urlparam()
+    public function testExtractUrlparam()
     {
         $request = $this->buildRequest();
 
@@ -125,7 +126,7 @@ class ExtractionTest extends IntegrationTestCase
         $this->assertNull($value);
     }
 
-    public function test_extract_withAction_shouldReadValueFromAction_NotFromPassedRequest()
+    public function testExtractWithActionShouldReadValueFromActionNotFromPassedRequest()
     {
         $request = $this->buildRequest();
         $action = new ActionPageview($request);
@@ -144,7 +145,7 @@ class ExtractionTest extends IntegrationTestCase
     /**
      * @dataProvider getCaseSensitiveTestProvider
      */
-    public function test_extract_shouldBeCaseSensitiveByDefault($dimension, $pattern, $expectedExtracted)
+    public function testExtractShouldBeCaseSensitiveByDefault($dimension, $pattern, $expectedExtracted)
     {
         $request = $this->buildRequest();
 
@@ -168,7 +169,7 @@ class ExtractionTest extends IntegrationTestCase
     /**
      * @dataProvider getCaseInsensitiveTestProvider
      */
-    public function test_extract_WhenCaseInsensitiveIsEnabled($dimension, $pattern, $expectedExtracted)
+    public function testExtractWhenCaseInsensitiveIsEnabled($dimension, $pattern, $expectedExtracted)
     {
         $request = $this->buildRequest();
 
@@ -191,7 +192,7 @@ class ExtractionTest extends IntegrationTestCase
         );
     }
 
-    public function test_extract_anyRandomTrackingApiParameter()
+    public function testExtractAnyRandomTrackingApiParameter()
     {
         $request = $this->buildRequest();
 
@@ -199,7 +200,7 @@ class ExtractionTest extends IntegrationTestCase
         $this->assertSame('errer', $value);
     }
 
-    public function test_extract_whenOnlyPatternGiven()
+    public function testExtractWhenOnlyPatternGiven()
     {
         $request = $this->buildRequest();
 
@@ -207,7 +208,7 @@ class ExtractionTest extends IntegrationTestCase
         $this->assertSame('http://www.example.com/test/index.php?idsite=54&module=CoreHome&action=test&camelCase=fooBarBaz', $value);
     }
 
-    public function test_check_shouldFailWhenInvalidDimensionGiven()
+    public function testCheckShouldFailWhenInvalidDimensionGiven()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invald dimension \'anyInvalid\' used in an extraction. Available dimensions are: url, urlparam, action_name');
@@ -215,7 +216,7 @@ class ExtractionTest extends IntegrationTestCase
         $this->buildExtraction('anyInvalid', '/ref(.+)')->check();
     }
 
-    public function test_check_shouldFailWhenInvalidRegGiven()
+    public function testCheckShouldFailWhenInvalidRegGiven()
     {
         $check = '/foo(*)/';
         $this->expectException(\Exception::class);
@@ -226,7 +227,7 @@ class ExtractionTest extends IntegrationTestCase
     /**
      * @dataProvider getInvalidPatterns
      */
-    public function test_check_shouldFailWhenInvalidPatternGiven($pattern)
+    public function testCheckShouldFailWhenInvalidPatternGiven($pattern)
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('You need to group exactly one part of the regular expression inside round brackets, eg \'index_(.+).html\'');
@@ -234,7 +235,7 @@ class ExtractionTest extends IntegrationTestCase
         $this->buildExtraction('url', $pattern)->check();
     }
 
-    public function test_check_shouldNotFailWhenValidCombinationsAreGiven()
+    public function testCheckShouldNotFailWhenValidCombinationsAreGiven()
     {
         $this->expectNotToPerformAssertions();
         $this->buildExtraction('urlparam', 'index')->check(); // does not have to contain brackets

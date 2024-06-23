@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is a modified file from Twig 1.x.
  *

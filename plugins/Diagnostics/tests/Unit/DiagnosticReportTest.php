@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Diagnostics\tests\Unit;
@@ -13,7 +14,7 @@ use Piwik\Plugins\Diagnostics\DiagnosticReport;
 
 class DiagnosticReportTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_shouldComputeErrorAndWarningCount()
+    public function testShouldComputeErrorAndWarningCount()
     {
         $report = new DiagnosticReport(
             array(DiagnosticResult::singleResult('Error', DiagnosticResult::STATUS_ERROR, 'Comment')),
@@ -34,7 +35,7 @@ class DiagnosticReportTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($report->hasWarnings());
     }
 
-    public function test_getAllResults()
+    public function testGetAllResults()
     {
         $report = new DiagnosticReport(
             array(DiagnosticResult::singleResult('Error', DiagnosticResult::STATUS_ERROR, 'Comment')),

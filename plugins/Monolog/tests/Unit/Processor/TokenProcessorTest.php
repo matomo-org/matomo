@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
@@ -16,10 +17,7 @@ use Piwik\Plugins\Monolog\Processor\TokenProcessor;
  */
 class TokenProcessorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @test
-     */
-    public function it_should_remove_token()
+    public function testItShouldRemoveToken()
     {
         $result = $this->process(array(
             'message' => '&token_auth=9b1cefc915ff6180071fb7dcd13ec5a4&trigger=archivephp',
@@ -31,7 +29,7 @@ class TokenProcessorTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_should_remove_multiple_tokens()
+    public function testItShouldRemoveMultipleTokens()
     {
         $result = $this->process(array(
             'message' => 'First token_auth=9b1cefc915ff6180071fb7dcd13ec5a4 and second token_auth=abec834efc915ff61801fb7dcd13ec',
@@ -40,10 +38,7 @@ class TokenProcessorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('First token_auth=removed and second token_auth=removed', $result['message']);
     }
 
-    /**
-     * @test
-     */
-    public function it_should_not_affect_other_strings()
+    public function testItShouldNotAffectOtherStrings()
     {
         $result = $this->process(array(
             'message' => 'Please check your token_auth.',

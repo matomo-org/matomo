@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Plugin;
@@ -44,7 +45,7 @@ class WidgetsProviderTest extends IntegrationTestCase
         unset($_GET['idSite']);
     }
 
-    public function test_getWidgetContainerConfigs_shouldOnlyFindWidgetContainerConfigs()
+    public function testGetWidgetContainerConfigsShouldOnlyFindWidgetContainerConfigs()
     {
         $configs = $this->widgets->getWidgetContainerConfigs();
 
@@ -55,7 +56,7 @@ class WidgetsProviderTest extends IntegrationTestCase
         }
     }
 
-    public function test_getWidgetConfigs_shouldFindWidgetConfigs()
+    public function testGetWidgetConfigsShouldFindWidgetConfigs()
     {
         $configs = $this->widgets->getWidgetConfigs();
 
@@ -67,7 +68,7 @@ class WidgetsProviderTest extends IntegrationTestCase
         }
     }
 
-    public function test_getWidgetConfigs_shouldSetModuleAndActionForEachConfig()
+    public function testGetWidgetConfigsShouldSetModuleAndActionForEachConfig()
     {
         $configs = $this->widgets->getWidgetConfigs();
 

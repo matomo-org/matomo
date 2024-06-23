@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CorePluginsAdmin\tests\Integration;
@@ -19,8 +20,8 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class ApiTest extends IntegrationTestCase
 {
-    const TEST_USER = 'atestuser';
-    const TEST_PASSWORD = 'testpassword';
+    public const TEST_USER = 'atestuser';
+    public const TEST_PASSWORD = 'testpassword';
 
     private $testSystemSettingsPayload = [
         'CoreUpdater' => [
@@ -47,7 +48,7 @@ class ApiTest extends IntegrationTestCase
         Access::getInstance()->reloadAccess($auth);
     }
 
-    public function test_setSystemSettings_throwsIfNoPasswordConfirmation()
+    public function testSetSystemSettingsThrowsIfNoPasswordConfirmation()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ConfirmWithPassword');
@@ -56,7 +57,7 @@ class ApiTest extends IntegrationTestCase
         \Piwik\Plugins\CorePluginsAdmin\API::getInstance()->setSystemSettings($settingValues);
     }
 
-    public function test_setSystemSettings_throwsIfPasswordConfirmationWrong()
+    public function testSetSystemSettingsThrowsIfPasswordConfirmationWrong()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
@@ -65,7 +66,7 @@ class ApiTest extends IntegrationTestCase
         \Piwik\Plugins\CorePluginsAdmin\API::getInstance()->setSystemSettings($settingValues, 'blahblah');
     }
 
-    public function test_setSystemSettings_correctlySetsSettings()
+    public function testSetSystemSettingsCorrectlySetsSettings()
     {
         $settingValues = $this->testSystemSettingsPayload;
         \Piwik\Plugins\CorePluginsAdmin\API::getInstance()->setSystemSettings($settingValues, self::TEST_PASSWORD);
@@ -75,7 +76,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals('latest_beta', $value);
     }
 
-    public function test_getSystemSettingsRedactsPasswordValues()
+    public function testGetSystemSettingsRedactsPasswordValues()
     {
         $pluginSettings = StaticContainer::get(\Piwik\Plugins\ExampleSettingsPlugin\SystemSettings::class);
         $settings = $this->getPluginSettings('ExampleSettingsPlugin', 'password');

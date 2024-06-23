@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\SegmentEditor\tests\Integration;
@@ -67,7 +67,7 @@ class ModelTest extends IntegrationTestCase
         );
     }
 
-    public function test_deleteSegment_doesSoftDelete()
+    public function testDeleteSegmentDoesSoftDelete()
     {
         $preDeleteTimestamp = Date::getNowTimestamp();
         $this->model->deleteSegment($this->idSegment1);
@@ -84,7 +84,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertGreaterThanOrEqual($deletedTimestamp, $preDeleteTimestamp);
     }
 
-    public function test_getAllSegmentsAndIgnoreVisibility_withDeletedSegment()
+    public function testGetAllSegmentsAndIgnoreVisibilityWithDeletedSegment()
     {
         $segments = $this->model->getAllSegmentsAndIgnoreVisibility();
         $this->assertEquals(3, count($segments));
@@ -95,7 +95,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertReturnedIdsMatch(array($this->idSegment1, $this->idSegment3), $segments);
     }
 
-    public function test_getSegmentsToAutoArchive_withDeletedSegment()
+    public function testGetSegmentsToAutoArchiveWithDeletedSegment()
     {
         $segments = $this->model->getSegmentsToAutoArchive();
         $this->assertEquals(1, count($segments));
@@ -107,7 +107,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEmpty($segments);
     }
 
-    public function test_getAllSegments_withDeletedSegment()
+    public function testGetAllSegmentsWithDeletedSegment()
     {
         $segments = $this->model->getAllSegments('user1');
         $this->assertEquals(2, count($segments));
@@ -118,7 +118,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertReturnedIdsMatch(array($this->idSegment2), $segments);
     }
 
-    public function test_getAllSegmentsForSite_withDeletedSegment()
+    public function testGetAllSegmentsForSiteWithDeletedSegment()
     {
         $segments = $this->model->getAllSegmentsForSite(1, 'user1');
         $this->assertEquals(2, count($segments));
@@ -130,7 +130,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertReturnedIdsMatch(array($this->idSegment1), $segments);
     }
 
-    public function test_getAllSegmentsForAllUsers_withDeletedSegment()
+    public function testGetAllSegmentsForAllUsersWithDeletedSegment()
     {
         $segments = $this->model->getAllSegmentsForAllUsers();
         $this->assertEquals(3, count($segments));
@@ -141,7 +141,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertReturnedIdsMatch(array($this->idSegment1, $this->idSegment2), $segments);
     }
 
-    public function test_getSegmentByDefinition_withDeletedSegment()
+    public function testGetSegmentByDefinitionWithDeletedSegment()
     {
         $segment = $this->model->getSegmentByDefinition('Country==Genovia');
         $this->assertNotEmpty($segment);
@@ -152,14 +152,14 @@ class ModelTest extends IntegrationTestCase
         $this->assertEmpty($segment);
     }
 
-    public function test_getSegmentsDeletedSince_noDeletedSegments()
+    public function testGetSegmentsDeletedSinceNoDeletedSegments()
     {
         $date = Date::factory('now');
         $segments = $this->model->getSegmentsDeletedSince($date);
         $this->assertEmpty($segments);
     }
 
-    public function test_getSegmentsDeletedSince_oneDeletedSegment()
+    public function testGetSegmentsDeletedSinceOneDeletedSegment()
     {
         $this->model->deleteSegment($this->idSegment3);
 
@@ -170,7 +170,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals('country==Hobbiton', $segments[0]['definition']);
     }
 
-    public function test_getSegmentsDeletedSince_segmentDeletedTooLongAgo()
+    public function testGetSegmentsDeletedSinceSegmentDeletedTooLongAgo()
     {
         // Manually delete it to set timestamp 9 days in past
         $deletedAt = Date::factory('now')->subDay(9)->toString('Y-m-d H:i:s');
@@ -186,7 +186,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEmpty($segments);
     }
 
-    public function test_getSegmentsDeletedSince_duplicateSegment()
+    public function testGetSegmentsDeletedSinceDuplicateSegment()
     {
         // Turn segment1 into a duplicate of segment2, except it's also deleted
         $this->model->updateSegment($this->idSegment1, array(
@@ -201,7 +201,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEmpty($segments);
     }
 
-    public function test_getSegmentsDeletedSince_duplicateSegmentDifferentIdSite()
+    public function testGetSegmentsDeletedSinceDuplicateSegmentDifferentIdSite()
     {
         // Turn segment2 into a duplicate of segment3, except for a different idsite and also deleted
         $this->model->updateSegment($this->idSegment2, array(
@@ -219,7 +219,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(2, $segments[0]['enable_only_idsite']);
     }
 
-    public function test_getSegmentsDeletedSince_duplicateSegmentAllSitesAndSingleSite()
+    public function testGetSegmentsDeletedSinceDuplicateSegmentAllSitesAndSingleSite()
     {
         // Turn segment2 into a duplicate of segment3, except for all sites and also deleted
         $this->model->updateSegment($this->idSegment2, array(
@@ -238,7 +238,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(array(1), $segments[0]['idsites_to_preserve']);
     }
 
-    public function test_getSegmentsDeletedSince_duplicateSegmentSingleSiteAndAllSites()
+    public function testGetSegmentsDeletedSinceDuplicateSegmentSingleSiteAndAllSites()
     {
         // Turn segment3 into a duplicate of segment1, except for a single site and deleted
         $this->model->updateSegment($this->idSegment3, array(
@@ -255,7 +255,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEmpty($segments);
     }
 
-    public function test_getSegmentsDeletedSince_ExistingSiteSpecificAndAllSitesMatch()
+    public function testGetSegmentsDeletedSinceExistingSiteSpecificAndAllSitesMatch()
     {
         // A deleted all-sites segment, with both an all-sites and a site-specific segment still present
         $this->model->updateSegment($this->idSegment1, array(
@@ -289,7 +289,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEmpty($segments);
     }
 
-    public function test_getSegmentsDeletedSince_urlDecodedVersionOfSegment()
+    public function testGetSegmentsDeletedSinceUrlDecodedVersionOfSegment()
     {
         // Turn segment2 into a duplicate of segment3, except a urlencoded version
         $this->model->updateSegment($this->idSegment2, array(
@@ -307,7 +307,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEmpty($segments);
     }
 
-    public function test_getSegmentsDeletedSince_urlEncodedVersionOfSegment()
+    public function testGetSegmentsDeletedSinceUrlEncodedVersionOfSegment()
     {
         // segment1 => url decoded version, deleted
         $this->model->updateSegment($this->idSegment1, array(

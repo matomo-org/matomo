@@ -4,7 +4,7 @@
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -42,7 +42,7 @@ class NonceTest extends IntegrationTestCase
         $_SERVER['HTTP_REFERER'] = $referrer;
     }
 
-    public function testVerifyNonceWithErrorMessage_invalidNonce_expectErrorString()
+    public function testVerifyNonceWithErrorMessageInvalidNonceExpectErrorString()
     {
         $this->assertSame(
             'Login_InvalidNonceToken',
@@ -50,7 +50,7 @@ class NonceTest extends IntegrationTestCase
         );
     }
 
-    public function testVerifyNonceWithErrorMessage__validNonceAndAllowedReferrerWithNoReferrer_expectEmptyString()
+    public function testVerifyNonceWithErrorMessageValidNonceAndAllowedReferrerWithNoReferrerExpectEmptyString()
     {
         $this->assertSame(
             '',
@@ -58,7 +58,7 @@ class NonceTest extends IntegrationTestCase
         );
     }
 
-    public function testVerifyNonceWithErrorMessage_validNonceAndAllowedReferrerWithMatchingReferrer_expectEmptyString()
+    public function testVerifyNonceWithErrorMessageValidNonceAndAllowedReferrerWithMatchingReferrerExpectEmptyString()
     {
         $this->setReferrer('https://example.com');
         $this->assertSame(
@@ -67,7 +67,7 @@ class NonceTest extends IntegrationTestCase
         );
     }
 
-    public function testVerifyNonceWithErrorMessage_validNonceAndNoAllowedReferrerWithReferrer_expectErrorString()
+    public function testVerifyNonceWithErrorMessageValidNonceAndNoAllowedReferrerWithReferrerExpectErrorString()
     {
         $this->setReferrer('https://example.net');
         $this->assertSame(
@@ -76,7 +76,7 @@ class NonceTest extends IntegrationTestCase
         );
     }
 
-    public function testVerifyNonceWithErrorMessage_validNonceAndLocalReferrerWithNoAllowedReferrer_expectEmptyString()
+    public function testVerifyNonceWithErrorMessageValidNonceAndLocalReferrerWithNoAllowedReferrerExpectEmptyString()
     {
         $this->setReferrer('http://' . Config::getHostname()); // The "local" host when running via CLI.
         $this->assertSame(
@@ -85,7 +85,7 @@ class NonceTest extends IntegrationTestCase
         );
     }
 
-    public function testVerifyNonceWithErrorMessage_validNonceAndAllowedReferrerWithMismatchedReferrer_expectError()
+    public function testVerifyNonceWithErrorMessageValidNonceAndAllowedReferrerWithMismatchedReferrerExpectError()
     {
         $this->setReferrer('https://example.net');
         $this->assertSame(

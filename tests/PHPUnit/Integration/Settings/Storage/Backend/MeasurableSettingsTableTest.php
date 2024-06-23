@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Settings\Storage\Backend;
@@ -53,7 +54,7 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         return new MeasurableSettingsTable($idSite, $plugin);
     }
 
-    public function test_construct_shouldThrowAnException_IfPluginNameIsEmpty()
+    public function testConstructShouldThrowAnExceptionIfPluginNameIsEmpty()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('No plugin name given');
@@ -61,7 +62,7 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         $this->createSettings(1, '');
     }
 
-    public function test_construct_shouldThrowAnException_IfIdSiteIsEmpty()
+    public function testConstructShouldThrowAnExceptionIfIdSiteIsEmpty()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('No idSite given');
@@ -69,21 +70,21 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         $this->createSettings(0, 'MyPlugin');
     }
 
-    public function test_load_shouldNotHaveAnySettingsByDefault()
+    public function testLoadShouldNotHaveAnySettingsByDefault()
     {
         $this->assertSame(array(), $this->backendSite1->load());
         $this->assertSame(array(), $this->backendSite2->load());
         $this->assertSame(array(), $this->backendSite1Plugin2->load());
     }
 
-    public function test_getStorageId_shouldIncludePluginNameAndLogin()
+    public function testGetStorageIdShouldIncludePluginNameAndLogin()
     {
         $this->assertSame('MeasurableSettings_1_MyPluginName', $this->backendSite1->getStorageId());
         $this->assertSame('MeasurableSettings_2_MyPluginName', $this->backendSite2->getStorageId());
         $this->assertSame('MeasurableSettings_1_MyPluginName2', $this->backendSite1Plugin2->getStorageId());
     }
 
-    public function test_save_ShouldOnlySaveForSpecificPluginAndIdSite()
+    public function testSaveShouldOnlySaveForSpecificPluginAndIdSite()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => 'val');
 
@@ -108,7 +109,7 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         $this->assertSame($value3, $this->backendSite1Plugin2->load());
     }
 
-    public function test_delete_shouldDeleteAllValuesButOnlyForSpecificPluginAndIdSite()
+    public function testDeleteShouldDeleteAllValuesButOnlyForSpecificPluginAndIdSite()
     {
         $values = array();
         foreach ($this->allBackends as $index => $backend) {
@@ -128,7 +129,7 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         }
     }
 
-    public function test_save_DuplicateValuesShouldBeOverwritten()
+    public function testSaveDuplicateValuesShouldBeOverwritten()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => 'val');
 
@@ -142,7 +143,7 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value2, $this->backendSite1->load());
     }
 
-    public function test_save_NoLongerExistingValues_shouldBeRemoved()
+    public function testSaveNoLongerExistingValuesShouldBeRemoved()
     {
         $value = $this->saveValueForAllBackends();
 
@@ -159,7 +160,7 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         }
     }
 
-    public function test_save_load_ShouldBeAbleToSaveAndLoadArrayValues()
+    public function testSaveLoadShouldBeAbleToSaveAndLoadArrayValues()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => array('val', 'val7', 'val5'));
 
@@ -167,7 +168,7 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backendSite1Plugin2->load());
     }
 
-    public function test_save_load_ShouldBeAbleToSaveAndLoadArrayValues_OnlyOneKey()
+    public function testSaveLoadShouldBeAbleToSaveAndLoadArrayValuesOnlyOneKey()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => array('val'));
 
@@ -179,7 +180,7 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backendSite1Plugin2->load());
     }
 
-    public function test_save_load_ShouldBeAbleToSaveAndLoadObjectValues()
+    public function testSaveLoadShouldBeAbleToSaveAndLoadObjectValues()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => (object) array('val', 'val7', 'val5'));
 
@@ -189,7 +190,7 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backendSite1Plugin2->load());
     }
 
-    public function test_save_load_ShouldBeAbleToSaveNestedArrays()
+    public function testSaveLoadShouldBeAbleToSaveNestedArrays()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => array(array('foo' => 'bar'),array('foo' => 'baz')));
 
@@ -197,7 +198,7 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backendSite1Plugin2->load());
     }
 
-    public function test_save_ShouldBeAbleToSaveBoolValues()
+    public function testSaveShouldBeAbleToSaveBoolValues()
     {
         $value1 = array('Mysetting1' => true, 'Mysetting2' => array('val', 'val7', false, true, 'val5'));
 
@@ -207,7 +208,7 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backendSite1Plugin2->load());
     }
 
-    public function test_save_ShouldIgnoreNullValues()
+    public function testSaveShouldIgnoreNullValues()
     {
         $value1 = array('Mysetting1' => true, 'MySetting3' => null, 'Mysetting2' => array('val', null, true, 'val5'));
 
@@ -217,7 +218,7 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backendSite1Plugin2->load());
     }
 
-    public function test_removeAllUserSettingsForUser_shouldOnlyRemoveSettingsForThatUser()
+    public function testRemoveAllUserSettingsForUserShouldOnlyRemoveSettingsForThatUser()
     {
         $value = $this->saveValueForAllBackends();
 
@@ -232,7 +233,7 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
         }
     }
 
-    public function test_removeAllSettingsForPlugin_shouldOnlyRemoveSettingsForThatPlugin()
+    public function testRemoveAllSettingsForPluginShouldOnlyRemoveSettingsForThatPlugin()
     {
         $value = $this->saveValueForAllBackends();
 

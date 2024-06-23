@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\PrivacyManager\tests\Integration\Dao;
@@ -55,17 +56,17 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->theFixture->tearDownLocation();
     }
 
-    public function test_checkAllVisitColumns_noColumnsGiven()
+    public function testCheckAllVisitColumnsNoColumnsGiven()
     {
         $this->assertNull($this->anonymizer->checkAllVisitColumns(array()));
     }
 
-    public function test_checkAllVisitColumns_validColumnsGiven()
+    public function testCheckAllVisitColumnsValidColumnsGiven()
     {
         $this->assertNull($this->anonymizer->checkAllVisitColumns(array('visitor_localtime', 'location_region')));
     }
 
-    public function test_checkAllVisitColumns_notExistingColumnGiven()
+    public function testCheckAllVisitColumnsNotExistingColumnGiven()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The column "foobarbaz" seems to not exist in log_visit or cannot be unset');
@@ -73,7 +74,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->anonymizer->checkAllVisitColumns(array('visitor_localtime', 'foobarbaz'));
     }
 
-    public function test_checkAllVisitColumns_blacklistedColumnGiven()
+    public function testCheckAllVisitColumnsBlacklistedColumnGiven()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The column "idsite" seems to not exist in log_visit or cannot be unset');
@@ -81,7 +82,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->anonymizer->checkAllVisitColumns(array('visitor_localtime', 'idsite'));
     }
 
-    public function test_checkAllVisitColumns_columnWithoutDefaultValueGiven()
+    public function testCheckAllVisitColumnsColumnWithoutDefaultValueGiven()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The column "visit_total_time" seems to not exist in log_visit or cannot be unset');
@@ -89,17 +90,17 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->anonymizer->checkAllVisitColumns(array('visitor_localtime', 'visit_total_time'));
     }
 
-    public function test_checkAllLinkVisitActionColumns_noColumnsGiven()
+    public function testCheckAllLinkVisitActionColumnsNoColumnsGiven()
     {
         $this->assertNull($this->anonymizer->checkAllLinkVisitActionColumns(array()));
     }
 
-    public function test_checkAllLinkVisitActionColumns_validColumnsGiven()
+    public function testCheckAllLinkVisitActionColumnsValidColumnsGiven()
     {
         $this->assertNull($this->anonymizer->checkAllLinkVisitActionColumns(array('time_spent_ref_action', 'idaction_content_piece')));
     }
 
-    public function test_checkAllLinkVisitActionColumns_notExistingColumnGiven()
+    public function testCheckAllLinkVisitActionColumnsNotExistingColumnGiven()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The column "foobarbaz" seems to not exist in log_link_visit_action or cannot be unset');
@@ -107,7 +108,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->anonymizer->checkAllLinkVisitActionColumns(array('time_spent_ref_action', 'foobarbaz'));
     }
 
-    public function test_checkAllLinkVisitActionColumns_blacklistedColumnGiven()
+    public function testCheckAllLinkVisitActionColumnsBlacklistedColumnGiven()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The column "idsite" seems to not exist in log_link_visit_action or cannot be unset');
@@ -115,22 +116,22 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->anonymizer->checkAllLinkVisitActionColumns(array('time_spent_ref_action', 'idsite'));
     }
 
-    public function test_checkAllLinkVisitActionColumns_columnWithNonNullDefaultValueIsFine()
+    public function testCheckAllLinkVisitActionColumnsColumnWithNonNullDefaultValueIsFine()
     {
         $this->assertNull($this->anonymizer->checkAllLinkVisitActionColumns(array('idaction_url_ref')));
     }
 
-    public function test_anonymizeVisitInformation_whenNoWorkTodo()
+    public function testAnonymizeVisitInformationWhenNoWorkTodo()
     {
         $this->assertSame(0, $this->anonymizer->anonymizeVisitInformation($idSites = null, $startDate = '2017-01-01', $endDate = '2018-01-01', $anonymizeIp = false, $anonimizeLocation = false, $anonymizeUserId = false));
     }
 
-    public function test_anonymizeVisitInformation_whenNoVisitsDuringThatTime()
+    public function testAnonymizeVisitInformationWhenNoVisitsDuringThatTime()
     {
         $this->assertSame(0, $this->anonymizer->anonymizeVisitInformation($idSites = null, $startDate = '2017-01-01', $endDate = '2018-01-01', $anonymizeIp = true, $anonimizeLocation = true, $anonymizeUserId = true));
     }
 
-    public function test_anonymizeInformation_whenNoSitesGivenDoesAnonymizeAllVisits()
+    public function testAnonymizeInformationWhenNoSitesGivenDoesAnonymizeAllVisits()
     {
         $this->theFixture->setUpWebsites();
         $this->theFixture->trackVisits($idSite = 1, 2);
@@ -144,7 +145,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->assertNotEmpty($result3);
     }
 
-    public function test_anonymizeInformation_anonymizeUserId()
+    public function testAnonymizeInformationAnonymizeUserId()
     {
         $this->theFixture->setUpWebsites();
         $this->theFixture->trackVisits($idSite = 1, 1);
@@ -153,7 +154,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->assertNotEmpty($result1);
     }
 
-    public function test_anonymizeInformation_restrictSites()
+    public function testAnonymizeInformationRestrictSites()
     {
         $this->theFixture->setUpWebsites();
         $this->theFixture->trackVisits($idSite = 1, 2);
@@ -167,7 +168,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->assertNotEmpty($result3);
     }
 
-    public function test_anonymizeInformation_restrictDate()
+    public function testAnonymizeInformationRestrictDate()
     {
         $startDate = Date::factory($this->theFixture->dateTime)->subHour(3)->getDatetime();
         $endDate = Date::factory($this->theFixture->dateTime)->addHour(3)->getDatetime();
@@ -183,7 +184,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $this->assertNotEmpty($result3);
     }
 
-    public function test_getAvailableVisitColumnsToAnonymize()
+    public function testGetAvailableVisitColumnsToAnonymize()
     {
         $this->assertSame(array(
             'profilable' => null,

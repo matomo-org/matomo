@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Goals\tests\System;
 
 use Piwik\Common;
@@ -25,7 +27,7 @@ class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
      */
     public static $fixture = null;
 
-    public function test_CommandSuccessfullyCalculates_ForDateRange()
+    public function testCommandSuccessfullyCalculatesForDateRange()
     {
         $this->unsetPageviewsBefore();
 
@@ -44,7 +46,7 @@ class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
         $this->checkPageviewsBeforeValid();
     }
 
-    public function test_CommandSuccessfullyCalculates_ForLastN()
+    public function testCommandSuccessfullyCalculatesForLastN()
     {
         $this->unsetPageviewsBefore();
 

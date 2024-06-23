@@ -3,8 +3,8 @@
  *
  * CoreUpdater screenshot tests.
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("CoreUpdaterDb", function () {
@@ -41,7 +41,7 @@ describe("CoreUpdaterDb", function () {
         await page.goto("");
         await page.evaluate(function () {
             $('p').each(function () {
-                var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, '');
+                var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+|-alpha)?(\.[0-9]{14})?/g, '');
                 $(this).html(replace);
             });
         });
@@ -65,7 +65,7 @@ describe("CoreUpdaterDb", function () {
         await page.goto("");
         await page.evaluate(function () {
             $('p').each(function () {
-                var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, '');
+                var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+|-alpha)?(\.[0-9]{14})?/g, '');
                 $(this).html(replace);
             });
         });

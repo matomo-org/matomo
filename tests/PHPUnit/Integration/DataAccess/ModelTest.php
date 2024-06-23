@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\DataAccess;
@@ -38,7 +39,7 @@ class ModelTest extends IntegrationTestCase
         $this->model->createArchiveTable($this->tableName, 'archive_numeric');
     }
 
-    public function test_getInvalidatedArchiveIdsSafeToDelete_handlesCutOffGroupMaxLenCorrectly()
+    public function testGetInvalidatedArchiveIdsSafeToDeleteHandlesCutOffGroupMaxLenCorrectly()
     {
         Db::get()->query('SET SESSION group_concat_max_len=32');
 
@@ -80,7 +81,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expected, $ids);
     }
 
-    public function test_resetFailedArchivingJobs_updatesCorrectStatuses()
+    public function testResetFailedArchivingJobsUpdatesCorrectStatuses()
     {
         Date::$now = strtotime('2020-03-03 04:00:00');
 
@@ -107,7 +108,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expected, $idinvalidationStatus);
     }
 
-    public function test_insertNewArchiveId()
+    public function testInsertNewArchiveId()
     {
         $this->assertAllocatedArchiveId(1);
         $this->assertAllocatedArchiveId(2);
@@ -127,7 +128,7 @@ class ModelTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForHasChildArchivesInPeriod
      */
-    public function test_hasChildArchivesInPeriod_returnsFalseIfThereIsNoChildPeriod($archivesToInsert, $idSite, $date, $period, $expected)
+    public function testHasChildArchivesInPeriodReturnsFalseIfThereIsNoChildPeriod($archivesToInsert, $idSite, $date, $period, $expected)
     {
         $this->insertArchiveData($archivesToInsert);
 
@@ -136,7 +137,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function test_hasInvalidationForPeriodAndName_returnsTrueIfExists()
+    public function testHasInvalidationForPeriodAndNameReturnsTrueIfExists()
     {
         $date = '2021-03-23';
         $this->insertInvalidations([
@@ -148,7 +149,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertTrue($result);
     }
 
-    public function test_hasInvalidationForPeriodAndName_returnsTrueIfExistsForReport()
+    public function testHasInvalidationForPeriodAndNameReturnsTrueIfExistsForReport()
     {
         $date = '2021-03-23';
         $this->insertInvalidations([
@@ -160,7 +161,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertTrue($result);
     }
 
-    public function test_hasInvalidationForPeriodAndName_returnsFalseIfNotExistsForReport()
+    public function testHasInvalidationForPeriodAndNameReturnsFalseIfNotExistsForReport()
     {
         $date = '2021-03-23';
         $this->insertInvalidations([
@@ -172,7 +173,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertFalse($result);
     }
 
-    public function test_hasInvalidationForPeriodAndName_returnsFalseIfNotExists()
+    public function testHasInvalidationForPeriodAndNameReturnsFalseIfNotExists()
     {
         $date = '2021-03-23';
         $date2 = '2021-03-22';
@@ -343,7 +344,7 @@ class ModelTest extends IntegrationTestCase
         ];
     }
 
-    public function test_getNextInvalidatedArchive_returnsCorrectOrder()
+    public function testGetNextInvalidatedArchiveReturnsCorrectOrder()
     {
         $this->insertInvalidations([
             ['date1' => '2015-03-30', 'date2' => '2015-03-30', 'period' => 1, 'name' => 'done' . md5('testsegment8')],
@@ -373,7 +374,7 @@ class ModelTest extends IntegrationTestCase
         $expected = array (
             array (
                 'idinvalidation' => '11',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-04-15',
                 'date2' => '2015-04-24',
@@ -385,7 +386,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '12',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-04-06',
                 'date2' => '2015-04-06',
@@ -397,7 +398,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '13',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-04-06',
                 'date2' => '2015-04-06',
@@ -409,7 +410,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '19',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-04-06',
                 'date2' => '2015-04-12',
@@ -421,7 +422,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '5',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-04-06',
                 'date2' => '2015-04-12',
@@ -433,7 +434,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '15',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-04-05',
                 'date2' => '2015-04-05',
@@ -445,7 +446,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '8',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-04-04',
                 'date2' => '2015-04-04',
@@ -457,7 +458,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '14',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-04-03',
                 'date2' => '2015-04-03',
@@ -469,7 +470,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '20',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-04-02',
                 'date2' => '2015-04-02',
@@ -481,7 +482,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '3',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-04-02',
                 'date2' => '2015-04-02',
@@ -493,7 +494,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '2',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-04-01',
                 'date2' => '2015-04-01',
@@ -505,7 +506,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '10',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-04-01',
                 'date2' => '2015-04-30',
@@ -517,7 +518,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '17',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-04-01',
                 'date2' => '2015-04-30',
@@ -529,7 +530,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '22',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-03-31',
                 'date2' => '2015-03-31',
@@ -541,7 +542,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '7',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-03-30',
                 'date2' => '2015-03-30',
@@ -553,7 +554,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '1',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-03-30',
                 'date2' => '2015-03-30',
@@ -565,7 +566,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '16',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-03-30',
                 'date2' => '2015-04-05',
@@ -577,7 +578,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '6',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-03-29',
                 'date2' => '2015-03-29',
@@ -589,7 +590,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '9',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-03-29',
                 'date2' => '2015-03-29',
@@ -601,7 +602,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '18',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-03-01',
                 'date2' => '2015-03-24',
@@ -613,7 +614,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '21',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-03-01',
                 'date2' => '2015-03-31',
@@ -625,7 +626,7 @@ class ModelTest extends IntegrationTestCase
             ),
             array (
                 'idinvalidation' => '4',
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2015-01-01',
                 'date2' => '2015-12-31',
@@ -645,7 +646,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_deleteInvalidationsForDeletedSites()
+    public function testDeleteInvalidationsForDeletedSites()
     {
         Fixture::createWebsite('2014-01-01 00:00:00');
 

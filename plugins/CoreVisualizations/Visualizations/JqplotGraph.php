@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
@@ -18,8 +19,8 @@ use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
  */
 abstract class JqplotGraph extends Graph
 {
-    const ID = 'jqplot_graph';
-    const TEMPLATE_FILE = '@CoreVisualizations/_dataTableViz_jqplotGraph.twig';
+    public const ID = 'jqplot_graph';
+    public const TEMPLATE_FILE = '@CoreVisualizations/_dataTableViz_jqplotGraph.twig';
 
     public static function getDefaultConfig()
     {

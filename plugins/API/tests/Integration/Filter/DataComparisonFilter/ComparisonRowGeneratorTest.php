@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\API\tests\Integration\Filter\DataComparisonFilter;
@@ -16,8 +17,8 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class ComparisonRowGeneratorTest extends IntegrationTestCase
 {
-    const TEST_SEGMENT = 'browserCode==ff';
-    const OTHER_SEGMENT = 'operatingSystemCode=WIN';
+    public const TEST_SEGMENT = 'browserCode==ff';
+    public const OTHER_SEGMENT = 'operatingSystemCode=WIN';
 
     protected static function beforeTableDataCached()
     {
@@ -26,7 +27,7 @@ class ComparisonRowGeneratorTest extends IntegrationTestCase
         API::getInstance()->add('test segment', self::TEST_SEGMENT);
     }
 
-    public function test_compareTables_shouldCompareTwoDataTablesCorrectly()
+    public function testCompareTablesShouldCompareTwoDataTablesCorrectly()
     {
         $table1 = $this->makeTable([
             ['label' => 'row1', 'nb_visits' => 5, 'nb_actions' => 10],
@@ -115,7 +116,7 @@ END;
         $this->assertEquals($expectedXml, $xmlContent);
     }
 
-    public function test_compareTables_shouldUseFirstTableRowsForComparisons()
+    public function testCompareTablesShouldUseFirstTableRowsForComparisons()
     {
         $table1 = $this->makeTable([
             ['label' => 'row1', 'nb_visits' => 10, 'nb_actions' => 5],
@@ -176,7 +177,7 @@ END;
         $this->assertEquals($expectedXml, $xmlContent);
     }
 
-    public function test_compareTables_shouldCompareTwoDataTableMapsCorrectly()
+    public function testCompareTablesShouldCompareTwoDataTableMapsCorrectly()
     {
         $tableSet1 = $this->makeTableMap([
             '2012-01-01' => [
@@ -323,7 +324,7 @@ END;
         $this->assertEquals($expectedXml, $xmlContent);
     }
 
-    public function test_compareTables_shouldCompareTwoDataTaleMapsOfDifferentLengthsCorrectly_whenFirstIsLonger()
+    public function testCompareTablesShouldCompareTwoDataTaleMapsOfDifferentLengthsCorrectlyWhenFirstIsLonger()
     {
         $tableSet1 = $this->makeTableMap([
             '2012-01-01' => [
@@ -464,7 +465,7 @@ END;
         $this->assertEquals($expectedXml, $xmlContent);
     }
 
-    public function test_compareTables_shouldCompareTwoDataTaleMapsOfDifferentLengthsCorrectly_whenFirstIsShorter()
+    public function testCompareTablesShouldCompareTwoDataTaleMapsOfDifferentLengthsCorrectlyWhenFirstIsShorter()
     {
         $tableSet1 = $this->makeTableMap([
             '2012-01-01' => [

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomJsTracker\tests\Integration;
@@ -35,7 +36,7 @@ class ApiTest extends IntegrationTestCase
         $this->api = API::getInstance();
     }
 
-    public function test_doesIncludePluginTrackersAutomatically_failsIfNotEnoughPermission()
+    public function testDoesIncludePluginTrackersAutomaticallyFailsIfNotEnoughPermission()
     {
         $this->expectException(\Piwik\NoAccessException::class);
         $this->expectExceptionMessage('checkUserHasSomeAdminAccess');
@@ -44,7 +45,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->doesIncludePluginTrackersAutomatically();
     }
 
-    public function test_doesIncludePluginTrackersAutomatically_failsIfNotEnoughPermissionAnonymous()
+    public function testDoesIncludePluginTrackersAutomaticallyFailsIfNotEnoughPermissionAnonymous()
     {
         $this->expectException(\Piwik\NoAccessException::class);
         $this->expectExceptionMessage('checkUserHasSomeAdminAccess');
@@ -53,7 +54,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->doesIncludePluginTrackersAutomatically();
     }
 
-    public function test_doesIncludePluginTrackersAutomatically_returnsValueWhenEnoughPermission()
+    public function testDoesIncludePluginTrackersAutomaticallyReturnsValueWhenEnoughPermission()
     {
         $this->assertTrue($this->api->doesIncludePluginTrackersAutomatically());
     }

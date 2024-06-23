@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Ecommerce;
 
 use Piwik\Common;
@@ -23,8 +24,8 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
-    const CATEGORY_COUNT = 5;
-    const DEFAULT_LIFETIME_STAT = array(
+    public const CATEGORY_COUNT = 5;
+    public const DEFAULT_LIFETIME_STAT = array(
             'lifeTimeRevenue' => 0,
             'lifeTimeConversions' => 0,
             'lifeTimeEcommerceItems' => 0);

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\API;
 
 use Piwik\API\Proxy;
@@ -69,7 +70,7 @@ class API extends \Piwik\Plugin\API
      * For Testing purpose only
      * @var int
      */
-    public static $_autoSuggestLookBack = 60;
+    public static $_autoSuggestLookBack = 60; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
 
     public function __construct(SettingsProvider $settingsProvider, ProcessedReport $processedReport)
     {

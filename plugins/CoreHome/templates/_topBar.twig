@@ -1,5 +1,5 @@
 {{ postEvent("Template.beforeTopBar", userLogin, topMenu) }}
-<ul class="right hide-on-med-and-down">
+<ul class="right hide-on-med-and-down" role="menu">
     {% macro menuItemLabel(label, icon) %}
         {% if icon is defined and icon and icon starts with 'icon-' %}
             <span class="navbar-icon {{ icon|striptags }}" aria-label="{{ label|translate|e('html_attr') }}"></span>
@@ -55,7 +55,7 @@
         {% endfor %}
     {% endapply %}
 </ul>
-<ul class="sidenav hide-on-large-only" id="mobile-top-menu">
+<ul class="sidenav hide-on-large-only" id="mobile-top-menu" role="menu">
     {% for label,menu in topMenu %}
         <li role="menuitem" class="{{ _self.isActiveItem(menu, topMenuModule, topMenuAction) }}"
             >{{ _self.topMenuItem(label, '', menu) }}</li>

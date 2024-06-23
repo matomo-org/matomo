@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Scheduler\Schedule;
@@ -20,13 +20,13 @@ use Piwik\Date;
  */
 abstract class Schedule
 {
-    const PERIOD_NEVER = 'never';
-    const PERIOD_DAY = 'day';
-    const PERIOD_WEEK = 'week';
-    const PERIOD_MONTH = 'month';
-    const PERIOD_HOUR = 'hour';
-    const PERIOD_YEAR = 'year';
-    const PERIOD_RANGE = 'range';
+    public const PERIOD_NEVER = 'never';
+    public const PERIOD_DAY = 'day';
+    public const PERIOD_WEEK = 'week';
+    public const PERIOD_MONTH = 'month';
+    public const PERIOD_HOUR = 'hour';
+    public const PERIOD_YEAR = 'year';
+    public const PERIOD_RANGE = 'range';
 
     /**
      * @link http://php.net/manual/en/function.date.php, format string : 'G'

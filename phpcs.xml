@@ -26,24 +26,20 @@
     <rule ref="PSR12">
         <!-- can't use this as long as we have functions.php files that need to be required manually -->
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols" />
+    </rule>
 
-        <exclude name="Generic.Files.LineLength" />
-        <exclude name="Generic.PHP.LowerCaseConstant.Found" />
-        <exclude name="PSR12.Files.FileHeader" />
-        <exclude name="PSR12.Properties.ConstantVisibility" />
-        <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="400"/>
+        </properties>
+        <exclude-pattern>tests/PHPUnit/*</exclude-pattern>
+        <exclude-pattern>plugins/*/tests/*</exclude-pattern>
     </rule>
 
     <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
         <!-- Classnames for our update files don't match PascalCase, this can't be changed easily -->
         <exclude-pattern>core/Updates/*</exclude-pattern>
         <exclude-pattern>plugins/*/Updates/*</exclude-pattern>
-    </rule>
-
-    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
-        <!-- Allow using method name without camel caps in tests as long as some methods are named test_* -->
-        <exclude-pattern>tests/PHPUnit/*</exclude-pattern>
-        <exclude-pattern>plugins/*/tests/*</exclude-pattern>
     </rule>
 
     <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">

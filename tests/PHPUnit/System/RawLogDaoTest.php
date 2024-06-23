@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\System;
@@ -58,7 +59,7 @@ class RawLogDaoTest extends SystemTestCase
     /**
      * @dataProvider getVisitsInTimeFrameData
      */
-    public function test_hasSiteVisitsInTimeframe_shouldDetectWhetherThereAreVisitsInCertainTimeframe($from, $to, $idSite, $expectedHasVisits)
+    public function testHasSiteVisitsInTimeframeShouldDetectWhetherThereAreVisitsInCertainTimeframe($from, $to, $idSite, $expectedHasVisits)
     {
         Fixture::getTracker($this->idSite, '2015-01-25 05:35:27')->doTrackPageView('/test');
 
@@ -66,7 +67,7 @@ class RawLogDaoTest extends SystemTestCase
         $this->assertSame($expectedHasVisits, $hasVisits);
     }
 
-    public function test_getIdColumns()
+    public function testGetIdColumns()
     {
         $expected = array(
             'log_action' => 'idaction',
@@ -78,14 +79,14 @@ class RawLogDaoTest extends SystemTestCase
         $this->assertSame($expected, $this->dao->getTableIdColumns());
     }
 
-    public function test_getIdFieldForLogTable()
+    public function testGetIdFieldForLogTable()
     {
         $this->assertSame('idaction', $this->dao->getIdFieldForLogTable('log_action'));
         $this->assertSame('idlink_va', $this->dao->getIdFieldForLogTable('log_link_visit_action'));
         $this->assertSame('idvisit', $this->dao->getIdFieldForLogTable('log_visit'));
     }
 
-    public function test_getIdFieldForLogTable_whenUnknownTable()
+    public function testGetIdFieldForLogTableWhenUnknownTable()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Unknown log table \'log_foobarbaz\'');
@@ -93,7 +94,7 @@ class RawLogDaoTest extends SystemTestCase
         $this->dao->getIdFieldForLogTable('log_foobarbaz');
     }
 
-    public function test_getMaxIdsInLogTables()
+    public function testGetMaxIdsInLogTables()
     {
         $expected = array(
             'log_action' => '2',

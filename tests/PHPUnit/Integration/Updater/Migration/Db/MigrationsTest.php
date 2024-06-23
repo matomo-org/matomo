@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Updater\Migration\Db;
@@ -60,7 +61,7 @@ class MigrationsTest extends IntegrationTestCase
         $this->factory = new Factory();
     }
 
-    public function test_createTable()
+    public function testCreateTable()
     {
         $columns = array('column1' => 'VARCHAR(200) DEFAULT ""', 'column2' => 'INT(11) NOT NULL');
         $this->factory->createTable($this->testTable, $columns)->exec();
@@ -70,9 +71,9 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends test_createTable
+     * @depends testCreateTable
      */
-    public function test_addColumn()
+    public function testAddColumn()
     {
         $this->factory->addColumn($this->testTable, 'column3', 'SMALLINT(1)')->exec();
 
@@ -80,9 +81,9 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends test_addColumn
+     * @depends testAddColumn
      */
-    public function test_addIndex()
+    public function testAddIndex()
     {
         $this->factory->addIndex($this->testTable, array('column1', 'column3'))->exec();
 
@@ -96,9 +97,9 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends test_addIndex
+     * @depends testAddIndex
      */
-    public function test_dropIndex()
+    public function testDropIndex()
     {
         $this->factory->dropIndex($this->testTable, 'index_column1_column3')->exec();
 
@@ -108,9 +109,9 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends test_dropIndex
+     * @depends testDropIndex
      */
-    public function test_addUniqueKey()
+    public function testAddUniqueKey()
     {
         $this->factory->addUniqueKey($this->testTable, array('column1', 'column3'), 'custom_name')->exec();
 
@@ -124,9 +125,9 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends test_addUniqueKey
+     * @depends testAddUniqueKey
      */
-    public function test_addPrimaryIndex()
+    public function testAddPrimaryIndex()
     {
         $this->factory->addPrimaryKey($this->testTable, array('column3'))->exec();
 
@@ -137,9 +138,9 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends test_addPrimaryIndex
+     * @depends testAddPrimaryIndex
      */
-    public function test_dropPrimaryKey()
+    public function testDropPrimaryKey()
     {
         $index = Db::fetchAll("SHOW INDEX FROM {$this->testTablePrefixed} WHERE Key_name = 'PRIMARY'");
         $this->assertCount(1, $index);
@@ -151,9 +152,9 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends test_addPrimaryIndex
+     * @depends testAddPrimaryIndex
      */
-    public function test_changeColumnType()
+    public function testChangeColumnType()
     {
         self::expectNotToPerformAssertions();
 
@@ -161,9 +162,9 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends test_changeColumnType
+     * @depends testChangeColumnType
      */
-    public function test_insert()
+    public function testInsert()
     {
         $values = array(
             'column1' => 'my text',
@@ -179,9 +180,9 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends test_insert
+     * @depends testInsert
      */
-    public function test_sql()
+    public function testSql()
     {
         $this->factory->sql("ALTER TABLE {$this->testTablePrefixed} CHANGE COLUMN `column2` `column5` SMALLINT(4) NOT NULL")->exec();
 
@@ -189,9 +190,9 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends test_sql
+     * @depends testSql
      */
-    public function test_addColumns()
+    public function testAddColumns()
     {
         $this->factory->addColumns($this->testTable, array(
             'column10' => 'VARCHAR(255) DEFAULT ""',
@@ -202,9 +203,9 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends test_addColumns
+     * @depends testAddColumns
      */
-    public function test_changeColumnTypes()
+    public function testChangeColumnTypes()
     {
         self::expectNotToPerformAssertions();
 
@@ -215,9 +216,9 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends test_changeColumnTypes
+     * @depends testChangeColumnTypes
      */
-    public function test_dropColumn()
+    public function testDropColumn()
     {
         $this->factory->dropColumn($this->testTable, 'column10')->exec();
 
@@ -225,9 +226,9 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends test_dropColumn
+     * @depends testDropColumn
      */
-    public function test_changeColumn()
+    public function testChangeColumn()
     {
         $this->factory->changeColumn($this->testTable, 'column11', 'column12', 'VARCHAR(255)')->exec();
 
@@ -235,16 +236,16 @@ class MigrationsTest extends IntegrationTestCase
     }
 
     /**
-     * @depends test_changeColumn
+     * @depends testChangeColumn
      */
-    public function test_dropTable()
+    public function testDropTable()
     {
         $this->factory->dropTable($this->testTable)->exec();
 
         $this->assertTableIsNotInstalled();
     }
 
-    public function test_dropColumns()
+    public function testDropColumns()
     {
         DbHelper::createTable('foobarbaz', 'barbaz VARCHAR(1), foobaz VARCHAR(1), foobaz2 VARCHAR(1)');
         $this->factory->dropColumns('foobarbaz', array('column10', 'barbaz', 'column3', 'foobaz'))->exec();

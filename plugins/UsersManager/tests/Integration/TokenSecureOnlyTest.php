@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
@@ -51,7 +53,7 @@ class TokenSecureOnlyTest extends IntegrationTestCase
     /**
      * Secure only tokens should return a 401 code if used in a GET request
      */
-    public function test_secureOnlyToken_accessDeniedIfGet()
+    public function testSecureOnlyTokenAccessDeniedIfGet()
     {
         $url = Fixture::getTestRootUrl() . '?' . http_build_query([
                 'module' => 'API',
@@ -73,7 +75,7 @@ class TokenSecureOnlyTest extends IntegrationTestCase
     /**
      * Secure only tokens should return a 200 code if used in a POST request
      */
-    public function test_secureOnlyToken_accessGrantedIfPost()
+    public function testSecureOnlyTokenAccessGrantedIfPost()
     {
         $url = Fixture::getTestRootUrl() . '?' . http_build_query([
                 'module' => 'API',

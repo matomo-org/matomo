@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
@@ -17,7 +18,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ArchivesToPurgeDistributedListTest extends IntegrationTestCase
 {
-    public function test_construct_CorrectlyConvertsOldListValues()
+    public function testConstructCorrectlyConvertsOldListValues()
     {
         $oldItems = array(
             '2015_01' => array(1,2,3),

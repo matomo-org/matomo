@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Category;
@@ -28,7 +29,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
         $this->category = new Category();
     }
 
-    public function test_order_set_get()
+    public function testOrderSetGet()
     {
         $this->category->setOrder(99);
         $this->assertSame(99, $this->category->getOrder());
@@ -37,34 +38,34 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(98, $this->category->getOrder());
     }
 
-    public function test_getOrder_shouldReturnADefaultValue()
+    public function testGetOrderShouldReturnADefaultValue()
     {
         $this->assertSame(99, $this->category->getOrder());
     }
 
-    public function test_id_set_get()
+    public function testIdSetGet()
     {
         $this->category->setId('myCustomId');
         $this->assertSame('myCustomId', $this->category->getId());
     }
 
-    public function test_getId_shouldBeEmptyStringByDefault()
+    public function testGetIdShouldBeEmptyStringByDefault()
     {
         $this->assertSame('', $this->category->getId());
     }
 
-    public function test_getDisplayName_shouldUseId()
+    public function testGetDisplayNameShouldUseId()
     {
         $this->category->setId('myCustomId');
         $this->assertSame('myCustomId', $this->category->getDisplayName());
     }
 
-    public function test_getSubcategories_ShouldReturnAnEmptyArray_ByDefault()
+    public function testGetSubcategoriesShouldReturnAnEmptyArrayByDefault()
     {
         $this->assertSame(array(), $this->category->getSubcategories());
     }
 
-    public function test_addSubcategory_ShouldActuallyAddAndReturnSubcategories()
+    public function testAddSubcategoryShouldActuallyAddAndReturnSubcategories()
     {
         $subcategory1 = $this->createSubcategory('id1', 'name1');
         $subcategory2 = $this->createSubcategory('id2', 'name2');
@@ -75,7 +76,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array($subcategory1, $subcategory2), $this->category->getSubcategories());
     }
 
-    public function test_addSubcategory_ShouldThrowException_WhenAddingSubcategoryWithSameIdTwice()
+    public function testAddSubcategoryShouldThrowExceptionWhenAddingSubcategoryWithSameIdTwice()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Subcategory id1 already exists');
@@ -87,19 +88,19 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
         $this->category->addSubcategory($subcategory2);
     }
 
-    public function test_hasSubcategories_ShouldDetectIfSubcategoriesArePresent()
+    public function testHasSubcategoriesShouldDetectIfSubcategoriesArePresent()
     {
         $this->assertFalse($this->category->hasSubCategories());
         $this->addSubcategories(array('myid' => 'myname'));
         $this->assertTrue($this->category->hasSubCategories());
     }
 
-    public function test_getSubcategory_ShouldNotFindASubCategoryById_IfSuchCategoryDoesNotExist()
+    public function testGetSubcategoryShouldNotFindASubCategoryByIdIfSuchCategoryDoesNotExist()
     {
         $this->assertNull($this->category->getSubcategory('myid'));
     }
 
-    public function test_getSubcategory_ShouldFindAnExistingSubCategoryById()
+    public function testGetSubcategoryShouldFindAnExistingSubCategoryById()
     {
         $this->addSubcategories(array('myid' => 'myname', 'myid2' => 'myname2'));
 
@@ -108,14 +109,14 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('myname2', $subcategory->getName());
     }
 
-    public function test_getSubcategory_ShouldNotFindASubcategoryByName()
+    public function testGetSubcategoryShouldNotFindASubcategoryByName()
     {
         $this->addSubcategories(array('myid' => 'myname'));
 
         $this->assertNull($this->category->getSubcategory('myname'));
     }
 
-    public function test_hasSubcategory_ShouldActuallyAddTheConfig()
+    public function testHasSubcategoryShouldActuallyAddTheConfig()
     {
         $this->assertFalse($this->category->hasSubcategory('myid2'));
 

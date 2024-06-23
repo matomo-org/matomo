@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Columns;
@@ -44,7 +45,7 @@ class DimensionSegmentFactoryTest extends IntegrationTestCase
         return new DimensionSegmentFactory($dimension);
     }
 
-    public function test_createSegment()
+    public function testCreateSegment()
     {
         $factory = $this->makeFactory($this->country);
         $segment = $factory->createSegment();
@@ -55,7 +56,7 @@ class DimensionSegmentFactoryTest extends IntegrationTestCase
         $this->assertSame(Dimension::TYPE_DIMENSION, $segment->getType());
     }
 
-    public function test_createSegment_predefined()
+    public function testCreateSegmentPredefined()
     {
         $factory = $this->makeFactory($this->country);
         $segment = new Segment();

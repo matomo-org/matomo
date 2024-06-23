@@ -1,11 +1,12 @@
 {
     "TwoFactorAuth": {
-        "TwoFactorAuthentication": "Autentykacja 2 stopniowa",
-        "TwoFAShort": "2SA",
-        "TwoFactorAuthenticationIsEnabled": "Autentykacja 2 stopniowa jest włączona.",
-        "TwoFactorAuthenticationIsDisabled": "Autentykacja 2 stopniowa jest wyłączona.",
+        "AuthenticationCode": "Kod autoryzujący",
         "ConfigureDifferentDevice": "Skonfiguruj nowe urządzenie",
         "SetUpTwoFactorAuthentication": "Skonfiguruj 2 stopniową autentykację (2SA)",
-        "AuthenticationCode": "Kod autoryzujący"
+        "TwoFAShort": "2SA",
+        "TwoFactorAuthentication": "Autentykacja 2 stopniowa",
+        "TwoFactorAuthenticationIsDisabled": "Autentykacja 2 stopniowa jest wyłączona.",
+        "TwoFactorAuthenticationIsEnabled": "Autentykacja 2 stopniowa jest włączona.",
+        "Verify": "Weryfikuj"
     }
 }

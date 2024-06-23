@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Widgetize\tests\System;
@@ -44,7 +45,7 @@ class WidgetTest extends SystemTestCase
         parent::tearDown();
     }
 
-    public function test_allWidgetUniqueIdsAreActuallyUnique()
+    public function testAllWidgetUniqueIdsAreActuallyUnique()
     {
         $uniqueIds = array();
         foreach (WidgetsList::get()->getWidgetConfigs() as $widget) {
@@ -54,7 +55,7 @@ class WidgetTest extends SystemTestCase
         $this->assertEquals(array_unique($uniqueIds), $uniqueIds);
     }
 
-    public function test_AvailableWidgetListIsUpToDate()
+    public function testAvailableWidgetListIsUpToDate()
     {
         $namesOfWidgetsThatAreAPI = array_map(function ($widget) {
             return $widget['uniqueId'];
@@ -80,7 +81,7 @@ class WidgetTest extends SystemTestCase
      *
      * @dataProvider availableWidgetsProvider
      */
-    public function test_WidgetIsRenderable_ToPreventBreakingTheAPI($widget)
+    public function testWidgetIsRenderableToPreventBreakingTheAPI($widget)
     {
         $params     = $widget['parameters'];
         $parameters = array();

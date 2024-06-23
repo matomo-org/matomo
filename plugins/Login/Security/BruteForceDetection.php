@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Login\Security;
 
 use Piwik\Common;
@@ -20,8 +21,8 @@ use Piwik\Log\LoggerInterface;
 
 class BruteForceDetection
 {
-    const OVERALL_LOGIN_LOCKOUT_THRESHOLD_MIN = 10;
-    const TABLE_NAME = 'brute_force_log';
+    public const OVERALL_LOGIN_LOCKOUT_THRESHOLD_MIN = 10;
+    public const TABLE_NAME = 'brute_force_log';
 
     private $minutesTimeRange;
     private $maxLogAttempts;

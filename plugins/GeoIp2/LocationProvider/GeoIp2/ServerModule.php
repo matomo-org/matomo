@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
@@ -27,8 +27,8 @@ use Piwik\View;
  */
 class ServerModule extends GeoIp2
 {
-    const ID = 'geoip2server';
-    const TITLE = 'DBIP / GeoIP 2 (%s)';
+    public const ID = 'geoip2server';
+    public const TITLE = 'DBIP / GeoIP 2 (%s)';
 
     public static $defaultGeoIpServerVars = array(
         parent::CONTINENT_CODE_KEY => 'MM_CONTINENT_CODE',

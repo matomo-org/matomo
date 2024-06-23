@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
@@ -17,9 +17,9 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
  */
 class Bar extends JqplotGraph
 {
-    const ID = 'graphVerticalBar';
-    const FOOTER_ICON       = 'icon-chart-bar';
-    const FOOTER_ICON_TITLE = 'General_VBarGraph';
+    public const ID = 'graphVerticalBar';
+    public const FOOTER_ICON       = 'icon-chart-bar';
+    public const FOOTER_ICON_TITLE = 'General_VBarGraph';
 
     public function beforeLoadDataTable()
     {

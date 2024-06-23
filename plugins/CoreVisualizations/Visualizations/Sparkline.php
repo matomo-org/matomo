@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Exception;
@@ -20,7 +21,7 @@ use Piwik\Plugin\ViewDataTable;
  */
 class Sparkline extends ViewDataTable
 {
-    const ID = 'sparkline';
+    public const ID = 'sparkline';
 
     public function supportsComparison()
     {

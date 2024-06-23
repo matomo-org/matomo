@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Archive;
@@ -22,7 +23,6 @@ use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\Mock\Site;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Period\Factory as PeriodFactory;
-
 
 /**
  * @group ChunksTest
@@ -43,7 +43,7 @@ class ChunksTest extends IntegrationTestCase
         Fixture::createWebsite('2015-01-01 00:00:00');
     }
 
-    public function test_subtables_willBeSplitIntoChunks()
+    public function testSubtablesWillBeSplitIntoChunks()
     {
         $numSubtablesToGenerate = 1053;
 

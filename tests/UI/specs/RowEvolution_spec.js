@@ -3,8 +3,8 @@
  *
  * row evolution screenshot tests
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("RowEvolution", function () {
@@ -16,10 +16,11 @@ describe("RowEvolution", function () {
 
     it('should load when icon clicked in ViewDataTable', async function() {
         await page.goto(viewDataTableUrl);
-        const row = await page.waitForSelector('tbody tr:first-child');
+        await page.waitForSelector('tbody tr:first-child')
+        const row = await page.jQuery('tbody tr:contains("corruption")');
         await row.hover();
 
-        const icon = await page.waitForSelector('tbody tr:first-child a.actionRowEvolution');
+        const icon = await page.jQuery('tbody tr:contains("corruption") a.actionRowEvolution');
         await icon.click();
 
         await page.waitForSelector('.ui-dialog');
@@ -81,16 +82,16 @@ describe("RowEvolution", function () {
 
     it('should load row evolution for goals view', async function() {
         await page.goto(viewDataTableUrl + '&forceView=1&viewDataTable=tableGoals');
-        const row = await page.waitForSelector('tbody tr:first-child');
+
+        await page.waitForSelector('tbody tr:first-child')
+        const row = await page.jQuery('tbody tr:contains("corruption")');
         await row.hover();
 
-        const icon = await page.waitForSelector('tbody tr:first-child a.actionRowEvolution');
+        const icon = await page.jQuery('tbody tr:contains("corruption") a.actionRowEvolution');
         await icon.click();
 
-        await page.waitForSelector('.ui-dialog');
+        const dialog = await page.waitForSelector('.ui-dialog');
         await page.waitForNetworkIdle();
-
-        const dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('row_evolution_goal_view');
     });
 

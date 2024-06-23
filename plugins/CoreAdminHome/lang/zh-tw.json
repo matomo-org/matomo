@@ -58,6 +58,8 @@
         "JSTracking_CrossDomain_NeedsMultipleDomains": "注意：要使用跨域名連結，你必須先為你的網站指定一個以上的域名（網址）。",
         "JSTracking_CustomCampaignQueryParam": "活動名稱及關鍵字使用自訂參數",
         "JSTracking_CustomCampaignQueryParamDesc": "注意：%1$sMatomo 將自動偵測 Google 分析參數。%2$s",
+        "JSTracking_DisableCampaignParameters": "禁用活動參數追蹤",
+        "JSTracking_DisableCampaignParametersDesc": "啟用此設定後，Matomo 將不會追蹤活動參數，且將會把它們從追蹤 URL 內移除。",
         "JSTracking_DisableCookies": "禁用所有追蹤 cookies",
         "JSTracking_DisableCookiesDesc": "停用所有第一方 cookies。這個網站現有的 Matomo cookies 將會在下一次網頁瀏覽時被刪除。",
         "JSTracking_EnableCrossDomainLinking": "啟用跨域名連結",

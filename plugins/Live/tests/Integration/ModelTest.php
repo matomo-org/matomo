@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Live\tests\Integration;
@@ -36,7 +37,7 @@ class ModelTest extends IntegrationTestCase
         Fixture::createWebsite('2010-01-01');
     }
 
-    public function test_getStandAndEndDate_usesNowWhenDateOutOfRange()
+    public function testGetStandAndEndDateUsesNowWhenDateOutOfRange()
     {
         $model = new Model();
         list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'year', '2025-01-01');
@@ -48,7 +49,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertNotEquals($dateStart->getDatetime(), $dateEnd->getDatetime());
     }
 
-    public function test_getStandAndEndDate_usesNowWhenEndDateOutOfRange()
+    public function testGetStandAndEndDateUsesNowWhenEndDateOutOfRange()
     {
         $model = new Model();
         list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'year', date('Y') . '-01-01');
@@ -72,7 +73,7 @@ class ModelTest extends IntegrationTestCase
         return $validDates;
     }
 
-    public function test_handleMaxExecutionTimeError_doesNotThrowExceptionWhenNotExceededTime()
+    public function testHandleMaxExecutionTimeErrorDoesNotThrowExceptionWhenNotExceededTime()
     {
         self::expectNotToPerformAssertions();
 
@@ -88,7 +89,7 @@ class ModelTest extends IntegrationTestCase
         Model::handleMaxExecutionTimeError($db, $e, $segment, $dateStart, $dateEnd, $minTimestamp, $limit, [$sql, $bind]);
     }
 
-    public function test_handleMaxExecutionTimeError_whenTimeIsExceeded_noReasonFound()
+    public function testHandleMaxExecutionTimeErrorWhenTimeIsExceededNoReasonFound()
     {
         $this->expectException(\Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException::class);
         $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded  Live_QueryMaxExecutionTimeExceededReasonUnknown');
@@ -105,7 +106,7 @@ class ModelTest extends IntegrationTestCase
         Model::handleMaxExecutionTimeError($db, $e, $segment, $dateStart, $dateEnd, $minTimestamp, $limit, [$sql, $bind]);
     }
 
-    public function test_handleMaxExecutionTimeError_whenTimeIsExceeded_manyReasonsFound()
+    public function testHandleMaxExecutionTimeErrorWhenTimeIsExceededManyReasonsFound()
     {
         $this->expectException(\Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException::class);
         $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded  Live_QueryMaxExecutionTimeExceededReasonDateRange Live_QueryMaxExecutionTimeExceededReasonSegment Live_QueryMaxExecutionTimeExceededLimit');
@@ -120,7 +121,7 @@ class ModelTest extends IntegrationTestCase
         Model::handleMaxExecutionTimeError($db, $e, $segment, $dateStart, $dateEnd, $minTimestamp, $limit, ['param' => 'value']);
     }
 
-    public function test_getLastMinutesCounterForQuery_maxExecutionTime()
+    public function testGetLastMinutesCounterForQueryMaxExecutionTime()
     {
         if (SystemTestCase::isMysqli()) {
             $this->markTestSkipped('max_execution_time not supported on mysqli');
@@ -137,7 +138,7 @@ class ModelTest extends IntegrationTestCase
         $model->getNumVisits(1, 999999, '');
     }
 
-    public function test_queryAdjacentVisitorId_maxExecutionTime()
+    public function testQueryAdjacentVisitorIdMaxExecutionTime()
     {
         if (SystemTestCase::isMysqli()) {
             $this->markTestSkipped('max_execution_time not supported on mysqli');
@@ -153,7 +154,7 @@ class ModelTest extends IntegrationTestCase
         $model->queryAdjacentVisitorId(1, '1234567812345678', Date::yesterday()->getDatetime(), '', true);
     }
 
-    public function test_getStandAndEndDate()
+    public function testGetStandAndEndDate()
     {
         $model = new Model();
         list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'year', '2018-02-01');
@@ -162,55 +163,55 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals('2019-01-01 00:00:00', $dateEnd->getDatetime());
     }
 
-    public function test_isLookingAtMoreThanOneDay_whenNoDateSet()
+    public function testIsLookingAtMoreThanOneDayWhenNoDateSet()
     {
         $model = new Model();
         $this->assertTrue($model->isLookingAtMoreThanOneDay(null, null, null));
     }
 
-    public function test_isLookingAtMoreThanOneDay_whenNoStartDateSet()
+    public function testIsLookingAtMoreThanOneDayWhenNoStartDateSet()
     {
         $model = new Model();
         $this->assertTrue($model->isLookingAtMoreThanOneDay(null, Date::now(), null));
     }
 
-    public function test_isLookingAtMoreThanOneDay_whenNoStartDateSetAndMinTimestampIsOld()
+    public function testIsLookingAtMoreThanOneDayWhenNoStartDateSetAndMinTimestampIsOld()
     {
         $model = new Model();
         $this->assertTrue($model->isLookingAtMoreThanOneDay(null, Date::now(), Date::now()->subDay(5)->getTimestamp()));
     }
 
-    public function test_isLookingAtMoreThanOneDay_whenNoStartDateSetButMinTimestampIsRecent()
+    public function testIsLookingAtMoreThanOneDayWhenNoStartDateSetButMinTimestampIsRecent()
     {
         $model = new Model();
         $this->assertFalse($model->isLookingAtMoreThanOneDay(null, Date::now(), Date::now()->subHour(5)->getTimestamp()));
     }
 
-    public function test_isLookingAtMoreThanOneDay_whenNoEndDateIsSet_StartDateIsOld()
+    public function testIsLookingAtMoreThanOneDayWhenNoEndDateIsSetStartDateIsOld()
     {
         $model = new Model();
         $this->assertTrue($model->isLookingAtMoreThanOneDay(Date::now()->subDay(5), null, null));
     }
 
-    public function test_isLookingAtMoreThanOneDay_whenNoEndDateIsSet_StartDateIsRecent()
+    public function testIsLookingAtMoreThanOneDayWhenNoEndDateIsSetStartDateIsRecent()
     {
         $model = new Model();
         $this->assertFalse($model->isLookingAtMoreThanOneDay(Date::now()->subHour(5), null, null));
     }
 
-    public function test_isLookingAtMoreThanOneDay_whenStartAndEndDateIsSet_onlyOneDay()
+    public function testIsLookingAtMoreThanOneDayWhenStartAndEndDateIsSetOnlyOneDay()
     {
         $model = new Model();
         $this->assertFalse($model->isLookingAtMoreThanOneDay(Date::yesterday()->subDay(1), Date::yesterday(), null));
     }
 
-    public function test_isLookingAtMoreThanOneDay_whenStartAndEndDateIsSet_moreThanOneDay()
+    public function testIsLookingAtMoreThanOneDayWhenStartAndEndDateIsSetMoreThanOneDay()
     {
         $model = new Model();
         $this->assertTrue($model->isLookingAtMoreThanOneDay(Date::yesterday()->subDay(2), Date::yesterday(), null));
     }
 
-    public function test_makeLogVisitsQueryString()
+    public function testMakeLogVisitsQueryString()
     {
         $model = new Model();
         list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
@@ -241,7 +242,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
     }
 
-    public function test_makeLogVisitsQueryString_withMultipleIdSites()
+    public function testMakeLogVisitsQueryStringWithMultipleIdSites()
     {
         Piwik::addAction('Live.API.getIdSitesString', function (&$idSites) {
             $idSites = array(2,3,4);
@@ -278,7 +279,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
     }
 
-    public function test_makeLogVisitsQueryStringWithOffset()
+    public function testMakeLogVisitsQueryStringWithOffset()
     {
         $model = new Model();
 
@@ -311,7 +312,7 @@ class ModelTest extends IntegrationTestCase
     }
 
 
-    public function test_makeLogVisitsQueryString_whenSegment()
+    public function testMakeLogVisitsQueryStringWhenSegment()
     {
         $model = new Model();
         list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
@@ -349,9 +350,11 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
     }
 
-    public function test_makeLogVisitsQueryString_addsMaxExecutionHintIfConfigured()
+    public function testMakeLogVisitsQueryStringAddsMaxExecutionHintIfConfigured()
     {
         $this->setMaxExecutionTime(30);
+        Config\DatabaseConfig::setConfigValue('schema', 'Mysql');
+        Db\Schema::unsetInstance();
 
         $model = new Model();
         list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
@@ -374,7 +377,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertStringStartsWith($expectedSql, trim($sql));
     }
 
-    public function test_makeLogVisitsQueryString_doesNotAddsMaxExecutionHintForVisitorIds()
+    public function testMakeLogVisitsQueryStringDoesNotAddsMaxExecutionHintForVisitorIds()
     {
         $this->setMaxExecutionTime(30);
 
@@ -399,105 +402,105 @@ class ModelTest extends IntegrationTestCase
         $this->assertStringStartsWith($expectedSql, trim($sql));
     }
 
-    public function test_splitDatesIntoMultipleQueries_notMoreThanADayUsesOnlyOneQuery()
+    public function testSplitDatesIntoMultipleQueriesNotMoreThanADayUsesOnlyOneQuery()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-01-02 00:00:00', $limit = 5, $offset = 0);
 
         $this->assertEquals(array('2010-01-01 00:00:00 2010-01-02 00:00:00'), $dates);
     }
 
-    public function test_splitDatesIntoMultipleQueries_notMoreThanADayUsesOnlyOneQueryDesc()
+    public function testSplitDatesIntoMultipleQueriesNotMoreThanADayUsesOnlyOneQueryDesc()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-01-02 00:00:00', $limit = 5, $offset = 0, 'asc');
 
         $this->assertEquals(array('2010-01-01 00:00:00 2010-01-02 00:00:00'), $dates);
     }
 
-    public function test_splitDatesIntoMultipleQueries_moreThanADayLessThanAWeek()
+    public function testSplitDatesIntoMultipleQueriesMoreThanADayLessThanAWeek()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-01-02 00:01:00', $limit = 5, $offset = 0);
 
         $this->assertEquals(array('2010-01-01 00:01:00 2010-01-02 00:01:00', '2010-01-01 00:00:00 2010-01-01 00:00:59'), $dates);
     }
 
-    public function test_splitDatesIntoMultipleQueries_moreThanADayLessThanAWeekAsc()
+    public function testSplitDatesIntoMultipleQueriesMoreThanADayLessThanAWeekAsc()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-01-02 00:01:00', $limit = 5, $offset = 0, 'asc');
 
         $this->assertEquals(array('2010-01-01 00:00:00 2010-01-01 23:59:59', '2010-01-02 00:00:00 2010-01-02 00:01:00'), $dates);
     }
 
-    public function test_splitDatesIntoMultipleQueries_moreThanAWeekLessThanMonth()
+    public function testSplitDatesIntoMultipleQueriesMoreThanAWeekLessThanMonth()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-01-20 04:01:00', $limit = 5, $offset = 0);
 
         $this->assertEquals(array('2010-01-19 04:01:00 2010-01-20 04:01:00', '2010-01-12 04:01:00 2010-01-19 04:00:59', '2010-01-01 00:00:00 2010-01-12 04:00:59'), $dates);
     }
 
-    public function test_splitDatesIntoMultipleQueries_moreThanAWeekLessThanMonthAsc()
+    public function testSplitDatesIntoMultipleQueriesMoreThanAWeekLessThanMonthAsc()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-01-20 04:01:00', $limit = 5, $offset = 0, 'asc');
 
         $this->assertEquals(array('2010-01-01 00:00:00 2010-01-01 23:59:59', '2010-01-02 00:00:00 2010-01-08 23:59:59', '2010-01-09 00:00:00 2010-01-20 04:01:00'), $dates);
     }
 
-    public function test_splitDatesIntoMultipleQueries_moreThanMonthLessThanYear()
+    public function testSplitDatesIntoMultipleQueriesMoreThanMonthLessThanYear()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-02-20 04:01:00', $limit = 5, $offset = 0);
 
         $this->assertEquals(array('2010-02-19 04:01:00 2010-02-20 04:01:00', '2010-02-12 04:01:00 2010-02-19 04:00:59', '2010-01-13 04:01:00 2010-02-12 04:00:59', '2010-01-01 00:00:00 2010-01-13 04:00:59'), $dates);
     }
 
-    public function test_splitDatesIntoMultipleQueries_moreThanMonthLessThanYearAsc()
+    public function testSplitDatesIntoMultipleQueriesMoreThanMonthLessThanYearAsc()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-02-20 04:01:00', $limit = 5, $offset = 0, 'asc');
 
         $this->assertEquals(array('2010-01-01 00:00:00 2010-01-01 23:59:59', '2010-01-02 00:00:00 2010-01-08 23:59:59', '2010-01-09 00:00:00 2010-02-07 23:59:59', '2010-02-08 00:00:00 2010-02-20 04:01:00'), $dates);
     }
 
-    public function test_splitDatesIntoMultipleQueries_moreThanYear()
+    public function testSplitDatesIntoMultipleQueriesMoreThanYear()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2012-02-20 04:01:00', $limit = 5, $offset = 0);
 
         $this->assertEquals(array('2012-02-19 04:01:00 2012-02-20 04:01:00', '2012-02-12 04:01:00 2012-02-19 04:00:59', '2012-01-13 04:01:00 2012-02-12 04:00:59', '2011-01-01 04:01:00 2012-01-13 04:00:59', '2010-01-01 00:00:00 2011-01-01 04:00:59'), $dates);
     }
 
-    public function test_splitDatesIntoMultipleQueries_moreThanYearAsc()
+    public function testSplitDatesIntoMultipleQueriesMoreThanYearAsc()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2012-02-20 04:01:00', $limit = 5, $offset = 0, 'asc');
 
         $this->assertEquals(array('2010-01-01 00:00:00 2010-01-01 23:59:59', '2010-01-02 00:00:00 2010-01-08 23:59:59', '2010-01-09 00:00:00 2010-02-07 23:59:59', '2010-02-08 00:00:00 2011-02-07 23:59:59', '2011-02-08 00:00:00 2012-02-20 04:01:00'), $dates);
     }
 
-    public function test_splitDatesIntoMultipleQueries_moreThanYear_withOffsetUsesLessQueries()
+    public function testSplitDatesIntoMultipleQueriesMoreThanYearWithOffsetUsesLessQueries()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2012-02-20 04:01:00', $limit = 5, $offset = 5);
 
         $this->assertEquals(array('2012-02-19 04:01:00 2012-02-20 04:01:00', '2012-02-12 04:01:00 2012-02-19 04:00:59', '2010-01-01 00:00:00 2012-02-12 04:00:59'), $dates);
     }
 
-    public function test_splitDatesIntoMultipleQueries_moreThanYear_withOffsetUsesLessQueriesAsc()
+    public function testSplitDatesIntoMultipleQueriesMoreThanYearWithOffsetUsesLessQueriesAsc()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 04:01:00', '2012-02-20 00:00:00', $limit = 5, $offset = 5, 'asc');
 
         $this->assertEquals(array('2010-01-01 04:01:00 2010-01-02 04:00:59', '2010-01-02 04:01:00 2010-01-09 04:00:59', '2010-01-09 04:01:00 2012-02-20 00:00:00'), $dates);
     }
 
-    public function test_splitDatesIntoMultipleQueries_moreThanYear_noLimitDoesntUseMultipleQueries()
+    public function testSplitDatesIntoMultipleQueriesMoreThanYearNoLimitDoesntUseMultipleQueries()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2012-02-20 04:01:00', $limit = 0, $offset = 0);
 
         $this->assertEquals(array('2010-01-01 00:00:00 2012-02-20 04:01:00'), $dates);
     }
 
-    public function test_splitDatesIntoMultipleQueries_moreThanYear_noLimitDoesntUseMultipleQueriesAsc()
+    public function testSplitDatesIntoMultipleQueriesMoreThanYearNoLimitDoesntUseMultipleQueriesAsc()
     {
         $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 04:01:00', '2012-02-20 00:00:00', $limit = 0, $offset = 0, 'asc');
 
         $this->assertEquals(array('2010-01-01 04:01:00 2012-02-20 00:00:00'), $dates);
     }
 
-    public function test_splitDatesIntoMultipleQueries_noStartDate()
+    public function testSplitDatesIntoMultipleQueriesNoStartDate()
     {
         $dates = $this->splitDatesIntoMultipleQueries(false, '2012-02-20 04:01:00', $limit = 5, $offset = 0);
 

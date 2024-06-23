@@ -3,8 +3,8 @@
  *
  * login & password reset screenshot tests.
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("Login", function () {
@@ -19,8 +19,6 @@ describe("Login", function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.queryParamOverride = {date: "2012-01-01", period: "year"};
         testEnvironment.save();
-
-        await page.clearCookies();
     });
 
     beforeEach(function () {
@@ -37,8 +35,6 @@ describe("Login", function () {
         delete testEnvironment.queryParamOverride;
         delete testEnvironment.configOverride.General;
         testEnvironment.save();
-
-        await page.clearCookies();
     });
 
     afterEach(function () {

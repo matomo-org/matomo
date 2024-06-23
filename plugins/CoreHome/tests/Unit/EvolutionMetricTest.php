@@ -1,10 +1,10 @@
 <?php
+
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreHome\tests\Unit;
@@ -22,7 +22,7 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
  */
 class EvolutionMetricTest extends TestCase
 {
-    public function test_shouldDoProportionalComparision_ifCurrentPeriodIncomplete()
+    public function testShouldDoProportionalComparisionIfCurrentPeriodIncomplete()
     {
         $currentData = new DataTable();
         $cPeriod = new \Piwik\Period\Week(Date::factory('2021-10-10'));
@@ -44,7 +44,7 @@ class EvolutionMetricTest extends TestCase
         $this->assertEquals(0.429, $ratio);
     }
 
-    public function test_shouldNotDoProportionalComparision_ifCurrentPeriodComplete()
+    public function testShouldNotDoProportionalComparisionIfCurrentPeriodComplete()
     {
         $currentData = new DataTable();
         $cPeriod = new \Piwik\Period\Week(Date::factory('2021-10-10'));

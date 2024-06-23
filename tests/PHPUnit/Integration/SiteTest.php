@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Integration;
 
 use Piwik\Piwik;
@@ -39,7 +41,7 @@ class SiteTest extends IntegrationTestCase
         });
     }
 
-    public function test_constructor_throwsException_ifSiteDoesNotExist()
+    public function testConstructorThrowsExceptionIfSiteDoesNotExist()
     {
         $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
         $this->expectExceptionMessage('An unexpected website was found in the request');
@@ -47,13 +49,13 @@ class SiteTest extends IntegrationTestCase
         $this->makeSite(9999);
     }
 
-    public function test_constructor_enrichesSite()
+    public function testConstructorEnrichesSite()
     {
         $site = $this->makeSite($this->idSite);
         $this->assertSame('Piwik test' . $this->siteAppendix, $site->getName());
     }
 
-    public function test_construct_enrichesSiteEvenIfSiteWasSetToCachePreviously()
+    public function testConstructEnrichesSiteEvenIfSiteWasSetToCachePreviously()
     {
         $site = API::getInstance()->getSiteFromId($this->idSite);
         Site::setSiteFromArray($this->idSite, $site);
@@ -62,7 +64,7 @@ class SiteTest extends IntegrationTestCase
         $this->assertSame('Piwik test' . $this->siteAppendix, $site->getName());
     }
 
-    public function test_construct_whenRemovingSiteFromGlobalSitesArray_TheObjectItselfStillworks()
+    public function testConstructWhenRemovingSiteFromGlobalSitesArrayTheObjectItselfStillworks()
     {
         $site = $this->makeSite($this->idSite);
         $this->assertSame('Piwik test' . $this->siteAppendix, $site->getName());

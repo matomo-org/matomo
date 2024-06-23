@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Login\tests\Integration;
@@ -31,7 +31,7 @@ class SessionInitializerTest extends IntegrationTestCase
         StaticContainer::get(Auth::class);
     }
 
-    public function test_initSession_CreatesCookie_WhenAuthenticationIsSuccessful()
+    public function testInitSessionCreatesCookieWhenAuthenticationIsSuccessful()
     {
         $this->assertAuthCookieIsAbsent();
 
@@ -42,7 +42,7 @@ class SessionInitializerTest extends IntegrationTestCase
         $this->assertAuthCookieIsCreated($sessionInitializer->cookie);
     }
 
-    public function test_initSession_DeletesCookie_WhenAuthenticationFailed()
+    public function testInitSessionDeletesCookieWhenAuthenticationFailed()
     {
         $this->createAuthCookie();
 

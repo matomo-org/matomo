@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Db\Adapter\Pdo;
 
 use Exception;
@@ -135,6 +136,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Return default port.
      *
+     * @deprecated Use Schema::getDefaultPortForSchema instead
      * @return int
      */
     public static function getDefaultPort()

@@ -3,8 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit;
@@ -474,7 +474,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
     /**
      * @group AddCampaignParametersToMatomoLink
      */
-    public function testAddCampaignParametersToMatomoLink_exceptIfDisabled()
+    public function testAddCampaignParametersToMatomoLinkExceptIfDisabled()
     {
         $this->resetGlobalVariables();
         $_GET['module'] = 'CoreHomeAdmin';

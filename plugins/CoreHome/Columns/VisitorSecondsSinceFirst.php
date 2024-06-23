@@ -1,11 +1,12 @@
 <?php
+
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Common;
@@ -17,7 +18,7 @@ use Piwik\Tracker\Visitor;
 
 class VisitorSecondsSinceFirst extends VisitDimension
 {
-    const COLUMN_TYPE = 'INT(11) UNSIGNED NULL';
+    public const COLUMN_TYPE = 'INT(11) UNSIGNED NULL';
 
     protected $columnName = 'visitor_seconds_since_first';
     protected $columnType = self::COLUMN_TYPE;

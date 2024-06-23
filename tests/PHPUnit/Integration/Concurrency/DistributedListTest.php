@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Integration\Concurrency;
 
 use Piwik\Common;
@@ -19,7 +21,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class DistributedListTest extends IntegrationTestCase
 {
-    const TEST_OPTION_NAME = 'test.distributed.list';
+    public const TEST_OPTION_NAME = 'test.distributed.list';
 
     public static $defaultOptionValues = array(
         'val1',
@@ -42,13 +44,13 @@ class DistributedListTest extends IntegrationTestCase
         $this->initOptionValue();
     }
 
-    public function test_getAll_CorrectlyReturnsItemsInOption()
+    public function testGetAllCorrectlyReturnsItemsInOption()
     {
         $list = $this->distributedList->getAll();
         $this->assertEquals(self::$defaultOptionValues, $list);
     }
 
-    public function test_getAll_ReturnsValueInOption_IfOptionCacheHasSeparateValue()
+    public function testGetAllReturnsValueInOptionIfOptionCacheHasSeparateValue()
     {
         // get option so cache is loaded
         Option::get(self::TEST_OPTION_NAME);
@@ -62,7 +64,7 @@ class DistributedListTest extends IntegrationTestCase
         $this->assertEquals($newList, $list);
     }
 
-    public function test_setAll_CorrectlySetsNormalListInOption()
+    public function testSetAllCorrectlySetsNormalListInOption()
     {
         $newList = array('1', '2', '3');
         $this->distributedList->setAll($newList);
@@ -74,7 +76,7 @@ class DistributedListTest extends IntegrationTestCase
         $this->assertEquals($newList, $list);
     }
 
-    public function test_setAll_CorrectlyConvertsItemsToString_BeforePersistingToOption()
+    public function testSetAllCorrectlyConvertsItemsToStringBeforePersistingToOption()
     {
         $newList = array('1', Date::factory('2015-02-03'), 4.5);
         $this->distributedList->setAll($newList);
@@ -87,7 +89,7 @@ class DistributedListTest extends IntegrationTestCase
         $this->assertEquals($expectedOptionList, $list);
     }
 
-    public function test_add_AddsOneItemToList_InOptionTable_IfItemIsNotArray()
+    public function testAddAddsOneItemToListInOptionTableIfItemIsNotArray()
     {
         $this->distributedList->add('val5');
 
@@ -95,7 +97,7 @@ class DistributedListTest extends IntegrationTestCase
         $this->assertEquals(serialize($expectedOptionList), $this->getOptionValueForList());
     }
 
-    public function test_add_AddsMultipleItemsToList_InOptionTable_IfItemsIsArray()
+    public function testAddAddsMultipleItemsToListInOptionTableIfItemsIsArray()
     {
         $this->distributedList->add(array('val5', Date::factory('2015-03-04')));
 
@@ -103,7 +105,7 @@ class DistributedListTest extends IntegrationTestCase
         $this->assertEquals(serialize($expectedOptionList), $this->getOptionValueForList());
     }
 
-    public function test_remove_RemovesSingleItemByValue_InOptionTable_IfItemIsNotArray()
+    public function testRemoveRemovesSingleItemByValueInOptionTableIfItemIsNotArray()
     {
         $this->distributedList->remove('val2');
 
@@ -111,7 +113,7 @@ class DistributedListTest extends IntegrationTestCase
         $this->assertEquals(serialize($expectedOptionList), $this->getOptionValueForList());
     }
 
-    public function test_remove_RemovesMultipleItemsByValue_InOptionTable_IfItemIsArray()
+    public function testRemoveRemovesMultipleItemsByValueInOptionTableIfItemIsArray()
     {
         $this->distributedList->remove(array('val2', 'val4'));
 
@@ -119,7 +121,7 @@ class DistributedListTest extends IntegrationTestCase
         $this->assertEquals(serialize($expectedOptionList), $this->getOptionValueForList());
     }
 
-    public function test_removeByIndex_RemovesSingleItemByIndex_InOptionTable_IfArgIsIndex()
+    public function testRemoveByIndexRemovesSingleItemByIndexInOptionTableIfArgIsIndex()
     {
         $this->distributedList->removeByIndex(2);
 
@@ -127,7 +129,7 @@ class DistributedListTest extends IntegrationTestCase
         $this->assertEquals(serialize($expectedOptionList), $this->getOptionValueForList());
     }
 
-    public function test_removeByIndex_RemovesMultipleItemsByIndex_InOptionTable_IfArgIsArray()
+    public function testRemoveByIndexRemovesMultipleItemsByIndexInOptionTableIfArgIsArray()
     {
         $this->distributedList->removeByIndex(array(1, 3));
 

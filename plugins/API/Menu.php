@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\API;
 
 use Piwik\Container\StaticContainer;
@@ -17,8 +18,8 @@ use Piwik\Url;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-    const DD_SHORT_NAME_ANDROID = 'AND';
-    const DD_SHORT_NAME_IOS     = 'IOS';
+    public const DD_SHORT_NAME_ANDROID = 'AND';
+    public const DD_SHORT_NAME_IOS     = 'IOS';
 
     public function configureTopMenu(MenuTop $menu)
     {

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\DataAccess;
@@ -14,6 +15,7 @@ use Piwik\Config\DatabaseConfig;
 use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
+use Piwik\Db\Schema;
 use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Site;
@@ -168,7 +170,7 @@ class LogAggregatorTest extends IntegrationTestCase
         ];
     }
 
-    public function test_generateQuery()
+    public function testGenerateQuery()
     {
         $query = $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
 
@@ -190,7 +192,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
-    public function test_generateQuery_withSegment_shouldNotUseTmpTableWhenNotEnabled()
+    public function testGenerateQueryWithSegmentShouldNotUseTmpTableWhenNotEnabled()
     {
         $segment = new Segment('userId==1', array($this->site->getId()));
 
@@ -220,7 +222,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
-    public function test_generateQuery_withSegment_shouldUseTmpTableWhenEnabled()
+    public function testGenerateQueryWithSegmentShouldUseTmpTableWhenEnabled()
     {
         $segment = new Segment('userId==1', array($this->site->getId()));
 
@@ -248,7 +250,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
-    public function test_generateQuery_withSegment_visitLogRightJoinShouldKeepWhereCondition()
+    public function testGenerateQueryWithSegmentVisitLogRightJoinShouldKeepWhereCondition()
     {
         $segment = new Segment('userId==1', [$this->site->getId()]);
 
@@ -285,7 +287,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
-    public function test_generateQuery_withSegment_visitLogJoinRightJoinOnOtherTableShouldKeepWhereCondition()
+    public function testGenerateQueryWithSegmentVisitLogJoinRightJoinOnOtherTableShouldKeepWhereCondition()
     {
         $segment = new Segment('userId==1', [$this->site->getId()]);
 
@@ -337,9 +339,10 @@ class LogAggregatorTest extends IntegrationTestCase
         } catch (\Zend_Db_Statement_Exception $e) {
             $isMaxExecutionTimeError = $this->logAggregator->getDb()->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED)
                 || $this->logAggregator->getDb()->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
-                || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false;
+                || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false
+                || strpos($e->getMessage(), 'max_statement_time exceeded') !== false;
 
-            $this->assertTrue($isMaxExecutionTimeError);
+            $this->assertTrue($isMaxExecutionTimeError, $e->getMessage());
         }
     }
 
@@ -374,7 +377,7 @@ class LogAggregatorTest extends IntegrationTestCase
         }
     }
 
-    public function test_generateQuery_withSegment_shouldUseTmpTableWhenEnabledAndPrimaryKeyRequired()
+    public function testGenerateQueryWithSegmentShouldUseTmpTableWhenEnabledAndPrimaryKeyRequired()
     {
         $segment = new Segment('userId==2', array($this->site->getId()));
 
@@ -405,18 +408,18 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
-    public function test_getSegmentTmpTableName()
+    public function testGetSegmentTmpTableName()
     {
         $this->assertEquals('logtmpsegmentcc2efa0acbd5f209e8ee8618e72f3f9b', $this->logAggregator->getSegmentTmpTableName());
     }
 
-    public function test_getSegmentTmpTableNameWithLongPrefix()
+    public function testGetSegmentTmpTableNameWithLongPrefix()
     {
         Config::getInstance()->database['tables_prefix'] = 'myverylongtableprefixtestfoobartest';
         $this->assertEquals('logtmpsegmentcc2efa0acbd5f209', $this->logAggregator->getSegmentTmpTableName());
     }
 
-    public function test_getSegmentTableSql_ShouldAddJoinHintAsCommentIfEnabled()
+    public function testGetSegmentTableSqlShouldAddJoinHintAsCommentIfEnabled()
     {
         DatabaseConfig::setConfigValue('enable_segment_first_table_join_prefix', '1');
 
@@ -444,7 +447,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
-    public function test_getSegmentTableSql_ShouldNotAddJoinHintAsCommentIfDisabled()
+    public function testGetSegmentTableSqlShouldNotAddJoinHintAsCommentIfDisabled()
     {
         DatabaseConfig::setConfigValue('enable_segment_first_table_join_prefix', '0');
 
@@ -481,7 +484,7 @@ class LogAggregatorTest extends IntegrationTestCase
         return $this->logAggregator->getSegmentTableSql();
     }
 
-    public function test_generateQuery_WithQueryHint_ShouldAddQueryHintAsComment()
+    public function testGenerateQueryWithQueryHintShouldAddQueryHintAsComment()
     {
         $this->logAggregator->setQueryOriginHint('MyPluginName');
         $query = $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
@@ -504,7 +507,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
-    public function test_generateQuery_ShouldAddJoinQueryHintAsCommentIfEnabled()
+    public function testGenerateQueryShouldAddJoinQueryHintAsCommentIfEnabled()
     {
         DatabaseConfig::setConfigValue('enable_first_table_join_prefix', '1');
         $this->logAggregator->setQueryOriginHint('MyPluginName');
@@ -528,7 +531,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
-    public function test_queryVisitsByDimension_ShouldAddJoinQueryHintOriginHintMaxExecutionTimeHintIfEnabled()
+    public function testQueryVisitsByDimensionShouldAddJoinQueryHintOriginHintMaxExecutionTimeHintIfEnabled()
     {
         $dimensions = [
             'CASE WHEN HOUR(log_visit.visit_first_action_time) <= 11 THEN \'l\'' .
@@ -537,6 +540,9 @@ class LogAggregatorTest extends IntegrationTestCase
         ];
 
         DatabaseConfig::setConfigValue('enable_first_table_join_prefix', '1');
+        DatabaseConfig::setConfigValue('schema', 'Mysql');
+        Schema::unsetInstance();
+
         $this->logAggregator->setQueryOriginHint('MyPluginName');
 
         $query = $this->logAggregator->getQueryByDimensionSql(
@@ -578,7 +584,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
-    public function test_queryVisitsByDimension_withComplexDimensionSelect()
+    public function testQueryVisitsByDimensionWithComplexDimensionSelect()
     {
         $dimensions = [
             'CASE WHEN HOUR(log_visit.visit_first_action_time) <= 11 THEN \'l\'' .
