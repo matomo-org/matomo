@@ -411,22 +411,6 @@ class API extends \Piwik\Plugin\API
             }
         } else {
             $currentData->setMetadata(EvolutionMetric::DATATABLE_METADATA_PAST_DATA_NAME, $pastData);
-
-            $extraProcessedMetrics = $currentData->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
-            foreach ($apiMetrics as $metricSettings) {
-                $evolutionMetricClass = $this->isEcommerceEvolutionMetric($metricSettings)
-                                      ? EcommerceOnlyEvolutionMetric::class
-                                      : EvolutionMetric::class;
-
-                $extraProcessedMetrics = is_array($extraProcessedMetrics) ? $extraProcessedMetrics : [];
-                $extraProcessedMetrics[] = new $evolutionMetricClass(
-                    $metricSettings[self::METRIC_RECORD_NAME_KEY],
-                    null,
-                    $metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY],
-                    $quotientPrecision = 1
-                );
-            }
-            $currentData->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
         }
     }
 
@@ -609,14 +593,5 @@ class API extends \Piwik\Plugin\API
                 $row->setColumns(array_merge(array('label' => $row->getColumn('label')), $row->getColumns()));
             }
         });
-    }
-
-    private function isEcommerceEvolutionMetric($metricSettings)
-    {
-        return in_array($metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY], array(
-            self::GOAL_REVENUE_METRIC . '_evolution',
-            self::ECOMMERCE_ORDERS_METRIC . '_evolution',
-            self::ECOMMERCE_REVENUE_METRIC . '_evolution'
-        ));
     }
 }

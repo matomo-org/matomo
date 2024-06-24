@@ -10,7 +10,9 @@
 namespace Piwik\Plugins\MultiSites\Reports;
 
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
 use Piwik\Plugins\MultiSites\API;
+use Piwik\Plugins\MultiSites\Columns\Metrics\EcommerceOnlyEvolutionMetric;
 
 abstract class Base extends \Piwik\Plugin\Report
 {
@@ -24,14 +26,32 @@ abstract class Base extends \Piwik\Plugin\Report
         $processedMetricsMetadata = array();
 
         foreach ($allMetricsInfo as $metricName => $metricSettings) {
+            $evolutionMetricClass = $this->isEcommerceEvolutionMetric($metricSettings)
+                ? EcommerceOnlyEvolutionMetric::class
+                : EvolutionMetric::class;
+
             $metadataMetrics[$metricName] =
                 Piwik::translate($metricSettings[API::METRIC_TRANSLATION_KEY]);
 
             $processedMetricsMetadata[$metricSettings[API::METRIC_EVOLUTION_COL_NAME_KEY]] =
-                Piwik::translate($metricSettings[API::METRIC_TRANSLATION_KEY]) . " " . Piwik::translate('MultiSites_Evolution');
+                new $evolutionMetricClass(
+                    $metricSettings[API::METRIC_RECORD_NAME_KEY],
+                    null,
+                    $metricSettings[API::METRIC_EVOLUTION_COL_NAME_KEY],
+                    $quotientPrecision = 1
+                );
         }
 
         $this->metrics = array_keys($metadataMetrics);
-        $this->processedMetrics = array_keys($processedMetricsMetadata);
+        $this->processedMetrics = $processedMetricsMetadata;
+    }
+
+    private function isEcommerceEvolutionMetric($metricSettings): bool
+    {
+        return in_array($metricSettings[API::METRIC_EVOLUTION_COL_NAME_KEY], array(
+            API::GOAL_REVENUE_METRIC . '_evolution',
+            API::ECOMMERCE_ORDERS_METRIC . '_evolution',
+            API::ECOMMERCE_REVENUE_METRIC . '_evolution'
+        ));
     }
 }
