@@ -70,6 +70,10 @@ export default defineComponent({
     PeriodSelector,
   },
   props: {
+    autoRefreshInterval: {
+      type: Number,
+      required: true,
+    },
     displayRevenue: {
       type: Boolean,
       required: true,
@@ -86,6 +90,7 @@ export default defineComponent({
   mounted() {
     watch(() => MatomoUrl.hashParsed.value, () => DashboardStore.refreshData());
 
+    DashboardStore.setAutoRefreshInterval(this.autoRefreshInterval);
     DashboardStore.refreshData();
   },
   computed: {

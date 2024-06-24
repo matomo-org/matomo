@@ -6,7 +6,7 @@
  */
 
 import { computed, reactive, readonly } from 'vue';
-import { AjaxHelper, Matomo } from 'CoreHome';
+import { AjaxHelper, Matomo, Periods } from 'CoreHome';
 
 import { EvolutionTrend } from '../types';
 
@@ -72,12 +72,18 @@ class DashboardStore {
     isLoadingKPIs: false,
   });
 
+  private autoRefreshInterval = 0;
+
+  private autoRefreshTimeout: ReturnType<typeof setTimeout>|null = null;
+
   readonly state = computed(() => readonly(this.privateState));
 
   refreshData() {
     if (this.fetchAbort) {
       this.fetchAbort.abort();
       this.fetchAbort = null;
+
+      this.cancelAutoRefresh();
     }
 
     this.fetchAbort = new AbortController();
@@ -95,7 +101,51 @@ class DashboardStore {
     }).finally(() => {
       this.privateState.isLoadingKPIs = false;
       this.fetchAbort = null;
+
+      this.startAutoRefresh();
     });
+  }
+
+  setAutoRefreshInterval(interval: number) {
+    this.autoRefreshInterval = interval;
+  }
+
+  private cancelAutoRefresh() {
+    if (!this.autoRefreshTimeout) {
+      return;
+    }
+
+    clearTimeout(this.autoRefreshTimeout);
+
+    this.autoRefreshTimeout = null;
+  }
+
+  private startAutoRefresh() {
+    this.cancelAutoRefresh();
+
+    if (this.autoRefreshInterval <= 0) {
+      return;
+    }
+
+    let currentPeriod;
+
+    try {
+      currentPeriod = Periods.parse(
+        Matomo.period as string,
+        Matomo.currentDateString as string,
+      );
+    } catch (e) {
+      // gracefully ignore period parsing errors
+    }
+
+    if (!currentPeriod || !currentPeriod.containsToday()) {
+      return;
+    }
+
+    this.autoRefreshTimeout = setTimeout(() => {
+      this.autoRefreshTimeout = null;
+      this.refreshData();
+    }, this.autoRefreshInterval * 1000);
   }
 
   private updateDashboardKPIs(response: GetDashboardMockDataResponse) {
