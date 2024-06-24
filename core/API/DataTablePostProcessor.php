@@ -494,7 +494,7 @@ class DataTablePostProcessor
             return;
         }
 
-        $showRawMetrics = (new \Piwik\Request($this->request))->getBoolParameter('showRawMetrics');
+        $showRawMetrics = (new \Piwik\Request($this->request))->getBoolParameter('showRawMetrics', false);
 
         $dataTable->setMetadata(self::PROCESSED_METRICS_COMPUTED_FLAG, true);
 

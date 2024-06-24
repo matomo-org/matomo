@@ -423,8 +423,7 @@ class API extends \Piwik\Plugin\API
                     $metricSettings[self::METRIC_RECORD_NAME_KEY],
                     null,
                     $metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY],
-                    $quotientPrecision = 1,
-                    null
+                    $quotientPrecision = 1
                 );
             }
             $currentData->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
