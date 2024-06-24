@@ -517,7 +517,7 @@ class CronArchiveTest extends IntegrationTestCase
         foreach ($timezones as $timezone) {
             $offset = Date::getUtcOffset($timezone);
 
-            yield "Invalidating yesterday should not be skipped if an archive for yesterday was built before day switch in sites timezone ($timezone)" => [
+            yield "Invalidating yesterday should not be skipped if an archive for yesterday was built before midnight in site's timezone ($timezone)" => [
                 $timezone,
                 Date::factory('2020-04-05 00:22:00')->subSeconds($offset)->getDatetime(),
                 'yesterday',
@@ -527,7 +527,7 @@ class CronArchiveTest extends IntegrationTestCase
                 false
             ];
 
-            yield "Invalidating yesterday should not be skipped if an archive for yesterday was built some time before day switch in sites timezone ($timezone)" => [
+            yield "Invalidating yesterday should not be skipped if an archive for yesterday was built some time before midnight in site's timezone ($timezone)" => [
                 $timezone,
                 Date::factory('2020-04-05 06:22:00')->subSeconds($offset)->getDatetime(),
                 'yesterday',
@@ -537,7 +537,7 @@ class CronArchiveTest extends IntegrationTestCase
                 false
             ];
 
-            yield "Invalidating yesterday should not be skipped if an archive for yesterday was built long before day switch in sites timezone ($timezone)" => [
+            yield "Invalidating yesterday should not be skipped if an archive for yesterday was built long before midnight in site's timezone ($timezone)" => [
                 $timezone,
                 Date::factory('2020-04-05 19:22:00')->subSeconds($offset)->getDatetime(),
                 'yesterday',
@@ -547,7 +547,7 @@ class CronArchiveTest extends IntegrationTestCase
                 false
             ];
 
-            yield "Invalidating yesterday should be skipped if an archive for yesterday was built after day switch in sites timezone ($timezone)" => [
+            yield "Invalidating yesterday should be skipped if an archive for yesterday was built after midnight in site's timezone ($timezone)" => [
                 $timezone,
                 Date::factory('2020-04-05 00:22:00')->subSeconds($offset)->getDatetime(),
                 'yesterday',
@@ -557,7 +557,7 @@ class CronArchiveTest extends IntegrationTestCase
                 true
             ];
 
-            yield "Invalidating yesterday should be skipped if an archive for yesterday was built some time after day switch in sites timezone ($timezone)" => [
+            yield "Invalidating yesterday should be skipped if an archive for yesterday was built some time after midnight in site's timezone ($timezone)" => [
                 $timezone,
                 Date::factory('2020-04-05 16:22:00')->subSeconds($offset)->getDatetime(),
                 'yesterday',
@@ -567,7 +567,7 @@ class CronArchiveTest extends IntegrationTestCase
                 true
             ];
 
-            yield "Invalidating yesterday should be skipped if an archive for yesterday was built long after day switch in sites timezone ($timezone)" => [
+            yield "Invalidating yesterday should be skipped if an archive for yesterday was built long after midnight in site's timezone ($timezone)" => [
                 $timezone,
                 Date::factory('2020-04-05 22:22:00')->subSeconds($offset)->getDatetime(),
                 'yesterday',
