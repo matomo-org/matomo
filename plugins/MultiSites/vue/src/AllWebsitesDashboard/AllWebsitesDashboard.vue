@@ -48,6 +48,13 @@
       {{ translate('SitesManager_AddSite') }}
     </a>
   </div>
+
+  <div class="sitesTableContainer">
+    <SitesTable
+        :display-revenue="displayRevenue"
+        :display-sparklines="displaySparklines"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -61,6 +68,7 @@ import {
 
 import DashboardStore from './AllWebsitesDashboard.store';
 import KPICardContainer from './KPICardContainer.vue';
+import SitesTable from './SitesTable.vue';
 import { KPICardData } from '../types';
 
 export default defineComponent({
@@ -68,6 +76,7 @@ export default defineComponent({
     EnrichedHeadline,
     KPICardContainer,
     PeriodSelector,
+    SitesTable,
   },
   props: {
     autoRefreshInterval: {
@@ -78,8 +87,16 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    displaySparklines: {
+      type: Boolean,
+      required: true,
+    },
     isWidgetized: {
       type: Boolean,
+      required: true,
+    },
+    pageSize: {
+      type: Number,
       required: true,
     },
     selectablePeriods: {
@@ -91,6 +108,7 @@ export default defineComponent({
     watch(() => MatomoUrl.hashParsed.value, () => DashboardStore.refreshData());
 
     DashboardStore.setAutoRefreshInterval(this.autoRefreshInterval);
+    DashboardStore.setPageSize(this.pageSize);
     DashboardStore.refreshData();
   },
   computed: {

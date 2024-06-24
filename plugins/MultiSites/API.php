@@ -392,14 +392,19 @@ class API extends \Piwik\Plugin\API
      *
      * @internal
      *
+     * @param int $idSite
      * @param string $period
      * @param string $date
+     * @param string|false $segment
      * @return array
      * @throws Exception
      */
     public function mockDashboardData(
+        int $idSite,
         string $period,
-        string $date
+        string $date,
+        int $filter_limit,
+        $segment = false
     ): array {
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
 
@@ -415,7 +420,7 @@ class API extends \Piwik\Plugin\API
 
         $numberFormatter = NumberFormatter::getInstance();
 
-        return [
+        $response = [
             'totals' => [
                 'hits_evolution'            => $numberFormatter->formatPercent(2.8, 2, 2),
                 'hits_evolution_trend'      => 1,
@@ -432,6 +437,35 @@ class API extends \Piwik\Plugin\API
                 'revenue_evolution_trend'   => 0,
             ],
         ];
+
+        $segment = $segment ?: false;
+        $request = $_GET + $_POST;
+        $dashboard = new Dashboard($period, $date, $segment);
+        $sites = $dashboard->getSites($request, $filter_limit);
+
+        foreach ($sites as &$site) {
+            $site['nb_hits'] = $site['nb_pageviews'];
+            $site['hits_evolution'] = $site['pageviews_evolution'];
+            $site['hits_evolution_trend'] = $site['pageviews_evolution_trend'];
+        }
+
+        $response['numSites'] = $dashboard->getNumSites();
+        $response['sites'] = $sites;
+
+        if ('range' === $period) {
+            $response['sparklineDate'] = $date;
+        } else {
+            Piwik::checkUserHasViewAccess($idSite);
+
+            $response['sparklineDate'] = Range::getRelativeToEndDate(
+                $period,
+                'last30',
+                $date,
+                new Site($idSite)
+            );
+        }
+
+        return $response;
     }
 
     /**

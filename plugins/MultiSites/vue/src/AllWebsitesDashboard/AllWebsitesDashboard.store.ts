@@ -8,7 +8,12 @@
 import { computed, reactive, readonly } from 'vue';
 import { AjaxHelper, Matomo, Periods } from 'CoreHome';
 
-import { EvolutionTrend } from '../types';
+import {
+  DashboardMetrics,
+  DashboardSiteData,
+  DashboardSortOrder,
+  EvolutionTrend,
+} from '../types';
 
 interface DashboardKPIData {
   evolutionPeriod: string;
@@ -30,24 +35,16 @@ interface DashboardKPIData {
   visitsTrend: EvolutionTrend;
 }
 
-interface DashboardMetrics {
-  hits_evolution: string;
-  hits_evolution_trend: EvolutionTrend;
-  nb_hits: string;
-  nb_pageviews: string;
-  nb_visits: string;
-  pageviews_evolution: string;
-  pageviews_evolution_trend: EvolutionTrend;
-  visits_evolution: string;
-  visits_evolution_trend: EvolutionTrend;
-  revenue: string;
-  revenue_evolution: string;
-  revenue_evolution_trend: EvolutionTrend;
-}
-
 interface DashboardStoreState {
   dashboardKPIs: DashboardKPIData;
+  dashboardSites: DashboardSiteData[];
   isLoadingKPIs: boolean;
+  isLoadingSites: boolean;
+  numSites: number;
+  paginationCurrentPage: number;
+  sparklineDate: string;
+  sortColumn: string;
+  sortOrder: DashboardSortOrder;
 }
 
 interface GetDashboardMockDataResponseTotals extends DashboardMetrics {
@@ -58,7 +55,10 @@ interface GetDashboardMockDataResponseTotals extends DashboardMetrics {
 }
 
 interface GetDashboardMockDataResponse {
+  sites: DashboardSiteData[];
   totals: GetDashboardMockDataResponseTotals;
+  numSites: number;
+  sparklineDate: string;
 }
 
 class DashboardStore {
@@ -84,16 +84,56 @@ class DashboardStore {
       visitsEvolution: '?',
       visitsTrend: 0,
     },
+    dashboardSites: [],
     isLoadingKPIs: false,
+    isLoadingSites: false,
+    numSites: 0,
+    paginationCurrentPage: 0,
+    sparklineDate: '',
+    sortColumn: 'nb_visits',
+    sortOrder: 'desc',
   });
 
   private autoRefreshInterval = 0;
 
   private autoRefreshTimeout: ReturnType<typeof setTimeout>|null = null;
 
+  private pageSize = 25;
+
   readonly state = computed(() => readonly(this.privateState));
 
-  refreshData() {
+  readonly numberOfPages = computed(
+    () => Math.ceil(this.state.value.numSites / this.pageSize - 1),
+  );
+
+  readonly currentPagingOffset = computed(
+    () => Math.ceil(this.state.value.paginationCurrentPage * this.pageSize),
+  );
+
+  readonly paginationLowerBound = computed(() => {
+    if (this.state.value.numSites === 0) {
+      return 0;
+    }
+
+    return 1 + this.currentPagingOffset.value;
+  });
+
+  readonly paginationUpperBound = computed(() => {
+    if (this.state.value.numSites === 0) {
+      return 0;
+    }
+
+    const end = this.pageSize + this.currentPagingOffset.value;
+    const max = this.state.value.numSites;
+
+    if (end < max) {
+      return end;
+    }
+
+    return max;
+  });
+
+  refreshData(onlySites = false) {
     if (this.fetchAbort) {
       this.fetchAbort.abort();
       this.fetchAbort = null;
@@ -102,27 +142,88 @@ class DashboardStore {
     }
 
     this.fetchAbort = new AbortController();
-    this.privateState.isLoadingKPIs = true;
+    this.privateState.isLoadingKPIs = !onlySites;
+    this.privateState.isLoadingSites = true;
 
     const params: QueryParameters = {
       method: 'MultiSites.mockDashboardData',
+      filter_limit: this.pageSize,
+      filter_offset: this.currentPagingOffset.value,
+      filter_sort_column: this.privateState.sortColumn,
+      filter_sort_order: this.privateState.sortOrder,
+      showColumns: [
+        'hits_evolution',
+        'hits_evolution_trend',
+        'label',
+        'nb_hits',
+        'nb_pageviews',
+        'nb_visits',
+        'pageviews_evolution',
+        'pageviews_evolution_trend',
+        'revenue',
+        'revenue_evolution',
+        'revenue_evolution_trend',
+        'visits_evolution',
+        'visits_evolution_trend',
+      ].join(','),
     };
 
     return AjaxHelper.fetch<GetDashboardMockDataResponse>(
       params,
       { abortController: this.fetchAbort },
     ).then((response) => {
-      this.updateDashboardKPIs(response);
+      if (!onlySites) {
+        this.updateDashboardKPIs(response);
+      }
+
+      this.updateDashboardSites(response);
     }).finally(() => {
       this.privateState.isLoadingKPIs = false;
+      this.privateState.isLoadingSites = false;
       this.fetchAbort = null;
 
       this.startAutoRefresh();
     });
   }
 
+  navigateNextPage(): void {
+    if (this.privateState.paginationCurrentPage === this.numberOfPages.value) {
+      return;
+    }
+
+    this.privateState.paginationCurrentPage += 1;
+
+    this.refreshData(true);
+  }
+
+  navigatePreviousPage(): void {
+    if (this.privateState.paginationCurrentPage === 0) {
+      return;
+    }
+
+    this.privateState.paginationCurrentPage -= 1;
+
+    this.refreshData(true);
+  }
+
   setAutoRefreshInterval(interval: number) {
     this.autoRefreshInterval = interval;
+  }
+
+  setPageSize(size: number) {
+    this.pageSize = size;
+  }
+
+  sortBy(column: string) {
+    if (this.privateState.sortColumn === column) {
+      this.privateState.sortOrder = this.privateState.sortOrder === 'desc' ? 'asc' : 'desc';
+    } else {
+      this.privateState.sortOrder = column === 'label' ? 'asc' : 'desc';
+    }
+
+    this.privateState.sortColumn = column;
+
+    this.refreshData(true);
   }
 
   private cancelAutoRefresh() {
@@ -183,6 +284,12 @@ class DashboardStore {
       visitsEvolution: response.totals.visits_evolution,
       visitsTrend: response.totals.visits_evolution_trend,
     };
+  }
+
+  private updateDashboardSites(response: GetDashboardMockDataResponse) {
+    this.privateState.dashboardSites = response.sites;
+    this.privateState.numSites = response.numSites;
+    this.privateState.sparklineDate = response.sparklineDate;
   }
 }
 

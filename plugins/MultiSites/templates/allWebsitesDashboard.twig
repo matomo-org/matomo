@@ -18,7 +18,9 @@
             <div vue-entry="MultiSites.AllWebsitesDashboard"
                  auto-refresh-interval="{{ autoRefreshTodayReport|json_encode }}"
                  display-revenue="{{ displayRevenueColumn|json_encode }}"
+                 display-sparklines="{% if show_sparklines %}true{% else %}false{%endif%}"
                  is-widgetized="{{ isWidgetized|json_encode }}"
+                 page-size="{{ limit|default(25)|json_encode }}"
                  selectable-periods="{{ enabledPeriods|json_encode|e('html_attr') }}"
             ></div>
 

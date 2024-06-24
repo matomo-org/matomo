@@ -50,6 +50,7 @@ class MultiSites extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translations)
     {
         $translations[] = 'General_Website';
+        $translations[] = 'General_ColumnHits';
         $translations[] = 'General_ColumnNbVisits';
         $translations[] = 'General_ColumnPageviews';
         $translations[] = 'General_ColumnRevenue';

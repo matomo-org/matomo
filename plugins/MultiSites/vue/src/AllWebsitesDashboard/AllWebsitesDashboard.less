@@ -8,6 +8,17 @@
     .dashboardHeader {
       margin: 20px 10px;
     }
+
+    .sitesTableContainer {
+      margin-left: 0;
+      margin-right: 0;
+      overflow-x: auto;
+      width: 100%;
+    }
+
+    .sitesTable {
+      table-layout: auto;
+    }
   }
 
   > .col {
@@ -45,7 +56,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin: 0 10px;
+    margin: 0 10px 20px 10px;
 
     .btn {
       margin-bottom: 8px;
@@ -190,6 +201,117 @@
       margin-top: 0.5rem;
       padding: 0 0.35rem;
     }
+  }
+
+  .sitesTableContainer {
+    margin: 0 -20px;
+    overflow-x: auto;
+    width: calc(~"100% + 40px");
+  }
+
+  .sitesTable {
+    margin: 0;
+    width: 100%;
+
+    th {
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    tr {
+      height: 38px;
+    }
+
+    .sitesTableGroup {
+      font-weight: bold;
+    }
+
+    .sitesTableGroupSite .label {
+      padding-left: 50px;
+    }
+
+    td {
+      vertical-align: middle;
+
+      // improve automatic table cell width
+      width: auto;
+    }
+
+    td:not(.label) {
+      padding-right: 12px;
+      text-align: right;
+    }
+
+    td:first-child,
+    th:first-child {
+      padding-left: calc(~"1rem + 20px");
+    }
+
+    td:last-child,
+    th:last-child {
+      padding-right: calc(~"1rem + 20px");
+    }
+
+    td.sitesTableLoading {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    td.sitesTablePagination {
+      background-color: @theme-color-background-contrast;
+      border-bottom: none !important;
+      text-align: center;
+
+      .dataTablePrevious,
+      .dataTableNext {
+        cursor: pointer;
+        visibility: visible;
+      }
+    }
+
+    img {
+      vertical-align: middle;
+    }
+  }
+
+  .sitesTableSort:after {
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    color: @theme-color-brand;
+    content: " \25BC";
+    display: inline-block;
+    height: 6px;
+    font-size: 1px;
+    margin-top: 4px;
+    vertical-align: top;
+  }
+
+  .sitesTableSortAsc:after {
+    border-bottom: 5px solid @theme-color-brand;
+  }
+
+  .sitesTableSortDesc:after {
+    border-top: 5px solid @theme-color-brand;
+  }
+
+  .sitesTableEvolutionSelector,
+  .sitesTableSparkline {
+    padding-left: 0;
+    text-align: left;
+
+    // collapse sparkline cell
+    width: 1%;
+  }
+
+  .sitesTableEvolutionSelector select {
+    height: 28px;
+    margin: -8px 0;
+    display: inline-block;
+    width: 100px;
+  }
+
+  .sitesTableSparkline img {
+    margin: 0;
   }
 
   @media all and (max-width: 600px) {
