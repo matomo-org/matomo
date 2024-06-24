@@ -32,6 +32,8 @@ use Piwik\Plugin\ProcessedMetric;
  */
 class EvolutionMetric extends ProcessedMetric
 {
+    const DATATABLE_METADATA_PAST_DATA_NAME = 'EvolutionMetric_past_data';
+
     /**
      * @var Metric|string
      */
@@ -126,6 +128,17 @@ class EvolutionMetric extends ProcessedMetric
         return Piwik::translate('CoreHome_EvolutionMetricName', [$metricName]);
     }
 
+    public function beforeCompute($report, DataTable $table)
+    {
+        if (empty($this->pastData)) {
+            $this->pastData = $table->getMetadata(self::DATATABLE_METADATA_PAST_DATA_NAME);
+        }
+
+        if (empty($this->currentData)) {
+            $this->currentData = $table;
+        }
+    }
+
     public function getTrendValue($computedValue = 0)
     {
         if ($this->isLowerBetter) {
@@ -153,6 +166,34 @@ class EvolutionMetric extends ProcessedMetric
         $pastValue = ($pastValue * $ratio);
 
         return [ "past_{$columnName}" => $pastValue ];
+    }
+
+    public function getExtraMetricAggregationTypes(): array
+    {
+        $columnName = $this->getWrappedName();
+
+        if ($this->wrapped instanceof Metric) {
+            $aggregationType = $this->wrapped->getAggregationType();
+        } else {
+            $allAggregationTypes = Metrics::getDefaultMetricAggregationTypes();
+            $aggregationType = $allAggregationTypes[$columnName] ?? null;
+        }
+
+        return [ "past_{$columnName}" => $aggregationType ];
+    }
+
+    public function getExtraMetricSemanticTypes(): array
+    {
+        $columnName = $this->getWrappedName();
+
+        if ($this->wrapped instanceof Metric) {
+            $semanticType = $this->wrapped->getSemanticType();
+        } else {
+            $allSemanticTypes = Metrics::getDefaultMetricSemanticTypes();
+            $semanticType = $allSemanticTypes[$columnName] ?? null;
+        }
+
+        return [ "past_{$columnName}" => $semanticType ];
     }
 
     public function compute(Row $row)

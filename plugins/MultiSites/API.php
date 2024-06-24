@@ -410,6 +410,8 @@ class API extends \Piwik\Plugin\API
                 next($pastArray);
             }
         } else {
+            $currentData->setMetadata(EvolutionMetric::DATATABLE_METADATA_PAST_DATA_NAME, $pastData);
+
             $extraProcessedMetrics = $currentData->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
             foreach ($apiMetrics as $metricSettings) {
                 $evolutionMetricClass = $this->isEcommerceEvolutionMetric($metricSettings)
@@ -419,10 +421,10 @@ class API extends \Piwik\Plugin\API
                 $extraProcessedMetrics = is_array($extraProcessedMetrics) ? $extraProcessedMetrics : [];
                 $extraProcessedMetrics[] = new $evolutionMetricClass(
                     $metricSettings[self::METRIC_RECORD_NAME_KEY],
-                    $pastData,
+                    null,
                     $metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY],
                     $quotientPrecision = 1,
-                    $currentData
+                    null
                 );
             }
             $currentData->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);

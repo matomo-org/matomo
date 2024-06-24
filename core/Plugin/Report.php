@@ -803,6 +803,8 @@ class Report
         $report['metricAggregationTypes'] = $this->getMetricAggregationTypes();
         $report['processedMetricFormulas'] = $this->getProcessedMetricFormulas();
 
+        // TODO: what about extra processed metrics?
+
         if (!empty($this->actionToLoadSubTables)) {
             $report['actionToLoadSubTables'] = $this->actionToLoadSubTables;
         }
