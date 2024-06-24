@@ -31,6 +31,14 @@ class ArchivedMetric extends Metric
     public const AGGREGATION_COUNT_WITH_NUMERIC_VALUE = 'sum(if(%s > 0, 1, 0))';
     public const AGGREGATION_COUNT_WITH_NUMERIC_VALUE_PREFIX = 'nb_with_';
 
+    private static $aggregationToAggregationType = [
+        self::AGGREGATION_COUNT => self::AGGREGATION_TYPE_SUM,
+        self::AGGREGATION_SUM => self::AGGREGATION_TYPE_SUM,
+        self::AGGREGATION_MAX => self::AGGREGATION_TYPE_MAX,
+        self::AGGREGATION_MIN => self::AGGREGATION_TYPE_MIN,
+        self::AGGREGATION_COUNT_WITH_NUMERIC_VALUE => self::AGGREGATION_TYPE_SUM,
+    ];
+
     /**
      * @var string
      */
@@ -220,5 +228,10 @@ class ArchivedMetric extends Metric
     public function getSemanticType(): ?string
     {
         return $this->type;
+    }
+
+    public function getAggregationType(): ?string
+    {
+        return self::$aggregationToAggregationType[$this->aggregation] ?? null;
     }
 }

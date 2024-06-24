@@ -13,10 +13,17 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\Sort;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Dimension\ConversionDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\CoreHome\Tracker\LogTable\Conversion;
+use Piwik\Plugins\CoreHome\Tracker\LogTable\LinkVisitAction;
+use Piwik\Plugins\CoreHome\Tracker\LogTable\Visit;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
@@ -123,6 +130,22 @@ class Report
      * @var null|(string|null)[]
      */
     protected $metricSemanticTypes = null;
+
+    /**
+     * Metric aggregation types for metrics this report displays. By default, aggregation types
+     * are determined by Metric classes overriding the {@see Metric::getAggregationType()}
+     * method, or by associations set by the `Metrics.getDefaultMetricAggregationTypes` event.
+     *
+     * @var null|(string|null)[]
+     */
+    protected $metricAggregationTypes = null;
+
+    /**
+     * TODO
+     *
+     * @var null|(string|null)[]
+     */
+    protected $metricScopes = null;
 
     /**
      * Set this property to true in case your report supports goal metrics. In this case, the goal metrics will be
@@ -507,6 +530,96 @@ class Report
     }
 
     /**
+     * TODO
+     *
+     * @return array
+     * @api
+     */
+    public function getMetricScopes(): array
+    {
+        $scopes = $this->metricScopes ?: [];
+        $metrics = $this->metrics ?: [];
+
+        $defaultMetricScopes = Metrics::getDefaultMetricScopes();
+
+        foreach ($metrics as $metric) {
+            if (!($metric instanceof Metric)) {
+                $scopes[$metric] = $defaultMetricScopes[$metric] ?? null;
+                continue;
+            }
+
+            $metricName = $metric->getName();
+            if (
+                $metricName == 'label'
+                || !empty($metricTypes[$metricName])
+            ) {
+                continue;
+            }
+
+            $scopes[$metricName] = $metric->getScope();
+        }
+
+        return $scopes;
+    }
+
+    /**
+     * Returns the aggregation types for metrics this report displays.
+     *
+     * Metric classes can set aggregation types via the {@link Metric::getAggregationType()}
+     * method. Derived report classes that identify metrics by their string IDs alone
+     * can set their aggregation type via the {@link self::metricAggregationTypes()}
+     * property.
+     *
+     * @return string[] maps metric name => metric aggregation type
+     * @api
+     */
+    public function getMetricAggregationTypes(): array
+    {
+        $reportScope = $this->getScope();
+        if (empty($reportScope)) {
+            return [];
+        }
+
+        $aggregationTypes = $this->metricAggregationTypes ?: [];
+        $metrics = $this->metrics ?: [];
+
+        $defaultAggregationTypes = Metrics::getDefaultMetricAggregationTypes();
+
+        foreach ($metrics as $metric) {
+            if (!($metric instanceof Metric)) {
+                $aggregationTypes[$metric] = $defaultAggregationTypes[$metric] ?? null;
+                continue;
+            }
+
+            $metricName = $metric->getName();
+            if (
+                $metricName == 'label'
+                || !empty($aggregationTypes[$metricName])
+            ) {
+                continue;
+            }
+
+            $aggregationTypes[$metricName] = $metric->getAggregationType();
+        }
+
+        // remove aggregation types for metrics that cannot be aggregated
+        // within the context of this report
+        //
+        // TODO: more detailed description (either here or in getMetricScopes())
+        $metricScopes = $this->getMetricScopes();
+        foreach ($aggregationTypes as $metricName => $aggregationType) {
+            $metricScope = $metricScopes[$metricName];
+            if (empty($metricScope)
+                || !$this->isScopeSameOrSupersetOf($metricScope, $reportScope)
+            ) {
+                unset($aggregationTypes[$metricName]);
+            }
+        }
+
+        return $aggregationTypes;
+    }
+
+    /**
      * Returns the array of all metrics displayed by this report.
      *
      * @return array
@@ -687,6 +800,7 @@ class Report
             return $t ?: 'unspecified';
         }, $report['metricTypes']);
 
+        $report['metricAggregationTypes'] = $this->getMetricAggregationTypes();
         $report['processedMetricFormulas'] = $this->getProcessedMetricFormulas();
 
         if (!empty($this->actionToLoadSubTables)) {
@@ -1200,5 +1314,48 @@ class Report
         }
 
         return $formulas;
+    }
+
+    private function getScope(): ?string
+    {
+        $dimension = $this->getDimension();
+        if (empty($dimension)) {
+            return null;
+        }
+
+        if ($dimension instanceof ConversionDimension) {
+            return Conversion::class;
+        } else if ($dimension instanceof ActionDimension) {
+            return LinkVisitAction::class;
+        } else if ($dimension instanceof VisitDimension) {
+            return Visit::class;
+        }
+
+        return null;
+    }
+
+    private function isScopeSameOrSupersetOf(?string $scope, string $supersetScope): bool
+    {
+        while ($scope) {
+            if ($scope === $supersetScope) {
+                return true;
+            }
+
+            $logTableProvider = StaticContainer::get(LogTablesProvider::class);
+
+            $scopeTable = $logTableProvider->getLogTable($scope);
+            if (empty($scopeTable)) {
+                return false;
+            }
+
+            $supersetScopeTable = $logTableProvider->getLogTable($supersetScope);
+            if (empty($supersetScopeTable)) {
+                return false;
+            }
+
+            $scope = $scopeTable->getParentTable();
+        }
+
+        return false;
     }
 }

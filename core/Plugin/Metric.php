@@ -37,6 +37,13 @@ abstract class Metric
      */
     public const COMPONENT_SUBNAMESPACE = 'Metrics';
 
+    const AGGREGATION_TYPE_AVG = 'avg';
+    const AGGREGATION_TYPE_COUNT = 'count';
+    const AGGREGATION_TYPE_COUNT_DISTINCT = 'count_distinct';
+    const AGGREGATION_TYPE_MAX = 'max';
+    const AGGREGATION_TYPE_MIN = 'min';
+    const AGGREGATION_TYPE_SUM = 'sum';
+
     /**
      * Returns the column name of this metric, eg, `"nb_visits"` or `"avg_time_on_site"`.
      *
@@ -95,6 +102,33 @@ abstract class Metric
      * @return string|null
      */
     public function getSemanticType(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * Returns metadata identifying how values of this metric should be aggregated
+     * together.
+     *
+     * Note that this value is currently only used as metadata output, and has
+     * no effect on how Matomo actually functions. It is meant primarily for API
+     * consumers that want to aggregate API data themselves.
+     *
+     * See the `self::AGGREGATION_TYPE_...` consts for the list of available
+     * aggregation types.
+     *
+     * Also note that ProcessedMetrics should generally not set an aggregation
+     * type.
+     *
+     * @return string|null
+     */
+    public function getAggregationType(): ?string
+    {
+        return null;
+    }
+
+    // TODO docs
+    public function getScope(): ?string
     {
         return null;
     }
