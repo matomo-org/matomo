@@ -137,6 +137,8 @@ class EvolutionMetric extends ProcessedMetric
         if (empty($this->currentData)) {
             $this->currentData = $table;
         }
+
+        return true; // always compute
     }
 
     public function getTrendValue($computedValue = 0)
