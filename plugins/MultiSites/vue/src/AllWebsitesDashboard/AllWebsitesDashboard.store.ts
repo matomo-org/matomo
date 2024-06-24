@@ -6,7 +6,7 @@
  */
 
 import { computed, reactive, readonly } from 'vue';
-import { Matomo } from 'CoreHome';
+import { AjaxHelper, Matomo } from 'CoreHome';
 
 import { EvolutionTrend } from '../types';
 
@@ -26,12 +26,33 @@ interface DashboardKPIData {
   visitsTrend: EvolutionTrend;
 }
 
+interface DashboardMetrics {
+  hits_evolution: string;
+  hits_evolution_trend: EvolutionTrend;
+  nb_hits: string;
+  nb_pageviews: string;
+  nb_visits: string;
+  pageviews_evolution: string;
+  pageviews_evolution_trend: EvolutionTrend;
+  visits_evolution: string;
+  visits_evolution_trend: EvolutionTrend;
+  revenue: string;
+  revenue_evolution: string;
+  revenue_evolution_trend: EvolutionTrend;
+}
+
 interface DashboardStoreState {
   dashboardKPIs: DashboardKPIData;
   isLoadingKPIs: boolean;
 }
 
+interface GetDashboardMockDataResponse {
+  totals: DashboardMetrics;
+}
+
 class DashboardStore {
+  private fetchAbort: AbortController|null = null;
+
   private privateState = reactive<DashboardStoreState>({
     dashboardKPIs: {
       evolutionPeriod: 'day',
@@ -54,27 +75,45 @@ class DashboardStore {
   readonly state = computed(() => readonly(this.privateState));
 
   refreshData() {
+    if (this.fetchAbort) {
+      this.fetchAbort.abort();
+      this.fetchAbort = null;
+    }
+
+    this.fetchAbort = new AbortController();
     this.privateState.isLoadingKPIs = true;
 
-    window.setTimeout(() => {
-      this.privateState.dashboardKPIs = {
-        evolutionPeriod: Matomo.period as string,
-        hits: '2,345',
-        hitsEvolution: '3,456%',
-        hitsTrend: -1,
-        pageviews: '3,456',
-        pageviewsEvolution: '0,0%',
-        pageviewsTrend: 0,
-        revenue: '2,345',
-        revenueEvolution: '0,0%',
-        revenueTrend: 0,
-        visits: '2,345',
-        visitsEvolution: '1,234%',
-        visitsTrend: 1,
-      };
+    const params: QueryParameters = {
+      method: 'MultiSites.mockDashboardData',
+    };
 
+    return AjaxHelper.fetch<GetDashboardMockDataResponse>(
+      params,
+      { abortController: this.fetchAbort },
+    ).then((response) => {
+      this.updateDashboardKPIs(response);
+    }).finally(() => {
       this.privateState.isLoadingKPIs = false;
-    }, 2500);
+      this.fetchAbort = null;
+    });
+  }
+
+  private updateDashboardKPIs(response: GetDashboardMockDataResponse) {
+    this.privateState.dashboardKPIs = {
+      evolutionPeriod: Matomo.period as string,
+      hits: response.totals.nb_hits,
+      hitsEvolution: response.totals.hits_evolution,
+      hitsTrend: response.totals.hits_evolution_trend,
+      pageviews: response.totals.nb_pageviews,
+      pageviewsEvolution: response.totals.pageviews_evolution,
+      pageviewsTrend: response.totals.pageviews_evolution_trend,
+      revenue: response.totals.revenue,
+      revenueEvolution: response.totals.revenue_evolution,
+      revenueTrend: response.totals.revenue_evolution_trend,
+      visits: response.totals.nb_visits,
+      visitsEvolution: response.totals.visits_evolution,
+      visitsTrend: response.totals.visits_evolution_trend,
+    };
   }
 }
 
