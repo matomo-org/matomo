@@ -25,7 +25,7 @@ class EcommerceOnlyEvolutionMetric extends EvolutionMetric
 
     public function __construct(
         $wrapped,
-        DataTable $pastData,
+        ?DataTable $pastData = null,
         $evolutionMetricName = false,
         $quotientPrecision = 0,
         ?DataTable $currentData = null
