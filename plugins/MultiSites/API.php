@@ -396,6 +396,7 @@ class API extends \Piwik\Plugin\API
      * @param string $period
      * @param string $date
      * @param string|false $segment
+     * @param string $pattern
      * @return array
      * @throws Exception
      */
@@ -404,7 +405,8 @@ class API extends \Piwik\Plugin\API
         string $period,
         string $date,
         int $filter_limit,
-        $segment = false
+        $segment = false,
+        string $pattern = ''
     ): array {
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
 
@@ -441,6 +443,11 @@ class API extends \Piwik\Plugin\API
         $segment = $segment ?: false;
         $request = $_GET + $_POST;
         $dashboard = new Dashboard($period, $date, $segment);
+
+        if ('' !== $pattern) {
+            $dashboard->search(strtolower($pattern));
+        }
+
         $sites = $dashboard->getSites($request, $filter_limit);
 
         foreach ($sites as &$site) {

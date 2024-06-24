@@ -32,11 +32,14 @@
     <div class="siteSearch">
       <input
           type="text"
+          @keydown.enter="searchSite(searchTerm)"
+          v-model="searchTerm"
           :placeholder="translate('Actions_SubmenuSitesearch')"
       />
 
       <span
           class="icon-search"
+          @click="searchSite(searchTerm)"
           :title="translate('General_ClickToSearch')"
       />
     </div>
@@ -71,6 +74,10 @@ import KPICardContainer from './KPICardContainer.vue';
 import SitesTable from './SitesTable.vue';
 import { KPICardData } from '../types';
 
+interface DashboardState {
+  searchTerm: string;
+}
+
 export default defineComponent({
   components: {
     EnrichedHeadline,
@@ -103,6 +110,11 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+  },
+  data(): DashboardState {
+    return {
+      searchTerm: '',
+    };
   },
   mounted() {
     watch(() => MatomoUrl.hashParsed.value, () => DashboardStore.refreshData());
@@ -173,6 +185,11 @@ export default defineComponent({
     },
     hasSuperUserAccess(): boolean {
       return Matomo.hasSuperUserAccess;
+    },
+  },
+  methods: {
+    searchSite(term: string) {
+      DashboardStore.searchSite(term);
     },
   },
 });

@@ -100,6 +100,8 @@ class DashboardStore {
 
   private pageSize = 25;
 
+  private searchTerm = '';
+
   readonly state = computed(() => readonly(this.privateState));
 
   readonly numberOfPages = computed(
@@ -168,6 +170,10 @@ class DashboardStore {
       ].join(','),
     };
 
+    if (this.searchTerm) {
+      params.pattern = this.searchTerm;
+    }
+
     return AjaxHelper.fetch<GetDashboardMockDataResponse>(
       params,
       { abortController: this.fetchAbort },
@@ -202,6 +208,13 @@ class DashboardStore {
     }
 
     this.privateState.paginationCurrentPage -= 1;
+
+    this.refreshData(true);
+  }
+
+  searchSite(term: string): void {
+    this.searchTerm = term;
+    this.privateState.paginationCurrentPage = 0;
 
     this.refreshData(true);
   }

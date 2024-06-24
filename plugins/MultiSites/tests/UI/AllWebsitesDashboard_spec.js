@@ -114,6 +114,27 @@ describe('AllWebsitesDashboard', function () {
 
             await page.waitForSelector('.modal .add-site-dialog', { visible: true });
         });
+
+        it('should allow searching', async function () {
+            await page.goto(dashboardUrl);
+            await page.waitForNetworkIdle();
+
+            expect(await getSitesTableCell(1, 1)).to.equal('Site 1');
+            expect(await getSitesPagination()).to.equal('1–10 of 15');
+
+            await page.type('.siteSearch input', 'Site 15');
+            await page.click('.siteSearch .icon-search');
+            await page.waitForNetworkIdle();
+
+            expect(await getSitesTableCell(1, 1)).to.equal('Site 15');
+            expect(await getSitesPagination()).to.equal('1–1 of 1');
+
+            await page.type('.siteSearch input', 'No Results');
+            await page.click('.siteSearch .icon-search');
+            await page.waitForNetworkIdle();
+
+            expect(await getSitesPagination()).to.equal('0–0 of 0');
+        });
     });
 
     describe('Period Selector', function () {
