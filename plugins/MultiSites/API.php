@@ -93,18 +93,33 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $sites = $this->getSitesIdFromPattern($pattern, $_restrictSitesToLogin);
+        $idSites = $this->getSitesIdFromPattern($pattern, $_restrictSitesToLogin);
+
+        /**
+         * This event can be used to manipulate the sites being displayed on all websites dashboard.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('MultiSites.filterSites', function (&$idSites) {
+         *         $idSites = array_filter($idSites, function($idSite) {
+         *             return $idSite !== 1
+         *         });
+         *     });
+         *
+         * @param array &$idSites List of idSites that the current user would be allowed to see in all websites dashboard.
+         */
+        Piwik::postEvent('MultiSites.filterSites', [&$idSites]);
 
         if (!empty($showColumns) && !is_array($showColumns)) {
             $showColumns = explode(',', $showColumns);
         }
 
-        if (empty($sites)) {
+        if (empty($idSites)) {
             return new DataTable();
         }
 
         return $this->buildDataTable(
-            $sites,
+            $idSites,
             $period,
             $date,
             $segment,
@@ -161,8 +176,12 @@ class API extends \Piwik\Plugin\API
 
         // Both calls above have called Site::setSitesFromArray. We now get these sites:
         $sitesToProblablyAdd = Site::getSites();
+        $idSites = [];
+        foreach ($sitesToProblablyAdd as $site) {
+            $idSites[] = $site['idsite'];
+        }
 
-        return $sitesToProblablyAdd;
+        return $idSites;
     }
 
     /**
@@ -182,10 +201,14 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $sites = $this->getSiteFromId($idSite);
+        $site = $this->getSiteFromId($idSite);
+
+        if (empty($site)) {
+            return new DataTable();
+        }
 
         return $this->buildDataTable(
-            $sites,
+            [$idSite],
             $period,
             $date,
             $segment,
@@ -235,20 +258,11 @@ class API extends \Piwik\Plugin\API
     private function getSiteFromId($idSite)
     {
         $idSite = (int) $idSite;
-        $sites = array(APISitesManager::getInstance()->getSiteFromId($idSite));
-
-        return $sites;
+        return APISitesManager::getInstance()->getSiteFromId($idSite);
     }
 
-    private function buildDataTable($sitesToProblablyAdd, $period, $date, $segment, $_restrictSitesToLogin, $enhanced, $multipleWebsitesRequested, $showColumns)
+    private function buildDataTable($idSites, $period, $date, $segment, $_restrictSitesToLogin, $enhanced, $multipleWebsitesRequested, $showColumns)
     {
-        $idSites = array();
-        if (!empty($sitesToProblablyAdd)) {
-            foreach ($sitesToProblablyAdd as $site) {
-                $idSites[] = $site['idsite'];
-            }
-        }
-
         // build the archive type used to query archive data
         $archive = Archive::build(
             $idSites,

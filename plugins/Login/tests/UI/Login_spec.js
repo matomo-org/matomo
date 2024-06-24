@@ -19,8 +19,6 @@ describe("Login", function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.queryParamOverride = {date: "2012-01-01", period: "year"};
         testEnvironment.save();
-
-        await page.clearCookies();
     });
 
     beforeEach(function () {
@@ -37,8 +35,6 @@ describe("Login", function () {
         delete testEnvironment.queryParamOverride;
         delete testEnvironment.configOverride.General;
         testEnvironment.save();
-
-        await page.clearCookies();
     });
 
     afterEach(function () {
