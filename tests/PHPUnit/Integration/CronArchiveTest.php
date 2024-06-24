@@ -506,76 +506,57 @@ class CronArchiveTest extends IntegrationTestCase
     {
         $timezones = [
             'UTC-12',
-            'America/Caracas', // UTC-4
-            'UTC-0.5',
+            'UTC-3',
             'UTC',
-            'Asia/Kathmandu', // UTC+5:45
-            'Australia/Brisbane', // UTC+10
-            'UTC+14',
+            'UTC+3',
+            'UTC+12',
         ];
 
         foreach ($timezones as $timezone) {
             $offset = Date::getUtcOffset($timezone);
+            $hours = abs($offset / 3600);
+            $archiveHours = array_unique([-$hours - 1, -$hours, -$hours + 1, -1, 0, 1, $hours - 1, $hours, $hours + 1]);
+            $nowHours = array_unique([0, 1, $hours - 1, $hours, $hours + 1]);
 
-            yield "Invalidating yesterday should not be skipped if an archive for yesterday was built before day switch in sites timezone ($timezone)" => [
-                $timezone,
-                Date::factory('2020-04-05 00:22:00')->subSeconds($offset)->getDatetime(),
-                'yesterday',
-                'day',
-                Date::factory('2020-04-04 23:45:40')->subSeconds($offset)->getDatetime(),
-                ArchiveWriter::DONE_OK,
-                false
-            ];
+            foreach ($archiveHours as $i) {
+                $archiveDate = Date::factory('2020-04-04 23:45:40')->subSeconds($offset)->addHour($i);
+                foreach ($nowHours as $j) {
+                    $nowDate = Date::factory('2020-04-05 00:22:00')->subSeconds($offset)->addHour($j);
+                    yield "Invalidating yesterday $j hours after midnight should " . ($i <= 0 ? 'not' : '') . " be skipped if an archive for yesterday was built " . $archiveDate->toString('H:i') . " UTC ($timezone)" => [
+                        $timezone,
+                        $nowDate->getDatetime(),
+                        'yesterday',
+                        'day',
+                        $archiveDate->getDatetime(),
+                        ArchiveWriter::DONE_OK,
+                        $i > 0 // invalidation should only be skipped (true), when last archive was built after midnight
+                    ];
+                }
+            }
 
-            yield "Invalidating yesterday should not be skipped if an archive for yesterday was built some time before day switch in sites timezone ($timezone)" => [
-                $timezone,
-                Date::factory('2020-04-05 06:22:00')->subSeconds($offset)->getDatetime(),
-                'yesterday',
-                'day',
-                Date::factory('2020-04-04 18:25:35')->subSeconds($offset)->getDatetime(),
-                ArchiveWriter::DONE_OK,
-                false
-            ];
+            for ($i = 0; $i <= 23; $i++) {
+                // ttl is defined by time_before_today_archive_considered_outdated (default = 900)
+                yield "Invalidating today should be skipped when checking today archive built at $i, which is newer than ttl ($timezone)" => [
+                    $timezone,
+                    Date::factory('2020-04-05 00:15:00')->subSeconds($offset)->addHour($i)->getDatetime(),
+                    'today',
+                    'day',
+                    Date::factory('2020-04-05 00:05:00')->subSeconds($offset)->addHour($i)->getDatetime(),
+                    ArchiveWriter::DONE_OK,
+                    true
+                ];
 
-            yield "Invalidating yesterday should not be skipped if an archive for yesterday was built long before day switch in sites timezone ($timezone)" => [
-                $timezone,
-                Date::factory('2020-04-05 19:22:00')->subSeconds($offset)->getDatetime(),
-                'yesterday',
-                'day',
-                Date::factory('2020-04-04 09:25:35')->subSeconds($offset)->getDatetime(),
-                ArchiveWriter::DONE_OK,
-                false
-            ];
-
-            yield "Invalidating yesterday should be skipped if an archive for yesterday was built after day switch in sites timezone ($timezone)" => [
-                $timezone,
-                Date::factory('2020-04-05 00:22:00')->subSeconds($offset)->getDatetime(),
-                'yesterday',
-                'day',
-                Date::factory('2020-04-05 00:05:40')->subSeconds($offset)->getDatetime(),
-                ArchiveWriter::DONE_OK,
-                true
-            ];
-
-            yield "Invalidating yesterday should be skipped if an archive for yesterday was built some time after day switch in sites timezone ($timezone)" => [
-                $timezone,
-                Date::factory('2020-04-05 16:22:00')->subSeconds($offset)->getDatetime(),
-                'yesterday',
-                'day',
-                Date::factory('2020-04-05 09:05:40')->subSeconds($offset)->getDatetime(),
-                ArchiveWriter::DONE_OK,
-                true
-            ];
-
-            yield "Invalidating yesterday should be skipped if an archive for yesterday was built long after day switch in sites timezone ($timezone)" => [
-                $timezone,
-                Date::factory('2020-04-05 22:22:00')->subSeconds($offset)->getDatetime(),
-                'yesterday',
-                'day',
-                Date::factory('2020-04-05 19:05:40')->subSeconds($offset)->getDatetime(),
-                ArchiveWriter::DONE_OK,
-                true
-            ];
+                // ttl is defined by time_before_today_archive_considered_outdated (default = 900)
+                yield "Invalidating today should not be skipped when checking today archive built at $i, which is older than ttl ($timezone)" => [
+                    $timezone,
+                    Date::factory('2020-04-05 00:36:00')->subSeconds($offset)->addHour($i)->getDatetime(),
+                    'today',
+                    'day',
+                    Date::factory('2020-04-05 00:05:00')->subSeconds($offset)->addHour($i)->getDatetime(),
+                    ArchiveWriter::DONE_OK,
+                    false
+                ];
+            }
 
             // this test looks actually wrong. As an older period should always be invalidated even if it was archived recently
             yield "Invalidation should be skipped when checking an older date that was archived within ttl ($timezone)" => [
@@ -607,28 +588,6 @@ class CronArchiveTest extends IntegrationTestCase
                 Date::factory('2020-04-05 03:55:44')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
                 true
-            ];
-
-            // ttl is defined by time_before_today_archive_considered_outdated (default = 900)
-            yield "Invalidating today should be skipped when checking today archive, which is newer than ttl ($timezone)" => [
-                $timezone,
-                Date::factory('2020-04-05 19:15:00')->subSeconds($offset)->getDatetime(),
-                'today',
-                'day',
-                Date::factory('2020-04-05 19:05:00')->subSeconds($offset)->getDatetime(),
-                ArchiveWriter::DONE_OK,
-                true
-            ];
-
-            // ttl is defined by time_before_today_archive_considered_outdated (default = 900)
-            yield "Invalidating today should not be skipped when checking today archive, which is older than ttl ($timezone)" => [
-                $timezone,
-                Date::factory('2020-04-05 19:15:00')->subSeconds($offset)->getDatetime(),
-                'today',
-                'day',
-                Date::factory('2020-04-05 16:05:00')->subSeconds($offset)->getDatetime(),
-                ArchiveWriter::DONE_OK,
-                false
             ];
 
             yield "Invalidating current week should be skipped if a recently built archive is valid ($timezone)" => [
