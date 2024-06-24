@@ -472,6 +472,7 @@ class CronArchiveTest extends IntegrationTestCase
         string $dayToArchive,
         string $periodToArchive,
         string $tsArchived,
+        bool $isAutomaticInvalidationOfRecentPeriod,
         int $archiveStatus,
         bool $expected
     ) {
@@ -498,7 +499,7 @@ class CronArchiveTest extends IntegrationTestCase
         ]);
 
         // $doNotIncludeTtlInExistingArchiveCheck is set to true when running invalidateRecentDate('yesterday');
-        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $dayToArchive === 'today');
+        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $isAutomaticInvalidationOfRecentPeriod);
         $this->assertSame($expected, $actual);
     }
 
@@ -523,6 +524,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'yesterday',
                 'day',
                 Date::factory('2020-04-04 23:45:40')->subSeconds($offset)->getDatetime(),
+                true,
                 ArchiveWriter::DONE_OK,
                 false
             ];
@@ -533,6 +535,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'yesterday',
                 'day',
                 Date::factory('2020-04-04 18:25:35')->subSeconds($offset)->getDatetime(),
+                true,
                 ArchiveWriter::DONE_OK,
                 false
             ];
@@ -543,6 +546,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'yesterday',
                 'day',
                 Date::factory('2020-04-04 09:25:35')->subSeconds($offset)->getDatetime(),
+                true,
                 ArchiveWriter::DONE_OK,
                 false
             ];
@@ -553,6 +557,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'yesterday',
                 'day',
                 Date::factory('2020-04-05 00:05:40')->subSeconds($offset)->getDatetime(),
+                true,
                 ArchiveWriter::DONE_OK,
                 true
             ];
@@ -563,6 +568,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'yesterday',
                 'day',
                 Date::factory('2020-04-05 09:05:40')->subSeconds($offset)->getDatetime(),
+                true,
                 ArchiveWriter::DONE_OK,
                 true
             ];
@@ -573,6 +579,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'yesterday',
                 'day',
                 Date::factory('2020-04-05 19:05:40')->subSeconds($offset)->getDatetime(),
+                true,
                 ArchiveWriter::DONE_OK,
                 true
             ];
@@ -583,6 +590,7 @@ class CronArchiveTest extends IntegrationTestCase
                 '2020-03-05',
                 'day',
                 Date::factory('2020-04-04 23:49:44')->subSeconds($offset)->getDatetime(),
+                false,
                 ArchiveWriter::DONE_OK,
                 false
             ];
@@ -593,6 +601,7 @@ class CronArchiveTest extends IntegrationTestCase
                 '2020-03-05',
                 'week',
                 Date::factory('2020-04-03 23:49:44')->subSeconds($offset)->getDatetime(),
+                false,
                 ArchiveWriter::DONE_OK,
                 false
             ];
@@ -603,6 +612,7 @@ class CronArchiveTest extends IntegrationTestCase
                 '2020-03-05',
                 'week',
                 Date::factory('2020-04-05 03:55:44')->subSeconds($offset)->getDatetime(),
+                false,
                 ArchiveWriter::DONE_OK,
                 false
             ];
@@ -614,6 +624,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'today',
                 'day',
                 Date::factory('2020-04-05 19:05:00')->subSeconds($offset)->getDatetime(),
+                true,
                 ArchiveWriter::DONE_OK,
                 true
             ];
@@ -625,6 +636,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'today',
                 'day',
                 Date::factory('2020-04-05 16:05:00')->subSeconds($offset)->getDatetime(),
+                true,
                 ArchiveWriter::DONE_OK,
                 false
             ];
@@ -635,6 +647,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'today',
                 'week',
                 Date::factory('2020-04-05 19:13:40')->subSeconds($offset)->getDatetime(),
+                false,
                 ArchiveWriter::DONE_OK,
                 true
             ];
@@ -645,6 +658,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'today',
                 'week',
                 Date::factory('2020-04-05 19:13:40')->subSeconds($offset)->getDatetime(),
+                false,
                 ArchiveWriter::DONE_INVALIDATED,
                 true
             ];
@@ -655,6 +669,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'today',
                 'week',
                 Date::factory('2020-04-05 18:28:40')->subSeconds($offset)->getDatetime(),
+                false,
                 ArchiveWriter::DONE_OK,
                 false
             ];
