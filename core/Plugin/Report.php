@@ -616,7 +616,7 @@ class Report
             }
         }
 
-        return $aggregationTypes;
+        return array_filter($aggregationTypes);
     }
 
     /**
@@ -793,7 +793,12 @@ class Report
 
         $report['metrics']              = $this->getMetrics();
         $report['metricsDocumentation'] = $this->getMetricsDocumentation();
-        $report['processedMetrics']     = $this->getProcessedMetrics();
+
+        $processedMetricMetadata = $this->getProcessedMetricsMetadata();
+        $report['processedMetrics'] = $processedMetricMetadata['names'];
+        $report['processedMetricFormulas'] = $processedMetricMetadata['formulas'];
+        $report['temporaryMetricAggregationTypes'] = $processedMetricMetadata['temporaryMetricAggregationTypes'];
+        $report['temporaryMetricSemanticTypes'] = $processedMetricMetadata['temporaryMetricSemanticTypes'];
 
         $report['metricTypes'] = $this->getMetricSemanticTypes();
         $report['metricTypes'] = array_map(function ($t) {
@@ -801,9 +806,6 @@ class Report
         }, $report['metricTypes']);
 
         $report['metricAggregationTypes'] = $this->getMetricAggregationTypes();
-        $report['processedMetricFormulas'] = $this->getProcessedMetricFormulas();
-
-        // TODO: what about extra processed metrics?
 
         if (!empty($this->actionToLoadSubTables)) {
             $report['actionToLoadSubTables'] = $this->actionToLoadSubTables;
@@ -1295,29 +1297,6 @@ class Report
         return $metricType;
     }
 
-    private function getProcessedMetricFormulas(): ?array
-    {
-        if (empty($this->processedMetrics)) {
-            return null;
-        }
-
-        $formulas = [];
-        foreach ($this->processedMetrics as $processedMetric) {
-            if (!($processedMetric instanceof ProcessedMetric)) {
-                continue;
-            }
-
-            $formula = $processedMetric->getFormula();
-            if (empty($formula)) {
-                continue;
-            }
-
-            $formulas[$processedMetric->getName()] = $formula;
-        }
-
-        return $formulas;
-    }
-
     private function getScope(): ?string
     {
         $dimension = $this->getDimension();
@@ -1359,5 +1338,46 @@ class Report
         }
 
         return false;
+    }
+
+    private function getProcessedMetricsMetadata(): array
+    {
+        $metadata = [
+            'names' => $this->getProcessedMetrics(),
+            'formulas' => null,
+            'temporaryMetricAggregationTypes' => null,
+            'temporaryMetricSemanticTypes' => null,
+        ];
+
+        if (empty($this->processedMetrics)) {
+            return $metadata;
+        }
+
+        foreach ($this->processedMetrics as $processedMetric) {
+            if (!($processedMetric instanceof ProcessedMetric)) {
+                continue;
+            }
+
+            $formula = $processedMetric->getFormula();
+            if (!empty($formula)) {
+                $metadata['formulas'][$processedMetric->getName()] = $formula;
+            }
+
+            $extraMetricAggregationTypes = array_filter($processedMetric->getExtraMetricAggregationTypes());
+            if (!empty($extraMetricAggregationTypes)) {
+                foreach ($extraMetricAggregationTypes as $name => $type) {
+                    $metadata['temporaryMetricAggregationTypes'][$name] = $type;
+                }
+            }
+
+            $extraMetricSemanticTypes = array_filter($processedMetric->getExtraMetricSemanticTypes());
+            if (!empty($extraMetricSemanticTypes)) {
+                foreach ($extraMetricSemanticTypes as $name => $type) {
+                    $metadata['temporaryMetricSemanticTypes'][$name] = $type;
+                }
+            }
+        }
+
+        return $metadata;
     }
 }

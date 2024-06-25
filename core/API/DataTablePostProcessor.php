@@ -521,7 +521,7 @@ class DataTablePostProcessor
                 }
 
                 if ($showRawMetrics) {
-                    $row->addColumns($processedMetric->getAllExtraMetrics());
+                    $row->addColumns($processedMetric->getAllExtraMetrics($row));
                 }
             }
         }
