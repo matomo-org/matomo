@@ -253,12 +253,14 @@ class ArchiveTest extends IntegrationTestCase
 
         Rules::setBrowserTriggerArchiving(false);
 
+        // Set current time to time of tracked visit, so no automatic invalidation for tracking a date in the past is created
         Date::$now = strtotime('2020-05-05 12:00:00');
 
         $tracker = Fixture::getTracker(1, '2020-05-05 12:00:00');
         $tracker->setUserId('user1');
         $tracker->doTrackPageView('test');
 
+        // Set current time to next day, so archiving for yesterday will be triggered resulting in an archive considered valid
         Date::$now = strtotime('2020-05-06 01:00:00');
 
         $archiver = new CronArchive();
@@ -271,11 +273,13 @@ class ArchiveTest extends IntegrationTestCase
         $dataTable = \Piwik\Plugins\VisitsSummary\API::getInstance()->get(1, 'day', 'yesterday');
         self::assertEquals(1, $dataTable->getFirstRow()->getColumn('nb_visits'));
 
-        Date::$now = strtotime('2020-05-06 16:11:55');
-
+        // Track a new visits for yesterday, which should result in an invalidation record for that day
         $tracker = Fixture::getTracker(1, '2020-05-05 17:51:05');
         $tracker->setUserId('user2');
         $tracker->doTrackPageView('test');
+
+        // Trigger archiving again later on that day and validate that archives were built again
+        Date::$now = strtotime('2020-05-06 16:11:55');
 
         $archiver = new CronArchive();
         $archiver->init();
