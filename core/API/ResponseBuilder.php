@@ -137,7 +137,7 @@ class ResponseBuilder
         $e       = $this->decorateExceptionWithDebugTrace($e);
         $message = $this->formatExceptionMessage($e);
 
-        if (strpos($message, 'The method') !== false) {
+        if (preg_match("/The method '.*' does not exist or is not available in the module '\\\\Piwik\\\\Plugins\\\\API\\\\API'./", $message)) {
             http_response_code(404);
         } else if (
             $this->sendHeader
