@@ -577,8 +577,7 @@ class CronArchiveTest extends IntegrationTestCase
                 true
             ];
 
-            // this test looks actually wrong. As an older period should always be invalidated even if it was archived recently
-            yield "Invalidation should be skipped when checking an older date that was archived within ttl ($timezone)" => [
+            yield "Invalidation should be skipped when checking an older date that was archived within ttl, as invalidation will be processed later ($timezone)" => [
                 $timezone,
                 Date::factory('2020-04-05 00:00:00')->subSeconds($offset)->getDatetime(),
                 '2020-03-05',
@@ -598,8 +597,7 @@ class CronArchiveTest extends IntegrationTestCase
                 false
             ];
 
-            // this test looks actually wrong. As an older period should always be invalidated even if it was archived recently
-            yield "Invalidation should be skipped when checking an older period that was archived within ttl ($timezone)" => [
+            yield "Invalidation should be skipped when checking an older period that was archived within ttl, as invalidation will be processed later ($timezone)" => [
                 $timezone,
                 Date::factory('2020-04-05 04:00:00')->subSeconds($offset)->getDatetime(),
                 '2020-03-05',
@@ -610,7 +608,7 @@ class CronArchiveTest extends IntegrationTestCase
             ];
 
             // ttl is defined by time_before_today_archive_considered_outdated (default = 900)
-            yield "Invalidating today should be skipped when checking today archive, which is newer than ttl ($timezone)" => [
+            yield "Invalidating today should be skipped when checking today archive, which is newer than ttl, as invalidation will be processed later ($timezone)" => [
                 $timezone,
                 Date::factory('2020-04-05 19:15:00')->subSeconds($offset)->getDatetime(),
                 'today',
