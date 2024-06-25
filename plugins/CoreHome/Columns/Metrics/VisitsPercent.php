@@ -25,8 +25,10 @@ use Piwik\Plugin\ProcessedMetric;
  */
 class VisitsPercent extends ProcessedMetric
 {
+    const FORCED_TOTAL_VISITS_METADATA_NAME = 'VisitsPercent_total_visits';
+
     private $cachedTotalVisits = null;
-    private $forceTotalVisits = null;
+    private $forceTotalVisits;
 
     /**
      * Constructor.
@@ -68,6 +70,10 @@ class VisitsPercent extends ProcessedMetric
     public function beforeCompute($report, DataTable $table)
     {
         if ($this->forceTotalVisits === null) {
+            $this->forceTotalVisits = $table->getMetadata(self::FORCED_TOTAL_VISITS_METADATA_NAME);
+        }
+
+        if ($this->forceTotalVisits === null || $this->forceTotalVisits === false) {
             $this->cachedTotalVisits = array_sum($this->getMetricValues($table, 'nb_visits'));
         } else {
             $this->cachedTotalVisits = $this->forceTotalVisits;

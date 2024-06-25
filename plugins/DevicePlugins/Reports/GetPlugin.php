@@ -11,6 +11,7 @@ namespace Piwik\Plugins\DevicePlugins\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
 use Piwik\Plugins\DevicePlugins\Columns\Plugin;
 use Piwik\Plugins\DevicePlugins\DevicePlugins;
 
@@ -24,7 +25,7 @@ class GetPlugin extends Base
         $this->documentation = Piwik::translate('DevicePlugins_WidgetPluginsDocumentation', '<br />');
         $this->metrics       = array('nb_visits');
         $this->constantRowsCount = true;
-        $this->processedMetrics = array('nb_visits_percentage');
+        $this->processedMetrics = [new VisitsPercent()];
         $this->order = 13;
 
         $this->subcategoryId = 'DevicesDetection_Software';
