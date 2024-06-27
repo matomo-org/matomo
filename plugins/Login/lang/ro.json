@@ -1,9 +1,18 @@
 {
     "Login": {
-        "ConfirmationLinkSent": "Un link de confirmare a fost trimis la casuta ta de email. Verificați-vă e-mail-ul și vizitați aceast link legătură pentru a autoriza cererea de schimbare a parolei.",
-        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un utilizator cu acces la Super utilizator nu poate fi autentificat folosind '%s' mecanismul.",
+        "BruteForceLog": "Logare prin forță brută",
+        "ConfirmationLinkSent": "Deschide link-ul de confirmare trimis la adresa dumneavoastra de e-mail pentru confirmarea schimbarii parolei.",
+        "ContactAdmin": "Motiv posibil: host-ul dumneavoastra a dezactivat functia mail(). <br>Va rugam sa contactati administratorul dumeavoastra Matomo.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un utilizator cu acces de super utilizator nu poate fi autentificat folosind mecanismul '%s' .",
         "ExceptionPasswordMD5HashExpected": "Parametrul parolei este aşteptat să fie un hash MD5 al parolei.",
+        "HelpIpRange": "Introduceti o adresa IP sau un interval IP pe linie. Puteti folosi notatia CIDR eg:%1$s sau puteti folosi wildcards, eg:%2$s or %3$s",
+        "InvalidNonceOrigin": "Securitatea formularului a esuat din cauza unei origini invalide. Daca in trecut v-ati conectat folosind HTTPS, va rog sa va asigurati ca va conectati cu o conexiune securizata (SSL/TSL) si incercati din nou.",
+        "InvalidNonceReferrer": "Securitatea formularului a esuat din cauza antetului \"Referer\". Daca folositi un server proxy, este necesara %1$s configurarea aplicatiei pentru acceptarea capului de antet proxy %2$s care inainteaza capul de antet host. De asemenea, verificati daca capul de antet \"Referer\" este setat corect. Daca v-ati conectat anterior folosind HTTPS, va rog sa verificati daca exista o conexiune securizata (SSL/TSL) si incercati din nou.",
+        "InvalidNonceSSLMisconfigured": "De asemenea, aplicatia poate %1$s fi fortata sa foloseasca o conexiune securizata %2$s: in fisierul de configurare %3$s setati %4$s sub sectiunea %5$s",
+        "InvalidNonceToken": "Formular a esuat din cauza unei diferente intre token-uri. Va rog sa reincarcati formularul si sa verificati daca cookie-urile sunt activate.",
+        "InvalidNonceUnexpectedReferrer": "Securitatea formularului a esuat deoarece antetul \"Referer\" este diferit fata de ce a fost asteptat. Verificati daca este trimis corect.",
         "InvalidOrExpiredToken": "Jetonul este invalid sau expirat.",
+        "InvalidOrExpiredTokenV2": "Parola a fost deja setata sau link-ul a expirat.",
         "InvalidUsernameEmail": "Nume sau adresa email invalidă.",
         "LogIn": "Intrare",
         "LoginOrEmail": "Nume utilizator sau Email",
@@ -13,6 +22,9 @@
         "PasswordChanged": "Parola ta a fost schimbată",
         "PasswordRepeat": "Parolă (repetă)",
         "PasswordsDoNotMatch": "Parolele nu se potrivesc.",
-        "RememberMe": "Ţine-mă minte"
+        "RememberMe": "Ţine-mă minte",
+        "SettingBruteForceEnable": "Activati detectia prin forta bruta",
+        "SettingBruteForceEnableHelp": "Delogheaza utilizatori care au prea multe incercari a introducerii parolei intr-un interval de timp. Acest lucru opreste testarea tuturor combinatiilor. Blocarea unui IP comun blocheaza si ceilalti utilizatori.",
+        "SettingBruteForceWhitelistIp": "Nici o data nu bloca aceste adrese IP din a se loga"
     }
 }
