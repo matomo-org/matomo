@@ -521,7 +521,13 @@ class Row extends \ArrayObject
                 $newValue = null;
                 break;
             case 'max':
-                $newValue = max($thisColumnValue, $columnToSumValue);
+                if (!$thisColumnValue) {
+                    $newValue = $columnToSumValue;
+                } elseif (!$columnToSumValue) {
+                    $newValue = $thisColumnValue;
+                } else {
+                    $newValue = max($thisColumnValue, $columnToSumValue);
+                }
                 break;
             case 'min':
                 if (!$thisColumnValue) {
