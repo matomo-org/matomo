@@ -10,8 +10,8 @@
 		<max_time_server />
 		<sum_bandwidth>39314</sum_bandwidth>
 		<nb_hits_with_bandwidth>11</nb_hits_with_bandwidth>
-		<min_bandwidth>21444</min_bandwidth>
-		<max_bandwidth>21444</max_bandwidth>
+		<min_bandwidth>3574</min_bandwidth>
+		<max_bandwidth>3574</max_bandwidth>
 		<entry_nb_visits>11</entry_nb_visits>
 		<entry_nb_actions>11</entry_nb_actions>
 		<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -50,8 +50,8 @@
 				<max_time_server />
 				<sum_bandwidth>35740</sum_bandwidth>
 				<nb_hits_with_bandwidth>10</nb_hits_with_bandwidth>
-				<min_bandwidth>17870</min_bandwidth>
-				<max_bandwidth>17870</max_bandwidth>
+				<min_bandwidth>3574</min_bandwidth>
+				<max_bandwidth>3574</max_bandwidth>
 				<entry_nb_visits>10</entry_nb_visits>
 				<entry_nb_actions>10</entry_nb_actions>
 				<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -87,8 +87,8 @@
 						<max_time_server />
 						<sum_bandwidth>32166</sum_bandwidth>
 						<nb_hits_with_bandwidth>9</nb_hits_with_bandwidth>
-						<min_bandwidth>14296</min_bandwidth>
-						<max_bandwidth>14296</max_bandwidth>
+						<min_bandwidth>3574</min_bandwidth>
+						<max_bandwidth>3574</max_bandwidth>
 						<entry_nb_visits>9</entry_nb_visits>
 						<entry_nb_actions>9</entry_nb_actions>
 						<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -124,8 +124,8 @@
 								<max_time_server />
 								<sum_bandwidth>32166</sum_bandwidth>
 								<nb_hits_with_bandwidth>9</nb_hits_with_bandwidth>
-								<min_bandwidth>14296</min_bandwidth>
-								<max_bandwidth>14296</max_bandwidth>
+								<min_bandwidth>3574</min_bandwidth>
+								<max_bandwidth>3574</max_bandwidth>
 								<entry_nb_visits>9</entry_nb_visits>
 								<entry_nb_actions>9</entry_nb_actions>
 								<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -409,8 +409,8 @@
 		<max_time_server />
 		<sum_bandwidth>14296</sum_bandwidth>
 		<nb_hits_with_bandwidth>4</nb_hits_with_bandwidth>
-		<min_bandwidth>14296</min_bandwidth>
-		<max_bandwidth>14296</max_bandwidth>
+		<min_bandwidth>3574</min_bandwidth>
+		<max_bandwidth>3574</max_bandwidth>
 		<entry_nb_visits>4</entry_nb_visits>
 		<entry_nb_actions>4</entry_nb_actions>
 		<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -449,8 +449,8 @@
 				<max_time_server />
 				<sum_bandwidth>7148</sum_bandwidth>
 				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
-				<min_bandwidth>7148</min_bandwidth>
-				<max_bandwidth>7148</max_bandwidth>
+				<min_bandwidth>3574</min_bandwidth>
+				<max_bandwidth>3574</max_bandwidth>
 				<entry_nb_visits>2</entry_nb_visits>
 				<entry_nb_actions>2</entry_nb_actions>
 				<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -486,8 +486,8 @@
 						<max_time_server />
 						<sum_bandwidth>7148</sum_bandwidth>
 						<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
-						<min_bandwidth>7148</min_bandwidth>
-						<max_bandwidth>7148</max_bandwidth>
+						<min_bandwidth>3574</min_bandwidth>
+						<max_bandwidth>3574</max_bandwidth>
 						<entry_nb_visits>2</entry_nb_visits>
 						<entry_nb_actions>2</entry_nb_actions>
 						<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -652,8 +652,8 @@
 		<max_time_server />
 		<sum_bandwidth>14296</sum_bandwidth>
 		<nb_hits_with_bandwidth>4</nb_hits_with_bandwidth>
-		<min_bandwidth>14296</min_bandwidth>
-		<max_bandwidth>14296</max_bandwidth>
+		<min_bandwidth>3574</min_bandwidth>
+		<max_bandwidth>3574</max_bandwidth>
 		<entry_nb_visits>4</entry_nb_visits>
 		<entry_nb_actions>4</entry_nb_actions>
 		<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -692,8 +692,8 @@
 				<max_time_server />
 				<sum_bandwidth>7148</sum_bandwidth>
 				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
-				<min_bandwidth>7148</min_bandwidth>
-				<max_bandwidth>7148</max_bandwidth>
+				<min_bandwidth>3574</min_bandwidth>
+				<max_bandwidth>3574</max_bandwidth>
 				<entry_nb_visits>2</entry_nb_visits>
 				<entry_nb_actions>2</entry_nb_actions>
 				<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -891,12 +891,12 @@
 		<nb_hits>3</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
 		<nb_hits_with_time_server>1</nb_hits_with_time_server>
-		<min_time_server>0.001</min_time_server>
-		<max_time_server>0.001</max_time_server>
+		<min_time_server>0.0010</min_time_server>
+		<max_time_server>0.0010</max_time_server>
 		<sum_bandwidth>8063</sum_bandwidth>
 		<nb_hits_with_bandwidth>3</nb_hits_with_bandwidth>
-		<min_bandwidth>8063</min_bandwidth>
-		<max_bandwidth>8063</max_bandwidth>
+		<min_bandwidth>915</min_bandwidth>
+		<max_bandwidth>3574</max_bandwidth>
 		<entry_nb_visits>3</entry_nb_visits>
 		<entry_nb_actions>3</entry_nb_actions>
 		<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -935,8 +935,8 @@
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
 		<nb_hits_with_time_server>4</nb_hits_with_time_server>
-		<min_time_server>0.718</min_time_server>
-		<max_time_server>0.718</max_time_server>
+		<min_time_server>0.3590</min_time_server>
+		<max_time_server>0.3590</max_time_server>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -975,8 +975,8 @@
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<nb_hits_with_time_server>2</nb_hits_with_time_server>
-				<min_time_server>0.359</min_time_server>
-				<max_time_server>0.359</max_time_server>
+				<min_time_server>0.3590</min_time_server>
+				<max_time_server>0.3590</max_time_server>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -1012,8 +1012,8 @@
 						<nb_hits>2</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
 						<nb_hits_with_time_server>2</nb_hits_with_time_server>
-						<min_time_server>0.359</min_time_server>
-						<max_time_server>0.359</max_time_server>
+						<min_time_server>0.3590</min_time_server>
+						<max_time_server>0.3590</max_time_server>
 						<sum_bandwidth>0</sum_bandwidth>
 						<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 						<min_bandwidth />
@@ -1055,8 +1055,8 @@
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<nb_hits_with_time_server>2</nb_hits_with_time_server>
-				<min_time_server>0.359</min_time_server>
-				<max_time_server>0.359</max_time_server>
+				<min_time_server>0.3590</min_time_server>
+				<max_time_server>0.3590</max_time_server>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -1092,8 +1092,8 @@
 						<nb_hits>2</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
 						<nb_hits_with_time_server>2</nb_hits_with_time_server>
-						<min_time_server>0.359</min_time_server>
-						<max_time_server>0.359</max_time_server>
+						<min_time_server>0.3590</min_time_server>
+						<max_time_server>0.3590</max_time_server>
 						<sum_bandwidth>0</sum_bandwidth>
 						<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 						<min_bandwidth />
@@ -1129,8 +1129,8 @@
 								<nb_hits>2</nb_hits>
 								<sum_time_spent>0</sum_time_spent>
 								<nb_hits_with_time_server>2</nb_hits_with_time_server>
-								<min_time_server>0.359</min_time_server>
-								<max_time_server>0.359</max_time_server>
+								<min_time_server>0.3590</min_time_server>
+								<max_time_server>0.3590</max_time_server>
 								<sum_bandwidth>0</sum_bandwidth>
 								<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 								<min_bandwidth />
@@ -1166,8 +1166,8 @@
 										<nb_hits>2</nb_hits>
 										<sum_time_spent>0</sum_time_spent>
 										<nb_hits_with_time_server>2</nb_hits_with_time_server>
-										<min_time_server>0.359</min_time_server>
-										<max_time_server>0.359</max_time_server>
+										<min_time_server>0.3590</min_time_server>
+										<max_time_server>0.3590</max_time_server>
 										<sum_bandwidth>0</sum_bandwidth>
 										<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 										<min_bandwidth />
@@ -1219,8 +1219,8 @@
 		<max_time_server />
 		<sum_bandwidth>5964</sum_bandwidth>
 		<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
-		<min_bandwidth>5964</min_bandwidth>
-		<max_bandwidth>5964</max_bandwidth>
+		<min_bandwidth>355</min_bandwidth>
+		<max_bandwidth>5609</max_bandwidth>
 		<entry_nb_visits>1</entry_nb_visits>
 		<entry_nb_actions>2</entry_nb_actions>
 		<entry_sum_visit_length>242</entry_sum_visit_length>
@@ -1259,8 +1259,8 @@
 				<max_time_server />
 				<sum_bandwidth>5964</sum_bandwidth>
 				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
-				<min_bandwidth>5964</min_bandwidth>
-				<max_bandwidth>5964</max_bandwidth>
+				<min_bandwidth>355</min_bandwidth>
+				<max_bandwidth>5609</max_bandwidth>
 				<entry_nb_visits>1</entry_nb_visits>
 				<entry_nb_actions>2</entry_nb_actions>
 				<entry_sum_visit_length>242</entry_sum_visit_length>
@@ -1296,8 +1296,8 @@
 						<max_time_server />
 						<sum_bandwidth>5964</sum_bandwidth>
 						<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
-						<min_bandwidth>5964</min_bandwidth>
-						<max_bandwidth>5964</max_bandwidth>
+						<min_bandwidth>355</min_bandwidth>
+						<max_bandwidth>5609</max_bandwidth>
 						<entry_nb_visits>1</entry_nb_visits>
 						<entry_nb_actions>2</entry_nb_actions>
 						<entry_sum_visit_length>242</entry_sum_visit_length>
@@ -1333,8 +1333,8 @@
 								<max_time_server />
 								<sum_bandwidth>5964</sum_bandwidth>
 								<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
-								<min_bandwidth>5964</min_bandwidth>
-								<max_bandwidth>5964</max_bandwidth>
+								<min_bandwidth>355</min_bandwidth>
+								<max_bandwidth>5609</max_bandwidth>
 								<entry_nb_visits>1</entry_nb_visits>
 								<entry_nb_actions>2</entry_nb_actions>
 								<entry_sum_visit_length>242</entry_sum_visit_length>
@@ -1634,8 +1634,8 @@
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
 		<nb_hits_with_time_server>1</nb_hits_with_time_server>
-		<min_time_server>0.009</min_time_server>
-		<max_time_server>0.009</max_time_server>
+		<min_time_server>0.0090</min_time_server>
+		<max_time_server>0.0090</max_time_server>
 		<sum_bandwidth>267</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>267</min_bandwidth>
@@ -1674,8 +1674,8 @@
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<nb_hits_with_time_server>1</nb_hits_with_time_server>
-				<min_time_server>0.009</min_time_server>
-				<max_time_server>0.009</max_time_server>
+				<min_time_server>0.0090</min_time_server>
+				<max_time_server>0.0090</max_time_server>
 				<sum_bandwidth>267</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>267</min_bandwidth>
@@ -2088,8 +2088,8 @@
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
 		<nb_hits_with_time_server>2</nb_hits_with_time_server>
-		<min_time_server>0.109</min_time_server>
-		<max_time_server>0.109</max_time_server>
+		<min_time_server>0.1090</min_time_server>
+		<max_time_server>0.1090</max_time_server>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -2128,8 +2128,8 @@
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<nb_hits_with_time_server>2</nb_hits_with_time_server>
-				<min_time_server>0.109</min_time_server>
-				<max_time_server>0.109</max_time_server>
+				<min_time_server>0.1090</min_time_server>
+				<max_time_server>0.1090</max_time_server>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -2649,8 +2649,8 @@
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
 		<nb_hits_with_time_server>1</nb_hits_with_time_server>
-		<min_time_server>0.001</min_time_server>
-		<max_time_server>0.001</max_time_server>
+		<min_time_server>0.0010</min_time_server>
+		<max_time_server>0.0010</max_time_server>
 		<sum_bandwidth>182</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>182</min_bandwidth>
@@ -2689,8 +2689,8 @@
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<nb_hits_with_time_server>1</nb_hits_with_time_server>
-				<min_time_server>0.001</min_time_server>
-				<max_time_server>0.001</max_time_server>
+				<min_time_server>0.0010</min_time_server>
+				<max_time_server>0.0010</max_time_server>
 				<sum_bandwidth>182</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>182</min_bandwidth>
@@ -2726,8 +2726,8 @@
 						<nb_hits>1</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
 						<nb_hits_with_time_server>1</nb_hits_with_time_server>
-						<min_time_server>0.001</min_time_server>
-						<max_time_server>0.001</max_time_server>
+						<min_time_server>0.0010</min_time_server>
+						<max_time_server>0.0010</max_time_server>
 						<sum_bandwidth>182</sum_bandwidth>
 						<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 						<min_bandwidth>182</min_bandwidth>
