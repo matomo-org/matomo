@@ -14,7 +14,6 @@ class BadRequestException extends \Exception implements HttpCodeException
     
     public function __construct($message, $code = 400)
     {
-        
-        parent::__construct($message,$code);
+        parent::__construct($message, $code);
     }
 }
