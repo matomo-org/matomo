@@ -136,6 +136,7 @@ class ResponseBuilder
     {
         $e       = $this->decorateExceptionWithDebugTrace($e);
         $message = $this->formatExceptionMessage($e);
+
         if (
             $this->sendHeader
             && $e instanceof HttpCodeException

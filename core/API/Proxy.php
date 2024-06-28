@@ -617,7 +617,6 @@ class Proxy
     {
         if (!$this->isMethodAvailable($className, $methodName)) {
             throw new BadRequestException(Piwik::translate('General_ExceptionMethodNotFound', [$methodName, $className]));
-            
         }
     }
 
