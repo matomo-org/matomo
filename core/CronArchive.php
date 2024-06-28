@@ -1040,12 +1040,14 @@ class CronArchive
      *
      * @params Parameters $params The parameters for the archive we want to invalidate.
      */
-    public function canWeSkipInvalidatingBecauseThereIsAUsablePeriod(Parameters $params, $doNotIncludeTtlInExistingArchiveCheck = false)
+    public function canWeSkipInvalidatingBecauseThereIsAUsablePeriod(Parameters $params, $doNotIncludeTtlInExistingArchiveCheck = false): bool
     {
-        $today = Date::factoryInTimezone('today', Site::getTimezoneFor($params->getSite()->getId()));
+        $timezone = Site::getTimezoneFor($params->getSite()->getId());
+        $today = Date::factoryInTimezone('today', $timezone);
+        $yesterday = Date::factoryInTimezone('yesterday', $timezone);
 
-        $isYesterday = $params->getPeriod()->getLabel() == 'day' && $params->getPeriod()->getDateStart()->toString() == Date::factory('yesterday')->toString();
-
+        // The period provided in params is in the sites timezone, so we need to compare against dates in the sites timezone
+        $isYesterday = $params->getPeriod()->getLabel() === 'day' && $params->getPeriod()->getDateStart()->toString() === $yesterday->toString();
         $isPeriodIncludesToday = $params->getPeriod()->isDateInPeriod($today);
 
         $minArchiveProcessedTime = $doNotIncludeTtlInExistingArchiveCheck ? null :
@@ -1057,10 +1059,11 @@ class CronArchive
         $tsArchived = $archiveInfo['tsArchived'];
 
         // day has changed since the archive was created, we need to reprocess it
+        // ts_archived is stored in UTC, so we need to convert it to site's timezone
         if (
             $isYesterday
             && !empty($idArchive)
-            && Date::factory($tsArchived)->toString() != $today->toString()
+            && Date::factory($tsArchived, $timezone)->toString() !== $today->toString()
         ) {
             return false;
         }
