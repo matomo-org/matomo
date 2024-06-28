@@ -616,7 +616,7 @@ class Proxy
     private function checkMethodExists($className, $methodName)
     {
         if (!$this->isMethodAvailable($className, $methodName)) {
-            throw new BadRequestException(Piwik::translate('General_ExceptionMethodNotFound', array($methodName, $className)));
+            throw new BadRequestException(Piwik::translate('General_ExceptionMethodNotFound', [$methodName, $className]));
             
         }
     }
