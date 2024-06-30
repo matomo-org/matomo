@@ -74,4 +74,10 @@ class AverageOrderRevenue extends GoalSpecificProcessedMetric
     {
         return Dimension::TYPE_MONEY;
     }
+
+    public function getFormula(): ?string
+    {
+        $goalRow = '$goals["idgoal=' . $this->idGoal . '"]';
+        return sprintf('%s.revenue / %s.nb_conversions', $goalRow, $goalRow);
+    }
 }

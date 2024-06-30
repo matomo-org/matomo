@@ -64,4 +64,9 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
     {
         return Dimension::TYPE_PERCENT;
     }
+
+    public function getFormula(): ?string
+    {
+        // TODO
+    }
 }
