@@ -108,7 +108,7 @@ class RevenuePerVisit extends ProcessedMetric
                     continue;
                 }
 
-                $revenueSum[] = '$goals.idgoal=' . $idGoal . '.revenue';
+                $revenueSum[] = '$goals["idgoal=' . $idGoal . '"].revenue';
             }
         }
         $revenueSum = '(' . implode(' + ', $revenueSum) . ')';
