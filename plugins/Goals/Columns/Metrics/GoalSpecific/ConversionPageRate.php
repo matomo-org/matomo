@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
 
 use Piwik\Archive;
+use Piwik\Cache;
 use Piwik\Columns\Dimension;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
@@ -31,9 +32,6 @@ use Piwik\Site;
  */
 class ConversionPageRate extends GoalSpecificProcessedMetric
 {
-    // TODO: if there are multiple instances of this metric added to a report (eg, 1 per goal),
-    // the request for the report data will happen once per instance. goal totals for a site need
-    // to be cached.
     /**
      * @var array|null
      */
@@ -143,6 +141,15 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
         $date = $period->getDateStart()->toString();
         $date = ($periodName === 'range' ? $date . ',' . $period->getDateEnd()->toString() : $date);
         $segment = $table->getMetadata('segment');
+
+        $cache = Cache::getTransientCache();
+        $cacheId = sprintf('ConversionPageRate.goalTotals.%s.%s.%s.%s', $idSite, $periodName, $date, $segment);
+
+        $goalTotals = $cache->fetch($cacheId);
+        if (is_array($goalTotals)) {
+            return $goalTotals;
+        }
+
         $archive = Archive::build($idSite, $periodName, $date, $segment);
 
         $names = [];
@@ -158,6 +165,8 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
                 $goalTotals[$idGoal] = $sum;
             }
         }
+
+        $cache->save($cacheId, $goalTotals);
 
         return $goalTotals;
     }
