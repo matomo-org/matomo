@@ -37,9 +37,6 @@ abstract class Metric
      */
     public const COMPONENT_SUBNAMESPACE = 'Metrics';
 
-    const AGGREGATION_TYPE_AVG = 'avg';
-    const AGGREGATION_TYPE_COUNT = 'count';
-    const AGGREGATION_TYPE_COUNT_DISTINCT = 'count_distinct';
     const AGGREGATION_TYPE_MAX = 'max';
     const AGGREGATION_TYPE_MIN = 'min';
     const AGGREGATION_TYPE_SUM = 'sum';
