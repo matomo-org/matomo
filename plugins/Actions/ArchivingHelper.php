@@ -16,6 +16,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionPageRate;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
@@ -274,7 +275,7 @@ class ArchivingHelper
         ) {
             /**
              * Ensures this metric is available. It will be calculated later using a filter.
-             * @see \Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate
+             * @see \Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionPageRate
              */
             $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE] = 0;
         }
