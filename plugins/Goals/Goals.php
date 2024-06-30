@@ -18,6 +18,7 @@ use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
+use Piwik\Plugin\Metric;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\Goals\RecordBuilders\ProductRecord;
@@ -299,6 +300,11 @@ class Goals extends \Piwik\Plugin
             'revenue' => Dimension::TYPE_MONEY,
         ];
 
+        $goalMetricAggregationTypes = [
+            'nb_conversions' => Metric::AGGREGATION_TYPE_SUM,
+            'revenue' => Metric::AGGREGATION_TYPE_SUM,
+        ];
+
         // special goal metrics for Actions page reports
         $pageGoalMetrics = array_merge($goalMetrics, [
             'nb_conversions_attrib' => Piwik::translate('Goals_ColumnConversions'),
@@ -337,6 +343,11 @@ class Goals extends \Piwik\Plugin
         ]);
         unset($entryPageGoalMetricTypes['revenue']);
 
+        $entryPageGoalMetricAggregationTypes = array_merge($goalMetricAggregationTypes, [
+            'nb_conversions_entry' => Metric::AGGREGATION_TYPE_SUM,
+            'revenue_entry' => Metric::AGGREGATION_TYPE_SUM,
+        ]);
+
         // add ecommerce metrics if idGoal is an ecommerce goal
         $idGoal = \Piwik\Request::fromRequest()->getParameter('idGoal', '');
         if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
@@ -363,6 +374,7 @@ class Goals extends \Piwik\Plugin
             $goalMetricsToUse = $goalMetrics;
             $goalProcessedMetricsToUse = $goalProcessedMetrics;
             $goalMetricTypesToUse = $goalMetricTypes;
+            $goalMetricAggregationTypesToUse = $goalMetricAggregationTypes;
 
             $request = $reportWithGoals['module'] . '.' . $reportWithGoals['action'];
             if (in_array($request, AddColumnsProcessedMetricsGoal::ACTIONS_PAGE_REPORTS_WITH_GOAL_METRICS)) {
@@ -373,6 +385,7 @@ class Goals extends \Piwik\Plugin
                 $goalMetricsToUse = $entryPageGoalMetrics;
                 $goalProcessedMetricsToUse = $entryPageGoalProcessedMetrics;
                 $goalMetricTypesToUse = $entryPageGoalMetricTypes;
+                $goalMetricAggregationTypesToUse = $entryPageGoalMetricAggregationTypes;
             }
 
             // Select this report from the API metadata array
@@ -386,6 +399,7 @@ class Goals extends \Piwik\Plugin
                     $apiReportToUpdate['metricsGoal'] = $goalMetricsToUse;
                     $apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetricsToUse;
                     $apiReportToUpdate['metricTypesGoal'] = $goalMetricTypesToUse;
+                    $apiReportToUpdate['metricAggregationTypesGoal'] = $goalMetricAggregationTypesToUse;
                     break;
                 }
             }
