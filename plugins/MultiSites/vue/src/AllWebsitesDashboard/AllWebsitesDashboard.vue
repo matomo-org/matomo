@@ -52,12 +52,10 @@
     </a>
   </div>
 
-  <div class="sitesTableContainer">
-    <SitesTable
-        :display-revenue="displayRevenue"
-        :display-sparklines="displaySparklines"
-    />
-  </div>
+  <SitesTable
+      :display-revenue="displayRevenue"
+      :display-sparklines="displaySparklines"
+  />
 </template>
 
 <script lang="ts">

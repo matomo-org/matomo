@@ -257,18 +257,6 @@
       text-align: center;
     }
 
-    td.sitesTablePagination {
-      background-color: @theme-color-background-contrast;
-      border-bottom: none !important;
-      text-align: center;
-
-      .dataTablePrevious,
-      .dataTableNext {
-        cursor: pointer;
-        visibility: visible;
-      }
-    }
-
     img {
       vertical-align: middle;
     }
@@ -312,6 +300,17 @@
 
   .sitesTableSparkline img {
     margin: 0;
+  }
+
+  .sitesTablePagination {
+    line-height: 38px;
+    text-align: center;
+
+    .dataTablePrevious,
+    .dataTableNext {
+      cursor: pointer;
+      visibility: visible;
+    }
   }
 
   @media all and (max-width: 600px) {

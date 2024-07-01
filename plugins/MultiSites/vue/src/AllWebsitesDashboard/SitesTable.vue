@@ -6,138 +6,137 @@
 -->
 
 <template>
-  <table class="card-table dataTable sitesTable">
-    <thead>
-      <tr>
-        <th
-            @click="sortBy('label')"
-            class="label"
-        >
-          {{ translate('General_Website') }}
-          <span
-              v-if="sortColumn === 'label'"
-              :class="sortColumnClass"
-          />
-        </th>
-
-        <th @click="sortBy('nb_visits')">
-          <span
-              v-if="sortColumn === 'nb_visits'"
-              :class="sortColumnClass"
-          />
-          {{ translate('General_ColumnNbVisits') }}
-        </th>
-
-        <th @click="sortBy('nb_pageviews')">
-          <span
-              v-if="sortColumn === 'nb_pageviews'"
-              :class="sortColumnClass"
-          />
-          {{ translate('General_ColumnPageviews') }}
-        </th>
-
-        <th @click="sortBy('nb_hits')">
-          <span
-              v-if="sortColumn === 'nb_hits'"
-              :class="sortColumnClass"
-          />
-          {{ translate('General_ColumnHits') }}
-        </th>
-
-        <th v-if="displayRevenue"
-            @click="sortBy('revenue')"
-        >
-          <span
-              v-if="sortColumn === 'revenue'"
-              :class="sortColumnClass"
-          />
-          {{ translate('General_ColumnRevenue') }}
-        </th>
-
-        <th @click="sortBy(evolutionSelector)">
-          <span
-              v-if="sortColumn === evolutionSelector"
-              :class="sortColumnClass"
-          />
-          {{ translate('MultiSites_Evolution') }}
-        </th>
-
-        <th class="sitesTableEvolutionSelector">
-          <select
-              class="browser-default"
-              :value="evolutionSelector"
-              @change="changeEvolutionSelector($event.target.value)"
+  <div class="sitesTableContainer">
+    <table class="card-table dataTable sitesTable">
+      <thead>
+        <tr>
+          <th
+              @click="sortBy('label')"
+              class="label"
           >
-            <option value="hits_evolution">
-              {{ translate('General_ColumnHits')}}
-            </option>
-            <option value="visits_evolution">
-              {{ translate('General_ColumnNbVisits') }}
-            </option>
-            <option value="pageviews_evolution">
-              {{ translate('General_ColumnPageviews') }}
-            </option>
-            <option
-                value="revenue_evolution"
-                v-if="displayRevenue"
+            {{ translate('General_Website') }}
+            <span
+                v-if="sortColumn === 'label'"
+                :class="sortColumnClass"
+            />
+          </th>
+
+          <th @click="sortBy('nb_visits')">
+            <span
+                v-if="sortColumn === 'nb_visits'"
+                :class="sortColumnClass"
+            />
+            {{ translate('General_ColumnNbVisits') }}
+          </th>
+
+          <th @click="sortBy('nb_pageviews')">
+            <span
+                v-if="sortColumn === 'nb_pageviews'"
+                :class="sortColumnClass"
+            />
+            {{ translate('General_ColumnPageviews') }}
+          </th>
+
+          <th @click="sortBy('nb_hits')">
+            <span
+                v-if="sortColumn === 'nb_hits'"
+                :class="sortColumnClass"
+            />
+            {{ translate('General_ColumnHits') }}
+          </th>
+
+          <th v-if="displayRevenue"
+              @click="sortBy('revenue')"
+          >
+            <span
+                v-if="sortColumn === 'revenue'"
+                :class="sortColumnClass"
+            />
+            {{ translate('General_ColumnRevenue') }}
+          </th>
+
+          <th @click="sortBy(evolutionSelector)">
+            <span
+                v-if="sortColumn === evolutionSelector"
+                :class="sortColumnClass"
+            />
+            {{ translate('MultiSites_Evolution') }}
+          </th>
+
+          <th class="sitesTableEvolutionSelector">
+            <select
+                class="browser-default"
+                :value="evolutionSelector"
+                @change="changeEvolutionSelector($event.target.value)"
             >
-              {{ translate('General_ColumnRevenue') }}
-            </option>
-          </select>
-        </th>
-      </tr>
-    </thead>
+              <option value="hits_evolution">
+                {{ translate('General_ColumnHits')}}
+              </option>
+              <option value="visits_evolution">
+                {{ translate('General_ColumnNbVisits') }}
+              </option>
+              <option value="pageviews_evolution">
+                {{ translate('General_ColumnPageviews') }}
+              </option>
+              <option
+                  value="revenue_evolution"
+                  v-if="displayRevenue"
+              >
+                {{ translate('General_ColumnRevenue') }}
+              </option>
+            </select>
+          </th>
+        </tr>
+      </thead>
 
-    <tbody v-if="isLoading">
-      <tr>
-        <td class="sitesTableLoading" colspan="7">
-          <MatomoLoader />
-        </td>
-      </tr>
-    </tbody>
-    <tbody v-else>
-      <SitesTableSite
-          v-for="site in sites"
-          :display-revenue="displayRevenue"
-          :evolution-metric="evolutionMetric"
-          :key="`site-${site.idsite}`"
-          :model-value="site"
-          :sparkline-date="sparklineDate"
-          :sparkline-metric="sparklineMetric"
-      />
-    </tbody>
+      <tbody v-if="isLoading">
+        <tr>
+          <td class="sitesTableLoading" colspan="7">
+            <MatomoLoader />
+          </td>
+        </tr>
+      </tbody>
+      <tbody v-else>
+        <SitesTableSite
+            v-for="site in sites"
+            :display-revenue="displayRevenue"
+            :evolution-metric="evolutionMetric"
+            :key="`site-${site.idsite}`"
+            :model-value="site"
+            :sparkline-date="sparklineDate"
+            :sparkline-metric="sparklineMetric"
+        />
+      </tbody>
+    </table>
+  </div>
 
-    <tfoot v-if="!isLoading || paginationUpperBound > 0">
-      <tr>
-        <td class="sitesTablePagination" colspan="7">
-          <span
-              class="dataTablePrevious"
-              @click="navigatePreviousPage()"
-              v-show="paginationCurrentPage !== 0"
-          >
-            &#xAB; {{ translate('General_Previous') }}
-          </span>
+  <div v-if="!isLoading || paginationUpperBound > 0"
+       class="sitesTablePagination">
+    <span
+        class="dataTablePrevious"
+        @click="navigatePreviousPage()"
+        v-show="paginationCurrentPage !== 0"
+    >
+      &#xAB; {{ translate('General_Previous') }}
+    </span>
 
-          <span class="dataTablePages">
-            {{ translate(
-              'General_Pagination',
-              paginationLowerBound,
-              paginationUpperBound,
-              numberOfFilteredSites,
-            ) }}
-          </span>
+    <span class="dataTablePages">
+      {{ translate(
+        'General_Pagination',
+        paginationLowerBound,
+        paginationUpperBound,
+        numberOfFilteredSites,
+      ) }}
+    </span>
 
-          <span
-              class="dataTableNext"
-              @click="navigateNextPage()"
-              v-show="paginationCurrentPage < paginationMaxPage"
-          >
-            {{ translate('General_Next') }} &#xBB;
-          </span>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+    <span
+        class="dataTableNext"
+        @click="navigateNextPage()"
+        v-show="paginationCurrentPage < paginationMaxPage"
+    >
+      {{ translate('General_Next') }} &#xBB;
+    </span>
+  </div>
 </template>
 
 <script lang="ts">
