@@ -7,7 +7,7 @@
 		<nb_events>16</nb_events>
 		<nb_events_with_value>2</nb_events_with_value>
 		<sum_event_value>19.32</sum_event_value>
-		<min_event_value>9.66</min_event_value>
+		<min_event_value>0</min_event_value>
 		<max_event_value>9.66</max_event_value>
 		<avg_event_value>9.66</avg_event_value>
 		<segment>eventName==Spirited+Away+%28%E5%8D%83%E3%81%A8%E5%8D%83%E5%B0%8B%E3%81%AE%E7%A5%9E%E9%9A%A0%E3%81%97%29</segment>
@@ -19,7 +19,7 @@
 				<nb_events>16</nb_events>
 				<nb_events_with_value>2</nb_events_with_value>
 				<sum_event_value>19.32</sum_event_value>
-				<min_event_value>9.66</min_event_value>
+				<min_event_value>0</min_event_value>
 				<max_event_value>9.66</max_event_value>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
@@ -32,7 +32,7 @@
 		<nb_events>14</nb_events>
 		<nb_events_with_value>4</nb_events_with_value>
 		<sum_event_value>38</sum_event_value>
-		<min_event_value>9</min_event_value>
+		<min_event_value>0</min_event_value>
 		<max_event_value>10</max_event_value>
 		<avg_event_value>9.5</avg_event_value>
 		<segment>eventName==La+fianc%C3%A9e+de+l%26%23039%3Beau</segment>
@@ -44,7 +44,7 @@
 				<nb_events>14</nb_events>
 				<nb_events_with_value>4</nb_events_with_value>
 				<sum_event_value>38</sum_event_value>
-				<min_event_value>9</min_event_value>
+				<min_event_value>0</min_event_value>
 				<max_event_value>10</max_event_value>
 				<avg_event_value>9.5</avg_event_value>
 			</row>

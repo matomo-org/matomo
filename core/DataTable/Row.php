@@ -521,18 +521,18 @@ class Row extends \ArrayObject
                 $newValue = null;
                 break;
             case 'max':
-                if (!$thisColumnValue) {
+                if (!is_numeric($thisColumnValue)) {
                     $newValue = $columnToSumValue;
-                } elseif (!$columnToSumValue) {
+                } elseif (!is_numeric($columnToSumValue)) {
                     $newValue = $thisColumnValue;
                 } else {
                     $newValue = max($thisColumnValue, $columnToSumValue);
                 }
                 break;
             case 'min':
-                if (!$thisColumnValue) {
+                if (!is_numeric($thisColumnValue)) {
                     $newValue = $columnToSumValue;
-                } elseif (!$columnToSumValue) {
+                } elseif (!is_numeric($columnToSumValue)) {
                     $newValue = $thisColumnValue;
                 } else {
                     $newValue = min($thisColumnValue, $columnToSumValue);
