@@ -117,7 +117,7 @@ jobs:
           submodules: true
           path: matomo
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@fix-scope-of-variable-for-ui-tests
         with:
           testomatio: ${{ secrets.TESTOMATIO }}
           ui-test-options: '--num-test-groups=4 --test-group=${{ matrix.parts }}'
