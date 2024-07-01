@@ -15,11 +15,19 @@
     <div class="kpiCardValue">{{ kpi.value }}</div>
 
     <div class="kpiCardEvolution">
-      <span :class="`kpiCardEvolutionTrend ${evolutionTrendClass}`">
-        <span :class="`kpiCardEvolutionIcon ${evolutionTrendIcon}`" />
-        {{ kpi.evolutionValue }}
-      </span>
-      {{ translate(evolutionTrendFrom) }}
+      <template v-if="kpi.evolutionValue !== ''">
+        <span :class="`kpiCardEvolutionTrend ${evolutionTrendClass}`">
+          <span :class="`kpiCardEvolutionIcon ${evolutionTrendIcon}`" />
+          {{ kpi.evolutionValue }}
+        </span>
+        {{ translate(evolutionTrendFrom) }}
+      </template>
+
+      <template v-else>
+        <div class="kpiCardEvolution">
+          <span class="kpiCardEvolutionTrend">&nbsp;</span>
+        </div>
+      </template>
     </div>
 
     <div v-if="kpi.badge"

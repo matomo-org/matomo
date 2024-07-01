@@ -89,15 +89,43 @@
         </tr>
       </thead>
 
-      <tbody v-if="isLoading">
-        <tr>
+      <tbody>
+        <tr v-if="isLoading">
           <td class="sitesTableLoading" colspan="7">
             <MatomoLoader />
           </td>
         </tr>
-      </tbody>
-      <tbody v-else>
+
+        <tr v-if="errorLoading">
+          <td colspan="7">
+            <div class="notification system notification-error">
+              {{ translate('General_ErrorRequest', '', '') }}
+              <br /><br />
+              {{ translate('General_NeedMoreHelp') }}
+              <a
+                  rel="noreferrer noopener"
+                  target="_blank"
+                  :href="externalRawLink('https://matomo.org/faq/troubleshooting/faq_19489/')"
+              >{{ translate('General_Faq') }}</a>
+              &#x2013;
+              <a
+                  rel="noreferrer noopener"
+                  target="_blank"
+                  :href="externalRawLink('https://forum.matomo.org/')"
+              >{{ translate('Feedback_CommunityHelp') }}</a>
+              <span v-show="errorShowProfessionalHelp"> &#x2013; </span>
+              <a
+                  rel="noreferrer noopener"
+                  target="_blank"
+                  :href="externalRawLink('https://matomo.org/support-plans/')"
+                  v-show="errorShowProfessionalHelp"
+              >{{ translate('Feedback_ProfessionalHelp') }}</a>.
+            </div>
+          </td>
+        </tr>
+
         <SitesTableSite
+            v-else
             v-for="site in sites"
             :display-revenue="displayRevenue"
             :evolution-metric="evolutionMetric"
@@ -141,7 +169,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { MatomoLoader } from 'CoreHome';
+import { Matomo, MatomoLoader } from 'CoreHome';
 
 import DashboardStore from './AllWebsitesDashboard.store';
 import SitesTableSite from './SitesTableSite.vue';
@@ -172,6 +200,12 @@ export default defineComponent({
     };
   },
   computed: {
+    errorLoading(): boolean {
+      return DashboardStore.state.value.errorLoading;
+    },
+    errorShowProfessionalHelp() {
+      return Matomo.config && Matomo.config.are_ads_enabled;
+    },
     evolutionMetric(): string {
       return this.evolutionSelector;
     },

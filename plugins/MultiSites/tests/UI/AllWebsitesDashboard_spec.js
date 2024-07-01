@@ -137,6 +137,28 @@ describe('AllWebsitesDashboard', function () {
         });
     });
 
+    describe('Loading Error', function () {
+        this.title = parentSuite.title; // to make sure the screenshot prefix is the same
+
+        before(function () {
+            testEnvironment.forceMultiSitesDashboardFailure = 1;
+            testEnvironment.save();
+        });
+
+        after(function () {
+            delete testEnvironment.forceMultiSitesDashboardFailure;
+
+            testEnvironment.save();
+        });
+
+        it('should display an error message', async function () {
+            await page.goto(dashboardUrl);
+            await page.waitForNetworkIdle();
+
+            expect(await page.screenshotSelector('#main')).to.matchImage('error');
+        });
+    });
+
     describe('Period Selector', function () {
         async function getPeriodSelectorTitle() {
             const periodSelector = await page.$('.periodSelector .title');

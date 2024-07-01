@@ -38,6 +38,7 @@ interface DashboardKPIData {
 interface DashboardStoreState {
   dashboardKPIs: DashboardKPIData;
   dashboardSites: DashboardSiteData[];
+  errorLoading: boolean;
   isLoadingKPIs: boolean;
   isLoadingSites: boolean;
   numSites: number;
@@ -69,22 +70,23 @@ class DashboardStore {
       evolutionPeriod: 'day',
       hits: '?',
       hitsBadge: '',
-      hitsEvolution: '?',
+      hitsEvolution: '',
       hitsTrend: 0,
       pageviews: '?',
       pageviewsBadge: '',
-      pageviewsEvolution: '?',
+      pageviewsEvolution: '',
       pageviewsTrend: 0,
       revenue: '?',
       revenueBadge: '',
-      revenueEvolution: '?',
+      revenueEvolution: '',
       revenueTrend: 0,
       visits: '?',
       visitsBadge: '',
-      visitsEvolution: '?',
+      visitsEvolution: '',
       visitsTrend: 0,
     },
     dashboardSites: [],
+    errorLoading: false,
     isLoadingKPIs: false,
     isLoadingSites: false,
     numSites: 0,
@@ -144,6 +146,7 @@ class DashboardStore {
     }
 
     this.fetchAbort = new AbortController();
+    this.privateState.errorLoading = false;
     this.privateState.isLoadingKPIs = !onlySites;
     this.privateState.isLoadingSites = true;
 
@@ -183,6 +186,9 @@ class DashboardStore {
       }
 
       this.updateDashboardSites(response);
+    }).catch(() => {
+      this.privateState.dashboardSites = [];
+      this.privateState.errorLoading = true;
     }).finally(() => {
       this.privateState.isLoadingKPIs = false;
       this.privateState.isLoadingSites = false;
