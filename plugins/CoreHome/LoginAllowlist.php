@@ -29,6 +29,16 @@ class LoginAllowlist
         return !empty($general['login_allowlist_apply_to_reporting_api_requests']) || !empty($general['login_whitelist_apply_to_reporting_api_requests']);
     }
 
+    public function shouldAllowlistApplyToAuthentication()
+    {
+        return !empty($this->getGeneralConfig()['login_allowlist_apply_to_authentication']);
+    }
+
+    public function shouldAllowlistApplyToLogin()
+    {
+        return !empty($this->getGeneralConfig()['login_allowlist_apply_to_login']);
+    }
+
     public function shouldCheckAllowlist()
     {
         if (Common::isPhpCliMode()) {

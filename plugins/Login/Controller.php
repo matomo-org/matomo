@@ -34,6 +34,7 @@ use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\View;
+use Piwik\Plugins\CoreHome\LoginAllowlist;
 
 /**
  * Login controller
@@ -145,20 +146,28 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function login($messageNoAccess = null, $infoMessage = false)
     {
         $form = new FormLogin();
-        if ($form->validate()) {
-            $nonce = $form->getSubmitValue('form_nonce');
-            $messageNoAccess = Nonce::verifyNonceWithErrorMessage('Login.login', $nonce, null);
 
-            // validate if there is error message
-            if ($messageNoAccess === "") {
-                $loginOrEmail = $form->getSubmitValue('form_login');
-                $login = $this->getLoginFromLoginOrEmail($loginOrEmail);
+        $list = new LoginAllowlist();
+        if ($list->shouldCheckAllowlist() && $list->shouldAllowlistApplyToLogin()) {
+            $ip = IP::getIpFromHeader();
+            try { $list->checkIsAllowed($ip); }
+            catch (\Exception $e) { $messageNoAccess = Config::getInstance()->general['login_disabled_message'] ?? ' '; }
+        } else {
+            if ($form->validate()) {
+                $nonce = $form->getSubmitValue('form_nonce');
+                $messageNoAccess = Nonce::verifyNonceWithErrorMessage('Login.login', $nonce, null);
 
-                $password = $form->getSubmitValue('form_password');
-                try {
-                    $this->authenticateAndRedirect($login, $password);
-                } catch (Exception $e) {
-                    $messageNoAccess = $e->getMessage();
+                // validate if there is error message
+                if ($messageNoAccess === "") {
+                    $loginOrEmail = $form->getSubmitValue('form_login');
+                    $login = $this->getLoginFromLoginOrEmail($loginOrEmail);
+
+                    $password = $form->getSubmitValue('form_password');
+                    try {
+                        $this->authenticateAndRedirect($login, $password);
+                    } catch (Exception $e) {
+                        $messageNoAccess = $e->getMessage();
+                    }
                 }
             }
         }

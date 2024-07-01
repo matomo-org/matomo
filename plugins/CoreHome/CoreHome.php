@@ -92,7 +92,7 @@ class CoreHome extends \Piwik\Plugin
         }
 
         $list = new LoginAllowlist();
-        if ($list->shouldCheckAllowlist()) {
+        if ($list->shouldCheckAllowlist() && $list->shouldAllowlistApplyToAuthentication()) {
             $ip = IP::getIpFromHeader();
             $list->checkIsAllowed($ip);
         }

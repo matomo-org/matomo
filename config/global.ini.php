@@ -519,6 +519,18 @@ login_password_recovery_replyto_email_name = "No-reply"
 ; Set this setting to "0" to allow HTTP Reporting API requests from any IP address.
 login_allowlist_apply_to_reporting_api_requests = 1
 
+; By default, if an allowlisted IP address is specified via "login_allowlist_ip[]", the authentication process
+; will only work for these allowlisted IPs.
+; Set the setting to "0" to allow authentication from any IP address.
+login_allowlist_apply_to_authentication = 1
+
+; By default, if an allowlisted IP address is specified via "login_allowlist_ip[]", the login process
+; will only work for these allowlisted IPs.
+; Set the setting to "0" to allow login from any IP address.
+login_allowlist_apply_to_login = 1
+; Additionally to setting it to "1" a customized message can be displayed on the login page to indicate it is not allowed.
+login_disabled_message = ""
+
 ; By default when user logs out they are redirected to Matomo "homepage" usually the Login form.
 ; Uncomment the next line to set a URL to redirect the user to after they log out of Matomo.
 ; login_logout_url = http://...
