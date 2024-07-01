@@ -12,6 +12,7 @@ namespace Piwik\Db\Schema;
 use Exception;
 use Piwik\Common;
 use Piwik\Concurrency\Lock;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db\SchemaInterface;
 use Piwik\Db;
@@ -688,6 +689,69 @@ class Mysql implements SchemaInterface
         return $options;
     }
 
+    public function optimizeTables(array $tables, bool $force = false): bool
+    {
+        $optimize = Config::getInstance()->General['enable_sql_optimize_queries'];
+
+        if (
+            empty($optimize)
+            && !$force
+        ) {
+            return false;
+        }
+
+        if (empty($tables)) {
+            return false;
+        }
+
+        if (
+            !$this->isOptimizeInnoDBSupported()
+            && !$force
+        ) {
+            // filter out all InnoDB tables
+            $myisamDbTables = array();
+            foreach ($this->getTableStatus() as $row) {
+                if (
+                    strtolower($row['Engine']) == 'myisam'
+                    && in_array($row['Name'], $tables)
+                ) {
+                    $myisamDbTables[] = $row['Name'];
+                }
+            }
+
+            $tables = $myisamDbTables;
+        }
+
+        if (empty($tables)) {
+            return false;
+        }
+
+        // optimize the tables
+        $success = true;
+        foreach ($tables as &$t) {
+            $ok = Db::query('OPTIMIZE TABLE ' . $t);
+            if (!$ok) {
+                $success = false;
+            }
+        }
+
+        return $success;
+    }
+
+    public function isOptimizeInnoDBSupported(): bool
+    {
+        $version = strtolower($this->getVersion());
+
+        // Note: This check for MariaDb is here on purpose, so it's working correctly for people
+        // having MySQL still configured, when using MariaDb
+        if (strpos($version, "mariadb") === false) {
+            return false;
+        }
+
+        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
+        return version_compare($semanticVersion, '10.1.1', '>=');
+    }
+
     protected function getDatabaseCreateOptions(): string
     {
         $charset = DbHelper::getDefaultCharset();
@@ -713,6 +777,16 @@ class Mysql implements SchemaInterface
     private function getTablePrefix()
     {
         return $this->getDbSettings()->getTablePrefix();
+    }
+
+    protected function getVersion(): string
+    {
+        return Db::fetchOne("SELECT VERSION()");
+    }
+
+    protected function getTableStatus()
+    {
+        return Db::fetchAll("SHOW TABLE STATUS");
     }
 
     private function getDb()

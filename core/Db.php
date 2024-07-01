@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Db\Adapter;
+use Piwik\Db\Schema;
 
 /**
  * Contains SQL related helper functions for Piwik's MySQL database.
@@ -466,63 +467,13 @@ class Db
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @param bool $force If true, the `OPTIMIZE TABLE` query will be run even if InnoDB tables are being used.
      * @return bool
+     * @deprecated  will be removed in Matomo 6
+     *              use Schema::getInstance()->optimizeTables() instead
      */
     public static function optimizeTables($tables, $force = false)
     {
-        $optimize = Config::getInstance()->General['enable_sql_optimize_queries'];
-
-        if (
-            empty($optimize)
-            && !$force
-        ) {
-            return false;
-        }
-
-        if (empty($tables)) {
-            return false;
-        }
-
-        if (!is_array($tables)) {
-            $tables = array($tables);
-        }
-
-        if (
-            !self::isOptimizeInnoDBSupported()
-            && !$force
-        ) {
-            // filter out all InnoDB tables
-            $myisamDbTables = array();
-            foreach (self::getTableStatus() as $row) {
-                if (
-                    strtolower($row['Engine']) == 'myisam'
-                    && in_array($row['Name'], $tables)
-                ) {
-                    $myisamDbTables[] = $row['Name'];
-                }
-            }
-
-            $tables = $myisamDbTables;
-        }
-
-        if (empty($tables)) {
-            return false;
-        }
-
-        // optimize the tables
-        $success = true;
-        foreach ($tables as &$t) {
-            $ok = self::query('OPTIMIZE TABLE ' . $t);
-            if (!$ok) {
-                $success = false;
-            }
-        }
-
-        return $success;
-    }
-
-    private static function getTableStatus()
-    {
-        return Db::fetchAll("SHOW TABLE STATUS");
+        $tables = !is_array($tables) ? [$tables] : $tables;
+        return Schema::getInstance()->optimizeTables($tables, (bool) $force);
     }
 
     /**
@@ -912,19 +863,12 @@ class Db
         return self::$logQueries;
     }
 
+    /**
+     * @deprecated will be removed with Matomo 6
+     *             use Schema::getInstance()->isOptimizeInnoDBSupported() instead
+     */
     public static function isOptimizeInnoDBSupported($version = null)
     {
-        if ($version === null) {
-            $version = Db::fetchOne("SELECT VERSION()");
-        }
-
-        $version = strtolower($version);
-
-        if (strpos($version, "mariadb") === false) {
-            return false;
-        }
-
-        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
-        return version_compare($semanticVersion, '10.1.1', '>=');
+        return Db\Schema::getInstance()->isOptimizeInnoDBSupported();
     }
 }
