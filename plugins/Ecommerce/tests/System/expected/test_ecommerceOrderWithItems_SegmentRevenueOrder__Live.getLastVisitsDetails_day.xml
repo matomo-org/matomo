@@ -87,6 +87,9 @@
 				<items>8</items>
 				
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
@@ -129,6 +132,9 @@
 				<items>2</items>
 				
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 					<row>
 						<itemSKU>SKU2</itemSKU>
@@ -231,6 +237,9 @@
 				<items>4</items>
 				
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
