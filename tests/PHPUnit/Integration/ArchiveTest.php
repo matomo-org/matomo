@@ -240,6 +240,55 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals($expected, $archives);
     }
 
+    public function testInvalidatingYesterdayWorksAsExpectedWhenVisitTrackedInPast()
+    {
+        Fixture::createWebsite('2014-12-12 00:01:02');
+
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'browser_archiving_disabled_enforce', 0);
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_range_force_on_browser_request', 1);
+        self::$fixture->getTestEnvironment()->save();
+
+        Config::getInstance()->General['browser_archiving_disabled_enforce'] = 0;
+        Config::getInstance()->General['archiving_range_force_on_browser_request'] = 1;
+
+        Rules::setBrowserTriggerArchiving(false);
+
+        // Set current time to time of tracked visit, so no automatic invalidation for tracking a date in the past is created
+        Date::$now = strtotime('2020-05-05 12:00:00');
+
+        $tracker = Fixture::getTracker(1, '2020-05-05 12:00:00');
+        $tracker->setUserId('user1');
+        $tracker->doTrackPageView('test');
+
+        // Set current time to next day, so archiving for yesterday will be triggered resulting in an archive considered valid
+        Date::$now = strtotime('2020-05-06 01:00:00');
+
+        $archiver = new CronArchive();
+        $archiver->init();
+        $archiver->run();
+
+        // update ts_archived of archives as archiving doesn't take up Date::$now as it's running in separate requests
+        Db::query("UPDATE " . Common::prefixTable('archive_numeric_2020_05') . " SET ts_archived = ?", [Date::now()->getDatetime()]);
+
+        $dataTable = \Piwik\Plugins\VisitsSummary\API::getInstance()->get(1, 'day', 'yesterday');
+        self::assertEquals(1, $dataTable->getFirstRow()->getColumn('nb_visits'));
+
+        // Track a new visits for yesterday, which should result in an invalidation record for that day
+        $tracker = Fixture::getTracker(1, '2020-05-05 17:51:05');
+        $tracker->setUserId('user2');
+        $tracker->doTrackPageView('test');
+
+        // Trigger archiving again later on that day and validate that archives were built again
+        Date::$now = strtotime('2020-05-06 16:11:55');
+
+        $archiver = new CronArchive();
+        $archiver->init();
+        $archiver->run();
+
+        $dataTable = \Piwik\Plugins\VisitsSummary\API::getInstance()->get(1, 'day', 'yesterday');
+        self::assertEquals(2, $dataTable->getFirstRow()->getColumn('nb_visits'));
+    }
+
     public function testShouldNotArchivePeriodsStartingInTheFuture()
     {
         $idSite = 1;

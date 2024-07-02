@@ -79,7 +79,7 @@
         "UpdateAutomatically": "Aktualisierung automatisch ausführen",
         "UpdateErrorTitle": "Aktualisierungsfehler",
         "UpdateHasBeenCancelledExplanation": "Die Matomo Ein-Klick-Aktualisierung wurde abgebrochen. Wenn die oben stehende Fehlermeldung nicht behoben werden kann, sollten Sie Matomo manuell aktualisieren. %1$s Bitte lesen Sie die %2$sDokumentation zur Aktualisierung%3$s, um die Einzelheiten zu erfahren!",
-        "UpdateLog": "Log aktualisieren",
+        "UpdateLog": "Aktualisierungsprotokoll",
         "UpdateSuccessTitle": "Matomo wurde erfolgreich aktualisiert!",
         "UpdateTitle": "Aktualisieren",
         "UpdateUsingHttpsFailed": "Das Herunterladen der neuesten Matomo Version über eine sichere HTTPS-Verbindung war aufgrund des folgenden Fehlers nicht erfolgreich:",

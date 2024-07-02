@@ -526,6 +526,10 @@ PageRenderer.prototype.getWholeCurrentUrl = function () {
     return this.webpage.evaluate(() => window.location.href);
 };
 
+PageRenderer.prototype.allowClipboard = function () {
+    this.browserContext.overridePermissions(this.getWholeCurrentUrl(), ['clipboard-read', 'clipboard-write']);
+};
+
 
 
 exports.PageRenderer = PageRenderer;
