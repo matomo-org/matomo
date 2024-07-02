@@ -152,25 +152,26 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $ip = IP::getIpFromHeader();
             try {
                 $list->checkIsAllowed($ip);
-            } catch (\Exception $e) {
+            }
+            catch (\Exception $e) {
                 $messageNoAccess = Config::getInstance()->General['login_disabled_message'] ?? ' ';
             }
-        } else {
-            if ($form->validate()) {
-                $nonce = $form->getSubmitValue('form_nonce');
-                $messageNoAccess = Nonce::verifyNonceWithErrorMessage('Login.login', $nonce, null);
+        }
 
-                // validate if there is error message
-                if ($messageNoAccess === "") {
-                    $loginOrEmail = $form->getSubmitValue('form_login');
-                    $login = $this->getLoginFromLoginOrEmail($loginOrEmail);
+        if (empty($messageNoAccess) && $form->validate()) {
+            $nonce = $form->getSubmitValue('form_nonce');
+            $messageNoAccess = Nonce::verifyNonceWithErrorMessage('Login.login', $nonce, null);
 
-                    $password = $form->getSubmitValue('form_password');
-                    try {
-                        $this->authenticateAndRedirect($login, $password);
-                    } catch (Exception $e) {
-                        $messageNoAccess = $e->getMessage();
-                    }
+            // validate if there is error message
+            if ($messageNoAccess === "") {
+                $loginOrEmail = $form->getSubmitValue('form_login');
+                $login = $this->getLoginFromLoginOrEmail($loginOrEmail);
+
+                $password = $form->getSubmitValue('form_password');
+                try {
+                    $this->authenticateAndRedirect($login, $password);
+                } catch (Exception $e) {
+                    $messageNoAccess = $e->getMessage();
                 }
             }
         }
