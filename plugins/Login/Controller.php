@@ -153,7 +153,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             try {
                 $list->checkIsAllowed($ip);
             } catch (\Exception $e) {
-                $messageNoAccess = Config::getInstance()->general['login_disabled_message'] ?? ' ';
+                $messageNoAccess = Config::getInstance()->General['login_disabled_message'] ?? ' ';
             }
         } else {
             if ($form->validate()) {
