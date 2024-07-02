@@ -150,8 +150,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $list = new LoginAllowlist();
         if ($list->shouldCheckAllowlist() && $list->shouldAllowlistApplyToLogin()) {
             $ip = IP::getIpFromHeader();
-            try { $list->checkIsAllowed($ip); }
-            catch (\Exception $e) { $messageNoAccess = Config::getInstance()->general['login_disabled_message'] ?? ' '; }
+            try {
+                $list->checkIsAllowed($ip);
+            } catch (\Exception $e) {
+                $messageNoAccess = Config::getInstance()->general['login_disabled_message'] ?? ' ';
+            }
         } else {
             if ($form->validate()) {
                 $nonce = $form->getSubmitValue('form_nonce');
