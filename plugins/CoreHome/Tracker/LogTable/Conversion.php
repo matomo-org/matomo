@@ -47,6 +47,6 @@ class Conversion extends LogTable
 
     public function getParentTable(): ?string
     {
-        return LinkVisitAction::class;
+        return 'log_link_visit_action';
     }
 }

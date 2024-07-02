@@ -21,9 +21,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\CoreHome\Tracker\LogTable\Conversion;
-use Piwik\Plugins\CoreHome\Tracker\LogTable\LinkVisitAction;
-use Piwik\Plugins\CoreHome\Tracker\LogTable\Visit;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
@@ -610,7 +607,7 @@ class Report
         foreach ($aggregationTypes as $metricName => $aggregationType) {
             $metricScope = $metricScopes[$metricName];
             if (empty($metricScope)
-                || !$this->isScopeSameOrSupersetOf($metricScope, $reportScope)
+                || !$this->isScopeSameOrSubsetOf($metricScope, $reportScope)
             ) {
                 unset($aggregationTypes[$metricName]);
             }
@@ -1305,32 +1302,32 @@ class Report
         }
 
         if ($dimension instanceof ConversionDimension) {
-            return Conversion::class;
+            return 'log_conversion';
         } else if ($dimension instanceof ActionDimension) {
-            return LinkVisitAction::class;
+            return 'log_link_visit_action';
         } else if ($dimension instanceof VisitDimension) {
-            return Visit::class;
+            return 'log_visit';
         }
 
         return null;
     }
 
-    private function isScopeSameOrSupersetOf(?string $scope, string $supersetScope): bool
+    private function isScopeSameOrSubsetOf(?string $scope, string $supersetScope): bool
     {
+        $logTableProvider = StaticContainer::get(LogTablesProvider::class);
+
+        $supersetScopeTable = $logTableProvider->getLogTable($supersetScope);
+        if (empty($supersetScopeTable)) {
+            return false;
+        }
+
         while ($scope) {
             if ($scope === $supersetScope) {
                 return true;
             }
 
-            $logTableProvider = StaticContainer::get(LogTablesProvider::class);
-
             $scopeTable = $logTableProvider->getLogTable($scope);
             if (empty($scopeTable)) {
-                return false;
-            }
-
-            $supersetScopeTable = $logTableProvider->getLogTable($supersetScope);
-            if (empty($supersetScopeTable)) {
                 return false;
             }
 

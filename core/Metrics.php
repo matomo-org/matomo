@@ -11,13 +11,7 @@ namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
-use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugin\Dimension\ConversionDimension;
-use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Metric;
-use Piwik\Plugins\CoreHome\Tracker\LogTable\Conversion;
-use Piwik\Plugins\CoreHome\Tracker\LogTable\LinkVisitAction;
-use Piwik\Plugins\CoreHome\Tracker\LogTable\Visit;
 use Piwik\Tracker\GoalManager;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
@@ -415,29 +409,29 @@ class Metrics
         $scopes = $cache->fetch($cacheId);
         if (empty($scopes)) {
             $scopes = [
-                'nb_visits'                     => Visit::class,
-                'nb_uniq_visitors'              => Visit::class,
-                'nb_actions'                    => LinkVisitAction::class,
-                'nb_users'                      => Visit::class,
-                'sum_time_spent'                => LinkVisitAction::class,
-                'sum_visit_length'              => Visit::class,
-                'bounce_count'                  => Visit::class,
-                'bounce_count_returning'        => Visit::class,
-                'max_actions'                   => Visit::class,
-                'max_actions_returning'         => Visit::class,
-                'nb_visits_converted_returning' => Visit::class,
-                'sum_visit_length_returning'    => Visit::class,
-                'nb_visits_converted'           => Visit::class,
-                'nb_conversions'                => Conversion::class,
-                'revenue'                       => Conversion::class,
-                'nb_hits'                       => LinkVisitAction::class,
-                'entry_nb_visits'               => LinkVisitAction::class,
-                'entry_nb_uniq_visitors'        => LinkVisitAction::class,
-                'exit_nb_visits'                => LinkVisitAction::class,
-                'exit_nb_uniq_visitors'         => LinkVisitAction::class,
-                'entry_bounce_count'            => LinkVisitAction::class,
-                'entry_nb_actions'              => LinkVisitAction::class,
-                'entry_sum_visit_length'        => LinkVisitAction::class,
+                'nb_visits'                     => 'log_visit',
+                'nb_uniq_visitors'              => 'log_visit',
+                'nb_actions'                    => 'log_link_visit_action',
+                'nb_users'                      => 'log_visit',
+                'sum_time_spent'                => 'log_link_visit_action',
+                'sum_visit_length'              => 'log_visit',
+                'bounce_count'                  => 'log_visit',
+                'bounce_count_returning'        => 'log_visit',
+                'max_actions'                   => 'log_visit',
+                'max_actions_returning'         => 'log_visit',
+                'nb_visits_converted_returning' => 'log_visit',
+                'sum_visit_length_returning'    => 'log_visit',
+                'nb_visits_converted'           => 'log_visit',
+                'nb_conversions'                => 'log_conversion',
+                'revenue'                       => 'log_conversion',
+                'nb_hits'                       => 'log_link_visit_action',
+                'entry_nb_visits'               => 'log_link_visit_action',
+                'entry_nb_uniq_visitors'        => 'log_link_visit_action',
+                'exit_nb_visits'                => 'log_link_visit_action',
+                'exit_nb_uniq_visitors'         => 'log_link_visit_action',
+                'entry_bounce_count'            => 'log_link_visit_action',
+                'entry_nb_actions'              => 'log_link_visit_action',
+                'entry_sum_visit_length'        => 'log_link_visit_action',
             ];
 
             /**

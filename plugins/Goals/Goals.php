@@ -408,7 +408,6 @@ class Goals extends \Piwik\Plugin
 
                 $apiReportToUpdate['processedMetrics'][$name] = $metric->getTranslatedName();
                 $apiReportToUpdate['metricTypes'][$name] = $metric->getSemanticType() ?: 'unspecified';
-                $apiReportToUpdate['metricAggregationTypes'][$name] = $metric->getAggregationType();
                 $apiReportToUpdate['processedMetricFormulas'][$name] = $metric->getFormula();
                 $apiReportToUpdate['temporaryMetricSemanticTypes'] = array_merge(
                     $apiReportToUpdate['temporaryMetricSemanticTypes'] ?: [],
@@ -434,7 +433,6 @@ class Goals extends \Piwik\Plugin
 
                 $apiReportToUpdate['processedMetricsGoal'][$name] = $metric->getTranslatedName();
                 $apiReportToUpdate['metricTypesGoal'][$name] = $metric->getSemanticType() ?: 'unspecified';
-                $apiReportToUpdate['metricAggregationTypesGoal'][$name] = $metric->getAggregationType();
                 $apiReportToUpdate['processedMetricFormulasGoal'][$name] = $formula;
                 $apiReportToUpdate['temporaryMetricSemanticTypesGoal'] = array_merge(
                     $apiReportToUpdate['temporaryMetricSemanticTypesGoal'] ?? [],

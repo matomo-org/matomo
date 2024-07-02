@@ -45,6 +45,6 @@ class LinkVisitAction extends LogTable
 
     public function getParentTable(): ?string
     {
-        return Visit::class;
+        return 'log_visit';
     }
 }

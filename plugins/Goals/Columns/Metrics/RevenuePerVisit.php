@@ -99,10 +99,10 @@ class RevenuePerVisit extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        $revenueSum = [];
         if (empty($this->allIdGoals)) {
-            $revenueSum[] = '$revenue';
+            $revenueSum = '$revenue';
         } else {
+            $revenueSum = [];
             foreach ($this->allIdGoals as $idGoal) {
                 if ($this->shouldIgnoreIdGoal($idGoal)) {
                     continue;
@@ -110,12 +110,13 @@ class RevenuePerVisit extends ProcessedMetric
 
                 $revenueSum[] = '$goals["idgoal=' . $idGoal . '"].revenue';
             }
+
+            $revenueSum = '(' . implode(' + ', $revenueSum) . ')';
         }
-        $revenueSum = '(' . implode(' + ', $revenueSum) . ')';
 
         $divisor = '($nb_visits ? $nb_visits : $nb_conversions)';
 
-        return $revenueSum . '/' . $divisor;
+        return $revenueSum . ' / ' . $divisor;
     }
 
     private function shouldIgnoreIdGoal(int $goalId): bool

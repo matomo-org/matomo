@@ -35,6 +35,6 @@ class ConversionItem extends LogTable
 
     public function getParentTable(): ?string
     {
-        return Conversion::class;
+        return 'log_conversion';
     }
 }
