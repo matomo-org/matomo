@@ -10,6 +10,8 @@
 namespace Piwik\Plugins\Events;
 
 use Piwik\Archive;
+use Piwik\DataTable;
+use Piwik\Metrics;
 use Piwik\Piwik;
 
 /**
@@ -153,6 +155,13 @@ class API extends \Piwik\Plugin\API
         $recordName = $this->getRecordNameForAction($name, $secondaryDimension);
 
         $dataTable = Archive::createDataTableFromArchive($recordName, $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
+
+        $dataTable->filter(function ($dataTable) {
+            $dataTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, [
+                Metrics::INDEX_EVENT_MIN_EVENT_VALUE => 'min',
+                Metrics::INDEX_EVENT_MAX_EVENT_VALUE => 'max',
+            ]);
+        });
 
         if ($flat) {
             $dataTable->filterSubtables('Piwik\Plugins\Events\DataTable\Filter\ReplaceEventNameNotSet');

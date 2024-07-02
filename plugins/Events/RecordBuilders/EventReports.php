@@ -51,7 +51,8 @@ class EventReports extends RecordBuilder
 
         foreach ($records as $record) {
             $record->setMaxRowsInTable($maximumRowsInDataTable)
-                ->setMaxRowsInSubtable($maximumRowsInSubDataTable);
+                ->setMaxRowsInSubtable($maximumRowsInSubDataTable)
+                ->setBlobColumnAggregationOps($this->columnAggregationOps);
         }
 
         return $records;
