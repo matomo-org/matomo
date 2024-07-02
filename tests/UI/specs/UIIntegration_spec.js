@@ -550,7 +550,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await page.screenshotSelector('.pageWrap,.dataTable')).to.matchImage('ecommerce_overview');
         });
 
-        it.only('should load the ecommerce log page', async function () {
+        it('should load the ecommerce log page', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog");
 
             await page.hover('.dataTableVizVisitorLog .row:nth-child(2) .actionList li.action');

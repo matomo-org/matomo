@@ -40,7 +40,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function renderActionTooltip($action, $visitInfo)
     {
-        if ($action['type'] !== 'goal' && $action['type'] !== 'ecommerceOrder') {
+        if (($action['type'] !== 'goal' && $action['type'] !== 'ecommerceOrder') || empty($action['referrerType'])) {
             return [];
         }
 
