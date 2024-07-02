@@ -295,23 +295,6 @@ class ArchiveInvalidator
 
         $invalidationInfo = new InvalidationResult();
 
-        // quick fix for #15086, if we're only invalidating today's date for a site, don't add the site to the list of sites
-        // to reprocess.
-        $hasMoreThanJustToday = [];
-        foreach ($idSites as $idSite) {
-            $hasMoreThanJustToday[$idSite] = true;
-            $tz = Site::getTimezoneFor($idSite);
-
-            if (
-                ($period == 'day' || $period === false)
-                && count($dates) == 1
-                && ((string)$dates[0]) == ((string)Date::factoryInTimezone('today', $tz))
-            ) {
-                // date is for today
-                $hasMoreThanJustToday[$idSite] = false;
-            }
-        }
-
         /**
          * Triggered when a Matomo user requested the invalidation of some reporting archives. Using this event, plugin
          * developers can automatically invalidate another site, when a site is being invalidated. A plugin may even

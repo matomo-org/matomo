@@ -36,6 +36,8 @@
         "InstallPurchasedPlugins": "Installera köpta plugins",
         "InstallThesePlugins": "Detta kommer att installera och aktivera följande plugins:",
         "InstallingPlugin": "Installera %s",
+        "Intro": "Utöka Matomos funktionalitet med tilläggsprogram och förändra dess utseende med teman. Du kan ansöka om prövoperiod för premiumtillägg eller be din administratör installera tillägg eller teman åt dig.",
+        "IntroSuperUser": "Utöka Matomos funktionalitet med tilläggsprogram och förändra dess utseende med teman. Påbörja prövoperiod för premiumtillägg eller installera gratistillägg eller teman på egen hand.",
         "LastCommitTime": "(senaste överföringen %s)",
         "LastUpdated": "Senast uppdaterad",
         "LatestMarketplaceUpdates": "Senaste Marketplace uppdateringarna",
