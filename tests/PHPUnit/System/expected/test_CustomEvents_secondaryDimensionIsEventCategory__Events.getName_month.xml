@@ -6,7 +6,7 @@
 		<nb_events>24</nb_events>
 		<nb_events_with_value>3</nb_events_with_value>
 		<sum_event_value>28.98</sum_event_value>
-		<min_event_value>0</min_event_value>
+		<min_event_value>9.66</min_event_value>
 		<max_event_value>9.66</max_event_value>
 		<sum_daily_nb_uniq_visitors>24</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.66</avg_event_value>
@@ -18,7 +18,7 @@
 				<nb_events>24</nb_events>
 				<nb_events_with_value>3</nb_events_with_value>
 				<sum_event_value>28.98</sum_event_value>
-				<min_event_value>0</min_event_value>
+				<min_event_value>9.66</min_event_value>
 				<max_event_value>9.66</max_event_value>
 				<sum_daily_nb_uniq_visitors>24</sum_daily_nb_uniq_visitors>
 				<avg_event_value>9.66</avg_event_value>
@@ -31,7 +31,7 @@
 		<nb_events>21</nb_events>
 		<nb_events_with_value>6</nb_events_with_value>
 		<sum_event_value>57</sum_event_value>
-		<min_event_value>0</min_event_value>
+		<min_event_value>9</min_event_value>
 		<max_event_value>10</max_event_value>
 		<sum_daily_nb_uniq_visitors>18</sum_daily_nb_uniq_visitors>
 		<avg_event_value>9.5</avg_event_value>
@@ -43,7 +43,7 @@
 				<nb_events>21</nb_events>
 				<nb_events_with_value>6</nb_events_with_value>
 				<sum_event_value>57</sum_event_value>
-				<min_event_value>0</min_event_value>
+				<min_event_value>9</min_event_value>
 				<max_event_value>10</max_event_value>
 				<sum_daily_nb_uniq_visitors>18</sum_daily_nb_uniq_visitors>
 				<avg_event_value>9.5</avg_event_value>
@@ -67,8 +67,8 @@
 				<nb_events>9</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 				<avg_event_value>0</avg_event_value>
 			</row>
@@ -116,8 +116,8 @@
 		<nb_events>3</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<avg_event_value>0</avg_event_value>
 		<segment>eventName==Ponyo+%28%E5%B4%96%E3%81%AE%E4%B8%8A%E3%81%AE%E3%83%9D%E3%83%8B%E3%83%A7%29</segment>
@@ -128,8 +128,8 @@
 				<nb_events>3</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 				<avg_event_value>0</avg_event_value>
 			</row>
@@ -141,8 +141,8 @@
 		<nb_events>3</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<avg_event_value>0</avg_event_value>
 		<segment>eventName==Princess+Mononoke+%28%E3%82%82%E3%81%AE%E3%81%AE%E3%81%91%E5%A7%AB%29</segment>
@@ -153,8 +153,8 @@
 				<nb_events>3</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 				<avg_event_value>0</avg_event_value>
 			</row>
@@ -166,8 +166,8 @@
 		<nb_events>3</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<avg_event_value>0</avg_event_value>
 		<segment>eventName==Search+query+here</segment>
@@ -178,8 +178,8 @@
 				<nb_events>3</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 				<avg_event_value>0</avg_event_value>
 			</row>

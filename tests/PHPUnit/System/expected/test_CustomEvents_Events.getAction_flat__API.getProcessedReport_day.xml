@@ -587,7 +587,7 @@
 		<nb_events>69</nb_events>
 		<nb_events_with_value>14</nb_events_with_value>
 		<sum_event_value>137.96</sum_event_value>
-		<min_event_value>18.66</min_event_value>
-		<max_event_value>42.66</max_event_value>
+		<min_event_value>0</min_event_value>
+		<max_event_value>23</max_event_value>
 	</reportTotal>
 </result>
