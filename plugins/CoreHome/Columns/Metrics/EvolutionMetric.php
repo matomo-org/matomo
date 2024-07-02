@@ -75,6 +75,21 @@ class EvolutionMetric extends ProcessedMetric
     private $labelPath = [];
 
     /**
+     * @var string|null
+     */
+    private $wrappedMetricTranslatedName;
+
+    /**
+     * @var string|null
+     */
+    private $wrappedSemanticType;
+
+    /**
+     * @var string|null
+     */
+    private $wrappedMetricAggregationType;
+
+    /**
      * Constructor.
      *
      * @param string|Metric $wrapped The metric used to calculate the evolution.
@@ -84,18 +99,25 @@ class EvolutionMetric extends ProcessedMetric
      * @param int $quotientPrecision The percent's quotient precision.
      * @param DataTable|null $currentData The current datatable, optional but required to calculate the proportionate
      *                                    evolution values
+     * TODO: add extra params
      */
     public function __construct(
         $wrapped,
         ?DataTable $pastData = null,
         $evolutionMetricName = false,
         $quotientPrecision = 0,
-        ?DataTable $currentData = null
+        ?DataTable $currentData = null,
+        ?string $wrappedMetricTranslatedName = null,
+        ?string $wrappedSemanticType = null,
+        ?string $wrappedMetricAggregationType = null
     ) {
         $this->wrapped = $wrapped;
         $this->isLowerBetter = Metrics::isLowerValueBetter($this->wrapped);
         $this->pastData = $pastData;
         $this->currentData = $currentData;
+        $this->wrappedMetricTranslatedName = $wrappedMetricTranslatedName;
+        $this->wrappedSemanticType = $wrappedSemanticType;
+        $this->wrappedMetricAggregationType = $wrappedMetricAggregationType;
 
         if (empty($evolutionMetricName)) {
             $wrappedName = $this->getWrappedName();
@@ -119,13 +141,15 @@ class EvolutionMetric extends ProcessedMetric
 
     public function getTranslatedName()
     {
-        if ($this->wrapped instanceof Metric) {
+        if (isset($this->wrappedMetricTranslatedName)) {
+            $metricName = Piwik::translate($this->wrappedMetricTranslatedName);
+        } else if ($this->wrapped instanceof Metric) {
             $metricName = $this->wrapped->getTranslatedName();
         } else {
             $defaultMetricTranslations = Metrics::getDefaultMetricTranslations();
-            $metricName = isset($defaultMetricTranslations[$this->wrapped]) ? $defaultMetricTranslations[$this->wrapped] : $this->wrapped;
+            $metricName = $defaultMetricTranslations[$this->wrapped] ?? $this->wrapped;
         }
-        return Piwik::translate('CoreHome_EvolutionMetricName', [$metricName]);
+        return Piwik::translate('API_EvolutionMetricName', [$metricName]);
     }
 
     public function beforeCompute($report, DataTable $table)
@@ -174,7 +198,9 @@ class EvolutionMetric extends ProcessedMetric
     {
         $columnName = $this->getWrappedName();
 
-        if ($this->wrapped instanceof Metric) {
+        if (!empty($this->wrappedMetricAggregationType)) {
+            $aggregationType = $this->wrappedMetricAggregationType;
+        } else if ($this->wrapped instanceof Metric) {
             $aggregationType = $this->wrapped->getAggregationType();
         } else {
             $allAggregationTypes = Metrics::getDefaultMetricAggregationTypes();
@@ -188,7 +214,9 @@ class EvolutionMetric extends ProcessedMetric
     {
         $columnName = $this->getWrappedName();
 
-        if ($this->wrapped instanceof Metric) {
+        if (!empty($this->wrappedSemanticType)) {
+            $semanticType = $this->wrappedSemanticType;
+        } else if ($this->wrapped instanceof Metric) {
             $semanticType = $this->wrapped->getSemanticType();
         } else {
             $allSemanticTypes = Metrics::getDefaultMetricSemanticTypes();
@@ -332,9 +360,9 @@ class EvolutionMetric extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        $columnName = '$' . $this->getWrappedName();
+        $columnName = $this->getWrappedName();
         $pastColumnName = '$past_' . $columnName;
 
-        return "$pastColumnName == 0 ? 1 : (($columnName - $pastColumnName) / $pastColumnName)";
+        return sprintf("%s == 0 ? 1 : ((%s - %s) / %s)", $pastColumnName, '$' . $columnName, $pastColumnName, $pastColumnName);
     }
 }

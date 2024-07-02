@@ -427,6 +427,7 @@ class Goals extends \Piwik\Plugin
 
             foreach ($goalProcessedMetrics as $metric) {
                 $name = $metric->getName();
+                $name = preg_replace('/^goal_\d+_/', '', $name);
 
                 $formula = $metric->getFormula();
                 $formula = str_replace('[idgoal="' . $idGoalPlaceholder . '"]', '{idGoal}', $formula);

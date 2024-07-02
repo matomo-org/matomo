@@ -12,6 +12,7 @@ namespace Piwik\Plugins\MultiSites;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Archive;
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
@@ -19,6 +20,7 @@ use Piwik\DataTable\Row;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugin\Metric;
 use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\MultiSites\Columns\Metrics\EcommerceOnlyEvolutionMetric;
@@ -38,6 +40,8 @@ class API extends \Piwik\Plugin\API
     public const METRIC_RECORD_NAME_KEY = 'record_name';
     public const METRIC_COL_NAME_KEY = 'metric_column_name';
     public const METRIC_IS_ECOMMERCE_KEY = 'is_ecommerce';
+    public const METRIC_WRAPPED_SEMANTIC_TYPE_KEY = 'wrapped_semantic_type';
+    public const METRIC_WRAPPED_AGGREGATION_TYPE_KEY = 'wrapped_aggregation_type';
 
     public const NB_VISITS_METRIC = 'nb_visits';
     public const NB_ACTIONS_METRIC = 'nb_actions';
@@ -50,19 +54,23 @@ class API extends \Piwik\Plugin\API
 
     private static $baseMetrics = array(
         self::NB_VISITS_METRIC   => array(
-            self::METRIC_TRANSLATION_KEY        => 'General_ColumnNbVisits',
-            self::METRIC_EVOLUTION_COL_NAME_KEY => 'visits_evolution',
-            self::METRIC_RECORD_NAME_KEY        => self::NB_VISITS_METRIC,
-            self::METRIC_COL_NAME_KEY           => self::NB_VISITS_METRIC,
-            self::METRIC_IS_ECOMMERCE_KEY       => false,
+            self::METRIC_TRANSLATION_KEY              => 'General_ColumnNbVisits',
+            self::METRIC_EVOLUTION_COL_NAME_KEY       => 'visits_evolution',
+            self::METRIC_RECORD_NAME_KEY              => self::NB_VISITS_METRIC,
+            self::METRIC_COL_NAME_KEY                 => self::NB_VISITS_METRIC,
+            self::METRIC_IS_ECOMMERCE_KEY             => false,
+            self::METRIC_WRAPPED_SEMANTIC_TYPE_KEY    => Dimension::TYPE_NUMBER,
+            self::METRIC_WRAPPED_AGGREGATION_TYPE_KEY => Metric::AGGREGATION_TYPE_SUM,
         ),
         self::NB_ACTIONS_METRIC  => array(
-            self::METRIC_TRANSLATION_KEY        => 'General_ColumnNbActions',
-            self::METRIC_EVOLUTION_COL_NAME_KEY => 'actions_evolution',
-            self::METRIC_RECORD_NAME_KEY        => self::NB_ACTIONS_METRIC,
-            self::METRIC_COL_NAME_KEY           => self::NB_ACTIONS_METRIC,
-            self::METRIC_IS_ECOMMERCE_KEY       => false,
-        )
+            self::METRIC_TRANSLATION_KEY           => 'General_ColumnNbActions',
+            self::METRIC_EVOLUTION_COL_NAME_KEY    => 'actions_evolution',
+            self::METRIC_RECORD_NAME_KEY           => self::NB_ACTIONS_METRIC,
+            self::METRIC_COL_NAME_KEY              => self::NB_ACTIONS_METRIC,
+            self::METRIC_IS_ECOMMERCE_KEY          => false,
+            self::METRIC_WRAPPED_SEMANTIC_TYPE_KEY => Dimension::TYPE_NUMBER,
+            self::METRIC_WRAPPED_AGGREGATION_TYPE_KEY => Metric::AGGREGATION_TYPE_SUM,
+        ),
     );
 
     /**
@@ -423,50 +431,60 @@ class API extends \Piwik\Plugin\API
 
         if (Common::isActionsPluginEnabled()) {
             $metrics[self::NB_PAGEVIEWS_LABEL] = array(
-                self::METRIC_TRANSLATION_KEY        => 'General_ColumnPageviews',
-                self::METRIC_EVOLUTION_COL_NAME_KEY => 'pageviews_evolution',
-                self::METRIC_RECORD_NAME_KEY        => self::NB_PAGEVIEWS_METRIC,
-                self::METRIC_COL_NAME_KEY           => self::NB_PAGEVIEWS_LABEL,
-                self::METRIC_IS_ECOMMERCE_KEY       => false,
+                self::METRIC_TRANSLATION_KEY              => 'General_ColumnPageviews',
+                self::METRIC_EVOLUTION_COL_NAME_KEY       => 'pageviews_evolution',
+                self::METRIC_RECORD_NAME_KEY              => self::NB_PAGEVIEWS_METRIC,
+                self::METRIC_COL_NAME_KEY                 => self::NB_PAGEVIEWS_LABEL,
+                self::METRIC_IS_ECOMMERCE_KEY             => false,
+                self::METRIC_WRAPPED_SEMANTIC_TYPE_KEY    => Dimension::TYPE_NUMBER,
+                self::METRIC_WRAPPED_AGGREGATION_TYPE_KEY => Metric::AGGREGATION_TYPE_SUM,
             );
         }
 
         if (Common::isGoalPluginEnabled()) {
             // goal revenue metric
             $metrics[self::GOAL_REVENUE_METRIC] = array(
-                self::METRIC_TRANSLATION_KEY        => 'General_ColumnRevenue',
-                self::METRIC_EVOLUTION_COL_NAME_KEY => self::GOAL_REVENUE_METRIC . '_evolution',
-                self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_REVENUE_METRIC),
-                self::METRIC_COL_NAME_KEY           => self::GOAL_REVENUE_METRIC,
-                self::METRIC_IS_ECOMMERCE_KEY       => false,
+                self::METRIC_TRANSLATION_KEY              => 'General_ColumnRevenue',
+                self::METRIC_EVOLUTION_COL_NAME_KEY       => self::GOAL_REVENUE_METRIC . '_evolution',
+                self::METRIC_RECORD_NAME_KEY              => Archiver::getRecordName(self::GOAL_REVENUE_METRIC),
+                self::METRIC_COL_NAME_KEY                 => self::GOAL_REVENUE_METRIC,
+                self::METRIC_IS_ECOMMERCE_KEY             => false,
+                self::METRIC_WRAPPED_SEMANTIC_TYPE_KEY    => Dimension::TYPE_MONEY,
+                self::METRIC_WRAPPED_AGGREGATION_TYPE_KEY => Metric::AGGREGATION_TYPE_SUM,
             );
 
             if ($enhanced) {
                 // number of goal conversions metric
                 $metrics[self::GOAL_CONVERSION_METRIC] = array(
-                    self::METRIC_TRANSLATION_KEY        => 'Goals_ColumnConversions',
-                    self::METRIC_EVOLUTION_COL_NAME_KEY => self::GOAL_CONVERSION_METRIC . '_evolution',
-                    self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC),
-                    self::METRIC_COL_NAME_KEY           => self::GOAL_CONVERSION_METRIC,
-                    self::METRIC_IS_ECOMMERCE_KEY       => false,
+                    self::METRIC_TRANSLATION_KEY              => 'Goals_ColumnConversions',
+                    self::METRIC_EVOLUTION_COL_NAME_KEY       => self::GOAL_CONVERSION_METRIC . '_evolution',
+                    self::METRIC_RECORD_NAME_KEY              => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC),
+                    self::METRIC_COL_NAME_KEY                 => self::GOAL_CONVERSION_METRIC,
+                    self::METRIC_IS_ECOMMERCE_KEY             => false,
+                    self::METRIC_WRAPPED_SEMANTIC_TYPE_KEY    => Dimension::TYPE_NUMBER,
+                    self::METRIC_WRAPPED_AGGREGATION_TYPE_KEY => Metric::AGGREGATION_TYPE_SUM,
                 );
 
                 // number of orders
                 $metrics[self::ECOMMERCE_ORDERS_METRIC] = array(
-                    self::METRIC_TRANSLATION_KEY        => 'General_EcommerceOrders',
-                    self::METRIC_EVOLUTION_COL_NAME_KEY => self::ECOMMERCE_ORDERS_METRIC . '_evolution',
-                    self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC, 0),
-                    self::METRIC_COL_NAME_KEY           => self::ECOMMERCE_ORDERS_METRIC,
-                    self::METRIC_IS_ECOMMERCE_KEY       => true,
+                    self::METRIC_TRANSLATION_KEY              => 'General_EcommerceOrders',
+                    self::METRIC_EVOLUTION_COL_NAME_KEY       => self::ECOMMERCE_ORDERS_METRIC . '_evolution',
+                    self::METRIC_RECORD_NAME_KEY              => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC, 0),
+                    self::METRIC_COL_NAME_KEY                 => self::ECOMMERCE_ORDERS_METRIC,
+                    self::METRIC_IS_ECOMMERCE_KEY             => true,
+                    self::METRIC_WRAPPED_SEMANTIC_TYPE_KEY    => Dimension::TYPE_NUMBER,
+                    self::METRIC_WRAPPED_AGGREGATION_TYPE_KEY => Metric::AGGREGATION_TYPE_SUM,
                 );
 
                 // eCommerce revenue
                 $metrics[self::ECOMMERCE_REVENUE_METRIC] = array(
-                    self::METRIC_TRANSLATION_KEY        => 'General_ProductRevenue',
-                    self::METRIC_EVOLUTION_COL_NAME_KEY => self::ECOMMERCE_REVENUE_METRIC . '_evolution',
-                    self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_REVENUE_METRIC, 0),
-                    self::METRIC_COL_NAME_KEY           => self::ECOMMERCE_REVENUE_METRIC,
-                    self::METRIC_IS_ECOMMERCE_KEY       => true,
+                    self::METRIC_TRANSLATION_KEY              => 'General_ProductRevenue',
+                    self::METRIC_EVOLUTION_COL_NAME_KEY       => self::ECOMMERCE_REVENUE_METRIC . '_evolution',
+                    self::METRIC_RECORD_NAME_KEY              => Archiver::getRecordName(self::GOAL_REVENUE_METRIC, 0),
+                    self::METRIC_COL_NAME_KEY                 => self::ECOMMERCE_REVENUE_METRIC,
+                    self::METRIC_IS_ECOMMERCE_KEY             => true,
+                    self::METRIC_WRAPPED_SEMANTIC_TYPE_KEY    => Dimension::TYPE_MONEY,
+                    self::METRIC_WRAPPED_AGGREGATION_TYPE_KEY => Metric::AGGREGATION_TYPE_SUM,
                 );
             }
         }

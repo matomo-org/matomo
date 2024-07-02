@@ -38,7 +38,11 @@ abstract class Base extends \Piwik\Plugin\Report
                     $metricSettings[API::METRIC_RECORD_NAME_KEY],
                     null,
                     $metricSettings[API::METRIC_EVOLUTION_COL_NAME_KEY],
-                    $quotientPrecision = 1
+                    $quotientPrecision = 1,
+                    null,
+                    $metricSettings[API::METRIC_TRANSLATION_KEY],
+                    $metricSettings[API::METRIC_WRAPPED_SEMANTIC_TYPE_KEY],
+                    $metricSettings[API::METRIC_WRAPPED_AGGREGATION_TYPE_KEY]
                 );
         }
 

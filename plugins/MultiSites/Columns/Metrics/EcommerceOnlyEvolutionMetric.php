@@ -28,9 +28,21 @@ class EcommerceOnlyEvolutionMetric extends EvolutionMetric
         ?DataTable $pastData = null,
         $evolutionMetricName = false,
         $quotientPrecision = 0,
-        ?DataTable $currentData = null
+        ?DataTable $currentData = null,
+        ?string $wrappedMetricTranslatedName = null,
+        ?string $wrappedSemanticType = null,
+        ?string $wrappedMetricAggregationType = null
     ) {
-        parent::__construct($wrapped, $pastData, $evolutionMetricName, $quotientPrecision, $currentData);
+        parent::__construct(
+            $wrapped,
+            $pastData,
+            $evolutionMetricName,
+            $quotientPrecision,
+            $currentData,
+            $wrappedMetricTranslatedName,
+            $wrappedSemanticType,
+            $wrappedMetricAggregationType
+        );
 
         $this->isRevenueEvolution = $this->getName() == 'revenue_evolution';
     }

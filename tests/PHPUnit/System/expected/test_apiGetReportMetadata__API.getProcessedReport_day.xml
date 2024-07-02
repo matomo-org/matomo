@@ -28,7 +28,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -37,20 +41,34 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
-		<processedMetricsGoal>
-			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-		</processedMetricsGoal>
 		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
 			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
 			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
 		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Ecommerce order Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
+		</processedMetricsGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getCountry</uniqueId>
@@ -63,6 +81,7 @@
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
+		<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		<revenue>Revenue</revenue>
 	</columns>
 	<reportData>
@@ -75,6 +94,7 @@
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:18:06</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
+			<revenue_per_visit>$0</revenue_per_visit>
 		</row>
 	</reportData>
 	<reportMetadata>
