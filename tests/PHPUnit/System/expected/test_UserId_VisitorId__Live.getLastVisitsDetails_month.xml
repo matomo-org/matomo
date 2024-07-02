@@ -263,6 +263,9 @@
 				<items>1</items>
 				<serverTimePretty>Mar 6, 2010 16:40:33</serverTimePretty>
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 					<row>
 						<itemSKU>sku-007-PRISM</itemSKU>

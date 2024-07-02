@@ -22,6 +22,8 @@ use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 use Piwik\View;
 
+use function Piwik\Plugins\Referrers\getReferrerTypeFromShortName;
+
 class VisitorDetails extends VisitorDetailsAbstract
 {
     public const CATEGORY_COUNT = 5;
@@ -107,6 +109,8 @@ class VisitorDetails extends VisitorDetailsAbstract
                 unset($ecommerceDetail['revenueShipping']);
                 unset($ecommerceDetail['revenueDiscount']);
             }
+
+            $ecommerceDetail['referrerType'] = $this->getReferrerType($ecommerceDetail['referrerType']);
 
             // 25.00 => 25
             foreach ($ecommerceDetail as $column => $value) {
@@ -212,7 +216,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 						items as items,
 						log_conversion.server_time as serverTimePretty,
 						log_conversion.idlink_va,
-						log_link_visit_action.idpageview
+						log_link_visit_action.idpageview,
+						log_conversion.referer_type as referrerType,
+						log_conversion.referer_name as referrerName,
+						log_conversion.referer_keyword as referrerKeyword
 					FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
 		       LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
 		              ON log_link_visit_action.idlink_va = log_conversion.idlink_va
@@ -320,6 +327,17 @@ class VisitorDetails extends VisitorDetailsAbstract
             $profile['totalAbandonedCarts']        = $lastVisit->getColumn('totalAbandonedCarts');
             $profile['totalAbandonedCartsItems']   = $lastVisit->getColumn('totalAbandonedCartsItems');
         }
+    }
+
+    protected function getReferrerType($referrerTypeId)
+    {
+        try {
+            $referrerType = getReferrerTypeFromShortName($referrerTypeId);
+        } catch (\Exception $e) {
+            $referrerType = '';
+        }
+
+        return $referrerType;
     }
 
     private function getLiveQueryMaxExecutionTime()
