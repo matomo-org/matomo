@@ -1,0 +1,20 @@
+
+
+{{ 'Referrers_ConversionAttribution'|translate }}
+{% if action.referrerType == 'website' %}
+{{ 'Referrers_ColumnWebsite'|translate }}: {{ action.referrerName|rawSafeDecoded }}
+{% endif %}
+{% if action.referrerType == 'campaign' %}
+{{ 'Referrers_ColumnCampaign'|translate }}: {{ action.referrerName|rawSafeDecoded }}
+{%- if action.referrerKeyword is not empty %} - {{ action.referrerKeyword }}{% endif %}
+{% endif %}
+{% if action.referrerType == 'social' %}
+{{ 'Referrers_ColumnSocial'|translate }}: {{ action.referrerName|rawSafeDecoded }}
+{% endif %}
+{% if action.referrerType == 'search' %}
+{%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}
+{%- set showKeyword = action.referrerKeyword is not empty and action.referrerKeyword != keywordNotDefined -%}
+{{ 'Referrers_ColumnSearchEngine'|translate }}: {{ action.referrerName|rawSafeDecoded }}
+{%- if showKeyword %}, {{ 'Referrers_Keywords'|translate }}: &quot;{{ action.referrerKeyword|rawSafeDecoded }}&quot;{% endif %}
+{% endif %}
+{% if action.referrerType == 'direct' %}{{ 'Referrers_DirectEntry'|translate }}{% endif %}

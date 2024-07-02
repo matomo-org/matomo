@@ -38,6 +38,19 @@ class VisitorDetails extends VisitorDetailsAbstract
         return [[ 10, $view->render() ]];
     }
 
+    public function renderActionTooltip($action, $visitInfo)
+    {
+        if ($action['type'] !== 'goal' && $action['type'] !== 'ecommerceOrder') {
+            return [];
+        }
+
+        // Attribution information for goals
+        $view         = new View('@Referrers/_actionTooltip');
+        $view->sendHeadersWhenRendering = false;
+        $view->action = $action;
+        return [[ 10, $view->render() ]];
+    }
+
     protected function getReferrerType()
     {
         try {

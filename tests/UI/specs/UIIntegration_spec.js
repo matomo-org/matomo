@@ -550,8 +550,19 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await page.screenshotSelector('.pageWrap,.dataTable')).to.matchImage('ecommerce_overview');
         });
 
-        it('should load the ecommerce log page', async function () {
+        it.only('should load the ecommerce log page', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog");
+
+            await page.hover('.dataTableVizVisitorLog .row:nth-child(2) .actionList li.action');
+            await page.waitForSelector('.ui-tooltip', {visible: true, timeout: 250});
+
+            var tooltipContent = await page.evaluate(() => {
+                return $('.ui-tooltip:visible').text();
+            });
+
+            expect(tooltipContent).to.match(/This conversion has been attributed to the Acquisition Channel:.*Direct Entry/);
+
+            await page.mouse.move(0, 0); // move mouse to hide tooltip again
 
             expect(await screenshotPageWrap()).to.matchImage('ecommerce_log');
         });
