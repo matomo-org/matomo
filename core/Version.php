@@ -41,12 +41,12 @@ final class Version
 
     private function isNonStableVersion($version): bool
     {
-        return (bool) preg_match('/^\d+\.\d+\.\d+((-.{1,4}\d+(\.\d{14})?)|(-alpha\.\d{14}))$/i', $version);
+        return (bool) preg_match('/^\d+\.\d+\.\d+(-((rc|b|beta)\d+|alpha)(\.\d{14})?)$/i', $version);
     }
 
     public function isPreviewVersion($version): bool
     {
-        if (\preg_match('/^\d+\.\d+\.\d+((-(rc|b|beta)\d+(\.\d{14})?)|(-alpha\.\d{14}))?$/i', $version)) {
+        if ($this->isNonStableVersion($version)) {
             if (\preg_match('/\.(\d{14})$/', $version, $matches)) {
                 $dt = DateTime::createFromFormat('YmdHis', $matches[1]);
 
@@ -55,5 +55,29 @@ final class Version
         }
 
         return false;
+    }
+
+    public function nextPreviewVersion($version): string
+    {
+        if (!$this->isVersionNumber($version)) {
+            return '';
+        }
+
+        $dt = date('Ymdhis');
+
+        if ($this->isPreviewVersion($version)) {
+            // already a preview, update dt and check it's newer
+            $newVersion = substr($version, 0, -14) . $dt;
+            if (version_compare($version, $newVersion, '<')) {
+                return $newVersion;
+            }
+            return '';
+        } elseif ($this->isStableVersion($version)) {
+            // no suffix yet
+            return $version . '-alpha.' . $dt;
+        } else {
+            // -b1, -rc1, -alpha
+            return $version . '.' . $dt;
+        }
     }
 }

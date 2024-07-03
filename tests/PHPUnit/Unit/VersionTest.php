@@ -35,14 +35,18 @@ class VersionTest extends \PHPUnit\Framework\TestCase
         $this->assertNotStableVersion('3-3-3');
         $this->assertNotStableVersion('a3.3.3');
         $this->assertNotStableVersion('3.0.0b');
+        $this->assertNotStableVersion('3.3.3-alpha');
         $this->assertNotStableVersion('3.3.3-b1');
         $this->assertNotStableVersion('3.3.3-rc1');
+        $this->assertNotStableVersion('3.3.3-rc1.20240509114000');
     }
 
     public function testIsVersionNumber()
     {
         $this->assertIsVersionNumber('3.3.3');
+        $this->assertIsVersionNumber('3.3.3-alpha');
         $this->assertIsVersionNumber('3.3.3-b1');
+        $this->assertIsVersionNumber('3.3.3-rc1.20240509114000');
         $this->assertIsVersionNumber('100.999.9991-rc90');
         $this->assertIsVersionNumber('100.999.9991-b90');
         $this->assertIsVersionNumber('100.999.9991-beta90');
@@ -53,7 +57,8 @@ class VersionTest extends \PHPUnit\Framework\TestCase
         $this->assertNotVersionNumber('a3.3.3');
         $this->assertNotVersionNumber('3.0.0b');
         $this->assertNotVersionNumber('3.0.0beta1'); // missing dash
-        $this->assertNotVersionNumber('3.3.3-bbeta1'); // max 4 allowed but bbeta is 5
+        $this->assertNotVersionNumber('3.3.3-bbeta1'); // unknown stability
+        $this->assertNotVersionNumber('3.3.3-rc1.2024'); // short preview
     }
 
     public function testIsPreviewVersion()
@@ -68,6 +73,7 @@ class VersionTest extends \PHPUnit\Framework\TestCase
         $this->assertNotPreviewVersion('3-3-3');
         $this->assertNotPreviewVersion('a3.3.3');
         $this->assertNotPreviewVersion('3.0.0b');
+        $this->assertNotPreviewVersion('3.3.3-alpha');
         $this->assertNotPreviewVersion('3.3.3-b1');
         $this->assertNotPreviewVersion('3.3.3-b1.p20240509114000');
         $this->assertNotPreviewVersion('3.3.3-b1.20240509114000a');
@@ -81,6 +87,21 @@ class VersionTest extends \PHPUnit\Framework\TestCase
         $this->assertNotPreviewVersion('3.3.3-b1.20240509554000');
         $this->assertNotPreviewVersion('3.3.3-b1.20240509117700');
         $this->assertNotPreviewVersion('3.3.3-b1.20240509114088');
+    }
+
+    public function testNextPreviewVersion()
+    {
+        $this->assertNextVersionIsEmpty('3.3.3-alpha.29990101000000'); // preview is newer
+        $this->assertNextVersionIsEmpty('3.3.3-dev'); // unsupported stability
+        $this->assertNextVersionIsEmpty('p20240509114000');
+
+        $this->assertNextVersionExists('3.3.3');
+        $this->assertNextVersionExists('3.3.3-alpha');
+        $this->assertNextVersionExists('3.3.3-b1');
+        $this->assertNextVersionExists('3.3.3-rc1');
+        $this->assertNextVersionExists('3.3.3-alpha.20201224180000');
+        $this->assertNextVersionExists('3.3.3-b1.20201224180000');
+        $this->assertNextVersionExists('3.3.3-rc1.20201224180000');
     }
 
     private function assertIsStableVersion($versionNumber)
@@ -117,6 +138,18 @@ class VersionTest extends \PHPUnit\Framework\TestCase
     {
         $isPreviewVersion = $this->version->isPreviewVersion($versionNumber);
         $this->assertFalse($isPreviewVersion);
+    }
+
+    private function assertNextVersionIsEmpty($versionNumber)
+    {
+        $nextVersionNumber = $this->version->nextPreviewVersion($versionNumber);
+        $this->assertStringEqualsStringIgnoringLineEndings('', $nextVersionNumber);
+    }
+
+    private function assertNextVersionExists($versionNumber)
+    {
+        $nextVersionNumber = $this->version->nextPreviewVersion($versionNumber);
+        $this->assertTrue($this->version->isPreviewVersion($nextVersionNumber));
     }
 
     /**
