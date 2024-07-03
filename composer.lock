@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "264a4cc5f19355e9946a291646289a03",
+    "content-hash": "b77849a13701936860c0c330705f9d90",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3702,6 +3702,24 @@
             "time": "2022-12-30T00:15:36+00:00"
         },
         {
+            "name": "matomo-org/matomo-coding-standards",
+            "version": "dev-initial-code",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matomo-org/matomo-coding-standards.git",
+                "reference": "50d05cace8140038287404e80135a5d79e828124"
+            },
+            "require": {
+                "php": "~7.2 || ~8.0",
+                "phpstan/phpdoc-parser": "~1.24.0",
+                "slevomat/coding-standard": "~8.14.0",
+                "squizlabs/php_codesniffer": "~3.10"
+            },
+            "type": "phpcodesniffer-standard",
+            "description": "PHP CodeSniffer ruleset implementing the Matomo coding standards extending PSR12 coding standards.",
+            "time": "2024-07-02T13:55:57+00:00"
+        },
+        {
             "name": "myclabs/deep-copy",
             "version": "1.12.0",
             "source": {
@@ -5325,7 +5343,8 @@
     "stability-flags": {
         "lox/xhprof": 20,
         "matomo/referrer-spam-list": 20,
-        "matomo/searchengine-and-social-list": 20
+        "matomo/searchengine-and-social-list": 20,
+        "matomo-org/matomo-coding-standards": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
