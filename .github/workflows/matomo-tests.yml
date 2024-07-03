@@ -13,6 +13,11 @@ on:
       - '**.x-dev'
       - 'next_release'
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      is_preview:
+        required: false
+        type: boolean
 
 permissions:
   actions: read
@@ -60,6 +65,7 @@ jobs:
           persist-credentials: false
           submodules: true
           path: matomo
+          ref: ${{ inputs.is_preview == true && '5.x-preview' || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -81,6 +87,7 @@ jobs:
           persist-credentials: false
           submodules: true
           path: matomo
+          ref: ${{ inputs.is_preview == true && '5.x-preview' || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -97,6 +104,7 @@ jobs:
           persist-credentials: false
           submodules: true
           path: matomo
+          ref: ${{ inputs.is_preview == true && '5.x-preview' || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -116,6 +124,7 @@ jobs:
           persist-credentials: false
           submodules: true
           path: matomo
+          ref: ${{ inputs.is_preview == true && '5.x-preview' || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
