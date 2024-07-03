@@ -1,0 +1,197 @@
+# Matomo release action for automated PREVIEW releases
+#
+# Required GitHub secrets:
+#
+# GPG_CERTIFICATE  |  ASCII armored or Base64 encoded GPG certificate that is used to create the signatures for the archives
+# GPG_CERTIFICATE_PASS  |  Passphrase of the GPG key
+
+name: Build preview release
+
+permissions:
+  actions: read # required for the tests job
+  checks: none
+  contents: write  # required to create tag and release
+  deployments: none
+  issues: read # required for the tests job
+  packages: none
+  pull-requests: read # required for the tests jobs
+  repository-projects: none
+  security-events: none
+  statuses: none
+
+on:
+  # TODO: remove manual dispatch after testing and enable cron
+  workflow_dispatch:
+    branches:
+      - 5.x-dev
+  #schedule:
+  #  - cron: '0 1 * * *' # 1am daily
+
+jobs:
+  prepare_preview_version:
+    runs-on: ubuntu-latest
+    outputs:
+      do_release: ${{ steps.changes.outputs.do_release }}
+      has_new_release: ${{ steps.version.outputs.has_new_version }}
+      new_version: ${{ steps.version.outputs.new_version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+          fetch-tags: true
+          fetch-depth: 0
+
+      - name: Prepare git config
+        run: |
+          cat <<- EOF > $HOME/.netrc
+            machine github.com
+            login $GITHUB_ACTOR
+            password $GITHUB_TOKEN
+            machine api.github.com
+            login $GITHUB_ACTOR
+            password $GITHUB_TOKEN
+          EOF
+          chmod 600 $HOME/.netrc
+          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config --global user.name "$GITHUB_ACTOR"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if there are any changes to create a preview release for
+        id: changes
+        run: |
+          LATEST_PREVIEW=$(git tag --sort=-creatordate | grep -E '\.[0-9]{14}$' | head -n 1)
+          
+          DIFF=""
+          if [ -n "$LATEST_PREVIEW" ]; then
+            # using || true to always exit either with a diff or a success exit code to not fail the whole workflow
+            DIFF=$(git diff $LATEST_PREVIEW..5.x-dev --unified=0 | grep -vE "^\+\+\+|---" | grep "^[+-]" | grep -v "public const VERSION = '.*';" || true)
+          fi
+          
+          if [ -z "$DIFF" ]; then
+            echo "No changes in 5.x-dev since last preview version was created."
+            DO_RELEASE=0
+          else
+            DO_RELEASE=1
+          fi
+          
+          echo "do_release=$DO_RELEASE" >> $GITHUB_OUTPUT
+
+      - name: Determine new preview version number
+        if: steps.changes.outputs.do_release == '1'
+        id: version
+        run: |
+          OLD_VERSION=$(php -r "include_once 'core/Version.php'; echo \Piwik\Version::VERSION;")
+          NEW_VERSION=$(php -r "include_once 'core/Version.php'; \$v = new \Piwik\Version(); echo \$v->nextPreviewVersion(\Piwik\Version::VERSION);")
+          
+          if [ "$NEW_VERSION" == "" ]; then
+            HAS_NEW_VERSION=0
+          else
+            HAS_NEW_VERSION=1
+          fi
+          
+          echo "OLD_VERSION=$OLD_VERSION" >> $GITHUB_ENV
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          
+          echo "has_new_version=$HAS_NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update 5.x-preview branch to latest 5.x-dev
+        if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
+        run: |
+          git checkout -B 5.x-preview
+
+      - name: Update version file with new version
+        if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
+        run: |
+          sed -i "s/VERSION = '${OLD_VERSION}';/VERSION = '${NEW_VERSION}';/g" core/Version.php
+
+      - name: Commit version file changes
+        if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
+        run: |
+          git add core/Version.php
+          git commit -m "Update version to ${NEW_VERSION}"
+
+      - name: Push changes to 5.x-preview
+        if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
+        run: |
+          git push -f origin 5.x-preview
+
+  run_matomo_tests:
+    needs: [prepare_preview]
+    uses: ./.github/workflows/matomo-tests.yml
+    with:
+      is_preview: true
+
+  release_preview_version:
+    needs: [tests, prepare_preview]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+          fetch-tags: true
+          ref: '5.x-preview'
+
+      - name: Import GPG key
+        if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
+        id: import_gpg
+        run: |
+          echo "${{ secrets.GPG_CERTIFICATE }}" > $HOME/private.asc
+          gpg --import --batch --yes $HOME/private.asc
+          echo "default-cache-ttl 7200
+          max-cache-ttl 31536000
+          allow-preset-passphrase" > $HOME/.gnupg/gpg-agent.conf
+          keygrip=$(gpg --import --import-options show-only --with-keygrip $HOME/private.asc | grep "Keygrip" | grep -oP "([A-F0-9]+)" | head -1)
+          hexPassphrase=$( echo -n '${{ secrets.GPG_CERTIFICATE_PASS }}' | od -A n -t x1 -w100 | sed 's/ *//g' )
+          gpg-connect-agent "RELOADAGENT" /bye
+          gpg-connect-agent "PRESET_PASSPHRASE ${keygrip} -1 ${hexPassphrase}" /bye
+          gpg-connect-agent "KEYINFO ${keygrip}" /bye
+
+      - name: Create tag, build and publish release
+        id: tag
+        run: |
+          echo "Version to build: '${NEW_VERSION}'"
+
+          TAG_EXISTS=$( git tag --list "$NEW_VERSION" )
+          if [[ -n "$TAG_EXISTS" ]]
+          then
+            echo "A tag for $tag_exists already exists."
+            exit 1
+          fi
+
+          echo "Creating a tag for $NEW_VERSION"
+
+          git tag $NEW_VERSION
+          git push origin tags/$NEW_VERSION
+
+          body="## Matomo ${version} (Pre-release)
+
+          We recommend to read [this FAQ](https://matomo.org/faq/how-to-update/faq_159/) before using a pre-release in a production environment.
+
+          Please use the attached archives for installing or updating Matomo.
+          The source code download is only meant for developers and will require extra work to install it.
+           - Latest stable production release can be found at https://matomo.org/download/ ([learn more](https://matomo.org/docs/installation/)) (recommended)
+           - Beta and Release Candidate releases can be found at https://builds.matomo.org/ ([learn more](https://matomo.org/faq/how-to-update/faq_159/))"
+
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo 'body<<EOF' >> $GITHUB_OUTPUT
+          echo "$body" >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
+
+          cd $GITHUB_WORKSPACE
+          chmod 755 ./.github/scripts/*.sh
+          ./.github/scripts/build-package.sh $NEW_VERSION
+        shell: bash
+        env:
+          NEW_VERSION: ${{ needs.prepare_preview.outputs.new_version }}
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "archives/matomo-${{ steps.tag.outputs.version }}.*,archives/piwik-${{ steps.tag.outputs.version }}.*"
+          allowUpdates: false
+          tag: ${{ steps.tag.outputs.version }}
+          body: "${{ steps.tag.outputs.body }}"
+          prerelease: true
+          token: ${{ secrets.GITHUB_TOKEN }}
