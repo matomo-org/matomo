@@ -39,7 +39,7 @@ jobs:
   PHP:
     runs-on: ubuntu-20.04
     strategy:
-      fail-fast: false
+      fail-fast: ${{ inputs.is_preview == true }}
       matrix:
         type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
         php: [ '7.2', '8.2', '8.3' ]
@@ -114,7 +114,7 @@ jobs:
   UI:
     runs-on: ubuntu-20.04
     strategy:
-      fail-fast: false
+      fail-fast: ${{ inputs.is_preview == true }}
       matrix:
         parts: [ 0,1,2,3 ]
     steps:
