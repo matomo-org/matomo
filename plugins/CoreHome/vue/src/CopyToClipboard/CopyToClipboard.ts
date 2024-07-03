@@ -26,6 +26,7 @@ function onClickHandler(pre: HTMLElement) {
     textarea.style.left = '-9999px';
     document.body.appendChild(textarea);
     textarea.select();
+    textarea.focus();
     document.execCommand('copy');
     document.body.removeChild(textarea);
     const btn = (pre.parentElement as HTMLButtonElement);
