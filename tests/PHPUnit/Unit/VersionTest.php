@@ -143,7 +143,7 @@ class VersionTest extends \PHPUnit\Framework\TestCase
     private function assertNextVersionIsEmpty($versionNumber)
     {
         $nextVersionNumber = $this->version->nextPreviewVersion($versionNumber);
-        $this->assertStringEqualsStringIgnoringLineEndings('', $nextVersionNumber);
+        $this->assertEmpty($nextVersionNumber);
     }
 
     private function assertNextVersionExists($versionNumber)
