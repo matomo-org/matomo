@@ -1230,17 +1230,17 @@ class LogAggregator
             " . ($linkField == 'idaction_url' ? Action::TYPE_PAGE_URL : Action::TYPE_PAGE_TITLE) . " AS `type`,
             lac.idaction AS idaction, 
             COUNT(*) AS `1`,            
-            " . sprintf("ROUND(SUM(log_conversion.revenue),2) AS `%d`,", Metrics::INDEX_GOAL_REVENUE) . "
+            " . sprintf("SUM(ROUND(log_conversion.revenue, 2)) AS `%d`,", Metrics::INDEX_GOAL_REVENUE) . "
             " . sprintf("COUNT(log_conversion.idvisit) AS `%d`,", Metrics::INDEX_GOAL_NB_VISITS_CONVERTED) . "
-            " . sprintf("ROUND(SUM(1 / log_conversion.pageviews_before * log_conversion.revenue_subtotal),2) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL) . "
-            " . sprintf("ROUND(SUM(1 / log_conversion.pageviews_before * log_conversion.revenue_tax),2) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX) . "
-            " . sprintf("ROUND(SUM(1 / log_conversion.pageviews_before * log_conversion.revenue_shipping),2) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING) . "
-            " . sprintf("ROUND(SUM(1 / log_conversion.pageviews_before * log_conversion.revenue_discount),2) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT) . "
+            " . sprintf("SUM(ROUND(1 / log_conversion.pageviews_before * log_conversion.revenue_subtotal, 4)) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL) . "
+            " . sprintf("SUM(ROUND(1 / log_conversion.pageviews_before * log_conversion.revenue_tax, 4)) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX) . "
+            " . sprintf("SUM(ROUND(1 / log_conversion.pageviews_before * log_conversion.revenue_shipping, 4)) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING) . "
+            " . sprintf("SUM(ROUND(1 / log_conversion.pageviews_before * log_conversion.revenue_discount, 4)) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT) . "
             " . sprintf("SUM(ROUND(1 / log_conversion.pageviews_before * log_conversion.items, 4)) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_ITEMS) . "
             " . sprintf("log_conversion.pageviews_before AS `%d`,", Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE) . "
             " . sprintf("SUM(ROUND(1 / log_conversion.pageviews_before, 4)) AS `%d`,", Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB) . "
             " . sprintf("COUNT(*) AS `%d`,", Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ) . "
-            " . sprintf("ROUND(SUM(1 / log_conversion.pageviews_before * log_conversion.revenue),2) AS `%d`", Metrics::INDEX_GOAL_REVENUE_ATTRIB);
+            " . sprintf("SUM(ROUND(1 / log_conversion.pageviews_before * log_conversion.revenue, 4)) AS `%d`", Metrics::INDEX_GOAL_REVENUE_ATTRIB);
 
         $from = [
             'log_conversion',
