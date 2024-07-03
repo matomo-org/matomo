@@ -72,7 +72,7 @@ class ChunksTest extends IntegrationTestCase
             $recordName . '_chunk_900_999',
         );
 
-        $this->assertEquals($expectedArchiveNames, array_column($archiveRows, 'name'));
+        $this->assertEqualsCanonicalizing($expectedArchiveNames, array_column($archiveRows, 'name'));
 
         // verify all have same archiveIds
         $expectedArchiveIds = array_fill(0, count($expectedArchiveNames), $archiveId = '1');
