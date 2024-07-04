@@ -191,7 +191,13 @@ class LoaderTest extends IntegrationTestCase
                 'date2' => '2020-01-20',
                 'period' => '1',
             ],
-            // archive 4 is missing as VisitsSummary is archived twice, as it doesn't contain data
+            // Why archive 4 is missing:
+            // Triggering the archiving will at first archive core metrics (aka VisitsSummary) if they are not yet available.
+            // In case there were no visits, the created archive will only contain a done flag, but no other metrics.
+            // This causes the archiving (for core metrics) to be triggered again, which will create a new (empty) archive, while removing the previous one.
+            // As archiving dependent segments also first triggers archiving VisitsSummary, it creates an empty archive.
+            // Afterwards when archiving the Goals plugin it will archive VisitsSummary again, as the previous one is empty.
+            // Which then causes this missing archive id.
             [
                 'idarchive' => '5',
                 'name' => 'donefea44bece172bc9696ae57c26888bf8a.VisitsSummary',
