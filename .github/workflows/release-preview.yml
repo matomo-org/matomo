@@ -125,7 +125,7 @@ jobs:
       is_preview: true
 
   release_preview_version:
-    needs: [tests, prepare_preview]
+    needs: [run_matomo_tests]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -157,7 +157,7 @@ jobs:
           TAG_EXISTS=$( git tag --list "$NEW_VERSION" )
           if [[ -n "$TAG_EXISTS" ]]
           then
-            echo "A tag for $tag_exists already exists."
+            echo "A tag for ${TAG_EXISTS} already exists."
             exit 1
           fi
 
@@ -166,7 +166,7 @@ jobs:
           git tag $NEW_VERSION
           git push origin tags/$NEW_VERSION
 
-          body="## Matomo ${version} (Pre-release)
+          body="## Matomo ${NEW_VERSION} (Pre-release)
 
           We recommend to read [this FAQ](https://matomo.org/faq/how-to-update/faq_159/) before using a pre-release in a production environment.
 
@@ -187,7 +187,7 @@ jobs:
         env:
           NEW_VERSION: ${{ needs.prepare_preview.outputs.new_version }}
 
-      - uses: ncipollo/release-action@v1
+      - uses: ncipollo/release-action@c4bf6c1ab090090498fb7f3ddc9f99ba5ab619b9
         with:
           artifacts: "archives/matomo-${{ steps.tag.outputs.version }}.*,archives/piwik-${{ steps.tag.outputs.version }}.*"
           allowUpdates: false

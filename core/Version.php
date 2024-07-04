@@ -63,7 +63,7 @@ final class Version
             return '';
         }
 
-        $dt = date('Ymdhis');
+        $dt = date('YmdHis');
 
         if ($this->isPreviewVersion($version)) {
             // already a preview, update dt and check it's newer
