@@ -119,15 +119,15 @@ jobs:
           git push -f origin 5.x-preview
 
   run_matomo_tests:
-    needs: [prepare_preview]
+    needs: [prepare_preview_version]
     uses: ./.github/workflows/matomo-tests.yml
-    if: needs.prepare_preview.outputs.do_release == '1' && needs.prepare_preview.outputs.has_new_version == '1'
+    if: needs.prepare_preview_version.outputs.do_release == '1' && needs.prepare_preview_version.outputs.has_new_version == '1'
     with:
       is_preview: true
 
   release_preview_version:
     needs: [run_matomo_tests]
     uses: ./.github/workflows/release.yml
-    if: needs.prepare_preview.outputs.do_release == '1' && needs.prepare_preview.outputs.has_new_version == '1'
+    if: needs.prepare_preview_version.outputs.do_release == '1' && needs.prepare_preview_version.outputs.has_new_version == '1'
     with:
       is_preview: true
