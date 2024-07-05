@@ -102,7 +102,8 @@ jobs:
         run: |
           TAG_EXISTS=$( git tag --list "$OLD_VERSION" )
           
-          if [[ -z "$TAG_EXISTS" ]]; then
+          # x.y.z-alpha would not be released, all other versions should have an existing tag (a release)
+          if [[ ! $OLD_VERSION =~ -alpha$ ]] && [[ -z "$TAG_EXISTS" ]]; then
             echo "$OLD_VERSION (as indicated in core/Version.php) has not been released yet."
             exit 1
           fi
