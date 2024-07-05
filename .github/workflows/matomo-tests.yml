@@ -16,8 +16,9 @@ on:
   workflow_call:
     inputs:
       is_preview:
-        required: false
         type: boolean
+        required: false
+        default: false
 
 permissions:
   actions: read
