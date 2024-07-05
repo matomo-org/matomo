@@ -97,6 +97,16 @@ jobs:
           echo "has_new_version=$HAS_NEW_VERSION" >> $GITHUB_OUTPUT
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
+      - name: Check if the previous version has been released
+        if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
+        run: |
+          TAG_EXISTS=$( git tag --list "$OLD_VERSION" )
+          
+          if [[ -z "$TAG_EXISTS" ]]; then
+            echo "$OLD_VERSION (as indicated in core/Version.php) has not been released yet."
+            exit 1
+          fi
+
       - name: Update 5.x-preview branch to latest 5.x-dev
         if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
         run: |
