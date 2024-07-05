@@ -44,7 +44,7 @@
       />
     </div>
 
-    <a v-if="!isWidgetized && hasSuperUserAccess"
+    <a v-if="!isWidgetized && isUserAllowedToAddSite"
        class="btn"
        :href="addSiteUrl"
     >
@@ -181,7 +181,7 @@ export default defineComponent({
 
       return kpis;
     },
-    hasSuperUserAccess(): boolean {
+    isUserAllowedToAddSite(): boolean {
       return Matomo.hasSuperUserAccess;
     },
   },

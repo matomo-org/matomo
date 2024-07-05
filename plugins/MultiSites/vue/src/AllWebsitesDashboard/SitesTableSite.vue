@@ -41,7 +41,7 @@
     <td :colspan="displaySparkline ? 1 : 2">
       <template v-if="!site.isGroup && !!site[evolutionMetric]">
         <img :src="evolutionIconSrc" alt="" />
-        <span :style="{color: evolutionColor}">{{ site[evolutionMetric] }}</span>
+        <span :class="evolutionTrendClass">{{ site[evolutionMetric] }}</span>
       </template>
     </td>
 
@@ -103,17 +103,6 @@ export default defineComponent({
     displaySparkline() {
       return !this.site.isGroup && this.sparklineDate && this.sparklineMetric;
     },
-    evolutionColor() {
-      if (this.evolutionTrend === 1) {
-        return 'green';
-      }
-
-      if (this.evolutionTrend === -1) {
-        return 'red';
-      }
-
-      return 'inherit';
-    },
     evolutionIconSrc() {
       if (this.evolutionTrend === 1) {
         return 'plugins/MultiSites/images/arrow_up.png';
@@ -144,6 +133,17 @@ export default defineComponent({
       const property = `${this.evolutionMetric}_trend` as keyof DashboardMetrics;
 
       return this.site[property] as EvolutionTrend;
+    },
+    evolutionTrendClass(): string {
+      if (this.evolutionTrend === 1) {
+        return 'evolutionTrendPositive';
+      }
+
+      if (this.evolutionTrend === -1) {
+        return 'evolutionTrendNegative';
+      }
+
+      return '';
     },
     site(): DashboardSiteData {
       return this.modelValue as DashboardSiteData;

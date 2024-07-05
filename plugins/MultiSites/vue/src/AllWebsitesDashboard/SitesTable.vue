@@ -96,7 +96,7 @@
           </td>
         </tr>
 
-        <tr v-if="errorLoading">
+        <tr v-else-if="errorLoading">
           <td colspan="7">
             <div class="notification system notification-error">
               {{ translate('General_ErrorRequest', '', '') }}
