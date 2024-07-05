@@ -13,7 +13,7 @@ use Piwik\Config\DatabaseConfig;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class TiDbTest extends IntegrationTestCase
+class TidbTest extends IntegrationTestCase
 {
     public function testIsOptimizeInnoDBSupportedReturnsCorrectResult()
     {

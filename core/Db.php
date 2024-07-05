@@ -472,6 +472,10 @@ class Db
      */
     public static function optimizeTables($tables, $force = false)
     {
+        if (empty($tables)) {
+            return false;
+        }
+
         $tables = !is_array($tables) ? [$tables] : $tables;
         return Schema::getInstance()->optimizeTables($tables, (bool) $force);
     }
