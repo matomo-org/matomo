@@ -127,72 +127,7 @@ jobs:
 
   release_preview_version:
     needs: [run_matomo_tests]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          lfs: false
-          fetch-tags: true
-          ref: '5.x-preview'
-
-      - name: Import GPG key
-        if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
-        id: import_gpg
-        run: |
-          echo "${{ secrets.GPG_CERTIFICATE }}" > $HOME/private.asc
-          gpg --import --batch --yes $HOME/private.asc
-          echo "default-cache-ttl 7200
-          max-cache-ttl 31536000
-          allow-preset-passphrase" > $HOME/.gnupg/gpg-agent.conf
-          keygrip=$(gpg --import --import-options show-only --with-keygrip $HOME/private.asc | grep "Keygrip" | grep -oP "([A-F0-9]+)" | head -1)
-          hexPassphrase=$( echo -n '${{ secrets.GPG_CERTIFICATE_PASS }}' | od -A n -t x1 -w100 | sed 's/ *//g' )
-          gpg-connect-agent "RELOADAGENT" /bye
-          gpg-connect-agent "PRESET_PASSPHRASE ${keygrip} -1 ${hexPassphrase}" /bye
-          gpg-connect-agent "KEYINFO ${keygrip}" /bye
-
-      - name: Create tag, build and publish release
-        id: tag
-        run: |
-          echo "Version to build: '${NEW_VERSION}'"
-
-          TAG_EXISTS=$( git tag --list "$NEW_VERSION" )
-          if [[ -n "$TAG_EXISTS" ]]
-          then
-            echo "A tag for ${TAG_EXISTS} already exists."
-            exit 1
-          fi
-
-          echo "Creating a tag for $NEW_VERSION"
-
-          git tag $NEW_VERSION
-          git push origin tags/$NEW_VERSION
-
-          body="## Matomo ${NEW_VERSION} (Pre-release)
-
-          We recommend to read [this FAQ](https://matomo.org/faq/how-to-update/faq_159/) before using a pre-release in a production environment.
-
-          Please use the attached archives for installing or updating Matomo.
-          The source code download is only meant for developers and will require extra work to install it.
-           - Latest stable production release can be found at https://matomo.org/download/ ([learn more](https://matomo.org/docs/installation/)) (recommended)
-           - Beta and Release Candidate releases can be found at https://builds.matomo.org/ ([learn more](https://matomo.org/faq/how-to-update/faq_159/))"
-
-          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-          echo 'body<<EOF' >> $GITHUB_OUTPUT
-          echo "$body" >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
-
-          cd $GITHUB_WORKSPACE
-          chmod 755 ./.github/scripts/*.sh
-          ./.github/scripts/build-package.sh $NEW_VERSION
-        shell: bash
-        env:
-          NEW_VERSION: ${{ needs.prepare_preview.outputs.new_version }}
-
-      - uses: ncipollo/release-action@c4bf6c1ab090090498fb7f3ddc9f99ba5ab619b9
-        with:
-          artifacts: "archives/matomo-${{ steps.tag.outputs.version }}.*,archives/piwik-${{ steps.tag.outputs.version }}.*"
-          allowUpdates: false
-          tag: ${{ steps.tag.outputs.version }}
-          body: "${{ steps.tag.outputs.body }}"
-          prerelease: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+    uses: ./.github/workflows/release.yml
+    if: needs.prepare_preview.outputs.do_release == '1' && needs.prepare_preview.outputs.has_new_version == '1'
+    with:
+      is_preview: true
