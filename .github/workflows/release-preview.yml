@@ -32,8 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       do_release: ${{ steps.changes.outputs.do_release }}
-      has_new_release: ${{ steps.version.outputs.has_new_version }}
-      new_version: ${{ steps.version.outputs.new_version }}
+      has_new_version: ${{ steps.version.outputs.has_new_version }}
     steps:
       - uses: actions/checkout@v4
         with:
