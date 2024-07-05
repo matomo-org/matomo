@@ -123,7 +123,7 @@ class ReportsPurger
             }
 
             if ($optimize) {
-                Db::optimizeTables($oldBlobTables);
+                Db\Schema::getInstance()->optimizeTables($oldBlobTables);
             }
         }
 
@@ -152,7 +152,7 @@ class ReportsPurger
             }
 
             if ($optimize) {
-                Db::optimizeTables($oldNumericTables);
+                Db\Schema::getInstance()->optimizeTables($oldNumericTables);
             }
         }
     }

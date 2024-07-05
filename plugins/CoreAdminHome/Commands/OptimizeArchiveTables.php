@@ -64,7 +64,7 @@ class OptimizeArchiveTables extends ConsoleCommand
         if ($dryRun) {
             $output->write("[dry-run, not optimising table]");
         } else {
-            Db::optimizeTables(Common::prefixTable($table), $force = true);
+            Db\Schema::getInstance()->optimizeTables([Common::prefixTable($table)], $force = true);
         }
 
         $output->writeln("Done.");
