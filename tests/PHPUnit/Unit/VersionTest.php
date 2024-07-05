@@ -104,6 +104,23 @@ class VersionTest extends \PHPUnit\Framework\TestCase
         $this->assertNextVersionExists('3.3.3-rc1.20201224180000');
     }
 
+    public function testNextPreviewCorrectlyBumpsVersionIfNeeded()
+    {
+        // stable bumps patch and adds alpha
+        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3', '3.3.4-alpha');
+
+        // non-stable bumps b1, rc1
+        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-b1', '3.3.3-b2');
+        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-rc1', '3.3.3-rc2');
+        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-b1.20201224180000', '3.3.3-b1');
+        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-rc1.20201224180000', '3.3.3-rc1');
+
+        // preview does not bump x.y.z, only dt suffix
+        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-alpha-20201224180000', '3.3.3-alpha');
+        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-b1.20201224180000', '3.3.3-b1');
+        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-rc1.20201224180000', '3.3.3-rc1');
+    }
+
     private function assertIsStableVersion($versionNumber)
     {
         $isStable = $this->version->isStableVersion($versionNumber);
@@ -152,10 +169,18 @@ class VersionTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->version->isPreviewVersion($nextVersionNumber));
     }
 
+    private function assertCorrectPreviewVersionWithoutSuffix($versionNumber, $newVersionNumber)
+    {
+        $this->assertStringMatchesFormat(
+            "/^$newVersionNumber.\d{14}$/",
+            $this->version->nextPreviewVersion($versionNumber)
+        );
+    }
+
     /**
      * @dataProvider getLowerVersionCompares
      */
-    public function testVersionContraints($v1, $v2)
+    public function testVersionConstraints($v1, $v2)
     {
         $v = new VersionParser();
         $v1p = $v->parseConstraints($v1);

@@ -73,10 +73,31 @@ final class Version
             }
             return '';
         } elseif ($this->isStableVersion($version)) {
-            // no suffix yet
-            return $version . '-alpha.' . $dt;
+            // no suffix yet, we need to bump the patch first
+            $newVersion = preg_replace_callback(
+                '/^(\d+\.\d+\.)(\d+)$/',
+                function ($matches) {
+                    $matches[2] = $matches[2] + 1;
+                    return $matches[1] . $matches[2];
+                },
+                $version
+            );
+
+            return sprintf('%s-alpha.%s', $newVersion, $dt);
+        } elseif ('alpha' === substr($version, -5)) {
+            // -alpha
+            return $version . '.' . $dt;
         } else {
-            // -b1, -rc1, -alpha
+            // -b1, -rc1
+            $newVersion = preg_replace_callback(
+                '^(\d+\.\d+\.\d+-(?:rc|b|beta))(\d+)$/i',
+                function ($matches) {
+                    $matches[2] = $matches[2] + 1;
+                    return $matches[1] . $matches[2];
+                },
+                $version
+            );
+
             return $version . '.' . $dt;
         }
     }
