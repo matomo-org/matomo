@@ -100,6 +100,10 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    kpiBadgeHits: {
+      type: String,
+      required: true,
+    },
     pageSize: {
       type: Number,
       required: true,
@@ -139,7 +143,6 @@ export default defineComponent({
 
       const kpis: KPICardData[] = [
         {
-          badge: dashboardKPIs.visitsBadge,
           icon: 'icon-user',
           title: 'MultiSites_TotalVisits',
           value: dashboardKPIs.visits,
@@ -148,7 +151,6 @@ export default defineComponent({
           evolutionValue: dashboardKPIs.visitsEvolution,
         },
         {
-          badge: dashboardKPIs.pageviewsBadge,
           icon: 'icon-show',
           title: 'MultiSites_TotalPageviews',
           value: dashboardKPIs.pageviews,
@@ -157,7 +159,7 @@ export default defineComponent({
           evolutionValue: dashboardKPIs.pageviewsEvolution,
         },
         {
-          badge: dashboardKPIs.hitsBadge,
+          badge: this.kpiBadgeHits,
           icon: 'icon-hits',
           title: 'MultiSites_TotalHits',
           value: dashboardKPIs.hits,
@@ -169,7 +171,6 @@ export default defineComponent({
 
       if (this.displayRevenue) {
         kpis.push({
-          badge: dashboardKPIs.revenueBadge,
           icon: 'icon-dollar-sign',
           title: 'General_TotalRevenue',
           value: dashboardKPIs.revenue,

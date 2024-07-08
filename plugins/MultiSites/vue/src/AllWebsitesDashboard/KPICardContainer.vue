@@ -16,6 +16,7 @@
         <div class="kpiCardEvolution">
           <span class="kpiCardEvolutionTrend">&nbsp;</span>
         </div>
+        <div v-if="hasKpiBadge" class="kpiCardBadge">&nbsp;</div>
       </div>
     </template>
 
@@ -54,7 +55,7 @@ export default defineComponent({
   },
   computed: {
     hasKpiBadge(): boolean {
-      return this.kpis.some((kpi) => !!kpi.badge);
+      return this.kpis.some((kpi: KPICardData) => !!kpi.badge);
     },
     kpis(): KPICardData[] {
       return this.modelValue as KPICardData[];

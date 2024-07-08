@@ -60,6 +60,10 @@ class Controller extends \Piwik\Plugin\Controller
 
         if ($this->featureFlagManager->isFeatureActive(ImprovedAllWebsitesDashboard::class)) {
             $view = new View('@MultiSites/allWebsitesDashboard');
+
+            if (Piwik::hasUserSuperUserAccess()) {
+                $view->kpiBadgeHits = '<strong>Plan:</strong> 600K hits/month';
+            }
         } else {
             $view = new View('@MultiSites/getSitesInfo');
         }
