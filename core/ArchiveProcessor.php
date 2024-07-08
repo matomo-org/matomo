@@ -772,10 +772,9 @@ class ArchiveProcessor
             return;
         }
 
-        // The below check is meant to avoid archiving the VisitsSummary more often than needed
-        // If e.g. one plugin depends on a certain segment it will process VisitsSummary first.
-        // So another plugin depending on VisitsSummary for the same segment doesn't need to be processed.
-        if (in_array($newSegment->getOriginalString(), $this->processedDependentSegments) && $plugin === 'VisitsSummary') {
+        // The below check is meant to avoid archiving the same dependency multiple times.
+        $processedSegmentKey = $params->getSite()->getId() . $params->getDateStart() . $params->getPeriod()->getLabel() . $newSegment->getOriginalString();
+        if (in_array($processedSegmentKey . $plugin, $this->processedDependentSegments)) {
             return;
         }
 
@@ -785,7 +784,7 @@ class ArchiveProcessor
 
             // Ensure to always invalidate VisitsSummary before any other plugin archive.
             // Otherwise those archives might get build with outdated VisitsSummary data
-            if ($plugin !== 'VisitsSummary' && !in_array($newSegment->getOriginalString(), $this->processedDependentSegments)) {
+            if ($plugin !== 'VisitsSummary' && !in_array($processedSegmentKey . 'VisitsSummary', $this->processedDependentSegments)) {
                 $invalidator->markArchivesAsInvalidated(
                     $idSites,
                     [$params->getDateStart()],
@@ -803,6 +802,8 @@ class ArchiveProcessor
 
                 $archiveLoader = new ArchiveProcessor\Loader($parameters);
                 $archiveLoader->prepareArchive('VisitsSummary');
+
+                $this->processedDependentSegments[] = $processedSegmentKey . 'VisitsSummary';
             }
 
             $invalidator->markArchivesAsInvalidated(
@@ -823,7 +824,7 @@ class ArchiveProcessor
             $archiveLoader = new ArchiveProcessor\Loader($parameters);
             $archiveLoader->prepareArchive($plugin);
 
-            $this->processedDependentSegments[] = $newSegment->getOriginalString();
+            $this->processedDependentSegments[] = $processedSegmentKey . $plugin;
         } finally {
             self::$isRootArchivingRequest = true;
         }
