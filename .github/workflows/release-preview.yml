@@ -78,8 +78,8 @@ jobs:
           echo "do_release=$DO_RELEASE" >> $GITHUB_OUTPUT
 
       - name: Determine new preview version number
-        if: steps.changes.outputs.do_release == '1'
         id: version
+        if: steps.changes.outputs.do_release == '1'
         run: |
           OLD_VERSION=$(php -r "include_once 'core/Version.php'; echo \Piwik\Version::VERSION;")
           NEW_VERSION=$(php -r "include_once 'core/Version.php'; \$v = new \Piwik\Version(); echo \$v->nextPreviewVersion(\Piwik\Version::VERSION);")
@@ -131,13 +131,22 @@ jobs:
   run_matomo_tests:
     needs: [prepare_preview_version]
     uses: ./.github/workflows/matomo-tests.yml
-    if: needs.prepare_preview_version.outputs.do_release == '1' && needs.prepare_preview_version.outputs.has_new_version == '1'
+    if: |
+      always() && 
+      needs.prepare_preview_version.result == 'success' && 
+      needs.prepare_preview_version.outputs.do_release == '1' && 
+      needs.prepare_preview_version.outputs.has_new_version == '1'
     with:
       is_preview: true
 
   release_preview_version:
     needs: [run_matomo_tests]
     uses: ./.github/workflows/release.yml
-    if: needs.prepare_preview_version.outputs.do_release == '1' && needs.prepare_preview_version.outputs.has_new_version == '1'
+    if: |
+      always() && 
+      needs.prepare_preview_version.result == 'success' && 
+      needs.run_matomo_tests.result == 'success' && 
+      needs.prepare_preview_version.outputs.do_release == '1' && 
+      needs.prepare_preview_version.outputs.has_new_version == '1'
     with:
       is_preview: true
