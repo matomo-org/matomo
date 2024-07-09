@@ -787,7 +787,7 @@ class ArchiveProcessor
             if ($plugin !== 'VisitsSummary' && !in_array($processedSegmentKey . 'VisitsSummary', $this->processedDependentSegments)) {
                 $invalidator->markArchivesAsInvalidated(
                     $idSites,
-                    [$params->getDateStart()],
+                    [$params->getPeriod()->getDateStart()],
                     $params->getPeriod()->getLabel(),
                     $newSegment,
                     false,
@@ -808,7 +808,7 @@ class ArchiveProcessor
 
             $invalidator->markArchivesAsInvalidated(
                 $idSites,
-                [$params->getDateStart()],
+                [$params->getPeriod()->getDateStart()],
                 $params->getPeriod()->getLabel(),
                 $newSegment,
                 false,
