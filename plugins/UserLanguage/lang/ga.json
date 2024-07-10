@@ -1,1 +1,9 @@
-{}
+{
+    "UserLanguage": {
+        "BrowserLanguage": "Teanga brabhsálaí gréasáin",
+        "LanguageCode": "Cód teanga",
+        "PluginDescription": "Tuairiscíonn sé an phríomhtheanga brabhsálaí gréasáin a úsáideann do chuairteoirí.",
+        "getLanguageCodeDocumentation": "Taispeánann sé cén cód teanga cruinn a bhfuil brabhsálaithe an chuairteora socraithe dó. (m.sh. \"Gearmáinis - An Ostair (de-at)\")",
+        "getLanguageDocumentation": "Taispeánann sé cén teanga atá in úsáid ag brabhsálaithe an chuairteora. (m.sh. \"Fraincis\")"
+    }
+}

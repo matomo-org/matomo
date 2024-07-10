@@ -16,6 +16,7 @@
         "DatabaseSetup": "Databaseoppsett",
         "DatabaseSetupAdapter": "Adapter",
         "DatabaseSetupDatabaseName": "Databasenavn",
+        "DatabaseSetupEngine": "Databasemotor",
         "DatabaseSetupLogin": "Brukernavn",
         "DatabaseSetupServer": "Databasetjener",
         "DatabaseSetupTablePrefix": "Tabellprefiks",
