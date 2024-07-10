@@ -119,11 +119,11 @@ export default defineComponent({
     };
   },
   mounted() {
-    watch(() => MatomoUrl.hashParsed.value, () => DashboardStore.refreshData());
+    watch(() => MatomoUrl.hashParsed.value, () => DashboardStore.reloadDashboard());
 
     DashboardStore.setAutoRefreshInterval(this.autoRefreshInterval);
     DashboardStore.setPageSize(this.pageSize);
-    DashboardStore.refreshData();
+    DashboardStore.reloadDashboard();
   },
   computed: {
     addSiteUrl(): string {

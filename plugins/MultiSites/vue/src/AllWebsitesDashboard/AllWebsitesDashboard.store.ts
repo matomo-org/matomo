@@ -51,6 +51,9 @@ interface GetDashboardMockDataResponse {
   sparklineDate: string;
 }
 
+const DEFAULT_SORT_ORDER = 'desc';
+const DEFAULT_SORT_COLUMN = 'nb_visits';
+
 class DashboardStore {
   private fetchAbort: AbortController|null = null;
 
@@ -77,8 +80,8 @@ class DashboardStore {
     numSites: 0,
     paginationCurrentPage: 0,
     sparklineDate: '',
-    sortColumn: 'nb_visits',
-    sortOrder: 'desc',
+    sortColumn: DEFAULT_SORT_COLUMN,
+    sortOrder: DEFAULT_SORT_ORDER,
   });
 
   private autoRefreshInterval = 0;
@@ -122,7 +125,72 @@ class DashboardStore {
     return max;
   });
 
-  refreshData(onlySites = false) {
+  reloadDashboard(): void {
+    this.privateState.sortColumn = DEFAULT_SORT_COLUMN;
+    this.privateState.sortOrder = DEFAULT_SORT_ORDER;
+    this.privateState.paginationCurrentPage = 0;
+
+    this.refreshData();
+  }
+
+  navigateNextPage(): void {
+    if (this.privateState.paginationCurrentPage === this.numberOfPages.value) {
+      return;
+    }
+
+    this.privateState.paginationCurrentPage += 1;
+
+    this.refreshData(true);
+  }
+
+  navigatePreviousPage(): void {
+    if (this.privateState.paginationCurrentPage === 0) {
+      return;
+    }
+
+    this.privateState.paginationCurrentPage -= 1;
+
+    this.refreshData(true);
+  }
+
+  searchSite(term: string): void {
+    this.searchTerm = term;
+    this.privateState.paginationCurrentPage = 0;
+
+    this.refreshData(true);
+  }
+
+  setAutoRefreshInterval(interval: number) {
+    this.autoRefreshInterval = interval;
+  }
+
+  setPageSize(size: number) {
+    this.pageSize = size;
+  }
+
+  sortBy(column: string) {
+    if (this.privateState.sortColumn === column) {
+      this.privateState.sortOrder = this.privateState.sortOrder === 'desc' ? 'asc' : 'desc';
+    } else {
+      this.privateState.sortOrder = column === 'label' ? 'asc' : 'desc';
+    }
+
+    this.privateState.sortColumn = column;
+
+    this.refreshData(true);
+  }
+
+  private cancelAutoRefresh() {
+    if (!this.autoRefreshTimeout) {
+      return;
+    }
+
+    clearTimeout(this.autoRefreshTimeout);
+
+    this.autoRefreshTimeout = null;
+  }
+
+  private refreshData(onlySites = false) {
     if (this.fetchAbort) {
       this.fetchAbort.abort();
       this.fetchAbort = null;
@@ -181,63 +249,6 @@ class DashboardStore {
 
       this.startAutoRefresh();
     });
-  }
-
-  navigateNextPage(): void {
-    if (this.privateState.paginationCurrentPage === this.numberOfPages.value) {
-      return;
-    }
-
-    this.privateState.paginationCurrentPage += 1;
-
-    this.refreshData(true);
-  }
-
-  navigatePreviousPage(): void {
-    if (this.privateState.paginationCurrentPage === 0) {
-      return;
-    }
-
-    this.privateState.paginationCurrentPage -= 1;
-
-    this.refreshData(true);
-  }
-
-  searchSite(term: string): void {
-    this.searchTerm = term;
-    this.privateState.paginationCurrentPage = 0;
-
-    this.refreshData(true);
-  }
-
-  setAutoRefreshInterval(interval: number) {
-    this.autoRefreshInterval = interval;
-  }
-
-  setPageSize(size: number) {
-    this.pageSize = size;
-  }
-
-  sortBy(column: string) {
-    if (this.privateState.sortColumn === column) {
-      this.privateState.sortOrder = this.privateState.sortOrder === 'desc' ? 'asc' : 'desc';
-    } else {
-      this.privateState.sortOrder = column === 'label' ? 'asc' : 'desc';
-    }
-
-    this.privateState.sortColumn = column;
-
-    this.refreshData(true);
-  }
-
-  private cancelAutoRefresh() {
-    if (!this.autoRefreshTimeout) {
-      return;
-    }
-
-    clearTimeout(this.autoRefreshTimeout);
-
-    this.autoRefreshTimeout = null;
   }
 
   private startAutoRefresh() {
