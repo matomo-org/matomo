@@ -773,7 +773,7 @@ class ArchiveProcessor
         }
 
         // The below check is meant to avoid archiving the same dependency multiple times.
-        $processedSegmentKey = $params->getSite()->getId() . $params->getDateStart() . $params->getPeriod()->getLabel() . $newSegment->getOriginalString();
+        $processedSegmentKey = $params->getSite()->getId() . $params->getPeriod()->getDateStart() . $params->getPeriod()->getLabel() . $newSegment->getOriginalString();
         if (in_array($processedSegmentKey . $plugin, $this->processedDependentSegments)) {
             return;
         }
