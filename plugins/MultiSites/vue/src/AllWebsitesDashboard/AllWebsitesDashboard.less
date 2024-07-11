@@ -1,0 +1,367 @@
+#multisitesAllWebsitesDashboard {
+  .widgetized & {
+    // required for widgetized display
+
+    // @see Morpheus/_default.less body
+    line-height: 1.33;
+
+    .dashboardHeader {
+      margin: 20px 10px;
+    }
+
+    .sitesTableContainer {
+      margin-left: 0;
+      margin-right: 0;
+      overflow-x: auto;
+      width: 100%;
+    }
+
+    .sitesTable {
+      table-layout: auto;
+    }
+  }
+
+  > .col {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  [vue-entry="MultiSites.AllWebsitesDashboard"] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #periodString {
+    // override #periodString
+    float: none;
+    margin-right: 0;
+    position: initial;
+  }
+
+  .periodSelector {
+    // @see #root .top_controls .piwikTopControl
+    font-size: 11px;
+
+    // required to align dropdown
+    position: relative;
+
+    .dropdown {
+      right: 0;
+    }
+  }
+
+  .dashboardControls {
+    align-items: flex-end;
+    column-gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 10px 20px 10px;
+
+    .btn {
+      margin-bottom: 8px;
+    }
+
+    .siteSearch {
+      flex-basis: 0;
+      flex-grow: 1;
+      max-width: 300px;
+      position: relative;
+
+      input {
+        box-sizing: border-box;
+        height: 2.5rem;
+        padding-left: 0.3125rem;
+        padding-right: 2.5rem;
+        width: 100%;
+      }
+
+      label {
+        position: static;
+      }
+
+      .icon-search {
+        position: absolute;
+        right: 0.625rem;
+        top: 0.625rem;
+        cursor: pointer;
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  .dashboardHeader {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    row-gap: 20px;
+
+    .card-title {
+      margin-bottom: 0;
+    }
+  }
+
+  .kpiCardContainer {
+    align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 40px 20px 40px;
+    overflow-x: auto;
+
+    .kpiCard {
+      flex-basis: 0;
+      flex-grow: 1;
+      margin: 20px 0;
+      padding: 0 40px;
+      white-space: nowrap;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+
+    .kpiCardLoading {
+      text-align: center;
+
+      .kpiCardBadge {
+        visibility: hidden;
+      }
+
+      .matomo-loader {
+        top: -8px;
+      }
+    }
+
+    .kpiCardDivider {
+      align-self: stretch;
+      background-image: url('plugins/MultiSites/images/kpi_divider.svg');
+      margin: 20px 0;
+      width: 1px;
+    }
+
+    .kpiCardDividerBadge {
+      // do not stretch divider into badge space
+      margin-bottom: 3rem;
+    }
+
+    .kpiCardIcon {
+      font-size: 0.9rem;
+      position: relative;
+      top: 1px;
+    }
+
+    .kpiCardTitle {
+      color: #76838f;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+
+    .kpiCardValue {
+      font-size: 3rem;
+      font-weight: bold;
+      padding: 0.25rem 0;
+    }
+
+    .kpiCardEvolution {
+      color: #76838f;
+      font-size: 0.9rem;
+    }
+
+    .kpiCardEvolutionIcon {
+      font-size: 0.7rem;
+    }
+
+    .kpiCardEvolutionTrend {
+      font-size: 1rem;
+    }
+
+    .kpiTrendNegative {
+      color: red;
+    }
+
+    .kpiTrendNeutral {
+      .kpiCardEvolutionIcon {
+        color: #ccc;
+      }
+    }
+
+    .kpiTrendPositive {
+      color: green;
+    }
+
+    .kpiCardBadge {
+      background-color: #ecf7fe;
+      border: 2px solid #0d94e3;
+      border-radius: 2px;
+      display: inline-block;
+      font-size: 0.9rem;
+      height: 1.5rem;
+      margin-top: 0.5rem;
+      padding: 0 0.35rem;
+    }
+  }
+
+  .sitesTableContainer {
+    margin: 0 -20px;
+    overflow-x: auto;
+    width: calc(~"100% + 40px");
+  }
+
+  .sitesTable {
+    margin: 0;
+    width: 100%;
+
+    th {
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    tr {
+      height: 38px;
+    }
+
+    .sitesTableGroup {
+      font-weight: bold;
+    }
+
+    .sitesTableGroupSite .label {
+      padding-left: 50px;
+    }
+
+    td {
+      vertical-align: middle;
+
+      // improve automatic table cell width
+      width: auto;
+    }
+
+    td:not(.label) {
+      padding-right: 12px;
+      text-align: right;
+    }
+
+    td:first-child,
+    th:first-child {
+      padding-left: calc(~"1rem + 20px");
+    }
+
+    td:last-child,
+    th:last-child {
+      padding-right: calc(~"1rem + 20px");
+    }
+
+    td.sitesTableLoading {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    img {
+      vertical-align: middle;
+    }
+
+    .notification-error {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .evolutionTrendPositive {
+      color: green;
+    }
+
+    .evolutionTrendNegative {
+      color: red;
+    }
+  }
+
+  .sitesTableSort:after {
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    color: @theme-color-brand;
+    content: " \25BC";
+    display: inline-block;
+    height: 6px;
+    font-size: 1px;
+    margin-top: 4px;
+    vertical-align: top;
+  }
+
+  .sitesTableSortAsc:after {
+    border-bottom: 5px solid @theme-color-brand;
+  }
+
+  .sitesTableSortDesc:after {
+    border-top: 5px solid @theme-color-brand;
+  }
+
+  .sitesTableEvolutionSelector,
+  .sitesTableSparkline {
+    padding-left: 0;
+    text-align: left;
+
+    // collapse sparkline cell
+    width: 1%;
+  }
+
+  .sitesTableEvolutionSelector select {
+    height: 28px;
+    margin: -8px 0;
+    display: inline-block;
+    width: 100px;
+  }
+
+  .sitesTableSparkline img {
+    margin: 0;
+  }
+
+  .sitesTablePagination {
+    line-height: 38px;
+    text-align: center;
+
+    .dataTablePrevious,
+    .dataTableNext {
+      cursor: pointer;
+      visibility: visible;
+    }
+  }
+
+  @media all and (max-width: 600px) {
+    #periodString {
+      width: 100%;
+    }
+
+    .periodSelector {
+      width: 100%;
+
+      .dropdown {
+        right: auto;
+      }
+    }
+
+    .dashboardControls {
+      flex-direction: column-reverse;
+      margin-left: 0;
+      margin-right: 0;
+
+      .btn {
+        margin-bottom: 20px;
+        width: 100%;
+      }
+
+      .siteSearch {
+        max-width: none;
+        width: 100%;
+      }
+    }
+
+    .kpiCardContainer {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+  }
+}
