@@ -116,7 +116,7 @@ class VersionTest extends \PHPUnit\Framework\TestCase
         $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-rc1.20201224180000', '3.3.3-rc1');
 
         // preview does not bump x.y.z, only dt suffix
-        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-alpha-20201224180000', '3.3.3-alpha');
+        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-alpha.20201224180000', '3.3.3-alpha');
         $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-b1.20201224180000', '3.3.3-b1');
         $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-rc1.20201224180000', '3.3.3-rc1');
     }
