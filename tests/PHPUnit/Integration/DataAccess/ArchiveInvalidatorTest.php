@@ -193,6 +193,91 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $actualInvalidations = $this->getInvalidatedArchiveTableEntries();
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
+    public function testMarkArchivesAsInvalidatedDoesHandleInProgressArchivesCorrectly()
+    {
+        // Insert an archive/invalidation that is currently in progress
+        $this->insertArchiveRow(1, '2020-03-03', 'day', $doneValue = ArchiveWriter::DONE_ERROR, '', false);
+        $this->insertInvalidations([
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-03', 'date2' => '2020-03-03', 'period' => 1, 'report' => null, 'ts_started' => Date::now()->getDatetime(), 'status' => 1]
+        ]);
+
+        /** @var ArchiveInvalidator $archiveInvalidator */
+        $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
+
+        $archiveInvalidator->markArchivesAsInvalidated(
+            [1],
+            ['2020-03-03'],
+            'day',
+            null,
+            $cascadeDown = true,
+            false
+        );
+
+        $invalidatedArchives = $this->getAvailableArchives();
+        $expectedArchives = [
+            '2020_03' => [
+                ['idsite' => 1, 'date1' => '2020-03-03', 'date2' => '2020-03-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_ERROR_INVALIDATED]
+            ],
+        ];
+
+        $this->assertEquals($expectedArchives, $invalidatedArchives);
+
+        $expectedInvalidations = [
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '1',
+                'name' => 'done',
+                'date1' => '2020-03-03',
+                'date2' => '2020-03-03',
+                'report' => null,
+                'status' => '1'
+            ],
+            [
+                'idarchive' => '1',
+                'idsite' => '1',
+                'period' => '1',
+                'name' => 'done',
+                'date1' => '2020-03-03',
+                'date2' => '2020-03-03',
+                'report' => null,
+                'status' => '0'
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '2',
+                'name' => 'done',
+                'date1' => '2020-03-02',
+                'date2' => '2020-03-08',
+                'report' => null,
+                'status' => '0'
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '3',
+                'name' => 'done',
+                'date1' => '2020-03-01',
+                'date2' => '2020-03-31',
+                'report' => null,
+                'status' => '0'
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '4',
+                'name' => 'done',
+                'date1' => '2020-01-01',
+                'date2' => '2020-12-31',
+                'report' => null,
+                'status' => '0'
+            ],
+        ];
+
+        $actualInvalidations = $this->getInvalidatedArchiveTableEntries(true);
+        $this->assertEquals($expectedInvalidations, $actualInvalidations);
+    }
 
     public function testReArchiveReportDoesNothingIfIniSettingSetToZero()
     {
@@ -1203,7 +1288,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     ),
                 ),
                 [
-                    // TODO: super strange, there are two idarchive = 106 values here
                     ['idarchive' => '106', 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
                     ['idarchive' => '1', 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
                     ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
@@ -1240,6 +1324,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
                     ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-29', 'date2' => '2015-01-29', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
                     ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    // archive id 106 occurs a second time as it comes from a different archive table
                     ['idarchive' => '106', 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
                     ['idarchive' => '91', 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
                 ],
@@ -2445,6 +2530,24 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         return $result;
     }
 
+    private function getAvailableArchives()
+    {
+        $result = array();
+        foreach (ArchiveTableCreator::getTablesArchivesInstalled(ArchiveTableCreator::NUMERIC_TABLE) as $table) {
+            $date = ArchiveTableCreator::getDateFromTableName($table);
+
+            $sql = "SELECT idsite, date1, date2, period, name, value FROM $table WHERE name LIKE 'done%'";
+
+            $archiveSpecs = Db::query($sql)->fetchAll();
+            if (empty($archiveSpecs)) {
+                continue;
+            }
+
+            $result[$date] = $archiveSpecs;
+        }
+        return $result;
+    }
+
     private function getInvalidatedArchives($anyTsArchived = true)
     {
         $result = array();
@@ -2529,9 +2632,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         Db::query($sql);
     }
 
-    private function getInvalidatedArchiveTableEntries()
+    private function getInvalidatedArchiveTableEntries($includeStatus = false)
     {
-        return Db::fetchAll("SELECT idarchive, idsite, date1, date2, period, name, report FROM " . Common::prefixTable('archive_invalidations'));
+        return Db::fetchAll("SELECT idarchive, idsite, date1, date2, period, name, report" . ($includeStatus ? ', status' : '') . " FROM " . Common::prefixTable('archive_invalidations'));
     }
 
     private function assertEqualsSorted(array $expectedEntries, array $invalidatedArchiveTableEntries)
@@ -2579,7 +2682,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         $table = Common::prefixTable('archive_invalidations');
         foreach ($invalidations as $invalidation) {
-            $sql = "INSERT INTO $table (name, idsite, date1, date2, period, ts_invalidated, report) VALUES (?, ?, ?, ?, ?, NOW(), ?)";
+            $sql = "INSERT INTO $table (name, idsite, date1, date2, period, ts_invalidated, report, ts_started, status) VALUES (?, ?, ?, ?, ?, NOW(), ?, ?, ?)";
             Db::query($sql, [
                 $invalidation['name'],
                 $invalidation['idsite'],
@@ -2587,6 +2690,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 $invalidation['date2'],
                 $invalidation['period'],
                 $invalidation['report'],
+                $invalidation['ts_started'] ?? null,
+                $invalidation['status'] ?? 0,
             ]);
         }
     }

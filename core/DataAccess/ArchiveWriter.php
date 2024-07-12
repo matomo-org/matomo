@@ -67,6 +67,11 @@ class ArchiveWriter
      */
     public const DONE_PARTIAL = 5;
 
+    /**
+     * Flag indicates an archive that is currently been processed, but has already been invalidated again
+     */
+    public const DONE_ERROR_INVALIDATED = 6;
+
     protected $fields = ['idarchive',
         'idsite',
         'date1',
@@ -199,6 +204,13 @@ class ArchiveWriter
 
         $doneValue = $this->parameters->isPartialArchive() ? self::DONE_PARTIAL : self::DONE_OK;
         $this->checkDoneValueIsOnlyPartialForPluginArchives($doneValue); // check and log
+
+        $currentStatus = $this->getModel()->getArchiveStatus($numericTable, $idArchive, $this->doneFlag);
+
+        // If the current archive was already invalidated during runtime, directly update status to invalidated instead of done
+        if ($currentStatus == self::DONE_ERROR_INVALIDATED) {
+            $doneValue = self::DONE_INVALIDATED;
+        }
 
         $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, $doneValue);
 
