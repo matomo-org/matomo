@@ -291,7 +291,7 @@ class QueueConsumer
             }
 
             $reason = $this->shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress($invalidatedArchive);
-            if ($reason) {
+            if ($reason !== null) {
                 $this->logger->debug("Skipping invalidated archive, $reason: $invalidationDesc");
                 $invalidationsToExcludeInBatch[$invalidatedArchive['idinvalidation']] = true;
                 $this->addInvalidationToExclude($invalidatedArchive);
@@ -430,50 +430,50 @@ class QueueConsumer
         return $loader->canSkipThisArchive(); // if no point in archiving, skip
     }
 
-    public function shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress(array $archiveToProcess)
+    public function shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress(array $archiveToProcess): ?string
     {
-        $inProgressArchives = $this->cliMultiRequestParser->getInProgressArchivingCommands();
+        $inProgressArchives = $this->model->getInvalidationsInProgress(
+            (int) $archiveToProcess['idsite']
+        );
+
+        $periods = array_flip(Piwik::$idPeriods);
 
         foreach ($inProgressArchives as $archiveBeingProcessed) {
-            if (
-                empty($archiveBeingProcessed['period'])
-                || empty($archiveBeingProcessed['date'])
-            ) {
-                continue;
-            }
+            $this->findSegmentForArchive($archiveBeingProcessed);
 
-            if (
-                empty($archiveBeingProcessed['idSite'])
-                || $archiveBeingProcessed['idSite'] != $archiveToProcess['idsite']
-            ) {
+            if ($archiveBeingProcessed['idsite'] != $archiveToProcess['idsite']) {
                 continue; // different site
             }
 
             // we don't care about lower periods being concurrent if they are for different segments (that are not "all visits")
             if (
-                !empty($archiveBeingProcessed['segment'])
-                && !empty($archiveToProcess['segment'])
+                !empty($archiveBeingProcessed['segment']) && !empty($archiveToProcess['segment'])
                 && $archiveBeingProcessed['segment'] != $archiveToProcess['segment']
-                && urldecode($archiveBeingProcessed['segment']) != $archiveToProcess['segment']
             ) {
                 continue;
             }
 
-            $archiveBeingProcessed['periodObj'] = PeriodFactory::build($archiveBeingProcessed['period'], $archiveBeingProcessed['date']);
+            $archiveBeingProcessed['periodObj'] = PeriodFactory::build($periods[$archiveBeingProcessed['period']], $archiveBeingProcessed['date1']);
 
-            if ($this->isArchiveOfLowerPeriod($archiveToProcess, $archiveBeingProcessed)) {
-                return "lower or same period in progress in another local climulti process (period = {$archiveBeingProcessed['period']}, date = {$archiveBeingProcessed['date']})";
+            if (!$this->isArchiveOfLowerPeriod($archiveToProcess, $archiveBeingProcessed)) {
+                continue;
             }
 
-            if ($this->isArchiveNonSegmentAndInProgressArchiveSegment($archiveToProcess, $archiveBeingProcessed)) {
-                return "segment archive in progress for same site/period ({$archiveBeingProcessed['segment']})";
+            if (empty($archiveToProcess['segment']) && !empty($archiveBeingProcessed['segment'])) {
+                return "segment archive in progress for same site with lower or same period ({$archiveBeingProcessed['segment']}, period = {$periods[$archiveBeingProcessed['period']]}, date = {$archiveBeingProcessed['date1']})";
             }
+
+            if (!empty($archiveToProcess['segment']) && empty($archiveBeingProcessed['segment'])) {
+                return "all visits archive in progress for same site with lower or same period (period = {$periods[$archiveBeingProcessed['period']]}, date = {$archiveBeingProcessed['date1']})";
+            }
+
+            return "lower or same period in progress (period = {$periods[$archiveBeingProcessed['period']]}, date = {$archiveBeingProcessed['date1']})";
         }
 
-        return false;
+        return null;
     }
 
-    private function isArchiveOfLowerPeriod(array $archiveToProcess, $archiveBeingProcessed)
+    private function isArchiveOfLowerPeriod(array $archiveToProcess, $archiveBeingProcessed): bool
     {
         /** @var Period $archiveToProcessPeriodObj */
         $archiveToProcessPeriodObj = $archiveToProcess['periodObj'];
@@ -494,8 +494,7 @@ class QueueConsumer
     {
         // archive is for different site/period
         if (
-            empty($archiveBeingProcessed['idSite'])
-            || $archiveToProcess['idsite'] != $archiveBeingProcessed['idSite']
+            $archiveToProcess['idsite'] != $archiveBeingProcessed['idsite']
             || $archiveToProcess['periodObj']->getId() != $archiveBeingProcessed['periodObj']->getId()
             || $archiveToProcess['periodObj']->getDateStart()->toString() != $archiveBeingProcessed['periodObj']->getDateStart()->toString()
         ) {
