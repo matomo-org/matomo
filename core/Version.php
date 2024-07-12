@@ -90,7 +90,7 @@ final class Version
         } else {
             // -b1, -rc1
             $newVersion = preg_replace_callback(
-                '^(\d+\.\d+\.\d+-(?:rc|b|beta))(\d+)$/i',
+                '/^(\d+\.\d+\.\d+-(?:rc|b|beta))(\d+)$/i',
                 function ($matches) {
                     $matches[2] = $matches[2] + 1;
                     return $matches[1] . $matches[2];
@@ -98,7 +98,7 @@ final class Version
                 $version
             );
 
-            return $version . '.' . $dt;
+            return $newVersion . '.' . $dt;
         }
     }
 }
