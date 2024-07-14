@@ -13,6 +13,9 @@
 				<items>1</items>
 				
 				
+				<referrerType>search</referrerType>
+				<referrerName>Google</referrerName>
+				<referrerKeyword>😡</referrerKeyword>
 				<itemDetails>
 					<row>
 						<itemSKU>sku 🛸</itemSKU>

@@ -198,12 +198,12 @@ class PurgeOldArchiveData extends ConsoleCommand
         foreach ($dates as $date) {
             $numericTable = ArchiveTableCreator::getNumericTable($date);
             $this->performTimedPurging("Optimizing table $numericTable...", function () use ($numericTable) {
-                Db::optimizeTables($numericTable, $force = true);
+                Db\Schema::getInstance()->optimizeTables([$numericTable], $force = true);
             });
 
             $blobTable = ArchiveTableCreator::getBlobTable($date);
             $this->performTimedPurging("Optimizing table $blobTable...", function () use ($blobTable) {
-                Db::optimizeTables($blobTable, $force = true);
+                Db\Schema::getInstance()->optimizeTables([$blobTable], $force = true);
             });
         }
     }

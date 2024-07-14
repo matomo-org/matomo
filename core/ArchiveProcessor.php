@@ -111,6 +111,8 @@ class ArchiveProcessor
 
     private $numberOfVisitsConverted = false;
 
+    private $processedDependentSegments = [];
+
     public function __construct(Parameters $params, ArchiveWriter $archiveWriter, LogAggregator $logAggregator)
     {
         $this->params = $params;
@@ -770,13 +772,59 @@ class ArchiveProcessor
             return;
         }
 
+        // The below check is meant to avoid archiving the same dependency multiple times.
+        $processedSegmentKey = $params->getSite()->getId() . $params->getPeriod()->getDateStart() . $params->getPeriod()->getLabel() . $newSegment->getOriginalString();
+        if (in_array($processedSegmentKey . $plugin, $this->processedDependentSegments)) {
+            return;
+        }
+
         self::$isRootArchivingRequest = false;
         try {
+            $invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
+
+            // Ensure to always invalidate VisitsSummary before any other plugin archive.
+            // Otherwise those archives might get build with outdated VisitsSummary data
+            if ($plugin !== 'VisitsSummary' && !in_array($processedSegmentKey . 'VisitsSummary', $this->processedDependentSegments)) {
+                $invalidator->markArchivesAsInvalidated(
+                    $idSites,
+                    [$params->getPeriod()->getDateStart()],
+                    $params->getPeriod()->getLabel(),
+                    $newSegment,
+                    false,
+                    false,
+                    'VisitsSummary',
+                    false,
+                    true
+                );
+
+                $parameters = new ArchiveProcessor\Parameters($params->getSite(), $params->getPeriod(), $newSegment);
+                $parameters->onlyArchiveRequestedPlugin();
+
+                $archiveLoader = new ArchiveProcessor\Loader($parameters);
+                $archiveLoader->prepareArchive('VisitsSummary');
+
+                $this->processedDependentSegments[] = $processedSegmentKey . 'VisitsSummary';
+            }
+
+            $invalidator->markArchivesAsInvalidated(
+                $idSites,
+                [$params->getPeriod()->getDateStart()],
+                $params->getPeriod()->getLabel(),
+                $newSegment,
+                false,
+                false,
+                $plugin,
+                false,
+                true
+            );
+
             $parameters = new ArchiveProcessor\Parameters($params->getSite(), $params->getPeriod(), $newSegment);
             $parameters->onlyArchiveRequestedPlugin();
 
             $archiveLoader = new ArchiveProcessor\Loader($parameters);
             $archiveLoader->prepareArchive($plugin);
+
+            $this->processedDependentSegments[] = $processedSegmentKey . $plugin;
         } finally {
             self::$isRootArchivingRequest = true;
         }

@@ -1,1 +1,13 @@
-{}
+{
+    "Resolution": {
+        "ColumnConfiguration": "Cumraíocht",
+        "ColumnResolution": "Rún",
+        "Configurations": "Cumraíochtaí",
+        "PluginDescription": "Tuairiscíonn sé rúin scáileáin do chuairteoirí.",
+        "Resolutions": "Rúin",
+        "WidgetGlobalVisitors": "Cumraíocht Cuairteoirí",
+        "WidgetGlobalVisitorsDocumentation": "Léiríonn an tuarascáil seo na cumraíochtaí foriomlána is coitianta a bhí ag do chuairteoirí. Is éard is cumraíocht ann ná meascán de chóras oibriúcháin, cineál brabhsálaí agus taifeach scáileáin.",
+        "WidgetResolutions": "Taifeach Scáileáin",
+        "WidgetResolutionsDocumentation": "Taispeánann an tuarascáil seo na réitigh scáileáin a d’úsáid do chuairteoirí agus iad ag féachaint ar do shuíomh Gréasáin."
+    }
+}

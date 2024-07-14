@@ -104,6 +104,9 @@
 				<items>2</items>
 				
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 					<row>
 						<itemSKU>ABCSKU123</itemSKU>

@@ -9,6 +9,8 @@
 
 namespace Piwik\Db\Schema;
 
+use Piwik\DbHelper;
+
 /**
  * Mariadb schema
  */
@@ -28,5 +30,47 @@ class Tidb extends Mysql
     public function getDefaultPort(): int
     {
         return 4000;
+    }
+
+    public function getTableCreateOptions(): string
+    {
+        $engine = $this->getTableEngine();
+        $charset = $this->getUsedCharset();
+        $rowFormat = $this->getTableRowFormat();
+
+        $options = "ENGINE=$engine DEFAULT CHARSET=$charset";
+
+        if ('utf8mb4' === $charset) {
+            $options .= ' COLLATE=utf8mb4_0900_ai_ci';
+        }
+
+        if ('' !== $rowFormat) {
+            $options .= " $rowFormat";
+        }
+
+        return $options;
+    }
+
+    public function isOptimizeInnoDBSupported(): bool
+    {
+        return false;
+    }
+
+    public function optimizeTables(array $tables, bool $force = false): bool
+    {
+        // OPTIMIZE TABLE not supported for TiDb
+        return false;
+    }
+
+    protected function getDatabaseCreateOptions(): string
+    {
+        $charset = DbHelper::getDefaultCharset();
+        $options = "DEFAULT CHARACTER SET $charset";
+
+        if ('utf8mb4' === $charset) {
+            $options .= ' COLLATE=utf8mb4_0900_ai_ci';
+        }
+
+        return $options;
     }
 }

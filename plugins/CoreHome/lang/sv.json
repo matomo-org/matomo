@@ -68,6 +68,7 @@
         "PageDownShortcutDescription": "för att komma till botten av sidan",
         "PageUpShortcutDescription": "för att komma till toppen av sidan",
         "PeriodHasOnlyRawData": "Det verkar som att rapporterna för den här perioden inte har behandlats än. Vill du se vad som händer nu? Kolla in %1$sBesöksloggen%2$s eller välj en annorlunda datum-period tills det att rapporterna är genererade.",
+        "PeriodHasOnlyRawDataNoVisitsLog": "Det ser ut som att rapporterna för perioden inte bearbetats ännu, men de kommer synas inom några timmar. Du kan välja en annan datumperiod medan rapporterna skapas.",
         "PeriodRange": "Intervall",
         "PivotBySubtable": "Denna rapport är inte pivoterad %1$s Pivotera med %2$s",
         "Profilable": "Profilabel",

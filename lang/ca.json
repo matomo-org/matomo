@@ -1,7 +1,7 @@
 {
     "General": {
-        "12HourClock": "Rellotge 12-hores",
-        "24HourClock": "Rellotge 24-hores",
+        "12HourClock": "Rellotge 12 hores",
+        "24HourClock": "Rellotge 24 hores",
         "API": "API",
         "AbandonedCarts": "Cistelles abandonades",
         "AboutPiwikX": "Sobre Matomo %s",

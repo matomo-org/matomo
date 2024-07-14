@@ -105,7 +105,7 @@ class LogDataPurger
         Piwik::postEvent('PrivacyManager.deleteLogsOlderThan', array($dateUpperLimit, $deleteLogsOlderThan));
 
         // optimize table overhead after deletion
-        Db::optimizeTables($logTables);
+        Db\Schema::getInstance()->optimizeTables($logTables);
     }
 
     /**

@@ -210,7 +210,7 @@ class Goals extends \Piwik\Plugin
             }
         }
 
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1', 'orderByName' => true], $default = []);
 
         $order = 900;
         foreach ($goals as $goal) {

@@ -1045,6 +1045,9 @@
 				<items>1</items>
 				
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 					<row>
 						<itemSKU>ABCD1234</itemSKU>
@@ -2230,6 +2233,9 @@
 				<items>1</items>
 				
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 					<row>
 						<itemSKU>ABCD1234</itemSKU>
@@ -2470,6 +2476,9 @@
 				<items>1</items>
 				
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 					<row>
 						<itemSKU>ABCD1234</itemSKU>
@@ -5365,6 +5374,9 @@
 				<items>1</items>
 				
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 					<row>
 						<itemSKU>ABCD1234</itemSKU>
@@ -5632,6 +5644,9 @@
 				<items>1</items>
 				
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 					<row>
 						<itemSKU>ABCD1234</itemSKU>
@@ -5891,6 +5906,9 @@
 				<items>1</items>
 				
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 					<row>
 						<itemSKU>ABCD1234</itemSKU>
@@ -6158,6 +6176,9 @@
 				<items>1</items>
 				
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 					<row>
 						<itemSKU>ABCD1234</itemSKU>

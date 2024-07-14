@@ -268,6 +268,7 @@ class ArchiveInvalidator
      * @param string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
      *                     or a plugin name to only archive the specific plugin.
      * @param bool $ignorePurgeLogDataDate
+     * @param bool $doNotCreateInvalidations If true, archives will only be marked as invalid, but no archive_invalidation record will be created
      * @return InvalidationResult
      * @throws \Exception
      */
@@ -276,14 +277,17 @@ class ArchiveInvalidator
         array $dates,
         $period,
         Segment $segment = null,
-        $cascadeDown = false,
-        $forceInvalidateNonexistentRanges = false,
-        $name = null,
-        $ignorePurgeLogDataDate = false
+        bool $cascadeDown = false,
+        bool $forceInvalidateNonexistentRanges = false,
+        ?string $name = null,
+        bool $ignorePurgeLogDataDate = false,
+        bool $doNotCreateInvalidations = false
     ) {
         $plugin = null;
         if ($name && strpos($name, '.') !== false) {
             list($plugin) = explode('.', $name);
+        } elseif ($name) {
+            $plugin = $name;
         }
 
         if (
@@ -294,23 +298,6 @@ class ArchiveInvalidator
         }
 
         $invalidationInfo = new InvalidationResult();
-
-        // quick fix for #15086, if we're only invalidating today's date for a site, don't add the site to the list of sites
-        // to reprocess.
-        $hasMoreThanJustToday = [];
-        foreach ($idSites as $idSite) {
-            $hasMoreThanJustToday[$idSite] = true;
-            $tz = Site::getTimezoneFor($idSite);
-
-            if (
-                ($period == 'day' || $period === false)
-                && count($dates) == 1
-                && ((string)$dates[0]) == ((string)Date::factoryInTimezone('today', $tz))
-            ) {
-                // date is for today
-                $hasMoreThanJustToday[$idSite] = false;
-            }
-        }
 
         /**
          * Triggered when a Matomo user requested the invalidation of some reporting archives. Using this event, plugin
@@ -344,7 +331,7 @@ class ArchiveInvalidator
 
         $allPeriodsToInvalidate = $this->getAllPeriodsByYearMonth($period, $datesToInvalidate, $cascadeDown);
 
-        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistentRanges, $name);
+        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistentRanges, $name, $doNotCreateInvalidations);
 
         $isInvalidatingDays = $period == 'day' || $cascadeDown || empty($period);
         $isNotInvalidatingSegment = empty($segment) || empty($segment->getString());
@@ -723,9 +710,10 @@ class ArchiveInvalidator
         $idSites,
         $dates,
         Segment $segment = null,
-        $removeRanges = false,
-        $forceInvalidateNonexistentRanges = false,
-        $name = null
+        bool $removeRanges = false,
+        bool $forceInvalidateNonexistentRanges = false,
+        ?string $name = null,
+        bool $doNotCreateInvalidations = false
     ) {
         $idSites = array_map('intval', $idSites);
 
@@ -737,7 +725,7 @@ class ArchiveInvalidator
             $table = ArchiveTableCreator::getNumericTable($tableDateObj);
             $yearMonths[] = $tableDateObj->toString('Y_m');
 
-            $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistentRanges, $name);
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistentRanges, $name, $doNotCreateInvalidations);
 
             if ($removeRanges) {
                 $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
