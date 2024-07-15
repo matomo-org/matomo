@@ -8,23 +8,23 @@
 				<nb_hits>8</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<nb_hits_with_time_network>8</nb_hits_with_time_network>
-				<min_time_network>0.264</min_time_network>
-				<max_time_network>0.264</max_time_network>
+				<min_time_network>0.0330</min_time_network>
+				<max_time_network>0.0330</max_time_network>
 				<nb_hits_with_time_server>8</nb_hits_with_time_server>
-				<min_time_server>2.848</min_time_server>
-				<max_time_server>2.848</max_time_server>
+				<min_time_server>0.3560</min_time_server>
+				<max_time_server>0.3560</max_time_server>
 				<nb_hits_with_time_transfer>8</nb_hits_with_time_transfer>
-				<min_time_transfer>3.616</min_time_transfer>
-				<max_time_transfer>3.616</max_time_transfer>
+				<min_time_transfer>0.4520</min_time_transfer>
+				<max_time_transfer>0.4520</max_time_transfer>
 				<nb_hits_with_time_dom_processing>8</nb_hits_with_time_dom_processing>
-				<min_time_dom_processing>11.992</min_time_dom_processing>
-				<max_time_dom_processing>11.992</max_time_dom_processing>
+				<min_time_dom_processing>1.4990</min_time_dom_processing>
+				<max_time_dom_processing>1.4990</max_time_dom_processing>
 				<nb_hits_with_time_dom_completion>8</nb_hits_with_time_dom_completion>
-				<min_time_dom_completion>2.848</min_time_dom_completion>
-				<max_time_dom_completion>2.848</max_time_dom_completion>
+				<min_time_dom_completion>0.3560</min_time_dom_completion>
+				<max_time_dom_completion>0.3560</max_time_dom_completion>
 				<nb_hits_with_time_on_load>8</nb_hits_with_time_on_load>
-				<min_time_on_load>2.152</min_time_on_load>
-				<max_time_on_load>2.152</max_time_on_load>
+				<min_time_on_load>0.2690</min_time_on_load>
+				<max_time_on_load>0.2690</max_time_on_load>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -51,23 +51,23 @@
 				<nb_hits>8</nb_hits>
 				<sum_time_spent>2880</sum_time_spent>
 				<nb_hits_with_time_network>8</nb_hits_with_time_network>
-				<min_time_network>0.216</min_time_network>
-				<max_time_network>0.216</max_time_network>
+				<min_time_network>0.0270</min_time_network>
+				<max_time_network>0.0270</max_time_network>
 				<nb_hits_with_time_server>8</nb_hits_with_time_server>
-				<min_time_server>2.144</min_time_server>
-				<max_time_server>2.144</max_time_server>
+				<min_time_server>0.2680</min_time_server>
+				<max_time_server>0.2680</max_time_server>
 				<nb_hits_with_time_transfer>8</nb_hits_with_time_transfer>
-				<min_time_transfer>2.848</min_time_transfer>
-				<max_time_transfer>2.848</max_time_transfer>
+				<min_time_transfer>0.3560</min_time_transfer>
+				<max_time_transfer>0.3560</max_time_transfer>
 				<nb_hits_with_time_dom_processing>8</nb_hits_with_time_dom_processing>
-				<min_time_dom_processing>8.2</min_time_dom_processing>
-				<max_time_dom_processing>8.2</max_time_dom_processing>
+				<min_time_dom_processing>1.0250</min_time_dom_processing>
+				<max_time_dom_processing>1.0250</max_time_dom_processing>
 				<nb_hits_with_time_dom_completion>8</nb_hits_with_time_dom_completion>
-				<min_time_dom_completion>2.368</min_time_dom_completion>
-				<max_time_dom_completion>2.368</max_time_dom_completion>
+				<min_time_dom_completion>0.2960</min_time_dom_completion>
+				<max_time_dom_completion>0.2960</max_time_dom_completion>
 				<nb_hits_with_time_on_load>8</nb_hits_with_time_on_load>
-				<min_time_on_load>2.68</min_time_on_load>
-				<max_time_on_load>2.68</max_time_on_load>
+				<min_time_on_load>0.3350</min_time_on_load>
+				<max_time_on_load>0.3350</max_time_on_load>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -97,23 +97,23 @@
 				<nb_hits>8</nb_hits>
 				<sum_time_spent>4320</sum_time_spent>
 				<nb_hits_with_time_network>8</nb_hits_with_time_network>
-				<min_time_network>0</min_time_network>
-				<max_time_network>0</max_time_network>
+				<min_time_network>0.0000</min_time_network>
+				<max_time_network>0.0000</max_time_network>
 				<nb_hits_with_time_server>8</nb_hits_with_time_server>
-				<min_time_server>1.592</min_time_server>
-				<max_time_server>1.592</max_time_server>
+				<min_time_server>0.1990</min_time_server>
+				<max_time_server>0.1990</max_time_server>
 				<nb_hits_with_time_transfer>8</nb_hits_with_time_transfer>
-				<min_time_transfer>2.312</min_time_transfer>
-				<max_time_transfer>2.312</max_time_transfer>
+				<min_time_transfer>0.2890</min_time_transfer>
+				<max_time_transfer>0.2890</max_time_transfer>
 				<nb_hits_with_time_dom_processing>8</nb_hits_with_time_dom_processing>
-				<min_time_dom_processing>7.984</min_time_dom_processing>
-				<max_time_dom_processing>7.984</max_time_dom_processing>
+				<min_time_dom_processing>0.9980</min_time_dom_processing>
+				<max_time_dom_processing>0.9980</max_time_dom_processing>
 				<nb_hits_with_time_dom_completion>8</nb_hits_with_time_dom_completion>
-				<min_time_dom_completion>1.584</min_time_dom_completion>
-				<max_time_dom_completion>1.584</max_time_dom_completion>
+				<min_time_dom_completion>0.1980</min_time_dom_completion>
+				<max_time_dom_completion>0.1980</max_time_dom_completion>
 				<nb_hits_with_time_on_load>8</nb_hits_with_time_on_load>
-				<min_time_on_load>2.392</min_time_on_load>
-				<max_time_on_load>2.392</max_time_on_load>
+				<min_time_on_load>0.2990</min_time_on_load>
+				<max_time_on_load>0.2990</max_time_on_load>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -138,23 +138,23 @@
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<nb_hits_with_time_network>2</nb_hits_with_time_network>
-				<min_time_network>0.036</min_time_network>
-				<max_time_network>0.062</max_time_network>
+				<min_time_network>0.0360</min_time_network>
+				<max_time_network>0.0620</max_time_network>
 				<nb_hits_with_time_server>2</nb_hits_with_time_server>
-				<min_time_server>0.228</min_time_server>
-				<max_time_server>0.305</max_time_server>
+				<min_time_server>0.2280</min_time_server>
+				<max_time_server>0.3050</max_time_server>
 				<nb_hits_with_time_transfer>2</nb_hits_with_time_transfer>
-				<min_time_transfer>0.335</min_time_transfer>
-				<max_time_transfer>0.44</max_time_transfer>
+				<min_time_transfer>0.3350</min_time_transfer>
+				<max_time_transfer>0.4400</max_time_transfer>
 				<nb_hits_with_time_dom_processing>2</nb_hits_with_time_dom_processing>
-				<min_time_dom_processing>1.015</min_time_dom_processing>
-				<max_time_dom_processing>1.159</max_time_dom_processing>
+				<min_time_dom_processing>1.0150</min_time_dom_processing>
+				<max_time_dom_processing>1.1590</max_time_dom_processing>
 				<nb_hits_with_time_dom_completion>2</nb_hits_with_time_dom_completion>
-				<min_time_dom_completion>0.209</min_time_dom_completion>
-				<max_time_dom_completion>0.356</max_time_dom_completion>
+				<min_time_dom_completion>0.2090</min_time_dom_completion>
+				<max_time_dom_completion>0.3560</max_time_dom_completion>
 				<nb_hits_with_time_on_load>2</nb_hits_with_time_on_load>
-				<min_time_on_load>0.301</min_time_on_load>
-				<max_time_on_load>0.44</max_time_on_load>
+				<min_time_on_load>0.3010</min_time_on_load>
+				<max_time_on_load>0.4400</max_time_on_load>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -237,23 +237,23 @@
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<nb_hits_with_time_network>2</nb_hits_with_time_network>
-				<min_time_network>0</min_time_network>
-				<max_time_network>0.021</max_time_network>
+				<min_time_network>0.0000</min_time_network>
+				<max_time_network>0.0210</max_time_network>
 				<nb_hits_with_time_server>2</nb_hits_with_time_server>
-				<min_time_server>0.258</min_time_server>
-				<max_time_server>0.344</max_time_server>
+				<min_time_server>0.2580</min_time_server>
+				<max_time_server>0.3440</max_time_server>
 				<nb_hits_with_time_transfer>2</nb_hits_with_time_transfer>
-				<min_time_transfer>0.299</min_time_transfer>
-				<max_time_transfer>0.444</max_time_transfer>
+				<min_time_transfer>0.2990</min_time_transfer>
+				<max_time_transfer>0.4440</max_time_transfer>
 				<nb_hits_with_time_dom_processing>2</nb_hits_with_time_dom_processing>
-				<min_time_dom_processing>0.245</min_time_dom_processing>
-				<max_time_dom_processing>0.325</max_time_dom_processing>
+				<min_time_dom_processing>0.2450</min_time_dom_processing>
+				<max_time_dom_processing>0.3250</max_time_dom_processing>
 				<nb_hits_with_time_dom_completion>2</nb_hits_with_time_dom_completion>
-				<min_time_dom_completion>0.189</min_time_dom_completion>
-				<max_time_dom_completion>0.999</max_time_dom_completion>
+				<min_time_dom_completion>0.1890</min_time_dom_completion>
+				<max_time_dom_completion>0.9990</max_time_dom_completion>
 				<nb_hits_with_time_on_load>2</nb_hits_with_time_on_load>
-				<min_time_on_load>0.12</min_time_on_load>
-				<max_time_on_load>0.35</max_time_on_load>
+				<min_time_on_load>0.1200</min_time_on_load>
+				<max_time_on_load>0.3500</max_time_on_load>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -278,23 +278,23 @@
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<nb_hits_with_time_network>1</nb_hits_with_time_network>
-				<min_time_network>0.033</min_time_network>
-				<max_time_network>0.033</max_time_network>
+				<min_time_network>0.0330</min_time_network>
+				<max_time_network>0.0330</max_time_network>
 				<nb_hits_with_time_server>1</nb_hits_with_time_server>
-				<min_time_server>0.144</min_time_server>
-				<max_time_server>0.144</max_time_server>
+				<min_time_server>0.1440</min_time_server>
+				<max_time_server>0.1440</max_time_server>
 				<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
-				<min_time_transfer>0.318</min_time_transfer>
-				<max_time_transfer>0.318</max_time_transfer>
+				<min_time_transfer>0.3180</min_time_transfer>
+				<max_time_transfer>0.3180</max_time_transfer>
 				<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
-				<min_time_dom_processing>0.289</min_time_dom_processing>
-				<max_time_dom_processing>0.289</max_time_dom_processing>
+				<min_time_dom_processing>0.2890</min_time_dom_processing>
+				<max_time_dom_processing>0.2890</max_time_dom_processing>
 				<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
-				<min_time_dom_completion>0.035</min_time_dom_completion>
-				<max_time_dom_completion>0.035</max_time_dom_completion>
+				<min_time_dom_completion>0.0350</min_time_dom_completion>
+				<max_time_dom_completion>0.0350</max_time_dom_completion>
 				<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
-				<min_time_on_load>0.05</min_time_on_load>
-				<max_time_on_load>0.05</max_time_on_load>
+				<min_time_on_load>0.0500</min_time_on_load>
+				<max_time_on_load>0.0500</max_time_on_load>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />

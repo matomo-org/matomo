@@ -513,11 +513,13 @@ class API extends \Piwik\Plugin\API
      */
     private function filterActionsDataTable($dataTable, $isPageTitleType)
     {
+        $dataTable->filter(function ($dataTable) {
+            $dataTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
+        });
         // Must be applied before Sort in this case, since the DataTable can contain both int and strings indexes
         // (in the transition period between pre 1.2 and post 1.2 datatable structure)
         $dataTable->filter('Piwik\Plugins\Actions\DataTable\Filter\Actions', [$isPageTitleType]);
         $dataTable->filter('Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate');
-
         return $dataTable;
     }
 
