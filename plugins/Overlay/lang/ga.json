@@ -1,1 +1,22 @@
-{}
+{
+    "Overlay": {
+        "Clicks": "%s cliceáil",
+        "ClicksFromXLinks": "Cliceáil ar %1$s ó cheann de naisc %2$s",
+        "Domain": "Fearann",
+        "ErrorNoSiteUrls": "RABHADH: Níl aon URLanna suímh sainithe ag an suíomh Gréasáin seo i Matomo. D'fhéadfadh sé seo a bheith ina chúis le Forleagan agus gnéithe eile a bhriseadh nó a iompar go aisteach. Chun é seo a shocrú, cuir URL sna socruithe don suíomh Gréasáin seo sa rannóg Riarachán Matomo.",
+        "ErrorNotLoading": "Níorbh fhéidir an seisiún Forleagan Leathanach a sheoladh go fóill.",
+        "ErrorNotLoadingDetails": "B'fhéidir nach bhfuil an cód rianaithe Matomo ag an leathanach atá luchtaithe ar dheis. Sa chás seo, bain triail as Forleagan a sheoladh le haghaidh leathanach eile ón tuarascáil leathanaigh.",
+        "ErrorNotLoadingDetailsSSL": "Ós rud é go bhfuil Matomo á úsáid agat thar https, is é an chúis is dóichí ná nach dtacaíonn do shuíomh Gréasáin le SSL. Bain triail as Matomo a úsáid thar http.",
+        "ErrorNotLoadingLink": "Cliceáil anseo chun tuilleadh leideanna a fháil le haghaidh fabhtcheartaithe",
+        "Link": "Nasc",
+        "Location": "Suíomh",
+        "NoData": "Níl aon sonraí don leathanach seo le linn na tréimhse roghnaithe.",
+        "OneClick": "1 cliceáil",
+        "OpenFullScreen": "Téigh ar scáileán iomlán (gan barra taoibh)",
+        "Overlay": "Forleagan Leathanach",
+        "PluginDescription": "Féach ar do shonraí anailíse mar Fhorleagan ar do shuíomh Gréasáin féin. Féach ar cé mhéad uair a chliceáil d’úsáideoirí ar gach nasc. Nóta: Tá an breiseán Transitions cumasaithe ag teastáil.",
+        "RedirectUrlError": "Tá tú ag iarraidh Forleagan Leathanach a oscailt don URL \"%1$s\". %2$s Níl aon cheann de na fearainn ó shocruithe Matomo ag teacht leis an nasc.",
+        "RedirectUrlErrorAdmin": "Is féidir leat an fearann a chur leis mar URL breise %1$s sna socruithe %2$s.",
+        "RedirectUrlErrorUser": "Iarr ar do riarthóir an fearann a chur leis mar URL breise."
+    }
+}

@@ -1,1 +1,21 @@
-{}
+{
+    "DBStats": {
+        "DBSize": "Méid DB",
+        "DataSize": "Méid sonraí",
+        "DatabaseUsage": "Úsáid bunachar sonraí",
+        "EstimatedSize": "Méid measta",
+        "IndexSize": "Méid innéacs",
+        "LearnMore": "Chun níos mó a fhoghlaim faoi conas a phróiseálann Matomo sonraí agus conas a chur ar Matomo oibriú go maith le suíomhanna gréasáin meánthráchta agus ardthráchta, féach ar an gcáipéisíocht seo: %s.",
+        "MainDescription": "Stórálann Matomo do shonraí anailísíochta gréasáin go léir i mbunachar sonraí MySQL. Faoi láthair, tógann táblaí Matomo suas %s de spás.",
+        "MetricDataByYear": "Táblaí Méadracha De réir Bliana",
+        "MetricTables": "Táblaí Méadracha",
+        "OtherTables": "Táblaí Eile",
+        "PluginDescription": "Soláthraíonn tuarascálacha mionsonraithe úsáide MySQL bunachar sonraí. Ar fáil d'Úsáideoirí Sár-Úsáideoirí faoi Diagnóisic.",
+        "ReportDataByYear": "Táblaí Tuairisce De réir Bliana",
+        "ReportTables": "Táblaí Tuairisce",
+        "RowCount": "Comhaireamh sraithe",
+        "Table": "Tábla",
+        "TotalSize": "Méid iomlán",
+        "TrackerTables": "Táblaí Lorgaire"
+    }
+}
