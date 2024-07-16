@@ -343,7 +343,7 @@ class QueueConsumer
         return $archivesToProcess;
     }
 
-    private function archiveArrayContainsArchive($archiveArray, $archive)
+    private function archiveArrayContainsArchive(array $archiveArray, array $archive): bool
     {
         foreach ($archiveArray as $entry) {
             if (
@@ -411,7 +411,7 @@ class QueueConsumer
     }
 
     // public for tests
-    public function canSkipArchiveBecauseNoPoint(array $invalidatedArchive)
+    public function canSkipArchiveBecauseNoPoint(array $invalidatedArchive): bool
     {
         $site = new Site($invalidatedArchive['idsite']);
 
@@ -447,7 +447,8 @@ class QueueConsumer
 
             // we don't care about lower periods being concurrent if they are for different segments (that are not "all visits")
             if (
-                !empty($archiveBeingProcessed['segment']) && !empty($archiveToProcess['segment'])
+                !empty($archiveBeingProcessed['segment'])
+                && !empty($archiveToProcess['segment'])
                 && $archiveBeingProcessed['segment'] != $archiveToProcess['segment']
             ) {
                 continue;
@@ -473,7 +474,7 @@ class QueueConsumer
         return null;
     }
 
-    private function isArchiveOfLowerPeriod(array $archiveToProcess, $archiveBeingProcessed): bool
+    private function isArchiveOfLowerPeriod(array $archiveToProcess, array $archiveBeingProcessed): bool
     {
         /** @var Period $archiveToProcessPeriodObj */
         $archiveToProcessPeriodObj = $archiveToProcess['periodObj'];
@@ -490,7 +491,7 @@ class QueueConsumer
         return false;
     }
 
-    private function isArchiveNonSegmentAndInProgressArchiveSegment(array $archiveToProcess, array $archiveBeingProcessed)
+    private function isArchiveNonSegmentAndInProgressArchiveSegment(array $archiveToProcess, array $archiveBeingProcessed): bool
     {
         // archive is for different site/period
         if (
@@ -504,13 +505,13 @@ class QueueConsumer
         return empty($archiveToProcess['segment']) && !empty($archiveBeingProcessed['segment']);
     }
 
-    private function detectPluginForArchive(&$archive)
+    private function detectPluginForArchive(&$archive): void
     {
         $archive['plugin'] = $this->getPluginNameForArchiveIfAny($archive);
     }
 
     // static so it can be unit tested
-    public static function hasIntersectingPeriod(array $archivesToProcess, $invalidatedArchive)
+    public static function hasIntersectingPeriod(array $archivesToProcess, $invalidatedArchive): bool
     {
         if (empty($archivesToProcess)) {
             return false;
@@ -544,7 +545,7 @@ class QueueConsumer
         return false;
     }
 
-    private function findSegmentForArchive(&$archive)
+    private function findSegmentForArchive(&$archive): bool
     {
         $flag = explode('.', $archive['name'])[0];
         if ($flag == 'done') {
@@ -564,7 +565,7 @@ class QueueConsumer
         return $this->segmentArchiving->isAutoArchivingEnabledFor($storedSegment);
     }
 
-    private function getPluginNameForArchiveIfAny($archive)
+    private function getPluginNameForArchiveIfAny(array $archive): ?string
     {
         $name = $archive['name'];
         if (strpos($name, '.') === false) {
@@ -575,17 +576,17 @@ class QueueConsumer
         return $parts[1];
     }
 
-    public function ignoreIdInvalidation($idinvalidation)
+    public function ignoreIdInvalidation($idinvalidation): void
     {
         $this->invalidationsToExclude[$idinvalidation] = $idinvalidation;
     }
 
-    public function skipToNextSite()
+    public function skipToNextSite(): void
     {
         $this->idSite = null;
     }
 
-    private function addInvalidationToExclude(array $invalidatedArchive)
+    private function addInvalidationToExclude(array $invalidatedArchive): void
     {
         $id = $invalidatedArchive['idinvalidation'];
         if (empty($this->invalidationsToExclude[$id])) {
@@ -598,7 +599,7 @@ class QueueConsumer
         return $this->websiteIdArchiveList->getNextSiteId();
     }
 
-    private function getInvalidationDescription(array $invalidatedArchive)
+    private function getInvalidationDescription(array $invalidatedArchive): string
     {
         return sprintf(
             "[idinvalidation = %s, idsite = %s, period = %s(%s - %s), name = %s, segment = %s]",
@@ -613,7 +614,7 @@ class QueueConsumer
     }
 
     // public for test
-    public function usableArchiveExists(array $invalidatedArchive)
+    public function usableArchiveExists(array $invalidatedArchive): array
     {
         $site = new Site($invalidatedArchive['idsite']);
 
