@@ -464,6 +464,89 @@ class CronArchiveTest extends IntegrationTestCase
     }
 
     /**
+     * @dataProvider getInvalidateYesterdayTestData
+     */
+    public function testInvalidateRecentDateForYesterdayisSkippedWhenAlreadyInProgress($timezone, $tsStarted, $expectedInvalidationCalls)
+    {
+        $idSite = Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, null, null, $timezone);
+
+        $offset = Date::getUtcOffset($timezone);
+        Date::$now = Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp();
+
+        $this->insertInvalidations([
+            [
+                'idarchive' => 1,
+                'idsite' => 1,
+                'period' => 1,
+                'date1' => '2020-02-02',
+                'date2' => '2020-02-02',
+                'name' => 'done',
+                'report' => null,
+                'ts_invalidated' => '2020-02-02 21:00:00',
+                'status' => 1,
+                'ts_started' => $tsStarted
+            ],
+        ]);
+
+        $t = Fixture::getTracker($idSite, Date::yesterday()->addHour(2)->getDatetime());
+        $t->setUrl('http://someurl.com/abc');
+        Fixture::checkResponse($t->doTrackPageView('some page'));
+
+        $t = Fixture::getTracker($idSite, Date::today()->addHour(2)->getDatetime());
+        $t->setUrl('http://someurl.com/def');
+        Fixture::checkResponse($t->doTrackPageView('some page 2'));
+
+        $mockInvalidateApi = $this->getMockInvalidateApi();
+
+        $archiver = new CronArchive();
+        $archiver->init();
+        $archiver->setApiToInvalidateArchivedReport($mockInvalidateApi);
+
+        $archiver->invalidateRecentDate('yesterday', $idSite);
+        $actualInvalidationCalls = $mockInvalidateApi->getInvalidations();
+
+        $this->assertEquals($expectedInvalidationCalls, $actualInvalidationCalls);
+    }
+
+    public function getInvalidateYesterdayTestData()
+    {
+        $timezones = [
+            'UTC-12',
+            'America/Caracas', // UTC-4
+            'UTC-0.5',
+            'UTC',
+            'Asia/Kathmandu', // UTC+5:45
+            'Australia/Brisbane', // UTC+10
+            'UTC+14',
+        ];
+
+        foreach ($timezones as $timezone) {
+            $offset = Date::getUtcOffset($timezone);
+
+            yield "invalidating yesterday should be skipped if archiving was started after midnight in sites timezone ($timezone)" => [
+                $timezone,
+                Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime(),
+                [], // no invalidations
+            ];
+
+            yield "invalidating yesterday should not be skipped if archiving was started before midnight in sites timezone ($timezone)" => [
+                $timezone,
+                Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime(),
+                [
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        false,
+                        false,
+                        false,
+                    ]
+                ],
+            ];
+        }
+    }
+
+    /**
      * @dataProvider getArchivingTestData
      */
     public function testCanWeSkipInvalidatingBecauseThereIsAUsablePeriodReturnsExpectedValue(
@@ -1056,9 +1139,10 @@ LOG;
                 isset($inv['ts_invalidated']) ? $inv['ts_invalidated'] : $now,
                 $inv['report'],
                 isset($inv['status']) ? $inv['status'] : 0,
+                isset($inv['ts_started']) ? $inv['ts_started'] : null,
             ];
-            Db::query("INSERT INTO `$table` (idarchive, name, idsite, date1, date2, period, ts_invalidated, report, status)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", $bind);
+            Db::query("INSERT INTO `$table` (idarchive, name, idsite, date1, date2, period, ts_invalidated, report, status, ts_started)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", $bind);
         }
     }
 

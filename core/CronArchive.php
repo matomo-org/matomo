@@ -914,6 +914,23 @@ class CronArchive
             return;
         }
 
+        if ($dateStr === 'yesterday') {
+            // Skip invalidation for yesterday if an archiving for yesterday was already started after midnight in site's timezone
+            $invalidationsInProgress = $this->model->getInvalidationsInProgress($idSite);
+            $today = Date::factoryInTimezone('today', $timezone);
+
+            foreach ($invalidationsInProgress as $invalidation) {
+                if (
+                    $invalidation['period'] == '1'
+                    && $date->toString() === $invalidation['date1']
+                    && Date::factory($invalidation['ts_started'], $timezone)->getTimestamp() >= $today->getTimestamp()
+                ) {
+                    $this->logger->debug("  " . ucfirst($dateStr) . " archive already in process for idSite = $idSite, skipping invalidation...");
+                    return;
+                }
+            }
+        }
+
         $this->logger->info("  Will invalidate archived reports for $dateStr in site ID = {idSite}'s timezone ({date}).", [
             'idSite' => $idSite,
             'date' => $date->getDatetime(),
