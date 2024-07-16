@@ -693,6 +693,23 @@ class ModelTest extends IntegrationTestCase
         ], $invalidations);
     }
 
+    public function testGetInvalidationsInProgress()
+    {
+        $this->insertInvalidations([
+            ['idsite' => 1, 'date1' => '2014-02-01', 'date2' => '2014-02-28', 'period' => 2, 'name' => 'done'],
+            ['idsite' => 1, 'date1' => '2014-02-01', 'date2' => '2014-02-01', 'period' => 1, 'name' => 'doneb321434abb5a139c17dadf08c9d2e315', 'ts_started' => '2014-02-03 23:13:00', 'status' => 1],
+            ['idsite' => 1, 'date1' => '2014-02-03', 'date2' => '2014-02-03', 'period' => 1, 'name' => 'done', 'ts_started' => '2014-02-03 23:00:00', 'status' => 1],
+            ['idsite' => 1, 'date1' => '2014-02-01', 'date2' => '2014-02-01', 'period' => 1, 'name' => 'done'],
+        ]);
+
+        $expectedInvalidations = [
+            ['idsite' => 1, 'date1' => '2014-02-03', 'date2' => '2014-02-03', 'period' => 1, 'name' => 'done', 'ts_started' => '2014-02-03 23:00:00'],
+            ['idsite' => 1, 'date1' => '2014-02-01', 'date2' => '2014-02-01', 'period' => 1, 'name' => 'doneb321434abb5a139c17dadf08c9d2e315', 'ts_started' => '2014-02-03 23:13:00'],
+        ];
+
+        self::assertEquals($expectedInvalidations, $this->model->getInvalidationsInProgress(1));
+    }
+
     private function insertArchiveData($archivesToInsert)
     {
         $idarchive = 1;
