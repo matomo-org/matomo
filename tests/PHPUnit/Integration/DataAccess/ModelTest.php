@@ -125,6 +125,27 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expectedId, $id);
     }
 
+    public function testGetAndUpdateArchiveStatus()
+    {
+        $this->insertArchiveData([
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_ERROR],
+        ]);
+
+        $numericTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'));
+
+        self::assertEquals(
+            ArchiveWriter::DONE_ERROR,
+            $this->model->getArchiveStatus($numericTable, '1', 'done')
+        );
+
+        $this->model->updateArchiveStatus($numericTable, '1', 'done', ArchiveWriter::DONE_ERROR_INVALIDATED);
+
+        self::assertEquals(
+            ArchiveWriter::DONE_ERROR_INVALIDATED,
+            $this->model->getArchiveStatus($numericTable, '1', 'done')
+        );
+    }
+
     /**
      * @dataProvider getTestDataForHasChildArchivesInPeriod
      */
