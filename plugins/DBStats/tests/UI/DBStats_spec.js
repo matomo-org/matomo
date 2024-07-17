@@ -8,7 +8,7 @@
  */
 
 describe("DBStats", function () {
-    this.timeout(0);
+    this.timeout(5*60*1000); // timeout of 5 minutes per test
 
     const url = "?module=DBStats&action=index&idSite=1&period=day&date=yesterday";
 

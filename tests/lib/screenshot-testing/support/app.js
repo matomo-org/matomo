@@ -196,7 +196,7 @@ Application.prototype.loadTestModules = function () {
         });
 
         suite.beforeAll(function (done) {
-            this.timeout(0); // no timeout for fixture setup (this requires normal anonymous function, not fat arrow function)
+            this.timeout(10*60*1000); // 10 mins timeout for fixture setup
 
             var oldOptions = JSON.parse(JSON.stringify(options));
             if (suite.optionsOverride) {
@@ -217,7 +217,7 @@ Application.prototype.loadTestModules = function () {
         suite._beforeAll.unshift(suite._beforeAll.pop());
 
         suite.afterAll(function (done) {
-            this.timeout(0); // no timeout for fixture teardown (this requires normal anonymous function, not fat arrow function)
+            this.timeout(10*60*1000); // 10 mins timeout for fixture teardown
 
             var oldOptions = JSON.parse(JSON.stringify(options));
             if (suite.optionsOverride) {

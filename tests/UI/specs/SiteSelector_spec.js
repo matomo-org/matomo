@@ -8,7 +8,7 @@
  */
 
 describe("SiteSelector", function () {
-    this.timeout(0);
+    this.timeout(5*60*1000); // timeout of 5 minutes per test
 
     const selectorToCapture = '.siteSelector,.siteSelector .dropdown';
     const url = "?module=UsersManager&action=userSettings&idSite=1&period=day&date=yesterday";

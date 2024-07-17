@@ -8,7 +8,7 @@
  */
 
 describe("UsersManager", function () {
-    this.timeout(0);
+    this.timeout(5*60*1000); // timeout of 5 minutes per test
     this.fixture = "Piwik\\Plugins\\UsersManager\\tests\\Fixtures\\ManyUsers";
 
     var url = "?module=UsersManager&action=index";

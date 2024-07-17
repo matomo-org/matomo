@@ -8,7 +8,7 @@
  */
 
 describe("MultiSitesTest", function () {
-    this.timeout(0);
+    this.timeout(5*60*1000); // timeout of 5 minutes per test
 
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
     var rangeParams = 'idSite=1&period=range&date=2012-08-05,2012-08-15';

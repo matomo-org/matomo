@@ -8,7 +8,7 @@
  */
 
 describe('SingleMetricView', function () {
-    this.timeout(0);
+    this.timeout(5*60*1000); // timeout of 5 minutes per test
 
     var url = "?module=Widgetize&action=iframe&idSite=1&period=year&date=2012-08-09&moduleToWidgetize=Dashboard&"
         + "actionToWidgetize=index&idDashboard=1";

@@ -8,7 +8,7 @@
  */
 
 describe("SimpleUITest", function () {
-    this.timeout(0);
+    this.timeout(5*60*1000); // timeout of 5 minutes per test
 
     // uncomment this if you want to define a custom fixture to load before the test instead of the default one
     // this.fixture = "Piwik\\Plugins\\ExamplePlugin\\tests\\Fixtures\\YOUR_FIXTURE_NAME";

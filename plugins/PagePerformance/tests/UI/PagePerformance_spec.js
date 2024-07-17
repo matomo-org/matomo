@@ -9,7 +9,7 @@
 
 describe("PagePerformance", function () {
 
-    this.timeout(0);
+    this.timeout(5*60*1000); // timeout of 5 minutes per test
     this.fixture = "Piwik\\Plugins\\PagePerformance\\tests\\Fixtures\\VisitsWithPagePerformanceMetrics";
 
     const generalParams = 'idSite=1&period=day&date=2010-03-12',

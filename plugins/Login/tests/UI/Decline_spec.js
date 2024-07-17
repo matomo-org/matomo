@@ -8,7 +8,7 @@
  */
 
 describe('Decline', function () {
-  this.timeout(0);
+  this.timeout(5*60*1000); // timeout of 5 minutes per test
   this.fixture = 'Piwik\\Plugins\\Login\\tests\\Fixtures\\PendingUsers';
   this.optionsOverride = {
     'persist-fixture-data': false

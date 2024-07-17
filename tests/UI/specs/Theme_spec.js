@@ -25,7 +25,7 @@ var removeTree = function(path) {
 }
 
 describe("Theme", function () {
-    this.timeout(0);
+    this.timeout(5*60*1000); // timeout of 5 minutes per test
 
     function clearAssets() {
         removeTree(path.join(PIWIK_INCLUDE_PATH, 'tmp', 'assets'));

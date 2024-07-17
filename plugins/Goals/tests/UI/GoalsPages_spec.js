@@ -8,7 +8,7 @@
  */
 
 describe("GoalsPages", function () {
-  this.timeout(0);
+  this.timeout(5*60*1000); // timeout of 5 minutes per test
 
   var generalParams = 'idSite=1&period=year&date=2012-08-09',
     urlBaseGeneric = 'module=CoreHome&action=index&',

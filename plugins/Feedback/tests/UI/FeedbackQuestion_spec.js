@@ -8,7 +8,7 @@
  */
 
 describe('FeedbackQuestion', function () {
-  this.timeout(0);
+  this.timeout(5*60*1000); // timeout of 5 minutes per test
   this.fixture = 'Piwik\\Plugins\\Feedback\\tests\\Fixtures\\FeedbackQuestionBannerFixture';
 
   var url = '?module=CoreHome&action=index&idSite=1&period=day&date=2019-07-11&forceFeedbackTest=1';

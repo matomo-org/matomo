@@ -8,7 +8,7 @@
  */
 
 describe("CampaignBuilder", function () {
-    this.timeout(0);
+    this.timeout(5*60*1000); // timeout of 5 minutes per test
 
     var url = '?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=Referrers&actionToWidgetize=getCampaignUrlBuilder&idSite=1&period=day&date=yesterday&disableLink=1&widget=1';
 

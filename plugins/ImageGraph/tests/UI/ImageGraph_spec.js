@@ -8,7 +8,7 @@
  */
 
 describe("ImageGraph", function () {
-    this.timeout(0);
+    this.timeout(5*60*1000); // timeout of 5 minutes per test
 
     before(function () {
         testEnvironment.multiplicateTableResults = 169856;

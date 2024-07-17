@@ -8,7 +8,7 @@
  */
 
 describe("TagManagerTeaser", function () {
-    this.timeout(0);
+    this.timeout(5*60*1000); // timeout of 5 minutes per test
 
     var urlBase = '?module=CorePluginsAdmin&action=tagManagerTeaser&idSite=1&period=day&date=2019-01-03',
         pageSelector = '.activateTagManager';

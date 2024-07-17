@@ -7,7 +7,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 describe("Overlay", function () {
-    this.timeout(0);
+    this.timeout(5*60*1000); // timeout of 5 minutes per test
 
     async function removeOptOutIframe(page) {
         const frame = page.frames().find(f => f.name() === 'overlayIframe');

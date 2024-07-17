@@ -8,7 +8,7 @@
  */
 
 describe("WhatIsNew", function () {
-  this.timeout(0);
+  this.timeout(5*60*1000); // timeout of 5 minutes per test
   this.fixture = 'Piwik\\Tests\\Fixtures\\CreateChanges';
   this.optionsOverride = {
     'persist-fixture-data': false

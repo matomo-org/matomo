@@ -8,7 +8,7 @@
  */
 
 describe("Login", function () {
-    this.timeout(0);
+    this.timeout(5*60*1000); // timeout of 5 minutes per test
 
     var md5Pass = "0adcc0d741277f74c64c8abab7330d1c", // md5("smarty-pants")
         formlessLoginUrl = "?module=Login&action=logme&login=oliverqueen&password=" + md5Pass,
