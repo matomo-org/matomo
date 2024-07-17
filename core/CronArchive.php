@@ -922,7 +922,7 @@ class CronArchive
 
             foreach ($invalidationsInProgress as $invalidation) {
                 if (
-                    $invalidation['period'] == '1'
+                    $invalidation['period'] == 1
                     && $date->toString() === $invalidation['date1']
                     && Date::factory($invalidation['ts_started'], $timezone)->getTimestamp() >= $today->getTimestamp()
                 ) {
