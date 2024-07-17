@@ -294,4 +294,14 @@ describe("Login", function () {
 
         expect(await page.getWholeCurrentUrl()).to.equal("https://matomo.org/security/");
     });
+
+    it("should correctly redirect for unencoded url", async function () {
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '1');
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        await page.goto(formlessLoginUrl + "&url=//google.com\\@localhost/path");
+
+        expect(await page.getWholeCurrentUrl()).to.equal("http://localhost/path"); // username part is hidden
+    });
 });
