@@ -466,7 +466,7 @@ class CronArchiveTest extends IntegrationTestCase
     /**
      * @dataProvider getInvalidateYesterdayTestData
      */
-    public function testInvalidateRecentDateForYesterdayisSkippedWhenAlreadyInProgress($timezone, $tsStarted, $expectedInvalidationCalls)
+    public function testInvalidateRecentDateForYesterdayIsSkippedWhenAlreadyInProgress($timezone, $tsStarted, $expectedInvalidationCalls)
     {
         $idSite = Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, null, null, $timezone);
 
