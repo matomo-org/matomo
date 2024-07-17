@@ -914,8 +914,9 @@ class CronArchive
             return;
         }
 
-        if ($dateStr === 'yesterday') {
-            // Skip invalidation for yesterday if an archiving for yesterday was already started after midnight in site's timezone
+        $isYesterday = $dateStr === 'yesterday';
+        if ($isYesterday) {
+            // Skip invalidation for yesterday if archiving for yesterday was already started after midnight in site's timezone
             $invalidationsInProgress = $this->model->getInvalidationsInProgress($idSite);
             $today = Date::factoryInTimezone('today', $timezone);
 
@@ -939,7 +940,6 @@ class CronArchive
         // if we are invalidating yesterday here, we are only interested in checking if there is no archive for yesterday, or the day has changed since
         // the last archive was archived (in which there may have been more visits before midnight). so we disable the ttl check, since any archive
         // will be good enough, if the date hasn't changed.
-        $isYesterday = $dateStr == 'yesterday';
         $this->invalidateWithSegments([$idSite], $date->toString(), 'day', false, $doNotIncludeTtlInExistingArchiveCheck = $isYesterday);
     }
 
