@@ -193,7 +193,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $actualInvalidations = $this->getInvalidatedArchiveTableEntries();
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
-    
+
     public function testMarkArchivesAsInvalidatedDoesHandleInProgressArchivesCorrectly()
     {
         // Insert an archive/invalidation that is currently in progress
