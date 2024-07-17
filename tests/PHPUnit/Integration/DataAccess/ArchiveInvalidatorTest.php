@@ -193,6 +193,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $actualInvalidations = $this->getInvalidatedArchiveTableEntries();
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
+    
     public function testMarkArchivesAsInvalidatedDoesHandleInProgressArchivesCorrectly()
     {
         // Insert an archive/invalidation that is currently in progress
@@ -2532,7 +2533,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
     private function getAvailableArchives()
     {
-        $result = array();
+        $result = [];
         foreach (ArchiveTableCreator::getTablesArchivesInstalled(ArchiveTableCreator::NUMERIC_TABLE) as $table) {
             $date = ArchiveTableCreator::getDateFromTableName($table);
 

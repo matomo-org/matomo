@@ -68,7 +68,7 @@ class ArchiveWriter
     public const DONE_PARTIAL = 5;
 
     /**
-     * Flag indicates an archive that is currently been processed, but has already been invalidated again
+     * Flag indicates an archive that is currently being processed, but has already been invalidated again
      */
     public const DONE_ERROR_INVALIDATED = 6;
 
@@ -208,7 +208,7 @@ class ArchiveWriter
         $currentStatus = $this->getModel()->getArchiveStatus($numericTable, $idArchive, $this->doneFlag);
 
         // If the current archive was already invalidated during runtime, directly update status to invalidated instead of done
-        if ($currentStatus == self::DONE_ERROR_INVALIDATED) {
+        if (self::DONE_ERROR_INVALIDATED === $currentStatus) {
             $doneValue = self::DONE_INVALIDATED;
         }
 

@@ -552,11 +552,11 @@ class Model
         );
     }
 
-    public function getArchiveStatus($numericTable, $archiveId, $doneFlag)
+    public function getArchiveStatus($numericTable, $archiveId, $doneFlag): int
     {
-        return Db::fetchOne(
+        return (int) Db::fetchOne(
             "SELECT value FROM $numericTable WHERE idarchive = ? AND `name` = ?",
-            array($archiveId, $doneFlag)
+            [$archiveId, $doneFlag]
         );
     }
 
