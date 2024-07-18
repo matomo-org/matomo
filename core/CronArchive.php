@@ -27,6 +27,7 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\Model;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
+use Piwik\Period\Day;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\Period\Range;
@@ -922,7 +923,7 @@ class CronArchive
 
             foreach ($invalidationsInProgress as $invalidation) {
                 if (
-                    $invalidation['period'] == 1
+                    $invalidation['period'] == Day::PERIOD_ID
                     && $date->toString() === $invalidation['date1']
                     && Date::factory($invalidation['ts_started'], $timezone)->getTimestamp() >= $today->getTimestamp()
                 ) {
