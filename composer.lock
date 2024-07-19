@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b77849a13701936860c0c330705f9d90",
+    "content-hash": "4c2227527db4c5adbbbad7d19fe07903",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3703,11 +3703,17 @@
         },
         {
             "name": "matomo-org/matomo-coding-standards",
-            "version": "dev-initial-code",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-coding-standards.git",
-                "reference": "50d05cace8140038287404e80135a5d79e828124"
+                "reference": "940f7ae7e058ff0d9afbed46a08a134d1a3622f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matomo-org/matomo-coding-standards/zipball/940f7ae7e058ff0d9afbed46a08a134d1a3622f0",
+                "reference": "940f7ae7e058ff0d9afbed46a08a134d1a3622f0",
+                "shasum": ""
             },
             "require": {
                 "php": "~7.2 || ~8.0",
@@ -3715,9 +3721,14 @@
                 "slevomat/coding-standard": "~8.14.0",
                 "squizlabs/php_codesniffer": "~3.10"
             },
+            "default-branch": true,
             "type": "phpcodesniffer-standard",
-            "description": "PHP CodeSniffer ruleset implementing the Matomo coding standards extending PSR12 coding standards.",
-            "time": "2024-07-02T13:55:57+00:00"
+            "description": "Coding standards for Matomo",
+            "support": {
+                "source": "https://github.com/matomo-org/matomo-coding-standards/tree/master",
+                "issues": "https://github.com/matomo-org/matomo-coding-standards/issues"
+            },
+            "time": "2024-07-19T08:27:04+00:00"
         },
         {
             "name": "myclabs/deep-copy",
