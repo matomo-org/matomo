@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Integration\Db;
 
+use Piwik\Config\DatabaseConfig;
 use Piwik\Db;
 use Piwik\Db\TransactionLevel;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -44,6 +45,10 @@ class TransactionLevelTest extends IntegrationTestCase
 
     public function testSetUncommittedRestorePreviousStatus()
     {
+        if (DatabaseConfig::getConfigValue('schema') === 'Tidb') {
+            $this->markTestSkipped('TiDB doesnt support uncommitted isolation');
+        }
+
         // mysql 8.0 using transaction_isolation
         $isolation = $this->db->fetchOne("SHOW GLOBAL VARIABLES LIKE 't%_isolation'");
         $isolation = "@@" . $isolation;
