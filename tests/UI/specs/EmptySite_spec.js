@@ -51,7 +51,7 @@ describe("EmptySite", function () {
   });
 
   it('should show the tracking code when selected', async function () {
-    await page.evaluate(() => $('#start-tracking-detection a[href="#matomo"]')[0].click());
+    await page.evaluate(() => $('#start-tracking-detection a[href="#matomotagmanager"]')[0].click());
 
     // wait till url check field is filled with data, which means loading has finished.
     await page.waitForFunction(() => $('#baseUrl').val());
