@@ -16,6 +16,7 @@ use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\SiteContentDetection\Matomo;
+use Piwik\Plugins\SitesManager\SiteContentDetection\MatomoTagManager;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\WordPress;
 use Piwik\SiteContentDetector;
@@ -250,7 +251,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ];
 
         $recommendedMethod = null;
-        $matomoIndex = null;
+        $matomoIndex = $matomoTagManagerIndex = null;
 
         foreach ($trackingMethods as $index => $tab) {
             // Note: We recommend the first method that is recommended (after sorting by priority)
@@ -263,12 +264,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             if ($tab['id'] === Matomo::getId()) {
                 $matomoIndex = $index;
             }
+
+            if ($tab['id'] === MatomoTagManager::getId()) {
+                $matomoTagManagerIndex = $index;
+            }
         }
 
-        // fall back to javascript code recommendation if nothing was detected
+        // fall back to TagManager if plugin is active else fallback to javascript code recommendation if nothing was detected
         if (null === $recommendedMethod && null !== $matomoIndex) {
-            $recommendedMethod = $trackingMethods[$matomoIndex];
-            unset($trackingMethods[$matomoIndex]);
+            $index = $matomoIndex;
+            if (null !== $matomoTagManagerIndex && Manager::getInstance()->isPluginActivated('TagManager')) {
+                $index = $matomoTagManagerIndex;
+            }
+            $recommendedMethod = $trackingMethods[$index];
+            unset($trackingMethods[$index]);
         }
 
         Json::sendHeaderJSON();
