@@ -61,6 +61,32 @@ describe("EmptySite", function () {
     expect(await pageElement.screenshot()).to.matchImage('trackingCode');
   });
 
+  it('should show the JS tracking code', async function () {
+     await page.click('#start-tracking-back');
+     await page.evaluate(() => $('#start-tracking-method-list a[href="#matomo"]')[0].click());
+
+     await makeTrackingCodeStatic();
+
+     const pageElement = await page.$('.page');
+     expect(await pageElement.screenshot()).to.matchImage('trackingCodeJS');
+   });
+
+  it('should show the advanced tracking options when clicked', async function () {
+    await page.evaluate(() => $('.advance-option a').click());
+
+    // wait till checkbox isn't disabled anymore, which means loading has finished.
+    await page.waitForFunction(() => !$('#javascript-tracking-all-subdomains').is(':disabled'));
+
+    const pageElement = await page.$('.page');
+    expect(await pageElement.screenshot()).to.matchImage('showAdvancedTrackingOptions');
+  });
+
+  it('should hide the advanced tracking options when clicked', async function () {
+    await page.evaluate(() => $('.advance-option a').click());
+
+    await page.waitForSelector('#javascript-advanced-options', {hidden: true, timeout: 1000});
+  });
+
   it('should show SPA/PWA details when clicked', async function () {
     await page.click('#start-tracking-back');
     await page.evaluate(() => $('#start-tracking-method-list a[href="#spapwa"]')[0].click());

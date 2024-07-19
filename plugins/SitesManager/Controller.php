@@ -251,7 +251,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ];
 
         $recommendedMethod = null;
-        $matomoIndex = $matomoTagManagerIndex = null;
+        $matomoIndex = null;
+        $matomoTagManagerIndex = null;
 
         foreach ($trackingMethods as $index => $tab) {
             // Note: We recommend the first method that is recommended (after sorting by priority)
