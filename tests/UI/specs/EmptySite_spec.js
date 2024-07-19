@@ -186,7 +186,7 @@ describe("EmptySite", function () {
     await page.goto(urlToTest);
     await page.waitForSelector('#start-tracking-method-list'); // wait till list is shown
 
-    await page.evaluate(() => $('#start-tracking-detection a[href="#matomo"]')[0].click());
+    await page.evaluate(() => $('#start-tracking-method-list a[href="#matomo"]')[0].click());
 
     // wait till url check field is filled with data, which means loading has finished.
     await page.waitForFunction(() => $('#baseUrl').val());
