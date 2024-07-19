@@ -16,6 +16,8 @@ use Piwik\Config;
 use Piwik\Period\Day;
 use Piwik\Period\Factory;
 use Piwik\Period\Month;
+use Piwik\Period\Week;
+use Piwik\Period\Year;
 use Piwik\Period\Range;
 use Piwik\Plugins\CustomDimensions;
 use Piwik\Container\StaticContainer;
@@ -71,10 +73,10 @@ class QueueConsumerTest extends IntegrationTestCase
         );
 
         $invalidations = [
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 1, 'report' => null],
-            ['idarchive' => 2, 'name' => 'done', 'idsite' => 2, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => null],
-            ['idarchive' => 3, 'name' => 'done', 'idsite' => 3, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
-            ['idarchive' => 4, 'name' => 'done', 'idsite' => 4, 'date1' => '2018-01-01', 'date2' => '2018-12-31', 'period' => 4, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 2, 'name' => 'done', 'idsite' => 2, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => Week::PERIOD_ID, 'report' => null],
+            ['idarchive' => 3, 'name' => 'done', 'idsite' => 3, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => null],
+            ['idarchive' => 4, 'name' => 'done', 'idsite' => 4, 'date1' => '2018-01-01', 'date2' => '2018-12-31', 'period' => Year::PERIOD_ID, 'report' => null],
         ];
 
         $this->insertInvalidations($invalidations);
@@ -183,51 +185,51 @@ class QueueConsumerTest extends IntegrationTestCase
         $segmentHash2 = (new Segment('browserCode==ff', [1]))->getHash();
 
         $invalidations = [
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-07', 'date2' => '2018-03-07', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-08', 'date2' => '2018-03-08', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null], // intersecting period
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => null], // intersecting period
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-07', 'date2' => '2018-03-07', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-08', 'date2' => '2018-03-08', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => null], // intersecting period
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => Week::PERIOD_ID, 'report' => null], // intersecting period
 
-            ['idarchive' => 1, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => 'testReport'], // intersecting period
-            ['idarchive' => 1, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => 'testReport'], // intersecting period
-            ['idarchive' => 1, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => 'testReport'], // intersecting period
+            ['idarchive' => 1, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => 'testReport'], // intersecting period
+            ['idarchive' => 1, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => 'testReport'], // intersecting period
+            ['idarchive' => 1, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => Week::PERIOD_ID, 'report' => 'testReport'], // intersecting period
 
             // some or all subperiods before site was created
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 2, 'date1' => '2020-04-04', 'date2' => '2020-04-04', 'period' => 1, 'report' => 'testReport'],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 2, 'date1' => '2020-03-30', 'date2' => '2020-04-05', 'period' => 2, 'report' => 'testReport'], // intersecting period
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 2, 'date1' => '2020-04-04', 'date2' => '2020-04-04', 'period' => Day::PERIOD_ID, 'report' => 'testReport'],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 2, 'date1' => '2020-03-30', 'date2' => '2020-04-05', 'period' => Week::PERIOD_ID, 'report' => 'testReport'], // intersecting period
 
             // segments are skipped due to insersecting period with all visits
-            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-07', 'date2' => '2018-03-07', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-08', 'date2' => '2018-03-08', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 2, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-07', 'date2' => '2018-03-07', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-08', 'date2' => '2018-03-08', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => Week::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 2, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => Week::PERIOD_ID, 'report' => null],
 
             // removed as segment not configured to auto archive
-            ['idarchive' => 1, 'name' => 'done' . $segmentHash2, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done' . $segmentHash2, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => Week::PERIOD_ID, 'report' => null],
 
             // removed as invalid plugin
-            ['idarchive' => 1, 'name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => 2, 'report' => 'testReport'],
+            ['idarchive' => 1, 'name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-11', 'period' => Week::PERIOD_ID, 'report' => 'testReport'],
 
             // removed as duplicates
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => 1, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => null],
             // dupliactes not removed as skipped due to intersecting period
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => null],
 
             // high ts_invalidated, should not be selected
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-01-01', 'date2' => '2018-01-31', 'period' => 3, 'report' => null, 'ts_invalidated' => Date::factory(time() + 300)->getDatetime()],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-01-01', 'date2' => '2018-01-31', 'period' => Month::PERIOD_ID, 'report' => null, 'ts_invalidated' => Date::factory(time() + 300)->getDatetime()],
         ];
 
         shuffle($invalidations);
@@ -510,15 +512,15 @@ class QueueConsumerTest extends IntegrationTestCase
         Date::$now = strtotime('2018-03-04 01:00:00');
 
         $invalidations = [
-            ['idarchive' => 1, 'name' => "done.Actions", 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 3, 'report' => null],
+            ['idarchive' => 1, 'name' => "done.Actions", 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Month::PERIOD_ID, 'report' => null],
         ];
 
         shuffle($invalidations);
 
         $this->insertInvalidations($invalidations);
 
-        $usableArchive = ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 1, 'ts_archived' => Date::now()->getDatetime(), 'value' => 3.0];
+        $usableArchive = ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID, 'ts_archived' => Date::now()->getDatetime(), 'value' => 3.0];
         $this->insertArchive($usableArchive);
 
         $iteratedInvalidations = [];
@@ -773,9 +775,9 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertEquals(1, $queueConsumer->setMaxSitesToProcess(1));
 
         $invalidations = [
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2021-11-16', 'date2' => '2021-11-16', 'period' => 1, 'report' => null],
-            ['idarchive' => 2, 'name' => 'done', 'idsite' => 2, 'date1' => '2021-11-16', 'date2' => '2021-11-16', 'period' => 2, 'report' => null],
-            ['idarchive' => 3, 'name' => 'done', 'idsite' => 3, 'date1' => '2021-11-16', 'date2' => '2021-11-16', 'period' => 3, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2021-11-16', 'date2' => '2021-11-16', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 2, 'name' => 'done', 'idsite' => 2, 'date1' => '2021-11-16', 'date2' => '2021-11-16', 'period' => Week::PERIOD_ID, 'report' => null],
+            ['idarchive' => 3, 'name' => 'done', 'idsite' => 3, 'date1' => '2021-11-16', 'date2' => '2021-11-16', 'period' => Month::PERIOD_ID, 'report' => null],
         ];
 
         $this->insertInvalidations($invalidations);
@@ -917,7 +919,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $invalidation = [
             'idsite' => 1,
-            'period' => 1,
+            'period' => Day::PERIOD_ID,
             'date1' => '2020-04-05',
             'date2' => '2020-04-05',
             'name' => 'done',
@@ -946,7 +948,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $invalidation = [
             'idsite' => 1,
-            'period' => 1,
+            'period' => Day::PERIOD_ID,
             'date1' => '2020-03-05',
             'date2' => '2020-03-05',
             'name' => 'done',
@@ -975,7 +977,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $invalidation = [
             'idsite' => 1,
-            'period' => 2,
+            'period' => Week::PERIOD_ID,
             'date1' => '2020-03-30',
             'date2' => '2020-04-05',
             'name' => 'done',
@@ -1013,7 +1015,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $invalidation = [
             'idsite' => 1,
-            'period' => 2,
+            'period' => Week::PERIOD_ID,
             'date1' => '2020-03-30',
             'date2' => '2020-04-05',
             'name' => 'done' . $segmentHash . '.ExamplePlugin',
@@ -1050,7 +1052,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $invalidation = [
             'idsite' => 1,
-            'period' => 2,
+            'period' => Week::PERIOD_ID,
             'date1' => '2020-03-30',
             'date2' => '2020-04-05',
             'name' => 'done',
@@ -1088,7 +1090,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $invalidation = [
             'idsite' => 1,
-            'period' => 2,
+            'period' => Week::PERIOD_ID,
             'date1' => '2020-03-30',
             'date2' => '2020-04-05',
             'name' => 'done' . $segmentHash . '.ExamplePlugin',
@@ -1138,53 +1140,53 @@ class QueueConsumerTest extends IntegrationTestCase
             // no intersecting periods
             [
                 [
-                    ['period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04'],
-                    ['period' => 3, 'date1' => '2020-04-01', 'date2' => '2020-04-30'],
-                    ['period' => 1, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==abc'],
+                    ['period' => Day::PERIOD_ID, 'date1' => '2020-03-04', 'date2' => '2020-03-04'],
+                    ['period' => Month::PERIOD_ID, 'date1' => '2020-04-01', 'date2' => '2020-04-30'],
+                    ['period' => Day::PERIOD_ID, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==abc'],
                 ],
-                ['period' => 1, 'date1' => '2020-03-05', 'date2' => '2020-03-05'],
+                ['period' => Day::PERIOD_ID, 'date1' => '2020-03-05', 'date2' => '2020-03-05'],
                 false,
             ],
 
             // intersecting periods
             [
                 [
-                    ['period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04'],
-                    ['period' => 3, 'date1' => '2020-04-01', 'date2' => '2020-04-30'],
-                    ['period' => 1, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==abc'],
+                    ['period' => Day::PERIOD_ID, 'date1' => '2020-03-04', 'date2' => '2020-03-04'],
+                    ['period' => Month::PERIOD_ID, 'date1' => '2020-04-01', 'date2' => '2020-04-30'],
+                    ['period' => Day::PERIOD_ID, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==abc'],
                 ],
-                ['period' => 2, 'date1' => '2020-03-02', 'date2' => '2020-03-08'],
+                ['period' => Week::PERIOD_ID, 'date1' => '2020-03-02', 'date2' => '2020-03-08'],
                 true,
             ],
 
             // all same period, different segments
             [
                 [
-                    ['period' => 1, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==def'],
-                    ['period' => 1, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==ghi'],
-                    ['period' => 1, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==abc'],
+                    ['period' => Day::PERIOD_ID, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==def'],
+                    ['period' => Day::PERIOD_ID, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==ghi'],
+                    ['period' => Day::PERIOD_ID, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==abc'],
                 ],
-                ['period' => 1, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==lmn'],
+                ['period' => Day::PERIOD_ID, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==lmn'],
                 false,
             ],
 
             // all same period, all visits in one
             [
                 [
-                    ['period' => 1, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => ''],
+                    ['period' => Day::PERIOD_ID, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => ''],
                 ],
-                ['period' => 1, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==lmn'],
+                ['period' => Day::PERIOD_ID, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==lmn'],
                 true,
             ],
 
             // all same period, different segments, all visits in next
             [
                 [
-                    ['period' => 1, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==def'],
-                    ['period' => 1, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==ghi'],
-                    ['period' => 1, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==abc'],
+                    ['period' => Day::PERIOD_ID, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==def'],
+                    ['period' => Day::PERIOD_ID, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==ghi'],
+                    ['period' => Day::PERIOD_ID, 'date1' => '2020-03-15', 'date2' => '2020-03-15', 'segment' => 'pageUrl==abc'],
                 ],
-                ['period' => 1, 'date1' => '2020-03-15', 'date2' => '2020-03-15'],
+                ['period' => Day::PERIOD_ID, 'date1' => '2020-03-15', 'date2' => '2020-03-15'],
                 true,
             ],
         ];
@@ -1220,258 +1222,258 @@ class QueueConsumerTest extends IntegrationTestCase
     {
         yield 'different period and different idSite should not be detected as intersecting' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 3, 'date1' => '2022-03-04', 'date2' => '2022-03-04', 'period' => 1],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 3, 'date1' => '2022-03-04', 'date2' => '2022-03-04', 'period' => Day::PERIOD_ID],
             'expected' => null
         ];
 
         yield 'same period, but different idSite should not be detected as intersecting' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 3, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 3, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
             'expected' => null
         ];
 
         yield 'same day period should be detected as intersecting' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
         ];
 
         yield 'week period should be detected as intersecting when day is processed' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => 2],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
         ];
 
         yield 'month period should be detected as intersecting when day is processed' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => 3],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
         ];
 
         yield 'year period should be detected as intersecting when day is processed' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => 4],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
         ];
 
         yield 'same week period should be detected as intersecting' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => 2, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => 2],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = week, date = 2020-03-02)'
         ];
 
         yield 'day period should not be detected as intersecting when week is processed' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => 2, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
             'expected' => null
         ];
 
         yield 'month period should be detected as intersecting when week is processed' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => 2, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => 3],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = week, date = 2020-03-02)'
         ];
 
         yield 'year period should be detected as intersecting when week is processed' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => 2, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => 4],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = week, date = 2020-03-02)'
         ];
 
         yield 'same month period should be detected as intersecting' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => 3, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => 3],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = month, date = 2020-03-01)'
         ];
 
         yield 'day period should not be detected as intersecting when month is processed' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => 3, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
             'expected' => null
         ];
 
         yield 'week period should not be detected as intersecting when month is processed' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => 3, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => 2],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID],
             'expected' => null
         ];
 
         yield 'year period should be detected as intersecting when month is processed' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => 3, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => 4],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = month, date = 2020-03-01)'
         ];
 
         yield 'same year period should be detected as intersecting' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => 4, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => 4],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = year, date = 2020-01-01)'
         ];
 
         yield 'day period should not be detected as intersecting when year is processed' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => 4, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
             'expected' => null
         ];
 
         yield 'week period should not be detected as intersecting when year is processed' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => 4, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => 2],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID],
             'expected' => null
         ];
 
         yield 'month period should be detected as intersecting when year is processed' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => 3, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => 4],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = month, date = 2020-03-01)'
         ];
 
         yield 'plugin and normal invalidation for same day period should be detected as intersecting' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done.Actions', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1],
+            'archiveToProcess' => ['name' => 'done.Actions', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
         ];
 
         // @todo is this needed?
         yield 'different plugin invalidations for same day period should be detected as intersecting' => [
             'existingInvalidations' => [
-                ['name' => 'done.VisitsSummary', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done.VisitsSummary', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done.Actions', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1],
+            'archiveToProcess' => ['name' => 'done.Actions', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
         ];
 
         yield 'week period should be detected as intersecting when day is processed for a segment' => [
             'existingInvalidations' => [
-                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => 2, 'segment' => 'browserCode==IE'],
+            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'segment' => 'browserCode==IE'],
             'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
         ];
 
         yield 'plugin archive should be detected as intersecting when lower period is processed for a segment' => [
             'existingInvalidations' => [
-                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.Actions', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => 2, 'segment' => 'browserCode==IE'],
+            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.Actions', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'segment' => 'browserCode==IE'],
             'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
         ];
 
         yield 'segment archiving during "all visits" archiving should be detected as intersecting with same period' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'segment' => 'browserCode==IE'],
+            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
             'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)'
         ];
 
         yield 'segment archiving for plugin during "all visits" archiving should be detected as intersecting with same period' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'segment' => 'browserCode==IE'],
+            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
             'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)'
         ];
 
         yield 'segment archiving during "all visits" plugin archiving should be detected as intersecting with same period' => [
             'existingInvalidations' => [
-                ['name' => 'done.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'segment' => 'browserCode==IE'],
+            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
             'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)'
         ];
 
         yield 'segment archiving for plugin during "all visits" plugin archiving should be detected as intersecting with same period' => [
             'existingInvalidations' => [
-                ['name' => 'done.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.Actions', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'segment' => 'browserCode==IE'],
+            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.Actions', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
             'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)'
         ];
 
         yield 'segment archiving during "all visits" archiving should be detected as intersecting with lower period' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => 3, 'segment' => 'browserCode==IE'],
+            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'segment' => 'browserCode==IE'],
             'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)'
         ];
 
         yield 'segment archiving during "all visits" archiving not should be detected as intersecting with different periods' => [
             'existingInvalidations' => [
-                ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-04-01', 'date2' => '2020-04-30', 'period' => 3, 'segment' => 'browserCode==IE'],
+            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-04-01', 'date2' => '2020-04-30', 'period' => Month::PERIOD_ID, 'segment' => 'browserCode==IE'],
             'expected' => null
         ];
 
         yield '"all visits" archiving, while running a segment should be detected as intersecting' => [
             'existingInvalidations' => [
-                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
             'expected' => 'segment archive in progress for same site with lower or same period (browserCode==IE, period = day, date = 2020-03-04)'
         ];
 
         yield '"all visits" plugin archiving, while running a segment should be detected as intersecting' => [
             'existingInvalidations' => [
-                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1],
+            'archiveToProcess' => ['name' => 'done.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
             'expected' => 'segment archive in progress for same site with lower or same period (browserCode==IE, period = day, date = 2020-03-04)'
         ];
 
         yield '"all visits" archiving with bigger period, while running a segment should be detected as intersecting' => [
             'existingInvalidations' => [
-                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => 3],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
             'expected' => 'segment archive in progress for same site with lower or same period (browserCode==IE, period = day, date = 2020-03-04)'
         ];
 
         yield 'same period, but different segments archiving should not be detected as intersecting' => [
             'existingInvalidations' => [
-                ['name' => 'done3736b708e4d20cfc10610e816a1b2341', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+                ['name' => 'done3736b708e4d20cfc10610e816a1b2341', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
-            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => 1, 'segment' => 'browserCode==IE'],
+            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
             'expected' => null
         ];
     }
