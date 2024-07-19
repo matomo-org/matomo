@@ -787,6 +787,16 @@ class Model
         return !empty($result);
     }
 
+    public function getInvalidationsInProgress(int $idSite): array
+    {
+        $table = Common::prefixTable('archive_invalidations');
+
+        $bind = [$idSite, ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS];
+
+        $sql = "SELECT idsite, period, date1, date2, name, ts_started FROM `$table` WHERE idsite = ? AND `status` = ? AND ts_started IS NOT NULL ORDER BY ts_started ASC";
+        return Db::fetchAll($sql, $bind);
+    }
+
     /**
      * Gets the next invalidated archive that should be archived in a table.
      *
