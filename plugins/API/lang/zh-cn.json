@@ -2,16 +2,17 @@
     "API": {
         "ChangeTokenHint": "如果你想改变这个标记，请到你的%1$s个人设置页面%2$s。",
         "EvolutionMetricName": "%s演变",
+        "GenerateVisits": "如果您没有今天的数据，您可以通过转到 Matomo 管理区域中的“开发 → 访客生成器”，使用 %1$s 插件生成一些数据。",
         "Glossary": "词汇表",
         "KeepTokenSecret": "授权号 token_auth 与您的帐号和密码一样重要，%1$s请不要公开%2$s！",
         "LearnAboutCommonlyUsedTerms2": "了解常用的术语，以充分利用 Matomo 数据分析。",
         "LoadedAPIs": "已载入 %s 个 API",
-        "MainMetricsReportDocumentation": "该报告为您概览了所有类别和插件最重要的指标。",
-        "MoreInformation": "了解更多关于 Matomo APIs 的资讯，请访问 %1$sMatomo API 介绍%2$s 和 %3$s Matomo API 参考资料%4$s。",
-        "PluginDescription": "Matomo中的所有数据，都可通过简单的API接口获取。这个插件是Web服务的切入点，那你可以通过调用获取你想要的网站分析的数据，比如XML，JSON，PHP，CSV等。",
+        "MainMetricsReportDocumentation": "该报告概述了所有类别和插件的最重要指标。",
+        "MoreInformation": "有关 Matomo API 的更多信息，请参阅 %1$sMatomo API 简介%2$s 和 %3$sMatomo API 参考%4$s。",
+        "PluginDescription": "Matomo 中的所有数据都可以通过简单的 API 获取。该插件是 Web 服务入口点，您可以调用它来获取 XML、JSON、PHP、CSV 等格式的 Web 分析数据。",
         "ReportingApiReference": "报告API参考",
-        "TopLinkTooltip": "通过一个简单的 API，让您可以以 xml, json及其它格式取得网站分析的数据。",
+        "TopLinkTooltip": "通过 JSON、XML 等格式的简单 API 以编程方式访问您的 Web Analytics 数据。",
         "UserAuthentication": "身份验证",
-        "UsingTokenAuth": "如果要在脚本，crontab等%2$s中请求数据%1$s，则需要将URL参数%3$s添加到需要身份验证的API调用URL中。"
+        "UsingTokenAuth": "如果您想要%1$s在脚本、crontab 等中请求数据。%2$s，您需要将“%3$s”URL 参数添加到需要身份验证的 URL 的 API 调用中。"
     }
 }

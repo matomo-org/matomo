@@ -7,6 +7,7 @@
         "Resolutions": "分辨率",
         "WidgetGlobalVisitors": "访客设置",
         "WidgetGlobalVisitorsDocumentation": "本报表显示您的访客最常用的系统配置。系统配置是操作系统、浏览器类型及显示器分辨率的组合。",
-        "WidgetResolutions": "画面分辨率"
+        "WidgetResolutions": "画面分辨率",
+        "WidgetResolutionsDocumentation": "此报告显示访问者在查看您的网站时使用的屏幕分辨率。"
     }
 }
