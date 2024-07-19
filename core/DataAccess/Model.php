@@ -65,7 +65,7 @@ class Model
                        GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
                   FROM `$archiveTable`
                  WHERE name LIKE 'done%'
-                   AND `value` NOT IN (" . ArchiveWriter::DONE_ERROR . ")
+                   AND `value` NOT IN (" . ArchiveWriter::DONE_ERROR . ", " . ArchiveWriter::DONE_ERROR_INVALIDATED . ")
               GROUP BY idsite, date1, date2, period, name HAVING count(*) > 1";
 
         $archiveIds = array();
@@ -184,8 +184,15 @@ class Model
             if (!empty($idArchives)) {
                 $idArchives = array_map('intval', $idArchives);
 
+                // set status to DONE_INVALIDATED for finished archives
                 $sql = "UPDATE `$archiveTable` SET `value` = " . ArchiveWriter::DONE_INVALIDATED . " WHERE idarchive IN ("
-                    . implode(',', $idArchives) . ") AND $nameCondition";
+                    . implode(',', $idArchives) . ") AND value != " . ArchiveWriter::DONE_ERROR . " AND $nameCondition";
+
+                Db::query($sql);
+
+                // set status to DONE_ERROR_INVALIDATED for currently processed archives
+                $sql = "UPDATE `$archiveTable` SET `value` = " . ArchiveWriter::DONE_ERROR_INVALIDATED . " WHERE idarchive IN ("
+                    . implode(',', $idArchives) . ") AND value = " . ArchiveWriter::DONE_ERROR . " AND $nameCondition";
 
                 Db::query($sql);
             }
@@ -359,7 +366,7 @@ class Model
                   WHERE name LIKE 'done%'
                     AND ((  value = " . ArchiveWriter::DONE_OK_TEMPORARY . "
                             AND ts_archived < ?)
-                         OR value = " . ArchiveWriter::DONE_ERROR . ")";
+                         OR value IN (" . ArchiveWriter::DONE_ERROR . ", " . ArchiveWriter::DONE_ERROR_INVALIDATED . "))";
 
         return Db::fetchAll($query, array($purgeArchivesOlderThan));
     }
@@ -542,6 +549,14 @@ class Model
         Db::query(
             "UPDATE $numericTable SET `value` = ? WHERE idarchive = ? and `name` = ?",
             array($value, $archiveId, $doneFlag)
+        );
+    }
+
+    public function getArchiveStatus($numericTable, $archiveId, $doneFlag): int
+    {
+        return (int) Db::fetchOne(
+            "SELECT value FROM $numericTable WHERE idarchive = ? AND `name` = ?",
+            [$archiveId, $doneFlag]
         );
     }
 
