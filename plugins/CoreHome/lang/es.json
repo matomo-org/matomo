@@ -68,6 +68,7 @@
         "PageDownShortcutDescription": "para ir a la parte inferior de la página",
         "PageUpShortcutDescription": "para ir a la parte superior de la página",
         "PeriodHasOnlyRawData": "Parece que los informes para este periodo aún no han sido procesados. ¿Quiere ver lo que está sucediendo ahora? Consulte aquí %1$s, registro de visitas %2$s o elija un periodo distinto hasta que los informes se hayan generado.",
+        "PeriodHasOnlyRawDataNoVisitsLog": "Parece que los informes correspondientes a este periodo aún no se han procesado, pero estarán disponibles en unas horas. Podría elegir un periodo de fechas diferente hasta que se generen los informes.",
         "PeriodRange": "Rango",
         "PivotBySubtable": "Este informe no está girado %1$s Girarlo sobre %2$s",
         "Profilable": "Perfilable",

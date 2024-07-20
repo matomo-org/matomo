@@ -18,11 +18,11 @@
         "CustomUnprocessedSegmentApiError3": "（或者，您可以使用SegmentEditor.add API方法以编程方式创建新的细分）。",
         "CustomUnprocessedSegmentApiError4": "在编辑器中（或通过API）创建细分后，该错误消息将消失，并且在预处理了细分数据后的几小时内，您将看到细分的报告数据。 （如果没有，则可能有问题。）",
         "CustomUnprocessedSegmentApiError5": "请注意，您可以使用Live.getLastVisitsDetails API来测试您的细分是否可以正常工作，而无需等待其处理。",
-        "CustomUnprocessedSegmentApiError6": "使用此API方法时，您会看到＆segment =参数匹配了哪些用户和操作。",
+        "CustomUnprocessedSegmentApiError6": "使用此 API 方法时，您将看到 &amp;segment= 参数匹配了哪些用户和操作。",
         "CustomUnprocessedSegmentNoData": "要查看该细分受众群的数据，您必须在细分受众群编辑器中手动创建此细分受众群，然后等待几个小时以完成预处理。",
         "DataAvailableAtLaterDate": "您的细分分析报告将在以后提供。 给您带来不便，我们深表歉意。",
         "DefaultAllVisits": "所有的访问",
-        "DragDropCondition": "拖拉条件",
+        "DragDropCondition": "拖放条件",
         "HideMessageInFuture": "不再显示此消息",
         "LoadingSegmentedDataMayTakeSomeTime": "正在处理分段访客数据，可能需要几分钟 …",
         "OperatorAND": "和",
@@ -31,6 +31,7 @@
         "SaveAndApply": "保存并应用",
         "SegmentDisplayedAllWebsites": "所有网站",
         "SegmentDisplayedThisWebsiteOnly": "仅这个网站",
+        "SegmentEditor": "段编辑器",
         "SegmentIsDisplayedForWebsite": "并为",
         "SegmentNotApplied": "细分“%s”未应用",
         "SegmentNotAppliedMessage": "您正在请求自定义细分“ %s”的数据，由于性能原因，该Matomo的配置当前阻止实时处理报告。",
@@ -51,11 +52,12 @@
         "UnprocessedSegmentInVisitorLog3": "这可以帮助您确认细分受众群与您期望的用户和操作相匹配。",
         "UnprocessedSegmentNoData1": "这些报告没有数据，因为系统尚未处理您请求的细分%1$s。",
         "UnprocessedSegmentNoData2": "处理完成后，该细分市场的数据应在几个小时内可用。 （如果没有，则可能有问题。）",
+        "UnprocessedSegmentNoData3": "Matomo 无法显示段 %1$s 的数据，因为配置阻止了此期间的重新归档。请联系您的管理员或查看%2$s此常见问题解答%3$s如何解决此问题。",
         "VisibleToAllUsers": "所有用户",
         "VisibleToMe": "我",
         "VisibleToSuperUser": "对您可见，因为您具有超级用户访问权限",
         "YouDontHaveAccessToCreateSegments": "您没有创建和编辑细分所需的访问权限级别。",
         "YouMayChangeSetting": "或者，您可以在配置文件（%1$s）中更改设置，或编辑此细分并选择“%2$s”。",
-        "YouMustBeLoggedInToCreateSegments": "您必须登录后创建和修改自定义访客分段"
+        "YouMustBeLoggedInToCreateSegments": "您必须登录才能创建和编辑自定义访客细分。"
     }
 }

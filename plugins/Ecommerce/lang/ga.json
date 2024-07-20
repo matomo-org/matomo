@@ -1,1 +1,32 @@
-{}
+{
+    "Ecommerce": {
+        "EcommerceLogSubcategoryHelp1": "Soláthraíonn an logáil Ríomhthráchtáil sonraí gráinneach ar leibhéal an tseisiúin ionas gur féidir leat breathnú ar an seisiún iomlán do gach úsáideoir a rinne ceannach nó a thréig a gcairt. Is féidir leis seo cabhrú leat tuiscint a fháil ar cad a dhéanann úsáideoirí roimh agus tar éis ceannach chun deiseanna optamaithe a nochtadh.",
+        "EcommerceLogSubcategoryHelp2": "Déantar sonraí ar an leathanach seo a nuashonrú i bhfíor-am.",
+        "EcommerceOverviewSubcategoryHelp1": "Is é an rannóg Forbhreathnú Ríomhthráchtáil an áit is fearr chun léargas ardleibhéil a fháil ar fheidhmíocht do shiopa ar líne. Sracfhéachaint, is féidir leat a fheiceáil cé mhéad díolacháin atá á dhéanamh agat, cé mhéad ioncaim atá á ghiniúint agat, agus ráta comhshó do shuíomh Gréasáin.",
+        "EcommerceOverviewSubcategoryHelp2": "Cliceáil ar mhéadrach aonair laistigh den chairt súilíneach chun díriú air laistigh den ghraf éabhlóide lánmhéide.",
+        "EcommerceOverviewSubcategoryHelp3": "Foghlaim tuilleadh inár dtreoir Ríomhthráchtáil anseo.",
+        "LifeTimeValue": "Luach Saoil Ríomhthráchtáil",
+        "LifeTimeValueDescription": "Ioncam ríomhthráchtála iomlán curtha i leith an chustaiméara seo thar gach cuairt: suim an ioncaim ó gach ordú Ríomhthráchtáil le haghaidh Aitheantais Chuairteoirí %s.",
+        "NumberOfItems": "Líon na Míreanna sa Tralaí",
+        "Order": "Ordú",
+        "OrderId": "Aitheantas an Ordaithe",
+        "OrderRevenue": "Na Coimisinéirí Ioncaim a ordú",
+        "OrderValue": "Luach ordú",
+        "Orders": "Orduithe",
+        "PluginDescription": "Ligeann ríomhthráchtáil duit súil a choinneáil ar nuair a chuireann úsáideoirí táirgí le cairteacha, agus nuair a athraíonn siad chuig díolachán ríomhthráchtála. Chomh maith leis sin rianú táirgí agus catagóirí táirgí tuairimí agus cairteacha tréigthe.",
+        "ProductSubcategoryHelp": "Is féidir leis an dearcadh Táirgí cabhrú leat táirgí agus catagóirí atá rófheidhmithe nó tearcfheidhmithe a shainaithint chun treochtaí agus deiseanna a bhaineann le do rogha táirgí agus leathanaigh stórála a nochtadh.",
+        "RevenueLeftInCart": "Ioncam Fágtha sa Tralaí",
+        "Sales": "Díolacháin",
+        "SalesAdjective": "Díolachán %s",
+        "SalesBy": "Díolachán faoi %s",
+        "SalesSubcategoryHelp1": "Tá bailiúchán fairsing tuarascálacha sa chuid seo chun cabhrú leat anailís a dhéanamh ar na coinníollacha éagsúla is minic a bhíonn mar thoradh ar dhíolacháin, amhail foinsí tráchta agus feachtais, am agus suíomh úsáideora agus gléasanna a úsáidtear chun iad a rochtain.",
+        "SalesSubcategoryHelp2": "Is féidir leat a fháil amach freisin go cruinn conas a bhaineann ioncam le gach gné, mar chineálacha sonracha tráchta nó feachtais rianaithe.",
+        "ViewedProductCategory": "Féachadh ar Chatagóir Táirge",
+        "ViewedProductName": "Féachadh ar Ainm an Táirge",
+        "ViewedProductPrice": "Breathnaíodh ar Phraghas an Táirge",
+        "ViewedProductSKU": "Breathnaíodh ar SKU Táirge",
+        "VisitorProfileAbandonedCartSummary": "Thréigthe %1$s cairt lena n-áirítear %2$s mír ar fiú %3$s san iomlán iad.",
+        "VisitorProfileItemsAndOrders": "Ceannaíodh %1$s mír in orduithe ríomhthráchtála %2$s.",
+        "VisitorProfileLTV": "Gineadh Ioncam Saoil de %1$s."
+    }
+}

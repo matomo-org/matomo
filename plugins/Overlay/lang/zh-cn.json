@@ -3,6 +3,7 @@
         "Clicks": "%s 次点击",
         "ClicksFromXLinks": "%1$s 次点击来自 %2$s 中的链接",
         "Domain": "域名",
+        "ErrorNoSiteUrls": "警告：该网站没有在 Matomo 中定义的站点 URL。这可能会导致 Overlay 和其他功能损坏或行为异常。要解决此问题，请在 Matomo 管理部分的该网站的设置中添加 URL。",
         "ErrorNotLoading": "还无法运行页面叠加会话。",
         "ErrorNotLoadingDetails": "也许右边加载的页面没有 Matomo 跟踪代码。如果是这样，试试在另外一个页面运行叠加。",
         "ErrorNotLoadingDetailsSSL": "因为你通过 https 访问 Matomo，最可能的原因是您的网站不支持 SSL，试试用 http 访问 Matomo。",
