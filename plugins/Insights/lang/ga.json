@@ -1,1 +1,35 @@
-{}
+{
+    "Insights": {
+        "ControlComparedToDescription": "Fás i gcomparáid leis an",
+        "ControlFilterByDescription": "Taispeáin go léir, movers amháin, ach nua nó amháin imithe",
+        "DatePeriodCombinationNotSupported": "Ní féidir léargais a ghiniúint don chomhcheangal dáta agus tréimhse seo.",
+        "DayComparedToPreviousDay": "lá roimhe sin",
+        "DayComparedToPreviousWeek": "lá céanna sa tseachtain roimhe sin",
+        "DayComparedToPreviousYear": "lá céanna sa bhliain roimhe sin",
+        "Filter": "Scagaire",
+        "FilterIncreaserAndDecreaser": "Méadaitheoir &amp; laghdaitheoir",
+        "FilterOnlyDecreaser": "Laghdaitheoir amháin",
+        "FilterOnlyDisappeared": "Ach imithe",
+        "FilterOnlyIncreaser": "Méadaitheoir amháin",
+        "FilterOnlyMovers": "Movers amháin",
+        "FilterOnlyNew": "Nua amháin",
+        "IgnoredChanges": "Tugadh neamhaird ar athruithe a raibh tionchar acu ar níos lú ná %s cuairteanna.",
+        "MonthComparedToPreviousMonth": "an mhí roimhe sin",
+        "MonthComparedToPreviousYear": "mhí chéanna an bhliain roimhe sin",
+        "MoversAndShakersWidgetTitle": "Movers agus Shakers",
+        "NoResultMatchesCriteria": "Ní thagann aon sraitheanna leis na critéir",
+        "OverviewWidgetTitle": "Léargas Forbhreathnú",
+        "PluginDescription": "Soláthraíonn sé Léargais faoi do thrácht. Tá léargais ar fáil mar ghiuirléidí deais chomh maith le deilbhín nua i dtuarascálacha, a ligeann duit na treochtaí is tábhachtaí i do shonraí a fheiceáil.",
+        "TitleConsideredInsightsChanges": "Mhéadaigh nó laghdaigh na sraitheanna faoi %1$s cuairt ar a laghad (%2$s%% de %3$s cuairteanna iomlán).",
+        "TitleConsideredInsightsGrowth": "Tá fás de %1$s%% ar a laghad sna sraitheanna seo a leanas i gcomparáid le %2$s.",
+        "TitleConsideredMoversAndShakersChanges": "Breathnaíodh ar ghluaiseoirí ach amháin má d'fhás siad níos mó ná %1$s%% cuairteanna nó malartaigh siad níos lú ná %2$s%% cuairteanna, iontrálacha nua ach amháin má mhéadaigh siad níos mó ná %3$s%% cuairteanna (%4$s ), agus sraitheanna imithe má chliseann siad níos lú ná %5$s%% cuairt (%6$s).",
+        "TitleConsideredMoversAndShakersGrowth": "D'athraigh %1$s ó %2$s go %3$s i gcomparáid le %4$s. Bunaithe air seo táthar ag súil le héabhlóid de gach ró de %5$s%%.",
+        "TitleRowChangeDetails": "D'athraigh '%1$s' ó %2$s (%3$s) go %4$s (%5$s) %6$s.",
+        "TitleRowDisappearedDetails": "Tháinig laghdú %2$s ar '%1$s' agus imithe i léig i %3$s i gcomparáid le %4$s.",
+        "TitleRowMoverAndShaker": "Bhí tionchar níos airde ag an tsraith seo ná an meán.",
+        "TitleRowNewDetails": "Mhéadaigh '%1$s' %2$s agus tá sé nua i gcomparáid le %3$s.",
+        "WeekComparedToPreviousWeek": "seachtain roimhe sin",
+        "WidgetCategory": "Léargais",
+        "YearComparedToPreviousYear": "bhliain roimhe sin"
+    }
+}

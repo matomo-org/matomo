@@ -7,8 +7,8 @@
 		<sum_time_spent>0</sum_time_spent>
 		<sum_bandwidth>35740</sum_bandwidth>
 		<nb_hits_with_bandwidth>10</nb_hits_with_bandwidth>
-		<min_bandwidth>17870</min_bandwidth>
-		<max_bandwidth>17870</max_bandwidth>
+		<min_bandwidth>3574</min_bandwidth>
+		<max_bandwidth>3574</max_bandwidth>
 		<entry_nb_visits>10</entry_nb_visits>
 		<entry_nb_actions>10</entry_nb_actions>
 		<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -46,8 +46,8 @@
 				<entry_bounce_count>10</entry_bounce_count>
 				<exit_nb_visits>10</exit_nb_visits>
 				<nb_hits_with_bandwidth>10</nb_hits_with_bandwidth>
-				<max_bandwidth>17870</max_bandwidth>
-				<min_bandwidth>17870</min_bandwidth>
+				<max_bandwidth>3574</max_bandwidth>
+				<min_bandwidth>3574</min_bandwidth>
 				<sum_bandwidth>35740</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_page_load_time>0</avg_page_load_time>
@@ -153,10 +153,10 @@
 				<exit_nb_visits_change_from>+400%</exit_nb_visits_change_from>
 				<nb_hits_with_bandwidth_change>-80%</nb_hits_with_bandwidth_change>
 				<nb_hits_with_bandwidth_change_from>+400%</nb_hits_with_bandwidth_change_from>
-				<max_bandwidth_change>-80%</max_bandwidth_change>
-				<max_bandwidth_change_from>+400%</max_bandwidth_change_from>
-				<min_bandwidth_change>-80%</min_bandwidth_change>
-				<min_bandwidth_change_from>+400%</min_bandwidth_change_from>
+				<max_bandwidth_change>+0%</max_bandwidth_change>
+				<max_bandwidth_change_from>+0%</max_bandwidth_change_from>
+				<min_bandwidth_change>+0%</min_bandwidth_change>
+				<min_bandwidth_change_from>+0%</min_bandwidth_change_from>
 				<sum_bandwidth_change>-80%</sum_bandwidth_change>
 				<sum_bandwidth_change_from>+400%</sum_bandwidth_change_from>
 				<avg_bandwidth_change>+0%</avg_bandwidth_change>
@@ -336,10 +336,10 @@
 				<exit_nb_visits_change_from>+900%</exit_nb_visits_change_from>
 				<nb_hits_with_bandwidth_change>-90%</nb_hits_with_bandwidth_change>
 				<nb_hits_with_bandwidth_change_from>+900%</nb_hits_with_bandwidth_change_from>
-				<max_bandwidth_change>-80%</max_bandwidth_change>
-				<max_bandwidth_change_from>+400%</max_bandwidth_change_from>
-				<min_bandwidth_change>-80%</min_bandwidth_change>
-				<min_bandwidth_change_from>+400%</min_bandwidth_change_from>
+				<max_bandwidth_change>+0%</max_bandwidth_change>
+				<max_bandwidth_change_from>+0%</max_bandwidth_change_from>
+				<min_bandwidth_change>+0%</min_bandwidth_change>
+				<min_bandwidth_change_from>+0%</min_bandwidth_change_from>
 				<sum_bandwidth_change>-90%</sum_bandwidth_change>
 				<sum_bandwidth_change_from>+900%</sum_bandwidth_change_from>
 				<avg_bandwidth_change>+0%</avg_bandwidth_change>
@@ -492,8 +492,8 @@
 				<sum_time_spent>0</sum_time_spent>
 				<sum_bandwidth>32166</sum_bandwidth>
 				<nb_hits_with_bandwidth>9</nb_hits_with_bandwidth>
-				<min_bandwidth>14296</min_bandwidth>
-				<max_bandwidth>14296</max_bandwidth>
+				<min_bandwidth>3574</min_bandwidth>
+				<max_bandwidth>3574</max_bandwidth>
 				<entry_nb_visits>9</entry_nb_visits>
 				<entry_nb_actions>9</entry_nb_actions>
 				<entry_sum_visit_length>0</entry_sum_visit_length>
@@ -591,8 +591,8 @@
 						<sum_time_spent>0</sum_time_spent>
 						<sum_bandwidth>32166</sum_bandwidth>
 						<nb_hits_with_bandwidth>9</nb_hits_with_bandwidth>
-						<min_bandwidth>14296</min_bandwidth>
-						<max_bandwidth>14296</max_bandwidth>
+						<min_bandwidth>3574</min_bandwidth>
+						<max_bandwidth>3574</max_bandwidth>
 						<entry_nb_visits>9</entry_nb_visits>
 						<entry_nb_actions>9</entry_nb_actions>
 						<entry_sum_visit_length>0</entry_sum_visit_length>

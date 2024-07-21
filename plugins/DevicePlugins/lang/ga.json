@@ -1,1 +1,10 @@
-{}
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s gan forlíontán ar bith cumasaithe",
+        "BrowserWithPluginsEnabled": "%1$s le forlíontáin %2$s cumasaithe",
+        "PluginDescription": "Tuairiscíonn sé liosta na bhforlíontán a dtacaítear leo i mbrabhsálaithe cuairteoirí.",
+        "PluginDetectionDoesNotWorkInIE": "Nóta: Ní oibríonn braiteadh breiseán in Internet Explorer roimh 11. Níl an tuarascáil seo bunaithe ach ar bhrabhsálaithe neamh-IE agus ar leaganacha níos nuaí de IE.",
+        "WidgetPlugins": "Breiseáin Brabhsálaithe",
+        "WidgetPluginsDocumentation": "Léiríonn an tuarascáil seo na forlíontáin bhrabhsálaí a bhí cumasaithe ag do chuairteoirí. D’fhéadfadh an fhaisnéis seo a bheith tábhachtach chun an bealach ceart a roghnú chun d’inneachar a sheachadadh."
+    }
+}

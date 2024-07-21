@@ -19,7 +19,7 @@
         "MoversAndShakersWidgetTitle": "有影响力的人",
         "NoResultMatchesCriteria": "没有符合条件的行",
         "OverviewWidgetTitle": "见解概述",
-        "PluginDescription": "提供有关您流量的见解。 洞察可作为仪表板小部件以及报告中的新图标提供",
+        "PluginDescription": "提供有关您的流量的见解。见解可作为仪表板小部件以及报告中的新图标提供，让您了解数据中最重要的趋势。",
         "TitleConsideredInsightsChanges": "行增加或减少了至少%1$s次访问（共%3$s次访问中的%2$s%%）。",
         "TitleConsideredInsightsGrowth": "与%2$s相比，以下各行的增长至少为%1$s%%。",
         "TitleConsideredMoversAndShakersChanges": "仅当动量增长超过%1$s%%次访问或收缩少于%2$s%%次访问时才考虑移动，仅当新动量增长超过%3$s%%次访问（%4$s）时才考虑新条目，而当收缩率少于%5$s%%次访问时则视为行消失（%6$s）。",

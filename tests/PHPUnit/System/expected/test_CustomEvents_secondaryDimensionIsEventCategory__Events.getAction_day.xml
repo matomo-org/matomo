@@ -7,8 +7,8 @@
 		<nb_events>6</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<avg_event_value>0</avg_event_value>
 		<segment>eventAction==playTrailer</segment>
 		<subtable>
@@ -19,8 +19,8 @@
 				<nb_events>6</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
@@ -32,8 +32,8 @@
 		<nb_events>6</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<avg_event_value>0</avg_event_value>
 		<segment>eventAction==Search</segment>
 		<subtable>
@@ -44,8 +44,8 @@
 				<nb_events>6</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
@@ -57,8 +57,8 @@
 		<nb_events>4</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<avg_event_value>0</avg_event_value>
 		<segment>eventAction==play25%25</segment>
 		<subtable>
@@ -69,8 +69,8 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -80,8 +80,8 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
@@ -93,8 +93,8 @@
 		<nb_events>4</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<avg_event_value>0</avg_event_value>
 		<segment>eventAction==play50%25</segment>
 		<subtable>
@@ -105,8 +105,8 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -116,8 +116,8 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
@@ -129,8 +129,8 @@
 		<nb_events>4</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<avg_event_value>0</avg_event_value>
 		<segment>eventAction==play75%25</segment>
 		<subtable>
@@ -141,8 +141,8 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -152,8 +152,8 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
@@ -165,8 +165,8 @@
 		<nb_events>4</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<avg_event_value>0</avg_event_value>
 		<segment>eventAction==playEnd</segment>
 		<subtable>
@@ -177,8 +177,8 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -188,8 +188,8 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
@@ -237,8 +237,8 @@
 		<nb_events>2</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<avg_event_value>0</avg_event_value>
 		<segment>eventAction==clickBuyNow</segment>
 		<subtable>
@@ -249,8 +249,8 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
@@ -287,8 +287,8 @@
 		<nb_events>2</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<avg_event_value>0</avg_event_value>
 		<segment>eventAction==play</segment>
 		<subtable>
@@ -299,8 +299,8 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
@@ -312,8 +312,8 @@
 		<nb_events>2</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<avg_event_value>0</avg_event_value>
 		<segment>eventAction==playStart</segment>
 		<subtable>
@@ -324,8 +324,8 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
@@ -337,8 +337,8 @@
 		<nb_events>2</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<avg_event_value>0</avg_event_value>
 		<segment>eventAction==Purchase</segment>
 		<subtable>
@@ -349,8 +349,8 @@
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>

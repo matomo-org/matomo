@@ -6,9 +6,9 @@
 		<revenue>160</revenue>
 		<conversion_rate>94.12%</conversion_rate>
 		<nb_conversions_new_visit>32</nb_conversions_new_visit>
-		<nb_visits_converted_new_visit>31</nb_visits_converted_new_visit>
+		<nb_visits_converted_new_visit>32</nb_visits_converted_new_visit>
 		<revenue_new_visit>160</revenue_new_visit>
-		<conversion_rate_new_visit>91.18%</conversion_rate_new_visit>
+		<conversion_rate_new_visit>94.12%</conversion_rate_new_visit>
 	</result>
 	<result idSite="2">
 		<nb_conversions>0</nb_conversions>
