@@ -10,6 +10,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Db\Schema;
 
 /**
  * The ranking query class wraps an arbitrary SQL query with more SQL that limits
@@ -324,6 +325,11 @@ class RankingQuery
             $initCounter = '( SELECT @counter:=0 ) initCounter,';
         }
 
+        if (false === strpos(' LIMIT ', $innerQuery) && !Schema::getInstance()->supportsSortingInSubquery()) {
+            // Setting a limit for the inner query forces the optimizer to use a temporary table, which uses the sorting
+            $innerQuery .= ' LIMIT 18446744073709551615';
+        }
+
         // add a counter to the query
         // we rely on the sorting of the inner query
         $withCounter = "
@@ -348,6 +354,12 @@ class RankingQuery
 			FROM ( $withCounter ) AS withCounter
 			GROUP BY $groupBy
 		";
+
+        if (!Schema::getInstance()->supportsSortingInSubquery()) {
+            // When subqueries aren't sorted, we need to sort the result manually again
+            $groupOthers .= " ORDER BY counter";
+        }
+
         return $groupOthers;
     }
 

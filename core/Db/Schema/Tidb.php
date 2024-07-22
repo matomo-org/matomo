@@ -62,6 +62,12 @@ class Tidb extends Mysql
         return false;
     }
 
+    public function supportsSortingInSubquery(): bool
+    {
+        // TiDb optimizer removes all sorting from subqueries
+        return false;
+    }
+
     protected function getDatabaseCreateOptions(): string
     {
         $charset = DbHelper::getDefaultCharset();
