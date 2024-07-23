@@ -681,7 +681,7 @@ class LogAggregator
             if ($rankingQueryGenerate) {
                 $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
             } else {
-                return $rankingQuery->execute($query['sql'], $query['bind'], $timeLimit);
+                return $rankingQuery->execute($query['sql'], $query['bind'], $timeLimit, implode(', ', $orderBys));
             }
         }
 
@@ -1102,7 +1102,7 @@ class LogAggregator
 
             $rankingQuery->addColumn($sumColumns, 'sum');
 
-            return $rankingQuery->execute($query['sql'], $query['bind'], $timeLimit);
+            return $rankingQuery->execute($query['sql'], $query['bind'], $timeLimit, $orderBy);
         }
 
         $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimit);
@@ -1205,7 +1205,7 @@ class LogAggregator
             if ($rankingQueryGenerate) {
                 $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
             } else {
-                return $rankingQuery->execute($query['sql'], $query['bind']);
+                return $rankingQuery->execute($query['sql'], $query['bind'], 0, $orderBy);
             }
         }
 

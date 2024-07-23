@@ -290,4 +290,14 @@ class Schema extends Singleton
     {
         return $this->getSchema()->supportsSortingInSubquery();
     }
+
+    /**
+     * Returns if the database engine supports window functions
+     *
+     * @return bool
+     */
+    public function supportsWindowFunctions(): bool
+    {
+        return $this->getSchema()->supportsWindowFunctions();
+    }
 }

@@ -757,6 +757,13 @@ class Mysql implements SchemaInterface
         return true;
     }
 
+    public function supportsWindowFunctions(): bool
+    {
+        $version = strtolower($this->getVersion());
+        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
+        return version_compare($semanticVersion, '8.0.0', '>=');
+    }
+
     protected function getDatabaseCreateOptions(): string
     {
         $charset = DbHelper::getDefaultCharset();

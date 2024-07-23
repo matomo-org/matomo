@@ -68,6 +68,11 @@ class Tidb extends Mysql
         return false;
     }
 
+    public function supportsWindowFunctions(): bool
+    {
+        return true;
+    }
+
     protected function getDatabaseCreateOptions(): string
     {
         $charset = DbHelper::getDefaultCharset();

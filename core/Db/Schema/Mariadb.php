@@ -44,4 +44,12 @@ class Mariadb extends Mysql
         $semanticVersion = strstr($version, '-', $beforeNeedle = true);
         return version_compare($semanticVersion, '10.1.1', '>=');
     }
+
+
+    public function supportsWindowFunctions(): bool
+    {
+        $version = strtolower($this->getVersion());
+        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
+        return version_compare($semanticVersion, '10.2', '>=');
+    }
 }

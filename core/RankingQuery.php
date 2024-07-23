@@ -198,8 +198,8 @@ class RankingQuery
      * where `log_action.type = TYPE_OUTLINK`, for rows where `log_action.type = TYPE_ACTION_URL` and for
      * rows `log_action.type = TYPE_DOWNLOAD`.
      *
-     * @param $partitionColumn string The column name to partition by.
-     * @param $possibleValues Array of possible column values.
+     * @param string $partitionColumn The column name to partition by.
+     * @param array $possibleValues of possible column values.
      * @throws Exception if method is used more than once.
      */
     public function partitionResultIntoMultipleGroups($partitionColumn, $possibleValues)
@@ -217,18 +217,23 @@ class RankingQuery
      * Executes the query.
      * The object has to be configured first using the other methods.
      *
-     * @param $innerQuery string  The "payload" query that does the actual data aggregation. The ordering
+     * @param string $innerQuery  The "payload" query that does the actual data aggregation. The ordering
      *                            has to be specified in this query. {@link RankingQuery} cannot apply ordering
      *                            itself.
-     * @param $bind array         Bindings for the inner query.
+     * @param array $bind         Bindings for the inner query.
      * @param int $timeLimit      Adds a MAX_EXECUTION_TIME query hint to the query if $timeLimit > 0
      *                            for more details see {@link DbHelper::addMaxExecutionTimeHintToQuery}
+     * @param string $orderBy     order by used in the inner query
      * @return array              The format depends on which methods have been used
      *                            to configure the ranking query.
      */
-    public function execute($innerQuery, $bind = array(), $timeLimit = 0)
+    public function execute($innerQuery, $bind = array(), $timeLimit = 0, $orderBy = '')
     {
-        $query = $this->generateRankingQuery($innerQuery);
+        if (Schema::getInstance()->supportsWindowFunctions() && !empty($orderBy)) {
+            $query = $this->generateWindowQuery($innerQuery, $orderBy);
+        } else {
+            $query = $this->generateRankingQuery($innerQuery);
+        }
         $query = DbHelper::addMaxExecutionTimeHintToQuery($query, $timeLimit);
 
         $data  = Db::getReader()->fetchAll($query, $bind);
@@ -272,6 +277,88 @@ class RankingQuery
             $result[$partition][] = & $row;
         }
         return $result;
+    }
+
+    /**
+     * Generate the SQL code that does the magic.
+     * If you want to get the result, use execute() instead. If you want to run the query
+     * yourself, use this method.
+     *
+     * @param $innerQuery string  The "payload" query that does the actual data aggregation. The ordering
+     *                            has to be specified in this query. {@link RankingQuery} cannot apply ordering
+     *                            itself.
+     * @return string             The entire ranking query SQL.
+     */
+    public function generateWindowQuery(string $innerQuery, string $orderBy): string
+    {
+        // +1 to include "Others"
+        $limit = $this->limit + 1;
+
+        // generate select clauses for label columns
+        $labelColumnsString = '`' . implode('`, `', array_keys($this->labelColumns)) . '`';
+        $labelColumnsOthersSwitch = [];
+        foreach ($this->labelColumns as $column => $true) {
+            $labelColumnsOthersSwitch[] = "
+				CASE
+					WHEN counter >= $limit THEN '" . $this->othersLabelValue . "'
+					ELSE `$column`
+				END AS `$column`
+			";
+        }
+        $labelColumnsOthersSwitch = implode(', ', $labelColumnsOthersSwitch);
+
+        // generate select clauses for additional columns
+        $additionalColumnsString = '';
+        $additionalColumnsAggregatedString = '';
+        foreach ($this->additionalColumns as $additionalColumn => $aggregation) {
+            $additionalColumnsString .= ', `' . $additionalColumn . '`';
+            if ($aggregation !== false) {
+                $additionalColumnsAggregatedString .= ', ' . $aggregation . '(`' . $additionalColumn . '`) AS `' . $additionalColumn . '`';
+            } else {
+                $additionalColumnsAggregatedString .= ', `' . $additionalColumn . '`';
+            }
+        }
+
+        if (empty($orderBy)) {
+            $orderBy = 'NULL';
+        }
+
+        if ($this->partitionColumn) {
+            $partition = 'PARTITION BY `' . $this->partitionColumn . '`';
+        }
+
+        // add a counter to the query
+        // we rely on the sorting of the inner query
+        $withCounter = "
+			SELECT
+				$labelColumnsString,
+				ROW_NUMBER() OVER ($partition ORDER BY $orderBy) AS counter
+				$additionalColumnsString
+			FROM
+				( $innerQuery ) actualQuery
+		";
+
+        // group by the labels
+        $groupBy = $labelColumnsString;
+        if ($this->partitionColumn !== false) {
+            $groupBy .= ', `' . $this->partitionColumn . '`';
+        }
+        $groupOthers = "
+			SELECT
+			    $labelColumnsString
+			    $additionalColumnsAggregatedString
+			FROM (
+			SELECT
+				$labelColumnsOthersSwitch
+				$additionalColumnsString,
+			    counter
+			FROM ( $withCounter ) AS withCounter
+			) AS outerQuery
+			GROUP BY $groupBy
+			ORDER BY counter
+		";
+
+        return $groupOthers;
     }
 
     /**
