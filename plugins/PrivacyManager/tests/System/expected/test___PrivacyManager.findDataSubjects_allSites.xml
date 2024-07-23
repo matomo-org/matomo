@@ -5,7 +5,7 @@
 		<idVisit>122</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
-		<lastActionDateTime>2017-01-11 03:10:05</lastActionDateTime>
+		<lastActionDateTime>2017-01-11 03:10:04</lastActionDateTime>
 		<siteName>Site 1</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
@@ -25,7 +25,7 @@
 		<idVisit>154</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
-		<lastActionDateTime>2017-01-11 03:10:05</lastActionDateTime>
+		<lastActionDateTime>2017-01-11 03:10:01</lastActionDateTime>
 		<siteName>Site 3</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
@@ -45,7 +45,7 @@
 		<idVisit>186</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
-		<lastActionDateTime>2017-01-11 03:10:05</lastActionDateTime>
+		<lastActionDateTime>2017-01-11 03:09:56</lastActionDateTime>
 		<siteName>Site 5</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
@@ -65,7 +65,7 @@
 		<idVisit>121</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
-		<lastActionDateTime>2017-01-11 01:10:05</lastActionDateTime>
+		<lastActionDateTime>2017-01-11 01:10:04</lastActionDateTime>
 		<siteName>Site 1</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
@@ -85,7 +85,7 @@
 		<idVisit>153</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
-		<lastActionDateTime>2017-01-11 01:10:05</lastActionDateTime>
+		<lastActionDateTime>2017-01-11 01:10:01</lastActionDateTime>
 		<siteName>Site 3</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
@@ -105,7 +105,7 @@
 		<idVisit>185</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
-		<lastActionDateTime>2017-01-11 01:10:05</lastActionDateTime>
+		<lastActionDateTime>2017-01-11 01:09:56</lastActionDateTime>
 		<siteName>Site 5</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
@@ -125,7 +125,7 @@
 		<idVisit>90</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
-		<lastActionDateTime>2017-01-08 03:10:05</lastActionDateTime>
+		<lastActionDateTime>2017-01-08 03:10:04</lastActionDateTime>
 		<siteName>Site 1</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
@@ -145,7 +145,7 @@
 		<idVisit>89</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
-		<lastActionDateTime>2017-01-08 01:10:05</lastActionDateTime>
+		<lastActionDateTime>2017-01-08 01:10:04</lastActionDateTime>
 		<siteName>Site 1</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
@@ -165,7 +165,7 @@
 		<idVisit>58</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
-		<lastActionDateTime>2017-01-05 03:10:05</lastActionDateTime>
+		<lastActionDateTime>2017-01-05 03:10:04</lastActionDateTime>
 		<siteName>Site 1</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
@@ -185,7 +185,7 @@
 		<idVisit>218</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
-		<lastActionDateTime>2017-01-05 03:10:05</lastActionDateTime>
+		<lastActionDateTime>2017-01-05 03:10:00</lastActionDateTime>
 		<siteName>Site 5</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
@@ -205,7 +205,7 @@
 		<idVisit>57</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
-		<lastActionDateTime>2017-01-05 01:10:05</lastActionDateTime>
+		<lastActionDateTime>2017-01-05 01:10:04</lastActionDateTime>
 		<siteName>Site 1</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
@@ -225,7 +225,7 @@
 		<idVisit>217</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
-		<lastActionDateTime>2017-01-05 01:10:05</lastActionDateTime>
+		<lastActionDateTime>2017-01-05 01:10:00</lastActionDateTime>
 		<siteName>Site 5</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
@@ -245,7 +245,7 @@
 		<idVisit>26</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
-		<lastActionDateTime>2017-01-02 03:10:05</lastActionDateTime>
+		<lastActionDateTime>2017-01-02 03:10:04</lastActionDateTime>
 		<siteName>Site 1</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
@@ -265,7 +265,7 @@
 		<idVisit>25</idVisit>
 		<visitIp>156.5.3.209</visitIp>
 		
-		<lastActionDateTime>2017-01-02 01:10:05</lastActionDateTime>
+		<lastActionDateTime>2017-01-02 01:10:04</lastActionDateTime>
 		<siteName>Site 1</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
