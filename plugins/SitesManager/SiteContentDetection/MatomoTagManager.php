@@ -47,6 +47,15 @@ class MatomoTagManager extends SiteContentDetectionAbstract
         return false;
     }
 
+    public function getRecommendationDetails(SiteContentDetector $detector): array
+    {
+        $details = parent::getRecommendationDetails($detector);
+        if (!$detector->wasDetected(self::getId())) {
+            $details['text'] = Piwik::translate('SitesManager_SetupMatomoTracker');
+        }
+        return $details;
+    }
+
     public function renderInstructionsTab(SiteContentDetector $detector): string
     {
         return '<h3>' . Piwik::translate('SitesManager_SiteWithoutDataMatomoTagManager') . '</h3>

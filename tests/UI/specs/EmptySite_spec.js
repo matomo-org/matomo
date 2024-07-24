@@ -51,7 +51,7 @@ describe("EmptySite", function () {
   });
 
   it('should show the tracking code when selected', async function () {
-    await page.evaluate(() => $('#start-tracking-detection a[href="#matomo"]')[0].click());
+    await page.evaluate(() => $('#start-tracking-detection a[href="#matomotagmanager"]')[0].click());
 
     // wait till url check field is filled with data, which means loading has finished.
     await page.waitForFunction(() => $('#baseUrl').val());
@@ -60,6 +60,16 @@ describe("EmptySite", function () {
     const pageElement = await page.$('.page');
     expect(await pageElement.screenshot()).to.matchImage('trackingCode');
   });
+
+  it('should show the JS tracking code', async function () {
+     await page.click('#start-tracking-back');
+     await page.evaluate(() => $('#start-tracking-method-list a[href="#matomo"]')[0].click());
+
+     await makeTrackingCodeStatic();
+
+     const pageElement = await page.$('.page');
+     expect(await pageElement.screenshot()).to.matchImage('trackingCodeJS');
+   });
 
   it('should show the advanced tracking options when clicked', async function () {
     await page.evaluate(() => $('.advance-option a').click());
@@ -176,7 +186,7 @@ describe("EmptySite", function () {
     await page.goto(urlToTest);
     await page.waitForSelector('#start-tracking-method-list'); // wait till list is shown
 
-    await page.evaluate(() => $('#start-tracking-detection a[href="#matomo"]')[0].click());
+    await page.evaluate(() => $('#start-tracking-method-list a[href="#matomo"]')[0].click());
 
     // wait till url check field is filled with data, which means loading has finished.
     await page.waitForFunction(() => $('#baseUrl').val());
