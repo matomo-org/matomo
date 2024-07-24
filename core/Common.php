@@ -1029,6 +1029,18 @@ class Common
             Config::getInstance()->Tracker['campaign_keyword_var_name'],
         );
 
+        try {
+            // If MarketingCampaignsReporting is active, it can override this params and if we don't account the changes here, the referer_name and referer_keyword keys would differ and lead to count as a new visit
+            $marketingCampaignReportingKeys = array('campaign_name', 'campaign_keyword');
+            foreach ($marketingCampaignReportingKeys as $index => $marketingCampaignReportingKey) {
+                $campaignFields = StaticContainer::get('advanced_campaign_reporting.uri_parameters.' . $marketingCampaignReportingKey);
+                if (!empty($campaignFields[$marketingCampaignReportingKey])) {
+                    $return[$index] = implode(',', $campaignFields[$marketingCampaignReportingKey]);
+                }
+            }
+        } catch (\Exception $e) {
+        }
+
         foreach ($return as &$list) {
             if (strpos($list, ',') !== false) {
                 $list = explode(',', $list);
