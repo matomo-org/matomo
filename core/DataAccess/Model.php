@@ -723,7 +723,7 @@ class Model
             return true;
         }
 
-        // archive was not originally started or was started within expeced time, we assume it's ongoing and another process
+        // archive was not originally started or was started within the expected time, so we assume it's ongoing and another process
         // (on this machine or another) is actively archiving it.
         $archiveFailureRecoveryTimeout = GeneralConfig::getConfigValue('archive_failure_recovery_timeout', $invalidation['idsite']);
         if (

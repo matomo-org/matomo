@@ -373,7 +373,7 @@ time_before_year_archive_considered_outdated = -1
 time_before_range_archive_considered_outdated = -1
 
 ; Time in seconds after a started archiving job is considered as failed and will be retried
-; Do not configure this value lower than the maximum time in can take for the longest running archiving job to finish
+; Do not configure this value lower than the maximum time it can take for the longest running archiving job to finish
 archive_failure_recovery_timeout = 86400
 
 ; This setting is overridden in the UI, under "General Settings".
