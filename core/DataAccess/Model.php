@@ -14,6 +14,7 @@ use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
@@ -722,11 +723,12 @@ class Model
             return true;
         }
 
-        // archive was not originally started or was started within 24 hours, we assume it's ongoing and another process
+        // archive was not originally started or was started within the expected time, so we assume it's ongoing and another process
         // (on this machine or another) is actively archiving it.
+        $archiveFailureRecoveryTimeout = GeneralConfig::getConfigValue('archive_failure_recovery_timeout', $invalidation['idsite']);
         if (
             empty($invalidation['ts_started'])
-            || $invalidation['ts_started'] > Date::now()->subDay(1)->getTimestamp()
+            || $invalidation['ts_started'] > Date::now()->subSeconds($archiveFailureRecoveryTimeout)->getTimestamp()
         ) {
             return false;
         }
@@ -787,13 +789,19 @@ class Model
         return !empty($result);
     }
 
-    public function getInvalidationsInProgress(int $idSite): array
+    public function getInvalidationsInProgress(?int $idSite = null): array
     {
         $table = Common::prefixTable('archive_invalidations');
 
-        $bind = [$idSite, ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS];
+        $bind = [ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS];
+        $idSiteCondition = '';
 
-        $sql = "SELECT idsite, period, date1, date2, name, ts_started FROM `$table` WHERE idsite = ? AND `status` = ? AND ts_started IS NOT NULL ORDER BY ts_started ASC";
+        if (!empty($idSite)) {
+            $idSiteCondition = ' AND idsite = ?';
+            $bind[] = $idSite;
+        }
+
+        $sql = "SELECT idinvalidation, idsite, period, date1, date2, name, ts_started FROM `$table` WHERE `status` = ? $idSiteCondition AND ts_started IS NOT NULL ORDER BY ts_started ASC";
         return Db::fetchAll($sql, $bind);
     }
 
@@ -1007,13 +1015,27 @@ class Model
 
     public function resetFailedArchivingJobs()
     {
+        $invalidationsInProgress = $this->getInvalidationsInProgress();
+        $idsToReset = [];
+
+        foreach ($invalidationsInProgress as $invalidation) {
+            $archiveFailureRecoveryTimeout = GeneralConfig::getConfigValue('archive_failure_recovery_timeout', $invalidation['idsite']);
+
+            if (empty($invalidation['ts_started']) || Date::factory($invalidation['ts_started'])->getTimestamp() < Date::now()->getTimestamp() - $archiveFailureRecoveryTimeout) {
+                $idsToReset[] = $invalidation['idinvalidation'];
+            }
+        }
+
+        if (empty($idsToReset)) {
+            return 0;
+        }
+
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "UPDATE $table SET status = ? WHERE status = ? AND (ts_started IS NULL OR ts_started < ?)";
+        $sql = "UPDATE $table SET status = ? WHERE status = ? AND idinvalidation IN (" . implode(',', $idsToReset) . ")";
 
         $bind = [
             ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
-            ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-            Date::now()->subDay(1)->getDatetime(),
+            ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS
         ];
 
         $query = Db::query($sql, $bind);

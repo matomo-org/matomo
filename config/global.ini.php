@@ -372,6 +372,10 @@ time_before_year_archive_considered_outdated = -1
 ; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to range archives
 time_before_range_archive_considered_outdated = -1
 
+; Time in seconds after a started archiving job is considered as failed and will be retried
+; Do not configure this value lower than the maximum time it can take for the longest running archiving job to finish
+archive_failure_recovery_timeout = 86400
+
 ; This setting is overridden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Matomo archiving process.
 ; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
