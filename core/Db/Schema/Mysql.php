@@ -752,6 +752,11 @@ class Mysql implements SchemaInterface
         return version_compare($semanticVersion, '10.1.1', '>=');
     }
 
+    public function supportsSortingInSubquery(): bool
+    {
+        return true;
+    }
+
     protected function getDatabaseCreateOptions(): string
     {
         $charset = DbHelper::getDefaultCharset();
