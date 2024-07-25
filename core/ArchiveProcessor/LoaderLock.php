@@ -42,7 +42,7 @@ class LoaderLock
 
     public function unLock()
     {
-        Db::query('DO RELEASE_LOCK(?)', array($this->id));
+        Db::query('SELECT RELEASE_LOCK(?)', array($this->id));
     }
 
     public function getId()
