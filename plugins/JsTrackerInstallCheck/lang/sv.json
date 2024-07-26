@@ -4,7 +4,6 @@
         "JsTrackingCodeInstallCheckFailureMessageWordpress": "Verifiering av spårningskod misslyckades. Vänligen säkerställ att du har installerat \"%1$s\"-pluginet och följt alla steg. %2$sLär dig mer%3$s.",
         "JsTrackingCodeInstallCheckSuccessMessage": "Spårningskoden är korrekt installerad! Denna skärm kommer försvinna så fort som data spårats för din webbplats.",
         "PluginDescription": "Säkerställ att spårningskoden har installerats på din webbplats och att den kan skicka spårningsförfrågningar tillbaka till din Matomo-instans",
-        "TestInstallationBtnText": "Testa installation",
-        "TestInstallationDescription": "För att testa att spårningskoden kan skicka förfrågningar till din Matomo-instans anger du den exakta URL:en du spårar och klickar på \"Testa installation\". En ny flik kommer öppnas och borde stängas inom 10 sekunder."
+        "TestInstallationBtnText": "Testa installation"
     }
 }
