@@ -17,6 +17,7 @@
     @keydown="onKeydown($event)"
     @change="onKeydown($event)"
     v-bind="uiControlAttributes"
+    :placeholder="placeholder"
   />
   <label
     :for="name"
@@ -37,6 +38,11 @@ export default defineComponent({
     modelValue: [String, Number],
     modelModifiers: Object,
     uiControl: String,
+    placeholder: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],

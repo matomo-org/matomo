@@ -16,6 +16,7 @@
     @change="onKeydown($event)"
     class="materialize-textarea"
     ref="textarea"
+    :placeholder="placeholder"
   ></textarea>
   <label :for="name" v-html="$sanitize(title)"></label>
 </template>
@@ -32,6 +33,11 @@ export default defineComponent({
     modelValue: String,
     modelModifiers: Object,
     title: String,
+    placeholder: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],

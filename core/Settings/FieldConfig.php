@@ -284,4 +284,11 @@ class FieldConfig
      * @var BaseValidator[]
      */
     public $validators = [];
+
+    /**
+     * This setting's input placeholder, for example, `'API Key (e.g. abc123)'`.
+     *
+     * @var string
+     */
+    public $placeholder = null;
 }

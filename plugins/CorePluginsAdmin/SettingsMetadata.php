@@ -141,6 +141,7 @@ class SettingsMetadata
             'introduction' => $config->introduction,
             'condition' => $config->condition,
             'fullWidth' => $config->fullWidth,
+            'placeholder' => $config->placeholder,
         );
 
         if ($config->customFieldComponent) {
