@@ -83,14 +83,17 @@
       </template>
     </div>
 
-    <a v-else-if="plugin.isEligibleForFreeTrial"
-       tabindex="7"
+    <div v-else-if="plugin.isEligibleForFreeTrial && !inModal"
        class="btn btn-block purchaseable"
-       href=""
-       @click.prevent="$emit('startFreeTrial');"
-       @keyup.enter="$emit('startFreeTrial')"
        :title="translate('Marketplace_StartFreeTrial')"
-    >{{ translate('Marketplace_StartFreeTrial') }}</a>
+    >{{ translate('Marketplace_StartFreeTrial') }}</div>
+
+    <a v-else-if="plugin.isEligibleForFreeTrial && inModal"
+       class="btn btn-block addToCartLink" target="_blank"
+       :title="translate('Marketplace_ClickToCompletePurchase')"
+       rel="noreferrer noopener"
+       :href="shopVariationUrl"
+    >{{ translate('Marketplace_AddToCart') }}</a>
 
     <MoreDetailsAction
       v-else-if="!inModal && !plugin.isDownloadable && (
@@ -158,7 +161,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { MatomoUrl } from 'CoreHome';
+import { MatomoUrl, translate } from 'CoreHome';
 import DownloadButton from './DownloadButton.vue';
 import MoreDetailsAction from './MoreDetailsAction.vue';
 
@@ -208,6 +211,11 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    shopVariationUrl: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   emits: [
     'openDetailsModal',
@@ -219,6 +227,7 @@ export default defineComponent({
     DownloadButton,
   },
   methods: {
+    translate,
     linkToActivate(pluginName: string) {
       return this.linkTo({
         module: 'CorePluginsAdmin',

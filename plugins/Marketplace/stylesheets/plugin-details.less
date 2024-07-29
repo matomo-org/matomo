@@ -304,8 +304,12 @@
             max-height: calc(~"90vh - 250px");
         }
 
+        @media (max-width: 660px) {
+            max-height: calc(~"90vh - 270px");
+        }
+
         @media (max-width: 480px) {
-            max-height: calc(~"100vh - 250px");
+            max-height: calc(~"100vh - 270px");
         }
 
         h2, h3, h4, h5, h6 {
@@ -455,8 +459,14 @@
         padding: 24px;
         height: 90px;
         border-top: 1px solid #aaa;
+        margin-top: 1px; // to prevent images overflowing the border
         display: flex;
         justify-content: space-between;
+
+        @media (max-width: 660px) {
+            padding: 16px 24px;
+            height: 110px;
+        }
 
         .cta-container {
             width: 30%;
@@ -476,12 +486,93 @@
             @media (max-width: 480px) {
                 width: 100%;
             }
+
+            &-modal {
+                width: 100%;
+                margin-left: 1rem;
+                display: flex;
+                justify-content: flex-end;
+                box-sizing: border-box;
+
+                .free-trial {
+                    display: flex;
+                }
+
+                .free-trial-lead-in {
+                    color: #5bb75b;
+                    font-size: 12px;
+                    font-weight: bold;
+                    display: inline-block;
+                    text-align: right;
+                    flex-grow: 1;
+                    flex-shrink: 1;
+                    align-content: center;
+                    padding-right: 1rem;
+                }
+
+                .free-trial-dropdown {
+                    width: 240px;
+                    height: 36px;
+                    vertical-align: top;
+                    flex-shrink: 0;
+                }
+
+                .addToCartLink {
+                    width: auto;
+                    max-width: 240px;
+                    vertical-align: top;
+                    padding: 0 1rem;
+                    margin-left: 1rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    flex-shrink: 0;
+                }
+            }
+
+            @media (max-width: 660px) {
+                &-modal {
+                    margin-left: 0;
+                    flex-direction: column; /* Stack items vertically */
+                    justify-content: flex-start; /* Align items to the start */
+                }
+
+                .free-trial-lead-in {
+                    width: 50%;
+                }
+
+                .free-trial-dropdown {
+                    width: 50%;
+                }
+
+                .addToCartLink {
+                    width: 50%;
+                    min-width: 50%;
+                    margin-top: 10px; /* space between rows */
+                    margin-left: 0;
+                    align-self: flex-end;
+                }
+            }
+
+            @media (max-width: 400px) {
+                .addToCartLink {
+                    width: 100%;
+                    align-self: center;
+                }
+            }
         }
 
         .matomo-badge-modal {
             position: initial;
 
-            @media (max-width: 480px) {
+            @media (max-width: 660px) {
+                position: absolute;
+                bottom: 16px;
+                width: 48px;
+                height: 32px;
+            }
+
+            @media (max-width: 400px) {
                 display: none;
             }
         }
