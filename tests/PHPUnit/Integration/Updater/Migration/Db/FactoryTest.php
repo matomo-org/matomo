@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Integration\Updater\Migration\Db;
 
 use Piwik\Common;
+use Piwik\Db\Schema;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater\Migration\Db\AddColumn;
 use Piwik\Updater\Migration\Db\AddColumns;
@@ -94,7 +95,9 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->createTable();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;", '' . $migration);
+        $createOptions = Schema::getInstance()->getTableCreateOptions();
+        self::assertStringContainsString('ROW_FORMAT=DYNAMIC', $createOptions);
+        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)) $createOptions;", '' . $migration);
     }
 
 
@@ -103,7 +106,9 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->createTable('column2');
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255), PRIMARY KEY ( `column2` )) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;", '' . $migration);
+        $createOptions = Schema::getInstance()->getTableCreateOptions();
+        self::assertStringContainsString('ROW_FORMAT=DYNAMIC', $createOptions);
+        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255), PRIMARY KEY ( `column2` )) $createOptions;", '' . $migration);
     }
 
     public function testDropTableReturnsDropTableInstance()
@@ -171,7 +176,14 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->addColumns('columnafter');
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` ADD COLUMN `column1` INT(10) DEFAULT 0 AFTER `columnafter`, ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\" AFTER `column1`;", '' . $migration);
+
+        $expectedStatement = "ALTER TABLE `$table` ADD COLUMN `column1` INT(10) DEFAULT 0 AFTER `columnafter`, ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\" AFTER `column1`;";
+
+        if (!Schema::getInstance()->supportsComplexColumnUpdates()) {
+            $expectedStatement = "ALTER TABLE `$table` ADD COLUMN `column1` INT(10) DEFAULT 0 AFTER `columnafter`;ALTER TABLE `$table` ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\" AFTER `column1`;";
+        }
+
+        $this->assertSame($expectedStatement, '' . $migration);
     }
 
     public function testAddColumnsNoAfterColumn()
@@ -179,7 +191,14 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->addColumns(null);
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` ADD COLUMN `column1` INT(10) DEFAULT 0, ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\";", '' . $migration);
+
+        $expectedStatement = "ALTER TABLE `$table` ADD COLUMN `column1` INT(10) DEFAULT 0, ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\";";
+
+        if (!Schema::getInstance()->supportsComplexColumnUpdates()) {
+            $expectedStatement = "ALTER TABLE `$table` ADD COLUMN `column1` INT(10) DEFAULT 0;ALTER TABLE `$table` ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\";";
+        }
+
+        $this->assertSame($expectedStatement, '' . $migration);
     }
 
     public function testChangeColumnReturnsChangeColumnInstance()

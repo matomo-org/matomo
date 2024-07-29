@@ -380,7 +380,7 @@
         "PleaseUpgradeYourPhpVersionSoYourPiwikDataStaysSecure": "Eguneratu zure PHP bertsioa gutxienez PHP %s(e)ra, zure Matomoko analitika datuak seguru egon daitezen.",
         "Plugin": "Plugina",
         "Plugins": "Pluginak",
-        "PoweredBy": "Garatzailea:",
+        "PoweredBy": "Garatzailea",
         "Previous": "Aurrekoa",
         "PreviousDays": "Aurreko %s egunak (gaur ezik)",
         "PreviousDaysShort": "Aurreko %s egunak",

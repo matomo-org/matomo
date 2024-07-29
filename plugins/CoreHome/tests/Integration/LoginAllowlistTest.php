@@ -138,7 +138,7 @@ class LoginAllowlistTest extends IntegrationTestCase
 
     public function testGetAllowlistedLoginIpsShouldResolveIpv6Only()
     {
-        $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1', 'integration-test.matomo.org', '127.0.0.1']);
+        $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1', 'integration-test-do-not-delete.media-analytics.net', '127.0.0.1']);
         $this->assertSame(['192.168.33.1', '::1', '127.0.0.1'], $this->allowlist->getAllowlistedLoginIps());
     }
 

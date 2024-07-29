@@ -17,13 +17,15 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\NumberFormatter;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\Metric;
 use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
 use Piwik\Plugins\Goals\Archiver;
-use Piwik\Plugins\MultiSites\Columns\Metrics\EcommerceOnlyEvolutionMetric;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\MultiSites\FeatureFlags\ImprovedAllWebsitesDashboard;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsPiwik;
@@ -392,6 +394,93 @@ class API extends \Piwik\Plugin\API
         }
 
         return $dataTable;
+    }
+
+    /**
+     * Temporary/partially mocked data for the all websites dashboard.
+     *
+     * @internal
+     *
+     * @param int $idSite
+     * @param string $period
+     * @param string $date
+     * @param string|false $segment
+     * @param string $pattern
+     * @return array
+     * @throws Exception
+     */
+    public function mockDashboardData(
+        int $idSite,
+        string $period,
+        string $date,
+        int $filter_limit,
+        $segment = false,
+        string $pattern = ''
+    ): array {
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+
+        if (!$featureFlagManager->isFeatureActive(ImprovedAllWebsitesDashboard::class)) {
+            throw new Exception('THIS API SHOULD NOT BE USED');
+        }
+
+        Piwik::checkUserHasSomeViewAccess();
+
+        if (Period::isMultiplePeriod($date, $period)) {
+            throw new Exception('Multiple periods are not supported');
+        }
+
+        $numberFormatter = NumberFormatter::getInstance();
+
+        $response = [
+            'totals' => [
+                'hits_evolution'            => $numberFormatter->formatPercent(2.8, 2, 2),
+                'hits_evolution_trend'      => 1,
+                'nb_hits'                   => $numberFormatter->formatNumber(582303),
+                'nb_pageviews'              => $numberFormatter->formatNumber(26027),
+                'nb_visits'                 => $numberFormatter->formatNumber(10118),
+                'pageviews_evolution'       => $numberFormatter->formatPercent(0.3, 2, 2),
+                'pageviews_evolution_trend' => -1,
+                'visits_evolution'          => $numberFormatter->formatPercent(2.4, 2, 2),
+                'visits_evolution_trend'    => 1,
+                'revenue'                   => $numberFormatter->formatNumber(85958.30, 2, 2),
+                'revenue_evolution'         => $numberFormatter->formatPercent(0.0, 2, 2),
+                'revenue_evolution_trend'   => 0,
+            ],
+        ];
+
+        $segment = $segment ?: false;
+        $request = $_GET + $_POST;
+        $dashboard = new Dashboard($period, $date, $segment);
+
+        if ('' !== $pattern) {
+            $dashboard->search(strtolower($pattern));
+        }
+
+        $sites = $dashboard->getSites($request, $filter_limit);
+
+        foreach ($sites as &$site) {
+            $site['nb_hits'] = $site['nb_pageviews'];
+            $site['hits_evolution'] = $site['pageviews_evolution'];
+            $site['hits_evolution_trend'] = $site['pageviews_evolution_trend'];
+        }
+
+        $response['numSites'] = $dashboard->getNumSites();
+        $response['sites'] = $sites;
+
+        if ('range' === $period) {
+            $response['sparklineDate'] = $date;
+        } else {
+            Piwik::checkUserHasViewAccess($idSite);
+
+            $response['sparklineDate'] = Range::getRelativeToEndDate(
+                $period,
+                'last30',
+                $date,
+                new Site($idSite)
+            );
+        }
+
+        return $response;
     }
 
     /**

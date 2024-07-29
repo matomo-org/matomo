@@ -28,6 +28,7 @@
         "ColumnSocial": "Social network",
         "ColumnWebsite": "Website",
         "ColumnWebsitePage": "Website Page",
+        "ConversionAttribution": "This conversion has been attributed to the Acquisition Channel:",
         "DirectEntry": "Direct Entry",
         "DirectEntryDocumentation": "A visitor has entered the URL in their browser and started browsing on your website - they entered the website directly.",
         "Distinct": "Distinct Referrers by Channel Type",

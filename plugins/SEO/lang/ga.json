@@ -1,1 +1,11 @@
-{}
+{
+    "SEO": {
+        "Bing_IndexedPages": "Leathanaigh innéacsaithe Bing",
+        "DomainAge": "Aois Fearainn",
+        "Google_IndexedPages": "Leathanaigh innéacsaithe Google",
+        "PluginDescription": "Baineann an Breiseán seo amach agus taispeánann sé méadracht Sinsearach: Google Pagerank, líon na leathanach Innéacsaithe agus backlinks an tsuímh Ghréasáin roghnaithe faoi láthair.",
+        "Rank": "Céim",
+        "SEORankingsFor": "Ranguithe Sinsearach le haghaidh %s",
+        "SeoRankings": "Ranguithe Sinsearach"
+    }
+}

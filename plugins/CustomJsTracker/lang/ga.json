@@ -1,1 +1,8 @@
-{}
+{
+    "CustomJsTracker": {
+        "DiagnosticPiwikJsMakeWritable": "Molaimid %1$s a scríobh tríd an ordú seo a rith: %2$s",
+        "DiagnosticPiwikJsNotWritable": "Níl an comhad rianaithe JavaScript Matomo %s inscríofa rud a chiallaíonn nach féidir le forlíontáin eile síneadh a chur leis an lorgaire JavaScript. Sa todhchaí b'fhéidir nach n-oibreoidh fiú roinnt gnéithe lárnacha mar a bhíothas ag súil leis.",
+        "DiagnosticPiwikJsWritable": "Lorgaire JavaScript Inscríofa (%s)",
+        "PluginDescription": "Ligeann sé d’aon bhreiseán an comhad Rianaithe Matomo JavaScript (matomo.js) a leathnú agus feidhmiúlacht nua agus cumais tomhais láithreán gréasáin a chur leis."
+    }
+}

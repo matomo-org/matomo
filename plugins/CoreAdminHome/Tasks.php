@@ -315,7 +315,7 @@ class Tasks extends \Piwik\Plugin\Tasks
     public function optimizeArchiveTable()
     {
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
-        Db::optimizeTables($archiveTables);
+        Db\Schema::getInstance()->optimizeTables($archiveTables);
     }
 
     /**

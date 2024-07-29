@@ -113,8 +113,9 @@ class Model
         $idSites,
         $allPeriodsToInvalidate,
         Segment $segment = null,
-        $forceInvalidateNonexistentRanges = false,
-        $name = null
+        bool $forceInvalidateNonexistentRanges = false,
+        ?string $name = null,
+        bool $doNotCreateInvalidations = false
     ) {
         if (empty($idSites)) {
             return 0;
@@ -188,6 +189,10 @@ class Model
 
                 Db::query($sql);
             }
+        }
+
+        if (true === $doNotCreateInvalidations) {
+            return count($idArchives);
         }
 
         // we add every archive we need to invalidate + the archives that do not already exist to archive_invalidations.
@@ -417,7 +422,7 @@ class Model
         $numericTable = ArchiveTableCreator::getNumericTable($dateStart);
         $blobTable = ArchiveTableCreator::getBlobTable($dateStart);
 
-        $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND name = ? AND ts_archived < ? AND idarchive < ?";
+        $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND name = ? AND ts_archived <= ? AND idarchive < ?";
 
         $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), $dateStart->getDatetime(), $dateEnd->getDatetime(), $params->getPeriod()->getId(), $name, $tsArchived, $idArchive]);
         $idArchives = array_column($idArchives, 'idarchive');
