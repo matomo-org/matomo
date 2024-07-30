@@ -62,4 +62,18 @@ class BounceRate extends ProcessedMetric
     {
         return '$bounce_count / $nb_visits';
     }
+
+    public function getExtraMetricSemanticTypes(): array
+    {
+        return [
+            'bounce_count' => Dimension::TYPE_NUMBER,
+        ];
+    }
+
+    public function getExtraMetricAggregationTypes(): array
+    {
+        return [
+            'bounce_count' => self::AGGREGATION_TYPE_SUM,
+        ];
+    }
 }
