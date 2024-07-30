@@ -21,6 +21,10 @@ use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\CoreHome\Columns\Metrics\BounceRate;
+use Piwik\Plugins\CoreHome\Columns\Metrics\ActionsPerVisit;
+use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
+use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
@@ -112,12 +116,11 @@ class Report
      * The processed metrics this report supports, eg `avg_time_on_site` or `nb_actions_per_visit`. Defaults to the
      * platform default processed metrics, see {@link Metrics::getDefaultProcessedMetrics()}. Set it to boolean `false`
      * if your report does not support any processed metrics at all. Otherwise an array of metric names.
-     * Eg `array('avg_time_on_site', 'nb_actions_per_visit', ...)`
+     * Eg `array(new AverageTimeOnSite(), new ActionsPerVisit(), ...)`
      * @var array
      * @api
      */
-    protected $processedMetrics = array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate');
-    // for a little performance improvement we avoid having to call Metrics::getDefaultProcessedMetrics for each report
+    protected $processedMetrics = []; // default set in constructor
 
     /**
      * The semantic types for all metrics this report displays (including processed metrics).
@@ -257,6 +260,13 @@ class Report
             $this->module = $parts[2];
             $this->action = lcfirst($parts[4]);
         }
+
+        $this->processedMetrics = [
+            new ActionsPerVisit(),
+            new AverageTimeOnSite(),
+            new BounceRate(),
+            new ConversionRate(),
+        ];
 
         $this->init();
     }
