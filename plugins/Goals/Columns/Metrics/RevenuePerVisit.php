@@ -119,7 +119,7 @@ class RevenuePerVisit extends ProcessedMetric
         return $revenueSum . ' / ' . $divisor;
     }
 
-    private function shouldIgnoreIdGoal(int $goalId): bool
+    private function shouldIgnoreIdGoal($goalId): bool
     {
         if (is_numeric($goalId) && $goalId < GoalManager::IDGOAL_ORDER) {
             return true; // abandoned cart
