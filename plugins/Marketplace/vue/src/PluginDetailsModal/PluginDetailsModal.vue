@@ -59,7 +59,10 @@
         </div>
       </div>
 
-      <div class="modal-content__main">
+      <div
+        class="modal-content__main"
+        :class="{'modal-content__main--with-free-trial': showFreeTrialDropdown }"
+      >
         <div class="plugin-description">
           <MissingReqsNotice v-if="showMissingRequirementsNoticeIfApplicable" :plugin="plugin" />
 
@@ -244,15 +247,18 @@
         </div>
 
       </div>
-      <div class="modal-content__footer">
-        <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
+      <div
+        class="modal-content__footer"
+        :class="{'modal-content__footer--with-free-trial': showFreeTrialDropdown }"
+      >
+        <img v-if="showFreeTrialDropdown && isMatomoPlugin"
              class="matomo-badge matomo-badge-modal"
              src="plugins/Marketplace/images/matomo-badge.png"
              aria-label="Matomo plugin"
              alt=""
         />
         <div class="cta-container cta-container-modal">
-          <div v-if="plugin.isEligibleForFreeTrial" class="free-trial">
+          <div v-if="showFreeTrialDropdown" class="free-trial">
             <div class="free-trial-lead-in">{{ translate('Marketplace_Free30DayTrialThen') }}</div>
             <select
               class="free-trial-dropdown"
@@ -291,6 +297,12 @@
             @startFreeTrial="emitTrialEvent('startFreeTrial')"
           />
         </div>
+        <img v-if="!showFreeTrialDropdown && isMatomoPlugin"
+             class="matomo-badge matomo-badge-modal"
+             src="plugins/Marketplace/images/matomo-badge.png"
+             aria-label="Matomo plugin"
+             alt=""
+        />
       </div>
     </div>
   </div>
@@ -418,7 +430,7 @@ export default defineComponent({
       return this.plugin.shop;
     },
     pluginShopVariations(): IPluginShopVariation[] {
-      return this.pluginShop.variations;
+      return this.pluginShop?.variations || [];
     },
     pluginReviews(): IPluginShopReviews | TObject {
       return this.pluginShop?.reviews || {};
@@ -464,6 +476,15 @@ export default defineComponent({
       const license: TObject = this.pluginLatestVersion?.license as TObject || {};
       return !!license.name;
     },
+    showFreeTrialDropdown(): boolean {
+      return (
+        this.isSuperUser
+        && !this.plugin.isMissingLicense
+        && !this.plugin.isInstalled
+        && !this.plugin.hasExceededLicense
+        && this.plugin.isEligibleForFreeTrial
+      ) as boolean;
+    },
     pluginScreenshots(): string[] {
       return this.plugin.screenshots || [];
     },
@@ -479,14 +500,17 @@ export default defineComponent({
         (variation) => `${variation.name} - ${variation.prettyPrice} / ${variation.period}`,
       );
     },
-    pluginShopRecommendedVariation(): IPluginShopVariation {
+    pluginShopRecommendedVariation(): IPluginShopVariation | null {
       const recommendedVariations = this.pluginShopVariations.filter((v) => v.recommended);
-      return recommendedVariations.length ? recommendedVariations[0] : this.pluginShopVariations[0];
+      const defaultVariation = this.pluginShopVariations.length
+        ? this.pluginShopVariations[0]
+        : null;
+      return recommendedVariations.length ? recommendedVariations[0] : defaultVariation;
     },
     selectedPluginShopVariationUrl(): string {
       return this.currentPluginShopVariationUrl
         ? this.currentPluginShopVariationUrl
-        : this.pluginShopRecommendedVariation.addToCartUrl;
+        : this.pluginShopRecommendedVariation?.addToCartUrl || '';
     },
     selectedShopVariationUrl(): string {
       return this.selectedPluginShopVariationUrl || '';

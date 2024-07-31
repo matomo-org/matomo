@@ -161,7 +161,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { MatomoUrl, translate } from 'CoreHome';
+import { MatomoUrl } from 'CoreHome';
 import DownloadButton from './DownloadButton.vue';
 import MoreDetailsAction from './MoreDetailsAction.vue';
 
@@ -227,7 +227,6 @@ export default defineComponent({
     DownloadButton,
   },
   methods: {
-    translate,
     linkToActivate(pluginName: string) {
       return this.linkTo({
         module: 'CorePluginsAdmin',
