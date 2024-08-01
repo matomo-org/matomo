@@ -39,10 +39,19 @@ class Metrics
         PiwikMetrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
     );
 
-    public static $columnsAggregationOperation = array(
-        PiwikMetrics::INDEX_PAGE_MAX_TIME_GENERATION => 'max',
-        PiwikMetrics::INDEX_PAGE_MIN_TIME_GENERATION => 'min'
-    );
+    public static function getColumnsAggregationOperation()
+    {
+        $operations = [];
+        $actionMetrics = self::getActionMetrics();
+
+        foreach ($actionMetrics as $actionMetric => $definition) {
+            if (!empty($definition['aggregation']) && $definition['aggregation'] !== 'sum') {
+                $operations[$actionMetric] = $definition['aggregation'];
+            }
+        }
+
+        return $operations;
+    }
 
     public static function getActionMetrics()
     {

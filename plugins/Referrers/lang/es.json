@@ -28,6 +28,7 @@
         "ColumnSocial": "Red social",
         "ColumnWebsite": "Sitio de internet",
         "ColumnWebsitePage": "Página de sitio de internet",
+        "ConversionAttribution": "Esta conversión se ha atribuido al Canal de Adquisiciones:",
         "DirectEntry": "Entrada directa",
         "DirectEntryDocumentation": "Un visitante ha introducido la URL en su navegador y ha empezado a navegar por su sitio web: ha entrado directamente en el sitio web.",
         "Distinct": "Referencias distintas por tipo de canal",

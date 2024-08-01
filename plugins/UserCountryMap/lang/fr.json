@@ -20,8 +20,8 @@
         "ShowingVisits": "Dernières visites géo-localisées",
         "Unlocated": "<b>%1$s</b> %2$s des dernières visites de %3$s n'ont pas pu être géo-localisées.",
         "VisitorMap": "Carte des visiteurs",
-        "WithUnknownCity": "%s avec une ville inconnue",
-        "WithUnknownRegion": "%s avec une région inconnue",
+        "WithUnknownCity": "%s de villes inconnues",
+        "WithUnknownRegion": "%s de régions inconnues",
         "WorldWide": "Mondialement",
         "map": "carte"
     }

@@ -290,4 +290,25 @@ describe("Login", function () {
 
         expect(await page.getWholeCurrentUrl()).to.equal("https://matomo.org/security/");
     });
+
+    it("should correctly redirect for unencoded url", async function () {
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '1');
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        await page.goto(formlessLoginUrl + "&url=//google.com\\@localhost/path");
+
+        expect(await page.getWholeCurrentUrl()).to.equal("http://localhost/path"); // username part is hidden
+    });
+
+    it("should not redirect to invalid url", async function () {
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '1');
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        await page.goto(formlessLoginUrl + "&url=http:google.com");
+
+        expect(await page.getWholeCurrentUrl()).to.contain(formlessLoginUrl + "&url=http:google.com"); // no redirect
+        expect(await page.evaluate(() => document.getElementsByClassName('content')[0].innerText)).to.contain('The redirect URL is not valid.');
+    });
 });

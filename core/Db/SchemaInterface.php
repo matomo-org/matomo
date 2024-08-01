@@ -158,4 +158,11 @@ interface SchemaInterface
      * @return bool
      */
     public function optimizeTables(array $tables, bool $force = false): bool;
+
+    /**
+     * Returns if the database engine is able to use sorted subqueries
+     *
+     * @return bool
+     */
+    public function supportsSortingInSubquery(): bool;
 }

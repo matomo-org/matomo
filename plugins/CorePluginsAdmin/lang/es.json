@@ -48,6 +48,8 @@
         "OriginThirdParty": "De terceros",
         "PluginActivated": "Complemento activado",
         "PluginFreeTrialStarted": "%1$sSu prueba gratuita de 30 días ha comenzado%2$s para %3$s.",
+        "PluginFreeTrialStartedAccountCreatedMessage": "Hemos añadido su clave de licencia, iniciando una prueba gratuita de 30 días para %1$s. Dé el siguiente paso instalando y activando su plugin.",
+        "PluginFreeTrialStartedAccountCreatedTitle": "Su cuenta ha sido creada",
         "PluginHomepage": "Página de internet del complemento",
         "PluginNotCompatibleWith": "%1$s complemento no es compatible con %2$s.",
         "PluginNotDownloadable": "Este complemento no es descargable.",

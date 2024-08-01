@@ -170,8 +170,8 @@ class LogDataAnonymizerTest extends IntegrationTestCase
 
     public function testAnonymizeInformationRestrictDate()
     {
-        $startDate = Date::factory($this->theFixture->dateTime)->subHour(3)->getDatetime();
-        $endDate = Date::factory($this->theFixture->dateTime)->addHour(3)->getDatetime();
+        $startDate = Date::factory($this->theFixture->dateTime)->getStartOfDay()->getDatetime();
+        $endDate = Date::factory($this->theFixture->dateTime)->getStartOfDay()->addHour(12)->getDatetime();
         $this->theFixture->setUpWebsites();
         $this->theFixture->trackVisits($idSite = 1, 2);
         $this->theFixture->trackVisits($idSite = 2, 1);

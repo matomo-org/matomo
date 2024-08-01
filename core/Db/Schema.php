@@ -280,4 +280,14 @@ class Schema extends Singleton
     {
         return $this->getSchema()->optimizeTables($tables, $force);
     }
+
+    /**
+     * Returns if the database engine is able to use sorted subqueries
+     *
+     * @return bool
+     */
+    public function supportsSortingInSubquery(): bool
+    {
+        return $this->getSchema()->supportsSortingInSubquery();
+    }
 }

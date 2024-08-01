@@ -1,6 +1,7 @@
 {
     "MultiSites": {
         "AllWebsitesDashboardDocumentation": "Aquest informe us ofereix una visió general informativa de cadascun dels vostres llocs web, que conté les mètriques més generals sobre els vostres visitants.",
+        "AllWebsitesDashboardTitle": "Tots els llocs web",
         "Evolution": "Evolució",
         "EvolutionComparisonDay": "%1$s %2$s aquest dia en comparació amb %3$s %2$s del període parcial anterior (%4$s) Evolució: %5$s",
         "EvolutionComparisonIncomplete": "El període de temps seleccionat actualment és %1$s complet.",
@@ -8,9 +9,17 @@
         "EvolutionComparisonProportional": "Quan el període anterior també estava al %1$s, hi havia una estimació de %2$s %3$s\n(d'un total de %4$s %3$s en el període precedent).",
         "EvolutionComparisonWeek": "%1$s %2$s aquesta setmana en comparació amb %3$s %2$s del període parcial anterior (%4$s) Evolució: %5$s",
         "EvolutionComparisonYear": "%1$s %2$s aquest any en comparació amb %3$s %2$s en el període parcial anterior (%4$s) Evolució: %5$s",
+        "EvolutionFromPreviousDay": "Del dia abans",
+        "EvolutionFromPreviousMonth": "Del mes anterior",
+        "EvolutionFromPreviousPeriod": "Del període anterior",
+        "EvolutionFromPreviousWeek": "De la darrera setmana",
+        "EvolutionFromPreviousYear": "De l'any passat",
         "LoadingWebsites": "Carregant llocs web",
         "PluginDescription": "Consulteu i compareu tots els vostres llocs web i aplicacions en aquest útil tauler de control \"Tots els llocs web\".",
         "SingleWebsitesDashboardDocumentation": "Aquest informe us ofereix una visió general informativa d'un lloc web específic, que conté les mètriques més generals sobre els vostres visitants.",
-        "TopLinkTooltip": "Compareu les estadístiques anàlitiques de tots els vostres llocs web."
+        "TopLinkTooltip": "Compareu les estadístiques anàlitiques de tots els vostres llocs web.",
+        "TotalHits": "Encerts totals",
+        "TotalPageviews": "Total de pàgines vistes",
+        "TotalVisits": "Total de visites"
     }
 }

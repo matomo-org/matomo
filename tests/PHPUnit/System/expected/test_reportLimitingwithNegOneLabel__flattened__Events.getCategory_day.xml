@@ -7,8 +7,8 @@
 		<nb_events>19</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<avg_event_value>0</avg_event_value>
 		<is_summary>1</is_summary>
 		<Events_EventCategory>Others</Events_EventCategory>
@@ -20,8 +20,8 @@
 		<nb_events>1</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<avg_event_value>0</avg_event_value>
 		<Events_EventCategory>-1</Events_EventCategory>
 		<Events_EventAction>-1</Events_EventAction>
@@ -33,8 +33,8 @@
 		<nb_events>1</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<avg_event_value>0</avg_event_value>
 		<Events_EventCategory>event category 0</Events_EventCategory>
 		<Events_EventAction>event action 0</Events_EventAction>

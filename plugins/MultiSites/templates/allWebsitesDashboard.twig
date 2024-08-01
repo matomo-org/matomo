@@ -1,0 +1,36 @@
+{% extends isWidgetized ? 'empty.twig' : 'dashboard.twig' %}
+
+{% block root %}
+    {% set hideTopControls = true %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="reporting-page row" id="multisitesAllWebsitesDashboard">
+        <div class="col s12 m12 l10 offset-l1">
+            {% if isWidgetized %}
+                <div id="main">
+            {% else %}
+                <div id="main" class="card">
+                    <div class="card-content">
+            {% endif %}
+
+            <div vue-entry="MultiSites.AllWebsitesDashboard"
+                 auto-refresh-interval="{{ autoRefreshTodayReport|json_encode }}"
+                 display-revenue="{{ displayRevenueColumn|json_encode }}"
+                 display-sparklines="{% if show_sparklines %}true{% else %}false{%endif%}"
+                 is-widgetized="{{ isWidgetized|json_encode }}"
+                 kpi-badge-hits="{{ kpiBadgeHits|default('')|json_encode|e('html_attr') }}"
+                 page-size="{{ limit|default(25)|json_encode }}"
+                 selectable-periods="{{ enabledPeriods|json_encode|e('html_attr') }}"
+            ></div>
+
+            {% if isWidgetized %}
+                </div>
+            {% else %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

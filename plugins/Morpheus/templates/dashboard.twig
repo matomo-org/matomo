@@ -21,10 +21,12 @@
     {% include "@CoreHome/_topScreen.twig" %}
 
     <div class="top_controls">
-        <div vue-entry="CoreHome.QuickAccess" class="piwikTopControl borderedControl"></div>
-        {% block topcontrols %}
-        {% endblock %}
+        {% if hideTopControls is not defined or not hideTopControls %}
+            <div vue-entry="CoreHome.QuickAccess" class="piwikTopControl borderedControl"></div>
 
+            {% block topcontrols %}
+            {% endblock %}
+        {% endif %}
     </div>
 
     <div class="ui-confirm" id="alert">

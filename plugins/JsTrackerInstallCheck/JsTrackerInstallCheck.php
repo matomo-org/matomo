@@ -30,7 +30,7 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
-        $translationKeys[] = 'JsTrackerInstallCheck_TestInstallationDescription';
+        $translationKeys[] = 'JsTrackerInstallCheck_OptionalTestInstallationDescription';
         $translationKeys[] = 'JsTrackerInstallCheck_TestInstallationBtnText';
         $translationKeys[] = 'JsTrackerInstallCheck_JsTrackingCodeInstallCheckSuccessMessage';
         $translationKeys[] = 'JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessage';
