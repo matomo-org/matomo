@@ -1,127 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<idSite>2</idSite>
-		<idVisit>1</idVisit>
-		<visitIp>156.5.3.2</visitIp>
-		
-		<fingerprint>d58a483a3cfef87b</fingerprint>
-		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://example.org/foo/dir/page</url>
-				<pageTitle>incredible title</pageTitle>
-				<pageIdAction>2</pageIdAction>
-				
-				
-				<pageId>1</pageId>
-				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
-				<pageviewPosition>1</pageviewPosition>
-				<title>incredible title</title>
-				<subtitle>http://example.org/foo/dir/page</subtitle>
-				<icon />
-				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-		</actionDetails>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<siteName>Piwik test</siteName>
-		
-		
-		
-		
-		
-		
-		<userId>101</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitCount>1</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<secondsSinceLastEcommerceOrder />
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
-		<interactions>1</interactions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<referrerSocialNetworkUrl />
-		<referrerSocialNetworkIcon />
-		<languageCode>fr</languageCode>
-		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel>Generic Desktop</deviceModel>
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
-		<events>0</events>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<secondsSinceLastVisit>0</secondsSinceLastVisit>
-		<resolution>1024x768</resolution>
-		<plugins>cookie, flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
-				<pluginName>cookie</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
-		<customVariables>
-		</customVariables>
-	</row>
-	<row>
 		<idSite>1</idSite>
 		<idVisit>4</idVisit>
 		<visitIp>156.5.3.2</visitIp>
@@ -223,6 +102,127 @@
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<secondsSinceLastVisit>360</secondsSinceLastVisit>
+		<resolution>1024x768</resolution>
+		<plugins>cookie, flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		<customVariables>
+		</customVariables>
+	</row>
+	<row>
+		<idSite>2</idSite>
+		<idVisit>1</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<fingerprint>d58a483a3cfef87b</fingerprint>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/foo/dir/page</url>
+				<pageTitle>incredible title</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				
+				<pageId>1</pageId>
+				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<pageviewPosition>1</pageviewPosition>
+				<title>incredible title</title>
+				<subtitle>http://example.org/foo/dir/page</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<siteName>Piwik test</siteName>
+		
+		
+		
+		
+		
+		
+		<userId>101</userId>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>XP</operatingSystemVersion>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
 		<resolution>1024x768</resolution>
 		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
