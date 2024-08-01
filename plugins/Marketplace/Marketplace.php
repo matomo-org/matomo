@@ -182,7 +182,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_Reviews';
         $translationKeys[] = 'Marketplace_Screenshots';
         $translationKeys[] = 'Marketplace_ShownPriceIsExclTax';
-        $translationKeys[] = 'Marketplace_Free30DayTrialThen';
+        $translationKeys[] = 'Marketplace_TryFreeTrialTitle';
         $translationKeys[] = 'CorePluginsAdmin_Activity';
         $translationKeys[] = 'CorePluginsAdmin_Version';
         $translationKeys[] = 'CorePluginsAdmin_Websites';

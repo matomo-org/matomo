@@ -259,7 +259,7 @@
         />
         <div class="cta-container cta-container-modal">
           <div v-if="showFreeTrialDropdown" class="free-trial">
-            <div class="free-trial-lead-in">{{ translate('Marketplace_Free30DayTrialThen') }}</div>
+            <div class="free-trial-lead-in">{{ translate('Marketplace_TryFreeTrialTitle') }}</div>
             <select
               class="free-trial-dropdown"
               :title="`${translate('Marketplace_ShownPriceIsExclTax')} ${translate(
