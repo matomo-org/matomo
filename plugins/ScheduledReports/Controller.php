@@ -90,7 +90,11 @@ class Controller extends \Piwik\Plugin\Controller
         $reports = array();
         $reportsById = array();
         if (!Piwik::isUserIsAnonymous()) {
-            $reports = API::getInstance()->getReports($this->idSite, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = true);
+            $reports = Request::processRequest('ScheduledReports.getReports', array(
+                'idSite' => $this->idSite,
+                'ifSuperUserReturnOnlySuperUserReports' => true,
+                'filter_limit' => -1,
+            ), []);
             foreach ($reports as &$report) {
                 $report['evolutionPeriodFor'] = $report['evolution_graph_within_period'] ? 'each' : 'prev';
                 $report['evolutionPeriodN'] = (int) $report['evolution_graph_period_n'] ?: ImageGraph::getDefaultGraphEvolutionLastPeriods();
