@@ -141,7 +141,7 @@
      :title="translate('Marketplace_TrialRequested')"
   >{{ translate('Marketplace_TrialRequested') }}</a>
 
-  <a v-else-if="plugin.canTrialBeRequested"
+  <a v-else-if="plugin.canTrialBeRequested && !plugin.isMissingLicense"
      tabindex="7"
      class="btn btn-block purchaseable"
      href=""
