@@ -400,7 +400,14 @@ class API extends \Piwik\Plugin\API
         $metrics = array(Metrics::INDEX_NB_VISITS);
         $data = $logAggregator->queryVisitsByDimension($dimensions, $where, [], $metrics, $rankingQuery, false, Config::getInstance()->General['live_query_max_execution_time']);
 
-        $referrerData = array();
+        // array is prefilled with available keys and empty values are removed in the end to ensure the order is static
+        $referrerData = [
+            Common::REFERRER_TYPE_DIRECT_ENTRY => [],
+            Common::REFERRER_TYPE_SEARCH_ENGINE => [],
+            Common::REFERRER_TYPE_SOCIAL_NETWORK => [],
+            Common::REFERRER_TYPE_WEBSITE => [],
+            Common::REFERRER_TYPE_CAMPAIGN => [],
+        ];
         $referrerSubData = array();
 
         foreach ($data as $referrerType => &$subData) {
@@ -424,6 +431,9 @@ class API extends \Piwik\Plugin\API
                 }
             }
         }
+
+        // remove empty records
+        $referrerData = array_filter($referrerData);
 
         $array = new DataArray($referrerData, $referrerSubData);
         return $array->asDataTable();
