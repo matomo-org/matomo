@@ -300,7 +300,7 @@ class API extends \Piwik\Plugin\API
 									JOIN " . Common::prefixTable('site') . "
 									USING (idsite)
 								WHERE deleted = 0
-									$sqlWhere", $bind);
+									$sqlWhere ORDER BY description", $bind);
         // When a specific report was requested and not found, throw an error
         if (
             $idReport !== false
