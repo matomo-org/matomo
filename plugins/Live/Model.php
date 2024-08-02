@@ -605,6 +605,8 @@ class Model
 
         $orderBy .= "log_visit.visit_last_action_time " . $filterSortOrder;
 
+        $orderBy .= ", log_visit.idvisit " . $filterSortOrder;
+
         if ($segment->isEmpty()) {
             $groupBy = false;
         } else {
