@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "DirectLink": "› Directe link",
-        "DisplayDashboardInIframe": "U kunt het volledige Matomo-dashboard ook weergeven in uw applicatie of website in een IFRAME (%1$szie voorbeeld%2$s). De datumparameter kan worden ingesteld op een specifieke kalenderdatum, \"vandaag\", of \"gisteren\". De periodeparameter kan worden ingesteld op \"dag\", \"week\", \"maand\", of \"jaar\". \nDe taalparameter kan worden ingesteld op de taalcode van een vertaling, zoals language=fr. Bijvoorbeeld, voor idSite=1 en date=yesterday, kunt u schrijven:",
+        "DisplayDashboardInIframe": "U kunt het volledige Matomo-dashboard ook weergeven in uw applicatie of website in een IFRAME (%1$szie voorbeeld%2$s). De datumparameter kan worden ingesteld op een specifieke kalenderdatum, \"vandaag\", of \"gisteren\". De periodeparameter kan worden ingesteld op \"dag\", \"week\", \"maand\", of \"jaar\". De taalparameter kan worden ingesteld op de taalcode van een vertaling, zoals language=fr. Bijvoorbeeld, voor idSite=1 en date=yesterday, kunt u schrijven:",
         "DisplayDashboardInIframeAllSites": "U kunt voor het dashboard van alle websites ook een widget maken in een IFRAME (%1$szie voorbeeld%2$s)",
         "EmbedIframe": "› Iframe insluiten",
         "Intro": "Met Matomo kunt u %1$suw webanalyserapporten%2$s exporteren op uw blog, website of intranet dashboard... in één klik.",
