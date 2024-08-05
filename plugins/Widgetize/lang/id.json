@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "DirectLink": "&rsaquo; Tautan Langsung",
-        "DisplayDashboardInIframe": "Anda juga dapat menampilkan dasbor lengkap Matomo di aplikasi atau situs web Anda dalam IFRAME (%1$slihat contoh%2$s). Parameter tanggal dapat diatur ke tanggal tertentu, \"hari ini\", atau \"kemarin\". Parameter periode dapat diatur ke \"hari\", \"minggu\", \"bulan\", atau\n \"tahun\". Parameter bahasa dapat diatur ke kode bahasa terjemahan, seperti language=fr. Misalnya, untuk idSite=1 dan date=yesterday, Anda dapat menulis:",
+        "DisplayDashboardInIframe": "Anda juga dapat menampilkan dasbor lengkap Matomo di aplikasi atau situs web Anda dalam IFRAME (%1$slihat contoh%2$s). Parameter tanggal dapat diatur ke tanggal tertentu, \"hari ini\", atau \"kemarin\". Parameter periode dapat diatur ke \"hari\", \"minggu\", \"bulan\", atau \"tahun\". Parameter bahasa dapat diatur ke kode bahasa terjemahan, seperti language=fr. Misalnya, untuk idSite=1 dan date=yesterday, Anda dapat menulis:",
         "DisplayDashboardInIframeAllSites": "Anda juga dapat membuat widget dasbor dari semua situs web di IFRAME (%1$slihat contoh%2$s)",
         "EmbedIframe": "&rsaquo; Sematkan Iframe",
         "Intro": "Dengan Matomo, Anda dapat %1$smengekspor laporan Analisis Web%2$s di blog, situs web, atau dasbor intranet dalam satu klik.",
