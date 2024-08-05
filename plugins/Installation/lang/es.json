@@ -6,7 +6,7 @@
         "ConfigurationHelp": "Corrija su archivo de configuración de Matomo eliminando config/config.ini.php y reanudando la instalación, o corrigiendo la configuración de la conexión a la base de datos.",
         "ConfirmDeleteExistingTables": "¿Borrar las tablas %s de su base de datos? ADVERTENCIA: ¡LOS DATOS DE ESTAS TABLAS NO SE PUEDEN RECUPERAR!",
         "Congratulations": "Enhorabuena",
-        "CongratulationsHelp": "<p>¡Felicidades! Su instalación de Matomo está completa.</p><p>Asegúrese de que su código de seguimiento está introducido en sus páginas, y espere a sus primeros visitantes.</p> &lt;p",
+        "CongratulationsHelp": "<p>¡Felicidades! Su instalación de Matomo está completa.</p><p>Asegúrese de que su código de seguimiento está introducido en sus páginas, y espere a sus primeros visitantes.</p>",
         "CopyBelowInfoForSupport": "Copie o descargue la información a continuación, en caso de que nuestro equipo de soporte le solicite esta información.",
         "CopySystemCheck": "Copiar la comprobación del sistema",
         "DatabaseAbilities": "Capacidades de la base de datos",
