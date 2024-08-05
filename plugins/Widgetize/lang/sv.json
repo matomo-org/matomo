@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "DirectLink": "› Direktlänk",
-        "DisplayDashboardInIframe": "Du kan också visa hela instrumentpanelen från Matomo i din applikation eller webbplats med en IFRAME (%1$sse exempel%2$s). Datum-parametern kan sättas till ett visst kalenderdatum, \"idag\", \"igår\" eller \"år\". Periodparametern kan vara \"dag\", \"vecka\", \"månad\" eller \"år\".\nSpråkparametern kan sättas till språkkoden för en översättning, som language=fr. Till exempel, för idSite=1 och date=yesterday, kan du skriva:",
+        "DisplayDashboardInIframe": "Du kan också visa hela instrumentpanelen från Matomo i din applikation eller webbplats med en IFRAME (%1$sse exempel%2$s). Datum-parametern kan sättas till ett visst kalenderdatum, \"idag\", \"igår\" eller \"år\". Periodparametern kan vara \"dag\", \"vecka\", \"månad\" eller \"år\". Språkparametern kan sättas till språkkoden för en översättning, som language=fr. Till exempel, för idSite=1 och date=yesterday, kan du skriva:",
         "DisplayDashboardInIframeAllSites": "Du kan också göra widget av hela webbplatsens instrumentpanel med en IFRAME (%1$sse exempel%2$s)",
         "EmbedIframe": "› Bädda in iframe",
         "Intro": "Med Matomo kan du %1$sexportera dina webbanalys-rapporter%2$s till din blogg, webbplats eller intranät... med ett enda klick.",
