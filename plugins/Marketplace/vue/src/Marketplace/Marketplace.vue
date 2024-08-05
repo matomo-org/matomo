@@ -65,6 +65,7 @@
               :activate-nonce="activateNonce"
               :install-nonce="installNonce"
               :update-nonce="updateNonce"
+              :num-users="numUsers"
               @trigger-update="this.updateMarketplace()"
               @start-trial-start="this.$emit('startTrialStart')"
               @start-trial-stop="this.$emit('startTrialStop')"
@@ -142,6 +143,10 @@ export default defineComponent({
     },
     updateNonce: {
       type: String,
+      required: true,
+    },
+    numUsers: {
+      type: Number,
       required: true,
     },
   },
