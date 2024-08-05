@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "DirectLink": "&rsaquo; Collegamento diretto",
-        "DisplayDashboardInIframe": "Puoi anche visualizzare la dashboard Matomo completa nella tua applicazione o sito Web in un IFRAME (%1$svedi esempio%2$s). Il parametro della data può essere impostato su una data specifica di calendario, \"oggi\" o \"ieri\". Il parametro del periodo può essere impostato su \"giorno\", \"settimana\", \"mese\" o \n\"anno\". Il parametro language può essere impostato sul codice lingua di una traduzione, come language=fr. Ad esempio, per idSite=1 e date=ieri, puoi scrivere:",
+        "DisplayDashboardInIframe": "Puoi anche visualizzare la dashboard Matomo completa nella tua applicazione o sito Web in un IFRAME (%1$svedi esempio%2$s). Il parametro della data può essere impostato su una data specifica di calendario, \"oggi\" o \"ieri\". Il parametro del periodo può essere impostato su \"giorno\", \"settimana\", \"mese\" o \"anno\". Il parametro language può essere impostato sul codice lingua di una traduzione, come language=fr. Ad esempio, per idSite=1 e date=ieri, puoi scrivere:",
         "DisplayDashboardInIframeAllSites": "Puoi anche widgetizzare la dashboard di tutti i siti Web in un IFRAME (%1$svedi esempio%2$s)",
         "EmbedIframe": "&rsaquo; Incorpora iFrame",
         "Intro": "Con Matomo, puoi %1$sesportare i tuoi rapporti Web Analytics%2$s sul tuo blog, sito Web o dashboard Intranet... con un clic.",
