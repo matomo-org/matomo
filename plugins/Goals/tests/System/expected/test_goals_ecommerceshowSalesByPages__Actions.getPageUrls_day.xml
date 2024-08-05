@@ -18,19 +18,6 @@
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 		<exit_nb_visits>3</exit_nb_visits>
 		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<revenue>10</revenue>
-				<nb_conv_pages_before>1</nb_conv_pages_before>
-				<nb_conversions_attrib>1</nb_conversions_attrib>
-				<nb_conversions_page_rate>1</nb_conversions_page_rate>
-				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
-				<revenue_attrib>10</revenue_attrib>
-				<revenue_entry>10</revenue_entry>
-				<nb_conversions_entry_rate>0.333</nb_conversions_entry_rate>
-				<revenue_per_entry>3.333</revenue_per_entry>
-				<nb_conversions_entry>1</nb_conversions_entry>
-			</row>
 			<row idgoal='ecommerceAbandonedCart'>
 				<nb_conversions>9</nb_conversions>
 				<revenue>22590.99</revenue>
@@ -49,6 +36,19 @@
 				<nb_conversions_entry_rate>0.667</nb_conversions_entry_rate>
 				<revenue_per_entry>1037.037</revenue_per_entry>
 				<nb_conversions_entry>2</nb_conversions_entry>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>10</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>10</revenue_attrib>
+				<revenue_entry>10</revenue_entry>
+				<nb_conversions_entry_rate>0.333</nb_conversions_entry_rate>
+				<revenue_per_entry>3.333</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
 			</row>
 		</goals>
 		<avg_bandwidth>0</avg_bandwidth>
