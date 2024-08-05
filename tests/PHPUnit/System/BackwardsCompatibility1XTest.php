@@ -10,6 +10,7 @@
 namespace Piwik\Tests\System;
 
 use Piwik\Common;
+use Piwik\Config\DatabaseConfig;
 use Piwik\Db;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
@@ -33,6 +34,10 @@ class BackwardsCompatibility1XTest extends SystemTestCase
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
+
+        if (DatabaseConfig::getConfigValue('schema') === 'Tidb') {
+            self::markTestSkipped('TiDb can only be used as of Matomo 5.2+, so updating from older versions is unsupported');
+        }
 
         $installedPlugins = Manager::getInstance()->getInstalledPluginsName();
 
