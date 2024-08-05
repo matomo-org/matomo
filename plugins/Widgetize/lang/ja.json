@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "DirectLink": "› 直接リンク",
-        "DisplayDashboardInIframe": "また、IFRAME 内のアプリケーションまたは Web サイトに Matomoダッシュボード全体を表示することもできます (%1$s例を参照%2$s)。 日付パラメーターは、特定のカレンダー日付、「今日」または「昨日」に設定できます。 期間パラメーターは、「日」、「週」、「月」、または\n\"年\"。 language パラメータは、language=fr などの翻訳の言語コードに設定できます。 たとえば、idSite=1 および date=yesterday の場合、次のように記述できます。",
+        "DisplayDashboardInIframe": "また、IFRAME 内のアプリケーションまたは Web サイトに Matomoダッシュボード全体を表示することもできます (%1$s例を参照%2$s)。 日付パラメーターは、特定のカレンダー日付、「今日」または「昨日」に設定できます。 期間パラメーターは、「日」、「週」、「月」、または \"年\"。 language パラメータは、language=fr などの翻訳の言語コードに設定できます。 たとえば、idSite=1 および date=yesterday の場合、次のように記述できます。",
         "DisplayDashboardInIframeAllSites": "IFRAME 内のすべての Web サイト ダッシュボードをウィジェット化することもできます (%1$s例を参照%2$s)",
         "EmbedIframe": "› iframe を埋め込む",
         "Intro": "Matomo を使用すると、ブログ、Web サイト、またはイントラネット ダッシュボードに %1$sWeb 分析レポートをワンクリックでエクスポート%2$sできます。",
