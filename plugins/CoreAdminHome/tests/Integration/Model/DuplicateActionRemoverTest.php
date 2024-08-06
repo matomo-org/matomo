@@ -49,7 +49,7 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
 
         // order of element is dependent to database engine, so sort before checking results
         usort($actualResult, function ($a, $b) {
-            return strcasecmp($a['name'], $b['name']);
+            return strcasecmp($a['idaction'], $b['idaction']);
         });
 
         $this->assertEquals($expectedResult, $actualResult);
