@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "DirectLink": "› Enlace directo",
-        "DisplayDashboardInIframe": "También puede mostrar el panel de control completo de Matomo en su aplicación o sitio web en un IFRAME (%1$según el ejemplo%2$s). El parámetro de fecha puede establecerse en una fecha específica del calendario, \"hoy\" o \"ayer\". El parámetro de período puede establecerse como \"día\", \"semana\", \"mes\" o\n \"año\". El parámetro de idioma puede establecerse con el código de idioma de una traducción, como language=fr. Por ejemplo, para idSite=1 y date=yesterday, se puede escribir:",
+        "DisplayDashboardInIframe": "También puede mostrar el panel de control completo de Matomo en su aplicación o sitio web en un IFRAME (%1$según el ejemplo%2$s). El parámetro de fecha puede establecerse en una fecha específica del calendario, \"hoy\" o \"ayer\". El parámetro de período puede establecerse como \"día\", \"semana\", \"mes\" o \"año\". El parámetro de idioma puede establecerse con el código de idioma de una traducción, como language=fr. Por ejemplo, para idSite=1 y date=yesterday, se puede escribir:",
         "DisplayDashboardInIframeAllSites": "También puede widgetizar el panel de control de todos los sitios web en un IFRAME (%1$sver ejemplo%2$s)",
         "EmbedIframe": "› Insertar un Iframe",
         "Intro": "Con Matomo, usted puede %1$sexportar sus informes de Web Analytics%2$s en su blog, sitio web o tablero de intranet... en un solo clic.",
