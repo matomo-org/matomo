@@ -41,11 +41,17 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
     {
         $expectedResult = array(
             array('name' => 'action1', 'idaction' => 1, 'duplicateIdActions' => array(2, 3)),
-            array('name' => 'ACTION2', 'idaction' => 5, 'duplicateIdActions' => array(7, 11)),
             array('name' => 'action2', 'idaction' => 4, 'duplicateIdActions' => array(9)),
+            array('name' => 'ACTION2', 'idaction' => 5, 'duplicateIdActions' => array(7, 11)),
             array('name' => 'action4', 'idaction' => 6, 'duplicateIdActions' => array(10, 12)),
         );
         $actualResult = $this->duplicateActionRemover->getDuplicateIdActions();
+
+        // order of element is dependent to database engine, so sort before checking results
+        usort($actualResult, function ($a, $b) {
+            return strcasecmp($a['name'], $b['name']);
+        });
+
         $this->assertEquals($expectedResult, $actualResult);
     }
 
