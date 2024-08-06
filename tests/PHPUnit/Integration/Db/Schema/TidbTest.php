@@ -23,7 +23,7 @@ class TidbTest extends IntegrationTestCase
 
     public function testOptimize()
     {
-        if (DatabaseConfig::getConfigValue('schema') !== 'Tidb') {
+        if (!DatabaseConfig::isTiDb()) {
             self::markTestSkipped('Tidb is not available');
         }
 

@@ -98,8 +98,8 @@ class BatchInsert
             }
             $filePath = $path . $tableName . '-' . $instanceId . Common::generateUniqId() . '.csv';
 
-            // always use utf8 for TiDb, as TiDb has problems fir latin1
-            if (DatabaseConfig::getConfigValue('schema') === 'Tidb') {
+            // always use utf8 for TiDb, as TiDb has problems with latin1
+            if (DatabaseConfig::isTiDb()) {
                 $charset = 'utf8';
             }
 
