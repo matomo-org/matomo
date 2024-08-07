@@ -350,6 +350,7 @@ export default defineComponent({
       const params: QueryParameters = {
         method: 'SitesManager.getSitesWithAdminAccess',
         fetchAliasUrls: 1,
+        updateDeleteSiteExplanation: 1,
         limit: limit + offset, // this is applied in SitesManager.getSitesWithAdminAccess API
         filter_offset: offset, // filter_offset and filter_limit is applied in response builder
         filter_limit: limit,

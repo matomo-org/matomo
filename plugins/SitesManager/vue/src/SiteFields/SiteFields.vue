@@ -186,7 +186,7 @@
       @confirmed="deleteSite"
     >
         <h2>{{ removeDialogTitle }}</h2>
-        <p>{{ translate('SitesManager_DeleteSiteExplanation') }}</p>
+        <p v-html="$sanitize(theSite.delete_site_explanation)"></p>
     </PasswordConfirmation>
   </div>
 </template>

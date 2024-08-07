@@ -19,6 +19,7 @@ interface Site {
   excluded_ips: string;
   excluded_parameters: string;
   excluded_user_agents: string;
+  delete_site_explanation?: string;
 }
 
 export default Site;

@@ -364,7 +364,7 @@ class API extends \Piwik\Plugin\API
      * @param []|int[] $sitesToExclude optional array of Integer IDs of sites to exclude from the result.
      * @return array for each site, an array of information (idsite, name, main_url, etc.)
      */
-    public function getSitesWithAdminAccess($fetchAliasUrls = false, $pattern = false, $limit = false, $sitesToExclude = [])
+    public function getSitesWithAdminAccess($fetchAliasUrls = false, $pattern = false, $limit = false, $sitesToExclude = [], $updateDeleteSiteExplanation = false)
     {
         $sitesId = $this->getSitesIdWithAdminAccess();
 
@@ -388,6 +388,14 @@ class API extends \Piwik\Plugin\API
         if ($fetchAliasUrls) {
             foreach ($sites as &$site) {
                 $site['alias_urls'] = $this->getSiteUrlsFromId($site['idsite']);
+            }
+        }
+
+        if ($updateDeleteSiteExplanation) {
+            foreach ($sites as &$site) {
+                $deleteSiteExplanation = Piwik::translate('SitesManager_DeleteSiteExplanation');
+                Piwik::postEvent('SitesManager.updateDeleteSiteExplanation', [$site['idsite'], &$deleteSiteExplanation]);
+                $site['delete_site_explanation'] = $deleteSiteExplanation;
             }
         }
 
