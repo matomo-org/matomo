@@ -167,7 +167,6 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_AutoUpdateDisabledWarning';
         $translationKeys[] = 'Marketplace_ByXDevelopers';
         $translationKeys[] = 'Marketplace_ClickToCompletePurchase';
-        $translationKeys[] = 'Marketplace_CurrentNumPiwikUsers';
         $translationKeys[] = 'Marketplace_Developer';
         $translationKeys[] = 'Marketplace_FeaturedPlugin';
         $translationKeys[] = 'Marketplace_LastCommitTime';
