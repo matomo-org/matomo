@@ -54,7 +54,7 @@ class ModelTest extends IntegrationTestCase
             $this->createMeasurable('mobileapp');
         }
 
-        $this->assertSame(['website', 'universal', 'mobileapp'], $this->model->getUsedTypeIds());
+        $this->assertEqualsCanonicalizing(['website', 'universal', 'mobileapp'], $this->model->getUsedTypeIds());
     }
 
     public function testGetAllKnownUrlsForAllSitesShouldReturnAllUrls()
