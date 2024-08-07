@@ -93,7 +93,7 @@
               <button
                 class="table-action"
                 v-show="theSite.idsite"
-                @click="this.showRemoveDialog = true"
+                @click="getDeleteSiteExplanationText()"
                 :title="translate('General_Delete')"
               >
                 <span class="icon-delete"></span>
@@ -186,7 +186,7 @@
       @confirmed="deleteSite"
     >
         <h2>{{ removeDialogTitle }}</h2>
-        <p v-html="$sanitize(theSite.delete_site_explanation)"></p>
+        <p v-html="$sanitize(deleteSiteExplanation)"></p>
     </PasswordConfirmation>
   </div>
 </template>
@@ -222,6 +222,7 @@ interface SiteFieldsState {
   measurableSettings: DeepReadonly<SettingsForSinglePlugin[]>;
   settingValues: Record<string, unknown>;
   showRemoveDialog: boolean;
+  deleteSiteExplanation: string;
 }
 
 interface CreateEditSiteResponse {
@@ -267,6 +268,7 @@ export default defineComponent({
       measurableSettings: [],
       settingValues: {},
       showRemoveDialog: false,
+      deleteSiteExplanation: '',
     };
   },
   components: {
@@ -450,6 +452,20 @@ export default defineComponent({
         passwordConfirmation: password,
       }).then(() => {
         this.$emit('delete', this.theSite);
+      });
+    },
+    getDeleteSiteExplanationText() {
+      AjaxHelper.post({
+        idSite: this.theSite.idsite,
+        module: 'API',
+        format: 'json',
+        method: 'SitesManager.getDeleteSiteExplanationText',
+      }).then((response) => {
+        this.deleteSiteExplanation = translate('SitesManager_DeleteSiteExplanation');
+        if (response.value) {
+          this.deleteSiteExplanation = response.value;
+        }
+        this.showRemoveDialog = true;
       });
     },
   },

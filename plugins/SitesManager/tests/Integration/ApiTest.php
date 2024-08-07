@@ -625,34 +625,6 @@ class ApiTest extends IntegrationTestCase
     }
 
     /**
-     * normal case, admin and view and noaccess website => return only admin along with delete description
-     */
-    public function testGetSitesWithAdminAccessShouldOnlyReturnSitesHavingActuallyAdminAccessAndDeleteSiteExplanationWhenSet()
-    {
-        API::getInstance()->addSite("site1", ["http://piwik.net", "http://piwik.com/test/"]);
-        API::getInstance()->addSite("site2", ["http://piwik.com/test/"]);
-        API::getInstance()->addSite("site3", ["http://piwik.org"], null, null, null, null, null, null, 'Asia/Tokyo');
-
-        $resultWanted = [
-            0 => ["idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD'],
-            1 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Intl_Country_JP', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD'],
-        ];
-
-        FakeAccess::setIdSitesAdmin([1, 3]);
-
-        $sites = API::getInstance()->getSitesWithAdminAccess(false, false, false, [], true);
-
-        $this->assertNotEmpty($sites[0]['delete_site_explanation']);
-        $this->assertNotEmpty($sites[1]['delete_site_explanation']);
-        // we don't test the ts_created
-        unset($sites[0]['ts_created']);
-        unset($sites[1]['ts_created']);
-        unset($sites[0]['delete_site_explanation']);
-        unset($sites[1]['delete_site_explanation']);
-        $this->assertEquals($resultWanted, $sites);
-    }
-
-    /**
      * Get the list of admin access sites with a site ID excluded.
      */
     public function testGetSitesWithAdminAccessShouldOnlyReturnSitesHavingActuallyAdminAccessFiltered()
@@ -673,32 +645,6 @@ class ApiTest extends IntegrationTestCase
 
         // we don't test the ts_created
         unset($sites[0]['ts_created']);
-        $this->assertEquals($resultWanted, $sites);
-    }
-
-    /**
-     * Get the list of admin access sites with a site ID excluded and delete site explanation.
-     */
-    public function testGetSitesWithAdminAccessShouldOnlyReturnSitesHavingActuallyAdminAccessFilteredAndDeleteSiteExplanation()
-    {
-        API::getInstance()->addSite("site1", ["http://piwik.net", "http://piwik.com/test/"]);
-        API::getInstance()->addSite("site2", ["http://piwik.com/test/"]);
-        API::getInstance()->addSite("site3", ["http://piwik.org"], null, null, null, null, null, null, 'Asia/Tokyo');
-
-        $resultWanted = [
-            0 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Intl_Country_JP', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD'],
-        ];
-
-        FakeAccess::setIdSitesAdmin([1, 3]);
-
-        $sites = API::getInstance()->getSitesWithAdminAccess(false, false, false, [1], true);
-        $this->assertIsArray($sites);
-        $this->assertCount(1, $sites);
-        $this->assertNotEmpty($sites[0]['delete_site_explanation']);
-
-        // we don't test the ts_created
-        unset($sites[0]['ts_created']);
-        unset($sites[0]['delete_site_explanation']);
         $this->assertEquals($resultWanted, $sites);
     }
 
@@ -766,6 +712,26 @@ class ApiTest extends IntegrationTestCase
 
         $sites = API::getInstance()->getSitesWithAdminAccess(false, '5', 2);
         $this->assertReturnedSitesContainsSiteIds([5, 15], $sites);
+    }
+
+    public function testGetDeleteSiteExplanationTextShouldReturnDefaultValue()
+    {
+        $pluginManager = Plugin\Manager::getInstance();
+        if ($pluginManager->isPluginActivated('TagManager')) {
+            $pluginManager->deactivatePlugin('TagManager');
+        }
+        $this->createManySitesWithAdminAccess(2);
+        $this->assertEquals('SitesManager_DeleteSiteExplanation', API::getInstance()->getDeleteSiteExplanationText(1));
+        $this->assertEquals('SitesManager_DeleteSiteExplanation', API::getInstance()->getDeleteSiteExplanationText(2));
+    }
+
+    public function testGetDeleteSiteExplanationTextShouldNotReturnDefaultValue()
+    {
+        $this->createManySitesWithAdminAccess(2);
+        $text1 = API::getInstance()->getDeleteSiteExplanationText(1);
+        $text2 = API::getInstance()->getDeleteSiteExplanationText(2);
+        $this->assertNotEmpty($text1);
+        $this->assertNotEmpty($text2);
     }
 
     private function createManySitesWithAdminAccess($numSites)
