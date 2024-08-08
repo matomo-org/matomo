@@ -36,14 +36,14 @@ class ArchiveTableDao
      */
     public function getArchiveTableAnalysis($tableDate)
     {
-        $numericQueryEmptyRow = array(
+        $numericQueryEmptyRow = [
             'count_archives' => '-',
             'count_invalidated_archives' => '-',
             'count_temporary_archives' => '-',
             'count_error_archives' => '-',
             'count_segment_archives' => '-',
             'count_numeric_rows' => '-',
-        );
+        ];
 
         $tableDate = str_replace("`", "", $tableDate); // for sanity
 
@@ -80,10 +80,17 @@ class ArchiveTableDao
 
         foreach (Db::fetchAll($sql) as $blobStatsRow) {
             $label = $blobStatsRow['label'];
+
             if (isset($result[$label])) {
                 $result[$label] = array_merge($result[$label], $blobStatsRow);
             } else {
-                $result[$label] = $blobStatsRow + $numericQueryEmptyRow;
+                // ensure rows without numeric entries have the
+                // same internal result array key order
+                $result[$label] = array_merge(
+                    ['label' => $label],
+                    $numericQueryEmptyRow,
+                    $blobStatsRow
+                );
             }
         }
 
