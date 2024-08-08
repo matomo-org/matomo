@@ -70,7 +70,7 @@ class SqlDump extends Fixture
 
         $cmd = "mysql --defaults-extra-file=\"$defaultsFile\" -h \"$host\" {$this->dbName} < \"" . $deflatedDumpPath . "\" 2>&1";
 
-        if (DatabaseConfig::getConfigValue('schema') === 'Tidb') {
+        if (DatabaseConfig::isTiDb()) {
             // For TiDb we need to remove the default charset from the create table statements, otherwise it will use the default charset collation, which differs from database default collation
             $cmd = "sed 's/ DEFAULT CHARSET=utf8mb4//' \"$deflatedDumpPath\" | mysql --defaults-extra-file=\"$defaultsFile\" -h \"$host\" {$this->dbName} 2>&1";
         }
