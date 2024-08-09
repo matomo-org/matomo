@@ -28,6 +28,7 @@
         "ColumnSocial": "Soziales Netzwerk",
         "ColumnWebsite": "Webseite",
         "ColumnWebsitePage": "Seite",
+        "ConversionAttribution": "Diese Konversion wurde diesem Akquisitionskanal zugeschrieben:",
         "DirectEntry": "Direkte Zugriffe",
         "DirectEntryDocumentation": "Ein Besucher kam auf die Webseite, indem er die URL direkt in den Browser eingegeben hat.",
         "Distinct": "Unterschiedliche Verweise nach Kanaltyp",

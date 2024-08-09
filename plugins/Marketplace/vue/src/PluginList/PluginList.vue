@@ -32,6 +32,7 @@
     :activate-nonce="activateNonce"
     :install-nonce="installNonce"
     :update-nonce="updateNonce"
+    :num-users="numUsers"
     @requestTrial="this.requestTrial($event)"
     @startFreeTrial="this.startFreeTrial($event)"
   />
@@ -168,6 +169,10 @@ export default defineComponent({
     },
     updateNonce: {
       type: String,
+      required: true,
+    },
+    numUsers: {
+      type: Number,
       required: true,
     },
   },

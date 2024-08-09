@@ -49,6 +49,7 @@
       :install-nonce="installNonce"
       :update-nonce="updateNonce"
       :has-some-admin-access="hasSomeAdminAccess"
+      :num-users="numUsers"
       @triggerUpdate="this.updateOverviewData()"
       @startTrialStart="this.disableInstallAllPlugins(true)"
       @startTrialStop="this.disableInstallAllPlugins(false)"
@@ -122,6 +123,10 @@ export default defineComponent({
     },
     numAvailablePluginsByType: {
       type: Object,
+      required: true,
+    },
+    numUsers: {
+      type: Number,
       required: true,
     },
   },

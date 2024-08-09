@@ -231,7 +231,7 @@ class ModelTest extends IntegrationTestCase
                     WHERE log_visit.idsite in (?)
                       AND log_visit.visit_last_action_time >= ?
                       AND log_visit.visit_last_action_time <= ?
-                    ORDER BY log_visit.idsite DESC, log_visit.visit_last_action_time DESC
+                    ORDER BY log_visit.idsite DESC, log_visit.visit_last_action_time DESC, log_visit.idvisit DESC
                     LIMIT 0, 100';
         $expectedBind = array(
             '1',
@@ -266,7 +266,7 @@ class ModelTest extends IntegrationTestCase
                     WHERE log_visit.idsite in (?,?,?)
                       AND log_visit.visit_last_action_time >= ?
                       AND log_visit.visit_last_action_time <= ?
-                    ORDER BY log_visit.visit_last_action_time DESC
+                    ORDER BY log_visit.visit_last_action_time DESC, log_visit.idvisit DESC
                     LIMIT 0, 100';
         $expectedBind = array(
             '2',
@@ -300,7 +300,7 @@ class ModelTest extends IntegrationTestCase
                     WHERE log_visit.idsite in (?)
                       AND log_visit.visit_last_action_time >= ?
                       AND log_visit.visit_last_action_time <= ?
-                    ORDER BY log_visit.idsite DESC, log_visit.visit_last_action_time DESC
+                    ORDER BY log_visit.idsite DESC, log_visit.visit_last_action_time DESC, log_visit.idvisit DESC
                     LIMIT 15, 100';
         $expectedBind = array(
             '1',
@@ -337,7 +337,7 @@ class ModelTest extends IntegrationTestCase
                             AND log_visit.visit_last_action_time <= ? ) 
                             AND ( log_link_visit_action.search_cat = ? ) 
                         GROUP BY log_visit.idvisit 
-                        ORDER BY log_visit.idsite DESC, log_visit.visit_last_action_time DESC
+                        ORDER BY log_visit.idsite DESC, log_visit.visit_last_action_time DESC, log_visit.idvisit DESC
                          LIMIT 10, 100';
         $expectedBind = array(
             '1',

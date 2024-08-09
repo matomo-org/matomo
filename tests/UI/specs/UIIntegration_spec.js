@@ -775,7 +775,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should load the scheduled reports when Edit button is clicked', async function () {
             await page.goto("?" + generalParams + "&module=ScheduledReports&action=index");
-            await page.click('.entityTable tr:nth-child(4) button[title="Edit"]');
+            await page.click('.entityTable tr:nth-child(3) button[title="Edit"]');
 
             expect(await screenshotPageWrap()).to.matchImage('email_reports_editor');
         });

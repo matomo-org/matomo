@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "DirectLink": "&rsaquo; Direkte lenke",
-        "DisplayDashboardInIframe": "Du kan også vise hele Matomo-oversikten i programmet eller på nettsiden din med en Iframe (%1$svis eksempel%2$s). Datoparameter kan settes til en gitt kalenderdato, «today», eller «yesterday». Periodeparameteret kan også settes til «day», «week», «month», eller\n «year». Språkparemeteret kan også settes til språkkoden tilhørende en oversettelse, som f.eks language=fr. For idSite=1 og date=yesterday, kan du skrive:",
+        "DisplayDashboardInIframe": "Du kan også vise hele Matomo-oversikten i programmet eller på nettsiden din med en Iframe (%1$svis eksempel%2$s). Datoparameter kan settes til en gitt kalenderdato, «today», eller «yesterday». Periodeparameteret kan også settes til «day», «week», «month», eller «year». Språkparemeteret kan også settes til språkkoden tilhørende en oversettelse, som f.eks language=fr. For idSite=1 og date=yesterday, kan du skrive:",
         "DisplayDashboardInIframeAllSites": "Du kan også lage miniprogrammer av alle nettsider i oversikten i en Iframe (%1$svis eksempel%2$s)",
         "EmbedIframe": "› Bygg inn iframe",
         "Intro": "Med Matomo kan du %1$seksportere dine vev-analyserapporter%2$s til bloggen, nettsiden, eller intranettsoversikten din … med ett klikk.",

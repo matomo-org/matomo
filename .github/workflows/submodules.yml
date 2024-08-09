@@ -91,7 +91,7 @@ jobs:
       run: |
           curl \
                  --request POST \
-                 --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+                 --header 'authorization: Bearer ${{ secrets.CUSTOM_ACCESS_TOKEN }}' \
                  --header 'content-type: application/json' \
                  --data '{
                   "title":"[automatic submodule updates]",
