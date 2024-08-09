@@ -30,7 +30,8 @@ on:
         required: true
   #schedule:
   #  - cron: '0 1 * * *' # 1am daily
-
+env:
+  RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
 jobs:
   prepare_preview_version:
     runs-on: ubuntu-latest
@@ -39,13 +40,13 @@ jobs:
       has_new_version: ${{ steps.version.outputs.has_new_version }}
     steps:
       - name: "Check release password"
-        if: ${{ inputs.is_preview != true && github.event.inputs.password != env.RELEASE_PASSWORD }}
+        if: ${{ github.event.inputs.password != env.RELEASE_PASSWORD }}
         uses: actions/github-script@v6
         with:
           script: |
             core.setFailed('Release password didn\'t match.')
       - name: "Check if user is allowed"
-        if: ${{ inputs.is_preview != true && github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'mneudert' && github.actor != 'michalkleiner' && github.actor != 'caddoo'}}
+        if: ${{ github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'mneudert' && github.actor != 'michalkleiner' && github.actor != 'caddoo'}}
         uses: actions/github-script@v6
         with:
           script: |
