@@ -2635,7 +2635,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
     private function getInvalidatedArchiveTableEntries($includeStatus = false)
     {
-        return Db::fetchAll("SELECT idarchive, idsite, date1, date2, period, name, report" . ($includeStatus ? ', status' : '') . " FROM " . Common::prefixTable('archive_invalidations'));
+        return Db::fetchAll("SELECT idarchive, idsite, date1, date2, period, name, report" . ($includeStatus ? ', status' : '') . " FROM " . Common::prefixTable('archive_invalidations') . " ORDER BY idinvalidation");
     }
 
     private function assertEqualsSorted(array $expectedEntries, array $invalidatedArchiveTableEntries)
@@ -2658,7 +2658,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
 
         $table = Common::prefixTable('archive_invalidations');
-        return Db::fetchAll("SELECT idsite, period, name, report, GROUP_CONCAT(CONCAT(date1, ',', date2) SEPARATOR '|') as dates, COUNT(*) as count FROM $table GROUP BY idsite, period, name, report");
+        return Db::fetchAll("SELECT idsite, period, name, report, GROUP_CONCAT(CONCAT(date1, ',', date2) SEPARATOR '|') as dates, COUNT(*) as count FROM $table GROUP BY idsite, period, name, report ORDER BY idsite, period, name, report");
     }
 
     private static function addVisitToEachSite()
