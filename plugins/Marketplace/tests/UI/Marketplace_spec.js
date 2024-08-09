@@ -192,7 +192,7 @@ describe("Marketplace", function () {
             var isFree = false;
             await loadPluginDetailPage('Paid Plugin 1', isFree);
 
-            await captureWithPluginDetails('paid_plugins_no_license_add_to_cart_' + mode);
+            await captureWithPluginDetails('paid_plugin_details_add_to_cart_' + mode);
         });
 
         it('should show paid plugin details when having valid license', async function() {
