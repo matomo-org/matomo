@@ -267,7 +267,7 @@
                 numUsers
                 )}`"
               v-model="selectedPluginShopVariationUrl"
-              @change="changeSelectedPluginShopVariationUrl">
+              @change="changeSelectedPluginShopVariationUrl"
             >
               <option v-for="(variation, index) in plugin.shop.variations" :key="`var-${index}`"
                       :value="variation.addToCartUrl"

@@ -217,31 +217,41 @@ class ArchiveTableDaoTest extends IntegrationTestCase
             ),
             '1.2015-01-20.2015-01-20.1' => array(
                 'label' => '1.2015-01-20.2015-01-20.1',
-                'count_blob_rows' => '3',
                 'count_archives' => '-',
                 'count_invalidated_archives' => '-',
                 'count_temporary_archives' => '-',
                 'count_error_archives' => '-',
                 'count_segment_archives' => '-',
                 'count_numeric_rows' => '-',
+                'count_blob_rows' => '3',
                 'sum_blob_length' => '36',
             ),
             '2.2015-01-21.2015-01-21.1' => array(
                 'label' => '2.2015-01-21.2015-01-21.1',
-                'count_blob_rows' => '3',
                 'count_archives' => '-',
                 'count_invalidated_archives' => '-',
                 'count_temporary_archives' => '-',
                 'count_error_archives' => '-',
                 'count_segment_archives' => '-',
                 'count_numeric_rows' => '-',
+                'count_blob_rows' => '3',
                 'sum_blob_length' => '36',
             ),
         );
 
         $actualStats = $this->archiveTableDao->getArchiveTableAnalysis($tableMonth);
 
-        $this->assertEquals($expectedStats, $actualStats);
+        // the type of the "count_blob_rows" column depends on the used PHP
+        // version and database adapter, so we cast it to string first to
+        // have assertSame always give the result we expect
+        foreach ($actualStats as &$actualStat) {
+            $actualStat['count_blob_rows'] = (string) $actualStat['count_blob_rows'];
+        }
+
+        // assertSame ensure array keys have the same internal order,
+        // so the console table displaying this information is placing
+        // each value in the correct column
+        $this->assertSame($expectedStats, $actualStats);
     }
 
     private function insertArchive(

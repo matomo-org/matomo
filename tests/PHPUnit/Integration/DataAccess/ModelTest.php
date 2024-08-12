@@ -70,7 +70,7 @@ class ModelTest extends IntegrationTestCase
 
         // sanity check
         $table = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'));
-        $sql = "SELECT GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
+        $sql = "SELECT GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC, idarchive DESC) as archives
                   FROM `$table`
               GROUP BY idsite, date1, date2, period, name";
         $result = Db::fetchRow($sql);
