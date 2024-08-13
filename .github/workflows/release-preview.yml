@@ -1,0 +1,169 @@
+# Matomo release action for automated PREVIEW releases
+#
+# Required GitHub secrets:
+#
+# GPG_CERTIFICATE  |  ASCII armored or Base64 encoded GPG certificate that is used to create the signatures for the archives
+# GPG_CERTIFICATE_PASS  |  Passphrase of the GPG key
+
+name: Build preview release
+
+permissions:
+  actions: read # required for the tests job
+  checks: none
+  contents: write  # required to create tag and release
+  deployments: none
+  issues: read # required for the tests job
+  packages: none
+  pull-requests: read # required for the tests jobs
+  repository-projects: none
+  security-events: none
+  statuses: none
+
+on:
+  # TODO: remove manual dispatch after testing and enable cron
+  workflow_dispatch:
+    branches:
+      - 5.x-dev
+    inputs:
+      password:
+        description: 'Release password'
+        required: true
+  #schedule:
+  #  - cron: '0 1 * * *' # 1am daily
+env:
+  RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
+jobs:
+  prepare_preview_version:
+    runs-on: ubuntu-latest
+    outputs:
+      do_release: ${{ steps.changes.outputs.do_release }}
+      has_new_version: ${{ steps.version.outputs.has_new_version }}
+    steps:
+      - name: "Check release password"
+        if: ${{ github.event.inputs.password != env.RELEASE_PASSWORD }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.setFailed('Release password didn\'t match.')
+      - name: "Check if user is allowed"
+        if: ${{ github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'mneudert' && github.actor != 'michalkleiner' && github.actor != 'caddoo'}}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.setFailed('User is not allowed to release.')
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+          fetch-tags: true
+          fetch-depth: 0
+
+      - name: Prepare git config
+        run: |
+          cat <<- EOF > $HOME/.netrc
+            machine github.com
+            login $GITHUB_ACTOR
+            password $GITHUB_TOKEN
+            machine api.github.com
+            login $GITHUB_ACTOR
+            password $GITHUB_TOKEN
+          EOF
+          chmod 600 $HOME/.netrc
+          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config --global user.name "$GITHUB_ACTOR"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if there are any changes to create a preview release for
+        id: changes
+        run: |
+          LATEST_PREVIEW=$(git tag --sort=-creatordate | grep -E '\.[0-9]{14}$' | head -n 1)
+          
+          DIFF=""
+          if [ -n "$LATEST_PREVIEW" ]; then
+            # using || true to always exit either with a diff or a success exit code to not fail the whole workflow
+            DIFF=$(git diff $LATEST_PREVIEW..5.x-dev --unified=0 | grep -vE "^\+\+\+|---" | grep "^[+-]" | grep -v "public const VERSION = '.*';" || true)
+          fi
+          
+          if [ -z "$DIFF" ]; then
+            echo "No changes in 5.x-dev since last preview version was created."
+            DO_RELEASE=0
+          else
+            DO_RELEASE=1
+          fi
+          
+          echo "do_release=$DO_RELEASE" >> $GITHUB_OUTPUT
+
+      - name: Determine new preview version number
+        id: version
+        if: steps.changes.outputs.do_release == '1'
+        run: |
+          OLD_VERSION=$(php -r "include_once 'core/Version.php'; echo \Piwik\Version::VERSION;")
+          NEW_VERSION=$(php -r "include_once 'core/Version.php'; \$v = new \Piwik\Version(); echo \$v->nextPreviewVersion(\Piwik\Version::VERSION);")
+          
+          if [ "$NEW_VERSION" == "" ]; then
+            HAS_NEW_VERSION=0
+          else
+            HAS_NEW_VERSION=1
+          fi
+          
+          echo "OLD_VERSION=$OLD_VERSION" >> $GITHUB_ENV
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          
+          echo "has_new_version=$HAS_NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Check if the previous version has been released
+        if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
+        run: |
+          TAG_EXISTS=$( git tag --list "$OLD_VERSION" )
+          
+          # x.y.z-alpha would not be released, all other versions should have an existing tag (a release)
+          if [[ ! $OLD_VERSION =~ -alpha$ ]] && [[ -z "$TAG_EXISTS" ]]; then
+            echo "$OLD_VERSION (as indicated in core/Version.php) has not been released yet."
+            exit 1
+          fi
+
+      - name: Update 5.x-preview branch to latest 5.x-dev
+        if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
+        run: |
+          git checkout -B 5.x-preview
+
+      - name: Update version file with new version
+        if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
+        run: |
+          sed -i "s/VERSION = '${OLD_VERSION}';/VERSION = '${NEW_VERSION}';/g" core/Version.php
+
+      - name: Commit version file changes
+        if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
+        run: |
+          git add core/Version.php
+          git commit -m "Update version to ${NEW_VERSION}"
+
+      - name: Push changes to 5.x-preview
+        if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
+        run: |
+          git push -f origin 5.x-preview
+
+  run_matomo_tests:
+    needs: [prepare_preview_version]
+    uses: ./.github/workflows/matomo-tests.yml
+    if: |
+      always() && 
+      needs.prepare_preview_version.result == 'success' && 
+      needs.prepare_preview_version.outputs.do_release == '1' && 
+      needs.prepare_preview_version.outputs.has_new_version == '1'
+    with:
+      is_preview: true
+
+  release_preview_version:
+    needs: [run_matomo_tests]
+    uses: ./.github/workflows/release.yml
+    if: |
+      always() && 
+      needs.prepare_preview_version.result == 'success' && 
+      needs.run_matomo_tests.result == 'success' && 
+      needs.prepare_preview_version.outputs.do_release == '1' && 
+      needs.prepare_preview_version.outputs.has_new_version == '1'
+    with:
+      is_preview: true
