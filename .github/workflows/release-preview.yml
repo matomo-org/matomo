@@ -167,3 +167,4 @@ jobs:
       needs.prepare_preview_version.outputs.has_new_version == '1'
     with:
       is_preview: true
+    secrets: inherit
