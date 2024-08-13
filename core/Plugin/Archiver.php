@@ -164,7 +164,11 @@ class Archiver
          */
         Piwik::postEvent('Archiver.filterRecordBuilders', [&$recordBuilders]);
 
-        $requestedReports = $this->processor->getParams()->getArchiveOnlyReportAsArray();
+        return $recordBuilders;
+    }
+
+    private function filterRecordBuildersByRequestedRecords(array $recordBuilders, array $requestedReports): array
+    {
         if (!empty($requestedReports)) {
             $recordBuilders = array_filter($recordBuilders, function (ArchiveProcessor\RecordBuilder $builder) use ($requestedReports) {
                 return $builder->isBuilderForAtLeastOneOf($this->processor, $requestedReports);
@@ -185,17 +189,17 @@ class Archiver
             $pluginName = $this->getPluginName();
 
             if (Manager::getInstance()->isPluginLoaded($pluginName)) {
-                $recordBuilders = $this->getRecordBuilders($pluginName);
+                $allRecordBuilders = $this->getRecordBuilders($pluginName);
+                $recordBuilders = $this->filterRecordBuildersByRequestedRecords($allRecordBuilders, $this->processor->getParams()->getArchiveOnlyReportAsArray());
+
+                // If the plugin provides record builders and only a specific record was requested, we mark the archive as partial
+                if (count($allRecordBuilders) > 0 && $this->processor->getParams()->getArchiveOnlyReport()) {
+                    $this->processor->getParams()->setIsPartialArchive(true);
+                }
 
                 foreach ($recordBuilders as $recordBuilder) {
                     if (!$recordBuilder->isEnabled($this->getProcessor())) {
                         continue;
-                    }
-
-                    // if automatically handling "archive only report" in RecordBuilders, make sure the archive
-                    // will be marked as partial
-                    if ($this->processor->getParams()->getArchiveOnlyReport()) {
-                        $this->processor->getParams()->setIsPartialArchive(true); // make sure archive will be marked as partial
                     }
 
                     $originalQueryHint = $this->getProcessor()->getLogAggregator()->getQueryOriginHint();
@@ -228,16 +232,17 @@ class Archiver
             $pluginName = $this->getPluginName();
 
             if (Manager::getInstance()->isPluginLoaded($pluginName)) {
-                $recordBuilders = $this->getRecordBuilders($pluginName);
+                $allRecordBuilders = $this->getRecordBuilders($pluginName);
+                $recordBuilders = $this->filterRecordBuildersByRequestedRecords($allRecordBuilders, $this->processor->getParams()->getArchiveOnlyReportAsArray());
+
+                // If the plugin provides record builders and only a specific record was requested, we mark the archive as partial
+                if (count($allRecordBuilders) > 0 && $this->processor->getParams()->getArchiveOnlyReport()) {
+                    $this->processor->getParams()->setIsPartialArchive(true);
+                }
+
                 foreach ($recordBuilders as $recordBuilder) {
                     if (!$recordBuilder->isEnabled($this->getProcessor())) {
                         continue;
-                    }
-
-                    // if automatically handling "archive only report" in RecordBuilders, make sure the archive
-                    // will be marked as partial
-                    if ($this->processor->getParams()->getArchiveOnlyReport()) {
-                        $this->processor->getParams()->setIsPartialArchive(true); // make sure archive will be marked as partial
                     }
 
                     $originalQueryHint = $this->getProcessor()->getLogAggregator()->getQueryOriginHint();
