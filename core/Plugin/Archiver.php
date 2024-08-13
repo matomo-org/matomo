@@ -15,6 +15,7 @@ use Piwik\CacheId;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\ErrorHandler;
+use Piwik\Log;
 use Piwik\Piwik;
 
 /**
@@ -169,10 +170,22 @@ class Archiver
 
     private function filterRecordBuildersByRequestedRecords(array $recordBuilders, array $requestedReports): array
     {
+        // No record builders might be provided if the plugin does not (yet) provide any
+        if (empty($recordBuilders)) {
+            return $recordBuilders;
+        }
+
         if (!empty($requestedReports)) {
             $recordBuilders = array_filter($recordBuilders, function (ArchiveProcessor\RecordBuilder $builder) use ($requestedReports) {
                 return $builder->isBuilderForAtLeastOneOf($this->processor, $requestedReports);
             });
+        }
+
+        if (0 === count($recordBuilders)) {
+            Log::debug(
+                'Archiver: No record builders found for requested records %s',
+                implode(',', $this->processor->getParams()->getArchiveOnlyReportAsArray())
+            );
         }
 
         return $recordBuilders;
