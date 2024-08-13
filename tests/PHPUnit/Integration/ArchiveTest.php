@@ -64,6 +64,32 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals([], $archiveRows);
     }
 
+    public function testQueryingForInexistentRecordDoesNotCreateEmptyPartialArchiveForPlugin()
+    {
+        $tracker = Fixture::getTracker(1, '2014-05-07 07:00:00');
+        $tracker->setUrl('http://matomo.net/page/1');
+        Fixture::checkResponse($tracker->doTrackPageView('a page'));
+
+        $tracker->setForceVisitDateTime('2014-05-08 09:00:00');
+        $tracker->setUrl('http://matomo.net/page/2');
+        Fixture::checkResponse($tracker->doTrackPageView('a page'));
+
+        // the table may not be created if we skip archiving logic, so make sure it's created here
+        ArchiveTableCreator::getNumericTable(Date::factory('2014-05-07'));
+
+        $archive = Archive::factory(new Segment('', [1]), [Factory::build('range', '2014-05-07,2014-05-08')], [1]);
+        $data = $archive->getDataTable('DevicePlugins_InvalidRecord');
+        $this->assertEquals([], $data->getRows());
+
+        $archiveRows = Db::fetchAll(
+            'SELECT name FROM ' . Common::prefixTable('archive_numeric_2014_05') . ' WHERE idsite = ? AND period = ? AND name LIKE ?',
+            [1, 5, 'done%']
+        );
+
+        // It's expected that archiving core metrics will be triggered, but there should be no partial done flag for the plugin
+        $this->assertEquals(['done.VisitsSummary'], array_column($archiveRows, 'name'));
+    }
+
     public function testPluginSpecificArchiveUsedEvenIfAllArchiveExistsIfThereAreNoDataInAllArchive()
     {
         $idSite = 1;
