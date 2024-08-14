@@ -78,7 +78,6 @@ jobs:
       - name: Check if there are any changes to create a preview release for
         id: changes
         run: |
-          git fetch origin 5.x-dev
           LATEST_PREVIEW=$(git tag --sort=-creatordate | grep -E '\.[0-9]{14}$' | head -n 1)
           
           DIFF=""
