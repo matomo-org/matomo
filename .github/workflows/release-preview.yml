@@ -5,7 +5,6 @@
 # GPG_CERTIFICATE  |  ASCII armored or Base64 encoded GPG certificate that is used to create the signatures for the archives
 # GPG_CERTIFICATE_PASS  |  Passphrase of the GPG key
 # RELEASE_PASSWORD  |  Password that needs to be provided to start the action
-# GITHUB_TOKEN  |  Automatically provided Github Token
 
 name: Build preview release
 
