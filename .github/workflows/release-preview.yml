@@ -173,4 +173,3 @@ jobs:
       RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
       GPG_CERTIFICATE: ${{ secrets.GPG_CERTIFICATE }}
       GPG_CERTIFICATE_PASS: ${{ secrets.GPG_CERTIFICATE_PASS }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

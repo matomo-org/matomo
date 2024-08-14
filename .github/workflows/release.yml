@@ -47,9 +47,6 @@ on:
       GPG_CERTIFICATE_PASS:
         description: 'GPG Certificate Pass'
         required: true
-      GITHUB_TOKEN:
-        description: 'GITHUB_TOKEN'
-        required: true
 env:
   RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
 
