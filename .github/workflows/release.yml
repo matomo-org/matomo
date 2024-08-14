@@ -36,7 +36,16 @@ on:
         type: boolean
         required: false
         default: false
-
+    secrets:
+      RELEASE_PASSWORD:
+        description: 'Release password'
+        required: true
+      GPG_CERTIFICATE:
+        description: 'GPG Certificate'
+        required: true
+      GPG_CERTIFICATE_PASS:
+        description: 'GPG Certificate Pass'
+        required: true
 env:
   RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
 

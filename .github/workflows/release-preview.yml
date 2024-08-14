@@ -4,6 +4,7 @@
 #
 # GPG_CERTIFICATE  |  ASCII armored or Base64 encoded GPG certificate that is used to create the signatures for the archives
 # GPG_CERTIFICATE_PASS  |  Passphrase of the GPG key
+# RELEASE_PASSWORD  |  Password that needs to be provided to start the action
 
 name: Build preview release
 
@@ -167,3 +168,7 @@ jobs:
       needs.prepare_preview_version.outputs.has_new_version == '1'
     with:
       is_preview: true
+    secrets:
+      RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
+      GPG_CERTIFICATE: ${{ secrets.GPG_CERTIFICATE }}
+      GPG_CERTIFICATE_PASS: ${{ secrets.GPG_CERTIFICATE_PASS }}
