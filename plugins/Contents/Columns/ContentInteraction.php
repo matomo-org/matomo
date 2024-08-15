@@ -9,8 +9,11 @@
 
 namespace Piwik\Plugins\Contents\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
+use Piwik\Columns\MetricsList;
+use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Contents\Actions\ActionContent;
 use Piwik\Tracker\Action;
@@ -58,5 +61,13 @@ class ContentInteraction extends ActionDimension
         }
 
         return false;
+    }
+
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
+        $metricsList->addMetric($metric);
+
+        parent::configureMetrics($metricsList, $dimensionMetricFactory);
     }
 }

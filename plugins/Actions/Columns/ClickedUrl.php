@@ -9,8 +9,11 @@
 
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
+use Piwik\Columns\MetricsList;
+use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\TableLogAction;
@@ -34,5 +37,13 @@ class ClickedUrl extends ActionDimension
     public function getDbDiscriminator()
     {
         return new Discriminator('log_action', 'type', Action::TYPE_OUTLINK);
+    }
+
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_COUNT);
+        $metricsList->addMetric($metric);
+
+        parent::configureMetrics($metricsList, $dimensionMetricFactory);
     }
 }

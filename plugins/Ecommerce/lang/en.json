@@ -27,6 +27,8 @@
         "SalesSubcategoryHelp2": "You can also learn exactly how revenue is associated with each dimension, such as specific traffic types or tracked campaigns.",
         "EcommerceLogSubcategoryHelp1": "The Ecommerce log provides granular session-level data so you can look at the full session for each user that either made a purchase or abandoned their cart. This can help you understand what users do before and after purchasing to reveal optimisation opportunities.",
         "EcommerceLogSubcategoryHelp2": "Data on this page is updated in real-time.",
-        "ProductSubcategoryHelp": "The Products view can help you identify products and categories that are over-performing or under-performing to reveal trends and opportunities related to your product selection and store pages."
+        "ProductSubcategoryHelp": "The Products view can help you identify products and categories that are over-performing or under-performing to reveal trends and opportunities related to your product selection and store pages.",
+        "ProductsWithQuantity": "Products with Quantity",
+        "ProductsWithPrice": "Products with Price"
     }
 }

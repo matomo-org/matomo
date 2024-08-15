@@ -13,25 +13,27 @@ use Piwik\Columns\Dimension;
 use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
+use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\TableLogAction;
 
-class ProductCategory extends Dimension
+class ProductCategory extends ActionDimension
 {
     public const PRODUCT_CATEGORY_COUNT = 5;
 
     protected $type = self::TYPE_TEXT;
     protected $category = 'Goals_Ecommerce';
     protected $nameSingular = 'Goals_ProductCategory';
+    protected $columnName = 'idaction_product_cat';
 
-    public function getDbColumnJoin()
+    public function getDbColumnJoin(): ActionNameJoin
     {
         return new ActionNameJoin();
     }
 
-    public function getDbDiscriminator()
+    public function getDbDiscriminator(): Discriminator
     {
         return new Discriminator('log_action', 'type', Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
     }
@@ -68,7 +70,7 @@ class ProductCategory extends Dimension
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
 
-    private function getProductCategorySegments($categoryCount)
+    private function getProductCategorySegments($categoryCount): array
     {
         $result = [];
         for ($i = 0; $i < $categoryCount; ++$i) {
