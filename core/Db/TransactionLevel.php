@@ -57,7 +57,8 @@ class TransactionLevel
         }
 
         try {
-            $this->db->query('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
+            $this->db->query('SET SESSION TRANSACTION ISOLATION LEVEL ' . Schema::getInstance()->getSupportedReadIsolationTransactionLevel());
+
             $this->statusBackup = $backup;
 
             if ($this->db->supportsUncommitted === null) {

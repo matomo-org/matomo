@@ -15,6 +15,7 @@ use Piwik\Config\DatabaseConfig;
 use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Db\Schema;
 use Piwik\Period;
 use Piwik\Segment;
@@ -406,6 +407,25 @@ class LogAggregatorTest extends IntegrationTestCase
             )
         );
         $this->assertSame($expected, $query);
+    }
+
+    public function testGenerateQuerySwitchesSupportsUncommittedToTrueWhenSupports()
+    {
+        $segment = new Segment('userId==1111', array($this->site->getId()));
+
+        $params = new Parameters($this->site, $this->period, $segment);
+        $this->logAggregator = new LogAggregator($params);
+        $this->logAggregator->allowUsageSegmentCache();
+
+        $this->setSqlRequirePrimaryKeySetting(1);
+
+        $db = Db::get();
+
+        $db->supportsUncommitted = null;
+
+        $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
+
+        $this->assertTrue($db->supportsUncommitted);
     }
 
     public function testGetSegmentTmpTableName()

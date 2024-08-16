@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Integration\Db;
 
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Db\TransactionLevel;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -54,7 +55,8 @@ class TransactionLevelTest extends IntegrationTestCase
         $this->level->setUncommitted();
         $value = $this->db->fetchOne('SELECT ' . $isolation);
 
-        $this->assertSame('READ-UNCOMMITTED', $value);
+        $expectedIsolation = str_replace(' ', '-', Schema::getInstance()->getSupportedReadIsolationTransactionLevel());
+        $this->assertSame($expectedIsolation, $value);
         $this->level->restorePreviousStatus();
 
         $value = $this->db->fetchOne('SELECT ' . $isolation);
