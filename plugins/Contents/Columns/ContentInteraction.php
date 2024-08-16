@@ -67,7 +67,7 @@ class ContentInteraction extends ActionDimension
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
-        $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
+        $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE);
         $metricsList->addMetric($metric);
 
         // plugins/Contents/RecordBuilders/ContentRecords.php defines nb_impressions as all link visit actions
