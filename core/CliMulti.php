@@ -21,6 +21,7 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Log\NullLogger;
 use Piwik\Plugins\CoreConsole\FeatureFlags\CliMultiProcessSymfony;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Throwable;
 
 /**
  * Class CliMulti.
@@ -94,14 +95,10 @@ class CliMulti
      */
     private $logger;
 
-    public function __construct(
-        LoggerInterface $logger = null,
-        FeatureFlagManager $featureFlagManager = null
-    ) {
+    public function __construct(LoggerInterface $logger = null)
+    {
         $this->supportsAsync = $this->supportsAsync();
-        $this->supportsAsyncSymfony = $this->supportsAsyncSymfony(
-            $featureFlagManager ?? StaticContainer::get(FeatureFlagManager::class)
-        );
+        $this->supportsAsyncSymfony = $this->supportsAsyncSymfony();
 
         $this->logger = $logger ?: new NullLogger();
     }
@@ -385,15 +382,31 @@ class CliMulti
      * Several of the regular supportsAsync requirements may be obsolete after
      * a complete switch has been done.
      *
-     * @param FeatureFlagManager $featureFlagManager
-     *
      * @return bool
      */
-    public function supportsAsyncSymfony(FeatureFlagManager $featureFlagManager): bool
+    public function supportsAsyncSymfony(): bool
     {
-        return $this->supportsAsync
-            && $featureFlagManager->isFeatureActive(CliMultiProcessSymfony::class)
-            && !Process::isMethodDisabled('proc_open');
+        // When updating from an older version the required symfony component
+        // may not be available. We have to verify that outside of the
+        // CliMulti\ProcessSymfony wrapper because it extends the component.
+        if (
+            !$this->supportsAsync
+            || Process::isMethodDisabled('proc_open')
+            || !class_exists(\Symfony\Component\Process\Process::class)
+        ) {
+            return false;
+        }
+
+        // The required DI configuration may not be loaded during the update process.
+        // This can happen for an upgrade from a version that did not yet contain
+        // the feature flag plugin.
+        try {
+            $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+
+            return $featureFlagManager->isFeatureActive(CliMultiProcessSymfony::class);
+        } catch (Throwable $e) {
+            return false;
+        }
     }
 
     private function findPhpBinary()
