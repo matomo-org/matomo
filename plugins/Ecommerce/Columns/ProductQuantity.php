@@ -16,4 +16,5 @@ class ProductQuantity extends BaseProduct
     protected $columnName = 'quantity';
     protected $nameSingular = 'Goals_ProductQuantity';
     protected $category = 'Goals_Ecommerce';
+    protected $baseProductSingular = 'General_Quantity';
 }

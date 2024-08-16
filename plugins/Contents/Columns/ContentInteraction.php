@@ -67,6 +67,8 @@ class ContentInteraction extends ActionDimension
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
+        parent::configureMetrics($metricsList, $dimensionMetricFactory);
+
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE);
         $metricsList->addMetric($metric);
 
@@ -76,7 +78,5 @@ class ContentInteraction extends ActionDimension
         $metric->setName($this->getMetricId() . '_' . ComputedMetric::AGGREGATION_RATE);
         $metric->setTranslatedName(Piwik::translate('General_ComputedMetricRate', $this->getName()));
         $metricsList->addMetric($metric);
-
-        parent::configureMetrics($metricsList, $dimensionMetricFactory);
     }
 }
