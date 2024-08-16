@@ -18,6 +18,8 @@ use Piwik\CliMulti\StaticOutput;
 use Piwik\Container\StaticContainer;
 use Piwik\Log\LoggerInterface;
 use Piwik\Log\NullLogger;
+use Piwik\Plugins\CoreConsole\FeatureFlags\CliMultiProcessSymfony;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 
 /**
  * Class CliMulti.
@@ -32,6 +34,15 @@ class CliMulti
      * @var null|bool
      */
     public $supportsAsync = null;
+
+    /**
+     * If set to true or false it will overwrite whether async using Symfony\Process is supported or not.
+     *
+     * Will only be checked if the default $supportsAsync is true.
+     *
+     * @var null|bool
+     */
+    public $supportsAsyncSymfony = null;
 
     /**
      * @var Process[]
@@ -82,9 +93,15 @@ class CliMulti
      */
     private $logger;
 
-    public function __construct(LoggerInterface $logger = null)
-    {
+    public function __construct(
+        LoggerInterface $logger = null,
+        FeatureFlagManager $featureFlagManager = null
+    ) {
         $this->supportsAsync = $this->supportsAsync();
+        $this->supportsAsyncSymfony = $this->supportsAsyncSymfony(
+            $featureFlagManager ?? StaticContainer::get(FeatureFlagManager::class)
+        );
+
         $this->logger = $logger ?: new NullLogger();
     }
 
@@ -315,6 +332,29 @@ class CliMulti
         Piwik::postEvent('CliMulti.supportsAsync', array(&$supportsAsync));
 
         return $supportsAsync;
+    }
+
+    /**
+     * Returns whether Symfony\Process instead of the default Piwik\Process for
+     * async cli multi execution.
+     *
+     * Requirements:
+     * - supportsAsync has to be true
+     * - feature flag "CliMultiProcessSymfony" has to be active
+     * - proc_open has to be available
+     *
+     * Several of the regular supportsAsync requirements may be obsolete after
+     * a complete switch has been done.
+     *
+     * @param FeatureFlagManager $featureFlagManager
+     *
+     * @return bool
+     */
+    public function supportsAsyncSymfony(FeatureFlagManager $featureFlagManager): bool
+    {
+        return $this->supportsAsync
+            && $featureFlagManager->isFeatureActive(CliMultiProcessSymfony::class)
+            && !Process::isMethodDisabled('proc_open');
     }
 
     private function findPhpBinary()

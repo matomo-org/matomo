@@ -11,6 +11,8 @@ namespace Piwik\Tests\System;
 
 use Piwik\Archiver\Request;
 use Piwik\CliMulti;
+use Piwik\Plugins\CoreConsole\FeatureFlags\CliMultiProcessSymfony;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Version;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\Fixture;
@@ -84,6 +86,37 @@ class CliMultiTest extends SystemTestCase
     public function testRequestShouldRunAsync()
     {
         $this->assertTrue($this->cliMulti->supportsAsync);
+    }
+
+    /**
+     * @dataProvider getShouldDetectRunningAsyncUsingSymfonyData
+     */
+    public function testShouldDetectRunningAsyncUsingSymfonyIsSupported(
+        bool $supportsAsync,
+        bool $isFeatureFlagEnabled,
+        bool $expectedResult
+    ): void {
+        $mockFeatureFlagManager = $this->createMock(FeatureFlagManager::class);
+        $mockFeatureFlagManager
+            ->method('isFeatureActive')
+            ->with(CliMultiProcessSymfony::class)
+            ->willReturn($isFeatureFlagEnabled);
+
+        $cliMulti = new CliMulti();
+        $cliMulti->supportsAsync = $supportsAsync;
+
+        self::assertSame(
+            $expectedResult,
+            $cliMulti->supportsAsyncSymfony($mockFeatureFlagManager)
+        );
+    }
+
+    public function getShouldDetectRunningAsyncUsingSymfonyData(): iterable
+    {
+        yield 'supportsAsync and feature flag disabled' => [false, false, false];
+        yield 'supportsAsync enabled, feature flag disabled' => [true, false, false];
+        yield 'supportsAsync disabled, feature flag enabled' => [false, true, false];
+        yield 'supportsAsync and feature flag enabled' => [true, true, true];
     }
 
     public function testRequestShouldRequestAllUrlsIfMultipleUrlsAreGiven()
