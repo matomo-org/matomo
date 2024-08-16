@@ -40,7 +40,7 @@ class ProductPrice extends BaseProduct
         $metric2->setDocumentation(Piwik::translate('General_ComputedMetricMaxDocumentation', $productRevenueTranslation));
         $metricsList->addMetric($metric2);
 
-        $metric = $dimensionMetricFactory->createComputedMetric('sum_product_revenue', 'conversion_items_with_ecommerce_productprice', ComputedMetric::AGGREGATION_AVG);
+        $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), 'conversion_items_with_ecommerce_productprice', ComputedMetric::AGGREGATION_AVG);
         $metric->setName('avg_product_revenue');
         $metric->setTranslatedName(Piwik::translate('General_AverageX', $productRevenueTranslation));
         $productWithPriceTranslation = Piwik::translate('Ecommerce_ProductsWithX', Piwik::translate('General_Price'));
