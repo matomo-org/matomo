@@ -13,7 +13,9 @@ use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Columns\MetricsList;
+use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
+use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Contents\Actions\ActionContent;
 use Piwik\Tracker\Action;
@@ -66,6 +68,13 @@ class ContentInteraction extends ActionDimension
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
+        $metricsList->addMetric($metric);
+
+        // plugins/Contents/RecordBuilders/ContentRecords.php defines nb_impressions as all link visit actions
+        // From what I can tell, the that's what the hits metric does plugins/CoreHome/Columns/LinkVisitActionId.php
+        $metric = $dimensionMetricFactory->createComputedMetric($metric->getName(), 'hits', ComputedMetric::AGGREGATION_RATE);
+        $metric->setName($this->getMetricId() . '_' . ComputedMetric::AGGREGATION_RATE);
+        $metric->setTranslatedName(Piwik::translate('General_ComputedMetricRate', $this->getName()));
         $metricsList->addMetric($metric);
 
         parent::configureMetrics($metricsList, $dimensionMetricFactory);

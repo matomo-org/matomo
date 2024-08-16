@@ -9,37 +9,11 @@
 
 namespace Piwik\Plugins\Ecommerce\Columns;
 
-use Piwik\Columns\Dimension;
-use Piwik\Columns\DimensionMetricFactory;
-use Piwik\Columns\MetricsList;
-use Piwik\Piwik;
-use Piwik\Plugin\ArchivedMetric;
-use Piwik\Plugin\ComputedMetric;
-
-class ProductQuantity extends Dimension
+class ProductQuantity extends BaseProduct
 {
     protected $type = self::TYPE_NUMBER;
     protected $dbTableName = 'log_conversion_item';
     protected $columnName = 'quantity';
     protected $nameSingular = 'Goals_ProductQuantity';
     protected $category = 'Goals_Ecommerce';
-
-    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
-    {
-        $metric1 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
-        $metricsList->addMetric($metric1);
-
-        $metric2 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_MAX);
-        $metricsList->addMetric($metric2);
-
-        $metric3 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE);
-        $metric3->setName('conversion_items_with_quantity');
-        $metric3->setTranslatedName(Piwik::translate('Ecommerce_ProductsWithQuantity'));
-        $metricsList->addMetric($metric3);
-
-        $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), $metric3->getName(), ComputedMetric::AGGREGATION_AVG);
-        $metric->setName('avg_ecommerce_productquantity');
-        $metric->setTranslatedName(Piwik::translate('General_AverageX', Piwik::translate('Goals_ProductQuantity')));
-        $metricsList->addMetric($metric);
-    }
 }
