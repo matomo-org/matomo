@@ -14,6 +14,7 @@ use Piwik\CliMulti\CliPhp;
 use Piwik\CliMulti\Output;
 use Piwik\CliMulti\OutputInterface;
 use Piwik\CliMulti\Process;
+use Piwik\CliMulti\ProcessSymfony;
 use Piwik\CliMulti\StaticOutput;
 use Piwik\Container\StaticContainer;
 use Piwik\Log\LoggerInterface;
@@ -45,9 +46,9 @@ class CliMulti
     public $supportsAsyncSymfony = null;
 
     /**
-     * @var Process[]
+     * @var Process[]|ProcessSymfony[]
      */
-    private $processes = array();
+    private $processes = [];
 
     /**
      * If set it will issue at most concurrentProcessesLimit requests
@@ -58,7 +59,7 @@ class CliMulti
     /**
      * @var OutputInterface[]
      */
-    private $outputs = array();
+    private $outputs = [];
 
     private $acceptInvalidSSLCertificate = false;
 
@@ -196,7 +197,10 @@ class CliMulti
     private function executeUrlCommand($cmdId, $url, $numUrls)
     {
         if ($this->supportsAsync) {
-            if ($numUrls === 1) {
+            if ($this->supportsAsyncSymfony) {
+                $output = new StaticOutput($cmdId);
+                $this->executeAsyncCliSymfony($url, $cmdId);
+            } elseif ($numUrls === 1) {
                 $output = new StaticOutput($cmdId);
                 $this->executeSyncCli($url, $output);
             } else {
@@ -260,33 +264,18 @@ class CliMulti
         return $response;
     }
 
-    private function hasFinished()
+    private function hasFinished(): bool
     {
+        $hasFinished = true;
+
         foreach ($this->processes as $index => $process) {
-            $hasStarted = $process->hasStarted();
-
-            if (!$hasStarted && 8 <= $process->getSecondsSinceCreation()) {
-                // if process was created more than 8 seconds ago but still not started there must be something wrong.
-                // ==> declare the process as finished
-                $process->finishProcess();
-                continue;
-            } elseif (!$hasStarted) {
-                return false;
+            if ($process instanceof ProcessSymfony) {
+                $processFinished = $this->hasFinishedProcessSymfony($process);
+            } else {
+                $processFinished = $this->hasFinishedProcess($process);
             }
 
-            if ($process->isRunning()) {
-                return false;
-            }
-
-            $pid = $process->getPid();
-            foreach ($this->outputs as $output) {
-                if ($output->getOutputId() === $pid && $output->isAbnormal()) {
-                    $process->finishProcess();
-                    continue;
-                }
-            }
-
-            if ($process->hasFinished()) {
+            if (true === $processFinished) {
                 // prevent from checking this process over and over again
                 unset($this->processes[$index]);
 
@@ -295,13 +284,63 @@ class CliMulti
                 }
 
                 if ($this->onProcessFinish) {
+                    $pid = $process->getPid();
                     $onProcessFinish = $this->onProcessFinish;
                     $onProcessFinish($pid);
                 }
             }
+
+            $hasFinished = $hasFinished && $processFinished;
         }
 
-        return true;
+        return $hasFinished;
+    }
+
+    private function hasFinishedProcess(Process $process): bool
+    {
+        $hasStarted = $process->hasStarted();
+
+        if (!$hasStarted && 8 <= $process->getSecondsSinceCreation()) {
+            // if process was created more than 8 seconds ago but still not started there must be something wrong.
+            // ==> declare the process as finished
+            $process->finishProcess();
+            return true;
+        } elseif (!$hasStarted) {
+            return false;
+        }
+
+        if ($process->isRunning()) {
+            return false;
+        }
+
+        $pid = $process->getPid();
+
+        foreach ($this->outputs as $output) {
+            if ($output->getOutputId() === $pid && $output->isAbnormal()) {
+                $process->finishProcess();
+                return true;
+            }
+        }
+
+        return $process->hasFinished();
+    }
+
+    private function hasFinishedProcessSymfony(ProcessSymfony $process): bool
+    {
+        $finished = $process->isStarted() && !$process->isRunning();
+
+        if ($finished) {
+            foreach ($this->outputs as $output) {
+                if ($output->getOutputId() !== $process->getCommandId()) {
+                    continue;
+                }
+
+                $output->write($process->getOutput());
+                break;
+            }
+        }
+
+        return $finished;
     }
 
     private function generateCommandId($command)
@@ -365,8 +404,12 @@ class CliMulti
 
     private function cleanup()
     {
-        foreach ($this->processes as $pid) {
-            $pid->finishProcess();
+        foreach ($this->processes as $process) {
+            if ($process instanceof ProcessSymfony) {
+                $process->stop(0);
+            } else {
+                $process->finishProcess();
+            }
         }
 
         foreach ($this->outputs as $output) {
@@ -417,6 +460,29 @@ class CliMulti
 
         $this->logger->debug("Running command: {command}", ['command' => $command]);
         shell_exec($command);
+    }
+
+    private function executeAsyncCliSymfony(string $url, string $cmdId): void
+    {
+        $url = $this->appendTestmodeParamToUrlIfNeeded($url);
+        $query = UrlHelper::getQueryFromUrl($url, array());
+        $hostname = Url::getHost($checkIfTrusted = false);
+        $command = $this->buildCommand($hostname, $query, '', true);
+
+        $this->logger->debug("Running command: {command}", ['command' => $command]);
+
+        // Prepending "exec" is required to send signals to the process
+        // Not using array notation because $command can contain complex parameters
+        if ('\\' !== DIRECTORY_SEPARATOR) {
+            $command = 'exec ' . $command;
+        }
+
+        $process = ProcessSymfony::fromShellCommandline($command);
+        $process->setTimeout(null);
+        $process->start();
+        $process->setCommandId($cmdId);
+
+        $this->processes[] = $process;
     }
 
     private function executeSyncCli($url, StaticOutput $output)

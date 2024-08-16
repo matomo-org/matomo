@@ -61,6 +61,10 @@ class CliMultiTest extends SystemTestCase
         );
 
         \Piwik\Common::$isCliMode = true;
+
+        // deactivate symfony process usage by default
+        // required as local instance could have activated the feature flag
+        $this->cliMulti->supportsAsyncSymfony = false;
     }
 
     public function testRequestShouldNotFailAndReturnNoResponseIfNoUrlsAreGiven()
@@ -200,6 +204,18 @@ class CliMultiTest extends SystemTestCase
         $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion');
 
         $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion'));
+    }
+
+    public function testShouldRunWithSymfonyProcessIfDetected(): void
+    {
+        $this->cliMulti->supportsAsyncSymfony = true;
+
+        $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion');
+
+        $this->assertRequestReturnsValidResponses(
+            $urls,
+            ['getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion']
+        );
     }
 
     public function testCleanupNotRemovedFilesShouldOnlyRemoveFilesIfTheyAreOlderThanOneWeek()
