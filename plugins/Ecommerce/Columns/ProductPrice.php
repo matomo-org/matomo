@@ -12,7 +12,6 @@ namespace Piwik\Plugins\Ecommerce\Columns;
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Piwik;
-use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 
 class ProductPrice extends BaseProduct

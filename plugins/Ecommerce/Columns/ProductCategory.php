@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\Ecommerce\Columns;
 
-use Piwik\Columns\Dimension;
 use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
