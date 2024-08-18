@@ -1,6 +1,7 @@
 {
     "MultiSites": {
         "AllWebsitesDashboardDocumentation": "Denna rapport ger dig en informationsöversikt för var och en av dina webbplatser, som innehåller den mest allmänna statistiken om dina besökare.",
+        "AllWebsitesDashboardTitle": "Alla webbplatser",
         "Evolution": "Utveckling",
         "EvolutionComparisonDay": "%1$s %2$s denna dag jämfört med %3$s %2$s i den föregående delperioden (%4$s) Utveckling: %5$s",
         "EvolutionComparisonIncomplete": "Det valda tidsintervallet är %1$s färdigt.",
@@ -8,9 +9,17 @@
         "EvolutionComparisonProportional": "När den föregående perioden också var %1$s gången hade den uppskattats till %2$s %3$s\n(ur totalen av %4$s %3$s för den föregående perioden).",
         "EvolutionComparisonWeek": "%1$s %2$s denna veckan jämfört med %3$s %2$s i den föregående delperioden (%4$s) Utveckling: %5$s",
         "EvolutionComparisonYear": "%1$s %2$s detta år jämfört med %3$s %2$s i den föregående delperioden (%4$s) Utveckling: %5$s",
+        "EvolutionFromPreviousDay": "Från föregående dag",
+        "EvolutionFromPreviousMonth": "Från föregående månad",
+        "EvolutionFromPreviousPeriod": "Från föregående period",
+        "EvolutionFromPreviousWeek": "Från föregående vecka",
+        "EvolutionFromPreviousYear": "Från föregående år",
         "LoadingWebsites": "Laddar webbplatser",
         "PluginDescription": "Visa och jämför alla dina webbplatser i panelen 'Alla webbplatser'.",
         "SingleWebsitesDashboardDocumentation": "Denna rapport ger dig en informationsöversikt för en specifik webbplats, som innehåller den mest allmänna statistiken om dina besökare.",
-        "TopLinkTooltip": "Jämför statistik för alla dina webbplatser."
+        "TopLinkTooltip": "Jämför statistik för alla dina webbplatser.",
+        "TotalHits": "Träffar totalt",
+        "TotalPageviews": "Sidvisningar totalt",
+        "TotalVisits": "Besök totalt"
     }
 }

@@ -1,5 +1,8 @@
 {
     "CustomJsTracker": {
-        "DiagnosticPiwikJsWritable": "Zapisovatelný JavaScript záznam (%s)"
+        "DiagnosticPiwikJsMakeWritable": "Doporučujeme nastavit %1$s jako zapisovatelný pomocí tohoto příkazu: %2$s",
+        "DiagnosticPiwikJsNotWritable": "Soubor Matomo JavaScript tracker %s není zapisovatelný, což znamená, že jiné zásuvné moduly nemohou rozšířit JavaScript tracker. V budoucnu by dokonce některé základní funkce nemusely fungovat podle očekávání.",
+        "DiagnosticPiwikJsWritable": "Zapisovatelný JavaScript záznam (%s)",
+        "PluginDescription": "Umožňuje libovolnému zásuvnému modulu rozšířit soubor Matomo JavaScript Tracking (matomo.js) a přidat nové funkce a možnosti měření webových stránek."
     }
 }
