@@ -19,6 +19,10 @@ on:
         type: boolean
         required: false
         default: false
+      ref:
+        type: string
+        required: false
+        default: ''
 
 permissions:
   actions: read
@@ -33,7 +37,7 @@ permissions:
   statuses: none
 
 concurrency:
-  group: php-${{ github.ref }}
+  group: php-${{ inputs.ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -66,7 +70,7 @@ jobs:
           persist-credentials: false
           submodules: true
           path: matomo
-          ref: ${{ inputs.is_preview == true && '5.x-preview' || github.ref }}
+          ref: ${{ inputs.ref || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -88,7 +92,7 @@ jobs:
           persist-credentials: false
           submodules: true
           path: matomo
-          ref: ${{ inputs.is_preview == true && '5.x-preview' || github.ref }}
+          ref: ${{ inputs.ref || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -105,7 +109,7 @@ jobs:
           persist-credentials: false
           submodules: true
           path: matomo
-          ref: ${{ inputs.is_preview == true && '5.x-preview' || github.ref }}
+          ref: ${{ inputs.ref || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -125,7 +129,7 @@ jobs:
           persist-credentials: false
           submodules: true
           path: matomo
-          ref: ${{ inputs.is_preview == true && '5.x-preview' || github.ref }}
+          ref: ${{ inputs.ref || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
