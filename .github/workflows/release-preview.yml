@@ -156,6 +156,7 @@ jobs:
       needs.prepare_preview_version.outputs.has_new_version == '1'
     with:
       is_preview: true
+      ref: 5.x-preview
 
   release_preview_version:
     needs: [run_matomo_tests]
@@ -168,6 +169,7 @@ jobs:
       needs.prepare_preview_version.outputs.has_new_version == '1'
     with:
       is_preview: true
+      ref: 5.x-preview
     secrets:
       RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
       GPG_CERTIFICATE: ${{ secrets.GPG_CERTIFICATE }}
