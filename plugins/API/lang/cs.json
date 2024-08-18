@@ -2,15 +2,16 @@
     "API": {
         "ChangeTokenHint": "Pokud chcete tento token změnit, %1$snavštivte na stránku s osobními nastaveními%2$s.",
         "EvolutionMetricName": "%s Vývoj",
+        "GenerateVisits": "Pokud nemáte data pro dnešní den, můžete si je vygenerovat pomocí zásuvného modulu %1$s v části „Vývoj → Generátor návštěvníků“ v administraci systému Matomo.",
         "Glossary": "Glosář",
         "KeepTokenSecret": "Tento token_auth je tajný jako vaše uživatelské jméno a heslo, %1$s neříkejte jej nikomu jinému %2$s!",
-        "LearnAboutCommonlyUsedTerms2": "Přečtěte si o běžně používaných výrazech, abyste mohli co nejlépe využít Matomo Analytics.",
-        "LoadedAPIs": "Úspěšně načteno %s API",
-        "MainMetricsReportDocumentation": "Tato sestava poskytuje přehled nejdůležitějších metrik ve všech kategoriích a pluginech.",
+        "LearnAboutCommonlyUsedTerms2": "Seznamte se s běžně používanými termíny, abyste mohli co nejlépe využívat analytiku Matomo.",
+        "LoadedAPIs": "Načtené %s API",
+        "MainMetricsReportDocumentation": "Toto hlášení poskytuje přehled nejdůležitějších metrik napříč všemi kategoriemi a zásuvnými moduly.",
         "MoreInformation": "Podrobnosti o API Matoma najdete na stránce %1$s Úvod do API Matoma %2$s a v %3$s Referenci API Matoma %4$s.",
         "PluginDescription": "Všechna data v Matomu jsou dostupná pomocí jednoduchých API. Tento zásuvný modul je vstupním bodem těchto webových služeb, který vám umožňuje získat vaše analytická data jako XML, JSON, PHP, CSV atd.",
         "ReportingApiReference": "Reference API hlášení",
-        "TopLinkTooltip": "Zpřístupněte svoje Webové analýzy programově skrze jednoduché API pomocí json, xml a dalších.",
+        "TopLinkTooltip": "Programový přístup k datům služby Web Analytics prostřednictvím jednoduchého rozhraní API ve formátu JSON, XML atd.",
         "UserAuthentication": "Autentifikace uživatele",
         "UsingTokenAuth": "Pokud chcete %1$snačíst data ze skriptu, cronu, atd.%2$s, potřebujete přidat parametr '%3$s' k voláním API, která vyžadují přihlášení."
     }
