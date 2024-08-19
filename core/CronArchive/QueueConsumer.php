@@ -12,7 +12,6 @@ namespace Piwik\CronArchive;
 use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\CliMulti\RequestParser;
 use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\Model;
@@ -79,11 +78,6 @@ class QueueConsumer
     private $periodIdsToLabels;
 
     /**
-     * @var RequestParser
-     */
-    private $cliMultiRequestParser;
-
-    /**
      * @var int
      */
     private $idSite;
@@ -118,7 +112,6 @@ class QueueConsumer
         Model $model,
         SegmentArchiving $segmentArchiving,
         CronArchive $cronArchive,
-        RequestParser $cliMultiRequestParser,
         ArchiveFilter $archiveFilter = null
     ) {
         $this->logger = $logger;
@@ -128,7 +121,6 @@ class QueueConsumer
         $this->model = $model;
         $this->segmentArchiving = $segmentArchiving;
         $this->cronArchive = $cronArchive;
-        $this->cliMultiRequestParser = $cliMultiRequestParser;
         $this->archiveFilter = $archiveFilter;
 
         // if we skip or can't process an idarchive, we want to ignore it the next time we look for an invalidated
