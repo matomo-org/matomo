@@ -19,7 +19,6 @@ use Piwik\CronArchive\ArchiveFilter;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\Archive\ArchiveInvalidator;
-use Piwik\CliMulti\RequestParser;
 use Piwik\CronArchive\QueueConsumer;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\CronArchive\StopArchiverException;
@@ -230,11 +229,6 @@ class CronArchive
     private $archiveFilter;
 
     /**
-     * @var RequestParser
-     */
-    private $cliMultiRequestParser;
-
-    /**
      * @var bool|mixed
      */
     private $supportsAsync;
@@ -258,7 +252,6 @@ class CronArchive
         $this->periodIdsToLabels = array_flip(Piwik::$idPeriods);
 
         $this->supportsAsync = $this->makeCliMulti()->supportsAsync();
-        $this->cliMultiRequestParser = new RequestParser($this->supportsAsync);
 
         $this->archiveFilter = new ArchiveFilter();
     }
@@ -391,7 +384,6 @@ class CronArchive
             $this->model,
             $this->segmentArchiving,
             $this,
-            $this->cliMultiRequestParser,
             $this->archiveFilter
         );
 
