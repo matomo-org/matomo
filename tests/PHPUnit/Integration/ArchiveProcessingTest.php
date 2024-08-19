@@ -116,18 +116,18 @@ class ArchiveProcessingTest extends IntegrationTestCase
             {
                 if ($this->captureInserts) {
                     $this->capturedInserts[] = [$name, $value];
-                } else {
-                    parent::insertNumericRecord($name, $value);
                 }
+
+                parent::insertNumericRecord($name, $value);
             }
 
             public function insertBlobRecord($name, $values)
             {
                 if ($this->captureInserts) {
                     $this->capturedInserts[] = [$name, $values];
-                } else {
-                    parent::insertBlobRecord($name, $values);
                 }
+
+                parent::insertBlobRecord($name, $values);
             }
 
             public function getCapturedInserts()

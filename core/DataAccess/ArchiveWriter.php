@@ -197,6 +197,18 @@ class ArchiveWriter
 
     public function finalizeArchive()
     {
+        if (
+            empty($this->recordsToWriteSpool['blob'])
+            && count($this->recordsToWriteSpool['numeric']) === 1
+            && $this->recordsToWriteSpool['numeric'][0][0] === $this->doneFlag
+            && $this->parameters->isPartialArchive()
+        ) {
+            // This part avoids writing done flags for empty partial archives:
+            // We skip writing the records to the database if there aren't any blob records to write,
+            // the only available numeric record to write would be the done flag and the archive would only be partial
+            return;
+        }
+
         $this->flushSpools();
 
         $numericTable = $this->getTableNumeric();
@@ -219,7 +231,7 @@ class ArchiveWriter
             // sanity check, just in case nothing was inserted (the archive status should always be inserted)
             && !empty($this->earliestNow)
         ) {
-            $this->getModel()->deleteOlderArchives($this->parameters, $this->doneFlag, $this->earliestNow, $this->idArchive);
+            $this->getModel()->deleteOlderArchives($this->parameters, $this->doneFlag, $this->earliestNow, $idArchive);
         }
     }
 
