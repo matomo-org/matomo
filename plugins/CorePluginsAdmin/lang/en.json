@@ -83,7 +83,7 @@
         "Themes": "Themes",
         "ThemesDescription": "Themes can change the appearance of Matomo user interface, and provide a completely new visual experience to enjoy your analytics reports.",
         "ThemesManagement": "Manage Themes",
-        "UninstallConfirm": "You are about to uninstall a plugin %s. The plugin will be completely removed from your platform and it won't be recoverable. Are you sure you want to do this?",
+        "UninstallConfirm": "You are about to uninstall a plugin %s. The plugin and all the data it has collected will be completely removed from your platform and it won't be recoverable. Are you sure you want to do this?",
         "Version": "Version",
         "ViewAllMarketplacePlugins": "View all Marketplace plugins",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "The plugin %1$s could not be loaded as it has missing dependencies: %2$s",
