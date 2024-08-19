@@ -471,7 +471,14 @@ class CliMulti
         $hostname = Url::getHost($checkIfTrusted = false);
         $command = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
-        $this->logger->debug("Running command: {command}", ['command' => $command]);
+        $this->logger->debug(
+            'Running command: {command} [method = {method}]',
+            [
+                'command' => $command,
+                'method' => 'asyncCli',
+            ]
+        );
+
         shell_exec($command);
     }
 
@@ -482,7 +489,13 @@ class CliMulti
         $hostname = Url::getHost($checkIfTrusted = false);
         $command = $this->buildCommand($hostname, $query, '', true);
 
-        $this->logger->debug("Running command: {command}", ['command' => $command]);
+        $this->logger->debug(
+            'Running command: {command} [method = {method}]',
+            [
+                'command' => $command,
+                'method' => 'asyncCliSymfony',
+            ]
+        );
 
         // Prepending "exec" is required to send signals to the process
         // Not using array notation because $command can contain complex parameters
@@ -505,7 +518,14 @@ class CliMulti
         $hostname = Url::getHost($checkIfTrusted = false);
         $command = $this->buildCommand($hostname, $query, '', true);
 
-        $this->logger->debug("Running command: {command}", ['command' => $command]);
+        $this->logger->debug(
+            'Running command: {command} [method = {method}]',
+            [
+                'command' => $command,
+                'method' => 'syncCli',
+            ]
+        );
+
         $result = shell_exec($command);
         if ($result) {
             $result = trim($result);
