@@ -30,14 +30,9 @@ class ProductPrice extends BaseProduct
 
         $productRevenueTranslation = Piwik::translate('General_ProductRevenue');
         $translatedName = Piwik::translate('General_ComputedMetricSum', $productRevenueTranslation);
-        $metric1 = $dimensionMetricFactory->createCustomMetric('sum_product_revenue', $translatedName, 'sum(case %s when price > 0 then price * quantity else 0 end)');
+        $metric1 = $dimensionMetricFactory->createCustomMetric('sum_product_revenue', $translatedName, 'sum(case when %s > 0 then price * quantity else 0 end)');
         $metric1->setDocumentation(Piwik::translate('General_ComputedMetricSumDocumentation', $productRevenueTranslation));
         $metricsList->addMetric($metric1);
-
-        $translatedName = Piwik::translate('General_ComputedMetricMax', $productRevenueTranslation);
-        $metric2 = $dimensionMetricFactory->createCustomMetric('max_product_revenue', $translatedName, 'max(case %s when price > 0 then price * quantity else 0 end)');
-        $metric2->setDocumentation(Piwik::translate('General_ComputedMetricMaxDocumentation', $productRevenueTranslation));
-        $metricsList->addMetric($metric2);
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), 'conversion_items_with_ecommerce_productprice', ComputedMetric::AGGREGATION_AVG);
         $metric->setName('avg_product_revenue');
