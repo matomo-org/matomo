@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Zkopírovat přehled uživateli",
         "CreateNewDashboard": "Vytvořit novou nástěnku",
         "Dashboard": "Nástěnka",
+        "DashboardCategoryHelp": "Toto je stránka s ovládacím panelem. Ovládací panely jsou sbírkou widgetů Matomo, které si sami přidáváte podle svých specifických potřeb. Můžete kombinovat libovolné widgety Matomo a získat tak na první pohled data, která %1$s*vy*%2$s potřebujete.",
         "DashboardCopied": "Přehled byl úspěšně zkopírován vybranému uživateli.",
         "DashboardEmptyNotification": "Vaše nástěnka neobsahuje žádné widgety. Nějaké přidejte, nebo obnovte výchozí výběr widgetů na nástěnce.",
         "DashboardName": "Jméno nástěnky:",
