@@ -63,7 +63,7 @@
         "WidgetBrowserVersionsDocumentation": "Aquest informe conté informació sobre quin tipus de navegador està utilitzant els vostres visitants. Cada versió del navegador es llista per separat.",
         "WidgetBrowsers": "Navegadors",
         "WidgetBrowsersDocumentation": "Aquest informe conté informació sobre quin tipus de navegador estaven utilitzant els vostres visitants.",
-        "XVisitsFromDevices": "%1$s de visites provenen de %2$s dispositius",
+        "XVisitsFromDevices": "%1$s visites provenen de %2$s dispositius",
         "dataTableLabelBrands": "Marca",
         "dataTableLabelModels": "Model",
         "dataTableLabelSystemVersion": "Versió del sistema operatiu",

@@ -2,6 +2,8 @@
     "UserLanguage": {
         "BrowserLanguage": "Jazyk prohlížeče",
         "LanguageCode": "Jazykový kód",
-        "PluginDescription": "Hlásí jazyk prohlížeče vašich návštěvníků."
+        "PluginDescription": "Hlásí primární jazyk webového prohlížeče, který návštěvníci používají.",
+        "getLanguageCodeDocumentation": "Zobrazuje přesný kód jazyka, na který jsou nastaveny prohlížeče návštěvníka. (např. „Němčina - Rakousko (de-at)“)",
+        "getLanguageDocumentation": "Zobrazuje, jaký jazyk používají prohlížeče návštěvníků. (např. „Francouzština“)"
     }
 }
