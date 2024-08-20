@@ -13,6 +13,16 @@ on:
       - '**.x-dev'
       - 'next_release'
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      is_preview:
+        type: boolean
+        required: false
+        default: false
+      ref:
+        type: string
+        required: false
+        default: ''
 
 permissions:
   actions: read
@@ -27,14 +37,14 @@ permissions:
   statuses: none
 
 concurrency:
-  group: php-${{ github.ref }}
+  group: php-${{ inputs.ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
   PHP:
     runs-on: ubuntu-20.04
     strategy:
-      fail-fast: false
+      fail-fast: ${{ inputs.is_preview == true }}
       matrix:
         type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
         php: [ '7.2', '8.2', '8.3' ]
@@ -60,6 +70,7 @@ jobs:
           persist-credentials: false
           submodules: true
           path: matomo
+          ref: ${{ inputs.ref || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -81,6 +92,7 @@ jobs:
           persist-credentials: false
           submodules: true
           path: matomo
+          ref: ${{ inputs.ref || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -97,6 +109,7 @@ jobs:
           persist-credentials: false
           submodules: true
           path: matomo
+          ref: ${{ inputs.ref || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -106,7 +119,7 @@ jobs:
   UI:
     runs-on: ubuntu-20.04
     strategy:
-      fail-fast: false
+      fail-fast: ${{ inputs.is_preview == true }}
       matrix:
         parts: [ 0,1,2,3 ]
     steps:
@@ -116,6 +129,7 @@ jobs:
           persist-credentials: false
           submodules: true
           path: matomo
+          ref: ${{ inputs.ref || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:

@@ -474,7 +474,7 @@ class Controller extends Plugin\ControllerAdmin
             if (!empty($redirectTo) && $redirectTo === 'marketplace') {
                 $this->redirectToIndex('Marketplace', 'overview');
             } elseif (!empty($redirectTo) && $redirectTo === 'tagmanager') {
-                $this->redirectToIndex('TagManager', 'gettingStarted');
+                $this->redirectToIndex('TagManager', 'manageContainers');
             } elseif (!empty($redirectTo) && $redirectTo === 'referrer') {
                 $this->redirectAfterModification($redirectAfter);
             } else {

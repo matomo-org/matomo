@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "Následující zásuvné moduly zůstávají vždy aktivní a nelze je vypnout: %s",
         "AreThereAnyRisks": "Existují nějaká rizika?",
         "AreThereAnyRisksDetails1": "Když aktivujete Správce značek, uživatelé s přístupem pro správce budou moci vytvářet vlastní značky HTML, spouštěče a proměnné, které mohou na vašem webu spustit JavaScript. Tyto vlastní šablony by mohly být zneužity k odcizení například citlivých informací od návštěvníků vašeho webu (známých jako %1$sXSS%2$s).",
-        "AreThereAnyRisksDetails2": "Po aktivaci Správce značek můžete zakázat tyto vlastní šablony v části „Správa → Obecná nastavení“. Použití těchto šablon můžete také omezit pouze na konkrétní uživatele nebo super uživatele.",
+        "AreThereAnyRisksDetails2": "Tyto vlastní šablony můžete zakázat v části „Administrace → Obecná nastavení“ po aktivaci Správce značek. Případně můžete také omezit používání těchto šablon pouze na konkrétní uživatele nebo superuživatele.",
         "AuthorHomepage": "Domovská stránka autorů",
         "ChangeLookByManageThemes": "Vzhled Matoma můžete změnit %1$sve správě motivů%2$s.",
         "ChangeSettingsPossible": "Pro tento zásuvný modul můžete změnit %1$snastavení%2$s.",
@@ -36,6 +36,7 @@
         "MenuPlatform": "Platforma",
         "MissingRequirementsNotice": "Prosím aktualizujte %1$s%2$s na novější verzi, je vyžadována %1$s %3$s.",
         "MissingRequirementsPleaseInstallNotice": "Prosím nainstalujte %1$s %2$s, protože je vyžadován %3$s.",
+        "NUpdatesAvailable": "%1$s Dostupné aktualizace",
         "NoPluginSettings": "Žádná nastavení zásuvného modulu, která by bylo možné nastavit",
         "NoZipFileSelected": "Prosím vyberte soubor .zip.",
         "NotDownloadable": "Není ke stažení",
@@ -46,6 +47,9 @@
         "OriginOfficial": "Oficiální",
         "OriginThirdParty": "Třetí strana",
         "PluginActivated": "Modul aktivován",
+        "PluginFreeTrialStarted": "%1$sVaše 30denní bezplatné zkušební období začalo%2$s pro %3$s.",
+        "PluginFreeTrialStartedAccountCreatedMessage": "Přidali jsme váš licenční klíč a zahájili 30denní bezplatnou zkušební verzi za %1$s. Udělejte další krok - nainstalujte a aktivujte svůj zásuvný modul.",
+        "PluginFreeTrialStartedAccountCreatedTitle": "Váš účet byl vytvořen",
         "PluginHomepage": "Domovská stránka zásuvného modulu",
         "PluginNotCompatibleWith": "%1$s zásuvný modul není kompatibilní s %2$s.",
         "PluginNotDownloadable": "Zásuvný modul není ke stažení.",
@@ -68,7 +72,7 @@
         "TagManagerTeaserHideSuperUser": "Nezobrazovat tuto stránku žádnému uživateli",
         "TeaserExtendPiwik": "Rozšiřte Matomo s použitím zásuvných modulů a šablon",
         "TeaserExtendPiwikByPlugin": "Rozšiřte Matomo o %1$sinstalací zásuvného module z tržiště %2$s nebo %3$snahrajte zásuvný modul ve formátu .zip%4$s.",
-        "TeaserExtendPiwikByTheme": "Užijte si nový vzhled po %1$sinstalaci nového vzhledu%2$s.",
+        "TeaserExtendPiwikByTheme": "Vychutnejte si jiný vzhled díky %1$sinstalaci nového motivu%2$s.",
         "Theme": "Šablona",
         "Themes": "Šablony",
         "ThemesDescription": "Šablony mohou změnit vzhled uživatelského rozhraní Matoma a přinést nový zážitek z vašich analytických hlášení.",
@@ -85,6 +89,6 @@
         "WhyUsingATagManager": "Proč Správce značek?",
         "WhyUsingATagManagerDetails1": "Správce značek vám usnadní život! Už nemusíte čekat na vývojáře, abyste na svém webu upravili úryvky první nebo třetí strany, protože Správce značek vám dává možnost provést tyto změny a nasadit je na váš web.",
         "WhyUsingATagManagerDetails2": "Nemohlo to nikdy být pohodlnější a nejen že to umožňuje rychlejší uvedení změn na trh, ale také snížení nákladů.",
-        "WhyUsingATagManagerDetails3": "Díky tomu budou marketingové týmy, digitální a IT týmy šťastní ... Je to výhodné pro všechny!"
+        "WhyUsingATagManagerDetails3": "Díky tomu jsou spokojené marketingové týmy, digitální týmy i IT oddělení... Je to výhra pro všechny!"
     }
 }
