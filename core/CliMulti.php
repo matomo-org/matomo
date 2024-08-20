@@ -111,6 +111,21 @@ class CliMulti
     public function handleSignal(int $signal): void
     {
         $this->signal = $signal;
+
+        if (\SIGTERM !== $signal) {
+            return;
+        }
+
+        foreach ($this->processes as $process) {
+            if ($process instanceof ProcessSymfony) {
+                $this->logger->debug(
+                    'Aborting command: {command} [method = asyncCliSymfony]',
+                    ['command' => $process->getCommandLine()]
+                );
+
+                $process->stop(0);
+            }
+        }
     }
 
     /**
