@@ -140,14 +140,9 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         $this->assertArchiveInvalidationCount($inProgress = 1, $total = 12);
         $this->sendSignalToProcess($process, \SIGTERM);
 
-        self::$fixture->stepControl->unblockAPIArchiveReports();
-
         $this->waitForProcessToStop($process);
         $this->assertArchivingOutput($process, $method, \SIGTERM, $blockSpec);
-
-        // SIGTERM currently behaves like SIGINT
-        // this should become a "4" when full handling is available
-        $this->assertArchiveInvalidationCount($inProgress = 0, $total = 11);
+        $this->assertArchiveInvalidationCount($inProgress = 0, $total = 12);
     }
 
     public function getSigtermDuringArchivingData(): iterable
@@ -198,6 +193,11 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
                 $blockSpec['date'],
                 $blockSpec['segment']
             ), $processOutput);
+        }
+
+        if (\SIGTERM === $signal) {
+            self::assertRegExp('/Aborting command.*\[method = ' . $method . ']/', $processOutput);
+            self::assertStringContainsString('Archiving process killed, reset invalidation', $processOutput);
         }
     }
 
