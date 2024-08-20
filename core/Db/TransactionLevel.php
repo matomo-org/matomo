@@ -38,7 +38,15 @@ class TransactionLevel
         return strtolower($dbSettings->getEngine()) === 'innodb';
     }
 
+    /**
+     * @deprecated Use `setReadIsolationLevel`
+     */
     public function setUncommitted()
+    {
+        return $this->setReadIsolationLevel();
+    }
+
+    public function setReadIsolationLevel(): bool
     {
         if ($this->db->supportsUncommitted === false) {
             // we know "Uncommitted" transaction level is not supported, we don't need to do anything as it won't work to set the status
