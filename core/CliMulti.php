@@ -95,12 +95,22 @@ class CliMulti
      */
     private $logger;
 
+    /**
+     * @var int|null
+     */
+    private $signal = null;
+
     public function __construct(LoggerInterface $logger = null)
     {
         $this->supportsAsync = $this->supportsAsync();
         $this->supportsAsyncSymfony = $this->supportsAsyncSymfony();
 
         $this->logger = $logger ?: new NullLogger();
+    }
+
+    public function handleSignal(int $signal): void
+    {
+        $this->signal = $signal;
     }
 
     /**
@@ -124,13 +134,21 @@ class CliMulti
             }
         }
 
-        $chunks = array($piwikUrls);
+        $chunks = [$piwikUrls];
+
         if ($this->concurrentProcessesLimit) {
             $chunks = array_chunk($piwikUrls, $this->concurrentProcessesLimit);
         }
 
-        $results = array();
+        $results = [];
+
         foreach ($chunks as $urlsChunk) {
+            if (null !== $this->signal) {
+                $this->logSkippedRequests($urlsChunk);
+
+                continue;
+            }
+
             $results = array_merge($results, $this->requestUrls($urlsChunk));
         }
 
@@ -614,6 +632,16 @@ class CliMulti
         self::cleanupNotRemovedFiles();
 
         return $results;
+    }
+
+    private function logSkippedRequests(array $urls): void
+    {
+        foreach ($urls as $url) {
+            $this->logger->debug(
+                'Skipped climulti:request after abort signal received: {url}',
+                ['url' => $url]
+            );
+        }
     }
 
     private static function getSuperUserTokenAuth()
