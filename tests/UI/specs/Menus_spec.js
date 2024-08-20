@@ -115,7 +115,10 @@ describe("Menus", function () {
         });
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
-        $('.activateLeftMenu>span').click();
+        await page.evaluate(function(){
+          $('.activateLeftMenu>span').click();
+        });
+         await page.waitForTimeout(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('mobile_tag_manager_left_menu');
     });
