@@ -111,14 +111,19 @@ describe("Menus", function () {
         await page.waitForSelector('.pageWrap');
         await page.evaluate(function(){
             $('.activateTopMenu>span').click();
-            $('#topmenu-tagmanager').click()
+            $('#topmenu-tagmanager')[0].click()
         });
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
         await page.evaluate(function(){
-          $('.activateLeftMenu>span').click();
+          $('.icon-configure')[0].click();
         });
-         await page.waitForTimeout(250);
+        await page.waitForNetworkIdle();
+        await page.evaluate(function(){
+          $('.activateLeftMenu>span').click();
+          $('#mobile-left-menu .icon-chevron-down').click();
+        });
+        await page.waitForTimeout(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('mobile_tag_manager_left_menu');
     });
