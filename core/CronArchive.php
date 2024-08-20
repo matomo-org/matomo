@@ -908,6 +908,7 @@ class CronArchive
         }
 
         $isYesterday = $dateStr === 'yesterday';
+        $isToday = $dateStr === 'today';
         if ($isYesterday) {
             // Skip invalidation for yesterday if archiving for yesterday was already started after midnight in site's timezone
             $invalidationsInProgress = $this->model->getInvalidationsInProgress($idSite);
@@ -930,13 +931,15 @@ class CronArchive
             'date' => $date->getDatetime(),
         ]);
 
+        $skipSegments = $this->archiveFilter->isSkipSegmentsForToday() && $isToday;
+
         // if we are invalidating yesterday here, we are only interested in checking if there is no archive for yesterday, or the day has changed since
         // the last archive was archived (in which there may have been more visits before midnight). so we disable the ttl check, since any archive
         // will be good enough, if the date hasn't changed.
-        $this->invalidateWithSegments([$idSite], $date->toString(), 'day', false, $doNotIncludeTtlInExistingArchiveCheck = $isYesterday);
+        $this->invalidateWithSegments([$idSite], $date->toString(), 'day', false, $doNotIncludeTtlInExistingArchiveCheck = $isYesterday, $skipSegments);
     }
 
-    private function invalidateWithSegments($idSites, $date, $period, $_forceInvalidateNonexistent = false, $doNotIncludeTtlInExistingArchiveCheck = false)
+    private function invalidateWithSegments($idSites, $date, $period, $_forceInvalidateNonexistent = false, $doNotIncludeTtlInExistingArchiveCheck = false, bool $skipSegments = false)
     {
         if ($date instanceof Date) {
             $date = $date->toString();
@@ -975,6 +978,10 @@ class CronArchive
                     $cascadeDown = false,
                     $_forceInvalidateNonexistent
                 );
+            }
+
+            if ($skipSegments) {
+                continue;
             }
 
             foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segmentDefinition) {
