@@ -116,10 +116,6 @@ describe("Menus", function () {
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
         await page.evaluate(function(){
-          $('.icon-configure')[0].click();
-        });
-        await page.waitForNetworkIdle();
-        await page.evaluate(function(){
           $('.activateLeftMenu>span').click();
           $('#mobile-left-menu .icon-chevron-down').click();
         });
