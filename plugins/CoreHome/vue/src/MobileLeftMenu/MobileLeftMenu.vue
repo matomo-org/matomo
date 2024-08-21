@@ -11,7 +11,7 @@
       <ul class="collapsible collapsible-accordion" v-side-nav="{activator: activateLeftMenu}">
         <li>
           <a class="collapsible-header">
-            {{ translate(level1) }}<i :class="level2._icon || 'icon-chevron-down'"></i>
+            {{ translateOrDefault(level1) }}<i :class="level2._icon || 'icon-chevron-down'"></i>
           </a>
 
           <div class="collapsible-body">
