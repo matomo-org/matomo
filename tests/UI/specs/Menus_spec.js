@@ -121,7 +121,8 @@ describe("Menus", function () {
         });
         await page.waitForTimeout(250);
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('mobile_tag_manager_left_menu');
+        const element = await page.jQuery('#mobile-left-menu');
+        expect(await element.screenshot()).to.matchImage('mobile_tag_manager_left_menu');
     });
 
     // left menu on mobile
