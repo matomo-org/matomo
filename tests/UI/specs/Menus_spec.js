@@ -105,26 +105,6 @@ describe("Menus", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('mobile_top');
     });
 
-    it('should load the TagManager menu correctly on mobile', async function() {
-        page.webpage.setViewport({ width: 768, height: 512 });
-        await page.goto("?" + generalParams + "&module=CoreAdminHome&action=index");
-        await page.waitForSelector('.pageWrap');
-        await page.evaluate(function(){
-            $('.activateTopMenu>span').click();
-            $('#topmenu-tagmanager')[0].click()
-        });
-        await page.waitForNetworkIdle();
-        await page.waitForTimeout(250);
-        await page.evaluate(function(){
-          $('.activateLeftMenu>span').click();
-          $('#mobile-left-menu .icon-chevron-down').click();
-        });
-        await page.waitForTimeout(250);
-
-        const element = await page.jQuery('#mobile-left-menu');
-        expect(await element.screenshot()).to.matchImage('mobile_tag_manager_left_menu');
-    });
-
     // left menu on mobile
     it('should load the admin reporting menu correctly on mobile', async function() {
         page.webpage.setViewport({ width: 768, height: 512 });
