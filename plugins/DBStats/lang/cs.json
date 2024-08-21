@@ -10,7 +10,7 @@
         "MetricDataByYear": "Tabulky měření za rok",
         "MetricTables": "Tabulky měření",
         "OtherTables": "Ostatní tabulky",
-        "PluginDescription": "Poskytuje detailní hlášení o využití Mysql databáze. Dostupné pro super-uživatele pod diagnostikou.",
+        "PluginDescription": "Poskytuje podrobné přehledy o využití databáze MySQL. K dispozici pro superuživatele v části Diagnostika.",
         "ReportDataByYear": "Hlášení tabulek za rok",
         "ReportTables": "Tabulky hlášení",
         "RowCount": "Počet řádků",

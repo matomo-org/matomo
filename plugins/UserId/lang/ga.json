@@ -1,1 +1,10 @@
-{}
+{
+    "UserId": {
+        "PluginDescription": "Taispeáin tuairiscí úsáideoirí",
+        "ThereIsNoDataForThisReportHelp": "%1$s Léigh an treoirleabhar úsáideora le fáil amach conas sonraí a ghiniúint don tuarascáil seo.%2$s",
+        "UserId": "ID Úsáideora",
+        "UserReportDocumentation": "Taispeánann sé cuairteanna agus méadracht ghinearálta eile do gach ID Úsáideora aonair.",
+        "UserReportTitle": "Aitheantais Úsáideora",
+        "VisitorsUserSubcategoryHelp": "Taispeánann an tuarascáil aitheantais úsáideora cuairteanna a bhaineann le d'úsáideoirí cláraithe agus logáilte isteach go léir. Tuiscint a fháil ar úsáid an tsuímh Ghréasáin ag a shainúsáideoirí agus faigh amach cé hiad na húsáideoirí is mó agus is lú gníomhaí."
+    }
+}

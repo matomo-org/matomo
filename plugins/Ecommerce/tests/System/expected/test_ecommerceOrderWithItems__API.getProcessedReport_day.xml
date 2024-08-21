@@ -111,11 +111,6 @@
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
-			<row idgoal="1">
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>10</revenue>
-			</row>
 			<row idgoal="ecommerceAbandonedCart">
 				<nb_conversions>2</nb_conversions>
 				<nb_visits_converted>2</nb_visits_converted>
@@ -131,6 +126,11 @@
 				<revenue_shipping>100.11</revenue_shipping>
 				<revenue_discount>666</revenue_discount>
 				<items>10</items>
+			</row>
+			<row idgoal="1">
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>10</revenue>
 			</row>
 		</goals>
 		<nb_conversions>3</nb_conversions>

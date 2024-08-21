@@ -521,12 +521,18 @@ class Row extends \ArrayObject
                 $newValue = null;
                 break;
             case 'max':
-                $newValue = max($thisColumnValue, $columnToSumValue);
+                if ($this->isValueConsideredEmpty($thisColumnValue)) {
+                    $newValue = $columnToSumValue;
+                } elseif ($this->isValueConsideredEmpty($columnToSumValue)) {
+                    $newValue = $thisColumnValue;
+                } else {
+                    $newValue = max($thisColumnValue, $columnToSumValue);
+                }
                 break;
             case 'min':
-                if (!$thisColumnValue) {
+                if ($this->isValueConsideredEmpty($thisColumnValue)) {
                     $newValue = $columnToSumValue;
-                } elseif (!$columnToSumValue) {
+                } elseif ($this->isValueConsideredEmpty($columnToSumValue)) {
                     $newValue = $thisColumnValue;
                 } else {
                     $newValue = min($thisColumnValue, $columnToSumValue);
@@ -556,6 +562,11 @@ class Row extends \ArrayObject
                 throw new Exception("Unknown operation '$operation'.");
         }
         return $newValue;
+    }
+
+    private function isValueConsideredEmpty($value): bool
+    {
+        return in_array($value, [null, false, ''], true);
     }
 
     /**

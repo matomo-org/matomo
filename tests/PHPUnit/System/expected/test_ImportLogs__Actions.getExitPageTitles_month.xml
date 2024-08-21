@@ -49,8 +49,8 @@
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
 		<nb_hits_with_time_server>2</nb_hits_with_time_server>
-		<min_time_server>0.359</min_time_server>
-		<max_time_server>0.359</max_time_server>
+		<min_time_server>0.3590</min_time_server>
+		<max_time_server>0.3590</max_time_server>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />

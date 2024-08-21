@@ -46,9 +46,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
                 ->setMaxRowsInTable(ArchivingHelper::$maximumRowsInDataTableSiteSearch),
 
             Record::make(Record::TYPE_BLOB, Archiver::PAGE_URLS_RECORD_NAME)
-                ->setBlobColumnAggregationOps(Metrics::$columnsAggregationOperation),
+                ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation()),
             Record::make(Record::TYPE_BLOB, Archiver::PAGE_TITLES_RECORD_NAME)
-                ->setBlobColumnAggregationOps(Metrics::$columnsAggregationOperation),
+                ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation()),
 
             Record::make(Record::TYPE_BLOB, Archiver::DOWNLOADS_RECORD_NAME),
             Record::make(Record::TYPE_BLOB, Archiver::OUTLINKS_RECORD_NAME),
@@ -184,7 +184,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
                 || $type == Action::TYPE_PAGE_TITLE
             ) {
                 // for page urls and page titles, performance metrics exist and have to be aggregated correctly
-                $dataTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::$columnsAggregationOperation);
+                $dataTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
             }
 
             $result[$type] = $dataTable;

@@ -526,8 +526,8 @@ PageRenderer.prototype.getWholeCurrentUrl = function () {
     return this.webpage.evaluate(() => window.location.href);
 };
 
-PageRenderer.prototype.allowClipboard = function () {
-    this.browserContext.overridePermissions(this.getWholeCurrentUrl(), ['clipboard-read', 'clipboard-write']);
+PageRenderer.prototype.allowClipboard = async function () {
+    await this.browserContext.overridePermissions(await this.getWholeCurrentUrl(), ['clipboard-read', 'clipboard-write']);
 };
 
 

@@ -48,6 +48,7 @@
         "PurgeOldData": "我想删除一些旧数据",
         "Question0": "您在使用Matomo时遇到的最大问题或痛点是什么，为什么？",
         "Question1": "什么是您希望在Matomo中改进的一个方面，为什么？",
+        "Question2": "您最缺少 Matomo 的功能是什么？为什么？",
         "Question3": "您在Matomo中最怀念的功能是什么，为什么？",
         "Question4": "您对Matomo的主要关切是什么？",
         "RateFeatureConfigurable": "可配置",

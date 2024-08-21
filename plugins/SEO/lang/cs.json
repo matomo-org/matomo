@@ -3,7 +3,7 @@
         "Bing_IndexedPages": "Stránek zaindexovaných Bingem",
         "DomainAge": "Staří domény",
         "Google_IndexedPages": "Stránek zaindexovaných Googlem",
-        "PluginDescription": "Tento plugin extrahuje a zobrazuje SEO metriky: pořadí v Alexa web, Google PageRank, počet indexovaných stránek a zpětných odkazů aktuálně vybraného webu.",
+        "PluginDescription": "Tento plugin extrahuje a zobrazuje metriky SEO: V případě, že se jedná o webovou stránku, která je aktuálně vybrána, je možné použít tento nástroj: Google Pagerank, počet indexovaných stránek a zpětné odkazy.",
         "Rank": "Hodnocení",
         "SEORankingsFor": "SEO hodnocení pro %s",
         "SeoRankings": "Hodnocení SEO"

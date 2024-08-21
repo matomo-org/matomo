@@ -1,1 +1,18 @@
-{}
+{
+    "API": {
+        "ChangeTokenHint": "Más mian leat an comhartha seo a athrú, téigh chuig do leathanach socruithe pearsanta %1$s%2$s.",
+        "EvolutionMetricName": "%s Éabhlóid",
+        "GenerateVisits": "Mura bhfuil sonraí agat don lá atá inniu ann, is féidir leat roinnt a ghiniúint trí úsáid a bhaint as an mbreiseán %1$s trí dul go dtí 'Forbairt → Gineadóir Cuairteoirí' i limistéar riaracháin Matomo.",
+        "Glossary": "Gluais",
+        "KeepTokenSecret": "Tá an token_auth seo chomh rúnda le do logáil isteach agus pasfhocal, ní roinneann %1$s é %2$s!",
+        "LearnAboutCommonlyUsedTerms2": "Foghlaim faoi théarmaí a úsáidtear go coitianta chun an leas is fearr a bhaint as anailísíocht Matomo.",
+        "LoadedAPIs": "Lódáilte %s APIs",
+        "MainMetricsReportDocumentation": "Tugann an tuarascáil seo forbhreathnú ar na méadrachtaí is tábhachtaí thar gach catagóir agus breiseán.",
+        "MoreInformation": "Tuilleadh eolais faoi na APInna Matomo atá ar fáil i %1$sRéamhrá ar Matomo API%2$s agus Tagairt API %3$sMatomo%4$s.",
+        "PluginDescription": "Tá na sonraí go léir i Matomo ar fáil trí APIs simplí. Is é an breiseán seo an pointe iontrála don tseirbhís ghréasáin, ar féidir leat glaoch air chun do shonraí anailísíochta gréasáin a fháil in XML, JSON, PHP, CSV, etc.",
+        "ReportingApiReference": "Tagairt API Tuairiscithe",
+        "TopLinkTooltip": "Faigh rochtain ar do shonraí Web Analytics go ríomhchláraithe trí API simplí in JSON, XML, etc.",
+        "UserAuthentication": "Fíordheimhniú úsáideora",
+        "UsingTokenAuth": "Más mian leat %1$s sonraí a iarraidh laistigh de script, crontab, srl.%2$s ní mór duit an paraiméadar URL '%3$s' a chur leis na glaonna API le haghaidh URLanna a dteastaíonn fíordheimhniú uathu."
+    }
+}

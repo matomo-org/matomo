@@ -27,6 +27,7 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\Model;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
+use Piwik\Period\Day;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\Period\Range;
@@ -914,6 +915,24 @@ class CronArchive
             return;
         }
 
+        $isYesterday = $dateStr === 'yesterday';
+        if ($isYesterday) {
+            // Skip invalidation for yesterday if archiving for yesterday was already started after midnight in site's timezone
+            $invalidationsInProgress = $this->model->getInvalidationsInProgress($idSite);
+            $today = Date::factoryInTimezone('today', $timezone);
+
+            foreach ($invalidationsInProgress as $invalidation) {
+                if (
+                    $invalidation['period'] == Day::PERIOD_ID
+                    && $date->toString() === $invalidation['date1']
+                    && Date::factory($invalidation['ts_started'], $timezone)->getTimestamp() >= $today->getTimestamp()
+                ) {
+                    $this->logger->debug("  " . ucfirst($dateStr) . " archive already in process for idSite = $idSite, skipping invalidation...");
+                    return;
+                }
+            }
+        }
+
         $this->logger->info("  Will invalidate archived reports for $dateStr in site ID = {idSite}'s timezone ({date}).", [
             'idSite' => $idSite,
             'date' => $date->getDatetime(),
@@ -922,7 +941,6 @@ class CronArchive
         // if we are invalidating yesterday here, we are only interested in checking if there is no archive for yesterday, or the day has changed since
         // the last archive was archived (in which there may have been more visits before midnight). so we disable the ttl check, since any archive
         // will be good enough, if the date hasn't changed.
-        $isYesterday = $dateStr == 'yesterday';
         $this->invalidateWithSegments([$idSite], $date->toString(), 'day', false, $doNotIncludeTtlInExistingArchiveCheck = $isYesterday);
     }
 

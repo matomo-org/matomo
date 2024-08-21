@@ -1,1 +1,24 @@
-{}
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s – %2$s nóim",
+        "BetweenXYSeconds": "%1$s – %2$ss",
+        "ColumnPagesPerVisit": "Leathanaigh in aghaidh na cuairte",
+        "ColumnVisitDuration": "Fad cuairte",
+        "Engagement": "Rannpháirtíocht",
+        "NPages": "%s leathanach",
+        "OnePage": "1 leathanach",
+        "PluginDescription": "Suim na gcuairteoirí: líon na leathanach ar breathnaíodh orthu, am a caitheadh ar an suíomh Gréasáin, laethanta ón gcuairt dheireanach, agus go leor eile.",
+        "VisitNum": "Uimhir chuairte",
+        "VisitsByDaysSinceLast": "Cuairteanna de réir laethanta ón gcuairt dheireanach",
+        "VisitsPerDuration": "Cuairteanna in aghaidh fad na cuairte",
+        "VisitsPerNbOfPages": "Cuairteanna de réir líon na leathanach",
+        "WidgetLengths": "Fad na gcuairteanna",
+        "WidgetLengthsDocumentation": "Cé mhéad cuairt a raibh ré iomlán áirithe acu. Ar dtús, taispeántar an tuarascáil mar scamall clibe, ina bhfuil cló níos mó ag tréimhsí níos coitianta.",
+        "WidgetPages": "Leathanaigh in aghaidh na cuairte",
+        "WidgetPagesDocumentation": "Cé mhéad cuairt a bhí i gceist le líon áirithe radharcanna leathanach. Ar dtús, taispeántar an tuarascáil mar scamall clibeanna, ina bhfuil cló níos mó ag líon níos coitianta leathanaigh.",
+        "WidgetVisitsByDaysSinceLast": "Cuairteanna de réir laethanta ón gcuairt dheireanach",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Cé mhéad cuairt a thug cuairteoirí a tháinig ar ais a raibh a gcuairt dheireanach roinnt laethanta ó shin.",
+        "WidgetVisitsByNumDocumentation": "Líon na gcuairteoirí a shroich a n-Oú cuairt. i.e. líon iomlán na gcuairteoirí a thugann cuairt ar do láithreán gréasáin méid áirithe uaireanta nó níos mó.",
+        "visitsByVisitCount": "Cuairteanna de réir uimhir chuairte"
+    }
+}

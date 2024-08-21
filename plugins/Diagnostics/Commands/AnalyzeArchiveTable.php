@@ -62,14 +62,16 @@ class AnalyzeArchiveTable extends ConsoleCommand
         $totalError = 0;
         $totalSegment = 0;
         $totalBlobLength = 0;
+
         foreach ($rows as $row) {
-            $totalArchives += $row['count_archives'];
-            $totalInvalidated += $row['count_invalidated_archives'];
-            $totalTemporary += $row['count_temporary_archives'];
-            $totalError += $row['count_error_archives'];
-            $totalSegment += $row['count_segment_archives'];
+            $totalArchives += (int) $row['count_archives'];
+            $totalInvalidated += (int) $row['count_invalidated_archives'];
+            $totalTemporary += (int) $row['count_temporary_archives'];
+            $totalError += (int) $row['count_error_archives'];
+            $totalSegment += (int) $row['count_segment_archives'];
+
             if (isset($row['sum_blob_length'])) {
-                $totalBlobLength += $row['sum_blob_length'];
+                $totalBlobLength += (int) $row['sum_blob_length'];
             }
         }
 

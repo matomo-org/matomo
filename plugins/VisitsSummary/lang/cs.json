@@ -17,11 +17,12 @@
         "NbUniquePageviewsDescription": "jedinečných zobrazení",
         "NbUniqueVisitors": "jedineční návštěvníci",
         "NbUsersDescription": "uživatelů",
-        "NbVisitsDescription": "návštěv",
         "NbVisitsBounced": "návštěvníků odešlo (opustilo web po jedné stránce)",
+        "NbVisitsDescription": "návštěv",
         "PluginDescription": "Hlásí základní analytická měření: počet návštěv a jedinečných návštěvníků, počet akcí, frekvenci odrazu atd.",
         "VisitsSummary": "Shrnutí návštěv",
         "VisitsSummaryDocumentation": "Toto je přehled vývoje návštěv.",
+        "VisitsSummaryReportDocumentation": "Toto hlášení poskytuje velmi obecný přehled o tom, jak se návštěvníci chovají.",
         "WidgetLastVisits": "Graf posledních návštěv",
         "WidgetOverviewGraph": "Přehled s grafem",
         "WidgetVisits": "Přehled návštěv"

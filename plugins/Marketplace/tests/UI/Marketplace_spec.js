@@ -186,6 +186,15 @@ describe("Marketplace", function () {
             await captureWithPluginDetails('paid_plugin_details_valid_license_' + mode + '_installed');
         });
 
+        it('should show an add to cart button with user selector', async function() {
+            setEnvironment(mode, noLicense);
+
+            var isFree = false;
+            await loadPluginDetailPage('Paid Plugin 1', isFree);
+
+            await captureWithPluginDetails('paid_plugin_details_add_to_cart_' + mode);
+        });
+
         it('should show paid plugin details when having valid license', async function() {
             setEnvironment(mode, exceededLicense);
 

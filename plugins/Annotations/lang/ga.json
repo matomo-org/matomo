@@ -1,1 +1,22 @@
-{}
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Cuir nótaí le %s leis…",
+        "AnnotationOnDate": "Anótáil ar %1$s: %2$s",
+        "Annotations": "Anótálacha",
+        "ClickToDelete": "Cliceáil chun an nóta seo a scriosadh.",
+        "ClickToEdit": "Cliceáil chun an nóta seo a chur in eagar.",
+        "ClickToEditOrAdd": "Cliceáil chun nóta nua a chur in eagar nó a chur leis.",
+        "ClickToStarOrUnstar": "Cliceáil chun an nóta seo a réiltín nó a bhaint de.",
+        "CreateNewAnnotation": "Cruthaigh nóta nua…",
+        "EnterAnnotationText": "Cuir isteach do nóta…",
+        "HideAnnotationsFor": "Folaigh nótaí do %s…",
+        "IconDesc": "Féach ar nótaí don raon dátaí seo.",
+        "IconDescHideNotes": "Folaigh nótaí don raon dáta seo.",
+        "InlineQuickHelp": "Is féidir leat nótaí a chruthú chun imeachtaí speisialta a mharcáil (cosúil le blagphost nua, nó athdhearadh láithreán gréasáin), chun do anailísí sonraí a shábháil nó chun aon rud eile a cheapann tú atá tábhachtach a shábháil.",
+        "LoginToAnnotate": "Logáil isteach chun nóta a chruthú.",
+        "NoAnnotations": "Níl aon nótaí ann don raon dátaí seo.",
+        "PluginDescription": "Ligeann sé duit nótaí a cheangal le laethanta éagsúla chun athruithe a rinneadh ar do shuíomh Gréasáin a mharcáil, chun anailísí a dhéanann tú ar do shonraí a shábháil agus chun do chuid smaointe a roinnt le do chomhghleacaithe. Trí do shonraí a anótáil, cinnteoidh tú go gcuimhneoidh tú cén fáth a bhreathnaíonn do shonraí mar a dhéanann siad.",
+        "ViewAndAddAnnotations": "Féach ar agus cuir nótaí le %s leis…",
+        "YouCannotModifyThisNote": "Ní féidir leat an nóta seo a mhodhnú, toisc nár chruthaigh tú é, agus níl rochtain riaracháin agat ar an suíomh seo."
+    }
+}

@@ -51,6 +51,23 @@ class Tidb extends Mysql
         return $options;
     }
 
+    public function isOptimizeInnoDBSupported(): bool
+    {
+        return false;
+    }
+
+    public function optimizeTables(array $tables, bool $force = false): bool
+    {
+        // OPTIMIZE TABLE not supported for TiDb
+        return false;
+    }
+
+    public function supportsSortingInSubquery(): bool
+    {
+        // TiDb optimizer removes all sorting from subqueries
+        return false;
+    }
+
     protected function getDatabaseCreateOptions(): string
     {
         $charset = DbHelper::getDefaultCharset();

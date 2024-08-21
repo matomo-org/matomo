@@ -191,8 +191,15 @@ class LoaderTest extends IntegrationTestCase
                 'date2' => '2020-01-20',
                 'period' => '1',
             ],
+            // Why archive 4 is missing:
+            // Triggering the archiving will at first archive core metrics (aka VisitsSummary) if they are not yet available.
+            // In case there were no visits, the created archive will only contain a done flag, but no other metrics.
+            // This causes the archiving (for core metrics) to be triggered again, which will create a new (empty) archive, while removing the previous one.
+            // As archiving dependent segments also first triggers archiving VisitsSummary, it creates an empty archive.
+            // Afterwards when archiving the Goals plugin it will archive VisitsSummary again, as the previous one is empty.
+            // Which then causes this missing archive id.
             [
-                'idarchive' => '4',
+                'idarchive' => '5',
                 'name' => 'donefea44bece172bc9696ae57c26888bf8a.VisitsSummary',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -200,7 +207,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '1',
             ],
             [
-                'idarchive' => '5',
+                'idarchive' => '6',
                 'name' => 'donefea44bece172bc9696ae57c26888bf8a.Goals',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -251,8 +258,9 @@ class LoaderTest extends IntegrationTestCase
                 'date2' => '2020-01-20',
                 'period' => '1',
             ],
+            // archive 4 is missing as VisitsSummary is archived twice, as it doesn't contain data
             [
-                'idarchive' => '4',
+                'idarchive' => '5',
                 'name' => 'donefea44bece172bc9696ae57c26888bf8a.VisitsSummary',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -260,7 +268,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '1',
             ],
             [
-                'idarchive' => '5',
+                'idarchive' => '6',
                 'name' => 'donefea44bece172bc9696ae57c26888bf8a.Goals',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -270,7 +278,7 @@ class LoaderTest extends IntegrationTestCase
 
             // start of new archives
             [
-                'idarchive' => '6',
+                'idarchive' => '7',
                 'name' => 'done.VisitsSummary',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -278,7 +286,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '2',
             ],
             [
-                'idarchive' => '7',
+                'idarchive' => '8',
                 'name' => 'done.VisitsSummary',
                 'value' => '1',
                 'date1' => '2020-01-22',
@@ -286,7 +294,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '1',
             ],
             [
-                'idarchive' => '8',
+                'idarchive' => '9',
                 'name' => 'done.ExamplePlugin',
                 'value' => '5',
                 'date1' => '2020-01-20',
@@ -294,7 +302,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '2',
             ],
             [
-                'idarchive' => '9',
+                'idarchive' => '10',
                 'name' => 'done.ExamplePlugin',
                 'value' => '5',
                 'date1' => '2020-01-22',
@@ -744,24 +752,6 @@ class LoaderTest extends IntegrationTestCase
                         'value' => '1',
                     ),
                     array (
-                        'idarchive' => '2',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'done.ExamplePlugin',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '2',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'ExamplePlugin_example_metric',
-                        'value' => '-603',
-                    ),
-                    array (
                         'idarchive' => '3',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -967,15 +957,6 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'ExamplePlugin_example_metric',
                         'value' => '-603',
-                    ),
-                    array (
-                        'idarchive' => '3',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'done.ExamplePlugin',
-                        'value' => '5',
                     ),
                 ),
                 $reportSpecificArchive2,

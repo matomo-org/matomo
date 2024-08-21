@@ -194,7 +194,7 @@ class DeleteLogsData extends ConsoleCommand
 
             $prefixedTable = Common::prefixTable($table);
 
-            $done = Db::optimizeTables($prefixedTable);
+            $done = Db\Schema::getInstance()->optimizeTables([$prefixedTable]);
 
             if ($done) {
                 $this->getOutput()->writeln("done. <comment>" . $timer . "</comment>");

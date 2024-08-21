@@ -1,1 +1,16 @@
-{}
+{
+    "MultiSites": {
+        "AllWebsitesDashboardDocumentation": "Tugann an tuarascáil seo forbhreathnú faisnéiseach duit ar gach ceann de do láithreáin ghréasáin, ina bhfuil na méadrachtaí is ginearálta faoi do chuairteoirí.",
+        "Evolution": "Éabhlóid",
+        "EvolutionComparisonDay": "%1$s %2$s an lá seo i gcomparáid le %3$s %2$s sa tréimhse pháirteach roimhe (%4$s) Éabhlóid: %5$s",
+        "EvolutionComparisonIncomplete": "Tá an tréimhse ama roghnaithe faoi láthair %1$s críochnaithe.",
+        "EvolutionComparisonMonth": "%1$s %2$s an mhí seo i gcomparáid le %3$s %2$s sa tréimhse pháirteach roimhe seo (%4$s) Éabhlóid: %5$s",
+        "EvolutionComparisonProportional": "Nuair a bhí an tréimhse roimhe %1$s críochnaithe freisin, bheadh thart ar %2$s %3$s\n(as iomlán de %4$s %3$s sa tréimhse roimhe sin).",
+        "EvolutionComparisonWeek": "%1$s %2$s an tseachtain seo i gcomparáid le %3$s %2$s sa tréimhse pháirteach roimhe seo (%4$s) Éabhlóid: %5$s",
+        "EvolutionComparisonYear": "%1$s %2$s i mbliana i gcomparáid le %3$s %2$s sa tréimhse pháirteach roimhe (%4$s) Éabhlóid: %5$s",
+        "LoadingWebsites": "Láithreáin ghréasáin á lódáil",
+        "PluginDescription": "Féach ar do shuímh Ghréasáin agus aipeanna go léir agus déan iad a chur i gcomparáid sa phainéal úsáideach 'Gach Láithreán Gréasáin' seo.",
+        "SingleWebsitesDashboardDocumentation": "Tugann an tuarascáil seo forbhreathnú faisnéiseach duit ar shuíomh Gréasáin ar leith, ina bhfuil na méadrachtaí is ginearálta faoi do chuairteoirí.",
+        "TopLinkTooltip": "Déan comparáid idir stats Web Analytics do do Láithreáin Ghréasáin go léir."
+    }
+}

@@ -4,7 +4,6 @@
         "JsTrackingCodeInstallCheckFailureMessageWordpress": "Jarraipen-kodearen egiaztapenak huts egin du. Egiaztatu \"%1$s\" instalatu duzula eta pauso guztiak jarraitu dituzula. %2$sIkasi gehiago%3$s.",
         "JsTrackingCodeInstallCheckSuccessMessage": "Jarraipen-kodea behar bezala instalatu da! Zure webgunetik jarraipen-daturen bat jaso bezain laster itxiko da pantaila hau.",
         "PluginDescription": "Egiaztatu jarraipen-kodea zure gunean instalatu dela eta zure Matomo instantziara jarraipen-eskaerak bidali ditzakeela",
-        "TestInstallationBtnText": "Probatu instalazioa",
-        "TestInstallationDescription": "Jarraipen-kodeak zure Matomo instantziara eskaerak bidali ditzakeela egiaztatzeko, sartu jarraitzen ari zaren URL zehatza eta egin klik \"Probatu instalazioa\". Fitxa berri bat irekiko da, eta 10 segundo baino gutxiagoan itxi beharko luke."
+        "TestInstallationBtnText": "Probatu instalazioa"
     }
 }

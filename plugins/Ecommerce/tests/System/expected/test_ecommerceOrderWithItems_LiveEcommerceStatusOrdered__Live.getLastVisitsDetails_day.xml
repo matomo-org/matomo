@@ -18,6 +18,9 @@
 				<items>2</items>
 				
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 					<row>
 						<itemSKU>TRIPOD SKU</itemSKU>
@@ -47,6 +50,9 @@
 				<items>0</items>
 				
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
@@ -250,6 +256,9 @@
 				<items>4</items>
 				
 				
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>

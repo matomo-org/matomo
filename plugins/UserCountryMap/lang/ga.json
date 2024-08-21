@@ -1,1 +1,28 @@
-{}
+{
+    "UserCountryMap": {
+        "AndNOthers": "agus %s eile",
+        "Cities": "Cathracha",
+        "Countries": "Tíortha",
+        "DaysAgo": "%s lá ó shin",
+        "GoalConversions": "Tiontuithe sprice %s",
+        "HoursAgo": "%s uair ó shin",
+        "MinutesAgo": "%s nóiméad ó shin",
+        "NoVisit": "Gan cuairt",
+        "NoVisitsInfo": "Níor taispeánadh cuairteanna ar bith, mar níl faisnéis cheart (domhanleithead agus domhanfhad) geolocation ag aon chuairteanna don tréimhse seo.",
+        "NoVisitsInfo2": "Réitigh an cheist seo trí úsáid a bhaint as soláthraí geolocation GeoIP le bunachar sonraí cathrach GeoIP. D'fhéadfadh sé a bheith dodhéanta fós seoltaí IP (Cé nach dócha) a geolonnú.",
+        "None": "Dada",
+        "PluginDescription": "Soláthraíonn sé na giuirléidí \"Mapa Cuairteoirí\" agus \"Mapa Fíor-ama\". Teastaíonn an breiseán \"UserCountry\".",
+        "RealTimeMap": "Léarscáil fíor-ama",
+        "RealTimeMapHelp": "Taispeáin suíomh cuairteoirí an tsuímh Ghréasáin le 30 nóiméad anuas, agus flashes do chinn nua. Taispeántar cuairteanna le déanaí mar boilgeoga móra oráiste, agus cinn níos sine mar na cinn liath níos lú. Athnuachann sé gach cúig soicind.",
+        "Regions": "Réigiúin",
+        "Searches": "%s cuardaigh",
+        "SecondsAgo": "%s soicind ó shin",
+        "ShowingVisits": "Cuairteanna geolocation an ceann deireanach",
+        "Unlocated": "<b> %1$s</b> Níorbh fhéidir %2$s de na cuairteanna ó %3$s a geolonnú.",
+        "VisitorMap": "Léarscáil Cuairteora",
+        "WithUnknownCity": "%s ó chathracha anaithnid",
+        "WithUnknownRegion": "%s ó réigiúin anaithnid",
+        "WorldWide": "Ar fud an domhain",
+        "map": "léarscáil"
+    }
+}
