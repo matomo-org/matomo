@@ -28,7 +28,10 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class CoreArchiverProcessSignalTest extends IntegrationTestCase
 {
+    private const METHOD_ASYNC_CLI = 'asyncCli';
     private const METHOD_ASYNC_CLI_SYMFONY = 'asyncCliSymfony';
+    private const METHOD_CURL = 'curl';
+    private const METHOD_SYNC_CLI = 'syncCli';
 
     /**
      * @var CoreArchiverProcessSignalFixture
@@ -61,13 +64,13 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         $this->setUpArchivingMethod($method);
 
         // let archiving run completely
-        $process = $this->startCoreArchiver();
+        $process = $this->startCoreArchiver($method);
         $process->setTimeout(60);
         $process->wait();
 
         self::assertFalse($process->isRunning());
 
-        $this->assertArchiveInvalidationCount($inProgress = 0, $total = 0);
+        $this->assertArchiveInvalidationCount(['inProgress' => 0, 'total' => 0]);
 
         $processOutput = $process->getOutput();
 
@@ -78,45 +81,91 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         self::assertStringContainsString('Archived website id 1, period = year', $processOutput);
         self::assertStringContainsString('Done archiving!', $processOutput);
         self::assertStringContainsString('Starting Scheduled tasks...', $processOutput);
+
+        if (self::METHOD_CURL === $method) {
+            self::assertStringContainsString('Execute HTTP API request:', $processOutput);
+        } else {
+            self::assertRegExp('/Running command.*\[method = ' . $method . ']/', $processOutput);
+        }
     }
 
     public function getArchivingWithoutSignalData(): iterable
     {
         yield 'symfony process' => [self::METHOD_ASYNC_CLI_SYMFONY];
+        yield 'default process (single process)' => [self::METHOD_SYNC_CLI];
+        yield 'default process (multi process)' => [self::METHOD_ASYNC_CLI];
+        yield 'curl' => [self::METHOD_CURL];
     }
 
     /**
      * @dataProvider getSigintDuringArchivingData
      *
      * @param array{segment: string, period: string, date: string} $blockSpec
+     * @param array{inProgress: int, total: int} $invalidationCountIntermediate
+     * @param array{inProgress: int, total: int} $invalidationCountFinal
      */
-    public function testSigintDuringArchiving(string $method, array $blockSpec): void
-    {
+    public function testSigintDuringArchiving(
+        string $method,
+        array $blockSpec,
+        array $invalidationCountIntermediate,
+        array $invalidationCountFinal
+    ): void {
         self::$fixture->stepControl->blockCronArchiveStart();
         self::$fixture->stepControl->blockAPIArchiveReports($blockSpec);
 
         $this->setUpArchivingMethod($method);
 
-        $process = $this->startCoreArchiver();
+        $process = $this->startCoreArchiver($method);
 
         self::$fixture->stepControl->unblockCronArchiveStart();
 
-        $this->waitForArchivingToStart($process, $blockSpec);
-        $this->assertArchiveInvalidationCount($inProgress = 1, $total = 12);
-        $this->sendSignalToProcess($process, \SIGINT);
+        $this->waitForArchivingToStart($process, $method, $blockSpec);
+        $this->assertArchiveInvalidationCount($invalidationCountIntermediate);
+        $this->sendSignalToProcess($process, \SIGINT, $method);
 
         self::$fixture->stepControl->unblockAPIArchiveReports();
 
         $this->waitForProcessToStop($process);
         $this->assertArchivingOutput($process, $method, \SIGINT, $blockSpec);
-        $this->assertArchiveInvalidationCount($inProgress = 0, $total = 11);
+        $this->assertArchiveInvalidationCount($invalidationCountFinal);
     }
 
     public function getSigintDuringArchivingData(): iterable
     {
+        $specToday = ['segment' => '', 'period' => 'day', 'date' => self::$fixture->today];
+
         yield 'symfony process' => [
             'method' => self::METHOD_ASYNC_CLI_SYMFONY,
-            'blockSpec' => ['segment' => '', 'period' => 'day', 'date' => self::$fixture->today],
+            'blockSpec' => $specToday,
+            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 12],
+            'invalidationCountFinal' => ['inProgress' => 0, 'total' => 11],
+        ];
+
+        yield 'default process (single process)' => [
+            'method' => self::METHOD_SYNC_CLI,
+            'blockSpec' => $specToday,
+            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 12],
+            'invalidationCountFinal' => ['inProgress' => 0, 'total' => 11],
+        ];
+
+        // empty day segment will always run as a single process
+        // so we use a non-empty segment for testing asyncCli
+        yield 'default process (multi process)' => [
+            'method' => self::METHOD_ASYNC_CLI,
+            'blockSpec' => [
+                'segment' => CoreArchiverProcessSignalFixture::TEST_SEGMENT_CH,
+                'period' => 'day',
+                'date' => self::$fixture->today,
+            ],
+            'invalidationCountIntermediate' => ['inProgress' => 2, 'total' => 11],
+            'invalidationCountFinal' => ['inProgress' => 0, 'total' => 9],
+        ];
+
+        yield 'curl' => [
+            'method' => self::METHOD_CURL,
+            'blockSpec' => $specToday,
+            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 12],
+            'invalidationCountFinal' => ['inProgress' => 0, 'total' => 11],
         ];
     }
 
@@ -132,17 +181,17 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
 
         $this->setUpArchivingMethod($method);
 
-        $process = $this->startCoreArchiver();
+        $process = $this->startCoreArchiver($method);
 
         self::$fixture->stepControl->unblockCronArchiveStart();
 
-        $this->waitForArchivingToStart($process, $blockSpec);
-        $this->assertArchiveInvalidationCount($inProgress = 1, $total = 12);
-        $this->sendSignalToProcess($process, \SIGTERM);
+        $this->waitForArchivingToStart($process, $method, $blockSpec);
+        $this->assertArchiveInvalidationCount(['inProgress' => 1, 'total' => 12]);
+        $this->sendSignalToProcess($process, \SIGTERM, $method);
 
         $this->waitForProcessToStop($process);
         $this->assertArchivingOutput($process, $method, \SIGTERM, $blockSpec);
-        $this->assertArchiveInvalidationCount($inProgress = 0, $total = 12);
+        $this->assertArchiveInvalidationCount(['inProgress' => 0, 'total' => 12]);
     }
 
     public function getSigtermDuringArchivingData(): iterable
@@ -153,18 +202,19 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         ];
     }
 
-    private function assertArchiveInvalidationCount(
-        int $expectedInProgress,
-        int $expectedTotal
-    ): void {
+    /**
+     * @param array{inProgress: int, total: int} $expectedCounts
+     */
+    private function assertArchiveInvalidationCount(array $expectedCounts): void
+    {
         $actualInProgress = $this->dataAccessModel->getInvalidationsInProgress(self::$fixture->idSite);
         $actualTotal = (int) Db::fetchOne(
             'SELECT COUNT(*) FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idsite = ?',
             [self::$fixture->idSite]
         );
 
-        self::assertSame($expectedTotal, $actualTotal);
-        self::assertCount($expectedInProgress, $actualInProgress);
+        self::assertSame($expectedCounts['total'], $actualTotal);
+        self::assertCount($expectedCounts['inProgress'], $actualInProgress);
     }
 
     /**
@@ -179,11 +229,21 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         $idSite = self::$fixture->idSite;
         $processOutput = $process->getOutput();
 
-        self::assertRegExp('/Running command.*\[method = ' . $method . ']/', $processOutput);
+        if (self::METHOD_CURL === $method) {
+            self::assertStringContainsString('Execute HTTP API request:', $processOutput);
+        } else {
+            self::assertRegExp('/Running command.*\[method = ' . $method . ']/', $processOutput);
+        }
 
         self::assertStringContainsString('Starting archiving for', $processOutput);
-        self::assertStringContainsString('Trying to stop running cli processes...', $processOutput);
         self::assertStringContainsString('Archiving will stop now because signal to abort received', $processOutput);
+
+        if (self::METHOD_CURL !== $method) {
+            // curl handling does not acknowledge signals properly
+            // so only check this output was posted for all other methods
+            self::assertStringContainsString('Received system signal to stop archiving: ' . $signal, $processOutput);
+            self::assertStringContainsString('Trying to stop running cli processes...', $processOutput);
+        }
 
         if (\SIGINT === $signal) {
             self::assertStringContainsString(sprintf(
@@ -201,9 +261,19 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         }
     }
 
-    private function sendSignalToProcess(ProcessSymfony $process, int $signal): void
-    {
+    private function sendSignalToProcess(
+        ProcessSymfony $process,
+        int $signal,
+        string $method
+    ): void {
         $process->signal($signal);
+
+        if (in_array($method, [self::METHOD_CURL, self::METHOD_SYNC_CLI], true)) {
+            // not all methods are able to acknowledge the signal at this point
+            // wait for 250 milliseconds and rely on final result assertions
+            usleep(250 * 1000);
+            return;
+        }
 
         $result = self::$fixture->stepControl->waitForSuccess(
             static function () use ($process, $signal): bool {
@@ -219,27 +289,30 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
 
     private function setUpArchivingMethod(string $method): void
     {
+        $environment = self::$fixture->getTestEnvironment();
+
+        $featureFlag = new CliMultiProcessSymfony();
+        $featureFlagConfigName = $featureFlag->getName() . '_feature';
+
         if (self::METHOD_ASYNC_CLI_SYMFONY === $method) {
-            $featureFlag = new CliMultiProcessSymfony();
-
-            $environment = self::$fixture->getTestEnvironment();
-            $environment->overrideConfig(
-                'FeatureFlags',
-                $featureFlag->getName() . '_feature',
-                'enabled'
-            );
-
-            $environment->save();
+            $environment->overrideConfig('FeatureFlags', $featureFlagConfigName, 'enabled');
+        } else {
+            $environment->removeOverriddenConfig('FeatureFlags', $featureFlagConfigName);
         }
+
+        $environment->forceCliMultiViaCurl = (int) (self::METHOD_CURL === $method);
+
+        $environment->save();
     }
 
-    private function startCoreArchiver(): ProcessSymfony
+    private function startCoreArchiver(string $method): ProcessSymfony
     {
         // exec is mandatory to send signals to the process
         // not using array notation because "Fixture::getCliCommandBase" contains parameters
         $process = ProcessSymfony::fromShellCommandline(sprintf(
-            'exec %s core:archive -vvv',
-            Fixture::getCliCommandBase()
+            'exec %s core:archive -vvv %s',
+            Fixture::getCliCommandBase(),
+            self::METHOD_SYNC_CLI === $method ? '--concurrent-requests-per-website=1' : ''
         ));
 
         $process->setEnv([CoreArchiverProcessSignalFixture::ENV_TRIGGER => '1']);
@@ -255,8 +328,11 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
     /**
      * @param array{segment: string, period: string, date: string} $blockSpec
      */
-    private function waitForArchivingToStart(ProcessSymfony $process, array $blockSpec): void
-    {
+    private function waitForArchivingToStart(
+        ProcessSymfony $process,
+        string $method,
+        array $blockSpec
+    ): void {
         $segment = new Segment($blockSpec['segment'], [self::$fixture->idSite]);
         $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment);
 
@@ -279,14 +355,19 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         self::assertTrue($result, 'Invalidation did not start for: ' . json_encode($blockSpec));
 
         $result = self::$fixture->stepControl->waitForSuccess(
-            static function () use ($process, $blockSpec): bool {
+            static function () use ($process, $method, $blockSpec): bool {
                 $processOutput = $process->getOutput();
 
                 $needles = [
-                    'Running command',
                     'date=' . $blockSpec['date'],
                     'period=' . $blockSpec['period']
                 ];
+
+                if (self::METHOD_CURL === $method) {
+                    $needles[] = 'Execute HTTP API request';
+                } else {
+                    $needles[] = 'Running command';
+                }
 
                 if ('' !== $blockSpec['segment']) {
                     $needles[] = 'segment=' . urlencode($blockSpec['segment']);
