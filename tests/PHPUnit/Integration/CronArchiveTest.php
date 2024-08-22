@@ -1091,12 +1091,13 @@ class CronArchiveTest extends IntegrationTestCase
         Option::deleteLike('%report_to_invalidate_%');
 
         Rules::setBrowserTriggerArchiving(false);
-        SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
-        $id = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+        $id1 = SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
+        $id2 = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
         Rules::setBrowserTriggerArchiving(true);
 
         $segments = new Model();
-        $segments->updateSegment($id, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
+        $segments->updateSegment($id1, array('ts_created' => Date::now()->subHour(300)->getDatetime()));
+        $segments->updateSegment($id2, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
 
         $logger = new FakeLogger();
         $mockInvalidateApi = $this->getMockInvalidateApi();
@@ -1126,7 +1127,67 @@ class CronArchiveTest extends IntegrationTestCase
         self::assertEquals($expectedInvalidations, $requestedInvalidations);
 
         self::assertStringContainsString('Will skip segments archiving for today unless they were created recently', $logger->output);
-        self::assertStringNotContainsString('Segment "actions>=2" was created recently', $logger->output);
+    }
+
+    public function testSkipSegmentsTodayDoesStillRequestSegmentInvalidationsForRecentlyCreatedSegments()
+    {
+        Date::$now = strtotime('2020-09-09 09:00:00');
+
+        Fixture::createWebsite('2014-12-12 00:01:02');
+
+        // track a visit for today, so todays data will get invalidated
+        $tracker = Fixture::getTracker(1, '2020-09-09 07:00:00');
+        $tracker->setUrl('http://someurl.com');
+        Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
+
+        // remove invalidation options created through tracking
+        Option::deleteLike('%report_to_invalidate_%');
+
+        Rules::setBrowserTriggerArchiving(false);
+        $id1 = SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
+        $id2 = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+        Rules::setBrowserTriggerArchiving(true);
+
+        $segments = new Model();
+        $segments->updateSegment($id1, array('ts_created' => Date::now()->subHour(300)->getDatetime()));
+        $segments->updateSegment($id2, array('ts_created' => Date::now()->subHour(12)->getDatetime()));
+
+        $logger = new FakeLogger();
+        $mockInvalidateApi = $this->getMockInvalidateApi();
+
+        $archiver = new CronArchive($logger);
+        $archiver->init();
+        $archiver->setApiToInvalidateArchivedReport($mockInvalidateApi);
+        $archiveFilter = new CronArchive\ArchiveFilter();
+        $archiveFilter->setSkipSegmentsForToday(true);
+        $archiver->setArchiveFilter($archiveFilter);
+        $archiver->shouldArchiveAllSites = true;
+        $archiver->init();
+        $archiver->run();
+
+        // check that no segment invalidations were requested
+        $requestedInvalidations = $mockInvalidateApi->getInvalidations();
+        $expectedInvalidations = [
+            [
+                1,
+                Date::now()->toString(),
+                'day',
+                false,
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::now()->toString(),
+                'day',
+                'actions>=2',
+                false,
+                false,
+            ],
+        ];
+        self::assertEquals($expectedInvalidations, $requestedInvalidations);
+
+        self::assertStringContainsString('Will skip segments archiving for today unless they were created recently', $logger->output);
     }
     public function testInvalidatingYesterdayWillStillRequestSegmentInvalidationsWithSkipSegmentsToday()
     {
@@ -1148,12 +1209,13 @@ class CronArchiveTest extends IntegrationTestCase
         Option::deleteLike('%report_to_invalidate_%');
 
         Rules::setBrowserTriggerArchiving(false);
-        SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
-        $id = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+        $id1 = SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
+        $id2 = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
         Rules::setBrowserTriggerArchiving(true);
 
         $segments = new Model();
-        $segments->updateSegment($id, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
+        $segments->updateSegment($id1, array('ts_created' => Date::now()->subHour(120)->getDatetime()));
+        $segments->updateSegment($id2, array('ts_created' => Date::now()->subHour(120)->getDatetime()));
 
         $logger = new FakeLogger();
         $mockInvalidateApi = $this->getMockInvalidateApi();
@@ -1207,7 +1269,6 @@ class CronArchiveTest extends IntegrationTestCase
         self::assertEquals($expectedInvalidations, $requestedInvalidations);
 
         self::assertStringContainsString('Will skip segments archiving for today unless they were created recently', $logger->output);
-        self::assertStringNotContainsString('Segment "actions>=2" was created recently', $logger->output);
     }
 
     public function testOutput()
