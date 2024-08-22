@@ -972,15 +972,18 @@ class CronArchive
                 );
             }
 
-            if ($skipSegments) {
-                continue;
-            }
+            $allSegments = $this->segmentArchiving->getAllSegments();
 
             foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segmentDefinition) {
                // check if the segment is available
                 if (!$this->isSegmentAvailable($segmentDefinition, [$idSite])) {
                     continue;
                 }
+
+                if ($skipSegments && !$this->wasSegmentChangedRecently($segmentDefinition, $allSegments)) {
+                    continue;
+                }
+
                 $segmentObj = new Segment(
                     $segmentDefinition,
                     [$idSite],
