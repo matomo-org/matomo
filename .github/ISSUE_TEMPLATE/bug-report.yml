@@ -33,6 +33,35 @@ body:
     validations:
       required: true
   - type: input
+    id: customer-website-name
+    attributes:
+      label: Customer name and Website name
+      description: Customer name and Website name
+    validations:
+      required: false
+  - type: dropdown
+    id: installation
+    attributes:
+      label: On premises or Cloud
+      multiple: false
+      options:
+        - On premises
+        - Cloud
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      multiple: false
+      options:
+        - 1 - Critical
+        - 2 - High
+        - 3 - Medium
+        - 4 - Low
+    validations:
+      required: false
+  - type: input
     id: version
     attributes:
       label: Matomo version
