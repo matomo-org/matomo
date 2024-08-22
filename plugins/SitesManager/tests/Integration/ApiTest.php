@@ -714,22 +714,22 @@ class ApiTest extends IntegrationTestCase
         $this->assertReturnedSitesContainsSiteIds([5, 15], $sites);
     }
 
-    public function testGetDeleteSiteExplanationTextShouldReturnDefaultValue()
+    public function testGetMessagesToWarnOnSiteRemovalShouldReturnDefaultValue()
     {
         $pluginManager = Plugin\Manager::getInstance();
         if ($pluginManager->isPluginActivated('TagManager')) {
             $pluginManager->deactivatePlugin('TagManager');
         }
         $this->createManySitesWithAdminAccess(2);
-        $this->assertEquals('SitesManager_DeleteSiteExplanation', API::getInstance()->getDeleteSiteExplanationText(1));
-        $this->assertEquals('SitesManager_DeleteSiteExplanation', API::getInstance()->getDeleteSiteExplanationText(2));
+        $this->assertEquals('SitesManager_DeleteSiteExplanation', API::getInstance()->getMessagesToWarnOnSiteRemoval(1));
+        $this->assertEquals('SitesManager_DeleteSiteExplanation', API::getInstance()->getMessagesToWarnOnSiteRemoval(2));
     }
 
-    public function testGetDeleteSiteExplanationTextShouldNotReturnDefaultValue()
+    public function testGetMessagesToWarnOnSiteRemovalShouldNotReturnDefaultValue()
     {
         $this->createManySitesWithAdminAccess(2);
-        $text1 = API::getInstance()->getDeleteSiteExplanationText(1);
-        $text2 = API::getInstance()->getDeleteSiteExplanationText(2);
+        $text1 = API::getInstance()->getMessagesToWarnOnSiteRemoval(1);
+        $text2 = API::getInstance()->getMessagesToWarnOnSiteRemoval(2);
         $this->assertNotEmpty($text1);
         $this->assertNotEmpty($text2);
     }

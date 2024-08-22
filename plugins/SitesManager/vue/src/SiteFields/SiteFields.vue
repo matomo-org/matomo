@@ -93,7 +93,7 @@
               <button
                 class="table-action"
                 v-show="theSite.idsite"
-                @click="getDeleteSiteExplanationText()"
+                @click="getMessagesToWarnOnSiteRemoval()"
                 :title="translate('General_Delete')"
               >
                 <span class="icon-delete"></span>
@@ -454,12 +454,12 @@ export default defineComponent({
         this.$emit('delete', this.theSite);
       });
     },
-    getDeleteSiteExplanationText() {
+    getMessagesToWarnOnSiteRemoval() {
       AjaxHelper.post({
         idSite: this.theSite.idsite,
         module: 'API',
         format: 'json',
-        method: 'SitesManager.getDeleteSiteExplanationText',
+        method: 'SitesManager.getMessagesToWarnOnSiteRemoval',
       }).then((response) => {
         this.deleteSiteExplanation = translate('SitesManager_DeleteSiteExplanation');
         if (response.value) {
