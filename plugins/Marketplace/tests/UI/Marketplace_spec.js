@@ -160,11 +160,14 @@ describe("Marketplace", function () {
          it('should show themes page without install button when enable_plugins_admin=0', async function () {
             setEnvironment(mode, validLicense);
             testEnvironment.overrideConfig('General', 'enable_plugins_admin', '0');
+            testEnvironment.save();
 
             await page.goto('about:blank');
             await page.goto(themesUrl);
 
             await captureMarketplace('themes_with_valid_license_disabled_' + mode);
+            testEnvironment.overrideConfig('General', 'enable_plugins_admin', '1');
+            testEnvironment.save();
          });
 
         it('should show free plugin details', async function() {
