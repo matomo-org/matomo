@@ -26,7 +26,6 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\Model;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
-use Piwik\Period\Day;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\Period\Range;
@@ -909,22 +908,6 @@ class CronArchive
 
         $isYesterday = $dateStr === 'yesterday';
         $isToday = $dateStr === 'today';
-        if ($isYesterday) {
-            // Skip invalidation for yesterday if archiving for yesterday was already started after midnight in site's timezone
-            $invalidationsInProgress = $this->model->getInvalidationsInProgress($idSite);
-            $today = Date::factoryInTimezone('today', $timezone);
-
-            foreach ($invalidationsInProgress as $invalidation) {
-                if (
-                    $invalidation['period'] == Day::PERIOD_ID
-                    && $date->toString() === $invalidation['date1']
-                    && Date::factory($invalidation['ts_started'], $timezone)->getTimestamp() >= $today->getTimestamp()
-                ) {
-                    $this->logger->debug("  " . ucfirst($dateStr) . " archive already in process for idSite = $idSite, skipping invalidation...");
-                    return;
-                }
-            }
-        }
 
         $this->logger->info("  Will invalidate archived reports for $dateStr in site ID = {idSite}'s timezone ({date}).", [
             'idSite' => $idSite,
@@ -936,11 +919,18 @@ class CronArchive
         // if we are invalidating yesterday here, we are only interested in checking if there is no archive for yesterday, or the day has changed since
         // the last archive was archived (in which there may have been more visits before midnight). so we disable the ttl check, since any archive
         // will be good enough, if the date hasn't changed.
-        $this->invalidateWithSegments([$idSite], $date->toString(), 'day', false, $doNotIncludeTtlInExistingArchiveCheck = $isYesterday, $skipSegments);
+        $this->invalidateWithSegments([$idSite], $date->toString(), 'day', false, $isYesterday, $isYesterday, $skipSegments);
     }
 
-    private function invalidateWithSegments($idSites, $date, $period, $_forceInvalidateNonexistent = false, $doNotIncludeTtlInExistingArchiveCheck = false, bool $skipSegments = false)
-    {
+    private function invalidateWithSegments(
+        $idSites,
+        $date,
+        $period,
+        $_forceInvalidateNonexistent = false,
+        $doNotIncludeTtlInExistingArchiveCheck = false,
+        bool $skipWhenAlreadyRunning = false,
+        bool $skipSegments = false
+    ) {
         if ($date instanceof Date) {
             $date = $date->toString();
         }
@@ -969,6 +959,8 @@ class CronArchive
             );
             if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck)) {
                 $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
+            } elseif ($skipWhenAlreadyRunning && $this->canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress($site->getId(), $periodObj)) {
+                $this->logger->debug('  Invalidation for {archive} already in progress, skipping invalidation.', ['archive' => $params]);
             } else {
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports(
                     $idSite,
@@ -989,18 +981,21 @@ class CronArchive
                 if (!$this->isSegmentAvailable($segmentDefinition, [$idSite])) {
                     continue;
                 }
+                $segmentObj = new Segment(
+                    $segmentDefinition,
+                    [$idSite],
+                    $periodObj->getDateTimeStart()->setTimezone($site->getTimezone()),
+                    $periodObj->getDateTimeEnd()->setTimezone($site->getTimezone())
+                );
                 $params = new Parameters(
                     $site,
                     $periodObj,
-                    new Segment(
-                        $segmentDefinition,
-                        [$idSite],
-                        $periodObj->getDateTimeStart()->setTimezone($site->getTimezone()),
-                        $periodObj->getDateTimeEnd()->setTimezone($site->getTimezone())
-                    )
+                    $segmentObj
                 );
                 if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck)) {
                     $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
+                } elseif ($skipWhenAlreadyRunning && $this->canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress($site->getId(), $periodObj, $segmentObj)) {
+                    $this->logger->debug('  Invalidation for {archive} already in progress, skipping invalidation.', ['archive' => $params]);
                 } else {
                     if (empty($this->segmentArchiving)) {
                         // might not be initialised if init is not called
@@ -1039,7 +1034,7 @@ class CronArchive
      * @param $idSites
      * @return bool
      */
-    protected function isSegmentAvailable($segmentDefinition, $idSites)
+    protected function isSegmentAvailable($segmentDefinition, $idSites): bool
     {
         try {
             new Segment($segmentDefinition, $idSites);
@@ -1048,6 +1043,28 @@ class CronArchive
             return false;
         }
         return true;
+    }
+
+    private function canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress(int $idSite, Period $period, Segment $segment = null): bool
+    {
+        $invalidationsInProgress = $this->model->getInvalidationsInProgress($idSite);
+        $timezone = Site::getTimezoneFor($idSite);
+
+        $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?? new Segment('', [$idSite]));
+        $endOfDayInTimezone = $period->getDateEnd()->getEndOfDay();
+
+        foreach ($invalidationsInProgress as $invalidation) {
+            if (
+                $invalidation['name'] === $doneFlag
+                && $invalidation['period'] == $period->getId()
+                && $period->getDateStart()->toString() === $invalidation['date1']
+                && Date::factory($invalidation['ts_started'], $timezone)->isLater($endOfDayInTimezone)
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

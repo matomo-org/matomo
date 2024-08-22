@@ -466,27 +466,20 @@ class CronArchiveTest extends IntegrationTestCase
     /**
      * @dataProvider getInvalidateYesterdayTestData
      */
-    public function testInvalidateRecentDateForYesterdayIsSkippedWhenAlreadyInProgress($timezone, $tsStarted, $expectedInvalidationCalls)
+    public function testInvalidateRecentDateForYesterdayIsSkippedWhenAlreadyInProgress($segmentsToCreate, $timezone, $nowTs, $existingInvalidations, $expectedInvalidationCalls)
     {
         $idSite = Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, null, null, $timezone);
 
-        $offset = Date::getUtcOffset($timezone);
-        Date::$now = Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp();
+        Rules::setBrowserTriggerArchiving(false);
+        foreach ($segmentsToCreate as $segment) {
+            SegmentAPI::getInstance()->add($segment, $segment, 1, true, true);
+        }
+        Rules::setBrowserTriggerArchiving(true);
 
-        $this->insertInvalidations([
-            [
-                'idarchive' => 1,
-                'idsite' => 1,
-                'period' => 1,
-                'date1' => '2020-02-02',
-                'date2' => '2020-02-02',
-                'name' => 'done',
-                'report' => null,
-                'ts_invalidated' => '2020-02-02 21:00:00',
-                'status' => 1,
-                'ts_started' => $tsStarted
-            ],
-        ]);
+        $offset = Date::getUtcOffset($timezone);
+        Date::$now = $nowTs;
+
+        $this->insertInvalidations($existingInvalidations);
 
         $t = Fixture::getTracker($idSite, Date::yesterday()->addHour(2)->getDatetime());
         $t->setUrl('http://someurl.com/abc');
@@ -523,15 +516,45 @@ class CronArchiveTest extends IntegrationTestCase
         foreach ($timezones as $timezone) {
             $offset = Date::getUtcOffset($timezone);
 
-            yield "invalidating yesterday should be skipped if archiving was started after midnight in sites timezone ($timezone)" => [
+            yield "invalidating yesterday all visits should be skipped if archiving was started after midnight in sites timezone ($timezone)" => [
+                [],
                 $timezone,
-                Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime(),
-                [], // no invalidations
+                Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp(),
+                [
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                    ],
+                ],
+                [],
             ];
 
-            yield "invalidating yesterday should not be skipped if archiving was started before midnight in sites timezone ($timezone)" => [
+            yield "invalidating yesterday all visits should not be skipped if archiving for a segment was started after midnight in sites timezone ($timezone)" => [
+                ['actions>=1'],
                 $timezone,
-                Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime(),
+                Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp(),
+                [
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done' . md5('actions>=1'),
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                    ],
+                ],
                 [
                     [
                         1,
@@ -540,7 +563,249 @@ class CronArchiveTest extends IntegrationTestCase
                         false,
                         false,
                         false,
-                    ]
+                    ],
+                ],
+            ];
+
+            yield "invalidating yesterdays segments should not be skipped even if archiving all visits was started after midnight in sites timezone ($timezone)" => [
+                ['actions>=1', 'actions>=2',],
+                $timezone,
+                Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp(),
+                [
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                    ],
+                ],
+                [
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'actions>=1',
+                        false,
+                        false,
+                    ],
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'actions>=2',
+                        false,
+                        false,
+                    ],
+                ],
+            ];
+
+            yield "invalidating yesterdays segments should be skipped if an archiving for it was started after midnight in sites timezone ($timezone)" => [
+                ['actions>=1', 'actions>=2',],
+                $timezone,
+                Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp(),
+                [
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                    ],
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done' . md5('actions>=2'),
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                    ],
+                ],
+                [
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'actions>=1',
+                        false,
+                        false,
+                    ],
+                ],
+            ];
+
+            yield "invalidating yesterday all visits should not be skipped if archiving was started before midnight in sites timezone ($timezone)" => [
+                [],
+                $timezone,
+                Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp(),
+                [
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime()
+                    ],
+                ],
+                [
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        false,
+                        false,
+                        false,
+                    ],
+                ],
+            ];
+
+            yield "invalidating yesterdays segment should not be skipped if archiving was started before midnight in sites timezone ($timezone)" => [
+                ['actions>=1'],
+                $timezone,
+                Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp(),
+                [
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done' . md5('actions>=1'),
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime()
+                    ],
+                ],
+                [
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        false,
+                        false,
+                        false,
+                    ],
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'actions>=1',
+                        false,
+                        false,
+                    ],
+                ],
+            ];
+
+            yield "invalidating yesterdays data should be skipped correctly for multiple segments with various in progress invalidations in sites timezone ($timezone)" => [
+                ['actions>=1', 'actions>=2', 'actions>=3'],
+                $timezone,
+                Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp(),
+                [
+                    [
+                        'idarchive' => 3,
+                        'idsite' => 1,
+                        'period' => 3,
+                        'date1' => '2020-02-01',
+                        'date2' => '2020-02-29',
+                        'name' => 'done' . md5('actions>=1'),
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime()
+                    ], // different period, so should be ignored
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done' . md5('actions>=1'),
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime()
+                    ], // started too early, so should be ignored
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done' . md5('actions>=2') . '.MyPlugin',
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:10:33')->subSeconds($offset)->getDatetime()
+                    ], // partial archive, so should be ignored
+                    [
+                        'idarchive' => 2,
+                        'idsite' => 2,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done' . md5('actions>=2'),
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:10:33')->subSeconds($offset)->getDatetime()
+                    ], // different site, so should be ignored
+                    [
+                        'idarchive' => 2,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done' . md5('actions>=3'),
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:10:33')->subSeconds($offset)->getDatetime()
+                    ], // should be considered and invalidation skipped
+                ],
+                [
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        false,
+                        false,
+                        false,
+                    ],
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'actions>=1',
+                        false,
+                        false,
+                    ],
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'actions>=2',
+                        false,
+                        false,
+                    ],
                 ],
             ];
         }
