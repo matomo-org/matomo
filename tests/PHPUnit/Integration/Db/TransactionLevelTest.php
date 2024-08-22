@@ -43,7 +43,7 @@ class TransactionLevelTest extends IntegrationTestCase
         $this->assertTrue($this->level->canLikelySetTransactionLevel());
     }
 
-    public function testSetReadIsolationLevelRestorePreviousStatus()
+    public function testSetTransactionLevelForNonLockingReadsRestorePreviousStatus()
     {
         // mysql 8.0 using transaction_isolation
         $isolation = $this->db->fetchOne("SHOW GLOBAL VARIABLES LIKE 't%_isolation'");
@@ -52,7 +52,7 @@ class TransactionLevelTest extends IntegrationTestCase
         $value = $this->db->fetchOne('SELECT ' . $isolation);
         $this->assertSame('REPEATABLE-READ', $value);
 
-        $this->level->setReadIsolationLevel();
+        $this->level->setTransactionLevelForNonLockingReads();
         $value = $this->db->fetchOne('SELECT ' . $isolation);
 
         $expectedIsolation = str_replace(' ', '-', Schema::getInstance()->getSupportedReadIsolationTransactionLevel());

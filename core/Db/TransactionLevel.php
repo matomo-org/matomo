@@ -39,14 +39,14 @@ class TransactionLevel
     }
 
     /**
-     * @deprecated Use `setReadIsolationLevel`
+     * @deprecated Use `setTransactionLevelForNonLockingReads`
      */
     public function setUncommitted()
     {
-        return $this->setReadIsolationLevel();
+        return $this->setTransactionLevelForNonLockingReads();
     }
 
-    public function setReadIsolationLevel(): bool
+    public function setTransactionLevelForNonLockingReads(): bool
     {
         if ($this->db->supportsUncommitted === false) {
             // we know "Uncommitted" transaction level is not supported, we don't need to do anything as it won't work to set the status
