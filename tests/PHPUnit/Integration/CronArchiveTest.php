@@ -18,6 +18,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Period\Factory;
 use Piwik\Plugins\CoreAdminHome\tests\Framework\Mock\API;
 use Piwik\Plugins\SegmentEditor\Model;
@@ -1075,13 +1076,20 @@ class CronArchiveTest extends IntegrationTestCase
         $this->assertFalse($cronarchive->wasSegmentChangedRecently('actions>=999', $allSegments));
     }
 
-    public function testSkipSegmentsToday()
+    public function testSkipSegmentsTodayDoesNotRequestAnySegmentInvalidationsForToday()
     {
-        \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
-            '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
-        );
+        Date::$now = strtotime('2020-09-09 09:00:00');
 
         Fixture::createWebsite('2014-12-12 00:01:02');
+
+        // track a visit for today, so todays data will get invalidated
+        $tracker = Fixture::getTracker(1, '2020-09-09 07:00:00');
+        $tracker->setUrl('http://someurl.com');
+        Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
+
+        // remove invalidation options created through tracking
+        Option::deleteLike('%report_to_invalidate_%');
+
         Rules::setBrowserTriggerArchiving(false);
         SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
         $id = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
@@ -1091,15 +1099,112 @@ class CronArchiveTest extends IntegrationTestCase
         $segments->updateSegment($id, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
 
         $logger = new FakeLogger();
+        $mockInvalidateApi = $this->getMockInvalidateApi();
 
         $archiver = new CronArchive($logger);
         $archiver->init();
+        $archiver->setApiToInvalidateArchivedReport($mockInvalidateApi);
         $archiveFilter = new CronArchive\ArchiveFilter();
         $archiveFilter->setSkipSegmentsForToday(true);
         $archiver->setArchiveFilter($archiveFilter);
         $archiver->shouldArchiveAllSites = true;
         $archiver->init();
         $archiver->run();
+
+        // check that no segment invalidations were requested
+        $requestedInvalidations = $mockInvalidateApi->getInvalidations();
+        $expectedInvalidations = [
+            [
+                1,
+                Date::now()->toString(),
+                'day',
+                false,
+                false,
+                false,
+            ],
+        ];
+        self::assertEquals($expectedInvalidations, $requestedInvalidations);
+
+        self::assertStringContainsString('Will skip segments archiving for today unless they were created recently', $logger->output);
+        self::assertStringNotContainsString('Segment "actions>=2" was created recently', $logger->output);
+    }
+    public function testInvalidatingYesterdayWillStillRequestSegmentInvalidationsWithSkipSegmentsToday()
+    {
+        Date::$now = strtotime('2020-08-05 09:00:00');
+
+        Fixture::createWebsite('2014-12-12 00:01:02');
+
+        // track a visit for yesterday, so yesterdays data will get invalidated
+        $tracker = Fixture::getTracker(1, '2020-08-04 16:00:00');
+        $tracker->setUrl('http://someurl.com');
+        Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
+
+        // track a visit for today, so todays data will get invalidated
+        $tracker = Fixture::getTracker(1, '2020-08-05 07:00:00');
+        $tracker->setUrl('http://someurl.com');
+        Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
+
+        // remove invalidation options created through tracking
+        Option::deleteLike('%report_to_invalidate_%');
+
+        Rules::setBrowserTriggerArchiving(false);
+        SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
+        $id = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+        Rules::setBrowserTriggerArchiving(true);
+
+        $segments = new Model();
+        $segments->updateSegment($id, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
+
+        $logger = new FakeLogger();
+        $mockInvalidateApi = $this->getMockInvalidateApi();
+
+        $archiver = new CronArchive($logger);
+        $archiver->init();
+        $archiver->setApiToInvalidateArchivedReport($mockInvalidateApi);
+        $archiveFilter = new CronArchive\ArchiveFilter();
+        $archiveFilter->setSkipSegmentsForToday(true);
+        $archiver->setArchiveFilter($archiveFilter);
+        $archiver->shouldArchiveAllSites = true;
+        $archiver->init();
+        $archiver->run();
+
+        // check that no segment invalidations were requested
+        $requestedInvalidations = $mockInvalidateApi->getInvalidations();
+        $expectedInvalidations = [
+            [
+                1,
+                '2020-08-05',
+                'day',
+                false,
+                false,
+                false,
+            ],
+            [
+                1,
+                '2020-08-04',
+                'day',
+                false,
+                false,
+                false,
+            ],
+            [
+                1,
+                '2020-08-04',
+                'day',
+                'actions>=1',
+                false,
+                false,
+            ],
+            [
+                1,
+                '2020-08-04',
+                'day',
+                'actions>=2',
+                false,
+                false,
+            ],
+        ];
+        self::assertEquals($expectedInvalidations, $requestedInvalidations);
 
         self::assertStringContainsString('Will skip segments archiving for today unless they were created recently', $logger->output);
         self::assertStringNotContainsString('Segment "actions>=2" was created recently', $logger->output);
