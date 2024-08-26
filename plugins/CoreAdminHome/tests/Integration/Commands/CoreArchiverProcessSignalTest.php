@@ -99,6 +99,7 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
 
     /**
      * @dataProvider getSigintDuringArchivingData
+     * @dataProvider getSigtermDuringArchivingUnsupportedFallbackToSigintData
      *
      * @param array{segment: string, period: string, date: string} $blockSpec
      * @param array{inProgress: int, total: int} $invalidationCountIntermediate
@@ -108,8 +109,12 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         string $method,
         array $blockSpec,
         array $invalidationCountIntermediate,
-        array $invalidationCountFinal
+        array $invalidationCountFinal,
+        bool $sigtermToSigintFallback = false
     ): void {
+        $signalToProcess = $sigtermToSigintFallback ? \SIGTERM : \SIGINT;
+        $signalOutput = \SIGINT;
+
         self::$fixture->stepControl->blockCronArchiveStart();
         self::$fixture->stepControl->blockAPIArchiveReports($blockSpec);
 
@@ -121,12 +126,12 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
 
         $this->waitForArchivingToStart($process, $method, $blockSpec);
         $this->assertArchiveInvalidationCount($invalidationCountIntermediate);
-        $this->sendSignalToProcess($process, \SIGINT, $method);
+        $this->sendSignalToProcess($process, $signalToProcess, $method);
 
         self::$fixture->stepControl->unblockAPIArchiveReports();
 
         $this->waitForProcessToStop($process);
-        $this->assertArchivingOutput($process, $method, \SIGINT, $blockSpec);
+        $this->assertArchivingOutput($process, $method, $signalToProcess, $signalOutput, $blockSpec);
         $this->assertArchiveInvalidationCount($invalidationCountFinal);
     }
 
@@ -169,6 +174,45 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         ];
     }
 
+    public function getSigtermDuringArchivingUnsupportedFallbackToSigintData(): iterable
+    {
+        // keep in sync with getSigintDuringArchivingData
+        // - remove "symfony process" case
+        // - add "sigtermToSigintFallback = true" to all cases
+
+        $specToday = ['segment' => '', 'period' => 'day', 'date' => self::$fixture->today];
+
+        yield 'default process (single process) - signal fallback' => [
+            'method' => self::METHOD_SYNC_CLI,
+            'blockSpec' => $specToday,
+            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 12],
+            'invalidationCountFinal' => ['inProgress' => 0, 'total' => 11],
+            'sigtermToSigintFallback' => true,
+        ];
+
+        // empty day segment will always run as a single process
+        // so we use a non-empty segment for testing asyncCli
+        yield 'default process (multi process) - signal fallback' => [
+            'method' => self::METHOD_ASYNC_CLI,
+            'blockSpec' => [
+                'segment' => CoreArchiverProcessSignalFixture::TEST_SEGMENT_CH,
+                'period' => 'day',
+                'date' => self::$fixture->today,
+            ],
+            'invalidationCountIntermediate' => ['inProgress' => 2, 'total' => 11],
+            'invalidationCountFinal' => ['inProgress' => 0, 'total' => 9],
+            'sigtermToSigintFallback' => true,
+        ];
+
+        yield 'curl - signal fallback' => [
+            'method' => self::METHOD_CURL,
+            'blockSpec' => $specToday,
+            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 12],
+            'invalidationCountFinal' => ['inProgress' => 0, 'total' => 11],
+            'sigtermToSigintFallback' => true,
+        ];
+    }
+
     /**
      * @dataProvider getSigtermDuringArchivingData
      *
@@ -190,7 +234,7 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         $this->sendSignalToProcess($process, \SIGTERM, $method);
 
         $this->waitForProcessToStop($process);
-        $this->assertArchivingOutput($process, $method, \SIGTERM, $blockSpec);
+        $this->assertArchivingOutput($process, $method, \SIGTERM, \SIGTERM, $blockSpec);
         $this->assertArchiveInvalidationCount(['inProgress' => 0, 'total' => 12]);
     }
 
@@ -223,7 +267,8 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
     private function assertArchivingOutput(
         ProcessSymfony $process,
         string $method,
-        int $signal,
+        int $signalToProcess,
+        int $signalOutput,
         array $blockSpec
     ): void {
         $idSite = self::$fixture->idSite;
@@ -241,11 +286,15 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         if (self::METHOD_CURL !== $method) {
             // curl handling does not acknowledge signals properly
             // so only check this output was posted for all other methods
-            self::assertStringContainsString('Received system signal to stop archiving: ' . $signal, $processOutput);
+            self::assertStringContainsString(
+                'Received system signal to stop archiving: ' . $signalToProcess,
+                $processOutput
+            );
+
             self::assertStringContainsString('Trying to stop running cli processes...', $processOutput);
         }
 
-        if (\SIGINT === $signal) {
+        if (\SIGINT === $signalOutput) {
             self::assertStringContainsString(sprintf(
                 "Archived website id %u, period = %s, date = %s, segment = '%s'",
                 $idSite,
@@ -255,7 +304,7 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
             ), $processOutput);
         }
 
-        if (\SIGTERM === $signal) {
+        if (\SIGTERM === $signalOutput) {
             self::assertRegExp('/Aborting command.*\[method = ' . $method . ']/', $processOutput);
             self::assertStringContainsString('Archiving process killed, reset invalidation', $processOutput);
         }
