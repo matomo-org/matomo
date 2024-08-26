@@ -98,6 +98,40 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
     }
 
     /**
+     * @dataProvider getArchivingStoppedDuringInitData
+     */
+    public function testArchivingStoppedDuringInit(int $signal): void
+    {
+        self::$fixture->stepControl->blockCronArchiveStart();
+
+        // we don't care for the exact method, pick one with low setup complexity
+        $this->setUpArchivingMethod(self::METHOD_ASYNC_CLI);
+
+        $process = $this->startCoreArchiver(self::METHOD_ASYNC_CLI);
+
+        // wait until initialization step is reached
+        $result = self::$fixture->stepControl->waitForSuccess(static function () use ($process): bool {
+            return false !== strpos($process->getOutput(), 'Async process archiving supported');
+        });
+
+        self::assertTrue($result, 'Archiving initialization check did not succeed');
+
+        $this->sendSignalToProcess($process, $signal, self::METHOD_ASYNC_CLI);
+        $this->waitForProcessToStop($process);
+
+        $processOutput = $process->getOutput();
+
+        self::assertStringContainsString('Received system signal to stop archiving: ' . $signal, $processOutput);
+        self::assertStringContainsString('Archiving stopped', $processOutput);
+    }
+
+    public function getArchivingStoppedDuringInitData(): iterable
+    {
+        yield 'stop using sigint' => [\SIGINT];
+        yield 'stop using sigterm' => [\SIGTERM];
+    }
+
+    /**
      * @dataProvider getSigintDuringArchivingData
      * @dataProvider getSigtermDuringArchivingUnsupportedFallbackToSigintData
      *
