@@ -118,6 +118,14 @@ class CoreArchiverProcessSignal extends Fixture
                     'CronArchive.init.finish',
                     DI::value(Closure::fromCallable([$this->stepControl, 'handleCronArchiveStart'])),
                 ],
+                [
+                    'ScheduledTasks.execute',
+                    DI::value(Closure::fromCallable([$this->stepControl, 'handleScheduledTasksExecute'])),
+                ],
+                [
+                    'ScheduledTasks.shouldExecuteTask',
+                    DI::value(Closure::fromCallable([$this->stepControl, 'handleScheduledTasksShouldExecute'])),
+                ]
             ]),
         ];
     }
