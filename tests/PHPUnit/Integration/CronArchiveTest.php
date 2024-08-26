@@ -846,8 +846,13 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1, $period::PERIOD_ID, $period->getDateStart()->toString(), $period->getDateEnd()->toString(), 'done', $archiveStatus, $tsArchived
         ]);
 
-        // $doNotIncludeTtlInExistingArchiveCheck is set to true when running invalidateRecentDate('yesterday');
-        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $dayToArchive === 'yesterday');
+        // $skipWhenRunningOrNewEnoughArchiveExists is set to true when running invalidateRecentDate('yesterday');
+
+        $class = new \ReflectionClass(CronArchive::class);
+        $method = $class->getMethod('canWeSkipInvalidatingBecauseThereIsAUsablePeriod');
+        $method->setAccessible(true);
+
+        $actual = $method->invoke($archiver, $params, $dayToArchive === 'yesterday');
         $this->assertSame($expected, $actual);
     }
 
@@ -1189,6 +1194,7 @@ class CronArchiveTest extends IntegrationTestCase
 
         self::assertStringContainsString('Will skip segments archiving for today unless they were created recently', $logger->output);
     }
+
     public function testInvalidatingYesterdayWillStillRequestSegmentInvalidationsWithSkipSegmentsToday()
     {
         Date::$now = strtotime('2020-08-05 09:00:00');
