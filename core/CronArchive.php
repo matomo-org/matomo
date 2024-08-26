@@ -857,7 +857,7 @@ class CronArchive
 
             try {
                 $this->logger->debug('  Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
-                $this->invalidateWithSegments($siteIdsToInvalidate, $date, $period = 'day');
+                $this->invalidateWithSegments($siteIdsToInvalidate, $date, 'day');
             } catch (Exception $e) {
                 $message = ExceptionToTextProcessor::getMessageAndWholeBacktrace($e);
                 $this->logger->info('  Failed to invalidate archived reports: ' . $message);
@@ -865,11 +865,11 @@ class CronArchive
         }
 
         // invalidate today if needed for all websites
-        $this->invalidateRecentDate('today', $idSiteToInvalidate);
+        $this->invalidateRecentDate('today', (int) $idSiteToInvalidate);
 
         // invalidate yesterday archive if the time of the latest valid archive is earlier than today
         // (means the day has changed and there might be more visits that weren't processed)
-        $this->invalidateRecentDate('yesterday', $idSiteToInvalidate);
+        $this->invalidateRecentDate('yesterday', (int) $idSiteToInvalidate);
 
         // invalidate range archives
         $dates = $this->getCustomDateRangeToPreProcess($idSiteToInvalidate);
@@ -884,7 +884,7 @@ class CronArchive
 
             $this->logger->debug('  Invalidating custom date range ({date}) for site {idSite}', ['idSite' => $idSiteToInvalidate, 'date' => $date]);
 
-            $this->invalidateWithSegments($idSiteToInvalidate, $date, 'range', $_forceInvalidateNonexistent = true);
+            $this->invalidateWithSegments($idSiteToInvalidate, $date, 'range');
         }
 
         $this->setInvalidationTime();
@@ -892,7 +892,7 @@ class CronArchive
         $this->logger->debug("Done invalidating");
     }
 
-    public function invalidateRecentDate($dateStr, $idSite)
+    public function invalidateRecentDate(string $dateStr, int $idSite): void
     {
         $timezone = Site::getTimezoneFor($idSite);
         $date = Date::factoryInTimezone($dateStr, $timezone);
@@ -919,16 +919,20 @@ class CronArchive
         // if we are invalidating yesterday here, we are only interested in checking if there is no archive for yesterday, or the day has changed since
         // the last archive was archived (in which there may have been more visits before midnight). so we disable the ttl check, since any archive
         // will be good enough, if the date hasn't changed.
-        $this->invalidateWithSegments([$idSite], $date->toString(), 'day', false, $isYesterday, $isYesterday, $onlyProcessSegmentsChangedRecently);
+        $this->invalidateWithSegments(
+            [$idSite],
+            $date->toString(),
+            'day',
+            $isYesterday,
+            $onlyProcessSegmentsChangedRecently
+        );
     }
 
     private function invalidateWithSegments(
         $idSites,
         $date,
-        $period,
-        $_forceInvalidateNonexistent = false,
-        $doNotIncludeTtlInExistingArchiveCheck = false,
-        bool $skipWhenAlreadyRunning = false,
+        string $period,
+        bool $skipWhenRunningOrNewEnoughArchiveExists = false,
         bool $onlyProcessSegmentsChangedRecently = false
     ) {
         if ($date instanceof Date) {
@@ -957,9 +961,10 @@ class CronArchive
                     $periodObj->getDateTimeEnd()->setTimezone($site->getTimezone())
                 )
             );
-            if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck)) {
+
+            if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $skipWhenRunningOrNewEnoughArchiveExists)) {
                 $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
-            } elseif ($skipWhenAlreadyRunning && $this->canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress($site->getId(), $periodObj)) {
+            } elseif ($skipWhenRunningOrNewEnoughArchiveExists && $this->canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress($site->getId(), $periodObj)) {
                 $this->logger->debug('  Invalidation for {archive} already in progress, skipping invalidation.', ['archive' => $params]);
             } else {
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports(
@@ -968,14 +973,14 @@ class CronArchive
                     $period,
                     $segment = false,
                     $cascadeDown = false,
-                    $_forceInvalidateNonexistent
+                    $period === 'range'
                 );
             }
 
             $allSegments = $this->segmentArchiving->getAllSegments();
 
             foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segmentDefinition) {
-               // check if the segment is available
+                // check if the segment is available
                 if (!$this->isSegmentAvailable($segmentDefinition, [$idSite])) {
                     continue;
                 }
@@ -990,14 +995,16 @@ class CronArchive
                     $periodObj->getDateTimeStart()->setTimezone($site->getTimezone()),
                     $periodObj->getDateTimeEnd()->setTimezone($site->getTimezone())
                 );
+
                 $params = new Parameters(
                     $site,
                     $periodObj,
                     $segmentObj
                 );
-                if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck)) {
+
+                if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $skipWhenRunningOrNewEnoughArchiveExists)) {
                     $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
-                } elseif ($skipWhenAlreadyRunning && $this->canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress($site->getId(), $periodObj, $segmentObj)) {
+                } elseif ($skipWhenRunningOrNewEnoughArchiveExists && $this->canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress($site->getId(), $periodObj, $segmentObj)) {
                     $this->logger->debug('  Invalidation for {archive} already in progress, skipping invalidation.', ['archive' => $params]);
                 } else {
                     if (empty($this->segmentArchiving)) {
@@ -1023,7 +1030,7 @@ class CronArchive
                         $period,
                         $segmentDefinition,
                         $cascadeDown = false,
-                        $_forceInvalidateNonexistent
+                        $period === 'range'
                     );
                 }
             }
@@ -1077,7 +1084,7 @@ class CronArchive
      *
      * @params Parameters $params The parameters for the archive we want to invalidate.
      */
-    public function canWeSkipInvalidatingBecauseThereIsAUsablePeriod(Parameters $params, $doNotIncludeTtlInExistingArchiveCheck = false): bool
+    private function canWeSkipInvalidatingBecauseThereIsAUsablePeriod(Parameters $params, $doNotIncludeTtlInExistingArchiveCheck = false): bool
     {
         $timezone = Site::getTimezoneFor($params->getSite()->getId());
         $today = Date::factoryInTimezone('today', $timezone);
