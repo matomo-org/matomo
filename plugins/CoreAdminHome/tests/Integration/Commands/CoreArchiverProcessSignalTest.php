@@ -15,8 +15,10 @@ use Piwik\Common;
 use Piwik\DataAccess\Model;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\Tasks;
 use Piwik\Plugins\CoreAdminHome\tests\Fixtures\CoreArchiverProcessSignal as CoreArchiverProcessSignalFixture;
 use Piwik\Plugins\CoreConsole\FeatureFlags\CliMultiProcessSymfony;
+use Piwik\Scheduler\Task;
 use Piwik\Segment;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -278,6 +280,50 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
             'method' => self::METHOD_ASYNC_CLI_SYMFONY,
             'blockSpec' => ['segment' => '', 'period' => 'day', 'date' => self::$fixture->today],
         ];
+    }
+
+    /**
+     * @dataProvider getScheduledTasksStoppedData
+     */
+    public function testScheduledTasksStopped(int $signal): void
+    {
+        self::$fixture->stepControl->blockScheduledTasks();
+        self::$fixture->stepControl->executeScheduledTasks();
+
+        // we don't care for the exact method, pick one with low setup complexity
+        $this->setUpArchivingMethod(self::METHOD_ASYNC_CLI);
+
+        $process = $this->startCoreArchiver(self::METHOD_ASYNC_CLI);
+
+        // wait until scheduled tasks are running
+        $result = self::$fixture->stepControl->waitForSuccess(static function () use ($process): bool {
+            return false !== strpos($process->getOutput(), 'Scheduler: executing task');
+        }, $timeoutInSeconds = 60);
+
+        self::assertTrue($result, 'Scheduled tasks did not start');
+
+        $this->sendSignalToProcess($process, $signal, self::METHOD_ASYNC_CLI);
+
+        self::$fixture->stepControl->unblockScheduledTasks();
+
+        $this->waitForProcessToStop($process);
+
+        $processOutput = $process->getOutput();
+        $expectedExecutedTask = Task::getTaskName(Tasks::class, 'invalidateOutdatedArchives', null);
+        $expectedSkippedTask = Task::getTaskName(Tasks::class, 'purgeOutdatedArchives', null);
+
+        self::assertStringContainsString('executing task ' . $expectedExecutedTask, $processOutput);
+        self::assertStringNotContainsString('executing task ' . $expectedSkippedTask, $processOutput);
+
+        self::assertStringContainsString('Received system signal to stop archiving: ' . $signal, $processOutput);
+        self::assertStringContainsString('Trying to stop running tasks...', $processOutput);
+        self::assertStringContainsString('Scheduler: Aborting due to received signal', $processOutput);
+    }
+
+    public function getScheduledTasksStoppedData(): iterable
+    {
+        yield 'stop using sigint' => [\SIGINT];
+        yield 'stop using sigterm' => [\SIGTERM];
     }
 
     /**

@@ -20,6 +20,8 @@ class StepControl
 
     private const OPTION_ARCHIVE_REPORTS_BLOCKED = self::OPTION_PREFIX . 'ArchiveReportsBlocked';
     private const OPTION_CRON_ARCHIVE_BLOCKED = self::OPTION_PREFIX . 'CronArchiveBlocked';
+    private const OPTION_SCHEDULED_TASKS_BLOCKED = self::OPTION_PREFIX . 'ScheduledTasksBlocked';
+    private const OPTION_SCHEDULED_TASKS_EXECUTE = self::OPTION_PREFIX . 'ScheduledTasksExecute';
 
     /**
      * Block proceeding from the "API.CoreAdminHome.archiveReports" event.
@@ -32,11 +34,27 @@ class StepControl
     }
 
     /**
+     * Block proceeding from the "ScheduledTasks.execute" event.
+     */
+    public function blockScheduledTasks(): void
+    {
+        Option::set(self::OPTION_SCHEDULED_TASKS_BLOCKED, true);
+    }
+
+    /**
      * Block proceeding from the "CronArchive.init.finish" event.
      */
     public function blockCronArchiveStart(): void
     {
         Option::set(self::OPTION_CRON_ARCHIVE_BLOCKED, true);
+    }
+
+    /**
+     * Force scheduled tasks to execute.
+     */
+    public function executeScheduledTasks(): void
+    {
+        Option::set(self::OPTION_SCHEDULED_TASKS_EXECUTE, true);
     }
 
     /**
@@ -85,6 +103,33 @@ class StepControl
     }
 
     /**
+     * DI hook intercepting the "ScheduledTasks.execute" event.
+     */
+    public function handleScheduledTasksExecute(): void
+    {
+        $continue = $this->waitForSuccess(static function (): bool {
+            // force reading from database
+            Option::clearCachedOption(self::OPTION_SCHEDULED_TASKS_BLOCKED);
+
+            return false === Option::get(self::OPTION_SCHEDULED_TASKS_BLOCKED);
+        });
+
+        if (!$continue) {
+            throw new RuntimeException('Waiting for ScheduledTask option took too long!');
+        }
+    }
+
+    /**
+     * DI hook intercepting the "ScheduledTasks.shouldExecuteTask" event.
+     */
+    public function handleScheduledTasksShouldExecute(bool &$shouldExecuteTask): void
+    {
+        if (Option::get(self::OPTION_SCHEDULED_TASKS_EXECUTE)) {
+            $shouldExecuteTask = true;
+        }
+    }
+
+    /**
      * Remove all internal blocks.
      */
     public function reset(): void
@@ -106,6 +151,14 @@ class StepControl
     public function unblockCronArchiveStart(): void
     {
         Option::delete(self::OPTION_CRON_ARCHIVE_BLOCKED);
+    }
+
+    /**
+     * Allow proceeding past the "ScheduledTasks.execute" event.
+     */
+    public function unblockScheduledTasks(): void
+    {
+        Option::delete(self::OPTION_SCHEDULED_TASKS_BLOCKED);
     }
 
     /**
