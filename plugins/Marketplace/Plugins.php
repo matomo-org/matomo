@@ -178,9 +178,9 @@ class Plugins
      */
     public function getPluginsHavingUpdate(): array
     {
-        $skipPluginUpdateCheck = StaticContainer::get('dev.disable_plugin_update_checks');
-        if ($skipPluginUpdateCheck) {
-            return [];
+        $forcedResult = StaticContainer::get('dev.forced_plugin_update_result');
+        if ($forcedResult !== null) {
+            return $forcedResult;
         }
 
         $this->pluginManager->loadAllPluginsAndGetTheirInfo();
