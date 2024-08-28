@@ -27,8 +27,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      * @param array|Zend_Config $config database configuration
      */
 
-    // this is used for indicate TransactionLevel Cache
-    public $supportsUncommitted;
+    private $supportsTransactionLevelForNonLockingReads;
 
     public function __construct($config)
     {
@@ -254,5 +253,15 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
         $revision = (int)($version % 100);
 
         return $major . '.' . $minor . '.' . $revision;
+    }
+
+    public function setSupportsTransactionLevelForNonLockingReads(bool $supports): void
+    {
+        $this->supportsTransactionLevelForNonLockingReads = $supports;
+    }
+
+    public function getSupportsTransactionLevelForNonLockingReads(): ?bool
+    {
+        return $this->supportsTransactionLevelForNonLockingReads;
     }
 }

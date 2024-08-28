@@ -12,6 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
+use Piwik\Db\TransactionalDatabaseInterface;
 
 /**
  * Contains SQL related helper functions for Piwik's MySQL database.
@@ -32,7 +33,7 @@ use Piwik\Db\Schema;
  *
  * @api
  */
-class Db
+class Db implements TransactionalDatabaseInterface
 {
     public const SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
 
@@ -42,7 +43,8 @@ class Db
     private static $logQueries = true;
 
     // this is used for indicate TransactionLevel Cache
-    public $supportsUncommitted;
+    private $supportsTransactionLevelForNonLockingReads;
+
     /**
      * Returns the database connection and creates it if it hasn't been already.
      *
@@ -874,5 +876,15 @@ class Db
     public static function isOptimizeInnoDBSupported($version = null)
     {
         return Db\Schema::getInstance()->isOptimizeInnoDBSupported();
+    }
+
+    public function setSupportsTransactionLevelForNonLockingReads(bool $supports): void
+    {
+        $this->supportsTransactionLevelForNonLockingReads = $supports;
+    }
+
+    public function getSupportsTransactionLevelForNonLockingReads(): ?bool
+    {
+        return $this->supportsTransactionLevelForNonLockingReads;
     }
 }

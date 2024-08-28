@@ -31,8 +31,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * @param array|Zend_Config $config database configuration
      */
 
-    // this is used for indicate TransactionLevel Cache
-    public $supportsUncommitted;
+    private $supportsTransactionLevelForNonLockingReads;
 
     public function __construct($config)
     {
@@ -351,5 +350,15 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         }
 
         return parent::_dsn();
+    }
+
+    public function setSupportsTransactionLevelForNonLockingReads(bool $supports): void
+    {
+        $this->supportsTransactionLevelForNonLockingReads = $supports;
+    }
+
+    public function getSupportsTransactionLevelForNonLockingReads(): ?bool
+    {
+        return $this->supportsTransactionLevelForNonLockingReads;
     }
 }
