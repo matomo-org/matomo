@@ -9,8 +9,11 @@
 
 namespace Piwik\Plugins\Referrers\Columns;
 
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Common;
 use Piwik\Metrics\Formatter;
+use Piwik\Plugin\Segment;
+use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -30,6 +33,18 @@ class ReferrerType extends Base
     public function formatValue($value, $idSite, Formatter $formatter)
     {
         return \Piwik\Plugins\Referrers\getReferrerTypeLabel($value);
+    }
+
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
+    {
+        parent::configureSegments($segmentsList, $dimensionSegmentFactory);
+
+        $customSegment = new Segment();
+        $customSegment->setSegment('conversionReferrerType');
+        $customSegment->setSqlSegment('log_conversion.' . $this->columnName);
+        $customSegment->setName('Visitor has conversion attributed to Channel Type');
+        $segment = $dimensionSegmentFactory->createSegment($customSegment);
+        $segmentsList->addSegment($segment);
     }
 
     public function getEnumColumnValues()

@@ -166,7 +166,7 @@ class API extends \Piwik\Plugin\API
         $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\SetGetReferrerTypeSubtables', array($idSite, $period, $date, $segment, $expanded));
 
         $dataTable->filter('AddSegmentByLabelMapping', array(
-            'referrerType',
+            \Piwik\Request::fromRequest()->getStringParameter('idGoal') ? 'conversionReferrerType' : 'referrerType',
             array(
                 Common::REFERRER_TYPE_DIRECT_ENTRY   => 'direct',
                 Common::REFERRER_TYPE_CAMPAIGN       => 'campaign',
