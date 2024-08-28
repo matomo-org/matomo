@@ -68,6 +68,12 @@ class Tidb extends Mysql
         return false;
     }
 
+    public function getSupportedReadIsolationTransactionLevel(): string
+    {
+        // TiDB doesn't support READ UNCOMMITTED
+        return 'READ COMMITTED';
+    }
+
     protected function getDatabaseCreateOptions(): string
     {
         $charset = DbHelper::getDefaultCharset();
