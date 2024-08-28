@@ -132,6 +132,15 @@
     >
       {{ translate('Marketplace_ActionInstall') }}
     </a>
+
+    <template v-else>
+      <MoreDetailsAction
+        v-if="!inModal"
+        :show-as-button="true"
+        :label="translate('General_MoreDetails')"
+        @action="$emit('openDetailsModal')"
+      />
+    </template>
   </template>
 
   <a v-else-if="plugin.isTrialRequested"
