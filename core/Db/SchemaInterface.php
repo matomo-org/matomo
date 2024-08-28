@@ -70,6 +70,16 @@ interface SchemaInterface
     public function getInstallVersion();
 
     /**
+     * Returns the supported read isolation transaction level
+     *
+     * For example:
+     *      READ COMMITTED
+     *      or
+     *      READ UNCOMMITTED
+     */
+    public function getSupportedReadIsolationTransactionLevel(): string;
+
+    /**
      * Truncate all tables
      */
     public function truncateAllTables();

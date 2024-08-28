@@ -38,7 +38,15 @@ class TransactionLevel
         return strtolower($dbSettings->getEngine()) === 'innodb';
     }
 
+    /**
+     * @deprecated Use `setTransactionLevelForNonLockingReads`
+     */
     public function setUncommitted()
+    {
+        return $this->setTransactionLevelForNonLockingReads();
+    }
+
+    public function setTransactionLevelForNonLockingReads(): bool
     {
         if ($this->db->supportsUncommitted === false) {
             // we know "Uncommitted" transaction level is not supported, we don't need to do anything as it won't work to set the status
@@ -57,7 +65,8 @@ class TransactionLevel
         }
 
         try {
-            $this->db->query('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
+            $this->db->query('SET SESSION TRANSACTION ISOLATION LEVEL ' . Schema::getInstance()->getSupportedReadIsolationTransactionLevel());
+
             $this->statusBackup = $backup;
 
             if ($this->db->supportsUncommitted === null) {

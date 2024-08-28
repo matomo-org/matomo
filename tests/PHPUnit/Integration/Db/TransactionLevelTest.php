@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Integration\Db;
 
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Db\TransactionLevel;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -42,7 +43,7 @@ class TransactionLevelTest extends IntegrationTestCase
         $this->assertTrue($this->level->canLikelySetTransactionLevel());
     }
 
-    public function testSetUncommittedRestorePreviousStatus()
+    public function testSetTransactionLevelForNonLockingReadsRestorePreviousStatus()
     {
         // mysql 8.0 using transaction_isolation
         $isolation = $this->db->fetchOne("SHOW GLOBAL VARIABLES LIKE 't%_isolation'");
@@ -51,10 +52,11 @@ class TransactionLevelTest extends IntegrationTestCase
         $value = $this->db->fetchOne('SELECT ' . $isolation);
         $this->assertSame('REPEATABLE-READ', $value);
 
-        $this->level->setUncommitted();
+        $this->level->setTransactionLevelForNonLockingReads();
         $value = $this->db->fetchOne('SELECT ' . $isolation);
 
-        $this->assertSame('READ-UNCOMMITTED', $value);
+        $expectedIsolation = str_replace(' ', '-', Schema::getInstance()->getSupportedReadIsolationTransactionLevel());
+        $this->assertSame($expectedIsolation, $value);
         $this->level->restorePreviousStatus();
 
         $value = $this->db->fetchOne('SELECT ' . $isolation);

@@ -181,7 +181,7 @@ class DatabaseAbilitiesCheck implements Diagnostic
         $comment = 'Changing transaction isolation level';
 
         $level = new Db\TransactionLevel(Db::getReader());
-        if (!$level->setUncommitted()) {
+        if (!$level->setTransactionLevelForNonLockingReads()) {
             $status = DiagnosticResult::STATUS_WARNING;
             $comment .= '<br/>' . $this->translator->translate('Diagnostics_MysqlTransactionLevel');
         } else {
