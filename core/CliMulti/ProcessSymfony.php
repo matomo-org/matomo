@@ -9,7 +9,7 @@
 
 namespace Piwik\CliMulti;
 
-use Symfony\Component\Process\Process;
+use Piwik\Process;
 
 /**
  * Wrapper for Symfony Process class
