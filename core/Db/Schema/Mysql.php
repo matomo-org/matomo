@@ -757,6 +757,11 @@ class Mysql implements SchemaInterface
         return true;
     }
 
+    public function getSupportedReadIsolationTransactionLevel(): string
+    {
+        return 'READ UNCOMMITTED';
+    }
+
     protected function getDatabaseCreateOptions(): string
     {
         $charset = DbHelper::getDefaultCharset();

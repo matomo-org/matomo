@@ -290,4 +290,17 @@ class Schema extends Singleton
     {
         return $this->getSchema()->supportsSortingInSubquery();
     }
+
+    /**
+     * Returns the supported read isolation transaction level
+     *
+     * For example:
+     *      READ COMMITTED
+     *      or
+     *      READ UNCOMMITTED
+     */
+    public function getSupportedReadIsolationTransactionLevel(): string
+    {
+        return $this->getSchema()->getSupportedReadIsolationTransactionLevel();
+    }
 }

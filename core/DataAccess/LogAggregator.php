@@ -307,7 +307,7 @@ class LogAggregator
             // set uncommitted is easily noticeable in the code as it could be missed quite easily otherwise
             // we set uncommitted so we don't make the INSERT INTO... SELECT... locking ... we do not want to lock
             // eg the visits table
-            if (!$transactionLevel->setUncommitted()) {
+            if (!$transactionLevel->setTransactionLevelForNonLockingReads()) {
                 $canSetTransactionLevel = false;
             }
         }
