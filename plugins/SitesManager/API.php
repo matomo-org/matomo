@@ -397,17 +397,19 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the messages to warn users on site deletion.
      *
-     * @throws Exception if the website ID doesn't exist or the user doesn't have access to it
      * @param int $idSite
-     * @return string messages to warn users
+     * @return array messages to warn users
+     * @throws Exception if the website ID doesn't exist or the user doesn't have super user access to it
+     * @internal
+     * @unsanitized
      */
-    public function getMessagesToWarnOnSiteRemoval($idSite)
+    public function getMessagesToWarnOnSiteRemoval(int $idSite): array
     {
-        $messages = [Piwik::translate('SitesManager_DeleteSiteExplanation')];
-        Piwik::checkUserHasViewAccess($idSite);
+        $messages = [];
+        Piwik::checkUserHasSuperUserAccess($idSite);
         Piwik::postEvent('SitesManager.getMessagesToWarnOnSiteRemoval', [$idSite, &$messages]);
 
-        return implode("<br>", $messages);
+        return $messages;
     }
 
     /**

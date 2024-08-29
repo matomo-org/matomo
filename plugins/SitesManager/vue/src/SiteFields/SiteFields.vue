@@ -462,8 +462,8 @@ export default defineComponent({
         method: 'SitesManager.getMessagesToWarnOnSiteRemoval',
       }).then((response) => {
         this.deleteSiteExplanation = translate('SitesManager_DeleteSiteExplanation');
-        if (response.value) {
-          this.deleteSiteExplanation = response.value;
+        if (response.length) {
+          this.deleteSiteExplanation += response.join('<br>');
         }
         this.showRemoveDialog = true;
       });
