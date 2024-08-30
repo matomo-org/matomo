@@ -720,14 +720,16 @@ class ApiTest extends IntegrationTestCase
         if ($pluginManager->isPluginActivated('TagManager')) {
             $pluginManager->deactivatePlugin('TagManager');
         }
-        $this->createManySitesWithAdminAccess(2);
-        $this->assertEquals('SitesManager_DeleteSiteExplanation', API::getInstance()->getMessagesToWarnOnSiteRemoval(1));
-        $this->assertEquals('SitesManager_DeleteSiteExplanation', API::getInstance()->getMessagesToWarnOnSiteRemoval(2));
+        API::getInstance()->addSite("site1", ["http://piwik.net", "http://piwik.com"]);
+        API::getInstance()->addSite("site2", ["http://piwik.com", "http://piwik.net"]);
+        $this->assertEmpty(API::getInstance()->getMessagesToWarnOnSiteRemoval(1));
+        $this->assertEmpty(API::getInstance()->getMessagesToWarnOnSiteRemoval(2));
     }
 
     public function testGetMessagesToWarnOnSiteRemovalShouldNotReturnDefaultValue()
     {
-        $this->createManySitesWithAdminAccess(2);
+        API::getInstance()->addSite("site1", ["http://piwik.net", "http://piwik.com"]);
+        API::getInstance()->addSite("site2", ["http://piwik.com", "http://piwik.net"]);
         $text1 = API::getInstance()->getMessagesToWarnOnSiteRemoval(1);
         $text2 = API::getInstance()->getMessagesToWarnOnSiteRemoval(2);
         $this->assertNotEmpty($text1);
