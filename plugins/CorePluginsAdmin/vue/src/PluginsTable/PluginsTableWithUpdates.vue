@@ -15,7 +15,7 @@
   >
     <p>{{ translate('CorePluginsAdmin_InfoPluginUpdateIsRecommended') }}</p>
 
-    <div>
+    <div v-if="isPluginsAdminEnabled">
       <a
         id="update-selected-plugins"
         @click.prevent="updateSelectedPlugins()"
@@ -27,7 +27,7 @@
     <table v-content-table>
       <thead>
       <tr>
-        <th>
+        <th v-if="isPluginsAdminEnabled">
           <span class="checkbox-container">
             <label>
               <input
@@ -43,7 +43,10 @@
         <th class="num">{{ translate('CorePluginsAdmin_Version') }}</th>
         <th>{{ translate('General_Description') }}</th>
         <th class="status">{{ translate('CorePluginsAdmin_Status') }}</th>
-        <th class="action-links">{{ translate('General_Action') }}</th>
+        <th
+          v-if="isPluginsAdminEnabled"
+          class="action-links"
+        >{{ translate('General_Action') }}</th>
       </tr>
       </thead>
       <tbody id="plugins">
@@ -52,7 +55,7 @@
         :key="name"
         :class="plugin.isActivated ? 'active-plugin' : 'inactive-plugin'"
       >
-        <td class="select-cell">
+        <td class="select-cell" v-if="isPluginsAdminEnabled">
           <span class="checkbox-container">
               <label>
                   <input
@@ -93,7 +96,7 @@
             ? translate('CorePluginsAdmin_Active')
             : translate('CorePluginsAdmin_Inactive') }}
         </td>
-        <td class="togl action-links">
+        <td class="togl action-links" v-if="isPluginsAdminEnabled">
           <span
             v-if="typeof plugin.isDownloadable !== 'undefined'
               && plugin.isDownloadable !== null
@@ -161,6 +164,7 @@ export default defineComponent({
       required: true,
     },
     isMultiServerEnvironment: Boolean,
+    isPluginsAdminEnabled: Boolean,
   },
   components: {
     ContentBlock,
