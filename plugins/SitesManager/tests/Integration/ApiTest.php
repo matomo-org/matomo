@@ -726,14 +726,11 @@ class ApiTest extends IntegrationTestCase
         $this->assertEmpty(API::getInstance()->getMessagesToWarnOnSiteRemoval(2));
     }
 
-    public function testGetMessagesToWarnOnSiteRemovalShouldNotReturnDefaultValue()
+    public function testGetMessagesToWarnOnSiteRemovalShouldThrowExceptionIfNotSuperUser()
     {
-        API::getInstance()->addSite("site1", ["http://piwik.net", "http://piwik.com"]);
-        API::getInstance()->addSite("site2", ["http://piwik.com", "http://piwik.net"]);
-        $text1 = API::getInstance()->getMessagesToWarnOnSiteRemoval(1);
-        $text2 = API::getInstance()->getMessagesToWarnOnSiteRemoval(2);
-        $this->assertNotEmpty($text1);
-        $this->assertNotEmpty($text2);
+        $this->expectException(\Exception::class);
+        $this->createManySitesWithAdminAccess(1);
+        API::getInstance()->getMessagesToWarnOnSiteRemoval(1);
     }
 
     private function createManySitesWithAdminAccess($numSites)
