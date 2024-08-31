@@ -3,6 +3,7 @@
         "JsTrackingCodeInstallCheckFailureMessage": "İzleme kodu doğrulanamadı. Lütfen kodu doğru şekilde kurduğunuzu doğrulayın. %1$sAyrıntılı bilgi alın%2$s.",
         "JsTrackingCodeInstallCheckFailureMessageWordpress": "İzleme kodu doğrulanamadı. Lütfen \"%1$s\" eklentisini kurduğunuzdan ve tüm adımları izlediğinizden emin olun. %2$sAyrıntılı bilgi alın%3$s.",
         "JsTrackingCodeInstallCheckSuccessMessage": "İzleme kodu kurulmuş! Bu ekran, sitenizin verileri izlenir izlenmez kaybolur.",
+        "OptionalTestInstallationDescription": "İsteğe bağlı: İzleme kodunun Matomo kopyanıza istek gönderebildiğini sınamak için, izlediğiniz tam adresi yazın ve \"Kurulumu sına\" üzerine tıklayın. Yeni bir sekme açılır ve 10 saniye içinde kapanmalıdır.",
         "PluginDescription": "İzleme kodunun sitenizde kurulu olup olmadığını ve kodun Matomo kopyasına geri izleme isteklerini gönderebildiğini doğrulayın",
         "TestInstallationBtnText": "Kurulumu sına"
     }
