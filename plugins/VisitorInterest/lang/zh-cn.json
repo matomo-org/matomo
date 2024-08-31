@@ -10,7 +10,6 @@
         "PluginDescription": "有关访问者的兴趣报道：一些浏览过的网页，在网站上花费的时间，上次访问后到现在几天，等等。",
         "VisitNum": "访问次数",
         "VisitsByDaysSinceLast": "基于距离上次访问天数的统计",
-        "visitsByVisitCount": "基于访问次数的统计",
         "VisitsPerDuration": "基于停留时间段的访问次数",
         "VisitsPerNbOfPages": "基于浏览页面数的访问次数",
         "WidgetLengths": "访问停留时间",
@@ -19,6 +18,7 @@
         "WidgetPagesDocumentation": "本报表显示查看了某个数量的页面的访客数。报表默认以标签云形式显示，常见的页面数量用较大的字体显示。",
         "WidgetVisitsByDaysSinceLast": "距离上次访问天数的访问量",
         "WidgetVisitsByDaysSinceLastDocumentation": "本报表显示距离上次访问特定天数的访客量。",
-        "WidgetVisitsByNumDocumentation": "本报表显示第N次访问的访客量。"
+        "WidgetVisitsByNumDocumentation": "本报表显示第N次访问的访客量。",
+        "visitsByVisitCount": "基于访问次数的统计"
     }
 }
