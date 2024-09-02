@@ -14,10 +14,14 @@ use Piwik\CliMulti\CliPhp;
 use Piwik\CliMulti\Output;
 use Piwik\CliMulti\OutputInterface;
 use Piwik\CliMulti\Process;
+use Piwik\CliMulti\ProcessSymfony;
 use Piwik\CliMulti\StaticOutput;
 use Piwik\Container\StaticContainer;
 use Piwik\Log\LoggerInterface;
 use Piwik\Log\NullLogger;
+use Piwik\Plugins\CoreConsole\FeatureFlags\CliMultiProcessSymfony;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Throwable;
 
 /**
  * Class CliMulti.
@@ -34,9 +38,18 @@ class CliMulti
     public $supportsAsync = null;
 
     /**
-     * @var Process[]
+     * If set to true or false it will overwrite whether async using Symfony\Process is supported or not.
+     *
+     * Will only be checked if the default $supportsAsync is true.
+     *
+     * @var null|bool
      */
-    private $processes = array();
+    public $supportsAsyncSymfony = null;
+
+    /**
+     * @var Process[]|ProcessSymfony[]
+     */
+    private $processes = [];
 
     /**
      * If set it will issue at most concurrentProcessesLimit requests
@@ -47,7 +60,7 @@ class CliMulti
     /**
      * @var OutputInterface[]
      */
-    private $outputs = array();
+    private $outputs = [];
 
     private $acceptInvalidSSLCertificate = false;
 
@@ -85,6 +98,8 @@ class CliMulti
     public function __construct(LoggerInterface $logger = null)
     {
         $this->supportsAsync = $this->supportsAsync();
+        $this->supportsAsyncSymfony = $this->supportsAsyncSymfony();
+
         $this->logger = $logger ?: new NullLogger();
     }
 
@@ -179,7 +194,10 @@ class CliMulti
     private function executeUrlCommand($cmdId, $url, $numUrls)
     {
         if ($this->supportsAsync) {
-            if ($numUrls === 1) {
+            if ($this->supportsAsyncSymfony) {
+                $output = new StaticOutput($cmdId);
+                $this->executeAsyncCliSymfony($url, $cmdId);
+            } elseif ($numUrls === 1) {
                 $output = new StaticOutput($cmdId);
                 $this->executeSyncCli($url, $output);
             } else {
@@ -243,33 +261,18 @@ class CliMulti
         return $response;
     }
 
-    private function hasFinished()
+    private function hasFinished(): bool
     {
+        $hasFinished = true;
+
         foreach ($this->processes as $index => $process) {
-            $hasStarted = $process->hasStarted();
-
-            if (!$hasStarted && 8 <= $process->getSecondsSinceCreation()) {
-                // if process was created more than 8 seconds ago but still not started there must be something wrong.
-                // ==> declare the process as finished
-                $process->finishProcess();
-                continue;
-            } elseif (!$hasStarted) {
-                return false;
+            if ($process instanceof ProcessSymfony) {
+                $processFinished = $this->hasFinishedProcessSymfony($process);
+            } else {
+                $processFinished = $this->hasFinishedProcess($process);
             }
 
-            if ($process->isRunning()) {
-                return false;
-            }
-
-            $pid = $process->getPid();
-            foreach ($this->outputs as $output) {
-                if ($output->getOutputId() === $pid && $output->isAbnormal()) {
-                    $process->finishProcess();
-                    continue;
-                }
-            }
-
-            if ($process->hasFinished()) {
+            if (true === $processFinished) {
                 // prevent from checking this process over and over again
                 unset($this->processes[$index]);
 
@@ -278,13 +281,63 @@ class CliMulti
                 }
 
                 if ($this->onProcessFinish) {
+                    $pid = $process->getPid();
                     $onProcessFinish = $this->onProcessFinish;
                     $onProcessFinish($pid);
                 }
             }
+
+            $hasFinished = $hasFinished && $processFinished;
         }
 
-        return true;
+        return $hasFinished;
+    }
+
+    private function hasFinishedProcess(Process $process): bool
+    {
+        $hasStarted = $process->hasStarted();
+
+        if (!$hasStarted && 8 <= $process->getSecondsSinceCreation()) {
+            // if process was created more than 8 seconds ago but still not started there must be something wrong.
+            // ==> declare the process as finished
+            $process->finishProcess();
+            return true;
+        } elseif (!$hasStarted) {
+            return false;
+        }
+
+        if ($process->isRunning()) {
+            return false;
+        }
+
+        $pid = $process->getPid();
+
+        foreach ($this->outputs as $output) {
+            if ($output->getOutputId() === $pid && $output->isAbnormal()) {
+                $process->finishProcess();
+                return true;
+            }
+        }
+
+        return $process->hasFinished();
+    }
+
+    private function hasFinishedProcessSymfony(ProcessSymfony $process): bool
+    {
+        $finished = $process->isStarted() && !$process->isRunning();
+
+        if ($finished) {
+            foreach ($this->outputs as $output) {
+                if ($output->getOutputId() !== $process->getCommandId()) {
+                    continue;
+                }
+
+                $output->write($process->getOutput());
+                break;
+            }
+        }
+
+        return $finished;
     }
 
     private function generateCommandId($command)
@@ -317,6 +370,45 @@ class CliMulti
         return $supportsAsync;
     }
 
+    /**
+     * Returns whether Symfony\Process instead of the default Piwik\Process for
+     * async cli multi execution.
+     *
+     * Requirements:
+     * - supportsAsync has to be true
+     * - feature flag "CliMultiProcessSymfony" has to be active
+     * - proc_open has to be available
+     *
+     * Several of the regular supportsAsync requirements may be obsolete after
+     * a complete switch has been done.
+     *
+     * @return bool
+     */
+    public function supportsAsyncSymfony(): bool
+    {
+        // When updating from an older version the required symfony component
+        // may not be available. We have to verify that outside of the
+        // CliMulti\ProcessSymfony wrapper because it extends the component.
+        if (
+            !$this->supportsAsync
+            || Process::isMethodDisabled('proc_open')
+            || !class_exists(\Symfony\Component\Process\Process::class)
+        ) {
+            return false;
+        }
+
+        // The required DI configuration may not be loaded during the update process.
+        // This can happen for an upgrade from a version that did not yet contain
+        // the feature flag plugin.
+        try {
+            $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+
+            return $featureFlagManager->isFeatureActive(CliMultiProcessSymfony::class);
+        } catch (Throwable $e) {
+            return false;
+        }
+    }
+
     private function findPhpBinary()
     {
         $cliPhp = new CliPhp();
@@ -325,8 +417,12 @@ class CliMulti
 
     private function cleanup()
     {
-        foreach ($this->processes as $pid) {
-            $pid->finishProcess();
+        foreach ($this->processes as $process) {
+            if ($process instanceof ProcessSymfony) {
+                $process->stop(0);
+            } else {
+                $process->finishProcess();
+            }
         }
 
         foreach ($this->outputs as $output) {
@@ -375,8 +471,44 @@ class CliMulti
         $hostname = Url::getHost($checkIfTrusted = false);
         $command = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
-        $this->logger->debug("Running command: {command}", ['command' => $command]);
+        $this->logger->debug(
+            'Running command: {command} [method = {method}]',
+            [
+                'command' => $command,
+                'method' => 'asyncCli',
+            ]
+        );
+
         shell_exec($command);
+    }
+
+    private function executeAsyncCliSymfony(string $url, string $cmdId): void
+    {
+        $url = $this->appendTestmodeParamToUrlIfNeeded($url);
+        $query = UrlHelper::getQueryFromUrl($url, array());
+        $hostname = Url::getHost($checkIfTrusted = false);
+        $command = $this->buildCommand($hostname, $query, '', true);
+
+        $this->logger->debug(
+            'Running command: {command} [method = {method}]',
+            [
+                'command' => $command,
+                'method' => 'asyncCliSymfony',
+            ]
+        );
+
+        // Prepending "exec" is required to send signals to the process
+        // Not using array notation because $command can contain complex parameters
+        if ('\\' !== DIRECTORY_SEPARATOR) {
+            $command = 'exec ' . $command;
+        }
+
+        $process = ProcessSymfony::fromShellCommandline($command);
+        $process->setTimeout(null);
+        $process->start();
+        $process->setCommandId($cmdId);
+
+        $this->processes[] = $process;
     }
 
     private function executeSyncCli($url, StaticOutput $output)
@@ -386,7 +518,14 @@ class CliMulti
         $hostname = Url::getHost($checkIfTrusted = false);
         $command = $this->buildCommand($hostname, $query, '', true);
 
-        $this->logger->debug("Running command: {command}", ['command' => $command]);
+        $this->logger->debug(
+            'Running command: {command} [method = {method}]',
+            [
+                'command' => $command,
+                'method' => 'syncCli',
+            ]
+        );
+
         $result = shell_exec($command);
         if ($result) {
             $result = trim($result);
