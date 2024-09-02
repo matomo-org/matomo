@@ -284,8 +284,7 @@ class Archive implements ArchiveQuery
     public static function shouldSkipArchiveIfSkippingSegmentArchiveForToday(Site $site, Period $period, Segment $segment)
     {
         $now = Date::factory('now', $site->getTimezone());
-        return $period->getLabel() === 'day'
-            && !$segment->isEmpty()
+        return !$segment->isEmpty()
             && $period->getDateStart()->toString() === $now->toString();
     }
 
