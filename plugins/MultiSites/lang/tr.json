@@ -18,8 +18,8 @@
         "PluginDescription": "Tüm site ve uygulamalarınızı kullanışlı 'Tüm siteler' panosu ile görüp karşılaştırabilirsiniz.",
         "SingleWebsitesDashboardDocumentation": "Bu rapor, belirli bir site için, ziyaretçilerle ilgili genel ölçümlerden oluşan bilgilendirici bir özet içerir.",
         "TopLinkTooltip": "Tüm sitelerinizin istatistiklerini karşılaştırın.",
-        "TotalHits": "Tıklama toplamı",
+        "TotalHits": "Toplam tıklanma",
         "TotalPageviews": "Sayfa gösterimi toplamı",
-        "TotalVisits": "Ziyaret toplamı"
+        "TotalVisits": "Toplam ziyaret"
     }
 }

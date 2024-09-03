@@ -110,7 +110,7 @@ return [
 
     'observers.global' => [],
 
-    'dev.disable_plugin_update_checks' => false,
+    'dev.forced_plugin_update_result' => null,
 
     /**
      * By setting this option to false, the check that the DB schema version matches the version of the source code will

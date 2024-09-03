@@ -68,6 +68,7 @@
         "PageDownShortcutDescription": "untuk sampai ke bagian bawah halaman",
         "PageUpShortcutDescription": "untuk sampai ke bagian atas halaman",
         "PeriodHasOnlyRawData": "Sepertinya laporan untuk periode ini belum diproses. Apakah Anda ingin melihat apa yang terjadi sekarang? Lihat %1$sLog kunjungan%2$s atau pilih periode tanggal yang berbeda hingga laporan dibuat.",
+        "PeriodHasOnlyRawDataNoVisitsLog": "Sepertinya laporan untuk jangka waktu ini belum diproses, tetapi akan tersedia dalam beberapa jam. Anda bisa memilih periode tanggal yang berbeda hingga laporan tersebut dibuat.",
         "PeriodRange": "Rentang",
         "PivotBySubtable": "Laporan ini tidak dipivot %1$s Dipivot berdasarkan %2$s",
         "Profilable": "Dapat diprofilkan",

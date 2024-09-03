@@ -65,6 +65,7 @@
         "symfony/monolog-bridge": "~5.4.0",
         "symfony/polyfill-iconv": "^1.20",
         "symfony/polyfill-mbstring": "^1.20",
+        "symfony/process": "~5.4.0",
         "szymach/c-pchart": "~3.0.13",
         "tecnickcom/tcpdf": "~6.0",
         "tedivm/jshrink": "~v1.4.0",

@@ -68,7 +68,7 @@
         "PageDownShortcutDescription": "sayfanın altına gitmek için",
         "PageUpShortcutDescription": "sayfanın üstüne gitmek için",
         "PeriodHasOnlyRawData": "Bu dönemin raporları henüz işlenmemiş gibi görünüyor. Şu anda olduğunu görmek ister misiniz? %1$sZiyaret günlüğüne%2$s göz atın ya da raporlar oluşturulana kadar farklı bir tarih aralığı seçin.",
-        "PeriodHasOnlyRawDataNoVisitsLog": "Bu aralığa ait raporlar henüz işlenmemiş gibi görünüyor, ancak birkaç saat içinde hazır olacaklar. Raporlar oluşturulana kadar farklı bir tarih aralığı seçebilirsiniz.",
+        "PeriodHasOnlyRawDataNoVisitsLog": "Bu aralıktaki raporlar henüz işlenmemiş gibi görünüyor, ancak birkaç saat içinde hazır olacaklar. Raporlar oluşturulana kadar farklı bir tarih aralığı seçebilirsiniz.",
         "PeriodRange": "Aralık",
         "PivotBySubtable": "Bu rapor merkeze alınmamış %1$s Şununla merkeze alın %2$s",
         "Profilable": "Profillenebilir",

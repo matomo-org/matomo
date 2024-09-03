@@ -3,6 +3,7 @@
         "JsTrackingCodeInstallCheckFailureMessage": "Theip ar fhíorú an chóid a rianú. Cinntigh go bhfuil an cód suiteáilte agat i gceart. %1$sFoghlaim tuilleadh %2$s.",
         "JsTrackingCodeInstallCheckFailureMessageWordpress": "Theip ar fhíorú an chóid a rianú. Deimhnigh go bhfuil an breiseán \"%1$s\" suiteáilte agat agus gur lean tú gach céim. %2$sFoghlaim tuilleadh %3$s.",
         "JsTrackingCodeInstallCheckSuccessMessage": "Tá an cód rianaithe suiteáilte go rathúil! Imeoidh an scáileán seo chomh luath agus a rianaítear roinnt sonraí do do shuíomh Gréasáin.",
+        "OptionalTestInstallationDescription": "Roghnach: Chun a thástáil go bhfuil an cód rianaithe in ann iarratais a sheoladh chuig do shampla Matomo, cuir isteach an URL cruinn atá á rianú agat agus cliceáil ar \"Suiteáil tástála\". Osclófar cluaisín nua, agus ba cheart é a dhúnadh laistigh de 10 soicind.",
         "PluginDescription": "Bailíochtaigh cibé an bhfuil an cód rianaithe suiteáilte ar do shuíomh agus an féidir leis iarratais rianaithe a sheoladh ar ais chuig do shampla Matomo",
         "TestInstallationBtnText": "Suiteáil tástála"
     }
