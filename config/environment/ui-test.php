@@ -19,13 +19,13 @@ return [
     'tests.ui.url_normalizer_blacklist.controller' => [],
 
     // disable check for plugin updates during UI tests, allow for override
-    'dev.disable_plugin_update_checks' => Piwik\DI::decorate(function ($previous, Container $c) {
-        return !$c->get('test.vars.forceEnablePluginUpdateChecks');
+    'dev.forced_plugin_update_result' => Piwik\DI::decorate(function ($previous, Container $c) {
+        return $c->get('test.vars.forceEnablePluginUpdateChecks') ? null : [];
     }),
 
     'twig.cache' => function (\Piwik\Container\Container $container) {
         $templatesPath = $container->get('path.tmp.templates');
-        return new class($templatesPath) extends \Twig\Cache\FilesystemCache {
+        return new class ($templatesPath) extends \Twig\Cache\FilesystemCache {
             public function write(string $key, string $content): void
             {
                 $retryCount = 3;

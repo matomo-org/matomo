@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "DirectLink": "› Doğrudan bağlantı",
-        "DisplayDashboardInIframe": "Ayrıca, tam Matomo panosunu uygulamanızda ya da sitenizde bir IFRAME içinde görüntüleyebilirsiniz (%1$sörneğe bakın%2$s). Tarih parametresi belirli bir takvim tarihi, \"today\" ya da \"iyesterday\" olarak ayarlanabilir. Dönem parametresi \"day\", \"week\", \"month\" ya da \"year\" olarak ayarlanabilir. Dil parametresi, language=tr gibi bir çevirinin dil koduna ayarlanabilir. Örneğin, idSite=1 ve date=yesterday için şunu yazabilirsiniz:",
+        "DisplayDashboardInIframe": "Ayrıca, Matomo panosunu uygulamanızda ya da sitenizde bir IFRAME içinde görüntüleyebilirsiniz (%1$sörneğe bakın%2$s). Tarih parametresi belirli bir takvim tarihi, \"today\" ya da \"yesterday\" olarak ayarlanabilir. Dönem parametresi \"day\", \"week\", \"month\" ya da \"year\" olarak ayarlanabilir. Dil parametresi, language=tr gibi bir çevirinin dil koduna ayarlanabilir. Örneğin, idSite=1 ve date=yesterday için şunu yazabilirsiniz:",
         "DisplayDashboardInIframeAllSites": "Ayrıca, tam site panolarını bir IFRAME içinde pano bileşeni olarak görüntüleyebilirsiniz (%1$sörneğe bakın%2$s)",
         "EmbedIframe": "› Iframe olarak ekle",
         "Intro": "Matomo ile, tek tıkla %1$ssite istatistikleri raporlarınızı dışa aktararak%2$s blogunuza, sitenize veya intranet panonuza ekleyebilirsiniz.",

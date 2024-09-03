@@ -34,7 +34,7 @@
     <template
       v-else-if="plugin.canBeUpdated && 0 == plugin.missingRequirements.length"
     >
-      <a v-if="isAutoUpdatePossible"
+      <a v-if="isAutoUpdatePossible && isPluginsAdminEnabled"
          tabindex="7"
          class="btn btn-block"
          :href="linkToUpdate(plugin.name)"
@@ -83,7 +83,7 @@
       </template>
     </div>
 
-    <div v-else-if="plugin.isEligibleForFreeTrial && !inModal"
+    <div v-else-if="plugin.isEligibleForFreeTrial && !inModal && isPluginsAdminEnabled"
        class="btn btn-block purchaseable"
        :title="translate('Marketplace_StartFreeTrial')"
     >{{ translate('Marketplace_StartFreeTrial') }}</div>
@@ -125,13 +125,22 @@
         />)</span>
     </div>
 
-    <a v-else
+    <a v-else-if="isPluginsAdminEnabled"
        tabindex="7"
        :href="linkToInstall(plugin.name)"
        class="btn btn-block"
     >
       {{ translate('Marketplace_ActionInstall') }}
     </a>
+
+    <template v-else>
+      <MoreDetailsAction
+        v-if="!inModal"
+        :show-as-button="true"
+        :label="translate('General_MoreDetails')"
+        @action="$emit('openDetailsModal')"
+      />
+    </template>
   </template>
 
   <a v-else-if="plugin.isTrialRequested"
