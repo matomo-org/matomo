@@ -1,11 +1,18 @@
 {
     "PrivacyManager": {
+        "Anonymize": "Anonymizovat",
         "AnonymizeData": "Anonymizace dat",
+        "AnonymizeIpDescription": "Pokud chcete, aby Matomo nesledovalo plně kvalifikované IP adresy, vyberte možnost \"Ano\".",
+        "AnonymizeIpExtendedHelp": "Když uživatelé navštíví vaše webové stránky, Matomo nepoužije celou IP adresu (například %1$s), ale místo toho ji nejprve anonymizuje (na %2$s). Anonymizace IP adresy je jedním z požadavků stanovených zákony o ochraně osobních údajů v některých zemích, například v Německu.",
         "AnonymizeIpInlineHelp": "Anonymizací posledního byte IP adresy návštěvníka, můžete vyhovět místní legislativě ve vaší zemi.",
+        "AnonymizeIpMaskFully": "Plně maskovat IP adresu",
         "AnonymizeIpMaskLengtDescription": "Zvolte, kolik bitů z návštěvníkovy IP adresy má být maskováno.",
         "AnonymizeIpMaskLength": "%1$s bitů - např. %2$s",
+        "AnonymizeReferrer": "Anonymizovat odkazovač",
+        "AnonymizeReferrerNote": "Matomo ukládá, ze které adresy URL (referrer) uživatel na vaše stránky přišel. V některých případech může taková adresa URL obsahovat informace, které lze považovat za osobní údaje. Pokud chcete zabránit sledování takových informací, můžete omezit množství údajů o odkazu, které bude Matomo ukládat, když návštěvník vstoupí na vaše webové stránky. Čím více informací bude z údajů o odkazujícím odstraněno, tím menší je pravděpodobnost, že budou zaznamenány osobní údaje. Čím více informací z odkazovače odstraníte, tím méně bude jasné, jak návštěvník na vaše webové stránky přišel.",
         "AskingForConsent": "Žádání o souhlas",
         "ClickHereSettings": "Pro přístup k nastavení %s klikněte zde.",
+        "ConsentExplanation": "Souhlas znamená nabídnout jednotlivcům možnost volby a kontroly nad tím, jak jsou jejich osobní údaje zpracovávány.",
         "CurrentDBSize": "Aktuální velikost databáze",
         "DBPurged": "Databáze vyprázdněna.",
         "DataRetention": "Uchovávání dat",
@@ -67,6 +74,7 @@
         "UseAnonymizeIp": "Anonymizovat IP adresy návštěvníků",
         "UseAnonymizedIpForVisitEnrichment": "Anonymizované IP adresy použít i při obohacování návštěv.",
         "UseDeleteReports": "Průběžně mazat stará hlášení z databáze",
+        "WhenConsentIsNeededPart1": "Nařízení %1$sGDPR o ochraně osobních údajů%2$s vyžaduje, abyste si v některých případech při zpracování osobních údajů vyžádali souhlas uživatelů. Abyste zjistili, zda musíte žádat o souhlas, musíte určit svůj zákonný základ pro zpracování osobních údajů. Může to být buď \"Souhlas\", nebo \"Oprávněný zájem\", případně se můžete shromažďování osobních údajů zcela vyhnout.",
         "WhenDoINeedConsent": "Kdy musím žádat o souhlas uživatelů?"
     }
 }

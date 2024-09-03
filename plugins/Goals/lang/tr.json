@@ -131,7 +131,7 @@
         "SendEvent": "Bir etkinlik gönderme",
         "SingleGoalOverviewDocumentation": "Tek bir hedefin dönüşüm özetine buradan bakabilirsiniz. %s aşağıdaki çizelgedeki çubukların üzerine tıklayarak genişletebilirsiniz.",
         "ThereIsNoGoalToManage": "%s site için yönetilebilecek bir hedef yok",
-        "TimeInMinutes": "Dakika cinsinden süre",
+        "TimeInMinutes": "Dakika olarak süre",
         "URL": "Adres",
         "UpdateGoal": "Hedefi güncelle",
         "UseEventValueAsRevenue": "Dönüşüm geliri olarak etkinlik değeri (varsa) kullanılsın.",
