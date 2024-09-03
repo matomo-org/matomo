@@ -186,7 +186,8 @@
       @confirmed="deleteSite"
     >
         <h2>{{ removeDialogTitle }}</h2>
-        <p v-html="$sanitize(deleteSiteExplanation)"></p>
+        <p>{{ translate('SitesManager_DeleteSiteExplanation') }}</p>
+        <p v-if="deleteSiteExplanation" v-html="$sanitize(deleteSiteExplanation)"></p>
     </PasswordConfirmation>
   </div>
 </template>
@@ -461,7 +462,7 @@ export default defineComponent({
         format: 'json',
         method: 'SitesManager.getMessagesToWarnOnSiteRemoval',
       }).then((response) => {
-        this.deleteSiteExplanation = translate('SitesManager_DeleteSiteExplanation');
+        this.deleteSiteExplanation = '';
         if (response.length) {
           this.deleteSiteExplanation += response.join('<br>');
         }
