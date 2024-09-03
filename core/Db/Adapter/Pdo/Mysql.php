@@ -366,7 +366,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     {
         try {
             return $this->fetchOne('SELECT @@TX_ISOLATION');
-        } catch (Exception) {
+        } catch (Exception $e) {
             return $this->fetchOne('SELECT @@transaction_isolation');
         }
     }

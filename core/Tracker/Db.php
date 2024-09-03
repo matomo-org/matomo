@@ -306,7 +306,7 @@ abstract class Db implements TransactionalDatabaseInterface
     {
         try {
             return self::fetchOne('SELECT @@TX_ISOLATION');
-        } catch (Exception) {
+        } catch (Exception $e) {
             return self::fetchOne('SELECT @@transaction_isolation');
         }
     }

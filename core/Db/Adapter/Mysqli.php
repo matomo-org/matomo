@@ -269,7 +269,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
     {
         try {
             return $this->fetchOne('SELECT @@TX_ISOLATION');
-        } catch (Exception) {
+        } catch (Exception $e) {
             return $this->fetchOne('SELECT @@transaction_isolation');
         }
     }
