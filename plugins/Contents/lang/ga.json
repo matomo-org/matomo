@@ -1,1 +1,24 @@
-{}
+{
+    "Contents": {
+        "ContentImpression": "Léiriú Ábhar",
+        "ContentInteraction": "Idirghníomhaíocht Ábhar",
+        "ContentInteractions": "Idirghníomhaíochtaí Ábhar",
+        "ContentName": "Ainm an Ábhair",
+        "ContentNameReportDocumentation": "Taispeánann an tuarascáil seo ainmneacha an ábhair ar fhéach do chuairteoirí air agus ar idirghníomhú leo.",
+        "ContentNames": "Ainmneacha Ábhar",
+        "ContentPiece": "Píosa Ábhar",
+        "ContentPieceReportDocumentation": "Léiríonn an tuarascáil seo na píosaí ábhair ar fhéach do chuairteoirí orthu agus ar idirghníomhú leo.",
+        "ContentPieces": "Píosaí Ábhar",
+        "ContentTarget": "Sprioc Ábhar",
+        "ContentTargets": "Spriocanna Ábhar",
+        "Contents": "Clár ábhair",
+        "ContentsSubcategoryHelp1": "Cuidíonn rianú inneachair leat an tóir atá ar phíosaí sonracha ábhair ar aon leathanach de do shuíomh Gréasáin nó d’aip a chinneadh. Tuairiscíonn an chuid seo líon na n-imprisean agus na n-idirghníomhaíochtaí a fhaigheann na píosaí éagsúla ábhair ar do shuíomh.",
+        "ContentsSubcategoryHelp2": "Foghlaim tuilleadh sa treoir Rianú Ábhar.",
+        "Impressions": "Imprisean",
+        "ImpressionsMetricDocumentation": "An líon uaireanta a taispeánadh bloc ábhair, mar bhratach nó fógra, ar leathanach.",
+        "InteractionRate": "Ráta Idirghníomhaíochta",
+        "InteractionRateMetricDocumentation": "Cóimheas na n-imprisean ábhair agus na hidirghníomhaíochtaí.",
+        "InteractionsMetricDocumentation": "An líon uaireanta a rinneadh idirghníomhú le bloc ábhair (m.sh., ‘cliceáil’ ar bhratach nó ar fhógra).",
+        "PluginDescription": "Ligeann rianú ábhar agus meirgí duit feidhmíocht (amhairc, cad a tharlaíonn, CTR) aon phíosa inneachair ar do leathanaigh a thomhas (fógra Meirge, íomhá, aon mhír)."
+    }
+}

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Report;
@@ -16,7 +17,7 @@ use Piwik\Plugin\Manager as PluginManager;
  */
 class ReportTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_getAllReports_shouldNotFindAReport_IfNoPluginLoaded()
+    public function testGetAllReportsShouldNotFindAReportIfNoPluginLoaded()
     {
         $this->unloadAllPlugins();
 
@@ -26,7 +27,7 @@ class ReportTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array(), $report);
     }
 
-    public function test_getAllReports_ShouldFindAllAvailableReports()
+    public function testGetAllReportsShouldFindAllAvailableReports()
     {
         $this->loadExampleReportPlugin();
         $this->loadMorePlugins();

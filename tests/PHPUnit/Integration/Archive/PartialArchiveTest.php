@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Archive;
@@ -35,7 +36,7 @@ class PartialArchiveTest extends IntegrationTestCase
         self::trackVisit();
     }
 
-    public function test_rangeArchiving_onlyArchivesSingleRecord_whenQueryingNumerics()
+    public function testRangeArchivingOnlyArchivesSingleRecordWhenQueryingNumerics()
     {
         // first trigger all plugins archiving
         $_GET['trigger'] = 'archivephp';
@@ -104,7 +105,7 @@ class PartialArchiveTest extends IntegrationTestCase
         ], $archiveInfo);
     }
 
-    public function test_rangeArchiving_onlyArchivesSingleRecord_whenQueryingBlobs()
+    public function testRangeArchivingOnlyArchivesSingleRecordWhenQueryingBlobs()
     {
         // first trigger all plugins archiving
         $_GET['trigger'] = 'archivephp';

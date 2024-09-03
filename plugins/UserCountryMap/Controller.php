@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\UserCountryMap;
@@ -28,7 +27,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 class Controller extends \Piwik\Plugin\Controller
 {
     // By default plot up to the last 3 days of visitors on the map, for low traffic sites
-    const REAL_TIME_WINDOW = 'last3';
+    public const REAL_TIME_WINDOW = 'last3';
 
     /**
      * @var Translator
@@ -77,7 +76,7 @@ class Controller extends \Piwik\Plugin\Controller
         );
         $config = [];
         $config['visitsSummary'] = json_decode($request->process(), true);
-        $config['countryDataUrl'] = $this->_report(
+        $config['countryDataUrl'] = $this->report(
             'UserCountry',
             'getCountry',
             $this->idSite,
@@ -87,7 +86,7 @@ class Controller extends \Piwik\Plugin\Controller
             false,
             $segment
         );
-        $config['regionDataUrl'] = $this->_report(
+        $config['regionDataUrl'] = $this->report(
             'UserCountry',
             'getRegion',
             $this->idSite,
@@ -97,7 +96,7 @@ class Controller extends \Piwik\Plugin\Controller
             true,
             $segment
         );
-        $config['cityDataUrl'] = $this->_report(
+        $config['cityDataUrl'] = $this->report(
             'UserCountry',
             'getCity',
             $this->idSite,
@@ -355,7 +354,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $url;
     }
 
-    private function _report($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false, $segmentOverride = false)
+    private function report($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false, $segmentOverride = false)
     {
         return $this->getApiRequestUrl(
             'API',

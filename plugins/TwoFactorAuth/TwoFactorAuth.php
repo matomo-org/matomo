@@ -3,8 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\TwoFactorAuth;
@@ -111,8 +111,10 @@ class TwoFactorAuth extends \Piwik\Plugin
     public function deleteRecoveryCodes($returnedValue, $params)
     {
         $model = new Model();
-        if (!empty($params['parameters']['userLogin'])
-            && !$model->userExists($params['parameters']['userLogin'])) {
+        if (
+            !empty($params['parameters']['userLogin'])
+            && !$model->userExists($params['parameters']['userLogin'])
+        ) {
             // we delete only if the deletion was really successful
             $dao = StaticContainer::get(RecoveryCodeDao::class);
             $dao->deleteAllRecoveryCodesForLogin($params['parameters']['userLogin']);
@@ -138,9 +140,11 @@ class TwoFactorAuth extends \Piwik\Plugin
             $authCode = Common::getRequestVar('authCode', '', 'string');
             $twoFa = $this->getTwoFa();
 
-            if ($authCode
+            if (
+                $authCode
                 && TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)
-                && $twoFa->validateAuthCode($login, $authCode)) {
+                && $twoFa->validateAuthCode($login, $authCode)
+            ) {
                 $sessionFingerprint = new SessionFingerprint();
                 $sessionFingerprint->setTwoFactorAuthenticationVerified();
             }
@@ -190,8 +194,10 @@ class TwoFactorAuth extends \Piwik\Plugin
                     }
                     throw new Exception(Piwik::translate('TwoFactorAuth_InvalidAuthCode'));
                 }
-            } else if ($twoFa->isUserRequiredToHaveTwoFactorEnabled()
-                        && !TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)) {
+            } elseif (
+                $twoFa->isUserRequiredToHaveTwoFactorEnabled()
+                        && !TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)
+            ) {
                 throw new Exception(Piwik::translate('TwoFactorAuth_RequiredAuthCodeNotConfiguredAPI'));
             }
         }
@@ -221,7 +227,7 @@ class TwoFactorAuth extends \Piwik\Plugin
                 if (!Request::isRootRequestApiRequest()) {
                     $module = 'TwoFactorAuth';
                     $action = 'loginTwoFactorAuth';
-                } else if (Common::getRequestVar('force_api_session', 0) == 1) {
+                } elseif (Common::getRequestVar('force_api_session', 0) == 1) {
                     // don't allow API requests with session auth if 2fa code hasn't been verified.
                     throw new Exception(Piwik::translate('General_YourSessionHasExpired'));
                 }

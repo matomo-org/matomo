@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Tracker;
@@ -32,13 +33,18 @@ class VisitorRecognizerTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->recognizer = new VisitorRecognizer(true, 1800, 24000,
-            new Model(), EventDispatcher::getInstance());
+        $this->recognizer = new VisitorRecognizer(
+            true,
+            1800,
+            24000,
+            new Model(),
+            EventDispatcher::getInstance()
+        );
 
         Fixture::createWebsite('2020-01-01 02:03:04');
     }
 
-    public function test_findKnownVisitor_whenNotExceededMaxActionsLimitFindsVisitor()
+    public function testFindKnownVisitorWhenNotExceededMaxActionsLimitFindsVisitor()
     {
         $this->assertNull($this->recognizer->getLastKnownVisit());
 
@@ -76,7 +82,7 @@ class VisitorRecognizerTest extends IntegrationTestCase
         return $configId;
     }
 
-    public function test_findKnownVisitor_whenExceededMaxActionsLimitFindsNotVisitor()
+    public function testFindKnownVisitorWhenExceededMaxActionsLimitFindsNotVisitor()
     {
         $configId = $this->createVisit(10000);
         $visitor = $this->findKnownVisitor($configId);
@@ -84,7 +90,7 @@ class VisitorRecognizerTest extends IntegrationTestCase
         $this->assertFalse($this->recognizer->getLastKnownVisit());
     }
 
-    public function test_removeUnchangedValues_newVisit_shouldNotChangeAnything()
+    public function testRemoveUnchangedValuesNewVisitShouldNotChangeAnything()
     {
         $visit = array(
             'visit_last_action_time' => '2020-05-05 05:05:05',
@@ -96,7 +102,7 @@ class VisitorRecognizerTest extends IntegrationTestCase
         $this->assertEquals($visit, $result);
     }
 
-    public function test_removeUnchangedValues_existingVisitWithDifferentValues_shouldNotChangeAnything()
+    public function testRemoveUnchangedValuesExistingVisitWithDifferentValuesShouldNotChangeAnything()
     {
         $visit = array(
             'idvisitor' => Common::hex2bin('1234567890234567'),
@@ -113,7 +119,7 @@ class VisitorRecognizerTest extends IntegrationTestCase
         $this->assertEquals($visit, $result);
     }
 
-    public function test_removeUnchangedValues_existingVisitWithSomeSameValues_shouldRemoveUnchangedValues()
+    public function testRemoveUnchangedValuesExistingVisitWithSomeSameValuesShouldRemoveUnchangedValues()
     {
         $visit = array(
             'idvisitor' => Common::hex2bin('1234567890234569'),
@@ -137,7 +143,7 @@ class VisitorRecognizerTest extends IntegrationTestCase
         ), $result);
     }
 
-    public function test_removeUnchangedValues_existingVisitWithAllSameValues_shouldRemoveEmptyArray()
+    public function testRemoveUnchangedValuesExistingVisitWithAllSameValuesShouldRemoveEmptyArray()
     {
         $visit = array(
             'idvisitor' => Common::hex2bin('1234567890234569'),

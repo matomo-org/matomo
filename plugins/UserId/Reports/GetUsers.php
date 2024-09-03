@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\UserId\Reports;
@@ -60,8 +61,11 @@ class GetUsers extends Base
         $view->config->show_insights = false;
         $view->config->show_pivot_by_subtable = false;
         $view->config->no_data_message = Piwik::translate('CoreHome_ThereIsNoDataForThisReport') . '<br><br>'
-          . sprintf(Piwik::translate('UserId_ThereIsNoDataForThisReportHelp'),
-            "<a target='_blank' rel='noreferrer noopener' href='" . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/user-id/') . "'>", "</a>");
+          . sprintf(
+              Piwik::translate('UserId_ThereIsNoDataForThisReportHelp'),
+              "<a target='_blank' rel='noreferrer noopener' href='" . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/user-id/') . "'>",
+              "</a>"
+          );
 
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->disable_row_evolution = false;

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomJsTracker\tests\Integration;
@@ -26,7 +27,7 @@ class PiwikJsManipulatorTest extends IntegrationTestCase
 var myArray = [];
 ';
 
-    public function test_manipulateContent_shouldAddCodeOfTrackerPlugins()
+    public function testManipulateContentShouldAddCodeOfTrackerPlugins()
     {
         $manipulator = $this->makeManipulator(array(
             '/plugins/CustomJsTracker/tests/resources/tracker.js',
@@ -56,7 +57,7 @@ var myArray = [];
 ', $updatedContent);
     }
 
-    public function test_manipulateContent_shouldNotAddCodeOfTrackerPlugins_IfThereAreNoTrackerFiles()
+    public function testManipulateContentShouldNotAddCodeOfTrackerPluginsIfThereAreNoTrackerFiles()
     {
         $manipulator = $this->makeManipulator(array());
 

@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\UsersManager;
@@ -26,8 +25,8 @@ use Piwik\SettingsPiwik;
  */
 class UsersManager extends \Piwik\Plugin
 {
-    const PASSWORD_MIN_LENGTH = 6;
-    const PASSWORD_MAX_LENGTH = 200;
+    public const PASSWORD_MIN_LENGTH = 6;
+    public const PASSWORD_MAX_LENGTH = 200;
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -70,8 +69,14 @@ class UsersManager extends \Piwik\Plugin
             $numUsers--;
         }
 
-        $systemSummary[] = new SystemSummary\Item($key = 'users', Piwik::translate('General_NUsers', $numUsers),
-            $value = null, array('module' => 'UsersManager', 'action' => 'index'), $icon = 'icon-user', $order = 5);
+        $systemSummary[] = new SystemSummary\Item(
+            $key = 'users',
+            Piwik::translate('General_NUsers', $numUsers),
+            $value = null,
+            array('module' => 'UsersManager', 'action' => 'index'),
+            $icon = 'icon-user',
+            $order = 5
+        );
     }
 
     public function onPlatformInitialized()
@@ -142,7 +147,8 @@ class UsersManager extends \Piwik\Plugin
      */
     public static function isValidPasswordString($input)
     {
-        if (!SettingsPiwik::isUserCredentialsSanityCheckEnabled()
+        if (
+            !SettingsPiwik::isUserCredentialsSanityCheckEnabled()
             && !empty($input)
         ) {
             return true;
@@ -175,12 +181,16 @@ class UsersManager extends \Piwik\Plugin
         Piwik::postEvent('UsersManager.checkPassword', array($password));
 
         if (!self::isValidPasswordString($password)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword',
-                array(self::PASSWORD_MIN_LENGTH)));
+            throw new Exception(Piwik::translate(
+                'UsersManager_ExceptionInvalidPassword',
+                array(self::PASSWORD_MIN_LENGTH)
+            ));
         }
         if (mb_strlen($password) > self::PASSWORD_MAX_LENGTH) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong',
-                array(self::PASSWORD_MAX_LENGTH)));
+            throw new Exception(Piwik::translate(
+                'UsersManager_ExceptionInvalidPasswordTooLong',
+                array(self::PASSWORD_MAX_LENGTH)
+            ));
         }
     }
 

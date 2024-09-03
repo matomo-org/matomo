@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 use Exception;
@@ -131,7 +132,7 @@ class Chart
         foreach ($axesIds as $unit => $axisId) {
             if ($unit === '%') {
                 $this->axes[$axisId]['tickOptions']['formatString'] = str_replace('0', '%s', NumberFormatter::getInstance()->formatPercent(0, 0, 0));
-            } else if (in_array($unit, $currencies)) {
+            } elseif (in_array($unit, $currencies)) {
                 $this->axes[$axisId]['tickOptions']['formatString'] = str_replace('0', '%s', NumberFormatter::getInstance()->formatCurrency(0, $unit, 0));
             } else {
                 $this->axes[$axisId]['tickOptions']['formatString'] = '%s' . $unit;

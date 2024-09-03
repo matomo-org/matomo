@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Referrers\tests\Integration\Columns;
@@ -53,7 +54,7 @@ class ReferrerUrlTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_onNewVisit_shouldTrimReferUrl()
+    public function testOnNewVisitShouldTrimReferUrl()
     {
         Config::getInstance()->Tracker['page_maximum_length'] = ReferrerUrl::MAX_LEN + 100;
         $refUrl = 'http://example.org/foo/bar' . str_pad('r', ReferrerUrl::MAX_LEN, 'r');
@@ -68,7 +69,7 @@ class ReferrerUrlTest extends IntegrationTestCase
     /**
      * @dataProvider getReferrerUrls
      */
-    public function test_onNewVisit_shouldDetectCorrectReferrerUrl($referrerUrl, $expectedUrl)
+    public function testOnNewVisitShouldDetectCorrectReferrerUrl($referrerUrl, $expectedUrl)
     {
         $request = $this->getRequest(['idsite' => $this->idSite1, 'url' => 'http://piwik.org/foo/bar', 'urlref' => $referrerUrl]);
         $detectedUrl = $this->referrerUrl->onNewVisit($request, $this->getNewVisitor(), $action = null);

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Login;
 
 use Exception;
@@ -199,7 +201,8 @@ class PasswordResetter
 
         // check that the reset token is valid
         $resetInfo = $this->getPasswordToResetTo($login);
-        if ($resetInfo === false
+        if (
+            $resetInfo === false
             || empty($resetInfo['hash'])
             || empty($resetInfo['keySuffix'])
             || !$this->isTokenValid($resetToken, $user, $resetInfo['keySuffix'])
@@ -404,7 +407,7 @@ class PasswordResetter
 
         if ($userModel->userExists($loginOrMail)) {
             $user = $userModel->getUser($loginOrMail);
-        } else if ($userModel->userEmailExists($loginOrMail)) {
+        } elseif ($userModel->userEmailExists($loginOrMail)) {
             $user = $userModel->getUserByEmail($loginOrMail);
         }
         return $user;
@@ -489,7 +492,7 @@ class PasswordResetter
                 $time = $existingResetInfo['timestamp'];
                 $count = !empty($existingResetInfo['requests']) ? $existingResetInfo['requests'] : $count;
 
-                if(isset($existingResetInfo['requests']) && $existingResetInfo['requests'] > 2) {
+                if (isset($existingResetInfo['requests']) && $existingResetInfo['requests'] > 2) {
                     throw new Exception(Piwik::translate('Login_PasswordResetAlreadySent'));
                 }
             }

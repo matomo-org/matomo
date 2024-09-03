@@ -1,7 +1,8 @@
 <!--
   Matomo - free/libre analytics platform
-  @link https://matomo.org
-  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
 <template>
@@ -85,11 +86,10 @@ export default defineComponent({
       return result;
     },
     overviewLink() {
-      return `?${MatomoUrl.stringify({
-        module: 'Marketplace',
-        action: 'overview',
-        show: 'premium',
-      })}`;
+      const query = MatomoUrl.stringify({ module: 'Marketplace', action: 'overview' });
+      const hash = MatomoUrl.stringify({ pluginType: 'premium' });
+
+      return `?${query}#?${hash}`;
     },
   },
 });

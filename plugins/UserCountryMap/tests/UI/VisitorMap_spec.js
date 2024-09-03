@@ -3,8 +3,8 @@
  *
  * Visitor Map screenshot tests.
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("VisitorMap", function () {
@@ -12,7 +12,7 @@ describe("VisitorMap", function () {
 
     var url = "?module=Widgetize&action=iframe&moduleToWidgetize=UserCountryMap&idSite=1&period=year&date=2012-08-09&"
         + "actionToWidgetize=visitorMap&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1",
-        urlWithCities = "?module=Widgetize&action=iframe&moduleToWidgetize=UserCountryMap&idSite=3&period=week&date=yesterday&"
+        urlWithCities = "?module=Widgetize&action=iframe&moduleToWidgetize=UserCountryMap&idSite=3&period=day&date=yesterday&"
             + "actionToWidgetize=visitorMap&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1";
 
     it("should display the bounce rate metric correctly", async function() {

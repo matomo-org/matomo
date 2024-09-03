@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
@@ -37,13 +38,13 @@ class UrlHelper
     */
     protected static function inArrayMatchesRegex($test, $patterns): bool
     {
-        foreach($patterns as $val) {
-            if(@preg_match($val, null) === false) {
-                if( strcasecmp($val, $test) === 0 ) {
+        foreach ($patterns as $val) {
+            if (@preg_match($val, '') === false) {
+                if (strcasecmp($val, $test) === 0) {
                     return true;
                 }
             } else {
-                if( preg_match($val, $test) === 1 ) {
+                if (preg_match($val, $test) === 1) {
                     return true;
                 }
             }
@@ -127,7 +128,8 @@ class UrlHelper
                  '.{}$4',
                  '$1{}.',
             ),
-            $url);
+            $url
+        );
     }
 
     /**
@@ -177,8 +179,14 @@ class UrlHelper
             return false;
         }
 
+        // According to RFC 1738, the chars ':', '@' and '/' need to be encoded in username or password part of an url
+        // We also encode '\' as a username or password containing that char, might be handled incorrectly by browsers
+        $escapeSpecialChars = function ($value) {
+            return str_replace([':', '@', '/', '\\'], [urlencode(':'), urlencode('@'), urlencode('/'), urlencode('\\')], $value);
+        };
+
         $uri = !empty($parsed['scheme']) ? $parsed['scheme'] . ':' . (!strcasecmp($parsed['scheme'], 'mailto') ? '' : '//') : '';
-        $uri .= !empty($parsed['user']) ? $parsed['user'] . (!empty($parsed['pass']) ? ':' . $parsed['pass'] : '') . '@' : '';
+        $uri .= !empty($parsed['user']) ? $escapeSpecialChars($parsed['user']) . (!empty($parsed['pass']) ? ':' . $escapeSpecialChars($parsed['pass']) : '') . '@' : '';
         $uri .= !empty($parsed['host']) ? $parsed['host'] : '';
         $uri .= !empty($parsed['port']) ? ':' . $parsed['port'] : '';
 

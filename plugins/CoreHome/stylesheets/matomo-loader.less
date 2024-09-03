@@ -1,0 +1,48 @@
+.matomo-loader {
+  width: 16px;
+  height: 11px;
+  display: inline-block;
+  position: relative;
+
+  span {
+    background: #f0f0f0;
+    position: absolute;
+    top: 2px;
+    animation: matomo-loader 1s infinite ease-in-out;
+    width: 2px;
+    height: 5px;
+    display: inline-block;
+    border: 1px solid #f5f5f5;
+    box-sizing: content-box;
+
+    &:nth-child(1) {
+      left: 0;
+      display: inline-block;
+    }
+
+    &:nth-child(2) {
+      left: 6px;
+      display: inline-block;
+      animation-delay: 0.15s;
+    }
+
+    &:nth-child(3) {
+      left: 12px;
+      animation-delay: 0.35s;
+      display: inline-block;
+    }
+  }
+}
+
+@keyframes matomo-loader {
+  0%, 75%, 100% {
+    top: 2px;
+    height: 5px;
+  }
+  25% {
+    top: 0;
+    height: 9px;
+    border-color: #bbb;
+    background: #ccc;
+  }
+}

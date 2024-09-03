@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Ecommerce\tests\Fixtures;
@@ -34,8 +35,14 @@ class AbandonedCartWithoutConversions extends Fixture
 
         if (!self::goalExists($this->idSite, $this->idGoalStandard)) {
             GoalsAPI::getInstance()->addGoal(
-                $this->idSite, 'title match, triggered NEVER', 'title', 'saldkfjaslkdfjsalkdjf', 'contains',
-                $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true
+                $this->idSite,
+                'title match, triggered NEVER',
+                'title',
+                'saldkfjaslkdfjsalkdjf',
+                'contains',
+                $caseSensitive = false,
+                $revenue = 10,
+                $allowMultipleConversions = true
             );
         }
     }

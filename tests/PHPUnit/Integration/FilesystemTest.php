@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -16,7 +17,7 @@ use Piwik\Filesystem;
  */
 class FilesystemTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_getFileSize_ShouldRecognizeLowerUnits()
+    public function testGetFileSizeShouldRecognizeLowerUnits()
     {
         $size = Filesystem::getFileSize(__FILE__, 'b');
 
@@ -24,14 +25,14 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $this->assertLessThan(400000, $size);
     }
 
-    public function test_getFileSize_ShouldReturnNull_IfFileDoesNotExists()
+    public function testGetFileSizeShouldReturnNullIfFileDoesNotExists()
     {
         $size = Filesystem::getFileSize(PIWIK_INCLUDE_PATH . '/tests/NotExisting.File');
 
         $this->assertNull($size);
     }
 
-    public function test_removeFile_shouldRemoveFile()
+    public function testRemoveFileShouldRemoveFile()
     {
         $tmpFile = StaticContainer::get('path.tmp') . '/filesystem-test-file';
         touch($tmpFile);
@@ -41,7 +42,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $this->assertFileNotExists($tmpFile);
     }
 
-    public function test_removeNonExistingFile_shouldNotThrowException()
+    public function testRemoveNonExistingFileShouldNotThrowException()
     {
         self::expectNotToPerformAssertions();
 

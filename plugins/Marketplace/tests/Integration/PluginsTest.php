@@ -3,8 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Marketplace\tests\Integration;
@@ -206,7 +206,7 @@ class PluginsTest extends IntegrationTestCase
             'donate' =>
                  [
                     'flattr' => 'https://flattr.com/profile/test1',
-                    'bitcoin' => NULL,
+                    'bitcoin' => null,
                 ],
             'support' =>
                  [
@@ -288,15 +288,15 @@ class PluginsTest extends IntegrationTestCase
                  [
                     'numCommits' => '31',
                     'numContributors' => '3',
-                    'lastCommitDate' => NULL,
+                    'lastCommitDate' => null,
                 ],
             'featured' => false,
             'isFree' => true,
             'isPaid' => false,
             'isCustomPlugin' => false,
-            'shop' => NULL,
+            'shop' => null,
             'isDownloadable' => true,
-            'consumer' =>  ['license' => NULL,],
+            'consumer' =>  ['license' => null,],
             'isInstalled' => false,
             'isActivated' => false,
             'isInvalid' => true,
@@ -362,7 +362,7 @@ class PluginsTest extends IntegrationTestCase
         ];
     }
 
-    public function testSearchPlugins_WithSearchAndNoPluginsFound_shouldCallCorrectApi()
+    public function testSearchPluginsWithSearchAndNoPluginsFoundShouldCallCorrectApi()
     {
         $this->service->returnFixture('v2.0_plugins-query-nomatchforthisquery.json');
         $this->plugins->setPluginsHavingUpdateCache([]);
@@ -387,7 +387,7 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame($params, $this->service->params);
     }
 
-    public function testSearchThemes_ShouldCallCorrectApi()
+    public function testSearchThemesShouldCallCorrectApi()
     {
         $this->service->returnFixture('v2.0_themes.json');
         $this->plugins->setPluginsHavingUpdateCache([]);

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomDimensions\tests\Integration\Dimension;
@@ -35,7 +36,7 @@ class DimensionTest extends IntegrationTestCase
         $this->id3 = $this->createIndex(CustomDimensions::SCOPE_ACTION, $index = 1, $active = false);
     }
 
-    public function test_checkExists_shouldNotFailIfDimensionExists()
+    public function testCheckExistsShouldNotFailIfDimensionExists()
     {
         $this->expectNotToPerformAssertions();
         $this->getDimension($this->id1, 1)->checkExists();
@@ -43,7 +44,7 @@ class DimensionTest extends IntegrationTestCase
         $this->getDimension($this->id3, 1)->checkExists();
     }
 
-    public function test_checkExists_shouldFailIfDimensionDoesNotExist()
+    public function testCheckExistsShouldFailIfDimensionDoesNotExist()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CustomDimensions_ExceptionDimensionDoesNotExist');
@@ -51,14 +52,14 @@ class DimensionTest extends IntegrationTestCase
         $this->getDimension($this->id1, 2)->checkExists();
     }
 
-    public function test_checkActive_shouldNotFailIfDimensionExistsAndIsActive()
+    public function testCheckActiveShouldNotFailIfDimensionExistsAndIsActive()
     {
         $this->expectNotToPerformAssertions();
         $this->getDimension($this->id1, 1)->checkActive();
         $this->getDimension($this->id2, 1)->checkActive();
     }
 
-    public function test_checkActive_shouldFailIfDimensionExistsButIsNotActive()
+    public function testCheckActiveShouldFailIfDimensionExistsButIsNotActive()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CustomDimensions_ExceptionDimensionIsNotActive');
@@ -66,7 +67,7 @@ class DimensionTest extends IntegrationTestCase
         $this->getDimension($this->id3, 1)->checkActive();
     }
 
-    public function test_checkActive_shouldFailIfDimensionDoesNotExistAndThereforeIsNotActive()
+    public function testCheckActiveShouldFailIfDimensionDoesNotExistAndThereforeIsNotActive()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CustomDimensions_ExceptionDimensionDoesNotExist');

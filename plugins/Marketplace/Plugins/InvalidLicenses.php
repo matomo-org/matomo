@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Marketplace\Plugins;
 
 use Matomo\Cache\Eager;
@@ -198,11 +199,15 @@ class InvalidLicenses
                         $pluginNames['noLicense'][] = $pluginName;
                     } elseif (!empty($plugin['consumer']['license']['isExceeded'])) {
                         $pluginNames['exceeded'][] = $pluginName;
-                    } elseif (isset($plugin['consumer']['license']['status'])
-                              && $plugin['consumer']['license']['status'] === 'Cancelled') {
+                    } elseif (
+                        isset($plugin['consumer']['license']['status'])
+                              && $plugin['consumer']['license']['status'] === 'Cancelled'
+                    ) {
                         $pluginNames['noLicense'][] = $pluginName;
-                    } elseif (isset($plugin['consumer']['license']['isValid'])
-                           && empty($plugin['consumer']['license']['isValid'])) {
+                    } elseif (
+                        isset($plugin['consumer']['license']['isValid'])
+                           && empty($plugin['consumer']['license']['isValid'])
+                    ) {
                         $pluginNames['expired'][] = $pluginName;
                     }
                 }
@@ -225,7 +230,7 @@ class InvalidLicenses
 
     protected function isPluginInActivatedPluginsList($pluginName)
     {
-        if (empty($this->activatedPluginNames)){
+        if (empty($this->activatedPluginNames)) {
             $this->activatedPluginNames = $this->pluginManager->getActivatedPluginsFromConfig();
         }
 

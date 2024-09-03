@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreAdminHome\Commands;
@@ -54,12 +55,18 @@ class DeleteLogsData extends ConsoleCommand
         $this->setName('core:delete-logs-data');
         $this->setDescription('Delete data from the user log tables: ' . implode(', ', self::$logTables) . '.');
         $this->addRequiredValueOption('dates', null, 'Delete log data with a date within this date range. Eg, 2012-01-01,2013-01-01');
-        $this->addOptionalValueOption('idsite', null,
-            'Delete log data belonging to the site with this ID. Comma separated list of website id. Eg, 1, 2, 3, etc. By default log data from all sites is purged.');
+        $this->addOptionalValueOption(
+            'idsite',
+            null,
+            'Delete log data belonging to the site with this ID. Comma separated list of website id. Eg, 1, 2, 3, etc. By default log data from all sites is purged.'
+        );
         $this->addRequiredValueOption('limit', null, "The number of rows to delete at a time. The larger the number, "
             . "the more time is spent deleting logs, and the less progress will be printed to the screen.", 1000);
-        $this->addNoValueOption('optimize-tables', null,
-            "If supplied, the command will optimize log tables after deleting logs. Note: this can take a very long time.");
+        $this->addNoValueOption(
+            'optimize-tables',
+            null,
+            "If supplied, the command will optimize log tables after deleting logs. Note: this can take a very long time."
+        );
     }
 
     protected function doExecute(): int
@@ -72,8 +79,8 @@ class DeleteLogsData extends ConsoleCommand
         $step = $this->getRowIterationStep();
 
         $output->writeln(sprintf(
-                "<info>Preparing to delete all visits belonging to %s between $from and $to.</info>",
-                $idSite ? "website $idSite" : "ALL websites"
+            "<info>Preparing to delete all visits belonging to %s between $from and $to.</info>",
+            $idSite ? "website $idSite" : "ALL websites"
         ));
 
         $confirm = $this->askForDeleteConfirmation();
@@ -142,7 +149,7 @@ class DeleteLogsData extends ConsoleCommand
     {
         $idSite = $this->getInput()->getOption('idsite');
 
-        if(is_null($idSite)) {
+        if (is_null($idSite)) {
             return $idSite;
         }
         // validate the site ID
@@ -187,9 +194,9 @@ class DeleteLogsData extends ConsoleCommand
 
             $prefixedTable = Common::prefixTable($table);
 
-            $done = Db::optimizeTables($prefixedTable);
+            $done = Db\Schema::getInstance()->optimizeTables([$prefixedTable]);
 
-            if($done) {
+            if ($done) {
                 $this->getOutput()->writeln("done. <comment>" . $timer . "</comment>");
             } else {
                 $this->getOutput()->writeln("skipped! <comment>" . $timer . "</comment>");

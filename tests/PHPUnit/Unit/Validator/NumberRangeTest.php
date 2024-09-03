@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Translation\Loader;
@@ -17,7 +18,7 @@ use Piwik\Validators\NumberRange;
  */
 class NumberRangeTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_validate_successValueNotEmpty()
+    public function testValidateSuccessValueNotEmpty()
     {
         self::expectNotToPerformAssertions();
 
@@ -33,35 +34,35 @@ class NumberRangeTest extends \PHPUnit\Framework\TestCase
         $this->validate('-5', -10, '-4');
     }
 
-    public function test_validate_failValueIsTooLow()
+    public function testValidateFailValueIsTooLow()
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('General_ValidatorErrorNumberTooLow');
         $this->validate(3, 5);
     }
 
-    public function test_validate_failValueIsTooHigh()
+    public function testValidateFailValueIsTooHigh()
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('General_ValidatorErrorNumberTooHigh');
         $this->validate(10, null, 8);
     }
 
-    public function test_validate_failValueIsTooNotInRange()
+    public function testValidateFailValueIsTooNotInRange()
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('General_ValidatorErrorNumberTooHigh');
         $this->validate(10, 5, 8);
     }
 
-    public function test_validate_failValueIsTooNotInRangeFloat()
+    public function testValidateFailValueIsTooNotInRangeFloat()
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('General_ValidatorErrorNumberTooLow');
         $this->validate(5.43, 5.44, 8);
     }
 
-    public function test_validate_failValueIsNotNumber()
+    public function testValidateFailValueIsNotNumber()
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('General_ValidatorErrorNotANumber');

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\API;
 
 use Exception;
@@ -184,7 +185,8 @@ class Request
         // depending on whether the table has been loaded yet. expanded=1 causes all tables to be loaded, which
         // is why the label filter can't descend when a recursive label has been requested.
         // To fix this, we remove the expanded parameter if a label parameter is set.
-        if (isset($this->request['label']) && !empty($this->request['label'])
+        if (
+            isset($this->request['label']) && !empty($this->request['label'])
             && isset($this->request['expanded']) && $this->request['expanded']
         ) {
             unset($this->request['expanded']);
@@ -467,21 +469,25 @@ class Request
     public static function checkTokenAuthIsNotLimited($module, $action)
     {
         $isApi = ($module === 'API' && (empty($action) || $action === 'index'));
-        if ($isApi
+        if (
+            $isApi
             || Common::isPhpCliMode()
         ) {
             return;
         }
 
         if (Access::getInstance()->hasSuperUserAccess()) {
-            $ex = new \Piwik\Exception\Exception(Piwik::translate('Widgetize_TooHighAccessLevel',
-                ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/faq_147/') . '" rel="noreferrer noopener">', '</a>']));
+            $ex = new \Piwik\Exception\Exception(Piwik::translate(
+                'Widgetize_TooHighAccessLevel',
+                ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/faq_147/') . '" rel="noreferrer noopener">', '</a>']
+            ));
             $ex->setIsHtmlMessage();
             throw $ex;
         }
 
         $allowWriteAmin = Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] == 1;
-        if (Piwik::isUserHasSomeWriteAccess()
+        if (
+            Piwik::isUserHasSomeWriteAccess()
             && !$allowWriteAmin
         ) {
             // we allow UI authentication/ embedding widgets / reports etc only for users that have only view
@@ -491,9 +497,11 @@ class Request
             //
             // NOTE: this does not apply if the [General] enable_framed_allow_write_admin_token_auth INI
             // option is set.
-            $ex = new \Piwik\Exception\Exception(Piwik::translate('Widgetize_ViewAccessRequired',
+            $ex = new \Piwik\Exception\Exception(Piwik::translate(
+                'Widgetize_ViewAccessRequired',
                 ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/faq_147/') .
-                    '" rel="noreferrer noopener">https://matomo.org/faq/troubleshooting/faq_147/</a>']));
+                '" rel="noreferrer noopener">https://matomo.org/faq/troubleshooting/faq_147/</a>']
+            ));
             $ex->setIsHtmlMessage();
             throw $ex;
         }

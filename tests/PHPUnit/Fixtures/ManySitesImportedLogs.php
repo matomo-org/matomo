@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Config;
@@ -66,18 +68,26 @@ class ManySitesImportedLogs extends Fixture
         }
 
         if (!self::siteCreated($idSite = 2)) {
-            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
-                $siteUrl = 'http://example-site-two.com');
+            self::createWebsite(
+                $this->dateTime,
+                $ecommerce = 0,
+                $siteName = 'Piwik test two',
+                $siteUrl = 'http://example-site-two.com'
+            );
         }
 
         if (!self::siteCreated($idSite = 3)) {
-            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test three',
-                $siteUrl = 'http://example-site-three.com');
+            self::createWebsite(
+                $this->dateTime,
+                $ecommerce = 0,
+                $siteName = 'Piwik test three',
+                $siteUrl = 'http://example-site-three.com'
+            );
         }
     }
 
-    const SEGMENT_PRE_ARCHIVED = 'visitCount<=5;pageUrl=@/blog/;countryCode==jp';
-    const SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED = 'visitCount<=5;pageUrl=@%2Fblog%2F;countryCode==jp';
+    public const SEGMENT_PRE_ARCHIVED = 'visitCount<=5;pageUrl=@/blog/;countryCode==jp';
+    public const SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED = 'visitCount<=5;pageUrl=@%2Fblog%2F;countryCode==jp';
 
     public function getDefaultSegments()
     {

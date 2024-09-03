@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Tracker;
@@ -37,7 +38,7 @@ class SettingsTest extends IntegrationTestCase
         $_SERVER['HTTP_USER_AGENT'] = '';
     }
 
-    public function test_getConfigId_isSame()
+    public function testGetConfigIdIsSame()
     {
         $request1 = $this->makeRequest(array('idsite' => 1));
         $settings1 = $this->makeSettings();
@@ -49,7 +50,7 @@ class SettingsTest extends IntegrationTestCase
     }
 
 
-    public function test_getConfigId_isSame_whenConfiguredUserHasSameFingerprintAcrossWebsites()
+    public function testGetConfigIdIsSameWhenConfiguredUserHasSameFingerprintAcrossWebsites()
     {
         $isSameFingerprintAcrossWebsites = true;
 
@@ -62,7 +63,7 @@ class SettingsTest extends IntegrationTestCase
         $this->assertEquals($settingsSite1->getConfigId($request1, $this->ip), $settingsSite2->getConfigId($request2, $this->ip));
     }
 
-    public function test_getConfigId_isDifferent_whenConfiguredUserHasDifferentFingerprintAcrossWebsites()
+    public function testGetConfigIdIsDifferentWhenConfiguredUserHasDifferentFingerprintAcrossWebsites()
     {
         $isSameFingerprintAcrossWebsites = false;
 
@@ -75,7 +76,7 @@ class SettingsTest extends IntegrationTestCase
         $this->assertNotSame($settingsSite1->getConfigId($request1, $this->ip), $settingsSite2->getConfigId($request2, $this->ip));
     }
 
-    public function test_getConfigId_isSame_whenBrowserSamebutDifferentUserAgent()
+    public function testGetConfigIdIsSameWhenBrowserSamebutDifferentUserAgent()
     {
         $request1 = $this->makeRequest(array('ua' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0'));
         $settingsFirefox = $this->makeSettings();
@@ -86,7 +87,7 @@ class SettingsTest extends IntegrationTestCase
         $this->assertSame($settingsSlightlyDifferentUserAgent->getConfigId($request1, $this->ip), $settingsFirefox->getConfigId($request2, $this->ip));
     }
 
-    public function test_getConfigId_isDifferent_whenBrowserChanges()
+    public function testGetConfigIdIsDifferentWhenBrowserChanges()
     {
         $request1 = $this->makeRequest(array('ua' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0'));
         $settingsFirefox = $this->makeSettings();
@@ -97,7 +98,7 @@ class SettingsTest extends IntegrationTestCase
         $this->assertNotSame($settingsChrome->getConfigId($request1, $this->ip), $settingsFirefox->getConfigId($request2, $this->ip));
     }
 
-    public function test_getConfigId_isDifferent_whenOSChanges()
+    public function testGetConfigIdIsDifferentWhenOSChanges()
     {
         $request1 = $this->makeRequest(array('ua' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0'));
         $settingsFirefoxMac = $this->makeSettings();
@@ -108,7 +109,7 @@ class SettingsTest extends IntegrationTestCase
         $this->assertNotSame($settingsFirefoxLinux->getConfigId($request1, $this->ip), $settingsFirefoxMac->getConfigId($request2, $this->ip));
     }
 
-    public function test_getConfigId_isDifferent_whenPluginChanges()
+    public function testGetConfigIdIsDifferentWhenPluginChanges()
     {
         $params = array(
             'pdf' => 1,
@@ -127,7 +128,7 @@ class SettingsTest extends IntegrationTestCase
         $this->assertNotSame($settingsWithoutFlash->getConfigId($request1, $this->ip), $settingsWithFlash->getConfigId($request2, $this->ip));
     }
 
-    public function test_getConfigId_isDifferent_whenIPIsAnonimised()
+    public function testGetConfigIdIsDifferentWhenIPIsAnonimised()
     {
         $request1 = $this->makeRequest(array());
         $settingsIpIsNotAnon = $this->makeSettings(true);
@@ -138,7 +139,7 @@ class SettingsTest extends IntegrationTestCase
         $this->assertNotSame($settingsIpIsNotAnon->getConfigId($request1, '125.1.55.55'), $settingsIpIsAnon->getConfigId($request2, '125.1.0.0'));
     }
 
-    public function test_getConfigId_isSame_whenIPIsAnonimisedAndBothSame()
+    public function testGetConfigIdIsSameWhenIPIsAnonimisedAndBothSame()
     {
         $request1 = $this->makeRequest(array());
         $settingsIpIsAnon = $this->makeSettings(true);

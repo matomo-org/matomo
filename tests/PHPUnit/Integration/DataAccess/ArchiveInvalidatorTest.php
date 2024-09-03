@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\DataAccess;
@@ -34,8 +35,8 @@ use Piwik\Log\NullLogger;
  */
 class ArchiveInvalidatorTest extends IntegrationTestCase
 {
-    const TEST_SEGMENT_1 = 'browserCode==FF';
-    const TEST_SEGMENT_2 = 'countryCode==uk';
+    public const TEST_SEGMENT_1 = 'browserCode==FF';
+    public const TEST_SEGMENT_2 = 'countryCode==uk';
 
     /**
      * @var ArchiveInvalidator
@@ -81,7 +82,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator = new ArchiveInvalidator(new Model(), new NullLogger());
     }
 
-    public function test_markArchivesAsInvalidated_skipsParentArchivesIfTheyAreDisabled()
+    public function testMarkArchivesAsInvalidatedSkipsParentArchivesIfTheyAreDisabled()
     {
         $this->insertArchiveRow(1, '2020-03-13', 'day', $doneValue = ArchiveWriter::DONE_OK, false, $varyArchiveTypes = false);
         $this->insertArchiveRow(1, '2020-03-13', 'week', $doneValue = ArchiveWriter::DONE_OK, false, $varyArchiveTypes = false);
@@ -128,7 +129,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
 
-    public function test_markArchivesAsInvalidated_doesNotInvalidatePartialArchives()
+    public function testMarkArchivesAsInvalidatedDoesNotInvalidatePartialArchives()
     {
         $this->insertArchiveRow(1, '2020-03-03', 'day', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
         $this->insertArchiveRow(1, '2020-03-03', 'week', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
@@ -138,8 +139,14 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         /** @var ArchiveInvalidator $archiveInvalidator */
         $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
 
-        $archiveInvalidator->markArchivesAsInvalidated([1], ['2020-03-03'], 'day',
-            null, $cascadeDown = true, false);
+        $archiveInvalidator->markArchivesAsInvalidated(
+            [1],
+            ['2020-03-03'],
+            'day',
+            null,
+            $cascadeDown = true,
+            false
+        );
 
         $invalidatedArchives = $this->getInvalidatedArchives();
         $this->assertEmpty($invalidatedArchives);
@@ -187,7 +194,93 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
 
-    public function test_reArchiveReport_doesNothingIfIniSettingSetToZero()
+    public function testMarkArchivesAsInvalidatedDoesHandleInProgressArchivesCorrectly()
+    {
+        // Insert an archive/invalidation that is currently in progress
+        $this->insertArchiveRow(1, '2020-03-03', 'day', $doneValue = ArchiveWriter::DONE_ERROR, '', false);
+        $this->insertInvalidations([
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-03', 'date2' => '2020-03-03', 'period' => 1, 'report' => null, 'ts_started' => Date::now()->getDatetime(), 'status' => 1]
+        ]);
+
+        /** @var ArchiveInvalidator $archiveInvalidator */
+        $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
+
+        $archiveInvalidator->markArchivesAsInvalidated(
+            [1],
+            ['2020-03-03'],
+            'day',
+            null,
+            $cascadeDown = true,
+            false
+        );
+
+        $invalidatedArchives = $this->getAvailableArchives();
+        $expectedArchives = [
+            '2020_03' => [
+                ['idsite' => 1, 'date1' => '2020-03-03', 'date2' => '2020-03-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_ERROR_INVALIDATED]
+            ],
+        ];
+
+        $this->assertEquals($expectedArchives, $invalidatedArchives);
+
+        $expectedInvalidations = [
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '1',
+                'name' => 'done',
+                'date1' => '2020-03-03',
+                'date2' => '2020-03-03',
+                'report' => null,
+                'status' => '1'
+            ],
+            [
+                'idarchive' => '1',
+                'idsite' => '1',
+                'period' => '1',
+                'name' => 'done',
+                'date1' => '2020-03-03',
+                'date2' => '2020-03-03',
+                'report' => null,
+                'status' => '0'
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '2',
+                'name' => 'done',
+                'date1' => '2020-03-02',
+                'date2' => '2020-03-08',
+                'report' => null,
+                'status' => '0'
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '3',
+                'name' => 'done',
+                'date1' => '2020-03-01',
+                'date2' => '2020-03-31',
+                'report' => null,
+                'status' => '0'
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'period' => '4',
+                'name' => 'done',
+                'date1' => '2020-01-01',
+                'date2' => '2020-12-31',
+                'report' => null,
+                'status' => '0'
+            ],
+        ];
+
+        $actualInvalidations = $this->getInvalidatedArchiveTableEntries(true);
+        $this->assertEquals($expectedInvalidations, $actualInvalidations);
+    }
+
+    public function testReArchiveReportDoesNothingIfIniSettingSetToZero()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -211,7 +304,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
 
-    public function test_removeInvalidationsFromDistributedList_removesEntriesFromList_WhenNoPluginSpecified()
+    public function testRemoveInvalidationsFromDistributedListRemovesEntriesFromListWhenNoPluginSpecified()
     {
         $this->invalidator->scheduleReArchiving([1,2,3], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving([1,4,5], 'MyOtherPlugin');
@@ -231,7 +324,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expected, $items);
     }
 
-    public function test_removeInvalidationsFromDistributedList_removesEntriesFromList_WhenPluginNameIsSpecified()
+    public function testRemoveInvalidationsFromDistributedListRemovesEntriesFromListWhenPluginNameIsSpecified()
     {
         $this->invalidator->scheduleReArchiving([1,2,3], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving([1,4,5], 'MyOtherPlugin');
@@ -248,7 +341,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expected, $items);
     }
 
-    public function test_removeInvalidationsFromDistributedList_removesAllSiteEntries()
+    public function testRemoveInvalidationsFromDistributedListRemovesAllSiteEntries()
     {
         $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving([1, 4, 5], 'ExamplePlugin');
@@ -264,7 +357,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expected, $items);
     }
 
-    public function test_removeInvalidationsFromDistributedList_removesEntriesFromList_WhenPluginNameAndReportIsSpecified()
+    public function testRemoveInvalidationsFromDistributedListRemovesEntriesFromListWhenPluginNameAndReportIsSpecified()
     {
         $this->invalidator->scheduleReArchiving([1,4,5], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving([1,4,5], 'ExamplePlugin', 'myReport');
@@ -283,7 +376,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expected, $items);
     }
 
-    public function test_removeInvalidations_removesAll_ifAllSitesSpecified()
+    public function testRemoveInvalidationsRemovesAllIfAllSitesSpecified()
     {
         $this->insertInvalidations([
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
@@ -304,7 +397,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $invalidations);
     }
 
-    public function test_removeInvalidations_removesAllForMultipleSites()
+    public function testRemoveInvalidationsRemovesAllForMultipleSites()
     {
         $this->insertInvalidations([
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
@@ -326,7 +419,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $invalidations);
     }
 
-    public function test_removeInvalidations_removesAllForPlugin()
+    public function testRemoveInvalidationsRemovesAllForPlugin()
     {
         $this->insertInvalidations([
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
@@ -350,7 +443,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $invalidations);
     }
 
-    public function test_removeInvalidations_removesAllForSingleReport()
+    public function testRemoveInvalidationsRemovesAllForSingleReport()
     {
         $this->insertInvalidations([
             ['name' => 'done.MyPlugin', 'idsite' => 1, 'date1' => '2012-03-04', 'date2' => '2015-03-04', 'period' => 1, 'report' => 'myReport'],
@@ -367,25 +460,25 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $invalidations = $this->getInvalidatedArchiveTableEntries();
         $expectedInvalidations = [
             [
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2012-03-04',
                 'date2' => '2015-03-04',
                 'period' => '1',
                 'name' => 'done.MyPlugin',
-                'report' => NULL,
+                'report' => null,
             ],
             [
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2012-03-04',
                 'date2' => '2015-03-04',
                 'period' => '1',
                 'name' => 'doneSEGMENTHASH.MyPlugin',
-                'report' => NULL,
+                'report' => null,
             ],
             [
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2012-03-04',
                 'date2' => '2015-05-05',
@@ -394,7 +487,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'report' => '',
             ],
             [
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2012-03-04',
                 'date2' => '2015-05-05',
@@ -403,7 +496,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'report' => '',
             ],
             [
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2012-03-04',
                 'date2' => '2015-03-04',
@@ -416,7 +509,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $invalidations);
     }
 
-    public function test_rememberToInvalidateArchivedReportsLater_shouldCreateAnEntryInCaseThereIsNoneYet()
+    public function testRememberToInvalidateArchivedReportsLaterShouldCreateAnEntryInCaseThereIsNoneYet()
     {
         //Updated for change to allow for multiple transactions to invalidate the same report without deadlock.
         $key = 'report_to_invalidate_2_2014-04-05' . '_' . getmypid();
@@ -428,7 +521,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSame('1', Option::get($keyStored));
     }
 
-    public function test_rememberToInvalidateArchivedReportsLater_shouldNotCreateEntryTwice()
+    public function testRememberToInvalidateArchivedReportsLaterShouldNotCreateEntryTwice()
     {
         $this->rememberReport(2, '2014-04-05');
         $this->rememberReport(2, '2014-04-05');
@@ -437,14 +530,14 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertCount(1, Option::getLike('%report_to_invalidate%'));
     }
 
-    public function test_getRememberedArchivedReportsThatShouldBeInvalidated_shouldNotReturnEntriesInCaseNoneAreRemembered()
+    public function testGetRememberedArchivedReportsThatShouldBeInvalidatedShouldNotReturnEntriesInCaseNoneAreRemembered()
     {
         $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
         $this->assertSame(array(), $reports);
     }
 
-    public function test_getRememberedArchivedReportsThatShouldBeInvalidated_shouldGroupEntriesByDate()
+    public function testGetRememberedArchivedReportsThatShouldBeInvalidatedShouldGroupEntriesByDate()
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -453,7 +546,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($this->getRememberedReportsByDate(), $reports);
     }
 
-    public function test_getRememberedArchivedReportsThatShouldBeInvalidatedBySite(): void
+    public function testGetRememberedArchivedReportsThatShouldBeInvalidatedBySite(): void
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -470,7 +563,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         }
     }
 
-    public function test_getDaysWithRememberedInvalidationsForSite(): void
+    public function testGetDaysWithRememberedInvalidationsForSite(): void
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -502,7 +595,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         }
     }
 
-    public function test_forgetRememberedArchivedReportsToInvalidateForSite_shouldNotDeleteAnythingInCaseNoReportForThatSite()
+    public function testForgetRememberedArchivedReportsToInvalidateForSiteShouldNotDeleteAnythingInCaseNoReportForThatSite()
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -512,7 +605,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($this->getRememberedReportsByDate(), $reports);
     }
 
-    public function test_forgetRememberedArchivedReportsToInvalidateForSite_shouldOnlyDeleteReportsBelongingToThatSite()
+    public function testForgetRememberedArchivedReportsToInvalidateForSiteShouldOnlyDeleteReportsBelongingToThatSite()
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -527,7 +620,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($expected, $reports);
     }
 
-    public function test_forgetRememberedArchivedReportsToInvalidate_shouldNotForgetAnythingIfThereIsNoMatch()
+    public function testForgetRememberedArchivedReportsToInvalidateShouldNotForgetAnythingIfThereIsNoMatch()
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -544,7 +637,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($this->getRememberedReportsByDate(), $reports);
     }
 
-    public function test_forgetRememberedArchivedReportsToInvalidate_shouldOnlyDeleteReportBelongingToThatSiteAndDate()
+    public function testForgetRememberedArchivedReportsToInvalidateShouldOnlyDeleteReportBelongingToThatSiteAndDate()
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -569,7 +662,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($expected, $reports);
     }
 
-    public function test_markArchivesAsInvalidated_shouldForgetInvalidatedSitesAndDates_IfPeriodIsDay()
+    public function testMarkArchivesAsInvalidatedShouldForgetInvalidatedSitesAndDatesIfPeriodIsDay()
     {
         $this->rememberReportsForManySitesAndDates();
 
@@ -623,7 +716,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->rememberReport(7, '2014-04-08');
     }
 
-    public function test_markArchivesAsInvalidated_invalidatesPastPurgeThreshold_ifFlagToIgnoreIsProvided()
+    public function testMarkArchivesAsInvalidatedInvalidatesPastPurgeThresholdIfFlagToIgnoreIsProvided()
     {
         PrivacyManager::savePurgeDataSettings(array(
             'delete_logs_enable' => 1,
@@ -637,8 +730,16 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         /** @var ArchiveInvalidator $archiveInvalidator */
         $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
-        $result = $archiveInvalidator->markArchivesAsInvalidated(array(1), array($dateBeforeThreshold), 'day',
-            null, false, false, null, true);
+        $result = $archiveInvalidator->markArchivesAsInvalidated(
+            array(1),
+            array($dateBeforeThreshold),
+            'day',
+            null,
+            false,
+            false,
+            null,
+            true
+        );
 
         $this->assertEquals($thresholdDate->toString(), $result->minimumDateWithLogs);
 
@@ -661,7 +762,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertCount(4, $invalidatedArchiveTableEntries);
     }
 
-    public function test_markArchivesAsInvalidated_DoesNotInvalidateDatesBeforePurgeThreshold()
+    public function testMarkArchivesAsInvalidatedDoesNotInvalidateDatesBeforePurgeThreshold()
     {
         PrivacyManager::savePurgeDataSettings(array(
             'delete_logs_enable' => 1,
@@ -702,7 +803,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertCount(4, $invalidatedArchiveTableEntries);
     }
 
-    public function test_markArchivesAsInvalidated_InvalidatesCorrectlyWhenNoArchiveTablesExist()
+    public function testMarkArchivesAsInvalidatedInvalidatesCorrectlyWhenNoArchiveTablesExist()
     {
         /** @var ArchiveInvalidator $archiveInvalidator */
         $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
@@ -765,7 +866,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEqualsSorted($expectedEntries, $invalidatedArchiveTableEntries);
     }
 
-    public function test_markArchivesAsInvalidated_AddsInvalidationEntries_ButDoesNotMarkArchivesAsInvalidated_IfArchiveIsPartial()
+    public function testMarkArchivesAsInvalidatedAddsInvalidationEntriesButDoesNotMarkArchivesAsInvalidatedIfArchiveIsPartial()
     {
         // insert some partial archives
         $this->insertArchiveRow(1, '2020-03-04', 'day', ArchiveWriter::DONE_OK, false, false);
@@ -830,7 +931,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForMarkArchivesAsInvalidated
      */
-    public function test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated(
+    public function testMarkArchivesAsInvalidatedMarksCorrectArchivesAsInvalidated(
         $idSites,
         $dates,
         $period,
@@ -919,26 +1020,26 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     ],
                 ),
                 [
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done', 'report' => null],
                     ['idarchive' => '85', 'idsite' => '1', 'date1' => '2015-02-02', 'date2' => '2015-02-08', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-02-05', 'date2' => '2015-02-05', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => '3', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-02-05', 'date2' => '2015-02-05', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => '3', 'name' => 'done', 'report' => null],
                     ['idarchive' => '100', 'idsite' => '1', 'date1' => '2015-04-27', 'date2' => '2015-05-03', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-04-30', 'date2' => '2015-04-30', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-04-30', 'date2' => '2015-04-30', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
                     ['idarchive' => '110', 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-02-02', 'date2' => '2015-02-08', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-02-05', 'date2' => '2015-02-05', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-04-27', 'date2' => '2015-05-03', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '2', 'date1' => '2015-04-30', 'date2' => '2015-04-30', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-02-02', 'date2' => '2015-02-08', 'period' => '2', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-02-05', 'date2' => '2015-02-05', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => '3', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-04-27', 'date2' => '2015-05-03', 'period' => '2', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-04-30', 'date2' => '2015-04-30', 'period' => '1', 'name' => 'done', 'report' => null],
                 ],
             ),
 
@@ -956,8 +1057,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     ),
                 ),
                 [
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
                 ],
             ),
 
@@ -1014,44 +1115,44 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     ),
                 ),
                 [
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done', 'report' => null],
                     ['idarchive' => '10', 'idsite' => '1', 'date1' => '2015-01-04', 'date2' => '2015-01-04', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-05', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-06', 'date2' => '2015-01-06', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-07', 'date2' => '2015-01-07', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-08', 'date2' => '2015-01-08', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-05', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-06', 'date2' => '2015-01-06', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-07', 'date2' => '2015-01-07', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-08', 'date2' => '2015-01-08', 'period' => '1', 'name' => 'done', 'report' => null],
                     ['idarchive' => '25', 'idsite' => '1', 'date1' => '2015-01-09', 'date2' => '2015-01-09', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-10', 'date2' => '2015-01-10', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-11', 'date2' => '2015-01-11', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-12', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-18', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-13', 'date2' => '2015-01-13', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-10', 'date2' => '2015-01-10', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-11', 'date2' => '2015-01-11', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-12', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-18', 'period' => '2', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-13', 'date2' => '2015-01-13', 'period' => '1', 'name' => 'done', 'report' => null],
                     ['idarchive' => '40', 'idsite' => '1', 'date1' => '2015-01-14', 'date2' => '2015-01-14', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-15', 'date2' => '2015-01-15', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-16', 'date2' => '2015-01-16', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-17', 'date2' => '2015-01-17', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-18', 'date2' => '2015-01-18', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-15', 'date2' => '2015-01-15', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-16', 'date2' => '2015-01-16', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-17', 'date2' => '2015-01-17', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-18', 'date2' => '2015-01-18', 'period' => '1', 'name' => 'done', 'report' => null],
                     ['idarchive' => '55', 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-19', 'period' => '1', 'name' => 'done', 'report' => null],
                     ['idarchive' => '100', 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-25', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-20', 'date2' => '2015-01-20', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-21', 'date2' => '2015-01-21', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-22', 'date2' => '2015-01-22', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-23', 'date2' => '2015-01-23', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-20', 'date2' => '2015-01-20', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-21', 'date2' => '2015-01-21', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-22', 'date2' => '2015-01-22', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-23', 'date2' => '2015-01-23', 'period' => '1', 'name' => 'done', 'report' => null],
                     ['idarchive' => '70', 'idsite' => '1', 'date1' => '2015-01-24', 'date2' => '2015-01-24', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-25', 'date2' => '2015-01-25', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-01-26', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-25', 'date2' => '2015-01-25', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-01-26', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done', 'report' => null],
                     ['idarchive' => '85', 'idsite' => '1', 'date1' => '2015-01-29', 'date2' => '2015-01-29', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done', 'report' => null],
                 ],
             ),
 
@@ -1096,27 +1197,27 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     ],
                 ),
                 [
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2014-01-01', 'date2' => '2014-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2014-12-01', 'date2' => '2014-12-31', 'period' => '3', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-01-01', 'date2' => '2014-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-01', 'date2' => '2014-12-31', 'period' => '3', 'name' => 'done', 'report' => null],
                     ['idarchive' => '85', 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2014-12-29', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2014-12-30', 'date2' => '2014-12-30', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2014-12-31', 'date2' => '2014-12-31', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-30', 'date2' => '2014-12-30', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-31', 'date2' => '2014-12-31', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done', 'report' => null],
                     ['idarchive' => '10', 'idsite' => '1', 'date1' => '2015-01-04', 'date2' => '2015-01-04', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-01-26', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-01-26', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done', 'report' => null],
                     ['idarchive' => '85', 'idsite' => '1', 'date1' => '2015-01-29', 'date2' => '2015-01-29', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-01', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-01', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done', 'report' => null],
                 ],
             ),
 
@@ -1188,43 +1289,43 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     ),
                 ),
                 [
-                    // TODO: super strange, there are two idarchive = 106 values here
                     ['idarchive' => '106', 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
                     ['idarchive' => '1', 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-04', 'date2' => '2015-01-04', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-05', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-04', 'date2' => '2015-01-04', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-05', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
                     ['idarchive' => '16', 'idsite' => '1', 'date1' => '2015-01-06', 'date2' => '2015-01-06', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-07', 'date2' => '2015-01-07', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-08', 'date2' => '2015-01-08', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-09', 'date2' => '2015-01-09', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-10', 'date2' => '2015-01-10', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-07', 'date2' => '2015-01-07', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-08', 'date2' => '2015-01-08', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-09', 'date2' => '2015-01-09', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-10', 'date2' => '2015-01-10', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
                     ['idarchive' => '31', 'idsite' => '1', 'date1' => '2015-01-11', 'date2' => '2015-01-11', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-18', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-12', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-13', 'date2' => '2015-01-13', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-14', 'date2' => '2015-01-14', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-15', 'date2' => '2015-01-15', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-18', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-12', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-13', 'date2' => '2015-01-13', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-14', 'date2' => '2015-01-14', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-15', 'date2' => '2015-01-15', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
                     ['idarchive' => '46', 'idsite' => '1', 'date1' => '2015-01-16', 'date2' => '2015-01-16', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-17', 'date2' => '2015-01-17', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-18', 'date2' => '2015-01-18', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-25', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-19', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-20', 'date2' => '2015-01-20', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-17', 'date2' => '2015-01-17', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-18', 'date2' => '2015-01-18', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-25', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-19', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-20', 'date2' => '2015-01-20', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
                     ['idarchive' => '61', 'idsite' => '1', 'date1' => '2015-01-21', 'date2' => '2015-01-21', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-22', 'date2' => '2015-01-22', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-23', 'date2' => '2015-01-23', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-24', 'date2' => '2015-01-24', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-25', 'date2' => '2015-01-25', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-22', 'date2' => '2015-01-22', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-23', 'date2' => '2015-01-23', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-24', 'date2' => '2015-01-24', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-25', 'date2' => '2015-01-25', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
                     ['idarchive' => '76', 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-01-26', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-29', 'date2' => '2015-01-29', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-29', 'date2' => '2015-01-29', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                    // archive id 106 occurs a second time as it comes from a different archive table
                     ['idarchive' => '106', 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
                     ['idarchive' => '91', 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
                 ],
@@ -1248,10 +1349,10 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     ),
                 ),
                 [
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-05-05', 'date2' => '2015-05-05', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-05-04', 'date2' => '2015-05-10', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-05-01', 'date2' => '2015-05-31', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-05-05', 'date2' => '2015-05-05', 'period' => '1', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-05-04', 'date2' => '2015-05-10', 'period' => '2', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-05-01', 'date2' => '2015-05-31', 'period' => '3', 'name' => 'done', 'report' => null],
+                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
                 ],
             ),
 
@@ -1313,13 +1414,13 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 ),
                 array (
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'date1' => '2015-01-01',
                         'date2' => '2015-01-01',
                         'period' => '1',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
                         'idarchive' => '1',
@@ -1328,16 +1429,16 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         'date2' => '2015-01-01',
                         'period' => '1',
                         'name' => 'done3736b708e4d20cfc10610e816a1b2341',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'date1' => '2015-01-01',
                         'date2' => '2015-01-31',
                         'period' => '3',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
                         'idarchive' => '106',
@@ -1346,16 +1447,16 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         'date2' => '2015-01-31',
                         'period' => '3',
                         'name' => 'done3736b708e4d20cfc10610e816a1b2341',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'date1' => '2015-01-01',
                         'date2' => '2015-12-31',
                         'period' => '4',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
                         'idarchive' => '109',
@@ -1364,25 +1465,25 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         'date2' => '2015-12-31',
                         'period' => '4',
                         'name' => 'done5447835b0a861475918e79e932abdfd8',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '2',
                         'date1' => '2015-01-01',
                         'date2' => '2015-01-01',
                         'period' => '1',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '2',
                         'date1' => '2015-01-01',
                         'date2' => '2015-01-31',
                         'period' => '3',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
                         'idarchive' => '110',
@@ -1391,16 +1492,16 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         'date2' => '2015-12-31',
                         'period' => '4',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'date1' => '2014-12-29',
                         'date2' => '2015-01-04',
                         'period' => '2',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
                         'idarchive' => '106',
@@ -1409,25 +1510,25 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         'date2' => '2015-01-04',
                         'period' => '2',
                         'name' => 'done3736b708e4d20cfc10610e816a1b2341',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '2',
                         'date1' => '2014-12-29',
                         'date2' => '2015-01-04',
                         'period' => '2',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'date1' => '2015-02-05',
                         'date2' => '2015-02-05',
                         'period' => '1',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
                         'idarchive' => '85',
@@ -1436,25 +1537,25 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         'date2' => '2015-02-08',
                         'period' => '2',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'date1' => '2015-02-01',
                         'date2' => '2015-02-28',
                         'period' => '3',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '2',
                         'date1' => '2015-02-05',
                         'date2' => '2015-02-05',
                         'period' => '1',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
                         'idarchive' => '14',
@@ -1463,16 +1564,16 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         'date2' => '2015-02-05',
                         'period' => '1',
                         'name' => 'done5447835b0a861475918e79e932abdfd8',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '2',
                         'date1' => '2015-02-02',
                         'date2' => '2015-02-08',
                         'period' => '2',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
                         'idarchive' => '86',
@@ -1481,25 +1582,25 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         'date2' => '2015-02-08',
                         'period' => '2',
                         'name' => 'done3736b708e4d20cfc10610e816a1b2341',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '2',
                         'date1' => '2015-02-01',
                         'date2' => '2015-02-28',
                         'period' => '3',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'date1' => '2015-04-30',
                         'date2' => '2015-04-30',
                         'period' => '1',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
                         'idarchive' => '100',
@@ -1508,25 +1609,25 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         'date2' => '2015-05-03',
                         'period' => '2',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '1',
                         'date1' => '2015-04-01',
                         'date2' => '2015-04-30',
                         'period' => '3',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '2',
                         'date1' => '2015-04-30',
                         'date2' => '2015-04-30',
                         'period' => '1',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
                         'idarchive' => '89',
@@ -1535,16 +1636,16 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         'date2' => '2015-04-30',
                         'period' => '1',
                         'name' => 'done5447835b0a861475918e79e932abdfd8',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '2',
                         'date1' => '2015-04-27',
                         'date2' => '2015-05-03',
                         'period' => '2',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
                         'idarchive' => '101',
@@ -1553,16 +1654,16 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         'date2' => '2015-05-03',
                         'period' => '2',
                         'name' => 'done3736b708e4d20cfc10610e816a1b2341',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
-                        'idarchive' => NULL,
+                        'idarchive' => null,
                         'idsite' => '2',
                         'date1' => '2015-04-01',
                         'date2' => '2015-04-30',
                         'period' => '3',
                         'name' => 'done',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                     array (
                         'idarchive' => '104',
@@ -1571,7 +1672,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                         'date2' => '2015-04-30',
                         'period' => '3',
                         'name' => 'done5447835b0a861475918e79e932abdfd8',
-                        'report' => NULL,
+                        'report' => null,
                     ),
                 ),
                 null, // report name
@@ -1583,7 +1684,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForMarkArchiveRangesAsInvalidated
      */
-    public function test_markArchivesAsInvalidated_MarksAllSubrangesOfRange($idSites, $dates, $segment, $expectedIdArchives)
+    public function testMarkArchivesAsInvalidatedMarksAllSubrangesOfRange($idSites, $dates, $segment, $expectedIdArchives)
     {
         $dates = array_map(array('Piwik\Date', 'factory'), $dates);
 
@@ -1724,7 +1825,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         );
     }
 
-    public function test_markArchivesAsInvalidated_forceInvalidatesNonExistantRangesWhenRequired()
+    public function testMarkArchivesAsInvalidatedForceInvalidatesNonExistantRangesWhenRequired()
     {
         $archives = $this->getInvalidatedArchives();
         $this->assertEmpty($archives);
@@ -1740,15 +1841,15 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals([], $archives);
 
         $expectedInvalidatedTableEntries = [
-            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-03-04', 'date2' => '2015-03-06', 'period' => '5', 'name' => 'done', 'report' => null],
-            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2016-04-03', 'date2' => '2016-05-12', 'period' => '5', 'name' => 'done', 'report' => null],
+            ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-03-04', 'date2' => '2015-03-06', 'period' => '5', 'name' => 'done', 'report' => null],
+            ['idarchive' => null, 'idsite' => '1', 'date1' => '2016-04-03', 'date2' => '2016-05-12', 'period' => '5', 'name' => 'done', 'report' => null],
         ];
 
         $invalidatedTableEntries = $this->getInvalidatedArchiveTableEntries();
         $this->assertEquals($expectedInvalidatedTableEntries, $invalidatedTableEntries);
     }
 
-    public function test_markArchivesAsInvalidated_invalidatesIndividualPluginNames()
+    public function testMarkArchivesAsInvalidatedInvalidatesIndividualPluginNames()
     {
         $idSites = [1];
         $dates = ['2015-01-11'];
@@ -1757,18 +1858,26 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $cascadeDown = false;
         $expectedIdArchives = [];
         $expectedInvalidatedArchives = [
-            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done.ExamplePlugin', 'report' => null],
-            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done.ExamplePlugin', 'report' => null],
-            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done.ExamplePlugin', 'report' => null],
-            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-11', 'date2' => '2015-01-11', 'period' => '1', 'name' => 'done.ExamplePlugin', 'report' => null],
+            ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done.ExamplePlugin', 'report' => null],
+            ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done.ExamplePlugin', 'report' => null],
+            ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done.ExamplePlugin', 'report' => null],
+            ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-11', 'date2' => '2015-01-11', 'period' => '1', 'name' => 'done.ExamplePlugin', 'report' => null],
         ];
         $plugin = 'ExamplePlugin';
 
-        $this->test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown, $expectedIdArchives,
-            $expectedInvalidatedArchives, $plugin);
+        $this->testMarkArchivesAsInvalidatedMarksCorrectArchivesAsInvalidated(
+            $idSites,
+            $dates,
+            $period,
+            $segment,
+            $cascadeDown,
+            $expectedIdArchives,
+            $expectedInvalidatedArchives,
+            $plugin
+        );
     }
 
-    public function test_markArchivesAsInvalidated_invalidatesIndividualReports()
+    public function testMarkArchivesAsInvalidatedInvalidatesIndividualReports()
     {
         $idSites = [1];
         $dates = ['2015-01-11'];
@@ -1777,18 +1886,26 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $cascadeDown = false;
         $expectedIdArchives = [];
         $expectedInvalidatedArchives = [
-            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done.ExamplePlugin', 'report' => 'someReport'],
-            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done.ExamplePlugin', 'report' => 'someReport'],
-            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done.ExamplePlugin', 'report' => 'someReport'],
-            ['idarchive' => NULL, 'idsite' => '1', 'date1' => '2015-01-11', 'date2' => '2015-01-11', 'period' => '1', 'name' => 'done.ExamplePlugin', 'report' => 'someReport'],
+            ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done.ExamplePlugin', 'report' => 'someReport'],
+            ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done.ExamplePlugin', 'report' => 'someReport'],
+            ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done.ExamplePlugin', 'report' => 'someReport'],
+            ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-11', 'date2' => '2015-01-11', 'period' => '1', 'name' => 'done.ExamplePlugin', 'report' => 'someReport'],
         ];
         $report = 'ExamplePlugin.someReport';
 
-        $this->test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown, $expectedIdArchives,
-            $expectedInvalidatedArchives, $report);
+        $this->testMarkArchivesAsInvalidatedMarksCorrectArchivesAsInvalidated(
+            $idSites,
+            $dates,
+            $period,
+            $segment,
+            $cascadeDown,
+            $expectedIdArchives,
+            $expectedInvalidatedArchives,
+            $report
+        );
     }
 
-    public function test_markArchivesAsInvalidated_doesNotInsertDuplicateInvalidations()
+    public function testMarkArchivesAsInvalidatedDoesNotInsertDuplicateInvalidations()
     {
         $this->insertArchiveRowsForTest();
 
@@ -1819,92 +1936,104 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         $this->insertInvalidations($existingInvalidations);
 
-        $archiveInvalidator->markArchivesAsInvalidated([1], ['2020-03-04', '2020-05-06'], 'week',
-            $segment, $cascadeDown = true, false);
-        $archiveInvalidator->markArchivesAsInvalidated([1], ['2020-05-01'], 'year',
-            $segment, $cascadeDown = false, 'aReport');
+        $archiveInvalidator->markArchivesAsInvalidated(
+            [1],
+            ['2020-03-04', '2020-05-06'],
+            'week',
+            $segment,
+            $cascadeDown = true,
+            false
+        );
+        $archiveInvalidator->markArchivesAsInvalidated(
+            [1],
+            ['2020-05-01'],
+            'year',
+            $segment,
+            $cascadeDown = false,
+            'aReport'
+        );
 
         $expectedInvalidations = [
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-03-02',
                 'date2' => '2020-03-08',
                 'period' => '2',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-05-04',
                 'date2' => '2020-05-04',
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-05-05',
                 'date2' => '2020-05-05',
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-05-06',
                 'date2' => '2020-05-06',
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-05-07',
                 'date2' => '2020-05-07',
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-05-08',
                 'date2' => '2020-05-08',
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-05-09',
                 'date2' => '2020-05-09',
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-05-10',
                 'date2' => '2020-05-10',
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-05-01',
                 'date2' => '2020-05-31',
                 'period' => '3',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
                 'idarchive' => null,
@@ -1925,94 +2054,94 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'report' => 'anotherReport',
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-03-02',
                 'date2' => '2020-03-02',
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-03-01',
                 'date2' => '2020-03-31',
                 'period' => '3',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-03-03',
                 'date2' => '2020-03-03',
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-03-04',
                 'date2' => '2020-03-04',
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-03-05',
                 'date2' => '2020-03-05',
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-03-06',
                 'date2' => '2020-03-06',
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-03-07',
                 'date2' => '2020-03-07',
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-03-08',
                 'date2' => '2020-03-08',
                 'period' => '1',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-01-01',
                 'date2' => '2020-12-31',
                 'period' => '4',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
             array (
-                'idarchive' => NULL,
+                'idarchive' => null,
                 'idsite' => '1',
                 'date1' => '2020-05-04',
                 'date2' => '2020-05-10',
                 'period' => '2',
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                'report' => NULL,
+                'report' => null,
             ),
         ];
 
@@ -2021,7 +2150,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
 
-    public function test_reArchiveReport_createsCorrectInvalidationEntries_forAllSitesIfAllSpecified()
+    public function testReArchiveReportCreatesCorrectInvalidationEntriesForAllSitesIfAllSpecified()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -2039,7 +2168,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals([1,2,3,4,5,6,7,8,9,10], $invalidationSites);
     }
 
-    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifReArchivingSegments()
+    public function testReArchiveReportCreatesCorrectInvalidationEntriesIfReArchivingSegments()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -2074,7 +2203,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidationNames, $invalidationNames);
     }
 
-    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNotReArchivingSegments()
+    public function testReArchiveReportCreatesCorrectInvalidationEntriesIfNotReArchivingSegments()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -2112,7 +2241,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('archive_invalidations'));
     }
 
-    public function test_scheduleReArchiving_cleanupWhenReportGiven()
+    public function testScheduleReArchivingCleanupWhenReportGiven()
     {
         $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin', '5');
         $this->invalidator->applyScheduledReArchiving();
@@ -2124,7 +2253,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         // should not end up having twice the amount of invalidations but delete existing
         $this->assertEquals($numInvalidations, $this->getNumInvalidations());
     }
-    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNoReportSpecified()
+    public function testReArchiveReportCreatesCorrectInvalidationEntriesIfNoReportSpecified()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -2137,7 +2266,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'idsite' => '1',
                 'period' => '1',
                 'name' => 'done.VisitsSummary',
-                'report' => NULL,
+                'report' => null,
                 'dates' => '2020-05-01,2020-05-01|2020-05-02,2020-05-02|2020-05-03,2020-05-03|2020-05-04,2020-05-04|2020-05-05,2020-05-05|2020-05-06,2020-05-06'
                     . '|2020-05-07,2020-05-07|2020-05-08,2020-05-08|2020-05-09,2020-05-09|2020-05-10,2020-05-10|2020-05-11,2020-05-11|2020-05-12,2020-05-12'
                     . '|2020-05-13,2020-05-13|2020-05-14,2020-05-14|2020-05-15,2020-05-15|2020-05-16,2020-05-16|2020-05-17,2020-05-17|2020-05-18,2020-05-18'
@@ -2152,7 +2281,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'idsite' => '1',
                 'period' => '2',
                 'name' => 'done.VisitsSummary',
-                'report' => NULL,
+                'report' => null,
                 'dates' => '2020-05-04,2020-05-10|2020-05-11,2020-05-17|2020-05-18,2020-05-24|2020-05-25,2020-05-31|2020-04-27,2020-05-03|2020-06-01,2020-06-07'
                     . '|2020-06-08,2020-06-14|2020-06-15,2020-06-21',
                 'count' => '8',
@@ -2161,7 +2290,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'idsite' => '1',
                 'period' => '3',
                 'name' => 'done.VisitsSummary',
-                'report' => NULL,
+                'report' => null,
                 'dates' => '2020-05-01,2020-05-31|2020-06-01,2020-06-30',
                 'count' => '2',
             ),
@@ -2169,7 +2298,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'idsite' => '1',
                 'period' => '4',
                 'name' => 'done.VisitsSummary',
-                'report' => NULL,
+                'report' => null,
                 'dates' => '2020-01-01,2020-12-31',
                 'count' => '1',
             ),
@@ -2180,7 +2309,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
 
-    public function test_reArchiveReport_createsCorrectInvalidationEntries_ifReportSpecified()
+    public function testReArchiveReportCreatesCorrectInvalidationEntriesIfReportSpecified()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -2238,7 +2367,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
 
-    public function test_reArchive_acceptsCustomStartDate()
+    public function testReArchiveAcceptsCustomStartDate()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -2297,7 +2426,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidations, $actualInvalidations);
     }
 
-    public function test_reArchive_alsoInvalidatesSegments()
+    public function testReArchiveAlsoInvalidatesSegments()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
 
@@ -2402,6 +2531,24 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         return $result;
     }
 
+    private function getAvailableArchives()
+    {
+        $result = [];
+        foreach (ArchiveTableCreator::getTablesArchivesInstalled(ArchiveTableCreator::NUMERIC_TABLE) as $table) {
+            $date = ArchiveTableCreator::getDateFromTableName($table);
+
+            $sql = "SELECT idsite, date1, date2, period, name, value FROM $table WHERE name LIKE 'done%'";
+
+            $archiveSpecs = Db::query($sql)->fetchAll();
+            if (empty($archiveSpecs)) {
+                continue;
+            }
+
+            $result[$date] = $archiveSpecs;
+        }
+        return $result;
+    }
+
     private function getInvalidatedArchives($anyTsArchived = true)
     {
         $result = array();
@@ -2469,11 +2616,11 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             $doneFlag = 'done';
             if ($idArchive % 5 == 1) {
                 $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment1);
-            } else if ($idArchive % 5 == 2) {
+            } elseif ($idArchive % 5 == 2) {
                 $doneFlag .= '.VisitsSummary';
-            } else if ($idArchive % 5 == 3) {
+            } elseif ($idArchive % 5 == 3) {
                 $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin(self::$segment1, 'UserCountry');
-            } else if ($idArchive % 5 == 4) {
+            } elseif ($idArchive % 5 == 4) {
                 $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins(self::$segment2);
             }
         } else {
@@ -2486,9 +2633,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         Db::query($sql);
     }
 
-    private function getInvalidatedArchiveTableEntries()
+    private function getInvalidatedArchiveTableEntries($includeStatus = false)
     {
-        return Db::fetchAll("SELECT idarchive, idsite, date1, date2, period, name, report FROM " . Common::prefixTable('archive_invalidations'));
+        return Db::fetchAll("SELECT idarchive, idsite, date1, date2, period, name, report" . ($includeStatus ? ', status' : '') . " FROM " . Common::prefixTable('archive_invalidations') . " ORDER BY idinvalidation");
     }
 
     private function assertEqualsSorted(array $expectedEntries, array $invalidatedArchiveTableEntries)
@@ -2511,7 +2658,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
 
         $table = Common::prefixTable('archive_invalidations');
-        return Db::fetchAll("SELECT idsite, period, name, report, GROUP_CONCAT(CONCAT(date1, ',', date2) SEPARATOR '|') as dates, COUNT(*) as count FROM $table GROUP BY idsite, period, name, report");
+        return Db::fetchAll("SELECT idsite, period, name, report, GROUP_CONCAT(CONCAT(date1, ',', date2) SEPARATOR '|') as dates, COUNT(*) as count FROM $table GROUP BY idsite, period, name, report ORDER BY idsite, period, name, report");
     }
 
     private static function addVisitToEachSite()
@@ -2536,7 +2683,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         $table = Common::prefixTable('archive_invalidations');
         foreach ($invalidations as $invalidation) {
-            $sql = "INSERT INTO $table (name, idsite, date1, date2, period, ts_invalidated, report) VALUES (?, ?, ?, ?, ?, NOW(), ?)";
+            $sql = "INSERT INTO $table (name, idsite, date1, date2, period, ts_invalidated, report, ts_started, status) VALUES (?, ?, ?, ?, ?, NOW(), ?, ?, ?)";
             Db::query($sql, [
                 $invalidation['name'],
                 $invalidation['idsite'],
@@ -2544,6 +2691,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 $invalidation['date2'],
                 $invalidation['period'],
                 $invalidation['report'],
+                $invalidation['ts_started'] ?? null,
+                $invalidation['status'] ?? 0,
             ]);
         }
     }

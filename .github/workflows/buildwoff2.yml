@@ -19,6 +19,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: build woff2
     steps:
       - name: Detect branch for PR
         id: vars

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use DeviceDetector\Parser\Client\Browser;
@@ -81,10 +82,8 @@ class BrowserName extends Base
         $aBrowserInfo = $parser->getClient();
 
         if (!empty($aBrowserInfo['short_name'])) {
-
             return $aBrowserInfo['short_name'];
-        } else if (!empty($aBrowserInfo['name'])) {
-
+        } elseif (!empty($aBrowserInfo['name'])) {
             return $aBrowserInfo['name'];
         }
 

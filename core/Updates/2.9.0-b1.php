@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Updates;
@@ -70,7 +71,6 @@ class Updates_2_9_0_b1 extends Updates
 
         // for each blob archive table, rename UserSettings_browserType to DevicesDetection_browserEngines
         foreach ($archiveBlobTables as $table) {
-
             // try to rename old archives
             $query = sprintf("UPDATE IGNORE %s SET name='DevicesDetection_browserEngines' WHERE name = 'UserSettings_browserType'", $table);
             $sql[] = $this->migration->db->sql($query);

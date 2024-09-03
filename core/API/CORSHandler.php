@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\API;
 
 use Piwik\Common;
@@ -33,7 +34,6 @@ class CORSHandler
 
         // allow Piwik to serve data to all domains
         if (in_array("*", $this->domains)) {
-
             Common::sendHeader('Access-Control-Allow-Credentials: true');
 
             if (!empty($_SERVER['HTTP_ORIGIN'])) {

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit;
@@ -26,14 +27,14 @@ use Piwik\Tests\Framework\Mock\FakeLogger;
  */
 class CommonTest extends TestCase
 {
-    public function test_getProcessId()
+    public function testGetProcessId()
     {
         $this->assertEquals(getmypid(), Common::getProcessId());
         //assure always returns same value
         $this->assertEquals(getmypid(), Common::getProcessId());
     }
 
-    public function test_hashEquals()
+    public function testHashEquals()
     {
         $this->assertFalse(Common::hashEquals('foo', 'bar'));
         $this->assertFalse(Common::hashEquals('foo', 'fo'));
@@ -173,14 +174,36 @@ class CommonTest extends TestCase
         $this->assertEquals($_GET['test'], Common::getRequestVar('test'));
     }
 
-    public function testGetRequestVar_GetStringFloatGiven()
+    /**
+     * @dataProvider getValidFloatValues
+     */
+    public function testGetRequestVarFloatValues($requestValue, $expectedValue)
     {
-        $_GET['test'] = 1413.431413;
+        $_GET['test'] = $requestValue;
         $value        = Common::getRequestVar('test', null, 'string');
-        $this->assertEquals('1413.431413', $value);
+        $this->assertEquals($expectedValue, $value);
     }
 
-    public function testGetRequestVar_GetStringIntegerGiven()
+    public function getValidFloatValues(): iterable
+    {
+        yield 'Integer value' => [17, 17.0];
+        yield 'Float value' => [17.123, 17.123];
+        yield 'String value' => ['17.123', 17.123];
+        yield 'Negative string value' => ['-17.123', -17.123];
+        yield 'Positive string value' => ['+17.123', 17.123];
+        yield 'String value, only fraction digits' => ['.123', 0.123];
+        yield 'String value, no fraction digits' => ['123.e-3', 0.123];
+        yield 'Negative string value, only fraction digits' => ['-.123', -0.123];
+        yield 'Exp value' => [2e-2, 0.02];
+        yield 'String exp value' => ['2e-3', 0.002];
+        yield 'String Exp value' => ['1.2E-26', 1.2E-26];
+        yield 'Octal exp value' => [0123e-2, 1.23];
+        yield 'Octal value as string' => ['0123', 123.0];
+        yield 'String value with many digits' => ['1254254645455484545.1', 1.2542546454554847E+18];
+        yield 'String value with many fraction digits' => ['14.051545421864646123', 14.051545421864645];
+    }
+
+    public function testGetRequestVarGetStringIntegerGiven()
     {
         $_GET['test'] = 1413;
         $value        = Common::getRequestVar('test', null, 'string');

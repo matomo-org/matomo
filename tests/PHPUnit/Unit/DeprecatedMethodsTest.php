@@ -3,8 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit;
@@ -89,6 +89,9 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
 
         $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Common', 'getRequestVar');
         $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Plugins\Overlay\API', 'getExcludedQueryParameters');
+        $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Db', 'isOptimizeInnoDBSupported');
+        $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Db', 'optimizeTables');
+        $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Db\TransactionLevel', 'setUncommitted');
     }
 
 

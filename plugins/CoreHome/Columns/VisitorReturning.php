@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Metrics\Formatter;
@@ -17,9 +18,9 @@ use Piwik\Tracker\Visitor;
 
 class VisitorReturning extends VisitDimension
 {
-    const IS_RETURNING_CUSTOMER = 2;
-    const IS_RETURNING = 1;
-    const IS_NEW = 0;
+    public const IS_RETURNING_CUSTOMER = 2;
+    public const IS_RETURNING = 1;
+    public const IS_NEW = 0;
 
     protected $columnName = 'visitor_returning';
     protected $columnType = 'TINYINT(1) NULL';
@@ -45,9 +46,9 @@ class VisitorReturning extends VisitDimension
     {
         if ($value === 1 || $value === '1' || $value === 'returning') {
             return Piwik::translate('CoreHome_VisitTypeReturning');
-        } elseif ($value === 2 || $value === '2' || $value === 'returningCustomer'){
+        } elseif ($value === 2 || $value === '2' || $value === 'returningCustomer') {
             return Piwik::translate('CoreHome_VisitTypeReturningCustomer');
-        } elseif ($value === 0 || $value === '0' || $value === 'new'){
+        } elseif ($value === 0 || $value === '0' || $value === 'new') {
             return Piwik::translate('General_New');
         }
 

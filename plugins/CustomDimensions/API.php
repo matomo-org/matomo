@@ -1,15 +1,15 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CustomDimensions;
 
 use Piwik\Common;
-
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Filesystem;
@@ -243,7 +243,6 @@ class API extends \Piwik\Plugin\API
 
         $scopes = array();
         foreach (CustomDimensions::getPublicScopes() as $scope) {
-
             $configs = $this->getConfiguredCustomDimensionsHavingScope($idSite, $scope);
             $indexes = $this->getTracking($scope)->getInstalledIndexes();
 

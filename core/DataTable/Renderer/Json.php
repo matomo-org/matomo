@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\DataTable\Renderer;
 
 use Piwik\Common;
@@ -44,9 +45,11 @@ class Json extends Renderer
             }
 
             foreach ($array as $key => $tab) {
-                if ($tab instanceof DataTable\Map
+                if (
+                    $tab instanceof DataTable\Map
                     || $tab instanceof DataTable
-                    || $tab instanceof DataTable\Simple) {
+                    || $tab instanceof DataTable\Simple
+                ) {
                     $array[$key] = $this->convertDataTableToArray($tab);
 
                     if (!is_array($array[$key])) {
@@ -76,9 +79,11 @@ class Json extends Renderer
         // silence "Warning: json_encode(): Invalid UTF-8 sequence in argument"
         $str = @json_encode($array);
 
-        if ($str === false
+        if (
+            $str === false
             && json_last_error() === JSON_ERROR_UTF8
-            && $this->canMakeArrayUtf8()) {
+            && $this->canMakeArrayUtf8()
+        ) {
             $array = $this->makeArrayUtf8($array);
             $str = json_encode($array);
         }

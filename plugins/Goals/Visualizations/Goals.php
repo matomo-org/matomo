@@ -3,8 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Goals\Visualizations;
@@ -25,13 +25,13 @@ require_once PIWIK_INCLUDE_PATH . '/core/Twig.php';
  */
 class Goals extends HtmlTable
 {
-    const ID = 'tableGoals';
-    const FOOTER_ICON       = 'icon-goal';
-    const FOOTER_ICON_TITLE = 'General_DisplayTableWithGoalMetrics';
+    public const ID = 'tableGoals';
+    public const FOOTER_ICON       = 'icon-goal';
+    public const FOOTER_ICON_TITLE = 'General_DisplayTableWithGoalMetrics';
 
-    const GOALS_DISPLAY_NORMAL = 0;
-    const GOALS_DISPLAY_PAGES = 1;
-    const GOALS_DISPLAY_ENTRY_PAGES = 2;
+    public const GOALS_DISPLAY_NORMAL = 0;
+    public const GOALS_DISPLAY_PAGES = 1;
+    public const GOALS_DISPLAY_ENTRY_PAGES = 2;
 
     private $displayType = self::GOALS_DISPLAY_NORMAL;
 
@@ -49,7 +49,7 @@ class Goals extends HtmlTable
 
             if ($idGoal == AddColumnsProcessedMetricsGoal::GOALS_PAGES || $idGoal == AddColumnsProcessedMetricsGoal::GOALS_PAGES_ECOMMERCE) {
                 $this->displayType = self::GOALS_DISPLAY_PAGES;
-            } else if ($idGoal == AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES || $idGoal == AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES_ECOMMERCE) {
+            } elseif ($idGoal == AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES || $idGoal == AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES_ECOMMERCE) {
                 $this->displayType = self::GOALS_DISPLAY_ENTRY_PAGES;
             }
         }
@@ -327,7 +327,7 @@ class Goals extends HtmlTable
             }
 
             // add the site's goals (and escape all goal names)
-            $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
+            $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1', 'orderByName' => true], $default = []);
 
             foreach ($siteGoals as &$goal) {
                 $goal['quoted_name'] = '"' . $goal['name'] . '"';

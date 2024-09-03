@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\AssetManager\UIAssetFetcher;
@@ -125,7 +125,8 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
             //
             // if it's not in either $allPlugins and not in $pluginsToLoadOnInit, then it's not activated
             // and we ignore it.
-            if (!empty(array_diff($pluginDependencies, $pluginsToLoadOnInit))
+            if (
+                !empty(array_diff($pluginDependencies, $pluginsToLoadOnInit))
                 && empty(array_diff($pluginDependencies, $allPlugins))
             ) {
                 throw new \Exception("Missing plugin dependency: $pluginName requires plugins "
@@ -167,7 +168,8 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
             $size = filesize($path);
             $currentChunkSize += $size;
 
-            if ($currentChunkSize > $chunkSizeLimit
+            if (
+                $currentChunkSize > $chunkSizeLimit
                 && !empty($chunkFiles[$currentChunkIndex])
                 && $currentChunkIndex < $this->chunkCount - 1
             ) {
@@ -219,7 +221,8 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         $plugins = self::orderPluginsByPluginDependencies($plugins, false);
 
         foreach ($plugins as $plugin) {
-            if (Manager::getInstance()->isPluginLoaded($plugin)
+            if (
+                Manager::getInstance()->isPluginLoaded($plugin)
                 && $this->shouldLoadUmdOnDemand($plugin)
             ) {
                 continue;
@@ -244,7 +247,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         if (is_dir(PIWIK_INCLUDE_PATH . '/' . $umdSrcFolder)) {
             if (Development::isEnabled() && is_file(PIWIK_INCLUDE_PATH . '/' . $devUmd)) {
                 return $devUmd;
-            } else if (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
+            } elseif (is_file(PIWIK_INCLUDE_PATH . '/' . $minifiedUmd)) {
                 return $minifiedUmd;
             }
         }
@@ -300,7 +303,8 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
             // visit each plugin this one depends on first, so it is loaded first
             foreach ($pluginDependencies as $pluginDependency) {
                 // check if dependency is not activated
-                if (!in_array($pluginDependency, $plugins)
+                if (
+                    !in_array($pluginDependency, $plugins)
                     && !in_array($pluginDependency, $result)
                     && !$keepUnresolved
                 ) {

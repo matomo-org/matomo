@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
@@ -106,12 +108,24 @@ class TwoVisitsWithCustomVariables extends Fixture
         self::checkResponse($visitorA->doTrackGoal($idGoal));
 
         if ($this->doExtraQuoteTests) {
-            $visitorA->setCustomVariable($id = 2, $name = 'var1', $value = 'looking at "profile page"',
-                $scope = 'page');
-            $visitorA->setCustomVariable($id = 3, $name = 'var2', $value = '\'looking at "\profile page"\'',
-                $scope = 'page');
-            $visitorA->setCustomVariable($id = 4, $name = 'var3', $value = '\\looking at "\profile page"\\',
-                $scope = 'page');
+            $visitorA->setCustomVariable(
+                $id = 2,
+                $name = 'var1',
+                $value = 'looking at "profile page"',
+                $scope = 'page'
+            );
+            $visitorA->setCustomVariable(
+                $id = 3,
+                $name = 'var2',
+                $value = '\'looking at "\profile page"\'',
+                $scope = 'page'
+            );
+            $visitorA->setCustomVariable(
+                $id = 4,
+                $name = 'var3',
+                $value = '\\looking at "\profile page"\\',
+                $scope = 'page'
+            );
             self::checkResponse($visitorA->doTrackPageView('Concurrent page views'));
         }
 

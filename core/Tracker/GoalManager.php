@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tracker;
 
 use Exception;
@@ -27,37 +28,37 @@ use Piwik\Tracker\Visit\VisitProperties;
 class GoalManager
 {
     // log_visit.visit_goal_buyer
-    const TYPE_BUYER_OPEN_CART = 2;
-    const TYPE_BUYER_ORDERED_AND_OPEN_CART = 3;
+    public const TYPE_BUYER_OPEN_CART = 2;
+    public const TYPE_BUYER_ORDERED_AND_OPEN_CART = 3;
 
     // log_conversion.idorder is NULLable, but not log_conversion_item which defaults to zero for carts
-    const ITEM_IDORDER_ABANDONED_CART = 0;
+    public const ITEM_IDORDER_ABANDONED_CART = 0;
 
     // log_conversion.idgoal special values
-    const IDGOAL_CART = -1;
-    const IDGOAL_ORDER = 0;
+    public const IDGOAL_CART = -1;
+    public const IDGOAL_ORDER = 0;
 
-    const REVENUE_PRECISION = 2;
+    public const REVENUE_PRECISION = 2;
 
-    const MAXIMUM_PRODUCT_CATEGORIES = 5;
+    public const MAXIMUM_PRODUCT_CATEGORIES = 5;
 
     // In the GET items parameter, each item has the following array of information
-    const INDEX_ITEM_SKU = 0;
-    const INDEX_ITEM_NAME = 1;
-    const INDEX_ITEM_CATEGORY = 2;
-    const INDEX_ITEM_PRICE = 3;
-    const INDEX_ITEM_QUANTITY = 4;
+    public const INDEX_ITEM_SKU = 0;
+    public const INDEX_ITEM_NAME = 1;
+    public const INDEX_ITEM_CATEGORY = 2;
+    public const INDEX_ITEM_PRICE = 3;
+    public const INDEX_ITEM_QUANTITY = 4;
 
     // Used in the array of items, internally to this class
-    const INTERNAL_ITEM_SKU = 0;
-    const INTERNAL_ITEM_NAME = 1;
-    const INTERNAL_ITEM_CATEGORY = 2;
-    const INTERNAL_ITEM_CATEGORY2 = 3;
-    const INTERNAL_ITEM_CATEGORY3 = 4;
-    const INTERNAL_ITEM_CATEGORY4 = 5;
-    const INTERNAL_ITEM_CATEGORY5 = 6;
-    const INTERNAL_ITEM_PRICE = 7;
-    const INTERNAL_ITEM_QUANTITY = 8;
+    public const INTERNAL_ITEM_SKU = 0;
+    public const INTERNAL_ITEM_NAME = 1;
+    public const INTERNAL_ITEM_CATEGORY = 2;
+    public const INTERNAL_ITEM_CATEGORY2 = 3;
+    public const INTERNAL_ITEM_CATEGORY3 = 4;
+    public const INTERNAL_ITEM_CATEGORY4 = 5;
+    public const INTERNAL_ITEM_CATEGORY5 = 6;
+    public const INTERNAL_ITEM_PRICE = 7;
+    public const INTERNAL_ITEM_QUANTITY = 8;
 
     public static $NUMERIC_MATCH_ATTRIBUTES = [
         'visit_duration',
@@ -169,7 +170,8 @@ class GoalManager
         }
 
         // if the attribute to match is not the type of the current action
-        if ((($attribute == 'url' || $attribute == 'title') && $actionType != Action::TYPE_PAGE_URL)
+        if (
+            (($attribute == 'url' || $attribute == 'title') && $actionType != Action::TYPE_PAGE_URL)
             || ($attribute == 'file' && $actionType != Action::TYPE_DOWNLOAD)
             || ($attribute == 'external_website' && $actionType != Action::TYPE_OUTLINK)
             || ($attribute == 'manually')
@@ -291,12 +293,14 @@ class GoalManager
             $maxCustomVariables   = CustomVariables::getNumUsableCustomVariables();
 
             for ($i = 1; $i <= $maxCustomVariables; $i++) {
-                if (isset($visitorInformation['custom_var_k' . $i])
+                if (
+                    isset($visitorInformation['custom_var_k' . $i])
                     && strlen($visitorInformation['custom_var_k' . $i])
                 ) {
                     $goal['custom_var_k' . $i] = $visitorInformation['custom_var_k' . $i];
                 }
-                if (isset($visitorInformation['custom_var_v' . $i])
+                if (
+                    isset($visitorInformation['custom_var_v' . $i])
                     && strlen($visitorInformation['custom_var_v' . $i])
                 ) {
                     $goal['custom_var_v' . $i] = $visitorInformation['custom_var_v' . $i];
@@ -389,7 +393,10 @@ class GoalManager
 
         if ($isThereExistingCartInVisit) {
             $recorded = $this->getModel()->updateConversion(
-                $visitProperties->getProperty('idvisit'), self::IDGOAL_CART, $conversion);
+                $visitProperties->getProperty('idvisit'),
+                self::IDGOAL_CART,
+                $conversion
+            );
         } else {
             $recorded = $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request, $action);
         }
@@ -457,7 +464,8 @@ class GoalManager
 
             //Item in the cart in the DB, but not anymore in the cart
             if (!isset($itemInCartBySku[$itemInDb[0]])) {
-                $itemToUpdate = array_merge($itemInDb,
+                $itemToUpdate = array_merge(
+                    $itemInDb,
                     array('deleted'                => 1,
                           'idorder_original_value' => $itemInDbOriginal['idorder_original_value']
                     )
@@ -528,12 +536,14 @@ class GoalManager
                 $category = $item[self::INDEX_ITEM_CATEGORY];
             }
 
-            if (isset($item[self::INDEX_ITEM_PRICE])
+            if (
+                isset($item[self::INDEX_ITEM_PRICE])
                 && is_numeric($item[self::INDEX_ITEM_PRICE])
             ) {
                 $price = $this->getRevenue($item[self::INDEX_ITEM_PRICE]);
             }
-            if (!empty($item[self::INDEX_ITEM_QUANTITY])
+            if (
+                !empty($item[self::INDEX_ITEM_QUANTITY])
                 && is_numeric($item[self::INDEX_ITEM_QUANTITY])
             ) {
                 $quantity = (int)$item[self::INDEX_ITEM_QUANTITY];
@@ -783,7 +793,8 @@ class GoalManager
          */
         Piwik::postEvent('Tracker.newConversionInformation', array(&$conversion, $visitInformation, $request, $action));
 
-        if (!empty($convertedGoal)
+        if (
+            !empty($convertedGoal)
             && $this->isEventMatchingGoal($convertedGoal)
             && !empty($convertedGoal['event_value_as_revenue'])
         ) {
@@ -800,7 +811,8 @@ class GoalManager
         $idorder = $request->getParam('ec_id');
 
         $wasInserted = $this->getModel()->createConversion($conversion);
-        if (!$wasInserted
+        if (
+            !$wasInserted
             && !empty($idorder)
         ) {
             $idSite = $request->getIdSite();
@@ -966,7 +978,8 @@ class GoalManager
      */
     public static function formatRegex($pattern)
     {
-        if (strpos($pattern, '/') !== false
+        if (
+            strpos($pattern, '/') !== false
             && strpos($pattern, '\\/') === false
         ) {
             $pattern = str_replace('/', '\\/', $pattern);

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Referrers;
 
 use Piwik\Columns\Dimension;
@@ -139,7 +140,7 @@ class Referrers extends \Piwik\Plugin
 
     public function renameDeprecatedModuleAndAction(&$module, &$action)
     {
-        if($module == 'Referers') {
+        if ($module == 'Referers') {
             $module = 'Referrers';
         }
     }

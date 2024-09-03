@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\JsTrackerInstallCheck;
@@ -16,7 +17,7 @@ use Piwik\Tracker\Request;
 
 class JsTrackerInstallCheck extends \Piwik\Plugin
 {
-    const QUERY_PARAM_NAME = 'tracker_install_check';
+    public const QUERY_PARAM_NAME = 'tracker_install_check';
 
     public function registerEvents()
     {
@@ -29,7 +30,7 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
-        $translationKeys[] = 'JsTrackerInstallCheck_TestInstallationDescription';
+        $translationKeys[] = 'JsTrackerInstallCheck_OptionalTestInstallationDescription';
         $translationKeys[] = 'JsTrackerInstallCheck_TestInstallationBtnText';
         $translationKeys[] = 'JsTrackerInstallCheck_JsTrackingCodeInstallCheckSuccessMessage';
         $translationKeys[] = 'JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessage';
@@ -95,8 +96,10 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
         // Since there's more than one nonce, let's see if one of them matches the main URL of the site
         $mainUrl = Site::getMainUrlFor($idSite);
         foreach ($nonceMap as $nonceData) {
-            if (!empty($mainUrl) && !empty($nonceData[JsTrackerInstallCheckOption::NONCE_DATA_URL])
-                && $mainUrl === $nonceData[JsTrackerInstallCheckOption::NONCE_DATA_URL]) {
+            if (
+                !empty($mainUrl) && !empty($nonceData[JsTrackerInstallCheckOption::NONCE_DATA_URL])
+                && $mainUrl === $nonceData[JsTrackerInstallCheckOption::NONCE_DATA_URL]
+            ) {
                 return !empty($nonceData['isSuccessful']);
             }
         }

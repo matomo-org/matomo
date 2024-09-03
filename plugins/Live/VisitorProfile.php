@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Live;
@@ -15,7 +15,7 @@ use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
 
 class VisitorProfile
 {
-    const VISITOR_PROFILE_MAX_VISITS_TO_SHOW = 10;
+    public const VISITOR_PROFILE_MAX_VISITS_TO_SHOW = 10;
 
     protected $profile = [];
 

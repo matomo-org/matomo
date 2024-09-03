@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Monolog\tests\System;
@@ -35,7 +36,7 @@ class TrackerLoggingTest extends SystemTestCase
         }
     }
 
-    public function test_shouldReturnDebugOutput_IfDebugIsEnabled()
+    public function testShouldReturnDebugOutputIfDebugIsEnabled()
     {
         $this->setTrackerConfig(array('debug' => '1'));
 
@@ -43,7 +44,7 @@ class TrackerLoggingTest extends SystemTestCase
         $this->assertTrackerResponseContainsLogOutput($tracker);
     }
 
-    public function test_shouldReturnDebugOutput_IfDebugOnDemandIsEnabled()
+    public function testShouldReturnDebugOutputIfDebugOnDemandIsEnabled()
     {
         $this->setTrackerConfig(array('debug_on_demand' => '1', 'debug' => 0));
 
@@ -52,7 +53,7 @@ class TrackerLoggingTest extends SystemTestCase
         $this->assertTrackerResponseContainsLogOutput($tracker);
     }
 
-    public function test_shouldNotReturnDebugOutput_IfDebugOnDemandIsDisabled()
+    public function testShouldNotReturnDebugOutputIfDebugOnDemandIsDisabled()
     {
         $this->setTrackerConfig(array('debug_on_demand' => '0', 'debug' => 0));
 

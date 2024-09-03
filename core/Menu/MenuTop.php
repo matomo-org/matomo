@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Menu;
 
 /**
@@ -50,7 +51,6 @@ class MenuTop extends MenuAbstract
     public function getMenu()
     {
         if (!$this->menu) {
-
             foreach ($this->getAllMenus() as $menu) {
                 $menu->configureTopMenu($this);
             }

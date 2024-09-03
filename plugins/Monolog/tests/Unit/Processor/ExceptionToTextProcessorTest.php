@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
@@ -40,10 +41,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
-    public function it_should_skip_if_no_exception()
+    public function testItShouldSkipIfNoException()
     {
         $processor = new ExceptionToTextProcessor();
 
@@ -52,10 +50,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($record, $processor($record));
     }
 
-    /**
-     * @test
-     */
-    public function it_should_replace_message_with_formatted_exception()
+    public function testItShouldReplaceMessageWithFormattedException()
     {
         $processor = new ExceptionToTextProcessor();
         Log::$debugBacktraceForTests = '[message and stack trace]';
@@ -81,10 +76,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['context', 'message'], array_keys($result));
     }
 
-    /**
-     * @test
-     */
-    public function it_should_add_severity_for_errors()
+    public function testItShouldAddSeverityForErrors()
     {
         $processor = new ExceptionToTextProcessor();
         Log::$debugBacktraceForTests = '[message and stack trace]';
@@ -108,7 +100,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function test_getMessageAndWholeBacktrace_doesNotPrintBacktraceIfInCliMode_AndNotCoreArchive()
+    public function testGetMessageAndWholeBacktraceDoesNotPrintBacktraceIfInCliModeAndNotCoreArchive()
     {
         $ex = new \Exception('test message');
 
@@ -124,7 +116,7 @@ EOI;
         $this->assertEquals($expected, $wholeTrace);
     }
 
-    public function test_getMessageAndWholeBacktrace_doesNotPrintBacktraceIfNotInCliMode_AndInCoreArchive()
+    public function testGetMessageAndWholeBacktraceDoesNotPrintBacktraceIfNotInCliModeAndInCoreArchive()
     {
         $ex = new \Exception('test message');
 
@@ -140,7 +132,7 @@ EOI;
         $this->assertEquals($expected, $wholeTrace);
     }
 
-    public function test_getMessageAndWholeBacktrace_printsBacktraceIfInCliMode_AndInCoreArchive_EvenIfGlobalVarIsNotSet()
+    public function testGetMessageAndWholeBacktracePrintsBacktraceIfInCliModeAndInCoreArchiveEvenIfGlobalVarIsNotSet()
     {
         $ex = new \Exception('test message');
 
@@ -153,7 +145,7 @@ EOI;
 
         $expected = <<<EOI
 test message
-#0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->test_getMessageAndWholeBacktrace_printsBacktraceIfInCliMode_AndInCoreArchive_EvenIfGlobalVarIsNotSet()
+#0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->testGetMessageAndWholeBacktracePrintsBacktraceIfInCliModeAndInCoreArchiveEvenIfGlobalVarIsNotSet()
 #1 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestCase->runTest()
 #2 /vendor/phpunit/phpunit/src/Framework/TestResult.php: PHPUnit\\Framework\\TestCase->runBare()
 #3 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestResult->run(Object(Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest))
@@ -170,7 +162,7 @@ EOI;
         $this->assertEquals($this->handleNewerPHPUnitTrace($expected), $wholeTrace);
     }
 
-    public function test_getMessageAndWholeBacktrace_printsBacktraceIf_PIWIK_PRINT_ERROR_BACKTRACE_isDefined()
+    public function testGetMessageAndWholeBacktracePrintsBacktraceIfPIWIKPRINTERRORBACKTRACEIsDefined()
     {
         $ex = new \Exception('test message');
 
@@ -182,7 +174,7 @@ EOI;
 
         $expected = <<<EOI
 test message
-#0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->test_getMessageAndWholeBacktrace_printsBacktraceIf_PIWIK_PRINT_ERROR_BACKTRACE_isDefined()
+#0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->testGetMessageAndWholeBacktracePrintsBacktraceIfPIWIKPRINTERRORBACKTRACEIsDefined()
 #1 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestCase->runTest()
 #2 /vendor/phpunit/phpunit/src/Framework/TestResult.php: PHPUnit\\Framework\\TestCase->runBare()
 #3 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestResult->run(Object(Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest))
@@ -199,7 +191,7 @@ EOI;
         $this->assertEquals($this->handleNewerPHPUnitTrace($expected), $wholeTrace);
     }
 
-    public function test_getMessageAndWholeBacktrace_printsBacktraceIf_PIWIK_TRACKER_DEBUG_globalIsSet()
+    public function testGetMessageAndWholeBacktracePrintsBacktraceIfPIWIKTRACKERDEBUGGlobalIsSet()
     {
         $ex = new \Exception('test message');
 
@@ -211,7 +203,7 @@ EOI;
 
         $expected = <<<EOI
 test message
-#0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->test_getMessageAndWholeBacktrace_printsBacktraceIf_PIWIK_TRACKER_DEBUG_globalIsSet()
+#0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->testGetMessageAndWholeBacktracePrintsBacktraceIfPIWIKTRACKERDEBUGGlobalIsSet()
 #1 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestCase->runTest()
 #2 /vendor/phpunit/phpunit/src/Framework/TestResult.php: PHPUnit\\Framework\\TestCase->runBare()
 #3 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestResult->run(Object(Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest))
@@ -228,7 +220,7 @@ EOI;
         $this->assertEquals($this->handleNewerPHPUnitTrace($expected), $wholeTrace);
     }
 
-    public function test_getMessageAndWholeBacktrace_handlesArrayInput_whenBacktraceIsEnabled()
+    public function testGetMessageAndWholeBacktraceHandlesArrayInputWhenBacktraceIsEnabled()
     {
         $GLOBALS['PIWIK_PRINT_ERROR_BACKTRACE'] = 1;
 
@@ -247,7 +239,7 @@ EOI;
         $this->assertEquals($expected, $wholeTrace);
     }
 
-    public function test_getMessageAndWholeBacktrace_handlesArrayInput_whenBacktraceIsDisabled()
+    public function testGetMessageAndWholeBacktraceHandlesArrayInputWhenBacktraceIsDisabled()
     {
         $exArray = [
             'message' => 'themessage',
@@ -261,7 +253,7 @@ EOI;
         $this->assertEquals($expected, $wholeTrace);
     }
 
-    public function test_getMessageAndWholeBacktrace_shouldCombineCausedByExceptionBacktraces()
+    public function testGetMessageAndWholeBacktraceShouldCombineCausedByExceptionBacktraces()
     {
         $ex1 = new \Exception('caused by 2');
         $ex2 = new \Exception('caused by 1', 0, $ex1);
@@ -275,7 +267,7 @@ EOI;
 
         $expected = <<<EOI
 test message
-#0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->test_getMessageAndWholeBacktrace_shouldCombineCausedByExceptionBacktraces()
+#0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->testGetMessageAndWholeBacktraceShouldCombineCausedByExceptionBacktraces()
 #1 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestCase->runTest()
 #2 /vendor/phpunit/phpunit/src/Framework/TestResult.php: PHPUnit\\Framework\\TestCase->runBare()
 #3 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestResult->run(Object(Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest))
@@ -288,7 +280,7 @@ test message
 #10 /vendor/phpunit/phpunit/phpunit: PHPUnit\\TextUI\\Command::main()
 #11 {main},
 caused by: caused by 1
-#0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->test_getMessageAndWholeBacktrace_shouldCombineCausedByExceptionBacktraces()
+#0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->testGetMessageAndWholeBacktraceShouldCombineCausedByExceptionBacktraces()
 #1 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestCase->runTest()
 #2 /vendor/phpunit/phpunit/src/Framework/TestResult.php: PHPUnit\\Framework\\TestCase->runBare()
 #3 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestResult->run(Object(Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest))
@@ -301,7 +293,7 @@ caused by: caused by 1
 #10 /vendor/phpunit/phpunit/phpunit: PHPUnit\\TextUI\\Command::main()
 #11 {main},
 caused by: caused by 2
-#0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->test_getMessageAndWholeBacktrace_shouldCombineCausedByExceptionBacktraces()
+#0 /vendor/phpunit/phpunit/src/Framework/TestCase.php: Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest->testGetMessageAndWholeBacktraceShouldCombineCausedByExceptionBacktraces()
 #1 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestCase->runTest()
 #2 /vendor/phpunit/phpunit/src/Framework/TestResult.php: PHPUnit\\Framework\\TestCase->runBare()
 #3 /vendor/phpunit/phpunit/src/Framework/TestCase.php: PHPUnit\\Framework\\TestResult->run(Object(Piwik\\Plugins\\Monolog\\tests\\Unit\\Processor\\ExceptionToTextProcessorTest))

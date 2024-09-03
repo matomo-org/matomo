@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\ImageGraph;
 
 use Exception;
@@ -36,12 +37,12 @@ use Piwik\SettingsServer;
  */
 class API extends \Piwik\Plugin\API
 {
-    const FILENAME_KEY = 'filename';
-    const TRUNCATE_KEY = 'truncate';
-    const WIDTH_KEY = 'width';
-    const HEIGHT_KEY = 'height';
-    const MAX_WIDTH = 2048;
-    const MAX_HEIGHT = 2048;
+    public const FILENAME_KEY = 'filename';
+    public const TRUNCATE_KEY = 'truncate';
+    public const WIDTH_KEY = 'width';
+    public const HEIGHT_KEY = 'height';
+    public const MAX_WIDTH = 2048;
+    public const MAX_HEIGHT = 2048;
 
     private static $DEFAULT_PARAMETERS = array(
         StaticGraph::GRAPH_TYPE_BASIC_LINE     => array(
@@ -83,23 +84,23 @@ class API extends \Piwik\Plugin\API
         ),
     );
 
-    const GRAPH_OUTPUT_INLINE = 0;
-    const GRAPH_OUTPUT_FILE = 1;
-    const GRAPH_OUTPUT_PHP = 2;
+    public const GRAPH_OUTPUT_INLINE = 0;
+    public const GRAPH_OUTPUT_FILE = 1;
+    public const GRAPH_OUTPUT_PHP = 2;
 
-    const DEFAULT_ORDINATE_METRIC = 'nb_visits';
-    const FONT_DIR = '/plugins/ImageGraph/fonts/';
-    const DEFAULT_FONT = 'tahoma.ttf';
-    const UNICODE_FONT = 'unifont.ttf';
-    const DEFAULT_FONT_SIZE = 9;
-    const DEFAULT_LEGEND_FONT_SIZE_OFFSET = 2;
-    const DEFAULT_TEXT_COLOR = '222222';
-    const DEFAULT_BACKGROUND_COLOR = 'FFFFFF';
-    const DEFAULT_GRID_COLOR = 'CCCCCC';
+    public const DEFAULT_ORDINATE_METRIC = 'nb_visits';
+    public const FONT_DIR = '/plugins/ImageGraph/fonts/';
+    public const DEFAULT_FONT = 'tahoma.ttf';
+    public const UNICODE_FONT = 'unifont.ttf';
+    public const DEFAULT_FONT_SIZE = 9;
+    public const DEFAULT_LEGEND_FONT_SIZE_OFFSET = 2;
+    public const DEFAULT_TEXT_COLOR = '222222';
+    public const DEFAULT_BACKGROUND_COLOR = 'FFFFFF';
+    public const DEFAULT_GRID_COLOR = 'CCCCCC';
 
     // number of row evolutions to plot when no labels are specified, can be overridden using &filter_limit
-    const DEFAULT_NB_ROW_EVOLUTIONS = 5;
-    const MAX_NB_ROW_LABELS = 10;
+    public const DEFAULT_NB_ROW_EVOLUTIONS = 5;
+    public const MAX_NB_ROW_LABELS = 10;
 
     public function get(
         $idSite,
@@ -240,14 +241,14 @@ class API extends \Piwik\Plugin\API
             if (empty($columns)) {
                 if (!empty($reportColumns[self::DEFAULT_ORDINATE_METRIC])) {
                     $ordinateColumns[] = self::DEFAULT_ORDINATE_METRIC;
-                } else if (!empty($metadata['metrics'])) {
+                } elseif (!empty($metadata['metrics'])) {
                     $ordinateColumns[] = key($metadata['metrics']);
                 } else {
                     throw new Exception(
-                      Piwik::translate(
-                        'ImageGraph_ColumnOrdinateMissing',
-                        array(self::DEFAULT_ORDINATE_METRIC, implode(',', array_keys($reportColumns)))
-                      )
+                        Piwik::translate(
+                            'ImageGraph_ColumnOrdinateMissing',
+                            array(self::DEFAULT_ORDINATE_METRIC, implode(',', array_keys($reportColumns)))
+                        )
                     );
                 }
             } else {
@@ -401,8 +402,7 @@ class API extends \Piwik\Plugin\API
 
                 $i = 0;
                 // $reportData instanceof DataTable
-                foreach ($reportData->getRows() as $row) // Row[]
-                {
+                foreach ($reportData->getRows() as $row) { // Row[]
                     // $row instanceof Row
                     $rowData = $row->getColumns(); // Associative Array
                     $abscissaSeries[] = Common::unsanitizeInputValue($rowData['label']);
@@ -444,7 +444,7 @@ class API extends \Piwik\Plugin\API
                         $rowData = $rows[0]->getColumns(); // associative Array
 
                         foreach ($ordinateColumns as $column) {
-                            if(!isset($rowData[$column])) {
+                            if (!isset($rowData[$column])) {
                                 continue;
                             }
                             $ordinateValue = $rowData[$column];
@@ -502,7 +502,6 @@ class API extends \Piwik\Plugin\API
         } catch (InvalidDimensionException $e) {
             throw $e;
         } catch (\Exception $e) {
-
             $graph = new \Piwik\Plugins\ImageGraph\StaticGraph\Exception();
             $graph->setWidth($width);
             $graph->setHeight($height);

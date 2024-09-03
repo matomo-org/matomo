@@ -3,8 +3,8 @@
  *
  * UsersManager screenshot tests.
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("UsersManager", function () {
@@ -665,13 +665,13 @@ describe("UsersManager", function () {
         });
 
         it('should add a user by email when an email is entered', async function () {
-            await page.type('input[name="add-existing-user-email"]', '0_login3conchords@example.com');
+            await page.type('input[name="add-existing-user-email"]', '0login3conchords@example.com');
             await page.waitForSelector('.add-existing-user-modal');
             await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no):visible')).click();
             await page.waitForNetworkIdle();
 
             await page.evaluate(function () { // show new user
-                $('#user-text-filter').val('0_login3conchords@example.com').change();
+                $('#user-text-filter').val('0login3conchords@example.com').change();
             });
 
             await page.mouse.move(-10, -10);
@@ -687,12 +687,12 @@ describe("UsersManager", function () {
             await page.click('.add-existing-user');
             await page.waitForSelector('.add-existing-user-modal');
             await page.evaluate(() => $('input[name="add-existing-user-email"]').val('').change());
-            await page.type('input[name="add-existing-user-email"]', '10_login8');
+            await page.type('input[name="add-existing-user-email"]', '10login8');
             await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no):visible')).click();
             await page.waitForNetworkIdle();
 
             await page.evaluate(function () { // show new user
-                $('#user-text-filter').val('10_login8').change();
+                $('#user-text-filter').val('10login8').change();
             });
 
             await page.mouse.move(-10, -10);

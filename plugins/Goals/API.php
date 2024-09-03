@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Goals;
 
 use Exception;
@@ -55,7 +56,7 @@ use Piwik\Validators\WhitelistedValue;
  */
 class API extends \Piwik\Plugin\API
 {
-    const AVG_PRICE_VIEWED = 'avg_price_viewed';
+    public const AVG_PRICE_VIEWED = 'avg_price_viewed';
 
     /**
      * Return a single goal.
@@ -79,10 +80,11 @@ class API extends \Piwik\Plugin\API
      * Returns all Goals for a given website, or list of websites
      *
      * @param string|array $idSite Array or Comma separated list of website IDs to request the goals for
+     * @param bool $orderByName
      *
      * @return array Array of Goal attributes
      */
-    public function getGoals($idSite)
+    public function getGoals($idSite, bool $orderByName = false): array
     {
         $cacheId = self::getCacheId($idSite);
         $cache = $this->getGoalsInfoStaticCache();
@@ -93,7 +95,7 @@ class API extends \Piwik\Plugin\API
             $idSite = Site::getIdSitesFromIdSitesString($idSite);
 
             if (empty($idSite)) {
-                return array();
+                return [];
             }
 
             Piwik::checkUserHasViewAccess($idSite);
@@ -108,7 +110,19 @@ class API extends \Piwik\Plugin\API
             $cache->save($cacheId, $cleanedGoals);
         }
 
-        return $cache->fetch($cacheId);
+        $goals = $cache->fetch($cacheId);
+
+        if ($orderByName) {
+            uasort($goals, function ($a, $b) {
+                if ($a['name'] == $b['name']) {
+                    return $a['idgoal'] > $b['idgoal'] ? -1 : 1;
+                }
+
+                return strcasecmp($a['name'], $b['name']);
+            });
+        }
+
+        return $goals;
     }
 
     private function formatGoal($goal)
@@ -267,7 +281,8 @@ class API extends \Piwik\Plugin\API
 
     private function checkPatternIsValid($patternType, $pattern, $matchAttribute)
     {
-        if ($patternType == 'exact'
+        if (
+            $patternType == 'exact'
             && substr($pattern, 0, 4) != 'http'
             && substr($matchAttribute, 0, 6) != 'event_'
             && $matchAttribute != 'title'
@@ -313,7 +328,8 @@ class API extends \Piwik\Plugin\API
 
     private function checkPattern($pattern, $matchAttribute)
     {
-        if (in_array($matchAttribute, GoalManager::$NUMERIC_MATCH_ATTRIBUTES)
+        if (
+            in_array($matchAttribute, GoalManager::$NUMERIC_MATCH_ATTRIBUTES)
             && !is_numeric($pattern)
         ) {
             throw new \Exception("Invalid pattern for match attribute '$matchAttribute'. (got '$pattern', expected numeric value).");
@@ -480,7 +496,7 @@ class API extends \Piwik\Plugin\API
     {
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             return GoalManager::IDGOAL_ORDER;
-        } else if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+        } elseif ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
             return GoalManager::IDGOAL_CART;
         } else {
             return $idGoal;
@@ -541,8 +557,10 @@ class API extends \Piwik\Plugin\API
             } finally {
                 \Piwik\Plugin\Archiver::$ARCHIVE_DEPENDENT = $startingArchiveDependent;
             }
-            $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
-                array($appendToMetricName));
+            $tableSegmented->filter(
+                'Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
+                array($appendToMetricName)
+            );
 
             if (!isset($table)) {
                 $table = $tableSegmented;
@@ -604,7 +622,6 @@ class API extends \Piwik\Plugin\API
         $shouldAddAverageOrderRevenue = (in_array('avg_order_revenue', $requestedColumns) || empty($requestedColumns)) && $isEcommerceGoal;
 
         if ($shouldAddAverageOrderRevenue && !empty($requestedColumns)) {
-
             $avgOrder = new AverageOrderRevenue();
             $metricsToAdd = $avgOrder->getDependentMetrics();
 
@@ -779,11 +796,19 @@ class API extends \Piwik\Plugin\API
     public function getDaysToConversion($idSite, $period, $date, $segment = false, $idGoal = false)
     {
         $dataTable = $this->getGoalSpecificDataTable(
-            Archiver::DAYS_UNTIL_CONV_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
+            Archiver::DAYS_UNTIL_CONV_RECORD_NAME,
+            $idSite,
+            $period,
+            $date,
+            $segment,
+            $idGoal
+        );
 
         $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
         $dataTable->queueFilter(
-            'BeautifyRangeLabels', array(Piwik::translate('Intl_OneDay'), Piwik::translate('Intl_NDays')));
+            'BeautifyRangeLabels',
+            array(Piwik::translate('Intl_OneDay'), Piwik::translate('Intl_NDays'))
+        );
 
         return $dataTable;
     }
@@ -804,11 +829,19 @@ class API extends \Piwik\Plugin\API
     public function getVisitsUntilConversion($idSite, $period, $date, $segment = false, $idGoal = false)
     {
         $dataTable = $this->getGoalSpecificDataTable(
-            Archiver::VISITS_UNTIL_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
+            Archiver::VISITS_UNTIL_RECORD_NAME,
+            $idSite,
+            $period,
+            $date,
+            $segment,
+            $idGoal
+        );
 
         $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
         $dataTable->queueFilter(
-            'BeautifyRangeLabels', array(Piwik::translate('General_OneVisit'), Piwik::translate('General_NVisits')));
+            'BeautifyRangeLabels',
+            array(Piwik::translate('General_OneVisit'), Piwik::translate('General_NVisits'))
+        );
 
         return $dataTable;
     }
@@ -830,8 +863,14 @@ class API extends \Piwik\Plugin\API
         }
 
         // Enrich the datatable with Product/Categories views, and conversion rates
-        $customVariables = \Piwik\Plugins\CustomVariables\API::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false,
-            $_leavePiwikCoreVariables = true);
+        $customVariables = \Piwik\Plugins\CustomVariables\API::getInstance()->getCustomVariables(
+            $idSite,
+            $period,
+            $date,
+            $segment,
+            $expanded = false,
+            $_leavePiwikCoreVariables = true
+        );
         $mapping = array(
             'Goals_ItemsSku'      => '_pks',
             'Goals_ItemsName'     => '_pkn',
@@ -848,7 +887,8 @@ class API extends \Piwik\Plugin\API
 
                 // we do not enter the IF
                 // if case idSite=1,3 AND period=day&date=datefrom,dateto,
-                if ($customVariableTableForDate instanceof DataTable
+                if (
+                    $customVariableTableForDate instanceof DataTable
                     && $customVariableTableForDate->getMetadata(Archive\DataTableFactory::TABLE_METADATA_PERIOD_INDEX)
                 ) {
                     $dateRewrite = $customVariableTableForDate->getMetadata(Archive\DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getDateStart()->toString();

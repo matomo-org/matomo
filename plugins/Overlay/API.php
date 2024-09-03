@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Overlay;
@@ -67,8 +66,15 @@ class API extends \Piwik\Plugin\API
         try {
             $limitBeforeGrouping = Config::getInstance()->General['overlay_following_pages_limit'];
             $transitionsReport = APITransitions::getInstance()->getTransitionsForAction(
-                $url, $type = 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping,
-                $part = 'followingActions');
+                $url,
+                $type = 'url',
+                $idSite,
+                $period,
+                $date,
+                $segment,
+                $limitBeforeGrouping,
+                $part = 'followingActions'
+            );
         } catch (Exception $e) {
             return $resultDataTable;
         }

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Transitions\tests\Integration;
 
 use Piwik\Plugins\Transitions\Transitions;
@@ -41,7 +43,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         $t->doTrackPageView('incredible title ');
     }
 
-    public function test_ShouldThrowException_IfPeriodNotAllowed()
+    public function testShouldThrowExceptionIfPeriodNotAllowed()
     {
         $invalidPeriods = [
             'day' => ['week', 'month', 'year'],
@@ -52,8 +54,13 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
             Config::setSetting('Transitions_1', 'max_period_allowed', $period);
             foreach ($invalids as $ip) {
                 try {
-                    $this->api->getTransitionsForAction('http://example.org/page/one.html', 'url',
-                        1, $ip, '2012-08-09');
+                    $this->api->getTransitionsForAction(
+                        'http://example.org/page/one.html',
+                        'url',
+                        1,
+                        $ip,
+                        '2012-08-09'
+                    );
                     $this->fail("Failed asserting that exception 'PeriodNotAllowed' was thrown");
                 } catch (\Exception $e) {
                     $this->assertEquals('PeriodNotAllowed', $e->getMessage());
@@ -62,7 +69,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         }
     }
 
-    public function test_ShouldReturnData_IfPeriodAllowed()
+    public function testShouldReturnDataIfPeriodAllowed()
     {
         $validPeriods = [
             'day' => ['day'],
@@ -74,65 +81,104 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         foreach ($validPeriods as $period => $valids) {
             Config::setSetting('Transitions_1', 'max_period_allowed', $period);
             foreach ($valids as $vp) {
-                $r = $this->api->getTransitionsForAction('http://example.org/page/one.html', 'url',
-                    1, $vp, '2012-08-09');
+                $r = $this->api->getTransitionsForAction(
+                    'http://example.org/page/one.html',
+                    'url',
+                    1,
+                    $vp,
+                    '2012-08-09'
+                );
                 self::assertEquals(1, $r['pageMetrics']['pageviews']);
             }
         }
     }
 
-    public function test_ShouldThrowException_IfInvalidLimitBeforeGroup()
+    public function testShouldThrowExceptionIfInvalidLimitBeforeGroup()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('limitBeforeGrouping has to be an integer.');
-        $this->api->getTransitionsForAction('http://example.org/page/one.html', 'url', 1,
-            'range', '2012-08-09,2012-08-10', false, 'all');
+        $this->api->getTransitionsForAction(
+            'http://example.org/page/one.html',
+            'url',
+            1,
+            'range',
+            '2012-08-09,2012-08-10',
+            false,
+            'all'
+        );
     }
 
-    public function test_ShouldPass_IfLimitBeforeGroupPassingIntAsString()
+    public function testShouldPassIfLimitBeforeGroupPassingIntAsString()
     {
-        $report = $this->api->getTransitionsForAction('http://example.org/page/one.html', 'url', 1,
-            'range', '2012-08-09,2012-08-10', false, '100');
+        $report = $this->api->getTransitionsForAction(
+            'http://example.org/page/one.html',
+            'url',
+            1,
+            'range',
+            '2012-08-09,2012-08-10',
+            false,
+            '100'
+        );
         $this->assertIsArray($report);
     }
 
-    public function test_ShouldThrowException_IfRangeDayCountIsLargerThanDayPeriod()
+    public function testShouldThrowExceptionIfRangeDayCountIsLargerThanDayPeriod()
     {
         Config::setSetting('Transitions_1', 'max_period_allowed', 'day');
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('PeriodNotAllowed');
-        $this->api->getTransitionsForAction('http://example.org/page/one.html', 'url', 1,
-            'range', '2012-08-09,2012-08-10');
+        $this->api->getTransitionsForAction(
+            'http://example.org/page/one.html',
+            'url',
+            1,
+            'range',
+            '2012-08-09,2012-08-10'
+        );
     }
 
-    public function test_ShouldThrowException_IfRangeDayCountIsLargerThanWeekPeriod()
+    public function testShouldThrowExceptionIfRangeDayCountIsLargerThanWeekPeriod()
     {
         Config::setSetting('Transitions_1', 'max_period_allowed', 'day');
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('PeriodNotAllowed');
-        $this->api->getTransitionsForAction('http://example.org/page/one.html', 'url', 1,
-            'range', '2012-08-09,2012-08-17');
+        $this->api->getTransitionsForAction(
+            'http://example.org/page/one.html',
+            'url',
+            1,
+            'range',
+            '2012-08-09,2012-08-17'
+        );
     }
 
-    public function test_ShouldThrowException_IfRangeDayCountIsLargerThanMonthPeriod()
+    public function testShouldThrowExceptionIfRangeDayCountIsLargerThanMonthPeriod()
     {
         Config::setSetting('Transitions_1', 'max_period_allowed', 'day');
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('PeriodNotAllowed');
-        $this->api->getTransitionsForAction('http://example.org/page/one.html', 'url', 1,
-            'range', '2012-08-09,2012-09-10');
+        $this->api->getTransitionsForAction(
+            'http://example.org/page/one.html',
+            'url',
+            1,
+            'range',
+            '2012-08-09,2012-09-10'
+        );
     }
 
-    public function test_ShouldThrowException_IfRangeDayCountIsLargerThanYearPeriod()
+    public function testShouldThrowExceptionIfRangeDayCountIsLargerThanYearPeriod()
     {
         Config::setSetting('Transitions_1', 'max_period_allowed', 'day');
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('PeriodNotAllowed');
-        $this->api->getTransitionsForAction('http://example.org/page/one.html', 'url', 1,
-            'range', '2012-08-09,2013-08-10');
+        $this->api->getTransitionsForAction(
+            'http://example.org/page/one.html',
+            'url',
+            1,
+            'range',
+            '2012-08-09,2013-08-10'
+        );
     }
 
-    public function test_ShouldUseSiteConfigInsteadOfGeneral_IfSiteConfigExists()
+    public function testShouldUseSiteConfigInsteadOfGeneralIfSiteConfigExists()
     {
         Config::setSetting('Transitions_1', 'max_period_allowed', null);
         Config::setSetting('Transitions', 'max_period_allowed', 'month');

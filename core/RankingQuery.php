@@ -1,15 +1,16 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik;
 
 use Exception;
+use Piwik\Db\Schema;
 
 /**
  * The ranking query class wraps an arbitrary SQL query with more SQL that limits
@@ -43,7 +44,7 @@ class RankingQuery
 {
     // a special label used to mark the 'Others' row in a ranking query result set. this is mapped to the
     // datatable summary row during archiving.
-    const LABEL_SUMMARY_ROW = '__mtm_ranking_query_others__';
+    public const LABEL_SUMMARY_ROW = '__mtm_ranking_query_others__';
 
     /**
      * Contains the labels of the inner query.
@@ -324,6 +325,11 @@ class RankingQuery
             $initCounter = '( SELECT @counter:=0 ) initCounter,';
         }
 
+        if (false === strpos(' LIMIT ', $innerQuery) && !Schema::getInstance()->supportsSortingInSubquery()) {
+            // Setting a limit for the inner query forces the optimizer to use a temporary table, which uses the sorting
+            $innerQuery .= ' LIMIT 18446744073709551615';
+        }
+
         // add a counter to the query
         // we rely on the sorting of the inner query
         $withCounter = "
@@ -348,6 +354,12 @@ class RankingQuery
 			FROM ( $withCounter ) AS withCounter
 			GROUP BY $groupBy
 		";
+
+        if (!Schema::getInstance()->supportsSortingInSubquery()) {
+            // When subqueries aren't sorted, we need to sort the result manually again
+            $groupOthers .= " ORDER BY counter";
+        }
+
         return $groupOthers;
     }
 

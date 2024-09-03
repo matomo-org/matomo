@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\DataTable\Filter;
@@ -67,7 +68,7 @@ class PatternTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestData
      */
-    public function testFilterArrayPattern_OneColumn($pattern, $expectedRows)
+    public function testFilterArrayPatternOneColumn($pattern, $expectedRows)
     {
         $rows = array(
             array('label' => 'google'),
@@ -88,7 +89,7 @@ class PatternTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataTwoColumns
      */
-    public function testFilterArrayPattern_ShouldBeAbleToFilterByTwoColumns_IfMultipleColumnsAreGiven($pattern, $expectedRows)
+    public function testFilterArrayPatternShouldBeAbleToFilterByTwoColumnsIfMultipleColumnsAreGiven($pattern, $expectedRows)
     {
         $rows = array(
             0 => array('randomcolumn' => 'ask', 'name' => 'google', 'url' => 'www.google.com'),

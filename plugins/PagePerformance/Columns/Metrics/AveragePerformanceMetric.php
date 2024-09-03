@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\PagePerformance\Columns\Metrics;
 
 use Piwik\DataTable;
@@ -24,7 +26,7 @@ use Piwik\Columns\Dimension;
  */
 abstract class AveragePerformanceMetric extends ProcessedMetric
 {
-    const ID = '';
+    public const ID = '';
 
     public function getName()
     {
@@ -51,7 +53,8 @@ abstract class AveragePerformanceMetric extends ProcessedMetric
 
     public function format($value, Formatter $formatter)
     {
-        if ($formatter instanceof Formatter\Html
+        if (
+            $formatter instanceof Formatter\Html
             && !$value
         ) {
             return '-';
@@ -64,7 +67,8 @@ abstract class AveragePerformanceMetric extends ProcessedMetric
     {
         $hasTimeGeneration = array_sum($this->getMetricValues($table, 'sum_' . static::ID)) > 0;
 
-        if (!$hasTimeGeneration
+        if (
+            !$hasTimeGeneration
             && $table->getRowsCount() != 0
             && !$this->hasAverageMetric($table)
         ) {

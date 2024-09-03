@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\API\Request as ApiRequest;
@@ -26,10 +27,10 @@ use Piwik\Plugin\Visualization;
  */
 class HtmlTable extends Visualization
 {
-    const ID = 'table';
-    const TEMPLATE_FILE     = "@CoreVisualizations/_dataTableViz_htmlTable.twig";
-    const FOOTER_ICON       = 'icon-table';
-    const FOOTER_ICON_TITLE = 'General_DisplaySimpleTable';
+    public const ID = 'table';
+    public const TEMPLATE_FILE     = "@CoreVisualizations/_dataTableViz_htmlTable.twig";
+    public const FOOTER_ICON       = 'icon-table';
+    public const FOOTER_ICON_TITLE = 'General_DisplaySimpleTable';
 
     protected $siteSummary;
 
@@ -49,7 +50,8 @@ class HtmlTable extends Visualization
 
         if ($this->isComparing()) {
             $request = $this->getRequestArray();
-            if (!empty($request['comparePeriods'])
+            if (
+                !empty($request['comparePeriods'])
                 && count($request['comparePeriods']) == 1
             ) {
                 $this->requestConfig->request_parameters_to_modify['invert_compare_change_compute'] = 1;
@@ -66,9 +68,10 @@ class HtmlTable extends Visualization
 
     public function beforeRender()
     {
-        if ($this->requestConfig->idSubtable
-            && $this->config->show_embedded_subtable) {
-
+        if (
+            $this->requestConfig->idSubtable
+            && $this->config->show_embedded_subtable
+        ) {
             $this->config->show_visualization_only = true;
         }
 
@@ -94,7 +97,8 @@ class HtmlTable extends Visualization
             $this->config->columns_to_display = $this->dataTable->getColumns();
         }
 
-        if ($this->isComparing()
+        if (
+            $this->isComparing()
             && !empty($this->dataTable)
         ) {
             $this->assignTemplateVar('comparisonTotals', $this->dataTable->getMetadata('comparisonTotals'));
@@ -121,8 +125,6 @@ class HtmlTable extends Visualization
             }
 
             if ($this->config->show_dimensions && $hasMultipleDimensions) {
-
-
                 $properties = $this->config;
                 array_shift($dimensions); // shift away first dimension, as that will be shown as label
 
@@ -184,7 +186,6 @@ class HtmlTable extends Visualization
 
 
             if ($this->config->show_dimensions && $hasMultipleDimensions) {
-
                 $this->dataTable->filter(function ($dataTable) use ($dimensions) {
                     /** @var DataTable $dataTable */
                     $rows = $dataTable->getRows();

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -37,7 +38,7 @@ class JsProxyTest extends IntegrationTestCase
         $this->assertEquals($piwik_js, $fullResponse, 'script content');
     }
 
-    public function testPiwik_WhiteLabelledJs_HasNoComment()
+    public function testPiwikWhiteLabelledJsHasNoComment()
     {
         $curlHandle = curl_init();
         curl_setopt($curlHandle, CURLOPT_URL, $this->getStaticSrvUrl() . '/js/tracker.php');

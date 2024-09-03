@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
@@ -50,7 +51,7 @@ class ColumnDelete extends BaseFilter
      *
      * Column will be kept, if they match any name in the $columnsToKeep, or if they look like anyColumnToKeep__anythingHere
      */
-    const APPEND_TO_COLUMN_NAME_TO_KEEP = '__';
+    public const APPEND_TO_COLUMN_NAME_TO_KEEP = '__';
 
     /**
      * Delete the column, only if the value was zero
@@ -128,7 +129,8 @@ class ColumnDelete extends BaseFilter
                         }
                     }
 
-                    if (!$keep
+                    if (
+                        !$keep
                         && $name !== 'label' // label cannot be removed via allowlisting
                         && !isset($this->columnsToKeep[$name])
                     ) {
@@ -170,7 +172,6 @@ class ColumnDelete extends BaseFilter
             }
 
             foreach ($this->columnsToRemove as $column) {
-
                 if (is_array($row)) {
                     if (!array_key_exists($column, $row)) {
                         continue;

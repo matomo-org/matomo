@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugin;
 
 use Piwik\Archive\DataTableFactory;
@@ -16,18 +18,18 @@ use Piwik\Piwik;
 
 class ArchivedMetric extends Metric
 {
-    const AGGREGATION_COUNT = 'count(%s)';
-    const AGGREGATION_COUNT_PREFIX = 'nb_';
-    const AGGREGATION_SUM = 'sum(%s)';
-    const AGGREGATION_SUM_PREFIX = 'sum_';
-    const AGGREGATION_MAX = 'max(%s)';
-    const AGGREGATION_MAX_PREFIX = 'max_';
-    const AGGREGATION_MIN = 'min(%s)';
-    const AGGREGATION_MIN_PREFIX = 'min_';
-    const AGGREGATION_UNIQUE = 'count(distinct %s)';
-    const AGGREGATION_UNIQUE_PREFIX = 'nb_uniq_';
-    const AGGREGATION_COUNT_WITH_NUMERIC_VALUE = 'sum(if(%s > 0, 1, 0))';
-    const AGGREGATION_COUNT_WITH_NUMERIC_VALUE_PREFIX = 'nb_with_';
+    public const AGGREGATION_COUNT = 'count(%s)';
+    public const AGGREGATION_COUNT_PREFIX = 'nb_';
+    public const AGGREGATION_SUM = 'sum(%s)';
+    public const AGGREGATION_SUM_PREFIX = 'sum_';
+    public const AGGREGATION_MAX = 'max(%s)';
+    public const AGGREGATION_MAX_PREFIX = 'max_';
+    public const AGGREGATION_MIN = 'min(%s)';
+    public const AGGREGATION_MIN_PREFIX = 'min_';
+    public const AGGREGATION_UNIQUE = 'count(distinct %s)';
+    public const AGGREGATION_UNIQUE_PREFIX = 'nb_uniq_';
+    public const AGGREGATION_COUNT_WITH_NUMERIC_VALUE = 'sum(if(%s > 0, 1, 0))';
+    public const AGGREGATION_COUNT_WITH_NUMERIC_VALUE_PREFIX = 'nb_with_';
 
     /**
      * @var string

@@ -1,13 +1,13 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\PrivacyManager\tests\Unit;
-
 
 use Piwik\Plugins\PrivacyManager\Config;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
@@ -30,7 +30,7 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit\Framework\TestCase
         $this->cleanupServerGlobals();
     }
 
-    public function test_isDoNotTrackFound_whenDntNotActivated()
+    public function testIsDoNotTrackFoundWhenDntNotActivated()
     {
         $dntChecker = $this->makeDntHeaderChecker();
 
@@ -38,7 +38,7 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($dntChecker->isDoNotTrackFound());
     }
 
-    public function getHeader_DntIsActivated()
+    public function getHeaderDntIsActivated()
     {
         return array(
             array('HTTP_X_DO_NOT_TRACK', '1'),
@@ -47,7 +47,7 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function getHeader_DntIsNotActivated()
+    public function getHeaderDntIsNotActivated()
     {
         return array(
             array('HTTP_DNT', '0'),
@@ -59,9 +59,9 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider getHeader_DntIsActivated
+     * @dataProvider getHeaderDntIsActivated
      */
-    public function test_isDoNotTrackFound_whenDntActivated_BrowserHasDntHeader($headerName, $headerValue)
+    public function testIsDoNotTrackFoundWhenDntActivatedBrowserHasDntHeader($headerName, $headerValue)
     {
         $dntChecker = $this->makeDntHeaderCheckerEnabled();
 
@@ -70,9 +70,9 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider getHeader_DntIsNotActivated
+     * @dataProvider getHeaderDntIsNotActivated
      */
-    public function test_isDoNotTrackFound_whenDntActivated_BrowserDoesNotHaveDntHeader($headerName, $headerValue)
+    public function testIsDoNotTrackFoundWhenDntActivatedBrowserDoesNotHaveDntHeader($headerName, $headerValue)
     {
         $dntChecker = $this->makeDntHeaderCheckerEnabled();
 

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\DevicesDetection\tests\Fixtures;
 
 use Piwik\Date;
@@ -41,8 +43,14 @@ class MultiDeviceGoalConversions extends Fixture
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
             API::getInstance()->addGoal(
-                $this->idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false,
-                $revenue = 10, $allowMultipleConversions = 1
+                $this->idSite,
+                'Goal 1 - Thank you',
+                'title',
+                'Thank you',
+                'contains',
+                $caseSensitive = false,
+                $revenue = 10,
+                $allowMultipleConversions = 1
             );
         }
     }

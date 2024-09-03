@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\System;
 
 use Piwik\API\Request;
@@ -104,9 +106,9 @@ class VisitsInPastInvalidateOldReportsTest extends SystemTestCase
             $request = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSiteNoAccess . "&dates=2010-03-03&format=original&token_auth=" . self::$fixture::VIEW_USER_TOKEN);
             $request->process();
             $this->fail('Invalidating archived reports with invalid idSite worked, but shouldn\'t');
-        } catch(\PHPUnit\Framework\Exception $e) {
+        } catch (\PHPUnit\Framework\Exception $e) {
             throw $e;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->assertStringContainsString('checkUserHasAdminAccess Fake exception', $e->getMessage());
         }
         FakeAccess::clearAccess(true);
@@ -117,9 +119,9 @@ class VisitsInPastInvalidateOldReportsTest extends SystemTestCase
             $request = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&period=$invalidPeriod&idSites=$idSite&dates=2010-03-03&format=original");
             $request->process();
             $this->fail('Invalidating archived reports with an invalid period worked, but shouldn\'t');
-        } catch(\PHPUnit\Framework\Exception $e) {
+        } catch (\PHPUnit\Framework\Exception $e) {
             throw $e;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->assertStringContainsString("The period 'day,month' is not supported", $e->getMessage());
         }
 

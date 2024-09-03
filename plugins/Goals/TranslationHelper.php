@@ -1,14 +1,13 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Goals;
-
 
 use Piwik\Piwik;
 
@@ -35,7 +34,7 @@ class TranslationHelper
     public function getTranslationForCompleteDescription($match, $patternType, $pattern)
     {
         $description = $this->getTranslationForMatchAttribute($match);
-        if($this->isPatternUsedForMatchAttribute($match)) {
+        if ($this->isPatternUsedForMatchAttribute($match)) {
             $description = sprintf(
                 '%s %s',
                 $description,
@@ -89,19 +88,22 @@ class TranslationHelper
     {
         switch ($patternType) {
             case 'regex':
-                return sprintf('%s %s',
+                return sprintf(
+                    '%s %s',
                     Piwik::translate('Goals_Pattern'),
                     Piwik::translate('Goals_MatchesExpression', array($pattern))
                 );
 
             case 'contains':
-                return sprintf('%s %s',
+                return sprintf(
+                    '%s %s',
                     Piwik::translate('Goals_Pattern'),
                     Piwik::translate('Goals_Contains', array($pattern))
                 );
 
             case 'exact':
-                return sprintf('%s %s',
+                return sprintf(
+                    '%s %s',
                     Piwik::translate('Goals_Pattern'),
                     Piwik::translate('Goals_IsExactly', array($pattern))
                 );

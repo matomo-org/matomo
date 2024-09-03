@@ -1,12 +1,14 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Ecommerce;
+
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Common;
@@ -53,7 +55,7 @@ class Ecommerce extends \Piwik\Plugin
         $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_productview_sku
 					ON  log_link_visit_action.idaction_product_sku = log_action_productview_sku.idaction';
 
-        for($i = 1; $i <= ProductCategory::PRODUCT_CATEGORY_COUNT; $i++) {
+        for ($i = 1; $i <= ProductCategory::PRODUCT_CATEGORY_COUNT; $i++) {
             $suffix = $i > 1 ? $i : '';
             $fields[] = "log_action_productview_category$i.name as productViewCategory$i";
             $joins[] = "LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_productview_category$i
@@ -69,10 +71,12 @@ class Ecommerce extends \Piwik\Plugin
         foreach ($metrics as $metric) {
             if ($metric instanceof ArchivedMetric && $metric->getDimension()) {
                 $metricName = $metric->getName();
-                if ($metric->getDbTableName() === 'log_conversion'
+                if (
+                    $metric->getDbTableName() === 'log_conversion'
                     && $metricName !== 'nb_uniq_orders'
                     && strpos($metricName, ArchivedMetric::AGGREGATION_SUM_PREFIX) === 0
-                    && $metric->getCategoryId() === $category) {
+                    && $metric->getCategoryId() === $category
+                ) {
                     $metric = $computedMetricFactory->createComputedMetric($metric->getName(), 'nb_uniq_orders', ComputedMetric::AGGREGATION_AVG);
                     $list->addMetric($metric);
                 }

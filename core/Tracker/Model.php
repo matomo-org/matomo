@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tracker;
 
 use Exception;
@@ -16,7 +17,7 @@ use Piwik\Log\LoggerInterface;
 
 class Model
 {
-    const CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME = 'log_visit_has_index_idsite_idvisitor_time';
+    public const CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME = 'log_visit_has_index_idsite_idvisitor_time';
 
     /**
      * Write an visit action record to the database
@@ -179,9 +180,11 @@ class Model
         try {
             $this->getDb()->query($sql, $bind);
         } catch (Exception $e) {
-            if ($e->getCode() == 23000 ||
+            if (
+                $e->getCode() == 23000 ||
                 false !== strpos($e->getMessage(), 'Duplicate entry') ||
-                false !== strpos($e->getMessage(), 'Integrity constraint violation')) {
+                false !== strpos($e->getMessage(), 'Integrity constraint violation')
+            ) {
                 Common::printDebug('Did not create ecommerce item as item was already created');
             } else {
                 throw $e;
@@ -568,8 +571,10 @@ class Model
         $cache = Cache::getCacheGeneral();
 
         // use INDEX index_idsite_idvisitor_time (idsite, idvisitor, visit_last_action_time) if available
-        if (array_key_exists(self::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME,
-                             $cache) && true === $cache[self::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME]) {
+        if (
+            array_key_exists(self::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME, $cache)
+            && true === $cache[self::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME]
+        ) {
             $from .= ' FORCE INDEX (index_idsite_idvisitor_time) ';
         }
 

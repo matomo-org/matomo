@@ -1,14 +1,16 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Columns;
 
 use Piwik\Common;
+use Piwik\Db\Schema;
 use Piwik\DbHelper;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -82,8 +84,15 @@ class Updater extends \Piwik\Updates
                 continue;
             }
 
-            $sql = "ALTER TABLE `" . Common::prefixTable($table) . "` " . implode(', ', $columns);
-            $sqls[] = new Migration\Db\Sql($sql, $errorCodes);
+            if (Schema::getInstance()->supportsComplexColumnUpdates()) {
+                $sql = "ALTER TABLE `" . Common::prefixTable($table) . "` " . implode(', ', $columns);
+                $sqls[] = new Migration\Db\Sql($sql, $errorCodes);
+            } else {
+                foreach ($columns as $column) {
+                    $sql = "ALTER TABLE `" . Common::prefixTable($table) . "` " . $column;
+                    $sqls[] = new Migration\Db\Sql($sql, $errorCodes);
+                }
+            }
         }
 
         return $sqls;
@@ -245,7 +254,8 @@ class Updater extends \Piwik\Updates
         // that was moved when the dimension refactor took place, then:
         // - set the installed version in the DB to the current code version
         // - and do not check for updates since we just set the version to the latest
-        if (array_key_exists($columnName, $columns)
+        if (
+            array_key_exists($columnName, $columns)
             && false === $updater->getCurrentComponentVersion($component)
             && self::wasDimensionMovedFromCoreToPlugin($component, $version)
         ) {

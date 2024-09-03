@@ -1,7 +1,8 @@
 <!--
   Matomo - free/libre analytics platform
-  @link https://matomo.org
-  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
 <template>
@@ -60,11 +61,17 @@ import AjaxHelper from '../AjaxHelper/AjaxHelper';
 function showOnlyRawDataNotification() {
   const params = 'category=General_Visitors&subcategory=Live_VisitorLog';
   const url = window.broadcast.buildReportingUrl(params);
+  let message = translate('CoreHome_PeriodHasOnlyRawData', `<a href="${url}">`, '</a>');
+
+  if (!Matomo.visitorLogEnabled) {
+    message = translate('CoreHome_PeriodHasOnlyRawDataNoVisitsLog');
+  }
+
   NotificationsStore.show({
     id: 'onlyRawData',
     animate: false,
     context: 'info',
-    message: translate('CoreHome_PeriodHasOnlyRawData', `<a href="${url}">`, '</a>'),
+    message,
     type: 'transient',
   });
 }
@@ -129,11 +136,24 @@ export default defineComponent({
         this.hasNoVisits = false;
       }
 
-      this.renderPage(newValue.category as string, newValue.subcategory as string);
+      this.renderPage(
+        newValue.category as string,
+        newValue.subcategory as string,
+        newValue.period as string,
+        newValue.date as string,
+        newValue.segment as string,
+      );
     });
 
     Matomo.on('loadPage', (category: string, subcategory: string) => {
-      this.renderPage(category, subcategory);
+      const parsedUrl = MatomoUrl.parsed.value;
+      this.renderPage(
+        category,
+        subcategory,
+        parsedUrl.period as string,
+        parsedUrl.date as string,
+        parsedUrl.segment as string,
+      );
     });
   },
   computed: {
@@ -142,19 +162,17 @@ export default defineComponent({
     },
   },
   methods: {
-    renderPage(category: string, subcategory: string) {
+    renderPage(
+      category: string, subcategory: string, period: string, date: string, segment: string,
+    ) {
       if (!category || !subcategory) {
         ReportingPageStoreInstance.resetPage();
         this.loading = false;
         return;
       }
 
-      const parsedUrl = MatomoUrl.parsed.value;
-      const currentPeriod = parsedUrl.period as string;
-      const currentDate = parsedUrl.date as string;
-
       try {
-        Periods.parse(currentPeriod, currentDate);
+        Periods.parse(period, date);
       } catch (e) {
         NotificationsStore.show({
           id: 'invalidDate',
@@ -175,8 +193,8 @@ export default defineComponent({
 
       NotificationsStore.clearTransientNotifications();
 
-      if (Periods.parse(currentPeriod, currentDate).containsToday()) {
-        this.showOnlyRawDataMessageIfRequired();
+      if (Periods.parse(period, date).containsToday()) {
+        this.showOnlyRawDataMessageIfRequired(category, subcategory, period, date, segment);
       }
 
       const params: LoadPageArgs = { category, subcategory };
@@ -208,20 +226,21 @@ export default defineComponent({
     },
     renderInitialPage() {
       const parsed = MatomoUrl.parsed.value;
-      this.renderPage(parsed.category as string, parsed.subcategory as string);
+      this.renderPage(
+        parsed.category as string,
+        parsed.subcategory as string,
+        parsed.period as string,
+        parsed.date as string,
+        parsed.segment as string,
+      );
     },
-    showOnlyRawDataMessageIfRequired() {
-      if (!Matomo.visitorLogEnabled) {
-        return;
-      }
-
+    showOnlyRawDataMessageIfRequired(
+      category: string, subcategory: string, period: string, date: string, segment: string,
+    ) {
       if (this.hasRawData && this.hasNoVisits) {
         showOnlyRawDataNotification();
       }
 
-      const parsedUrl = MatomoUrl.parsed.value;
-
-      const { segment } = parsedUrl;
       if (segment) {
         hideOnlyRawDataNoticifation();
         return;
@@ -243,8 +262,6 @@ export default defineComponent({
         'Marketplace_Marketplace',
       ];
 
-      const subcategory = parsedUrl.subcategory as string;
-      const category = parsedUrl.category as string;
       if (subcategoryExceptions.indexOf(subcategory) !== -1
         || categoryExceptions.indexOf(category) !== -1
         || subcategory.toLowerCase().indexOf('manage') !== -1
@@ -260,7 +277,12 @@ export default defineComponent({
         return;
       }
 
-      AjaxHelper.fetch({ method: 'VisitsSummary.getVisits' }).then((json) => {
+      AjaxHelper.fetch({
+        method: 'VisitsSummary.getVisits',
+        date,
+        period,
+        segment,
+      }).then((json) => {
         this.dateLastChecked = new Date();
 
         if (json.value > 0) {
@@ -277,11 +299,11 @@ export default defineComponent({
         }
 
         return AjaxHelper.fetch({
-          method: 'Live.getLastVisitsDetails',
-          filter_limit: 1,
-          doNotFetchActions: 1,
+          method: 'Live.getMostRecentVisitsDateTime',
+          date,
+          period,
         }).then((lastVisits) => {
-          if (!lastVisits || lastVisits.length === 0) {
+          if (!lastVisits || lastVisits.value === '') {
             this.hasRawData = false;
             hideOnlyRawDataNoticifation();
             return;

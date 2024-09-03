@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Insights\tests\Fixtures;
@@ -65,7 +66,6 @@ class SomeVisitsDifferentPathsOnTwoDays extends Fixture
 
         foreach ($paths as $path => $numVisits) {
             for ($index = 0; $index < $numVisits; $index++) {
-
                 $tracker = self::getTracker($this->idSite, $date->getDatetime(), $defaultInit = true);
                 $date    = $date->addHour(.1);
                 $tracker->setUrl('http://example.org' . $path);

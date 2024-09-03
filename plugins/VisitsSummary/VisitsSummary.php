@@ -1,12 +1,14 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\VisitsSummary;
+
 use Piwik\DataTable;
 use Piwik\Plugins\CoreHome\Columns\UserId;
 use Piwik\Plugins\VisitsSummary\Reports\Get;
@@ -58,8 +60,10 @@ class VisitsSummary extends \Piwik\Plugin
         /** @var DataTable|DataTable\Map $dataTable */
         $dataTable = $response['reportData'];
 
-        if (!$userId->hasDataTableUsers($dataTable) &&
-            !$userId->isUsedInAtLeastOneSite($idSites, $period, $date)) {
+        if (
+            !$userId->hasDataTableUsers($dataTable) &&
+            !$userId->isUsedInAtLeastOneSite($idSites, $period, $date)
+        ) {
             $report = new Get();
             $report->removeUsersFromProcessedReport($response);
         }

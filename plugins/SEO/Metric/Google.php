@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\SEO\Metric;
@@ -18,7 +19,7 @@ use Piwik\Log\LoggerInterface;
  */
 class Google implements MetricsProvider
 {
-    const SEARCH_URL = 'https://www.google.com/search?hl=en&q=site%3A';
+    public const SEARCH_URL = 'https://www.google.com/search?hl=en&q=site%3A';
 
     /**
      * @var LoggerInterface

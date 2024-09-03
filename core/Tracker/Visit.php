@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tracker;
@@ -36,7 +36,7 @@ use Piwik\Tracker\Visit\VisitProperties;
  */
 class Visit implements VisitInterface
 {
-    const UNKNOWN_CODE = 'xx';
+    public const UNKNOWN_CODE = 'xx';
 
     /**
      * @var GoalManager
@@ -352,7 +352,8 @@ class Visit implements VisitInterface
 
         // If the visitor had a first party ID cookie, then we use this value
         $idVisitor = $this->visitProperties->getProperty('idvisitor');
-        if (!empty($idVisitor)
+        if (
+            !empty($idVisitor)
             && Tracker::LENGTH_BINARY_ID == strlen($this->visitProperties->getProperty('idvisitor'))
         ) {
             return $this->visitProperties->getProperty('idvisitor');
@@ -445,7 +446,8 @@ class Visit implements VisitInterface
             throw new VisitorNotFoundInDb(
                 "The visitor with idvisitor=" . bin2hex($this->visitProperties->getProperty('idvisitor'))
                 . " and idvisit=" . @$this->visitProperties->getProperty('idvisit')
-                . " wasn't found in the DB, we fallback to a new visitor");
+                . " wasn't found in the DB, we fallback to a new visitor"
+            );
         }
     }
 
@@ -557,8 +559,10 @@ class Visit implements VisitInterface
                 $dimensionNames[] = $dimension->getColumnName();
             }
 
-            Common::printDebug("Following dimensions have been collected from plugins: " . implode(", ",
-                    $dimensionNames));
+            Common::printDebug("Following dimensions have been collected from plugins: " . implode(
+                ", ",
+                $dimensionNames
+            ));
         }
 
         return self::$dimensions;

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 /**
@@ -16,9 +17,9 @@ namespace Piwik;
  */
 class AuthResult
 {
-    const FAILURE = 0;
-    const SUCCESS = 1;
-    const SUCCESS_SUPERUSER_AUTH_CODE = 42;
+    public const FAILURE = 0;
+    public const SUCCESS = 1;
+    public const SUCCESS_SUPERUSER_AUTH_CODE = 42;
 
     /**
      * token_auth parameter used to authenticate in the API

@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
@@ -81,7 +80,6 @@ class Evolution extends JqplotDataGenerator
         // collect series data to show. each row-to-display/column-to-display permutation creates a series.
         $allSeriesData = [];
         foreach ($rowsToDisplay as $rowIdentifier) {
-
             $rowLabel = $rowIdentifier;
 
             if (!empty($this->properties['selectable_rows'])) {
@@ -265,7 +263,8 @@ class Evolution extends JqplotDataGenerator
                 $row = $childTable->getRowFromLabel($rowLabel);
             }
 
-            if (empty($row)
+            if (
+                empty($row)
                 || empty($row->getComparisons())
             ) {
                 foreach ($seriesLabels as $seriesIndex => $seriesLabelPrefix) {

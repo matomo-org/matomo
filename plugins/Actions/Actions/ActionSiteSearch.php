@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Actions\Actions;
@@ -168,7 +168,8 @@ class ActionSiteSearch extends Action
             }
         }
 
-        if (isset($parameters['search_count'])
+        if (
+            isset($parameters['search_count'])
             && self::isValidSearchCount($parameters['search_count'])
         ) {
             $count = $parameters['search_count'];

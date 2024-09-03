@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\BulkTracking\tests\Integration;
@@ -21,7 +22,7 @@ use Piwik\Tracker\RequestSet;
  */
 class BulkTrackingTest extends BulkTrackingTestCase
 {
-    public function test_initRequestSet_shouldNotSetAnything_IfItIsActuallyNotUsingBulkRequest()
+    public function testInitRequestSetShouldNotSetAnythingIfItIsActuallyNotUsingBulkRequest()
     {
         $requestSet = new RequestSet();
         $this->bulk->initRequestSet($requestSet);
@@ -30,7 +31,7 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $this->assertEquals(false, $requestSet->getTokenAuth());
     }
 
-    public function test_initRequestSet_shouldNotSetAnything_IfNotBulkRequestRawDataIsGiven()
+    public function testInitRequestSetShouldNotSetAnythingIfNotBulkRequestRawDataIsGiven()
     {
         $requestSet = $this->initRequestSet('invalid:requests');
 
@@ -38,7 +39,7 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $this->assertEquals(false, $requestSet->getTokenAuth());
     }
 
-    public function test_initRequestSet_shouldInitialize_AsItIsABulkRequest()
+    public function testInitRequestSetShouldInitializeAsItIsABulkRequest()
     {
         $token   = $this->getSuperUserToken();
         $request = $this->getDummyRequest($token);
@@ -52,7 +53,7 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $this->assertEquals($token, $requestSet->getTokenAuth());
     }
 
-    public function test_initRequestSet_shouldNotOverwriteAToken_IfOneIsAlreadySet()
+    public function testInitRequestSetShouldNotOverwriteATokenIfOneIsAlreadySet()
     {
         $token   = $this->getSuperUserToken();
         $request = $this->getDummyRequest($token);
@@ -63,7 +64,7 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $this->assertCount(2, $requestSet->getRequests());
     }
 
-    public function test_initRequestSet_shouldNotFail_IfNoTokenProvided_AsAuthenticationIsDisabledByDefault()
+    public function testInitRequestSetShouldNotFailIfNoTokenProvidedAsAuthenticationIsDisabledByDefault()
     {
         $request = $this->getDummyRequest();
 
@@ -73,7 +74,7 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $this->assertCount(2, $requests);
     }
 
-    public function test_initRequestSet_shouldTriggerException_InCaseNoValidTokenProvidedAndAuthenticationIsRequired()
+    public function testInitRequestSetShouldTriggerExceptionInCaseNoValidTokenProvidedAndAuthenticationIsRequired()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('token_auth must be specified when using Bulk Tracking Import');
@@ -83,7 +84,7 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $this->initRequestSet($request, true);
     }
 
-    public function test_setHandlerIfBulkRequest_shouldSetBulkHandler_InCaseNoHandlerIsSetAndItIsABulkRequest()
+    public function testSetHandlerIfBulkRequestShouldSetBulkHandlerInCaseNoHandlerIsSetAndItIsABulkRequest()
     {
         $this->injectRawDataToBulk($this->getDummyRequest());
 
@@ -93,7 +94,7 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $this->assertTrue($handler instanceof Handler);
     }
 
-    public function test_setHandlerIfBulkRequest_shouldNotSetAHandler_IfOneIsAlreadySetEvenIfItIsABulkRequest()
+    public function testSetHandlerIfBulkRequestShouldNotSetAHandlerIfOneIsAlreadySetEvenIfItIsABulkRequest()
     {
         $this->injectRawDataToBulk($this->getDummyRequest());
 
@@ -105,7 +106,7 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $this->assertSame($default, $handler);
     }
 
-    public function test_setHandlerIfBulkRequest_shouldNotSetAHandler_IfItIsNotABulkRequest()
+    public function testSetHandlerIfBulkRequestShouldNotSetAHandlerIfItIsNotABulkRequest()
     {
         $this->injectRawDataToBulk('{"test":"not a bulk request"}');
 
@@ -116,7 +117,7 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $this->assertNull($handler);
     }
 
-    public function test_registerEvents_shouldListenToNewTrackerEventAndCreateBulkHandler_IfBulkRequest()
+    public function testRegisterEventsShouldListenToNewTrackerEventAndCreateBulkHandlerIfBulkRequest()
     {
         $this->injectRawDataToBulk($this->getDummyRequest());
 
@@ -125,14 +126,14 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $this->assertTrue($handler instanceof Handler);
     }
 
-    public function test_registerEvents_shouldListenToNewTrackerEventAndNotCreateBulkHandler_IfNotBulkRequest()
+    public function testRegisterEventsShouldListenToNewTrackerEventAndNotCreateBulkHandlerIfNotBulkRequest()
     {
         $handler = DefaultHandler\Factory::make();
 
         $this->assertTrue($handler instanceof DefaultHandler);
     }
 
-    public function test_registerEvents_shouldListenToInitRequestSetEventAndInit_IfBulkRequest()
+    public function testRegisterEventsShouldListenToInitRequestSetEventAndInitIfBulkRequest()
     {
         $this->injectRawDataToBulk($this->getDummyRequest());
 

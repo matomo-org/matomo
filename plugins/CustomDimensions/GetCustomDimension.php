@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomDimensions;
@@ -96,7 +97,6 @@ class GetCustomDimension extends Report
         $view->config->custom_parameters['scopeOfDimension'] = $this->scopeOfDimension;
 
         if ($this->scopeOfDimension === CustomDimensions::SCOPE_VISIT) {
-
             // Goal metrics for each custom dimension  of 'visit' scope is processed in Archiver via aggregateFromConversions
             $view->config->show_goals = true;
 

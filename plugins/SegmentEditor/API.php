@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
@@ -73,7 +74,8 @@ class API extends \Piwik\Plugin\API
     protected function checkEnabledAllUsers($enabledAllUsers)
     {
         $enabledAllUsers = (int)$enabledAllUsers;
-        if ($enabledAllUsers
+        if (
+            $enabledAllUsers
             && !Piwik::hasUserSuperUserAccess()
         ) {
             throw new Exception("enabledAllUsers=1 requires Super User access");
@@ -154,7 +156,8 @@ class API extends \Piwik\Plugin\API
 
     protected function checkUserCanAddNewSegment($idSite)
     {
-        if (empty($idSite)
+        if (
+            empty($idSite)
             && !SegmentEditor::isAddingSegmentsForAllWebsitesEnabled()
         ) {
             throw new Exception(Piwik::translate('SegmentEditor_AddingSegmentForAllWebsitesDisabled'));
@@ -320,7 +323,8 @@ class API extends \Piwik\Plugin\API
 
         Cache::getEagerCache()->flushAll();
 
-        if ($autoArchive
+        if (
+            $autoArchive
             && !Rules::isBrowserTriggerEnabled()
             && $this->processNewSegmentsFrom != SegmentArchiving::CREATION_TIME
         ) {
@@ -352,7 +356,6 @@ class API extends \Piwik\Plugin\API
             return false;
         }
         try {
-
             if (!$segment['enable_all_users']) {
                 Piwik::checkUserHasSuperUserAccessOrIsTheUser($segment['login']);
             }
@@ -384,7 +387,7 @@ class API extends \Piwik\Plugin\API
         $userLogin = Piwik::getCurrentUserLogin();
 
         $model = $this->getModel();
-        if(Piwik::hasUserSuperUserAccess()) {
+        if (Piwik::hasUserSuperUserAccess()) {
             $segments = $model->getAllSegmentsForAllUsers($idSite);
         } else {
             if (empty($idSite)) {
@@ -435,19 +438,19 @@ class API extends \Piwik\Plugin\API
     private function sortSegmentsCreatedByUserFirst($segments)
     {
         $orderedSegments = array();
-        foreach($segments as $id => &$segment) {
-            if($segment['login'] == Piwik::getCurrentUserLogin()) {
+        foreach ($segments as $id => &$segment) {
+            if ($segment['login'] == Piwik::getCurrentUserLogin()) {
                 $orderedSegments[] = $segment;
                 unset($segments[$id]);
             }
         }
-        foreach($segments as $id => &$segment) {
-            if($segment['enable_all_users'] == 1) {
+        foreach ($segments as $id => &$segment) {
+            if ($segment['enable_all_users'] == 1) {
                 $orderedSegments[] = $segment;
                 unset($segments[$id]);
             }
         }
-        foreach($segments as $id => &$segment) {
+        foreach ($segments as $id => &$segment) {
             $orderedSegments[] = $segment;
         }
         return $orderedSegments;

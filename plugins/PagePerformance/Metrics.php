@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\PagePerformance;
 
 use Piwik\Columns\Dimension;
@@ -107,7 +108,7 @@ class Metrics
             new TimeDomCompletion(),
             new TimeOnLoad()
         ];
-        foreach($performanceDimensions as $dimension) {
+        foreach ($performanceDimensions as $dimension) {
             $id = $dimension->getColumnName();
             $column = $table . '.' . $id;
             $metricsConfig['sum_' . $id] = [

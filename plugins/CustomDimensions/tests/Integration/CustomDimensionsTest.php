@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomDimensions\tests\Integration;
@@ -42,7 +43,7 @@ class CustomDimensionsTest extends IntegrationTestCase
         $this->plugin = new CustomDimensions();
     }
 
-    public function test_install_shouldCreate5IndexesPerScopeAndCreateConfigurationTable()
+    public function testInstallShouldCreate5IndexesPerScopeAndCreateConfigurationTable()
     {
         foreach (CustomDimensions::getScopes() as $scope) {
             $logTable = new LogTable($scope);
@@ -53,7 +54,7 @@ class CustomDimensionsTest extends IntegrationTestCase
         $this->configureSomeDimensions();
     }
 
-    public function test_install_multipleTimes_ShouldNotChangeAnythingAndNotFail()
+    public function testInstallMultipleTimesShouldNotChangeAnythingAndNotFail()
     {
         $this->plugin->install();
         $this->plugin->install();
@@ -69,7 +70,7 @@ class CustomDimensionsTest extends IntegrationTestCase
         $this->configureSomeDimensions();
     }
 
-    public function test_uninstall_shouldRemoveAllColumnsFromLogTablesAndUninstallConfigTable()
+    public function testUninstallShouldRemoveAllColumnsFromLogTablesAndUninstallConfigTable()
     {
         $this->plugin->uninstall();
         foreach (CustomDimensions::getScopes() as $scope) {
@@ -86,7 +87,7 @@ class CustomDimensionsTest extends IntegrationTestCase
         $this->plugin->install();
     }
 
-    public function test_addVisitFieldsToPersist()
+    public function testAddVisitFieldsToPersist()
     {
         $fields = array('existingField');
 
@@ -104,7 +105,7 @@ class CustomDimensionsTest extends IntegrationTestCase
         $this->assertSame($expected, $fields);
     }
 
-    public function test_addConversionInformation()
+    public function testAddConversionInformation()
     {
         $this->configureSomeDimensions();
 
@@ -127,7 +128,7 @@ class CustomDimensionsTest extends IntegrationTestCase
         ), $conversion);
     }
 
-    public function test_addConversionInformation_shouldIgnoreAnIndexIfTheIndexIsMissingInConversionTable()
+    public function testAddConversionInformationShouldIgnoreAnIndexIfTheIndexIsMissingInConversionTable()
     {
         $this->configureSomeDimensions();
 
@@ -149,7 +150,7 @@ class CustomDimensionsTest extends IntegrationTestCase
         ), $conversion);
     }
 
-    public function test_getCachedInstalledIndexesForScope_shouldIgnoreAnIndexIfTheIndexIsMissingInConversionTable()
+    public function testGetCachedInstalledIndexesForScopeShouldIgnoreAnIndexIfTheIndexIsMissingInConversionTable()
     {
         $indexes = $this->plugin->getCachedInstalledIndexesForScope(CustomDimensions::SCOPE_CONVERSION);
         $this->assertSame(range(2, 5), $indexes);
@@ -164,7 +165,7 @@ class CustomDimensionsTest extends IntegrationTestCase
         $this->assertSame(range(1, 5), $indexes);
     }
 
-    public function test_shouldCacheInstalledIndexes()
+    public function testShouldCacheInstalledIndexes()
     {
         Cache::clearCacheGeneral();
         $cache = Cache::getCacheGeneral();
@@ -182,7 +183,7 @@ class CustomDimensionsTest extends IntegrationTestCase
         }
     }
 
-    public function test_shouldCacheDimensinsViaWebsiteAttributes_ButOnlyActiveOnes()
+    public function testShouldCacheDimensinsViaWebsiteAttributesButOnlyActiveOnes()
     {
         $this->configureSomeDimensions();
         $cache = Cache::getCacheWebsiteAttributes($idSite = 1);
@@ -200,7 +201,7 @@ class CustomDimensionsTest extends IntegrationTestCase
         }
     }
 
-    public function test_extendVisitorDetails()
+    public function testExtendVisitorDetails()
     {
         $this->configureSomeDimensions();
 
@@ -226,7 +227,7 @@ class CustomDimensionsTest extends IntegrationTestCase
         $this->assertSame($expected, $visitor);
     }
 
-    public function test_deleteCustomDimensionDefinitionsForSite_shouldRemoveConfigurationsForOneSiteWhenSiteIsDeleted()
+    public function testDeleteCustomDimensionDefinitionsForSiteShouldRemoveConfigurationsForOneSiteWhenSiteIsDeleted()
     {
         $this->configureSomeDimensions();
         $config = new Configuration();
@@ -244,7 +245,7 @@ class CustomDimensionsTest extends IntegrationTestCase
     /**
      * @dataProvider getScopesSupportExtractions
      */
-    public function test_doesScopeSupportExtractions($expectedSupportsExtractions, $scope)
+    public function testDoesScopeSupportExtractions($expectedSupportsExtractions, $scope)
     {
         $this->assertSame($expectedSupportsExtractions, CustomDimensions::doesScopeSupportExtractions($scope));
     }

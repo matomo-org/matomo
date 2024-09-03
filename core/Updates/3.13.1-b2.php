@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Updates;
@@ -21,7 +21,7 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
  */
 class Updates_3_13_1_b2 extends PiwikUpdates
 {
-    const GEO_LITE_COUNTRY_URL = 'https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz';
+    public const GEO_LITE_COUNTRY_URL = 'https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz';
 
     /**
      * @var MigrationFactory
@@ -37,10 +37,14 @@ class Updates_3_13_1_b2 extends PiwikUpdates
     {
         $geoIpLiteUrl = 'https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz';
         $optionTable = Common::prefixTable('option');
-        $migration1 = $this->migration->db->boundSql("UPDATE `$optionTable` SET option_value = ? WHERE option_name = ? AND option_value = ?",
-            [GeoIp2::getDbIpLiteUrl(), GeoIP2AutoUpdater::LOC_URL_OPTION_NAME, $geoIpLiteUrl]);
-        $migration2 = $this->migration->db->boundSql("UPDATE `$optionTable` SET option_value = ? WHERE option_name = ? AND option_value = ?",
-            [GeoIp2::getDbIpLiteUrl('country'), GeoIP2AutoUpdater::LOC_URL_OPTION_NAME, self::GEO_LITE_COUNTRY_URL]);
+        $migration1 = $this->migration->db->boundSql(
+            "UPDATE `$optionTable` SET option_value = ? WHERE option_name = ? AND option_value = ?",
+            [GeoIp2::getDbIpLiteUrl(), GeoIP2AutoUpdater::LOC_URL_OPTION_NAME, $geoIpLiteUrl]
+        );
+        $migration2 = $this->migration->db->boundSql(
+            "UPDATE `$optionTable` SET option_value = ? WHERE option_name = ? AND option_value = ?",
+            [GeoIp2::getDbIpLiteUrl('country'), GeoIP2AutoUpdater::LOC_URL_OPTION_NAME, self::GEO_LITE_COUNTRY_URL]
+        );
         return [$migration1, $migration2];
     }
 

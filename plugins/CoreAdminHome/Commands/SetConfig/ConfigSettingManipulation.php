@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreAdminHome\Commands\SetConfig;
@@ -71,7 +72,8 @@ class ConfigSettingManipulation
         $sectionName = $this->sectionName;
         $section = $config->$sectionName;
 
-        if (isset($section[$this->name])
+        if (
+            isset($section[$this->name])
             && is_array($section[$this->name])
             && !is_array($this->value)
         ) {
@@ -87,7 +89,8 @@ class ConfigSettingManipulation
         $sectionName = $this->sectionName;
         $section = $config->$sectionName;
 
-        if (isset($section[$this->name])
+        if (
+            isset($section[$this->name])
             && !is_array($section[$this->name])
         ) {
             throw new \Exception("Trying to append to non-array setting value " . $this->getSettingString() . ".");

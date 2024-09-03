@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\UserId\RecordBuilders;
@@ -80,7 +80,8 @@ class Users extends RecordBuilder
             $record->sumRowWithLabel($row[$userIdFieldName], $columns);
 
             // Remember visitor ID per user. We use it to fill metadata before actual inserting rows to DB.
-            if (!empty($row[Archiver::USER_ID_FIELD])
+            if (
+                !empty($row[Archiver::USER_ID_FIELD])
                 && !empty($row[Archiver::VISITOR_ID_FIELD])
             ) {
                 $visitorIdsUserIdsMap[$row[Archiver::USER_ID_FIELD]] = $row[Archiver::VISITOR_ID_FIELD];

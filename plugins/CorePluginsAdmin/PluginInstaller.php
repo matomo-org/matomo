@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Common;
@@ -26,7 +27,7 @@ use Piwik\Plugins\Marketplace\Api\Client;
  */
 class PluginInstaller
 {
-    const PATH_TO_DOWNLOAD = '/latest/plugins/';
+    public const PATH_TO_DOWNLOAD = '/latest/plugins/';
 
     private $pluginName;
 
@@ -78,7 +79,6 @@ class PluginInstaller
                 }
             }
         } catch (\Exception $e) {
-
             if (!empty($tmpPluginZip)) {
                 Filesystem::deleteFileIfExists($tmpPluginZip);
             }
@@ -113,7 +113,6 @@ class PluginInstaller
 
             Filesystem::deleteAllCacheOnUpdate($this->pluginName);
         } catch (\Exception $e) {
-
             $this->removeFileIfExists($pathToZip);
             $this->removeFolderIfExists($tmpPluginFolder);
 
@@ -146,7 +145,6 @@ class PluginInstaller
         try {
             return $this->marketplaceClient->download($this->pluginName);
         } catch (\Exception $e) {
-
             try {
                 $downloadUrl = $this->marketplaceClient->getDownloadUrl($this->pluginName);
                 $errorMessage = sprintf('Failed to download plugin from %s: %s', $downloadUrl, $e->getMessage());

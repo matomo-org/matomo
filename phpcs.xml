@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <ruleset name="matomo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
 
-    <description>Matomo Coding Standard</description>
+    <description>Matomo Core Coding Standard</description>
 
     <arg name="extensions" value="php" />
 
@@ -12,55 +12,16 @@
     <exclude-pattern>tests/PHPUnit/proxy/*</exclude-pattern>
     <exclude-pattern>tests/PHPUnit/Unit/Config/test_files/*</exclude-pattern>
     <exclude-pattern>tests/javascript/*</exclude-pattern>
-    <exclude-pattern>*/vendor/*</exclude-pattern>
-    <exclude-pattern>*/libs/*</exclude-pattern>
 
     <!-- exclude all plugins included as submodule as long as they might not fully follow this CS -->
     <exclude-pattern>plugins/(AnonymousPiwikUsageMeasurement|Bandwidth|CustomAlerts|CustomVariables|DeviceDetectorCache|LogViewer|LoginLdap|MarketingCampaignsReporting|Provider|QueuedTracking|SecurityInfo|TagManager|TasksTimetable|TrackingSpamPrevention|TreemapVisualization|VisitorGenerator)/*</exclude-pattern>
 
-    <config name="installed_paths" value="../../slevomat/coding-standard"/>
+    <rule ref="Matomo"></rule>
 
-    <!-- Use PSR 12 standard as default -->
-    <!-- Some rules are currently excluded/restricted, but those restrictions should be removed in the future -->
-
-    <rule ref="PSR12">
-        <!-- can't use this as long as we have functions.php files that need to be required manually -->
-        <exclude name="PSR1.Files.SideEffects.FoundWithSymbols" />
-
-        <exclude name="Generic.ControlStructures.InlineControlStructure.NotAllowed" />
-        <exclude name="Generic.Files.LineLength" />
-        <exclude name="Generic.PHP.LowerCaseConstant.Found" />
-        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisIndent" />
-        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisLine" />
-        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.FirstExpressionLine" />
-        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.SpaceBeforeCloseBrace" />
-        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
-        <exclude name="PSR12.Files.FileHeader" />
-        <exclude name="PSR12.Properties.ConstantVisibility" />
-        <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
-        <exclude name="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed" />
-        <exclude name="PSR2.Methods.FunctionCallSignature.CloseBracketLine" />
-        <exclude name="PSR2.Methods.FunctionCallSignature.ContentAfterOpenBracket" />
-        <exclude name="PSR2.Methods.FunctionCallSignature.Indent" />
-        <exclude name="PSR2.Methods.FunctionCallSignature.MultipleArguments" />
-        <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />
-        <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis" />
-        <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword" />
-        <exclude name="Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfterFirst" />
-        <exclude name="Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfterSecond" />
-        <exclude name="Squiz.Functions.FunctionDeclaration.Found" />
-        <exclude name="Squiz.Scope.MethodScope.Missing" />
-        <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen" />
-    </rule>
-
-    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
-        <!-- Classnames for our update files don't match PascalCase, this can't be changed easily -->
-        <exclude-pattern>core/Updates/*</exclude-pattern>
-        <exclude-pattern>plugins/*/Updates/*</exclude-pattern>
-    </rule>
-
-    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
-        <!-- Allow using method name without camel caps in tests as long as some methods are named test_* -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="400"/>
+        </properties>
         <exclude-pattern>tests/PHPUnit/*</exclude-pattern>
         <exclude-pattern>plugins/*/tests/*</exclude-pattern>
     </rule>
@@ -69,32 +30,5 @@
         <!-- Allow using multiple classes in one file for tests -->
         <exclude-pattern>tests/PHPUnit/*</exclude-pattern>
         <exclude-pattern>plugins/*/tests/*</exclude-pattern>
-    </rule>
-
-
-    <!-- Additional rules that are not covered by PSR above -->
-
-    <!-- Forbid unused use statements -->
-    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
-        <properties>
-            <property name="searchAnnotations" value="true"/>
-            <property name="ignoredAnnotations" type="array">
-                <element value="@group"/>
-                <element value="@api"/>
-            </property>
-        </properties>
-    </rule>
-
-    <!-- Forbid some functions that should not be used (directly) -->
-    <rule ref="Generic.PHP.ForbiddenFunctions">
-        <properties>
-            <property name="forbiddenFunctions" type="array">
-                <element key="eval" value="null"/>
-                <element key="create_function" value="null"/>
-                <element key="unserialize" value="\Piwik\Common::safe_unserialize"/>
-            </property>
-        </properties>
-        <!-- still allow those functions in tests -->
-        <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
 </ruleset>

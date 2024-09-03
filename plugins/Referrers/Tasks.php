@@ -1,13 +1,13 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Plugins\Referrers;
 
+namespace Piwik\Plugins\Referrers;
 
 use Piwik\Config;
 use Piwik\Http;
@@ -18,8 +18,10 @@ class Tasks extends \Piwik\Plugin\Tasks
 {
     public function schedule()
     {
-        if(SettingsPiwik::isInternetEnabled() === true &&
-            Config::getInstance()->General['enable_referrer_definition_syncs'] == 1){
+        if (
+            SettingsPiwik::isInternetEnabled() === true &&
+            Config::getInstance()->General['enable_referrer_definition_syncs'] == 1
+        ) {
             $this->weekly('updateSearchEngines');
             $this->weekly('updateSocials');
         }

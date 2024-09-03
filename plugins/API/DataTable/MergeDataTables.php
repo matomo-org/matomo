@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\API\DataTable;
 
 use Piwik\DataTable\Row;
@@ -77,11 +78,11 @@ class MergeDataTables
             $result = new DataTable\Map();
             $result->setKeyName($subTable2->getKeyName());
             return $result;
-        } else if ($subTable2 instanceof DataTable\Simple) {
+        } elseif ($subTable2 instanceof DataTable\Simple) {
             $result = new DataTable\Simple();
             $result->setAllTableMetadata($subTable2->getAllTableMetadata());
             return $result;
-        } else if ($subTable2 instanceof DataTable) {
+        } elseif ($subTable2 instanceof DataTable) {
             $result = new DataTable();
             $result->setAllTableMetadata($subTable2->getAllTableMetadata());
             return $result;

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreHome\tests\Unit;
@@ -32,7 +33,7 @@ class CoreHomeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getJavaScriptsContainingNoSourceMapDefinition
      */
-    public function testFilterMergedJavaScripts_shouldNotChangeAnything_IfJsDoesNotContainAnySourceMap($content)
+    public function testFilterMergedJavaScriptsShouldNotChangeAnythingIfJsDoesNotContainAnySourceMap($content)
     {
         $expectedContent = $content;
 
@@ -44,14 +45,14 @@ class CoreHomeTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getJavaScriptsContainingSourceMapDefinition
      */
-    public function testFilterMergedJavaScripts_shouldRemoveSourceMap_IfDefinedInJs($content, $expectedContent)
+    public function testFilterMergedJavaScriptsShouldRemoveSourceMapIfDefinedInJs($content, $expectedContent)
     {
         $this->coreHome->filterMergedJavaScripts($content);
 
         $this->assertSame($expectedContent, $content);
     }
 
-    public function testFilterMergedJavaScripts_shouldRemoveMultipleSourceMapDefinitionsInOneContent()
+    public function testFilterMergedJavaScriptsShouldRemoveMultipleSourceMapDefinitionsInOneContent()
     {
         $content = 'var x = 5;
 //# sourceMappingURL=whatever.js.map .map

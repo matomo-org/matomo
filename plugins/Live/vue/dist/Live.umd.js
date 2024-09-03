@@ -147,8 +147,8 @@ var external_CoreHome_ = __webpack_require__("19dc");
 /*!
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 var _window = window,
@@ -188,7 +188,7 @@ var _window = window,
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Live/vue/src/TotalVisitors/TotalVisitors.vue?vue&type=template&id=fd3b0f7e
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Live/vue/src/TotalVisitors/TotalVisitors.vue?vue&type=template&id=e054d62c
 
 var _hoisted_1 = {
   class: "dataTable",
@@ -253,7 +253,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: _ctx.countErrorHalfHour
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.pisHalfhour || 0), 9, _hoisted_15)])])])]);
 }
-// CONCATENATED MODULE: ./plugins/Live/vue/src/TotalVisitors/TotalVisitors.vue?vue&type=template&id=fd3b0f7e
+// CONCATENATED MODULE: ./plugins/Live/vue/src/TotalVisitors/TotalVisitors.vue?vue&type=template&id=e054d62c
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Live/vue/src/TotalVisitors/TotalVisitors.vue?vue&type=script&lang=ts
 
@@ -276,23 +276,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 TotalVisitorsvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var TotalVisitors = (TotalVisitorsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Live/vue/src/LivePage/LivePage.vue?vue&type=template&id=0cf01080
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Live/vue/src/LivePage/LivePage.vue?vue&type=template&id=12df3591
 
-var LivePagevue_type_template_id_0cf01080_hoisted_1 = {
+var LivePagevue_type_template_id_12df3591_hoisted_1 = {
   class: "visitsLiveFooter"
 };
-var LivePagevue_type_template_id_0cf01080_hoisted_2 = ["title"];
+var LivePagevue_type_template_id_12df3591_hoisted_2 = ["title"];
 
-var LivePagevue_type_template_id_0cf01080_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+var LivePagevue_type_template_id_12df3591_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   id: "pauseImage",
   border: "0",
   src: "plugins/Live/images/pause.png"
 }, null, -1);
 
-var LivePagevue_type_template_id_0cf01080_hoisted_4 = [LivePagevue_type_template_id_0cf01080_hoisted_3];
-var LivePagevue_type_template_id_0cf01080_hoisted_5 = ["title"];
+var LivePagevue_type_template_id_12df3591_hoisted_4 = [LivePagevue_type_template_id_12df3591_hoisted_3];
+var LivePagevue_type_template_id_12df3591_hoisted_5 = ["title"];
 
-var LivePagevue_type_template_id_0cf01080_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+var LivePagevue_type_template_id_12df3591_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   id: "playImage",
   style: {
     "display": "none"
@@ -301,15 +301,15 @@ var LivePagevue_type_template_id_0cf01080_hoisted_6 = /*#__PURE__*/Object(extern
   src: "plugins/Live/images/play.png"
 }, null, -1);
 
-var LivePagevue_type_template_id_0cf01080_hoisted_7 = [LivePagevue_type_template_id_0cf01080_hoisted_6];
-var LivePagevue_type_template_id_0cf01080_hoisted_8 = {
+var LivePagevue_type_template_id_12df3591_hoisted_7 = [LivePagevue_type_template_id_12df3591_hoisted_6];
+var LivePagevue_type_template_id_12df3591_hoisted_8 = {
   key: 0
 };
 
-var LivePagevue_type_template_id_0cf01080_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("   ");
+var LivePagevue_type_template_id_12df3591_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("   ");
 
-var LivePagevue_type_template_id_0cf01080_hoisted_10 = ["href"];
-function LivePagevue_type_template_id_0cf01080_render(_ctx, _cache, $props, $setup, $data, $options) {
+var LivePagevue_type_template_id_12df3591_hoisted_10 = ["href"];
+function LivePagevue_type_template_id_12df3591_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_VueEntryContainer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("VueEntryContainer");
 
   var _directive_live_widget_refresh = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("live-widget-refresh");
@@ -324,25 +324,25 @@ function LivePagevue_type_template_id_0cf01080_render(_ctx, _cache, $props, $set
         html: _ctx.visitors
       }, null, 8, ["html"])], 512), [[_directive_live_widget_refresh, {
         liveRefreshAfterMs: _ctx.liveRefreshAfterMs
-      }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", LivePagevue_type_template_id_0cf01080_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", LivePagevue_type_template_id_12df3591_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
         title: _ctx.translate('Live_OnClickPause', _ctx.translate('Live_VisitorsInRealTime')),
         onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
           return _ctx.onClickPause();
         }, ["prevent"]))
-      }, LivePagevue_type_template_id_0cf01080_hoisted_4, 8, LivePagevue_type_template_id_0cf01080_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      }, LivePagevue_type_template_id_12df3591_hoisted_4, 8, LivePagevue_type_template_id_12df3591_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
         title: _ctx.translate('Live_OnClickStart', _ctx.translate('Live_VisitorsInRealTime')),
         onClick: _cache[1] || (_cache[1] = function ($event) {
           _ctx.onClickPlay();
         })
-      }, LivePagevue_type_template_id_0cf01080_hoisted_7, 8, LivePagevue_type_template_id_0cf01080_hoisted_5), !_ctx.disableLink ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", LivePagevue_type_template_id_0cf01080_hoisted_8, [LivePagevue_type_template_id_0cf01080_hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      }, LivePagevue_type_template_id_12df3591_hoisted_7, 8, LivePagevue_type_template_id_12df3591_hoisted_5), !_ctx.disableLink ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", LivePagevue_type_template_id_12df3591_hoisted_8, [LivePagevue_type_template_id_12df3591_hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
         class: "rightLink",
         href: _ctx.visitorLogUrl
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Live_LinkVisitorLog')), 9, LivePagevue_type_template_id_0cf01080_hoisted_10)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])];
+      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Live_LinkVisitorLog')), 9, LivePagevue_type_template_id_12df3591_hoisted_10)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])];
     }),
     _: 1
   }, 8, ["content-title"]))]);
 }
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LivePage/LivePage.vue?vue&type=template&id=0cf01080
+// CONCATENATED MODULE: ./plugins/Live/vue/src/LivePage/LivePage.vue?vue&type=template&id=12df3591
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Live/vue/src/LivePage/LivePage.vue?vue&type=script&lang=ts
 
@@ -389,12 +389,12 @@ function LivePagevue_type_template_id_0cf01080_render(_ctx, _cache, $props, $set
 
 
 
-LivePagevue_type_script_lang_ts.render = LivePagevue_type_template_id_0cf01080_render
+LivePagevue_type_script_lang_ts.render = LivePagevue_type_template_id_12df3591_render
 
 /* harmony default export */ var LivePage = (LivePagevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Live/vue/src/IndexHeader/IndexHeader.vue?vue&type=template&id=a1b05140
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Live/vue/src/IndexHeader/IndexHeader.vue?vue&type=template&id=e270701e
 
-function IndexHeadervue_type_template_id_a1b05140_render(_ctx, _cache, $props, $setup, $data, $options) {
+function IndexHeadervue_type_template_id_e270701e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
 
   var _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
@@ -406,7 +406,7 @@ function IndexHeadervue_type_template_id_a1b05140_render(_ctx, _cache, $props, $
     _: 1
   })])], 512)), [[_directive_content_intro]]);
 }
-// CONCATENATED MODULE: ./plugins/Live/vue/src/IndexHeader/IndexHeader.vue?vue&type=template&id=a1b05140
+// CONCATENATED MODULE: ./plugins/Live/vue/src/IndexHeader/IndexHeader.vue?vue&type=template&id=e270701e
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Live/vue/src/IndexHeader/IndexHeader.vue?vue&type=script&lang=ts
 
@@ -425,15 +425,15 @@ function IndexHeadervue_type_template_id_a1b05140_render(_ctx, _cache, $props, $
 
 
 
-IndexHeadervue_type_script_lang_ts.render = IndexHeadervue_type_template_id_a1b05140_render
+IndexHeadervue_type_script_lang_ts.render = IndexHeadervue_type_template_id_e270701e_render
 
 /* harmony default export */ var IndexHeader = (IndexHeadervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/Live/vue/src/LastVisits/LastVisits.ts
 /*!
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 var LastVisits_window = window,
     LastVisits_$ = LastVisits_window.$;
@@ -461,8 +461,8 @@ var LastVisits_window = window,
 /*!
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 

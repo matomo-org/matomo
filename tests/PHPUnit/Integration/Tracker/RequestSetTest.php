@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Tracker;
@@ -74,20 +75,20 @@ class RequestSetTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_getAllSiteIdsWithinRequest_ShouldReturnEmptyArray_IfNoRequestsSet()
+    public function testGetAllSiteIdsWithinRequestShouldReturnEmptyArrayIfNoRequestsSet()
     {
         $this->requestSet = $this->buildNewRequestSetThatIsNotInitializedYet();
         $this->assertEquals(array(), $this->requestSet->getAllSiteIdsWithinRequest());
     }
 
-    public function test_getAllSiteIdsWithinRequest_ShouldReturnTheSiteIds_FromRequests()
+    public function testGetAllSiteIdsWithinRequestShouldReturnTheSiteIdsFromRequests()
     {
         $this->requestSet->setRequests($this->buildRequests(3));
 
         $this->assertEquals(array(1, 2, 3), $this->requestSet->getAllSiteIdsWithinRequest());
     }
 
-    public function test_getAllSiteIdsWithinRequest_ShouldReturnUniqueSiteIds_Unordered()
+    public function testGetAllSiteIdsWithinRequestShouldReturnUniqueSiteIdsUnordered()
     {
         $this->requestSet->setRequests(array(
             $this->buildRequest(1),
@@ -122,7 +123,7 @@ class RequestSetTest extends IntegrationTestCase
         return $request;
     }
 
-    public function test_initRequestsAndTokenAuth_shouldTriggerEventToInitRequestsButOnlyOnce()
+    public function testInitRequestsAndTokenAuthShouldTriggerEventToInitRequestsButOnlyOnce()
     {
         $requestSet = $this->buildNewRequestSetThatIsNotInitializedYet();
 
@@ -141,14 +142,14 @@ class RequestSetTest extends IntegrationTestCase
         $this->assertSame(1, $called);
     }
 
-    public function test_initRequestsAndTokednAuth_shouldInitializeRequestsWithEmptyArray()
+    public function testInitRequestsAndTokednAuthShouldInitializeRequestsWithEmptyArray()
     {
         $requestSet = $this->buildNewRequestSetThatIsNotInitializedYet();
         $requestSet->initRequestsAndTokenAuth();
         $this->assertEquals(array(), $requestSet->getRequests());
     }
 
-    public function test_initRequestsAndTokednAuth_shouldInitializeFromGetAndPostIfEventDoesNotHandleRequests()
+    public function testInitRequestsAndTokednAuthShouldInitializeFromGetAndPostIfEventDoesNotHandleRequests()
     {
         $_GET  = array('idsite' => 1);
         $_POST = array('c_i' => 'click');
@@ -167,7 +168,7 @@ class RequestSetTest extends IntegrationTestCase
         $this->assertEquals(array('idsite' => '3'), $requests[1]->getParams());
     }
 
-    public function test_initRequestsAndTokednAuth_shouldIgnoreGetAndPostIfInitializedByEvent()
+    public function testInitRequestsAndTokednAuthShouldIgnoreGetAndPostIfInitializedByEvent()
     {
         $_GET  = array('idsite' => '1');
         $_POST = array('c_i' => 'click');

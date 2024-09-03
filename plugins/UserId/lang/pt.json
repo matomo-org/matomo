@@ -1,10 +1,10 @@
 {
     "UserId": {
         "PluginDescription": "Mostra os relatórios de utilizador",
-        "ThereIsNoDataForThisReportHelp": "%1$sLeia o guia do usuário para saber como gerar dados para este relatório.%2$s",
+        "ThereIsNoDataForThisReportHelp": "%1$sLeia o guia de utilizador para saber como gerar dados para este relatório.%2$s",
         "UserId": "UserId",
-        "UserReportDocumentation": "Mostra visitas e outras métricas gerais para cada ID de usuário individual.",
+        "UserReportDocumentation": "Mostra visitas e outras métricas gerais para cada ID de utilizador individual.",
         "UserReportTitle": "IDs do utilizador",
-        "VisitorsUserSubcategoryHelp": "Mostra visitas e outras métricas gerais para cada ID de usuário individual."
+        "VisitorsUserSubcategoryHelp": "O relatório de ID de utilizador mostra as visitas associadas a todos os seus utilizadores registados e com sessão iniciada. Compreenda a utilização do site pelos seus utilizadores específicos e descubra quem são os seus utilizadores mais e menos ativos."
     }
 }

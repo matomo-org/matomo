@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugin;
@@ -40,8 +40,8 @@ use Piwik\Updater;
  */
 class Manager
 {
-    const LAST_PLUGIN_ACTIVATION_TIME_OPTION_PREFIX = 'LastPluginActivation.';
-    const LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX = 'LastPluginDeactivation.';
+    public const LAST_PLUGIN_ACTIVATION_TIME_OPTION_PREFIX = 'LastPluginActivation.';
+    public const LAST_PLUGIN_DEACTIVATION_TIME_OPTION_PREFIX = 'LastPluginDeactivation.';
 
     /**
      * @return self
@@ -67,12 +67,13 @@ class Manager
     /**
      * Default theme used in Piwik.
      */
-    const DEFAULT_THEME = "Morpheus";
+    public const DEFAULT_THEME = "Morpheus";
 
     protected $doLoadAlwaysActivatedPlugins = true;
 
     // These are always activated and cannot be deactivated
-    protected $pluginToAlwaysActivate = array(
+    protected static $pluginToAlwaysActivate = array(
+        'FeatureFlags',
         'BulkTracking',
         'CoreVue',
         'CoreHome',
@@ -195,7 +196,7 @@ class Manager
     }
 
     // If a plugin hooks onto at least an event starting with "Tracker.", we load the plugin during tracker
-    const TRACKER_EVENT_PREFIX = 'Tracker.';
+    public const TRACKER_EVENT_PREFIX = 'Tracker.';
 
     /**
      * @param $pluginName
@@ -251,7 +252,7 @@ class Manager
      */
     private function isPluginAlwaysActivated($name)
     {
-        return in_array($name, $this->pluginToAlwaysActivate);
+        return in_array($name, self::$pluginToAlwaysActivate);
     }
 
     /**
@@ -381,7 +382,8 @@ class Manager
             $GLOBALS['MATOMO_PLUGIN_COPY_DIR'] = $envCopyDir;
         }
 
-        if (!empty($GLOBALS['MATOMO_PLUGIN_COPY_DIR'])
+        if (
+            !empty($GLOBALS['MATOMO_PLUGIN_COPY_DIR'])
             && !in_array($GLOBALS['MATOMO_PLUGIN_COPY_DIR'], self::getPluginsDirectories())
         ) {
             throw new \Exception('"MATOMO_PLUGIN_COPY_DIR" dir must be one of "MATOMO_PLUGIN_DIRS" directories');
@@ -700,8 +702,18 @@ class Manager
     {
         Log::debug("Loaded plugins: " . implode(", ", array_keys($this->getLoadedPlugins())));
 
+        $pluginsActivated = $this->pluginList->getActivatedPlugins();
+
         foreach ($this->getLoadedPlugins() as $plugin) {
             $this->installPluginIfNecessary($plugin);
+
+            $pluginName = $plugin->getPluginName();
+
+            // if a new plugin was added that is always activated, ensure activate is called once nevertheless
+            // otherwise the `activate` method of the plugin might never get called.
+            if ($this->isPluginAlwaysActivated($pluginName) && !in_array($pluginName, $pluginsActivated)) {
+                $this->activatePlugin($pluginName);
+            }
         }
     }
 
@@ -774,7 +786,8 @@ class Manager
         $theme = false;
         foreach ($plugins as $plugin) {
             /* @var $plugin Plugin */
-            if ($plugin->isTheme()
+            if (
+                $plugin->isTheme()
                 && $this->isPluginActivated($plugin->getPluginName())
             ) {
                 if ($plugin->getPluginName() != self::DEFAULT_THEME) {
@@ -809,8 +822,10 @@ class Manager
 
         $pluginNames = $this->getLoadedPluginsName();
         foreach ($pluginNames as $pluginName) {
-            if ($this->isPluginActivated($pluginName)
-                && !$this->isPluginAlwaysActivated($pluginName)) {
+            if (
+                $this->isPluginActivated($pluginName)
+                && !$this->isPluginAlwaysActivated($pluginName)
+            ) {
                 $counter++;
             }
         }
@@ -1136,12 +1151,13 @@ class Manager
             return $pluginsToPostPendingEventsTo;
         }
 
-        if ($newPlugin->isPremiumFeature()
+        if (
+            $newPlugin->isPremiumFeature()
             && SettingsPiwik::isInternetEnabled()
             && !Development::isEnabled()
             && $this->isPluginActivated('Marketplace')
-            && $this->isPluginActivated($pluginName)) {
-
+            && $this->isPluginActivated($pluginName)
+        ) {
             $cacheKey = 'MarketplacePluginMissingLicense' . $pluginName;
             $cache = self::getLicenseCache();
 
@@ -1208,6 +1224,16 @@ class Manager
         );
         $pluginsToLoad = array_values(array_unique($pluginsToLoad));
         return $pluginsToLoad;
+    }
+
+    /**
+     * Return the list of plugins that are always activated
+     *
+     * @return string[]
+     */
+    public static function getAlwaysActivatedPlugins(): array
+    {
+        return self::$pluginToAlwaysActivate;
     }
 
     /**
@@ -1377,8 +1403,10 @@ class Manager
 
         foreach ($plugins as $pluginName) {
             // if a plugin is listed in the config, but is not loaded, it does not exist in the folder
-            if (!$this->isPluginLoaded($pluginName) && !$this->isPluginBogus($pluginName) &&
-                !($this->doesPluginRequireInternetConnection($pluginName) && !SettingsPiwik::isInternetEnabled())) {
+            if (
+                !$this->isPluginLoaded($pluginName) && !$this->isPluginBogus($pluginName) &&
+                !($this->doesPluginRequireInternetConnection($pluginName) && !SettingsPiwik::isInternetEnabled())
+            ) {
                 $missingPlugins[] = $pluginName;
             }
         }
@@ -1515,8 +1543,10 @@ class Manager
     {
         // Only one theme enabled at a time
         $themeEnabled = $this->getThemeEnabled();
-        if ($themeEnabled
-            && $themeEnabled->getPluginName() != self::DEFAULT_THEME) {
+        if (
+            $themeEnabled
+            && $themeEnabled->getPluginName() != self::DEFAULT_THEME
+        ) {
             $themeAlreadyEnabled = $themeEnabled->getPluginName();
 
             $plugin = $this->loadPlugin($pluginName);
@@ -1615,9 +1645,11 @@ class Manager
         $columnName = $dimension->getColumnName();
 
         foreach ($allDimensions as $dim) {
-            if ($dim->getColumnName() === $columnName &&
+            if (
+                $dim->getColumnName() === $columnName &&
                 $dim->hasColumnType() &&
-                $dim->getModule() !== $module) {
+                $dim->getModule() !== $module
+            ) {
                 return true;
             }
         }
@@ -1704,7 +1736,7 @@ class Manager
     {
         $pluginsToLoad = array_unique($pluginsToLoad);
         if ($this->doLoadAlwaysActivatedPlugins) {
-            $pluginsToLoad = array_merge($pluginsToLoad, $this->pluginToAlwaysActivate);
+            $pluginsToLoad = array_merge($pluginsToLoad, self::$pluginToAlwaysActivate);
         }
         $pluginsToLoad = array_unique($pluginsToLoad);
         $pluginsToLoad = $this->pluginList->sortPlugins($pluginsToLoad);

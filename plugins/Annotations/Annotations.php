@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Annotations;
 
 use Piwik\Date;
@@ -78,7 +79,7 @@ class Annotations extends \Piwik\Plugin
             $oPeriod = new Period\Range('day', $date);
             $startDate = $oPeriod->getDateStart()->getStartOfDay();
             $endDate = $oPeriod->getDateEnd()->getStartOfDay();
-        } else if ($lastN == false && !$isMultiplePeriod) {
+        } elseif ($lastN == false && !$isMultiplePeriod) {
             $oPeriod = Period\Factory::build($period, Date::factory($date));
             $startDate = $oPeriod->getDateStart();
             $endDate = $oPeriod->getDateEnd();

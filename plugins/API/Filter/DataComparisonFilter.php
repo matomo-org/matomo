@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\API\Filter;
@@ -158,7 +159,8 @@ class DataComparisonFilter
             throw new BadRequestException(Piwik::translate('General_MaximumNumberOfPeriodsComparedIs', [$this->periodCompareLimit]));
         }
 
-        if (count($this->compareSegments) == 1
+        if (
+            count($this->compareSegments) == 1
             && count($this->comparePeriods) == 1
         ) {
             return;
@@ -194,7 +196,8 @@ class DataComparisonFilter
      */
     public function compare(DataTable\DataTableInterface $table)
     {
-        if (empty($this->compareSegments)
+        if (
+            empty($this->compareSegments)
             && empty($this->comparePeriods)
         ) {
             return;
@@ -264,7 +267,8 @@ class DataComparisonFilter
                 $params = [];
                 $params['segment'] = $segment;
 
-                if (!empty($period)
+                if (
+                    !empty($period)
                     && !empty($date)
                 ) {
                     $params['date'] = $date;
@@ -401,7 +405,9 @@ class DataComparisonFilter
         $metadata['comparePeriodPretty'] = ucfirst($prettyPeriod);
 
         $metadata['compareSeriesPretty'] = self::getComparisonSeriesLabelSuffixFromParts(
-            $metadata['comparePeriodPretty'], $metadata['compareSegmentPretty']);
+            $metadata['comparePeriodPretty'],
+            $metadata['compareSegmentPretty']
+        );
 
         return $metadata;
     }
@@ -492,7 +498,7 @@ class DataComparisonFilter
 
                     if (!$this->invertCompareChangeCompute && $index < $segmentCount) {
                         continue; // do not calculate for first period
-                    } else if ($this->invertCompareChangeCompute && $periodIndex != 0) {
+                    } elseif ($this->invertCompareChangeCompute && $periodIndex != 0) {
                         continue; // when inverting change calculation, only calculate for first period rows
                     }
 

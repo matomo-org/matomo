@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik;
@@ -166,19 +166,19 @@ require_once PIWIK_INCLUDE_PATH . "/core/DataTable/Bridges.php";
  */
 class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 {
-    const MAX_DEPTH_DEFAULT = 15;
+    public const MAX_DEPTH_DEFAULT = 15;
 
     /** Name for metadata that describes the archiving state of a report */
-    const ARCHIVE_STATE_METADATA_NAME = 'archive_state';
+    public const ARCHIVE_STATE_METADATA_NAME = 'archive_state';
 
     /** Name for metadata that describes when a report was archived. */
-    const ARCHIVED_DATE_METADATA_NAME = 'ts_archived';
+    public const ARCHIVED_DATE_METADATA_NAME = 'ts_archived';
 
     /** Name for metadata that describes which columns are empty and should not be shown. */
-    const EMPTY_COLUMNS_METADATA_NAME = 'empty_column';
+    public const EMPTY_COLUMNS_METADATA_NAME = 'empty_column';
 
     /** Name for metadata that describes the number of rows that existed before the Limit filter was applied. */
-    const TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME = 'total_rows_before_limit';
+    public const TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME = 'total_rows_before_limit';
 
     /**
      * Name for metadata that describes how individual columns should be aggregated when {@link addDataTable()}
@@ -193,36 +193,36 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * See {@link addDataTable()} and {@link DataTable\Row::sumRow()} for more information.
      */
-    const COLUMN_AGGREGATION_OPS_METADATA_NAME = 'column_aggregation_ops';
+    public const COLUMN_AGGREGATION_OPS_METADATA_NAME = 'column_aggregation_ops';
 
     /**
      * Name for metadata that stores array of generic filters that should not be run on the table.
      */
-    const GENERIC_FILTERS_TO_DISABLE_METADATA_NAME = 'generic_filters_to_disable';
+    public const GENERIC_FILTERS_TO_DISABLE_METADATA_NAME = 'generic_filters_to_disable';
 
     /** The ID of the Summary Row. */
-    const ID_SUMMARY_ROW = -1;
+    public const ID_SUMMARY_ROW = -1;
 
     /**
      * The ID of the special metadata row. This row only exists in the serialized row data and stores the datatable metadata.
      *
      * This allows us to save datatable metadata in archive data.
      */
-    const ID_ARCHIVED_METADATA_ROW = -3;
+    public const ID_ARCHIVED_METADATA_ROW = -3;
 
     /** The original label of the Summary Row. */
-    const LABEL_SUMMARY_ROW = -1;
-    const LABEL_TOTALS_ROW = -2;
-    const LABEL_ARCHIVED_METADATA_ROW = '__datatable_metadata__';
+    public const LABEL_SUMMARY_ROW = -1;
+    public const LABEL_TOTALS_ROW = -2;
+    public const LABEL_ARCHIVED_METADATA_ROW = '__datatable_metadata__';
 
     /**
      * Name for metadata that contains extra {@link Piwik\Plugin\ProcessedMetric}s for a DataTable.
      * These metrics will be added in addition to the ones specified in the table's associated
      * {@link Piwik\Plugin\Report} class.
      */
-    const EXTRA_PROCESSED_METRICS_METADATA_NAME = 'extra_processed_metrics';
+    public const EXTRA_PROCESSED_METRICS_METADATA_NAME = 'extra_processed_metrics';
 
-    const ROW_IDENTIFIER_METADATA_NAME = 'rowIdentifier';
+    public const ROW_IDENTIFIER_METADATA_NAME = 'rowIdentifier';
 
     /**
      * Maximum nesting level.
@@ -360,7 +360,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         static $depth = 0;
         // destruct can be called several times
-        if ($depth < self::$maximumDepthLevelAllowed
+        if (
+            $depth < self::$maximumDepthLevelAllowed
             && isset($this->rows)
         ) {
             $depth++;
@@ -509,7 +510,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function filter($className, $parameters = array())
     {
-        if ($className instanceof \Closure
+        if (
+            $className instanceof \Closure
             || is_array($className)
         ) {
             array_unshift($parameters, $this);
@@ -693,12 +695,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (is_int($rowId) && isset($this->rows[$rowId])) {
             return $this->rows[$rowId];
         }
-        if ($rowId == self::ID_SUMMARY_ROW
+        if (
+            $rowId == self::ID_SUMMARY_ROW
             && !empty($this->summaryRow)
         ) {
             return $this->summaryRow;
         }
-        if (empty($rowId)
+        if (
+            empty($rowId)
             && !empty($this->totalsRow)
             && $label == $this->totalsRow->getColumn('label')
         ) {
@@ -730,7 +734,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (!isset($this->rowsIndexByLabel[$label])) {
             // in case label is '-1' and there is no normal row w/ that label. Note: this is for BC since
             // in the past, it was possible to get the summary row by searching for the label '-1'
-            if ($label == self::LABEL_SUMMARY_ROW
+            if (
+                $label == self::LABEL_SUMMARY_ROW
                 && !is_null($this->summaryRow)
             ) {
                 return self::ID_SUMMARY_ROW;
@@ -785,7 +790,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRowFromId($id)
     {
-        if ($id == self::ID_SUMMARY_ROW
+        if (
+            $id == self::ID_SUMMARY_ROW
             && !is_null($this->summaryRow)
         ) {
             return $this->summaryRow;
@@ -828,7 +834,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         // if there is a upper limit on the number of allowed rows and the table is full,
         // add the new row to the summary row
-        if ($this->maximumAllowedRows > 0
+        if (
+            $this->maximumAllowedRows > 0
             && $this->getRowsCount() >= $this->maximumAllowedRows - 1
         ) {
             if ($this->summaryRow === null) {
@@ -838,13 +845,17 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 $this->addSummaryRow(new Row(array(Row::COLUMNS => $columns)));
             } else {
                 $this->summaryRow->sumRow(
-                    $row, $enableCopyMetadata = false, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
+                    $row,
+                    $enableCopyMetadata = false,
+                    $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME)
+                );
             }
             return $this->summaryRow;
         }
 
         $this->rows[] = $row;
-        if (!$this->indexNotUpToDate
+        if (
+            !$this->indexNotUpToDate
             && $this->rebuildIndexContinuously
         ) {
             $label = $row->getColumn('label');
@@ -1222,7 +1233,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         // if we delete until the end, we delete the summary row as well
-        if (is_null($limit)
+        if (
+            is_null($limit)
             || $limit >= $count
         ) {
             $this->summaryRow = null;
@@ -1289,7 +1301,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
         foreach ($rows1 as $row1) {
             $row2 = $table2->getRowFromLabel($row1->getColumn('label'));
-            if ($row2 === false
+            if (
+                $row2 === false
                 || !Row::isEqual($row1, $row2)
             ) {
                 return false;
@@ -1356,7 +1369,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         if (!is_null($maximumRowsInDataTable)) {
-            $this->filter('Truncate',
+            $this->filter(
+                'Truncate',
                 array($maximumRowsInDataTable - 1,
                       DataTable::LABEL_SUMMARY_ROW,
                       $columnToSortByBeforeTruncation,
@@ -1987,7 +2001,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $labelToLookFor = $row->getColumn('label');
         if ($labelToLookFor === false) {
-            $message = sprintf("Label column not found in the table to add in addDataTable(). Row: %s",
+            $message = sprintf(
+                "Label column not found in the table to add in addDataTable(). Row: %s",
                 var_export($row->getColumns(), 1)
             );
             throw new Exception($message);
@@ -1995,7 +2010,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $rowFound = $this->getRowFromLabel($labelToLookFor);
         // if we find the summary row in the other table, ignore it, since we're aggregating normal rows in this method.
         // the summary row is aggregated explicitly after this method is called.
-        if (!empty($rowFound)
+        if (
+            !empty($rowFound)
             && $rowFound->isSummaryRow()
         ) {
             $rowFound = false;

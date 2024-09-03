@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreConsole\Commands;
@@ -141,7 +141,7 @@ class GitCommit extends ConsoleCommand
     protected function getStatusOfSubmodule($submodule)
     {
         $cmd    = sprintf('cd %s/%s && git status --porcelain', PIWIK_DOCUMENT_ROOT, $submodule);
-        $status = trim(shell_exec($cmd));
+        $status = trim(shell_exec($cmd) ?? '');
 
         return $status;
     }

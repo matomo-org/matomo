@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -160,7 +161,7 @@ class PiwikTest extends IntegrationTestCase
     }
 
 
-    public function test_isUserIsAnonymous_shouldReturnTrueWhenLoginIsAnonymous()
+    public function testIsUserIsAnonymousShouldReturnTrueWhenLoginIsAnonymous()
     {
         Access::getInstance()->setSuperUserAccess(false);
 
@@ -175,7 +176,7 @@ class PiwikTest extends IntegrationTestCase
         $this->assertTrue(Piwik::isUserIsAnonymous());
     }
 
-    public function test_isUserIsAnonymous_shouldReturnTrueWhenThereIsNoLogin()
+    public function testIsUserIsAnonymousShouldReturnTrueWhenThereIsNoLogin()
     {
         Access::getInstance()->setSuperUserAccess(false);
 
@@ -190,7 +191,7 @@ class PiwikTest extends IntegrationTestCase
         $this->assertTrue(Piwik::isUserIsAnonymous());
     }
 
-    public function test_isUserIsAnonymous_shouldReturnFalseWhenLoginIsNotAnonymous()
+    public function testIsUserIsAnonymousShouldReturnFalseWhenLoginIsNotAnonymous()
     {
         Access::getInstance()->setSuperUserAccess(false);
 
@@ -205,7 +206,7 @@ class PiwikTest extends IntegrationTestCase
         $this->assertFalse(Piwik::isUserIsAnonymous());
     }
 
-    public function test_isUserIsAnonymous_shouldReturnFalseWhenLoginIsAnonymousButHasSuperUserAccess()
+    public function testIsUserIsAnonymousShouldReturnFalseWhenLoginIsAnonymousButHasSuperUserAccess()
     {
         Access::getInstance()->setSuperUserAccess(false);
 
@@ -220,7 +221,7 @@ class PiwikTest extends IntegrationTestCase
         $this->assertFalse(Piwik::isUserIsAnonymous());
     }
 
-    public function test_isUserIsAnonymous_shouldReturnFalseWhenLoginIsAnonymousButSetSuperUserAccessUsed()
+    public function testIsUserIsAnonymousShouldReturnFalseWhenLoginIsAnonymousButSetSuperUserAccessUsed()
     {
         Access::getInstance()->setSuperUserAccess(false);
 

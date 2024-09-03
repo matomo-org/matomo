@@ -19,6 +19,7 @@
         "EnableRequiredDirectoriesDiagnostic": "Den här kontrollen hoppades över eftersom den här kontrollen är inaktiverad i konfigurationen. För att aktivera den här kontrollen ställer du in [Allmänt] enable_required_directories_diagnostic = 1 i filen \"config/config.ini.php\".",
         "HideUnchanged": "Om du vill se endast ändrade värden så kan du %1$s dölja alla oförändrade värden%2$s.",
         "HtaccessWarningNginx": "För att säkerställa att känsliga filer inte kan nås direkt rekommenderas du att konfigurera din webbserver att begränsa åtkomsten till vissa kataloger. För mer information kan du läsa om den %1$s officiella nginx server konfigurationen %2$s",
+        "MariaDbNotConfigured": "Din databasversion indikerar att du nog använder en MariaDb-server. Om så är fallet så säkerställ att följande sätts i filen \"config/config.ini.php\" för att databasen ska fungera som förväntat: <code>[database] schema = Mariadb</code>",
         "MysqlMaxPacketSize": "Max paketstorlek",
         "MysqlMaxPacketSizeWarning": "Det rekommenderas att du konfigurerar en '%1$smax_allowed_packet%2$s'-storlek i din MySQL-databas med minst %3$s. Konfigurerad är för närvarande %4$s.",
         "MysqlTemporaryTablesWarning": "MySQL-tillstånd CREATE TEMPORARY TABLES krävs för att Matomo ska fungera korrekt.",

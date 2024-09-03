@@ -1,12 +1,14 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\BulkTracking;
+
 use Piwik\Plugins\BulkTracking\Tracker\Handler;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Tracker\RequestSet;
@@ -37,7 +39,6 @@ class BulkTracking extends \Piwik\Plugin
     public function initRequestSet(RequestSet $requestSet)
     {
         if ($this->isUsingBulkRequest()) {
-
             $bulk = $this->buildBulkRequests();
 
             list($requests, $token) = $bulk->initRequestsAndTokenAuth($bulk->getRawBulkRequest());

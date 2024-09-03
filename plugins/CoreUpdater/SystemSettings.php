@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreUpdater;
@@ -81,6 +82,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
             $field->availableValues = array();
             foreach ($releaseChannels->getAllReleaseChannels() as $channel) {
+                if (!$channel->isSelectableInSettings()) {
+                    continue;
+                }
                 $name = $channel->getName();
                 $description = $channel->getDescription();
                 if (!empty($description)) {
@@ -98,9 +102,11 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
             $field->inlineHelp = Piwik::translate('CoreAdminHome_DevelopmentProcess')
                             . '<br/>'
-                            . Piwik::translate('CoreAdminHome_StableReleases',
-                                               ["<a target='_blank' rel='noreferrer noopener' href='" . Url::addCampaignParametersToMatomoLink('https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development') . "'>",
-                                                     "</a>"])
+                            . Piwik::translate(
+                                'CoreAdminHome_StableReleases',
+                                ["<a target='_blank' rel='noreferrer noopener' href='" . Url::addCampaignParametersToMatomoLink('https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development') . "'>",
+                                "</a>"]
+                            )
                             . '<br/>'
                             . Piwik::translate('CoreAdminHome_LtsReleases');
         });

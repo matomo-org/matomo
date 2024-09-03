@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik;
@@ -37,23 +37,23 @@ use Piwik\Intl\Data\Provider\DateTimeFormatProvider;
 class Date
 {
     /** Number of seconds in a day. */
-    const NUM_SECONDS_IN_DAY = 86400;
+    public const NUM_SECONDS_IN_DAY = 86400;
 
     /** The default date time string format. */
-    const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+    public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
     /** Timestamp when first website came online - Tue, 06 Aug 1991 00:00:00 GMT. */
-    const FIRST_WEBSITE_TIMESTAMP = 681436800;
+    public const FIRST_WEBSITE_TIMESTAMP = 681436800;
 
-    const DATETIME_FORMAT_LONG    = DateTimeFormatProvider::DATE_FORMAT_LONG;
-    const DATETIME_FORMAT_SHORT   = DateTimeFormatProvider::DATETIME_FORMAT_SHORT;
-    const DATE_FORMAT_LONG        = DateTimeFormatProvider::DATE_FORMAT_LONG;
-    const DATE_FORMAT_DAY_MONTH   = DateTimeFormatProvider::DATE_FORMAT_DAY_MONTH;
-    const DATE_FORMAT_SHORT       = DateTimeFormatProvider::DATE_FORMAT_SHORT;
-    const DATE_FORMAT_MONTH_SHORT = DateTimeFormatProvider::DATE_FORMAT_MONTH_SHORT;
-    const DATE_FORMAT_MONTH_LONG  = DateTimeFormatProvider::DATE_FORMAT_MONTH_LONG;
-    const DATE_FORMAT_YEAR        = DateTimeFormatProvider::DATE_FORMAT_YEAR;
-    const TIME_FORMAT             = DateTimeFormatProvider::TIME_FORMAT;
+    public const DATETIME_FORMAT_LONG    = DateTimeFormatProvider::DATE_FORMAT_LONG;
+    public const DATETIME_FORMAT_SHORT   = DateTimeFormatProvider::DATETIME_FORMAT_SHORT;
+    public const DATE_FORMAT_LONG        = DateTimeFormatProvider::DATE_FORMAT_LONG;
+    public const DATE_FORMAT_DAY_MONTH   = DateTimeFormatProvider::DATE_FORMAT_DAY_MONTH;
+    public const DATE_FORMAT_SHORT       = DateTimeFormatProvider::DATE_FORMAT_SHORT;
+    public const DATE_FORMAT_MONTH_SHORT = DateTimeFormatProvider::DATE_FORMAT_MONTH_SHORT;
+    public const DATE_FORMAT_MONTH_LONG  = DateTimeFormatProvider::DATE_FORMAT_MONTH_LONG;
+    public const DATE_FORMAT_YEAR        = DateTimeFormatProvider::DATE_FORMAT_YEAR;
+    public const TIME_FORMAT             = DateTimeFormatProvider::TIME_FORMAT;
 
     // for tests
     public static $now = null;
@@ -129,19 +129,20 @@ class Date
             $date = self::now();
         } elseif ($dateString === 'today') {
             $date = self::today();
-        } else if ($dateString === 'tomorrow') {
+        } elseif ($dateString === 'tomorrow') {
             $date = self::tomorrow();
         } elseif ($dateString === 'yesterday') {
             $date = self::yesterday();
         } elseif ($dateString === 'yesterdaySameTime') {
             $date = self::yesterdaySameTime();
-        } else if (is_string($dateString) && preg_match('/last[ -]?week/i', urldecode($dateString))) {
+        } elseif (is_string($dateString) && preg_match('/last[ -]?week/i', urldecode($dateString))) {
             $date = self::lastWeek();
-        } else if (is_string($dateString) && preg_match('/last[ -]?month/i', urldecode($dateString))) {
+        } elseif (is_string($dateString) && preg_match('/last[ -]?month/i', urldecode($dateString))) {
             $date = self::lastMonth();
-        } else if (is_string($dateString) && preg_match('/last[ -]?year/i', urldecode($dateString))) {
+        } elseif (is_string($dateString) && preg_match('/last[ -]?year/i', urldecode($dateString))) {
             $date = self::lastYear();
-        } elseif (!is_int($dateString)
+        } elseif (
+            !is_int($dateString)
             && (
                 !is_string($dateString)
                 // strtotime returns the timestamp for April 1st for a date like 2011-04-01,today
@@ -187,17 +188,17 @@ class Date
     {
         if ($dateString === 'now') {
             return self::nowInTimezone($timezone);
-        } else if ($dateString === 'today') {
+        } elseif ($dateString === 'today') {
             return self::todayInTimezone($timezone);
-        } else if ($dateString === 'yesterday') {
+        } elseif ($dateString === 'yesterday') {
             return self::yesterdayInTimezone($timezone);
-        } else if ($dateString === 'yesterdaySameTime') {
+        } elseif ($dateString === 'yesterdaySameTime') {
             return self::yesterdaySameTimeInTimezone($timezone);
-        } else if (preg_match('/last[ -]?week/i', urldecode($dateString))) {
+        } elseif (preg_match('/last[ -]?week/i', urldecode($dateString))) {
             return self::lastWeekInTimezone($timezone);
-        } else if (preg_match('/last[ -]?month/i', urldecode($dateString))) {
+        } elseif (preg_match('/last[ -]?month/i', urldecode($dateString))) {
             return self::lastMonthInTimezone($timezone);
-        } else if (preg_match('/last[ -]?year/i', urldecode($dateString))) {
+        } elseif (preg_match('/last[ -]?year/i', urldecode($dateString))) {
             return self::lastYearInTimezone($timezone);
         } else {
             throw new \Exception("Date::factoryInTimezone() should not be used with $dateString.");
@@ -348,7 +349,8 @@ class Date
             return 0;
         }
         $start = substr($timezone, 0, 4);
-        if ($start !== 'UTC-'
+        if (
+            $start !== 'UTC-'
             && $start !== 'UTC+'
         ) {
             return false;
@@ -1104,7 +1106,8 @@ class Date
     private static function getMaxDaysInMonth($timestamp)
     {
         $month = (int)date('m', $timestamp);
-        if (date('L', $timestamp) == 1
+        if (
+            date('L', $timestamp) == 1
             && $month == 2
         ) {
             return 29;

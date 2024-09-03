@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Exception;
@@ -109,6 +110,8 @@ class ArchiveProcessor
     private $numberOfVisits = false;
 
     private $numberOfVisitsConverted = false;
+
+    private $processedDependentSegments = [];
 
     public function __construct(Parameters $params, ArchiveWriter $archiveWriter, LogAggregator $logAggregator)
     {
@@ -242,7 +245,7 @@ class ArchiveProcessor
                 $columns = $table->getColumns();
                 if (in_array(Metrics::INDEX_NB_VISITS, $columns)) {
                     $columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
-                } else if (in_array('nb_visits', $columns)) {
+                } elseif (in_array('nb_visits', $columns)) {
                     $columnToSortByBeforeTruncation = 'nb_visits';
                 }
             }
@@ -419,7 +422,7 @@ class ArchiveProcessor
             $tableToAddTo = null;
             if ($tableId === null) {
                 $tableToAddTo = $result;
-            } else if (empty($tableIdToResultRowMapping[$period][$tableId])) { // sanity check
+            } elseif (empty($tableIdToResultRowMapping[$period][$tableId])) { // sanity check
                 StaticContainer::get(LoggerInterface::class)->info(
                     'Unexpected state when aggregating DataTable, unknown period/table ID combination encountered: {period} - {tableId}.'
                     . ' This either means the SQL to order blobs is behaving incorrectly or the blob data is corrupt in some way.',
@@ -502,7 +505,8 @@ class ArchiveProcessor
 
     protected function enrichWithUniqueVisitorsMetric(Row $row)
     {
-        if ($row->getColumn('nb_uniq_visitors') === false
+        if (
+            $row->getColumn('nb_uniq_visitors') === false
             && $row->getColumn('nb_users') === false
         ) {
             return;
@@ -768,13 +772,59 @@ class ArchiveProcessor
             return;
         }
 
+        // The below check is meant to avoid archiving the same dependency multiple times.
+        $processedSegmentKey = $params->getSite()->getId() . $params->getPeriod()->getDateStart() . $params->getPeriod()->getLabel() . $newSegment->getOriginalString();
+        if (in_array($processedSegmentKey . $plugin, $this->processedDependentSegments)) {
+            return;
+        }
+
         self::$isRootArchivingRequest = false;
         try {
+            $invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
+
+            // Ensure to always invalidate VisitsSummary before any other plugin archive.
+            // Otherwise those archives might get build with outdated VisitsSummary data
+            if ($plugin !== 'VisitsSummary' && !in_array($processedSegmentKey . 'VisitsSummary', $this->processedDependentSegments)) {
+                $invalidator->markArchivesAsInvalidated(
+                    $idSites,
+                    [$params->getPeriod()->getDateStart()],
+                    $params->getPeriod()->getLabel(),
+                    $newSegment,
+                    false,
+                    false,
+                    'VisitsSummary',
+                    false,
+                    true
+                );
+
+                $parameters = new ArchiveProcessor\Parameters($params->getSite(), $params->getPeriod(), $newSegment);
+                $parameters->onlyArchiveRequestedPlugin();
+
+                $archiveLoader = new ArchiveProcessor\Loader($parameters);
+                $archiveLoader->prepareArchive('VisitsSummary');
+
+                $this->processedDependentSegments[] = $processedSegmentKey . 'VisitsSummary';
+            }
+
+            $invalidator->markArchivesAsInvalidated(
+                $idSites,
+                [$params->getPeriod()->getDateStart()],
+                $params->getPeriod()->getLabel(),
+                $newSegment,
+                false,
+                false,
+                $plugin,
+                false,
+                true
+            );
+
             $parameters = new ArchiveProcessor\Parameters($params->getSite(), $params->getPeriod(), $newSegment);
             $parameters->onlyArchiveRequestedPlugin();
 
             $archiveLoader = new ArchiveProcessor\Loader($parameters);
             $archiveLoader->prepareArchive($plugin);
+
+            $this->processedDependentSegments[] = $processedSegmentKey . $plugin;
         } finally {
             self::$isRootArchivingRequest = true;
         }

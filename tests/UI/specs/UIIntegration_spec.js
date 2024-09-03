@@ -3,8 +3,8 @@
  *
  * Screenshot integration tests.
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
@@ -553,6 +553,17 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the ecommerce log page', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog");
 
+            await page.hover('.dataTableVizVisitorLog .row:nth-child(2) .actionList li.action');
+            await page.waitForSelector('.ui-tooltip', {visible: true, timeout: 250});
+
+            var tooltipContent = await page.evaluate(() => {
+                return $('.ui-tooltip:visible').text();
+            });
+
+            expect(tooltipContent).to.match(/This conversion has been attributed to the Acquisition Channel:.*Direct Entry/);
+
+            await page.mouse.move(0, 0); // move mouse to hide tooltip again
+
             expect(await screenshotPageWrap()).to.matchImage('ecommerce_log');
         });
 
@@ -635,29 +646,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForTimeout(200);
 
             expect(await screenshotPageWrap()).to.matchImage('admin_settings_mobilemessaging_provider');
-        });
-
-        it('should load the themes admin page correctly', async function () {
-            await page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=themes");
-
-            expect(await screenshotPageWrap()).to.matchImage('admin_themes');
-        });
-
-        it('should load the plugins admin page correctly', async function () {
-            await page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
-
-            expect(await screenshotPageWrap()).to.matchImage('admin_plugins');
-        });
-
-        it('should load the plugins admin page correctly when internet disabled', async function () {
-            testEnvironment.overrideConfig('General', {
-                enable_internet_features: 0
-            });
-            testEnvironment.save();
-
-            await page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
-
-            expect(await screenshotPageWrap()).to.matchImage('admin_plugins_no_internet');
         });
 
         it('should load the config file page correctly', async function () {
@@ -764,7 +752,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should load the scheduled reports when Edit button is clicked', async function () {
             await page.goto("?" + generalParams + "&module=ScheduledReports&action=index");
-            await page.click('.entityTable tr:nth-child(4) button[title="Edit"]');
+            await page.click('.entityTable tr:nth-child(3) button[title="Edit"]');
 
             expect(await screenshotPageWrap()).to.matchImage('email_reports_editor');
         });

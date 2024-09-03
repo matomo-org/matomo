@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Integration;
 
 use Piwik\SupportedBrowser;
@@ -21,7 +23,7 @@ class SupportedBrowserTest extends IntegrationTestCase
         parent::setUp();
     }
 
-    public function test_new_firefox_is_supported()
+    public function testNewFirefoxIsSupported()
     {
         $firefoxUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11.2; rv:85.0) Gecko/20100101 Firefox/85.0";
         $_SERVER['HTTP_USER_AGENT'] = $firefoxUserAgent;
@@ -29,7 +31,7 @@ class SupportedBrowserTest extends IntegrationTestCase
         $this->assertNull(SupportedBrowser::checkIfBrowserSupported());
     }
 
-    public function test_old_ie_is_not_supported()
+    public function testOldIeIsNotSupported()
     {
         $this->expectException(NotSupportedBrowserException::class);
 
@@ -39,7 +41,7 @@ class SupportedBrowserTest extends IntegrationTestCase
         SupportedBrowser::checkIfBrowserSupported();
     }
 
-    public function test_empty_user_agent_is_supported()
+    public function testEmptyUserAgentIsSupported()
     {
         $_SERVER['HTTP_USER_AGENT'] = '';
 

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Annotations\tests\System;
 
 use Piwik\API\Request;
@@ -189,7 +191,12 @@ class AnnotationsTest extends SystemTestCase
     public function testSaveSuccess()
     {
         API::getInstance()->save(
-            self::$fixture->idSite1, 0, $date = '2011-04-01', $note = 'new note text', $starred = 1);
+            self::$fixture->idSite1,
+            0,
+            $date = '2011-04-01',
+            $note = 'new note text',
+            $starred = 1
+        );
 
         $expectedAnnotation = array(
             'date'            => '2011-04-01',

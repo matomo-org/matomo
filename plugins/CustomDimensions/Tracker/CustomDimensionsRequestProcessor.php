@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomDimensions\Tracker;
@@ -146,9 +147,11 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
             $extractions = $dimension['extractions'];
             if (is_array($extractions)) {
                 foreach ($extractions as $extraction) {
-                    if (!array_key_exists('dimension', $extraction)
+                    if (
+                        !array_key_exists('dimension', $extraction)
                         || !array_key_exists('pattern', $extraction)
-                        || empty($extraction['pattern'])) {
+                        || empty($extraction['pattern'])
+                    ) {
                         continue;
                     }
 

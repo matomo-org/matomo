@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Actions\Tracker;
@@ -55,10 +56,16 @@ class ActionsRequestProcessor extends RequestProcessor
 
         // save the exit actions of the last action in this visit as the referrer actions for the action being tracked.
         // when the visit is updated, these columns will be changed, so we have to do this before recordLogs
-        $request->setMetadata('Actions', 'idReferrerActionUrl',
-            $visitProperties->getProperty('visit_exit_idaction_url'));
-        $request->setMetadata('Actions', 'idReferrerActionName',
-            $visitProperties->getProperty('visit_exit_idaction_name'));
+        $request->setMetadata(
+            'Actions',
+            'idReferrerActionUrl',
+            $visitProperties->getProperty('visit_exit_idaction_url')
+        );
+        $request->setMetadata(
+            'Actions',
+            'idReferrerActionName',
+            $visitProperties->getProperty('visit_exit_idaction_name')
+        );
     }
 
     public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
@@ -76,7 +83,8 @@ class ActionsRequestProcessor extends RequestProcessor
         /** @var Action $action */
         $action = $request->getMetadata('Actions', 'action');
 
-        if ($action !== null
+        if (
+            $action !== null
             && !$request->getMetadata('CoreHome', 'visitorNotFoundInDb')
         ) {
             $idReferrerActionUrl = 0;

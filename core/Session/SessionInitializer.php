@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Session;
 
 use Exception;
@@ -32,12 +33,10 @@ class SessionInitializer
         $authResult = $this->doAuthenticateSession($auth);
 
         if (!$authResult->wasAuthenticationSuccessful()) {
-
             Piwik::postEvent('Login.authenticate.failed', array($auth->getLogin()));
 
             $this->processFailedSession();
         } else {
-
             Piwik::postEvent('Login.authenticate.successful', array($auth->getLogin()));
 
             $this->processSuccessfulSession($authResult);

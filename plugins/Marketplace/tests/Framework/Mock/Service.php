@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Marketplace\tests\Framework\Mock;
@@ -14,6 +15,7 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
 {
     public $action;
     public $params;
+    public $postData;
 
     private $fixtureToReturn;
     private $exception;
@@ -49,10 +51,20 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
         $this->exception = null;
     }
 
-    public function download($url, $destinationPath = null, $timeout = null, $getExtendedInfo = false)
-    {
+    public function download(
+        $url,
+        $destinationPath = null,
+        $timeout = null,
+        ?array $postData = null,
+        bool $getExtendedInfo = false
+    ) {
         if ($this->onDownloadCallback && is_callable($this->onDownloadCallback)) {
-            $result = call_user_func($this->onDownloadCallback, $this->action, $this->params);
+            $result = call_user_func(
+                $this->onDownloadCallback,
+                $this->action,
+                $this->params,
+                $this->postData
+            );
 
             if ($getExtendedInfo && is_string($result)) {
                 return [
@@ -116,13 +128,19 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
         $this->onDownloadCallback = $callback;
     }
 
-    public function fetch($action, $params, $getExtendedInfo = false)
-    {
+    public function fetch(
+        $action,
+        $params,
+        ?array $postData = null,
+        bool $getExtendedInfo = false,
+        bool $throwOnApiError = true
+    ) {
         $this->action = $action;
         $this->params = $params;
+        $this->postData = $postData;
 
         if ($this->onFetchCallback && is_callable($this->onFetchCallback)) {
-            $result = call_user_func($this->onFetchCallback, $action, $params);
+            $result = call_user_func($this->onFetchCallback, $action, $params, $postData);
 
             if (null !== $result) {
                 return $result;
@@ -134,9 +152,9 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
         } elseif (!empty($this->fixtureToReturn) || $this->onDownloadCallback) {
             // we want to make sure to test as much of the service class as possible.
             // Therefore we only mock the HTTP request in download()
-            return parent::fetch($action, $params, $getExtendedInfo);
+            return parent::fetch($action, $params, $postData, $getExtendedInfo, $throwOnApiError);
         }
 
-        return array();
+        return [];
     }
 }

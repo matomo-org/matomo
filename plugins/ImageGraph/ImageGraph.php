@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\ImageGraph;
 
 use Piwik\API\Request;
@@ -43,7 +44,7 @@ class ImageGraph extends \Piwik\Plugin
     }
 
     // Number of periods to plot on an evolution graph
-    const GRAPH_EVOLUTION_LAST_PERIODS = 30;
+    public const GRAPH_EVOLUTION_LAST_PERIODS = 30;
 
     /**
      * @param array $reports
@@ -83,7 +84,7 @@ class ImageGraph extends \Piwik\Plugin
                 // for period=range, show the configured sub-periods
                 $periodForMultiplePeriodGraph = Config::getInstance()->General['graphs_default_period_to_plot_when_period_range'];
                 $dateForMultiplePeriodGraph = $dateForSinglePeriodGraph;
-            } else if ($info['period'] == 'day' || !Config::getInstance()->General['graphs_show_evolution_within_selected_period']) {
+            } elseif ($info['period'] == 'day' || !Config::getInstance()->General['graphs_show_evolution_within_selected_period']) {
                 // for period=day, always show the last n days
                 // if graphs_show_evolution_within_selected_period=false, show the last n periods
                 $periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;
@@ -164,7 +165,8 @@ class ImageGraph extends \Piwik\Plugin
 
             $reportSupportsEvolution = !in_array($reportUniqueId, self::$REPORTS_DISABLED_EVOLUTION_GRAPH);
 
-            if ($reportSupportsEvolution
+            if (
+                $reportSupportsEvolution
                 && $reportWithDimensionsSupportsEvolution
             ) {
                 $parameters['period'] = $periodForMultiplePeriodGraph;

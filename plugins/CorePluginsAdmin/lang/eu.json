@@ -47,6 +47,7 @@
         "OriginOfficial": "Ofiziala",
         "OriginThirdParty": "Hirugarrenena",
         "PluginActivated": "Plugina aktibatuta",
+        "PluginFreeTrialStarted": "%3$s(r)en %1$szure 30 eguneko proba hasi da%2$s.",
         "PluginHomepage": "Pluginaren hasiera-orria",
         "PluginNotCompatibleWith": "%1$s plugina ez da bateragarria honekin: %2$s.",
         "PluginNotDownloadable": "Plugin hau ezin da deskargatu.",

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Common;
@@ -69,7 +70,7 @@ class LogDataPurger
         $dateUpperLimit = Date::factory("today")->subDay($deleteLogsOlderThan);
 
         $transactionLevel = new TransactionLevel(Db::get());
-        $transactionLevel->setUncommitted();
+        $transactionLevel->setTransactionLevelForNonLockingReads();
 
         $this->logDeleter->deleteVisitsFor($start = null, $dateUpperLimit->getDatetime());
 
@@ -104,7 +105,7 @@ class LogDataPurger
         Piwik::postEvent('PrivacyManager.deleteLogsOlderThan', array($dateUpperLimit, $deleteLogsOlderThan));
 
         // optimize table overhead after deletion
-        Db::optimizeTables($logTables);
+        Db\Schema::getInstance()->optimizeTables($logTables);
     }
 
     /**
@@ -182,7 +183,6 @@ class LogDataPurger
 
         $result = array();
         foreach ($provider->getAllLogTables() as $logTable) {
-
             if ($logTable->getColumnToJoinOnIdVisit()) {
                 $result[] = Common::prefixTable($logTable->getName());
             }

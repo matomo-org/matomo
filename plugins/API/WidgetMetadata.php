@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\API;
 
 use Piwik\Category\CategoryList;
@@ -52,7 +53,8 @@ class WidgetMetadata
                 // widgets in containers with ByDimension layout have a special, unrecognized category/subcategory
                 // (eg, "Sales by Referrer Type"). we change it to the container's category/subcategory so the widget
                 // will appear in the dashboard manager.
-                if ($widgetConfig instanceof WidgetContainerConfig
+                if (
+                    $widgetConfig instanceof WidgetContainerConfig
                     && $widgetConfig->getLayout() == CoreHome::WIDGET_CONTAINER_LAYOUT_BY_DIMENSION
                 ) {
                     $metadataOverrides = [
@@ -146,7 +148,6 @@ class WidgetMetadata
 
         if ($orderA === $orderB) {
             if (!empty($widgetA['subcategory']['order']) && !empty($widgetB['subcategory']['order'])) {
-
                 $subOrderA = $widgetA['subcategory']['order'];
                 $subOrderB = $widgetB['subcategory']['order'];
 
@@ -155,10 +156,9 @@ class WidgetMetadata
                 }
 
                 return $subOrderA > $subOrderB ? 1 : -1;
-            } else if (empty($widgetA['subcategory']['order']) && empty($widgetB['subcategory']['order'])) {
+            } elseif (empty($widgetA['subcategory']['order']) && empty($widgetB['subcategory']['order'])) {
                 return $this->compareWidgetIds($widgetA, $widgetB);
             } elseif (!empty($widgetA['subcategory']['order'])) {
-
                 return 1;
             }
 

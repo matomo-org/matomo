@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\ExampleVisualization\Visualizations;
@@ -17,10 +17,10 @@ use Piwik\Plugin\Visualization;
  */
 class SimpleTable extends Visualization
 {
-    const ID = 'simpleTable';
-    const TEMPLATE_FILE     = '@ExampleVisualization/simpleTable.twig';
-    const FOOTER_ICON_TITLE = 'Simple Table';
-    const FOOTER_ICON       = 'plugins/ExampleVisualization/images/table.png';
+    public const ID = 'simpleTable';
+    public const TEMPLATE_FILE     = '@ExampleVisualization/simpleTable.twig';
+    public const FOOTER_ICON_TITLE = 'Simple Table';
+    public const FOOTER_ICON       = 'plugins/ExampleVisualization/images/table.png';
 
     public function beforeLoadDataTable()
     {

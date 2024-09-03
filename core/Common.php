@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Exception;
@@ -24,21 +25,27 @@ use Piwik\Tracker\Cache as TrackerCache;
 class Common
 {
     // constants used to map the referrer type to an integer in the log_visit table
-    const REFERRER_TYPE_DIRECT_ENTRY = 1;
-    const REFERRER_TYPE_SEARCH_ENGINE = 2;
-    const REFERRER_TYPE_WEBSITE = 3;
-    const REFERRER_TYPE_CAMPAIGN = 6;
-    const REFERRER_TYPE_SOCIAL_NETWORK = 7;
+    public const REFERRER_TYPE_DIRECT_ENTRY = 1;
+    public const REFERRER_TYPE_SEARCH_ENGINE = 2;
+    public const REFERRER_TYPE_WEBSITE = 3;
+    public const REFERRER_TYPE_CAMPAIGN = 6;
+    public const REFERRER_TYPE_SOCIAL_NETWORK = 7;
 
     // Flag used with htmlspecialchar. See php.net/htmlspecialchars.
-    const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
+    public const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
 
     public static $isCliMode = null;
+
+    /**
+     * Filled and used during tests only
+     * @var array
+     */
+    public static $headersSentInTests = [];
 
     /*
      * Database
      */
-    const LANGUAGE_CODE_INVALID = 'xx';
+    public const LANGUAGE_CODE_INVALID = 'xx';
 
     /**
      * Hashes a string into an integer which should be very low collision risks
@@ -98,7 +105,8 @@ class Common
         if (is_null($prefixTable)) {
             $prefixTable = Config::getInstance()->database['tables_prefix'];
         }
-        if (empty($prefixTable)
+        if (
+            empty($prefixTable)
             || strpos($table, $prefixTable) !== 0
         ) {
             return $table;
@@ -132,11 +140,11 @@ class Common
             return self::$isCliMode;
         }
 
-        if(PHP_SAPI === 'cli'){
+        if (PHP_SAPI === 'cli') {
             return true;
         }
 
-        if(self::isPhpCgiType() && (!isset($_SERVER['REMOTE_ADDR']) || empty($_SERVER['REMOTE_ADDR']))){
+        if (self::isPhpCgiType() && (!isset($_SERVER['REMOTE_ADDR']) || empty($_SERVER['REMOTE_ADDR']))) {
             return true;
         }
 
@@ -362,7 +370,8 @@ class Common
 
                 $value[$newKey] = self::sanitizeInputValues($value[$newKey], $alreadyStripslashed);
             }
-        } elseif (!is_null($value)
+        } elseif (
+            !is_null($value)
             && !is_bool($value)
         ) {
             throw new Exception("The value to escape has not a supported type. Value = " . var_export($value, true));
@@ -507,7 +516,8 @@ class Common
         }
 
         // there is no value $varName in the REQUEST so we try to use the default value
-        if (empty($varName)
+        if (
+            empty($varName)
             || !isset($requestArrayToUse[$varName])
             || (!is_array($requestArrayToUse[$varName])
                 && strlen($requestArrayToUse[$varName]) === 0
@@ -516,7 +526,8 @@ class Common
             if (is_null($varDefault)) {
                 throw new Exception("The parameter '$varName' isn't set in the Request, and a default value wasn't provided.");
             } else {
-                if (!is_null($varType)
+                if (
+                    !is_null($varType)
                     && in_array($varType, array('string', 'integer', 'array'))
                 ) {
                     settype($varDefault, $varType);
@@ -553,10 +564,14 @@ class Common
                     $ok = true;
                 }
             } elseif ($varType === 'float') {
-                $valueToCompare = (string)(float)$value;
-                $valueToCompare = Common::forceDotAsSeparatorForDecimalPoint($valueToCompare);
+                $valueToCompare = Common::forceDotAsSeparatorForDecimalPoint($value);
 
-                if ($value == $valueToCompare) {
+                // Simplified regex for float without support for underscore notation
+                // will match:  1.234, 1.2e3, 7E-10
+                // won't match: 1_234.567
+                $floatRegex = "/^[+-]?((([0-9]+)|(([0-9]+)?\.([0-9]+))|(([0-9]+)\.([0-9]+)?))([eE][+-]?([0-9]+))?)$/";
+
+                if (preg_match($floatRegex, $valueToCompare)) {
                     $ok = true;
                 }
             } elseif ($varType === 'array') {
@@ -690,7 +705,8 @@ class Common
      */
     public static function convertVisitorIdToBin($id)
     {
-        if (strlen($id) !== Tracker::LENGTH_HEX_ID_STRING
+        if (
+            strlen($id) !== Tracker::LENGTH_HEX_ID_STRING
             || @bin2hex(self::hex2bin($id)) != $id
         ) {
             throw new Exception("visitorId is expected to be a " . Tracker::LENGTH_HEX_ID_STRING . " hex char string");
@@ -1076,6 +1092,19 @@ class Common
      */
     public static function sendHeader($header, $replace = true)
     {
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            if (strpos($header, ':') !== false) {
+                [$headerName, $headerValue] = explode(':', $header, 2);
+            } else {
+                $headerName = $header;
+                $headerValue = '';
+            }
+
+            if (!array_key_exists($headerName, self::$headersSentInTests) || $replace) {
+                self::$headersSentInTests[$headerName] = $headerValue;
+            }
+        }
+
         // don't send header in CLI mode
         if (!Common::isPhpCliMode() and !headers_sent()) {
             header($header, $replace);
@@ -1089,6 +1118,10 @@ class Common
      */
     public static function stripHeader($name)
     {
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            unset(self::$headersSentInTests[$name]);
+        }
+
         // don't strip header in CLI mode
         if (!Common::isPhpCliMode() and !headers_sent()) {
             header_remove($name);
@@ -1126,9 +1159,11 @@ class Common
         if (strpos(PHP_SAPI, '-fcgi') === false) {
             $key = 'HTTP/1.1';
 
-            if (array_key_exists('SERVER_PROTOCOL', $_SERVER)
+            if (
+                array_key_exists('SERVER_PROTOCOL', $_SERVER)
                 && strlen($_SERVER['SERVER_PROTOCOL']) < 15
-                && strlen($_SERVER['SERVER_PROTOCOL']) > 1) {
+                && strlen($_SERVER['SERVER_PROTOCOL']) > 1
+            ) {
                 $key = $_SERVER['SERVER_PROTOCOL'];
             }
         } else {

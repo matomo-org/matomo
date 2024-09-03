@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Updates;
@@ -36,7 +36,9 @@ class Updates_1_2_5_rc1 extends Updates
                 'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
                     ADD buster int unsigned NOT NULL AFTER revenue,
                     DROP PRIMARY KEY,
-                    ADD PRIMARY KEY (idvisit, idgoal, buster)', Updater\Migration\Db::ERROR_CODE_DUPLICATE_COLUMN),
+                    ADD PRIMARY KEY (idvisit, idgoal, buster)',
+                Updater\Migration\Db::ERROR_CODE_DUPLICATE_COLUMN
+            ),
         );
     }
 

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\ExampleUI\Reports;
@@ -11,7 +12,6 @@ namespace Piwik\Plugins\ExampleUI\Reports;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Report\ReportWidgetFactory;

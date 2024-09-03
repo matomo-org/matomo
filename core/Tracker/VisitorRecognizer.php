@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tracker;
@@ -22,7 +23,7 @@ class VisitorRecognizer
      * Set when a visit was found. Stores the original values of the row that is currently stored in the DB when
      * the visit was selected.
      */
-    const KEY_ORIGINAL_VISIT_ROW = 'originalVisit';
+    public const KEY_ORIGINAL_VISIT_ROW = 'originalVisit';
 
     /**
      * Local variable cache for the getVisitFieldsPersist() method.
@@ -112,16 +113,19 @@ class VisitorRecognizer
 
         $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $userId, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
 
-        if (!empty($maxActions) && $maxActions > 0
+        if (
+            !empty($maxActions) && $maxActions > 0
             && !empty($visitRow['visit_total_actions'])
-            && $maxActions <= $visitRow['visit_total_actions']) {
+            && $maxActions <= $visitRow['visit_total_actions']
+        ) {
             $this->visitRow = false;
             return false;
         }
 
         $this->visitRow = $visitRow;
 
-        if ($visitRow
+        if (
+            $visitRow
             && count($visitRow) > 0
         ) {
             $visitProperties->setProperty('idvisitor', $visitRow['idvisitor']);
@@ -147,17 +151,21 @@ class VisitorRecognizer
         }
 
         $originalRow = $originalVisit->getProperties();
-        if (!empty($originalRow['idvisitor'])
+        if (
+            !empty($originalRow['idvisitor'])
             && !empty($visit['idvisitor'])
-            && bin2hex($originalRow['idvisitor']) === bin2hex($visit['idvisitor'])) {
+            && bin2hex($originalRow['idvisitor']) === bin2hex($visit['idvisitor'])
+        ) {
             unset($visit['idvisitor']);
         }
 
         $fieldsToCompareValue = array('user_id', 'visit_last_action_time', 'visit_total_time');
         foreach ($fieldsToCompareValue as $field) {
-            if (!empty($originalRow[$field])
+            if (
+                !empty($originalRow[$field])
                 && !empty($visit[$field])
-                && $visit[$field] == $originalRow[$field]) {
+                && $visit[$field] == $originalRow[$field]
+            ) {
                 // we can't use === eg for visit_total_time which may be partially an integer and sometimes a string
                 // because we check for !empty things should still work as expected though
                 // (eg we wouldn't compare false with 0)

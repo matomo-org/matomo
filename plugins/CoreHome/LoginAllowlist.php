@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreHome;
 
 use Piwik\Common;
@@ -35,10 +36,10 @@ class LoginAllowlist
         }
 
         // ignore whitelist checks for opt out iframe or opt out JS
-        if (!SettingsServer::isTrackerApiRequest()
+        if (
+            !SettingsServer::isTrackerApiRequest()
             && (('CoreAdminHome' === Piwik::getModule() && ('optOut' === Piwik::getAction() || 'optOutJS' === Piwik::getAction())))
-            )
-        {
+        ) {
             return false;
         }
 

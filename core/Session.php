@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Exception;
@@ -21,7 +22,7 @@ use Zend_Session;
  */
 class Session extends Zend_Session
 {
-    const SESSION_NAME = 'MATOMO_SESSID';
+    public const SESSION_NAME = 'MATOMO_SESSID';
 
     public static $sessionName = self::SESSION_NAME;
 
@@ -36,7 +37,8 @@ class Session extends Zend_Session
      */
     public static function start($options = false)
     {
-        if (headers_sent()
+        if (
+            headers_sent()
             || self::$sessionStarted
             || (defined('PIWIK_ENABLE_SESSION_START') && !PIWIK_ENABLE_SESSION_START)
             || session_status() == PHP_SESSION_ACTIVE
@@ -127,7 +129,8 @@ class Session extends Zend_Session
                 $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
             }
 
-            $message = sprintf("Error: %s %s\n<pre>Debug: the original error was \n%s</pre>",
+            $message = sprintf(
+                "Error: %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik::translate('General_ExceptionUnableToStartSession'),
                 $pathToSessions,
                 $e->getMessage()

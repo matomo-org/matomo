@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\DataTable;
@@ -87,7 +87,8 @@ class Manager extends \ArrayObject
     public function deleteAll($deleteWhenIdTableGreaterThan = 0, $deleteUntil = null)
     {
         foreach ($this as $id => $table) {
-            if ($id > $deleteWhenIdTableGreaterThan
+            if (
+                $id > $deleteWhenIdTableGreaterThan
                 && ($deleteUntil === null || $id <= $deleteUntil)
             ) {
                 $this->deleteTable($id);

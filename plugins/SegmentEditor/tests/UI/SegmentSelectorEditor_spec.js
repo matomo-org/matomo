@@ -3,8 +3,8 @@
  *
  * SegmentEditor screenshot tests.
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("SegmentSelectorEditorTest", function () {
@@ -18,7 +18,14 @@ describe("SegmentSelectorEditorTest", function () {
     async function selectFieldValue(fieldName, textToSelect)
     {
         await (await page.jQuery(fieldName + ' input.select-dropdown', { waitFor: true })).click();
+
+        // wait for animation
+        await page.waitForTimeout(200);
+
         await (await page.jQuery(fieldName + ' .dropdown-content li:contains("' + textToSelect + '"):first', { waitFor: true })).click();
+
+        // wait for animation
+        await page.waitForTimeout(300);
         await page.mouse.move(-10, -10);
     }
 
@@ -122,6 +129,12 @@ describe("SegmentSelectorEditorTest", function () {
 
         await page.waitForTimeout(200);
 
+        // open and close test feature to ensure it doesn't break saving the new segment
+        await page.click('.testSegment');
+        await page.waitForSelector('#Piwik_Popover');
+        await page.waitForNetworkIdle();
+        await page.click('.ui-dialog-titlebar-close');
+
         await page.evaluate(function () {
             $('button.saveAndApply').click();
         });
@@ -144,7 +157,7 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('saved_details');
     });
 
-    it("should correctly should show a confirmation when changing segment definition", async function() {
+    it("should correctly show a confirmation when changing segment definition", async function() {
         await page.click('.segmentEditorPanel .editSegmentName');
 
         await page.$eval('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input', e => e.blur());

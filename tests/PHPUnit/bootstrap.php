@@ -68,7 +68,7 @@ function setupRootContainer($enable = false)
     // before running tests, delete the TestingEnvironmentVariables file, since it can indirectly mess w/
     // phpunit's class loading (if a test class is loaded in bootstrap.php, phpunit can't load it from a file,
     // so executing the tests in a file will fail)
-    if($enable) {
+    if ($enable) {
         $vars = new TestingEnvironmentVariables();
         $vars->delete();
 
@@ -145,7 +145,8 @@ printTestDoxHint();
 
 function checkPiwikSetupForTests()
 {
-    if (empty($_SERVER['REQUEST_URI'])
+    if (
+        empty($_SERVER['REQUEST_URI'])
         || $_SERVER['REQUEST_URI'] == '@REQUEST_URI@'
     ) {
         echo "WARNING: for tests to pass, you must first:

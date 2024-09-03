@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -18,7 +19,7 @@ use Piwik\Tests\Framework\Fixture;
  */
 class UpdaterTest extends IntegrationTestCase
 {
-    public function test_doUpdate_reportsAnError_whenMissingFilePermissionException()
+    public function testDoUpdateReportsAnErrorWhenMissingFilePermissionException()
     {
         $updater = new Updater($pathToCoreUpdates = null, PIWIK_INCLUDE_PATH . '/tests/resources/Updater/%s/');
         $updater->markComponentSuccessfullyUpdated('testpluginUpdates', '0.4');
@@ -88,7 +89,7 @@ class UpdaterTest extends IntegrationTestCase
         }
     }
 
-    public function testMarkComponentSuccessfullyUpdated_ShouldCreateAnOptionEntry()
+    public function testMarkComponentSuccessfullyUpdatedShouldCreateAnOptionEntry()
     {
         $updater = $this->createUpdater();
         $updater->markComponentSuccessfullyUpdated('test_entry', '0.5');
@@ -98,9 +99,9 @@ class UpdaterTest extends IntegrationTestCase
     }
 
     /**
-     * @depends testMarkComponentSuccessfullyUpdated_ShouldCreateAnOptionEntry
+     * @depends testMarkComponentSuccessfullyUpdatedShouldCreateAnOptionEntry
      */
-    public function testMarkComponentSuccessfullyUninstalled_ShouldCreateAnOptionEntry()
+    public function testMarkComponentSuccessfullyUninstalledShouldCreateAnOptionEntry()
     {
         $updater = $this->createUpdater();
         $updater->markComponentSuccessfullyUninstalled('test_entry');

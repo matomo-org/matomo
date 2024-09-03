@@ -124,6 +124,7 @@
         "ReactDescription": "Zure webguneak React erabiltzen badu, ikusi %1$sgida hau%2$s.",
         "ReleaseChannel": "Argitalpen kanala",
         "SecurityNotificationAllTokenAuthDeletedBody": "Norbaitek zure kontuaren baimen-token guztiak ezabatu ditu.",
+        "SecurityNotificationAnonymousAccessEnabledBody": "Norbaitek sarbide anonimoa gaitu du hona: %1$s. Horrek esan nahi du gune honen datuak publikoki ikusgai daudela. Ez bada arazoa, ez ikusia egin posta elektroniko honi.",
         "SecurityNotificationCheckTwoFactor": "Egiaztatu zure bi faktoreko autentifikaziorako aplikazioa edo gailua.",
         "SecurityNotificationEmailSubject": "Segurtasun jakinarazpena",
         "SecurityNotificationIfItWasYou": "Zu izan bazara, jarritu. Ez baduzu ekintza hau ezagutzen, mesedez, berrezarri zure pasahitza.",

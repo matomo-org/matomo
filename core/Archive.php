@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik;
@@ -114,9 +113,9 @@ use Piwik\Plugins\CoreAdminHome\API;
  */
 class Archive implements ArchiveQuery
 {
-    const REQUEST_ALL_WEBSITES_FLAG = 'all';
-    const ARCHIVE_ALL_PLUGINS_FLAG = 'all';
-    const ID_SUBTABLE_LOAD_ALL_SUBTABLES = 'all';
+    public const REQUEST_ALL_WEBSITES_FLAG = 'all';
+    public const ARCHIVE_ALL_PLUGINS_FLAG = 'all';
+    public const ID_SUBTABLE_LOAD_ALL_SUBTABLES = 'all';
 
     /**
      * List of archive IDs for the site, periods and segment we are querying with.
@@ -285,8 +284,7 @@ class Archive implements ArchiveQuery
     public static function shouldSkipArchiveIfSkippingSegmentArchiveForToday(Site $site, Period $period, Segment $segment)
     {
         $now = Date::factory('now', $site->getTimezone());
-        return $period->getLabel() === 'day'
-            && !$segment->isEmpty()
+        return !$segment->isEmpty()
             && $period->getDateStart()->toString() === $now->toString();
     }
 
@@ -980,7 +978,8 @@ class Archive implements ArchiveQuery
             }
 
             foreach ($prepareResult['idarchives'] as $idArchive) {
-                if (is_array($this->idarchives[$doneFlag][$periodString] ?? null)
+                if (
+                    is_array($this->idarchives[$doneFlag][$periodString] ?? null)
                     && in_array($idArchive, $this->idarchives[$doneFlag][$periodString])
                 ) {
                     continue;

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Exception;
@@ -101,10 +102,10 @@ class Segment
     /**
      * Truncate the Segments to 8k
      */
-    const SEGMENT_TRUNCATE_LIMIT = 8192;
+    public const SEGMENT_TRUNCATE_LIMIT = 8192;
 
-    const CACHE_KEY = 'segmenthashes';
-    const SEGMENT_HAS_BUILT_CACHE_KEY = 'segmenthashbuilt';
+    public const CACHE_KEY = 'segmenthashes';
+    public const SEGMENT_HAS_BUILT_CACHE_KEY = 'segmenthashbuilt';
 
     /**
      * Constructor.
@@ -128,7 +129,8 @@ class Segment
         $this->segmentQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
 
         $segmentCondition = trim($segmentCondition ?: '');
-        if (!SettingsPiwik::isSegmentationEnabled()
+        if (
+            !SettingsPiwik::isSegmentationEnabled()
             && !empty($segmentCondition)
         ) {
             throw new Exception("The Super User has disabled the Segmentation feature.");
@@ -253,7 +255,7 @@ class Segment
 
         if (empty($idSites)) {
             $idSites = [];
-        } else if (!is_array($idSites)) {
+        } elseif (!is_array($idSites)) {
             $idSites = [$idSites];
         }
         $this->idSites = $idSites;
@@ -288,7 +290,8 @@ class Segment
                 $availableSegment = $this->getSegmentByName($name);
 
                 // We leave segments using !@ and != operands untouched for segments not on log_visit table as they will be build using a subquery
-                if (!$this->doesSegmentNeedSubquery($operand[SegmentExpression::INDEX_OPERAND_OPERATOR], $name)
+                if (
+                    !$this->doesSegmentNeedSubquery($operand[SegmentExpression::INDEX_OPERAND_OPERATOR], $name)
                     && !empty($availableSegment['unionOfSegments'])
                 ) {
                     foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
@@ -316,7 +319,7 @@ class Segment
                     return true;
                 }
             }
-        } else if (strpos($availableSegment['sqlSegment'], 'log_visit.') === 0) {
+        } elseif (strpos($availableSegment['sqlSegment'], 'log_visit.') === 0) {
             return true;
         }
 
@@ -345,7 +348,7 @@ class Segment
     {
         if ($operator === SegmentExpression::MATCH_DOES_NOT_CONTAIN) {
             return SegmentExpression::MATCH_CONTAINS;
-        } else if ($operator === SegmentExpression::MATCH_NOT_EQUAL) {
+        } elseif ($operator === SegmentExpression::MATCH_NOT_EQUAL) {
             return SegmentExpression::MATCH_EQUAL;
         }
 
@@ -401,7 +404,8 @@ class Segment
         $sqlName = $segmentObject ? $segmentObject->getSqlSegment() : null;
 
         $joinTable = null;
-        if ($segmentObject
+        if (
+            $segmentObject
             && $segmentObject->dimension
             && $segmentObject->dimension->getDbColumnJoin()
         ) {
@@ -460,9 +464,10 @@ class Segment
 
         $segment = $this->getSegmentByName($name);
 
-        if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
-            && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
-
+        if (
+            $matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
+            && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY
+        ) {
             if (isset($segment['sqlFilterValue'])) {
                 $value = call_user_func($segment['sqlFilterValue'], $value, $segment['sqlSegment']);
             }
@@ -584,7 +589,7 @@ class Segment
         $segmentExpression = $this->segmentExpression;
 
         $limitAndOffset = null;
-        if($limit > 0) {
+        if ($limit > 0) {
             $limitAndOffset = (int) $offset . ', ' . (int) $limit;
         }
 
@@ -592,8 +597,16 @@ class Segment
             if ($forceGroupBy && $groupBy) {
                 $this->segmentQueryBuilder->forceInnerGroupBySubselect(LogQueryBuilder::FORCE_INNER_GROUP_BY_NO_SUBSELECT);
             }
-            $result = $this->segmentQueryBuilder->getSelectQueryString($segmentExpression, $select, $from, $where, $bind,
-                $groupBy, $orderBy, $limitAndOffset);
+            $result = $this->segmentQueryBuilder->getSelectQueryString(
+                $segmentExpression,
+                $select,
+                $from,
+                $where,
+                $bind,
+                $groupBy,
+                $orderBy,
+                $limitAndOffset
+            );
         } catch (Exception $e) {
             if ($forceGroupBy && $groupBy) {
                 $this->segmentQueryBuilder->forceInnerGroupBySubselect('');
@@ -636,7 +649,8 @@ class Segment
             return $segmentCondition;
         }
 
-        if (empty($segmentCondition)
+        if (
+            empty($segmentCondition)
             || self::containsCondition($segment, $operator, $segmentCondition)
         ) {
             return $segment;
@@ -679,7 +693,8 @@ class Segment
 
         $foundStoredSegment = null;
         foreach ($availableSegments as $storedSegment) {
-            if ($storedSegment['definition'] == $segment
+            if (
+                $storedSegment['definition'] == $segment
                 || $storedSegment['definition'] == urldecode($segment)
                 || $storedSegment['definition'] == urlencode($segment)
 
@@ -740,7 +755,8 @@ class Segment
 
         foreach ($expressions as $childExpressionsOrOperand) {
             // if this is an AND chain w/ more than one sub-expression being OR-ed together, we can't do anything about the NOT IN subqueries there
-            if ($isAndChain
+            if (
+                $isAndChain
                 && count($childExpressionsOrOperand) > 1
             ) {
                 $mappedExpressions[] = $childExpressionsOrOperand;

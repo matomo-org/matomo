@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\UsersManager\Validators;
@@ -18,8 +17,8 @@ use Piwik\Validators\Exception;
 
 class Login extends BaseValidator
 {
-    const LOGIN_MIN_LENGTH = 2;
-    const LOGIN_MAX_LENGTH = 100;
+    public const LOGIN_MIN_LENGTH = 2;
+    public const LOGIN_MAX_LENGTH = 100;
 
     private $checkUnique;
 

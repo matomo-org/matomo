@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\ArchiveProcessor;
 
 use Piwik\Archive\ArchiveInvalidator;
@@ -124,7 +125,8 @@ class Loader
 
         // invalidate existing archives before we start archiving in case data was tracked in the past. if the archive is
         // made invalid, we will correctly re-archive below.
-        if ($this->invalidateBeforeArchiving
+        if (
+            $this->invalidateBeforeArchiving
             && Rules::isBrowserTriggerEnabled()
         ) {
             $this->invalidatedReportsIfNeeded();
@@ -160,7 +162,6 @@ class Loader
                 $lock->unlock();
             }
         } else {
-
             return $this->insertArchiveData($visits, $visitsConverted, $idArchives, $foundRecords);
         }
     }
@@ -184,7 +185,8 @@ class Loader
         list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
         list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
 
-        if ($this->isThereSomeVisits($visits)
+        if (
+            $this->isThereSomeVisits($visits)
             || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()
         ) {
             $idArchivesToQuery = [$idArchive];
@@ -203,8 +205,12 @@ class Loader
      */
     private function makeArchivingLockId()
     {
-        $doneFlag = Rules::getDoneStringFlagFor([$this->params->getSite()->getId()], $this->params->getSegment(),
-          $this->params->getPeriod()->getLabel(), $this->params->getRequestedPlugin());
+        $doneFlag = Rules::getDoneStringFlagFor(
+            [$this->params->getSite()->getId()],
+            $this->params->getSegment(),
+            $this->params->getPeriod()->getLabel(),
+            $this->params->getRequestedPlugin()
+        );
 
         return $this->params->getPeriod()->getDateStart()->toString() . $this->params->getPeriod()->getDateEnd()->toString() . '.' . $doneFlag;
     }
@@ -228,7 +234,8 @@ class Loader
         $requestedRecords = $this->params->getArchiveOnlyReportAsArray();
         $isMissingRequestedRecords = !empty($requestedRecords) && is_array($existingArchives) && count($requestedRecords) != count($existingArchives);
 
-        if (!empty($idArchives)
+        if (
+            !empty($idArchives)
             && !Rules::isActuallyForceArchivingSinglePlugin()
             && !$this->shouldForceInvalidatedArchive($doneFlagValue, $tsArchived)
             && !$isMissingRequestedRecords
@@ -297,7 +304,8 @@ class Loader
     {
         $pluginsArchiver = new PluginsArchiver($this->params);
 
-        if ($this->mustProcessVisitCount($visits)
+        if (
+            $this->mustProcessVisitCount($visits)
             || $this->doesRequestedPluginIncludeVisitsSummary()
         ) {
             $metrics = $pluginsArchiver->callAggregateCoreMetrics();
@@ -437,14 +445,16 @@ class Loader
         $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
         foreach ($sitesPerDays as $dateStr => $siteIds) {
-            if (empty($siteIds)
+            if (
+                empty($siteIds)
                 || !in_array($this->params->getSite()->getId(), $siteIds)
             ) {
                 unset($sitesPerDays[$dateStr]);
             }
 
             $date = Date::factory($dateStr);
-            if ($date->isEarlier($this->params->getPeriod()->getDateStart())
+            if (
+                $date->isEarlier($this->params->getPeriod()->getDateStart())
                 || $date->isLater($this->params->getPeriod()->getDateEnd())
             ) { // date in list is not the current date, so ignore it
                 unset($sitesPerDays[$dateStr]);
@@ -588,7 +598,8 @@ class Loader
         $params = $this->params;
 
         // the archive is invalidated and we are in a browser request that is allowed archive it
-        if ($value == ArchiveWriter::DONE_INVALIDATED
+        if (
+            $value == ArchiveWriter::DONE_INVALIDATED
             && Rules::isArchivingEnabledFor([$params->getSite()->getId()], $params->getSegment(), $params->getPeriod()->getLabel())
         ) {
             // if coming from core:archive, force rearchiving, since if we don't the entry will be removed from archive_invalidations
@@ -605,9 +616,14 @@ class Loader
 
             // if coming from a browser request, and period does contain today, check the ttl for the period (done just below this)
             $minDatetimeArchiveProcessedUTC = Rules::getMinTimeProcessedForInProgressArchive(
-                $params->getDateStart(), $params->getPeriod(), $params->getSegment(), $params->getSite());
+                $params->getDateStart(),
+                $params->getPeriod(),
+                $params->getSegment(),
+                $params->getSite()
+            );
             $minDatetimeArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
-            if ($minDatetimeArchiveProcessedUTC
+            if (
+                $minDatetimeArchiveProcessedUTC
                 && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
             ) {
                 return true;

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreHome\Columns\Metrics;
@@ -157,7 +158,7 @@ class EvolutionMetric extends ProcessedMetric
 
         if ($dividend == 0) {
             return 0;
-        } else if ($divisor == 0) {
+        } elseif ($divisor == 0) {
             return 1;
         } else {
             return Piwik::getQuotientSafe($dividend, $divisor, $this->quotientPrecision + 2);
@@ -241,7 +242,6 @@ class EvolutionMetric extends ProcessedMetric
         $ratio = 1;
 
         if ($currentData != null && $pastData != null) {
-
             $p = $pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
 
             $pStart = $p->getDateStart()->setTime('00:00:00');

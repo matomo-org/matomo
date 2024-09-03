@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\PagePerformance\Reports;
 
 use Piwik\EventDispatcher;
@@ -80,7 +81,8 @@ class Get extends \Piwik\Plugin\Report
 
     public function configureView(ViewDataTable $view)
     {
-        if ($view->isViewDataTableId(Sparklines::ID)
+        if (
+            $view->isViewDataTableId(Sparklines::ID)
             && $view instanceof Sparklines
         ) {
             $this->addSparklineColumns($view);

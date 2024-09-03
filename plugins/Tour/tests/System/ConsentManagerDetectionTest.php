@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Tour\tests\System;
 
 use Piwik\Piwik;
@@ -26,14 +27,14 @@ class ConsentManagerDetectionTest extends SystemTestCase
         parent::setUp();
     }
 
-    public function test_detectConsentManager_disableWhenNotDetected()
+    public function testDetectConsentManagerDisableWhenNotDetected()
     {
         $siteData = [];
         $challenge = new ChallengeSetupConsentManager(new SiteContentDetector(), $siteData);
         $this->assertTrue($challenge->isDisabled());
     }
 
-    public function test_detectConsentManager_detectedButNotConnected()
+    public function testDetectConsentManagerDetectedButNotConnected()
     {
         $siteData = $this->makeSiteResponse('<html><head><script src="https://osano.com/uhs9879874hthg.js"></script></head><body>A site</body></html>');
         $challenge = new ChallengeSetupConsentManager(new SiteContentDetector(), $siteData);
@@ -42,7 +43,7 @@ class ConsentManagerDetectionTest extends SystemTestCase
         $this->assertEquals(Osano::getId(), $challenge->getConsentManagerId());
     }
 
-    public function test_detectConsentManager_detectedAndConnected()
+    public function testDetectConsentManagerDetectedAndConnected()
     {
         $siteData = $this->makeSiteResponse("<html><head><script src='https://osano.com/uhs9879874hthg.js'></script><script>Osano.cm.addEventListener('osano-cm-consent-changed', (change) => { console.log('cm-change'); consentSet(change); });</script></head><body>A site</body></html>");
         $challenge = new ChallengeSetupConsentManager(new SiteContentDetector(), $siteData);

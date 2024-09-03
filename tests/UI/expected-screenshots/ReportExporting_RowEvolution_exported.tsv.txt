@@ -1,2 +1,2 @@
 Date	Label	Visits	Actions	Maximum actions in one visit	Total time spent by visitors (in seconds)	Bounces	Visits with Conversions	Conversions (Goal idgoal=1)	Visits with Conversions (Goal idgoal=1)	Revenue (Goal idgoal=1)	Conversions (Goal idgoal=2)	Visits with Conversions (Goal idgoal=2)	Revenue (Goal idgoal=2)	Conversions	Revenue	Unique visitors (daily sum)	Users (daily sum)	Metadata: segment
-2012	referrer.com	11	45	7	7398	2	11	23	11	115	11	11	55	34	170	11	2	referrerName==referrer.com
+2012	referrer.com	12	52	7	9020	2	12	24	12	120	12	12	60	36	180	12	2	referrerName==referrer.com

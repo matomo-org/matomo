@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\BulkTracking\tests\Unit;
@@ -13,14 +14,6 @@ use Piwik\Tests\Framework\Mock\Tracker;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Exception;
 
-class TestResponse extends Response
-{
-    protected function logExceptionToErrorLog($e)
-    {
-        // prevent console from outputting the error_log message
-    }
-}
-
 /**
  * @group BulkTracking
  * @group ResponseTest
@@ -29,7 +22,7 @@ class TestResponse extends Response
 class ResponseTest extends UnitTestCase
 {
     /**
-     * @var TestResponse
+     * @var Response
      */
     private $response;
 
@@ -37,11 +30,12 @@ class ResponseTest extends UnitTestCase
     {
         parent::setUp();
 
-        $this->response = new TestResponse();
+        $mock = self::getMockBuilder(Response::class)->onlyMethods(['logExceptionToErrorLog']);
+        $this->response = $mock->getMock();
         $this->response->init(new Tracker());
     }
 
-    public function test_outputException_shouldOutputBulkResponse()
+    public function testOutputExceptionShouldOutputBulkResponse()
     {
         $tracker = $this->getTrackerWithCountedRequests();
 
@@ -51,7 +45,7 @@ class ResponseTest extends UnitTestCase
         $this->assertEquals('{"status":"error","tracked":5,"invalid":0}', $content);
     }
 
-    public function test_outputException_shouldOutputDebugMessageIfEnabled()
+    public function testOutputExceptionShouldOutputDebugMessageIfEnabled()
     {
         $tracker = $this->getTrackerWithCountedRequests();
         $tracker->enableDebugMode();
@@ -62,7 +56,7 @@ class ResponseTest extends UnitTestCase
         $this->assertStringStartsWith('{"status":"error","tracked":5,"invalid":0,"message":"My Custom Message\n', $content);
     }
 
-    public function test_outputResponse_shouldOutputBulkResponse()
+    public function testOutputResponseShouldOutputBulkResponse()
     {
         $tracker = $this->getTrackerWithCountedRequests();
 
@@ -72,7 +66,7 @@ class ResponseTest extends UnitTestCase
         $this->assertEquals('{"status":"success","tracked":5,"invalid":0}', $content);
     }
 
-    public function test_outputResponse_shouldNotOutputAnything_IfExceptionResponseAlreadySent()
+    public function testOutputResponseShouldNotOutputAnythingIfExceptionResponseAlreadySent()
     {
         $tracker = $this->getTrackerWithCountedRequests();
 
@@ -83,7 +77,7 @@ class ResponseTest extends UnitTestCase
         $this->assertEquals('{"status":"error","tracked":5,"invalid":0}', $content);
     }
 
-    public function test_outputResponse_shouldIncludeInvalidIndices_IfExceptionSet_AndRequestAuthenticated()
+    public function testOutputResponseShouldIncludeInvalidIndicesIfExceptionSetAndRequestAuthenticated()
     {
         $tracker = $this->getTrackerWithCountedRequests();
 
@@ -95,7 +89,7 @@ class ResponseTest extends UnitTestCase
         $this->assertEquals('{"status":"error","tracked":5,"invalid":2,"invalid_indices":[10,20]}', $content);
     }
 
-    public function test_outputResponse_shouldOutputInvalidRequests_IfInvalidIndicesSet_AndRequestNotAuthenticated()
+    public function testOutputResponseShouldOutputInvalidRequestsIfInvalidIndicesSetAndRequestNotAuthenticated()
     {
         $tracker = $this->getTrackerWithCountedRequests();
 
@@ -106,7 +100,7 @@ class ResponseTest extends UnitTestCase
         $this->assertEquals('{"status":"success","tracked":5,"invalid":3}', $content);
     }
 
-    public function test_outputResponse_shouldOutputInvalidRequests_IfInvalidIndicesSet_AndRequestAuthenticated()
+    public function testOutputResponseShouldOutputInvalidRequestsIfInvalidIndicesSetAndRequestAuthenticated()
     {
         $tracker = $this->getTrackerWithCountedRequests();
 

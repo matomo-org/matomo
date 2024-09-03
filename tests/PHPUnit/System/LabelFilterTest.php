@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\System;
 
 use Piwik\DataTable;
@@ -100,7 +102,8 @@ class LabelFilterTest extends SystemTestCase
                     '   ' . // test trimming
                         urlencode('incredible parent title! <>,;') .
                         '>' .
-                        urlencode('subtitle <>,;')),
+                    urlencode('subtitle <>,;')
+                ),
                 'expanded' => 0
             )
         ));
@@ -199,7 +202,8 @@ class LabelFilterTest extends SystemTestCase
             'observers.global' => \DI\add([
                 ['API.Request.intercept', \DI\value(function (&$returnedValue, $finalParameters, $pluginName, $methodName) {
                     $request = Request::fromRequest();
-                    if ($pluginName == 'Actions'
+                    if (
+                        $pluginName == 'Actions'
                         && $methodName == 'getPageUrls'
                         && $request->getParameter('with_custom_row_id', false)
                     ) {

@@ -32,7 +32,7 @@ class RequiredPhpSetting implements \JsonSerializable
      */
     public function addRequiredValue($requiredValue, $operator)
     {
-        if(!is_int($requiredValue)){
+        if (!is_int($requiredValue)) {
             throw new \InvalidArgumentException('Required value must be an integer.');
         }
 
@@ -79,10 +79,10 @@ class RequiredPhpSetting implements \JsonSerializable
         $currentValue = (int) ini_get($this->setting);
 
         $return = false;
-        foreach($this->requiredValues as $key => $requiredValue){
+        foreach ($this->requiredValues as $key => $requiredValue) {
             $this->requiredValues[$key]['isValid'] = version_compare($currentValue, $requiredValue['requiredValue'], $requiredValue['operator']);
 
-            if($this->requiredValues[$key]['isValid']){
+            if ($this->requiredValues[$key]['isValid']) {
                 $return = true;
             }
         }
@@ -93,7 +93,7 @@ class RequiredPhpSetting implements \JsonSerializable
     public function __toString(): string
     {
         $checks = array();
-        foreach($this->requiredValues as $requiredValue){
+        foreach ($this->requiredValues as $requiredValue) {
             $checks[] = $requiredValue['operator'] . ' ' . $requiredValue['requiredValue'];
         }
 

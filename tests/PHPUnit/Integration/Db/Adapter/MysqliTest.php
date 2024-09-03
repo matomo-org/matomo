@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Db\Adapter;
@@ -14,7 +15,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class MysqliTest extends IntegrationTestCase
 {
-    public function test_isMysqliErrorNumber_whenNoConnectionIsSet()
+    public function testIsMysqliErrorNumberWhenNoConnectionIsSet()
     {
         $e = new Exception('Error query: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry');
         $connection = null;

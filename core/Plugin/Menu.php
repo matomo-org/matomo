@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugin;
 
 use Piwik\Common;
@@ -116,8 +117,10 @@ class Menu
 
         $pluginManager = PluginManager::getInstance();
 
-        if (!$pluginManager->isPluginLoaded($module) ||
-            !$pluginManager->isPluginActivated($module)) {
+        if (
+            !$pluginManager->isPluginLoaded($module) ||
+            !$pluginManager->isPluginActivated($module)
+        ) {
             return null;
         }
 

@@ -19,6 +19,7 @@
         "EnableRequiredDirectoriesDiagnostic": "Aquesta comprovació s'ha omès perquè aquesta comprovació està desactivada a la configuració. Per habilitar aquesta comprovació, establiu [General] enable_required_directories_diagnostic = 1 al fitxer \"config/config.ini.php\".",
         "HideUnchanged": "Si voleu veure només els valors canviats, podeu %1$samagar tots els valors sense canvis%2$s.",
         "HtaccessWarningNginx": "Per garantir que no es pot accedir directament als fitxers sensibles, es recomana configurar el servidor web per restringir l'accés a determinats directoris. Per obtenir més informació, consulteu %1$sla configuració oficial del servidor nginx%2$s",
+        "MariaDbNotConfigured": "La versió de la vostra base de dades indica que potser utilitzeu un servidor MariaDb. Si aquest és el cas, assegureu-vos d'establir <code>[database] schema = Mariadb</code> al fitxer \"config/config.ini.php\", per assegurar-vos que totes les funcions de la base de dades funcionin com s'esperava.",
         "MysqlMaxPacketSize": "Mida màxima del paquet",
         "MysqlMaxPacketSizeWarning": "Es recomana configurar una mida '%1$smax_allowed_packet%2$s' a la vostra base de dades MySQL d'almenys %3$s. La configuració actualment és %4$s.",
         "MysqlTemporaryTablesWarning": "És necessari el permís de MySQL CREATE TEMPORARY TABLES perquè el Matomo funcioni correctament.",

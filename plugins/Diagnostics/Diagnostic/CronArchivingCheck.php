@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\ArchiveProcessor\Rules;
@@ -75,8 +76,10 @@ class CronArchivingCheck implements Diagnostic
             $comment .= $this->translator->translate('Installation_NotSupported')
                 . ' ' . $this->translator->translate('Goals_Optional')
                 . ' (' . $this->translator->translate('General_Reasons') . ': ' . $reasonText . ')'
-                . $this->translator->translate('General_LearnMore',
-                    [' <a target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/how-to-make-the-diagnostic-managing-processes-via-cli-to-display-ok/') . '">', '</a>']);
+                . $this->translator->translate(
+                    'General_LearnMore',
+                    [' <a target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/how-to-make-the-diagnostic-managing-processes-via-cli-to-display-ok/') . '">', '</a>']
+                );
             $status = DiagnosticResult::STATUS_INFORMATIONAL;
         }
 

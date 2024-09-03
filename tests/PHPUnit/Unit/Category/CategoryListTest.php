@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Category;
@@ -28,19 +29,19 @@ class CategoryListTest extends \PHPUnit\Framework\TestCase
         $this->categoryList = new CategoryList();
     }
 
-    public function test_getCategories_IsEmptyByDefault()
+    public function testGetCategoriesIsEmptyByDefault()
     {
         $this->assertSame(array(), $this->categoryList->getCategories());
     }
 
-    public function test_addCategory_ShouldAddCategory_and_getCategories_shouldBeIndexedById()
+    public function testAddCategoryShouldAddCategoryAndGetCategoriesShouldBeIndexedById()
     {
         $category = $this->addCategory('myTest');
 
         $this->assertSame(array('myTest' => $category), $this->categoryList->getCategories());
     }
 
-    public function test_addCategory_shouldThrowException_IfAddingSameCategoryIdTwice()
+    public function testAddCategoryShouldThrowExceptionIfAddingSameCategoryIdTwice()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Category myTest already exists');
@@ -49,7 +50,7 @@ class CategoryListTest extends \PHPUnit\Framework\TestCase
         $this->addCategory('myTest');
     }
 
-    public function test_hasCategory_ShouldDetectIfCategoryExists()
+    public function testHasCategoryShouldDetectIfCategoryExists()
     {
         $this->assertFalse($this->categoryList->hasCategory('myTest'));
 
@@ -61,7 +62,7 @@ class CategoryListTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->categoryList->hasCategory('General_Visits'));
     }
 
-    public function test_getCategory_ShouldReturnExistingCategoryIfPossible()
+    public function testGetCategoryShouldReturnExistingCategoryIfPossible()
     {
         $this->assertNull($this->categoryList->getCategory('myTest'));
 

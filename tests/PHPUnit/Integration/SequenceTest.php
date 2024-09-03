@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -17,7 +18,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class SequenceTest extends IntegrationTestCase
 {
-    public function test_create_shouldAddNewSequenceWithInitialId1()
+    public function testCreateShouldAddNewSequenceWithInitialId1()
     {
         $sequence = $this->getEmptySequence();
 
@@ -29,7 +30,7 @@ class SequenceTest extends IntegrationTestCase
         $this->assertSame(0, $id);
     }
 
-    public function test_create_WithCustomInitialValue()
+    public function testCreateWithCustomInitialValue()
     {
         $sequence = $this->getEmptySequence();
 
@@ -41,7 +42,7 @@ class SequenceTest extends IntegrationTestCase
         $this->assertSame(11, $id);
     }
 
-    public function test_create_shouldFailIfSequenceAlreadyExists()
+    public function testCreateShouldFailIfSequenceAlreadyExists()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Duplicate entry');
@@ -51,7 +52,7 @@ class SequenceTest extends IntegrationTestCase
         $sequence->create();
     }
 
-    public function test_getNextId_shouldGenerateNextId()
+    public function testGetNextIdShouldGenerateNextId()
     {
         $sequence = $this->getExistingSequence();
 
@@ -60,7 +61,7 @@ class SequenceTest extends IntegrationTestCase
         $this->assertNextIdGenerated($sequence, 3);
     }
 
-    public function test_getNextId_shouldFailIfThereIsNoSequenceHavingThisName()
+    public function testGetNextIdShouldFailIfThereIsNoSequenceHavingThisName()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Sequence \'notCreatedSequence\' not found');
@@ -69,7 +70,7 @@ class SequenceTest extends IntegrationTestCase
         $sequence->getNextId();
     }
 
-    public function test_getCurrentId_shouldReturnTheCurrentIdAsInt()
+    public function testGetCurrentIdShouldReturnTheCurrentIdAsInt()
     {
         $sequence = $this->getExistingSequence();
 
@@ -77,20 +78,20 @@ class SequenceTest extends IntegrationTestCase
         $this->assertSame(0, $id);
     }
 
-    public function test_getCurrentId_shouldReturnNullIfSequenceDoesNotExist()
+    public function testGetCurrentIdShouldReturnNullIfSequenceDoesNotExist()
     {
         $sequence = $this->getEmptySequence();
         $id = $sequence->getCurrentId();
         $this->assertNull($id);
     }
 
-    public function test_exists_shouldReturnTrueIfSequenceExist()
+    public function testExistsShouldReturnTrueIfSequenceExist()
     {
         $sequence = $this->getExistingSequence();
         $this->assertTrue($sequence->exists());
     }
 
-    public function test_exists_shouldReturnFalseIfSequenceExist()
+    public function testExistsShouldReturnFalseIfSequenceExist()
     {
         $sequence = $this->getEmptySequence();
         $this->assertFalse($sequence->exists());

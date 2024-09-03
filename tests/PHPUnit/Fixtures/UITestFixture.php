@@ -3,8 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Fixtures;
@@ -52,7 +52,7 @@ use Piwik\CronArchive\SegmentArchiving;
  */
 class UITestFixture extends SqlDump
 {
-    const FIXTURE_LOCATION = '/tests/resources/OmniFixture-dump.sql';
+    public const FIXTURE_LOCATION = '/tests/resources/OmniFixture-dump.sql';
 
     /**
      * @var XssTesting
@@ -309,7 +309,16 @@ class UITestFixture extends SqlDump
             Filesystem::unlinkRecursive($realDir, true);
         }
 
-        $files = ['index.html', 'page-1.html', 'page-2.html', 'page-3.html', 'page-4.html', 'page-5.html', 'page-6.html'];
+        $files = [
+            'index.html',
+            'opt-out.php',
+            'page-1.html',
+            'page-2.html',
+            'page-3.html',
+            'page-4.html',
+            'page-5.html',
+            'page-6.html'
+        ];
 
         // copy templates to overlay-test-site-real
         mkdir($realDir);

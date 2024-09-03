@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreAdminHome\tests\Fixture;
 
 use Piwik\Common;
@@ -16,7 +18,7 @@ use Piwik\Tests\Framework\Fixture;
  */
 class DuplicateActions extends Fixture
 {
-    const DUMMY_IDVISITOR = 'c1d2a36653fd88e2';
+    public const DUMMY_IDVISITOR = 'c1d2a36653fd88e2';
 
     private static $dataToInsert = array(
         'log_action' => array(

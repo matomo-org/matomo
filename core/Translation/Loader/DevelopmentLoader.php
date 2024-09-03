@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Translation\Loader;
@@ -13,7 +14,7 @@ namespace Piwik\Translation\Loader;
  */
 class DevelopmentLoader implements LoaderInterface
 {
-    const LANGUAGE_ID = 'dev';
+    public const LANGUAGE_ID = 'dev';
 
     /**
      * Decorated loader.

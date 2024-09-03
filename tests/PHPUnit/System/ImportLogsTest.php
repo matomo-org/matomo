@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\System;
 
 use Piwik\Access;
@@ -88,7 +90,7 @@ class ImportLogsTest extends SystemTestCase
 
         // Running a few interesting tests for Log Replay use case
         $apiMethods = array();
-        if (getenv('MYSQL_ADAPTER') != 'MYSQLI') {
+        if (getenv('MYSQL_ADAPTER') != 'MYSQLI' && getenv('MYSQL_ENGINE') != 'Mariadb') {
             // Mysqli rounds latitude/longitude
             $apiMethods = array('Live.getLastVisitsDetails');
         }
@@ -126,7 +128,7 @@ class ImportLogsTest extends SystemTestCase
      *       If the log importer were refactored, the invalid requests test could be a unit test in
      *       python.
      */
-    public function test_LogImporter_CreatesSitesWhenDynamicResolverUsed_AndReportsOnInvalidRequests()
+    public function testLogImporterCreatesSitesWhenDynamicResolverUsedAndReportsOnInvalidRequests()
     {
         $this->simulateInvalidTrackerRequest();
 
@@ -150,7 +152,7 @@ class ImportLogsTest extends SystemTestCase
         self::assertStringContainsString("The following lines were not tracked by Matomo, either due to a malformed tracker request or error in the tracker:\n\n10, 11", $output);
     }
 
-    public function test_LogImporter_RetriesWhenServerFails()
+    public function testLogImporterRetriesWhenServerFails()
     {
         $this->simulateTrackerFailure();
 

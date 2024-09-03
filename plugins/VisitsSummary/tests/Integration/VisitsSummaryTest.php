@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\VisitsSummary\tests\Integration;
@@ -52,7 +53,7 @@ class VisitsSummaryTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_enrichProcessedReportIfVisitsSummaryGet_shouldNotRemoveUsers_IfSomeWereTracked()
+    public function testEnrichProcessedReportIfVisitsSummaryGetShouldNotRemoveUsersIfSomeWereTracked()
     {
         $this->trackPageviewsWithUsers();
 
@@ -61,7 +62,7 @@ class VisitsSummaryTest extends IntegrationTestCase
         $this->assertUsersNotRemovedFromProcessedReport($response, $expectedUsers = null, $minExpectedUsers = 1);
     }
 
-    public function test_enrichProcessedReportIfVisitsSummaryGet_shouldNotRemoveUsers_IfNoneWereTrackedThatDay_ButThatMonth()
+    public function testEnrichProcessedReportIfVisitsSummaryGetShouldNotRemoveUsersIfNoneWereTrackedThatDayButThatMonth()
     {
         $this->date = '2014-04-04';
         $this->trackPageviewsWithUsers();
@@ -74,7 +75,7 @@ class VisitsSummaryTest extends IntegrationTestCase
         $this->assertUsersNotRemovedFromProcessedReport($response, $expectedUsers = 0);
     }
 
-    public function test_isUsedInAtLeastOneSite_shouldRemoveUsers_IfNoneWereTracked()
+    public function testIsUsedInAtLeastOneSiteShouldRemoveUsersIfNoneWereTracked()
     {
         $this->trackPageviewsWithoutUsers();
 

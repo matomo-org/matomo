@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\UserCountry\ProfileSummary;
@@ -41,7 +41,8 @@ class LocationSummary extends ProfileSummaryAbstract
         $view              = new View('@UserCountry/_profileSummary.twig');
         $view->visitorData = $this->profile;
 
-        if (Common::getRequestVar('showMap', 1) == 1
+        if (
+            Common::getRequestVar('showMap', 1) == 1
             && !empty($view->visitorData['hasLatLong'])
             && \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('UserCountryMap')
         ) {

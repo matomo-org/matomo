@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugin;
 
 use Piwik\Cache;
@@ -58,7 +59,6 @@ class ReportsProvider
         // fallback eg fror API.getReportMetadata and API.getSegmentsMetadata
         $idSites = Common::getRequestVar('idSites', '', $type = null);
         if (!empty($idSites)) {
-
             $transientCache = Cache::getTransientCache();
             $transientCacheKey = 'ReportIdSitesParam';
             if ($transientCache->contains($transientCacheKey)) {
@@ -219,7 +219,6 @@ class ReportsProvider
 
         // in case there is a category class for both reports
         if (isset($catA) && isset($catB)) {
-
             if ($catA->getOrder() == $catB->getOrder()) {
                 // same category order, compare subcategory order
                 $subcatA = $catA->getSubcategory($subcatIdA);

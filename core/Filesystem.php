@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
@@ -150,7 +151,8 @@ class Filesystem
             @exec($command, $output, $returnCode);
 
             // check if filesystem is NFS
-            if ($returnCode == 0
+            if (
+                $returnCode == 0
                 && is_array($output) && count($output) > 1
                 && preg_match('/\bnfs\d?\b/', implode("\n", $output))
             ) {
@@ -164,9 +166,11 @@ class Filesystem
                 $commandFailed = (false !== strpos($output, "no file systems processed"));
                 $output = trim($output);
                 $outputArray = explode("\n", $output);
-                if (!$commandFailed
+                if (
+                    !$commandFailed
                     && count($outputArray) > 1
-                    && preg_match('/\bnfs\d?\b/', $output)) {
+                    && preg_match('/\bnfs\d?\b/', $output)
+                ) {
                     // check if filesystem is NFS
                     return true;
                 }
@@ -364,8 +368,10 @@ class Filesystem
 
         $path_parts = pathinfo($file);
 
-        if (!empty($path_parts['extension'])
-            && in_array($path_parts['extension'], $phpExtensions)) {
+        if (
+            !empty($path_parts['extension'])
+            && in_array($path_parts['extension'], $phpExtensions)
+        ) {
             return true;
         }
 

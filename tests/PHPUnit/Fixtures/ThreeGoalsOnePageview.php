@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
@@ -43,15 +45,27 @@ class ThreeGoalsOnePageview extends Fixture
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
             API::getInstance()->addGoal(
-                $this->idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false,
-                $revenue = 10, $allowMultipleConversions = 1
+                $this->idSite,
+                'Goal 1 - Thank you',
+                'title',
+                'Thank you',
+                'contains',
+                $caseSensitive = false,
+                $revenue = 10,
+                $allowMultipleConversions = 1
             );
         }
 
         if (!self::goalExists($idSite = 1, $idGoal = 2)) {
             API::getInstance()->addGoal(
-                $this->idSite, 'Goal 2 - Hello', 'url', 'hellow', 'contains', $caseSensitive = false,
-                $revenue = 10, $allowMultipleConversions = 0
+                $this->idSite,
+                'Goal 2 - Hello',
+                'url',
+                'hellow',
+                'contains',
+                $caseSensitive = false,
+                $revenue = 10,
+                $allowMultipleConversions = 0
             );
         }
 

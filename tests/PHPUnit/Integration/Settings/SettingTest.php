@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Settings\Plugin;
@@ -17,7 +18,6 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\Settings\FakeBackend;
 use Piwik\Validators\NotEmpty;
 use Piwik\Validators\NumberRange;
-
 
 /**
  * @group Settings
@@ -39,7 +39,7 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         $fixutre->destroyEnvironment();
     }
 
-    public function test_constructor_shouldThrowException_IfTheSettingNameIsNotValid()
+    public function testConstructorShouldThrowExceptionIfTheSettingNameIsNotValid()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('setting name "myname-" in plugin "MyPluginName" is invalid');
@@ -47,7 +47,7 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         $this->makeSetting('myname-');
     }
 
-    public function test_configureField_shouldAssignDefaultField_IfTypeIsGivenButNoField()
+    public function testConfigureFieldShouldAssignDefaultFieldIfTypeIsGivenButNoField()
     {
         $setting = $this->makeSetting('myname', FieldConfig::TYPE_ARRAY);
         $field = $setting->configureField();
@@ -58,7 +58,7 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(FieldConfig::UI_CONTROL_CHECKBOX, $field->uiControl);
     }
 
-    public function test_configureField_ShouldCheckThatTypeMakesActuallySenseForConfiguredUiControl()
+    public function testConfigureFieldShouldCheckThatTypeMakesActuallySenseForConfiguredUiControl()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Type must be an array when using a multi select');
@@ -69,7 +69,7 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         $setting->configureField();
     }
 
-    public function test_configureField_ChecksTheGivenTypeIsKnown()
+    public function testConfigureFieldChecksTheGivenTypeIsKnown()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Type does not exist');
@@ -78,7 +78,7 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         $setting->configureField();
     }
 
-    public function test_setValue_shouldValidateAutomatically_IfFieldOptionsAreGiven()
+    public function testSetValueShouldValidateAutomaticallyIfFieldOptionsAreGiven()
     {
         $setting = $this->makeSetting('myname', null, $default = '', function (FieldConfig $field) {
             $field->availableValues = array('allowedval' => 'DisplayName', 'allowedval2' => 'Name 2');
@@ -98,7 +98,7 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         $this->fail('An expected exception has not been thrown');
     }
 
-    public function test_setValue_shouldApplyValidationAndFail_IfOptionsAreSetAndValueIsAnArray()
+    public function testSetValueShouldApplyValidationAndFailIfOptionsAreSetAndValueIsAnArray()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CoreAdminHome_PluginSettingsValueNotAllowed');
@@ -111,7 +111,7 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         $setting->setValue(array('allowed', 'notallowed'));
     }
 
-    public function test_setSettingValue_shouldApplyValidationAndSucceed_IfOptionsAreSet()
+    public function testSetSettingValueShouldApplyValidationAndSucceedIfOptionsAreSet()
     {
         $setting = $this->makeSetting('myname', FieldConfig::TYPE_ARRAY, $default = '', function (FieldConfig $field) {
             $field->availableValues = array('allowedval' => 'DisplayName', 'allowedval2' => 'Name 2');
@@ -128,7 +128,7 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($setting->getValue(), 'allowedval');
     }
 
-    public function test_setValue_shouldValidateAutomatically_IfTypeBoolIsUsed()
+    public function testSetValueShouldValidateAutomaticallyIfTypeBoolIsUsed()
     {
         $setting = $this->makeSetting('myname', FieldConfig::TYPE_BOOL);
 
@@ -153,7 +153,7 @@ class SettingTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getNumericTypes
      */
-    public function test_setValue_shouldValidateAutomatically_IfTypeIsNumeric($type)
+    public function testSetValueShouldValidateAutomaticallyIfTypeIsNumeric($type)
     {
         $setting = $this->makeSetting('myname', $type);
 
@@ -174,7 +174,7 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         $this->fail('An expected exception has not been thrown');
     }
 
-    public function test_setValue_shouldExecuteValidators()
+    public function testSetValueShouldExecuteValidators()
     {
         $setting = $this->makeSetting('myname');
         $config = $setting->configureField();
@@ -212,14 +212,14 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         return array(array(FieldConfig::TYPE_INT), array(FieldConfig::TYPE_FLOAT));
     }
 
-    public function test_isWritableByCurrentUser_shouldNotBeWritableByDefault()
+    public function testIsWritableByCurrentUserShouldNotBeWritableByDefault()
     {
         $setting = new Setting($name = 'test', $default = 0, $type = FieldConfig::TYPE_INT, function () {
         });
         $this->assertFalse($setting->isWritableByCurrentUser());
     }
 
-    public function test_setIsWritableByCurrentUser()
+    public function testSetIsWritableByCurrentUser()
     {
         $setting = $this->makeSetting('myName');
         $this->assertTrue($setting->isWritableByCurrentUser());
@@ -234,20 +234,20 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($setting->isWritableByCurrentUser());
     }
 
-    public function test_setDefaultValue_getDefaultValue()
+    public function testSetDefaultValueGetDefaultValue()
     {
         $setting = $this->makeSetting('myname');
         $setting->setDefaultValue(5);
         $this->assertSame(5, $setting->getDefaultValue());
     }
 
-    public function test_getType()
+    public function testGetType()
     {
         $setting = $this->makeSetting('myname', FieldConfig::TYPE_ARRAY);
         $this->assertSame(FieldConfig::TYPE_ARRAY, $setting->getType());
     }
 
-    public function test_getName()
+    public function testGetName()
     {
         $setting = $this->makeSetting('myName');
         $this->assertSame('myName', $setting->getName());
@@ -270,7 +270,7 @@ class SettingTest extends \PHPUnit\Framework\TestCase
         return $setting;
     }
 
-    public function test_save_shouldPersistValue()
+    public function testSaveShouldPersistValue()
     {
         $value = array(2,3,4);
 

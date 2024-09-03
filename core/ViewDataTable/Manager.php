@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\ViewDataTable;
 
 use Piwik\Cache;
@@ -131,8 +132,10 @@ class Manager
         $result = array();
 
         foreach (static::getAvailableViewDataTables() as $vizId => $vizClass) {
-            if (false === strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations')
-                && false === strpos($vizClass, 'Piwik\\Plugins\\Goals\\Visualizations\\Goals')) {
+            if (
+                false === strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations')
+                && false === strpos($vizClass, 'Piwik\\Plugins\\Goals\\Visualizations\\Goals')
+            ) {
                 $result[$vizId] = $vizClass;
             }
         }
@@ -196,7 +199,8 @@ class Manager
 
         $graphViewIcons['buttons'] = array_filter($graphViewIcons['buttons']);
 
-        if (!empty($insightsViewIcons['buttons'])
+        if (
+            !empty($insightsViewIcons['buttons'])
             && $view->config->show_insights
         ) {
             $result[] = $insightsViewIcons;
@@ -284,9 +288,11 @@ class Manager
         self::unsetComparisonParams($params);
 
         foreach ($parametersToOverride as $key => $value) {
-            if ($key === 'viewDataTable'
+            if (
+                $key === 'viewDataTable'
                 && !empty($params[$key])
-                && $params[$key] !== $value) {
+                && $params[$key] !== $value
+            ) {
                 if (!empty($params['columns'])) {
                     unset($params['columns']);
                 }
@@ -332,8 +338,8 @@ class Manager
         $viewDataTable = self::makeTemporaryViewDataTableInstance($controllerAction, $params);
         $nonOverridableParams = $viewDataTable->getNonOverridableParams($params);
 
-        foreach($params as $key => $value) {
-            if(in_array($key, $nonOverridableParams)) {
+        foreach ($params as $key => $value) {
+            if (in_array($key, $nonOverridableParams)) {
                 unset($params[$key]);
             }
         }

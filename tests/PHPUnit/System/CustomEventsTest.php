@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\System;
 
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -140,7 +142,7 @@ class CustomEventsTest extends SystemTestCase
 
         // Test secondary dimensions
         $secondaryDimensions = array('eventCategory', 'eventAction', 'eventName');
-        foreach($secondaryDimensions as $secondaryDimension) {
+        foreach ($secondaryDimensions as $secondaryDimension) {
             $result[] = array(array('Events'), array(
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,

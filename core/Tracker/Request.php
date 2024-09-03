@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tracker;
 
 use Exception;
@@ -56,7 +57,7 @@ class Request
      */
     private $requestMetadata = array();
 
-    const UNKNOWN_RESOLUTION = 'unknown';
+    public const UNKNOWN_RESOLUTION = 'unknown';
 
     private $customTimestampDoesNotRequireTokenauthWhenNewerThan;
 
@@ -79,7 +80,8 @@ class Request
         // When the 'url' and referrer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
         // The URL can default to the Referrer, which will be in this case
         // the URL of the page containing the Simple Image beacon
-        if (empty($this->params['urlref'])
+        if (
+            empty($this->params['urlref'])
             && empty($this->params['url'])
             && array_key_exists('HTTP_REFERER', $_SERVER)
         ) {
@@ -92,8 +94,10 @@ class Request
         // check for 4byte utf8 characters in all tracking params and replace them with � if not support by database
         $this->params = $this->replaceUnsupportedUtf8Chars($this->params);
 
-        $this->customTimestampDoesNotRequireTokenauthWhenNewerThan = (int) TrackerConfig::getConfigValue('tracking_requests_require_authentication_when_custom_timestamp_newer_than',
-            $this->getIdSiteIfExists());
+        $this->customTimestampDoesNotRequireTokenauthWhenNewerThan = (int) TrackerConfig::getConfigValue(
+            'tracking_requests_require_authentication_when_custom_timestamp_newer_than',
+            $this->getIdSiteIfExists()
+        );
     }
 
     protected function replaceUnsupportedUtf8Chars($value, $key = false)
@@ -209,8 +213,10 @@ class Request
             $tokenAuthHashed = $userModel->hashTokenAuth($tokenAuth);
             $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuthHashed, $idSite);
 
-            if (array_key_exists('tracking_token_auth', $website)
-                && in_array($hashedToken, $website['tracking_token_auth'], true)) {
+            if (
+                array_key_exists('tracking_token_auth', $website)
+                && in_array($hashedToken, $website['tracking_token_auth'], true)
+            ) {
                 return true;
             }
         }
@@ -312,7 +318,8 @@ class Request
      */
     public function getBrowserLanguage()
     {
-        return Common::getRequestVar('lang', Common::getBrowserLanguage(), 'string', $this->params);
+        $parameterValue = Common::getRequestVar('lang', '', 'string', $this->params);
+        return Common::getBrowserLanguage($parameterValue ?: null);
     }
 
     /**
@@ -325,13 +332,13 @@ class Request
             'i' => (string)Common::getRequestVar('m', $this->getCurrentDate("i"), 'int', $this->params),
             's' => (string)Common::getRequestVar('s', $this->getCurrentDate("s"), 'int', $this->params)
         );
-        if($localTimes['h'] < 0 || $localTimes['h'] > 23) {
+        if ($localTimes['h'] < 0 || $localTimes['h'] > 23) {
             $localTimes['h'] = 0;
         }
-        if($localTimes['i'] < 0 || $localTimes['i'] > 59) {
+        if ($localTimes['i'] < 0 || $localTimes['i'] > 59) {
             $localTimes['i'] = 0;
         }
-        if($localTimes['s'] < 0 || $localTimes['s'] > 59) {
+        if ($localTimes['s'] < 0 || $localTimes['s'] > 59) {
             $localTimes['s'] = 0;
         }
         foreach ($localTimes as $k => $time) {
@@ -654,7 +661,8 @@ class Request
     {
         $cookie = $this->makeThirdPartyCookieUID();
         $idVisitor = $cookie->get(0);
-        if ($idVisitor !== false
+        if (
+            $idVisitor !== false
             && strlen($idVisitor) == Tracker::LENGTH_HEX_ID_STRING
         ) {
             return $idVisitor;
@@ -693,7 +701,8 @@ class Request
         $cookie = new Cookie(
             $this->getCookieName(),
             $this->getCookieExpire(),
-            $this->getCookiePath());
+            $this->getCookiePath()
+        );
 
         $domain = $this->getCookieDomain();
         if (!empty($domain)) {
@@ -803,7 +812,7 @@ class Request
             $useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
             if ($useThirdPartyCookie) {
                 $idVisitor = $this->getThirdPartyCookieVisitorId();
-                if(!empty($idVisitor)) {
+                if (!empty($idVisitor)) {
                     $found = true;
                 }
             }

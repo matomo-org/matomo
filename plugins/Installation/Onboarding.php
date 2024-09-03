@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Installation;
 
 use Piwik\Mail;
@@ -15,7 +16,7 @@ use Piwik\Url;
 
 class Onboarding
 {
-    const OPTION_NAME_INSTALL_MAIL = 'install_mail_sent';
+    public const OPTION_NAME_INSTALL_MAIL = 'install_mail_sent';
 
     public static function sendSysAdminMail($email)
     {

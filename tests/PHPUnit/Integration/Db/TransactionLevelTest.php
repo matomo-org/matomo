@@ -1,14 +1,16 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Db;
 
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Db\TransactionLevel;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -36,12 +38,12 @@ class TransactionLevelTest extends IntegrationTestCase
         $this->level = new TransactionLevel($this->db);
     }
 
-    public function test_canLikelySetTransactionLevel()
+    public function testCanLikelySetTransactionLevel()
     {
         $this->assertTrue($this->level->canLikelySetTransactionLevel());
     }
 
-    public function test_setUncommitted_restorePreviousStatus()
+    public function testSetTransactionLevelForNonLockingReadsRestorePreviousStatus()
     {
         // mysql 8.0 using transaction_isolation
         $isolation = $this->db->fetchOne("SHOW GLOBAL VARIABLES LIKE 't%_isolation'");
@@ -50,10 +52,11 @@ class TransactionLevelTest extends IntegrationTestCase
         $value = $this->db->fetchOne('SELECT ' . $isolation);
         $this->assertSame('REPEATABLE-READ', $value);
 
-        $this->level->setUncommitted();
+        $this->level->setTransactionLevelForNonLockingReads();
         $value = $this->db->fetchOne('SELECT ' . $isolation);
 
-        $this->assertSame('READ-UNCOMMITTED', $value);
+        $expectedIsolation = str_replace(' ', '-', Schema::getInstance()->getSupportedReadIsolationTransactionLevel());
+        $this->assertSame($expectedIsolation, $value);
         $this->level->restorePreviousStatus();
 
         $value = $this->db->fetchOne('SELECT ' . $isolation);

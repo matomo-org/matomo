@@ -17,10 +17,10 @@
         {% endif %}
     </div>
     <div class="promo-actions">
-        <a class="btn" target="_blank" rel="noreferrer noopener" href="{{ plugin.shop.url|default('')|e('html_attr') }}">
+        <a class="btn" href="?module=Marketplace&action=overview#?showPlugin={{ plugin.name }}">
             {{ 'ProfessionalServices_CTAStartFreeTrial'|translate }}
         </a>
-        <a class="learn-more" href="#" vue-directive="CorePluginsAdmin.PluginName" vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" aria-label="{{ 'ProfessionalServices_CTALearnMore'|translate(plugin.displayName) }}">
+        <a class="learn-more" href="?module=Marketplace&action=overview#?showPlugin={{ plugin.name }}" aria-label="{{ 'ProfessionalServices_CTALearnMore'|translate(plugin.displayName) }}">
             {{ 'CoreAdminHome_LearnMore'|translate }}
         </a>
     </div>

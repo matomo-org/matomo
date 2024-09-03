@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\PrivacyManager\tests;
@@ -30,7 +31,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->config = new PrivacyManagerConfig();
     }
 
-    public function test_useAnonymizedIpForVisitEnrichment()
+    public function testUseAnonymizedIpForVisitEnrichment()
     {
         $this->assertFalse($this->config->useAnonymizedIpForVisitEnrichment);
 
@@ -43,7 +44,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->assertFalse($this->config->useAnonymizedIpForVisitEnrichment);
     }
 
-    public function test_doNotTrackEnabled()
+    public function testDoNotTrackEnabled()
     {
         $this->assertFalse($this->config->doNotTrackEnabled);
 
@@ -56,7 +57,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->assertFalse($this->config->doNotTrackEnabled);
     }
 
-    public function test_ipAnonymizerEnabled()
+    public function testIpAnonymizerEnabled()
     {
         $this->assertTrue($this->config->ipAnonymizerEnabled);
 
@@ -65,7 +66,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->assertFalse($this->config->ipAnonymizerEnabled);
     }
 
-    public function test_ipAddressMaskLength()
+    public function testIpAddressMaskLength()
     {
         $this->assertSame(2, $this->config->ipAddressMaskLength);
 
@@ -74,7 +75,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->assertSame(19, $this->config->ipAddressMaskLength);
     }
 
-    public function test_anonymizeOrderId()
+    public function testAnonymizeOrderId()
     {
         $this->assertFalse($this->config->anonymizeOrderId);
 
@@ -83,7 +84,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->assertTrue($this->config->anonymizeOrderId);
     }
 
-    public function test_anonymizeUserId()
+    public function testAnonymizeUserId()
     {
         $this->assertFalse($this->config->anonymizeUserId);
 
@@ -92,7 +93,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->assertTrue($this->config->anonymizeUserId);
     }
 
-    public function test_anonymizeReferrer()
+    public function testAnonymizeReferrer()
     {
         $this->assertSame('', $this->config->anonymizeReferrer);
 
@@ -101,7 +102,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->assertSame(ReferrerAnonymizer::EXCLUDE_PATH, $this->config->anonymizeReferrer);
     }
 
-    public function test_setTrackerCacheContent()
+    public function testSetTrackerCacheContent()
     {
         $content = $this->config->setTrackerCacheGeneral(array('existingEntry' => 'test'));
 
@@ -120,7 +121,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->assertEquals($expected, $content);
     }
 
-    public function test_setTrackerCacheContent_ShouldGetValuesFromConfig()
+    public function testSetTrackerCacheContentShouldGetValuesFromConfig()
     {
         Option::set('PrivacyManager.ipAddressMaskLength', '232');
 

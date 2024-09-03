@@ -3,8 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreAdminHome\Commands;
@@ -27,7 +27,7 @@ use Piwik\Log\LoggerInterface;
  */
 class InvalidateReportData extends ConsoleCommand
 {
-    const ALL_OPTION_VALUE = 'all';
+    public const ALL_OPTION_VALUE = 'all';
 
     /**
      * @var null|array<Segment>
@@ -38,32 +38,54 @@ class InvalidateReportData extends ConsoleCommand
     {
         $this->setName('core:invalidate-report-data');
         $this->setDescription('Invalidate archived report data by date range, site and period.');
-        $this->addRequiredValueOption('dates', null,
-            'List of dates or date ranges to invalidate report data for, eg, 2015-01-03 or 2015-01-05,2015-02-12.', null, true);
-        $this->addRequiredValueOption('sites', null,
+        $this->addRequiredValueOption(
+            'dates',
+            null,
+            'List of dates or date ranges to invalidate report data for, eg, 2015-01-03 or 2015-01-05,2015-02-12.',
+            null,
+            true
+        );
+        $this->addRequiredValueOption(
+            'sites',
+            null,
             'List of site IDs to invalidate report data for, eg, "1,2,3,4" or "all" for all sites.',
-            self::ALL_OPTION_VALUE);
-        $this->addRequiredValueOption('periods', null,
+            self::ALL_OPTION_VALUE
+        );
+        $this->addRequiredValueOption(
+            'periods',
+            null,
             'List of period types to invalidate report data for. Can be one or more of the following values: day, '
             . 'week, month, year or "all" for all of them.',
-            self::ALL_OPTION_VALUE);
-        $this->addRequiredValueOption('segment', null,
+            self::ALL_OPTION_VALUE
+        );
+        $this->addRequiredValueOption(
+            'segment',
+            null,
             'List of segments to invalidate report data for. This can be the segment string itself, the segment name from the UI or the ID of the segment.'
-            . ' If specifying the segment definition, make sure it is encoded properly (it should be the same as the segment parameter in the URL.', null, true);
-        $this->addNoValueOption('cascade', null,
+            . ' If specifying the segment definition, make sure it is encoded properly (it should be the same as the segment parameter in the URL.',
+            null,
+            true
+        );
+        $this->addNoValueOption(
+            'cascade',
+            null,
             'If supplied, invalidation will cascade, invalidating child period types even if they aren\'t specified in'
             . ' --periods. For example, if --periods=week, --cascade will cause the days within those weeks to be '
             . 'invalidated as well. If --periods=month, then weeks and days will be invalidated. Note: if a period '
             . 'falls partly outside of a date range, then --cascade will also invalidate data for child periods '
             . 'outside the date range. For example, if --dates=2015-09-14,2015-09-15 & --periods=week, --cascade will'
-            . ' also invalidate all days within 2015-09-13,2015-09-19, even those outside the date range.');
+            . ' also invalidate all days within 2015-09-13,2015-09-19, even those outside the date range.'
+        );
         $this->addNoValueOption('dry-run', null, 'For tests. Runs the command w/o actually '
             . 'invalidating anything.');
         $this->addRequiredValueOption('plugin', null, 'To invalidate data for a specific plugin only.');
-        $this->addNoValueOption('ignore-log-deletion-limit', null,
+        $this->addNoValueOption(
+            'ignore-log-deletion-limit',
+            null,
             'Ignore the log purging limit when invalidating archives. If a date is older than the log purging threshold (which means '
             . 'there should be no log data for it), we normally skip invalidating it in order to prevent losing any report data. In some cases, '
-            . 'however it is useful, if, for example, your site was imported from Google, and there is never any log data.');
+            . 'however it is useful, if, for example, your site was imported from Google, and there is never any log data.'
+        );
         $this->setHelp('Invalidate archived report data by date range, site and period. Invalidated archive data will '
             . 'be re-archived during the next core:archive run. If your log data has changed for some reason, this '
             . 'command can be used to make sure reports are generated using the new, changed log data.');
@@ -109,8 +131,16 @@ class InvalidateReportData extends ConsoleCommand
                         }
                         $logger->info($message);
                     } else {
-                        $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType, $segment, $cascade,
-                            false, $plugin, $ignoreLogDeletionLimit);
+                        $invalidationResult = $invalidator->markArchivesAsInvalidated(
+                            $sites,
+                            $dates,
+                            $periodType,
+                            $segment,
+                            $cascade,
+                            false,
+                            $plugin,
+                            $ignoreLogDeletionLimit
+                        );
 
                         if ($output->getVerbosity() > $output::VERBOSITY_NORMAL) {
                             foreach ($invalidationResult->makeOutputLogs() as $outputLog) {
@@ -127,8 +157,10 @@ class InvalidateReportData extends ConsoleCommand
         if ($isUsingAllOption || in_array('range', $periodTypes)) {
             $rangeDates = array();
             foreach ($dateRanges as $dateRange) {
-                if ($isUsingAllOption
-                    && !Period::isMultiplePeriod($dateRange, 'day')) {
+                if (
+                    $isUsingAllOption
+                    && !Period::isMultiplePeriod($dateRange, 'day')
+                ) {
                     continue; // not a range, nothing to do... only when "all" option is used
                 }
 
@@ -213,7 +245,6 @@ class InvalidateReportData extends ConsoleCommand
         }
 
         try {
-
             $period = PeriodFactory::build($periodType, $dateRange);
         } catch (\Exception $ex) {
             throw new \InvalidArgumentException("Invalid date or date range specifier '$dateRange'", $code = 0, $ex);
@@ -273,7 +304,8 @@ class InvalidateReportData extends ConsoleCommand
         $allSegments = $this->getAllSegments($idSites);
 
         foreach ($allSegments as $segment) {
-            if (!empty($segment['enable_only_idsite'])
+            if (
+                !empty($segment['enable_only_idsite'])
                 && !in_array($segment['enable_only_idsite'], $idSites)
             ) {
                 continue;
@@ -289,7 +321,8 @@ class InvalidateReportData extends ConsoleCommand
                 return $segment['definition'];
             }
 
-            if ($segment['definition'] == $segmentOptionValue
+            if (
+                $segment['definition'] == $segmentOptionValue
                 || $segment['definition'] == urldecode($segmentOptionValue)
             ) {
                 $logger->debug("Matching '{value}' by definition with segment {segment}.", ['value' => $segmentOptionValue, 'segment' => json_encode($segment)]);

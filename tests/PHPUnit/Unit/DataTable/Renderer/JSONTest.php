@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\DataTable\Renderer;
@@ -32,7 +33,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
      * - datatableSimple
      * - normal datatable  with 2 row (including columns and metadata)
      */
-    protected function _getDataTableTest()
+    protected function getDataTableTest()
     {
         $dataTable = new DataTable();
 
@@ -56,7 +57,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         return $dataTable;
     }
 
-    protected function _getDataTableSimpleTest()
+    protected function getDataTableSimpleTest()
     {
         $array = array('max_actions' => 14.0, 'nb_uniq_visitors' => 57.0, 'nb_visits' => 66.0, 'nb_actions' => 151.0, 'sum_visit_length' => 5118.0, 'bounce_count' => 44.0,);
 
@@ -65,7 +66,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableSimpleOneRowTest()
+    protected function getDataTableSimpleOneRowTest()
     {
         $array = array('nb_visits' => 14.0);
 
@@ -74,13 +75,13 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableEmpty()
+    protected function getDataTableEmpty()
     {
         $table = new DataTable();
         return $table;
     }
 
-    protected function _getDataTableSimpleOneZeroRowTest()
+    protected function getDataTableSimpleOneZeroRowTest()
     {
         $array = array('nb_visits' => 0);
         $table = new Simple();
@@ -88,7 +89,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableSimpleOneFalseRowTest()
+    protected function getDataTableSimpleOneFalseRowTest()
     {
         $array = array('is_excluded' => false);
         $table = new Simple();
@@ -99,7 +100,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 
     public function testJSONTest1()
     {
-        $dataTable = $this->_getDataTableTest();
+        $dataTable = $this->getDataTableTest();
         $render = new Json();
         $render->setTable($dataTable);
         $render->setRenderSubTables(true);
@@ -112,7 +113,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 
     public function testJSONTest2()
     {
-        $dataTable = $this->_getDataTableSimpleTest();
+        $dataTable = $this->getDataTableSimpleTest();
         $render = new Json();
         $render->setTable($dataTable);
         $expected = '{"max_actions":14,"nb_uniq_visitors":57,"nb_visits":66,"nb_actions":151,"sum_visit_length":5118,"bounce_count":44}';
@@ -123,7 +124,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 
     public function testJSONTest3()
     {
-        $dataTable = $this->_getDataTableSimpleOneRowTest();
+        $dataTable = $this->getDataTableSimpleOneRowTest();
         $render = new Json();
         $render->setTable($dataTable);
         $expected = '{"value":14}';
@@ -133,7 +134,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 
     public function testJSONTest4()
     {
-        $dataTable = $this->_getDataTableEmpty();
+        $dataTable = $this->getDataTableEmpty();
         $render = new Json();
         $render->setTable($dataTable);
         $expected = '[]';
@@ -143,7 +144,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 
     public function testJSONTest5()
     {
-        $dataTable = $this->_getDataTableSimpleOneZeroRowTest();
+        $dataTable = $this->getDataTableSimpleOneZeroRowTest();
         $render = new Json();
         $render->setTable($dataTable);
         $expected = '{"value":0}';
@@ -153,7 +154,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 
     public function testJSONTest6()
     {
-        $dataTable = $this->_getDataTableSimpleOneFalseRowTest();
+        $dataTable = $this->getDataTableSimpleOneFalseRowTest();
         $render = new Json();
         $render->setTable($dataTable);
         $expected = '{"value":false}';
@@ -165,7 +166,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
      * -------------------------
      */
 
-    protected function _getDataTableMapTest()
+    protected function getDataTableMapTest()
     {
         $array1 = array(
             array(Row::COLUMNS  => array('label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11,),
@@ -200,7 +201,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableSimpleMapTest()
+    protected function getDataTableSimpleMapTest()
     {
         $array1 = array('max_actions' => 14.0, 'nb_uniq_visitors' => 57.0,);
         $table1 = new Simple();
@@ -221,7 +222,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableSimpleOneRowMapTest()
+    protected function getDataTableSimpleOneRowMapTest()
     {
         $array1 = array('nb_visits' => 14.0);
         $table1 = new Simple();
@@ -241,34 +242,34 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
-    protected function _getDataTableMap_containsDataTableMap_normal()
+    protected function getDataTableMapContainsDataTableMapNormal()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableMapTest(), 'idSite');
+        $table->addTable($this->getDataTableMapTest(), 'idSite');
         return $table;
     }
 
-    protected function _getDataTableMap_containsDataTableMap_simple()
+    protected function getDataTableMapContainsDataTableMapSimple()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableSimpleMapTest(), 'idSite');
+        $table->addTable($this->getDataTableSimpleMapTest(), 'idSite');
         return $table;
     }
 
-    protected function _getDataTableMap_containsDataTableMap_simpleOneRow()
+    protected function getDataTableMapContainsDataTableMapSimpleOneRow()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableSimpleOneRowMapTest(), 'idSite');
+        $table->addTable($this->getDataTableSimpleOneRowMapTest(), 'idSite');
         return $table;
     }
 
 
     public function testJSONArrayTest1()
     {
-        $dataTable = $this->_getDataTableMapTest();
+        $dataTable = $this->getDataTableMapTest();
         $render = new Json();
         $render->setTable($dataTable);
         $rendered = $render->render();
@@ -280,7 +281,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 
     public function testJSONMapTest2()
     {
-        $dataTable = $this->_getDataTableSimpleMapTest();
+        $dataTable = $this->getDataTableSimpleMapTest();
         $render = new Json();
         $render->setTable($dataTable);
         $rendered = $render->render();
@@ -293,7 +294,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 
     public function testJSONMapTest3()
     {
-        $dataTable = $this->_getDataTableSimpleOneRowMapTest();
+        $dataTable = $this->getDataTableSimpleOneRowMapTest();
         $render = new Json();
         $render->setTable($dataTable);
         $rendered = $render->render();
@@ -305,7 +306,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 
     public function testJSONMapIsMadeOfMapTest1()
     {
-        $dataTable = $this->_getDataTableMap_containsDataTableMap_normal();
+        $dataTable = $this->getDataTableMapContainsDataTableMapNormal();
         $render = new Json();
         $render->setTable($dataTable);
         $rendered = $render->render();
@@ -316,7 +317,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 
     public function testJSONMapIsMadeOfMapTest2()
     {
-        $dataTable = $this->_getDataTableMap_containsDataTableMap_simple();
+        $dataTable = $this->getDataTableMapContainsDataTableMapSimple();
         $render = new Json();
         $render->setTable($dataTable);
         $rendered = $render->render();
@@ -329,7 +330,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 
     public function testJSONMapIsMadeOfMapTest3()
     {
-        $dataTable = $this->_getDataTableMap_containsDataTableMap_simpleOneRow();
+        $dataTable = $this->getDataTableMapContainsDataTableMapSimpleOneRow();
         $render = new Json();
         $render->setTable($dataTable);
 
@@ -398,7 +399,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $render->render());
     }
 
-    public function test_render_withRowsWithDataTableMetadata()
+    public function testRenderWithRowsWithDataTableMetadata()
     {
         $dataTable = new DataTable();
 
@@ -424,7 +425,7 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_render_withRowsWithDataTableMetadataInSimpleTable()
+    public function testRenderWithRowsWithDataTableMetadataInSimpleTable()
     {
         $dataTable = new Simple();
 

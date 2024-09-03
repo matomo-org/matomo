@@ -1,12 +1,14 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreVisualizations\tests\Unit;
+
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config;
 
 /**
@@ -27,24 +29,24 @@ class SparklinesConfigTest extends \PHPUnit\Framework\TestCase
         $this->config = new Config();
     }
 
-    public function test_hasSparklineMetrics_shouldNotHaveSparklineMetrics_ByDefault()
+    public function testHasSparklineMetricsShouldNotHaveSparklineMetricsByDefault()
     {
         $this->assertFalse($this->config->hasSparklineMetrics());
     }
 
-    public function test_hasSparklineMetrics_shouldHaveSparklineMetrics_IfAtLeastOneWasAdded()
+    public function testHasSparklineMetricsShouldHaveSparklineMetricsIfAtLeastOneWasAdded()
     {
         $this->config->addSparklineMetric('nb_visits');
 
         $this->assertTrue($this->config->hasSparklineMetrics());
     }
 
-    public function test_getSparklineMetrics_shouldNotHaveSparklineMetrics_ByDefault()
+    public function testGetSparklineMetricsShouldNotHaveSparklineMetricsByDefault()
     {
         $this->assertSame(array(), $this->config->getSparklineMetrics());
     }
 
-    public function test_addSparklineMetric_getSparklineMetrics_shouldReturnAllAddedSparklineMetrics()
+    public function testAddSparklineMetricGetSparklineMetricsShouldReturnAllAddedSparklineMetrics()
     {
         $this->addFewSparklines();
 
@@ -55,7 +57,7 @@ class SparklinesConfigTest extends \PHPUnit\Framework\TestCase
         ), $this->config->getSparklineMetrics());
     }
 
-    public function test_removeSparklineMetric_shouldRemoveMetric_IfOnlySingleMetricIsGiven()
+    public function testRemoveSparklineMetricShouldRemoveMetricIfOnlySingleMetricIsGiven()
     {
         $this->addFewSparklines();
 
@@ -67,7 +69,7 @@ class SparklinesConfigTest extends \PHPUnit\Framework\TestCase
         ), $this->config->getSparklineMetrics());
     }
 
-    public function test_removeSparklineMetric_shouldRemoveMetric_IfMultipleMetricsAreGiven()
+    public function testRemoveSparklineMetricShouldRemoveMetricIfMultipleMetricsAreGiven()
     {
         $this->addFewSparklines();
 
@@ -79,7 +81,7 @@ class SparklinesConfigTest extends \PHPUnit\Framework\TestCase
         ), $this->config->getSparklineMetrics());
     }
 
-    public function test_replaceSparklineMetric_shouldBeAbleToReplaceColumns_IfSingleMetricIsGiven()
+    public function testReplaceSparklineMetricShouldBeAbleToReplaceColumnsIfSingleMetricIsGiven()
     {
         $this->addFewSparklines();
 
@@ -92,7 +94,7 @@ class SparklinesConfigTest extends \PHPUnit\Framework\TestCase
         ), $this->config->getSparklineMetrics());
     }
 
-    public function test_replaceSparklineMetric_shouldBeAbleToReplaceColumns_IfMultipleMetricsAreGiven()
+    public function testReplaceSparklineMetricShouldBeAbleToReplaceColumnsIfMultipleMetricsAreGiven()
     {
         $this->addFewSparklines();
 
@@ -105,7 +107,7 @@ class SparklinesConfigTest extends \PHPUnit\Framework\TestCase
         ), $this->config->getSparklineMetrics());
     }
 
-    public function test_addPlaceholder_getSortedSparklines()
+    public function testAddPlaceholderGetSortedSparklines()
     {
         $this->config->addPlaceholder();
         $this->config->addPlaceholder($order = 10);

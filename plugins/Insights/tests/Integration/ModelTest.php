@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Insights\tests\Integration;
@@ -38,7 +39,7 @@ class ModelTest extends SystemTestCase
         $this->model = StaticContainer::getContainer()->make('Piwik\Plugins\Insights\Model');
     }
 
-    public function test_requestReport_shouldReturnTheDataTableOfTheReport_AndContainReportTotals()
+    public function testRequestReportShouldReturnTheDataTableOfTheReportAndContainReportTotals()
     {
         $idSite = self::$fixture->idSite;
         $date   = self::$fixture->date1;
@@ -52,7 +53,7 @@ class ModelTest extends SystemTestCase
         $this->assertEquals(50, $totals[$metric]);
     }
 
-    public function test_getReportByUniqueId_shouldReturnReport()
+    public function testGetReportByUniqueIdShouldReturnReport()
     {
         $report = $this->model->getReportByUniqueId(self::$fixture->idSite, 'Actions_getPageUrls');
 
@@ -60,7 +61,7 @@ class ModelTest extends SystemTestCase
         $this->assertEquals('getPageUrls', $report['action']);
     }
 
-    public function test_getLastDate_shouldReturnTheLastDateDependingOnPeriod()
+    public function testGetLastDateShouldReturnTheLastDateDependingOnPeriod()
     {
         $date = $this->model->getLastDate('2012-12-12', 'day', 1);
         $this->assertEquals('2012-12-11', $date);
@@ -81,7 +82,7 @@ class ModelTest extends SystemTestCase
         $this->assertEquals('2012-11-01', $date);
     }
 
-    public function test_getLastDate_shouldReturnTheLastDateDependingOnComparedTo()
+    public function testGetLastDateShouldReturnTheLastDateDependingOnComparedTo()
     {
         $date = $this->model->getLastDate('2012-12-12', 'day', 1);
         $this->assertEquals('2012-12-11', $date);
@@ -93,7 +94,7 @@ class ModelTest extends SystemTestCase
         $this->assertEquals('2012-12-05', $date);
     }
 
-    public function test_getMetricTotalValue_shouldReturnTheTotalValueFromMetadata()
+    public function testGetMetricTotalValueShouldReturnTheTotalValueFromMetadata()
     {
         $table = $this->getTableWithTotal('17');
 
@@ -103,7 +104,7 @@ class ModelTest extends SystemTestCase
         self::assertIsInt($total);
     }
 
-    public function test_getMetricTotalValue_shouldReturnZeroIfMetricHasNoTotal()
+    public function testGetMetricTotalValueShouldReturnZeroIfMetricHasNoTotal()
     {
         $table = new DataTable();
         $table->setMetadata('totals', array('nb_visits' => '17'));
@@ -113,14 +114,14 @@ class ModelTest extends SystemTestCase
         $this->assertEquals(0, $total);
     }
 
-    public function test_getLastDate_shouldThrowExceptionIfNotPossibleToGetLastDate()
+    public function testGetLastDateShouldThrowExceptionIfNotPossibleToGetLastDate()
     {
         $this->expectException(\Exception::class);
 
         $this->model->getLastDate('last10', 'day', 1);
     }
 
-    public function test_getTotalValue_shouldCalculateTotals()
+    public function testGetTotalValueShouldCalculateTotals()
     {
         $total = $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date1, 'nb_visits', false);
         $this->assertEquals(50, $total);
@@ -129,33 +130,33 @@ class ModelTest extends SystemTestCase
         $this->assertEquals(59, $total);
     }
 
-    public function test_getTotalValue_shouldCalculateTotalsAndApplySegment()
+    public function testGetTotalValueShouldCalculateTotalsAndApplySegment()
     {
         $total = $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date1, 'nb_visits', 'resolution==1000x1001');
         $this->assertEquals(1, $total);
     }
 
-    public function test_getTotalValue_shouldReturnZero_IfColumnDoesNotExist()
+    public function testGetTotalValueShouldReturnZeroIfColumnDoesNotExist()
     {
         $total = $this->model->getTotalValue(self::$fixture->idSite, 'day', self::$fixture->date1, 'unknown_ColUmn', false);
         $this->assertEquals(0, $total);
     }
 
-    public function test_getRelevantTotalValue_shouldReturnTotalValue_IfMetricTotalIsHighEnough()
+    public function testGetRelevantTotalValueShouldReturnTotalValueIfMetricTotalIsHighEnough()
     {
         $table = $this->getTableWithTotal(25);
         $total = $this->model->getRelevantTotalValue($table, 'nb_visits', 50);
         $this->assertEquals(50, $total);
     }
 
-    public function test_getRelevantTotalValue_shouldReturnMetricTotal_IfMetricTotalIsHigherThanTotalValue()
+    public function testGetRelevantTotalValueShouldReturnMetricTotalIfMetricTotalIsHigherThanTotalValue()
     {
         $table = $this->getTableWithTotal(80);
         $total = $this->model->getRelevantTotalValue($table, 'nb_visits', 50);
         $this->assertEquals(80, $total);
     }
 
-    public function test_getRelevantTotalValue_shouldReturnMetricTotal_IfMetricTotalIsTooLow()
+    public function testGetRelevantTotalValueShouldReturnMetricTotalIfMetricTotalIsTooLow()
     {
         $table = $this->getTableWithTotal(24);
         $total = $this->model->getRelevantTotalValue($table, 'nb_visits', 50);

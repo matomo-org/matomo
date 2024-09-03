@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\TwoFactorAuth\tests\System;
@@ -56,7 +57,7 @@ class TwoFactorAuthTest extends SystemTestCase
         self::$fixture->loginAsSuperUser();
     }
 
-    public function test_onRequestDispatchEnd_notRequired()
+    public function testOnRequestDispatchEndNotRequired()
     {
         $this->settings->twoFactorAuthRequired->setValue(true);
         $html = '<html>' . Piwik::getCurrentUserTokenAuth() . '</html>';

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreHome;
 
 use Piwik\Metrics\Formatter;
@@ -95,7 +96,8 @@ class VisitorDetails extends VisitorDetailsAbstract
     protected function getVisitorReturningIcon()
     {
         $type = $this->getVisitorReturning();
-        if ($type == 'returning'
+        if (
+            $type == 'returning'
             || $type == 'returningCustomer'
         ) {
             return "plugins/Live/images/returningVisitor.png";
@@ -121,7 +123,8 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getUserId()
     {
-        if (isset($this->details['user_id'])
+        if (
+            isset($this->details['user_id'])
             && strlen($this->details['user_id']) > 0
         ) {
             return $this->details['user_id'];

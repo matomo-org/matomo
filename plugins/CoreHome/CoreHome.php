@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreHome;
 
 use Piwik\Access;
@@ -35,7 +36,7 @@ class CoreHome extends \Piwik\Plugin
      * where on the left side a link is shown for each widget and on the right side the selected widget.
      * @api
      */
-    const WIDGET_CONTAINER_LAYOUT_BY_DIMENSION = 'ByDimension';
+    public const WIDGET_CONTAINER_LAYOUT_BY_DIMENSION = 'ByDimension';
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -103,7 +104,8 @@ class CoreHome extends \Piwik\Plugin
         foreach ($metrics as $metric) {
             if ($metric instanceof ArchivedMetric && $metric->getDimension()) {
                 $metricName = $metric->getName();
-                if ($metric->getDbTableName() === 'log_visit'
+                if (
+                    $metric->getDbTableName() === 'log_visit'
                     && $metricName !== 'nb_uniq_visitors'
                     && $metricName !== 'nb_visits'
                     && strpos($metricName, ArchivedMetric::AGGREGATION_SUM_PREFIX) === 0
@@ -140,6 +142,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/notification.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/zen-mode.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/layout.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/matomo-loader.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Notification/Notification.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/QuickAccess/QuickAccess.less";
@@ -229,6 +232,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_AddTotalsRowDataTable';
         $translationKeys[] = 'CoreHome_RemoveTotalsRowDataTable';
         $translationKeys[] = 'CoreHome_PeriodHasOnlyRawData';
+        $translationKeys[] = 'CoreHome_PeriodHasOnlyRawDataNoVisitsLog';
         $translationKeys[] = 'SitesManager_NotFound';
         $translationKeys[] = 'Annotations_ViewAndAddAnnotations';
         $translationKeys[] = 'General_RowEvolutionRowActionTooltipTitle';
@@ -397,7 +401,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_CopiedToClipboard';
 
         // add admin menu translations
-        if (SettingsPiwik::isMatomoInstalled()
+        if (
+            SettingsPiwik::isMatomoInstalled()
             && Common::getRequestVar('module', '') != 'CoreUpdater'
             && Piwik::isUserHasSomeViewAccess()
         ) {

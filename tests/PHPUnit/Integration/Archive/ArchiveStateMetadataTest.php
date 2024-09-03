@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Archive;
@@ -73,10 +74,9 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
      *
      * @param array<string> $pluginsToInvalidate
      */
-    public function test_getDataTableFromNumeric_returnsArchiveStateInMetadata(
+    public function testGetDataTableFromNumericReturnsArchiveStateInMetadata(
         int $nowTimestamp,
         ?string $segment,
-        array $daysToRememberInvalidationsFor,
         ?array $pluginsToInvalidate,
         string $expectedInitialArchiveState,
         string $expectedFinalArchiveState
@@ -88,7 +88,7 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
         }
 
         $this->setUpInitialState($expectedInitialArchiveState);
-        $this->invalidateArchives($daysToRememberInvalidationsFor, $pluginsToInvalidate);
+        $this->invalidateArchives($pluginsToInvalidate);
         $this->disableArchiving();
 
         $dataTable = $this->getDataTable();
@@ -110,7 +110,6 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
         yield 'today, all ok' => [
             $timestampToday,
             null,
-            [],
             null,
             ArchiveState::INCOMPLETE,
             ArchiveState::INCOMPLETE
@@ -119,7 +118,6 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
         yield 'yesterday, all ok' => [
             $timestampTomorrow,
             null,
-            [],
             null,
             ArchiveState::COMPLETE,
             ArchiveState::COMPLETE
@@ -129,7 +127,6 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
             $timestampToday,
             null,
             [],
-            [],
             ArchiveState::INCOMPLETE,
             ArchiveState::INVALIDATED
         ];
@@ -138,24 +135,13 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
             $timestampTomorrow,
             null,
             [],
-            [],
             ArchiveState::COMPLETE,
             ArchiveState::INVALIDATED
-        ];
-
-        yield 'yesterday, invalidation remembered after archiving' => [
-            $timestampTomorrow,
-            null,
-            [date('Y-m-d', $timestampToday)],
-            null,
-            ArchiveState::COMPLETE,
-            ArchiveState::INCOMPLETE
         ];
 
         yield 'segmented, everything invalidated' => [
             $timestampTomorrow,
             'visitorType==new',
-            [],
             [],
             ArchiveState::COMPLETE,
             ArchiveState::INVALIDATED
@@ -164,7 +150,6 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
         yield 'segmented, partially invalidated' => [
             $timestampTomorrow,
             'visitorType==new',
-            [],
             ['Goals'],
             ArchiveState::COMPLETE,
             ArchiveState::INVALIDATED
@@ -190,18 +175,10 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
     }
 
     /**
-     * @param array<string> $daysToRememberInvalidationsFor
      * @param array<string>|null $plugins
      */
-    private function invalidateArchives(array $daysToRememberInvalidationsFor, ?array $plugins): void
+    private function invalidateArchives(?array $plugins): void
     {
-        foreach ($daysToRememberInvalidationsFor as $rememberedDay) {
-            $this->invalidator->rememberToInvalidateArchivedReportsLater(
-                $this->archiveSite,
-                Date::factory($rememberedDay)
-            );
-        }
-
         if (null === $plugins) {
             return;
         }
@@ -226,9 +203,6 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
 
     private function setUpInitialState(string $expectedInitialArchiveState): void
     {
-        // remove remembered invalidations created by tracking in setup
-        $this->invalidator->forgetRememberedArchivedReportsToInvalidateForSite($this->archiveSite);
-
         $dataTable = $this->getDataTable();
         $archiveState = $dataTable->getMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME);
 

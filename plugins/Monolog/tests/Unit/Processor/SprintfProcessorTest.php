@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
@@ -16,10 +17,7 @@ use Piwik\Plugins\Monolog\Processor\SprintfProcessor;
  */
 class SprintfProcessorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @test
-     */
-    public function it_should_replace_placeholders()
+    public function testItShouldReplacePlaceholders()
     {
         $result = $this->process(array(
             'message' => 'Test %s and %s.',
@@ -29,10 +27,7 @@ class SprintfProcessorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Test here and there.', $result['message']);
     }
 
-    /**
-     * @test
-     */
-    public function it_should_ignore_strings_without_placeholders()
+    public function testItShouldIgnoreStringsWithoutPlaceholders()
     {
         $result = $this->process(array(
             'message' => 'Hello world!',
@@ -42,10 +37,7 @@ class SprintfProcessorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Hello world!', $result['message']);
     }
 
-    /**
-     * @test
-     */
-    public function it_should_serialize_arrays()
+    public function testItShouldSerializeArrays()
     {
         $result = $this->process(array(
             'message' => 'Error in the following modules: %s',

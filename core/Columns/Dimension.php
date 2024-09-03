@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Columns;
 
 use Piwik\Common;
@@ -27,29 +28,29 @@ use Piwik\Segment\SegmentsList;
  */
 abstract class Dimension
 {
-    const COMPONENT_SUBNAMESPACE = 'Columns';
+    public const COMPONENT_SUBNAMESPACE = 'Columns';
 
     /**
      * Segment type 'dimension'. Can be used along with {@link setType()}.
      * @api
      */
-    const TYPE_DIMENSION = 'dimension';
-    const TYPE_BINARY = 'binary';
-    const TYPE_TEXT = 'text';
-    const TYPE_ENUM = 'enum';
-    const TYPE_MONEY = 'money';
-    const TYPE_BYTE = 'byte';
-    const TYPE_DURATION_MS = 'duration_ms';
-    const TYPE_DURATION_S = 'duration_s';
-    const TYPE_NUMBER = 'number';
-    const TYPE_FLOAT = 'float';
-    const TYPE_URL = 'url';
-    const TYPE_DATE = 'date';
-    const TYPE_TIME = 'time';
-    const TYPE_DATETIME = 'datetime';
-    const TYPE_TIMESTAMP = 'timestamp';
-    const TYPE_BOOL = 'bool';
-    const TYPE_PERCENT = 'percent';
+    public const TYPE_DIMENSION = 'dimension';
+    public const TYPE_BINARY = 'binary';
+    public const TYPE_TEXT = 'text';
+    public const TYPE_ENUM = 'enum';
+    public const TYPE_MONEY = 'money';
+    public const TYPE_BYTE = 'byte';
+    public const TYPE_DURATION_MS = 'duration_ms';
+    public const TYPE_DURATION_S = 'duration_s';
+    public const TYPE_NUMBER = 'number';
+    public const TYPE_FLOAT = 'float';
+    public const TYPE_URL = 'url';
+    public const TYPE_DATE = 'date';
+    public const TYPE_TIME = 'time';
+    public const TYPE_DATETIME = 'datetime';
+    public const TYPE_TIMESTAMP = 'timestamp';
+    public const TYPE_BOOL = 'bool';
+    public const TYPE_PERCENT = 'percent';
 
     /**
      * This will be the name of the column in the database table if a $columnType is specified.
@@ -486,9 +487,11 @@ abstract class Dimension
      */
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
-        if ($this->segmentName && $this->category
+        if (
+            $this->segmentName && $this->category
             && ($this->sqlSegment || ($this->columnName && $this->dbTableName))
-            && $this->nameSingular) {
+            && $this->nameSingular
+        ) {
             $segment = $dimensionSegmentFactory->createSegment(null);
             $segmentsList->addSegment($segment);
         }

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Ecommerce\Reports;
 
 use Piwik\Common;
@@ -50,8 +51,10 @@ abstract class BaseItem extends Base
         // we do not check whether it is abandon carts if not set re performance improvements
         if ($this->isAbandonedCart($fetchIfNotSet = false)) {
             return array(
-                'revenue'         => Piwik::translate('Goals_ColumnRevenueDocumentation',
-                                            Piwik::translate('Goals_DocumentationRevenueGeneratedByProductSales')),
+                'revenue'         => Piwik::translate(
+                    'Goals_ColumnRevenueDocumentation',
+                    Piwik::translate('Goals_DocumentationRevenueGeneratedByProductSales')
+                ),
                 'quantity'        => Piwik::translate('Goals_ColumnQuantityDocumentation', $this->name),
                 'orders'          => Piwik::translate('Goals_ColumnOrdersDocumentation', $this->name),
                 'avg_price'       => Piwik::translate('Goals_ColumnAveragePriceDocumentation', $this->name),
@@ -103,7 +106,7 @@ abstract class BaseItem extends Base
         if ($viewDataTable == 'ecommerceOrder') {
             $view->config->custom_parameters['viewDataTable'] = 'table';
             $abandonedCart = false;
-        } else if ($viewDataTable == 'ecommerceAbandonedCart') {
+        } elseif ($viewDataTable == 'ecommerceAbandonedCart') {
             $view->config->custom_parameters['viewDataTable'] = 'table';
             $abandonedCart = true;
         } else {
@@ -140,7 +143,6 @@ abstract class BaseItem extends Base
 
         if ($abandonedCarts === '') {
             if ($fetchIfNotSet) {
-
                 $idSite = Common::getRequestVar('idSite', 0, 'int');
                 $period = Common::getRequestVar('period', '', 'string');
                 $date   = Common::getRequestVar('date', '', 'string');

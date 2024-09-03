@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomDimensions\tests\Integration\Dimension;
@@ -39,12 +40,12 @@ class IndexTest extends IntegrationTestCase
         $this->index = new Index();
     }
 
-    public function test_shouldReturn1_WhenNoIndexIsUsedYet()
+    public function testShouldReturn1WhenNoIndexIsUsedYet()
     {
         $this->assertSame(1, $this->index->getNextIndex($idSite = 1, CustomDimensions::SCOPE_ACTION));
     }
 
-    public function test_shouldNotActuallyCreateAnIndex_OnlyReturnNextFreeIndex()
+    public function testShouldNotActuallyCreateAnIndexOnlyReturnNextFreeIndex()
     {
         $idSite = 1;
         $scope = CustomDimensions::SCOPE_ACTION;
@@ -53,7 +54,7 @@ class IndexTest extends IntegrationTestCase
         $this->assertSame(1, $this->index->getNextIndex($idSite, $scope));
     }
 
-    public function test_shouldReturnNextFreeIndex()
+    public function testShouldReturnNextFreeIndex()
     {
         $idSite = 1;
 
@@ -68,7 +69,7 @@ class IndexTest extends IntegrationTestCase
         $this->assertSame(2, $this->index->getNextIndex($idSite, CustomDimensions::SCOPE_ACTION)); // should remain unchanged
     }
 
-    public function test_shouldThrowAnException_IfAllIndexesAreUsed()
+    public function testShouldThrowAnExceptionIfAllIndexesAreUsed()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('All Custom Dimensions for website 1 in scope \'action\' are already used');

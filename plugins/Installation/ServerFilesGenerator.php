@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Installation;
 
 use Piwik\Container\StaticContainer;
@@ -128,7 +129,8 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
         if (!SettingsServer::isIIS()) {
             return;
         }
-        @file_put_contents(PIWIK_INCLUDE_PATH . '/web.config',
+        @file_put_contents(
+            PIWIK_INCLUDE_PATH . '/web.config',
             '<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <system.webServer>
@@ -167,7 +169,8 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
       <mimeMap fileExtension=".woff" mimeType="application/font-woff" />
     </staticContent>
   </system.webServer>
-</configuration>');
+</configuration>'
+        );
 
         // deny direct access to .php files
         $directoriesToProtect = array(
@@ -183,7 +186,8 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
         </alwaysAllowedUrls>';
 
         foreach ($directoriesToProtect as $directoryToProtect) {
-            @file_put_contents(PIWIK_INCLUDE_PATH . $directoryToProtect . '/web.config',
+            @file_put_contents(
+                PIWIK_INCLUDE_PATH . $directoryToProtect . '/web.config',
                 '<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <system.webServer>
@@ -195,7 +199,8 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
       </requestFiltering>
     </security>
   </system.webServer>
-</configuration>');
+</configuration>'
+            );
         }
     }
 
@@ -224,7 +229,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
         );
         foreach ($filesToCreate as $file) {
             $path = PIWIK_DOCUMENT_ROOT . $file;
-            if(!file_exists($path)) {
+            if (!file_exists($path)) {
                 @file_put_contents($path, '');
             }
         }

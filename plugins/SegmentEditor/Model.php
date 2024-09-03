@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\Common;
@@ -109,7 +110,7 @@ class Model
         $bind = array();
         $sqlWhereCondition = '';
 
-        if(!empty($idSite)) {
+        if (!empty($idSite)) {
             $bind = array($idSite);
             $sqlWhereCondition = '(enable_only_idsite = ? OR enable_only_idsite = 0) AND';
         }
@@ -152,7 +153,8 @@ class Model
         foreach ($deletedSegments as $i => $deleted) {
             $deletedSegments[$i]['idsites_to_preserve'] = array();
             foreach ($existingSegments as $existing) {
-                if ($existing['definition'] != $deleted['definition'] &&
+                if (
+                    $existing['definition'] != $deleted['definition'] &&
                     $existing['definition'] != urlencode($deleted['definition']) &&
                     $existing['definition'] != urldecode($deleted['definition'])
                 ) {

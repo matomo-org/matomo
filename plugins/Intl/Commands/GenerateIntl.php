@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Intl\Commands;
@@ -81,7 +81,6 @@ class GenerateIntl extends ConsoleCommand
         $this->checkCurrencies();
 
         foreach ($matomoLanguages as $langCode) {
-
             if ($langCode == 'dev') {
                 continue;
             }
@@ -123,7 +122,6 @@ class GenerateIntl extends ConsoleCommand
                 [$language, $territory] = explode('-', $transformedLangCode);
 
                 if (!empty($translations['Intl']['Language_' . $language])) {
-
                     $originalName = $this->transform($translations['Intl']['Language_' . $language]);
 
                     if (!empty($translations['Intl']['Country_' . $territory])) {
@@ -259,7 +257,7 @@ class GenerateIntl extends ConsoleCommand
             if (array_key_exists($langCode, $languageData) && $languageData[$langCode] != $langCode && $langCode !== 'pt') {
                 // We ignore `pt` here, as we otherwise would end up with having `pt` and `pt_BR` using the same original name
                 $translations['Intl']['OriginalLanguageName'] = $this->transform($languageData[$langCode]);
-            } else if (array_key_exists($requestLangCode, $languageData) && $languageData[$requestLangCode] != $requestLangCode) {
+            } elseif (array_key_exists($requestLangCode, $languageData) && $languageData[$requestLangCode] != $requestLangCode) {
                 $translations['Intl']['OriginalLanguageName'] = $this->transform($languageData[$requestLangCode]);
             }
             $translations['Intl']['EnglishLanguageName'] = $this->getEnglishLanguageName($langCode, $requestLangCode);
@@ -402,7 +400,7 @@ class GenerateIntl extends ConsoleCommand
             $translations['Intl']['Format_Interval_Long_M'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['M'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));
             $translations['Intl']['Format_Interval_Long_Y'] = $this->transformDateFormat($calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['y'], array('MMMM' => 'MMM', 'LLLL' => 'LLL', 'MMM' => 'MMMM', 'LLL' => 'LLLL'));
 
-            if(isset($calendarData['dateTimeFormats']['intervalFormats']['yMMMMd'])) {
+            if (isset($calendarData['dateTimeFormats']['intervalFormats']['yMMMMd'])) {
                 $translations['Intl']['Format_Interval_Long_D'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['d'];
                 $translations['Intl']['Format_Interval_Long_M'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['M'];
                 $translations['Intl']['Format_Interval_Long_Y'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMMd']['y'];
@@ -498,7 +496,7 @@ class GenerateIntl extends ConsoleCommand
 
     protected function transformDateFormat($dateFormat, $changes = array())
     {
-        if(!empty($changes)) {
+        if (!empty($changes)) {
             $dateFormat = str_replace(array_keys($changes), array_values($changes), $dateFormat);
         }
 

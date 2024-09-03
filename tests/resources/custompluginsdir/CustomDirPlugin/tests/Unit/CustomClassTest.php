@@ -2,8 +2,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomDirPlugin\tests\Unit;
@@ -26,7 +26,7 @@ class CustomClassTest extends \PHPUnit\Framework\TestCase
         // tear down here if needed
     }
 
-    public function test_autoloading_customplugin_works()
+    public function testAutoloadingCustompluginWorks()
     {
         $customClass = new CustomClass();
         $this->assertTrue($customClass instanceof CustomClass);

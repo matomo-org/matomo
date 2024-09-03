@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Archive\ArchiveInvalidator;
@@ -109,6 +111,7 @@ class ArchiveInvalidationsInformational implements Diagnostic
         $result['plugins'] = array_unique($result['plugins']);
         $result['plugins'] = array_filter($result['plugins']);
         $result['plugins'] = array_values($result['plugins']);
+        sort($result['plugins']);
 
         return $result;
     }

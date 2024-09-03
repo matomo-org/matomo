@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Notification;
 
 use Piwik\Notification;
@@ -18,7 +19,7 @@ use Piwik\Session\SessionNamespace;
  */
 class Manager
 {
-    const MAX_NOTIFICATIONS_IN_SESSION = 30;
+    public const MAX_NOTIFICATIONS_IN_SESSION = 30;
     /**
      * @var SessionNamespace
      */

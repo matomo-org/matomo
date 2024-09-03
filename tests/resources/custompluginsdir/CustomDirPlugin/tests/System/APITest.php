@@ -2,8 +2,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomDirPlugin\tests\System;
@@ -24,7 +24,7 @@ class APITest extends SystemTestCase
      */
     public static $fixture = null; // initialized below class definition
 
-    public function test_api()
+    public function testApi()
     {
         $this->assertEquals(42, Request::processRequest('CustomDirPlugin.getCustomAnswerToLive'));
     }

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UserCountry;
 
 use Exception;
@@ -107,8 +108,11 @@ class API extends \Piwik\Plugin\API
                         $regionCode = getElementFromStringArray($label, $separator, 0, '');
                         $countryCode = getElementFromStringArray($label, $separator, 1, '');
 
-                        list($countryCode, $regionCode) = GeoIp2::convertRegionCodeToIso($countryCode,
-                            $regionCode, true);
+                        list($countryCode, $regionCode) = GeoIp2::convertRegionCodeToIso(
+                            $countryCode,
+                            $regionCode,
+                            true
+                        );
 
                         $splitLabel = explode($separator, $label);
 
@@ -123,7 +127,7 @@ class API extends \Piwik\Plugin\API
                         return implode($separator, $splitLabel);
                     }
                 ));
-            } else if ($dt->getRowFromLabel('1|ti')) {
+            } elseif ($dt->getRowFromLabel('1|ti')) {
                 $dt->filter('GroupBy', array(
                     'label',
                     function ($label) {
@@ -140,19 +144,27 @@ class API extends \Piwik\Plugin\API
         $dataTable->filter('AddSegmentByLabel', array($segments, Archiver::LOCATION_SEPARATOR));
 
         // split the label and put the elements into the 'region' and 'country' metadata fields
-        $dataTable->filter('ColumnCallbackAddMetadata',
-            array('label', 'region', __NAMESPACE__ . '\getElementFromStringArray', array($separator, 0, $unk)));
-        $dataTable->filter('ColumnCallbackAddMetadata',
-            array('label', 'country', __NAMESPACE__ . '\getElementFromStringArray', array($separator, 1, $unk)));
+        $dataTable->filter(
+            'ColumnCallbackAddMetadata',
+            array('label', 'region', __NAMESPACE__ . '\getElementFromStringArray', array($separator, 0, $unk))
+        );
+        $dataTable->filter(
+            'ColumnCallbackAddMetadata',
+            array('label', 'country', __NAMESPACE__ . '\getElementFromStringArray', array($separator, 1, $unk))
+        );
 
         // add country name metadata
-        $dataTable->filter('MetadataCallbackAddMetadata',
-            array('country', 'country_name', __NAMESPACE__ . '\CountryTranslate', $applyToSummaryRow = false));
+        $dataTable->filter(
+            'MetadataCallbackAddMetadata',
+            array('country', 'country_name', __NAMESPACE__ . '\CountryTranslate', $applyToSummaryRow = false)
+        );
 
         // get the region name of each row and put it into the 'region_name' metadata
-        $dataTable->filter('ColumnCallbackAddMetadata',
+        $dataTable->filter(
+            'ColumnCallbackAddMetadata',
             array('label', 'region_name', __NAMESPACE__ . '\getRegionName', $params = null,
-                  $applyToSummaryRow = false));
+            $applyToSummaryRow = false)
+        );
 
         // add the country flag as a url to the 'logo' metadata field
         $dataTable->filter('MetadataCallbackAddMetadata', array('country', 'logo', __NAMESPACE__ . '\getFlagFromCode'));
@@ -192,8 +204,11 @@ class API extends \Piwik\Plugin\API
                         $regionCode = getElementFromStringArray($label, $separator, 1, '');
                         $countryCode = getElementFromStringArray($label, $separator, 2, '');
 
-                        list($countryCode, $regionCode) = GeoIp2::convertRegionCodeToIso($countryCode,
-                            $regionCode, true);
+                        list($countryCode, $regionCode) = GeoIp2::convertRegionCodeToIso(
+                            $countryCode,
+                            $regionCode,
+                            true
+                        );
 
                         $splitLabel = explode($separator, $label);
 
@@ -227,31 +242,45 @@ class API extends \Piwik\Plugin\API
         // split the label and put the elements into the 'city_name', 'region', 'country',
         // 'lat' & 'long' metadata fields
         $strUnknown = Piwik::translate('General_Unknown');
-        $dataTable->filter('ColumnCallbackAddMetadata',
+        $dataTable->filter(
+            'ColumnCallbackAddMetadata',
             array('label', 'city_name', __NAMESPACE__ . '\getElementFromStringArray',
-                  array($separator, 0, $strUnknown)));
-        $dataTable->filter('MetadataCallbackAddMetadata',
+            array($separator, 0, $strUnknown))
+        );
+        $dataTable->filter(
+            'MetadataCallbackAddMetadata',
             array('city_name', 'city', function ($city) use ($strUnknown) {
                 if ($city == $strUnknown) {
                     return "xx";
                 } else {
                     return false;
                 }
-            }));
-        $dataTable->filter('ColumnCallbackAddMetadata',
-            array('label', 'region', __NAMESPACE__ . '\getElementFromStringArray', array($separator, 1, $unk)));
-        $dataTable->filter('ColumnCallbackAddMetadata',
-            array('label', 'country', __NAMESPACE__ . '\getElementFromStringArray', array($separator, 2, $unk)));
+            })
+        );
+        $dataTable->filter(
+            'ColumnCallbackAddMetadata',
+            array('label', 'region', __NAMESPACE__ . '\getElementFromStringArray', array($separator, 1, $unk))
+        );
+        $dataTable->filter(
+            'ColumnCallbackAddMetadata',
+            array('label', 'country', __NAMESPACE__ . '\getElementFromStringArray', array($separator, 2, $unk))
+        );
 
         // backwards compatibility: for reports that have lat|long in label
-        $dataTable->filter('ColumnCallbackAddMetadata',
-            array('label', 'lat', __NAMESPACE__ . '\getElementFromStringArray', array($separator, 3, false)));
-        $dataTable->filter('ColumnCallbackAddMetadata',
-            array('label', 'long', __NAMESPACE__ . '\getElementFromStringArray', array($separator, 4, false)));
+        $dataTable->filter(
+            'ColumnCallbackAddMetadata',
+            array('label', 'lat', __NAMESPACE__ . '\getElementFromStringArray', array($separator, 3, false))
+        );
+        $dataTable->filter(
+            'ColumnCallbackAddMetadata',
+            array('label', 'long', __NAMESPACE__ . '\getElementFromStringArray', array($separator, 4, false))
+        );
 
         // add country name & region name metadata
-        $dataTable->filter('MetadataCallbackAddMetadata',
-            array('country', 'country_name', __NAMESPACE__ . '\countryTranslate', $applyToSummaryRow = false));
+        $dataTable->filter(
+            'MetadataCallbackAddMetadata',
+            array('country', 'country_name', __NAMESPACE__ . '\countryTranslate', $applyToSummaryRow = false)
+        );
 
         $getRegionName = '\\Piwik\\Plugins\\UserCountry\\getRegionNameFromCodes';
         $dataTable->filter('MetadataCallbackAddMetadata', array(

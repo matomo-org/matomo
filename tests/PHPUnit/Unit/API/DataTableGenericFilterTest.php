@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\API;
@@ -14,7 +14,7 @@ use Piwik\DataTable;
 
 class DataTableGenericFilterTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_genericFiltersToDisableMetadata_shouldBeRespected()
+    public function testGenericFiltersToDisableMetadataShouldBeRespected()
     {
         $dataTable = new DataTable();
         $dataTable->addRowsFromSimpleArray([

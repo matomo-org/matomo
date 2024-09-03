@@ -4,8 +4,7 @@
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Ecommerce;
@@ -149,9 +148,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         $formatter = new Metrics\Formatter();
 
         foreach ($return as $columnName => $value) {
-
             if (array_key_exists($columnName, $metrics) && array_key_exists($columnName, $return)) {
-
                 $pastValue = $previousDataRow ? $previousDataRow->getColumn($columnName) : 0;
 
                 if (in_array($columnName, ['revenue', 'avg_order_revenue'])) {

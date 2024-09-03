@@ -1,17 +1,23 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\System;
 
 use Piwik\Archiver\Request;
 use Piwik\CliMulti;
-use Piwik\Version;
-use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\CoreConsole\FeatureFlags\CliMultiProcessSymfony;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\TestLogger;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Version;
 
 /**
  * @group Core
@@ -30,91 +36,151 @@ class CliMultiTest extends SystemTestCase
     private $authToken = '';
 
     /**
-     * @var string[]
+     * @var TestLogger
      */
-    private $urls = array();
+    private $logger;
 
     /**
      * @var string[]
      */
-    private $responses = array();
+    private $urls = [];
+
+    /**
+     * @var string[]
+     */
+    private $responses = [];
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->cliMulti  = new CliMulti();
+        $this->logger = new TestLogger();
         $this->authToken = Fixture::getTokenAuth();
 
-        $this->urls = array(
+        $this->cliMulti = new CliMulti($this->logger);
+
+        $this->urls = [
             'getAnswerToLife' => $this->completeUrl('?module=API&method=ExampleAPI.getAnswerToLife&format=JSON'),
             'getPiwikVersion' => $this->completeUrl('?module=API&method=API.getPiwikVersion&format=JSON'),
-        );
+        ];
 
-        $this->responses = array(
+        $this->responses = [
             'getAnswerToLife' => '{"value":42}',
             'getPiwikVersion' => '{"value":"' . Version::VERSION . '"}'
-        );
+        ];
 
         \Piwik\Common::$isCliMode = true;
+
+        // deactivate symfony process usage by default
+        // required as local instance could have activated the feature flag
+        $this->cliMulti->supportsAsyncSymfony = false;
     }
 
-    public function test_request_shouldNotFailAndReturnNoResponse_IfNoUrlsAreGiven()
+    public function testRequestShouldNotFailAndReturnNoResponseIfNoUrlsAreGiven()
     {
         $response = $this->cliMulti->request(array());
 
         $this->assertEquals(array(), $response);
     }
 
-    public function test_request_shouldFail_IfUrlsIsNotAnArray()
+    public function testRequestShouldFailIfUrlsIsNotAnArray()
     {
         $this->expectException('TypeError');
         $this->cliMulti->request('');
     }
 
-    public function test_request_shouldReturnResultAsArray_IfOnlyOneUrlIsGiven()
+    public function testRequestShouldReturnResultAsArrayIfOnlyOneUrlIsGiven()
     {
         $urls = $this->buildUrls('getAnswerToLife');
 
-        $this->assertRequestReturnsValidResponses($urls, array('getAnswerToLife'));
+        $this->assertRequestReturnsValidResponses($urls, ['getAnswerToLife']);
+        $this->assertDebugLogContainsRequestDetails($urls, 'syncCli');
     }
 
-    public function test_request_shouldRunAsync()
+    public function testRequestShouldRunAsync()
     {
         $this->assertTrue($this->cliMulti->supportsAsync);
     }
 
-    public function test_request_shouldRequestAllUrls_IfMultipleUrlsAreGiven()
+    /**
+     * @dataProvider getShouldDetectRunningAsyncUsingSymfonyData
+     */
+    public function testShouldDetectRunningAsyncUsingSymfonyIsSupported(
+        bool $supportsAsync,
+        bool $isFeatureFlagEnabled,
+        bool $expectedResult
+    ): void {
+        $mockFeatureFlagManager = $this->createMock(FeatureFlagManager::class);
+        $mockFeatureFlagManager
+            ->method('isFeatureActive')
+            ->with(CliMultiProcessSymfony::class)
+            ->willReturn($isFeatureFlagEnabled);
+
+        StaticContainer::getContainer()->set(FeatureFlagManager::class, $mockFeatureFlagManager);
+
+        $cliMulti = new CliMulti();
+        $cliMulti->supportsAsync = $supportsAsync;
+
+        self::assertSame($expectedResult, $cliMulti->supportsAsyncSymfony());
+    }
+
+    public function getShouldDetectRunningAsyncUsingSymfonyData(): iterable
+    {
+        yield 'supportsAsync and feature flag disabled' => [false, false, false];
+        yield 'supportsAsync enabled, feature flag disabled' => [true, false, false];
+        yield 'supportsAsync disabled, feature flag enabled' => [false, true, false];
+        yield 'supportsAsync and feature flag enabled' => [true, true, true];
+    }
+
+
+    public function testShouldNotAllowUsingSymfonyProcessIfFeatureFlagCheckThrows(): void
+    {
+        $cliMulti = new CliMulti();
+
+        $mockFeatureFlagManager = $this->createMock(FeatureFlagManager::class);
+        $mockFeatureFlagManager
+            ->method('isFeatureActive')
+            ->willThrowException(new \Exception());
+
+        StaticContainer::getContainer()->set(FeatureFlagManager::class, $mockFeatureFlagManager);
+
+        self::assertFalse($cliMulti->supportsAsyncSymfony());
+    }
+
+    public function testRequestShouldRequestAllUrlsIfMultipleUrlsAreGiven()
     {
         $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife');
 
-        $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife'));
+        $this->assertRequestReturnsValidResponses($urls, ['getPiwikVersion', 'getAnswerToLife']);
+        $this->assertDebugLogContainsRequestDetails($urls, 'asyncCli');
     }
 
-    public function test_request_shouldRequestAllUrls_IfMultipleUrlsAreGiven_WithConcurrentRequestLimit()
+    public function testRequestShouldRequestAllUrlsIfMultipleUrlsAreGivenWithConcurrentRequestLimit()
     {
         $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion');
 
         $this->cliMulti->setConcurrentProcessesLimit(1);
-        $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion'));
+        $this->assertRequestReturnsValidResponses($urls, ['getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion']);
+        $this->assertDebugLogContainsRequestDetails($urls, 'syncCli');
     }
 
-    public function test_request_shouldRequestAllUrls_IfMultipleUrlsAreGiven_WithHighConcurrentRequestLimit()
+    public function testRequestShouldRequestAllUrlsIfMultipleUrlsAreGivenWithHighConcurrentRequestLimit()
     {
         $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion');
 
         $this->cliMulti->setConcurrentProcessesLimit(10);
-        $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion'));
+        $this->assertRequestReturnsValidResponses($urls, ['getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion']);
+        $this->assertDebugLogContainsRequestDetails($urls, 'asyncCli');
     }
 
-    public function test_request_shouldReturnSameAmountOfResponses_IfSameUrlAppearsMultipleTimes()
+    public function testRequestShouldReturnSameAmountOfResponsesIfSameUrlAppearsMultipleTimes()
     {
         $urls = $this->buildUrls('getAnswerToLife', 'getAnswerToLife', 'getPiwikVersion');
 
-        $this->assertRequestReturnsValidResponses($urls, array('getAnswerToLife', 'getAnswerToLife', 'getPiwikVersion'));
+        $this->assertRequestReturnsValidResponses($urls, ['getAnswerToLife', 'getAnswerToLife', 'getPiwikVersion']);
     }
 
-    public function test_request_shouldCleanupAllTempFiles_OnceAllRequestsAreFinished()
+    public function testRequestShouldCleanupAllTempFilesOnceAllRequestsAreFinished()
     {
         $filesBefore = $this->getFilesInTmpFolder();
 
@@ -126,26 +192,28 @@ class CliMultiTest extends SystemTestCase
         $this->assertGreaterThan(1, $filesAfter);
     }
 
-    public function test_request_shouldWorkInCaseItDoesNotRunFromCli()
+    public function testRequestShouldWorkInCaseItDoesNotRunFromCli()
     {
         $urls = $this->buildUrls('getAnswerToLife', 'getAnswerToLife');
 
         \Piwik\Common::$isCliMode = false;
-        $this->assertRequestReturnsValidResponses($urls, array('getAnswerToLife', 'getAnswerToLife'));
+
+        $this->assertRequestReturnsValidResponses($urls, ['getAnswerToLife', 'getAnswerToLife']);
+        $this->assertDebugLogContainsRequestDetails($urls, 'http');
     }
 
     /**
      * This is a known issue, we do not get a content in case Piwik ends with an exit or redirect, but we have to make
      * sure we detect the request has finished though
      */
-    public function test_request_shouldDetectFinishOfRequest_IfNoParamsAreGiven()
+    public function testRequestShouldDetectFinishOfRequestIfNoParamsAreGiven()
     {
         $this->cliMulti->runAsSuperUser();
         $response = $this->cliMulti->request(array($this->completeUrl('')));
         self::assertStringContainsString('Error: no website was found', $response[0]);
     }
 
-    public function test_request_shouldBeAbleToRenderARegularPageInPiwik()
+    public function testRequestShouldBeAbleToRenderARegularPageInPiwik()
     {
         Fixture::createWebsite('2014-01-01 00:00:00');
 
@@ -158,16 +226,27 @@ class CliMultiTest extends SystemTestCase
         $this->assertTrue(false !== strpos($response[0], 'Widgetize the full dashboard') . $message);
     }
 
-    public function test_shouldFallback_IfAsyncIsNotSupported()
+    public function testShouldFallbackIfAsyncIsNotSupported()
     {
         $this->cliMulti->supportsAsync = false;
 
         $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion');
 
-        $this->assertRequestReturnsValidResponses($urls, array('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion'));
+        $this->assertRequestReturnsValidResponses($urls, ['getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion']);
+        $this->assertDebugLogContainsRequestDetails($urls, 'http');
     }
 
-    public function test_cleanupNotRemovedFiles_shouldOnlyRemoveFiles_IfTheyAreOlderThanOneWeek()
+    public function testShouldRunWithSymfonyProcessIfDetected(): void
+    {
+        $this->cliMulti->supportsAsyncSymfony = true;
+
+        $urls = $this->buildUrls('getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion');
+
+        $this->assertRequestReturnsValidResponses($urls, ['getPiwikVersion', 'getAnswerToLife', 'getPiwikVersion']);
+        $this->assertDebugLogContainsRequestDetails($urls, 'asyncCliSymfony');
+    }
+
+    public function testCleanupNotRemovedFilesShouldOnlyRemoveFilesIfTheyAreOlderThanOneWeek()
     {
         $timeOneWeekAgo = strtotime('-1 week');
 
@@ -194,7 +273,7 @@ class CliMultiTest extends SystemTestCase
         $this->assertFileNotExists($tmpDir . 'toberemoved.output');
     }
 
-    public function test_shouldSupportRequestObjects()
+    public function testShouldSupportRequestObjects()
     {
         $wasCalled = false;
         $request = new Request('url');
@@ -205,6 +284,19 @@ class CliMultiTest extends SystemTestCase
         $this->cliMulti->request(array($request));
 
         $this->assertTrue($wasCalled, 'The request "before" handler was not called');
+    }
+
+    private function assertDebugLogContainsRequestDetails(array $urls, string $method): void
+    {
+        foreach ($urls as $url) {
+            if ('http' === $method) {
+                $pattern = '/Execute HTTP API request.*' . $url . '/';
+            } else {
+                $pattern = '/climulti:request.*' . $url . '.*\[method = ' . $method . ']/';
+            }
+
+            $this->logger->hasDebugThatMatches($pattern);
+        }
     }
 
     private function assertRequestReturnsValidResponses($urls, $expectedResponseIds)

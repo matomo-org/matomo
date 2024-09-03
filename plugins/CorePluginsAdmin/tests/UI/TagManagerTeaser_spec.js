@@ -3,8 +3,8 @@
  *
  * Screenshot integration tests.
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("TagManagerTeaser", function () {
@@ -63,7 +63,7 @@ describe("TagManagerTeaser", function () {
         await page.type('#login_form_password', superUserPassword);
         await page.click('#login_form_submit');
 
-        await page.waitForSelector('.tagManagerGettingStarted');
+        await page.waitForSelector('.manageContainer');
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
 

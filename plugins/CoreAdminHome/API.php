@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
@@ -397,8 +398,16 @@ class API extends \Piwik\Plugin\API
         string $language
     ): string {
 
-        return $this->optOutManager->getOptOutJSEmbedCode($matomoUrl, $language, $backgroundColor, $fontColor, $fontSize,
-                                                          $fontFamily, $applyStyling, $showIntro);
+        return $this->optOutManager->getOptOutJSEmbedCode(
+            $matomoUrl,
+            $language,
+            $backgroundColor,
+            $fontColor,
+            $fontSize,
+            $fontFamily,
+            $applyStyling,
+            $showIntro
+        );
     }
 
     /**

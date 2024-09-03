@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Goals\RecordBuilders;
@@ -22,9 +22,9 @@ use Piwik\Tracker\GoalManager;
 
 class GeneralGoalsRecords extends Base
 {
-    const VISITS_COUNT_FIELD = 'visitor_count_visits';
-    const LOG_CONVERSION_TABLE = 'log_conversion';
-    const SECONDS_SINCE_FIRST_VISIT_FIELD = 'visitor_seconds_since_first';
+    public const VISITS_COUNT_FIELD = 'visitor_count_visits';
+    public const LOG_CONVERSION_TABLE = 'log_conversion';
+    public const SECONDS_SINCE_FIRST_VISIT_FIELD = 'visitor_seconds_since_first';
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
@@ -69,10 +69,16 @@ class GeneralGoalsRecords extends Base
         if ($siteHasEcommerceOrGoals) {
             $selects = [];
             $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-                self::VISITS_COUNT_FIELD, Archiver::$visitCountRanges, self::LOG_CONVERSION_TABLE, $prefixes[Archiver::VISITS_UNTIL_RECORD_NAME]
+                self::VISITS_COUNT_FIELD,
+                Archiver::$visitCountRanges,
+                self::LOG_CONVERSION_TABLE,
+                $prefixes[Archiver::VISITS_UNTIL_RECORD_NAME]
             ));
             $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-                'FLOOR(log_conversion.' . self::SECONDS_SINCE_FIRST_VISIT_FIELD . ' / 86400)', Archiver::$daysToConvRanges, self::LOG_CONVERSION_TABLE, $prefixes[Archiver::DAYS_UNTIL_CONV_RECORD_NAME]
+                'FLOOR(log_conversion.' . self::SECONDS_SINCE_FIRST_VISIT_FIELD . ' / 86400)',
+                Archiver::$daysToConvRanges,
+                self::LOG_CONVERSION_TABLE,
+                $prefixes[Archiver::DAYS_UNTIL_CONV_RECORD_NAME]
             ));
 
             $query = $logAggregator->queryConversionsByDimension([], false, $selects);

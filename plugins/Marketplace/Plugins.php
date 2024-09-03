@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
@@ -177,9 +178,9 @@ class Plugins
      */
     public function getPluginsHavingUpdate(): array
     {
-        $skipPluginUpdateCheck = StaticContainer::get('dev.disable_plugin_update_checks');
-        if ($skipPluginUpdateCheck) {
-            return [];
+        $forcedResult = StaticContainer::get('dev.forced_plugin_update_result');
+        if ($forcedResult !== null) {
+            return $forcedResult;
         }
 
         $this->pluginManager->loadAllPluginsAndGetTheirInfo();
@@ -193,7 +194,8 @@ class Plugins
 
         foreach ($pluginsHavingUpdate as $pluginName => $updatePlugin) {
             foreach ($loadedPlugins as $loadedPlugin) {
-                if (!empty($updatePlugin['name'])
+                if (
+                    !empty($updatePlugin['name'])
                     && $loadedPlugin->getPluginName() == $updatePlugin['name']
                 ) {
                     $updatePlugin['currentVersion'] = $loadedPlugin->getVersion();
@@ -263,10 +265,12 @@ class Plugins
             $plugin['isMissingLicense'] = false;
         }
 
-        if (!empty($plugin['owner'])
+        if (
+            !empty($plugin['owner'])
             && strtolower($plugin['owner']) === 'piwikpro'
             && !empty($plugin['homepage'])
-            && strpos($plugin['homepage'], 'pk_campaign') === false) {
+            && strpos($plugin['homepage'], 'pk_campaign') === false
+        ) {
             $plugin['homepage'] = $this->advertising->addPromoCampaignParametersToUrl($plugin['homepage'], Advertising::CAMPAIGN_NAME_PROFESSIONAL_SERVICES, 'Marketplace', $plugin['name']);
         }
 
@@ -276,9 +280,11 @@ class Plugins
             $plugin['currentVersion']         = $pluginUpdate['currentVersion'];
         }
 
-        if (!empty($plugin['activity']['lastCommitDate'])
+        if (
+            !empty($plugin['activity']['lastCommitDate'])
             && false === strpos($plugin['activity']['lastCommitDate'], '0000')
-            && false === strpos($plugin['activity']['lastCommitDate'], '1970')) {
+            && false === strpos($plugin['activity']['lastCommitDate'], '1970')
+        ) {
             $plugin['activity']['lastCommitDate'] = $this->toLongDate($plugin['activity']['lastCommitDate']);
         } else {
             $plugin['activity']['lastCommitDate'] = null;
@@ -431,7 +437,7 @@ class Plugins
         if (($num >= 1000) && ($num < 100000)) {
             $nice = round($num / 1000, 1, PHP_ROUND_HALF_DOWN) . 'k';
         } elseif (($num >= 100000) && ($num < 1000000)) {
-            $nice = floor($num / 100000) . 'k';
+            $nice = floor($num / 1000) . 'k';
         } elseif ($num >= 1000000) {
             $nice = floor($num / 1000000) . 'm';
         }

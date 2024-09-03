@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Unit\Commands\SetConfig;
@@ -59,7 +60,7 @@ class ConfigSettingManipulationTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForMake
      */
-    public function test_make_CreatesCorrectManipulation(
+    public function testMakeCreatesCorrectManipulation(
         $assignmentString,
         $expectedSectionName,
         $expectedSettingName,
@@ -98,7 +99,7 @@ class ConfigSettingManipulationTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getFailureTestDataForMake
      */
-    public function test_make_ThrowsWhenInvalidAssignmentStringSupplied($assignmentString)
+    public function testMakeThrowsWhenInvalidAssignmentStringSupplied($assignmentString)
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid assignment string');
@@ -117,7 +118,7 @@ class ConfigSettingManipulationTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_manipulate_ThrowsIfAppendingNonArraySetting()
+    public function testManipulateThrowsIfAppendingNonArraySetting()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Trying to append to non-array setting value');
@@ -128,7 +129,7 @@ class ConfigSettingManipulationTest extends \PHPUnit\Framework\TestCase
         $manipulation->manipulate($this->mockConfig);
     }
 
-    public function test_manipulate_ThrowsIfAssigningNonArrayValue_ToArraySetting()
+    public function testManipulateThrowsIfAssigningNonArrayValueToArraySetting()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Trying to set non-array value to array setting');
@@ -142,7 +143,7 @@ class ConfigSettingManipulationTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForManipulate
      */
-    public function test_manipulate_CorrectlyManipulatesConfig($sectionName, $name, $value, $isArrayAppend, $expectedConfig)
+    public function testManipulateCorrectlyManipulatesConfig($sectionName, $name, $value, $isArrayAppend, $expectedConfig)
     {
         $manipulation = new ConfigSettingManipulation($sectionName, $name, $value, $isArrayAppend);
         $manipulation->manipulate($this->mockConfig);

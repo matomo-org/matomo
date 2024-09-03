@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreUpdater\Commands;
 
 use Piwik\Filechecks;
@@ -166,7 +167,7 @@ class Update extends ConsoleCommand
         $output = $this->getOutput();
         $migrationQueries = $this->getMigrationQueriesToExecute($updater);
 
-        if(empty($migrationQueries)) {
+        if (empty($migrationQueries)) {
             $output->writeln(array("    *** " . Piwik::translate('CoreUpdater_ConsoleUpdateNoSqlQueries') . " ***", ""));
             return;
         }
@@ -211,7 +212,8 @@ class Update extends ConsoleCommand
             $this->outputUpdaterErrors($updaterResult['errors'], $updaterResult['deactivatedPlugins']);
         }
 
-        if (!empty($updaterResult['warnings'])
+        if (
+            !empty($updaterResult['warnings'])
             || !empty($updaterResult['errors'])
         ) {
             $output->writeln(array(
@@ -328,7 +330,8 @@ class Update extends ConsoleCommand
     {
         $plugins = array();
         foreach ($componentsWithUpdateFile as $componentName => $updates) {
-            if ($componentName !== 'core'
+            if (
+                $componentName !== 'core'
                 && 0 !== strpos($componentName, 'log_')
             ) {
                 $plugins[] = $componentName;

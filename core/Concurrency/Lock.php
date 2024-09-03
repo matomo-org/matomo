@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Concurrency;
@@ -15,8 +14,8 @@ use Piwik\Date;
 
 class Lock
 {
-    const MAX_KEY_LEN = 70;
-    const DEFAULT_TTL = 60;
+    public const MAX_KEY_LEN = 70;
+    public const DEFAULT_TTL = 60;
 
     /**
      * @var LockBackend
@@ -70,7 +69,8 @@ class Lock
         $timeBetweenReexpires = $this->defaultTtl - ($this->defaultTtl / 4);
 
         $now = Date::getNowTimestamp();
-        if (!empty($this->lastAcquireTime) &&
+        if (
+            !empty($this->lastAcquireTime) &&
             $now <= $this->lastAcquireTime + $timeBetweenReexpires
         ) {
             return false;

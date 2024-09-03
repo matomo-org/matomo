@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Goals;
 
 use Piwik\API\Request;
@@ -36,8 +37,10 @@ class Goals extends \Piwik\Plugin
         foreach ($dimensions as $dimension) {
             $group = $dimension['category'];
             // move "Custom Variables" report to the "Goals/Sales by User attribute" category
-            if ($dimension['module'] === 'CustomVariables'
-                || $dimension['action'] == 'getVisitInformationPerServerTime') {
+            if (
+                $dimension['module'] === 'CustomVariables'
+                || $dimension['action'] == 'getVisitInformationPerServerTime'
+            ) {
                 $group = 'VisitsSummary_VisitsSummary';
             }
             unset($dimension['category']);
@@ -207,7 +210,7 @@ class Goals extends \Piwik\Plugin
             }
         }
 
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1', 'orderByName' => true], $default = []);
 
         $order = 900;
         foreach ($goals as $goal) {
@@ -366,7 +369,7 @@ class Goals extends \Piwik\Plugin
                 $goalMetricsToUse = $pageGoalMetrics;
                 $goalProcessedMetricsToUse = $pageGoalProcessedMetrics;
                 $goalMetricTypesToUse = $pageGoalMetricTypes;
-            } else if (in_array($request, AddColumnsProcessedMetricsGoal::ACTIONS_ENTRY_PAGE_REPORTS_WITH_GOAL_METRICS)) {
+            } elseif (in_array($request, AddColumnsProcessedMetricsGoal::ACTIONS_ENTRY_PAGE_REPORTS_WITH_GOAL_METRICS)) {
                 $goalMetricsToUse = $entryPageGoalMetrics;
                 $goalProcessedMetricsToUse = $entryPageGoalProcessedMetrics;
                 $goalMetricTypesToUse = $entryPageGoalMetricTypes;
@@ -375,7 +378,8 @@ class Goals extends \Piwik\Plugin
             // Select this report from the API metadata array
             // and add the Goal metrics to it
             foreach ($reports as &$apiReportToUpdate) {
-                if ($apiReportToUpdate['module'] == $reportWithGoals['module']
+                if (
+                    $apiReportToUpdate['module'] == $reportWithGoals['module']
                     && $apiReportToUpdate['action'] == $reportWithGoals['action']
                     && empty($apiReportToUpdate['parameters'])
                 ) {

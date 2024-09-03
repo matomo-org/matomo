@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugin;
 
 use Piwik\API\Proxy;
@@ -38,13 +39,13 @@ class Report
     /**
      * The sub-namespace name in a plugin where Report components are stored.
      */
-    const COMPONENT_SUBNAMESPACE = 'Reports';
+    public const COMPONENT_SUBNAMESPACE = 'Reports';
 
     /**
      * When added to the menu, a given report eg 'getCampaigns'
      * will be routed as &action=menuGetCampaigns
      */
-    const PREFIX_ACTION_IN_MENU = 'menu';
+    public const PREFIX_ACTION_IN_MENU = 'menu';
 
     /**
      * The name of the module which is supposed to be equal to the name of the plugin. The module is detected
@@ -492,7 +493,8 @@ class Report
 
         foreach ($allMetrics as $metric) {
             $metricName = $metric instanceof Metric ? $metric->getName() : $metric;
-            if ($metricName == 'label'
+            if (
+                $metricName == 'label'
                 || !empty($metricTypes[$metricName])
             ) {
                 continue;
@@ -1012,7 +1014,8 @@ class Report
         $provider = new ReportsProvider();
         $reports = $provider->getAllReports();
         foreach ($reports as $report) {
-            if (!$report->isSubtableReport()
+            if (
+                !$report->isSubtableReport()
                 && $report->getDimension()
                 && $report->getDimension()->getId() == $dimension->getId()
             ) {
@@ -1035,7 +1038,8 @@ class Report
         foreach ($processedMetrics as $processedMetric) {
             if ($processedMetric instanceof ProcessedMetric) { // instanceof check for backwards compatibility
                 $result[$processedMetric->getName()] = $processedMetric;
-            } elseif ($processedMetric instanceof ArchivedMetric
+            } elseif (
+                $processedMetric instanceof ArchivedMetric
                 && $processedMetric->getType() !== Dimension::TYPE_NUMBER
                 && $processedMetric->getType() !== Dimension::TYPE_FLOAT
                 && $processedMetric->getType() !== Dimension::TYPE_BOOL

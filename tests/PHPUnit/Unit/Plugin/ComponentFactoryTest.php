@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Core\Plugin;
 
 use PHPUnit\Framework\TestCase;
@@ -18,7 +20,7 @@ use Piwik\Plugin\Report;
  */
 class ComponentFactoryTest extends TestCase
 {
-    const REPORT_CLASS_NAME = 'Piwik\\Plugin\\Report';
+    public const REPORT_CLASS_NAME = 'Piwik\\Plugin\\Report';
 
     public function setUp(): void
     {
@@ -29,7 +31,7 @@ class ComponentFactoryTest extends TestCase
         $this->unloadAllPlugins();
     }
 
-    public function test_factory_shouldNotFindAComponentIfComponentExistsButPluginIsNotLoaded()
+    public function testFactoryShouldNotFindAComponentIfComponentExistsButPluginIsNotLoaded()
     {
         $this->unloadAllPlugins();
 
@@ -38,7 +40,7 @@ class ComponentFactoryTest extends TestCase
         $this->assertNull($report);
     }
 
-    public function test_factory_shouldFindAComponent_ThatExists()
+    public function testFactoryShouldFindAComponentThatExists()
     {
         $this->loadExampleReportPlugin();
 
@@ -50,7 +52,7 @@ class ComponentFactoryTest extends TestCase
         $this->assertInstanceOf('Piwik\Plugins\ExampleReport\Reports\GetExampleReport', $report);
     }
 
-    public function test_factory_shouldNotFindAComponent_IfPluginIsActivatedButComponentNotExists()
+    public function testFactoryShouldNotFindAComponentIfPluginIsActivatedButComponentNotExists()
     {
         $this->loadExampleReportPlugin();
 
@@ -62,7 +64,7 @@ class ComponentFactoryTest extends TestCase
         $this->assertNull($report);
     }
 
-    public function test_factory_shouldNotFindAComponent_IfPluginIsLoadedButNotActivated()
+    public function testFactoryShouldNotFindAComponentIfPluginIsLoadedButNotActivated()
     {
         PluginManager::getInstance()->loadPlugin('ExampleReport');
 
@@ -74,7 +76,7 @@ class ComponentFactoryTest extends TestCase
         $this->assertNull($report);
     }
 
-    public function test_getComponentIf_shouldNotFindAComponentIfComponentExistsButPluginIsNotLoaded()
+    public function testGetComponentIfShouldNotFindAComponentIfComponentExistsButPluginIsNotLoaded()
     {
         $this->unloadAllPlugins();
 
@@ -85,7 +87,7 @@ class ComponentFactoryTest extends TestCase
         $this->assertNull($report);
     }
 
-    public function test_getComponentIf_shouldFindAComponent_ThatExists()
+    public function testGetComponentIfShouldFindAComponentThatExists()
     {
         $this->loadExampleReportPlugin();
 
@@ -96,7 +98,7 @@ class ComponentFactoryTest extends TestCase
         $this->assertInstanceOf('Piwik\Plugins\ExampleReport\Reports\GetExampleReport', $report);
     }
 
-    public function test_getComponentIf_shouldNotFindAComponent_IfPluginIsActivatedButComponentNotExists()
+    public function testGetComponentIfShouldNotFindAComponentIfPluginIsActivatedButComponentNotExists()
     {
         $this->loadExampleReportPlugin();
 
@@ -107,7 +109,7 @@ class ComponentFactoryTest extends TestCase
         $this->assertNull($report);
     }
 
-    public function test_getComponentIf_shouldNotFindAComponent_IfPluginIsLoadedButNotActivated()
+    public function testGetComponentIfShouldNotFindAComponentIfPluginIsLoadedButNotActivated()
     {
         PluginManager::getInstance()->loadPlugin('ExampleReport');
 
@@ -118,7 +120,7 @@ class ComponentFactoryTest extends TestCase
         $this->assertNull($report);
     }
 
-    public function test_getComponentIf_shouldSearchThroughAllPlugins_IfNoPluginNameIsSupplied()
+    public function testGetComponentIfShouldSearchThroughAllPluginsIfNoPluginNameIsSupplied()
     {
         PluginManager::getInstance()->loadPlugins(array('ExampleReport', 'Referrers'));
 

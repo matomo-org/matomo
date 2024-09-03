@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Referrers\Columns;
 
 use Piwik\Common;
@@ -44,7 +45,8 @@ class Campaign extends Base
         // we force a new visit if the referrer is a campaign and it's different than the currently recorded referrer.
         // if the current referrer is 'direct entry', however, we assume the referrer information was sent in a later request, and
         // we just update the existing referrer information instead of creating a visit.
-        if ($information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
+        if (
+            $information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
             && $this->isReferrerInformationNew($visitor, $information)
             && !$this->isCurrentReferrerDirectEntry($visitor)
         ) {

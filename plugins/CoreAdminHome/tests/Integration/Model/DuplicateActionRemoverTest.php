@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Model;
 
 use Piwik\Common;
@@ -35,19 +37,25 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
         $this->duplicateActionRemover = new DuplicateActionRemover();
     }
 
-    public function test_getDuplicateIdActions_ReturnsDuplicateIdActions_AndTreatsLowestIdActionAsOriginal()
+    public function testGetDuplicateIdActionsReturnsDuplicateIdActionsAndTreatsLowestIdActionAsOriginal()
     {
         $expectedResult = array(
             array('name' => 'action1', 'idaction' => 1, 'duplicateIdActions' => array(2, 3)),
-            array('name' => 'ACTION2', 'idaction' => 5, 'duplicateIdActions' => array(7, 11)),
             array('name' => 'action2', 'idaction' => 4, 'duplicateIdActions' => array(9)),
+            array('name' => 'ACTION2', 'idaction' => 5, 'duplicateIdActions' => array(7, 11)),
             array('name' => 'action4', 'idaction' => 6, 'duplicateIdActions' => array(10, 12)),
         );
         $actualResult = $this->duplicateActionRemover->getDuplicateIdActions();
+
+        // order of element is dependent to database engine, so sort before checking results
+        usort($actualResult, function ($a, $b) {
+            return $a['idaction'] <=> $b['idaction'];
+        });
+
         $this->assertEquals($expectedResult, $actualResult);
     }
 
-    public function test_fixDuplicateActionsInTable_CorrectlyUpdatesIdActionColumns_InSpecifiedTable()
+    public function testFixDuplicateActionsInTableCorrectlyUpdatesIdActionColumnsInSpecifiedTable()
     {
         $this->duplicateActionRemover->fixDuplicateActionsInTable('log_conversion_item', 5, array(3, 6, 7, 10));
 
@@ -78,7 +86,7 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
         $this->assertEquals($expectedResult, $actualResult);
     }
 
-    public function test_getSitesAndDatesOfRowsUsingDuplicates_ReturnsTheServerTimeAndIdSite_OfRowsUsingSpecifiedActionIds()
+    public function testGetSitesAndDatesOfRowsUsingDuplicatesReturnsTheServerTimeAndIdSiteOfRowsUsingSpecifiedActionIds()
     {
         $row = array(
             'idsite' => 3,

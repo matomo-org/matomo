@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreConsole\Commands;
@@ -180,8 +180,10 @@ abstract class GeneratePluginBase extends ConsoleCommand
                 return;
             }
 
-            if ($numRequiredPiwikVersions === 2 &&
-                !Common::stringEndsWith($requiredVersion, $secondPartPiwikVersionRequire)) {
+            if (
+                $numRequiredPiwikVersions === 2 &&
+                !Common::stringEndsWith($requiredVersion, $secondPartPiwikVersionRequire)
+            ) {
                 // user is using custom piwik version require, we do not overwrite anything
                 return;
             }
@@ -192,16 +194,34 @@ abstract class GeneratePluginBase extends ConsoleCommand
             $missingVersion = $dependency->getMissingVersions($piwikVersion, $requiredVersion);
 
             if (!empty($missingVersion)) {
-                $msg = sprintf('We cannot generate this component as the plugin "%s" requires the Piwik version "%s" in the file "%s". Generating this component requires "%s". If you know your plugin is compatible with your Piwik version remove the required Piwik version in "%s" and try to execute this command again.', $pluginName, $requiredVersion, $relativePluginJson, $newRequiredVersion, $relativePluginJson);
+                $msg = sprintf(
+                    'We cannot generate this component as the plugin "%s" requires the Piwik version "%s" in the ' .
+                    'file "%s". Generating this component requires "%s". If you know your plugin is compatible with your ' .
+                    'Piwik version remove the required Piwik version in "%s" and try to execute this command again.',
+                    $pluginName,
+                    $requiredVersion,
+                    $relativePluginJson,
+                    $newRequiredVersion,
+                    $relativePluginJson
+                );
 
                 throw new \Exception($msg);
             }
 
             $output->writeln('');
-            $output->writeln(sprintf('<comment>We have updated the required Piwik version from "%s" to "%s" in "%s".</comment>', $requiredVersion, $newRequiredVersion, $relativePluginJson));
+            $output->writeln(sprintf(
+                '<comment>We have updated the required Piwik version from "%s" to "%s" in "%s".</comment>',
+                $requiredVersion,
+                $newRequiredVersion,
+                $relativePluginJson
+            ));
         } else {
             $output->writeln('');
-            $output->writeln(sprintf('<comment>We have updated your "%s" to require the Piwik version "%s".</comment>', $relativePluginJson, $newRequiredVersion));
+            $output->writeln(sprintf(
+                '<comment>We have updated your "%s" to require the Piwik version "%s".</comment>',
+                $relativePluginJson,
+                $newRequiredVersion
+            ));
         }
 
         $pluginJson['require']['matomo'] = $newRequiredVersion;
@@ -211,7 +231,6 @@ abstract class GeneratePluginBase extends ConsoleCommand
     private function toJson($value)
     {
         if (defined('JSON_PRETTY_PRINT')) {
-
             return json_encode($value, JSON_PRETTY_PRINT);
         }
 
@@ -276,7 +295,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
         }
 
         $newClassCode = '';
-        foreach(new \LimitIterator($file) as $index => $line) {
+        foreach (new \LimitIterator($file) as $index => $line) {
             if ($index == $methodLine) {
                 $newClassCode .= $methodCode;
             }
@@ -298,13 +317,13 @@ abstract class GeneratePluginBase extends ConsoleCommand
      * @param array $whitelistFiles  If not empty, only given files/directories will be copied.
      *                               For instance array('/Controller.php', '/templates', '/templates/index.twig')
      */
-    protected function copyTemplateToPlugin($templateFolder, $pluginName, array $replace = array(), $whitelistFiles = array())
+    protected function copyTemplateToPlugin($templateFolder, $pluginName, array $replace = [], $whitelistFiles = [])
     {
         $replace['PLUGINNAME'] = $pluginName;
 
         $files = array_merge(
-                Filesystem::globr($templateFolder, '*'),
-                // Also copy files starting with . such as .gitignore
+            Filesystem::globr($templateFolder, '*'),
+            // Also copy files starting with . such as .gitignore
                 Filesystem::globr($templateFolder, '.*')
         );
 
@@ -404,7 +423,9 @@ abstract class GeneratePluginBase extends ConsoleCommand
     {
         if (!SettingsPiwik::isGitDeployment()) {
             $url = 'https://developer.matomo.org/guides/getting-started-part-1';
-            throw new NotGitInstalledException("This development feature requires Matomo to be checked out from git. For more information please visit {$url}.");
+            throw new NotGitInstalledException(
+                "This development feature requires Matomo to be checked out from git. For more information please visit {$url}."
+            );
         }
     }
 }

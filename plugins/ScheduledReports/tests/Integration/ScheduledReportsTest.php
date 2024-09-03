@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\ScheduledReports\tests;
@@ -44,7 +45,7 @@ class ScheduledReportsTest extends IntegrationTestCase
         $this->addReport('anotherUser', 2);
     }
 
-    public function test_deleteUserReportForSites_shouldNotRemoveAnythingIfNoSitesOrNoLogin()
+    public function testDeleteUserReportForSitesShouldNotRemoveAnythingIfNoSitesOrNoLogin()
     {
         $this->reports->deleteUserReportForSites('userLogin', array());
 
@@ -65,7 +66,7 @@ class ScheduledReportsTest extends IntegrationTestCase
         $this->assertHasReport('anotherUser', 2);
     }
 
-    public function test_deleteUserReportForSites_shouldNotFailIfUserHasNoReports()
+    public function testDeleteUserReportForSitesShouldNotFailIfUserHasNoReports()
     {
         $this->reports->deleteUserReportForSites('unk', array());
 
@@ -77,7 +78,7 @@ class ScheduledReportsTest extends IntegrationTestCase
         $this->assertHasReport('anotherUser', 2);
     }
 
-    public function test_deleteUserReportForSites_shouldRemoveOnlyReportsForGivenSitesAndLogin()
+    public function testDeleteUserReportForSitesShouldRemoveOnlyReportsForGivenSitesAndLogin()
     {
         $this->reports->deleteUserReportForSites('userLogin', array(1, 2));
 
@@ -90,7 +91,7 @@ class ScheduledReportsTest extends IntegrationTestCase
         $this->assertHasReport('anotherUser', 2);
     }
 
-    public function test_ScheduledReports_shouldRemoveOnlyReportsForGivenSitesAndLogin_IfEventIsTriggered()
+    public function testScheduledReportsShouldRemoveOnlyReportsForGivenSitesAndLoginIfEventIsTriggered()
     {
         Piwik::postEvent('UsersManager.removeSiteAccess', array('userLogin', array(1, 2)));
 
@@ -103,7 +104,7 @@ class ScheduledReportsTest extends IntegrationTestCase
         $this->assertHasReport('anotherUser', 2);
     }
 
-    public function test_deleteUserReport_shouldRemoveAllReportsOfASpecificUser()
+    public function testDeleteUserReportShouldRemoveAllReportsOfASpecificUser()
     {
         $this->reports->deleteUserReport('userLogin');
 

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
 use Piwik\Archive\ArchivePurger;
@@ -64,7 +66,7 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_ExecutingCommandWithAllDates_PurgesAllExistingArchiveTables()
+    public function testExecutingCommandWithAllDatesPurgesAllExistingArchiveTables()
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:purge-old-archive-data',
@@ -83,7 +85,7 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
         self::$fixture->assertCustomRangesPurged(self::$fixture->january);
     }
 
-    public function test_ExecutingCommandWithNoDate_PurgesArchiveTableForToday()
+    public function testExecutingCommandWithNoDatePurgesArchiveTableForToday()
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:purge-old-archive-data',
@@ -101,7 +103,7 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
         self::$fixture->assertCustomRangesNotPurged(self::$fixture->january);
     }
 
-    public function test_ExecutingCommandWithSpecificDate_PurgesArchiveTableForDate()
+    public function testExecutingCommandWithSpecificDatePurgesArchiveTableForDate()
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:purge-old-archive-data',
@@ -120,7 +122,7 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
         self::$fixture->assertCustomRangesNotPurged(self::$fixture->february);
     }
 
-    public function test_ExecutingCommandWithExcludeOptions_SkipsAppropriatePurging()
+    public function testExecutingCommandWithExcludeOptionsSkipsAppropriatePurging()
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:purge-old-archive-data',

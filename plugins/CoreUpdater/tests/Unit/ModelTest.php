@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreUpdater\tests\Unit;
@@ -30,14 +31,14 @@ class ModelTest extends \PHPUnit\Framework\TestCase
         $this->model = new Model();
     }
 
-    public function test_getPluginsFromDirectoy_shouldReturnEmptyArray_IfNoPluginsExist()
+    public function testGetPluginsFromDirectoyShouldReturnEmptyArrayIfNoPluginsExist()
     {
         $plugins = $this->model->getPluginsFromDirectoy(PIWIK_INCLUDE_PATH . '/config');
 
         $this->assertEquals(array(), $plugins);
     }
 
-    public function test_getPluginsFromDirectoy_shouldReturnAllDirectoriesWithinPlugins()
+    public function testGetPluginsFromDirectoyShouldReturnAllDirectoriesWithinPlugins()
     {
         $plugins = $this->model->getPluginsFromDirectoy(PIWIK_INCLUDE_PATH);
 

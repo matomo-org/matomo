@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Translation\Weblate;
 
 use Exception;
@@ -41,7 +42,7 @@ class API
             $resources = $this->getApiResults($apiPath);
             $result = [];
 
-            while($resources->results) {
+            while ($resources->results) {
                 $result = array_merge($result, $resources->results);
 
                 if ($resources->next) {
@@ -130,9 +131,24 @@ class API
     {
         $apiUrl = $this->apiUrl . $apiPath;
 
-        $response = Http::sendHttpRequestBy(Http::getTransportMethod(), $apiUrl, 60, null, null, null, 5, false,
-            false, false, true, 'GET', null, null, null,
-            ['Authorization: Token ' . $this->apiToken]);
+        $response = Http::sendHttpRequestBy(
+            Http::getTransportMethod(),
+            $apiUrl,
+            60,
+            null,
+            null,
+            null,
+            5,
+            false,
+            false,
+            false,
+            true,
+            'GET',
+            null,
+            null,
+            null,
+            ['Authorization: Token ' . $this->apiToken]
+        );
 
         $httpStatus = $response['status'];
         $response = $response['data'];

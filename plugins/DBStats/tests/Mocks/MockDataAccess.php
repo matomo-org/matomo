@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\DBStats\tests\Mocks;
 
 use Piwik\Common;
@@ -93,7 +94,8 @@ class MockDataAccess extends MySQLMetadataDataAccess
     {
         $result = array();
         foreach (self::$tableStatuses as $tableName => $ignore) {
-            if ($tableName == "archive_numeric"
+            if (
+                $tableName == "archive_numeric"
                 || $tableName == "archive_blob"
             ) {
                 continue;
@@ -123,7 +125,7 @@ class MockDataAccess extends MySQLMetadataDataAccess
         $result = Common::unprefixTable($tableName);
         if (strpos($tableName, "archive_numeric") !== false) {
             $result = "archive_numeric";
-        } else if (strpos($tableName, "archive_blob") !== false) {
+        } elseif (strpos($tableName, "archive_blob") !== false) {
             $result = "archive_blob";
         }
         return $result;

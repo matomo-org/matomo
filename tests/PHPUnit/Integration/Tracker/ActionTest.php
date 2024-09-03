@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Tracker;
@@ -53,7 +54,7 @@ class ActionTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
     }
 
-    public function test_isCustomActionRequest()
+    public function testIsCustomActionRequest()
     {
         $request = new Request(array('ca' => '1'));
         $this->assertTrue(Action::isCustomActionRequest($request));
@@ -65,7 +66,7 @@ class ActionTest extends IntegrationTestCase
         $this->assertFalse(Action::isCustomActionRequest($request));
     }
 
-    public function test_factory_notDefaultsToPageViewWhenCustomPluginRequest()
+    public function testFactoryNotDefaultsToPageViewWhenCustomPluginRequest()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Request was meant for a plugin which is no longer activated. Request needs to be ignored.');
@@ -76,7 +77,7 @@ class ActionTest extends IntegrationTestCase
         Action::factory($request);
     }
 
-    public function test_factory_defaultsToPageviewWhenNotCustomPluginRequest()
+    public function testFactoryDefaultsToPageviewWhenNotCustomPluginRequest()
     {
         $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'));
@@ -163,10 +164,22 @@ class ActionTest extends IntegrationTestCase
     public function testExcludeQueryParametersNone($url, $filteredUrl)
     {
         $this->setUpRootAccess();
-        $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
-            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
-            $excludedIps = '', $excludedQueryParameters = '', $timezone = null, $currency = null,
-            $group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
+        $idSite = API::getInstance()->addSite(
+            "site1",
+            array('http://example.org'),
+            $ecommerce = 0,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = '',
+            $excludedQueryParameters = '',
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepURLFragments = 1
+        );
         $this->assertEquals($filteredUrl[0], PageUrl::excludeQueryParametersFromUrl($url, $idSite));
     }
 
@@ -197,10 +210,22 @@ class ActionTest extends IntegrationTestCase
     public function testExcludeQueryParametersAdvertisingClickIds($url, $filteredUrl)
     {
         $this->setUpRootAccess();
-        $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
-            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
-            $excludedIps = '', $excludedQueryParameters = '', $timezone = null, $currency = null,
-            $group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
+        $idSite = API::getInstance()->addSite(
+            "site1",
+            array('http://example.org'),
+            $ecommerce = 0,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = '',
+            $excludedQueryParameters = '',
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepURLFragments = 1
+        );
         $this->assertEquals($filteredUrl, PageUrl::excludeQueryParametersFromUrl($url, $idSite));
     }
 
@@ -234,10 +259,22 @@ class ActionTest extends IntegrationTestCase
     {
         $excludedQueryParameters = 'p4, p2, var[value][date]';
         $this->setUpRootAccess();
-        $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
-            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
-            $excludedIps = '', $excludedQueryParameters, $timezone = null, $currency = null,
-            $group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
+        $idSite = API::getInstance()->addSite(
+            "site1",
+            array('http://example.org'),
+            $ecommerce = 0,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = '',
+            $excludedQueryParameters,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepURLFragments = 1
+        );
         $this->assertEquals($filteredUrl[1], PageUrl::excludeQueryParametersFromUrl($url, $idSite));
     }
 
@@ -249,10 +286,22 @@ class ActionTest extends IntegrationTestCase
     {
         $excludedQueryParameters = '/p[4|2]/, /^var.*/';
         $this->setUpRootAccess();
-        $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
-            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
-            $excludedIps = '', $excludedQueryParameters, $timezone = null, $currency = null,
-            $group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
+        $idSite = API::getInstance()->addSite(
+            "site1",
+            array('http://example.org'),
+            $ecommerce = 0,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = '',
+            $excludedQueryParameters,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepURLFragments = 1
+        );
         $this->assertEquals($filteredUrl[1], PageUrl::excludeQueryParametersFromUrl($url, $idSite));
     }
 
@@ -266,10 +315,22 @@ class ActionTest extends IntegrationTestCase
         $excludedQueryParameters = 'P2,var[value][date]';
         $excludedGlobalParameters = 'blabla, P4';
         $this->setUpRootAccess();
-        $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
-            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
-            $excludedIps = '', $excludedQueryParameters, $timezone = null, $currency = null,
-            $group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
+        $idSite = API::getInstance()->addSite(
+            "site1",
+            array('http://example.org'),
+            $ecommerce = 0,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = '',
+            $excludedQueryParameters,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepURLFragments = 1
+        );
         API::getInstance()->setGlobalExcludedQueryParameters($excludedGlobalParameters);
         $this->assertEquals($filteredUrl[1], PageUrl::excludeQueryParametersFromUrl($url, $idSite));
     }

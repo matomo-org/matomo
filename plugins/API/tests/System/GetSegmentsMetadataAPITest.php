@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\API\tests\System;
@@ -16,7 +17,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 class GetSegmentsMetadataAPITest extends SystemTestCase
 {
-    public function test_it_contains_visitid_by_default()
+    public function testItContainsVisitidByDefault()
     {
         $request = new Request(
             'method=API.getSegmentsMetadata'
@@ -30,7 +31,7 @@ class GetSegmentsMetadataAPITest extends SystemTestCase
 
         $contains = false;
 
-        foreach($response as $segment) {
+        foreach ($response as $segment) {
             if ($segment['segment'] === (new VisitorId())->getSegmentName()) {
                 $contains = true;
                 break;
@@ -40,7 +41,7 @@ class GetSegmentsMetadataAPITest extends SystemTestCase
         $this->assertTrue($contains);
     }
 
-    public function test_it_does_not_contain_visitid_if_profile_disabled()
+    public function testItDoesNotContainVisitidIfProfileDisabled()
     {
         Cache::flushAll();
 
@@ -60,7 +61,7 @@ class GetSegmentsMetadataAPITest extends SystemTestCase
 
         $contains = false;
 
-        foreach($response as $segment) {
+        foreach ($response as $segment) {
             if ($segment['segment'] === (new VisitorId())->getSegmentName()) {
                 $contains = true;
                 break;

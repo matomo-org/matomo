@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Core\DataTable\Filter;
@@ -55,21 +56,21 @@ class AddSegmentBySegmentValueTest extends \PHPUnit\Framework\TestCase
         return $row;
     }
 
-    public function test_filter_shouldGenerateASegmentIfSegmentValueIsPresent()
+    public function testFilterShouldGenerateASegmentIfSegmentValueIsPresent()
     {
         $segmentValue = 'existing';
         $expectedSegment = 'city==existing';
         $this->assertSegmentForSegmentValueAndReport($this->report, $segmentValue, $expectedSegment);
     }
 
-    public function test_filter_shouldUrlEncodeTheValue()
+    public function testFilterShouldUrlEncodeTheValue()
     {
         $segmentValue = 'existing täs/ts';
         $expectedSegment = 'city==existing+t%C3%A4s%2Fts';
         $this->assertSegmentForSegmentValueAndReport($this->report, $segmentValue, $expectedSegment);
     }
 
-    public function test_filter_shouldNotOverwriteAnExistingSegmentValue()
+    public function testFilterShouldNotOverwriteAnExistingSegmentValue()
     {
         $row = $this->addRowWithMetadata(array('segmentValue' => 'existing', 'segment' => 'city==mytest'));
 
@@ -78,7 +79,7 @@ class AddSegmentBySegmentValueTest extends \PHPUnit\Framework\TestCase
         $this->assertSegment('city==mytest', $row);
     }
 
-    public function test_filter_shouldNotGenerateASegment_IfReportHasNoDimension()
+    public function testFilterShouldNotGenerateASegmentIfReportHasNoDimension()
     {
         $report = new Get(); // VisitsSummary.get has no dimension
         $this->assertNull($report->getDimension());
@@ -86,7 +87,7 @@ class AddSegmentBySegmentValueTest extends \PHPUnit\Framework\TestCase
         $this->assertSegmentForSegmentValueAndReport($report, $segmentValue = 'existing', false);
     }
 
-    public function test_filter_shouldNotGenerateASegment_IfDimensionHasNoSegmentFilter()
+    public function testFilterShouldNotGenerateASegmentIfDimensionHasNoSegmentFilter()
     {
         // plugin report currently has a dimensions but no segments, we have to use another report if later we add segments
         $report = new GetPlugin();
@@ -95,12 +96,12 @@ class AddSegmentBySegmentValueTest extends \PHPUnit\Framework\TestCase
         $this->assertSegmentForSegmentValueAndReport($report, $segmentValue = 'existing', false);
     }
 
-    public function test_filter_shouldNotFail_IfNoReportGiven()
+    public function testFilterShouldNotFailIfNoReportGiven()
     {
         $this->assertSegmentForSegmentValueAndReport($report = null, $segmentValue = 'existing', false);
     }
 
-    public function test_filter_shouldNotFail_IfDataTableHasNoRows()
+    public function testFilterShouldNotFailIfDataTableHasNoRows()
     {
         $table = new DataTable();
         $table->filter($this->filter, array($this->report));

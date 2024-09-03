@@ -1,14 +1,16 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Updater\Migration\Db;
 
 use Piwik\Common;
+use Piwik\Db\Schema;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater\Migration\Db\AddColumn;
 use Piwik\Updater\Migration\Db\AddColumns;
@@ -51,14 +53,14 @@ class FactoryTest extends IntegrationTestCase
         $this->factory = new Factory();
     }
 
-    public function test_sql_returnsSqlInstance()
+    public function testSqlReturnsSqlInstance()
     {
         $migration = $this->sql();
 
         $this->assertTrue($migration instanceof Sql);
     }
 
-    public function test_sql_forwardsQueryAndErrorCode()
+    public function testSqlForwardsQueryAndErrorCode()
     {
         $migration = $this->sql();
 
@@ -66,14 +68,14 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame(array(5), $migration->getErrorCodesToIgnore());
     }
 
-    public function test_boundSql_returnsSqlInstance()
+    public function testBoundSqlReturnsSqlInstance()
     {
         $migration = $this->boundSql();
 
         $this->assertTrue($migration instanceof BoundSql);
     }
 
-    public function test_boundSql_forwardsParameters()
+    public function testBoundSqlForwardsParameters()
     {
         $migration = $this->boundSql();
 
@@ -81,38 +83,42 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame(array(8), $migration->getErrorCodesToIgnore());
     }
 
-    public function test_createTable_returnsCreateTableInstance()
+    public function testCreateTableReturnsCreateTableInstance()
     {
         $migration = $this->createTable();
 
         $this->assertTrue($migration instanceof CreateTable);
     }
 
-    public function test_createTable_forwardsParameters()
+    public function testCreateTableForwardsParameters()
     {
         $migration = $this->createTable();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;", '' . $migration);
+        $createOptions = Schema::getInstance()->getTableCreateOptions();
+        self::assertStringContainsString('ROW_FORMAT=DYNAMIC', $createOptions);
+        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)) $createOptions;", '' . $migration);
     }
 
 
-    public function test_createTable_withPrimaryKey()
+    public function testCreateTableWithPrimaryKey()
     {
         $migration = $this->createTable('column2');
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255), PRIMARY KEY ( `column2` )) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;", '' . $migration);
+        $createOptions = Schema::getInstance()->getTableCreateOptions();
+        self::assertStringContainsString('ROW_FORMAT=DYNAMIC', $createOptions);
+        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255), PRIMARY KEY ( `column2` )) $createOptions;", '' . $migration);
     }
 
-    public function test_dropTable_returnsDropTableInstance()
+    public function testDropTableReturnsDropTableInstance()
     {
         $migration = $this->factory->dropTable($this->testTable);
 
         $this->assertTrue($migration instanceof DropTable);
     }
 
-    public function test_dropTable_forwardsParameters()
+    public function testDropTableForwardsParameters()
     {
         $migration = $this->factory->dropTable($this->testTable);
 
@@ -120,14 +126,14 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame("DROP TABLE IF EXISTS `$table`;", '' . $migration);
     }
 
-    public function test_dropColumn_returnsDropColumnInstance()
+    public function testDropColumnReturnsDropColumnInstance()
     {
         $migration = $this->dropColumn();
 
         $this->assertTrue($migration instanceof DropColumn);
     }
 
-    public function test_dropColumn_forwardsParameters()
+    public function testDropColumnForwardsParameters()
     {
         $migration = $this->dropColumn();
 
@@ -135,7 +141,7 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame("ALTER TABLE `$table` DROP COLUMN `column1`;", '' . $migration);
     }
 
-    public function test_addColumn_forwardsParameters_withLastColumn()
+    public function testAddColumnForwardsParametersWithLastColumn()
     {
         $migration = $this->addColumn('lastcolumn');
 
@@ -143,14 +149,14 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame("ALTER TABLE `$table` ADD COLUMN `column` INT(10) DEFAULT 0 AFTER `lastcolumn`;", '' . $migration);
     }
 
-    public function test_addColumn_returnsAddColumnInstance()
+    public function testAddColumnReturnsAddColumnInstance()
     {
         $migration = $this->addColumn(null);
 
         $this->assertTrue($migration instanceof AddColumn);
     }
 
-    public function test_addColumn_forwardsParameters_noLastColumn()
+    public function testAddColumnForwardsParametersNoLastColumn()
     {
         $migration = $this->addColumn(null);
 
@@ -158,37 +164,51 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame("ALTER TABLE `$table` ADD COLUMN `column` INT(10) DEFAULT 0;", '' . $migration);
     }
 
-    public function test_addColumns_returnsAddColumnsInstance()
+    public function testAddColumnsReturnsAddColumnsInstance()
     {
         $migration = $this->addColumns(null);
 
         $this->assertTrue($migration instanceof AddColumns);
     }
 
-    public function test_addColumns_forwardsParameters()
+    public function testAddColumnsForwardsParameters()
     {
         $migration = $this->addColumns('columnafter');
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` ADD COLUMN `column1` INT(10) DEFAULT 0 AFTER `columnafter`, ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\" AFTER `column1`;", '' . $migration);
+
+        $expectedStatement = "ALTER TABLE `$table` ADD COLUMN `column1` INT(10) DEFAULT 0 AFTER `columnafter`, ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\" AFTER `column1`;";
+
+        if (!Schema::getInstance()->supportsComplexColumnUpdates()) {
+            $expectedStatement = "ALTER TABLE `$table` ADD COLUMN `column1` INT(10) DEFAULT 0 AFTER `columnafter`;ALTER TABLE `$table` ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\" AFTER `column1`;";
+        }
+
+        $this->assertSame($expectedStatement, '' . $migration);
     }
 
-    public function test_addColumns_NoAfterColumn()
+    public function testAddColumnsNoAfterColumn()
     {
         $migration = $this->addColumns(null);
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` ADD COLUMN `column1` INT(10) DEFAULT 0, ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\";", '' . $migration);
+
+        $expectedStatement = "ALTER TABLE `$table` ADD COLUMN `column1` INT(10) DEFAULT 0, ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\";";
+
+        if (!Schema::getInstance()->supportsComplexColumnUpdates()) {
+            $expectedStatement = "ALTER TABLE `$table` ADD COLUMN `column1` INT(10) DEFAULT 0;ALTER TABLE `$table` ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\";";
+        }
+
+        $this->assertSame($expectedStatement, '' . $migration);
     }
 
-    public function test_changeColumn_returnsChangeColumnInstance()
+    public function testChangeColumnReturnsChangeColumnInstance()
     {
         $migration = $this->changeColumn();
 
         $this->assertTrue($migration instanceof ChangeColumn);
     }
 
-    public function test_changeColumn_forwardsParameters()
+    public function testChangeColumnForwardsParameters()
     {
         $migration = $this->changeColumn();
 
@@ -196,14 +216,14 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame("ALTER TABLE `$table` CHANGE `column_old` `column_new` INT(10) DEFAULT 0;", '' . $migration);
     }
 
-    public function test_changeColumnType_returnsChangeColumnTypeInstance()
+    public function testChangeColumnTypeReturnsChangeColumnTypeInstance()
     {
         $migration = $this->changeColumnType();
 
         $this->assertTrue($migration instanceof ChangeColumnType);
     }
 
-    public function test_changeColumnType_forwardsParameters()
+    public function testChangeColumnTypeForwardsParameters()
     {
         $migration = $this->changeColumnType();
 
@@ -211,14 +231,14 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame("ALTER TABLE `$table` CHANGE `column` `column` INT(10) DEFAULT 0;", '' . $migration);
     }
 
-    public function test_changeColumnTypes_returnsChangeColumnTypesInstance()
+    public function testChangeColumnTypesReturnsChangeColumnTypesInstance()
     {
         $migration = $this->changeColumnTypes();
 
         $this->assertTrue($migration instanceof ChangeColumnTypes);
     }
 
-    public function test_changeColumnTypes_forwardsParameters()
+    public function testChangeColumnTypesForwardsParameters()
     {
         $migration = $this->changeColumnTypes();
 
@@ -226,14 +246,14 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame("ALTER TABLE `$table` CHANGE `column1` `column1` INT(10) DEFAULT 0, CHANGE `column2` `column2` VARCHAR(10) DEFAULT \"\";", '' . $migration);
     }
 
-    public function test_addIndex_returnsAddIndexInstance()
+    public function testAddIndexReturnsAddIndexInstance()
     {
         $migration = $this->addIndex();
 
         $this->assertTrue($migration instanceof AddIndex);
     }
 
-    public function test_addIndex_forwardsParameters_generatesIndexNameAutomatically()
+    public function testAddIndexForwardsParametersGeneratesIndexNameAutomatically()
     {
         $migration = $this->addIndex();
 
@@ -241,7 +261,7 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame("ALTER TABLE `$table` ADD INDEX index_column1_column3 (`column1`, `column3` (10));", '' . $migration);
     }
 
-    public function test_addIndex_customIndexName()
+    public function testAddIndexCustomIndexName()
     {
         $migration = $this->addIndex('myCustomIndex');
 
@@ -249,14 +269,14 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame("ALTER TABLE `$table` ADD INDEX myCustomIndex (`column1`, `column3` (10));", '' . $migration);
     }
 
-    public function test_addUniqueKey_returnsAddUniqueKeyInstance()
+    public function testAddUniqueKeyReturnsAddUniqueKeyInstance()
     {
         $migration = $this->addUniqueKey();
 
         $this->assertTrue($migration instanceof AddUniqueKey);
     }
 
-    public function test_addUniqueKey_forwardsParameters_generatesIndexNameAutomatically()
+    public function testAddUniqueKeyForwardsParametersGeneratesIndexNameAutomatically()
     {
         $migration = $this->addUniqueKey();
 
@@ -264,7 +284,7 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame("ALTER TABLE `$table` ADD UNIQUE KEY unique_column1_column3 (`column1`, `column3` (10));", '' . $migration);
     }
 
-    public function test_addUniqueKey_customIndexName()
+    public function testAddUniqueKeyCustomIndexName()
     {
         $migration = $this->addUniqueKey('myCustomIndex');
 
@@ -272,14 +292,14 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame("ALTER TABLE `$table` ADD UNIQUE KEY myCustomIndex (`column1`, `column3` (10));", '' . $migration);
     }
 
-    public function test_dropIndex_returnsAddIndexInstance()
+    public function testDropIndexReturnsAddIndexInstance()
     {
         $migration = $this->dropIndex();
 
         $this->assertTrue($migration instanceof DropIndex);
     }
 
-    public function test_addIndex_forwardsParameters()
+    public function testAddIndexForwardsParameters()
     {
         $migration = $this->dropIndex();
 
@@ -287,14 +307,14 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame("ALTER TABLE `$table` DROP INDEX `index_column1_column5`;", '' . $migration);
     }
 
-    public function test_addPrimaryKey()
+    public function testAddPrimaryKey()
     {
         $migration = $this->addPrimaryKey();
 
         $this->assertTrue($migration instanceof AddPrimaryKey);
     }
 
-    public function test_addPrimaryKey_forwardsParameters()
+    public function testAddPrimaryKeyForwardsParameters()
     {
         $migration = $this->addPrimaryKey();
 
@@ -302,14 +322,14 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame("ALTER TABLE `$table` ADD PRIMARY KEY(`column1`, `column2`);", '' . $migration);
     }
 
-    public function test_insert_returnsInsertInstance()
+    public function testInsertReturnsInsertInstance()
     {
         $migration = $this->insert();
 
         $this->assertTrue($migration instanceof Insert);
     }
 
-    public function test_insert_forwardsParameters()
+    public function testInsertForwardsParameters()
     {
         $migration = $this->insert();
 
@@ -317,13 +337,13 @@ class FactoryTest extends IntegrationTestCase
         $this->assertSame("INSERT INTO `$table` (`column1`, `column3`) VALUES ('val1',5);", '' . $migration);
     }
 
-    public function test_batchInsert_returnsBatchInsertInstance()
+    public function testBatchInsertReturnsBatchInsertInstance()
     {
         $migration = $this->batchInsert();
         $this->assertTrue($migration instanceof BatchInsert);
     }
 
-    public function test_batchInsert_forwardsParameters()
+    public function testBatchInsertForwardsParameters()
     {
         $migration = $this->batchInsert();
         $this->assertSame('<batch insert>', '' . $migration);

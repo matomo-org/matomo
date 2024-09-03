@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Container;
@@ -85,8 +86,10 @@ class ContainerFactory
         }
 
         // User config
-        if (file_exists(PIWIK_USER_PATH . '/config/config.php')
-            && !in_array('test', $this->environments, true)) {
+        if (
+            file_exists(PIWIK_USER_PATH . '/config/config.php')
+            && !in_array('test', $this->environments, true)
+        ) {
             $builder->addDefinitions(PIWIK_USER_PATH . '/config/config.php');
         }
 
@@ -116,8 +119,20 @@ class ContainerFactory
             $builder->addDefinitions($file);
         }
 
+        $file = sprintf(
+            '%s/config/environment/%s-%s.php',
+            PIWIK_USER_PATH,
+            $environment,
+            strtolower($this->getDatabaseSchema())
+        );
+
+        if (file_exists($file)) {
+            $builder->addDefinitions($file);
+        }
+
         // add plugin environment configs
         $plugins = $this->pluginList->getActivatedPlugins();
+        $plugins = array_unique(array_merge($plugins, Manager::getAlwaysActivatedPlugins()));
 
         if ($this->shouldSortPlugins()) {
             $plugins = $this->sortPlugins($plugins);
@@ -136,6 +151,7 @@ class ContainerFactory
     private function addPluginConfigs(ContainerBuilder $builder)
     {
         $plugins = $this->pluginList->getActivatedPlugins();
+        $plugins = array_unique(array_merge($plugins, Manager::getAlwaysActivatedPlugins()));
 
         if ($this->shouldSortPlugins()) {
             $plugins = $this->sortPlugins($plugins);
@@ -174,5 +190,11 @@ class ContainerFactory
     {
         $section = $this->settings->getSection('Development');
         return (bool) @$section['enabled']; // TODO: code redundancy w/ Development. hopefully ok for now.
+    }
+
+    private function getDatabaseSchema(): string
+    {
+        $section = $this->settings->getSection('database');
+        return $section['schema'] ?? 'Mysql';
     }
 }

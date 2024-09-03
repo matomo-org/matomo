@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreConsole\Commands;
@@ -58,7 +58,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 
         if ($input->getOption('plugin')) {
             $targetDir   = sprintf(PIWIK_INCLUDE_PATH . '/plugins/%s/tests/System/%s/', $input->getOption('plugin'), $expected ? 'expected' : 'processed');
-        } else if (preg_match('/plugin-([a-z0-9]{3,40})$/i', $repository, $match)) {
+        } elseif (preg_match('/plugin-([a-z0-9]{3,40})$/i', $repository, $match)) {
             $targetDir   = sprintf(PIWIK_INCLUDE_PATH . '/plugins/%s/tests/System/%s/', $match[1], $expected ? 'expected' : 'processed');
         }
 
@@ -76,7 +76,9 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 
         $filename = sprintf('system.%s.tar.bz2', $buildNumber);
         $urlBase  = sprintf('https://builds-artifacts.matomo.org/%s/%s', $repository, $filename);
-        $tests    = Http::sendHttpRequest($urlBase, $timeout = 120,
+        $tests    = Http::sendHttpRequest(
+            $urlBase,
+            $timeout = 120,
             $userAgent = null,
             $destinationPath = null,
             $followDepth = 0,
@@ -85,7 +87,8 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
             $getExtendedInfo = false,
             $httpMethod = 'GET',
             $httpUser,
-            $httpPassword);
+            $httpPassword
+        );
 
         $tarFile = $tmpDir . $filename;
         file_put_contents($tarFile, $tests);
@@ -143,7 +146,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 
         $artifacts = Filesystem::globr($extractionTarget, '*~~*');
 
-        foreach($artifacts as $artifact) {
+        foreach ($artifacts as $artifact) {
             $artifactName = basename($artifact);
             [$plugin, $file] = explode('~~', $artifactName);
             $pluginTargetDir = sprintf($targetDir, $plugin);

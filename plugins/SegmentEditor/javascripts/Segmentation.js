@@ -1,8 +1,8 @@
 /*!
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 Segmentation = (function($) {
@@ -592,9 +592,7 @@ Segmentation = (function($) {
         var addForm = function(mode, segment){
 
             self.target.find(".segment-element:visible").unbind().remove();
-            if (typeof self.form !== "undefined") {
-                closeForm();
-            }
+            closeForm();
             // remove any remaining forms
 
 
@@ -670,19 +668,21 @@ Segmentation = (function($) {
             });
             app.mount(segmentGeneratorContainer);
 
-            this.addEventListener('matomoVueDestroy', function () {
+            segmentGeneratorContainer.addEventListener('matomoVueDestroy', function () {
               app.unmount();
             });
         };
 
         var closeForm = function () {
-            $(self.form).find('.segment-generator-container')[0].dispatchEvent(
-              new CustomEvent('matomoVueDestroy'),
-            );
-
             self.currentSegmentStr = '';
 
-            $(self.form).unbind().remove();
+            if (typeof self.form !== "undefined") {
+              $(self.form).find('.segment-generator-container')[0].dispatchEvent(
+                new CustomEvent('matomoVueDestroy'),
+              );
+
+              $(self.form).unbind().remove();
+            }
             self.target.closest('.segmentEditorPanel').removeClass('editing');
         };
 
@@ -861,23 +861,18 @@ Segmentation = (function($) {
         if (piwikHelper.isReportingPage()) {
           var watch = window.Vue.watch;
           var MatomoUrl = window.CoreHome.MatomoUrl;
-          watch(
-            function () {
-              return MatomoUrl.url.value;
-            },
-            function () {
-              var segment = MatomoUrl.hashParsed.value.segment || '';
+          watch(() => MatomoUrl.hashParsed.value.segment, function (value) {
+            var segment = value || '';
 
-              if (self.getSegment() != segment) {
-                self.setSegment(segment);
-                self.initHtml();
-              } else {
-                setTimeout(function () {
-                  self.markComparedSegments();
-                });
-              }
+            if (self.getSegment() != segment) {
+              self.setSegment(segment);
+              self.initHtml();
+            } else {
+              setTimeout(function () {
+                self.markComparedSegments();
+              });
             }
-          );
+          });
         }
 
         this.initHtml();
@@ -1008,6 +1003,7 @@ $(document).ready(function() {
                         }
                     }
 
+                    params.name = piwikHelper.htmlEntities(params.name);
                     $.extend( self.props.availableSegments[idx], params);
                     self.rebuild();
 

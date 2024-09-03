@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreUpdater\tests\Integration\Commands;
 
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -23,8 +25,8 @@ require_once PIWIK_INCLUDE_PATH . '/core/Updates/2.10.0-b5.php';
  */
 class UpdateTest extends ConsoleCommandTestCase
 {
-    const VERSION_TO_UPDATE_FROM = '2.9.0';
-    const EXPECTED_SQL_FROM_2_10 = "UPDATE report SET reports = REPLACE(reports, 'UserSettings_getBrowserVersion', 'DevicesDetection_getBrowserVersions');";
+    public const VERSION_TO_UPDATE_FROM = '2.9.0';
+    public const EXPECTED_SQL_FROM_2_10 = "UPDATE report SET reports = REPLACE(reports, 'UserSettings_getBrowserVersion', 'DevicesDetection_getBrowserVersions');";
 
     private $oldScriptName = null;
 
@@ -49,7 +51,7 @@ class UpdateTest extends ConsoleCommandTestCase
         parent::tearDown();
     }
 
-    public function test_UpdateCommand_SuccessfullyExecutesUpdate()
+    public function testUpdateCommandSuccessfullyExecutesUpdate()
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:update',
@@ -64,7 +66,7 @@ class UpdateTest extends ConsoleCommandTestCase
         $this->assertEquals(Version::VERSION, Option::get('version_core'));
     }
 
-    public function test_UpdateCommand_DoesntExecuteSql_WhenUserSaysNo()
+    public function testUpdateCommandDoesntExecuteSqlWhenUserSaysNo()
     {
         $this->applicationTester->setInputs(['N']);
 
@@ -80,7 +82,7 @@ class UpdateTest extends ConsoleCommandTestCase
         $this->assertEquals(self::VERSION_TO_UPDATE_FROM, Option::get('version_core'));
     }
 
-    public function test_UpdateCommand_DoesNotExecuteUpdate_IfPiwikUpToDate()
+    public function testUpdateCommandDoesNotExecuteUpdateIfPiwikUpToDate()
     {
         Option::set('version_core', Version::VERSION);
 
@@ -96,7 +98,7 @@ class UpdateTest extends ConsoleCommandTestCase
         $this->assertEquals(Version::VERSION, Option::get('version_core'));
     }
 
-    public function test_UpdateCommand_ReturnsCorrectExitCode_WhenErrorOccurs()
+    public function testUpdateCommandReturnsCorrectExitCodeWhenErrorOccurs()
     {
         // create a blob table, then drop it manually so update 2.10.0-b10 will fail
         $tableName = ArchiveTableCreator::getBlobTable(Date::factory('2015-01-01'));

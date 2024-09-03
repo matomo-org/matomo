@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Diagnostics\tests\Unit;
@@ -16,7 +17,7 @@ use Piwik\Plugins\Diagnostics\tests\Mock\DiagnosticWithWarning;
 
 class DiagnosticServiceTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_runDiagnostics()
+    public function testRunDiagnostics()
     {
         $mandatoryDiagnostics = array(
             new DiagnosticWithError(),

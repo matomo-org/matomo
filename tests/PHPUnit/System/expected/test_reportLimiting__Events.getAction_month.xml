@@ -6,8 +6,8 @@
 		<nb_events>15</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<avg_event_value>0</avg_event_value>
 		<segment>eventAction==event+action+1</segment>
@@ -18,8 +18,8 @@
 				<nb_events>5</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<avg_event_value>0</avg_event_value>
 			</row>
@@ -29,8 +29,8 @@
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 				<avg_event_value>0</avg_event_value>
 			</row>
@@ -42,8 +42,8 @@
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<avg_event_value>0</avg_event_value>
 		<segment>eventAction==event+action+0</segment>
@@ -54,8 +54,8 @@
 				<nb_events>5</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<avg_event_value>0</avg_event_value>
 			</row>
@@ -65,8 +65,8 @@
 				<nb_events>5</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
-				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
+				<min_event_value />
+				<max_event_value />
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<avg_event_value>0</avg_event_value>
 			</row>
@@ -78,8 +78,8 @@
 		<nb_events>50</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
 		<sum_event_value>0</sum_event_value>
-		<min_event_value>0</min_event_value>
-		<max_event_value>0</max_event_value>
+		<min_event_value />
+		<max_event_value />
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<avg_event_value>0</avg_event_value>
 	</row>

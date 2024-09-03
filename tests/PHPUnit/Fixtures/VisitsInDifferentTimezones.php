@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
@@ -34,14 +36,28 @@ class VisitsInDifferentTimezones extends Fixture
     {
         // tests run in UTC, the Tracker in UTC
         if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'site in AST', $siteUrl = false,
-                                $siteSearch = 1, $searchKeywordParameters = null,
-                                $searchCategoryParameters = null, $timezone = 'America/Barbados' /* AST = UTC-4 */);
+            self::createWebsite(
+                $this->dateTime,
+                $ecommerce = 0,
+                $siteName = 'site in AST',
+                $siteUrl = false,
+                $siteSearch = 1,
+                $searchKeywordParameters = null,
+                $searchCategoryParameters = null,
+                $timezone = 'America/Barbados' /* AST = UTC-4 */
+            );
         }
         if (!self::siteCreated($idSite = 2)) {
-            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'site in UTC', $siteUrl = false,
-                $siteSearch = 1, $searchKeywordParameters = null,
-                $searchCategoryParameters = null, $timezone = 'UTC');
+            self::createWebsite(
+                $this->dateTime,
+                $ecommerce = 0,
+                $siteName = 'site in UTC',
+                $siteUrl = false,
+                $siteSearch = 1,
+                $searchKeywordParameters = null,
+                $searchCategoryParameters = null,
+                $timezone = 'UTC'
+            );
         }
     }
 
@@ -52,7 +68,7 @@ class VisitsInDifferentTimezones extends Fixture
         // The resulting reports should have
         // 21 visits yesterday and 13 today in UTC time (in total 34)
         // 24 visits yesterday and 9 visits today in AST timezone (in total 33)
-        for($i = 3; $i <= 36; $i++) {
+        for ($i = 3; $i <= 36; $i++) {
             $dateTime = Date::factory('yesterday')->addHour($i)->getDatetime();
 
             foreach ([$this->idSite, $this->idSite2] as $idSite) {

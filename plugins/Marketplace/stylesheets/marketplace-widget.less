@@ -49,7 +49,13 @@
             margin-bottom: 8px;
         }
         .description {
-            height: 30px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 1;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            padding-bottom: 0;
+            margin-bottom: 12px;
         }
         .row {
             margin-left: -12px;

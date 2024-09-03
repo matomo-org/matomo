@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Settings\Plugin;
@@ -33,12 +34,12 @@ class MeasurableSettingsTest extends BaseSettingsTestCase
         return new FakeMeasurableSettings($idSite = 1, $type = Type::ID);
     }
 
-    public function test_weAreWorkingWithMeasurableSettings()
+    public function testWeAreWorkingWithMeasurableSettings()
     {
         $this->assertTrue($this->settings instanceof MeasurableSettings);
     }
 
-    public function test_constructor_getPluginName_canDetectPluginNameAutomatically()
+    public function testConstructorGetPluginNameCanDetectPluginNameAutomatically()
     {
         $this->assertSame('ExampleSettingsPlugin', $this->settings->getPluginName());
 
@@ -46,7 +47,7 @@ class MeasurableSettingsTest extends BaseSettingsTestCase
         $this->assertSame('ExampleSettingsPlugin', $settings->getPluginName());
     }
 
-    public function test_makeSetting_ShouldCreateAMeasurableSetting()
+    public function testMakeSettingShouldCreateAMeasurableSetting()
     {
         $setting = $this->makeSetting('myName');
 

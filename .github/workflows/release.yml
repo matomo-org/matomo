@@ -30,7 +30,26 @@ on:
       password:
         description: 'Release password'
         required: true
-
+  workflow_call:
+    inputs:
+      is_preview:
+        type: boolean
+        required: false
+        default: false
+      ref:
+        type: string
+        required: false
+        default: ''
+    secrets:
+      RELEASE_PASSWORD:
+        description: 'Release password'
+        required: true
+      GPG_CERTIFICATE:
+        description: 'GPG Certificate'
+        required: true
+      GPG_CERTIFICATE_PASS:
+        description: 'GPG Certificate Pass'
+        required: true
 env:
   RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
 
@@ -39,13 +58,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Check release password"
-        if: ${{ github.event.inputs.password != env.RELEASE_PASSWORD }}
+        if: ${{ inputs.is_preview != true && github.event.inputs.password != env.RELEASE_PASSWORD }}
         uses: actions/github-script@v6
         with:
           script: |
               core.setFailed('Release password didn\'t match.')
       - name: "Check if user is allowed"
-        if: ${{ github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'bx80' && github.actor != 'michalkleiner' && github.actor != 'caddoo'}}
+        if: ${{ inputs.is_preview != true && github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'mneudert' && github.actor != 'michalkleiner' && github.actor != 'caddoo'}}
         uses: actions/github-script@v6
         with:
           script: |
@@ -53,6 +72,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: false
+          ref: ${{ inputs.ref || github.ref }}
       - name: Import GPG key
         id: import_gpg
         run: |
@@ -97,15 +117,21 @@ jobs:
               exit 1
             fi
 
-            if ! [[ ${GITHUB_REF#refs/heads/} =~ ^[4-9]\.x-dev$ || ${GITHUB_REF#refs/heads/} == "next_release" ]]
+            if ! [[ ${GITHUB_REF#refs/heads/} =~ ^[4-9]\.x-(dev|preview)$ || ${GITHUB_REF#refs/heads/} == "next_release" ]]
             then
-              echo "A tag can only be created from branches '5.x-dev' and 'next_release'. Please create the tag manually if a release needs to be built from another branch."
+              echo "A tag can only be created from branches '5.x-dev', '5.x-preview' or 'next_release'. Please create the tag manually if a release needs to be built from another branch."
               exit 1
             fi
 
             if [[ ${GITHUB_REF#refs/heads/} =~ ^[4-9]\.x-dev$ && $version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?$ ]]
             then
               echo "Only beta release tags can be created from ${GITHUB_REF#refs/heads/} branch."
+              exit 1
+            fi
+
+            if [[ ${GITHUB_REF#refs/heads/} =~ ^[4-9]\.x-preview$ && $version =~ [0-9]{14}$ ]]
+            then
+              echo "Only preview release tags can be created from ${GITHUB_REF#refs/heads/} branch."
               exit 1
             fi
 

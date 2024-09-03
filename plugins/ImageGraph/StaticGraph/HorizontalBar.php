@@ -1,12 +1,14 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\ImageGraph\StaticGraph;
+
 use Piwik\Piwik;
 
 /**
@@ -14,11 +16,11 @@ use Piwik\Piwik;
  */
 class HorizontalBar extends GridGraph
 {
-    const INTERLEAVE = 0.30;
-    const PADDING_CHARS = ' ';
-    const LEGEND_SQUARE_WIDTH = 11;
-    const MIN_SPACE_BETWEEN_HORIZONTAL_VALUES = 5;
-    const LOGO_MIN_RIGHT_MARGIN = 3;
+    public const INTERLEAVE = 0.30;
+    public const PADDING_CHARS = ' ';
+    public const LEGEND_SQUARE_WIDTH = 11;
+    public const MIN_SPACE_BETWEEN_HORIZONTAL_VALUES = 5;
+    public const LOGO_MIN_RIGHT_MARGIN = 3;
 
     public function renderGraph()
     {

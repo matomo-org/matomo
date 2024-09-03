@@ -77,7 +77,7 @@
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setExcludedQueryParams, setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, maq_confirm_opted_in,
-    doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
+    doNotTrack, setDoNotTrack, disableCampaignParameters, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, disableBrowserFeatureDetection, enableBrowserFeatureDetection, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
@@ -690,30 +690,28 @@ if (typeof window.Matomo !== 'object') {
         function removeUrlParameter(url, name) {
             url = String(url);
 
-            if (url.indexOf('?' + name + '=') === -1 && url.indexOf('&' + name + '=') === -1) {
-                // nothing to remove, url does not contain this parameter
+            if (url.indexOf('?' + name + '=') === -1 && url.indexOf('&' + name + '=') === -1 && url.indexOf('#' + name + '=') === -1) {
+                // nothing to remove, url does not contain this parameter in query or hash
                 return url;
+            }
+
+            var urlHash = '';
+            var hashPos = url.indexOf('#');
+            if (hashPos !== -1) {
+                urlHash = url.substr(hashPos + 1);
+                url = url.substr(0, hashPos);
             }
 
             var searchPos = url.indexOf('?');
-            if (searchPos === -1) {
-                // nothing to remove, no query parameters
-                return url;
+            var queryString = '';
+            var baseUrl = url;
+            if (searchPos > -1) {
+                queryString = url.substr(searchPos + 1);
+                baseUrl = url.substr(0, searchPos);
             }
 
-            var queryString = url.substr(searchPos + 1);
-            var baseUrl = url.substr(0, searchPos);
-
-            if (queryString) {
-                var urlHash = '';
-                var hashPos = queryString.indexOf('#');
-                if (hashPos !== -1) {
-                    urlHash = queryString.substr(hashPos + 1);
-                    queryString = queryString.substr(0, hashPos);
-                }
-
+            var filterParams = function (paramsArr) {
                 var param;
-                var paramsArr = queryString.split('&');
                 var i = paramsArr.length - 1;
 
                 for (i; i >= 0; i--) {
@@ -723,15 +721,37 @@ if (typeof window.Matomo !== 'object') {
                     }
                 }
 
-                var newQueryString = paramsArr.join('&');
+                return paramsArr;
+            };
+
+            if (queryString) {
+                var newQueryString = filterParams(queryString.split('&')).join('&');
 
                 if (newQueryString) {
-                    baseUrl = baseUrl + '?' + newQueryString;
+                    baseUrl += '?' + newQueryString;
+                }
+            }
+
+            if (urlHash && urlHash.indexOf('=') > 0) {
+                var hashWithMark = urlHash.charAt(0) === '?';
+
+                if (hashWithMark) {
+                    urlHash = urlHash.substr(1);
                 }
 
-                if (urlHash) {
-                    baseUrl += '#' + urlHash;
+                var newHashString = filterParams(urlHash.split('&')).join('&');
+
+                if (newHashString) {
+                    baseUrl += '#';
+
+                    if (hashWithMark) {
+                        baseUrl += '?';
+                    }
+
+                    baseUrl += newHashString;
                 }
+            } else if (urlHash) {
+                baseUrl += '#' + urlHash;
             }
 
             return baseUrl;
@@ -2291,6 +2311,16 @@ if (typeof window.Matomo !== 'object') {
                 // Campaign keywords
                 configCampaignKeywordParameters = [ 'pk_kwd', 'mtm_kwd', 'piwik_kwd', 'matomo_kwd', 'utm_term' ],
 
+                // All known parameters used for campaign tracking, this list will be used when removing campaign parameters from url
+                configCampaignKnownParameters = [
+                  'mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign', // campaign name
+                  'mtm_keyword', 'matomo_kwd', 'mtm_kwd', 'pk_keyword', 'piwik_kwd', 'pk_kwd', 'utm_term', // campaign keyword
+                  'mtm_source', 'pk_source', 'utm_source', 'mtm_medium', 'pk_medium', 'utm_medium', 'mtm_content', 'pk_content', 'utm_content', // campaign source
+                  'mtm_cid', 'pk_cid', 'utm_id', 'mtm_clid', // campaign (click) id
+                  'mtm_group', 'pk_group', // campaign group
+                  'mtm_placement', 'pk_placement' // campaign placement
+                ],
+
                 // First-party cookie name prefix
                 configCookieNamePrefix = '_pk_',
 
@@ -2330,6 +2360,12 @@ if (typeof window.Matomo !== 'object') {
 
                 // Count sites which are pre-rendered
                 configCountPreRendered,
+
+                // Enable Processing and sending campaign parameters to backend.
+                // Setting this parameter to false will cause all campaign parameters to be removed from tracked url parameters and hashes.
+                // Campaigns will also be ignored in referrer attribution detection
+                // If consent is required the value of this config is ignored.
+                configEnableCampaignParameters = true,
 
                 // Do we attribute the conversion to the first referrer or the most recent referrer?
                 configConversionAttributionFirstReferrer,
@@ -2517,12 +2553,30 @@ if (typeof window.Matomo !== 'object') {
 
             /*
              * Removes hash tag from the URL
+             * Removes ignore_referrer/ignore_referer
+             * Removes configVisitorIdUrlParameter
+             * Removes campaign parameters
              *
              * URLs are purified before being recorded in the cookie,
              * or before being sent as GET parameters
              */
             function purify(url) {
                 var targetPattern, i;
+
+                // Remove campaign names/keywords from URL
+                if (configEnableCampaignParameters !== true && !configConsentRequired) {
+                    for (i = 0; i < configCampaignNameParameters.length; i++) {
+                      url = removeUrlParameter(url, configCampaignNameParameters[i]);
+                    }
+
+                    for (i = 0; i < configCampaignKeywordParameters.length; i++) {
+                      url = removeUrlParameter(url, configCampaignKeywordParameters[i]);
+                    }
+
+                    for (i = 0; i < configCampaignKnownParameters.length; i++) {
+                      url = removeUrlParameter(url, configCampaignKnownParameters[i]);
+                    }
+                }
 
                 // we need to remove this parameter here, they wouldn't be removed in Matomo tracker otherwise eg
                 // for outlinks or referrers
@@ -3862,28 +3916,30 @@ if (typeof window.Matomo !== 'object') {
                     // Detect the campaign information from the current URL
                     // Only if campaign wasn't previously set
                     // Or if it was set but we must attribute to the most recent one
+                    // And if using campaign parameters isn't restricted
                     // Note: we are working on the currentUrl before purify() since we can parse the campaign parameters in the hash tag
-                    if (!configConversionAttributionFirstReferrer
-                        || !campaignNameDetected.length) {
-                        for (i in configCampaignNameParameters) {
-                            if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
-                                campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
+                    if ((!configConversionAttributionFirstReferrer
+                        || !campaignNameDetected.length)
+                        && (configEnableCampaignParameters || configConsentRequired)) {
+                          for (i in configCampaignNameParameters) {
+                              if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
+                                  campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
 
-                                if (campaignNameDetected.length) {
-                                    break;
-                                }
-                            }
-                        }
+                                  if (campaignNameDetected.length) {
+                                      break;
+                                  }
+                              }
+                          }
 
-                        for (i in configCampaignKeywordParameters) {
-                            if (Object.prototype.hasOwnProperty.call(configCampaignKeywordParameters, i)) {
-                                campaignKeywordDetected = getUrlParameter(currentUrl, configCampaignKeywordParameters[i]);
+                          for (i in configCampaignKeywordParameters) {
+                              if (Object.prototype.hasOwnProperty.call(configCampaignKeywordParameters, i)) {
+                                  campaignKeywordDetected = getUrlParameter(currentUrl, configCampaignKeywordParameters[i]);
 
-                                if (campaignKeywordDetected.length) {
-                                    break;
-                                }
-                            }
-                        }
+                                  if (campaignKeywordDetected.length) {
+                                      break;
+                                  }
+                              }
+                          }
                     }
 
                     // Store the referrer URL and time in the cookie;
@@ -6425,6 +6481,13 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
+             * Prevent campaign parameters being sent to the tracker, unless consent given.
+             */
+            this.disableCampaignParameters = function () {
+              configEnableCampaignParameters = false;
+            };
+
+            /**
              * Enables send beacon usage instead of regular XHR which reduces the link tracking time to a minimum
              * of 100ms instead of 500ms (default). This means when a user clicks for example on an outlink, the
              * navigation to this page will happen 400ms faster.
@@ -7254,6 +7317,7 @@ if (typeof window.Matomo !== 'object') {
                 if (!configBrowserFeatureDetection) {
                     this.enableBrowserFeatureDetection();
                 }
+
                 deleteCookie(CONSENT_REMOVED_COOKIE_NAME, configCookiePath, configCookieDomain);
 
                 var i, requestType;
@@ -7444,7 +7508,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'enableFileTracking', 'forgetCookieConsentGiven', 'requireCookieConsent','disableBrowserFeatureDetection', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
+        var applyFirst = ['addTracker', 'enableFileTracking', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableBrowserFeatureDetection', 'disableCampaignParameters', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
 
         function createFirstTracker(matomoUrl, siteId)
         {

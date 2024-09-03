@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\PagePerformance\tests\Integration\Tracker;
@@ -15,7 +15,6 @@ use Piwik\Db;
 use Piwik\Plugins\PagePerformance\Tracker\PerformanceDataProcessor;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-
 
 /**
  * @group PagePerformance
@@ -37,7 +36,7 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 02:03:04');
     }
 
-    public function test_shouldUpdatePerformanceTimingsInOngoingEventRequest()
+    public function testShouldUpdatePerformanceTimingsInOngoingEventRequest()
     {
         $tracker = Fixture::getTracker(1, Date::now()->toString('Y-m-d H:i:s'));
         $tracker->setUrl('http://example.org/test');
@@ -53,7 +52,7 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
         $this->checkActionHasTimings($idPageView, 12, 77, 412, 1055, 333, 66);
     }
 
-    public function test_shouldUpdatePerformanceTimingsInOngoingPingRequest()
+    public function testShouldUpdatePerformanceTimingsInOngoingPingRequest()
     {
         $tracker = Fixture::getTracker(1, Date::now()->toString('Y-m-d H:i:s'));
         $tracker->setUrl('http://example.org/test');
@@ -69,7 +68,7 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
         $this->checkActionHasTimings($idPageView, 5, 66, 445, 1025, 12, 111);
     }
 
-    public function test_shouldNotUpdatePerformanceTimingsInOngoingPageViewRequest()
+    public function testShouldNotUpdatePerformanceTimingsInOngoingPageViewRequest()
     {
         $tracker = Fixture::getTracker(1, Date::now()->toString('Y-m-d H:i:s'));
         $tracker->setUrl('http://example.org/test');
@@ -87,7 +86,7 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
         $this->checkActionHasTimings($tracker->idPageview, 0, 66, 445, 1025, 12, 111);
     }
 
-    public function test_shouldNotUseObviouslyTooHighNumbers()
+    public function testShouldNotUseObviouslyTooHighNumbers()
     {
         $tracker = Fixture::getTracker(1, Date::now()->toString('Y-m-d H:i:s'));
         $tracker->setUrl('http://example.org/test');
@@ -108,11 +107,14 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
     protected function checkActionHasTimings($pageViewId, $network = null, $server = null, $transfer = null, $domProcessing = null, $domCompletion = null, $onload = null)
     {
         $result = Db::fetchRow(
-            sprintf('SELECT time_network, time_server, time_transfer, time_dom_processing, time_dom_completion, time_on_load 
+            sprintf(
+                'SELECT time_network, time_server, time_transfer, time_dom_processing, time_dom_completion, time_on_load 
                       FROM %1$s LEFT JOIN %2$s ON idaction_url = idaction WHERE idpageview = ? AND %2$s.type = 1',
                 Common::prefixTable('log_link_visit_action'),
                 Common::prefixTable('log_action')
-        ), $pageViewId);
+            ),
+            $pageViewId
+        );
 
         $this->assertEquals([
             'time_network' => $network,

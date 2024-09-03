@@ -3,8 +3,8 @@
  *
  * Dashboard screenshot tests.
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe('VersionInfoHeaderMessage', function() {
@@ -149,6 +149,7 @@ describe('VersionInfoHeaderMessage', function() {
             messageDropdown.innerHTML = messageDropdown.innerHTML.replace(matomoVersion, '5.x-uitest');
           }, selectorComponent, selectorMessageDropdown);
 
+          await page.mouse.move(-10, -10);
           await page.hover(selectorMessage);
           await page.waitForSelector(selectorMessageDropdown, {visible: true, timeout: 250});
 

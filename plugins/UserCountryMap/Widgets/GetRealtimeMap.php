@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UserCountryMap\Widgets;
 
 use Piwik\Plugins\Live\Live;
@@ -24,7 +25,8 @@ class GetRealtimeMap extends \Piwik\Widget\Widget
         $config->setIsWide();
         $config->setOrder(15);
 
-        if (!PluginManager::getInstance()->isPluginActivated('UserCountry') ||
+        if (
+            !PluginManager::getInstance()->isPluginActivated('UserCountry') ||
             !PluginManager::getInstance()->isPluginActivated('Live') ||
             !Live::isVisitorLogEnabled()
         ) {

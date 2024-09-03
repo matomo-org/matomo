@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
@@ -17,9 +17,9 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
  */
 class Pie extends JqplotGraph
 {
-    const ID = 'graphPie';
-    const FOOTER_ICON       = 'icon-chart-pie';
-    const FOOTER_ICON_TITLE = 'General_Piechart';
+    public const ID = 'graphPie';
+    public const FOOTER_ICON       = 'icon-chart-pie';
+    public const FOOTER_ICON_TITLE = 'General_Piechart';
 
     public static function getDefaultConfig()
     {

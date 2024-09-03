@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -29,22 +30,22 @@ class AssetManagerTest extends IntegrationTestCase
 {
     // todo Theme->rewriteAssetPathIfOverridesFound is not tested
 
-    const TEST_PLUGINS_DIR = __DIR__ . '/plugins';
+    public const TEST_PLUGINS_DIR = __DIR__ . '/plugins';
 
-    const ASSET_MANAGER_TEST_DIR = 'tests/PHPUnit/Unit/AssetManager/';
+    public const ASSET_MANAGER_TEST_DIR = 'tests/PHPUnit/Unit/AssetManager/';
 
-    const FIRST_CACHE_BUSTER_JS = 'first-cache-buster-js';
-    const SECOND_CACHE_BUSTER_JS = 'second-cache-buster-js';
-    const FIRST_CACHE_BUSTER_SS = 'first-cache-buster-stylesheet';
-    const SECOND_CACHE_BUSTER_SS = 'second-cache-buster-stylesheet';
+    public const FIRST_CACHE_BUSTER_JS = 'first-cache-buster-js';
+    public const SECOND_CACHE_BUSTER_JS = 'second-cache-buster-js';
+    public const FIRST_CACHE_BUSTER_SS = 'first-cache-buster-stylesheet';
+    public const SECOND_CACHE_BUSTER_SS = 'second-cache-buster-stylesheet';
 
-    const CORE_PLUGIN_NAME = 'MockCorePlugin';
-    const CORE_PLUGIN_WITHOUT_ASSETS_NAME = 'MockCoreWithoutAssetPlugin';
-    const NON_CORE_PLUGIN_NAME = 'MockNonCorePlugin';
-    const CORE_THEME_PLUGIN_NAME = 'CoreThemePlugin';
-    const NON_CORE_THEME_PLUGIN_NAME = 'NonCoreThemePlugin';
-    const CORE_PLUGIN_WITH_ONLY_UMD_NAME = 'MockCorePluginOnlyUmd';
-    const NON_CORE_PLUGIN_WITH_ONLY_UMD_NAME = 'MockNonCorePluginOnlyUmd';
+    public const CORE_PLUGIN_NAME = 'MockCorePlugin';
+    public const CORE_PLUGIN_WITHOUT_ASSETS_NAME = 'MockCoreWithoutAssetPlugin';
+    public const NON_CORE_PLUGIN_NAME = 'MockNonCorePlugin';
+    public const CORE_THEME_PLUGIN_NAME = 'CoreThemePlugin';
+    public const NON_CORE_THEME_PLUGIN_NAME = 'NonCoreThemePlugin';
+    public const CORE_PLUGIN_WITH_ONLY_UMD_NAME = 'MockCorePluginOnlyUmd';
+    public const NON_CORE_PLUGIN_WITH_ONLY_UMD_NAME = 'MockNonCorePluginOnlyUmd';
 
     private $oldPluginDirsEnvVar;
     private $oldPluginDirsGlobal;
@@ -532,7 +533,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getMergedCoreJavaScript_NotGenerated()
+    public function testGetMergedCoreJavaScriptNotGenerated()
     {
         $this->setJSCacheBuster(self::FIRST_CACHE_BUSTER_JS);
 
@@ -544,7 +545,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getMergedNonCoreJavaScript_NotGenerated()
+    public function testGetMergedNonCoreJavaScriptNotGenerated()
     {
         $this->setJSCacheBuster(self::FIRST_CACHE_BUSTER_JS);
 
@@ -556,7 +557,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getMergedNonCoreJavaScript_NotGenerated_NoNonCorePlugin()
+    public function testGetMergedNonCoreJavaScriptNotGeneratedNoNonCorePlugin()
     {
         $this->setUpCorePluginOnly();
 
@@ -572,7 +573,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getMergedCoreJavaScript_AlreadyGenerated_MergedAssetsDisabled_UpToDate()
+    public function testGetMergedCoreJavaScriptAlreadyGeneratedMergedAssetsDisabledUpToDate()
     {
         $this->disableMergedAssets();
 
@@ -590,7 +591,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getMergedCoreJavaScript_AlreadyGenerated_MergedAssetsDeactivated_Stale()
+    public function testGetMergedCoreJavaScriptAlreadyGeneratedMergedAssetsDeactivatedStale()
     {
         $this->disableMergedAssets();
 
@@ -612,7 +613,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getMergedStylesheet_NotGenerated()
+    public function testGetMergedStylesheetNotGenerated()
     {
         $this->setStylesheetCacheBuster(self::FIRST_CACHE_BUSTER_SS);
 
@@ -625,7 +626,7 @@ class AssetManagerTest extends IntegrationTestCase
      * We always regenerate if cache buster changes
      * @group Core
      */
-    public function test_getMergedStylesheet_Generated_MergedAssetsEnabled_Stale()
+    public function testGetMergedStylesheetGeneratedMergedAssetsEnabledStale()
     {
         $this->activateMergedAssets();
 
@@ -648,7 +649,7 @@ class AssetManagerTest extends IntegrationTestCase
      * We always regenerate if cache buster changes
      * @group Core
      */
-    public function test_getMergedStylesheet_Generated_MergedAssetsDisabled_Stale()
+    public function testGetMergedStylesheetGeneratedMergedAssetsDisabledStale()
     {
         $this->disableMergedAssets();
 
@@ -670,7 +671,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getMergedStylesheet_Generated_MergedAssetsDisabled_UpToDate()
+    public function testGetMergedStylesheetGeneratedMergedAssetsDisabledUpToDate()
     {
         $this->disableMergedAssets();
 
@@ -688,7 +689,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getCssInclusionDirective()
+    public function testGetCssInclusionDirective()
     {
         $expectedCssInclusionDirective = '<link rel="stylesheet" type="text/css" href="index.php?module=Proxy&action=getCss" />' . "\n";
 
@@ -698,7 +699,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getJsInclusionDirective_MergedAssetsDisabled()
+    public function testGetJsInclusionDirectiveMergedAssetsDisabled()
     {
         $this->disableMergedAssets();
 
@@ -719,7 +720,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getJsInclusionDirective_MergedAssetsEnabled()
+    public function testGetJsInclusionDirectiveMergedAssetsEnabled()
     {
         $expectedJsInclusionDirective =
             $this->getJsTranslationScript() .
@@ -735,7 +736,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_getCompiledBaseCss()
+    public function testGetCompiledBaseCss()
     {
         $this->setStylesheetCacheBuster(self::FIRST_CACHE_BUSTER_SS);
 
@@ -757,7 +758,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_removeMergedAssets()
+    public function testRemoveMergedAssets()
     {
         list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset, $chunks) = $this->generateAllMergedAssets();
 
@@ -776,7 +777,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_removeMergedAssets_PluginNameSpecified_PluginWithoutAssets()
+    public function testRemoveMergedAssetsPluginNameSpecifiedPluginWithoutAssets()
     {
         list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset, $chunks) = $this->generateAllMergedAssets();
 
@@ -795,7 +796,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_removeMergedAssets_PluginNameSpecified_CorePlugin()
+    public function testRemoveMergedAssetsPluginNameSpecifiedCorePlugin()
     {
         list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset, $chunks) = $this->generateAllMergedAssets();
 
@@ -814,7 +815,7 @@ class AssetManagerTest extends IntegrationTestCase
     /**
      * @group Core
      */
-    public function test_removeMergedAssets_PluginNameSpecified_NonCoreThemeWithAssets()
+    public function testRemoveMergedAssetsPluginNameSpecifiedNonCoreThemeWithAssets()
     {
         list($stylesheetAsset, $coreJsAsset, $nonCoreJsAsset, $chunks) = $this->generateAllMergedAssets();
 

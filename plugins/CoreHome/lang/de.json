@@ -68,6 +68,7 @@
         "PageDownShortcutDescription": "um zum Seitenende zu kommen",
         "PageUpShortcutDescription": "um zum Seitenanfang zu kommen",
         "PeriodHasOnlyRawData": "Anscheinend wurden für diesen Zeitbereich noch keine Berichte generiert. Möchten Sie sehen was aktuell passiert? Schauen Sie im %1$sBesucher-Log%2$s oder wählen Sie einen anderen Zeitbereich, bis die Berichte generiert sind.",
+        "PeriodHasOnlyRawDataNoVisitsLog": "Es scheint, als ob die Berichte für diesen Zeitraum noch nicht verarbeitet wurden, aber sie werden in ein paar Stunden verfügbar sein. Sie könnten einen anderen Zeitraum auswählen, bis die Berichte generiert sind.",
         "PeriodRange": "Zeitspanne",
         "PivotBySubtable": "Kein Pivot erstellt für diesen Bericht %1$s Pivot erstellen mit %2$s",
         "Profilable": "Profilierbar",

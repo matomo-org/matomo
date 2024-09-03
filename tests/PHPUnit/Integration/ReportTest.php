@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -122,27 +123,27 @@ class ReportTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_shouldDetectTheModuleOfTheReportAutomatically()
+    public function testShouldDetectTheModuleOfTheReportAutomatically()
     {
         $this->assertEquals('ExampleReport', $this->exampleReport->getModule());
     }
 
-    public function test_shouldDetectTheActionOfTheReportAutomatiacally()
+    public function testShouldDetectTheActionOfTheReportAutomatiacally()
     {
         $this->assertEquals('getExampleReport', $this->exampleReport->getAction());
     }
 
-    public function test_getName_shouldReturnTheNameOfTheReport()
+    public function testGetNameShouldReturnTheNameOfTheReport()
     {
         $this->assertEquals('My Custom Report Name', $this->basicReport->getName());
     }
 
-    public function test_isEnabled_shouldBeEnabledByDefault()
+    public function testIsEnabledShouldBeEnabledByDefault()
     {
         $this->assertTrue($this->basicReport->isEnabled());
     }
 
-    public function test_checkIsEnabled_shouldThrowAnExceptionIfReportIsNotEnabled()
+    public function testCheckIsEnabledShouldThrowAnExceptionIfReportIsNotEnabled()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('General_ExceptionReportNotEnabled');
@@ -150,25 +151,25 @@ class ReportTest extends IntegrationTestCase
         $this->disabledReport->checkIsEnabled();
     }
 
-    public function test_getCategory_shouldReturnTranslatedCategory()
+    public function testGetCategoryShouldReturnTranslatedCategory()
     {
         Fixture::loadAllTranslations();
         $this->assertEquals('Goals_Goals', $this->advancedReport->getCategoryId());
         Fixture::resetTranslations();
     }
 
-    public function test_getMetrics_shouldUseDefaultMetrics()
+    public function testGetMetricsShouldUseDefaultMetrics()
     {
         $this->assertEquals(Metrics::getDefaultMetrics(), $this->basicReport->getMetrics());
     }
 
-    public function test_getMetrics_shouldReturnEmptyArray_IfNoMetricsDefined()
+    public function testGetMetricsShouldReturnEmptyArrayIfNoMetricsDefined()
     {
         $this->advancedReport->set('metrics', array());
         $this->assertEquals(array(), $this->advancedReport->getMetrics());
     }
 
-    public function test_getMetrics_shouldFindTranslationsForMetricsAndReturnOnlyTheOnesDefinedInSameOrder()
+    public function testGetMetricsShouldFindTranslationsForMetricsAndReturnOnlyTheOnesDefinedInSameOrder()
     {
         $expected = array(
             'nb_visits'  => 'General_ColumnNbVisits',
@@ -177,24 +178,24 @@ class ReportTest extends IntegrationTestCase
         $this->assertEquals($expected, $this->advancedReport->getMetrics());
     }
 
-    public function test_getProcessedMetrics_shouldReturnConfiguredValue_IfNotAnArrayGivenToPreventDefaultMetrics()
+    public function testGetProcessedMetricsShouldReturnConfiguredValueIfNotAnArrayGivenToPreventDefaultMetrics()
     {
         $this->advancedReport->set('processedMetrics', false);
         $this->assertEquals(false, $this->advancedReport->getProcessedMetrics());
     }
 
-    public function test_getProcessedMetrics_shouldReturnEmptyArray_IfNoMetricsDefined()
+    public function testGetProcessedMetricsShouldReturnEmptyArrayIfNoMetricsDefined()
     {
         $this->advancedReport->set('processedMetrics', array());
         $this->assertEquals(array(), $this->advancedReport->getProcessedMetrics());
     }
 
-    public function test_getProcessedMetrics_reportShouldUseDefaultProcessedMetrics()
+    public function testGetProcessedMetricsReportShouldUseDefaultProcessedMetrics()
     {
         $this->assertEquals(Metrics::getDefaultProcessedMetrics(), $this->basicReport->getProcessedMetrics());
     }
 
-    public function test_getProcessedMetrics_shouldFindTranslationsForMetricsAndReturnOnlyTheOnesDefinedInSameOrder()
+    public function testGetProcessedMetricsShouldFindTranslationsForMetricsAndReturnOnlyTheOnesDefinedInSameOrder()
     {
         $expected = array(
             'conversion_rate' => 'General_ColumnConversionRate',
@@ -203,32 +204,32 @@ class ReportTest extends IntegrationTestCase
         $this->assertEquals($expected, $this->advancedReport->getProcessedMetrics());
     }
 
-    public function test_hasGoalMetrics_shouldBeDisabledByDefault()
+    public function testHasGoalMetricsShouldBeDisabledByDefault()
     {
         $this->assertFalse($this->advancedReport->hasGoalMetrics());
     }
 
-    public function test_hasGoalMetrics_shouldReturnGoalMetricsProperty()
+    public function testHasGoalMetricsShouldReturnGoalMetricsProperty()
     {
         $this->advancedReport->set('hasGoalMetrics', true);
         $this->assertTrue($this->advancedReport->hasGoalMetrics());
     }
 
-    public function test_configureReportMetadata_shouldNotAddAReportIfReportIsDisabled()
+    public function testConfigureReportMetadataShouldNotAddAReportIfReportIsDisabled()
     {
         $reports = array();
         $this->disabledReport->configureReportMetadata($reports, array());
         $this->assertEquals(array(), $reports);
     }
 
-    public function test_configureReportMetadata_shouldAddAReportIfReportIsEnabled()
+    public function testConfigureReportMetadataShouldAddAReportIfReportIsEnabled()
     {
         $reports = array();
         $this->basicReport->configureReportMetadata($reports, array());
         $this->assertCount(1, $reports);
     }
 
-    public function test_configureReportMetadata_shouldBuiltStructureAndIncludeOnlyFieldsThatAreSet()
+    public function testConfigureReportMetadataShouldBuiltStructureAndIncludeOnlyFieldsThatAreSet()
     {
         $reports = array();
         $this->basicReport->configureReportMetadata($reports, array());
@@ -277,7 +278,7 @@ class ReportTest extends IntegrationTestCase
         ), $reports);
     }
 
-    public function test_configureReportMetadata_shouldBuiltStructureAllFieldsSet()
+    public function testConfigureReportMetadataShouldBuiltStructureAllFieldsSet()
     {
         $reports = array();
         $this->advancedReport->configureReportMetadata($reports, array());
@@ -321,7 +322,7 @@ class ReportTest extends IntegrationTestCase
         ), $reports);
     }
 
-    public function test_factory_shouldCreateReport_WhenActionNameUsed()
+    public function testFactoryShouldCreateReportWhenActionNameUsed()
     {
         $this->loadExampleReportPlugin();
 
@@ -342,30 +343,30 @@ class ReportTest extends IntegrationTestCase
         $this->assertEquals($action, $report->getAction());
     }
 
-    public function test_getId_ShouldReturnOnlyReturnModuleAndActionWhenNoParametersSet()
+    public function testGetIdShouldReturnOnlyReturnModuleAndActionWhenNoParametersSet()
     {
         $report = new GetExampleReport();
         $this->assertEquals('ExampleReport.getExampleReport', $report->getId());
     }
 
-    public function test_getId_ShouldReturnIncludeParamsIfSet()
+    public function testGetIdShouldReturnIncludeParamsIfSet()
     {
         $this->assertEquals('TestPlugin.getAdvancedReport_idGoal--1', $this->advancedReport->getId());
     }
 
-    public function test_getSubtableDimension_ShouldReturnNullIfNoSubtableActionExists()
+    public function testGetSubtableDimensionShouldReturnNullIfNoSubtableActionExists()
     {
         $report = new GetExampleReport();
         $this->assertNull($report->getSubtableDimension());
     }
 
-    public function test_getSubtableDimension_ShouldReturnNullIfSubtableActionIsInvalid()
+    public function testGetSubtableDimensionShouldReturnNullIfSubtableActionIsInvalid()
     {
         $report = new GetBasicReport();
         $this->assertNull($report->getSubtableDimension());
     }
 
-    public function test_getSubtableDimension_ShouldReturnCorrectDimensionIfSubtableActionIsDefinedAndCorrect()
+    public function testGetSubtableDimensionShouldReturnCorrectDimensionIfSubtableActionIsDefinedAndCorrect()
     {
         PluginManager::getInstance()->loadPlugins(array('Referrers'));
 
@@ -376,13 +377,15 @@ class ReportTest extends IntegrationTestCase
         $this->assertInstanceOf("Piwik\\Plugins\\Referrers\\Columns\\Keyword", $subtableDimension);
     }
 
-    public function test_fetch_ShouldUseCorrectApiUrl()
+    public function testFetchShouldUseCorrectApiUrl()
     {
         PluginManager::getInstance()->loadPlugins(array('API', 'ExampleReport'));
 
         $proxyMock = $this->getMockBuilder('stdClass')->addMethods(array('call', '__construct'))->getMock();
         $proxyMock->expects($this->once())->method('call')->with(
-            '\\Piwik\\Plugins\\ExampleReport\\API', 'getExampleReport', array(
+            '\\Piwik\\Plugins\\ExampleReport\\API',
+            'getExampleReport',
+            array(
                 'idSite' => 1,
                 'date' => '2012-01-02',
                 'format' => 'original',
@@ -400,13 +403,15 @@ class ReportTest extends IntegrationTestCase
         $this->assertEquals("result", $result);
     }
 
-    public function test_fetchSubtable_ShouldUseCorrectApiUrl()
+    public function testFetchSubtableShouldUseCorrectApiUrl()
     {
         PluginManager::getInstance()->loadPlugins(array('API', 'Referrers'));
 
         $proxyMock = $this->getMockBuilder('stdClass')->addMethods(array('call', '__construct'))->getMock();
         $proxyMock->expects($this->once())->method('call')->with(
-            '\\Piwik\\Plugins\\Referrers\\API', 'getSearchEnginesFromKeywordId', array(
+            '\\Piwik\\Plugins\\Referrers\\API',
+            'getSearchEnginesFromKeywordId',
+            array(
                 'idSubtable' => 23,
                 'idSite' => 1,
                 'date' => '2012-01-02',
@@ -425,7 +430,7 @@ class ReportTest extends IntegrationTestCase
         $this->assertEquals("result", $result);
     }
 
-    public function test_getForDimension_ShouldReturnCorrectInstanceTypeIfAssociatedReportExists()
+    public function testGetForDimensionShouldReturnCorrectInstanceTypeIfAssociatedReportExists()
     {
         PluginManager::getInstance()->loadPlugins(array('Referrers'));
 
@@ -433,7 +438,7 @@ class ReportTest extends IntegrationTestCase
         $this->assertInstanceOf("Piwik\\Plugins\\Referrers\\Reports\\GetKeywords", $report);
     }
 
-    public function test_getForDimension_ShouldReturnNullIfNoReportExistsForDimension()
+    public function testGetForDimensionShouldReturnNullIfNoReportExistsForDimension()
     {
         $this->loadExampleReportPlugin();
         $this->loadMorePlugins();
@@ -442,7 +447,7 @@ class ReportTest extends IntegrationTestCase
         $this->assertNull($report);
     }
 
-    public function test_getForDimension_ShouldReturnNullIfReportPluginNotLoaded()
+    public function testGetForDimensionShouldReturnNullIfReportPluginNotLoaded()
     {
         PluginManager::getInstance()->loadPlugins(array());
 

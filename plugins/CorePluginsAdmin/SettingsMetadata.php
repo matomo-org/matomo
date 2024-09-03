@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Common;
@@ -17,7 +18,7 @@ use Exception;
 
 class SettingsMetadata
 {
-    const PASSWORD_PLACEHOLDER = '******';
+    public const PASSWORD_PLACEHOLDER = '******';
 
     /**
      * @param Settings[]  $settingsInstances
@@ -29,15 +30,16 @@ class SettingsMetadata
         try {
             foreach ($settingsInstances as $pluginName => $pluginSetting) {
                 foreach ($pluginSetting->getSettingsWritableByCurrentUser() as $setting) {
-
                     $value = $this->findSettingValueFromRequest($settingValues, $pluginName, $setting->getName());
 
                     $fieldConfig = $setting->configureField();
 
-                    if (isset($value) && (
+                    if (
+                        isset($value) && (
                         $fieldConfig->uiControl !== FieldConfig::UI_CONTROL_PASSWORD ||
                         $value !== self::PASSWORD_PLACEHOLDER
-                        )) {
+                        )
+                    ) {
                         $setting->setValue($value);
                     }
                 }

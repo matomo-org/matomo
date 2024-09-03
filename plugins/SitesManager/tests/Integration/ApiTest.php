@@ -3,8 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\SitesManager\tests\Integration;
@@ -1192,7 +1192,7 @@ class ApiTest extends IntegrationTestCase
             API::getInstance()->addSite("test toto@{}", 'http://example.org', $ecommerce = 1, $siteSearch = null, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group);
         }
 
-        $this->assertEquals($expectedGroups, API::getInstance()->getSitesGroups());
+        $this->assertEqualsCanonicalizing($expectedGroups, API::getInstance()->getSitesGroups());
     }
 
     public function getInvalidTimezoneData()

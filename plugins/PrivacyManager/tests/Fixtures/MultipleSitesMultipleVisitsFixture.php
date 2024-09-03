@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\PrivacyManager\tests\Fixtures;
 
 use Piwik\Common;
@@ -29,7 +31,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvide
 
 class TestLogFooBarBaz extends LogTable
 {
-    const TABLE = 'log_foo_bar_baz';
+    public const TABLE = 'log_foo_bar_baz';
 
     public function install()
     {
@@ -66,7 +68,7 @@ class TestLogFooBarBaz extends LogTable
 
 class TestLogFooBar extends LogTable
 {
-    const TABLE = 'log_foo_bar';
+    public const TABLE = 'log_foo_bar';
 
     public function install()
     {
@@ -103,7 +105,7 @@ class TestLogFooBar extends LogTable
 
 class TestLogFoo extends LogTable
 {
-    const TABLE = 'log_foo';
+    public const TABLE = 'log_foo';
 
     public function install()
     {
@@ -379,10 +381,14 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
         for ($day = 0; $day < $numIterations; $day++) {
             // we track over several days to make sure we have some data to aggregate in week reports
             // NOTE: some action times are out of order in visits on purpose
+            //       the first iteration always uses the tracking time of the previous site
 
             if ($day > 0) {
                 $this->trackingTime = Date::factory($this->dateTime)->addDay($day * 3)->getDatetime();
             }
+
+            // track visits for each site without overlapping times
+            $this->trackingTime = Date::factory($this->trackingTime)->subSeconds($idSite)->getDateTime();
 
             $this->tracker = self::getTracker($idSite, $this->trackingTime, $defaultInit = true);
             $this->tracker->enableBulkTracking();

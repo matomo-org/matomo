@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Updates;
@@ -47,7 +47,7 @@ class Updates_1_8_4_b1 extends Updates
 
             // remove protocol and www and store information in url_prefix
             $this->migration->db->sql(
-            "   UPDATE `$action`
+                "   UPDATE `$action`
                 SET
                   url_prefix = IF (
                     LEFT(name, 11) = 'http://www.', 1, IF (
@@ -71,7 +71,8 @@ class Updates_1_8_4_b1 extends Updates
                 WHERE
                   type = 1 AND
                   url_prefix IS NULL;
-            "),
+            "
+            ),
             $this->migration->db->dropTable('log_action_duplicates'),
             $this->migration->db->createTable('log_action_duplicates', array(
                 'before' => 'int(10) unsigned NOT NULL',
@@ -82,7 +83,7 @@ class Updates_1_8_4_b1 extends Updates
             // grouping by name only would be case-insensitive, so we GROUP BY name,hash
             // ON (action.type = 1 AND canonical.hash = action.hash) will use index (type, hash)
             $this->migration->db->sql(
-            "   INSERT INTO `$duplicates` (
+                "   INSERT INTO `$duplicates` (
                   SELECT
                     action.idaction AS `before`,
                     canonical.idaction AS `after`
@@ -107,11 +108,12 @@ class Updates_1_8_4_b1 extends Updates
                     AND canonical.name = action.name
                     AND canonical.idaction != action.idaction
                 );
-            "),
+            "
+            ),
 
             // replace idaction in log_link_visit_action
             $this->migration->db->sql(
-            "   UPDATE
+                "   UPDATE
                   `$visitAction` AS link
                 LEFT JOIN
                   `$duplicates` AS duplicates_idaction_url
@@ -120,9 +122,10 @@ class Updates_1_8_4_b1 extends Updates
                   link.idaction_url = duplicates_idaction_url.after
                 WHERE
                   duplicates_idaction_url.after IS NOT NULL;
-            "),
+            "
+            ),
             $this->migration->db->sql(
-            "   UPDATE
+                "   UPDATE
                   `$visitAction` AS link
                 LEFT JOIN
                   `$duplicates` AS duplicates_idaction_url_ref
@@ -131,11 +134,12 @@ class Updates_1_8_4_b1 extends Updates
                   link.idaction_url_ref = duplicates_idaction_url_ref.after
                 WHERE
                   duplicates_idaction_url_ref.after IS NOT NULL;
-            "),
+            "
+            ),
 
             // replace idaction in log_conversion
             $this->migration->db->sql(
-            "   UPDATE
+                "   UPDATE
                   `$conversion` AS conversion
                 LEFT JOIN
                   `$duplicates` AS duplicates
@@ -144,11 +148,12 @@ class Updates_1_8_4_b1 extends Updates
                   conversion.idaction_url = duplicates.after
                 WHERE
                   duplicates.after IS NOT NULL;
-            "),
+            "
+            ),
 
             // replace idaction in log_visit
             $this->migration->db->sql(
-            "   UPDATE
+                "   UPDATE
                   `$visit` AS visit
                 LEFT JOIN
                   `$duplicates` AS duplicates_entry
@@ -157,9 +162,10 @@ class Updates_1_8_4_b1 extends Updates
                   visit.visit_entry_idaction_url = duplicates_entry.after
                 WHERE
                   duplicates_entry.after IS NOT NULL;
-            "),
+            "
+            ),
             $this->migration->db->sql(
-            "   UPDATE
+                "   UPDATE
                   `$visit` AS visit
                 LEFT JOIN
                   `$duplicates` AS duplicates_exit
@@ -168,18 +174,20 @@ class Updates_1_8_4_b1 extends Updates
                   visit.visit_exit_idaction_url = duplicates_exit.after
                 WHERE
                   duplicates_exit.after IS NOT NULL;
-            "),
+            "
+            ),
 
             // remove duplicates from log_action
             $this->migration->db->sql(
-            "   DELETE action FROM
+                "   DELETE action FROM
                   `$action` AS action
                 LEFT JOIN
                   `$duplicates` AS duplicates
                   ON action.idaction = duplicates.before
                 WHERE
                   duplicates.after IS NOT NULL;
-            "),
+            "
+            ),
 
             // remove the duplicates table
             $this->migration->db->dropTable('log_action_duplicates')

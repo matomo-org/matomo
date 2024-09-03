@@ -85,7 +85,6 @@ docker-compose.yml
 !/node_modules/jquery
 !/node_modules/jquery-mousewheel
 !/node_modules/jquery-ui-dist
-!/node_modules/jquery.dotdotdot
 !/node_modules/jquery.scrollto
 !/node_modules/@materializecss/materialize
 !/node_modules/mousetrap

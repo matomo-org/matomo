@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Translation\Loader;
@@ -26,7 +27,7 @@ class IdSiteTest extends IntegrationTestCase
         Fixture::createWebsite('2012-03-04 05:06:07');
     }
 
-    public function test_validate_successValueNotEmpty()
+    public function testValidateSuccessValueNotEmpty()
     {
         self::expectNotToPerformAssertions();
 
@@ -36,21 +37,21 @@ class IdSiteTest extends IntegrationTestCase
         $this->validate(2);
     }
 
-    public function test_validate_failValueDoesNotExist()
+    public function testValidateFailValueDoesNotExist()
     {
         $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
 
         $this->validate(99);
     }
 
-    public function test_validate_failValueIsEmpty()
+    public function testValidateFailValueIsEmpty()
     {
         $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
 
         $this->validate(0);
     }
 
-    public function test_validate_failValueIsFalse()
+    public function testValidateFailValueIsFalse()
     {
         $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
 

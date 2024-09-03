@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Columns;
@@ -44,7 +45,7 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
         return new DimensionMetricFactory($dimension);
     }
 
-    public function test_createMetric_count()
+    public function testCreateMetricCount()
     {
         $factory = $this->makeFactory($this->country);
         $metric = $factory->createMetric(ArchivedMetric::AGGREGATION_COUNT);
@@ -56,7 +57,7 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
         $this->assertSame('count(log_visit.location_country)', $metric->getQuery());
     }
 
-    public function test_createMetric_uniqueCount()
+    public function testCreateMetricUniqueCount()
     {
         $factory = $this->makeFactory($this->country);
         $metric = $factory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
@@ -68,7 +69,7 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
         $this->assertSame('count(distinct log_visit.location_country)', $metric->getQuery());
     }
 
-    public function test_createMetric_sum()
+    public function testCreateMetricSum()
     {
         $factory = $this->makeFactory($this->country);
         $metric = $factory->createMetric(ArchivedMetric::AGGREGATION_SUM);
@@ -80,7 +81,7 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
         $this->assertSame('sum(log_visit.location_country)', $metric->getQuery());
     }
 
-    public function test_createMetric_min()
+    public function testCreateMetricMin()
     {
         $factory = $this->makeFactory($this->country);
         $metric = $factory->createMetric(ArchivedMetric::AGGREGATION_MIN);
@@ -92,7 +93,7 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
         $this->assertSame('min(log_visit.location_country)', $metric->getQuery());
     }
 
-    public function test_createMetric_max()
+    public function testCreateMetricMax()
     {
         $factory = $this->makeFactory($this->country);
         $metric = $factory->createMetric(ArchivedMetric::AGGREGATION_MAX);
@@ -104,7 +105,7 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
         $this->assertSame('max(log_visit.location_country)', $metric->getQuery());
     }
 
-    public function test_createMetric_withValue()
+    public function testCreateMetricWithValue()
     {
         $factory = $this->makeFactory($this->country);
         $metric = $factory->createMetric(ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE);
@@ -117,7 +118,7 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
     }
 
 
-    public function test_createCustomMetric()
+    public function testCreateCustomMetric()
     {
         $factory = $this->makeFactory($this->country);
         $metric = $factory->createCustomMetric($name = 'sum_times_10', $translated = 'MyMetric', $aggregation = 'sum(%s) * 10', $documentation = 'FoobarBaz');
@@ -129,7 +130,7 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
         $this->assertSame('sum(log_visit.location_country) * 10', $metric->getQuery());
     }
 
-    public function test_createComputedMetric_average()
+    public function testCreateComputedMetricAverage()
     {
         $factory = $this->makeFactory($this->country);
         $metric = $factory->createComputedMetric($metricName1 = 'bounce_count', 'nb_visits', ComputedMetric::AGGREGATION_AVG);
@@ -141,7 +142,7 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
         $this->assertCount(2, $metric->getDependentMetrics());
     }
 
-    public function test_createComputedMetric_rate()
+    public function testCreateComputedMetricRate()
     {
         $factory = $this->makeFactory($this->country);
         $metric = $factory->createComputedMetric($metricName1 = 'bounce_count', 'nb_visits', ComputedMetric::AGGREGATION_RATE);

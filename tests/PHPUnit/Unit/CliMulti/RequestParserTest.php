@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace PHPUnit\Unit\CliMulti;
@@ -14,7 +14,7 @@ use Piwik\CliMulti\RequestParser;
 
 class RequestParserTest extends TestCase
 {
-    public function test_getInProgressCommands_parsesAndFiltersCorrectly()
+    public function testGetInProgressCommandsParsesAndFiltersCorrectly()
     {
         $psOutput = <<<END
 USER               PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
@@ -75,7 +75,7 @@ END;
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getInProgressCommands_returnsNothingIfNotSupportingAsync()
+    public function testGetInProgressCommandsReturnsNothingIfNotSupportingAsync()
     {
         $psOutput = <<<END
 theuser     3310   7.3  8.5 11469072 1434212   ??  S    17Apr20 1652:35.90 ./console climulti:request module=API&trigger=archivephp&idSite=1&date=2015-02-03&period=day
@@ -92,7 +92,7 @@ END;
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getInProgressArchivingCommands_returnsOnlyArchivingJobs()
+    public function testGetInProgressArchivingCommandsReturnsOnlyArchivingJobs()
     {
         $psOutput = <<<END
 USER               PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND

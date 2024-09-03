@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UserCountry;
 
 use Exception;
@@ -34,27 +35,27 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  */
 abstract class LocationProvider
 {
-    const NOT_INSTALLED = 0;
-    const INSTALLED = 1;
-    const BROKEN = 2;
+    public const NOT_INSTALLED = 0;
+    public const INSTALLED = 1;
+    public const BROKEN = 2;
 
-    const CURRENT_PROVIDER_OPTION_NAME = 'usercountry.location_provider';
+    public const CURRENT_PROVIDER_OPTION_NAME = 'usercountry.location_provider';
 
-    const GEOGRAPHIC_COORD_PRECISION = 3;
+    public const GEOGRAPHIC_COORD_PRECISION = 3;
 
-    const CONTINENT_CODE_KEY = 'continent_code';
-    const CONTINENT_NAME_KEY = 'continent_name';
-    const COUNTRY_CODE_KEY = 'country_code';
-    const COUNTRY_NAME_KEY = 'country_name';
-    const REGION_CODE_KEY = 'region_code';
-    const REGION_NAME_KEY = 'region_name';
-    const CITY_NAME_KEY = 'city_name';
-    const AREA_CODE_KEY = 'area_code';
-    const LATITUDE_KEY = 'lat';
-    const LONGITUDE_KEY = 'long';
-    const POSTAL_CODE_KEY = 'postal_code';
-    const ISP_KEY = 'isp';
-    const ORG_KEY = 'org';
+    public const CONTINENT_CODE_KEY = 'continent_code';
+    public const CONTINENT_NAME_KEY = 'continent_name';
+    public const COUNTRY_CODE_KEY = 'country_code';
+    public const COUNTRY_NAME_KEY = 'country_name';
+    public const REGION_CODE_KEY = 'region_code';
+    public const REGION_NAME_KEY = 'region_name';
+    public const CITY_NAME_KEY = 'city_name';
+    public const AREA_CODE_KEY = 'area_code';
+    public const LATITUDE_KEY = 'lat';
+    public const LONGITUDE_KEY = 'long';
+    public const POSTAL_CODE_KEY = 'postal_code';
+    public const ISP_KEY = 'isp';
+    public const ORG_KEY = 'org';
 
     /**
      * An array of all provider instances. Access it through static methods.
@@ -277,7 +278,6 @@ abstract class LocationProvider
     {
         $allInfo = array();
         foreach (self::getAllProviders() as $provider) {
-
             $info = $provider->getInfo();
 
             $status = self::INSTALLED;
@@ -292,8 +292,7 @@ abstract class LocationProvider
                 }
             } else {
                 $workingOrError = $provider->isWorking();
-                if ($workingOrError === true) // if the implementation is configured correctly, get the location
-                {
+                if ($workingOrError === true) { // if the implementation is configured correctly, get the location
                     $locInfo = array('ip'                => IP::getIpFromHeader(),
                                      'lang'              => Common::getBrowserLanguage(),
                                      'disable_fallbacks' => true);
@@ -369,7 +368,8 @@ abstract class LocationProvider
         $provider = self::getProviderById($providerId);
         if (empty($provider)) {
             throw new Exception(
-                "Invalid provider ID '$providerId'. The provider either does not exist or is not available");
+                "Invalid provider ID '$providerId'. The provider either does not exist or is not available"
+            );
         }
 
         $provider->activate();
@@ -430,7 +430,8 @@ abstract class LocationProvider
     public function completeLocationResult(&$location)
     {
         // fill in continent code if country code is present
-        if (empty($location[self::CONTINENT_CODE_KEY])
+        if (
+            empty($location[self::CONTINENT_CODE_KEY])
             && !empty($location[self::COUNTRY_CODE_KEY])
         ) {
             $countryCode = strtolower($location[self::COUNTRY_CODE_KEY]);
@@ -438,7 +439,8 @@ abstract class LocationProvider
         }
 
         // fill in continent name if continent code is present
-        if (empty($location[self::CONTINENT_NAME_KEY])
+        if (
+            empty($location[self::CONTINENT_NAME_KEY])
             && !empty($location[self::CONTINENT_CODE_KEY])
         ) {
             $continentCode = strtolower($location[self::CONTINENT_CODE_KEY]);
@@ -446,7 +448,8 @@ abstract class LocationProvider
         }
 
         // fill in country name if country code is present
-        if (empty($location[self::COUNTRY_NAME_KEY])
+        if (
+            empty($location[self::COUNTRY_NAME_KEY])
             && !empty($location[self::COUNTRY_CODE_KEY])
         ) {
             $countryCode = strtolower($location[self::COUNTRY_CODE_KEY]);
@@ -487,7 +490,8 @@ abstract class LocationProvider
 
         // add latitude/longitude line
         $lines = array();
-        if (!empty($locationInfo[self::LATITUDE_KEY])
+        if (
+            !empty($locationInfo[self::LATITUDE_KEY])
             && !empty($locationInfo[self::LONGITUDE_KEY])
         ) {
             $lines[] = '(' . $locationInfo[self::LATITUDE_KEY] . ', ' . $locationInfo[self::LONGITUDE_KEY] . ')';
@@ -501,7 +505,7 @@ abstract class LocationProvider
 
         if (!empty($locationInfo[self::REGION_CODE_KEY])) {
             $cityState[] = $locationInfo[self::REGION_CODE_KEY];
-        } else if (!empty($locationInfo[self::REGION_NAME_KEY])) {
+        } elseif (!empty($locationInfo[self::REGION_NAME_KEY])) {
             $cityState[] = $locationInfo[self::REGION_NAME_KEY];
         }
 
@@ -517,7 +521,7 @@ abstract class LocationProvider
         // add country line
         if (!empty($locationInfo[self::COUNTRY_NAME_KEY])) {
             $lines[] = $locationInfo[self::COUNTRY_NAME_KEY];
-        } else if (!empty($locationInfo[self::COUNTRY_CODE_KEY])) {
+        } elseif (!empty($locationInfo[self::COUNTRY_CODE_KEY])) {
             $lines[] = $locationInfo[self::COUNTRY_CODE_KEY];
         }
 

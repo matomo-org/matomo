@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Fixtures;
@@ -19,7 +19,7 @@ use Piwik\Version;
 
 class LatestStableInstall extends Fixture
 {
-    const DOWNLOAD_TIMEOUT = 900;
+    public const DOWNLOAD_TIMEOUT = 900;
 
     /**
      * @var string
@@ -82,7 +82,8 @@ class LatestStableInstall extends Fixture
         $archive = Unzip::factory('PclZip', $archiveFile);
         $archiveFiles = $archive->extract($installSubdirectory);
 
-        if (0 == $archiveFiles
+        if (
+            0 == $archiveFiles
             || 0 == count($archiveFiles)
         ) {
             throw new \Exception("Failed to extract matomo build ZIP archive.");

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Report;
@@ -55,7 +56,7 @@ class ReportWidgetFactoryTest extends \PHPUnit\Framework\TestCase
         $this->factory = new ReportWidgetFactory(new GetBasicReport());
     }
 
-    public function test_createContainerWidget_ShouldCreateAContainerBasedOnReportWithGivenId()
+    public function testCreateContainerWidgetShouldCreateAContainerBasedOnReportWithGivenId()
     {
         $config = $this->factory->createContainerWidget('myId');
 
@@ -66,7 +67,7 @@ class ReportWidgetFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(100 + 20, $config->getOrder());
     }
 
-    public function test_createWidget_ShouldCreateAContainerBasedOnReportWithGivenId()
+    public function testCreateWidgetShouldCreateAContainerBasedOnReportWithGivenId()
     {
         $config = $this->factory->createWidget();
 
@@ -86,7 +87,7 @@ class ReportWidgetFactoryTest extends \PHPUnit\Framework\TestCase
         ), $config->getParameters());
     }
 
-    public function test_createCustomWidget_ShouldCreateAContainerBasedOnReportWithGivenId()
+    public function testCreateCustomWidgetShouldCreateAContainerBasedOnReportWithGivenId()
     {
         $config = $this->factory->createCustomWidget('customAction');
 

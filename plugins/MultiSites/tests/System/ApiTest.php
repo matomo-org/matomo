@@ -3,12 +3,13 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\MultiSites\tests\System;
 
+use Piwik\Piwik;
 use Piwik\Plugins\MultiSites\tests\Fixtures\ManySitesWithVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -93,6 +94,22 @@ class ApiTest extends SystemTestCase
                 ],
             ]
         ];
+    }
+
+    /**
+     * @dataProvider getApiForTesting
+     */
+    public function testApiFiltered($api, $params)
+    {
+        $params['testSuffix'] .= '_filtered';
+
+        Piwik::addAction('MultiSites.filterSites', function (&$idSites) {
+            $idSites = array_filter($idSites, function ($idSite) {
+                return $idSite != 2 && $idSite != 10;
+            });
+        });
+
+        $this->runApiTests($api, $params);
     }
 
     public static function getOutputPrefix()

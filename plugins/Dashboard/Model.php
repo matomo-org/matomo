@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link     https://matomo.org
- * @license  http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Dashboard;
 
 use Piwik\Common;
@@ -33,8 +35,10 @@ class Model
      */
     public function getLayoutForUser($login, $idDashboard)
     {
-        $query   = sprintf('SELECT layout FROM %s WHERE login = ? AND iddashboard = ?',
-                           $this->table);
+        $query   = sprintf(
+            'SELECT layout FROM %s WHERE login = ? AND iddashboard = ?',
+            $this->table
+        );
         $bind    = array($login, $idDashboard);
         $layouts = Db::fetchAll($query, $bind);
 
@@ -98,8 +102,10 @@ class Model
     public function createOrUpdateDashboard($login, $idDashboard, $layout)
     {
         $bind   = array($login, $idDashboard, $layout, $layout);
-        $query  = sprintf('INSERT INTO %s (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',
-                          $this->table);
+        $query  = sprintf(
+            'INSERT INTO %s (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',
+            $this->table
+        );
         Db::query($query, $bind);
     }
 
@@ -125,8 +131,10 @@ class Model
     public function updateLayoutForUser($login, $idDashboard, $layout)
     {
         $bind  = array($login, $idDashboard, $layout, $layout);
-        $query = sprintf('INSERT INTO %s (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',
-                         $this->table);
+        $query = sprintf(
+            'INSERT INTO %s (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',
+            $this->table
+        );
         Db::query($query, $bind);
     }
 
@@ -172,13 +180,10 @@ class Model
         $newColumns = array();
 
         foreach ($dashboardLayout->columns as $id => $column) {
-
             $newColumn = array();
 
             foreach ($column as $widget) {
-
                 foreach ($oldWidgets as $pos => $oldWidgetData) {
-
                     $oldWidgetId = WidgetsList::getWidgetUniqueId($oldWidgetData['module'], $oldWidgetData['action'], $oldWidgetData['params']);
 
                     if (empty($newWidgets[$pos])) {
@@ -188,7 +193,6 @@ class Model
                     $newWidget = $newWidgets[$pos];
 
                     if ($widget->uniqueId == $oldWidgetId) {
-
                         if (!empty($newWidget['uniqueId'])) {
                             $newWidgetId = $newWidget['uniqueId'];
                         } else {
@@ -235,9 +239,7 @@ class Model
         }
 
         foreach ($dashboardLayout->columns as $id => $column) {
-
             foreach ($column as $widget) {
-
                 if ($widget->uniqueId == $widgetId) {
                     return true;
                 }

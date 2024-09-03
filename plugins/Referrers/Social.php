@@ -1,12 +1,14 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Referrers;
+
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
@@ -20,10 +22,10 @@ use Piwik\Singleton;
  */
 class Social extends Singleton
 {
-    const OPTION_STORAGE_NAME = 'SocialDefinitions';
+    public const OPTION_STORAGE_NAME = 'SocialDefinitions';
 
     /** @var string location of definition file (relative to PIWIK_INCLUDE_PATH) */
-    const DEFINITION_FILE = '/vendor/matomo/searchengine-and-social-list/Socials.yml';
+    public const DEFINITION_FILE = '/vendor/matomo/searchengine-and-social-list/Socials.yml';
 
     protected $definitionList = null;
 
@@ -52,7 +54,7 @@ class Social extends Singleton
         if ($this->definitionList === null) {
             $referrerDefinitionSyncOpt = Config::getInstance()->General['enable_referrer_definition_syncs'];
 
-            if( $referrerDefinitionSyncOpt == 1) {
+            if ($referrerDefinitionSyncOpt == 1) {
                 $this->loadRemoteDefinitions();
             } else {
                 $this->loadLocalYmlData();
@@ -131,9 +133,7 @@ class Social extends Singleton
     public function isSocialUrl($url, $socialName = false)
     {
         foreach ($this->getDefinitions() as $domain => $name) {
-
             if (preg_match('/(^|[\.\/])' . $domain . '([\.\/]|$)/', $url) && ($socialName === false || $name == $socialName)) {
-
                 return true;
             }
         }
@@ -151,9 +151,7 @@ class Social extends Singleton
     public function getSocialNetworkFromDomain($url)
     {
         foreach ($this->getDefinitions() as $domain => $name) {
-
             if (preg_match('/(^|[\.\/])' . $domain . '([\.\/]|$)/', $url)) {
-
                 return $name;
             }
         }
@@ -172,9 +170,7 @@ class Social extends Singleton
     {
         $social  = $this->getSocialNetworkFromDomain($url);
         foreach ($this->getDefinitions() as $domain => $name) {
-
             if ($name == $social) {
-
                 return $domain;
             }
         }
@@ -191,9 +187,7 @@ class Social extends Singleton
     public function getMainUrlFromName($social)
     {
         foreach ($this->getDefinitions() as $domain => $name) {
-
             if ($name == $social) {
-
                 return $domain;
             }
         }

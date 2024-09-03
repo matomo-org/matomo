@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Common;
@@ -21,7 +22,7 @@ use Piwik\Piwik;
 class ReportsPurger
 {
     // constant used in database purging estimate to signify a table should be dropped
-    const DROP_TABLE = -1;
+    public const DROP_TABLE = -1;
 
     /**
      * The max set of rows each table scan select should query at one time.
@@ -122,7 +123,7 @@ class ReportsPurger
             }
 
             if ($optimize) {
-                Db::optimizeTables($oldBlobTables);
+                Db\Schema::getInstance()->optimizeTables($oldBlobTables);
             }
         }
 
@@ -151,7 +152,7 @@ class ReportsPurger
             }
 
             if ($optimize) {
-                Db::optimizeTables($oldNumericTables);
+                Db\Schema::getInstance()->optimizeTables($oldNumericTables);
             }
         }
     }
@@ -297,8 +298,7 @@ class ReportsPurger
     private function getBlobTableWhereExpr($oldNumericTables, $table)
     {
         $where = "";
-        if (!empty($this->reportPeriodsToKeep)) // if keeping reports
-        {
+        if (!empty($this->reportPeriodsToKeep)) { // if keeping reports
             $where = "period NOT IN (" . implode(',', $this->reportPeriodsToKeep) . ")";
 
             // if not keeping segments make sure segments w/ kept periods are also deleted

@@ -16,6 +16,7 @@
         "DatabaseSetup": "Databaskonfiguration",
         "DatabaseSetupAdapter": "adapter",
         "DatabaseSetupDatabaseName": "databasnamn",
+        "DatabaseSetupEngine": "Databasmotor",
         "DatabaseSetupLogin": "inloggning",
         "DatabaseSetupServer": "databasserver",
         "DatabaseSetupTablePrefix": "tabellprefix",

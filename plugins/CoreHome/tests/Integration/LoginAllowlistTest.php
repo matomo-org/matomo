@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreHome\tests\Integration;
@@ -58,102 +59,102 @@ class LoginAllowlistTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_shouldAllowlistApplyToAPI_shouldBeEnabledByDefault()
+    public function testShouldAllowlistApplyToAPIShouldBeEnabledByDefault()
     {
         $this->assertTrue($this->allowlist->shouldAllowlistApplyToAPI());
     }
 
-    public function test_shouldAllowlistApplyToAPI_canBeDisabled()
+    public function testShouldAllowlistApplyToAPICanBeDisabled()
     {
         $this->setGeneralConfig('login_allowlist_apply_to_reporting_api_requests', '0');
         $this->assertFalse($this->allowlist->shouldAllowlistApplyToAPI());
     }
 
-    public function test_shouldAllowlistApplyToAPI_enabled()
+    public function testShouldAllowlistApplyToAPIEnabled()
     {
         $this->setGeneralConfig('login_allowlist_apply_to_reporting_api_requests', '1');
         $this->assertTrue($this->allowlist->shouldAllowlistApplyToAPI());
     }
 
-    public function test_shouldWhitelistApplyToAPI_enabledBC()
+    public function testShouldWhitelistApplyToAPIEnabledBC()
     {
         $this->setGeneralConfig('login_whitelist_apply_to_reporting_api_requests', '1');
         $this->assertTrue($this->allowlist->shouldAllowlistApplyToAPI());
     }
 
-    public function test_shouldCheckWhitelist_shouldNotBeCheckedByDefaultAndNotHaveAnyIps()
+    public function testShouldCheckWhitelistShouldNotBeCheckedByDefaultAndNotHaveAnyIps()
     {
         $this->assertFalse($this->allowlist->shouldCheckAllowlist());
     }
 
-    public function test_shouldCheckAllowlist_shouldBeCheckedIfHasAtLeastOneIp()
+    public function testShouldCheckAllowlistShouldBeCheckedIfHasAtLeastOneIp()
     {
         $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1']);
         $this->assertTrue($this->allowlist->shouldCheckAllowlist());
     }
 
-    public function test_shouldCheckAllowlist_shouldNotBeCheckedIfExecutedFromCLI()
+    public function testShouldCheckAllowlistShouldNotBeCheckedIfExecutedFromCLI()
     {
         Common::$isCliMode = true;
         $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1']);
         $this->assertFalse($this->allowlist->shouldCheckAllowlist());
     }
 
-    public function test_shouldCheckWhitelist_shouldBeCheckedIfHasAtLeastOneIp_forBC()
+    public function testShouldCheckWhitelistShouldBeCheckedIfHasAtLeastOneIpForBC()
     {
         $this->setGeneralConfig('login_whitelist_ip', ['192.168.33.1']);
         $this->assertTrue($this->allowlist->shouldCheckAllowlist());
     }
 
-    public function test_shouldCheckWhitelist_shouldNotBeCheckedIfExecutedFromCLI_forBC()
+    public function testShouldCheckWhitelistShouldNotBeCheckedIfExecutedFromCLIForBC()
     {
         Common::$isCliMode = true;
         $this->setGeneralConfig('login_whitelist_ip', ['192.168.33.1']);
         $this->assertFalse($this->allowlist->shouldCheckAllowlist());
     }
 
-    public function test_shouldCheckWhitelist_shouldNotBeCheckedIfOnlyEmptyEntries()
+    public function testShouldCheckWhitelistShouldNotBeCheckedIfOnlyEmptyEntries()
     {
         $this->setGeneralConfig('login_allowlist_ip', ['', ' ']);
         $this->assertFalse($this->allowlist->shouldCheckAllowlist());
     }
 
-    public function test_getAllowlistedLoginIps_shouldReturnEmptyArrayByDefault()
+    public function testGetAllowlistedLoginIpsShouldReturnEmptyArrayByDefault()
     {
         $this->assertSame($this->allowlist->getAllowlistedLoginIps(), []);
     }
 
-    public function test_getAllowlistedLoginIps_shouldReturnIpsAndTrimIfNeeded()
+    public function testGetAllowlistedLoginIpsShouldReturnIpsAndTrimIfNeeded()
     {
         $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1', ' 127.0.0.1 ', '2001:0db8:85a3:0000:0000:8a2e:0370:7334']);
         $this->assertSame(['192.168.33.1', '127.0.0.1', '2001:0db8:85a3:0000:0000:8a2e:0370:7334'], $this->allowlist->getAllowlistedLoginIps());
     }
 
-    public function test_getAllowlistedLoginIps_shouldResolveIp()
+    public function testGetAllowlistedLoginIpsShouldResolveIp()
     {
         $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1', 'origin.matomo.org', '127.0.0.1']);
         $this->assertSame(['192.168.33.1', '185.31.40.177', '2a00:b6e0:1:200:177::1', '127.0.0.1'], $this->allowlist->getAllowlistedLoginIps());
     }
 
-    public function test_getAllowlistedLoginIps_shouldResolveIpv6Only()
+    public function testGetAllowlistedLoginIpsShouldResolveIpv6Only()
     {
-        $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1', 'integration-test.matomo.org', '127.0.0.1']);
+        $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1', 'integration-test-do-not-delete.media-analytics.net', '127.0.0.1']);
         $this->assertSame(['192.168.33.1', '::1', '127.0.0.1'], $this->allowlist->getAllowlistedLoginIps());
     }
 
-    public function test_getAllowlistedLoginIps_shouldReturnRanges()
+    public function testGetAllowlistedLoginIpsShouldReturnRanges()
     {
         $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1', '204.93.177.0/25', '2001:db9::/48', '127.0.0.1']);
         $this->assertSame(['192.168.33.1', '204.93.177.0/25', '2001:db9::/48', '127.0.0.1'], $this->allowlist->getAllowlistedLoginIps());
     }
 
-    public function test_getAllowlistedLoginIps_shouldNotBeCheckedIfOnlyEmptyEntries()
+    public function testGetAllowlistedLoginIpsShouldNotBeCheckedIfOnlyEmptyEntries()
     {
         $this->setGeneralConfig('login_allowlist_ip', ['', '192.168.33.1 ', ' ']);
         $this->assertSame(['192.168.33.1'], $this->allowlist->getAllowlistedLoginIps());
     }
 
-    public function test_getAllowlistedLoginIps_shouldNotReturnDuplicates()
+    public function testGetAllowlistedLoginIpsShouldNotReturnDuplicates()
     {
         $this->setGeneralConfig('login_allowlist_ip', [' 192.168.33.1', '192.168.33.1 ', ' 192.168.33.1 ', '192.168.33.1']);
         $this->assertSame(['192.168.33.1'], $this->allowlist->getAllowlistedLoginIps());
@@ -162,7 +163,7 @@ class LoginAllowlistTest extends IntegrationTestCase
     /**
      * @dataProvider getIpAllowlistedTests
      */
-    public function test_isIpAllowlisted($expectedIsAllowlisted, $ipString)
+    public function testIsIpAllowlisted($expectedIsAllowlisted, $ipString)
     {
         $ipsAllowlisted = [
             '127.0.0.1',
@@ -179,7 +180,7 @@ class LoginAllowlistTest extends IntegrationTestCase
     /**
      * @dataProvider getIpAllowlistedTests
      */
-    public function test_isIpAllowed_WhenNoIpsConfigured_AllIpsAreAllowed($expectedIsWhitelisted, $ipString)
+    public function testIsIpAllowedWhenNoIpsConfiguredAllIpsAreAllowed($expectedIsWhitelisted, $ipString)
     {
         $this->assertFalse($this->allowlist->isIpAllowed($ipString));
     }
@@ -187,7 +188,7 @@ class LoginAllowlistTest extends IntegrationTestCase
     /**
      * @dataProvider getIpAllowlistedTests
      */
-    public function test_checkIsAllowed($expectedIsAllowed, $ipString)
+    public function testCheckIsAllowed($expectedIsAllowed, $ipString)
     {
         $ipsAllowed = [
             '127.0.0.1',

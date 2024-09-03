@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Unit\Metrics\Formatter;
 
 use Piwik\Container\StaticContainer;
@@ -45,7 +47,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->unsetSiteManagerApiMock();
     }
 
-    public function test_getPrettyTimeFromSeconds_DefaultsToShowingSentences_AndUsesNonBreakingSpaces()
+    public function testGetPrettyTimeFromSecondsDefaultsToShowingSentencesAndUsesNonBreakingSpaces()
     {
         $expected = '1&nbsp;days&nbsp;10&nbsp;hours';
         $value = $this->formatter->getPrettyTimeFromSeconds(86400 + 3600 * 10);
@@ -53,7 +55,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $value);
     }
 
-    public function test_getPrettySizeFromBytes_UsesNonBreakingSpaces()
+    public function testGetPrettySizeFromBytesUsesNonBreakingSpaces()
     {
         $expected = '1.5&nbsp;K';
         $value = $this->formatter->getPrettySizeFromBytes(1536);
@@ -61,7 +63,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $value);
     }
 
-    public function test_getPrettySizeFromBytes_InFixedUnitThatIsHigherThanBestUnit()
+    public function testGetPrettySizeFromBytesInFixedUnitThatIsHigherThanBestUnit()
     {
         $expected = '0.001465&nbsp;M';
         $value = $this->formatter->getPrettySizeFromBytes(1536, 'M', 6);
@@ -69,7 +71,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $value);
     }
 
-    public function test_getPrettySizeFromBytes_InUnitThatIsLowerThanBestUnit()
+    public function testGetPrettySizeFromBytesInUnitThatIsLowerThanBestUnit()
     {
         $expected = '1536&nbsp;B';
         $value = $this->formatter->getPrettySizeFromBytes(1536, 'B');
@@ -77,7 +79,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $value);
     }
 
-    public function test_getPrettyMoney_UsesNonBreakingSpaces()
+    public function testGetPrettyMoneyUsesNonBreakingSpaces()
     {
         StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage('de');
 

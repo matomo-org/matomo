@@ -3,8 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\SitesManager\tests\Integration;
@@ -54,7 +54,7 @@ class ModelTest extends IntegrationTestCase
             $this->createMeasurable('mobileapp');
         }
 
-        $this->assertSame(['website', 'universal', 'mobileapp'], $this->model->getUsedTypeIds());
+        $this->assertEqualsCanonicalizing(['website', 'universal', 'mobileapp'], $this->model->getUsedTypeIds());
     }
 
     public function testGetAllKnownUrlsForAllSitesShouldReturnAllUrls()

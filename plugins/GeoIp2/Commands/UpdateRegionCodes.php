@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\GeoIp2\Commands;
 
 use Piwik\Development;
@@ -177,7 +178,7 @@ CONTENT;
 
         $handle = fopen($dbIpCsvFile, 'r');
 
-        while(!feof($handle)){
+        while (!feof($handle)) {
             $csv = str_getcsv(fgets($handle));
             $ip = $csv[0] ?? '';
 

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Development;
@@ -30,7 +32,7 @@ class FileIntegrityCheck implements Diagnostic
     {
         $label = $this->translator->translate('Installation_SystemCheckFileIntegrity');
 
-        if(Development::isEnabled()) {
+        if (Development::isEnabled()) {
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, '(Disabled in development mode)'));
         }
 

@@ -1,1 +1,30 @@
-{}
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "meán-am giniúna",
+        "AverageVisitDuration": "meánré cuairte",
+        "GenerateQueries": "%s ceist curtha i gcrích",
+        "GenerateTime": "%s soicind chun an leathanach a ghiniúint",
+        "MaxNbActions": "gníomhartha uasta in aon chuairt amháin",
+        "NbActionsDescription": "%s gníomh",
+        "NbActionsPerVisit": "gníomhartha (amharc ar leathanaigh, íoslódálacha, eisnaisc agus cuardaigh inmheánacha láithreáin) in aghaidh na cuairte",
+        "NbDownloadsDescription": "íosluchtuithe",
+        "NbKeywordsDescription": "eochairfhocail uathúla",
+        "NbOutlinksDescription": "imlíne",
+        "NbPageviewsDescription": "amhairc leathanaigh",
+        "NbSearchesDescription": "cuardaigh iomlána ar do láithreán gréasáin",
+        "NbUniqueDownloadsDescription": "íoslódálacha uathúla",
+        "NbUniqueOutlinksDescription": "eislínte uathúla",
+        "NbUniquePageviewsDescription": "radhairc leathanaigh uathúla",
+        "NbUniqueVisitors": "cuairteoirí uathúla",
+        "NbUsersDescription": "úsáideoirí",
+        "NbVisitsBounced": "tá na cuairteanna tar éis preabadh (fág an suíomh Gréasáin tar éis leathanach amháin)",
+        "NbVisitsDescription": "cuairteanna",
+        "PluginDescription": "Tuairiscíonn méadracht ghinearálta anailíse: cuairteanna, cuairteoirí uathúla, líon na ngníomhaíochtaí, ráta preab, etc.",
+        "VisitsSummary": "Achoimre ar Chuairteanna",
+        "VisitsSummaryDocumentation": "Seo forbhreathnú ar éabhlóid na cuairte.",
+        "VisitsSummaryReportDocumentation": "Tugann an tuarascáil seo forbhreathnú an-ghinearálta ar iompar do chuairteoirí.",
+        "WidgetLastVisits": "Cuairteanna Thar Am",
+        "WidgetOverviewGraph": "Forbhreathnú Cuairteanna (le graf)",
+        "WidgetVisits": "Cuairteanna Forbhreathnú"
+    }
+}

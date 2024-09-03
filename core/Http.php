@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Composer\CaBundle\CaBundle;
@@ -103,9 +104,26 @@ class Http
         $file = self::ensureDestinationDirectoryExists($destinationPath);
 
         $acceptLanguage = $acceptLanguage ? 'Accept-Language: ' . $acceptLanguage : '';
-        return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file,
-            $followDepth, $acceptLanguage, $acceptInvalidSslCertificate = false, $byteRange, $getExtendedInfo, $httpMethod,
-            $httpUsername, $httpPassword, null, [], null, $checkHostIsAllowed);
+        return self::sendHttpRequestBy(
+            self::getTransportMethod(),
+            $aUrl,
+            $timeout,
+            $userAgent,
+            $destinationPath,
+            $file,
+            $followDepth,
+            $acceptLanguage,
+            $acceptInvalidSslCertificate = false,
+            $byteRange,
+            $getExtendedInfo,
+            $httpMethod,
+            $httpUsername,
+            $httpPassword,
+            null,
+            [],
+            null,
+            $checkHostIsAllowed
+        );
     }
 
     public static function ensureDestinationDirectoryExists($destinationPath)
@@ -245,7 +263,7 @@ class Http
         $contentLength = 0;
         $fileLength = 0;
 
-        if ( !empty($requestBody) && is_array($requestBody)) {
+        if (!empty($requestBody) && is_array($requestBody)) {
             $requestBodyQuery = self::buildQuery($requestBody);
         } else {
             $requestBodyQuery = $requestBody;
@@ -358,7 +376,8 @@ class Http
             $errno = null;
             $errstr = null;
 
-            if ((!empty($proxyHost) && !empty($proxyPort))
+            if (
+                (!empty($proxyHost) && !empty($proxyPort))
                 || !empty($byteRange)
             ) {
                 $httpVer = '1.1';
@@ -510,7 +529,8 @@ class Http
                 self::parseHeaderLine($headers, $line);
             }
 
-            if (feof($fsock)
+            if (
+                feof($fsock)
                 && $httpMethod != 'HEAD'
             ) {
                 throw new Exception('Unexpected end of transmission');
@@ -739,7 +759,7 @@ class Http
                 while (substr($response, 0, 5) == "HTTP/") {
                     $split = explode("\r\n\r\n", $response, 2);
 
-                    if(count($split) == 2) {
+                    if (count($split) == 2) {
                         [$header, $response] = $split;
                     } else {
                         $response = '';
@@ -767,7 +787,8 @@ class Http
             @fclose($file);
 
             $fileSize = filesize($destinationPath);
-            if ($contentLength > 0
+            if (
+                $contentLength > 0
                 && $fileSize != $contentLength
             ) {
                 throw new Exception('File size error: ' . $destinationPath . '; expected ' . $contentLength . ' bytes; received ' . $fileLength . ' bytes; saved ' . $fileSize . ' bytes to file');
@@ -877,12 +898,14 @@ class Http
     public static function downloadChunk($url, $outputPath, $isContinuation)
     {
         // make sure file doesn't already exist if we're starting a new download
-        if (!$isContinuation
+        if (
+            !$isContinuation
             && file_exists($outputPath)
         ) {
             throw new Exception(
                 Piwik::translate('General_DownloadFail_FileExists', "'" . $outputPath . "'")
-                . ' ' . Piwik::translate('General_DownloadPleaseRemoveExisting'));
+                . ' ' . Piwik::translate('General_DownloadPleaseRemoveExisting')
+            );
         }
 
         // if we're starting a download, get the expected file size & save as an option
@@ -924,7 +947,8 @@ class Http
         if ($existingSize >= $expectedFileSize) {
             throw new Exception(
                 Piwik::translate('General_DownloadFail_FileExistsContinue', "'" . $outputPath . "'")
-                . ' ' . Piwik::translate('General_DownloadPleaseRemoveExisting'));
+                . ' ' . Piwik::translate('General_DownloadPleaseRemoveExisting')
+            );
         }
 
         // download a chunk of the file
@@ -939,13 +963,19 @@ class Http
             $getExtendedInfo = true
         );
 
-        if ($result === false
+        if (
+            $result === false
             || $result['status'] < 200
             || $result['status'] > 299
         ) {
             $result['data'] = self::truncateStr($result['data'], 1024);
-            Log::info("Failed to download range '%s-%s' of file from url '%s'. Got result: %s",
-                $byteRange[0], $byteRange[1], $url, print_r($result, true));
+            Log::info(
+                "Failed to download range '%s-%s' of file from url '%s'. Got result: %s",
+                $byteRange[0],
+                $byteRange[1],
+                $url,
+                print_r($result, true)
+            );
 
             throw new Exception(Piwik::translate('General_DownloadFail_HttpRequestFail'));
         }

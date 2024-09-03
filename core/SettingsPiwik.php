@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Exception;
@@ -166,8 +167,10 @@ class SettingsPiwik
      */
     public static function getWebsitesCountToDisplay(): int
     {
-        $count = max(Config::getInstance()->General['site_selector_max_sites'],
-            Config::getInstance()->General['autocomplete_min_sites']);
+        $count = max(
+            Config::getInstance()->General['site_selector_max_sites'],
+            Config::getInstance()->General['autocomplete_min_sites']
+        );
         return (int)$count;
     }
 
@@ -182,7 +185,8 @@ class SettingsPiwik
         $url = Option::get(self::OPTION_PIWIK_URL);
 
         $isPiwikCoreDispatching = defined('PIWIK_ENABLE_DISPATCH') && PIWIK_ENABLE_DISPATCH;
-        if (Common::isPhpCliMode()
+        if (
+            Common::isPhpCliMode()
             // in case core:archive command is triggered (often with localhost domain)
             || SettingsServer::isArchivePhpTriggered()
             // When someone else than core is dispatching this request then we return the URL as it is read only
@@ -196,15 +200,18 @@ class SettingsPiwik
         // when script is called from /misc/cron/archive.php, Piwik URL is /index.php
         $currentUrl = str_replace("/misc/cron", "", $currentUrl);
 
-        if (empty($url)
+        if (
+            empty($url)
             // if URL changes, always update the cache
             || $currentUrl !== $url
         ) {
             $host = Url::getHostFromUrl($currentUrl);
 
-            if (strlen($currentUrl) >= strlen('http://a/')
+            if (
+                strlen($currentUrl) >= strlen('http://a/')
                 && Url::isValidHost($host)
-                && !Url::isLocalHost($host)) {
+                && !Url::isLocalHost($host)
+            ) {
                 self::overwritePiwikUrl($currentUrl);
             }
             $url = $currentUrl;
@@ -266,7 +273,7 @@ class SettingsPiwik
     public static function isAutoUpdateEnabled(): bool
     {
         $enableAutoUpdate = (bool) Config::getInstance()->General['enable_auto_update'];
-        if(self::isInternetEnabled() === true && $enableAutoUpdate === true){
+        if (self::isInternetEnabled() === true && $enableAutoUpdate === true) {
             return true;
         }
 
@@ -329,7 +336,8 @@ class SettingsPiwik
         $result = !empty($generalSettings[$settingName]) && $generalSettings[$settingName] == 1;
 
         // check enable_processing_unique_visitors_year_and_range for backwards compatibility
-        if (($periodLabel === 'year' || $periodLabel === 'range')
+        if (
+            ($periodLabel === 'year' || $periodLabel === 'range')
             && isset($generalSettings['enable_processing_unique_visitors_year_and_range'])
         ) {
             $result |= $generalSettings['enable_processing_unique_visitors_year_and_range'] == 1;
@@ -369,15 +377,16 @@ class SettingsPiwik
     {
         // Now testing if the webserver is running
         try {
-            $fetched = Http::sendHttpRequestBy('curl',
-                                                $piwikServerUrl,
-                                                $timeout = 45,
-                                                $userAgent = null,
-                                                $destinationPath = null,
-                                                $file = null,
-                                                $followDepth = 0,
-                                                $acceptLanguage = false,
-                                                $acceptInvalidSSLCertificates
+            $fetched = Http::sendHttpRequestBy(
+                'curl',
+                $piwikServerUrl,
+                $timeout = 45,
+                $userAgent = null,
+                $destinationPath = null,
+                $file = null,
+                $followDepth = 0,
+                $acceptLanguage = false,
+                $acceptInvalidSSLCertificates
             );
         } catch (Exception $e) {
             $fetched = "ERROR fetching: " . $e->getMessage();

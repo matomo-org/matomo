@@ -1,12 +1,14 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\WebsiteMeasurable\Settings;
+
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Settings\FieldConfig;
@@ -65,7 +67,8 @@ class Urls extends \Piwik\Settings\Measurable\MeasurableProperty
     {
         $urls = $this->cleanParameterUrls($urls);
 
-        if (!is_array($urls)
+        if (
+            !is_array($urls)
             || count($urls) == 0
         ) {
             throw new Exception(Piwik::translate('SitesManager_ExceptionNoUrl'));
@@ -109,7 +112,8 @@ class Urls extends \Piwik\Settings\Measurable\MeasurableProperty
         foreach ($urls as &$url) {
             $url = $this->removeTrailingSlash($url);
             $scheme = parse_url($url, PHP_URL_SCHEME);
-            if (empty($scheme)
+            if (
+                empty($scheme)
                 && strpos($url, '://') === false
             ) {
                 if (strpos($url, '//') === 0) {
@@ -135,7 +139,8 @@ class Urls extends \Piwik\Settings\Measurable\MeasurableProperty
     private function removeTrailingSlash($url)
     {
         // if there is a final slash, we take the URL without this slash (expected URL format)
-        if (strlen($url) > 5
+        if (
+            strlen($url) > 5
             && $url[strlen($url) - 1] == '/'
         ) {
             $url = substr($url, 0, strlen($url) - 1);

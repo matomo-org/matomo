@@ -1,4 +1,5 @@
 <?php
+
 namespace Piwik\Plugins\GeoIp2;
 
 use Piwik\Common;
@@ -150,7 +151,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 // download part of the file
                 $result = Http::downloadChunk(
-                    $url, $outputPath, Common::getRequestVar('continue', true, 'int'));
+                    $url,
+                    $outputPath,
+                    Common::getRequestVar('continue', true, 'int')
+                );
 
                 // if the file is done
                 if ($result['current_size'] >= $result['expected_file_size']) {

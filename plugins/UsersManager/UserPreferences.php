@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Config;
@@ -134,7 +135,8 @@ class UserPreferences
             return $userSettingsDate;
         }
         // if last7, last30, etc.
-        if (strpos($userSettingsDate, 'last') === 0
+        if (
+            strpos($userSettingsDate, 'last') === 0
             || strpos($userSettingsDate, 'previous') === 0
         ) {
             return $userSettingsDate;
@@ -160,7 +162,8 @@ class UserPreferences
             return 'day';
         }
 
-        if (strpos($defaultDate, 'last') === 0
+        if (
+            strpos($defaultDate, 'last') === 0
             || strpos($defaultDate, 'previous') === 0
         ) {
             return 'range';

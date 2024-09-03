@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Insights\DataTable\Filter;
 
 use Piwik\DataTable\BaseFilter;
@@ -35,7 +36,6 @@ class MinGrowth extends BaseFilter
         }
 
         foreach ($table->getRows() as $key => $row) {
-
             $growthNumeric = $row->getColumn($this->columnToRead);
 
             if ($growthNumeric >= $this->minPositiveValue && $growthNumeric >= 0) {

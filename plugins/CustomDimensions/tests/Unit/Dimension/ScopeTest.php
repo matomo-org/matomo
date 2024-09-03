@@ -1,12 +1,14 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomDimensions\tests\Unit\Dimension;
+
 use Piwik\Plugins\CustomDimensions\Dimension\Scope;
 
 /**
@@ -17,7 +19,7 @@ use Piwik\Plugins\CustomDimensions\Dimension\Scope;
  */
 class ScopeTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_check_shouldFailWhenScopeIsEmpty()
+    public function testCheckShouldFailWhenScopeIsEmpty()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid value '' for 'scope' specified. Available scopes are: visit, action, conversion");
@@ -25,7 +27,7 @@ class ScopeTest extends \PHPUnit\Framework\TestCase
         $this->buildScope('')->check();
     }
 
-    public function test_check_shouldFailWhenScopeIsNotValid()
+    public function testCheckShouldFailWhenScopeIsNotValid()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid value 'anyScoPe' for 'scope' specified. Available scopes are: visit, action, conversion");
@@ -33,7 +35,7 @@ class ScopeTest extends \PHPUnit\Framework\TestCase
         $this->buildScope('anyScoPe')->check();
     }
 
-    public function test_check_shouldNotFailWhenScopeIsValid()
+    public function testCheckShouldNotFailWhenScopeIsValid()
     {
         self::expectNotToPerformAssertions();
 

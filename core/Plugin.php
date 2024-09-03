@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Piwik\Archive\ArchiveInvalidator;
@@ -388,8 +389,13 @@ if (!class_exists('Piwik\Plugin')) {
                 }
 
                 if (!empty($expectedSubclass) && !is_subclass_of($classname, $expectedSubclass)) {
-                    Log::warning(sprintf('Cannot use component %s for plugin %s, class %s does not extend %s',
-                    $componentName, $this->pluginName, $classname, $expectedSubclass));
+                    Log::warning(sprintf(
+                        'Cannot use component %s for plugin %s, class %s does not extend %s',
+                        $componentName,
+                        $this->pluginName,
+                        $classname,
+                        $expectedSubclass
+                    ));
                     return null;
                 }
 
@@ -464,7 +470,7 @@ if (!class_exists('Piwik\Plugin')) {
 
             $missingDependencies = $dependency->getMissingDependencies($this->pluginInformation['require']);
 
-            if(empty($missingDependencies)) {
+            if (empty($missingDependencies)) {
                 return '';
             }
 
@@ -501,7 +507,7 @@ if (!class_exists('Piwik\Plugin')) {
             $lastCronArchiveTime = (int) Option::get(CronArchive::OPTION_ARCHIVING_FINISHED_TS);
             if (empty($lastCronArchiveTime)) {
                 $dateTime = $lastDeactivationTime;
-            } else if (empty($lastDeactivationTime)) {
+            } elseif (empty($lastDeactivationTime)) {
                 $dateTime = null; // use default earliest time
             } else {
                 $lastCronArchiveTime = Date::factory($lastCronArchiveTime);

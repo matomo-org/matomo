@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\ScheduledReports\tests\Integration\ReportEmailGenerator;
@@ -35,7 +35,7 @@ class HtmlReportEmailGeneratorTest extends IntegrationTestCase
         $this->testInstance = new HtmlReportEmailGenerator();
     }
 
-    public function test_makeEmail_ReturnsCorrectlyConfiguredEmailInstance()
+    public function testMakeEmailReturnsCorrectlyConfiguredEmailInstance()
     {
         $reportDetails = [
             'format' => 'html',

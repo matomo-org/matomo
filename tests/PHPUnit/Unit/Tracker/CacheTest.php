@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace PHPUnit\Unit\Tracker;
@@ -23,7 +23,7 @@ class CacheTest extends UnitTestCase
         $this->methodsCalled = [];
     }
 
-    public function test_withDelegatedCacheClears_onlyCallsCacheClearsAtTheEndOnce()
+    public function testWithDelegatedCacheClearsOnlyCallsCacheClearsAtTheEndOnce()
     {
         $this->assertEmpty($this->methodsCalled);
         Cache::withDelegatedCacheClears(function () {

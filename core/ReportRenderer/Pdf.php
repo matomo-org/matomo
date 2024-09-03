@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\ReportRenderer;
 
 use Piwik\Common;
@@ -27,22 +28,22 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/ScheduledReports/config/tcpdf_config
  */
 class Pdf extends ReportRenderer
 {
-    const IMAGE_GRAPH_WIDTH_LANDSCAPE = 1050;
-    const IMAGE_GRAPH_WIDTH_PORTRAIT = 760;
-    const IMAGE_GRAPH_HEIGHT = 220;
+    public const IMAGE_GRAPH_WIDTH_LANDSCAPE = 1050;
+    public const IMAGE_GRAPH_WIDTH_PORTRAIT = 760;
+    public const IMAGE_GRAPH_HEIGHT = 220;
 
-    const LANDSCAPE = 'L';
-    const PORTRAIT = 'P';
+    public const LANDSCAPE = 'L';
+    public const PORTRAIT = 'P';
 
-    const MAX_ROW_COUNT = 28;
-    const TABLE_HEADER_ROW_COUNT = 6;
-    const NO_DATA_ROW_COUNT = 6;
-    const MAX_GRAPH_REPORTS = 3;
-    const MAX_2COL_TABLE_REPORTS = 2;
+    public const MAX_ROW_COUNT = 28;
+    public const TABLE_HEADER_ROW_COUNT = 6;
+    public const NO_DATA_ROW_COUNT = 6;
+    public const MAX_GRAPH_REPORTS = 3;
+    public const MAX_2COL_TABLE_REPORTS = 2;
 
-    const IMPORT_FONT_PATH = 'plugins/ImageGraph/fonts/unifont.ttf';
+    public const IMPORT_FONT_PATH = 'plugins/ImageGraph/fonts/unifont.ttf';
 
-    const PDF_CONTENT_TYPE = 'pdf';
+    public const PDF_CONTENT_TYPE = 'pdf';
 
     private $reportFontStyle = '';
     private $reportSimpleFontSize = 9;
@@ -256,7 +257,8 @@ class Pdf extends ReportRenderer
         $rowCount = $reportHasData ? $this->report->getRowsCount() + self::TABLE_HEADER_ROW_COUNT : self::NO_DATA_ROW_COUNT;
 
         // Only a page break before if the current report has some data
-        if ($reportHasData
+        if (
+            $reportHasData
             // and
             && (
                 // it is the first report
@@ -483,7 +485,8 @@ class Pdf extends ReportRenderer
 
         $columnsCount = count($this->reportColumns);
         // Computes available column width
-        if ($this->orientation == self::PORTRAIT
+        if (
+            $this->orientation == self::PORTRAIT
             && $columnsCount <= 3
         ) {
             $totalWidth = $this->reportWidthPortrait * 2 / 3;

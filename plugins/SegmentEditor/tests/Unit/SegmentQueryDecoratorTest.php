@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\SegmentEditor\tests\Unit;
@@ -41,7 +42,7 @@ class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
         $this->decorator = new SegmentQueryDecorator($service, $logTables);
     }
 
-    public function test_getSelectQueryString_DoesNotDecorateSql_WhenNoSegmentUsed()
+    public function testGetSelectQueryStringDoesNotDecorateSqlWhenNoSegmentUsed()
     {
         $expression = new SegmentExpression('');
         $expression->parseSubExpressions();
@@ -51,7 +52,7 @@ class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
         $this->assertStringStartsNotWith('/* idSegments', $query['sql']);
     }
 
-    public function test_getSelectQueryString_DoesNotDecorateSql_WhenNoSegmentMatchesUsedSegment()
+    public function testGetSelectQueryStringDoesNotDecorateSqlWhenNoSegmentMatchesUsedSegment()
     {
         $expression = new SegmentExpression('referrerName==ooga');
         $expression->parseSubExpressions();
@@ -61,7 +62,7 @@ class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
         $this->assertStringStartsNotWith('/* idSegments', $query['sql']);
     }
 
-    public function test_getSelectQueryString_DecoratesSql_WhenOneSegmentMatchesUsedSegment()
+    public function testGetSelectQueryStringDecoratesSqlWhenOneSegmentMatchesUsedSegment()
     {
         $expression = new SegmentExpression('browserCode==def;visitCount>2');
         $expression->parseSubExpressions();
@@ -72,7 +73,7 @@ class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, substr_count($query['sql'], 'SELECT'));
     }
 
-    public function test_getSelectQueryString_DecoratesSql_WhenMultipleStoredSegmentsMatchUsedSegment()
+    public function testGetSelectQueryStringDecoratesSqlWhenMultipleStoredSegmentsMatchUsedSegment()
     {
         $expression = new SegmentExpression('region!=FL');
         $expression->parseSubExpressions();

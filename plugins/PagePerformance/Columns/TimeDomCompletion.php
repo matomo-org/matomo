@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\PagePerformance\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
@@ -16,8 +17,8 @@ use Piwik\Plugin\ComputedMetric;
 
 class TimeDomCompletion extends Base
 {
-    const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
-    const COLUMN_NAME = 'time_dom_completion';
+    public const COLUMN_TYPE = 'MEDIUMINT(10) UNSIGNED NULL';
+    public const COLUMN_NAME = 'time_dom_completion';
 
     protected $columnName = self::COLUMN_NAME;
     protected $columnType = self::COLUMN_TYPE;

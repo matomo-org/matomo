@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugin;
 
 use Exception;
@@ -24,7 +25,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Version.php';
  */
 class MetadataLoader
 {
-    const PLUGIN_JSON_FILENAME = 'plugin.json';
+    public const PLUGIN_JSON_FILENAME = 'plugin.json';
 
     /**
      * The name of the plugin whose metadata will be loaded.
@@ -60,7 +61,7 @@ class MetadataLoader
 
         // look for a license file
         $licenseFile = $this->getPathToLicenseFile();
-        if(!empty($licenseFile)) {
+        if (!empty($licenseFile)) {
             $plugin['license_file'] = $licenseFile;
         }
 
@@ -119,7 +120,8 @@ class MetadataLoader
         }
 
         $info = json_decode($json, $assoc = true);
-        if (!is_array($info)
+        if (
+            !is_array($info)
             || empty($info)
         ) {
             throw new Exception("Invalid JSON file: $path");

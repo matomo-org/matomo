@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -37,7 +37,7 @@ class ArchiveTest extends IntegrationTestCase
         Fixture::createWebsite('2014-05-06', 1);
     }
 
-    public function test_queryingForNoData_doesNotCreateEmptyArchive()
+    public function testQueryingForNoDataDoesNotCreateEmptyArchive()
     {
         $tracker = Fixture::getTracker(1, '2014-05-07 07:00:00');
         $tracker->setUrl('http://matomo.net/page/1');
@@ -64,7 +64,33 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals([], $archiveRows);
     }
 
-    public function test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive()
+    public function testQueryingForInexistentRecordDoesNotCreateEmptyPartialArchiveForPlugin()
+    {
+        $tracker = Fixture::getTracker(1, '2014-05-07 07:00:00');
+        $tracker->setUrl('http://matomo.net/page/1');
+        Fixture::checkResponse($tracker->doTrackPageView('a page'));
+
+        $tracker->setForceVisitDateTime('2014-05-08 09:00:00');
+        $tracker->setUrl('http://matomo.net/page/2');
+        Fixture::checkResponse($tracker->doTrackPageView('a page'));
+
+        // the table may not be created if we skip archiving logic, so make sure it's created here
+        ArchiveTableCreator::getNumericTable(Date::factory('2014-05-07'));
+
+        $archive = Archive::factory(new Segment('', [1]), [Factory::build('range', '2014-05-07,2014-05-08')], [1]);
+        $data = $archive->getDataTable('DevicePlugins_InvalidRecord');
+        $this->assertEquals([], $data->getRows());
+
+        $archiveRows = Db::fetchAll(
+            'SELECT name FROM ' . Common::prefixTable('archive_numeric_2014_05') . ' WHERE idsite = ? AND period = ? AND name LIKE ?',
+            [1, 5, 'done%']
+        );
+
+        // It's expected that archiving core metrics will be triggered, but there should be no partial done flag for the plugin
+        $this->assertEquals(['done.VisitsSummary'], array_column($archiveRows, 'name'));
+    }
+
+    public function testPluginSpecificArchiveUsedEvenIfAllArchiveExistsIfThereAreNoDataInAllArchive()
     {
         $idSite = 1;
 
@@ -121,7 +147,7 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals($expected, $metrics);
     }
 
-    public function test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive_WithBrowserArchivingDisabled()
+    public function testPluginSpecificArchiveUsedEvenIfAllArchiveExistsIfThereAreNoDataInAllArchiveWithBrowserArchivingDisabled()
     {
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_range_force_on_browser_request', 0);
@@ -132,10 +158,10 @@ class ArchiveTest extends IntegrationTestCase
 
         $this->assertTrue(Rules::isArchivingDisabledFor([1], new Segment('', [1]), 'day'));
 
-        $this->test_pluginSpecificArchiveUsed_EvenIfAllArchiveExists_IfThereAreNoDataInAllArchive();
+        $this->testPluginSpecificArchiveUsedEvenIfAllArchiveExistsIfThereAreNoDataInAllArchive();
     }
 
-    public function test_archivingInvalidRange_doesNotReprocessInvalidDay()
+    public function testArchivingInvalidRangeDoesNotReprocessInvalidDay()
     {
         $idSite = 1;
 
@@ -240,7 +266,56 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals($expected, $archives);
     }
 
-    public function test_shouldNotArchivePeriodsStartingInTheFuture()
+    public function testInvalidatingYesterdayWorksAsExpectedWhenVisitTrackedInPast()
+    {
+        Fixture::createWebsite('2014-12-12 00:01:02');
+
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'browser_archiving_disabled_enforce', 0);
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_range_force_on_browser_request', 1);
+        self::$fixture->getTestEnvironment()->save();
+
+        Config::getInstance()->General['browser_archiving_disabled_enforce'] = 0;
+        Config::getInstance()->General['archiving_range_force_on_browser_request'] = 1;
+
+        Rules::setBrowserTriggerArchiving(false);
+
+        // Set current time to time of tracked visit, so no automatic invalidation for tracking a date in the past is created
+        Date::$now = strtotime('2020-05-05 12:00:00');
+
+        $tracker = Fixture::getTracker(1, '2020-05-05 12:00:00');
+        $tracker->setUserId('user1');
+        $tracker->doTrackPageView('test');
+
+        // Set current time to next day, so archiving for yesterday will be triggered resulting in an archive considered valid
+        Date::$now = strtotime('2020-05-06 01:00:00');
+
+        $archiver = new CronArchive();
+        $archiver->init();
+        $archiver->run();
+
+        // update ts_archived of archives as archiving doesn't take up Date::$now as it's running in separate requests
+        Db::query("UPDATE " . Common::prefixTable('archive_numeric_2020_05') . " SET ts_archived = ?", [Date::now()->getDatetime()]);
+
+        $dataTable = \Piwik\Plugins\VisitsSummary\API::getInstance()->get(1, 'day', 'yesterday');
+        self::assertEquals(1, $dataTable->getFirstRow()->getColumn('nb_visits'));
+
+        // Track a new visits for yesterday, which should result in an invalidation record for that day
+        $tracker = Fixture::getTracker(1, '2020-05-05 17:51:05');
+        $tracker->setUserId('user2');
+        $tracker->doTrackPageView('test');
+
+        // Trigger archiving again later on that day and validate that archives were built again
+        Date::$now = strtotime('2020-05-06 16:11:55');
+
+        $archiver = new CronArchive();
+        $archiver->init();
+        $archiver->run();
+
+        $dataTable = \Piwik\Plugins\VisitsSummary\API::getInstance()->get(1, 'day', 'yesterday');
+        self::assertEquals(2, $dataTable->getFirstRow()->getColumn('nb_visits'));
+    }
+
+    public function testShouldNotArchivePeriodsStartingInTheFuture()
     {
         $idSite = 1;
 
@@ -289,11 +364,19 @@ class ArchiveTest extends IntegrationTestCase
         Date::$now = time();
     }
 
-    public function test_shouldArchivePeriodsStartingInTheFuture_IfWebSiteLocalTimeIsInNextDay()
+    public function testShouldArchivePeriodsStartingInTheFutureIfWebSiteLocalTimeIsInNextDay()
     {
         // Create a site with a timezone ahead of UTC
-        $idSite = Fixture::createWebsite('2014-05-06', 1, false, false,
-            1, null, null, 'Pacific/Auckland');
+        $idSite = Fixture::createWebsite(
+            '2014-05-06',
+            1,
+            false,
+            false,
+            1,
+            null,
+            null,
+            'Pacific/Auckland'
+        );
 
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'browser_archiving_disabled_enforce', 0);
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_range_force_on_browser_request', 1);
@@ -344,12 +427,20 @@ class ArchiveTest extends IntegrationTestCase
         Date::$now = time();
     }
 
-    public function test_shouldNotArchivePeriodsStartingInTheFuture_IfWebSiteLocalTimeIsInPreviousDay()
+    public function testShouldNotArchivePeriodsStartingInTheFutureIfWebSiteLocalTimeIsInPreviousDay()
     {
 
         // Create a site with a timezone behind of UTC
-        $idSite = Fixture::createWebsite('2014-05-06', 1, false, false,
-            1, null, null, 'America/Vancouver'); // -8hrs
+        $idSite = Fixture::createWebsite(
+            '2014-05-06',
+            1,
+            false,
+            false,
+            1,
+            null,
+            null,
+            'America/Vancouver'
+        ); // -8hrs
 
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'browser_archiving_disabled_enforce', 0);
         self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_range_force_on_browser_request', 1);
@@ -399,7 +490,7 @@ class ArchiveTest extends IntegrationTestCase
         Date::$now = time();
     }
 
-    public function test_archivingInvalidWeekWithSegment_doesReprocessInvalidDayWIthSegment()
+    public function testArchivingInvalidWeekWithSegmentDoesReprocessInvalidDayWIthSegment()
     {
         $idSite = 1;
 

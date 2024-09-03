@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\CronArchive;
@@ -43,7 +43,7 @@ class MockCronArchive extends CronArchive
 
 class QueueConsumerTest extends IntegrationTestCase
 {
-    public function test_consumer_ignoresPeriodsThatHaveBeenDisabledInApi()
+    public function testConsumerIgnoresPeriodsThatHaveBeenDisabledInApi()
     {
         Fixture::createWebsite('2015-02-03');
 
@@ -137,7 +137,7 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations, "Invalidations inserted:\n" . var_export($invalidations, true));
     }
 
-    public function test_invalidateConsumeOrder()
+    public function testInvalidateConsumeOrder()
     {
         Fixture::createWebsite('2015-02-03');
         Fixture::createWebsite('2020-04-06');
@@ -252,8 +252,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date2' => '2018-03-08',
                     'period' => '1',
                     'name' => 'done',
-                    'report' => NULL,
-                    'plugin' => NULL,
+                    'report' => null,
+                    'plugin' => null,
                     'segment' => '',
                     'ts_started' => null,
                     'status' => '0',
@@ -265,8 +265,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date2' => '2018-03-07',
                     'period' => '1',
                     'name' => 'done',
-                    'report' => NULL,
-                    'plugin' => NULL,
+                    'report' => null,
+                    'plugin' => null,
                     'segment' => '',
                     'ts_started' => null,
                     'status' => '0',
@@ -278,8 +278,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date2' => '2018-03-06',
                     'period' => '1',
                     'name' => 'done',
-                    'report' => NULL,
-                    'plugin' => NULL,
+                    'report' => null,
+                    'plugin' => null,
                     'segment' => '',
                     'ts_started' => null,
                     'status' => '0',
@@ -293,8 +293,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date2' => '2018-03-08',
                     'period' => '1',
                     'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
-                    'report' => NULL,
-                    'plugin' => NULL,
+                    'report' => null,
+                    'plugin' => null,
                     'segment' => 'browserCode==IE;dimension1==val',
                     'ts_started' => null,
                     'status' => '0',
@@ -306,8 +306,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date2' => '2018-03-07',
                     'period' => '1',
                     'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
-                    'report' => NULL,
-                    'plugin' => NULL,
+                    'report' => null,
+                    'plugin' => null,
                     'segment' => 'browserCode==IE;dimension1==val',
                     'ts_started' => null,
                     'status' => '0',
@@ -334,8 +334,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date2' => '2018-03-06',
                     'period' => '1',
                     'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
-                    'report' => NULL,
-                    'plugin' => NULL,
+                    'report' => null,
+                    'plugin' => null,
                     'segment' => 'browserCode==IE;dimension1==val',
                     'ts_started' => null,
                     'status' => '0',
@@ -347,8 +347,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date2' => '2018-03-04',
                     'period' => '1',
                     'name' => 'done',
-                    'report' => NULL,
-                    'plugin' => NULL,
+                    'report' => null,
+                    'plugin' => null,
                     'segment' => '',
                     'ts_started' => null,
                     'status' => '0',
@@ -362,8 +362,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date2' => '2018-03-04',
                     'period' => '1',
                     'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
-                    'report' => NULL,
-                    'plugin' => NULL,
+                    'report' => null,
+                    'plugin' => null,
                     'segment' => 'browserCode==IE;dimension1==val',
                     'ts_started' => null,
                     'status' => '0',
@@ -377,8 +377,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date2' => '2018-03-11',
                     'period' => '2',
                     'name' => 'done',
-                    'report' => NULL,
-                    'plugin' => NULL,
+                    'report' => null,
+                    'plugin' => null,
                     'segment' => '',
                     'ts_started' => null,
                     'status' => '0',
@@ -407,8 +407,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date2' => '2018-03-11',
                     'period' => '2',
                     'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
-                    'report' => NULL,
-                    'plugin' => NULL,
+                    'report' => null,
+                    'plugin' => null,
                     'segment' => 'browserCode==IE;dimension1==val',
                     'ts_started' => null,
                     'status' => '0',
@@ -422,8 +422,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date2' => '2018-03-31',
                     'period' => '3',
                     'name' => 'done',
-                    'report' => NULL,
-                    'plugin' => NULL,
+                    'report' => null,
+                    'plugin' => null,
                     'segment' => '',
                     'ts_started' => null,
                     'status' => '0',
@@ -452,8 +452,8 @@ class QueueConsumerTest extends IntegrationTestCase
                     'date2' => '2018-03-31',
                     'period' => '3',
                     'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
-                    'report' => NULL,
-                    'plugin' => NULL,
+                    'report' => null,
+                    'plugin' => null,
                     'segment' => 'browserCode==IE;dimension1==val',
                     'ts_started' => null,
                     'status' => '0',
@@ -470,7 +470,7 @@ class QueueConsumerTest extends IntegrationTestCase
                     'period' => '2',
                     'name' => 'done',
                     'report' => 'testReport',
-                    'plugin' => NULL,
+                    'plugin' => null,
                     'segment' => '',
                     'ts_started' => null,
                     'status' => '0',
@@ -505,7 +505,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
 
 
-    public function test_pluginInvalidationDeletedIfUsableArchiveExists()
+    public function testPluginInvalidationDeletedIfUsableArchiveExists()
     {
         Fixture::createWebsite('2015-02-03');
 
@@ -579,7 +579,7 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertEquals(0, $count);
     }
 
-    public function test_skipSegmentsToday()
+    public function testSkipSegmentsToday()
     {
         Date::$now = strtotime('2018-03-04 01:00:00');
 
@@ -654,8 +654,8 @@ class QueueConsumerTest extends IntegrationTestCase
                         'date2' => '2018-03-04',
                         'period' => '1',
                         'name' => 'done',
-                        'report' => NULL,
-                        'plugin' => NULL,
+                        'report' => null,
+                        'plugin' => null,
                         'segment' => '',
                         'ts_started' => null,
                         'status' => '0',
@@ -667,8 +667,8 @@ class QueueConsumerTest extends IntegrationTestCase
                         'date2' => '2018-03-03',
                         'period' => '1',
                         'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                        'report' => NULL,
-                        'plugin' => NULL,
+                        'report' => null,
+                        'plugin' => null,
                         'segment' => 'browserCode==IE',
                         'ts_started' => null,
                         'status' => '0',
@@ -683,8 +683,8 @@ class QueueConsumerTest extends IntegrationTestCase
                         'date2' => '2018-03-31',
                         'period' => '3',
                         'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                        'report' => NULL,
-                        'plugin' => NULL,
+                        'report' => null,
+                        'plugin' => null,
                         'segment' => 'browserCode==IE',
                         'ts_started' => null,
                         'status' => '0',
@@ -714,7 +714,7 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertEquals($uniqueInvalidationDescs, $invalidationDescs, "Found duplicate archives being processed.");
     }
 
-    public function test_max_websites_to_process()
+    public function testMaxWebsitesToProcess()
     {
         Fixture::createWebsite('2021-11-16');
         Fixture::createWebsite('2021-11-16');
@@ -862,7 +862,7 @@ class QueueConsumerTest extends IntegrationTestCase
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)", $bind);
     }
 
-    public function test_canSkipArchiveBecauseNoPoint_returnsTrueIfDateRangeHasNoVisits()
+    public function testCanSkipArchiveBecauseNoPointReturnsTrueIfDateRangeHasNoVisits()
     {
         Fixture::createWebsite('2010-04-06');
 
@@ -898,7 +898,7 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertTrue($result);
     }
 
-    public function test_canSkipArchiveBecauseNoPoint_returnsFalseIfDateRangeHasVisits_AndPeriodDoesNotIncludeToday()
+    public function testCanSkipArchiveBecauseNoPointReturnsFalseIfDateRangeHasVisitsAndPeriodDoesNotIncludeToday()
     {
         $this->setUpSiteAndTrackVisit('2020-03-05 10:34:00');
 
@@ -927,7 +927,7 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertFalse($result);
     }
 
-    public function test_usableArchiveExists_returnsTrueIfDateRangeHasVisits_AndPeriodIncludesToday_AndExistingArchiveIsRecent()
+    public function testUsableArchiveExistsReturnsTrueIfDateRangeHasVisitsAndPeriodIncludesTodayAndExistingArchiveIsRecent()
     {
         $this->setUpSiteAndTrackVisit();
 
@@ -1002,7 +1002,7 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertEquals([true, '2020-04-04 23:58:20'], $result);
     }
 
-    public function test_canSkipArchiveBecauseNoPoint_returnsFalseIfDateRangeHasVisits_AndPeriodIncludesToday_AndOnlyExistingArchiveIsRecentButPartial()
+    public function testCanSkipArchiveBecauseNoPointReturnsFalseIfDateRangeHasVisitsAndPeriodIncludesTodayAndOnlyExistingArchiveIsRecentButPartial()
     {
         $this->setUpSiteAndTrackVisit();
 
@@ -1087,7 +1087,7 @@ class QueueConsumerTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForHasIntersectingPeriod
      */
-    public function test_hasIntersectingPeriod($archivesToProcess, $invalidatedArchive, $expected)
+    public function testHasIntersectingPeriod($archivesToProcess, $invalidatedArchive, $expected)
     {
         $periods = array_flip(Piwik::$idPeriods);
         foreach ($archivesToProcess as &$archive) {
@@ -1163,7 +1163,7 @@ class QueueConsumerTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForShouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress
      */
-    public function test_shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress($cliMultiProcesses, $archiveToProcess, $expected)
+    public function testShouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress($cliMultiProcesses, $archiveToProcess, $expected)
     {
         $cliRequestProcessor = $this->getMockRequestParser($cliMultiProcesses);
 

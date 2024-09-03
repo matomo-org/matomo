@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\API\Request;
@@ -21,8 +23,8 @@ use Piwik\Tests\Framework\Fixture;
  */
 class OmniFixture extends Fixture
 {
-    const DEFAULT_SEGMENT = "browserCode==FF";
-    const OMNIFIXTURE_SUPERUSER_TOKEN = '9ad1de7f8b329ab919d854c556f860c1';
+    public const DEFAULT_SEGMENT = "browserCode==FF";
+    public const OMNIFIXTURE_SUPERUSER_TOKEN = '9ad1de7f8b329ab919d854c556f860c1';
 
     public $month = '2012-01';
     public $idSite = 'all';
@@ -52,7 +54,7 @@ class OmniFixture extends Fixture
             '/plugins/*/Test/Fixtures/*.php',
         );
 
-        foreach($fixturesToLoad as $fixturePath) {
+        foreach ($fixturesToLoad as $fixturePath) {
             foreach (glob(PIWIK_INCLUDE_PATH . $fixturePath) as $file) {
                 require_once $file;
             }
@@ -72,7 +74,8 @@ class OmniFixture extends Fixture
         sort($classes);
 
         foreach ($classes as $className) {
-            if (is_subclass_of($className, 'Piwik\\Tests\\Framework\\Fixture')
+            if (
+                is_subclass_of($className, 'Piwik\\Tests\\Framework\\Fixture')
                 && !is_subclass_of($className, __CLASS__)
                 && $className != __CLASS__
                 && $className != "Piwik\\Tests\\Fixtures\\SqlDump"
@@ -80,9 +83,9 @@ class OmniFixture extends Fixture
                 && $className != "Piwik\\Tests\\Fixtures\\UITestFixture"
                 && $className != "Piwik\\Tests\\Fixtures\\VisitsInDifferentTimezones"
             ) {
-
                 $klassReflect = new ReflectionClass($className);
-                if (!strpos($klassReflect->getFilename(), "tests/PHPUnit/Fixtures")
+                if (
+                    !strpos($klassReflect->getFilename(), "tests/PHPUnit/Fixtures")
                     && $className != "CustomAlerts"
                     && $className != "Piwik\\Plugins\\Insights\\tests\\Fixtures\\SomeVisitsDifferentPathsOnTwoDays"
                     && $className != "Piwik\\Plugins\\Contents\\tests\\Fixtures\\TwoVisitsWithContents"

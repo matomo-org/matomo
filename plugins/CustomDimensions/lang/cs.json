@@ -37,8 +37,11 @@
         "PluginDescription": "Rozšiřte Matomo podle svých potřeb definováním a sledováním vlastních dimenzí v rámci Akce nebo Návštěvy",
         "ScopeDescriptionAction": "Vlastní dimenze v rozsahu 'akce' mohou být poslány s libovolnou akcí, zobrazení stránek, událostí, stažení atd.",
         "ScopeDescriptionActionMoreInfo": "Mohou být nastavena získání hodnoty dimenze z titulku, url, nebo parametru dotazu stránky.",
-        "ScopeDescriptionVisit": "Vlastní dimenze v rozsahu 'Návštěva' mohou být odeslány s libovovolným sledovacím požadavkem a jsou uloženy v návštěvě.",
+        "ScopeDescriptionVisit": "Vlastní rozměry v rozsahu „Návštěva“ lze odeslat spolu s jakýmkoli požadavkem na sledování a jsou uloženy v návštěvě.",
         "ScopeDescriptionVisitMoreInfo": "Pokud nastavíte pro dimenzi během návštěvy různé hodnoty, použije se poslední.",
+        "ScopeTitleAction": "Rozměry akce",
+        "ScopeTitleVisit": "Rozměry návštěvy",
+        "UrlQueryStringParameter": "parametr url dotazovacího řetězce",
         "XofYLeft": "Zbývá %1$s ze %2$s dimenzí"
     }
 }

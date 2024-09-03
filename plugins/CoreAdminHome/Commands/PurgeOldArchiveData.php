@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreAdminHome\Commands;
 
 use Piwik\Archive\ArchivePurger;
@@ -22,7 +23,7 @@ use Piwik\Log\NullLogger;
  */
 class PurgeOldArchiveData extends ConsoleCommand
 {
-    const ALL_DATES_STRING = 'all';
+    public const ALL_DATES_STRING = 'all';
 
     /**
      * For tests.
@@ -136,7 +137,8 @@ class PurgeOldArchiveData extends ConsoleCommand
         $dates = array();
 
         $dateSpecifier = $this->getInput()->getArgument('dates');
-        if (count($dateSpecifier) === 1
+        if (
+            count($dateSpecifier) === 1
             && reset($dateSpecifier) == self::ALL_DATES_STRING
         ) {
             foreach (ArchiveTableCreator::getTablesArchivesInstalled(ArchiveTableCreator::NUMERIC_TABLE) as $table) {
@@ -196,12 +198,12 @@ class PurgeOldArchiveData extends ConsoleCommand
         foreach ($dates as $date) {
             $numericTable = ArchiveTableCreator::getNumericTable($date);
             $this->performTimedPurging("Optimizing table $numericTable...", function () use ($numericTable) {
-                Db::optimizeTables($numericTable, $force = true);
+                Db\Schema::getInstance()->optimizeTables([$numericTable], $force = true);
             });
 
             $blobTable = ArchiveTableCreator::getBlobTable($date);
             $this->performTimedPurging("Optimizing table $blobTable...", function () use ($blobTable) {
-                Db::optimizeTables($blobTable, $force = true);
+                Db\Schema::getInstance()->optimizeTables([$blobTable], $force = true);
             });
         }
     }

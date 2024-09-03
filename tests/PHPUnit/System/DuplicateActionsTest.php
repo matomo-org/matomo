@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\System;
 
 use Piwik\Common;
@@ -47,7 +49,7 @@ class DuplicateActionsTest extends SystemTestCase
     /**
      * @dataProvider getApiForTesting
      */
-    public function test_PiwikApiWorks_WhenDuplicateActionsExistInDb($api, $params)
+    public function testPiwikApiWorksWhenDuplicateActionsExistInDb($api, $params)
     {
         $this->runApiTests($api, $params);
     }

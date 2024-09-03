@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\ScheduledReports\tests\Integration;
@@ -60,7 +61,7 @@ class ApiTest extends IntegrationTestCase
         APIScheduledReports::$cache = array();
     }
 
-    public function test_sendReport_overridesParametersCorrectly()
+    public function testSendReportOverridesParametersCorrectly()
     {
         $reportIds = [
             'UserCountry_getCity',
@@ -116,8 +117,15 @@ class ApiTest extends IntegrationTestCase
         });
 
         $idReport = APIScheduledReports::getInstance()->addReport(
-            $this->idSite, 'send report', 'never', 6, 'dummyreporttype', 'dummyreportformat',
-            $reportIds, [ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY]);
+            $this->idSite,
+            'send report',
+            'never',
+            6,
+            'dummyreporttype',
+            'dummyreportformat',
+            $reportIds,
+            [ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY]
+        );
 
         $eventCalledWith = [];
         Piwik::addAction(APIScheduledReports::SEND_REPORT_EVENT, function (
@@ -436,7 +444,8 @@ class ApiTest extends IntegrationTestCase
                                            ->disableOriginalConstructor()
                                            ->getMock();
         $stubbedAPIScheduledReports->expects($this->any())->method('getReports')->will($this->returnValue(
-                array($report1, $report2, $report3, $report4, $report5, $report6)));
+            array($report1, $report2, $report3, $report4, $report5, $report6)
+        ));
         \Piwik\Plugins\ScheduledReports\API::setSingletonInstance($stubbedAPIScheduledReports);
 
         // initialize sites 1 and 2
@@ -498,7 +507,8 @@ class ApiTest extends IntegrationTestCase
     public function testGetReportSubjectAndReportTitle($expectedReportSubject, $expectedReportTitle, $websiteName, $reports)
     {
         $getReportSubjectAndReportTitle = new ReflectionMethod(
-            '\\Piwik\\Plugins\\ScheduledReports\\API', 'getReportSubjectAndReportTitle'
+            '\\Piwik\\Plugins\\ScheduledReports\\API',
+            'getReportSubjectAndReportTitle'
         );
         $getReportSubjectAndReportTitle->setAccessible(true);
 
@@ -507,7 +517,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals($expectedReportTitle, $reportTitle);
     }
 
-    public function test_generateReport_CatchesIndividualReportProcessExceptions_WithoutFailingToGenerateWholeReport()
+    public function testGenerateReportCatchesIndividualReportProcessExceptionsWithoutFailingToGenerateWholeReport()
     {
         $realProxy = new Proxy();
 
@@ -549,8 +559,12 @@ class ApiTest extends IntegrationTestCase
         );
 
         ob_start();
-        $result = APIScheduledReports::getInstance()->generateReport($idReport, Date::factory('now')->toString(),
-            $language = false, $outputType = APIScheduledReports::OUTPUT_RETURN);
+        $result = APIScheduledReports::getInstance()->generateReport(
+            $idReport,
+            Date::factory('now')->toString(),
+            $language = false,
+            $outputType = APIScheduledReports::OUTPUT_RETURN
+        );
         ob_end_clean();
 
         self::assertStringContainsString('id="VisitsSummary_get"', $result);
@@ -558,7 +572,83 @@ class ApiTest extends IntegrationTestCase
         self::assertStringNotContainsString('id="UserCountry_getCountry"', $result);
     }
 
-    public function test_generateReport_throwsIfMultiplePeriodsRequested()
+    /**
+     * @dataProvider getValidDatePeriodCombinationsForGenerateReport
+     *
+     * @param string|false $period
+     */
+    public function testGenerateReportGeneratesAReportForAllValidDatePeriodCombinations(
+        string $date,
+        $period
+    ): void {
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            [
+                'VisitsSummary_get',
+            ],
+            [
+                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY
+            ]
+        );
+
+        $result = APIScheduledReports::getInstance()->generateReport(
+            $idReport,
+            $date,
+            false,
+            APIScheduledReports::OUTPUT_RETURN,
+            $period
+        );
+
+        self::assertStringContainsString('id="VisitsSummary_get"', $result);
+    }
+
+    /**
+     * @return iterable<string, array{string, string|false}>
+     */
+    public function getValidDatePeriodCombinationsForGenerateReport(): iterable
+    {
+        yield 'default period' => [
+            '2024-01-01',
+            false,
+        ];
+
+        yield 'single day' => [
+            '2024-01-01',
+            'day',
+        ];
+
+        yield 'single week' => [
+            '2024-01-01',
+            'week',
+        ];
+
+        yield 'single month' => [
+            '2024-01-01',
+            'month',
+        ];
+
+        yield 'single year' => [
+            '2024-01-01',
+            'year',
+        ];
+
+        yield 'custom range' => [
+            '2024-01-01,2024-01-02',
+            'range',
+        ];
+
+        yield 'named range' => [
+            'last7',
+            'range',
+        ];
+    }
+
+    public function testGenerateReportThrowsIfMultiplePeriodsRequested()
     {
         $this->expectException(\Piwik\Http\BadRequestException::class);
         $this->expectExceptionMessage('This API method does not support multiple periods.');
@@ -578,12 +668,23 @@ class ApiTest extends IntegrationTestCase
             array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
         );
 
-        APIScheduledReports::getInstance()->generateReport($idReport, '2012-03-03,2012-03-23',
-            $language = false, $outputType = APIScheduledReports::OUTPUT_RETURN);
+        APIScheduledReports::getInstance()->generateReport(
+            $idReport,
+            '2012-03-03,2012-03-23',
+            $language = false,
+            $outputType = APIScheduledReports::OUTPUT_RETURN
+        );
     }
 
-    public function test_generateReport_throwsIfInvalidDateRequested(): void
-    {
+    /**
+     * @dataProvider getInvalidDatePeriodCombinationsForGenerateReport
+     *
+     * @param string|false $period
+     */
+    public function testGenerateReportThrowsIfInvalidDatePeriodCombinationRequested(
+        string $date,
+        $period
+    ): void {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('General_ExceptionInvalidDateFormat');
 
@@ -604,13 +705,40 @@ class ApiTest extends IntegrationTestCase
 
         APIScheduledReports::getInstance()->generateReport(
             $idReport,
-            'DoesNotParse',
+            $date,
             false,
-            APIScheduledReports::OUTPUT_RETURN
+            APIScheduledReports::OUTPUT_RETURN,
+            $period
         );
     }
 
-    public function test_generateReport_throwsIfInvalidReportRequested(): void
+    /**
+     * @return iterable<string, array{string, string|false}>
+     */
+    public function getInvalidDatePeriodCombinationsForGenerateReport(): iterable
+    {
+        yield 'invalid default period' => [
+            '2024-xx-01',
+            false,
+        ];
+
+        yield 'invalid day' => [
+            '2024.01.01',
+            'day',
+        ];
+
+        yield 'invalid range format' => [
+            '2024-01-01//2024-01-02',
+            'range',
+        ];
+
+        yield 'invalid named range' => [
+            'lastTen',
+            'range',
+        ];
+    }
+
+    public function testGenerateReportThrowsIfInvalidReportRequested(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Requested report couldn't be found.");
@@ -623,7 +751,7 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    public function test_addReport_validatesEvolutionPeriodForParam()
+    public function testAddReportValidatesEvolutionPeriodForParam()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid evolutionPeriodFor value');
@@ -679,7 +807,7 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    public function test_addReport_validatesEvolutionPeriodNParam()
+    public function testAddReportValidatesEvolutionPeriodNParam()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Evolution period amount must be a positive number');
@@ -705,7 +833,7 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    public function test_addReport_throwsIfEvolutionPeriodNParamIsEach_AndLastNSupplied()
+    public function testAddReportThrowsIfEvolutionPeriodNParamIsEachAndLastNSupplied()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The evolutionPeriodN param has no effect when evolutionPeriodFor is "each".');
@@ -776,7 +904,7 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    public function test_updateReport_validatesEvolutionPeriodForParam()
+    public function testUpdateReportValidatesEvolutionPeriodForParam()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid evolutionPeriodFor value');
@@ -815,7 +943,7 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    public function test_updateReport_validatesEvolutionPeriodNParam()
+    public function testUpdateReportValidatesEvolutionPeriodNParam()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Evolution period amount must be a positive number');
@@ -855,7 +983,7 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    public function test_updateReport_throwsIfEvolutionPeriodNParamIsEach_AndLastNSupplied()
+    public function testUpdateReportThrowsIfEvolutionPeriodNParamIsEachAndLastNSupplied()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The evolutionPeriodN param has no effect when evolutionPeriodFor is "each".');
@@ -895,7 +1023,7 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
-    public function test_addReport_onlySavesUniqueEmailAddresses()
+    public function testAddReportOnlySavesUniqueEmailAddresses()
     {
         $data = array(
             'idsite'      => $this->idSite,
@@ -1002,7 +1130,8 @@ class ApiTest extends IntegrationTestCase
             $data['type'],
             $data['format'],
             $data['reports'],
-            $data['parameters']);
+            $data['parameters']
+        );
         return $idReport;
     }
 

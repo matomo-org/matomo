@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugin;
 
 use Exception;
@@ -405,7 +406,11 @@ abstract class Controller
     protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
     {
         $view = ViewDataTableFactory::build(
-            Evolution::ID, $apiMethod, $currentModuleName . '.' . $currentControllerAction, $forceDefault = true);
+            Evolution::ID,
+            $apiMethod,
+            $currentModuleName . '.' . $currentControllerAction,
+            $forceDefault = true
+        );
         $view->config->show_goals = false;
         return $view;
     }

@@ -1,16 +1,18 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Db;
 
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Config\DatabaseConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Log;
@@ -85,9 +87,10 @@ class BatchInsert
     {
         $loadDataInfileEnabled = Config::getInstance()->General['enable_load_data_infile'];
 
-        if ($loadDataInfileEnabled
-            && Db::get()->hasBulkLoader()) {
-
+        if (
+            $loadDataInfileEnabled
+            && Db::get()->hasBulkLoader()
+        ) {
             $path = self::getBestPathForLoadData();
             $instanceId = SettingsPiwik::getPiwikInstanceId();
             if (empty($instanceId)) {
@@ -95,6 +98,10 @@ class BatchInsert
             }
             $filePath = $path . $tableName . '-' . $instanceId . Common::generateUniqId() . '.csv';
 
+            // always use utf8 for TiDb, as TiDb has problems with latin1
+            if (DatabaseConfig::isTiDb()) {
+                $charset = 'utf8';
+            }
 
             try {
                 $fileSpec = array(

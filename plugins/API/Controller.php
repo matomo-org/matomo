@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\API;
 
 use Piwik\API\DocumentationGenerator;
@@ -24,7 +25,7 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    function index()
+    public function index()
     {
         $tokenAuth = Common::getRequestVar('token_auth', 'anonymous', 'string');
         $format = Common::getRequestVar('format', false);
@@ -45,7 +46,8 @@ class Controller extends \Piwik\Plugin\Controller
         $response = $request->process();
 
         if (is_array($response)) {
-            if ($format == 'original'
+            if (
+                $format == 'original'
                 && $serialize != 1
             ) {
                 Original::sendPlainTextHeader();
@@ -95,7 +97,8 @@ class Controller extends \Piwik\Plugin\Controller
 
             $customVariableWillBeDisplayed = in_array($segment['segment'], $onlyDisplay);
             // Don't display more than 4 custom variables name/value rows
-            if ($segment['category'] == 'Custom Variables'
+            if (
+                $segment['category'] == 'Custom Variables'
                 && !$customVariableWillBeDisplayed
             ) {
                 continue;
@@ -103,7 +106,8 @@ class Controller extends \Piwik\Plugin\Controller
 
             $thisCategory = $segment['category'];
             $output = '';
-            if (empty($lastCategory[$segment['type']])
+            if (
+                empty($lastCategory[$segment['type']])
                 || $lastCategory[$segment['type']] != $thisCategory
             ) {
                 $output .= '<tr><td class="segmentCategory" colspan="2"><b>' . $thisCategory . '</b></td></tr>';

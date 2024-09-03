@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\PagePerformance\Visualizations\JqplotGraph;
@@ -22,9 +22,9 @@ use Piwik\Site;
  */
 class StackedBarEvolution extends Evolution
 {
-    const ID = 'graphStackedBarEvolution';
-    const FOOTER_ICON_TITLE = '';
-    const FOOTER_ICON = '';
+    public const ID = 'graphStackedBarEvolution';
+    public const FOOTER_ICON_TITLE = '';
+    public const FOOTER_ICON = '';
 
     public function beforeRender()
     {

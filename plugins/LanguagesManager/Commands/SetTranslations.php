@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\LanguagesManager\Commands;
@@ -41,14 +41,16 @@ class SetTranslations extends TranslationBase
         $languageCodes = (new API())->getAvailableLanguages(true);
 
         if (empty($languageCode) || !in_array($languageCode, $languageCodes)) {
-            $languageCode = $this->askAndValidate('Please provide a valid language code: ',
+            $languageCode = $this->askAndValidate(
+                'Please provide a valid language code: ',
                 function ($code) use ($languageCodes) {
                     if (!in_array($code, array_values($languageCodes))) {
                         throw new \InvalidArgumentException(sprintf('Language code "%s" is invalid.', $code));
                     }
 
                     return $code;
-                });
+                }
+            );
         }
 
         if (empty($filename) || !file_exists($filename)) {

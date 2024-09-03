@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Unit\Config;
 
 use PHPUnit\Framework\TestCase;
@@ -51,7 +53,7 @@ class IniFileChainTest extends TestCase
     /**
      * @dataProvider getCompareElementsData
      */
-    public function test_compareElements_CorrectlyComparesElements($description, $test)
+    public function testCompareElementsCorrectlyComparesElements($description, $test)
     {
         list($a, $b, $expected) = $test;
 
@@ -108,7 +110,7 @@ class IniFileChainTest extends TestCase
     /**
      * @dataProvider getArrayUnmergeData
      */
-    public function test_ArrayUnmerge_ReturnsCorrectDiff($description, $test)
+    public function testArrayUnmergeReturnsCorrectDiff($description, $test)
     {
         $configWriter = new IniFileChain(array(), null);
 
@@ -161,7 +163,7 @@ class IniFileChainTest extends TestCase
     /**
      * @dataProvider getArrayUnmergeInvalidData
      */
-    public function test_ArrayUnmerge_CanHandleInvalidData($description, $test)
+    public function testArrayUnmergeCanHandleInvalidData($description, $test)
     {
         $configWriter = new IniFileChain(array(), null);
 
@@ -218,7 +220,7 @@ class IniFileChainTest extends TestCase
     /**
      * @dataProvider getMergingTestData
      */
-    public function test_construct_MergesFileData_Correctly($testDescription, $defaultSettingFiles, $userSettingsFile, $expected)
+    public function testConstructMergesFileDataCorrectly($testDescription, $defaultSettingFiles, $userSettingsFile, $expected)
     {
         $fileChain = new IniFileChain($defaultSettingFiles, $userSettingsFile);
         $this->assertEquals($expected, $fileChain->getAll(), "'$testDescription' failed");
@@ -227,14 +229,14 @@ class IniFileChainTest extends TestCase
     /**
      * @dataProvider getMergingTestData
      */
-    public function test_reload_MergesFileData_Correctly($testDescription, $defaultSettingsFiles, $userSettingsFile, $expected)
+    public function testReloadMergesFileDataCorrectly($testDescription, $defaultSettingsFiles, $userSettingsFile, $expected)
     {
         $fileChain = new IniFileChain();
         $fileChain->reload($defaultSettingsFiles, $userSettingsFile);
         $this->assertEquals($expected, $fileChain->getAll(), "'$testDescription' failed");
     }
 
-    public function test_get_ReturnsReferenceToSettingsSection()
+    public function testGetReturnsReferenceToSettingsSection()
     {
         $fileChain = new IniFileChain(
             array(__DIR__ . '/test_files/default_settings_1.ini.php')
@@ -250,7 +252,7 @@ class IniFileChainTest extends TestCase
         $this->assertEquals(array('var1' => 'changed', 'var3' => array('value3', 'value4', 'newValue')), $fileChain->get('Section1'));
     }
 
-    public function test_get_ReturnsReferenceToSettingsSection_EvenIfSettingsIsEmpty()
+    public function testGetReturnsReferenceToSettingsSectionEvenIfSettingsIsEmpty()
     {
         $fileChain = new IniFileChain(array(__DIR__ . '/test_files/empty.ini.php'));
 
@@ -261,7 +263,7 @@ class IniFileChainTest extends TestCase
         $this->assertEquals(array('var1' => 'changed'), $fileChain->get('Section'));
     }
 
-    public function test_getAll_ReturnsReferenceToAllSettings()
+    public function testGetAllReturnsReferenceToAllSettings()
     {
         $fileChain = new IniFileChain();
 
@@ -271,7 +273,7 @@ class IniFileChainTest extends TestCase
         $this->assertEquals(array('var' => 'value'), $fileChain->getAll());
     }
 
-    public function test_set_CorrectlySetsSettingValue()
+    public function testSetCorrectlySetsSettingValue()
     {
         $fileChain = new IniFileChain();
 
@@ -280,7 +282,7 @@ class IniFileChainTest extends TestCase
         $this->assertEquals(array('var' => 'value'), $fileChain->getAll());
     }
 
-    public function test_getFrom_CorrectlyGetsSettingsFromFile_AndNotCurrentModifiedSettings()
+    public function testGetFromCorrectlyGetsSettingsFromFileAndNotCurrentModifiedSettings()
     {
         $defaultSettingsPath = __DIR__ . '/test_files/default_settings_1.ini.php';
 
@@ -292,7 +294,7 @@ class IniFileChainTest extends TestCase
         $this->assertEquals(array('var1' => 'val"ue2', 'var3' => array('value3', 'value4')), $fileChain->getFrom($defaultSettingsPath, 'Section1'));
     }
 
-    public function test_getFrom_CorrectlyReturnsUnencodedValue()
+    public function testGetFromCorrectlyReturnsUnencodedValue()
     {
         $userSettingsPath = __DIR__ . '/test_files/special_values.ini.php';
         $fileChain = new IniFileChain(array(), $userSettingsPath);
@@ -320,7 +322,7 @@ class IniFileChainTest extends TestCase
     /**
      * @dataProvider getTestDataForDumpTest
      */
-    public function test_dump_CorrectlyGeneratesIniString_ForAllCurrentSettings(
+    public function testDumpCorrectlyGeneratesIniStringForAllCurrentSettings(
         $defaultSettingsFiles,
         $userSettingsFile,
         $header,
@@ -335,7 +337,7 @@ class IniFileChainTest extends TestCase
     /**
      * @dataProvider getTestDataForDumpTest
      */
-    public function test_dumpChanges_CorrectlyGeneratesMinimalUserSettingsIniString(
+    public function testDumpChangesCorrectlyGeneratesMinimalUserSettingsIniString(
         $defaultSettingsFiles,
         $userSettingsFile,
         $header,
@@ -374,7 +376,7 @@ class IniFileChainTest extends TestCase
     /**
      * @dataProvider getTestDataForDumpSortTest
      */
-    public function test_dumpChanges_CorrectlySortsSections_ByWhenTheyAppearInConfigFiles(
+    public function testDumpChangesCorrectlySortsSectionsByWhenTheyAppearInConfigFiles(
         $defaultSettingsFiles,
         $userSettingsFile,
         $changesToApply,
@@ -392,7 +394,7 @@ class IniFileChainTest extends TestCase
     }
 
 
-    public function test_dump_handlesSpecialCharsCorrectly()
+    public function testDumpHandlesSpecialCharsCorrectly()
     {
         $config = new IniFileChain();
         $config->set('first', ["a[]\n\n[d]\n\nb=4" => "\n\n[def]\na=b"]);

@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Db;
@@ -14,7 +14,7 @@ use Piwik\Option;
 
 class TransactionLevel
 {
-    const TEST_OPTION_NAME = 'TransactionLevel.testOption';
+    public const TEST_OPTION_NAME = 'TransactionLevel.testOption';
 
     private $statusBackup;
 
@@ -38,7 +38,15 @@ class TransactionLevel
         return strtolower($dbSettings->getEngine()) === 'innodb';
     }
 
+    /**
+     * @deprecated Use `setTransactionLevelForNonLockingReads`
+     */
     public function setUncommitted()
+    {
+        return $this->setTransactionLevelForNonLockingReads();
+    }
+
+    public function setTransactionLevelForNonLockingReads(): bool
     {
         if ($this->db->supportsUncommitted === false) {
             // we know "Uncommitted" transaction level is not supported, we don't need to do anything as it won't work to set the status
@@ -57,7 +65,8 @@ class TransactionLevel
         }
 
         try {
-            $this->db->query('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
+            $this->db->query('SET SESSION TRANSACTION ISOLATION LEVEL ' . Schema::getInstance()->getSupportedReadIsolationTransactionLevel());
+
             $this->statusBackup = $backup;
 
             if ($this->db->supportsUncommitted === null) {

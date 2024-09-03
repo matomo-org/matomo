@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik;
@@ -26,9 +26,9 @@ class EventDispatcher
     }
 
     // implementation details for postEvent
-    const EVENT_CALLBACK_GROUP_FIRST = 0;
-    const EVENT_CALLBACK_GROUP_SECOND = 1;
-    const EVENT_CALLBACK_GROUP_THIRD = 2;
+    public const EVENT_CALLBACK_GROUP_FIRST = 0;
+    public const EVENT_CALLBACK_GROUP_SECOND = 1;
+    public const EVENT_CALLBACK_GROUP_THIRD = 2;
 
     /**
      * Array of observers (callbacks attached to events) that are not methods
@@ -60,7 +60,7 @@ class EventDispatcher
 
     private $pluginHooks = array();
 
-    public static $_SKIP_EVENTS_IN_TESTS = false;
+    public static $_SKIP_EVENTS_IN_TESTS = false; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
 
     /**
      * Constructor.
@@ -197,7 +197,8 @@ class EventDispatcher
 
     private function getCallbackFunctionAndGroupNumber($hookInfo)
     {
-        if (is_array($hookInfo)
+        if (
+            is_array($hookInfo)
             && !empty($hookInfo['function'])
         ) {
             $pluginFunction = $hookInfo['function'];

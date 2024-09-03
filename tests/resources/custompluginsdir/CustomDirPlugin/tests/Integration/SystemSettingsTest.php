@@ -2,8 +2,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomDirPlugin\tests\Integration;
@@ -30,17 +30,17 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->settings = new SystemSettings();
     }
 
-    public function test_get_pluginName()
+    public function testGetPluginName()
     {
         $this->assertSame('CustomDirPlugin', $this->settings->getPluginName());
     }
 
-    public function test_get_default()
+    public function testGetDefault()
     {
         $this->assertSame('', $this->settings->custom->getValue());
     }
 
-    public function test_set_value()
+    public function testSetValue()
     {
         $this->settings->custom->setValue('%');
         $this->assertSame('%', $this->settings->custom->getValue());

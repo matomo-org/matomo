@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\PagePerformance\RecordBuilders;
@@ -64,7 +64,7 @@ class PerformanceTotals extends RecordBuilder
             new TimeOnLoad()
         ];
 
-        foreach($performanceDimensions as $dimension) {
+        foreach ($performanceDimensions as $dimension) {
             $column = $dimension->getColumnName();
             $selects[] = "sum(" . sprintf($dimension->getSqlCappedValue(), $table . '.' . $column) . ") as {$column}_total";
             $selects[] = "sum(if($table.$column is null, 0, 1)) as {$column}_hits";
@@ -78,8 +78,16 @@ class PerformanceTotals extends RecordBuilder
         $joinLogActionOnColumn = array('idaction_url');
         $where = sprintf("COALESCE(%s) IS NOT NULL", implode(',', $allColumns));
 
-        $query = $logAggregator->queryActionsByDimension([], $where, $selects, false, null,
-            $joinLogActionOnColumn, null, -1);
+        $query = $logAggregator->queryActionsByDimension(
+            [],
+            $where,
+            $selects,
+            false,
+            null,
+            $joinLogActionOnColumn,
+            null,
+            -1
+        );
 
         $result = $query->fetchAll();
 

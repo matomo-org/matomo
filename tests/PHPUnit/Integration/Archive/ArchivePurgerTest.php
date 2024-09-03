@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Integration\Archive;
 
 use Piwik\Archive\ArchivePurger;
@@ -62,7 +64,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertInvalidatedArchivesNotPurged(self::$fixture->february);
     }
 
-    public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringEnabled()
+    public function testPurgeOutdatedArchivesPurgesCorrectTemporaryArchivesWhileKeepingNewerTemporaryArchivesWithBrowserTriggeringEnabled()
     {
         $this->enableBrowserTriggeredArchiving();
 
@@ -78,7 +80,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         $this->checkNoDuplicateArchives();
     }
 
-    public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringDisabled()
+    public function testPurgeOutdatedArchivesPurgesCorrectTemporaryArchivesWhileKeepingNewerTemporaryArchivesWithBrowserTriggeringDisabled()
     {
         $this->disableBrowserTriggeredArchiving();
 
@@ -94,7 +96,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         $this->checkNoDuplicateArchives();
     }
 
-    public function test_purgeInvalidatedArchivesFrom_PurgesAllInvalidatedArchives_AndMarksDatesAndSitesAsInvalidated()
+    public function testPurgeInvalidatedArchivesFromPurgesAllInvalidatedArchivesAndMarksDatesAndSitesAsInvalidated()
     {
         $deletedRowCount = $this->archivePurger->purgeInvalidatedArchivesFrom($this->february);
 
@@ -107,7 +109,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         $this->checkNoDuplicateArchives();
     }
 
-    public function test_purgeArchivesWithPeriodRange_PurgesAllRangeArchives()
+    public function testPurgeArchivesWithPeriodRangePurgesAllRangeArchives()
     {
         $deletedRowCount = $this->archivePurger->purgeArchivesWithPeriodRange($this->february);
 
@@ -117,7 +119,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         $this->assertEquals(3 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
     }
 
-    public function test_purgeNoSiteArchives_PurgesAllNoSiteArchives()
+    public function testPurgeNoSiteArchivesPurgesAllNoSiteArchives()
     {
         //Create two websites (IDs #1 and #2). Existing rows for website #3 will be invalid.
         Fixture::createWebsite($this->january);
@@ -129,7 +131,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertArchivesDoNotExist(array(3, 7, 10, 13, 19), $this->january);
     }
 
-    public function test_purgeNoSegmentArchives_PurgesSegmentForAppropriateSitesOnly()
+    public function testPurgeNoSegmentArchivesPurgesSegmentForAppropriateSitesOnly()
     {
         //Extra data set with segment and plugin archives
         self::$fixture->insertSegmentArchives($this->january);
@@ -147,7 +149,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertArchivesDoNotExist(array(26, 27, 28, 32), $this->january);
     }
 
-    public function test_purgeNoSegmentArchives_preservesSingleSiteSegmentArchivesForDeletedAllSiteSegment()
+    public function testPurgeNoSegmentArchivesPreservesSingleSiteSegmentArchivesForDeletedAllSiteSegment()
     {
         // Extra data set with segment and plugin archives
         self::$fixture->insertSegmentArchives($this->january);
@@ -163,7 +165,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertArchivesDoNotExist(array(24, 25), $this->january);
     }
 
-    public function test_purgeNoSegmentArchives_blankSegmentName()
+    public function testPurgeNoSegmentArchivesBlankSegmentName()
     {
         $segmentsToDelete = array(
             array('definition' => '', 'enable_only_idsite' => 0)

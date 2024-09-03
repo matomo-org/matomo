@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Tracker;
@@ -16,15 +17,15 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class PingRequestTest extends IntegrationTestCase
 {
-    const FIRST_VISIT_TIME = '2012-01-05 00:00:00';
-    const TEST_USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36';
-    const TEST_BROWSER_LANGUAGE = 'en-gb';
-    const TEST_COUNTRY = 'nl';
-    const TEST_REGION = '06';
-    const CHANGED_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A';
-    const CHANGED_BROWSER_LANGUAGE = 'ja';
-    const CHANGED_COUNTRY = 'jp';
-    const CHANGED_REGION = '22';
+    public const FIRST_VISIT_TIME = '2012-01-05 00:00:00';
+    public const TEST_USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36';
+    public const TEST_BROWSER_LANGUAGE = 'en-gb';
+    public const TEST_COUNTRY = 'nl';
+    public const TEST_REGION = '06';
+    public const CHANGED_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A';
+    public const CHANGED_BROWSER_LANGUAGE = 'ja';
+    public const CHANGED_COUNTRY = 'jp';
+    public const CHANGED_REGION = '22';
 
     public function setUp(): void
     {
@@ -34,7 +35,7 @@ class PingRequestTest extends IntegrationTestCase
         GoalsAPI::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', $matchPattern = 'pong', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
     }
 
-    public function test_PingWithinThirtyMinutes_ExtendsExistingVisitAndLastAction_WithoutNewAction()
+    public function testPingWithinThirtyMinutesExtendsExistingVisitAndLastActionWithoutNewAction()
     {
         $tracker = $this->getTracker();
 
@@ -50,7 +51,7 @@ class PingRequestTest extends IntegrationTestCase
         $this->assertInitialVisitIsNotExtended(self::FIRST_VISIT_TIME, $checkModifiedDimensions = false, 1201);
     }
 
-    public function test_PingWithinThirtyMinutes_AndChangedDimensionValues_ExtendsExistingVisit_AndChangesAppropriateDimensions()
+    public function testPingWithinThirtyMinutesAndChangedDimensionValuesExtendsExistingVisitAndChangesAppropriateDimensions()
     {
         $tracker = $this->getTracker();
 
@@ -66,7 +67,7 @@ class PingRequestTest extends IntegrationTestCase
         $this->assertInitialVisitIsNotExtended(self::FIRST_VISIT_TIME, $checkModifiedDimensions = true, 1201);
     }
 
-    public function test_PingWithinThirtyMinutes_DoesNotTriggerGoalConversion()
+    public function testPingWithinThirtyMinutesDoesNotTriggerGoalConversion()
     {
         $tracker = $this->getTracker();
 
@@ -86,7 +87,7 @@ class PingRequestTest extends IntegrationTestCase
         $this->assertGoalConversionCount(1);
     }
 
-    public function test_PingAfterThirtyMinutes_DoesNotCreateNewVisit()
+    public function testPingAfterThirtyMinutesDoesNotCreateNewVisit()
     {
         $tracker = $this->getTracker();
 
@@ -102,7 +103,7 @@ class PingRequestTest extends IntegrationTestCase
         $this->assertPingDidNotCreateNewVisit(self::FIRST_VISIT_TIME, $checkModifiedDimensions = false);
     }
 
-    public function test_PingAfterThirtyMinutes_AndChangedDimensionValues_DoesNotCreateNewVisit()
+    public function testPingAfterThirtyMinutesAndChangedDimensionValuesDoesNotCreateNewVisit()
     {
         $tracker = $this->getTracker();
 

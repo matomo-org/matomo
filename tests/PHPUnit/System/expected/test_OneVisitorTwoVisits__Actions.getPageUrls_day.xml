@@ -172,28 +172,28 @@
 		<sum_time_spent>0</sum_time_spent>
 		<sum_time_network>0.022</sum_time_network>
 		<nb_hits_with_time_network>1</nb_hits_with_time_network>
-		<min_time_network>0.022</min_time_network>
-		<max_time_network>0.022</max_time_network>
+		<min_time_network>0.0220</min_time_network>
+		<max_time_network>0.0220</max_time_network>
 		<sum_time_server>0.157</sum_time_server>
 		<nb_hits_with_time_server>1</nb_hits_with_time_server>
-		<min_time_server>0.157</min_time_server>
-		<max_time_server>0.157</max_time_server>
+		<min_time_server>0.1570</min_time_server>
+		<max_time_server>0.1570</max_time_server>
 		<sum_time_transfer>0.266</sum_time_transfer>
 		<nb_hits_with_time_transfer>1</nb_hits_with_time_transfer>
-		<min_time_transfer>0.266</min_time_transfer>
-		<max_time_transfer>0.266</max_time_transfer>
+		<min_time_transfer>0.2660</min_time_transfer>
+		<max_time_transfer>0.2660</max_time_transfer>
 		<sum_time_dom_processing>2</sum_time_dom_processing>
 		<nb_hits_with_time_dom_processing>1</nb_hits_with_time_dom_processing>
-		<min_time_dom_processing>2</min_time_dom_processing>
-		<max_time_dom_processing>2</max_time_dom_processing>
+		<min_time_dom_processing>2.0000</min_time_dom_processing>
+		<max_time_dom_processing>2.0000</max_time_dom_processing>
 		<sum_time_dom_completion>1.002</sum_time_dom_completion>
 		<nb_hits_with_time_dom_completion>1</nb_hits_with_time_dom_completion>
-		<min_time_dom_completion>1.002</min_time_dom_completion>
-		<max_time_dom_completion>1.002</max_time_dom_completion>
+		<min_time_dom_completion>1.0020</min_time_dom_completion>
+		<max_time_dom_completion>1.0020</max_time_dom_completion>
 		<sum_time_on_load>0.666</sum_time_on_load>
 		<nb_hits_with_time_on_load>1</nb_hits_with_time_on_load>
-		<min_time_on_load>0.666</min_time_on_load>
-		<max_time_on_load>0.666</max_time_on_load>
+		<min_time_on_load>0.6660</min_time_on_load>
+		<max_time_on_load>0.6660</max_time_on_load>
 		<entry_nb_visits>1</entry_nb_visits>
 		<entry_nb_actions>1</entry_nb_actions>
 		<entry_sum_visit_length>1</entry_sum_visit_length>

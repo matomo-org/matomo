@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Scheduler\Schedule;
@@ -27,7 +27,8 @@ class Hourly extends Schedule
         $currentTime = $this->getTime();
 
         // Adds one hour and reset the number of minutes
-        $rescheduledTime = mktime(date('H', $currentTime) + 1,
+        $rescheduledTime = mktime(
+            date('H', $currentTime) + 1,
             0,
             date('s', $currentTime),
             date('n', $currentTime),

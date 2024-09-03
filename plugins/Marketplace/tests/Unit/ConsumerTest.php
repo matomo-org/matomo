@@ -1,12 +1,14 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Marketplace\tests\Unit;
+
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as ConsumerBuilder;
@@ -32,7 +34,7 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getConsumerNotAuthenticated
      */
-    public function test_isValidConsumer_shouldReturnFalse_WhenNotAuthenticedBecauseNoTokenSetOrInvalidToken($fixture)
+    public function testIsValidConsumerShouldReturnFalseWhenNotAuthenticedBecauseNoTokenSetOrInvalidToken($fixture)
     {
         $this->service->returnFixture($fixture);
         $this->assertFalse($this->buildConsumer()->isValidConsumer());
@@ -41,13 +43,13 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getConsumerAuthenticated
      */
-    public function test_isValidConsumer_shouldReturnTrue_WhenValidTokenGiven($fixture)
+    public function testIsValidConsumerShouldReturnTrueWhenValidTokenGiven($fixture)
     {
         $this->service->returnFixture($fixture);
         $this->assertTrue($this->buildConsumer()->isValidConsumer());
     }
 
-    public function test_getConsumer_shouldReturnConsumerInformation_WhenValid()
+    public function testGetConsumerShouldReturnConsumerInformationWhenValid()
     {
         $this->service->returnFixture('v2.0_consumer-access_token-consumer1_paid2_custom1.json');
 
@@ -58,7 +60,7 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
                         array (
                             'startDate' => '2014-05-27 04:46:05',
                             'endDate' => '2014-06-01 06:22:35',
-                            'nextPaymentDate' => NULL,
+                            'nextPaymentDate' => null,
                             'status' => 'Cancelled',
                             'productType' => 'Up to 4 users',
                             'isValid' => false,
@@ -74,7 +76,7 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
                             'status' => 'Active',
                             'productType' => '5 to 15 users',
                             'isValid' => true,
-                            'isExceeded' => NULL,
+                            'isExceeded' => null,
                             'isExpiredSoon' => false,
                             'plugin' => array('name' => 'PaidPlugin2', 'displayName' => 'Paid Plugin 2', 'htmlUrl' => 'https://plugins.piwik.org/PaidPlugin2'),
                         ),
@@ -86,7 +88,7 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
                             'status' => 'Active',
                             'productType' => 'Up to 4 users',
                             'isValid' => true,
-                            'isExceeded' => NULL,
+                            'isExceeded' => null,
                             'isExpiredSoon' => false,
                             'plugin' => array('name' => 'CustomPlugin1', 'displayName' => 'Custom Plugin 1', 'htmlUrl' => ''),
                         ),
@@ -96,14 +98,14 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->buildConsumer()->getConsumer());
     }
 
-    public function test_getConsumer_shouldNotReturnAnyInformationWhenNotAuthenticated()
+    public function testGetConsumerShouldNotReturnAnyInformationWhenNotAuthenticated()
     {
         $this->service->returnFixture('v2.0_consumer-access_token-notexistingtoken.json');
 
         $this->assertSame(array(), $this->buildConsumer()->getConsumer());
     }
 
-    public function test_getConsumer_shouldNotReturnInformationWhenAuthenticatedButNoLicense()
+    public function testGetConsumerShouldNotReturnInformationWhenAuthenticatedButNoLicense()
     {
         $this->service->returnFixture('v2.0_consumer-access_token-validbutnolicense.json');
 
@@ -132,14 +134,14 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_buildInvalidLicenseKey()
+    public function testBuildInvalidLicenseKey()
     {
         $isValid = Consumer::buildNoLicense()->isValidConsumer();
 
         $this->assertFalse($isValid);
     }
 
-    public function test_buildValidLicenseKey()
+    public function testBuildValidLicenseKey()
     {
         $isValid = Consumer::buildValidLicense()->isValidConsumer();
 

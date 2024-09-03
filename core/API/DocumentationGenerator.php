@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\API;
 
 use Exception;
@@ -82,7 +83,7 @@ class DocumentationGenerator
     {
         $str = '';
         $str .= "\n<a name='$moduleName' id='$moduleName'></a>";
-        if($displayTitlesAsEnrichedHeadline) {
+        if ($displayTitlesAsEnrichedHeadline) {
             $str .= "<div vue-entry=\"CoreHome.ContentBlock\" content-title='Module " . $moduleName . "'>";
         } else {
             $str .= "<h2>Module " . $moduleName . "</h2>";
@@ -105,7 +106,7 @@ class DocumentationGenerator
             $str .= "</div>\n";
         }
 
-        if($displayTitlesAsEnrichedHeadline) {
+        if ($displayTitlesAsEnrichedHeadline) {
             $str .= "</div>";
         }
 
@@ -343,7 +344,7 @@ class DocumentationGenerator
 
             $str = '';
 
-            if(!empty($parameter['type'])) {
+            if (!empty($parameter['type'])) {
                 $prefix = $parameter['allowsNull'] ? '?' : '';
                 $str = '<i>' . $prefix . $parameter['type'] . '</i> ';
             }

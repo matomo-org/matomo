@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\CronArchive;
@@ -73,7 +74,8 @@ class ArchiveFilter
     public function filterArchive($archive)
     {
         $segment = isset($archive['segment']) ? $archive['segment'] : '';
-        if ($this->disableSegmentsArchiving
+        if (
+            $this->disableSegmentsArchiving
             && !empty($segment)
         ) {
             return 'segment archiving disabled';
@@ -94,7 +96,8 @@ class ArchiveFilter
             }
         }
 
-        if (!empty($this->restrictToDateRange)
+        if (
+            !empty($this->restrictToDateRange)
             && ($this->restrictToDateRange[0]->isLater(Date::factory($archive['date2']))
                 || $this->restrictToDateRange[1]->isEarlier(Date::factory($archive['date1']))
             )
@@ -103,13 +106,15 @@ class ArchiveFilter
         }
 
         $periodLabel = $this->periodIdsToLabels[$archive['period']];
-        if (!empty($this->restrictToPeriods)
+        if (
+            !empty($this->restrictToPeriods)
             && !in_array($periodLabel, $this->restrictToPeriods)
         ) {
             return "period is not specified in --force-periods";
         }
 
-        if (!empty($this->forceReport)
+        if (
+            !empty($this->forceReport)
             && (empty($archive['plugin'])
                 || empty($archive['report'])
                 || $archive['plugin'] . '.' . $archive['report'] != $this->forceReport)

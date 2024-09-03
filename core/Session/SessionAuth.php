@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Session;
@@ -107,7 +107,8 @@ class SessionAuth implements Auth
         }
 
         $user = $userModel->getUser($userForSession);
-        if (empty($user)
+        if (
+            empty($user)
             || $user['login'] !== $userForSession // sanity check in case there's a bug in getUser()
         ) {
             return $this->makeAuthFailure();
@@ -121,9 +122,11 @@ class SessionAuth implements Auth
 
         $this->updateSessionExpireTime($sessionFingerprint);
 
-        if ($this->tokenAuth !== null
+        if (
+            $this->tokenAuth !== null
             && $this->tokenAuth !== false
-            && $this->tokenAuth !== $sessionFingerprint->getSessionTokenAuth()) {
+            && $this->tokenAuth !== $sessionFingerprint->getSessionTokenAuth()
+        ) {
             return $this->makeAuthFailure();
         }
 
@@ -238,7 +241,8 @@ class SessionAuth implements Auth
     {
         if (Session\SaveHandler\DbTable::$wasSessionToLargeToRead) {
             StaticContainer::get(LoggerInterface::class)->warning(
-                "Too much data stored in the session so it could not be read properly. If you were logged out, this is why.");
+                "Too much data stored in the session so it could not be read properly. If you were logged out, this is why."
+            );
         }
     }
 }

@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tracker;
@@ -22,27 +22,27 @@ use Piwik\Log\LoggerInterface;
  */
 abstract class Action
 {
-    const TYPE_PAGE_URL   = 1;
-    const TYPE_OUTLINK    = 2;
-    const TYPE_DOWNLOAD   = 3;
-    const TYPE_PAGE_TITLE = 4;
-    const TYPE_ECOMMERCE_ITEM_SKU  = 5;
-    const TYPE_ECOMMERCE_ITEM_NAME = 6;
-    const TYPE_ECOMMERCE_ITEM_CATEGORY = 7;
-    const TYPE_SITE_SEARCH = 8;
+    public const TYPE_PAGE_URL   = 1;
+    public const TYPE_OUTLINK    = 2;
+    public const TYPE_DOWNLOAD   = 3;
+    public const TYPE_PAGE_TITLE = 4;
+    public const TYPE_ECOMMERCE_ITEM_SKU  = 5;
+    public const TYPE_ECOMMERCE_ITEM_NAME = 6;
+    public const TYPE_ECOMMERCE_ITEM_CATEGORY = 7;
+    public const TYPE_SITE_SEARCH = 8;
 
-    const TYPE_EVENT          = 10; // Alias TYPE_EVENT_CATEGORY
-    const TYPE_EVENT_CATEGORY = 10;
-    const TYPE_EVENT_ACTION   = 11;
-    const TYPE_EVENT_NAME     = 12;
+    public const TYPE_EVENT          = 10; // Alias TYPE_EVENT_CATEGORY
+    public const TYPE_EVENT_CATEGORY = 10;
+    public const TYPE_EVENT_ACTION   = 11;
+    public const TYPE_EVENT_NAME     = 12;
 
-    const TYPE_CONTENT             = 13; // Alias TYPE_CONTENT_NAME
-    const TYPE_CONTENT_NAME        = 13;
-    const TYPE_CONTENT_PIECE       = 14;
-    const TYPE_CONTENT_TARGET      = 15;
-    const TYPE_CONTENT_INTERACTION = 16;
+    public const TYPE_CONTENT             = 13; // Alias TYPE_CONTENT_NAME
+    public const TYPE_CONTENT_NAME        = 13;
+    public const TYPE_CONTENT_PIECE       = 14;
+    public const TYPE_CONTENT_TARGET      = 15;
+    public const TYPE_CONTENT_INTERACTION = 16;
 
-    const DB_COLUMN_CUSTOM_FLOAT = 'custom_float';
+    public const DB_COLUMN_CUSTOM_FLOAT = 'custom_float';
 
     private static $factoryPriority = array(
         self::TYPE_PAGE_URL,

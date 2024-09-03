@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\BulkTracking\Tracker;
@@ -61,8 +61,10 @@ class Handler extends Tracker\Handler
             } catch (InvalidRequestParameterException $ex) {
                 $invalidRequests[] = $index;
             } catch (Exception $e) {
-                if (stripos($e->getMessage(), 'Lock wait timeout exceeded')
-                    || Tracker::getDatabase()->isErrNo($e, 1205)) {
+                if (
+                    stripos($e->getMessage(), 'Lock wait timeout exceeded')
+                    || Tracker::getDatabase()->isErrNo($e, 1205)
+                ) {
                     continue;
                 } else {
                     throw $e;

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Feedback;
 
 use Piwik\Date;
@@ -19,7 +20,7 @@ use Piwik\Plugins\Feedback\FeedbackReminder;
  */
 class Feedback extends \Piwik\Plugin
 {
-    const NEVER_REMIND_ME_AGAIN = "-1";
+    public const NEVER_REMIND_ME_AGAIN = "-1";
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -142,7 +143,6 @@ class Feedback extends \Piwik\Plugin
 
         // If there isn't any reminder date set, or never remind me was selected previously (-1) we determine a new date
         if ($nextReminderDate === false || $nextReminderDate <= 0) {
-
             // if user was created within the last 6 months, we set the date to 6 months after his creation date
             $userCreatedDate = Piwik::getCurrentUserCreationDate();
             if (!empty($userCreatedDate) && Date::factory($userCreatedDate)->addMonth(6)->getTimestamp() > $now) {

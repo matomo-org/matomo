@@ -1,22 +1,29 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreHome;
 
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\FrontController;
+use Piwik\Log\LoggerInterface;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\FeatureFlags\FeatureFlags\Example;
+use Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\Widget;
@@ -37,11 +44,21 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $translator;
 
+    /**
+     * @var FeatureFlagManager
+     */
+    private $featureFlagManager;
+
     public function __construct(Translator $translator)
     {
         $this->translator = $translator;
 
         parent::__construct();
+
+        $this->featureFlagManager = new FeatureFlagManager(
+            [new ConfigFeatureFlagStorage(Config::getInstance())],
+            StaticContainer::get(LoggerInterface::class)
+        );
     }
 
     public function getDefaultAction()
@@ -92,19 +109,23 @@ class Controller extends \Piwik\Plugin\Controller
         $content = $widget->render();
 
         if ($config->getName() && Common::getRequestVar('showtitle', '', 'string') === '1') {
-            if (strpos($content, '<h2') !== false
+            if (
+                strpos($content, '<h2') !== false
                 || strpos($content, ' content-title=') !== false
                 || strpos($content, 'CoreHome.EnrichedHeadline') !== false
-                || strpos($content, '<h1') !== false ) {
+                || strpos($content, '<h1') !== false
+            ) {
                 // already includes title
                 return $content;
             }
 
-            if (strpos($content, '<!-- has-content-block -->') === false
+            if (
+                strpos($content, '<!-- has-content-block -->') === false
                 && strpos($content, 'class="card"') === false
                 && strpos($content, "class='card'") === false
                 && strpos($content, 'class="card-content"') === false
-                && strpos($content, "class='card-content'") === false) {
+                && strpos($content, "class='card-content'") === false
+            ) {
                 $view = new View('@CoreHome/_singleWidget');
                 $view->title = $config->getName();
                 $view->content = $content;
@@ -115,7 +136,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $content;
     }
 
-    function redirectToCoreHomeIndex()
+    public function redirectToCoreHomeIndex()
     {
         $defaultReport = API::getInstance()->getUserPreference(
             API::PREFERENCE_DEFAULT_REPORT,
@@ -125,7 +146,8 @@ class Controller extends \Piwik\Plugin\Controller
         $action = 'index';
 
         // User preference: default report to load is the All Websites dashboard
-        if ($defaultReport == 'MultiSites'
+        if (
+            $defaultReport == 'MultiSites'
             && \Piwik\Plugin\Manager::getInstance()->isPluginActivated('MultiSites')
         ) {
             $module = 'MultiSites';
@@ -143,7 +165,7 @@ class Controller extends \Piwik\Plugin\Controller
         $controllerName = Common::getRequestVar('moduleToLoad');
         $actionName     = Common::getRequestVar('actionToLoad', 'index');
 
-        if($controllerName == 'API') {
+        if ($controllerName == 'API') {
             throw new Exception("Showing API requests in context is not supported for security reasons. Please change query parameter 'moduleToLoad'.");
         }
         if ($actionName == 'showInContext') {
@@ -178,13 +200,15 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $view->showMenu = true;
         $view->content = '';
+        $view->exampleFeatureEnabled = $this->featureFlagManager->isFeatureActive(Example::class);
         return $view;
     }
 
     protected function setDateTodayIfWebsiteCreatedToday()
     {
         $date = Common::getRequestVar('date', false);
-        if ($date == 'today'
+        if (
+            $date == 'today'
             || Common::getRequestVar('period', false) == 'range'
         ) {
             return;
@@ -196,7 +220,9 @@ class Controller extends \Piwik\Plugin\Controller
             $todayLocalTimezone        = Date::factory('now', $this->site->getTimezone())->toString('Y-m-d');
 
             if ($creationDateLocalTimezone == $todayLocalTimezone) {
-                Piwik::redirectToModule('CoreHome', 'index',
+                Piwik::redirectToModule(
+                    'CoreHome',
+                    'index',
                     array('date'   => 'today',
                           'idSite' => $this->idSite,
                           'period' => Common::getRequestVar('period'))
@@ -286,7 +312,8 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $parameters = Request::getRequestArrayFromString($request = null);
         foreach ($parameters as $name => $param) {
-            if ($name == 'idSite'
+            if (
+                $name == 'idSite'
                 || $name == 'module'
                 || $name == 'action'
             ) {

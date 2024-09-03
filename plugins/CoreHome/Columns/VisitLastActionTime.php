@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Common;
@@ -104,8 +105,10 @@ class VisitLastActionTime extends VisitDimension
 
         $originalVisitLastActionTime = $visitor->getPreviousVisitColumn('visit_last_action_time');
 
-        if (!empty($originalVisitLastActionTime)
-            && Date::factory($originalVisitLastActionTime)->getTimestamp() > $request->getCurrentTimestamp()) {
+        if (
+            !empty($originalVisitLastActionTime)
+            && Date::factory($originalVisitLastActionTime)->getTimestamp() > $request->getCurrentTimestamp()
+        ) {
             // make sure to not set visit_last_action_time to an earlier time eg if tracking requests aren't sent in order
             return $originalVisitLastActionTime;
         }

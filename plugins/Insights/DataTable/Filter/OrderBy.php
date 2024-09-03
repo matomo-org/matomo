@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Insights\DataTable\Filter;
 
 use Piwik\DataTable\BaseFilter;
@@ -42,7 +43,6 @@ class OrderBy extends BaseFilter
     {
         foreach ($this->columnsToCheck as $column) {
             if ($column) {
-
                 $valA = $a->getColumn($column);
                 $valB = $b->getColumn($column);
                 $sort = $this->sortVal($valA, $valB);

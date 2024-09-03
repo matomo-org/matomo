@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\ScheduledReports;
 
 use Piwik\Access;
@@ -25,7 +26,7 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    const DEFAULT_REPORT_TYPE = ScheduledReports::EMAIL_TYPE;
+    public const DEFAULT_REPORT_TYPE = ScheduledReports::EMAIL_TYPE;
 
     public function index()
     {
@@ -89,7 +90,11 @@ class Controller extends \Piwik\Plugin\Controller
         $reports = array();
         $reportsById = array();
         if (!Piwik::isUserIsAnonymous()) {
-            $reports = API::getInstance()->getReports($this->idSite, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = true);
+            $reports = Request::processRequest('ScheduledReports.getReports', array(
+                'idSite' => $this->idSite,
+                'ifSuperUserReturnOnlySuperUserReports' => true,
+                'filter_limit' => -1,
+            ), []);
             foreach ($reports as &$report) {
                 $report['evolutionPeriodFor'] = $report['evolution_graph_within_period'] ? 'each' : 'prev';
                 $report['evolutionPeriodN'] = (int) $report['evolution_graph_period_n'] ?: ImageGraph::getDefaultGraphEvolutionLastPeriods();
@@ -113,7 +118,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->segmentEditorActivated = false;
         if (API::isSegmentEditorActivated()) {
-
             $savedSegmentsById = array(
                 '' => Piwik::translate('SegmentEditor_DefaultAllVisits')
             );

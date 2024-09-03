@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\DataAccess;
@@ -29,7 +29,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ArchiveSelectorTest extends IntegrationTestCase
 {
-    const TEST_SEGMENT = 'operatingSystemCode==WIN';
+    public const TEST_SEGMENT = 'operatingSystemCode==WIN';
 
     protected static function configureFixture($fixture)
     {
@@ -37,7 +37,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
         $fixture->createSuperUser = true;
     }
 
-    public function test_getArchiveIds_handlesCutOffGroupConcat()
+    public function testGetArchiveIdsHandlesCutOffGroupConcat()
     {
         Db::get()->query('SET SESSION group_concat_max_len=' . 20);
 
@@ -94,7 +94,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForGetArchiveIds
      */
-    public function test_getArchiveIds_returnsCorrectResult(
+    public function testGetArchiveIdsReturnsCorrectResult(
         $archiveRows,
         $siteIds,
         $periods,
@@ -271,15 +271,17 @@ class ArchiveSelectorTest extends IntegrationTestCase
             $d = Date::factory($row['date1']);
             $table = !empty($row['is_blob_data']) ? ArchiveTableCreator::getBlobTable($d) : ArchiveTableCreator::getNumericTable($d);
             $tsArchived = isset($row['ts_archived']) ? $row['ts_archived'] : Date::now()->getDatetime();
-            Db::query("INSERT INTO `$table` (idarchive, idsite, period, date1, date2, `name`, `value`, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                [$row['idarchive'], $row['idsite'], $row['period'], $row['date1'], $row['date2'], $row['name'], $row['value'], $tsArchived]);
+            Db::query(
+                "INSERT INTO `$table` (idarchive, idsite, period, date1, date2, `name`, `value`, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                [$row['idarchive'], $row['idsite'], $row['period'], $row['date1'], $row['date2'], $row['name'], $row['value'], $tsArchived]
+            );
         }
     }
 
     /**
      * @dataProvider getTestDataForGetArchiveIdAndVisits
      */
-    public function test_getArchiveIdAndVisits_returnsCorrectResult($period, $date, $archiveRows, $segment, $minDateProcessed, $includeInvalidated, $expected)
+    public function testGetArchiveIdAndVisitsReturnsCorrectResult($period, $date, $archiveRows, $segment, $minDateProcessed, $includeInvalidated, $expected)
     {
         Fixture::createWebsite('2010-02-02 00:00:00');
 
@@ -535,7 +537,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForGetArchiveIdAndVisitsWithOnlyPartialArchives
      */
-    public function test_getArchiveIdAndVisits_whenThereAreOnlyPartialArchives($archiveRows, $requestedReports, $expected, $minDatetimeArchiveProcessedUTC = false)
+    public function testGetArchiveIdAndVisitsWhenThereAreOnlyPartialArchives($archiveRows, $requestedReports, $expected, $minDatetimeArchiveProcessedUTC = false)
     {
         Fixture::createWebsite('2010-02-02 00:00:00');
 
@@ -771,7 +773,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForGetArchiveData
      */
-    public function test_getArchiveData_returnsCorrectData(
+    public function testGetArchiveDataReturnsCorrectData(
         $archiveRows,
         $dataType,
         $idArchives,
@@ -987,7 +989,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForGetExtractIdSubtableFromBlobNameSql
      */
-    public function test_getExtractIdSubtableFromBlobNameSql_correctlyExtractsStartSubtableIdFromBlobNames($archiveRows, $blobName, $expectedRows)
+    public function testGetExtractIdSubtableFromBlobNameSqlCorrectlyExtractsStartSubtableIdFromBlobNames($archiveRows, $blobName, $expectedRows)
     {
         $this->insertArchiveData($archiveRows);
 

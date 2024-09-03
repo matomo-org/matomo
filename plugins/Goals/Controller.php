@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Goals;
 
 use Piwik\API\Request;
@@ -36,7 +37,7 @@ class Controller extends \Piwik\Plugin\Controller
      * Number of "Your top converting keywords/etc are" to display in the per Goal overview page
      * @var int
      */
-    const COUNT_TOP_ROWS_TO_DISPLAY = 3;
+    public const COUNT_TOP_ROWS_TO_DISPLAY = 3;
 
     protected $goalColumnNameToLabel = array(
         'avg_order_revenue' => 'General_AverageOrderValue',
@@ -71,7 +72,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $this->translator = $translator;
 
-        $this->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
+        $this->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1', 'orderByName' => true], $default = []);
     }
 
     public function manage()
@@ -265,7 +266,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getSparklines()
     {
         $content = "";
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], []);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1', 'orderByName' => true], []);
 
         foreach ($goals as $goal) {
             $params = [
@@ -299,7 +300,8 @@ class Controller extends \Piwik\Plugin\Controller
             }
         }
 
-        if (!empty($idGoal)
+        if (
+            !empty($idGoal)
             && isset($this->goals[$idGoal])
         ) {
             $goalName = $this->goals[$idGoal]['name'];
@@ -368,7 +370,8 @@ class Controller extends \Piwik\Plugin\Controller
 
             foreach ($datatable->getRows() as $row) {
                 $conversions = $row->getColumn($columnNbConversions);
-                if ($conversions > 0
+                if (
+                    $conversions > 0
                     && $count < self::COUNT_TOP_ROWS_TO_DISPLAY
 
                     // Don't put the "Keyword not defined" in the best segment since it's irritating

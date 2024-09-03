@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\VisitorInterest\RecordBuilders;
@@ -43,17 +43,29 @@ class Engagement extends RecordBuilder
         // collect our extra aggregate select fields
         $selects = array();
         $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-            'visit_total_time', Archiver::getSecondsGap(), 'log_visit', $prefixes[Archiver::TIME_SPENT_RECORD_NAME]
+            'visit_total_time',
+            Archiver::getSecondsGap(),
+            'log_visit',
+            $prefixes[Archiver::TIME_SPENT_RECORD_NAME]
         ));
         $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-            'visit_total_actions', Archiver::$pageGap, 'log_visit', $prefixes[Archiver::PAGES_VIEWED_RECORD_NAME]
+            'visit_total_actions',
+            Archiver::$pageGap,
+            'log_visit',
+            $prefixes[Archiver::PAGES_VIEWED_RECORD_NAME]
         ));
         $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-            'visitor_count_visits', Archiver::$visitNumberGap, 'log_visit', $prefixes[Archiver::VISITS_COUNT_RECORD_NAME]
+            'visitor_count_visits',
+            Archiver::$visitNumberGap,
+            'log_visit',
+            $prefixes[Archiver::VISITS_COUNT_RECORD_NAME]
         ));
 
         $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-            'FLOOR(log_visit.visitor_seconds_since_last / 86400)', Archiver::$daysSinceLastVisitGap, 'log_visit', $prefixes[Archiver::DAYS_SINCE_LAST_RECORD_NAME],
+            'FLOOR(log_visit.visitor_seconds_since_last / 86400)',
+            Archiver::$daysSinceLastVisitGap,
+            'log_visit',
+            $prefixes[Archiver::DAYS_SINCE_LAST_RECORD_NAME],
             $restrictToReturningVisitors = true
         ));
 

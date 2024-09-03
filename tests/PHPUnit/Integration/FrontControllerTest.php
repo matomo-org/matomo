@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -20,7 +21,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class FrontControllerTest extends IntegrationTestCase
 {
-    public function test_fatalErrorStackTracesReturned()
+    public function testFatalErrorStackTracesReturned()
     {
         $url = Fixture::getRootUrl() . '/tests/resources/trigger-fatal.php?format=json';
         $response = Http::sendHttpRequest($url, self::isCIEnvironment() ? 5 : 20);
@@ -37,7 +38,7 @@ FORMAT;
         $this->assertStringMatchesFormat($expectedFormat, $response['message']);
     }
 
-    public function test_thrownExceptionInFrontControllerPrintsBacktrace()
+    public function testThrownExceptionInFrontControllerPrintsBacktrace()
     {
         $url = Fixture::getRootUrl() . '/tests/resources/trigger-fatal-exception.php?format=json';
         $response = Http::sendHttpRequest($url, self::isCIEnvironment() ? 5 : 20);
@@ -64,7 +65,7 @@ FORMAT;
     /**
      * @runInSeparateProcess
      */
-    public function test_authImplementationConfigured_EvenIfSessionAuthSucceeds()
+    public function testAuthImplementationConfiguredEvenIfSessionAuthSucceeds()
     {
         Session::start();
 

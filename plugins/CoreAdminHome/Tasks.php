@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\API\Request;
@@ -37,7 +38,7 @@ use Piwik\SettingsPiwik;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
-    const TRACKING_CODE_CHECK_FLAG = 'trackingCodeExistsCheck';
+    public const TRACKING_CODE_CHECK_FLAG = 'trackingCodeExistsCheck';
     /**
      * @var ArchivePurger
      */
@@ -84,7 +85,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         $this->weekly('notifyTrackingFailures', null, self::LOWEST_PRIORITY);
 
         $generalConfig = Config::getInstance()->Tracker;
-        if((SettingsPiwik::isInternetEnabled() === true) && $generalConfig['enable_spam_filter']){
+        if ((SettingsPiwik::isInternetEnabled() === true) && $generalConfig['enable_spam_filter']) {
             $this->weekly('updateSpammerList');
         }
 
@@ -161,9 +162,14 @@ class Tasks extends \Piwik\Plugin\Tasks
             return;
         }
 
-        $user = Request::processRequest('UsersManager.getUser', [
-            'userLogin' => $creatingUser,
-        ]);
+        try {
+            $user = Request::processRequest('UsersManager.getUser', [
+                'userLogin' => $creatingUser,
+            ]);
+        } catch (\Exception $e) {
+            return;
+        }
+
         if (empty($user['email'])) {
             return;
         }
@@ -309,7 +315,7 @@ class Tasks extends \Piwik\Plugin\Tasks
     public function optimizeArchiveTable()
     {
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
-        Db::optimizeTables($archiveTables);
+        Db\Schema::getInstance()->optimizeTables($archiveTables);
     }
 
     /**

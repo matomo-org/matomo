@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Annotations;
 
 use Exception;
@@ -33,7 +34,7 @@ use Piwik\Site;
  */
 class AnnotationList
 {
-    const ANNOTATION_COLLECTION_OPTION_SUFFIX = '_annotations';
+    public const ANNOTATION_COLLECTION_OPTION_SUFFIX = '_annotations';
 
     /**
      * List of site IDs this instance holds annotations for.
@@ -250,7 +251,8 @@ class AnnotationList
             foreach ($this->annotations[$idSite] as $idNote => $annotation) {
                 if ($startDate !== false) {
                     $annotationDate = Date::factory($annotation['date']);
-                    if ($annotationDate->getTimestamp() < $startDate->getTimestamp()
+                    if (
+                        $annotationDate->getTimestamp() < $startDate->getTimestamp()
                         || $annotationDate->getTimestamp() > $endDate->getTimestamp()
                     ) {
                         continue;

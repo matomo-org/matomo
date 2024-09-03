@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\API\tests\Integration;
@@ -51,7 +52,7 @@ class APITest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_getBulkRequest_IsAbleToHandleManyDifferentRequests()
+    public function testGetBulkRequestIsAbleToHandleManyDifferentRequests()
     {
         $token = Fixture::getTokenAuth();
         $urls = array(

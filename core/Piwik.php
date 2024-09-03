@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Exception;
@@ -44,14 +45,14 @@ class Piwik
      *
      * @api
      */
-    const LABEL_ID_GOAL_IS_ECOMMERCE_CART = 'ecommerceAbandonedCart';
+    public const LABEL_ID_GOAL_IS_ECOMMERCE_CART = 'ecommerceAbandonedCart';
 
     /**
      * The idGoal query parameter value for the special 'ecommerce' goal.
      *
      * @api
      */
-    const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';
+    public const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';
 
     /**
      * Trigger E_USER_ERROR with optional message
@@ -135,8 +136,13 @@ class Piwik
             $dividend = 0;
         }
         if (!is_numeric($dividend) || !is_numeric($divisor)) {
-            throw new \Exception(sprintf('Trying to round unsupported operands for dividend %s (%s) and divisor %s (%s)',
-                $dividend, gettype($dividend), $divisor, gettype($divisor)));
+            throw new \Exception(sprintf(
+                'Trying to round unsupported operands for dividend %s (%s) and divisor %s (%s)',
+                $dividend,
+                gettype($dividend),
+                $divisor,
+                gettype($divisor)
+            ));
         }
         return round($dividend / $divisor, $precision);
     }
@@ -365,7 +371,8 @@ class Piwik
                 'System generated ' . $reason,
                 Date::now()->getDatetime(),
                 $expireDate,
-            true);
+                true
+            );
 
             return $token[$reason];
         }
@@ -722,9 +729,9 @@ class Piwik
     public static function redirectToModule($newModule, $newAction = '', $parameters = array())
     {
         $newUrl = 'index.php' . Url::getCurrentQueryStringWithParametersModified(
-                array('module' => $newModule, 'action' => $newAction)
+            array('module' => $newModule, 'action' => $newAction)
                 + $parameters
-            );
+        );
         Url::redirectToUrl($newUrl);
     }
 
@@ -755,7 +762,8 @@ class Piwik
      */
     public static function checkValidLoginString($userLogin)
     {
-        if (!SettingsPiwik::isUserCredentialsSanityCheckEnabled()
+        if (
+            !SettingsPiwik::isUserCredentialsSanityCheckEnabled()
             && !empty($userLogin)
         ) {
             return;
@@ -763,7 +771,8 @@ class Piwik
         $loginMinimumLength = 2;
         $loginMaximumLength = 100;
         $l = strlen($userLogin);
-        if (!($l >= $loginMinimumLength
+        if (
+            !($l >= $loginMinimumLength
             && $l <= $loginMaximumLength
             && (preg_match('/^[A-Za-zÄäÖöÜüß0-9_.@+-]*$/D', $userLogin) > 0))
         ) {
@@ -803,7 +812,8 @@ class Piwik
     public static function isAssociativeArray($array)
     {
         reset($array);
-        if (!is_numeric(key($array))
+        if (
+            !is_numeric(key($array))
             || key($array) != 0
         ) {
             // first key must be 0

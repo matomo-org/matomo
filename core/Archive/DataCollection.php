@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Archive;
@@ -21,7 +21,7 @@ use Piwik\DataTable;
  */
 class DataCollection
 {
-    const METADATA_CONTAINER_ROW_KEY = '_metadata';
+    public const METADATA_CONTAINER_ROW_KEY = '_metadata';
 
     /**
      * The archive data, indexed first by site ID and then by period date range. Eg,
@@ -237,7 +237,13 @@ class DataCollection
     public function getDataTable($resultIndices)
     {
         $dataTableFactory = new DataTableFactory(
-            $this->dataNames, $this->dataType, $this->sitesId, $this->periods, $this->segment, $this->defaultRow);
+            $this->dataNames,
+            $this->dataType,
+            $this->sitesId,
+            $this->periods,
+            $this->segment,
+            $this->defaultRow
+        );
 
         $index = $this->getIndexedArray($resultIndices);
 
@@ -254,7 +260,13 @@ class DataCollection
     public function getMergedDataTable($resultIndices)
     {
         $dataTableFactory = new DataTableFactory(
-            $this->dataNames, $this->dataType, $this->sitesId, $this->periods, $this->segment, $this->defaultRow);
+            $this->dataNames,
+            $this->dataType,
+            $this->sitesId,
+            $this->periods,
+            $this->segment,
+            $this->defaultRow
+        );
 
         $index = $this->getIndexedArray($resultIndices);
 
@@ -286,7 +298,13 @@ class DataCollection
         $this->checkExpandedMethodPrerequisites();
 
         $dataTableFactory = new DataTableFactory(
-            $this->dataNames, 'blob', $this->sitesId, $this->periods, $this->segment, $this->defaultRow);
+            $this->dataNames,
+            'blob',
+            $this->sitesId,
+            $this->periods,
+            $this->segment,
+            $this->defaultRow
+        );
         $dataTableFactory->expandDataTable($depth, $addMetadataSubTableId);
         $dataTableFactory->useSubtable($idSubTable);
 

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\DataTable;
@@ -26,14 +27,14 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->row = new Row();
     }
 
-    public function test_isSubtableLoaded_ReturnsTrue_IfDataTableAssociatedIsLoaded()
+    public function testIsSubtableLoadedReturnsTrueIfDataTableAssociatedIsLoaded()
     {
         $testRow = $this->getTestRowWithSubDataTableLoaded();
         $this->assertTrue($testRow->isSubtableLoaded());
         $this->assertGreaterThanOrEqual(1, $testRow->getIdSubDataTable());
     }
 
-    public function test_isSubtableLoaded_ReturnsTrue_WhenSubDataTableSetted()
+    public function testIsSubtableLoadedReturnsTrueWhenSubDataTableSetted()
     {
         $testRow = $this->getTestRowWithSubDataTableNotLoaded();
         $this->assertFalse($testRow->isSubtableLoaded()); // verify not already loaded
@@ -44,13 +45,13 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertGreaterThanOrEqual(1, $testRow->getIdSubDataTable());
     }
 
-    public function test_getIdSubDataTable_ShouldBeNullIfNoSubtableIsSet()
+    public function testGetIdSubDataTableShouldBeNullIfNoSubtableIsSet()
     {
         $testRow = $this->getTestRowWithNoSubDataTable();
         $this->assertEquals(null, $testRow->getIdSubDataTable());
     }
 
-    public function test_removeSubtable_ShouldRemoveASetSubtable()
+    public function testRemoveSubtableShouldRemoveASetSubtable()
     {
         $testRow = $this->getTestRowWithSubDataTableLoaded();
         $this->assertTrue($testRow->isSubtableLoaded());
@@ -61,7 +62,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(null, $testRow->getIdSubDataTable());
     }
 
-    public function test_destruct_ShouldRemoveASetSubtable()
+    public function testDestructShouldRemoveASetSubtable()
     {
         $testRow = $this->getTestRowWithSubDataTableLoaded();
         $this->assertTrue($testRow->isSubtableLoaded());
@@ -72,7 +73,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(null, $testRow->getIdSubDataTable());
     }
 
-    public function test_canBeCloned_ShouldRemoveASetSubtable()
+    public function testCanBeClonedShouldRemoveASetSubtable()
     {
         $testRow = $this->getTestRowWithNoSubDataTable();
         $testRow->setColumn('label', 'test');
@@ -90,7 +91,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('different', $testRow->getColumn('label'));
     }
 
-    public function test_export_shouldExportColumnsMetadataAndSubtableId()
+    public function testExportShouldExportColumnsMetadataAndSubtableId()
     {
         $columns = array('label' => 'test', 'nb_visits' => 5);
 
@@ -112,7 +113,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $export);
     }
 
-    public function test_isSubtableLoaded_ShouldReturnFalse_WhenRestoringAnExportedRow()
+    public function testIsSubtableLoadedShouldReturnFalseWhenRestoringAnExportedRow()
     {
         $testRow = $this->getTestRowWithSubDataTableLoaded();
 
@@ -140,7 +141,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($testRow->isSubtableLoaded());
     }
 
-    public function test_getMetadata_setMetadata_shouldReturnRawScalarValue()
+    public function testGetMetadataSetMetadataShouldReturnRawScalarValue()
     {
         $this->assertMetadataSavesValue(5, 'testInteger', 5);
         $this->assertMetadataSavesValue(5.444, 'testFloat', 5.444);
@@ -148,17 +149,17 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertMetadataSavesValue(array(array(1 => '5')), 'testArray', array(array(1 => '5')));
     }
 
-    public function test_getMetadata_shouldReturnFalse_IfMetadataKeyDoesNotExists()
+    public function testGetMetadataShouldReturnFalseIfMetadataKeyDoesNotExists()
     {
         $this->assertFalse($this->row->getMetadata('anyKey_thatDoesNotExist'));
     }
 
-    public function test_getMetadata_shouldReturnEmptyArray_IfNoParticularOneIsRequestedAndNoneAreSet()
+    public function testGetMetadataShouldReturnEmptyArrayIfNoParticularOneIsRequestedAndNoneAreSet()
     {
         $this->assertEquals(array(), $this->row->getMetadata());
     }
 
-    public function test_getMetadata_shouldReturnAllMetadataValues_IfNoParticularOneIsRequested()
+    public function testGetMetadataShouldReturnAllMetadataValuesIfNoParticularOneIsRequested()
     {
         $this->row->setMetadata('url', 'http://piwik.org');
         $this->row->setMetadata('segmentValue', 'test==piwik');
@@ -169,7 +170,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         ), $this->row->getMetadata());
     }
 
-    public function test_deleteMetadata_shouldReturnDeleteAllValues_WhenNoSpecificOneIsRequestedToBeDeleted()
+    public function testDeleteMetadataShouldReturnDeleteAllValuesWhenNoSpecificOneIsRequestedToBeDeleted()
     {
         $this->row->setMetadata('url', 'http://piwik.org');
         $this->row->setMetadata('segmentValue', 'test==piwik');
@@ -181,7 +182,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(), $this->row->getMetadata());
     }
 
-    public function test_deleteMetadata_shouldOnlyDeleteARequestedMetadataEntry_WhileKeepingOthersUntouched()
+    public function testDeleteMetadataShouldOnlyDeleteARequestedMetadataEntryWhileKeepingOthersUntouched()
     {
         $this->row->setMetadata('url', 'http://piwik.org');
         $this->row->setMetadata('segmentValue', 'test==piwik');
@@ -192,7 +193,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('test==piwik', $this->row->getMetadata('segmentValue'));
     }
 
-    public function test_deleteMetadata_shouldReturnFalseAndKeepOtherEntriesUntouched_IfMetadataNameDidNotExist()
+    public function testDeleteMetadataShouldReturnFalseAndKeepOtherEntriesUntouchedIfMetadataNameDidNotExist()
     {
         $this->row->setMetadata('segmentValue', 'test==piwik');
 
@@ -201,7 +202,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('test==piwik', $this->row->getMetadata('segmentValue'));
     }
 
-    public function test_getColumn_shouldReturnRawScalarValue()
+    public function testGetColumnShouldReturnRawScalarValue()
     {
         $this->assertColumnSavesValue(5, 'testInteger', 5);
         $this->assertColumnSavesValue(5.444, 'testFloat', 5.444);
@@ -209,12 +210,12 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertColumnSavesValue(array(array(1 => '5')), 'testArray', array(array(1 => '5')));
     }
 
-    public function test_getColumn_shouldReturnFalseIfValueIsNull()
+    public function testGetColumnShouldReturnFalseIfValueIsNull()
     {
         $this->assertColumnSavesValue(false, 'testScalar', null);
     }
 
-    public function test_getColumns_shouldNotCallAnyCallableForSecurity()
+    public function testGetColumnsShouldNotCallAnyCallableForSecurity()
     {
         $this->assertColumnSavesValue('print_r', 'testScalar', 'print_r');
         $this->assertColumnSavesValue(array('print_r'), 'testScalar', array('print_r'));
@@ -225,7 +226,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertColumnSavesValue(array(null, 'phpinfo'), 'testScalar', array(null, 'phpinfo'));
     }
 
-    public function test_getColumns_setColumns_shouldReturnAllColumns()
+    public function testGetColumnsSetColumnsShouldReturnAllColumns()
     {
         $this->row->setColumns(array(
             'nb_visits' => 4,
@@ -244,7 +245,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(4, $this->row->getColumn('nb_visits'));
     }
 
-    public function test_deleteColumn_shouldOnlyDeleteARequestedColumnEntry_WhileKeepingOthersUntouched()
+    public function testDeleteColumnShouldOnlyDeleteARequestedColumnEntryWhileKeepingOthersUntouched()
     {
         $this->row->setColumn('label', 'http://piwik.org');
         $this->row->setColumn('nb_visits', '1');
@@ -256,7 +257,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('http://piwik.org', $this->row->getColumn('label')); // make sure not deleted
     }
 
-    public function test_deleteColumn_shouldReturnFalseAndKeepOtherEntriesUntouched_IfColumnNameDidNotExist()
+    public function testDeleteColumnShouldReturnFalseAndKeepOtherEntriesUntouchedIfColumnNameDidNotExist()
     {
         $this->row->setColumn('label', 'http://piwik.org');
 
@@ -266,7 +267,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('http://piwik.org', $this->row->getColumn('label'));
     }
 
-    public function test_deleteColumn_shouldReturnAColumnValueThatIsNull()
+    public function testDeleteColumnShouldReturnAColumnValueThatIsNull()
     {
         $this->row->setColumn('label', null);
 
@@ -275,7 +276,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->row->hasColumn('label'));
     }
 
-    public function test_renameColumn_shouldReturnAColumnOnly_IfAValueIsSetForThatColumn()
+    public function testRenameColumnShouldReturnAColumnOnlyIfAValueIsSetForThatColumn()
     {
         $this->row->setColumn('nb_visits', 10);
 
@@ -286,7 +287,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(10, $this->row->getColumn('nb_hits'));
     }
 
-    public function test_renameColumn_shouldNotReturnAColumn_IfValueIsNotSetButRemoveColumn()
+    public function testRenameColumnShouldNotReturnAColumnIfValueIsNotSetButRemoveColumn()
     {
         $this->row->setColumn('nb_visits', null);
 
@@ -296,7 +297,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->row->hasColumn('nb_hits'));
     }
 
-    public function test_renameColumn_shouldDoNothing_IfGivenColumnDoesNotExist()
+    public function testRenameColumnShouldDoNothingIfGivenColumnDoesNotExist()
     {
         $this->row->setColumn('nb_visits', 11);
 
@@ -307,7 +308,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(11, $this->row->getColumn('nb_visits'));
     }
 
-    public function test_getSubtable_shouldReturnSubtable_IfLoaded()
+    public function testGetSubtableShouldReturnSubtableIfLoaded()
     {
         $testRow = $this->getTestRowWithSubDataTableNotLoaded();
         $subTable = $this->getTestSubDataTable();
@@ -316,21 +317,21 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($subTable, $testRow->getSubtable());
     }
 
-    public function test_getSubtable_shouldReturnFalse_IfSubtableExistsButIsNotLoaded()
+    public function testGetSubtableShouldReturnFalseIfSubtableExistsButIsNotLoaded()
     {
         $testRow = $this->getTestRowWithSubDataTableNotLoaded();
 
         $this->assertFalse($testRow->getSubtable());
     }
 
-    public function test_getSubtable_shouldReturnFalse_IfHasNoSubtableAtAll()
+    public function testGetSubtableShouldReturnFalseIfHasNoSubtableAtAll()
     {
         $testRow = $this->getTestRowWithNoSubDataTable();
 
         $this->assertFalse($testRow->getSubtable());
     }
 
-    public function test_sumSubTable_whenSubTableAlreadyExists_overwriteExistingSubtable()
+    public function testSumSubTableWhenSubTableAlreadyExistsOverwriteExistingSubtable()
     {
         $testRow = $this->getTestRowWithSubDataTableNotLoaded();
         $this->assertFalse($testRow->isSubtableLoaded());
@@ -344,7 +345,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(DataTable::isEqual($testRow->getSubtable(), $subTable));
     }
 
-    public function test_hasColumn()
+    public function testHasColumn()
     {
         $this->row->setColumns(array('test1' => 'yes', 'test2' => false, 'test3' => 5, 'test4' => array()));
 
@@ -355,14 +356,14 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->row->hasColumn('test4'));
     }
 
-    public function test_hasColumn_shouldReturnTrueEvenIfColumnValueIsNull()
+    public function testHasColumnShouldReturnTrueEvenIfColumnValueIsNull()
     {
         $this->assertFalse($this->row->hasColumn('test'));
         $this->row->setColumn('test', null);
         $this->assertTrue($this->row->hasColumn('test'));
     }
 
-    public function test_sumRowMetadata_shouldSumMetadataAccordingToAggregationOperations()
+    public function testSumRowMetadataShouldSumMetadataAccordingToAggregationOperations()
     {
         $this->row->setColumn('nb_visits', 10);
         $this->row->setMetadata('my_sum', 5);
@@ -394,7 +395,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $metadata);
     }
 
-    public function test_sumRowMetadata_uniquearraymergeShouldUseArrayFromOtherRow_IfNoMetadataForThisRowSpecified()
+    public function testSumRowMetadataUniquearraymergeShouldUseArrayFromOtherRowIfNoMetadataForThisRowSpecified()
     {
         $row = $this->getTestRowWithNoSubDataTable();
         $arrayValue = array(array('test' => 3, 'value' => 3), array('test' => 2, 'value' => 2));
@@ -407,7 +408,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array('my_array' => $arrayValue), $this->row->getMetadata());
     }
 
-    public function test_sumRowMetadata_uniquearraymergeShouldUseArrayFromThisRow_IfNoMetadataForOtherRowSpecified()
+    public function testSumRowMetadataUniquearraymergeShouldUseArrayFromThisRowIfNoMetadataForOtherRowSpecified()
     {
         $row = $this->getTestRowWithNoSubDataTable();
 
@@ -421,7 +422,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array('my_array' => $arrayValue), $this->row->getMetadata());
     }
 
-    public function test_sumRow_throwsIfAddingUnsupportedTypes()
+    public function testSumRowThrowsIfAddingUnsupportedTypes()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Trying to sum unsupported operands for column mycol in row with label = row1: array + integer');

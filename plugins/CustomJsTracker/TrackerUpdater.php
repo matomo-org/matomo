@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomJsTracker;
@@ -22,9 +23,9 @@ use Piwik\Piwik;
  */
 class TrackerUpdater
 {
-    const DEVELOPMENT_PIWIK_JS = '/js/piwik.js';
-    const ORIGINAL_PIWIK_JS = '/js/piwik.min.js';
-    const TARGET_MATOMO_JS = '/matomo.js';
+    public const DEVELOPMENT_PIWIK_JS = '/js/piwik.js';
+    public const ORIGINAL_PIWIK_JS = '/js/piwik.min.js';
+    public const TARGET_MATOMO_JS = '/matomo.js';
 
     /**
      * @var File

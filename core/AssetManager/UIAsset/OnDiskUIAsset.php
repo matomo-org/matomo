@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\AssetManager\UIAsset;
@@ -40,9 +40,11 @@ class OnDiskUIAsset extends UIAsset
         $this->baseDirectory = $baseDirectory;
         $this->relativeLocation = $fileLocation;
 
-        if (!empty($relativeRootDir)
+        if (
+            !empty($relativeRootDir)
             && is_string($relativeRootDir)
-            && !Common::stringEndsWith($relativeRootDir, '/')) {
+            && !Common::stringEndsWith($relativeRootDir, '/')
+        ) {
             $relativeRootDir .= '/';
         }
 

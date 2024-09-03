@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\ExamplePlugin\RecordBuilders;
@@ -27,7 +28,7 @@ use Piwik\DataTable;
  */
 class ExampleBlob extends RecordBuilder
 {
-    const EXAMPLEPLUGIN_BLOB_RECORD_NAME = 'ExamplePlugin_exampleBlob';
+    public const EXAMPLEPLUGIN_BLOB_RECORD_NAME = 'ExamplePlugin_exampleBlob';
 
     /**
      * This method should return the list of records this RecordBuilder creates. This example

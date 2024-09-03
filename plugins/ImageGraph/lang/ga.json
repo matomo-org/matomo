@@ -1,1 +1,6 @@
-{}
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "Níorbh fhéidir colún \"%1$s\" a aimsiú sa tuarascáil seo. Bain triail as aon cheann de %2$s.",
+        "PluginDescription": "Gin íomhánna grafacha statacha áille PNG le haghaidh aon cheann de do thuarascálacha sonraí."
+    }
+}

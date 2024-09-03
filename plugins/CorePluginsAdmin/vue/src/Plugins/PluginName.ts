@@ -1,12 +1,15 @@
 /*!
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 import { DirectiveBinding } from 'vue';
+import { MatomoUrl } from 'CoreHome';
 import ClickEvent = JQuery.ClickEvent;
+
+const { $ } = window;
 
 window.broadcast.addPopoverHandler('browsePluginDetail', (value) => {
   let pluginName = value;
@@ -15,6 +18,21 @@ window.broadcast.addPopoverHandler('browsePluginDetail', (value) => {
   if (value.indexOf('!') !== -1) {
     activeTab = value.slice(value.indexOf('!') + 1);
     pluginName = value.slice(0, value.indexOf('!'));
+  }
+
+  // use marketplace popover if marketplace is loaded
+  if (
+    MatomoUrl.urlParsed.value.module === 'Marketplace'
+    && MatomoUrl.urlParsed.value.action === 'overview'
+  ) {
+    window.broadcast.propagateNewPopoverParameter('');
+    MatomoUrl.updateHash({
+      ...MatomoUrl.hashParsed.value,
+      showPlugin: pluginName,
+      popover: null,
+    });
+
+    return;
   }
 
   let url = `module=Marketplace&action=pluginDetails&pluginName=${encodeURIComponent(pluginName)}`;
@@ -49,8 +67,6 @@ function onClickPluginNameLink(
 
   window.broadcast.propagateNewPopoverParameter('browsePluginDetail', pluginName);
 }
-
-const { $ } = window;
 
 export default {
   mounted(element: HTMLElement, binding: DirectiveBinding<PluginNameDirectiveValue>): void {

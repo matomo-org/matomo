@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Http;
@@ -102,10 +104,26 @@ class InvalidVisits extends Fixture
 
         // test unknown url exclusion works
         $urls = array("http://piwik.net", "http://my.stuff.com/");
-        API::getInstance()->updateSite($idSite, $siteName = null, $urls, $ecommerce = null, $siteSearch = null,
-            $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null, $excludedQueryParams = null,
-            $timezone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = null,
-            $keepUrlFragments = null, $type = null, $settings = null, $excludeUnknownUrls = 1);
+        API::getInstance()->updateSite(
+            $idSite,
+            $siteName = null,
+            $urls,
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParams = null,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepUrlFragments = null,
+            $type = null,
+            $settings = null,
+            $excludeUnknownUrls = 1
+        );
         Cache::regenerateCacheWebsiteAttributes([1]);
 
         $t->setIp("125.4.5.6");
@@ -118,10 +136,26 @@ class InvalidVisits extends Fixture
 
 
         // undo exclude unknown urls change (important when multiple fixtures are setup together, as is done in OmniFixture)
-        API::getInstance()->updateSite($idSite, $siteName = null, $urls, $ecommerce = null, $siteSearch = null,
-            $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null, $excludedQueryParams = null,
-            $timezone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = null,
-            $keepUrlFragments = null, $type = null, $settings = null, $excludeUnknownUrls = 0);
+        API::getInstance()->updateSite(
+            $idSite,
+            $siteName = null,
+            $urls,
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParams = null,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepUrlFragments = null,
+            $type = null,
+            $settings = null,
+            $excludeUnknownUrls = 0
+        );
         Cache::regenerateCacheWebsiteAttributes([1]);
 
         try {

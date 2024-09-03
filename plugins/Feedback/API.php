@@ -1,12 +1,14 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Feedback;
+
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -58,7 +60,8 @@ class API extends \Piwik\Plugin\API
 
         $body .= sprintf("Feedback:\n%s\n", trim($message));
 
-        $subject = sprintf("%s for %s",
+        $subject = sprintf(
+            "%s for %s",
             empty($like) ? "-1" : "+1",
             $featureName
         );
@@ -66,7 +69,7 @@ class API extends \Piwik\Plugin\API
         // Determine where Matomo is running and add as source
         if (Config::getHostname() === 'demo.matomo.cloud') {
             $source = 'Demo';
-        } else if (SettingsServer::isMatomoForWordPress()) {
+        } elseif (SettingsServer::isMatomoForWordPress()) {
             $source = 'Wordpress';
         } else {
             $source = 'On-Premise';
@@ -106,10 +109,11 @@ class API extends \Piwik\Plugin\API
 
         $body .= $feedbackMessage ? $feedbackMessage : " \n";
 
-        $subject = sprintf("%s for %s %s",
-          empty($like) ? "-1" : "+1",
-          $featureName,
-          empty($feedbackMessage) ? "" : "(w/ feedback Survey)"
+        $subject = sprintf(
+            "%s for %s %s",
+            empty($like) ? "-1" : "+1",
+            $featureName,
+            empty($feedbackMessage) ? "" : "(w/ feedback Survey)"
         );
 
         $this->sendMail($subject, $body);

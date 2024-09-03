@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
@@ -25,7 +27,7 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
         'peace "," not war', // testing a keyword containing ,
         'justice )(&^#%$ NOT \'" corruption!',
     );
-    const EXCLUDED_REFERRER_URL = 'https://excludedreferrer123.com';
+    public const EXCLUDED_REFERRER_URL = 'https://excludedreferrer123.com';
 
     public function setUp(): void
     {
@@ -43,9 +45,20 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
         $siteCreated = $this->dateTime;
 
         if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite($siteCreated, 0, false, false, 1, null,
-                null, null, null, 0, null,
-                self::EXCLUDED_REFERRER_URL);
+            self::createWebsite(
+                $siteCreated,
+                0,
+                false,
+                false,
+                1,
+                null,
+                null,
+                null,
+                null,
+                0,
+                null,
+                self::EXCLUDED_REFERRER_URL
+            );
         }
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
@@ -54,7 +67,15 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
 
         if (!self::goalExists($idSite = 1, $idGoal = 2)) {
             API::getInstance()->addGoal(
-                $this->idSite, 'another triggered php', 'manually', '', '', false, false, true);
+                $this->idSite,
+                'another triggered php',
+                'manually',
+                '',
+                '',
+                false,
+                false,
+                true
+            );
         }
 
         if (!self::siteCreated($idSite = 2)) {

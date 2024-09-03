@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\SegmentEditor\tests\Integration;
@@ -35,13 +36,15 @@ class SegmentQueryDecoratorTest extends IntegrationTestCase
         Fixture::createWebsite('2011-01-01');
 
         $this->segmentQueryDecorator = self::$fixture->piwikEnvironment->getContainer()->get(
-            'Piwik\Plugins\SegmentEditor\SegmentQueryDecorator');
+            'Piwik\Plugins\SegmentEditor\SegmentQueryDecorator'
+        );
 
         Rules::setBrowserTriggerArchiving(false);
 
         /** @var API $segmentEditorApi */
         $segmentEditorApi = self::$fixture->piwikEnvironment->getContainer()->get(
-            'Piwik\Plugins\SegmentEditor\API');
+            'Piwik\Plugins\SegmentEditor\API'
+        );
         $segmentEditorApi->add('segment 1', 'visitCount<2', $idSite = false, $autoArchive = true);
         $segmentEditorApi->add('segment 2', 'countryCode==fr', $idSite = false, $autoArchive = true);
         $segmentEditorApi->add('segment 3', 'visitCount<2', 1, $autoArchive = true);
@@ -57,7 +60,7 @@ class SegmentQueryDecoratorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForSegmentSqlTest
      */
-    public function test_SegmentSql_IsCorrectlyDecoratedWithIdSegment($segment, $triggerValue, $expectedPrefix)
+    public function testSegmentSqlIsCorrectlyDecoratedWithIdSegment($segment, $triggerValue, $expectedPrefix)
     {
         if (!empty($triggerValue)) {
             $_GET['trigger'] = $triggerValue;

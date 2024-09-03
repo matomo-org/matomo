@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\AssetManager;
 
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
@@ -155,7 +156,6 @@ abstract class UIAssetFetcher
         "libs/bower_components/materialize/dist/js/materialize.min.js" => "node_modules/@materializecss/materialize/dist/js/materialize.min.js",
         "libs/bower_components/jquery.scrollTo/jquery.scrollTo.min.js" => "node_modules/jquery.scrollto/jquery.scrollTo.min.js",
         "libs/bower_components/mousetrap/mousetrap.min.js" => "node_modules/mousetrap/mousetrap.min.js",
-        "libs/bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot.min.js" => "node_modules/jquery.dotdotdot/dist/jquery.dotdotdot.js",
         "libs/bower_components/visibilityjs/lib/visibility.core.js" => "node_modules/visibilityjs/lib/visibility.core.js",
         "libs/bower_components/iframe-resizer/js/iframeResizer.min.js" => "node_modules/iframe-resizer/js/iframeResizer.min.js",
         "libs/bower_components/qrcode.js/qrcode.js" => "node_modules/qrcodejs2/qrcode.min.js",

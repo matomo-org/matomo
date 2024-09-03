@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Scheduler\Schedule;
@@ -64,7 +64,8 @@ class Monthly extends Schedule
         $currentTime = $this->getTime();
 
         // Adds one month
-        $rescheduledTime = mktime(date('H', $currentTime),
+        $rescheduledTime = mktime(
+            date('H', $currentTime),
             date('i', $currentTime),
             date('s', $currentTime),
             date('n', $currentTime) + 1,
@@ -81,7 +82,8 @@ class Monthly extends Schedule
             $scheduledDay = $this->day;
         }
 
-        if ($this->dayOfWeek !== null
+        if (
+            $this->dayOfWeek !== null
             && $this->week !== null
         ) {
             $newTime = $rescheduledTime + $this->week * 7 * 86400;

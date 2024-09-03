@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Session\SaveHandler;
@@ -26,7 +26,7 @@ class DbTableTest extends IntegrationTestCase
         $this->testInstance = new DbTable(Session::getDbTableConfig());
     }
 
-    public function test_read_returnsTheSessionDataCorrectly()
+    public function testReadReturnsTheSessionDataCorrectly()
     {
         $this->testInstance->write('testid', 'testdata');
 

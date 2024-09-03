@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\DBStats\Reports;
 
 use Piwik\Piwik;
@@ -28,8 +29,12 @@ class GetIndividualReportsSummary extends Base
     public function configureView(ViewDataTable $view)
     {
         $this->addBaseDisplayProperties($view);
-        $this->addPresentationFilters($view, $addTotalSizeColumn = false, $addPercentColumn = false,
-            $sizeColumns = array('estimated_size'));
+        $this->addPresentationFilters(
+            $view,
+            $addTotalSizeColumn = false,
+            $addPercentColumn = false,
+            $sizeColumns = array('estimated_size')
+        );
 
         $view->requestConfig->filter_sort_order = 'asc';
         $view->config->addTranslation('label', Piwik::translate('General_Report'));

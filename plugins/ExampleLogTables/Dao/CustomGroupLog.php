@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
+
 namespace Piwik\Plugins\ExampleLogTables\Dao;
 
 use Piwik\Common;
@@ -55,8 +56,12 @@ class CustomGroupLog
         $bind = array_values($columns);
         $placeholder = Common::getSqlStringFieldsArray($columns);
 
-        $sql = sprintf('INSERT INTO %s (`%s`) VALUES(%s)',
-            $this->tablePrefixed, implode('`,`', array_keys($columns)), $placeholder);
+        $sql = sprintf(
+            'INSERT INTO %s (`%s`) VALUES(%s)',
+            $this->tablePrefixed,
+            implode('`,`', array_keys($columns)),
+            $placeholder
+        );
 
         $db = $this->getDb();
 

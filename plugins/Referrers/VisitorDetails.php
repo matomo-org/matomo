@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Referrers;
 
 use Piwik\Common;
@@ -34,6 +35,19 @@ class VisitorDetails extends VisitorDetailsAbstract
         $view            = new View('@Referrers/_visitorDetails.twig');
         $view->sendHeadersWhenRendering = false;
         $view->visitInfo = $visitorDetails;
+        return [[ 10, $view->render() ]];
+    }
+
+    public function renderActionTooltip($action, $visitInfo)
+    {
+        if (($action['type'] !== 'goal' && $action['type'] !== 'ecommerceOrder') || empty($action['referrerType'])) {
+            return [];
+        }
+
+        // Attribution information for goals
+        $view         = new View('@Referrers/_actionTooltip');
+        $view->sendHeadersWhenRendering = false;
+        $view->action = $action;
         return [[ 10, $view->render() ]];
     }
 
@@ -75,18 +89,17 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getKeywordPosition()
     {
-        if ($this->getReferrerType() == 'search'
+        if (
+            $this->getReferrerType() == 'search'
             && strpos($this->getReferrerName(), 'Google') !== false
         ) {
             $url = @parse_url($this->details['referer_url']);
             if (empty($url['query'])) {
-
                 return null;
             }
 
             $position = UrlHelper::getParameterFromQueryString($url['query'], 'cd');
             if (!empty($position)) {
-
                 return $position;
             }
         }
@@ -101,10 +114,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getSearchEngineUrl()
     {
-        if ($this->getReferrerType() == 'search'
+        if (
+            $this->getReferrerType() == 'search'
             && !empty($this->details['referer_name'])
         ) {
-
             return SearchEngine::getInstance()->getUrlFromName($this->details['referer_name']);
         }
 
@@ -116,7 +129,6 @@ class VisitorDetails extends VisitorDetailsAbstract
         $searchEngineUrl = $this->getSearchEngineUrl();
 
         if (!is_null($searchEngineUrl)) {
-
             return SearchEngine::getInstance()->getLogoFromUrl($searchEngineUrl);
         }
 
@@ -125,10 +137,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getSocialNetworkUrl()
     {
-        if ($this->getReferrerType() == 'social'
+        if (
+            $this->getReferrerType() == 'social'
             && !empty($this->details['referer_name'])
         ) {
-
             return Social::getInstance()->getMainUrl($this->details['referer_url']);
         }
 
@@ -140,7 +152,6 @@ class VisitorDetails extends VisitorDetailsAbstract
         $socialNetworkUrl = $this->getSocialNetworkUrl();
 
         if (!is_null($socialNetworkUrl)) {
-
             return Social::getInstance()->getLogoFromUrl($socialNetworkUrl);
         }
 

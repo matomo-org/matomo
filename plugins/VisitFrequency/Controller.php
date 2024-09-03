@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\VisitFrequency;
 
 use Piwik\Common;
@@ -71,8 +72,13 @@ class Controller extends \Piwik\Plugin\Controller
             }
         }
 
-        $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns,
-            $selectableColumns, $documentation);
+        $view = $this->getLastUnitGraphAcrossPlugins(
+            $this->pluginName,
+            __FUNCTION__,
+            $columns,
+            $selectableColumns,
+            $documentation
+        );
 
         if (empty($view->config->columns_to_display)) {
             $view->config->columns_to_display = array('nb_visits_returning');

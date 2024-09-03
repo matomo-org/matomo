@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Referrers\Columns;
@@ -38,8 +37,8 @@ abstract class Base extends VisitDimension
     protected $campaignKeywords;
 
     // Used to prefix when a adsense referrer is detected
-    const LABEL_PREFIX_ADWORDS_KEYWORD = '(adwords) ';
-    const LABEL_ADWORDS_NAME = 'AdWords';
+    public const LABEL_PREFIX_ADWORDS_KEYWORD = '(adwords) ';
+    public const LABEL_ADWORDS_NAME = 'AdWords';
 
 
     /**

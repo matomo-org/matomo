@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\GeoIp2;
 
 use Piwik\CliMulti;
@@ -82,7 +83,10 @@ class GeoIp2 extends \Piwik\Plugin
      */
     public function installationFormInit(FormDefaultSettings $form)
     {
-        $form->addElement('checkbox', 'setup_geoip2', null,
+        $form->addElement(
+            'checkbox',
+            'setup_geoip2',
+            null,
             [
                 'content' => '<div class="form-help">' . Piwik::translate('GeoIp2_AutomaticSetupDescription', ['<a rel="noreferrer noopener" target="_blank" href="https://db-ip.com/db/lite.php?refid=mtm">','</a>']) . '</div> &nbsp;&nbsp;' . Piwik::translate('GeoIp2_AutomaticSetup')
             ]
@@ -116,8 +120,11 @@ class GeoIp2 extends \Piwik\Plugin
             // otherwise ensure it will be run soonish as scheduled task
             if ($cliMulti->supportsAsync()) {
                 $phpCli = new CliMulti\CliPhp();
-                $command = sprintf('%s %s/console core:run-scheduled-tasks --force "Piwik\Plugins\GeoIp2\GeoIP2AutoUpdater.update" > /dev/null 2>&1 &',
-                    $phpCli->findPhpBinary(), PIWIK_INCLUDE_PATH);
+                $command = sprintf(
+                    '%s %s/console core:run-scheduled-tasks --force "Piwik\Plugins\GeoIp2\GeoIP2AutoUpdater.update" > /dev/null 2>&1 &',
+                    $phpCli->findPhpBinary(),
+                    PIWIK_INCLUDE_PATH
+                );
                 shell_exec($command);
             } else {
                 /** @var Scheduler $scheduler */

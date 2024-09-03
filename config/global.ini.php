@@ -372,6 +372,10 @@ time_before_year_archive_considered_outdated = -1
 ; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to range archives
 time_before_range_archive_considered_outdated = -1
 
+; Time in seconds after a started archiving job is considered as failed and will be retried
+; Do not configure this value lower than the maximum time it can take for the longest running archiving job to finish
+archive_failure_recovery_timeout = 86400
+
 ; This setting is overridden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Matomo archiving process.
 ; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
@@ -776,6 +780,10 @@ enable_load_data_infile = 1
 ; - links to Enable/Disable/Uninstall plugins will be hidden and disabled
 ; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
 enable_plugins_admin = 1
+
+; Defines when a plugin trial request expires and a new one can be requested
+; By settings this value to -1 plugin trial requests will be disabled
+plugin_trial_request_expiration_in_days = 28
 
 ; By setting this option to 0 the users management will be disabled
 enable_users_admin = 1
@@ -1261,6 +1269,7 @@ Plugins[] = Tour
 Plugins[] = PagePerformance
 Plugins[] = CustomDimensions
 Plugins[] = JsTrackerInstallCheck
+Plugins[] = FeatureFlags
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

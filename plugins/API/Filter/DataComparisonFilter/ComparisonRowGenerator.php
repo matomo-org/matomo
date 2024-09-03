@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\API\Filter\DataComparisonFilter;
@@ -43,7 +44,7 @@ class ComparisonRowGenerator
     {
         if ($tables instanceof DataTable) {
             $this->compareTable($compareMetadata, $tables, $compareTables, $compareTables);
-        } else if ($tables instanceof DataTable\Map) {
+        } elseif ($tables instanceof DataTable\Map) {
             $childTablesArray = array_values($tables->getDataTables());
             $compareTablesArray = ($compareTables instanceof DataTable\Map) ? array_values($compareTables->getDataTables()) : [];
 
@@ -103,7 +104,7 @@ class ComparisonRowGenerator
             $compareRow = null;
             if ($compareTable instanceof Simple) {
                 $compareRow = $compareTable->getFirstRow() ?: null;
-            } else if ($compareTable instanceof DataTable) {
+            } elseif ($compareTable instanceof DataTable) {
                 $compareRow = $compareTable->getRowFromLabel($label) ?: null;
             }
 
@@ -136,8 +137,10 @@ class ComparisonRowGenerator
         $comparisonDataTable = $row->getComparisons();
         if (empty($comparisonDataTable)) {
             $comparisonDataTable = new DataTable();
-            $comparisonDataTable->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME,
-                $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME));
+            $comparisonDataTable->setMetadata(
+                DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME,
+                $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME)
+            );
             $row->setComparisons($comparisonDataTable);
         }
 
@@ -146,7 +149,8 @@ class ComparisonRowGenerator
         $columns = [];
         if ($compareRow) {
             foreach ($compareRow as $name => $value) {
-                if (!is_numeric($value)
+                if (
+                    !is_numeric($value)
                     || $name == 'label'
                 ) {
                     continue;
@@ -156,7 +160,8 @@ class ComparisonRowGenerator
             }
         } else {
             foreach ($row as $name => $value) {
-                if (!is_numeric($value)
+                if (
+                    !is_numeric($value)
                     || $name == 'label'
                 ) {
                     continue;
@@ -187,7 +192,8 @@ class ComparisonRowGenerator
                 $newSegment = Segment::combine($newRow->getMetadata('compareSegment'), SegmentExpression::AND_DELIMITER, $newSegment);
             }
             $newRow->setMetadata('segment', $newSegment);
-        } else if ($this->segmentNameForReport
+        } elseif (
+            $this->segmentNameForReport
             && $row->getMetadata('segmentValue') !== false
         ) {
             $segmentValue = $row->getMetadata('segmentValue');
@@ -207,7 +213,8 @@ class ComparisonRowGenerator
 
     private function addIndividualChildPrettifiedMetadata(array &$metadata, DataTable $parentTable = null)
     {
-        if ($parentTable
+        if (
+            $parentTable
             && $this->isRequestMultiplePeriod
         ) {
             /** @var Period $period */

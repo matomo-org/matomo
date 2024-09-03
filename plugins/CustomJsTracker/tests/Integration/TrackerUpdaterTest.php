@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomJsTracker\tests\Integration;
@@ -58,7 +59,7 @@ class TrackerUpdaterTest extends IntegrationTestCase
         return new TrackerUpdater($from, $to);
     }
 
-    public function test_construct_setsDefaults()
+    public function testConstructSetsDefaults()
     {
         $updater = $this->makeUpdater();
         $fromFile = $updater->getFromFile();
@@ -70,7 +71,7 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $this->assertSame(basename(TrackerUpdater::TARGET_MATOMO_JS), $toFile->getName());
     }
 
-    public function test_setFormFile_getFromFile()
+    public function testSetFormFileGetFromFile()
     {
         $updater = $this->makeUpdater();
         $testFile = new File('foobar');
@@ -79,7 +80,7 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $this->assertSame($testFile, $updater->getFromFile());
     }
 
-    public function test_setFormFile_CanBeString()
+    public function testSetFormFileCanBeString()
     {
         $updater = $this->makeUpdater();
         $updater->setFromFile('foobar');
@@ -87,7 +88,7 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $this->assertSame('foobar', $updater->getFromFile()->getName());
     }
 
-    public function test_setToFile_getToFile()
+    public function testSetToFileGetToFile()
     {
         $updater = $this->makeUpdater();
         $testFile = new File('foobar');
@@ -96,7 +97,7 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $this->assertSame($testFile, $updater->getToFile());
     }
 
-    public function test_setToFile_CanBeString()
+    public function testSetToFileCanBeString()
     {
         $updater = $this->makeUpdater();
         $updater->setToFile('foobar');
@@ -104,7 +105,7 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $this->assertSame('foobar', $updater->getToFile()->getName());
     }
 
-    public function test_checkWillSucceed_shouldNotThrowExceptionIfPiwikJsTargetIsWritable()
+    public function testCheckWillSucceedShouldNotThrowExceptionIfPiwikJsTargetIsWritable()
     {
         self::expectNotToPerformAssertions();
 
@@ -112,7 +113,7 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $updater->checkWillSucceed();
     }
 
-    public function test_checkWillSucceed_shouldNotThrowExceptionIfTargetIsNotWritable()
+    public function testCheckWillSucceedShouldNotThrowExceptionIfTargetIsNotWritable()
     {
         $this->expectException(\Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException::class);
         $this->expectExceptionMessage('not writable');
@@ -121,14 +122,14 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $updater->checkWillSucceed();
     }
 
-    public function test_checkWillSucceed_shouldNotThrowExceptionIfTargetIsWritable()
+    public function testCheckWillSucceedShouldNotThrowExceptionIfTargetIsWritable()
     {
         $this->expectNotToPerformAssertions();
         $updater = $this->makeUpdater(null, $this->dir . 'MyNotExisIngFilessss.js');
         $updater->checkWillSucceed();
     }
 
-    public function test_getCurrentTrackerFileContent()
+    public function testGetCurrentTrackerFileContent()
     {
         $targetFile = $this->dir . 'testpiwik.js';
 
@@ -138,7 +139,7 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $this->assertSame(file_get_contents($targetFile), $content);
     }
 
-    public function test_getUpdatedTrackerFileContent_returnsGeneratedPiwikJsWithMergedTrackerFiles_WhenTheyExist()
+    public function testGetUpdatedTrackerFileContentReturnsGeneratedPiwikJsWithMergedTrackerFilesWhenTheyExist()
     {
         $source = $this->dir . 'testpiwik.js';
         $target = $this->dir . 'MyTestTarget.js';
@@ -168,7 +169,7 @@ var myArray = [];
 ', $content);
     }
 
-    public function test_getUpdatedTrackerFileContent_returnsSourceFile_IfNoTrackerFilesFound()
+    public function testGetUpdatedTrackerFileContentReturnsSourceFileIfNoTrackerFilesFound()
     {
         $source = $this->dir . 'testpiwik.js';
         $target = $this->dir . 'MyTestTarget.js';
@@ -180,14 +181,14 @@ var myArray = [];
         $this->assertSame(file_get_contents($source), $content);
     }
 
-    public function test_update_shouldNotThrowAnError_IfTargetFileIsNotWritable()
+    public function testUpdateShouldNotThrowAnErrorIfTargetFileIsNotWritable()
     {
         $updater = $this->makeUpdater(null, $this->dir . 'not-writable/MyNotExisIngFilessss.js');
         $updater->update();
         $this->assertNull($this->trackerJsChangedEventPath);
     }
 
-    public function test_update_shouldNotWriteToFileIfThereIsNothingToChange()
+    public function testUpdateShouldNotWriteToFileIfThereIsNothingToChange()
     {
         $source = $this->dir . 'testpiwik.js';
         $target = $this->dir . 'MyTestTarget.js';
@@ -201,7 +202,7 @@ var myArray = [];
         $this->assertNull($this->trackerJsChangedEventPath);
     }
 
-    public function test_update_targetFileIfPluginsDefineDifferentFiles()
+    public function testUpdateTargetFileIfPluginsDefineDifferentFiles()
     {
         $target = $this->dir . 'MyTestTarget.js';
         file_put_contents($target, ''); // file has to exist in order to work

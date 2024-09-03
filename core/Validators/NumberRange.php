@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Validators;
@@ -13,8 +13,8 @@ use Piwik\Piwik;
 
 class NumberRange extends BaseValidator
 {
-    const MAX_SMALL_INT_UNSIGNED = 65535;
-    const MAX_MEDIUM_INT_UNSIGNED = 16777215;
+    public const MAX_SMALL_INT_UNSIGNED = 65535;
+    public const MAX_MEDIUM_INT_UNSIGNED = 16777215;
 
     /**
      * @var null|int

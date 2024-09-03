@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Intl;
 
 class Locale
@@ -15,16 +16,16 @@ class Locale
      */
     public static function setLocale($locale)
     {
-        if(!is_array($locale)){
+        if (!is_array($locale)) {
             $locale = array($locale);
         }
 
         $newLocale = array();
-        foreach($locale as $localePart){
+        foreach ($locale as $localePart) {
             $newLocale[] = $localePart;
 
             $localeVariant = str_replace('UTF-8', 'UTF8', $localePart);
-            if($localeVariant != $localePart){
+            if ($localeVariant != $localePart) {
                 $newLocale[] = $localeVariant;
             }
         }

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\ReportRenderer;
 
 use Piwik\Piwik;
@@ -17,12 +18,12 @@ use Piwik\View;
  */
 class Html extends ReportRenderer
 {
-    const IMAGE_GRAPH_WIDTH = 700;
-    const IMAGE_GRAPH_HEIGHT = 200;
+    public const IMAGE_GRAPH_WIDTH = 700;
+    public const IMAGE_GRAPH_HEIGHT = 200;
 
-    const HTML_CONTENT_TYPE = 'text/html';
-    const HTML_FILE_EXTENSION = 'html';
-    const UNSUBSCRIBE_LINK_PLACEHOLDER = '__unsubscribeLink__';
+    public const HTML_CONTENT_TYPE = 'text/html';
+    public const HTML_FILE_EXTENSION = 'html';
+    public const UNSUBSCRIBE_LINK_PLACEHOLDER = '__unsubscribeLink__';
 
     protected $renderImageInline = false;
 
@@ -83,8 +84,15 @@ class Html extends ReportRenderer
 
     public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment)
     {
-        $frontPageView = new View\HtmlReportEmailHeaderView($reportTitle, $prettyDate, $description, $reportMetadata,
-            $segment, $this->idSite, $this->report['period']);
+        $frontPageView = new View\HtmlReportEmailHeaderView(
+            $reportTitle,
+            $prettyDate,
+            $description,
+            $reportMetadata,
+            $segment,
+            $this->idSite,
+            $this->report['period']
+        );
         $this->rendering .= $frontPageView->render();
     }
 

@@ -21,8 +21,8 @@ return array(
         'file'     => 'Piwik\Plugins\Monolog\Handler\FileHandler',
         'screen'   => 'Piwik\Plugins\Monolog\Handler\WebNotificationHandler',
         'database' => 'Piwik\Plugins\Monolog\Handler\DatabaseHandler',
-        'errorlog' => '\Monolog\Handler\ErrorLogHandler',
-        'syslog' => '\Monolog\Handler\SyslogHandler',
+        'errorlog' => 'Piwik\Plugins\Monolog\Handler\ErrorLogHandler',
+        'syslog' => 'Piwik\Plugins\Monolog\Handler\SyslogHandler',
     ),
     'log.handlers' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.log_writers')) {
@@ -46,7 +46,8 @@ return array(
 
         $writers = [];
         foreach ($writerNames as $writerName) {
-            if ($writerName === 'screen'
+            if (
+                $writerName === 'screen'
                 && \Piwik\Common::isPhpCliMode()
                 && !defined('PIWIK_TEST_MODE')
                 && !\Piwik\SettingsServer::isTrackerApiRequest()
@@ -59,7 +60,8 @@ return array(
 
                 /** @var \Monolog\Handler\HandlerInterface $handler */
                 $handler = $c->make($classes[$writerName]);
-                if ($enableFingersCrossed
+                if (
+                    $enableFingersCrossed
                     && $writerName !== 'screen'
                     && $handler instanceof \Monolog\Handler\AbstractHandler
                     && $isLogBufferingAllowed
@@ -68,15 +70,22 @@ return array(
 
                     $handler->setLevel(Logger::DEBUG);
 
-                    $handler = new \Monolog\Handler\FingersCrossedHandler($handler, $activationStrategy = null, $bufferSize = 0,
-                        $bubble = true, $fingersCrossedStopBuffering, $passthruLevel);
+                    $handler = new \Monolog\Handler\FingersCrossedHandler(
+                        $handler,
+                        $activationStrategy = null,
+                        $bufferSize = 0,
+                        $bubble = true,
+                        $fingersCrossedStopBuffering,
+                        $passthruLevel
+                    );
                 }
 
                 $writers[$writerName] = $handler;
             }
         }
 
-        if ($enableLogCaptureHandler
+        if (
+            $enableLogCaptureHandler
             && $isLogBufferingAllowed
         ) {
             $writers[] = $c->get(LogCaptureHandler::class);
@@ -104,11 +113,11 @@ return array(
         ->constructor(Piwik\DI::get('log.file.filename'), Piwik\DI::get('log.level.file'))
         ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
 
-    '\Monolog\Handler\ErrorLogHandler' => Piwik\DI::autowire()
+    'Piwik\Plugins\Monolog\Handler\ErrorLogHandler' => Piwik\DI::autowire()
         ->constructorParameter('level', Piwik\DI::get('log.level.errorlog'))
         ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
 
-    '\Monolog\Handler\SyslogHandler' => Piwik\DI::autowire()
+    'Piwik\Plugins\Monolog\Handler\SyslogHandler' => Piwik\DI::autowire()
         ->constructorParameter('ident', Piwik\DI::get('log.syslog.ident'))
         ->constructorParameter('level', Piwik\DI::get('log.level.syslog'))
         ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),

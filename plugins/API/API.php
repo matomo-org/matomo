@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\API;
 
 use Piwik\API\Proxy;
@@ -69,7 +70,7 @@ class API extends \Piwik\Plugin\API
      * For Testing purpose only
      * @var int
      */
-    public static $_autoSuggestLookBack = 60;
+    public static $_autoSuggestLookBack = 60; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
 
     public function __construct(SettingsProvider $settingsProvider, ProcessedReport $processedReport)
     {
@@ -304,8 +305,23 @@ class API extends \Piwik\Plugin\API
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $processed = $this->processedReport->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment,
-            $apiParameters, $idGoal, $language, $showTimer, $hideMetricsDoc, $idSubtable, $showRawMetrics, $format_metrics, $idDimension);
+        $processed = $this->processedReport->getProcessedReport(
+            $idSite,
+            $period,
+            $date,
+            $apiModule,
+            $apiAction,
+            $segment,
+            $apiParameters,
+            $idGoal,
+            $language,
+            $showTimer,
+            $hideMetricsDoc,
+            $idSubtable,
+            $showRawMetrics,
+            $format_metrics,
+            $idDimension
+        );
 
         return $processed;
     }
@@ -365,7 +381,8 @@ class API extends \Piwik\Plugin\API
         $meta = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
         foreach ($meta as $reportMeta) {
             // scan all *.get reports
-            if ($reportMeta['action'] == 'get'
+            if (
+                $reportMeta['action'] == 'get'
                 && !isset($reportMeta['parameters'])
                 && $reportMeta['module'] != 'API'
                 && !empty($reportMeta['metrics'])
@@ -374,7 +391,8 @@ class API extends \Piwik\Plugin\API
                 $allMetrics = array_merge($reportMeta['metrics'], @$reportMeta['processedMetrics'] ?: array());
                 foreach ($allMetrics as $column => $columnTranslation) {
                     // a metric from this report has been requested
-                    if (isset($columnsMap[$column])
+                    if (
+                        isset($columnsMap[$column])
                         // or by default, return all metrics
                         || empty($columnsMap)
                     ) {
@@ -406,7 +424,8 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        if (!empty($columnsMap)
+        if (
+            !empty($columnsMap)
             && !empty($mergedDataTable)
         ) {
             $mergedDataTable->queueFilter('ColumnDelete', array(false, array_keys($columnsMap)));
@@ -464,8 +483,22 @@ class API extends \Piwik\Plugin\API
         }
 
         $rowEvolution = new RowEvolution();
-        return $rowEvolution->getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $column,
-            $language, $apiParameters, $legendAppendMetric, $labelUseAbsoluteUrl, $labelSeries, $showGoalMetricsForGoal);
+        return $rowEvolution->getRowEvolution(
+            $idSite,
+            $period,
+            $date,
+            $apiModule,
+            $apiAction,
+            $label,
+            $segment,
+            $column,
+            $language,
+            $apiParameters,
+            $legendAppendMetric,
+            $labelUseAbsoluteUrl,
+            $labelSeries,
+            $showGoalMetricsForGoal
+        );
     }
 
     /**
@@ -592,7 +625,8 @@ class API extends \Piwik\Plugin\API
 
         if (isset($segment['suggestedValuesCallback'])) {
             $suggestedValuesCallbackRequiresTable = $this->doesSuggestedValuesCallbackNeedData(
-                $segment['suggestedValuesCallback']);
+                $segment['suggestedValuesCallback']
+            );
 
             if (!$suggestedValuesCallbackRequiresTable) {
                 return call_user_func($segment['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn);
@@ -717,8 +751,10 @@ class API extends \Piwik\Plugin\API
             throw new \Exception("There was no data to suggest for $segmentName");
         }
 
-        if (isset($segment['suggestedValuesCallback']) &&
-            $this->doesSuggestedValuesCallbackNeedData($segment['suggestedValuesCallback'])) {
+        if (
+            isset($segment['suggestedValuesCallback']) &&
+            $this->doesSuggestedValuesCallbackNeedData($segment['suggestedValuesCallback'])
+        ) {
             $values = call_user_func($segment['suggestedValuesCallback'], $idSite, $maxSuggestionsToReturn, $table);
         } else {
             $values = $this->getSegmentValuesFromVisitorLog($segmentName, $table);
@@ -813,7 +849,8 @@ class API extends \Piwik\Plugin\API
 
     private function doesSuggestedValuesCallbackNeedData($suggestedValuesCallback)
     {
-        if (is_string($suggestedValuesCallback)
+        if (
+            is_string($suggestedValuesCallback)
             && strpos($suggestedValuesCallback, '::') !== false
         ) {
             $suggestedValuesCallback = explode('::', $suggestedValuesCallback);

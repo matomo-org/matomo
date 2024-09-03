@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreHome\tests\Integration\Tracker;
@@ -26,67 +27,83 @@ use Piwik\Tracker\Visit\VisitProperties;
  */
 class VisitRequestProcessorTest extends IntegrationTestCase
 {
-    public function test_isVisitNew_ReturnsTrue_IfTrackerAlwaysNewVisitorIsSet()
+    public function testIsVisitNewReturnsTrueIfTrackerAlwaysNewVisitorIsSet()
     {
         $this->setDimensionsWithOnNewVisit(array(false, false, false));
 
         /** @var VisitRequestProcessor $visit */
         list($visit, $visitProperties, $request) = $this->makeVisitorAndAction(
-            $lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 08:12:45', $isVisitorKnown = true,
-            [ 'trackerAlwaysNewVisitor' => true ]);
+            $lastActionTime = '2012-01-02 08:08:34',
+            $thisActionTime = '2012-01-02 08:12:45',
+            $isVisitorKnown = true,
+            [ 'trackerAlwaysNewVisitor' => true ]
+        );
 
         $result = $visit->isVisitNew($visitProperties, $request, null);
 
         $this->assertTrue($result);
     }
 
-    public function test_isVisitNew_ReturnsTrue_IfNewVisitQueryParamIsSet()
+    public function testIsVisitNewReturnsTrueIfNewVisitQueryParamIsSet()
     {
         $this->setDimensionsWithOnNewVisit(array(false, false, false));
 
         /** @var VisitRequestProcessor $visit */
         list($visit, $visitProperties, $request) = $this->makeVisitorAndAction(
-            $lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 08:12:45', $isVisitorKnown = true, [],
-            ['new_visit' => '1']);
+            $lastActionTime = '2012-01-02 08:08:34',
+            $thisActionTime = '2012-01-02 08:12:45',
+            $isVisitorKnown = true,
+            [],
+            ['new_visit' => '1']
+        );
 
         $result = $visit->isVisitNew($visitProperties, $request, null);
 
         $this->assertTrue($result);
     }
 
-    public function test_isVisitNew_ReturnsFalse_IfLastActionTimestampIsWithinVisitTimeLength_AndNoDimensionForcesVisit_AndVisitorKnown()
+    public function testIsVisitNewReturnsFalseIfLastActionTimestampIsWithinVisitTimeLengthAndNoDimensionForcesVisitAndVisitorKnown()
     {
         $this->setDimensionsWithOnNewVisit(array(false, false, false));
 
         /** @var VisitRequestProcessor $visit */
         list($visit, $visitProperties, $request) = $this->makeVisitorAndAction(
-            $lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 08:12:45', $isVisitorKnown = true);
+            $lastActionTime = '2012-01-02 08:08:34',
+            $thisActionTime = '2012-01-02 08:12:45',
+            $isVisitorKnown = true
+        );
 
         $result = $visit->isVisitNew($visitProperties, $request, null);
 
         $this->assertFalse($result);
     }
 
-    public function test_isVisitNew_ReturnsTrue_IfLastActionTimestampWasYesterday()
+    public function testIsVisitNewReturnsTrueIfLastActionTimestampWasYesterday()
     {
         $this->setDimensionsWithOnNewVisit(array(false, false, false));
 
         // test same day
         /** @var VisitRequestProcessor $visit */
         list($visit, $visitProperties, $request) = $this->makeVisitorAndAction(
-            $lastActionTime = '2012-01-01 23:59:58', $thisActionTime = '2012-01-01 23:59:59', $isVisitorKnown = true);
+            $lastActionTime = '2012-01-01 23:59:58',
+            $thisActionTime = '2012-01-01 23:59:59',
+            $isVisitorKnown = true
+        );
         $result = $visit->isVisitNew($visitProperties, $request, null);
         $this->assertFalse($result);
 
         // test different day
         list($visit, $visitProperties, $request) = $this->makeVisitorAndAction(
-            $lastActionTime = '2012-01-01 23:59:58', $thisActionTime = '2012-01-02 00:00:01', $isVisitorKnown = true);
+            $lastActionTime = '2012-01-01 23:59:58',
+            $thisActionTime = '2012-01-02 00:00:01',
+            $isVisitorKnown = true
+        );
         $result = $visit->isVisitNew($visitProperties, $request, null);
         $this->assertTrue($result);
     }
 
 
-    public function test_isVisitNew_ReturnsTrue_IfLastActionTimestampIsNotWithinVisitTimeLength_AndNoDimensionForcesVisit_AndVisitorNotKnown()
+    public function testIsVisitNewReturnsTrueIfLastActionTimestampIsNotWithinVisitTimeLengthAndNoDimensionForcesVisitAndVisitorNotKnown()
     {
         $this->setDimensionsWithOnNewVisit(array(false, false, false));
 
@@ -98,7 +115,7 @@ class VisitRequestProcessorTest extends IntegrationTestCase
         $this->assertTrue($result);
     }
 
-    public function test_isVisitNew_ReturnsTrue_IfLastActionTimestampIsWithinVisitTimeLength_AndDimensionForcesVisit()
+    public function testIsVisitNewReturnsTrueIfLastActionTimestampIsWithinVisitTimeLengthAndDimensionForcesVisit()
     {
         $this->setDimensionsWithOnNewVisit(array(false, false, true));
 
@@ -110,7 +127,7 @@ class VisitRequestProcessorTest extends IntegrationTestCase
         $this->assertTrue($result);
     }
 
-    public function test_isVisitNew_ReturnsTrue_IfDimensionForcesVisit_AndVisitorKnown()
+    public function testIsVisitNewReturnsTrueIfDimensionForcesVisitAndVisitorKnown()
     {
         $this->setDimensionsWithOnNewVisit(array(false, false, true));
 
@@ -122,14 +139,17 @@ class VisitRequestProcessorTest extends IntegrationTestCase
         $this->assertTrue($result);
     }
 
-    public function test_isVisitNew_ReturnsFalse_WhenUserIdChanges()
+    public function testIsVisitNewReturnsFalseWhenUserIdChanges()
     {
         $this->setDimensionsWithOnNewVisit(array(false, false, false));
 
         /** @var VisitRequestProcessor $visit */
         /** @var Request $request */
         list($visit, $visitProperties, $request) = $this->makeVisitorAndAction(
-            $lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 08:12:45', $isVisitorKnown = true);
+            $lastActionTime = '2012-01-02 08:08:34',
+            $thisActionTime = '2012-01-02 08:12:45',
+            $isVisitorKnown = true
+        );
 
         $visitProperties->setProperty('user_id', 'foo_different');
         $request->setParam('uid', 'foo');
@@ -137,7 +157,7 @@ class VisitRequestProcessorTest extends IntegrationTestCase
         $this->assertFalse($result);
     }
 
-    public function test_isVisitNew_ReturnsTrue_WhenUserChanges_AndUserIdNotOverwritesVisitorId()
+    public function testIsVisitNewReturnsTrueWhenUserChangesAndUserIdNotOverwritesVisitorId()
     {
         $this->setDimensionsWithOnNewVisit(array(false, false, false));
         $config = Config::getInstance();
@@ -149,7 +169,10 @@ class VisitRequestProcessorTest extends IntegrationTestCase
         /** @var VisitProperties $visitProperties */
         /** @var Request $request */
         list($visit, $visitProperties, $request) = $this->makeVisitorAndAction(
-            $lastActionTime = '2012-01-02 08:08:34', $thisActionTime = '2012-01-02 08:12:45', $isVisitorKnown = true);
+            $lastActionTime = '2012-01-02 08:08:34',
+            $thisActionTime = '2012-01-02 08:12:45',
+            $isVisitorKnown = true
+        );
 
         $visitProperties->setProperty('user_id', 'foo_different');
         $request->setParam('uid', 'foo');
@@ -167,8 +190,11 @@ class VisitRequestProcessorTest extends IntegrationTestCase
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
 
         /** @var Request $request */
-        list($visit, $request) = $this->prepareVisitWithRequest(array_merge(['idsite' => $idsite], $extraRequestParams),
-            $currentActionTime, $processorParams);
+        list($visit, $request) = $this->prepareVisitWithRequest(
+            array_merge(['idsite' => $idsite], $extraRequestParams),
+            $currentActionTime,
+            $processorParams
+        );
 
         $visitProperties = new VisitProperties();
         $visitProperties->setProperty('visit_last_action_time', Date::factory($lastActionTimestamp)->getTimestamp());

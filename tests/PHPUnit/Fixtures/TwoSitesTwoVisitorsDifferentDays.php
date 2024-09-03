@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
@@ -24,7 +26,7 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
     public $dateTime = '2010-01-03 11:22:33';
 
     public $allowConversions = false;
-    const URL_IS_GOAL_WITH_CAMPAIGN_PARAMETERS = 'http://example.org/index.htm?pk_campaign=goal-matching-url-parameter';
+    public const URL_IS_GOAL_WITH_CAMPAIGN_PARAMETERS = 'http://example.org/index.htm?pk_campaign=goal-matching-url-parameter';
 
 
     public function setUp(): void
@@ -67,15 +69,39 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
         }
 
         APISitesManager::getInstance()->updateSite(
-            $this->idSite1, "Site 1", $urls = null, $ecommerce = null, $siteSearch = null,
-            $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null,
-            $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null,
-            $startDate = null, $excludedUserAgents = null, $keepURLFragments = 2); // KEEP_URL_FRAGMENT_NO No for idSite 1
+            $this->idSite1,
+            "Site 1",
+            $urls = null,
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParameters = null,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepURLFragments = 2
+        ); // KEEP_URL_FRAGMENT_NO No for idSite 1
         APISitesManager::getInstance()->updateSite(
-            $this->idSite2, "Site 2", $urls = null, $ecommerce = null, $siteSearch = null,
-            $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null,
-            $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null,
-            $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1); // KEEP_URL_FRAGMENT_YES Yes for idSite 2
+            $this->idSite2,
+            "Site 2",
+            $urls = null,
+            $ecommerce = null,
+            $siteSearch = null,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = null,
+            $excludedQueryParameters = null,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepURLFragments = 1
+        ); // KEEP_URL_FRAGMENT_YES Yes for idSite 2
     }
 
     public function trackVisits()
@@ -127,14 +153,14 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
         // Second visitor again on Idsite 1: 2 page views 2 days later, 2010-01-05
         // If you are thinking of *decreasing* this value, just DON'T (it's important for our test case)
         $daysToGenerateVisitsFor = 10;
-        for($days = 2; $days < $daysToGenerateVisitsFor; $days++) {
+        for ($days = 2; $days < $daysToGenerateVisitsFor; $days++) {
             $hoursOffset = $days * 24;
 
             $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->getDatetime());
 
             $protocol = (0 === $days % 2) ? 'http' : 'https';
             $visitorB->setUrlReferrer($protocol . '://referrer.com/Other_Page.htm');
-            if( in_array($days, array(2,3,4,$daysToGenerateVisitsFor - 1)) ) {
+            if (in_array($days, array(2,3,4,$daysToGenerateVisitsFor - 1))) {
                 $visitorB->setUrl(self::URL_IS_GOAL_WITH_CAMPAIGN_PARAMETERS);
             } else {
                 $visitorB->setUrl('http://example.org/index.htm');

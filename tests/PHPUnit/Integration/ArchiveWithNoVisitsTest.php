@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
@@ -49,7 +50,7 @@ class ArchiveWithNoVisitsTest extends IntegrationTestCase
         ArchiveWithNoVisitsTestMockArchiver::$methodsCalled = array();
     }
 
-    public function tests_ArchivingNotTriggeredWhenNoVisits()
+    public function testsArchivingNotTriggeredWhenNoVisits()
     {
         PluginsArchiver::$archivers['VisitsSummary'] = 'Piwik\Tests\Integration\ArchiveWithNoVisitsTestMockArchiver';
 
@@ -59,7 +60,7 @@ class ArchiveWithNoVisitsTest extends IntegrationTestCase
         $this->assertEmpty(ArchiveWithNoVisitsTestMockArchiver::$methodsCalled);
     }
 
-    public function test_getIdSitesToArchiveWhenNoVisits_DoesNotTriggerArchiving_IfSiteHasNoVisits()
+    public function testGetIdSitesToArchiveWhenNoVisitsDoesNotTriggerArchivingIfSiteHasNoVisits()
     {
         // add our mock archiver instance
         // TODO: should use a dummy plugin that is activated for this test explicitly, but that can be tricky, especially in the future
@@ -90,7 +91,7 @@ class ArchiveWithNoVisitsTest extends IntegrationTestCase
         $this->assertEquals($expectedMethodCalls, ArchiveWithNoVisitsTestMockArchiver::$methodsCalled);
     }
 
-    public function test_PluginArchiver_DoesNotTriggerArchiving_EvenIfSiteHasNoVisits()
+    public function testPluginArchiverDoesNotTriggerArchivingEvenIfSiteHasNoVisits()
     {
         PluginsArchiver::$archivers['VisitsSummary'] = 'Piwik\Tests\Integration\ArchiveWithNoVisitsTestMockArchiver';
 

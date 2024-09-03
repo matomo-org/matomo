@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Events;
 
 use Piwik\Columns\Dimension;
@@ -215,7 +216,7 @@ class Events extends \Piwik\Plugin
             . "<br/>"
             . Piwik::translate('Events_SwitchToSecondaryDimension', '');
 
-        foreach($secondaryDimensions as $dimension) {
+        foreach ($secondaryDimensions as $dimension) {
             if ($dimension == $secondaryDimension) {
                 // don't show as related report the currently selected dimension
                 continue;

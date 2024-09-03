@@ -90,19 +90,24 @@ return array(
                 $plugin['shop']['reviews']['embedUrl'] = '';
             }
 
+            // preg_replace patterns
+            $from = [
+                '@^https?://.*?/([^/]*?)/images/([^/]*?)/(.*?)$@',
+                '@^https?://.*?/img/categories/(.*?)$@i',
+            ];
+            $to = [
+                'plugins/Marketplace/tests/resources/images/plugins/$1/images/$2/$3',
+                'plugins/Marketplace/tests/resources/images/categories/$1',
+            ];
+
             if (!empty($plugin['coverImage'])) {
-                $plugin['coverImage'] = preg_replace(
-                    [
-                        '@^https?://.*?/([^/]*?)/images/([^/]*?)/(.*?)$@',
-                        '@^https?://.*?/img/categories/(.*?)$@i',
-                    ],
-                    [
-                        'plugins/Marketplace/tests/resources/images/plugins/$1/images/$2/$3',
-                        'plugins/Marketplace/tests/resources/images/categories/$1',
-                    ],
-                    $plugin['coverImage'],
-                    1
-                );
+                $plugin['coverImage'] = preg_replace($from, $to, $plugin['coverImage'], 1);
+            }
+
+            if (!empty($plugin['screenshots']) && is_array($plugin['screenshots'])) {
+                foreach ($plugin['screenshots'] as $key => $screenshotUrl) {
+                    $plugin['screenshots'][$key] = preg_replace($from, $to, $screenshotUrl, 1);
+                }
             }
         }
 
@@ -124,9 +129,10 @@ return array(
         $isExceededUser = $c->get('test.vars.consumer') === 'exceededLicense';
         $isExpiredUser = $c->get('test.vars.consumer') === 'expiredLicense';
         $isValidUser = $c->get('test.vars.consumer') === 'validLicense';
+        $createAccountResponseCode = (int) $c->get('test.vars.createAccountResponseCode');
         $startFreeTrialSuccess = $c->get('test.vars.startFreeTrialSuccess');
 
-        $service->setOnDownloadCallback(function ($action, $params) use ($service, $isExceededUser, $isValidUser, $isExpiredUser, $startFreeTrialSuccess) {
+        $service->setOnDownloadCallback(function ($action, $params) use ($service, $isExceededUser, $isValidUser, $isExpiredUser, $startFreeTrialSuccess, $createAccountResponseCode) {
             if ($action === 'info') {
                 return $service->getFixtureContent('v2.0_info.json');
             } elseif ($action === 'consumer' && $service->getAccessToken() === 'valid') {
@@ -175,6 +181,28 @@ return array(
                     'status' => $startFreeTrialSuccess ? 201 : 400,
                     'headers' => [],
                     'data' => '',
+                ];
+            } elseif ($action === 'createAccount') {
+                $data = '';
+
+                switch ($createAccountResponseCode) {
+                    case 200:
+                        $data = $service->getFixtureContent('v2.0_createAccount_ok.json');
+                        break;
+
+                    case 400:
+                        $data = $service->getFixtureContent('v2.0_createAccount_invalid-email.json');
+                        break;
+
+                    case 409:
+                        $data = $service->getFixtureContent('v2.0_createAccount_duplicate-email.json');
+                        break;
+                }
+
+                return [
+                    'status' => $createAccountResponseCode,
+                    'headers' => [],
+                    'data' => $data,
                 ];
             } elseif ($action === 'plugins/checkUpdates') {
                 return $service->getFixtureContent('v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json');

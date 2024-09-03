@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Live\Visualizations;
 
 use Piwik\Common;
@@ -27,10 +28,10 @@ use Piwik\Tracker\Action;
  */
 class VisitorLog extends Visualization
 {
-    const ID = 'VisitorLog';
-    const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
-    const FOOTER_ICON_TITLE = '';
-    const FOOTER_ICON = '';
+    public const ID = 'VisitorLog';
+    public const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
+    public const FOOTER_ICON_TITLE = '';
+    public const FOOTER_ICON = '';
 
     public static function getDefaultConfig()
     {
@@ -46,7 +47,8 @@ class VisitorLog extends Visualization
             'filter_sort_order',
         ));
 
-        if (!is_numeric($this->requestConfig->filter_limit)
+        if (
+            !is_numeric($this->requestConfig->filter_limit)
             || $this->requestConfig->filter_limit == -1 // 'all' is not supported for this visualization
         ) {
             $defaultLimit = Config::getInstance()->General['datatable_default_limit'];
@@ -168,7 +170,8 @@ class VisitorLog extends Visualization
             $actionGroups = [];
             foreach ($row->getColumn('actionDetails') as $key => $action) {
                 // if action is not a pageview action
-                if (empty($action['idpageview'])
+                if (
+                    empty($action['idpageview'])
                     && self::isPageviewAction($action)
                 ) {
                     $actionGroups[] = [
@@ -192,7 +195,7 @@ class VisitorLog extends Visualization
                 if ($action['type'] == 'action') {
                     if (empty($actionGroups[$idPageView]['pageviewAction'])) {
                         $actionGroups[$idPageView]['pageviewAction'] = $action;
-                    } else if (empty($actionGroups[$idPageView]['pageviewAction']['url'])) {
+                    } elseif (empty($actionGroups[$idPageView]['pageviewAction']['url'])) {
                         // set this action as the pageview action either if there isn't one set already, or the existing one
                         // has no URL
                         $actionGroups[$idPageView]['refreshActions'][] = $actionGroups[$idPageView]['pageviewAction'];
@@ -277,7 +280,8 @@ class VisitorLog extends Visualization
             $isPageviewActionSame = $lastGroupUrl == $actionUrl && $lastGroupTitle == $actionTitle;
 
             // if the current action has the same url/action name as the last, merge w/ the last action group
-            if ($isLastGroupEmpty
+            if (
+                $isLastGroupEmpty
                 && $isPageviewActionSame
             ) {
                 $actionGroups[$previousId]['refreshActions'][] = $action;

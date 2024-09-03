@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\VisitsSummary;
 
 use Piwik\Archive;
@@ -118,8 +119,10 @@ class API extends \Piwik\Plugin\API
 
         $table = $this->getSumVisitsLength($idSite, $period, $date, $segment);
         if (is_object($table)) {
-            $table->filter('ColumnCallbackReplace',
-                array('sum_visit_length', array($formatter, 'getPrettyTimeFromSeconds'), array(true)));
+            $table->filter(
+                'ColumnCallbackReplace',
+                array('sum_visit_length', array($formatter, 'getPrettyTimeFromSeconds'), array(true))
+            );
         } else {
             $table = $formatter->getPrettyTimeFromSeconds($table, true);
         }

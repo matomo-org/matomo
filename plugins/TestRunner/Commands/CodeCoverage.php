@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\TestRunner\Commands;
@@ -30,7 +30,6 @@ class CodeCoverage extends ConsoleCommand
         $phpCovPath = trim(shell_exec('which phpcov') ?? '');
 
         if (empty($phpCovPath)) {
-
             $output->writeln('phpcov not installed. please install pear.phpunit.de/phpcov.');
             return self::FAILURE;
         }
@@ -57,7 +56,6 @@ class CodeCoverage extends ConsoleCommand
 
         // force xdebug usage for coverage options
         if (!extension_loaded('xdebug')) {
-
             $output->writeln('<info>xdebug extension required for code coverage.</info>');
 
             $output->writeln('<info>searching for xdebug extension...</info>');
@@ -66,12 +64,13 @@ class CodeCoverage extends ConsoleCommand
             $xdebugFile   = trim($extensionDir) . DIRECTORY_SEPARATOR . 'xdebug.so';
 
             if (!file_exists($xdebugFile)) {
-                $xdebugFile = $this->askAndValidate('xdebug not found. Please provide path to xdebug.so',
+                $xdebugFile = $this->askAndValidate(
+                    'xdebug not found. Please provide path to xdebug.so',
                     function ($xdebugFile) {
                         return file_exists($xdebugFile);
-                    });
+                    }
+                );
             } else {
-
                 $output->writeln('<info>xdebug extension found in extension path.</info>');
             }
 

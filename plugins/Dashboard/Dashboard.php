@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Dashboard;
 
 use Piwik\API\Request;
@@ -80,7 +81,8 @@ class Dashboard extends \Piwik\Plugin
 
     private function getDashboards()
     {
-        return Request::processRequest('Dashboard.getDashboards',
+        return Request::processRequest(
+            'Dashboard.getDashboards',
             ['filter_limit' => '-1', 'filter_offset' => 0],
             []
         );
@@ -215,7 +217,6 @@ class Dashboard extends \Piwik\Plugin
 
         $nameless = 1;
         foreach ($dashboards as &$dashboard) {
-
             if (empty($dashboard['name'])) {
                 $dashboard['name'] = Piwik::translate('Dashboard_DashboardOf', $login);
                 if ($nameless > 1) {

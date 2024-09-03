@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Settings\Plugin;
@@ -26,19 +27,19 @@ class UserSettingsTest extends BaseSettingsTestCase
         return new FakeUserSettings();
     }
 
-    public function test_weAreWorkingWithUserSettings()
+    public function testWeAreWorkingWithUserSettings()
     {
         $this->assertTrue($this->settings instanceof UserSettings);
     }
 
-    public function test_constructor_getPluginName_canDetectPluginNameAutomatically()
+    public function testConstructorGetPluginNameCanDetectPluginNameAutomatically()
     {
         $settings = new \Piwik\Plugins\ExampleSettingsPlugin\UserSettings();
         $this->assertSame('ExampleSettingsPlugin', $settings->getPluginName());
         $this->assertSame('ExampleSettingsPlugin', $this->settings->getPluginName());
     }
 
-    public function test_makeSetting_ShouldCreateAUserSetting()
+    public function testMakeSettingShouldCreateAUserSetting()
     {
         $setting = $this->makeSetting('myName');
 

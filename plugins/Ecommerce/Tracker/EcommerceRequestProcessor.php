@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Ecommerce\Tracker;
@@ -68,7 +69,8 @@ class EcommerceRequestProcessor extends RequestProcessor
         $goalsConverted = $request->getMetadata('Goals', 'goalsConverted');
         if (!empty($goalsConverted)) {
             $isThereExistingCartInVisit = $this->goalManager->detectIsThereExistingCartInVisit(
-                $visitProperties->getProperties());
+                $visitProperties->getProperties()
+            );
             $request->setMetadata('Goals', 'isThereExistingCartInVisit', $isThereExistingCartInVisit);
         }
     }

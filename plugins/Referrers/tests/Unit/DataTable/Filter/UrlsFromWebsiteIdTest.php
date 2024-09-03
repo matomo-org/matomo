@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Referrers\tests\Unit\DataTable\Filter;
 
 use Piwik\DataTable;
@@ -15,7 +16,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
 
 class UrlsFromWebsiteIdTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_filter_ignoresDomainsPortssAndPortsInRecord()
+    public function testFilterIgnoresDomainsPortssAndPortsInRecord()
     {
         $table = new DataTable();
         $table->addRowsFromSimpleArray([

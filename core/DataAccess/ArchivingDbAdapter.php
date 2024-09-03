@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\DataAccess;
@@ -118,12 +118,14 @@ class ArchivingDbAdapter
         try {
             return call_user_func_array([$this->wrapped, $function], $args);
         } catch (\Exception $e) {
-            if ($this->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED) ||
+            if (
+                $this->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED) ||
                 $this->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
-            )
-            {
-                $this->logger->warning('Archiver query exceeded maximum execution time: {details}',
-                    ['details' => json_encode($args, true)]);
+            ) {
+                $this->logger->warning(
+                    'Archiver query exceeded maximum execution time: {details}',
+                    ['details' => json_encode($args, true)]
+                );
             }
             throw $e;
         }

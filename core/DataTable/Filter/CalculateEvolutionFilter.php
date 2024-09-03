@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\DataTable\Filter;
 
 use Piwik\Common;
@@ -57,7 +58,13 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
     public function __construct($table, $pastDataTable, $columnToAdd, $columnToRead, $quotientPrecision = 0)
     {
         parent::__construct(
-            $table, $columnToAdd, $columnToRead, $columnToRead, $quotientPrecision, $shouldSkipRows = true);
+            $table,
+            $columnToAdd,
+            $columnToRead,
+            $columnToRead,
+            $quotientPrecision,
+            $shouldSkipRows = true
+        );
 
         $this->pastDataTable = $pastDataTable;
 
@@ -77,7 +84,8 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 
         // if the site this is for doesn't support ecommerce & this is for the revenue_evolution column,
         // we don't add the new column
-        if ($currentValue === false
+        if (
+            $currentValue === false
             && $this->isRevenueEvolution
             && !Site::isEcommerceEnabledFor($row->getColumn('label'))
         ) {

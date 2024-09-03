@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CustomDimensions\DataTable\Filter;
 
 use Piwik\DataTable\BaseFilter;
@@ -38,8 +39,10 @@ class RemoveUserIfNeeded extends BaseFilter
     public function filter($table)
     {
         $userId = new UserId();
-        if (!$userId->hasDataTableUsers($table) &&
-            !$userId->isUsedInAtLeastOneSite(array($this->idSite), $this->period, $this->date)) {
+        if (
+            !$userId->hasDataTableUsers($table) &&
+            !$userId->isUsedInAtLeastOneSite(array($this->idSite), $this->period, $this->date)
+        ) {
             $table->deleteColumn(Metrics::INDEX_NB_USERS);
         }
     }

@@ -4,11 +4,32 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 5.2.0
+
+### Breaking Changes
+
+* The dependency `jQuery.dotdotdot` has been removed. Please use pure CSS instead or include the library in your plugin if needed.
+
+## Deprecations
+
+* The methods `Db::isOptimizeInnoDBSupported`, `Db::optimizeTables` have been deprecated. Use `Db\Schema::getInstance()->isOptimizeInnoDBSupported` and `Db\Schema::getInstance()->optimizeTables` instead
+* The method `TransactionLevel::setUncommitted` has been deprecated. Use `TransactionLevel::setTransactionLevelForNonLockingReads` instead
+
 ## Matomo 5.1.0
+
+### Breaking Changes
+
+* The `errorlog` (`\Monolog\Handler\ErrorLogHandler`) and `syslog` (`\Monolog\Handler\SyslogHandler`) handlers are no longer directly used. Plugins using or overwriting those handlers using DI should now use the scoped classes `Piwik\Plugins\Monolog\Handler\ErrorLogHandler` and `Piwik\Plugins\Monolog\Handler\SyslogHandler` instead.
 
 ### Deprecations
 
 The API method `Overlay.getExcludedQueryParameters` has been deprecated and will be removed in Matomo 6. Use the new method `SitesManager.getExcludedQueryParameters` instead.
+
+### JavaScript Tracker
+
+#### New APIs
+
+* The method `disableCampaignParameters` have been added to the JavaScript tracker. It allows to disable processing of campaign parameters and forwarding them to the tracking endpoint.
 
 ## Matomo 5.0.0
 

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Framework\TestRequest;
@@ -92,7 +93,7 @@ class Collection
         $this->testConfig = $testConfig;
         $this->setExplicitApiToCallAndNotCall($apiToCall);
 
-        $this->requestUrls = $this->_generateApiUrls();
+        $this->requestUrls = $this->generateApiUrls();
     }
 
     public function getRequestUrls()
@@ -105,7 +106,7 @@ class Collection
      *
      * @return array
      */
-    protected function _generateApiUrls()
+    protected function generateApiUrls()
     {
         $parametersToSet = array(
             'idSite'         => $this->testConfig->idSite,
@@ -155,7 +156,8 @@ class Collection
     {
         $countUrls = count($requestUrls);
         $approximateCountApiToCall = count($this->apiToCall);
-        if (empty($requestUrls)
+        if (
+            empty($requestUrls)
             || $approximateCountApiToCall > $countUrls
         ) {
             $requestUrls = array_map(function ($params) {
@@ -245,7 +247,8 @@ class Collection
                     // if no subtable found, throw
                     if (!isset($parametersToSet['idSubtable'])) {
                         throw new Exception(
-                            "Cannot find subtable to load for $apiId in {$this->testConfig->supertableApi}.");
+                            "Cannot find subtable to load for $apiId in {$this->testConfig->supertableApi}."
+                        );
                     }
                 }
 
@@ -305,7 +308,8 @@ class Collection
         $apiId = $moduleName . '.' . $methodName;
 
         // If Api to test were set, we only test these
-        if (!empty($this->apiToCall)
+        if (
+            !empty($this->apiToCall)
             && in_array($moduleName, $this->apiToCall) === false
             && in_array($apiId, $this->apiToCall) === false
         ) {
@@ -334,8 +338,10 @@ class Collection
 
             $this->apiToCall = $apiToCall;
 
-            if (!in_array('UserCountry.getLocationFromIP', $apiToCall) &&
-                !in_array('UserCountry.getCountryCodeMapping', $apiToCall)) {
+            if (
+                !in_array('UserCountry.getLocationFromIP', $apiToCall) &&
+                !in_array('UserCountry.getCountryCodeMapping', $apiToCall)
+            ) {
                 $this->apiNotToCall = array(
                                             'API.getMatomoVersion',
                                             'API.getPiwikVersion',

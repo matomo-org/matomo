@@ -4,8 +4,7 @@
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\SitesManager\SiteContentDetection;
@@ -105,7 +104,7 @@ class Matomo extends SiteContentDetectionAbstract
             $consentManagerIsConnected = in_array($consentManagerId, $detector->connectedConsentManagers);
         }
 
-        if (!empty($consentManagerName) ) {
+        if (!empty($consentManagerName)) {
             $notificationMessage = '<p>' . Piwik::translate('PrivacyManager_ConsentManagerDetected', [$consentManagerName, '<a href="' . $consentManagerUrl . '" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
             if (!empty($consentManagerIsConnected)) {
                 $notificationMessage .= '<p>' . Piwik::translate('SitesManager_ConsentManagerConnected', [$consentManagerName]) . '</p>';

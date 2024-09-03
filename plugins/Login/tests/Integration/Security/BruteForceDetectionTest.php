@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Login\tests\Integration\Security;
@@ -72,12 +73,12 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->detection = new CustomBruteForceDetection($this->settings, new \Piwik\Plugins\Login\Model());
     }
 
-    public function test_isEnabled_isEnabledByDefault()
+    public function testIsEnabledIsEnabledByDefault()
     {
         $this->assertTrue($this->detection->isEnabled());
     }
 
-    public function test_addFailedAttempt_addsEntries()
+    public function testAddFailedAttemptAddsEntries()
     {
         $this->addFailedLoginInPast('127.0.0.1', 1);
         $this->addFailedLoginInPast('2001:0db8:85a3:0000:0000:8a2e:0370:7334', 2);
@@ -121,7 +122,7 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->assertEquals($expected, $entries);
     }
 
-    public function test_unblockIp_onlyRemovesRecentEntriesOfIp()
+    public function testUnblockIpOnlyRemovesRecentEntriesOfIp()
     {
         $now = $this->detection->getNow();
         $this->addFailedLoginInPast('127.0.0.1', 1);
@@ -162,7 +163,7 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->assertEquals($expected, $entries);
     }
 
-    public function test_cleanupOldEntries_onlyRemovesOldEntries()
+    public function testCleanupOldEntriesOnlyRemovesOldEntries()
     {
         $now = $this->detection->getNow();
         // these should be kept cause they are recent
@@ -206,12 +207,12 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->assertEquals($expected, $entries);
     }
 
-    public function test_getCurrentlyBlockedIps_noIpBlockedWhenNonAdded()
+    public function testGetCurrentlyBlockedIpsNoIpBlockedWhenNonAdded()
     {
         $this->assertEquals(array(), $this->detection->getCurrentlyBlockedIps());
     }
 
-    public function test_getCurrentlyBlockedIps_noIpBlockedWhenOnlyRecentOnesAdded()
+    public function testGetCurrentlyBlockedIpsNoIpBlockedWhenOnlyRecentOnesAdded()
     {
         $this->detection->addFailedAttempt('127.0.0.1');
         $this->detection->addFailedAttempt('2001:0db8:85a3:0000:0000:8a2e:0370:7334');
@@ -222,7 +223,7 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->assertEquals(array(), $this->detection->getCurrentlyBlockedIps());
     }
 
-    public function test_getCurrentlyBlockedIps_isAllowedToLogin_onlyBlockedWhenMaxAttemptsReached()
+    public function testGetCurrentlyBlockedIpsIsAllowedToLoginOnlyBlockedWhenMaxAttemptsReached()
     {
         $this->addFailedLoginInPast('127.0.0.1', 1);
         $this->addFailedLoginInPast('2001:0db8:85a3:0000:0000:8a2e:0370:7334', 2);
@@ -251,7 +252,7 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->assertTrue($this->detection->isAllowedToLogin('127.0.0.1'));
     }
 
-    public function test_getCurrentlyBlockedIps_isAllowedToLogin_whitelistedIpCanAlwaysLoginAndIsNeverBlocked()
+    public function testGetCurrentlyBlockedIpsIsAllowedToLoginWhitelistedIpCanAlwaysLoginAndIsNeverBlocked()
     {
         for ($i = 0; $i < 20; $i++) {
             $this->addFailedLoginInPast('10.99.99.99', 1);
@@ -263,14 +264,14 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->assertFalse($this->detection->isAllowedToLogin('127.0.0.1'));
     }
 
-    public function test_getCurrentlyBlockedIps_isAllowedToLogin_blacklistedIpCanNeverLogIn_EvenWhenNoFailedAttempts()
+    public function testGetCurrentlyBlockedIpsIsAllowedToLoginBlacklistedIpCanNeverLogInEvenWhenNoFailedAttempts()
     {
         $this->assertEquals(array(), $this->detection->getCurrentlyBlockedIps());
         $this->assertEquals(array(), $this->detection->getAll());
         $this->assertFalse($this->detection->isAllowedToLogin('10.55.55.55'));
     }
 
-    public function test_isUserLoginBlocked_returnsTrueIfThereAreMoreThanTheThresholdNumOfAttempts()
+    public function testIsUserLoginBlockedReturnsTrueIfThereAreMoreThanTheThresholdNumOfAttempts()
     {
         $this->detection->setNow(Date::now());
 
@@ -285,7 +286,7 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->assertNull($sentMail); // user does not exist so no mail sent
     }
 
-    public function test_isUserLoginBlocked_sendsEmailIfLoginIsForRealUser()
+    public function testIsUserLoginBlockedSendsEmailIfLoginIsForRealUser()
     {
         $this->detection->setNow(Date::now());
 
@@ -305,7 +306,7 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->assertEquals(['someemail@email.com' => ''], $sentMail->getRecipients());
     }
 
-    public function test_isUserLoginBlocked_returnsFalseIfThereAreLessThanTheThresholdNumOfAttempts()
+    public function testIsUserLoginBlockedReturnsFalseIfThereAreLessThanTheThresholdNumOfAttempts()
     {
         $this->detection->setNow(Date::now());
 

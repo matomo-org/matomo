@@ -3,8 +3,8 @@
  *
  * UI tests config
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 /**
@@ -40,7 +40,7 @@ exports.chai = 'chai-1.9.0';
 /**
  * Mocha reporters to use (can be multiple delimited by a comma).
  */
-if (process.env.TESTOMATIO) {
+if (process.env.TESTOMATIO && process.env.SHOULD_SEND_TO_TESTOMATIO === 'true') {
   exports.reporter = 'mocha-multi-reporters';
   exports.reporterOptions = {
     reporterEnabled: 'spec, @testomatio/reporter/lib/adapter/mocha.js',

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Exception;
@@ -38,7 +39,8 @@ class Console extends Application
 
         $this->environment = $environment;
 
-        $option = new InputOption('matomo-domain',
+        $option = new InputOption(
+            'matomo-domain',
             null,
             InputOption::VALUE_OPTIONAL,
             'Matomo URL (protocol and domain) eg. "http://matomo.example.org"'
@@ -46,7 +48,8 @@ class Console extends Application
 
         $this->getDefinition()->addOption($option);
 
-        $option = new InputOption('xhprof',
+        $option = new InputOption(
+            'xhprof',
             null,
             InputOption::VALUE_NONE,
             'Enable profiling with XHProf'
@@ -54,8 +57,12 @@ class Console extends Application
 
         $this->getDefinition()->addOption($option);
 
-        $option = new InputOption('ignore-warn', null, InputOption::VALUE_NONE,
-            'Return 0 exit code even if there are warning logs or error logs detected in the command output.');
+        $option = new InputOption(
+            'ignore-warn',
+            null,
+            InputOption::VALUE_NONE,
+            'Return 0 exit code even if there are warning logs or error logs detected in the command output.'
+        );
 
         $this->getDefinition()->addOption($option);
     }
@@ -147,7 +154,8 @@ class Console extends Application
         }
 
         $importantLogDetector = StaticContainer::get(FailureLogMessageDetector::class);
-        if (!$input->hasParameterOption('--ignore-warn')
+        if (
+            !$input->hasParameterOption('--ignore-warn')
             && $exitCode === 0
             && $importantLogDetector->hasEncounteredImportantLog()
         ) {
@@ -300,7 +308,7 @@ class Console extends Application
         $plugins = explode(',', $plugins);
 
         $commands = array();
-        foreach($plugins as $plugin) {
+        foreach ($plugins as $plugin) {
             $instance = new Plugin($plugin);
             $commands = array_merge($commands, $instance->findMultipleComponents('Commands', 'Piwik\\Plugin\\ConsoleCommand'));
         }

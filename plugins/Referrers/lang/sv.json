@@ -28,6 +28,7 @@
         "ColumnSocial": "Sociala nätverk",
         "ColumnWebsite": "Webbplats",
         "ColumnWebsitePage": "Webbplatsens sida",
+        "ConversionAttribution": "Denna konvertering har tillskrivits Förvärvskanalen:",
         "DirectEntry": "Direkttrafik",
         "DirectEntryDocumentation": "En besökare har angett URL:en i sin webbläsare och besökt din webbplats - det är ett direktbesök.",
         "Distinct": "Distinkta hänvisningsadresser efter kanaltyp",

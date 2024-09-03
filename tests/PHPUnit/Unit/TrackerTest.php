@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit;
@@ -47,13 +48,13 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
         $this->requestSet->setRequests(array($this->buildRequest(1), $this->buildRequest(1)));
     }
 
-    public function test_isDebugModeEnabled_shouldReturnFalse_ByDefault()
+    public function testIsDebugModeEnabledShouldReturnFalseByDefault()
     {
         unset($GLOBALS['PIWIK_TRACKER_DEBUG']);
         $this->assertFalse($this->tracker->isDebugModeEnabled());
     }
 
-    public function test_isDebugModeEnabled_shouldReturnFalse_IfDisabled()
+    public function testIsDebugModeEnabledShouldReturnFalseIfDisabled()
     {
         $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 
@@ -62,7 +63,7 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
         unset($GLOBALS['PIWIK_TRACKER_DEBUG']);
     }
 
-    public function test_isDebugModeEnabled_shouldReturnTrue_IfEnabled()
+    public function testIsDebugModeEnabledShouldReturnTrueIfEnabled()
     {
         $GLOBALS['PIWIK_TRACKER_DEBUG'] = true;
 
@@ -71,14 +72,14 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
         unset($GLOBALS['PIWIK_TRACKER_DEBUG']);
     }
 
-    public function test_main_shouldReturnFinishedResponse()
+    public function testMainShouldReturnFinishedResponse()
     {
         $response = $this->tracker->main($this->handler, $this->requestSet);
 
         $this->assertEquals('My Rendered Content', $response);
     }
 
-    public function test_main_shouldReturnResponse_EvenWhenThereWasAnExceptionDuringProcess()
+    public function testMainShouldReturnResponseEvenWhenThereWasAnExceptionDuringProcess()
     {
         $this->handler->enableTriggerExceptionInProcess();
         $response = $this->tracker->main($this->handler, $this->requestSet);
@@ -86,7 +87,7 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('My Exception During Process', $response);
     }
 
-    public function test_main_shouldReturnResponse_EvenWhenThereWasAnExceptionDuringInitRequests()
+    public function testMainShouldReturnResponseEvenWhenThereWasAnExceptionDuringInitRequests()
     {
         $this->requestSet->enableThrowExceptionOnInit();
         $response = $this->tracker->main($this->handler, $this->requestSet);
@@ -94,7 +95,7 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Init requests and token auth exception', $response);
     }
 
-    public function test_main_shouldTriggerHandlerInitAndFinishEvent()
+    public function testMainShouldTriggerHandlerInitAndFinishEvent()
     {
         $this->tracker->main($this->handler, $this->requestSet);
 
@@ -104,7 +105,7 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->handler->isOnException);
     }
 
-    public function test_main_shouldTriggerHandlerInitAndFinishEvent_EvenIfShouldNotRecordStats()
+    public function testMainShouldTriggerHandlerInitAndFinishEventEvenIfShouldNotRecordStats()
     {
         $this->tracker->disableRecordStatistics();
         $this->tracker->main($this->handler, $this->requestSet);
@@ -115,7 +116,7 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->handler->isOnException);
     }
 
-    public function test_main_shouldTriggerHandlerInitAndFinishEvent_EvenIfThereIsAnException()
+    public function testMainShouldTriggerHandlerInitAndFinishEventEvenIfThereIsAnException()
     {
         $this->handler->enableTriggerExceptionInProcess();
         $this->tracker->main($this->handler, $this->requestSet);
@@ -125,7 +126,7 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->handler->isOnException);
     }
 
-    public function test_track_shouldTrack_IfThereAreRequests()
+    public function testTrackShouldTrackIfThereAreRequests()
     {
         $this->tracker->track($this->handler, $this->requestSet);
 
@@ -135,7 +136,7 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->handler->isOnException);
     }
 
-    public function test_track_shouldNotTrackAnything_IfTrackingIsDisabled()
+    public function testTrackShouldNotTrackAnythingIfTrackingIsDisabled()
     {
         $this->tracker->disableRecordStatistics();
         $this->tracker->track($this->handler, $this->requestSet);
@@ -146,7 +147,7 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->handler->isOnException);
     }
 
-    public function test_track_shouldNotTrackAnything_IfNoRequestsAreSet()
+    public function testTrackShouldNotTrackAnythingIfNoRequestsAreSet()
     {
         $this->requestSet->setRequests(array());
         $this->tracker->track($this->handler, $this->requestSet);
@@ -157,7 +158,7 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->handler->isOnException);
     }
 
-    public function test_track_shouldNotCatchAnyException_IfExceptionWasThrown()
+    public function testTrackShouldNotCatchAnyExceptionIfExceptionWasThrown()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('My Exception During Process');
@@ -166,23 +167,23 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
         $this->tracker->track($this->handler, $this->requestSet);
     }
 
-    public function test_getCountOfLoggedRequests_shouldReturnZero_WhenNothingTracked()
+    public function testGetCountOfLoggedRequestsShouldReturnZeroWhenNothingTracked()
     {
         $this->assertEquals(0, $this->tracker->getCountOfLoggedRequests());
     }
 
-    public function test_hasLoggedRequests_shouldReturnFalse_WhenNothingTracked()
+    public function testHasLoggedRequestsShouldReturnFalseWhenNothingTracked()
     {
         $this->assertFalse($this->tracker->hasLoggedRequests());
     }
 
-    public function test_setCountOfLoggedRequests_shouldOverwriteNumberOfLoggedRequests()
+    public function testSetCountOfLoggedRequestsShouldOverwriteNumberOfLoggedRequests()
     {
         $this->tracker->setCountOfLoggedRequests(5);
         $this->assertEquals(5, $this->tracker->getCountOfLoggedRequests());
     }
 
-    public function test_hasLoggedRequests_shouldReturnTrue_WhenSomeRequestsWereLogged()
+    public function testHasLoggedRequestsShouldReturnTrueWhenSomeRequestsWereLogged()
     {
         $this->tracker->setCountOfLoggedRequests(1);
         $this->assertTrue($this->tracker->hasLoggedRequests());

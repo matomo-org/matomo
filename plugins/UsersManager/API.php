@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\UsersManager;
@@ -51,7 +50,7 @@ use Piwik\Validators\BaseValidator;
  */
 class API extends \Piwik\Plugin\API
 {
-    const OPTION_NAME_PREFERENCE_SEPARATOR = '_';
+    public const OPTION_NAME_PREFERENCE_SEPARATOR = '_';
 
     public static $UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
     public static $SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = true;
@@ -98,8 +97,8 @@ class API extends \Piwik\Plugin\API
 
     private $userRepository;
 
-    const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
-    const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
+    public const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
+    public const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
 
     private static $instance = null;
 
@@ -357,7 +356,7 @@ class API extends \Piwik\Plugin\API
             // anonymous user should never see any results.
             Common::sendHeader('X-Matomo-Total-Results: 0');
             return [];
-        } else if (!$this->isUserHasAdminAccessTo($idSite)) {
+        } elseif (!$this->isUserHasAdminAccessTo($idSite)) {
             // if the user is not an admin to $idSite, they can only see their own user
             if ($offset > 1) {
                 Common::sendHeader('X-Matomo-Total-Results: 1');

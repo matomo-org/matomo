@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
@@ -17,7 +18,7 @@ use Piwik\DataTable\BaseFilter;
  */
 class SafeDecodeLabel extends BaseFilter
 {
-    const APPLIED_METADATA_NAME = 'SafeDecodeLabelApplied';
+    public const APPLIED_METADATA_NAME = 'SafeDecodeLabelApplied';
 
     private $columnToDecode;
 

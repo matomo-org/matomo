@@ -72,7 +72,7 @@
         "SetupWebsiteSetupSuccess": "Serwis %s utworzono pomyślnie!",
         "SiteSetup": "Proszę skonfiguruj pierwszy serwis, który chcesz śledzić i analizować przy pomocy Matomo'a:",
         "SiteSetupFootnote": "NOTKA: po zakończeniu instalacji Matomo'a, będzie możliwe dodanie kolejnych portali do śledzenia!",
-        "SuperUser": "Super Użytkownik",
+        "SuperUser": "Super użytkownik",
         "SuperUserLogin": "Login Super Użytkownika",
         "SuperUserSetupError": "Wystąpił błąd podczas dodawania Super Użytkownika",
         "SuperUserSetupSuccess": "Konto Super Użytkownika utworzono pomyślnie!",

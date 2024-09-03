@@ -1,13 +1,15 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
 
+use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\TableMetadata;
@@ -36,7 +38,7 @@ class DbTest extends IntegrationTestCase
     }
 
     // this test is for PDO which will fail if execute() is called w/ a null param value
-    public function test_insertWithNull()
+    public function testInsertWithNull()
     {
         $GLOBALS['abc'] = 1;
         $table = Common::prefixTable('testtable');
@@ -59,30 +61,30 @@ class DbTest extends IntegrationTestCase
         $this->assertEquals($expected, $values);
     }
 
-    public function test_getColumnNamesFromTable()
+    public function testGetColumnNamesFromTable()
     {
         $this->assertColumnNames('access', array('idaccess', 'login', 'idsite', 'access'));
         $this->assertColumnNames('option', array('option_name', 'option_value', 'autoload'));
     }
 
-    public function test_getDb()
+    public function testGetDb()
     {
         $db = Db::get();
         $this->assertNotEmpty($db);
         $this->assertTrue($db instanceof Db\AdapterInterface);
     }
 
-    public function test_hasReaderDatabaseObject_byDefaultNotInUse()
+    public function testHasReaderDatabaseObjectByDefaultNotInUse()
     {
         $this->assertFalse(Db::hasReaderDatabaseObject());
     }
 
-    public function test_hasReaderConfigured_byDefaultNotConfigured()
+    public function testHasReaderConfiguredByDefaultNotConfigured()
     {
         $this->assertFalse(Db::hasReaderConfigured());
     }
 
-    public function test_getReader_whenNotConfigured_StillReturnsRegularDbConnection()
+    public function testGetReaderWhenNotConfiguredStillReturnsRegularDbConnection()
     {
         $this->assertFalse(Db::hasReaderConfigured());// ensure no reader is configured
         $db = Db::getReader();
@@ -90,7 +92,7 @@ class DbTest extends IntegrationTestCase
         $this->assertTrue($db instanceof Db\AdapterInterface);
     }
 
-    public function test_withReader()
+    public function testWithReader()
     {
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
@@ -106,7 +108,7 @@ class DbTest extends IntegrationTestCase
         $this->assertFalse(Db::hasReaderDatabaseObject());
     }
 
-    public function test_withReader_createsDifferentConnectionForDb()
+    public function testWithReaderCreatesDifferentConnectionForDb()
     {
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
@@ -114,13 +116,78 @@ class DbTest extends IntegrationTestCase
         $this->assertNotSame($db->getConnection(), Db::get()->getConnection());
     }
 
-    public function test_withoutReader_usesSameDbConnection()
+    public function testWithoutReaderUsesSameDbConnection()
     {
         $this->assertFalse(Db::hasReaderConfigured());
         $this->assertFalse(Db::hasReaderDatabaseObject());
 
         $db = Db::getReader();
         $this->assertSame($db->getConnection(), Db::get()->getConnection());
+    }
+
+    public function testWithReaderCanReconnectToWriterIfServerHasGoneAway(): void
+    {
+        Config::getInstance()->database_reader = Config::getInstance()->database;
+
+        $connectionId = $this->setUpMySQLHasGoneAwayConnection();
+        $reconnectionId = Db::executeWithDatabaseWriterReconnectionAttempt(function () {
+            return Db::query('SELECT CONNECTION_ID()')->fetchColumn();
+        });
+
+        self::assertNotSame($connectionId, $reconnectionId);
+    }
+
+    public function testWithReaderDoesNotInterceptNonGoneAwayErrors(): void
+    {
+        Config::getInstance()->database_reader = Config::getInstance()->database;
+
+        $expectedConnectionId = Db::query('SELECT CONNECTION_ID()')->fetchColumn();
+        $dbException = null;
+
+        try {
+            Db::executeWithDatabaseWriterReconnectionAttempt(function () {
+                Db::query('SHOW SYNTAX ERROR');
+            });
+        } catch (Exception $e) {
+            $dbException = $e;
+        }
+
+        self::assertNotNull($dbException, 'Expected database exception was not thrown');
+        self::assertTrue(
+            Db::get()->isErrNo(
+                $dbException,
+                \Piwik\Updater\Migration\Db::ERROR_CODE_SYNTAX_ERROR
+            )
+        );
+
+        // verify the connection has not been replaced
+        $connectionId = Db::query('SELECT CONNECTION_ID()')->fetchColumn();
+
+        self::assertSame($expectedConnectionId, $connectionId);
+    }
+
+    public function testWithoutReaderDoesNotReconnectIfServerHasGoneAway(): void
+    {
+        $this->setUpMySQLHasGoneAwayConnection();
+
+        $dbException = null;
+
+        try {
+            Db::executeWithDatabaseWriterReconnectionAttempt(function () {
+                Db::query('SELECT 1');
+            });
+        } catch (Exception $e) {
+            $dbException = $e;
+        }
+
+        self::assertNotNull($dbException, 'Expected database exception was not thrown');
+        self::assertTrue(
+            Db::get()->isErrNo(
+                $dbException,
+                \Piwik\Updater\Migration\Db::ERROR_CODE_MYSQL_SERVER_HAS_GONE_AWAY
+            )
+            || false !== stripos($dbException->getMessage(), 'server has gone away')
+        );
     }
 
     private function assertColumnNames($tableName, $expectedColumnNames)
@@ -132,18 +199,9 @@ class DbTest extends IntegrationTestCase
     }
 
     /**
-     * @dataProvider getIsOptimizeInnoDBTestData
-     */
-    public function test_isOptimizeInnoDBSupported_ReturnsCorrectResult($version, $expectedResult)
-    {
-        $result = Db::isOptimizeInnoDBSupported($version);
-        $this->assertEquals($expectedResult, $result);
-    }
-
-    /**
      * @dataProvider getDbAdapter
      */
-    public function test_SqlMode_IsSet_PDO($adapter, $expectedClass)
+    public function testSqlModeIsSetPDO($adapter, $expectedClass)
     {
         Db::destroyDatabaseObject();
         Config::getInstance()->database['adapter'] = $adapter;
@@ -156,7 +214,7 @@ class DbTest extends IntegrationTestCase
         $this->assertSame($expected, $result);
     }
 
-    public function test_getDbLock_shouldThrowAnException_IfDbLockNameIsTooLong()
+    public function testGetDbLockShouldThrowAnExceptionIfDbLockNameIsTooLong()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('name has to be 64 characters or less');
@@ -164,7 +222,7 @@ class DbTest extends IntegrationTestCase
         Db::getDbLock(str_pad('test', 65, '1'));
     }
 
-    public function test_getDbLock_shouldGetLock()
+    public function testGetDbLockShouldGetLock()
     {
         $db = Db::get();
         $this->assertTrue(Db::getDbLock('MyLock'));
@@ -187,7 +245,7 @@ class DbTest extends IntegrationTestCase
     /**
      * @dataProvider getDbAdapter
      */
-    public function test_getRowCount($adapter, $expectedClass)
+    public function testGetRowCount($adapter, $expectedClass)
     {
         Db::destroyDatabaseObject();
         Config::getInstance()->database['adapter'] = $adapter;
@@ -207,20 +265,27 @@ class DbTest extends IntegrationTestCase
         );
     }
 
-    public function getIsOptimizeInnoDBTestData()
+    /**
+     * Forces Db::get() to return a database connection that
+     * will throw "server has gone away" when running a query.
+     *
+     * @return string The MySQL connection id of the killed connection
+     */
+    private function setUpMySQLHasGoneAwayConnection(): string
     {
-        return array(
-            array("10.0.17-MariaDB-1~trusty", false),
-            array("10.1.1-MariaDB-1~trusty", true),
-            array("10.2.0-MariaDB-1~trusty", true),
-            array("10.6.19-0ubuntu0.14.04.1", false),
+        // get extra connection to kill database connection
+        // circumvents "query execution was interrupted" errors
+        $db = Db::get();
+        Db::setDatabaseObject(null);
 
-            // for sanity. maybe not ours.
-            array("", false),
-            array(0, false),
-            array(false, false),
-            array("slkdf(@*#lkesjfMariaDB", false),
-            array("slkdfjq3rujlkv", false),
-        );
+        // connect and kill connection
+        $connectionId = Db::query('SELECT CONNECTION_ID()')->fetchColumn();
+        $db->exec('KILL ' . $connectionId);
+
+        // clean up extra connection
+        $db->closeConnection();
+        unset($db);
+
+        return (string) $connectionId;
     }
 }

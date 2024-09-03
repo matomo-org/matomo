@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Diagnostics\Commands;
@@ -65,7 +66,7 @@ class Run extends ConsoleCommand
             return self::FAILURE;
         }
 
-        if(!$report->hasWarnings() && !$report->hasErrors()) {
+        if (!$report->hasWarnings() && !$report->hasErrors()) {
             $output->writeln(sprintf('<info>%s</info>', Piwik::translate('Installation_SystemCheckSummaryNoProblems')));
         }
 

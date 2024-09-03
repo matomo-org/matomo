@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\PrivacyManager\tests\Integration\Model;
@@ -35,14 +36,14 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->dao = new LogDataAnonymizations(new LogDataAnonymizer());
     }
 
-    public function test_shouldInstallTable()
+    public function testShouldInstallTable()
     {
         $columns = DbHelper::getTableColumns($this->tableName);
         $columns = array_keys($columns);
         $this->assertEquals(array('idlogdata_anonymization', 'idsites', 'date_start', 'date_end', 'anonymize_ip', 'anonymize_location', 'anonymize_userid', 'unset_visit_columns', 'unset_link_visit_action_columns', 'output', 'scheduled_date', 'job_start_date', 'job_finish_date', 'requester'), $columns);
     }
 
-    public function test_shouldBeAbleToUninstallTable()
+    public function testShouldBeAbleToUninstallTable()
     {
         $this->expectException(\Zend_Db_Statement_Exception::class);
         $this->expectExceptionMessage('privacy_logdata_anonymizations');
@@ -60,7 +61,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->dao->install();
     }
 
-    public function test_scheduleEntry_fails_whenNoDateGiven()
+    public function testScheduleEntryFailsWhenNoDateGiven()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('General_ValidatorErrorEmptyValue');
@@ -68,7 +69,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->scheduleEntry(null, null);
     }
 
-    public function test_scheduleEntry_fails_whenInvalidDateGiven()
+    public function testScheduleEntryFailsWhenInvalidDateGiven()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('General_ExceptionInvalidDateFormat');
@@ -76,7 +77,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->scheduleEntry(null, 'foobar');
     }
 
-    public function test_scheduleEntry_fails_whenInvalidVisitColumnsGiven()
+    public function testScheduleEntryFailsWhenInvalidVisitColumnsGiven()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The column "visitor_foobar_Baz" seems to not exist in log_visit');
@@ -84,7 +85,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->scheduleEntry(null, '2018-01-02', false, false, false, ['visitor_localtime', 'visitor_foobar_Baz', 'config_device_type']);
     }
 
-    public function test_scheduleEntry_fails_whenInvalidLinkVisitActionColumnsGiven()
+    public function testScheduleEntryFailsWhenInvalidLinkVisitActionColumnsGiven()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('The column "idaction_foobar_baz" seems to not exist in log_link_visit_action');
@@ -92,7 +93,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->scheduleEntry(null, '2018-01-02', false, false, false, [], ['idaction_event_category', 'idaction_foobar_baz']);
     }
 
-    public function test_scheduleEntry_fails_whenNoWorkScheduled()
+    public function testScheduleEntryFailsWhenNoWorkScheduled()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Nothing is selected to be anonymized');
@@ -100,7 +101,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->scheduleEntry(null, '2018-01-02', false, false, false, [], []);
     }
 
-    public function test_scheduleEntry_success()
+    public function testScheduleEntrySuccess()
     {
         $id = $this->scheduleEntry(null, '2017-01-03', true, true, true, ['visitor_localtime', 'config_device_type'], ['idaction_event_category'], 'mylogin');
         $this->assertSame(1, $id);
@@ -126,7 +127,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         ), $entry);
     }
 
-    public function test_scheduleEntry_successStartDirectlySetsDateAndAlsoTestingDifferentSettings()
+    public function testScheduleEntrySuccessStartDirectlySetsDateAndAlsoTestingDifferentSettings()
     {
         $id = $this->scheduleStartedEntry(null, '2017-03-01,2018-04-06', false, true, false, [], false, 'mylogin2');
 
@@ -153,7 +154,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         ), $entry);
     }
 
-    public function test_scheduleEntry_failsInvalidDateRange()
+    public function testScheduleEntryFailsInvalidDateRange()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Specified date range is invalid.');
@@ -161,7 +162,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->scheduleStartedEntry(null, '2018-04-06,2017-03-01', false, true, [], false, 'mylogin2');
     }
 
-    public function test_scheduleEntry_successIdSites()
+    public function testScheduleEntrySuccessIdSites()
     {
         $id = $this->scheduleEntry(['4', 5, 10, '402foo']);
 
@@ -170,7 +171,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->assertSame(['Site ID: 4', 'Site ID: 5', 'Site ID: 10', 'Site ID: 402'], $entry['sites']);
     }
 
-    public function test_scheduleEntry_success_increasesId()
+    public function testScheduleEntrySuccessIncreasesId()
     {
         $id = $this->scheduleEntry();
         $this->assertSame(1, $id);
@@ -179,12 +180,12 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->assertSame(2, $id);
     }
 
-    public function test_getAllEntries_returnsEmptyArrayWhenNoEntriesExist()
+    public function testGetAllEntriesReturnsEmptyArrayWhenNoEntriesExist()
     {
         $this->assertSame(array(), $this->dao->getAllEntries());
     }
 
-    public function test_getAllEntries_returnsAllEntriesThatExist()
+    public function testGetAllEntriesReturnsAllEntriesThatExist()
     {
         $id1 = $this->scheduleEntry();
         $id2 = $this->scheduleEntry();
@@ -194,18 +195,18 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->assertDefaultEntry($entries[1], $id2);
     }
 
-    public function test_getEntry_doesNotFindEntryWhenNoEntryExists()
+    public function testGetEntryDoesNotFindEntryWhenNoEntryExists()
     {
         $this->assertFalse($this->dao->getEntry(5));
     }
 
-    public function test_getEntry_doesNotFindEntryWhenNotExists()
+    public function testGetEntryDoesNotFindEntryWhenNotExists()
     {
         $this->scheduleEntry();
         $this->assertFalse($this->dao->getEntry(999));
     }
 
-    public function test_getEntry_success_findsEntryAndFormatsIt()
+    public function testGetEntrySuccessFindsEntryAndFormatsIt()
     {
         $id = $this->scheduleEntry();
         $entry = $this->dao->getEntry($id);
@@ -213,19 +214,19 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->assertDefaultEntry($entry, 1);
     }
 
-    public function test_getNextScheduledAnonymizationId_returnsNoEntryWhenNoEntryExists()
+    public function testGetNextScheduledAnonymizationIdReturnsNoEntryWhenNoEntryExists()
     {
         $this->assertFalse($this->dao->getNextScheduledAnonymizationId());
     }
 
-    public function test_getNextScheduledAnonymizationId_returnsNoEntryWhenOnlyStartedEntriesExist()
+    public function testGetNextScheduledAnonymizationIdReturnsNoEntryWhenOnlyStartedEntriesExist()
     {
         $this->scheduleStartedEntry();
         $this->scheduleStartedEntry();
         $this->assertFalse($this->dao->getNextScheduledAnonymizationId());
     }
 
-    public function test_getNextScheduledAnonymizationId_returnsNextUnstartedEntry()
+    public function testGetNextScheduledAnonymizationIdReturnsNextUnstartedEntry()
     {
         $this->scheduleStartedEntry();
         $id1 = $this->scheduleEntry();
@@ -242,7 +243,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
         $this->assertSame($id2, $this->dao->getNextScheduledAnonymizationId());
     }
 
-    public function test_executeScheduledEntry_SimpleExecutionWithAllFeaturesEnabledWhenNoTrackedData_OtherTestsBeDoneInSystemTests()
+    public function testExecuteScheduledEntrySimpleExecutionWithAllFeaturesEnabledWhenNoTrackedDataOtherTestsBeDoneInSystemTests()
     {
         $id = $this->scheduleEntry(null, '2017-01-03', true, true, true, ['visitor_localtime', 'config_device_type'], ['idaction_event_category'], 'mylogin');
 

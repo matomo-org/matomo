@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Plugin;
@@ -35,7 +36,7 @@ class ManagerTest extends IntegrationTestCase
         $this->manager = Plugin\Manager::getInstance();
     }
 
-    public function test_loadTrackerPlugins_shouldDetectTrackerPlugins()
+    public function testLoadTrackerPluginsShouldDetectTrackerPlugins()
     {
         $this->assertGreaterThan(50, count($this->manager->getLoadedPlugins())); // make sure all plugins are loaded
 
@@ -44,7 +45,7 @@ class ManagerTest extends IntegrationTestCase
         $this->assertOnlyTrackerPluginsAreLoaded($pluginsToLoad);
     }
 
-    public function test_loadTrackerPlugins_shouldCacheListOfPlugins()
+    public function testLoadTrackerPluginsShouldCacheListOfPlugins()
     {
         $cache = $this->getCacheForTrackerPlugins();
         $this->assertFalse($cache->contains($this->trackerCacheId));
@@ -55,7 +56,7 @@ class ManagerTest extends IntegrationTestCase
         $this->assertEquals($pluginsToLoad, $cache->fetch($this->trackerCacheId));
     }
 
-    public function test_loadTrackerPlugins_shouldBeAbleToLoadPluginsCorrectWhenItIsCached()
+    public function testLoadTrackerPluginsShouldBeAbleToLoadPluginsCorrectWhenItIsCached()
     {
         $pluginsToLoad = array('CoreAdminHome', 'CoreHome', 'UserLanguage', 'Login');
         $this->getCacheForTrackerPlugins()->save($this->trackerCacheId, $pluginsToLoad);
@@ -66,7 +67,7 @@ class ManagerTest extends IntegrationTestCase
         $this->assertEquals($pluginsToLoad, array_keys($this->manager->getLoadedPlugins()));
     }
 
-    public function test_loadTrackerPlugins_shouldUnloadAllPlugins_IfThereAreNoneToLoad()
+    public function testLoadTrackerPluginsShouldUnloadAllPluginsIfThereAreNoneToLoad()
     {
         $pluginsToLoad = array();
         $this->getCacheForTrackerPlugins()->save($this->trackerCacheId, $pluginsToLoad);
@@ -77,7 +78,7 @@ class ManagerTest extends IntegrationTestCase
         $this->assertEquals(array(), $this->manager->getLoadedPlugins());
     }
 
-    public function test_activateDeactivatePlugin()
+    public function testActivateDeactivatePlugin()
     {
         $plugin = new Plugin('ExampleTheme');
 
@@ -113,7 +114,7 @@ class ManagerTest extends IntegrationTestCase
     }
 
     /** @see Issue https://github.com/piwik/piwik/issues/8422 */
-    public function test_ListenNotToControllerMethodEventsThatDoesNotExists()
+    public function testListenNotToControllerMethodEventsThatDoesNotExists()
     {
         foreach ($this->manager->getLoadedPlugins() as $plugin) {
             $hooks = $plugin->registerEvents();
@@ -135,24 +136,24 @@ class ManagerTest extends IntegrationTestCase
         }
     }
 
-    public function test_hasPremiumFeatures()
+    public function testHasPremiumFeatures()
     {
         $this->assertFalse($this->manager->hasPremiumFeatures());
     }
 
-    public function test_isPluginInstalled_corePluginThatExists()
+    public function testIsPluginInstalledCorePluginThatExists()
     {
         $this->assertTrue($this->manager->isPluginInstalled('CoreAdminHome', true));
         $this->assertTrue($this->manager->isPluginInstalled('CoreAdminHome', false));
     }
 
-    public function test_isPluginInstalled_pluginNotExists()
+    public function testIsPluginInstalledPluginNotExists()
     {
         $this->assertFalse($this->manager->isPluginInstalled('FooBarBaz', true));
         $this->assertFalse($this->manager->isPluginInstalled('FooBarBaz', false));
     }
 
-    public function test_isPluginInstalled_pluginInstalledConfigButNotExists()
+    public function testIsPluginInstalledPluginInstalledConfigButNotExists()
     {
         Config::getInstance()->PluginsInstalled['PluginsInstalled'][] = 'FooBarBaz';
         $this->assertFalse($this->manager->isPluginInstalled('FooBarBaz', true));
@@ -162,7 +163,7 @@ class ManagerTest extends IntegrationTestCase
     /**
      * @dataProvider getPluginNameProvider
      */
-    public function test_isValidPluginName($expectedIsValid, $pluginName)
+    public function testIsValidPluginName($expectedIsValid, $pluginName)
     {
         $valid = $this->manager->isValidPluginName($pluginName);
         $this->assertSame($expectedIsValid, $valid);

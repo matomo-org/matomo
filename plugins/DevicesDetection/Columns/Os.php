@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use DeviceDetector\Parser\OperatingSystem;
@@ -54,8 +55,12 @@ class Os extends Base
             return $result;
         });
         $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn, $table) {
-            return $this->sortStaticListByUsage(OperatingSystem::getAvailableOperatingSystems(), $table,
-                'operatingSystemCode', $maxValuesToReturn);
+            return $this->sortStaticListByUsage(
+                OperatingSystem::getAvailableOperatingSystems(),
+                $table,
+                'operatingSystemCode',
+                $maxValuesToReturn
+            );
         });
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }

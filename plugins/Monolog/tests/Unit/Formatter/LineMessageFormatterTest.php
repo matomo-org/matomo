@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Monolog\tests\Unit\Formatter;
@@ -17,10 +18,7 @@ use Piwik\Plugins\Monolog\Formatter\LineMessageFormatter;
  */
 class LineMessageFormatterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @test
-     */
-    public function it_should_format_with_placeholders()
+    public function testItShouldFormatWithPlaceholders()
     {
         $formatter = new LineMessageFormatter('%level% %tag% %datetime% %message%');
 
@@ -38,10 +36,7 @@ class LineMessageFormatterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($formatted, $formatter->format($record));
     }
 
-    /**
-     * @test
-     */
-    public function it_should_insert_request_id_if_defined()
+    public function testItShouldInsertRequestIdIfDefined()
     {
         $formatter = new LineMessageFormatter('%message%');
 
@@ -59,10 +54,7 @@ class LineMessageFormatterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($formatted, $formatter->format($record));
     }
 
-    /**
-     * @test
-     */
-    public function it_should_indent_multiline_message()
+    public function testItShouldIndentMultilineMessage()
     {
         $formatter = new LineMessageFormatter('%level% %message%');
 
@@ -82,10 +74,7 @@ LOG;
         $this->assertEquals($formatted, $formatter->format($record));
     }
 
-    /**
-     * @test
-     */
-    public function it_should_split_inline_line_breaks_into_many_messages_if_disabled()
+    public function testItShouldSplitInlineLineBreaksIntoManyMessagesIfDisabled()
     {
         $formatter = new LineMessageFormatter('%level% %message%', $allowInlineLineBreaks = false);
 

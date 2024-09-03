@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\API;
 
 use Exception;
@@ -171,7 +172,8 @@ abstract class DataTableManipulator
             if (empty($meta)) {
                 throw new Exception(sprintf(
                     "The DataTable cannot be manipulated: Metadata for report %s.%s could not be found. You can define the metadata in a hook, see example at: %s",
-                    $this->apiModule, $this->apiMethod,
+                    $this->apiModule,
+                    $this->apiMethod,
                     Url::addCampaignParametersToMatomoLink('https://developer.matomo.org/api-reference/events#apigetreportmetadata')
                 ));
             }

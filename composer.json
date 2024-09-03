@@ -33,6 +33,12 @@
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/matomo-org/matomo-coding-standards.git"
+        }
+    ],
     "require": {
         "php": ">=7.2.5",
         "composer/ca-bundle": "^1.2",
@@ -59,6 +65,7 @@
         "symfony/monolog-bridge": "~5.4.0",
         "symfony/polyfill-iconv": "^1.20",
         "symfony/polyfill-mbstring": "^1.20",
+        "symfony/process": "~5.4.0",
         "szymach/c-pchart": "~3.0.13",
         "tecnickcom/tcpdf": "~6.0",
         "tedivm/jshrink": "~v1.4.0",
@@ -66,20 +73,11 @@
         "wikimedia/less.php": "^3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~8.5",
-        "slevomat/coding-standard": "~8.14.0",
-        "squizlabs/php_codesniffer": "~3.6",
+        "matomo-org/matomo-coding-standards": "dev-master",
         "phpstan/phpdoc-parser": "~1.24.0",
+        "phpunit/phpunit": "~8.5",
         "symfony/var-dumper": "~5.4.0",
         "symfony/yaml": "~5.4.0"
-    },
-    "replace": {
-        "symfony/polyfill-php54": "*",
-        "symfony/polyfill-php55": "*",
-        "symfony/polyfill-php56": "*",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php72": "*"
     },
     "autoload": {
         "psr-4": {

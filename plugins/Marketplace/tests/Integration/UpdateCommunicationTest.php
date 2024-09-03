@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Marketplace\tests\Integration;
@@ -44,7 +45,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
         $this->updateCommunication = new UpdateCommunication($this->settings);
     }
 
-    public function test_canBeEnabled()
+    public function testCanBeEnabled()
     {
         $this->assertTrue(UpdateCommunication::canBeEnabled());
 
@@ -55,7 +56,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
         $this->assertTrue(UpdateCommunication::canBeEnabled());
     }
 
-    public function test_isEnabled_shouldReturnFalse_IfCannotBeEnabled()
+    public function testIsEnabledShouldReturnFalseIfCannotBeEnabled()
     {
         $this->assertTrue($this->updateCommunication->isEnabled());
 
@@ -63,7 +64,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
         $this->assertFalse($this->updateCommunication->isEnabled());
     }
 
-    public function test_sendNotificationIfUpdatesAvailable_shouldNotSendNotification_IfNoUpdateAvailable()
+    public function testSendNotificationIfUpdatesAvailableShouldNotSendNotificationIfNoUpdateAvailable()
     {
         $mock = $this->getCommunicationMock(array());
         $mock->expects($this->never())->method('sendEmailNotification');
@@ -73,7 +74,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
     /**
      * @dataProvider provideSendNotificationData
      */
-    public function test_sendNotificationIfUpdatesAvailable($latestVersion, $lastSentVersion, $expects, $expectedLastSentVersion)
+    public function testSendNotificationIfUpdatesAvailable($latestVersion, $lastSentVersion, $expects, $expectedLastSentVersion)
     {
         $pluginsHavingUpdate = array(
             array('name' => 'MyTest', 'latestVersion' => $latestVersion, 'isTheme' => false)
@@ -97,14 +98,14 @@ class UpdateCommunicationTest extends IntegrationTestCase
         );
     }
 
-    public function test_sendNotificationIfUpdatesAvailable_ShouldSendOnlyOneEmail_IfMultipleUpdatesAreAvailable()
+    public function testSendNotificationIfUpdatesAvailableShouldSendOnlyOneEmailIfMultipleUpdatesAreAvailable()
     {
         $mock = $this->getCommunicationMockHavingManyUpdates();
         $mock->expects($this->once())->method('sendEmailNotification');
         $mock->sendNotificationIfUpdatesAvailable();
     }
 
-    public function test_sendNotificationIfUpdatesAvailable_ShouldUpdateAllSentVersions_IfMultipleUpdatesAreAvailable()
+    public function testSendNotificationIfUpdatesAvailableShouldUpdateAllSentVersionsIfMultipleUpdatesAreAvailable()
     {
         $mock = $this->getCommunicationMockHavingManyUpdates();
         $mock->expects($this->once())->method('sendEmailNotification');
@@ -115,7 +116,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
         $this->assertEquals('31.0.0', $this->getLastSentVersion('MyTest3'));
     }
 
-    public function test_sendNotificationIfUpdatesAvailable_ShouldSendCorrectText()
+    public function testSendNotificationIfUpdatesAvailableShouldSendCorrectText()
     {
         $subject = 'CoreUpdater_NotificationSubjectAvailablePluginUpdate';
         $rootUrl = Fixture::getTestRootUrl();

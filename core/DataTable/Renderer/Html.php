@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\DataTable\Renderer;
 
 use Exception;
@@ -118,9 +119,9 @@ class Html extends Renderer
             foreach ($row->getMetadata() as $name => $value) {
                 if (is_string($value)) {
                     $value = "'$value'";
-                } else if (is_array($value)) {
+                } elseif (is_array($value)) {
                     $value = var_export($value, true);
-                } else if ($value instanceof DataTable\DataTableInterface) {
+                } elseif ($value instanceof DataTable\DataTableInterface) {
                     $value = $this->renderTable($value);
                 }
                 $metadata[] = "'$name' => $value";

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
@@ -124,8 +125,10 @@ class SegmentFormatter
     {
         $operator = $operand[SegmentExpression::INDEX_OPERAND_OPERATOR];
 
-        if ($operator === SegmentExpression::MATCH_IS_NULL_OR_EMPTY
-            || $operator === SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY) {
+        if (
+            $operator === SegmentExpression::MATCH_IS_NULL_OR_EMPTY
+            || $operator === SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
+        ) {
             return '';
         }
 

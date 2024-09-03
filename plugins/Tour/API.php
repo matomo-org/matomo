@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Tour;
@@ -50,7 +51,6 @@ class API extends \Piwik\Plugin\API
         $login = Piwik::getCurrentUserLogin();
 
         foreach ($this->challenges->getChallenges() as $challenge) {
-
             if ($challenge->isDisabled()) {
                 continue;
             }

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
@@ -37,9 +38,9 @@ use Piwik\Plugins\CoreAdminHome\Emails\TokenAuthDeletedEmail;
 
 class Controller extends ControllerAdmin
 {
-    const NONCE_CHANGE_PASSWORD = 'changePasswordNonce';
-    const NONCE_ADD_AUTH_TOKEN = 'addAuthTokenNonce';
-    const NONCE_DELETE_AUTH_TOKEN = 'deleteAuthTokenNonce';
+    public const NONCE_CHANGE_PASSWORD = 'changePasswordNonce';
+    public const NONCE_ADD_AUTH_TOKEN = 'addAuthTokenNonce';
+    public const NONCE_DELETE_AUTH_TOKEN = 'deleteAuthTokenNonce';
 
     /**
      * @var Translator
@@ -229,7 +230,6 @@ class Controller extends ControllerAdmin
         $view->defaultReport = $defaultReport;
 
         if ($defaultReport == 'MultiSites') {
-
             $defaultSiteId = $userPreferences->getDefaultWebsiteId();
             $reportOptionsValue = $defaultSiteId;
 
@@ -521,12 +521,16 @@ class Controller extends ControllerAdmin
             $anonymousDefaultReport = Common::getRequestVar('anonymousDefaultReport');
             $anonymousDefaultDate = Common::getRequestVar('anonymousDefaultDate');
             $userLogin = 'anonymous';
-            APIUsersManager::getInstance()->setUserPreference($userLogin,
+            APIUsersManager::getInstance()->setUserPreference(
+                $userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT,
-                $anonymousDefaultReport);
-            APIUsersManager::getInstance()->setUserPreference($userLogin,
+                $anonymousDefaultReport
+            );
+            APIUsersManager::getInstance()->setUserPreference(
+                $userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
-                $anonymousDefaultDate);
+                $anonymousDefaultDate
+            );
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
@@ -566,12 +570,16 @@ class Controller extends ControllerAdmin
                 'use12HourClock' => $timeFormat,
             ]);
 
-            APIUsersManager::getInstance()->setUserPreference($userLogin,
+            APIUsersManager::getInstance()->setUserPreference(
+                $userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT,
-                $defaultReport);
-            APIUsersManager::getInstance()->setUserPreference($userLogin,
+                $defaultReport
+            );
+            APIUsersManager::getInstance()->setUserPreference(
+                $userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
-                $defaultDate);
+                $defaultDate
+            );
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);

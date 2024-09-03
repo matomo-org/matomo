@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Period;
 
 use Piwik\Date;
@@ -15,7 +16,7 @@ use Piwik\Period;
  */
 class Month extends Period
 {
-    const PERIOD_ID = 3;
+    public const PERIOD_ID = 3;
 
     protected $label = 'month';
 
@@ -82,7 +83,8 @@ class Month extends Period
      */
     protected function processOptimalSubperiods($startDate, $endDate)
     {
-        while ($startDate->isEarlier($endDate)
+        while (
+            $startDate->isEarlier($endDate)
             || $startDate == $endDate
         ) {
             $week        = new Week($startDate);

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Common;
@@ -48,6 +50,13 @@ class DatabaseAbilitiesCheck implements Diagnostic
         $result->addItem($this->checkTemporaryTables());
         $result->addItem($this->checkTransactionLevel());
 
+        $databaseVersion = Db::fetchOne('SELECT VERSION();');
+
+        if (strpos(strtolower($databaseVersion), 'mariadb') !== false && Config\DatabaseConfig::getConfigValue('schema') !== 'Mariadb') {
+            $comment = $this->translator->translate('Diagnostics_MariaDbNotConfigured');
+            $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_INFORMATIONAL, $comment));
+        }
+
         return [$result];
     }
 
@@ -62,7 +71,8 @@ class DatabaseAbilitiesCheck implements Diagnostic
 
         if (DbHelper::getDefaultCharset() === 'utf8mb4') {
             return new DiagnosticResultItem(
-                DiagnosticResult::STATUS_WARNING, 'UTF8mb4 charset<br/><br/>' .
+                DiagnosticResult::STATUS_WARNING,
+                'UTF8mb4 charset<br/><br/>' .
                 $this->translator->translate('Diagnostics_DatabaseUtf8mb4CharsetAvailableButNotUsed', '<code>' . PIWIK_INCLUDE_PATH . '/console core:convert-to-utf8mb4</code>') .
                 '<br/><br/>' .
                 $this->translator->translate('Diagnostics_DatabaseUtf8Requirement', ['�',
@@ -72,7 +82,8 @@ class DatabaseAbilitiesCheck implements Diagnostic
         }
 
         return new DiagnosticResultItem(
-            DiagnosticResult::STATUS_WARNING, 'UTF8mb4 charset<br/><br/>' .
+            DiagnosticResult::STATUS_WARNING,
+            'UTF8mb4 charset<br/><br/>' .
             $this->translator->translate('Diagnostics_DatabaseUtf8mb4CharsetRecommended') .
             '<br/><br/>' .
             $this->translator->translate('Diagnostics_DatabaseUtf8Requirement', ['�',
@@ -170,7 +181,7 @@ class DatabaseAbilitiesCheck implements Diagnostic
         $comment = 'Changing transaction isolation level';
 
         $level = new Db\TransactionLevel(Db::getReader());
-        if (!$level->setUncommitted()) {
+        if (!$level->setTransactionLevelForNonLockingReads()) {
             $status = DiagnosticResult::STATUS_WARNING;
             $comment .= '<br/>' . $this->translator->translate('Diagnostics_MysqlTransactionLevel');
         } else {

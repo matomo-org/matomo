@@ -1,31 +1,40 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\MultiSites;
 
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\MultiSites\FeatureFlags\ImprovedAllWebsitesDashboard;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {
     /**
+     * @var FeatureFlagManager
+     */
+    private $featureFlagManager;
+
+    /**
      * @var Translator
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    public function __construct(Translator $translator, FeatureFlagManager $featureFlagManager)
     {
         parent::__construct();
 
+        $this->featureFlagManager = $featureFlagManager;
         $this->translator = $translator;
     }
 
@@ -49,7 +58,15 @@ class Controller extends \Piwik\Plugin\Controller
         $date = Piwik::getDate('today');
         $period = Piwik::getPeriod('day');
 
-        $view = new View("@MultiSites/getSitesInfo");
+        if ($this->featureFlagManager->isFeatureActive(ImprovedAllWebsitesDashboard::class)) {
+            $view = new View('@MultiSites/allWebsitesDashboard');
+
+            if (Piwik::hasUserSuperUserAccess()) {
+                $view->kpiBadgeHits = '<strong>Plan:</strong> 600K hits/month';
+            }
+        } else {
+            $view = new View('@MultiSites/getSitesInfo');
+        }
 
         $view->isWidgetized         = $isWidgetized;
         $view->displayRevenueColumn = Common::isGoalPluginEnabled();
@@ -59,7 +76,8 @@ class Controller extends \Piwik\Plugin\Controller
         $view->autoRefreshTodayReport = 0;
         // if the current date is today, or yesterday,
         // in case the website is set to UTC-12), or today in UTC+14, we refresh the page every 5min
-        if (in_array($date, array('today', date('Y-m-d'),
+        if (
+            in_array($date, array('today', date('Y-m-d'),
                                   'yesterday', Date::factory('yesterday')->toString('Y-m-d'),
                                   Date::factory('now', 'UTC+14')->toString('Y-m-d')))
         ) {

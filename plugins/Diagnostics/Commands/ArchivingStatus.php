@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Diagnostics\Commands;
@@ -22,10 +23,16 @@ class ArchivingStatus extends ConsoleCommand
     protected function configure()
     {
         $this->setName('diagnostics:archiving-status');
-        $this->addNoValueOption('with-stats', null,
-            "If supplied, the command will include instance statistics such as monthly hits and site count");
-        $this->addOptionalValueOption('email', null,
-            "If supplied, the command will email the output to the supplied email address");
+        $this->addNoValueOption(
+            'with-stats',
+            null,
+            "If supplied, the command will include instance statistics such as monthly hits and site count"
+        );
+        $this->addOptionalValueOption(
+            'email',
+            null,
+            "If supplied, the command will email the output to the supplied email address"
+        );
         $this->setDescription('');
     }
 

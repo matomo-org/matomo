@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Diagnostics\tests\Unit\Diagnostic;
@@ -13,7 +14,7 @@ use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResultItem;
 
 class DiagnosticResultTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_getStatus_shouldReturnTheWorstStatus()
+    public function testGetStatusShouldReturnTheWorstStatus()
     {
         $result = new DiagnosticResult('Label');
 
@@ -26,7 +27,7 @@ class DiagnosticResultTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(DiagnosticResult::STATUS_ERROR, $result->getStatus());
     }
 
-    public function test_singleResult_shouldReturnAResultWithASingleItem()
+    public function testSingleResultShouldReturnAResultWithASingleItem()
     {
         $result = DiagnosticResult::singleResult('Label', DiagnosticResult::STATUS_ERROR);
 

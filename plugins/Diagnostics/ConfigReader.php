@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Diagnostics;
 
 use Piwik\Development;
@@ -56,7 +58,6 @@ class ConfigReader
 
             $copy[$category] = array();
             foreach ($values as $key => $value) {
-
                 $newValue = $value;
                 if ($this->isKeyAPassword($key)) {
                     $newValue = $this->getMaskedPassword();
@@ -152,7 +153,6 @@ class ConfigReader
             }
 
             foreach ($pluginSetting->getSettingsWritableByCurrentUser() as $setting) {
-
                 $name = $setting->getName();
 
                 $configSection = $pluginName;

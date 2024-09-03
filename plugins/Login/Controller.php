@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Login;
@@ -42,7 +41,7 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
-    const NONCE_CONFIRMRESETPASSWORD = 'loginConfirmResetPassword';
+    public const NONCE_CONFIRMRESETPASSWORD = 'loginConfirmResetPassword';
 
     /**
      * @var PasswordResetter
@@ -336,7 +335,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $parsedUrl = parse_url($urlToRedirect);
 
-        if (!empty($urlToRedirect) && false === $parsedUrl) {
+        if (
+            (!empty($urlToRedirect) && false === $parsedUrl)
+            || (!empty($parsedUrl['scheme']) && empty($parsedUrl['host']))
+        ) {
             $e = new \Piwik\Exception\Exception('The redirect URL is not valid.');
             $e->setIsHtmlMessage();
             throw $e;
@@ -348,6 +350,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $e->setIsHtmlMessage();
             throw $e;
         }
+
+        // We put together the url based on the parsed parameters manually to ensure it might not redirect to unexpected locations
+        // unescaped slashes in username or password part for example have unexpected results in browsers
+        // for protocol less urls starting with //, we need to prepend the double slash to have a url that passes the valid url check in redirect logic
+        $urlToRedirect = (strpos($urlToRedirect, '//') === 0 ? '//' : '') . UrlHelper::getParseUrlReverse($parsedUrl);
 
         if (empty($urlToRedirect)) {
             $redirect = Request::fromRequest()->getStringParameter('form_redirect', '');

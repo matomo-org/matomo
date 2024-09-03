@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
@@ -16,10 +17,7 @@ use Piwik\Plugins\Monolog\Processor\ClassNameProcessor;
  */
 class ClassNameProcessorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @test
-     */
-    public function it_should_append_classname_to_extra()
+    public function testItShouldAppendClassnameToExtra()
     {
         $processor = new ClassNameProcessor();
 

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
@@ -41,16 +43,28 @@ class SomeVisitsAllConversions extends Fixture
         // First, a goal that is only recorded once per visit
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
             API::getInstance()->addGoal(
-                $this->idSite, 'triggered js ONCE', 'title', 'Thank you', 'contains', $caseSensitive = false,
-                $revenue = 10, $allowMultipleConversions = false
+                $this->idSite,
+                'triggered js ONCE',
+                'title',
+                'Thank you',
+                'contains',
+                $caseSensitive = false,
+                $revenue = 10,
+                $allowMultipleConversions = false
             );
         }
 
         // Second, a goal allowing multiple conversions
         if (!self::goalExists($idSite = 1, $idGoal = 2)) {
             API::getInstance()->addGoal(
-                $this->idSite, 'triggered js MULTIPLE ALLOWED', 'manually', '', '', $caseSensitive = false,
-                $revenue = 10, $allowMultipleConversions = true
+                $this->idSite,
+                'triggered js MULTIPLE ALLOWED',
+                'manually',
+                '',
+                '',
+                $caseSensitive = false,
+                $revenue = 10,
+                $allowMultipleConversions = true
             );
         }
 

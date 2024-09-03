@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Live;
 
 use Piwik\API\Request;
@@ -22,7 +23,7 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    const SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY = 'live_widget_visitor_count_last_minutes';
+    public const SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY = 'live_widget_visitor_count_last_minutes';
 
     private $profileSummaryProvider;
 
@@ -32,7 +33,7 @@ class Controller extends \Piwik\Plugin\Controller
         parent::__construct();
     }
 
-    function index()
+    public function index()
     {
         return $this->widget();
     }

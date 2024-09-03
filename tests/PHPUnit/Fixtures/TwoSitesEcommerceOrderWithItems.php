@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
@@ -47,8 +49,14 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
 
         if (!self::goalExists($this->idSite, $this->idGoalStandard)) {
             API::getInstance()->addGoal(
-                $this->idSite, 'title match, triggered ONCE', 'title', 'incredible', 'contains',
-                $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true
+                $this->idSite,
+                'title match, triggered ONCE',
+                'title',
+                'incredible',
+                'contains',
+                $caseSensitive = false,
+                $revenue = 10,
+                $allowMultipleConversions = true
             );
         }
     }

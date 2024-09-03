@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UserCountry\Reports;
 
 use Piwik\Piwik;
@@ -38,8 +39,10 @@ class GetCountry extends Base
         if (LocationProvider::getCurrentProviderId() == LocationProvider\DefaultProvider::ID) {
             // if we're using the default location provider, add a note explaining how it works
             $footerMessage = Piwik::translate("General_Note") . ': '
-                . Piwik::translate('UserCountry_DefaultLocationProviderExplanation',
-                    ['<a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/geo-locate/') . '">', '</a>']);
+                . Piwik::translate(
+                    'UserCountry_DefaultLocationProviderExplanation',
+                    ['<a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/geo-locate/') . '">', '</a>']
+                );
 
             $view->config->show_footer_message = $footerMessage;
         }

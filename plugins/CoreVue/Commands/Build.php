@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreVue\Commands;
@@ -17,9 +18,9 @@ use Piwik\Plugin\Manager;
 
 class Build extends ConsoleCommand
 {
-    const RECOMMENDED_NODE_VERSION = '16.0.0';
-    const RECOMMENDED_NPM_VERSION = '7.0.0';
-    const RETRY_COUNT = 2;
+    public const RECOMMENDED_NODE_VERSION = '16.0.0';
+    public const RECOMMENDED_NPM_VERSION = '7.0.0';
+    public const RETRY_COUNT = 2;
 
     protected function configure()
     {
@@ -181,7 +182,8 @@ class Build extends ConsoleCommand
                     continue;
                 }
 
-                if ($returnCode != 0
+                if (
+                    $returnCode != 0
                     || stripos($concattedOutput, 'warning') !== false
                 ) {
                     $output->writeln("<error>Failed:</error>\n");
@@ -268,18 +270,25 @@ class Build extends ConsoleCommand
         $npmVersion = ltrim(trim(`npm -v`), 'v');
 
         if (version_compare($nodeVersion, self::RECOMMENDED_NODE_VERSION, '<')) {
-            $output->writeln(sprintf("<comment>The recommended node version for working with Vue is version %s or "
+            $output->writeln(sprintf(
+                "<comment>The recommended node version for working with Vue is version %s or "
                 . "greater and it looks like you're using %s. Building Vue files may not work with an older version, so "
                 . "we recommend upgrading. nvm can be used to easily install new node versions.</comment>",
-                self::RECOMMENDED_NODE_VERSION, $nodeVersion));
+                self::RECOMMENDED_NODE_VERSION,
+                $nodeVersion
+            ));
         }
 
         if (version_compare($npmVersion, self::RECOMMENDED_NPM_VERSION, '<')) {
-            $output->writeln(sprintf("<comment>The recommended npm version for working with Vue is version %s "
+            $output->writeln(sprintf(
+                "<comment>The recommended npm version for working with Vue is version %s "
                 . "or greater and it looks like you're using %s. Using an older version may result in improper "
                 . "dependencies being used, so we recommend upgrading. You can upgrade to the latest version with the "
                 . "command %s</comment>",
-                self::RECOMMENDED_NPM_VERSION, $npmVersion, 'npm install -g npm@latest'));
+                self::RECOMMENDED_NPM_VERSION,
+                $npmVersion,
+                'npm install -g npm@latest'
+            ));
         }
     }
 
@@ -313,7 +322,8 @@ class Build extends ConsoleCommand
             $absolutePath = $pluginDirectoryInfo['pluginsPathAbsolute'];
             foreach (scandir($absolutePath) as $subdirectory) {
                 $wholePath = $absolutePath . DIRECTORY_SEPARATOR . $subdirectory;
-                if (is_dir($wholePath)
+                if (
+                    is_dir($wholePath)
                     && $subdirectory !== '.'
                     && $subdirectory !== '..'
                 ) {

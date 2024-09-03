@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik;
@@ -306,9 +305,10 @@ class SiteContentDetector
             if (!isset($cacheData['detectedContent'][$type])) {
                 $cacheData['detectedContent'][$type] = [];
             }
-            foreach ($detections as $detectionId => $wasDetected)
-            if (null !== $wasDetected) {
-                $cacheData['detectedContent'][$type][$detectionId] = $wasDetected;
+            foreach ($detections as $detectionId => $wasDetected) {
+                if (null !== $wasDetected) {
+                    $cacheData['detectedContent'][$type][$detectionId] = $wasDetected;
+                }
             }
         }
 
@@ -332,15 +332,18 @@ class SiteContentDetector
             foreach ($typeDetections as $typeDetection) {
                 $this->detectedContent[$type][$typeDetection::getId()] = null;
 
-                if (in_array($type, $detectContent) ||
+                if (
+                    in_array($type, $detectContent) ||
                     in_array($typeDetection::getId(), $detectContent) ||
-                    empty($detectContent))
-                {
+                    empty($detectContent)
+                ) {
                     $this->detectedContent[$type][$typeDetection::getId()] = false;
 
                     if ($typeDetection->isDetected($this->siteResponse['data'], $this->siteResponse['headers'])) {
-                        if ($typeDetection instanceof ConsentManagerDetectionAbstract
-                            && $typeDetection->checkIsConnected($this->siteResponse['data'], $this->siteResponse['headers']) ) {
+                        if (
+                            $typeDetection instanceof ConsentManagerDetectionAbstract
+                            && $typeDetection->checkIsConnected($this->siteResponse['data'], $this->siteResponse['headers'])
+                        ) {
                             $this->connectedConsentManagers[] = $typeDetection::getId();
                         }
                         $this->detectedContent[$type][$typeDetection::getId()] = true;
@@ -372,8 +375,19 @@ class SiteContentDetector
         $siteData = [];
 
         try {
-            $siteData = Http::sendHttpRequestBy(Http::getTransportMethod(), $url, $timeOut, null, null,
-                null, 0, false, true, false, true);
+            $siteData = Http::sendHttpRequestBy(
+                Http::getTransportMethod(),
+                $url,
+                $timeOut,
+                null,
+                null,
+                null,
+                0,
+                false,
+                true,
+                false,
+                true
+            );
         } catch (\Exception $e) {
         }
 

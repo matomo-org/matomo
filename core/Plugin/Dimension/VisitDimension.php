@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugin\Dimension;
 
 use Piwik\CacheId;
@@ -37,7 +38,7 @@ use Exception;
  */
 abstract class VisitDimension extends Dimension
 {
-    const INSTALLER_PREFIX = 'log_visit.';
+    public const INSTALLER_PREFIX = 'log_visit.';
 
     protected $dbTableName = 'log_visit';
     protected $category = 'General_Visitors';

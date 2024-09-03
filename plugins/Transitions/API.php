@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Transitions;
@@ -243,7 +243,12 @@ class API extends \Piwik\Plugin\API
     {
 
         $data = $this->queryFollowingActions(
-            $idaction, $actionType, $logAggregator, $limitBeforeGrouping, $includeLoops);
+            $idaction,
+            $actionType,
+            $logAggregator,
+            $limitBeforeGrouping,
+            $includeLoops
+        );
 
         foreach ($data as $tableName => $table) {
             $report[$tableName] = $table;
@@ -395,7 +400,14 @@ class API extends \Piwik\Plugin\API
         $metrics = array(Metrics::INDEX_NB_VISITS);
         $data = $logAggregator->queryVisitsByDimension($dimensions, $where, [], $metrics, $rankingQuery, false, Config::getInstance()->General['live_query_max_execution_time']);
 
-        $referrerData = array();
+        // array is prefilled with available keys and empty values are removed in the end to ensure the order is static
+        $referrerData = [
+            Common::REFERRER_TYPE_DIRECT_ENTRY => [],
+            Common::REFERRER_TYPE_SEARCH_ENGINE => [],
+            Common::REFERRER_TYPE_SOCIAL_NETWORK => [],
+            Common::REFERRER_TYPE_WEBSITE => [],
+            Common::REFERRER_TYPE_CAMPAIGN => [],
+        ];
         $referrerSubData = array();
 
         foreach ($data as $referrerType => &$subData) {
@@ -419,6 +431,9 @@ class API extends \Piwik\Plugin\API
                 }
             }
         }
+
+        // remove empty records
+        $referrerData = array_filter($referrerData);
 
         $array = new DataArray($referrerData, $referrerSubData);
         return $array->asDataTable();
@@ -587,7 +602,11 @@ class API extends \Piwik\Plugin\API
     private function addExternalReferrers($logAggregator, &$report, $idaction, $actionType, $limitBeforeGrouping)
     {
         $data = $this->queryExternalReferrers(
-            $idaction, $actionType, $logAggregator, $limitBeforeGrouping);
+            $idaction,
+            $actionType,
+            $logAggregator,
+            $limitBeforeGrouping
+        );
 
         $report['pageMetrics']['entries'] = 0;
         $report['referrers'] = array();
@@ -684,7 +703,7 @@ class API extends \Piwik\Plugin\API
             Action::TYPE_PAGE_TITLE,
             Action::TYPE_PAGE_URL
         );
-        if(in_array($type, $actionTypesNotExitActions)) {
+        if (in_array($type, $actionTypesNotExitActions)) {
             $this->totalTransitionsToFollowingPages += $actions;
         }
     }
@@ -708,7 +727,6 @@ class API extends \Piwik\Plugin\API
 
         // If the period is a range then the number of days in the range must be less or equal to the max period allowed
         if ($period === 'range') {
-
             $range = new Period\Range($period, $date);
             $rangeDays = $range->getDayCount();
 

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreUpdater\Commands;
 
 use Piwik\Config;
@@ -74,7 +75,6 @@ class ConvertToUtf8mb4 extends ConsoleCommand
         }
 
         if ($yes) {
-
             $config = Config::getInstance();
 
             if (!$keepTracking) {

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\ArchiveProcessor\Rules;
@@ -24,7 +25,7 @@ use Piwik\Url;
  */
 class CronArchivingLastRunCheck implements Diagnostic
 {
-    const SECONDS_IN_DAY = 86400;
+    public const SECONDS_IN_DAY = 86400;
 
     /**
      * @var Translator
@@ -57,8 +58,10 @@ class CronArchivingLastRunCheck implements Diagnostic
         $lastRunTime = (int)Option::get(CronArchive::OPTION_ARCHIVING_FINISHED_TS);
         if (empty($lastRunTime)) {
             $comment = $this->translator->translate('Diagnostics_CronArchivingHasNotRun')
-                . '<br/><br/>' . $this->translator->translate('Diagnostics_CronArchivingRunDetails',
-                    [$coreArchiveShort, $mailto, $commandToRerun, '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/') . '" target="_blank" rel="noreferrer noopener">', '</a>']);
+                . '<br/><br/>' . $this->translator->translate(
+                    'Diagnostics_CronArchivingRunDetails',
+                    [$coreArchiveShort, $mailto, $commandToRerun, '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/') . '" target="_blank" rel="noreferrer noopener">', '</a>']
+                );
             return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $comment)];
         }
 
@@ -82,7 +85,7 @@ class CronArchivingLastRunCheck implements Diagnostic
         // check archiving has been run recently
         if ($diffTime > self::SECONDS_IN_DAY * 2) {
             $result = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $errorComment);
-        } else if ($diffTime > self::SECONDS_IN_DAY) {
+        } elseif ($diffTime > self::SECONDS_IN_DAY) {
             $result = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $errorComment);
         } else {
             $comment = $this->translator->translate('Diagnostics_CronArchivingRanSuccessfullyXAgo', $diffTimePretty);

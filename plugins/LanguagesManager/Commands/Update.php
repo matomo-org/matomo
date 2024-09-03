@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link     https://matomo.org
- * @license  http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\LanguagesManager\Commands;
@@ -56,7 +56,6 @@ class Update extends TranslationBase
         }
 
         foreach ($pluginList as $plugin) {
-
             $output->writeln("");
 
             // fetch base or specific plugin
@@ -75,13 +74,11 @@ class Update extends TranslationBase
             $this->startProgressBar();
 
             foreach ($files as $filename) {
-
                 $this->advanceProgressBar();
 
                 $code = basename($filename, '.json');
 
                 if (!in_array($code, $languageCodes)) {
-
                     if (!empty($plugin)) {
                         continue; # never create a new language for plugin only
                     }

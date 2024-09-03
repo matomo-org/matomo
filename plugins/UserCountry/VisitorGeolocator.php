@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UserCountry;
 
 use Matomo\Cache\Cache;
@@ -38,7 +39,7 @@ require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
  */
 class VisitorGeolocator
 {
-    const LAT_LONG_COMPARE_EPSILON = 0.0001;
+    public const LAT_LONG_COMPARE_EPSILON = 0.0001;
 
     /**
      * @var string[]
@@ -110,7 +111,8 @@ class VisitorGeolocator
     public function getLocation($userInfo, $useClassCache = true)
     {
         $userInfoKey = md5(implode(',', $userInfo));
-        if ($useClassCache
+        if (
+            $useClassCache
             && $this->locationCache->contains($userInfoKey)
         ) {
             return $this->locationCache->fetch($userInfoKey);
@@ -291,7 +293,8 @@ class VisitorGeolocator
 
     private function areLocationPropertiesEqual($locationKey, $locationPropertyValue, $existingPropertyValue)
     {
-        if (($locationKey == LocationProvider::LATITUDE_KEY
+        if (
+            ($locationKey == LocationProvider::LATITUDE_KEY
              || $locationKey == LocationProvider::LONGITUDE_KEY)
             && $existingPropertyValue != 0
         ) {

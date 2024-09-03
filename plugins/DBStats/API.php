@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\DBStats;
 
 use Piwik\Common;
@@ -88,9 +89,9 @@ class API extends \Piwik\Plugin\API
         foreach ($this->metadataProvider->getAllTablesStatus() as $status) {
             if ($this->isNumericArchiveTable($status['Name'])) {
                 $rowToAddTo = & $rows['metric_data'];
-            } else if ($this->isBlobArchiveTable($status['Name'])) {
+            } elseif ($this->isBlobArchiveTable($status['Name'])) {
                 $rowToAddTo = & $rows['report_data'];
-            } else if ($this->isTrackerTable($status['Name'])) {
+            } elseif ($this->isTrackerTable($status['Name'])) {
                 $rowToAddTo = & $rows['tracker_data'];
             } else {
                 $rowToAddTo = & $rows['other_data'];

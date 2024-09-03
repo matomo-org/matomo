@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CustomJsTracker\tests\Integration;
@@ -23,8 +24,8 @@ class CustomTestFile extends File
  */
 class FileTest extends IntegrationTestCase
 {
-    const NOT_EXISTING_FILE_IN_WRITABLE_DIRECTORY = 'notExisTinGFile.js';
-    const NOT_EXISTING_FILE_IN_NON_WRITABLE_DIRECTORY = 'is-not-writable/notExisTinGFile.js';
+    public const NOT_EXISTING_FILE_IN_WRITABLE_DIRECTORY = 'notExisTinGFile.js';
+    public const NOT_EXISTING_FILE_IN_NON_WRITABLE_DIRECTORY = 'is-not-writable/notExisTinGFile.js';
 
     /**
      * @var string
@@ -39,7 +40,7 @@ class FileTest extends IntegrationTestCase
         // make directory not writable
         $nonWritableDir = dirname($this->dir . self::NOT_EXISTING_FILE_IN_NON_WRITABLE_DIRECTORY);
         @chmod($nonWritableDir, 0444);
-        if(is_writable($nonWritableDir)) {
+        if (is_writable($nonWritableDir)) {
             throw new \Exception("The directory $nonWritableDir should have been made non writable by this test, but it didn't work");
         }
     }
@@ -63,7 +64,7 @@ class FileTest extends IntegrationTestCase
     private function makeNotWritableFile()
     {
         $path = $this->dir . 'file-made-non-writable.js';
-        if(file_exists($path)) {
+        if (file_exists($path)) {
             chmod($path, 0777);
         }
         $file = new File($path);
@@ -83,26 +84,26 @@ class FileTest extends IntegrationTestCase
 
     private function makeNotReadableFile()
     {
-        return $this->makeNotReadableFile_inWritableDirectory();
+        return $this->makeNotReadableFileInWritableDirectory();
     }
 
-    private function makeNotReadableFile_inNonWritableDirectory()
+    private function makeNotReadableFileInNonWritableDirectory()
     {
         return $this->makeFile(self::NOT_EXISTING_FILE_IN_NON_WRITABLE_DIRECTORY);
     }
 
-    private function makeNotReadableFile_inWritableDirectory()
+    private function makeNotReadableFileInWritableDirectory()
     {
         return $this->makeFile(self::NOT_EXISTING_FILE_IN_WRITABLE_DIRECTORY);
     }
 
-    public function test_getName()
+    public function testGetName()
     {
         $this->assertSame('test.js', $this->makeFile()->getName());
         $this->assertSame('notExisTinGFile.js', $this->makeNotReadableFile()->getName());
     }
 
-    public function test_setFile_createsNewObjectLeavesOldUnchanged()
+    public function testSetFileCreatesNewObjectLeavesOldUnchanged()
     {
         $file = $this->makeFile();
         $file2 = $file->setFile('foo/bar.png');
@@ -110,51 +111,51 @@ class FileTest extends IntegrationTestCase
         $this->assertSame('bar.png', $file2->getName());
     }
 
-    public function test_setFile_returnsObjectOfSameType()
+    public function testSetFileReturnsObjectOfSameType()
     {
         $file = new CustomTestFile('foo/baz.png');
         $file2 = $file->setFile('foo/bar.png');
         $this->assertTrue($file2 instanceof CustomTestFile);
     }
 
-    public function test_getPath()
+    public function testGetPath()
     {
         $this->assertSame($this->dir . 'notExisTinGFile.js', $this->makeNotReadableFile()->getPath());
     }
 
-    public function test_hasReadAccess()
+    public function testHasReadAccess()
     {
         $this->assertTrue($this->makeFile()->hasReadAccess());
         $this->assertFalse($this->makeNotReadableFile()->hasReadAccess());
     }
 
-    public function test_hasWriteAccess()
+    public function testHasWriteAccess()
     {
         $this->assertTrue($this->makeFile()->hasWriteAccess());
-        $this->assertTrue($this->makeNotReadableFile_inWritableDirectory()->hasWriteAccess());
-        $this->assertFalse($this->makeNotReadableFile_inNonWritableDirectory()->hasWriteAccess());
+        $this->assertTrue($this->makeNotReadableFileInWritableDirectory()->hasWriteAccess());
+        $this->assertFalse($this->makeNotReadableFileInNonWritableDirectory()->hasWriteAccess());
     }
 
-    public function test_hasWriteAccess_whenFileExistAndIsNotWritable()
+    public function testHasWriteAccessWhenFileExistAndIsNotWritable()
     {
         $this->assertFalse($this->makeNotWritableFile()->hasWriteAccess());
     }
 
-    public function test_checkReadable_shouldNotThrowException_IfIsReadable()
+    public function testCheckReadableShouldNotThrowExceptionIfIsReadable()
     {
         self::expectNotToPerformAssertions();
 
         $this->makeFile()->checkReadable();
     }
 
-    public function test_checkWritable_shouldNotThrowException_IfIsWritable()
+    public function testCheckWritableShouldNotThrowExceptionIfIsWritable()
     {
         self::expectNotToPerformAssertions();
 
         $this->makeFile()->checkWritable();
     }
 
-    public function test_checkReadable_shouldThrowException_IfNotIsReadable()
+    public function testCheckReadableShouldThrowExceptionIfNotIsReadable()
     {
         $this->expectException(\Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException::class);
         $this->expectExceptionMessage('not readable');
@@ -162,26 +163,26 @@ class FileTest extends IntegrationTestCase
         $this->makeNotReadableFile()->checkReadable();
     }
 
-    public function test_checkWritable_shouldThrowException_IfNotIsWritable()
+    public function testCheckWritableShouldThrowExceptionIfNotIsWritable()
     {
         $this->expectException(\Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException::class);
         $this->expectExceptionMessage('not writable');
 
-        $this->makeNotReadableFile_inNonWritableDirectory()->checkWritable();
+        $this->makeNotReadableFileInNonWritableDirectory()->checkWritable();
     }
 
-    public function test_checkWritable_shouldNotThrowException_IfDirectoryIsWritable()
+    public function testCheckWritableShouldNotThrowExceptionIfDirectoryIsWritable()
     {
         $this->expectNotToPerformAssertions();
-        $this->makeNotReadableFile_inWritableDirectory()->checkWritable();
+        $this->makeNotReadableFileInWritableDirectory()->checkWritable();
     }
 
-    public function test_getContent()
+    public function testGetContent()
     {
         $this->assertSame("// Hello world\nvar fooBar = 'test';", $this->makeFile()->getContent());
     }
 
-    public function test_isFileContentSame()
+    public function testIsFileContentSame()
     {
         $this->assertTrue($this->makeFile()->isFileContentSame("// Hello world\nvar fooBar = 'test';"));
         $this->assertFalse($this->makeFile()->isFileContentSame("// Hello world\nvar foBar = 'test';"));
@@ -189,14 +190,14 @@ class FileTest extends IntegrationTestCase
         $this->assertFalse($this->makeFile()->isFileContentSame("Hello world\nvar foBar = 'test'"));
     }
 
-    public function test_getContent_returnsNull_IfFileIsNotReadableOrNotExists()
+    public function testGetContentReturnsNullIfFileIsNotReadableOrNotExists()
     {
         $this->assertNull($this->makeNotReadableFile()->getContent());
     }
 
-    public function test_save()
+    public function testSave()
     {
-        $notExistingFile = $this->makeNotReadableFile_inWritableDirectory();
+        $notExistingFile = $this->makeNotReadableFileInWritableDirectory();
         $this->assertFalse($notExistingFile->hasReadAccess());
         $this->assertTrue($notExistingFile->hasWriteAccess());
 

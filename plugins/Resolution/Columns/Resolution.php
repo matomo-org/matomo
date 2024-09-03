@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Resolution\Columns;
 
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -38,5 +39,20 @@ class Resolution extends VisitDimension
         }
 
         return $resolution;
+    }
+    /**
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        // In case the value was initially unknown, update it from a subsequent action
+        if ($visitor->getVisitorColumn($this->columnName) === Request::UNKNOWN_RESOLUTION) {
+            return $this->onNewVisit($request, $visitor, $action);
+        } else {
+            return false;
+        }
     }
 }

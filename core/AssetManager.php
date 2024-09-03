@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Exception;
@@ -39,17 +40,17 @@ use Piwik\Plugin\Manager;
  */
 class AssetManager extends Singleton
 {
-    const MERGED_CSS_FILE = "asset_manager_global_css.css";
-    const MERGED_CORE_JS_FILE = "asset_manager_core_js.js";
-    const MERGED_NON_CORE_JS_FILE = "asset_manager_non_core_js.js";
+    public const MERGED_CSS_FILE = "asset_manager_global_css.css";
+    public const MERGED_CORE_JS_FILE = "asset_manager_core_js.js";
+    public const MERGED_NON_CORE_JS_FILE = "asset_manager_non_core_js.js";
 
-    const CSS_IMPORT_DIRECTIVE = "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\" />\n";
-    const JS_IMPORT_DIRECTIVE = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
-    const JS_DEFER_IMPORT_DIRECTIVE = "<script type=\"text/javascript\" src=\"%s\" defer></script>\n";
-    const GET_CSS_MODULE_ACTION = "index.php?module=Proxy&action=getCss";
-    const GET_CORE_JS_MODULE_ACTION = "index.php?module=Proxy&action=getCoreJs";
-    const GET_NON_CORE_JS_MODULE_ACTION = "index.php?module=Proxy&action=getNonCoreJs";
-    const GET_JS_UMD_MODULE_ACTION = "index.php?module=Proxy&action=getUmdJs&chunk=";
+    public const CSS_IMPORT_DIRECTIVE = "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\" />\n";
+    public const JS_IMPORT_DIRECTIVE = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
+    public const JS_DEFER_IMPORT_DIRECTIVE = "<script type=\"text/javascript\" src=\"%s\" defer></script>\n";
+    public const GET_CSS_MODULE_ACTION = "index.php?module=Proxy&action=getCss";
+    public const GET_CORE_JS_MODULE_ACTION = "index.php?module=Proxy&action=getCoreJs";
+    public const GET_NON_CORE_JS_MODULE_ACTION = "index.php?module=Proxy&action=getNonCoreJs";
+    public const GET_JS_UMD_MODULE_ACTION = "index.php?module=Proxy&action=getUmdJs&chunk=";
 
     /**
      * @var UIAssetCacheBuster

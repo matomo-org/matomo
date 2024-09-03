@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Period;
 
 use Exception;
@@ -75,15 +76,15 @@ abstract class Factory
 
         if (is_string($date)) {
             [$period, $date] = self::convertRangeToDateIfNeeded($period, $date);
-            if (Period::isMultiplePeriod($date, $period)
+            if (
+                Period::isMultiplePeriod($date, $period)
                 || $period == 'range'
             ) {
-
                 return new Range($period, $date, $timezone);
             }
 
             $dateObject = Date::factory($date);
-        } else if ($date instanceof Date) {
+        } elseif ($date instanceof Date) {
             $dateObject = $date;
         } else {
             throw new \Exception("Invalid date supplied to Period\Factory::build(): " . gettype($date));

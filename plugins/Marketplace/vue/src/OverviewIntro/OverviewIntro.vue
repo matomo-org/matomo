@@ -1,7 +1,8 @@
 <!--
   Matomo - free/libre analytics platform
-  @link https://matomo.org
-  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
 <template>
@@ -14,70 +15,78 @@
       </EnrichedHeadline>
     </h2>
 
-    <p>
-      <span v-if="!isSuperUser">
-        {{ showThemes
-          ? translate('Marketplace_NotAllowedToBrowseMarketplaceThemes')
-          : translate('Marketplace_NotAllowedToBrowseMarketplacePlugins') }}
-      </span>
-      <span v-else-if="showThemes">
-        {{ translate('CorePluginsAdmin_ThemesDescription') }}
-        <span v-html="$sanitize(installingNewThemeText)"></span>
-      </span>
-      <span v-else>
-        {{ translate('CorePluginsAdmin_PluginsExtendPiwik') }}
-        <span v-html="$sanitize(installingNewPluginText)"></span>
-      </span>
-      <span
-        ref="noticeRemoveMarketplaceFromMenu"
-        v-if="isSuperUser && inReportingMenu"
-        v-html="$sanitize(noticeRemoveMarketplaceFromMenuText)"
-      ></span>
-    </p>
-    <LicenseKey
-      :is-valid-consumer="isValidConsumer"
-      :is-super-user="isSuperUser"
-      :is-auto-update-possible="isAutoUpdatePossible"
-      :is-plugins-admin-enabled="isPluginsAdminEnabled"
-      :has-license-key="hasLicenseKey"
-      :paid-plugins-to-install-at-once="paidPluginsToInstallAtOnce"
-      :install-nonce="installNonce"
-    />
+    <div class="marketplaceIntro">
+      <p v-if="!isSuperUser">
+          {{ translate('Marketplace_Intro') }}
+      </p>
+      <p v-else>
+          {{ translate('Marketplace_IntroSuperUser') }}
+      </p>
+    </div>
 
-    <UploadPluginDialog
-      :is-plugin-upload-enabled="isPluginUploadEnabled"
-      :upload-limit="uploadLimit"
-      :install-nonce="installNonce"
-    />
+    <div class="installAllPaidPlugins" v-if="installAllPaidPluginsVisible">
+      <InstallAllPaidPluginsButton
+        :paid-plugins-to-install-at-once="getPaidPluginsToInstallAtOnce"
+        :install-nonce="installNonce"
+        :disabled="installDisabled"
+        :loading="installLoading"
+      />
+    </div>
 
     <Marketplace
-      :plugin-type="pluginType"
       :plugin-type-options="pluginTypeOptions"
-      :sort="sort"
+      :default-sort="defaultSort"
       :plugin-sort-options="pluginSortOptions"
-      :plugins-to-show="pluginsToShow"
-      :query="query"
-      :num-available-plugins="numAvailablePlugins"
+      :num-available-plugins-by-type="numAvailablePluginsByType"
+      :current-user-email="currentUserEmail"
+      :is-auto-update-possible="isAutoUpdatePossible"
+      :is-super-user="isSuperUser"
+      :is-multi-server-environment="isMultiServerEnvironment"
+      :is-plugins-admin-enabled="isPluginsAdminEnabled"
+      :is-valid-consumer="getIsValidConsumer"
+      :deactivate-nonce="deactivateNonce"
+      :activate-nonce="activateNonce"
+      :install-nonce="installNonce"
+      :update-nonce="updateNonce"
+      :has-some-admin-access="hasSomeAdminAccess"
+      :num-users="numUsers"
+      @triggerUpdate="this.updateOverviewData()"
+      @startTrialStart="this.disableInstallAllPlugins(true)"
+      @startTrialStop="this.disableInstallAllPlugins(false)"
     />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ContentIntro, EnrichedHeadline, translate } from 'CoreHome';
-import { PluginName, UploadPluginDialog } from 'CorePluginsAdmin';
+import {
+  AjaxHelper,
+  ContentIntro, EnrichedHeadline, MatomoUrl,
+} from 'CoreHome';
 import Marketplace from '../Marketplace/Marketplace.vue';
-import LicenseKey from '../LicenseKey/LicenseKey.vue';
+import InstallAllPaidPluginsButton
+  from '../InstallAllPaidPluginsButton/InstallAllPaidPluginsButton.vue';
+import { TObject, TObjectArray } from '../types';
+
+interface OverviewIntroState {
+  updating: boolean;
+  fetchRequest: Promise<void>|null;
+  fetchRequestAbortController: AbortController|null;
+  updateData: TObject|null,
+  installDisabled: boolean;
+  installLoading: boolean;
+}
 
 export default defineComponent({
   props: {
-    showThemes: Boolean,
+    currentUserEmail: String,
     inReportingMenu: Boolean,
     isValidConsumer: Boolean,
     isSuperUser: Boolean,
     isAutoUpdatePossible: Boolean,
     isPluginsAdminEnabled: Boolean,
-    hasLicenseKey: Boolean,
+    isMultiServerEnvironment: Boolean,
+    hasSomeAdminAccess: Boolean,
     paidPluginsToInstallAtOnce: {
       type: Array,
       required: true,
@@ -86,98 +95,124 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    isPluginUploadEnabled: Boolean,
-    uploadLimit: [String, Number],
-    pluginType: {
+    activateNonce: {
       type: String,
       required: true,
     },
-    pluginTypeOptions: {
-      type: [Object, Array],
+    deactivateNonce: {
+      type: String,
       required: true,
     },
-    sort: {
+    updateNonce: {
+      type: String,
+      required: true,
+    },
+    isPluginUploadEnabled: Boolean,
+    uploadLimit: [String, Number],
+    pluginTypeOptions: {
+      type: Object,
+      required: true,
+    },
+    defaultSort: {
       type: String,
       required: true,
     },
     pluginSortOptions: {
-      type: [Object, Array],
+      type: Object,
       required: true,
     },
-    pluginsToShow: {
-      type: Array,
+    numAvailablePluginsByType: {
+      type: Object,
       required: true,
     },
-    query: {
-      type: String,
-      default: '',
-    },
-    numAvailablePlugins: {
+    numUsers: {
       type: Number,
       required: true,
     },
   },
   components: {
+    InstallAllPaidPluginsButton,
     EnrichedHeadline,
-    UploadPluginDialog,
-    LicenseKey,
     Marketplace,
   },
   directives: {
     ContentIntro,
-    PluginName,
   },
-  mounted() {
-    if (this.$refs.noticeRemoveMarketplaceFromMenu) {
-      const pluginLink = (this.$refs.noticeRemoveMarketplaceFromMenu as HTMLElement)
-        .querySelector('[matomo-plugin-name]') as HTMLElement;
-      PluginName.mounted(pluginLink, {
-        dir: {},
-        instance: null,
-        modifiers: {},
-        oldValue: null,
-        value: {
-          pluginName: 'WhiteLabel',
-        },
-      });
-    }
-  },
-  beforeUnmount() {
-    if (this.$refs.noticeRemoveMarketplaceFromMenu) {
-      const pluginLink = (this.$refs.noticeRemoveMarketplaceFromMenu as HTMLElement)
-        .querySelector('[matomo-plugin-name]') as HTMLElement;
-      PluginName.unmounted(pluginLink, {
-        dir: {},
-        instance: null,
-        modifiers: {},
-        oldValue: null,
-        value: {
-          pluginName: 'WhiteLabel',
-        },
-      });
-    }
+  data(): OverviewIntroState {
+    return {
+      updating: false,
+      fetchRequest: null,
+      fetchRequestAbortController: null,
+      updateData: null,
+      installDisabled: false,
+      installLoading: false,
+    };
   },
   computed: {
-    installingNewThemeText() {
-      return translate(
-        'Marketplace_InstallingNewThemesViaMarketplaceOrUpload',
-        '<a href="#" class="uploadPlugin">',
-        '</a>',
-      );
+    getIsValidConsumer(): boolean {
+      return (this.updateData && typeof this.updateData.isValidConsumer !== 'undefined'
+        ? this.updateData.isValidConsumer
+        : this.isValidConsumer) as boolean;
     },
-    installingNewPluginText() {
-      return translate(
-        'Marketplace_InstallingNewPluginsViaMarketplaceOrUpload',
-        '<a href="#" class="uploadPlugin">',
-        '</a>',
-      );
+    getPaidPluginsToInstallAtOnce(): TObjectArray {
+      return (this.updateData && typeof this.updateData.paidPluginsToInstallAtOnce !== 'undefined'
+        ? this.updateData.paidPluginsToInstallAtOnce
+        : this.paidPluginsToInstallAtOnce) as TObjectArray;
     },
-    noticeRemoveMarketplaceFromMenuText() {
-      return translate(
-        'Marketplace_NoticeRemoveMarketplaceFromReportingMenu',
-        '<a href="#" matomo-plugin-name="WhiteLabel">',
-        '</a>',
-      );
+    installAllPaidPluginsVisible(): boolean {
+      return ((this.getIsValidConsumer
+        && this.isSuperUser
+        && this.isAutoUpdatePossible
+        && this.isPluginsAdminEnabled
+        && this.getPaidPluginsToInstallAtOnce?.length
+      ) || (
+        this.installDisabled && this.installLoading
+      )) as boolean;
+    },
+    showThemes(): boolean {
+      return MatomoUrl.hashParsed.value.pluginType as string === 'themes';
+    },
+  },
+  methods: {
+    disableInstallAllPlugins(isLoading: boolean) {
+      this.installDisabled = true;
+      this.installLoading = isLoading;
+    },
+    enableInstallAllPlugins() {
+      this.installDisabled = false;
+      this.installLoading = false;
+    },
+    updateOverviewData() {
+      this.updating = true;
+      if (this.isSuperUser) {
+        this.disableInstallAllPlugins(true);
+      }
+
+      if (this.fetchRequestAbortController) {
+        this.fetchRequestAbortController.abort();
+        this.fetchRequestAbortController = null;
+      }
+
+      this.fetchRequestAbortController = new AbortController();
+      this.fetchRequest = AjaxHelper.post(
+        {
+          module: 'Marketplace',
+          action: 'updateOverview',
+          format: 'JSON',
+        },
+        {
+        },
+        {
+          withTokenInUrl: true,
+          abortController: this.fetchRequestAbortController,
+        },
+      ).then((response) => {
+        this.updateData = response;
+      }).finally(() => {
+        this.updating = false;
+        this.fetchRequestAbortController = null;
+        this.enableInstallAllPlugins();
+      });
     },
   },
 });

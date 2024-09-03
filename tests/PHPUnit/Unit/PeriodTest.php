@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit;
@@ -52,7 +53,7 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($label);
     }
 
-    public function testValidate_ValidDates()
+    public function testValidateValidDates()
     {
         self::expectNotToPerformAssertions();
 
@@ -71,7 +72,7 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getInvalidDateFormats
      */
-    public function testValidate_InvalidDates($invalidDateFormat)
+    public function testValidateInvalidDates($invalidDateFormat)
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Date format must be: YYYY-MM-DD, or \'today\' or \'yesterday\' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information):');
@@ -94,7 +95,7 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForToString
      */
-    public function test_toString_CreatesCommaSeparatedStringList($periodType, $date, $format, $expected)
+    public function testToStringCreatesCommaSeparatedStringList($periodType, $date, $format, $expected)
     {
         $period = Period\Factory::build($periodType, $date);
         $actual = $period->toString($format);
@@ -152,7 +153,7 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getInvalidDatesBeforeFirstWebsite
      */
-    public function testValidate_InvalidDatesBeforeFirstWebsite($invalidDatesBeforeFirstWebsite)
+    public function testValidateInvalidDatesBeforeFirstWebsite($invalidDatesBeforeFirstWebsite)
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('is a date before first website was online. Try date that\'s after');
@@ -171,7 +172,7 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForGetAllOverlappingChildPeriods
      */
-    public function test_getAllOverlappingChildPeriods_ReturnsTheCorrectChildPeriods($periodType, $dateRange, $expectedChildPeriodRanges)
+    public function testGetAllOverlappingChildPeriodsReturnsTheCorrectChildPeriods($periodType, $dateRange, $expectedChildPeriodRanges)
     {
         $period = Period\Factory::build($periodType, $dateRange);
 
@@ -258,7 +259,7 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForIsDateInPeriod
      */
-    public function test_isDateInPeriod($date, $period, $periodDate, $expected)
+    public function testIsDateInPeriod($date, $period, $periodDate, $expected)
     {
         $date = Date::factory($date);
         $period = Period\Factory::build($period, $periodDate);
@@ -283,7 +284,7 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForIsPeriodIntersectingWith
      */
-    public function test_isPeriodIntersectingWith($date1, $period1, $date2, $period2, $expected)
+    public function testIsPeriodIntersectingWith($date1, $period1, $date2, $period2, $expected)
     {
         $period1Obj = Period\Factory::build($period1, $date1);
         $period2Obj = Period\Factory::build($period2, $date2);
@@ -312,7 +313,7 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestDataForGetBoundsInTimezone
      */
-    public function test_getBoundsInTimezone($period, $date, $timezone, $expectedDate1, $expectedDate2)
+    public function testGetBoundsInTimezone($period, $date, $timezone, $expectedDate1, $expectedDate2)
     {
         $periodObj = Period\Factory::build($period, $date);
 

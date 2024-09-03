@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\API;
 
 use Piwik\Category\CategoryList;
@@ -28,7 +29,8 @@ class SegmentMetadata
         $segments = array();
 
         foreach ($dimensionSegments as $segment) {
-            if (!$_showAllSegments
+            if (
+                !$_showAllSegments
                 && $segment->isInternal()
             ) {
                 continue;
@@ -64,7 +66,8 @@ class SegmentMetadata
                 unset($segment['sqlSegment']);
                 unset($segment['needsMostFrequentValues']);
 
-                if (isset($segment['suggestedValuesCallback'])
+                if (
+                    isset($segment['suggestedValuesCallback'])
                     && !is_string($segment['suggestedValuesCallback'])
                 ) {
                     unset($segment['suggestedValuesCallback']);
@@ -108,7 +111,8 @@ class SegmentMetadata
             $compare = $type * strcmp($row1[$column], $row2[$column]);
 
             // hack so that custom variables "page" are grouped together in the doc
-            if ($row1['category'] == $customVarCategory
+            if (
+                $row1['category'] == $customVarCategory
                 && $row1['category'] == $row2['category']
             ) {
                 $compare = strcmp($row1['segment'], $row2['segment']);

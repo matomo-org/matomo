@@ -1,1 +1,17 @@
-{}
+{
+    "Widgetize": {
+        "DirectLink": "› Nasc Díreach",
+        "DisplayDashboardInIframe": "Is féidir leat an painéal iomlán Matomo a thaispeáint i d'fheidhmchlár nó ar an suíomh Gréasáin freisin i IFRAME (%1$ssee shampla%2$s). Is féidir an paraiméadar dáta a shocrú go dtí dáta féilire ar leith, \"inniu\", nó \"inné\". Is féidir an paraiméadar tréimhse a shocrú go \"lá\", \"seachtain\", \"mí\", nó \"bliain\". Is féidir an paraiméadar teanga a shocrú le cód teanga an aistriúcháin, mar teanga=fr. Mar shampla, le haghaidh idSite=1 agus date=inné, is féidir leat scríobh:",
+        "DisplayDashboardInIframeAllSites": "Is féidir leat painéal na suíomhanna Gréasáin go léir a ghiuirléid freisin i IFRAME (%1$ssee shampla%2$s)",
+        "EmbedIframe": "› Leabú Iframe",
+        "Intro": "Le Matomo, is féidir leat %1$s do thuairiscí Web Analytics%2$s a onnmhairiú ar do bhlag, ar do shuíomh Gréasáin nó ar phainéal inlín… i gceann cliceáil.",
+        "OpenInNewWindow": "Oscail i bhfuinneog nua",
+        "PluginDescription": "Taispeáin aon tuairisc Matomo i do shuíomh Gréasáin nó aip le clib HTML simplí \"leabaithe\".",
+        "Reports": "Giuirléidí tuarascálacha",
+        "SelectAReport": "Roghnaigh tuairisc, agus cóipeáil greamaigh i do leathanach an cód leabaithe faoi bhun an ghiuirléid:",
+        "TooHighAccessLevel": "Tá rochtain shár-úsáideoir ag an úsáideoir seo. Ní cheadaítear giuirléidí a leabú le fíordheimhnithe sár-úsáideoirí. %1$sSeiceáil na Ceisteanna Coitianta le haghaidh tuilleadh eolais.%2$s",
+        "TopLinkTooltip": "Easpórtáil tuairiscíonn Matomo mar ghiuirléidí agus leabaigh an painéal i d'aip mar iframe.",
+        "ViewAccessRequired": "Tá rochtain scríofa ar a laghad ag an úsáideoir seo. Ní féidir ach comharthaí úsáideoirí nach bhfuil ach rochtain amhairc acu a úsáid. Seiceáil %1$s le haghaidh tuilleadh eolais.",
+        "ViewableAnonymously": "Más mian leat do ghiuirléidí a bheith infheicthe ag gach duine, ar dtús caithfidh tú na ceadanna 'amharc' a shocrú don úsáideoir gan ainm i rannán %1$sUsers Management%2$s. <br>De rogha air sin, má tá giuirléidí á bhfoilsiú agat ar leathanach atá cosanta ag pasfhocal nó ar leathanach príobháideach, ní gá go gceadódh tú ‘gan ainm’ chun do thuairiscí a fheiceáil. Sa chás seo, is féidir leat an paraiméadar rúnda <code>token_auth</code> a chur le URL an ghiuirléid. Is féidir leat do chuid comharthaí údaraithe a bhainistiú ar do leathanach Slándála %3$s%4$s."
+    }
+}

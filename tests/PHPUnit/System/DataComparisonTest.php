@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\System;
@@ -14,6 +15,7 @@ use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+
 /**
  * Testing Data comparison
  *
@@ -34,7 +36,10 @@ class DataComparisonTest extends SystemTestCase
         // the specific site and will be invalid in global context
         // Added to avoid further regressions like: https://github.com/matomo-org/matomo/issues/21573
         $idDimension = \Piwik\Plugins\CustomDimensions\API::getInstance()->configureNewCustomDimension(
-            self::$fixture->idSite, 'test', CustomDimensions::SCOPE_VISIT, true
+            self::$fixture->idSite,
+            'test',
+            CustomDimensions::SCOPE_VISIT,
+            true
         );
         Fixture::clearInMemoryCaches(false);
         \Piwik\Plugins\SegmentEditor\API::getInstance()->add('custom dimension', "dimension$idDimension==test", self::$fixture->idSite);

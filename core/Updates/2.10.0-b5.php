@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Updates;
@@ -161,7 +161,6 @@ class Updates_2_10_0_b5 extends Updates
 
             $deviceDetectionBlobAvailableDate = null;
             foreach ($archiveBlobTables as $table) {
-
                 // Look for all day archives and try to find that with the lowest date
                 $deviceDetectionBlobAvailableDate = Db::get()->fetchOne(sprintf("SELECT date1 FROM %s WHERE name = 'DevicesDetection_browserVersions' AND period = 1 ORDER BY date1 ASC LIMIT 1", $table));
 
@@ -192,7 +191,6 @@ class Updates_2_10_0_b5 extends Updates
          */
         $oldBrowserBlobs = Db::get()->fetchAll(sprintf("SELECT * FROM %s WHERE name = 'UserSettings_browser' AND `period` > 1", $table));
         foreach ($oldBrowserBlobs as $blob) {
-
             // if start date of blob is before calculated date us old usersettings archive instead of already existing DevicesDetection archive
             if (strtotime($blob['date1']) < self::getFirstDayOfArchivedDeviceDetectorData()) {
                 Db::get()->query(sprintf("DELETE FROM %s WHERE idarchive = ? AND name = ?", $table), array($blob['idarchive'], 'DevicesDetection_browserVersions'));
@@ -211,7 +209,6 @@ class Updates_2_10_0_b5 extends Updates
          */
         $oldOsBlobs = Db::get()->fetchAll(sprintf("SELECT * FROM %s WHERE name = 'UserSettings_os' AND `period` > 1", $table));
         foreach ($oldOsBlobs as $blob) {
-
             // if start date of blob is before calculated date us old usersettings archive instead of already existing DevicesDetection archive
             if (strtotime($blob['date1']) < self::getFirstDayOfArchivedDeviceDetectorData()) {
                 Db::get()->query(sprintf("DELETE FROM %s WHERE idarchive = ? AND name = ?", $table), array($blob['idarchive'], 'DevicesDetection_osVersions'));

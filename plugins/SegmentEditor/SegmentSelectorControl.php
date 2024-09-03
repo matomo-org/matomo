@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\API\Request;
@@ -26,7 +27,7 @@ use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
  */
 class SegmentSelectorControl extends UIControl
 {
-    const TEMPLATE = "@SegmentEditor/_segmentSelector";
+    public const TEMPLATE = "@SegmentEditor/_segmentSelector";
 
     /**
      * Constructor.
@@ -54,7 +55,8 @@ class SegmentSelectorControl extends UIControl
         $visitTitle = Piwik::translate('General_Visit');
         $segmentsByCategory = array();
         foreach ($segments as $segment) {
-            if ($segment['category'] == $visitTitle
+            if (
+                $segment['category'] == $visitTitle
                 && ($segment['type'] == 'metric' && $segment['segment'] != 'visitIp')
             ) {
                 $metricsLabel = mb_strtolower(Piwik::translate('General_Metrics'));
@@ -144,7 +146,7 @@ class SegmentSelectorControl extends UIControl
     protected function isCreatingRealTimeSegmentsEnabled()
     {
         // when browser archiving is disabled for segments, we force new segments to be created as pre-processed
-        if(!Rules::isBrowserArchivingAvailableForSegments()) {
+        if (!Rules::isBrowserArchivingAvailableForSegments()) {
             return false;
         }
 

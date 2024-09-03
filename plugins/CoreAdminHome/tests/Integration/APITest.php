@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
@@ -39,7 +40,7 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         }
     }
 
-    public function test_getTrackingFailures_failsForViewUser()
+    public function testGetTrackingFailuresFailsForViewUser()
     {
         $this->expectException(\Piwik\NoAccessException::class);
         $this->expectExceptionMessage('checkUserHasSomeAdminAccess');
@@ -48,7 +49,7 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->api->getTrackingFailures();
     }
 
-    public function test_getTrackingFailures_WorksForAdminAndSuperuser()
+    public function testGetTrackingFailuresWorksForAdminAndSuperuser()
     {
         $this->setAdminUser();
         $this->assertSame(array(), $this->api->getTrackingFailures());
@@ -57,7 +58,7 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->assertSame(array(), $this->api->getTrackingFailures());
     }
 
-    public function test_deleteAllTrackingFailures_failsForViewUser()
+    public function testDeleteAllTrackingFailuresFailsForViewUser()
     {
         $this->expectException(\Piwik\NoAccessException::class);
         $this->expectExceptionMessage('checkUserHasSomeAdminAccess');
@@ -66,7 +67,7 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->api->deleteAllTrackingFailures();
     }
 
-    public function test_deleteAllTrackingFailures_WorksForAdminAndSuperuser()
+    public function testDeleteAllTrackingFailuresWorksForAdminAndSuperuser()
     {
         $this->expectNotToPerformAssertions();
         $this->setAdminUser();
@@ -75,7 +76,7 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->api->deleteAllTrackingFailures();
     }
 
-    public function test_deleteTrackingFailure_failsForViewUser()
+    public function testDeleteTrackingFailureFailsForViewUser()
     {
         $this->expectException(\Piwik\NoAccessException::class);
         $this->expectExceptionMessage('checkUserHasAdminAccess');
@@ -84,7 +85,7 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->api->deleteTrackingFailure(1, 2);
     }
 
-    public function test_deleteTrackingFailure_failsForAdminUserIfNotAdminAccessToThatSite()
+    public function testDeleteTrackingFailureFailsForAdminUserIfNotAdminAccessToThatSite()
     {
         $this->expectException(\Piwik\NoAccessException::class);
         $this->expectExceptionMessage('checkUserHasAdminAccess');
@@ -93,7 +94,7 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->api->deleteTrackingFailure(2, 2);
     }
 
-    public function test_deleteTrackingFailure_WorksForAdminAndSuperuser()
+    public function testDeleteTrackingFailureWorksForAdminAndSuperuser()
     {
         $this->expectNotToPerformAssertions();
         $this->setAdminUser();

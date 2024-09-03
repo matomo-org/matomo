@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
@@ -57,7 +58,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
     /**
      * @dataProvider getInvalidDateRanges
      */
-    public function test_Command_FailsWhenAnInvalidDateRangeIsUsed($invalidDateRange)
+    public function testCommandFailsWhenAnInvalidDateRangeIsUsed($invalidDateRange)
     {
         $code = $this->applicationTester->run([
             'command' => 'core:invalidate-report-data',
@@ -83,7 +84,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
     /**
      * @dataProvider getInvalidPeriodTypes
      */
-    public function test_Command_FailsWhenAnInvalidPeriodTypeIsUsed($invalidPeriodType)
+    public function testCommandFailsWhenAnInvalidPeriodTypeIsUsed($invalidPeriodType)
     {
         $code = $this->applicationTester->run([
             'command' => 'core:invalidate-report-data',
@@ -108,7 +109,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
     /**
      * @dataProvider getInvalidSiteLists
      */
-    public function test_Command_FailsWhenAnInvalidSiteListIsUsed($invalidSites)
+    public function testCommandFailsWhenAnInvalidSiteListIsUsed($invalidSites)
     {
         $code = $this->applicationTester->run([
             'command' => 'core:invalidate-report-data',
@@ -132,7 +133,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ];
     }
 
-    public function test_Command_FailsWhenAnInvalidSegmentIsUsed()
+    public function testCommandFailsWhenAnInvalidSegmentIsUsed()
     {
         $code = $this->applicationTester->run([
             'command' => 'core:invalidate-report-data',
@@ -148,7 +149,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         self::assertStringContainsString("The segment condition 'ablksdjfdslkjf' is not valid", $this->getLogOutput());
     }
 
-    public function test_Command_FailsWhenACustomDimensionSegmentIsNotSupportedByAllSites()
+    public function testCommandFailsWhenACustomDimensionSegmentIsNotSupportedByAllSites()
     {
         $code = $this->applicationTester->run([
             'command' => 'core:invalidate-report-data',
@@ -165,7 +166,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
     }
 
 
-    public function test_Command_FailsWhenACustomDimensionSegmentIsNotValidForAnySite()
+    public function testCommandFailsWhenACustomDimensionSegmentIsNotValidForAnySite()
     {
         $code = $this->applicationTester->run([
             'command' => 'core:invalidate-report-data',
@@ -185,7 +186,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
     /**
      * @dataProvider getTestDataForSuccessTests
      */
-    public function test_Command_InvalidatesCorrectSitesAndDates($dates, $periods, $sites, $cascade, $segments, $plugin, $expectedOutputs)
+    public function testCommandInvalidatesCorrectSitesAndDates($dates, $periods, $sites, $cascade, $segments, $plugin, $expectedOutputs)
     {
         $options = [
             'command' => 'core:invalidate-report-data',
@@ -211,7 +212,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         }
     }
 
-    public function test_Command_InvalidateDateRange()
+    public function testCommandInvalidateDateRange()
     {
         $code = $this->applicationTester->run([
             'command' => 'core:invalidate-report-data',
@@ -226,7 +227,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09 [segment = ]", $this->getLogOutput());
     }
 
-    public function test_Command_InvalidateDateRange_invalidDate()
+    public function testCommandInvalidateDateRangeInvalidDate()
     {
         $code = $this->applicationTester->run([
             'command' => 'core:invalidate-report-data',
@@ -241,7 +242,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         self::assertStringContainsString("The date '2019-01-01,2019-01--09' is not a correct date range", $this->getLogOutput());
     }
 
-    public function test_Command_InvalidateDateRange_onlyOneDate()
+    public function testCommandInvalidateDateRangeOnlyOneDate()
     {
         $code = $this->applicationTester->run([
             'command' => 'core:invalidate-report-data',
@@ -256,7 +257,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         self::assertStringContainsString("The date '2019-01-01' is not a correct date range", $this->getLogOutput());
     }
 
-    public function test_Command_InvalidateDateRange_tooManyDatesInRange()
+    public function testCommandInvalidateDateRangeTooManyDatesInRange()
     {
         $code = $this->applicationTester->run([
             'command' => 'core:invalidate-report-data',
@@ -271,7 +272,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         self::assertStringContainsString("The date '2019-01-01,2019-01-09,2019-01-12,2019-01-15' is not a correct date range", $this->getLogOutput());
     }
 
-    public function test_Command_InvalidateDateRange_multipleDateRanges()
+    public function testCommandInvalidateDateRangeMultipleDateRanges()
     {
         $code = $this->applicationTester->run([
             'command' => 'core:invalidate-report-data',
@@ -286,7 +287,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09;2019-01-12,2019-01-15", $this->getLogOutput());
     }
 
-    public function test_Command_InvalidateDateRange_invalidateAllPeriodTypesSkipsRangeWhenNotRangeDAte()
+    public function testCommandInvalidateDateRangeInvalidateAllPeriodTypesSkipsRangeWhenNotRangeDAte()
     {
         $code = $this->applicationTester->run([
             'command' => 'core:invalidate-report-data',
@@ -302,7 +303,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         self::assertStringNotContainsString("Range", $this->getLogOutput());
     }
 
-    public function test_Command_InvalidateDateRange_invalidateAllPeriodTypes()
+    public function testCommandInvalidateDateRangeInvalidateAllPeriodTypes()
     {
         $code = $this->applicationTester->run([
             'command' => 'core:invalidate-report-data',
@@ -321,7 +322,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09 [segment = ]", $this->getLogOutput());
     }
 
-    public function test_Command_InvalidateAll_multipleDateRanges()
+    public function testCommandInvalidateAllMultipleDateRanges()
     {
         $code = $this->applicationTester->run([
             'command' => 'core:invalidate-report-data',

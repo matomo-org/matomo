@@ -1,15 +1,16 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\API;
 
 use Exception;
+use Piwik\Http\BadRequestException;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
@@ -615,7 +616,7 @@ class Proxy
     private function checkMethodExists($className, $methodName)
     {
         if (!$this->isMethodAvailable($className, $methodName)) {
-            throw new Exception(Piwik::translate('General_ExceptionMethodNotFound', array($methodName, $className)));
+            throw new BadRequestException(Piwik::translate('General_ExceptionMethodNotFound', [$methodName, $className]));
         }
     }
 

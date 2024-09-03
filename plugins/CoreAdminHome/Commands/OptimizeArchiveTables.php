@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreAdminHome\Commands;
@@ -19,16 +20,20 @@ use Piwik\Plugin\ConsoleCommand;
  */
 class OptimizeArchiveTables extends ConsoleCommand
 {
-    const ALL_TABLES_STRING = 'all';
-    const CURRENT_MONTH_STRING = 'now';
+    public const ALL_TABLES_STRING = 'all';
+    public const CURRENT_MONTH_STRING = 'now';
 
     protected function configure()
     {
         $this->setName('database:optimize-archive-tables');
         $this->setDescription("Runs an OPTIMIZE TABLE query on the specified archive tables.");
-        $this->addRequiredArgument("dates",
+        $this->addRequiredArgument(
+            "dates",
             "The months of the archive tables to optimize. Use '" . self::ALL_TABLES_STRING . "' for all dates or '" .
-            self::CURRENT_MONTH_STRING . "' to optimize the current month only.", null, true);
+            self::CURRENT_MONTH_STRING . "' to optimize the current month only.",
+            null,
+            true
+        );
         $this->addNoValueOption('dry-run', null, 'For testing purposes.');
         $this->setHelp("This command can be used to ease or automate maintenance. Instead of manually running "
             . "OPTIMIZE TABLE queries, the command can be used.\n\nYou should run the command if you find your "
@@ -59,7 +64,7 @@ class OptimizeArchiveTables extends ConsoleCommand
         if ($dryRun) {
             $output->write("[dry-run, not optimising table]");
         } else {
-            Db::optimizeTables(Common::prefixTable($table), $force = true);
+            Db\Schema::getInstance()->optimizeTables([Common::prefixTable($table)], $force = true);
         }
 
         $output->writeln("Done.");
@@ -73,10 +78,10 @@ class OptimizeArchiveTables extends ConsoleCommand
 
             if ($dateSpecifier == self::ALL_TABLES_STRING) {
                 return $this->getAllArchiveTableMonths();
-            } else if ($dateSpecifier == self::CURRENT_MONTH_STRING) {
+            } elseif ($dateSpecifier == self::CURRENT_MONTH_STRING) {
                 $now = Date::factory('now');
                 return array(ArchiveTableCreator::getTableMonthFromDate($now));
-            } else if (strpos($dateSpecifier, 'last') === 0) {
+            } elseif (strpos($dateSpecifier, 'last') === 0) {
                 $lastN = substr($dateSpecifier, 4);
                 if (!ctype_digit($lastN)) {
                     throw new \Exception("Invalid lastN specifier '$lastN'. The end must be an integer, eg, last1 or last2.");

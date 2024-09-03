@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Tracker;
@@ -47,7 +48,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->response = new TestResponse();
     }
 
-    public function test_outputException_shouldAlwaysOutputApiResponse_IfDebugModeIsDisabled()
+    public function testOutputExceptionShouldAlwaysOutputApiResponseIfDebugModeIsDisabled()
     {
         $this->response->init($this->getTracker());
         $this->response->outputException($this->getTracker(), new Exception('My Custom Message'), 400);
@@ -55,7 +56,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         Fixture::checkResponse($this->response->getOutput());
     }
 
-    public function test_outputException_shouldOutputDebugMessageIfEnabled()
+    public function testOutputExceptionShouldOutputDebugMessageIfEnabled()
     {
         $tracker = $this->getTracker();
         $this->response->init($tracker);
@@ -70,7 +71,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         self::assertStringContainsString('My Custom Message', $content);
     }
 
-    public function test_outputResponse_shouldOutputStandardApiResponse()
+    public function testOutputResponseShouldOutputStandardApiResponse()
     {
         $this->response->init($this->getTracker());
         $this->response->outputResponse($this->getTracker());
@@ -78,7 +79,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         Fixture::checkResponse($this->response->getOutput());
     }
 
-    public function test_outputResponse_shouldNotOutputApiResponse_IfDebugModeIsEnabled_AsWePrintOtherStuff()
+    public function testOutputResponseShouldNotOutputApiResponseIfDebugModeIsEnabledAsWePrintOtherStuff()
     {
         $this->response->init($this->getTracker());
 
@@ -89,7 +90,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('', $this->response->getOutput());
     }
 
-    public function test_outputResponse_shouldNotOutputApiResponse_IfSomethingWasPrintedUpfront()
+    public function testOutputResponseShouldNotOutputApiResponseIfSomethingWasPrintedUpfront()
     {
         $this->response->init($this->getTracker());
 
@@ -99,7 +100,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('5', $this->response->getOutput());
     }
 
-    public function test_outputResponse_shouldNotOutputResponseTwice_IfExceptionWasAlreadyOutput()
+    public function testOutputResponseShouldNotOutputResponseTwiceIfExceptionWasAlreadyOutput()
     {
         $this->response->init($this->getTracker());
 
@@ -109,7 +110,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         Fixture::checkResponse($this->response->getOutput());
     }
 
-    public function test_outputResponse_shouldOutputNoResponse_If204HeaderIsRequested()
+    public function testOutputResponseShouldOutputNoResponseIf204HeaderIsRequested()
     {
         $this->response->init($this->getTracker());
 
@@ -120,7 +121,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('', $this->response->getOutput());
     }
 
-    public function test_outputResponse_shouldOutputPiwikMessage_InCaseNothingWasTracked()
+    public function testOutputResponseShouldOutputPiwikMessageInCaseNothingWasTracked()
     {
         $this->response->init($this->getTracker());
 
@@ -128,11 +129,13 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $tracker->setCountOfLoggedRequests(0);
         $this->response->outputResponse($tracker);
 
-        $this->assertEquals("This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.<br>\nThis file is the endpoint for the Matomo tracking API. If you want to access the Matomo UI or use the Reporting API, please use <a href='index.php'>index.php</a> instead.\n",
-            $this->response->getOutput());
+        $this->assertEquals(
+            "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.<br>\nThis file is the endpoint for the Matomo tracking API. If you want to access the Matomo UI or use the Reporting API, please use <a href='index.php'>index.php</a> instead.\n",
+            $this->response->getOutput()
+        );
     }
 
-    public function test_getMessageFromException_ShouldNotOutputAnyDetails_IfErrorContainsDbCredentials()
+    public function testGetMessageFromExceptionShouldNotOutputAnyDetailsIfErrorContainsDbCredentials()
     {
         $message = $this->response->getMessageFromException(new Exception('Test Message', 1044));
         $this->assertStringStartsWith("Error while connecting to the Matomo database", $message);
@@ -141,13 +144,13 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertStringStartsWith("Error while connecting to the Matomo database", $message);
     }
 
-    public function test_getMessageFromException_ShouldReturnMessageAndTrace_InCaseIsCli()
+    public function testGetMessageFromExceptionShouldReturnMessageAndTraceInCaseIsCli()
     {
         $message = $this->response->getMessageFromException(new Exception('Test Message', 8150));
         $this->assertStringStartsWith("Test Message\n#0 ", $message);
     }
 
-    public function test_getMessageFromException_ShouldOnlyReturnMessage_InCaseIsNotCli()
+    public function testGetMessageFromExceptionShouldOnlyReturnMessageInCaseIsNotCli()
     {
         Common::$isCliMode = false;
         $message = $this->response->getMessageFromException(new Exception('Test Message', 8150));
@@ -156,7 +159,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertStringStartsWith("Test Message", $message);
     }
 
-    public function test_outputResponse_shouldOutputApiResponse_IfTrackerIsDisabled()
+    public function testOutputResponseShouldOutputApiResponseIfTrackerIsDisabled()
     {
         $this->response->init($this->getTracker());
 
@@ -168,7 +171,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         Fixture::checkResponse($this->response->getOutput());
     }
 
-    public function test_outputResponse_shouldOuputCustomImage_IfCustomBase64ImageSet()
+    public function testOutputResponseShouldOuputCustomImageIfCustomBase64ImageSet()
     {
         // Base64 sample image string (4x4px red PNG made in GIMP)
         $base64Image = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH5QgLFiABlwQnpwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAUSURBVAjXY/wjLMyABJgYUAGpfABbJQEsALGyNgAAAABJRU5ErkJggg==';
@@ -189,7 +192,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($base64Image, base64_encode($response));
     }
 
-    public function test_outputResponse_shouldOuputCustomImage_IfCustomImageFileSet()
+    public function testOutputResponseShouldOuputCustomImageIfCustomImageFileSet()
     {
 
         // Using the Matomo logo file from the Morpheus theme plugin

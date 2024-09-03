@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Session\SaveHandler;
@@ -28,8 +28,8 @@ class DbTable implements Zend_Session_SaveHandler_Interface
     protected $config;
     protected $maxLifetime;
 
-    const TABLE_NAME = 'session';
-    const TOKEN_HASH_ALGO = 'sha512';
+    public const TABLE_NAME = 'session';
+    public const TOKEN_HASH_ALGO = 'sha512';
 
     /**
      * @param array $config

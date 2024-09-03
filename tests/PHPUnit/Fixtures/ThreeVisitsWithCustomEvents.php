@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
@@ -38,8 +40,18 @@ class ThreeVisitsWithCustomEvents extends Fixture
             // These two goals are to check events don't trigger for URL or Title matching
             APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'url', 'webradio', 'contains');
             APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'title', 'Music', 'contains');
-            $idGoalTriggeredOnEventCategory = APIGoals::getInstance()->addGoal($this->idSite, 'event matching', 'event_category', 'CategoryTriggersGoal', 'contains', false,
-                8, true, '', true);
+            $idGoalTriggeredOnEventCategory = APIGoals::getInstance()->addGoal(
+                $this->idSite,
+                'event matching',
+                'event_category',
+                'CategoryTriggersGoal',
+                'contains',
+                false,
+                8,
+                true,
+                '',
+                true
+            );
 
             $this->assertEquals($idGoalTriggeredOnEventCategory, self::$idGoalTriggeredOnEventCategory);
         }

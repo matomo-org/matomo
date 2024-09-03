@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreHome\Widgets;
 
 use Piwik\Db;
@@ -19,8 +20,8 @@ use Piwik\Widget\WidgetConfig;
 
 class GetSystemSummary extends Widget
 {
-    const TEST_MYSQL_VERSION = 'mysql-version-redacted';
-    const TEST_PHP_VERSION = 'php-version-redacted';
+    public const TEST_MYSQL_VERSION = 'mysql-version-redacted';
+    public const TEST_PHP_VERSION = 'php-version-redacted';
     /**
      * @var StoredSegmentService
      */

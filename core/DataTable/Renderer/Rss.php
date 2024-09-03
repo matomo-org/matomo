@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\DataTable\Renderer;
 
 use Exception;
@@ -43,7 +44,8 @@ class Rss extends Renderer
      */
     protected function renderTable($table)
     {
-        if (!($table instanceof DataTable\Map)
+        if (
+            !($table instanceof DataTable\Map)
             || $table->getKeyName() != 'date'
         ) {
             throw new Exception("RSS feeds can be generated for one specific website &idSite=X." .
@@ -65,7 +67,7 @@ class Rss extends Renderer
             $pudDate = date('r', $timestamp);
 
             $dateInSiteTimezone = Date::factory($timestamp);
-            if($site) {
+            if ($site) {
                 $dateInSiteTimezone = $dateInSiteTimezone->setTimezone($site->getTimezone());
             }
             $dateInSiteTimezone = $dateInSiteTimezone->toString('Y-m-d');
@@ -147,7 +149,8 @@ class Rss extends Renderer
             foreach ($row->getColumns() as $column => $value) {
                 // for example, goals data is array: not supported in export RSS
                 // in the future we shall reuse ViewDataTable for html exports in RSS anyway
-                if (is_array($value)
+                if (
+                    is_array($value)
                     || is_object($value)
                 ) {
                     continue;

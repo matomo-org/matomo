@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Menu;
 
 use Piwik\Cache;
@@ -219,8 +220,18 @@ abstract class MenuAbstract extends Singleton
     private function buildMenu()
     {
         foreach ($this->menuEntries as $menuEntry) {
-            $this->buildMenuItem($menuEntry[0], $menuEntry[1], $menuEntry[2], $menuEntry[3], $menuEntry[4],
-                $menuEntry[5], $menuEntry[6], $menuEntry[7], $menuEntry[8], $menuEntry[9]);
+            $this->buildMenuItem(
+                $menuEntry[0],
+                $menuEntry[1],
+                $menuEntry[2],
+                $menuEntry[3],
+                $menuEntry[4],
+                $menuEntry[5],
+                $menuEntry[6],
+                $menuEntry[7],
+                $menuEntry[8],
+                $menuEntry[9]
+            );
         }
     }
 
@@ -334,7 +345,8 @@ abstract class MenuAbstract extends Singleton
      */
     private function applyOrdering()
     {
-        if (empty($this->menu)
+        if (
+            empty($this->menu)
             || $this->orderingApplied
         ) {
             return;
@@ -388,7 +400,8 @@ abstract class MenuAbstract extends Singleton
         if ($itemOne['_order'] == $itemTwo['_order']) {
             return strcmp(
                 $itemOne['_name'] ?? '',
-                $itemTwo['_name'] ?? '');
+                $itemTwo['_name'] ?? ''
+            );
         }
 
         return ($itemOne['_order'] < $itemTwo['_order']) ? -1 : 1;

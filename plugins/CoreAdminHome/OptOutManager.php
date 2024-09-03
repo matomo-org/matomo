@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\Common;
@@ -259,9 +260,15 @@ class OptOutManager
     window.MatomoConsent = {  };
 </script>
 HTML;
-        return str_replace('window.MatomoConsent = {  };', $this->getOptOutCommonJS(),
-               str_replace('style=""', ($applyStyling ? 'style="' . $styleSheet . '"' : ''),
-               str_replace("var settings = {};", $settingsString, $code)));
+        return str_replace(
+            'window.MatomoConsent = {  };',
+            $this->getOptOutCommonJS(),
+            str_replace(
+                'style=""',
+                ($applyStyling ? 'style="' . $styleSheet . '"' : ''),
+                str_replace("var settings = {};", $settingsString, $code)
+            )
+        );
     }
 
     /**
@@ -297,8 +304,10 @@ HTML;
 
         // If the language parameter is 'auto' then use the browser language
         if ($language === 'auto') {
-            $language = Common::extractLanguageAndRegionCodeFromBrowserLanguage(Common::getBrowserLanguage(),
-                                       APILanguagesManager::getInstance()->getAvailableLanguages());
+            $language = Common::extractLanguageAndRegionCodeFromBrowserLanguage(
+                Common::getBrowserLanguage(),
+                APILanguagesManager::getInstance()->getAvailableLanguages()
+            );
         }
 
         $settings = [
@@ -385,9 +394,15 @@ HTML;
         window.MatomoConsent = {  };        
 JS;
 
-        return str_replace('window.MatomoConsent = {  };', $this->getOptOutCommonJS(),
-            str_replace('stylecss', $styleSheet,
-            str_replace("var settings = {};", $settingsString, $code)));
+        return str_replace(
+            'window.MatomoConsent = {  };',
+            $this->getOptOutCommonJS(),
+            str_replace(
+                'stylecss',
+                $styleSheet,
+                str_replace("var settings = {};", $settingsString, $code)
+            )
+        );
     }
 
     /**
@@ -406,7 +421,7 @@ JS;
     
             var div = document.getElementById(settings.divId);
             if (!div) {
-                const warningDiv = document.createElement("div");
+                var warningDiv = document.createElement("div");
                 var msg = 'Unable to find opt-out content div: "'+settings.divId+'"';
                 warningDiv.id = settings.divId+'-warning';
                 warningDiv.innerHTML = errorBlock+msg+'</p>';
@@ -419,15 +434,18 @@ JS;
                 div.innerHTML = errorBlock+settings.OptOutErrorNoCookies+'</p>';
                 return;
             }
-            if (location.protocol !== 'https:') {
-                div.innerHTML = errorBlock+settings.OptOutErrorNotHttps+'</p>';
-                return;
-            }        
+
             if (errorMessage !== null) {
                 div.innerHTML = errorBlock+errorMessage+'</p>';
                 return;
             }
+
             var content = '';        
+
+            if (location.protocol !== 'https:') {
+                content += errorBlock + settings.OptOutErrorNotHttps + '</p>';
+            }
+
             if (consent) {
                 if (settings.showIntro) {
                     content += '<p>'+settings.YouMayOptOut2+' '+settings.YouMayOptOut3+'</p>';                       
@@ -650,14 +668,14 @@ JS;
         /** @noinspection RegExpRedundantEscape */
         if ($cssfontsize && (preg_match("/^[0-9]+[\.]?[0-9]*(px|pt|em|rem|%)$/", $cssfontsize))) {
             $cssbody .= 'font-size: ' . $cssfontsize . '; ';
-        } else if ($cssfontsize) {
+        } elseif ($cssfontsize) {
             throw new \Exception("The URL parameter fontSize value of '$cssfontsize' is not valid. Expected value is for example '15pt', '1.2em' or '13px'.\n");
         }
 
         /** @noinspection RegExpRedundantEscape */
         if ($cssfontfamily && (preg_match('/^[a-zA-Z0-9-\ ,\'"]+$/', $cssfontfamily))) {
             $cssbody .= 'font-family: ' . $cssfontfamily . '; ';
-        } else if ($cssfontfamily) {
+        } elseif ($cssfontfamily) {
             throw new \Exception("The URL parameter fontFamily value of '$cssfontfamily' is not valid. Expected value is for example 'sans-serif' or 'Monaco, monospace'.\n");
         }
 

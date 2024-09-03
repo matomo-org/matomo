@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Unit\DataAccess;
 
 use Piwik\DataAccess\LogQueryBuilder\JoinGenerator;
@@ -30,7 +31,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
             'log_action'));
     }
 
-    public function test_constructor_shouldAddTablesIfNeeded()
+    public function testConstructorShouldAddTablesIfNeeded()
     {
         $tables = $this->makeTables(array('log_visit', 'log_action'));
         $this->makeGenerator($tables);
@@ -38,25 +39,25 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array('log_visit', 'log_action', 'log_link_visit_action'), $tables->getTables());
     }
 
-    public function test_generate_shouldJoinWithSubselect_IfBaseTableIsLogVisit()
+    public function testGenerateShouldJoinWithSubselectIfBaseTableIsLogVisit()
     {
         $generator = $this->generate(array('log_visit', 'log_action'));
         $this->assertTrue($generator->shouldJoinWithSelect());
     }
 
-    public function test_generate_shouldNotJoinWithSubselect_IfBaseTableIsLogVisitButNoTableToJoin()
+    public function testGenerateShouldNotJoinWithSubselectIfBaseTableIsLogVisitButNoTableToJoin()
     {
         $generator = $this->generate(array('log_visit'));
         $this->assertFalse($generator->shouldJoinWithSelect());
     }
 
-    public function test_generate_shouldNotJoinWithSubselect_IfLogVisitIsGivenButItIsNotBaseTable()
+    public function testGenerateShouldNotJoinWithSubselectIfLogVisitIsGivenButItIsNotBaseTable()
     {
         $generator = $this->generate(array('log_conversion', 'log_visit'));
         $this->assertFalse($generator->shouldJoinWithSelect());
     }
 
-    public function test_generate_getJoinString()
+    public function testGenerateGetJoinString()
     {
         $generator = $this->generate(array('log_action', 'log_link_visit_action', 'log_visit'));
 
@@ -66,13 +67,13 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_OnlyOneActionTable()
+    public function testGenerateGetJoinStringOnlyOneActionTable()
     {
         $generator = $this->generate(array('log_action'));
         $this->assertEquals('log_action AS log_action', $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_OnlyActionTables()
+    public function testGenerateGetJoinStringOnlyActionTables()
     {
         $generator = $this->generate(array('log_link_visit_action', 'log_action'));
         $expected  = 'log_link_visit_action AS log_link_visit_action';
@@ -80,19 +81,19 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_JoinCustomVisitTable()
+    public function testGenerateGetJoinStringJoinCustomVisitTable()
     {
         $generator = $this->generate(array('log_visit', 'log_custom'));
         $this->assertEquals('log_visit AS log_visit LEFT JOIN log_custom AS log_custom ON `log_custom`.`user_id` = `log_visit`.`user_id`', $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_JoinMultipleCustomVisitTable()
+    public function testGenerateGetJoinStringJoinMultipleCustomVisitTable()
     {
         $generator = $this->generate(array('log_visit', 'log_custom_other', 'log_custom'));
         $this->assertEquals('log_visit AS log_visit LEFT JOIN log_custom AS log_custom ON `log_custom`.`user_id` = `log_visit`.`user_id` LEFT JOIN log_custom_other AS log_custom_other ON `log_custom_other`.`other_id` = `log_custom`.`other_id`', $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_JoinMultipleCustomVisitTableWithMissingOne()
+    public function testGenerateGetJoinStringJoinMultipleCustomVisitTableWithMissingOne()
     {
         $generator = $this->generate(array('log_visit', 'log_custom_other'));
         $this->assertEquals('log_visit AS log_visit LEFT JOIN log_custom AS log_custom ON `log_custom`.`user_id` = `log_visit`.`user_id` LEFT JOIN log_custom_other AS log_custom_other ON `log_custom_other`.`other_id` = `log_custom`.`other_id`', $generator->getJoinString());
@@ -102,7 +103,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
      * Note: the exception reports `log_visit` and not `log_custom` as it resolves the dependencies as so resolves
      * from `log_custom` to `log_visit` but is then not able to find a way to join `log_visit` with `log_action`
      */
-    public function test_generate_getJoinString_CustomVisitTableCantBeJoinedWithAction()
+    public function testGenerateGetJoinStringCustomVisitTableCantBeJoinedWithAction()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Table \'log_visit\' can\'t be joined for segmentation');
@@ -111,13 +112,13 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $generator->getJoinString();
     }
 
-    public function test_generate_getJoinString_JoinCustomVisitTableMultiple()
+    public function testGenerateGetJoinStringJoinCustomVisitTableMultiple()
     {
         $generator = $this->generate(array('log_visit', 'log_action', 'log_custom'));
         $this->assertEquals('log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit LEFT JOIN log_action AS log_action ON log_link_visit_action.idaction_url = log_action.idaction LEFT JOIN log_custom AS log_custom ON `log_custom`.`user_id` = `log_visit`.`user_id`', $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_manuallyJoinedAlready()
+    public function testGenerateGetJoinStringManuallyJoinedAlready()
     {
         $generator = $this->generate(array(
             'log_link_visit_action',
@@ -132,7 +133,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_manuallyJoinedAlreadyWithCustomConditionInArray()
+    public function testGenerateGetJoinStringManuallyJoinedAlreadyWithCustomConditionInArray()
     {
         $generator = $this->generate(array(
             'log_visit',
@@ -145,7 +146,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_manuallyJoinedAlreadyWithCustomConditionInArrayAndFurtherTablesAfterwards()
+    public function testGenerateGetJoinStringManuallyJoinedAlreadyWithCustomConditionInArrayAndFurtherTablesAfterwards()
     {
         $generator = $this->generate(array(
             'log_visit',
@@ -160,7 +161,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_manuallyJoinedAlreadyWithCustomConditionInArrayInverted()
+    public function testGenerateGetJoinStringManuallyJoinedAlreadyWithCustomConditionInArrayInverted()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Please reorganize the joined tables as the table log_conversion in {"0":"log_visit","1":"log_conversion","2":"log_link_visit_action","3":{"table":"log_conversion","joinOn":"log_link_visit_action.idvisit2 = log_conversion.idvisit2"}} cannot be joined correctly.');
@@ -182,7 +183,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_manuallyJoinedAlreadyPlusCustomJoinButAlsoLeft()
+    public function testGenerateGetJoinStringManuallyJoinedAlreadyPlusCustomJoinButAlsoLeft()
     {
         $generator = $this->generate(array(
             'log_link_visit_action',
@@ -197,7 +198,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_manuallyJoinedAlreadyPlusCustomJoinButAlsoLeftNeedsKeepOrder()
+    public function testGenerateGetJoinStringManuallyJoinedAlreadyPlusCustomJoinButAlsoLeftNeedsKeepOrder()
     {
         $generator = $this->generate(array(
             'log_visit',
@@ -211,7 +212,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_manuallyJoinedAlreadyPlusCustomJoinAtEndButAlsoLeftNeedsKeepOrder()
+    public function testGenerateGetJoinStringManuallyJoinedAlreadyPlusCustomJoinAtEndButAlsoLeftNeedsKeepOrder()
     {
         $generator = $this->generate(array(
             'log_visit',
@@ -225,7 +226,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_manualJoin()
+    public function testGenerateGetJoinStringManualJoin()
     {
         $generator = $this->generate(array(
             'log_link_visit_action',
@@ -245,7 +246,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_allTables()
+    public function testGenerateGetJoinStringAllTables()
     {
         $generator = $this->generate(array(
             'log_action',

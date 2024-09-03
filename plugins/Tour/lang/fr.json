@@ -1,6 +1,7 @@
 {
     "Tour": {
         "AddAnnotation": "Ajouter une annotation",
+        "AddAnotherWebsite": "Ajouter un autre site web",
         "AddReport": "Ajouter un rapport planifié",
         "AddSegment": "Ajouter un segment",
         "BecomeMatomoExpert": "Devenir un expert Matomo",
@@ -9,7 +10,7 @@
         "ChangeVisualisation": "Changer la visualisation",
         "ChangeVisualisationDescription": "Parcourez un rapport et sélectionnez l'icône de visualisation en bas d'un rapport pour modifier sa visualisation.",
         "CompletionMessage": "Vous avez achevé tous les exercices. Donnez-vous une tape dans le dos.",
-        "CompletionTitle": "Bien fait!",
+        "CompletionTitle": "Bien joué.",
         "ConfigureGeolocation": "Configurer la géolocalisation",
         "ConfigureGeolocationDescription": "Assurez vous que l'emplacement de vos visiteurs est détecté correctement.",
         "CustomiseDashboard": "Configurez votre tableau de bord",
@@ -21,6 +22,7 @@
         "Engagement": "Engagement",
         "FlattenActions": "Aplatir un rapport de page",
         "FlattenActionsDescription": "Accédez à Comportement → Pages et cliquez sur l'icône en forme de rouage en bas du rapport pour l'aplatir. Cela modifie la hiérarchie d'un rapport groupé à une liste.",
+        "InviteUser": "Inviter un utilisateur",
         "MatomoBeginner": "Matomo débutant",
         "MatomoExpert": "Expert Matomo",
         "MatomoIntermediate": "Matomo intermédiaire",

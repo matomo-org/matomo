@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\DataAccess;
 
 use Piwik\ArchiveProcessor\Parameters;
@@ -105,35 +106,35 @@ use Piwik\Log\LoggerInterface;
  */
 class LogAggregator
 {
-    const LOG_VISIT_TABLE = 'log_visit';
+    public const LOG_VISIT_TABLE = 'log_visit';
 
-    const LOG_ACTIONS_TABLE = 'log_link_visit_action';
+    public const LOG_ACTIONS_TABLE = 'log_link_visit_action';
 
-    const LOG_CONVERSION_TABLE = "log_conversion";
+    public const LOG_CONVERSION_TABLE = "log_conversion";
 
-    const REVENUE_SUBTOTAL_FIELD = 'revenue_subtotal';
+    public const REVENUE_SUBTOTAL_FIELD = 'revenue_subtotal';
 
-    const REVENUE_TAX_FIELD = 'revenue_tax';
+    public const REVENUE_TAX_FIELD = 'revenue_tax';
 
-    const REVENUE_SHIPPING_FIELD = 'revenue_shipping';
+    public const REVENUE_SHIPPING_FIELD = 'revenue_shipping';
 
-    const REVENUE_DISCOUNT_FIELD = 'revenue_discount';
+    public const REVENUE_DISCOUNT_FIELD = 'revenue_discount';
 
-    const TOTAL_REVENUE_FIELD = 'revenue';
+    public const TOTAL_REVENUE_FIELD = 'revenue';
 
-    const ITEMS_COUNT_FIELD = "items";
+    public const ITEMS_COUNT_FIELD = "items";
 
-    const CONVERSION_DATETIME_FIELD = "server_time";
+    public const CONVERSION_DATETIME_FIELD = "server_time";
 
-    const ACTION_DATETIME_FIELD = "server_time";
+    public const ACTION_DATETIME_FIELD = "server_time";
 
-    const VISIT_DATETIME_FIELD = 'visit_last_action_time';
+    public const VISIT_DATETIME_FIELD = 'visit_last_action_time';
 
-    const IDGOAL_FIELD = 'idgoal';
+    public const IDGOAL_FIELD = 'idgoal';
 
-    const FIELDS_SEPARATOR = ", \n\t\t\t";
+    public const FIELDS_SEPARATOR = ", \n\t\t\t";
 
-    const LOG_TABLE_SEGMENT_TEMPORARY_PREFIX = 'logtmpsegment';
+    public const LOG_TABLE_SEGMENT_TEMPORARY_PREFIX = 'logtmpsegment';
 
     /** @var \Piwik\Date */
     protected $dateStart;
@@ -306,7 +307,7 @@ class LogAggregator
             // set uncommitted is easily noticeable in the code as it could be missed quite easily otherwise
             // we set uncommitted so we don't make the INSERT INTO... SELECT... locking ... we do not want to lock
             // eg the visits table
-            if (!$transactionLevel->setUncommitted()) {
+            if (!$transactionLevel->setTransactionLevelForNonLockingReads()) {
                 $canSetTransactionLevel = false;
             }
         }
@@ -349,7 +350,6 @@ class LogAggregator
         $bind = $this->getGeneralQueryBindParams();
 
         if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
-
             $segment = new Segment('', $this->sites, $this->params->getPeriod()->getDateTimeStart(), $this->params->getPeriod()->getDateTimeEnd());
 
             $logTablesProvider = $this->getLogTableProvider();
@@ -365,13 +365,14 @@ class LogAggregator
             }
 
             foreach ($logTablesProvider->getAllLogTables() as $logTable) {
-
                 // In cases where log tables are right joined to the segment temporary table it is better for
                 // performance to allow the where condition to be applied, otherwise without a range limit the entire
                 // log table will be used
                 foreach ($from as $fromJoin) {
-                    if (!empty($fromJoin['table']) && $fromJoin['table'] === $logTable->getName() &&
-                        !empty($fromJoin['join']) && strtoupper($fromJoin['join']) === 'RIGHT JOIN') {
+                    if (
+                        !empty($fromJoin['table']) && $fromJoin['table'] === $logTable->getName() &&
+                        !empty($fromJoin['join']) && strtoupper($fromJoin['join']) === 'RIGHT JOIN'
+                    ) {
                         continue 2;
                     }
                 }
@@ -396,8 +397,7 @@ class LogAggregator
 
         if (is_array($query) && array_key_exists('sql', $query)) {
             $query['sql'] = DbHelper::addOriginHintToQuery($query['sql'], $this->queryOriginHint, $this->dateStart, $this->dateEnd, $this->sites, $this->segment);
-            if (DatabaseConfig::getConfigValue('enable_first_table_join_prefix'))
-            {
+            if (DatabaseConfig::getConfigValue('enable_first_table_join_prefix')) {
                 $query['sql'] = DbHelper::addJoinPrefixHintToQuery($query['sql'], (is_array($from) ? reset($from) : $from));
             }
         }
@@ -599,8 +599,16 @@ class LogAggregator
         $timeLimit = -1,
         $rankingQueryGenerate = false
     ) {
-        $query = $this->getQueryByDimensionSql($dimensions, $where, $additionalSelects, $metrics, $rankingQuery, $orderBy,
-            $timeLimit, $rankingQueryGenerate);
+        $query = $this->getQueryByDimensionSql(
+            $dimensions,
+            $where,
+            $additionalSelects,
+            $metrics,
+            $rankingQuery,
+            $orderBy,
+            $timeLimit,
+            $rankingQueryGenerate
+        );
 
         // Ranking queries will return the data directly
         if ($rankingQuery && !$rankingQueryGenerate) {
@@ -751,7 +759,6 @@ class LogAggregator
         $selectDimensions = [];
 
         foreach ($dimensions as $selectAs => $field) {
-
             if ($this->isFieldFunctionOrComplexExpression($field) && is_numeric($selectAs)) {
                 // an expression or field function without an alias should be used as is
                 $selectDimensions[] = $field;
@@ -1229,9 +1236,9 @@ class LogAggregator
             " . sprintf("ROUND(SUM(1 / log_conversion.pageviews_before * log_conversion.revenue_tax),2) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX) . "
             " . sprintf("ROUND(SUM(1 / log_conversion.pageviews_before * log_conversion.revenue_shipping),2) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING) . "
             " . sprintf("ROUND(SUM(1 / log_conversion.pageviews_before * log_conversion.revenue_discount),2) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT) . "
-            " . sprintf("SUM(1 / log_conversion.pageviews_before * log_conversion.items) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_ITEMS) . "
+            " . sprintf("SUM(ROUND(1 / log_conversion.pageviews_before * log_conversion.items, 4)) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_ITEMS) . "
             " . sprintf("log_conversion.pageviews_before AS `%d`,", Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE) . "
-            " . sprintf("SUM(1 / log_conversion.pageviews_before) AS `%d`,", Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB) . "
+            " . sprintf("SUM(ROUND(1 / log_conversion.pageviews_before, 4)) AS `%d`,", Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB) . "
             " . sprintf("COUNT(*) AS `%d`,", Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ) . "
             " . sprintf("ROUND(SUM(1 / log_conversion.pageviews_before * log_conversion.revenue),2) AS `%d`", Metrics::INDEX_GOAL_REVENUE_ATTRIB);
 
@@ -1244,10 +1251,13 @@ class LogAggregator
         ];
 
         $where = $this->getWhereStatement('log_conversion', 'server_time');
-        $where .= sprintf('AND log_conversion.idgoal = %d
+        $where .= sprintf(
+            'AND log_conversion.idgoal = %d
                           AND logva.server_time <= log_conversion.server_time
                           AND lac.type = %s',
-                          (int) $idGoal, ($linkField == 'idaction_url' ? Action::TYPE_PAGE_URL : Action::TYPE_PAGE_TITLE));
+            (int) $idGoal,
+            ($linkField == 'idaction_url' ? Action::TYPE_PAGE_URL : Action::TYPE_PAGE_TITLE)
+        );
 
         $groupBy = 'log_conversion.idvisit, lac.idaction';
 
@@ -1268,8 +1278,8 @@ class LogAggregator
         $tableName  = self::LOG_CONVERSION_TABLE;
 
         $select = implode(
-                ', ',
-                [
+            ', ',
+            [
                     'log_conversion.idgoal AS idgoal',
                     sprintf('log_visit.%s AS idaction', $linkField),
                     'log_action.type',
@@ -1283,7 +1293,7 @@ class LogAggregator
                     sprintf('SUM(log_conversion.items) AS `%d`', Metrics::INDEX_GOAL_ECOMMERCE_ITEMS),
                     sprintf('COUNT(*) AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY)
                 ]
-            );
+        );
 
         $from = [
             $tableName,
@@ -1433,7 +1443,8 @@ class LogAggregator
         $cleanRow = array();
 
         foreach ($row as $label => $count) {
-            if (empty($lookForThisPrefix)
+            if (
+                empty($lookForThisPrefix)
                 || strpos($label, $lookForThisPrefix) === 0
             ) {
                 $cleanLabel = substr($label, strlen($lookForThisPrefix));

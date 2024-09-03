@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\API\Reports;
 
 use Piwik\Piwik;
@@ -91,14 +92,16 @@ class Get extends Report
             /** @var Report $report */
             $report = new $reportClass();
 
-            if ($report->getModule() == 'API'
+            if (
+                $report->getModule() == 'API'
                 || $report->getAction() != 'get'
             ) {
                 continue;
             }
 
             $metrics = $report->getMetrics();
-            if (!empty($report->parameters)
+            if (
+                !empty($report->parameters)
                 || empty($metrics)
             ) {
                 continue;

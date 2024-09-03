@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Goals\Commands;
@@ -32,8 +33,12 @@ class CalculateConversionPages extends ConsoleCommand
         $this->setDescription('Calculate the pages before metric for historic conversions');
         $this->addOptionalValueOption('dates', null, 'Calculate for conversions in this date range. Eg, 2012-01-01,2013-01-01', null);
         $this->addOptionalValueOption('last-n', null, 'Calculate just the last n conversions', 0);
-        $this->addOptionalValueOption('idsite', null,
-            'Calculate for conversions belonging to the site with this ID. Comma separated list of website id. Eg, 1, 2, 3, etc. By default conversions from all sites are calculated.', null);
+        $this->addOptionalValueOption(
+            'idsite',
+            null,
+            'Calculate for conversions belonging to the site with this ID. Comma separated list of website id. Eg, 1, 2, 3, etc. By default conversions from all sites are calculated.',
+            null
+        );
         $this->addOptionalValueOption('idgoal', null, 'Calculate conversions for this goal. A comma separated list of goal ids can be used only if a single site is specified. Eg, 1, 2, 3, etc. By default conversions for all goals are calculated.', null);
         $this->addOptionalValueOption('force-recalc', null, 'Recalculate for conversions which already have a pages before value', 0);
     }
@@ -70,8 +75,8 @@ class CalculateConversionPages extends ConsoleCommand
             "<info>Preparing to calculate the pages before metric for %s conversions belonging to %s %sfor %s.</info>",
             $lastN ? "the last " . $lastN : 'all',
             $idSite ? "website $idSite" : "ALL websites",
-                    !empty($dates) ? "between " . $from . " and " . $to . " " : '',
-                    $idGoal ? "goal id $idGoal" : "ALL goals"
+            !empty($dates) ? "between " . $from . " and " . $to . " " : '',
+            $idGoal ? "goal id $idGoal" : "ALL goals"
         ));
 
         $timer = new Timer();
@@ -80,7 +85,6 @@ class CalculateConversionPages extends ConsoleCommand
 
         $totalCalculated = 0;
         foreach ($queries as $query) {
-
             try {
                 $result = Db::query($query['sql'], $query['bind']);
             } catch (\Exception $ex) {
@@ -108,8 +112,10 @@ class CalculateConversionPages extends ConsoleCommand
     {
         $migration = StaticContainer::get(MigrationFactory::class);
 
-        $queries = self::getQueries(Date::factory('yesterday')->getDatetime(),
-                                    Date::factory('today')->getEndOfDay()->getDatetime());
+        $queries = self::getQueries(
+            Date::factory('yesterday')->getDatetime(),
+            Date::factory('today')->getEndOfDay()->getDatetime()
+        );
 
         $migrations = [];
         foreach ($queries as $query) {
@@ -162,7 +168,7 @@ class CalculateConversionPages extends ConsoleCommand
     {
         $idSite = $this->getInput()->getOption('idsite');
 
-        if(is_null($idSite)) {
+        if (is_null($idSite)) {
             return null;
         }
 
@@ -188,7 +194,7 @@ class CalculateConversionPages extends ConsoleCommand
     {
         $idGoal = $this->getInput()->getOption('idgoal');
 
-        if(is_null($idGoal)) {
+        if (is_null($idGoal)) {
             return null;
         }
 
@@ -246,7 +252,6 @@ class CalculateConversionPages extends ConsoleCommand
         }
 
         if ($lastN) {
-
             // Since MySQL doesn't support multi-table updates with a LIMIT clause we will find the exact date time of
             // the lastN record and use that as a date range start with the current date time as the date range end
             /** @noinspection SqlResolve SqlUnused */
@@ -294,7 +299,6 @@ class CalculateConversionPages extends ConsoleCommand
 
         $queries = [];
         foreach ($sites as $site) {
-
             $timezone = Site::getTimezoneFor($site);
 
             if ($idGoal === null) {
@@ -313,7 +317,6 @@ class CalculateConversionPages extends ConsoleCommand
             }
 
             foreach ($goals as $goal) {
-
                 $where = '';
                 if (!$forceRecalc) {
                      $where .= " AND c.pageviews_before IS NULL";

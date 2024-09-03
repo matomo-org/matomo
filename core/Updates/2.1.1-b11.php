@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Updates;
 
 use Piwik\ArchiveProcessor\Rules;
@@ -61,7 +63,9 @@ class Updates_2_1_1_b11 extends Updates
             $sql = "SELECT idarchive, idsite, period, date1, date2 FROM $table
                     WHERE name = ?  GROUP BY idarchive";
             $visitSummaryReturningSegmentDone = Rules::getDoneFlagArchiveContainsOnePlugin(
-                new Segment(VisitFrequencyApi::RETURNING_VISITOR_SEGMENT, $idSites = array()), 'VisitsSummary');
+                new Segment(VisitFrequencyApi::RETURNING_VISITOR_SEGMENT, $idSites = array()),
+                'VisitsSummary'
+            );
             $idArchivesWithVisitReturningSegment = Db::fetchAll($sql, array($visitSummaryReturningSegmentDone));
 
             // collect info for new visitssummary archives have to be created to match archives w/ *._returning
@@ -71,7 +75,8 @@ class Updates_2_1_1_b11 extends Updates
             foreach ($idArchivesWithReturning as $row) {
                 $withMetricsIdArchive = $row['idarchive'];
                 foreach ($idArchivesWithVisitReturningSegment as $segmentRow) {
-                    if ($row['idsite'] == $segmentRow['idsite']
+                    if (
+                        $row['idsite'] == $segmentRow['idsite']
                         && $row['period'] == $segmentRow['period']
                         && $row['date1'] == $segmentRow['date1']
                         && $row['date2'] == $segmentRow['date2']

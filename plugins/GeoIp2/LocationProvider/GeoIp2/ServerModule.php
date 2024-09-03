@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
@@ -27,8 +27,8 @@ use Piwik\View;
  */
 class ServerModule extends GeoIp2
 {
-    const ID = 'geoip2server';
-    const TITLE = 'DBIP / GeoIP 2 (%s)';
+    public const ID = 'geoip2server';
+    public const TITLE = 'DBIP / GeoIP 2 (%s)';
 
     public static $defaultGeoIpServerVars = array(
         parent::CONTINENT_CODE_KEY => 'MM_CONTINENT_CODE',
@@ -69,7 +69,8 @@ class ServerModule extends GeoIp2
         // geoip modules that are built into servers can't use a forced IP. in this case we try
         // to fallback to another version.
         $myIP = IP::getIpFromHeader();
-        if (!self::isSameOrAnonymizedIp($ip, $myIP)
+        if (
+            !self::isSameOrAnonymizedIp($ip, $myIP)
             && (!isset($info['disable_fallbacks'])
                 || !$info['disable_fallbacks'])
         ) {
@@ -220,8 +221,10 @@ class ServerModule extends GeoIp2
             . '<br/><br/>'
             . Piwik::translate('GeoIp2_GeoIPLocationProviderDesc_ServerBasedAnonWarn')
             . '<br/><br/>'
-            . Piwik::translate('GeoIp2_LocationProviderDesc_ServerModule2',
-                array('<strong>', '</strong>', '<strong>', '</strong>'));
+            . Piwik::translate(
+                'GeoIp2_LocationProviderDesc_ServerModule2',
+                array('<strong>', '</strong>', '<strong>', '</strong>')
+            );
 
         $installDocs =
             '<a rel="noreferrer"  target="_blank" href="https://maxmind.github.io/mod_maxminddb/">'

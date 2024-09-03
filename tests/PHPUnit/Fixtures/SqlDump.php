@@ -1,15 +1,18 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
+use Piwik\Config\DatabaseConfig;
 use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 use Exception;
@@ -66,6 +69,12 @@ class SqlDump extends Fixture
         $defaultsFile = $this->makeMysqlDefaultsFile($user, $password);
 
         $cmd = "mysql --defaults-extra-file=\"$defaultsFile\" -h \"$host\" {$this->dbName} < \"" . $deflatedDumpPath . "\" 2>&1";
+
+        if (DatabaseConfig::isTiDb()) {
+            // For TiDb we need to remove the default charset from the create table statements, otherwise it will use the default charset collation, which differs from database default collation
+            $cmd = "sed 's/ DEFAULT CHARSET=utf8mb4//' \"$deflatedDumpPath\" | mysql --defaults-extra-file=\"$defaultsFile\" -h \"$host\" {$this->dbName} 2>&1";
+        }
+
         exec($cmd, $output, $return);
         if ($return !== 0) {
             throw new Exception("Failed to load sql dump: " . implode("\n", $output));

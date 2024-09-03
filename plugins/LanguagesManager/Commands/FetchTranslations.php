@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\LanguagesManager\Commands;
@@ -18,7 +18,7 @@ use Piwik\Translation\Weblate\API;
  */
 class FetchTranslations extends TranslationBase
 {
-    const DOWNLOAD_PATH = '/weblate';
+    public const DOWNLOAD_PATH = '/weblate';
 
     protected function configure()
     {

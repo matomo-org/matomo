@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\MobileMessaging;
@@ -120,7 +120,6 @@ class Controller extends ControllerAdmin
         $countries = array(array('key' => '', 'value' => ''));
         foreach ($this->regionDataProvider->getCountryList() as $countryCode => $continentCode) {
             if (isset(CountryCallingCodes::$countryCallingCodes[$countryCode])) {
-
                 if ($countryCode == $defaultCountry) {
                     $view->defaultCallingCode = CountryCallingCodes::$countryCallingCodes[$countryCode];
                 }

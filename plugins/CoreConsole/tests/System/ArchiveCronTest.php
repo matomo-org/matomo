@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreConsole\tests\System;
 
 use Piwik\Archive\ArchivePurger;
@@ -42,10 +44,10 @@ use Piwik\Tests\Framework\Fixture;
  */
 class ArchiveCronTest extends SystemTestCase
 {
-    const NEW_SEGMENT = 'operatingSystemCode==IOS';
-    const NEW_SEGMENT_NAME = 'segmentForToday';
-    const ENCODED_SEGMENT = 'pageUrl=@%252F';
-    const ENCODED_SEGMENT_NAME = 'segmentWithEncoding';
+    public const NEW_SEGMENT = 'operatingSystemCode==IOS';
+    public const NEW_SEGMENT_NAME = 'segmentForToday';
+    public const ENCODED_SEGMENT = 'pageUrl=@%252F';
+    public const ENCODED_SEGMENT_NAME = 'segmentWithEncoding';
 
     /**
      * @var ManySitesImportedLogs
@@ -185,7 +187,7 @@ class ArchiveCronTest extends SystemTestCase
         $segments = array(ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED,
                           ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED
         );
-        foreach($segments as $index => $segment) {
+        foreach ($segments as $index => $segment) {
             // Test with a pre-processed segment
             $results[] = array(array('VisitsSummary.get', 'Live.getLastVisitsDetails', 'VisitFrequency.get'),
                                array('idSite'     => '1',
@@ -220,7 +222,14 @@ class ArchiveCronTest extends SystemTestCase
         // invalidate exampleplugin only archives in past
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
         $invalidator->markArchivesAsInvalidated(
-            [1], ['2007-04-05'], 'day', new Segment('', [1]), false, false, 'ExamplePlugin');
+            [1],
+            ['2007-04-05'],
+            'day',
+            new Segment('', [1]),
+            false,
+            false,
+            'ExamplePlugin'
+        );
 
         // track a visit in 2007-04-05 so it will archive (don't want to force archiving because then this test will take another 15 mins)
         $tracker = Fixture::getTracker(1, '2007-04-05');
@@ -248,7 +257,6 @@ class ArchiveCronTest extends SystemTestCase
         }
 
         foreach ($this->getApiForTesting() as $testInfo) {
-
             [$api, $params] = $testInfo;
 
             if (!isset($params['testSuffix'])) {
@@ -347,7 +355,8 @@ class ArchiveCronTest extends SystemTestCase
 
         $this->assertEquals($expectedInvalidations, $invalidationEntries);
 
-        $this->runApiTests(array(
+        $this->runApiTests(
+            array(
             'VisitsSummary.get', 'Actions.get', 'DevicesDetection.getType'),
             array('idSite'     => '1',
                 'date'       => '2012-08-09,2012-08-13',
@@ -380,7 +389,8 @@ class ArchiveCronTest extends SystemTestCase
         $model->deleteArchiveIds($table, $blobTable, $idArchives);
 
         // process archives once
-        $this->runApiTests(array(
+        $this->runApiTests(
+            array(
             'VisitsSummary.get', 'Actions.get', 'DevicesDetection.getType'),
             array('idSite'     => '1',
                 'date'       => '2012-08-09,2012-08-13',
@@ -405,7 +415,8 @@ class ArchiveCronTest extends SystemTestCase
         $this->assertNotEmpty($rangeArchivesInvalid);
 
         // cron archive not run, but ranges should still be rearchived
-        $this->runApiTests(array(
+        $this->runApiTests(
+            array(
             'VisitsSummary.get', 'Actions.get', 'DevicesDetection.getType'),
             array('idSite'     => '1',
                 'date'       => '2012-08-09,2012-08-13',
@@ -420,7 +431,7 @@ class ArchiveCronTest extends SystemTestCase
         $this->assertEmpty($rangeArchivesStillInvalid);
     }
 
-    public function test_archivePhpScript_DoesNotFail_WhenCommandHelpRequested()
+    public function testArchivePhpScriptDoesNotFailWhenCommandHelpRequested()
     {
         $output = $this->runArchivePhpCron(array('--help' => null), PIWIK_INCLUDE_PATH . '/misc/cron/archive.php');
 

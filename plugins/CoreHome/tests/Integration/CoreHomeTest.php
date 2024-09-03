@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreHome\tests\Integration;
@@ -18,7 +19,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class CoreHomeTest extends IntegrationTestCase
 {
-    public function test_CoreHomePlugin_ShouldListenToFilterJavaScriptEvent_AndOnlyChangeIfContainsSourceMap()
+    public function testCoreHomePluginShouldListenToFilterJavaScriptEventAndOnlyChangeIfContainsSourceMap()
     {
         $content = 'var x = 5;';
         $expectedContent = $content;
@@ -27,7 +28,7 @@ class CoreHomeTest extends IntegrationTestCase
         $this->assertEquals($expectedContent, $content);
     }
 
-    public function test_CoreHomePlugin_ShouldListenToFilterJavaScriptEvent_AndRemoveSourceMapDefinition()
+    public function testCoreHomePluginShouldListenToFilterJavaScriptEventAndRemoveSourceMapDefinition()
     {
         $content = '//# sourceMappingURL=55.map';
         Piwik::postEvent('AssetManager.filterMergedJavaScripts', array(&$content));

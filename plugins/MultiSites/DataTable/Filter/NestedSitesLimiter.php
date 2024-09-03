@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\MultiSites\DataTable\Filter;
 
 use Piwik\DataTable\BaseFilter;
@@ -76,7 +77,6 @@ class NestedSitesLimiter extends BaseFilter
         $lastGroupFromPreviousPage = null;
 
         foreach ($table->getRows() as $row) {
-
             $this->addRowIfNeeded($row, $numRows);
             $numRows++;
 

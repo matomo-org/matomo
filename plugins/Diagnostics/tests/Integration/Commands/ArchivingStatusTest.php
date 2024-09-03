@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Diagnostics\tests\Integration\Commands;
@@ -44,7 +45,7 @@ class ArchivingStatusTest extends ConsoleCommandTestCase
         Date::$now = strtotime('2010-04-07 06:00:00');
     }
 
-    public function test_CommandOutput_IsAsExpected()
+    public function testCommandOutputIsAsExpected()
     {
         $expected = <<<OUTPUT
 
@@ -124,7 +125,7 @@ OUTPUT;
     }
 
 
-    public function test_CommandOutput_withStatsOption_IsAsExpected()
+    public function testCommandOutputWithStatsOptionIsAsExpected()
     {
         $expected = <<<OUTPUT
 

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Common;
@@ -18,14 +19,14 @@ use Piwik\Piwik;
  */
 class LastSeenTimeLogger
 {
-    const OPTION_PREFIX = 'UsersManager.lastSeen.';
+    public const OPTION_PREFIX = 'UsersManager.lastSeen.';
 
     /**
      * The amount of time in seconds that a last seen value is considered valid. We don't want
      * to update the database for every request made by every user, so we only do it if the time
      * has been at least this many seconds from the last known time.
      */
-    const LAST_TIME_SAVE_DELTA = 300;
+    public const LAST_TIME_SAVE_DELTA = 300;
 
     /**
      * Saves the current time for a user as an option if the current request is for something
@@ -38,7 +39,8 @@ class LastSeenTimeLogger
         $currentUserLogin = Piwik::getCurrentUserLogin();
 
         // only log time for non-anonymous visits to the reporting UI
-        if ($module == 'API'
+        if (
+            $module == 'API'
             || $module == 'Proxy'
             || Piwik::isUserIsAnonymous()
         ) {

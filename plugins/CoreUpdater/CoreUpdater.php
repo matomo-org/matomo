@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
@@ -44,14 +45,16 @@ class CoreUpdater extends \Piwik\Plugin
         $module = Piwik::getModule();
         $action = Piwik::getAction();
 
-        if ($module == 'CoreUpdater'
+        if (
+            $module == 'CoreUpdater'
             // Proxy module is used to redirect users to piwik.org, should still work when Piwik must be updated
             || $module == 'Proxy'
             // Do not show update page during installation.
             || $module == 'Installation'
             || ($module == 'CorePluginsAdmin' && $action == 'deactivate')
             || ($module == 'CorePluginsAdmin' && $action == 'uninstall')
-            || ($module == 'LanguagesManager' && $action == 'saveLanguage')) {
+            || ($module == 'LanguagesManager' && $action == 'saveLanguage')
+        ) {
             return;
         }
 
@@ -66,8 +69,7 @@ class CoreUpdater extends \Piwik\Plugin
             if (FrontController::shouldRethrowException()) {
                 throw new Exception("Piwik and/or some plugins have been upgraded to a new version. \n" .
                     "--> Please run the update process first. See documentation: https://matomo.org/docs/update/ \n");
-            } elseif ($module === 'API' && ('' == $action || 'index' == $action))  {
-
+            } elseif ($module === 'API' && ('' == $action || 'index' == $action)) {
                 $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $_GET + $_POST));
                 $response = new ResponseBuilder($outputFormat);
                 $e = new Exception('Database Upgrade Required. Your Matomo database is out-of-date, and must be upgraded before you can continue.');

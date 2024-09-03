@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Login\Emails;
@@ -46,7 +46,8 @@ class SuspiciousLoginAttemptsInLastHourEmail extends Mail
     {
         $model = new Model();
         $user = $model->getUser($this->login);
-        if (empty($user)
+        if (
+            empty($user)
             || empty($user['login'])
         ) {
             throw new \Exception('Unexpected error: unable to find user to send ' . __CLASS__);

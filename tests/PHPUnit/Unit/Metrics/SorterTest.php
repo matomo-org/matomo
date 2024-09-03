@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Unit\Metrics;
 
 use Piwik\DataTable;
@@ -41,34 +43,34 @@ class SorterTest extends UnitTestCase
         $this->sorter = new Sorter($this->config);
     }
 
-    public function test_getPrimarySortOrder_shouldReturnDescByDefault()
+    public function testGetPrimarySortOrderShouldReturnDescByDefault()
     {
         $this->assertSame(SORT_DESC, $this->sorter->getPrimarySortOrder(null));
         $this->assertSame(SORT_DESC, $this->sorter->getPrimarySortOrder('whatever'));
         $this->assertSame(SORT_DESC, $this->sorter->getPrimarySortOrder('desc'));
     }
 
-    public function test_getPrimarySortOrder_shouldReturnAscIfRequestedLowerCase()
+    public function testGetPrimarySortOrderShouldReturnAscIfRequestedLowerCase()
     {
         $this->assertSame(SORT_ASC, $this->sorter->getPrimarySortOrder('asc'));
         $this->assertSame(SORT_DESC, $this->sorter->getPrimarySortOrder('AsC')); // we require 'asc' to be lowercase
     }
 
-    public function test_getSecondarySortOrder_shouldReturnInvertedOrder_IfColumnIsLabel()
+    public function testGetSecondarySortOrderShouldReturnInvertedOrderIfColumnIsLabel()
     {
         $this->assertSame(SORT_DESC, $this->sorter->getSecondarySortOrder('asc', 'label'));
         $this->assertSame(SORT_ASC, $this->sorter->getSecondarySortOrder('whatever', 'label'));
         $this->assertSame(SORT_ASC, $this->sorter->getSecondarySortOrder('desc', 'label'));
         $this->assertSame(SORT_ASC, $this->sorter->getSecondarySortOrder('AsC', 'label'));
     }
-    public function test_getPrimarySortOrder_shouldReturnDescByDefault_IfNotLabelColumnIsRequested()
+    public function testGetPrimarySortOrderShouldReturnDescByDefaultIfNotLabelColumnIsRequested()
     {
         $this->assertSame(SORT_DESC, $this->sorter->getSecondarySortOrder(null, 'nb_visits'));
         $this->assertSame(SORT_DESC, $this->sorter->getSecondarySortOrder('whatever', 'nb_visits'));
         $this->assertSame(SORT_DESC, $this->sorter->getSecondarySortOrder('desc', 'nb_visits'));
     }
 
-    public function test_getSecondarySortOrder_shouldReturnAscIfRequestedLowerCase_IfNotLabelColumnIsRequested()
+    public function testGetSecondarySortOrderShouldReturnAscIfRequestedLowerCaseIfNotLabelColumnIsRequested()
     {
         $this->assertSame(SORT_ASC, $this->sorter->getSecondarySortOrder('asc', 'nb_visits'));
         $this->assertSame(SORT_DESC, $this->sorter->getSecondarySortOrder('AsC', 'nb_visits')); // we require 'asc' to be lowercase
@@ -77,7 +79,7 @@ class SorterTest extends UnitTestCase
     /**
      * @dataProvider getPrimaryColumnsToSort
      */
-    public function test_getPrimaryColumnToSort_shouldPickCorrectPrimaryColumnAndMapMetricNameToIdIfNeededAndReverse($expectedUsedColumn, $columnToSortBy)
+    public function testGetPrimaryColumnToSortShouldPickCorrectPrimaryColumnAndMapMetricNameToIdIfNeededAndReverse($expectedUsedColumn, $columnToSortBy)
     {
         $table = $this->createDataTable(array(
             array('label' => 'nintendo', 'nb_visits' => false, 'nb_hits' => 0, Metrics::INDEX_NB_VISITS_CONVERTED => false, Metrics::INDEX_BOUNCE_COUNT => 5)
@@ -98,7 +100,7 @@ class SorterTest extends UnitTestCase
         );
     }
 
-    public function test_getPrimaryColumnToSort_shouldFallbackToNbVisitsIfPossible()
+    public function testGetPrimaryColumnToSortShouldFallbackToNbVisitsIfPossible()
     {
         $table = $this->createDataTable(array(
             array('label' => 'nintendo', 'nb_visits' => false)
@@ -107,21 +109,21 @@ class SorterTest extends UnitTestCase
         $this->assertSame('nb_visits', $this->sorter->getPrimaryColumnToSort($table, 'any_random_column_that_doesnt_exist'));
     }
 
-    public function test_getPrimaryColumnToSort_shouldFallbackToThePassedColumnNameIfColumnCannotBeFoundAndNbVisitsDoesNotExist()
+    public function testGetPrimaryColumnToSortShouldFallbackToThePassedColumnNameIfColumnCannotBeFoundAndNbVisitsDoesNotExist()
     {
         $table = $this->createDataTable(array(array('label' => 'nintendo')));
 
         $this->assertSame('any_random_column_that_doesnt_exist', $this->sorter->getPrimaryColumnToSort($table, 'any_random_column_that_doesnt_exist'));
     }
 
-    public function test_getSecondaryColumnToSort_shouldNotFindASecondaryColumnToSort_IfSortedByLabelButNoVisitsColumnPresent()
+    public function testGetSecondaryColumnToSortShouldNotFindASecondaryColumnToSortIfSortedByLabelButNoVisitsColumnPresent()
     {
         $row = $this->createRow(array('label' => 'nintendo'));
 
         $this->assertNull($this->sorter->getSecondaryColumnToSort($row, 'label'));
     }
 
-    public function test_getSecondaryColumnToSort_shouldPreferVisitsColumn_IfColumnIsPresent_EvenIfValueIsFalse()
+    public function testGetSecondaryColumnToSortShouldPreferVisitsColumnIfColumnIsPresentEvenIfValueIsFalse()
     {
         $row = $this->createRow(array('label' => 'nintendo', 'nb_visits' => false, 'nb_hits' => 10));
 
@@ -129,7 +131,7 @@ class SorterTest extends UnitTestCase
         $this->assertSame('nb_visits', $this->sorter->getSecondaryColumnToSort($row, 'label'));
     }
 
-    public function test_getSecondaryColumnToSort_shouldPreferVisitsColumn_IfColumnIsPresent_EvenIfVisitsColumnIsId()
+    public function testGetSecondaryColumnToSortShouldPreferVisitsColumnIfColumnIsPresentEvenIfVisitsColumnIsId()
     {
         $row = $this->createRow(array('label' => 'nintendo', Metrics::INDEX_NB_VISITS => false, 'nb_hits' => 10));
 
@@ -137,14 +139,14 @@ class SorterTest extends UnitTestCase
         $this->assertSame(Metrics::INDEX_NB_VISITS, $this->sorter->getSecondaryColumnToSort($row, 'label'));
     }
 
-    public function test_getSecondaryColumnToSort_shouldUseLabelColumn_IfColumnIsPresentButNotNbVisitsColumn()
+    public function testGetSecondaryColumnToSortShouldUseLabelColumnIfColumnIsPresentButNotNbVisitsColumn()
     {
         $row = $this->createRow(array('label' => 'nintendo', 'nb_hits' => 10));
 
         $this->assertSame('label', $this->sorter->getSecondaryColumnToSort($row, 'nb_hits'));
     }
 
-    public function test_getSecondaryColumnToSort_shouldUseLabelColumn_IfPrimaryColumnIsNbVisitsColumn()
+    public function testGetSecondaryColumnToSortShouldUseLabelColumnIfPrimaryColumnIsNbVisitsColumn()
     {
         $row = $this->createRow(array('label' => 'nintendo', 'nb_visits' => 10));
 
@@ -152,14 +154,14 @@ class SorterTest extends UnitTestCase
         $this->assertSame('label', $this->sorter->getSecondaryColumnToSort($row, Metrics::INDEX_NB_VISITS));
     }
 
-    public function test_getSecondaryColumnToSort_shouldNotBeAbleToFallback_IfVisitsColumnIsUsedButThereIsNoLabelColumn()
+    public function testGetSecondaryColumnToSortShouldNotBeAbleToFallbackIfVisitsColumnIsUsedButThereIsNoLabelColumn()
     {
         $row = $this->createRow(array('nb_visits' => 10, 'nb_hits' => 10));
 
         $this->assertNull($this->sorter->getSecondaryColumnToSort($row, 'nb_visits'));
     }
 
-    public function test_getSecondaryColumnToSort_shouldUseVisitsAsSecondaryColumn_IfLabelIsUsedAsPrimaryColumn()
+    public function testGetSecondaryColumnToSortShouldUseVisitsAsSecondaryColumnIfLabelIsUsedAsPrimaryColumn()
     {
         $row = $this->createRow(array('label' => 'nintendo', 'nb_visits' => false));
 
@@ -169,7 +171,7 @@ class SorterTest extends UnitTestCase
     /**
      * @dataProvider getLabelsForNaturalSortTest
      */
-    public function test_getBestSortFlags_shouldAlwaysPickStringOrNaturalSortCaseInsensitive($label)
+    public function testGetBestSortFlagsShouldAlwaysPickStringOrNaturalSortCaseInsensitive($label)
     {
         $table = $this->createDataTable(array(array('label' => $label)));
 
@@ -188,7 +190,7 @@ class SorterTest extends UnitTestCase
     /**
      * @dataProvider getColumnsForBestSortFlagsTest
      */
-    public function test_getBestSortFlags($expectedSortFlags, $columnToReadFrom, $naturalSort = false)
+    public function testGetBestSortFlags($expectedSortFlags, $columnToReadFrom, $naturalSort = false)
     {
         $this->config->naturalSort = $naturalSort;
 
@@ -214,7 +216,7 @@ class SorterTest extends UnitTestCase
         );
     }
 
-    public function test_sort_shouldNotFailIfNoRowsAreSet()
+    public function testSortShouldNotFailIfNoRowsAreSet()
     {
         $table = $this->createDataTable(array());
 
@@ -223,7 +225,7 @@ class SorterTest extends UnitTestCase
         $this->assertSame(0, $table->getRowsCount());
     }
 
-    public function test_sort_shouldSetTheSortedColumnNameOnTheTable()
+    public function testSortShouldSetTheSortedColumnNameOnTheTable()
     {
         $table = $this->createDataTable(array(array('nb_test' => 5)));
         $this->config->primaryColumnToSort = 'nb_test';
@@ -233,7 +235,7 @@ class SorterTest extends UnitTestCase
         $this->assertSame('nb_test', $table->getSortedByColumnName());
     }
 
-    public function test_sort_shouldKeepTheAmountOfColumns()
+    public function testSortShouldKeepTheAmountOfColumns()
     {
         $table = $this->createDataTableFromValues(array(5, null));
         $table->addSummaryRow($this->createRow(array('nb_test' => 10)));
@@ -244,7 +246,7 @@ class SorterTest extends UnitTestCase
         $this->assertSame(2, $table->getRowsCountWithoutSummaryRow());
     }
 
-    public function test_sort_shouldNotSortOrChangeTheSummaryRow()
+    public function testSortShouldNotSortOrChangeTheSummaryRow()
     {
         $table = $this->createDataTableFromValues(array(5, null));
         $table->addSummaryRow($this->createRow(array('nb_test' => 10)));
@@ -256,7 +258,7 @@ class SorterTest extends UnitTestCase
         $this->assertSame(10, $summaryRow->getColumn('nb_test'));
     }
 
-    public function test_sort_shouldSortNumeric_AndShouldAddEmptyValuesAlwaysAtTheEnd()
+    public function testSortShouldSortNumericAndShouldAddEmptyValuesAlwaysAtTheEnd()
     {
         $table = $this->createDataTableFromValues(array(5, null, 61, array(), 10, false, 20, 15));
 
@@ -274,7 +276,7 @@ class SorterTest extends UnitTestCase
         $this->assertExpectedRowsOrder($expected, $table);
     }
 
-    public function test_sort_sortNatural_ShoudAddEmptyValuesAlwaysAtTheEnd()
+    public function testSortSortNaturalShoudAddEmptyValuesAlwaysAtTheEnd()
     {
         $table = $this->createDataTableFromValues(array('nintendo', null, 'abc', array(), 'DeF', 'def', false, '1210', 'piwik'));
 
@@ -292,7 +294,7 @@ class SorterTest extends UnitTestCase
         $this->assertExpectedRowsOrder($expected, $table);
     }
 
-    public function test_sort_ShoudIgnoreASecondColumnSort_IfDisabled()
+    public function testSortShoudIgnoreASecondColumnSortIfDisabled()
     {
         $table = $this->createDataTableFromValues(array('abc', 'abc', 'abc', 'abc', 'abc'));
 
@@ -310,7 +312,7 @@ class SorterTest extends UnitTestCase
         $this->assertExpectedRowsOrder($expected, $table, 'label');
     }
 
-    public function test_sort_ShoudIgnoreASecondColumnSort_IfSortIsNumericButNoSecondaryColumnIsSet()
+    public function testSortShoudIgnoreASecondColumnSortIfSortIsNumericButNoSecondaryColumnIsSet()
     {
         $table = $this->createDataTableFromValues(array('abc', 'abc', 'abc', 'abc', 'abc'));
 
@@ -327,7 +329,7 @@ class SorterTest extends UnitTestCase
         $this->assertExpectedRowsOrder($expected, $table, 'label');
     }
 
-    public function test_sort_ShoudSortBySecondColumn_IfSortedNumeric()
+    public function testSortShoudSortBySecondColumnIfSortedNumeric()
     {
         $table = $this->createDataTableFromValues(array('abc', 'abc', 'abc', 'abc', 'abc'));
 
@@ -349,7 +351,7 @@ class SorterTest extends UnitTestCase
         $this->assertExpectedRowsOrder($expected, $table, 'label');
     }
 
-    public function test_sort_ShoudSortEmptyValues_BySecondColumn_IfSortedNumeric()
+    public function testSortShoudSortEmptyValuesBySecondColumnIfSortedNumeric()
     {
         $table = $this->createDataTableFromValues(array(null, null, null, null, null));
 

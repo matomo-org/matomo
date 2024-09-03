@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Tracker;
@@ -20,7 +21,7 @@ use Piwik\Tracker\TrackerCodeGenerator;
  */
 class TrackerCodeGeneratorTest extends IntegrationTestCase
 {
-    public function testJavascriptTrackingCode_withAllOptions()
+    public function testJavascriptTrackingCodeWithAllOptions()
     {
         $generator = new TrackerCodeGenerator();
 
@@ -30,13 +31,24 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             'https://another-domain/piwik'
         );
         $idSite = \Piwik\Plugins\SitesManager\API::getInstance()->addSite('Site name here <-->', $urls);
-        $jsTag = $generator->generate($idSite, 'http://piwik-server/piwik',
-            $mergeSubdomains = true, $groupPageTitlesByDomain = true, $mergeAliasUrls = true,
+        $jsTag = $generator->generate(
+            $idSite,
+            'http://piwik-server/piwik',
+            $mergeSubdomains = true,
+            $groupPageTitlesByDomain = true,
+            $mergeAliasUrls = true,
             $visitorCustomVariables = array(array("name", "value"), array("name 2", "value 2")),
             $pageCustomVariables = array(array("page cvar", "page cvar value")),
-            $customCampaignNameQueryParam = "campaignKey", $customCampaignKeywordParam = "keywordKey",
-            $doNotTrack = true, $disableCookies = false, $trackNoScript = true,
-            $crossDomain = true, $excludedQueryParams = array("uid", "aid"));
+            $customCampaignNameQueryParam = "campaignKey",
+            $customCampaignKeywordParam = "keywordKey",
+            $doNotTrack = true,
+            $disableCookies = false,
+            $trackNoScript = true,
+            $crossDomain = true,
+            $excludedQueryParams = array("uid", "aid"),
+            $excludedReferrers = array(),
+            $disableCampaignParameters = true
+        );
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script&gt;
@@ -51,6 +63,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push([\"setCustomVariable\", 2, \"name 2\", \"value 2\", \"visit\"]);
   // you can set up to 5 custom variables for each action (page view, download, click, site search)
   _paq.push([\"setCustomVariable\", 1, \"page cvar\", \"page cvar value\", \"page\"]);" : "") . "
+  _paq.push([\"disableCampaignParameters\"]);
   _paq.push([\"setCampaignNameKey\", \"campaignKey\"]);
   _paq.push([\"setCampaignKeywordKey\", \"keywordKey\"]);
   _paq.push([\"setDoNotTrack\", true]);
@@ -72,7 +85,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
         $this->assertEquals($expected, $jsTag);
     }
 
-    public function testJavascriptTrackingCode_noScriptTrackingDisabled_defaultTrackingCode()
+    public function testJavascriptTrackingCodeNoScriptTrackingDisabledDefaultTrackingCode()
     {
         $generator = new TrackerCodeGenerator();
 
@@ -101,7 +114,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     /**
      * Tests the generated JS code with protocol override
      */
-    public function testJavascriptTrackingCode_withAllOptionsAndProtocolOverwrite()
+    public function testJavascriptTrackingCodeWithAllOptionsAndProtocolOverwrite()
     {
         $generator = new TrackerCodeGenerator();
 
@@ -109,13 +122,24 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $codeImpl['protocol'] = 'https://';
         });
 
-        $jsTag = $generator->generate($idSite = 1, $piwikUrl = 'http://localhost/piwik',
-            $mergeSubdomains = true, $groupPageTitlesByDomain = true, $mergeAliasUrls = true,
+        $jsTag = $generator->generate(
+            $idSite = 1,
+            $piwikUrl = 'http://localhost/piwik',
+            $mergeSubdomains = true,
+            $groupPageTitlesByDomain = true,
+            $mergeAliasUrls = true,
             $visitorCustomVariables = array(array("name", "value"), array("name 2", "value 2")),
             $pageCustomVariables = array(array("page cvar", "page cvar value")),
-            $customCampaignNameQueryParam = "campaignKey", $customCampaignKeywordParam = "keywordKey",
-            $doNotTrack = true, $disableCookies = false, $trackNoScript = false,
-            $crossDomain = false, $excludedQueryParams = array("uid", "aid"));
+            $customCampaignNameQueryParam = "campaignKey",
+            $customCampaignKeywordParam = "keywordKey",
+            $doNotTrack = true,
+            $disableCookies = false,
+            $trackNoScript = false,
+            $crossDomain = false,
+            $excludedQueryParams = array("uid", "aid"),
+            $excludedReferrers = array(),
+            $disableCampaignParameters = true
+        );
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script&gt;
@@ -127,6 +151,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push([\"setCustomVariable\", 2, \"name 2\", \"value 2\", \"visit\"]);
   // you can set up to 5 custom variables for each action (page view, download, click, site search)
   _paq.push([\"setCustomVariable\", 1, \"page cvar\", \"page cvar value\", \"page\"]);" : "") . "
+  _paq.push([\"disableCampaignParameters\"]);
   _paq.push([\"setCampaignNameKey\", \"campaignKey\"]);
   _paq.push([\"setCampaignKeywordKey\", \"keywordKey\"]);
   _paq.push([\"setDoNotTrack\", true]);
@@ -150,7 +175,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     /**
      * Tests the generated JS code with options before tracker url
      */
-    public function testJavascriptTrackingCode_withAllOptionsAndOptionsBeforeTrackerUrl()
+    public function testJavascriptTrackingCodeWithAllOptionsAndOptionsBeforeTrackerUrl()
     {
         $generator = new TrackerCodeGenerator();
 
@@ -158,13 +183,24 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $codeImpl['optionsBeforeTrackerUrl'] .= "_paq.push(['setAPIUrl', 'http://localhost/statistics']);\n    ";
         });
 
-        $jsTag = $generator->generate($idSite = 1, $piwikUrl = 'http://localhost/piwik',
-            $mergeSubdomains = true, $groupPageTitlesByDomain = true, $mergeAliasUrls = true,
+        $jsTag = $generator->generate(
+            $idSite = 1,
+            $piwikUrl = 'http://localhost/piwik',
+            $mergeSubdomains = true,
+            $groupPageTitlesByDomain = true,
+            $mergeAliasUrls = true,
             $visitorCustomVariables = array(array("name", "value"), array("name 2", "value 2")),
             $pageCustomVariables = array(array("page cvar", "page cvar value")),
-            $customCampaignNameQueryParam = "campaignKey", $customCampaignKeywordParam = "keywordKey",
-            $doNotTrack = true, $disableCookies = false, $trackNoScript = false,
-            $crossDomain = false, $excludedQueryParams = array("uid", "aid"));
+            $customCampaignNameQueryParam = "campaignKey",
+            $customCampaignKeywordParam = "keywordKey",
+            $doNotTrack = true,
+            $disableCookies = false,
+            $trackNoScript = false,
+            $crossDomain = false,
+            $excludedQueryParams = array("uid", "aid"),
+            $excludedReferrers = array(),
+            $disableCampaignParameters = true
+        );
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script&gt;
@@ -176,6 +212,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push([\"setCustomVariable\", 2, \"name 2\", \"value 2\", \"visit\"]);
   // you can set up to 5 custom variables for each action (page view, download, click, site search)
   _paq.push([\"setCustomVariable\", 1, \"page cvar\", \"page cvar value\", \"page\"]);" : "") . "
+  _paq.push([\"disableCampaignParameters\"]);
   _paq.push([\"setCampaignNameKey\", \"campaignKey\"]);
   _paq.push([\"setCampaignKeywordKey\", \"keywordKey\"]);
   _paq.push([\"setDoNotTrack\", true]);
@@ -200,7 +237,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     /**
      * Tests the generated JS code with options before tracker url
      */
-    public function testJavascriptTrackingCode_loadSync()
+    public function testJavascriptTrackingCodeLoadSync()
     {
         $generator = new TrackerCodeGenerator();
 
@@ -208,8 +245,13 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $codeImpl['loadAsync'] = false;
         });
 
-        $jsTag = $generator->generate($idSite = 1, $piwikUrl = 'http://localhost/piwik',
-            $mergeSubdomains = true, $groupPageTitlesByDomain = true, $mergeAliasUrls = true);
+        $jsTag = $generator->generate(
+            $idSite = 1,
+            $piwikUrl = 'http://localhost/piwik',
+            $mergeSubdomains = true,
+            $groupPageTitlesByDomain = true,
+            $mergeAliasUrls = true
+        );
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script&gt;
@@ -281,7 +323,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
         $this->assertEquals($expected, $jsTag);
     }
 
-    public function testJavascriptTrackingCode_withForceSsl()
+    public function testJavascriptTrackingCodeWithForceSsl()
     {
         Config::getInstance()->General['force_ssl'] = 1;
 

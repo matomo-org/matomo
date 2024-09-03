@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "Los siguientes complementos siempre están activados y no pueden ser desactivados: %s",
         "AreThereAnyRisks": "¿Hay algún riesgos?",
         "AreThereAnyRisksDetails1": "Cuando active el Administrador de etiquetas, los usuarios con acceso de administrador podrán crear etiquetas, activadores y variables HTML personalizadas que pueden ejecutar JavaScript en su sitio web. Estas plantillas personalizadas podrían utilizarse incorrectamente para robar, por ejemplo, información confidencial de los visitantes de su sitio web (conocidas como %1$sXSS%2$s).",
-        "AreThereAnyRisksDetails2": "Puede desactivar estas plantillas personalizadas en \"Administración → Configuración General\" una vez que haya activado el Tag Manager. También puede restringir el uso de estas plantillas a usuarios específicos o a superusuarios únicamente.",
+        "AreThereAnyRisksDetails2": "Puede desactivar estas plantillas personalizadas en \"Administración → Configuración general\" una vez que haya activado Tag Manager. También puede restringir el uso de estas plantillas únicamente a usuarios específicos o superusuarios.",
         "AuthorHomepage": "Página de internet del autor",
         "ChangeLookByManageThemes": "Puede cambiar la apariencia de Matomo %1$sgestionando los temas%2$s.",
         "ChangeSettingsPossible": "Puede cambiar la %1$sconfiguración%2$s de este complemento.",
@@ -47,6 +47,9 @@
         "OriginOfficial": "Oficial",
         "OriginThirdParty": "De terceros",
         "PluginActivated": "Complemento activado",
+        "PluginFreeTrialStarted": "%1$sSu prueba gratuita de 30 días ha comenzado%2$s para %3$s.",
+        "PluginFreeTrialStartedAccountCreatedMessage": "Hemos añadido su clave de licencia, iniciando una prueba gratuita de 30 días para %1$s. Dé el siguiente paso instalando y activando su plugin.",
+        "PluginFreeTrialStartedAccountCreatedTitle": "Su cuenta ha sido creada",
         "PluginHomepage": "Página de internet del complemento",
         "PluginNotCompatibleWith": "%1$s complemento no es compatible con %2$s.",
         "PluginNotDownloadable": "Este complemento no es descargable.",
@@ -74,7 +77,7 @@
         "Themes": "Temas",
         "ThemesDescription": "Los temas pueden cambiar la apariencia de la interfaz de usuario Matomo, y ofrecer una nueva experiencia visual para disfrutar sus informes de análisis.",
         "ThemesManagement": "Gestionar Temas",
-        "UninstallConfirm": "Estás a punto de desinstalar el complemento %s. El complemento será completamente eliminado de su plataforma y no será recuperable. ¿Está seguro que desea hacer esto?",
+        "UninstallConfirm": "Estás a punto de desinstalar un plugin %s. El plugin y todos los datos que ha recopilado se eliminarán completamente de tu plataforma y no se podrán recuperar. ¿Estás seguro de que quieres hacerlo?",
         "UpdateSelected": "Actualización seleccionada",
         "Version": "Versión",
         "ViewAllMarketplacePlugins": "Ver todos los complementos del \"Marketplace\"",
@@ -86,6 +89,6 @@
         "WhyUsingATagManager": "¿Por qué un Administrador de Etiquetas?",
         "WhyUsingATagManagerDetails1": "¡Un administrador de etiquetas que le hace la vida más fácil! Ya no necesita esperar a que un desarrollador modifique fragmentos de código propios o de terceros en su sitio web, ya que el Administrador de etiquetas le brinda una experiencia sin estrés para realizar estos cambios e implementarlos en su sitio web.",
         "WhyUsingATagManagerDetails2": "No podría ser más conveniente y no solo le permite introducir cambios en el mercado más rápido, sino que también reduce los costos.",
-        "WhyUsingATagManagerDetails3": "Esto deja contentos a los equipos de marketing, equipos digitales y personal de sistemas... ¡Es un situación ganar-ganar para todos!"
+        "WhyUsingATagManagerDetails3": "Esto mantiene contentos a los equipos de marketing, a los equipos digitales y a los informáticos... ¡Todos salimos ganando!"
     }
 }

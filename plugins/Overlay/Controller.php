@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Overlay;
 
 use Piwik\API\CORSHandler;
@@ -122,11 +123,12 @@ class Controller extends \Piwik\Plugin\Controller
                     continue;
                 }
 
-                if ($metric == 'bounce_rate'
+                if (
+                    $metric == 'bounce_rate'
                     || $metric == 'exit_rate'
                 ) {
                     $value = $formatter->getPrettyPercentFromQuotient($value);
-                } else if ($metric == 'avg_time_on_page') {
+                } elseif ($metric == 'avg_time_on_page') {
                     $value = $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
                 }
 

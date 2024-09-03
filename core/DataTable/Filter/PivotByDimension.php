@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\DataTable\Filter;
 
 use Exception;
@@ -160,9 +161,16 @@ class PivotByDimension extends BaseFilter
     ) {
         parent::__construct($table);
 
-        Log::debug("PivotByDimension::%s: creating with [report = %s, pivotByDimension = %s, pivotColumn = %s, "
-            . "pivotByColumnLimit = %s, isFetchingBySegmentEnabled = %s]", __FUNCTION__, $report, $pivotByDimension,
-            $pivotColumn, $pivotByColumnLimit, $isFetchingBySegmentEnabled);
+        Log::debug(
+            "PivotByDimension::%s: creating with [report = %s, pivotByDimension = %s, pivotColumn = %s, "
+            . "pivotByColumnLimit = %s, isFetchingBySegmentEnabled = %s]",
+            __FUNCTION__,
+            $report,
+            $pivotByDimension,
+            $pivotColumn,
+            $pivotByColumnLimit,
+            $isFetchingBySegmentEnabled
+        );
 
         $this->pivotByColumnLimit = $pivotByColumnLimit ?: self::getDefaultColumnLimit();
         $this->isFetchingBySegmentEnabled = $isFetchingBySegmentEnabled;
@@ -417,7 +425,8 @@ class PivotByDimension extends BaseFilter
     private function getColumnValue(Row $columnRow, $pivotColumn)
     {
         $value = $columnRow->getColumn($pivotColumn);
-        if (empty($value)
+        if (
+            empty($value)
             && !empty($this->metricIndexValue)
         ) {
             $value = $columnRow->getColumn($this->metricIndexValue);
@@ -481,7 +490,8 @@ class PivotByDimension extends BaseFilter
         });
 
         // limit columns if necessary (adding aggregate Others column at end)
-        if ($this->pivotByColumnLimit > 0
+        if (
+            $this->pivotByColumnLimit > 0
             && count($columnSet) > $this->pivotByColumnLimit
         ) {
             $columnSet = array_slice($columnSet, 0, $this->pivotByColumnLimit - 1, $preserveKeys = true);
@@ -514,7 +524,8 @@ class PivotByDimension extends BaseFilter
 
         $currentIndex = 1;
         foreach ($defaultRow as $columnName => $ignore) {
-            if ($columnName === $othersRowLabel
+            if (
+                $columnName === $othersRowLabel
                 || $columnName === 'label'
             ) {
                 $result[] = $columnName;

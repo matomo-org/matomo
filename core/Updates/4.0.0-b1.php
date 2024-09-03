@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Updates;
@@ -268,10 +268,12 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             if ($pluginManager->isPluginThirdPartyAndBogus($plugin)) {
                 $pluginDir = Manager::getPluginDirectory($plugin);
 
-                if (is_dir($pluginDir) &&
+                if (
+                    is_dir($pluginDir) &&
                     file_exists($pluginDir . '/' . $plugin . '.php') &&
                     !file_exists($pluginDir . '/plugin.json') &&
-                    is_writable($pluginDir)) {
+                    is_writable($pluginDir)
+                ) {
                     file_put_contents($pluginDir . '/plugin.json', '{
   "name": "' . $plugin . '",
   "description": "' . $plugin . '",

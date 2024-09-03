@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
@@ -20,7 +21,7 @@ use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
  */
 class SetConfigTest extends ConsoleCommandTestCase
 {
-    const TEST_CONFIG_PATH = '/tmp/test.config.ini.php';
+    public const TEST_CONFIG_PATH = '/tmp/test.config.ini.php';
 
     public static function setUpBeforeClass(): void
     {
@@ -42,7 +43,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         $this->makeLocalConfigWritable();
     }
 
-    public function test_Command_SucceedsWhenOptionsUsed()
+    public function testCommandSucceedsWhenOptionsUsed()
     {
         $code = $this->applicationTester->run(array(
             'command' => 'config:set',
@@ -63,7 +64,7 @@ class SetConfigTest extends ConsoleCommandTestCase
     /**
      * @dataProvider getInvalidArgumentsForTest
      */
-    public function test_Command_FailsWhenInvalidArgumentsUsed($invalidArgument)
+    public function testCommandFailsWhenInvalidArgumentsUsed($invalidArgument)
     {
         $code = $this->applicationTester->run(array(
             'command' => 'config:set',
@@ -86,7 +87,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         );
     }
 
-    public function test_Command_FailsWithMissingFilePermissionException_whenConfigFileNotWritable()
+    public function testCommandFailsWithMissingFilePermissionExceptionWhenConfigFileNotWritable()
     {
         $this->makeLocalConfigNotWritable();
 
@@ -102,7 +103,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         self::assertStringContainsString('[Piwik\Exception\MissingFilePermissionException]', $this->applicationTester->getDisplay());
     }
 
-    public function test_Command_SucceedsWhenArgumentsUsed()
+    public function testCommandSucceedsWhenArgumentsUsed()
     {
         $config = Config::getInstance();
         $config->General['trusted_hosts'] = array('www.trustedhost.com');
@@ -137,7 +138,7 @@ class SetConfigTest extends ConsoleCommandTestCase
     /**
      * @dataProvider getOptionsForSettingValueToZeroTests
      */
-    public function test_Command_SucceedsWhenSettingValueToZero($options)
+    public function testCommandSucceedsWhenSettingValueToZero($options)
     {
         $config = Config::getInstance();
         $config->Tracker['debug'] = 1;
@@ -227,7 +228,7 @@ class SetConfigTest extends ConsoleCommandTestCase
         @chmod(dirname($local), 0755);
         @chmod($local, 0755);
         $this->assertTrue(is_writable(dirname($local)));
-        if(file_exists($local)) {
+        if (file_exists($local)) {
             $this->assertTrue(is_writable($local));
         }
     }

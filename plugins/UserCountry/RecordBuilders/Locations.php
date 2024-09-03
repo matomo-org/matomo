@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\UserCountry\RecordBuilders;
@@ -134,7 +134,8 @@ class Locations extends RecordBuilder
 
     protected function rememberCityLatLong(array $row): void
     {
-        if (!empty($row[Archiver::CITY_FIELD])
+        if (
+            !empty($row[Archiver::CITY_FIELD])
             && !empty($row[Archiver::LATITUDE_FIELD])
             && !empty($row[Archiver::LONGITUDE_FIELD])
             && empty($this->latLongForCities[$row[Archiver::CITY_FIELD]])

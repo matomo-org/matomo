@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Diagnostics\tests\Integration\Commands;
@@ -38,7 +39,7 @@ class ConfigReaderTest extends IntegrationTestCase
         FakeAccess::clearAccess($superUser = true);
     }
 
-    public function test_getConfigValuesFromFiles()
+    public function testGetConfigValuesFromFiles()
     {
         $fileConfig = $this->configReader->getConfigValuesFromFiles();
 
@@ -64,7 +65,7 @@ class ConfigReaderTest extends IntegrationTestCase
                             'value' => '${@piwik(crash))}',
                             'description' => '',
                             'isCustomValue' => false,
-                            'defaultValue' => NULL,
+                            'defaultValue' => null,
                         ),
                 ),
             'CategoryOnlyInGlobalFile' =>
@@ -129,14 +130,14 @@ with multiple lines',
                             'value' => '******',
                             'description' => '',
                             'isCustomValue' => true,
-                            'defaultValue' => NULL,
+                            'defaultValue' => null,
                         ),
                     'login' =>
                         array (
                             'value' => 'tes"t',
                             'description' => '',
                             'isCustomValue' => true,
-                            'defaultValue' => NULL,
+                            'defaultValue' => null,
                         ),
                 ),
             'TestOnlyInCommon' =>
@@ -146,7 +147,7 @@ with multiple lines',
                             'value' => 'commonValue',
                             'description' => '',
                             'isCustomValue' => false,
-                            'defaultValue' => NULL,
+                            'defaultValue' => null,
                         ),
                 ),
             'Tracker' =>
@@ -156,14 +157,14 @@ with multiple lines',
                             'value' => 'commonConfigTrackerValue',
                             'description' => '',
                             'isCustomValue' => false,
-                            'defaultValue' => NULL,
+                            'defaultValue' => null,
                         ),
                 ),
         );
         $this->assertEquals($expected, $fileConfig);
     }
 
-    public function test_addConfigValuesFromPluginSettings()
+    public function testAddConfigValuesFromPluginSettings()
     {
         $settings = new SystemSettings();
 
@@ -174,14 +175,14 @@ with multiple lines',
                 array (
                     'metric' =>
                         array (
-                            'value' => NULL,
+                            'value' => null,
                             'description' => 'Choose the metric that should be displayed in the browser tab',
                             'isCustomValue' => false,
                             'defaultValue' => 'nb_visits',
                         ),
                     'browsers' =>
                         array (
-                            'value' => NULL,
+                            'value' => null,
                             'description' => 'The value will be only displayed in the following browsers',
                             'isCustomValue' => false,
                             'defaultValue' =>
@@ -193,7 +194,7 @@ with multiple lines',
                         ),
                     'description' =>
                         array (
-                            'value' => NULL,
+                            'value' => null,
                             'description' => 'This description will be displayed next to the value',
                             'isCustomValue' => false,
                             'defaultValue' => 'This is the value: 
@@ -201,17 +202,17 @@ Another line',
                         ),
                     'password' =>
                         array (
-                            'value' => NULL,
+                            'value' => null,
                             'description' => 'Password for the 3rd API where we fetch the value',
                             'isCustomValue' => false,
-                            'defaultValue' => NULL,
+                            'defaultValue' => null,
                         ),
                 ),
         );
         $this->assertEquals($expected, $configValues);
     }
 
-    public function test_addConfigValuesFromPluginSettings_shouldAddDescriptionAndDefaultValueForExistingConfigValues()
+    public function testAddConfigValuesFromPluginSettingsShouldAddDescriptionAndDefaultValueForExistingConfigValues()
     {
         $settings = new SystemSettings();
 
@@ -220,7 +221,7 @@ Another line',
                 array (
                     'metric' =>
                         array (
-                            'value' => NULL,
+                            'value' => null,
                             'description' => '',
                             'isCustomValue' => false,
                             'defaultValue' => null,
@@ -234,7 +235,7 @@ Another line',
         $this->assertSame('nb_visits', $configValues['ExampleSettingsPlugin']['metric']['defaultValue']);
     }
 
-    public function test_addConfigValuesFromPluginSettings_shouldMaskValueIfTypeIsPassword()
+    public function testAddConfigValuesFromPluginSettingsShouldMaskValueIfTypeIsPassword()
     {
         $settings = new SystemSettings();
         $settings->metric->configureField()->uiControl = FieldConfig::UI_CONTROL_PASSWORD;

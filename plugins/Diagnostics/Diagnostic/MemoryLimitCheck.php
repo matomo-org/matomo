@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\SettingsServer;
@@ -40,10 +42,10 @@ class MemoryLimitCheck implements Diagnostic
         $memoryLimit = SettingsServer::getMemoryLimitValue();
         $comment = $memoryLimit . 'M';
 
-        if(false === $memoryLimit) {
+        if (false === $memoryLimit) {
             $status = DiagnosticResult::STATUS_OK;
             $comment = $this->translator->translate('Installation_SystemCheckMemoryNoMemoryLimitSet');
-        } else if ($memoryLimit >= $this->minimumMemoryLimit) {
+        } elseif ($memoryLimit >= $this->minimumMemoryLimit) {
             $status = DiagnosticResult::STATUS_OK;
         } else {
             $status = DiagnosticResult::STATUS_WARNING;

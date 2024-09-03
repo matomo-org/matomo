@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\API;
@@ -31,7 +32,7 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
  */
 class DataTablePostProcessor
 {
-    const PROCESSED_METRICS_COMPUTED_FLAG = 'processed_metrics_computed';
+    public const PROCESSED_METRICS_COMPUTED_FLAG = 'processed_metrics_computed';
 
     /**
      * @var null|Report
@@ -267,7 +268,11 @@ class DataTablePostProcessor
         $addNormalProcessedMetrics = null;
         try {
             $addNormalProcessedMetrics = Common::getRequestVar(
-                'filter_add_columns_when_show_all_columns', null, 'integer', $this->request);
+                'filter_add_columns_when_show_all_columns',
+                null,
+                'integer',
+                $this->request
+            );
         } catch (Exception $ex) {
             // ignore
         }
@@ -279,8 +284,13 @@ class DataTablePostProcessor
         $addGoalProcessedMetrics = null;
         try {
             $addGoalProcessedMetrics = Common::getRequestVar(
-                'filter_update_columns_when_show_all_goals', false, 'string', $this->request);
-            if ((int) $addGoalProcessedMetrics === 0
+                'filter_update_columns_when_show_all_goals',
+                false,
+                'string',
+                $this->request
+            );
+            if (
+                (int) $addGoalProcessedMetrics === 0
                 && $addGoalProcessedMetrics !== '0'
                 && $addGoalProcessedMetrics != Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
                 && $addGoalProcessedMetrics != Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
@@ -305,7 +315,8 @@ class DataTablePostProcessor
             // if no idGoal is present, but filter_show_goal_columns_process_goals is set to one goal,
             // default idGoal to that value. this allows us to use filter_update_columns_when_show_all_goals
             // w/ API.getProcessedReport w/o setting idGoal, which affects the search for report metadata.
-            if (!empty($goalsToProcess)
+            if (
+                !empty($goalsToProcess)
                 && count($goalsToProcess) == 1
                 && $goalsToProcess[0] !== '0'
                 && $goalsToProcess[0] !== 0
@@ -348,11 +359,12 @@ class DataTablePostProcessor
         $showColumns = Common::getRequestVar('showColumns', '', 'string', $this->request);
         $hideColumnsRecursively = Common::getRequestVar('hideColumnsRecursively', intval($this->report && $this->report->getModule() == 'Live'), 'int', $this->request);
         $showRawMetrics = Common::getRequestVar('showRawMetrics', 0, 'int', $this->request);
-        if (!empty($hideColumns)
+        if (
+            !empty($hideColumns)
             || !empty($showColumns)
         ) {
             $dataTable->filter('ColumnDelete', array($hideColumns, $showColumns, $deleteIfZeroOnly = false, $hideColumnsRecursively));
-        } else if ($showRawMetrics !== 1) {
+        } elseif ($showRawMetrics !== 1) {
             $this->removeTemporaryMetrics($dataTable);
         }
 

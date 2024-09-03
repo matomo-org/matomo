@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Referrers\Columns;
 
 use Piwik\Common;
@@ -15,7 +16,7 @@ use Piwik\Tracker\Action;
 
 class ReferrerUrl extends Base
 {
-    const MAX_LEN = 1500;
+    public const MAX_LEN = 1500;
     protected $columnName = 'referer_url';
     protected $type = self::TYPE_TEXT;
     protected $segmentName = 'referrerUrl';
@@ -53,7 +54,8 @@ class ReferrerUrl extends Base
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
         $information = $this->getReferrerInformationFromRequest($request, $visitor);
-        if ($this->isCurrentReferrerDirectEntry($visitor)
+        if (
+            $this->isCurrentReferrerDirectEntry($visitor)
             && $information['referer_type'] != Common::REFERRER_TYPE_DIRECT_ENTRY
         ) {
             return $this->trimUrl($information['referer_url']);

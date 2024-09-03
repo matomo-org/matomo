@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Updates;
@@ -61,7 +61,6 @@ class Updates_1_8_3_b1 extends Updates
         }
 
         try {
-
             // Common::prefixTable('pdf') has been heavily refactored to be more generic
             // The following actions are taken in this update script :
             // - create the new generic report table Common::prefixTable('report')

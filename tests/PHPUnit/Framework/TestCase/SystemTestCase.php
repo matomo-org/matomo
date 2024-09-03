@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Framework\TestCase;
@@ -128,7 +129,7 @@ abstract class SystemTestCase extends TestCase
                 $filterValues = array();
                 if ($apiValue['filterKey'] === 'module') {
                     $filterValues = self::getAllowedModulesToFilterApiResponse($api);
-                } else if ($apiValue['filterKey'] === 'category') {
+                } elseif ($apiValue['filterKey'] === 'category') {
                     $filterValues = self::getAllowedCategoriesToFilterApiResponse($api);
                 }
                 if ($filterValues && self::$shouldFilterApiResponse) {
@@ -482,7 +483,7 @@ abstract class SystemTestCase extends TestCase
         return $response;
     }
 
-    protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $params = array())
+    protected function testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $params = array())
     {
         Manager::getInstance()->deleteAll(); // clearing the datatable cache here GREATLY speeds up system tests on CI
 
@@ -568,7 +569,7 @@ abstract class SystemTestCase extends TestCase
 
     public static function assertApiResponseHasNoError($response)
     {
-        if(!is_string($response)) {
+        if (!is_string($response)) {
             $response = json_encode($response);
         }
         self::assertTrue(stripos($response, 'error') === false, "error in $response");
@@ -690,7 +691,7 @@ abstract class SystemTestCase extends TestCase
         $testRequests = $this->getTestRequestsCollection($api, $testConfig, $api);
 
         foreach ($testRequests->getRequestUrls() as $apiId => $requestUrl) {
-            $this->_testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $params);
+            $this->testApiUrl($testName . $testConfig->testSuffix, $apiId, $requestUrl, $testConfig->compareAgainst, $params);
         }
 
         // change the language back to en
@@ -831,7 +832,7 @@ abstract class SystemTestCase extends TestCase
                         $isNumeric = preg_match('/^\d+(\.\d+)?$/', $value);
                         if ($isNumeric) {
                             $values[] = $value;
-                        } else if (!ctype_print($value)) {
+                        } elseif (!ctype_print($value)) {
                             $values[] = "x'" . bin2hex($value) . "'";
                         } else {
                             $values[] = "?";
@@ -845,7 +846,7 @@ abstract class SystemTestCase extends TestCase
                 $sql = "INSERT INTO `$table` VALUES " . implode(',', $rowsSql);
                 try {
                     Db::query($sql, $bind);
-                } catch( Exception $e) {
+                } catch (Exception $e) {
                     throw new Exception("error while inserting $sql into $table the data. SQl data: " . var_export($sql, true) . ", Bind array: " . var_export($bind, true) . ". Erorr was -> " . $e->getMessage());
                 }
             }
@@ -898,7 +899,7 @@ abstract class SystemTestCase extends TestCase
 
     public static function getAllowedModulesToFilterApiResponse($api)
     {
-        return (self::$allowedModulesApiWise[$api] ?? NULL);
+        return (self::$allowedModulesApiWise[$api] ?? null);
     }
 
     public static function setAllowedCategoriesToFilterApiResponse($api, $category)
@@ -908,7 +909,7 @@ abstract class SystemTestCase extends TestCase
 
     public static function getAllowedCategoriesToFilterApiResponse($api)
     {
-        return (self::$allowedCategoriesApiWise[$api] ?? NULL);
+        return (self::$allowedCategoriesApiWise[$api] ?? null);
     }
 
     private static function filterReportsCallback(&$reports, $info, $api, $filterKey, $filterValues)

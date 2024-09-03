@@ -5,7 +5,7 @@
         "ConfigFileIntroduction": "你可以在這裡檢視 Matomo 組態設定。若你在負載平衡環境中執行 Matomo，此頁面可能依不同的伺服器而有所差異。不同顏色的欄位代表已修改過的設定值，如範例檔案 %1$s 內。",
         "ConfigFileTitle": "設定檔",
         "CronArchivingHasNotRun": "報表尚未成功彙整過。",
-        "CronArchivingHasNotRunInAWhile": "上次於 %1$s 時成功彙整了報表 ( %2$s 之前 )",
+        "CronArchivingHasNotRunInAWhile": "上次於 %1$s 時成功彙整了報表 ( %2$s 之前 )。",
         "CronArchivingLastRunCheck": "上次成功彙整報表的時間",
         "CronArchivingRanSuccessfullyXAgo": "報表彙整程序於 %1$s 前執行成功。",
         "CronArchivingRunDetails": "請你檢查是否已經設定了 crontab 工作排程指令 %1$s，且已設定了 %2$s 以便在報表彙整失敗時可以收到信件。你也能試著執行此指令來手動彙整報表：%3$s。%4$s了解更多。%5$s",

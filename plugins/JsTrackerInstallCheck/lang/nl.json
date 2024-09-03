@@ -1,10 +1,9 @@
 {
-  "JsTrackerInstallCheck": {
-    "PluginDescription": "Controleer of de trackingcode op je website is geïnstalleerd en of deze trackingverzoeken kan sturen naar je Matomo-instantie.",
-    "TestInstallationDescription": "Om te testen of de trackingcode verzoeken kan sturen naar je Matomo-instantie, voer je de exacte URL in die je volgt en klik je op \"Installatie testen\". Er wordt een nieuw tabblad geopend en dit sluit binnen 10 seconden.",
-    "TestInstallationBtnText": "Installatie testen",
-    "JsTrackingCodeInstallCheckSuccessMessage": "De trackingcode is succesvol geïnstalleerd! Dit scherm verdwijnt zodra er gegevens worden bijgehouden voor je website.",
-    "JsTrackingCodeInstallCheckFailureMessage": "Verificatie van de trackingcode is mislukt. Controleer of je de code correct hebt geïnstalleerd. %1$sMeer informatie%2$s.",
-    "JsTrackingCodeInstallCheckFailureMessageWordpress": "Verificatie van de trackingcode is mislukt. Controleer of je de plugin \"%1$s\" hebt geïnstalleerd en alle stappen hebt gevolgd. %2$sMeer informatie%3$s."
-  }
+    "JsTrackerInstallCheck": {
+        "JsTrackingCodeInstallCheckFailureMessage": "Verificatie van de trackingcode is mislukt. Controleer of je de code correct hebt geïnstalleerd. %1$sMeer informatie%2$s.",
+        "JsTrackingCodeInstallCheckFailureMessageWordpress": "Verificatie van de trackingcode is mislukt. Controleer of je de plugin \"%1$s\" hebt geïnstalleerd en alle stappen hebt gevolgd. %2$sMeer informatie%3$s.",
+        "JsTrackingCodeInstallCheckSuccessMessage": "De trackingcode is succesvol geïnstalleerd! Dit scherm verdwijnt zodra er gegevens worden bijgehouden voor je website.",
+        "PluginDescription": "Controleer of de trackingcode op je website is geïnstalleerd en of deze trackingverzoeken kan sturen naar je Matomo-instantie.",
+        "TestInstallationBtnText": "Installatie testen"
+    }
 }

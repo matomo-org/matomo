@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Tour\Widgets;
 
 use Piwik\API\Request;
@@ -18,7 +19,7 @@ use Piwik\Piwik;
 
 class GetEngagement extends Widget
 {
-    const NUM_CHALLENGES_PER_PAGE = 5;
+    public const NUM_CHALLENGES_PER_PAGE = 5;
 
     /**
      * @var Challenges
@@ -60,7 +61,7 @@ class GetEngagement extends Widget
         foreach ($challenges as $challenge) {
             if (!$challenge['isCompleted'] && !$challenge['isSkipped']) {
                 $done = false;
-            } else if ($done) {
+            } elseif ($done) {
                 // as soon as some challenge was not completed, we need to make sure to show that page.
                 $numCompletedWithoutInterruption++;
             }

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\LanguagesManager;
 
 use Piwik\Development;
@@ -27,8 +28,10 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureAdminMenu(MenuAdmin $menu)
     {
         if (Development::isEnabled() && Piwik::isUserHasSomeAdminAccess()) {
-            $menu->addDevelopmentItem('LanguagesManager_TranslationSearch',
-                                      $this->urlForAction('searchTranslation'));
+            $menu->addDevelopmentItem(
+                'LanguagesManager_TranslationSearch',
+                $this->urlForAction('searchTranslation')
+            );
         }
     }
 }

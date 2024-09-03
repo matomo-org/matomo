@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Translation\Loader;
@@ -21,7 +22,7 @@ class DevelopmentLoaderTest extends \PHPUnit\Framework\TestCase
         ),
     );
 
-    public function test_shouldReturnTranslationIds_ifDevelopmentLanguage()
+    public function testShouldReturnTranslationIdsIfDevelopmentLanguage()
     {
         $wrappedLoader = $this->getMockForAbstractClass('Piwik\Translation\Loader\LoaderInterface');
         $loader = new DevelopmentLoader($wrappedLoader);
@@ -42,7 +43,7 @@ class DevelopmentLoaderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $translations);
     }
 
-    public function test_shouldUseDecoratedLoader_ifNotDevelopmentLanguage()
+    public function testShouldUseDecoratedLoaderIfNotDevelopmentLanguage()
     {
         $wrappedLoader = $this->getMockForAbstractClass('Piwik\Translation\Loader\LoaderInterface');
         $loader = new DevelopmentLoader($wrappedLoader);

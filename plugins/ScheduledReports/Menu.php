@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\ScheduledReports;
 
 use Piwik\Menu\MenuAdmin;
@@ -15,14 +16,15 @@ use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-    const MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY = 'MobileMessaging_TopMenu';
-    const PDF_REPORTS_TOP_MENU_TRANSLATION_KEY = 'ScheduledReports_EmailReports';
+    public const MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY = 'MobileMessaging_TopMenu';
+    public const PDF_REPORTS_TOP_MENU_TRANSLATION_KEY = 'ScheduledReports_EmailReports';
 
     public function configureAdminMenu(MenuAdmin $menu)
     {
         $tooltip = Piwik::translate(
             \Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging')
-                ? 'MobileMessaging_TopLinkTooltip' : 'ScheduledReports_TopLinkTooltip');
+            ? 'MobileMessaging_TopLinkTooltip' : 'ScheduledReports_TopLinkTooltip'
+        );
 
         $menu->addPersonalItem(
             $this->getTopMenuTranslationKey(),
@@ -32,7 +34,7 @@ class Menu extends \Piwik\Plugin\Menu
         );
     }
 
-    function getTopMenuTranslationKey()
+    public function getTopMenuTranslationKey()
     {
         // if MobileMessaging is not activated, display 'Email reports'
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging')) {
@@ -54,7 +56,7 @@ class Menu extends \Piwik\Plugin\Menu
                 return APIMobileMessaging::getInstance()->areSMSAPICredentialProvided() ?
                     self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
         }
 

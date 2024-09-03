@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Changes;
 
 use Piwik\Log\LoggerInterface;
@@ -26,9 +27,9 @@ use Piwik\Plugin\Manager as PluginManager;
  */
 class Model
 {
-    const NO_CHANGES_EXIST = 0;
-    const CHANGES_EXIST = 1;
-    const NEW_CHANGES_EXIST = 2;
+    public const NO_CHANGES_EXIST = 0;
+    public const CHANGES_EXIST = 1;
+    public const NEW_CHANGES_EXIST = 2;
 
     /**
      * @var Db\AdapterInterface
@@ -54,12 +55,12 @@ class Model
     {
         $pluginManager = PluginManager::getInstance();
 
-        if ($pluginManager &&
+        if (
+            $pluginManager &&
             $pluginManager->isValidPluginName($pluginName) &&
             $pluginManager->isPluginInFilesystem($pluginName) &&
-            $pluginManager->isPluginActivated($pluginName))
-        {
-
+            $pluginManager->isPluginActivated($pluginName)
+        ) {
             $plugin = $pluginManager->loadPlugin($pluginName);
             if (!$plugin) {
                 return;
@@ -99,10 +100,11 @@ class Model
      */
     public function addChange(string $pluginName, array $change): void
     {
-        if(!isset($change['version']) || !isset($change['title']) || !isset($change['description'])) {
+        if (!isset($change['version']) || !isset($change['title']) || !isset($change['description'])) {
             StaticContainer::get(LoggerInterface::class)->warning(
                 "Change item for plugin {plugin} missing version, title or description fields - ignored",
-                ['plugin' => $pluginName]);
+                ['plugin' => $pluginName]
+            );
             return;
         }
 
@@ -153,7 +155,7 @@ class Model
 
         if ($all === 0) {
             return self::NO_CHANGES_EXIST;
-        } else if ($all > 0 && $new === 0) {
+        } elseif ($all > 0 && $new === 0) {
             return self::CHANGES_EXIST;
         } else {
             return self::NEW_CHANGES_EXIST;

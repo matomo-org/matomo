@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\LanguagesManager\TranslationWriter\Filter;
@@ -34,7 +34,6 @@ class UnnecassaryWhitespaces extends FilterAbstract
     {
         foreach ($translations as $pluginName => $pluginTranslations) {
             foreach ($pluginTranslations as $key => $translation) {
-
                 $baseTranslation = '';
                 if (isset($this->baseTranslations[$pluginName][$key])) {
                     $baseTranslation = $this->baseTranslations[$pluginName][$key];

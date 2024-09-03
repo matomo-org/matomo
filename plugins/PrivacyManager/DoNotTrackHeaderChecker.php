@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Common;
@@ -43,8 +44,7 @@ class DoNotTrackHeaderChecker
 
         $exclude = $this->isDoNotTrackFound();
 
-        if($exclude) {
-
+        if ($exclude) {
             IgnoreCookie::deleteThirdPartyCookieUIDIfExists();
 
             // this is an optional supplement to the site's tracking status resource at:
@@ -74,7 +74,7 @@ class DoNotTrackHeaderChecker
         $shouldIgnore = false;
 
         Piwik::postEvent('PrivacyManager.shouldIgnoreDnt', array(&$shouldIgnore));
-        if($shouldIgnore) {
+        if ($shouldIgnore) {
             Common::printDebug("DoNotTrack header ignored by Matomo because of a plugin");
             return false;
         }

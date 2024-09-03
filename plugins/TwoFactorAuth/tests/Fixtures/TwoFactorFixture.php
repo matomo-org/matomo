@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\TwoFactorAuth\tests\Fixtures;
 
 use Piwik\Container\StaticContainer;
@@ -29,7 +31,7 @@ class TwoFactorFixture extends Fixture
     private $userPassword = '123abcDk3_l3';
     private $superUserWith2Fa = 'superWith2FA';
 
-    const USER_2FA_SECRET = '1111111111111111';
+    public const USER_2FA_SECRET = '1111111111111111';
 
 
     /**
@@ -70,8 +72,11 @@ class TwoFactorFixture extends Fixture
 
     public function setUpUsers()
     {
-        \Piwik\Plugins\UsersManager\API::getInstance()->addUser($this->superUserWith2Fa, $this->userPassword,
-            $this->superUserWith2Fa . '@matomo.org');
+        \Piwik\Plugins\UsersManager\API::getInstance()->addUser(
+            $this->superUserWith2Fa,
+            $this->userPassword,
+            $this->superUserWith2Fa . '@matomo.org'
+        );
         $userUpdater = new UserUpdater();
         $userUpdater->setSuperUserAccessWithoutCurrentPassword($this->superUserWith2Fa, true);
 

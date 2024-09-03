@@ -3,8 +3,8 @@
  *
  * TrackingCodeGenerator screenshot tests.
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("TrackingCodeGenerator", function () {
@@ -48,6 +48,7 @@ describe("TrackingCodeGenerator", function () {
     await page.click('#javascript-tracking-do-not-track');
     await page.click('#javascript-tracking-disable-cookies');
     await page.click('#custom-campaign-query-params-check');
+    await page.click('#require-consent-for-campaign-tracking');
 
     await page.waitForNetworkIdle();
     await page.waitForTimeout(500); // wait till tracking code was updated

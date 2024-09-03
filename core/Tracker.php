@@ -3,9 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik;
@@ -39,8 +38,8 @@ class Tracker
     private static $db = null;
 
     // We use hex ID that are 16 chars in length, ie. 64 bits IDs
-    const LENGTH_HEX_ID_STRING = 16;
-    const LENGTH_BINARY_ID = 8;
+    public const LENGTH_HEX_ID_STRING = 16;
+    public const LENGTH_BINARY_ID = 8;
 
     public static $initTrackerMode = false;
 
@@ -323,22 +322,6 @@ class Tracker
 
             \Piwik\Tracker\Cache::deleteTrackerCache();
             Filesystem::clearPhpCaches();
-        }
-    }
-
-    protected function loadTrackerPlugins()
-    {
-        try {
-            $pluginManager  = PluginManager::getInstance();
-            $pluginsTracker = $pluginManager->loadTrackerPlugins();
-
-            $this->logger->debug("Loading plugins: { {plugins} }", [
-                'plugins' => implode(", ", $pluginsTracker),
-            ]);
-        } catch (Exception $e) {
-            $this->logger->error('Error loading tracker plugins: {exception}', [
-                'exception' => $e,
-            ]);
         }
     }
 

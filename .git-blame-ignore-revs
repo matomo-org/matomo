@@ -77,3 +77,53 @@ d6742943fe234d9f80727ae49ffebfb1539a3e67
 d209158e6ee34dc4b7c50df98c078954a750979f
 # [Coding Style] Enable rule Squiz.Functions.FunctionDeclarationArgumentSpacing.NoSpaceBeforeArg (#21754)
 7ccae042b39c80b26243f18f93b1c8042de178ca
+# [Coding Style] Enable rule PSR12.ControlStructures.ControlStructureSpacing.LineIndent (#21818)
+8878b7a5872bfb52a22124f529fcd7de7270f370
+# [Coding Style] Enable rule PSR2.Methods.MethodDeclaration.AbstractAfterVisibility (#21819)
+0c3c91336b85412d406bfcad5a55fc9ca34a2bcc
+# [Coding Style] Enable rule Generic.PHP.LowerCaseKeyword.Found (#21820)
+b244cecbc1a558881ead863590e2a8fb89db6a70
+# [Coding Style] Enable rule PSR2.Methods.MethodDeclaration.StaticBeforeVisibility (#21821)
+df2a1a4a71f5a98974b1f8ef91ede5fd7b265230
+# [Coding Style] Enable rule Squiz.Functions.MultiLineFunctionDeclaration.BraceIndent (#21825)
+d12b0a7b48ec738bc0647c52787c859f0bc41cab
+# [Coding Style] Enable rules Squiz.Functions.FunctionDeclarationArgumentSpacing.* (#21826)
+1d0691ca25da156e4ea3fa2a9eed9be55c9dcdf2
+# [Coding Style] Enable rules Squiz.WhiteSpace.ScopeClosingBrace.* (#21831)
+03a33e890aa214ff8607f86c99d76f6e0ac739c5
+# [Coding Style] Enable rule PSR2.Classes.PropertyDeclaration.ScopeMissing (#21830)
+e85334baffc94946ed079ab596ad014fa9f6f029
+# [Coding Style] Enable rules Squiz.Functions.MultiLineFunctionDeclaration.* (#21838)
+6199cd6f6cad3a9e3cd44649d40fa36b6b84dc9f
+# [Coding Style] Enable rule Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace (#21846)
+9c7fb7b8725590c3442c8f3bbf66d653f2dee431
+# [Coding Style] Enable rule PSR2.Methods.FunctionCallSignature.SpaceBeforeOpenBracket (#21849)
+6678846dfea6f1318681f91f02b086cf80283f50
+# [Coding Style] Enable rules PSR2.Methods.FunctionCallSignature.Space* (#21850)
+78154fa198983b828dd80fac8af76397b82cae40
+# [Coding Style] Enable rules PSR2.Methods.FunctionCallSignature.* (#21926)
+e61eb912335df967e3b2572641d76ec4282b1a5e
+# [Coding Style] Enable rule PSR12.ControlStructures.ControlStructureSpacing.FirstExpressionLine (#22073)
+c148be46f61eea7698da76dc29519497da9248f7
+# [Coding Style] Enable rule Squiz.Scope.MethodScope.Missing (#22086)
+e6475d6cc124a9331dd3a6ed1c51892ae1e928a4
+# [Coding Style] Enable rule PSR12.ControlStructures.ControlStructureSpacing.SpaceBeforeCloseBrace (#22085)
+c9d77e5929e1bd93f38f83e6ebc6bfb5464d8355
+# [Coding Style] Enable rules Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfter* (#22091)
+318dbb9ad02aa8f1c050b137e59412b7691cc561
+# [Coding Style] Enable rule PSR12.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace (#22090)
+3340b3f7a096a5c1aaf2cb65389d09a59f2d5d54
+# [Coding Style] Enable rule PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisIndent (#22089)
+5edd0d8f20380fcd2c238be4d78b74ff91f3f88a
+# [Coding Style] Enable rule Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen (#22093)
+3d5cd3dbe74422cb472433cecbacc49e08195ef0
+# [Coding Style] Enable rule PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisLine (#22095)
+cf9e1290b23f44c5f2e1465292d609f15f50c840
+# [Coding Style] Enable rule Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis (#22097)
+cdb91f5ef101306f163246535d639fc02ac86e34
+# [Coding Style] Enable rule Squiz.Functions.FunctionDeclaration.Found (#22099)
+6ca6c341ae3d499448c65e799a5b46773d41e240
+# [Coding Style] Enable rule Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword (#22098)
+73823f71570e858b55de703a7011c87bb68c5aa0
+# [Coding Style] Enable rule Generic.ControlStructures.InlineControlStructure.NotAllowed (#22114)
+e6085f0604713f764b51295e58d57dd2970ec287

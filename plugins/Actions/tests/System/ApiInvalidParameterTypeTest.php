@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Actions\tests\System;
@@ -19,7 +20,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ApiInvalidParameterTypeTest extends IntegrationTestCase
 {
-    public function test_actionUrlSegmentValueIsProperlyEncoded_inActionsReports()
+    public function testActionUrlSegmentValueIsProperlyEncodedInActionsReports()
     {
         $url = 'http://example+site.org/a+b/index.html';
 

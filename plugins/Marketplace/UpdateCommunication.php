@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Config;
@@ -57,7 +58,7 @@ class UpdateCommunication
     public static function canBeEnabled()
     {
         $isEnabled = (bool) Config::getInstance()->General['enable_update_communication'];
-        if($isEnabled === true && Marketplace::isMarketplaceEnabled() === true && SettingsPiwik::isInternetEnabled() === true){
+        if ($isEnabled === true && Marketplace::isMarketplaceEnabled() === true && SettingsPiwik::isInternetEnabled() === true) {
             return true;
         }
 
@@ -153,9 +154,11 @@ class UpdateCommunication
         $latestVersion   = $this->getLatestVersion($plugin);
         $lastVersionSent = $this->getLatestVersionSent($plugin);
 
-        if (!empty($lastVersionSent)
+        if (
+            !empty($lastVersionSent)
             && ($latestVersion == $lastVersionSent
-                || version_compare($latestVersion, $lastVersionSent) == -1)) {
+                || version_compare($latestVersion, $lastVersionSent) == -1)
+        ) {
             return true;
         }
 

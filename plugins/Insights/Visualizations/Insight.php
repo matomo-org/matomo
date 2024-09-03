@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Insights\Visualizations;
@@ -21,10 +21,10 @@ use Piwik\Plugins\Insights\API;
  */
 class Insight extends Visualization
 {
-    const ID = 'insightsVisualization';
-    const TEMPLATE_FILE     = '@Insights/insightVisualization.twig';
-    const FOOTER_ICON_TITLE = 'Insights';
-    const FOOTER_ICON       = 'icon-insights';
+    public const ID = 'insightsVisualization';
+    public const TEMPLATE_FILE     = '@Insights/insightVisualization.twig';
+    public const FOOTER_ICON_TITLE = 'Insights';
+    public const FOOTER_ICON       = 'icon-insights';
 
     public function beforeLoadDataTable()
     {
@@ -145,8 +145,10 @@ class Insight extends Visualization
             return false;
         }
 
-        if ($view->requestConfig->apiMethodToRequestDataTable
-            && 0 === strpos($view->requestConfig->apiMethodToRequestDataTable, 'DBStats')) {
+        if (
+            $view->requestConfig->apiMethodToRequestDataTable
+            && 0 === strpos($view->requestConfig->apiMethodToRequestDataTable, 'DBStats')
+        ) {
             return false;
         }
 

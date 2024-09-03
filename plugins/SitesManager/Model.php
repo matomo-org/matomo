@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\SitesManager;
 
 use Piwik\Access;
@@ -151,10 +152,11 @@ class Model
                     WHERE url IN ( ' . Common::getSqlStringFieldsArray($urls) . ')' .
             'AND idsite IN (' . $sqlAccessSite . ')',
             // Bind
-            array_merge(    $urls,
-                            array( $login ),
-                            $urls,
-                            array( $login )
+            array_merge(
+                $urls,
+                array( $login ),
+                $urls,
+                array( $login )
             )
         );
 

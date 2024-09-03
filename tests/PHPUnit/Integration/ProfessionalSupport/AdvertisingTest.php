@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\ProfessionalServices;
@@ -45,14 +46,14 @@ class AdvertisingTest extends \PHPUnit\Framework\TestCase
         $this->advertising = $this->buildAdvertising($this->config);
     }
 
-    public function test_areAdsForProfessionalServicesEnabled_ActuallyEnabled()
+    public function testAreAdsForProfessionalServicesEnabledActuallyEnabled()
     {
         $enabled = $this->advertising->areAdsForProfessionalServicesEnabled();
 
         $this->assertTrue($enabled);
     }
 
-    public function test_areAdsForProfessionalServicesEnabled_Disabled()
+    public function testAreAdsForProfessionalServicesEnabledDisabled()
     {
         $this->config->General = ['piwik_professional_support_ads_enabled' => '0'];
 
@@ -61,7 +62,7 @@ class AdvertisingTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($enabled);
     }
 
-    public function test_areAdsForProfessionalServicesEnabled_UsingPreviousSettingName()
+    public function testAreAdsForProfessionalServicesEnabledUsingPreviousSettingName()
     {
         $this->config->General = ['piwik_pro_ads_enabled' => '1'];
 
@@ -70,29 +71,34 @@ class AdvertisingTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($enabled);
     }
 
-    public function test_shouldBeEnabledByDefault()
+    public function testShouldBeEnabledByDefault()
     {
         $enabled = $this->buildAdvertising(Config::getInstance());
 
         $this->assertTrue($enabled->areAdsForProfessionalServicesEnabled());
     }
 
-    public function test_addPromoCampaignParametersToUrl_withoutContentWithoutQuery()
+    public function testAddPromoCampaignParametersToUrlWithoutContentWithoutQuery()
     {
         $link = $this->advertising->addPromoCampaignParametersToUrl($this->exampleUrl, 'MyName', 'Installation_Start', '', 'MySource');
 
         $this->assertSame($this->exampleUrl . '?mtm_campaign=MyName&mtm_source=MySource&mtm_medium=Installation_Start', $link);
     }
 
-    public function test_addPromoCampaignParametersToUrl_withContentWithoutQuery()
+    public function testAddPromoCampaignParametersToUrlWithContentWithoutQuery()
     {
-        $link = $this->advertising->addPromoCampaignParametersToUrl($this->exampleUrl, 'MyName', 'Installation_Start',
-            'MyContent', 'MySource');
+        $link = $this->advertising->addPromoCampaignParametersToUrl(
+            $this->exampleUrl,
+            'MyName',
+            'Installation_Start',
+            'MyContent',
+            'MySource'
+        );
 
         $this->assertSame($this->exampleUrl . '?mtm_campaign=MyName&mtm_source=MySource&mtm_medium=Installation_Start.MyContent', $link);
     }
 
-    public function test_addPromoCampaignParametersToUrl_withQuery()
+    public function testAddPromoCampaignParametersToUrlWithQuery()
     {
         $url = $this->exampleUrl . '?foo=bar';
         $link = $this->advertising->addPromoCampaignParametersToUrl($url, 'MyName', 'Installation_Start', '', 'MySource');

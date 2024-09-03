@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Monolog\Processor;
@@ -49,7 +50,8 @@ class ExceptionToTextProcessor
             $this->getStackTrace($exception)
         );
 
-        if (!isset($record['message'])
+        if (
+            !isset($record['message'])
             || strpos($record['message'], '{exception}') === false
         ) {
             $record['message'] = $exceptionStr;

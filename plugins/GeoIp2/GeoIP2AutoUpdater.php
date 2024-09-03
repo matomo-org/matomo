@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\GeoIp2;
 
 use Exception;
@@ -38,17 +39,17 @@ use Piwik\Log\LoggerInterface;
  */
 class GeoIP2AutoUpdater extends Task
 {
-    const SCHEDULE_PERIOD_MONTHLY = 'month';
-    const SCHEDULE_PERIOD_WEEKLY = 'week';
+    public const SCHEDULE_PERIOD_MONTHLY = 'month';
+    public const SCHEDULE_PERIOD_WEEKLY = 'week';
 
-    const SCHEDULE_PERIOD_OPTION_NAME = 'geoip2.updater_period';
+    public const SCHEDULE_PERIOD_OPTION_NAME = 'geoip2.updater_period';
 
-    const LOC_URL_OPTION_NAME = 'geoip2.loc_db_url';
-    const ISP_URL_OPTION_NAME = 'geoip2.isp_db_url';
+    public const LOC_URL_OPTION_NAME = 'geoip2.loc_db_url';
+    public const ISP_URL_OPTION_NAME = 'geoip2.isp_db_url';
 
-    const LAST_RUN_TIME_OPTION_NAME = 'geoip2.updater_last_run_time';
+    public const LAST_RUN_TIME_OPTION_NAME = 'geoip2.updater_last_run_time';
 
-    const AUTO_SETUP_OPTION_NAME = 'geoip2.autosetup';
+    public const AUTO_SETUP_OPTION_NAME = 'geoip2.autosetup';
 
     private static $urlOptions = array(
         'loc' => self::LOC_URL_OPTION_NAME,
@@ -151,7 +152,7 @@ class GeoIP2AutoUpdater extends Task
 
         if (self::isPaidDbIpUrl($url)) {
             $url = $this->fetchPaidDbIpUrl($url);
-        } else if (self::isDbIpUrl($url)) {
+        } elseif (self::isDbIpUrl($url)) {
             $url = $this->getDbIpUrlWithLatestDate($url);
         }
 
@@ -232,15 +233,18 @@ class GeoIP2AutoUpdater extends Task
             $content = $unzip->listContent();
 
             if (empty($content)) {
-                throw new Exception(Piwik::translate('GeoIp2_CannotListContent',
-                    array("'$path'", $unzip->errorInfo())));
+                throw new Exception(Piwik::translate(
+                    'GeoIp2_CannotListContent',
+                    array("'$path'", $unzip->errorInfo())
+                ));
             }
 
             $fileToExtract = null;
             foreach ($content as $info) {
                 $archivedPath = $info['filename'];
                 foreach (LocationProviderGeoIp2::$dbNames[$dbType] as $dbName) {
-                    if (basename($archivedPath) === $dbName
+                    if (
+                        basename($archivedPath) === $dbName
                         || preg_match('/' . $dbName . '/', basename($archivedPath))
                     ) {
                         $fileToExtract = $archivedPath;
@@ -249,16 +253,20 @@ class GeoIP2AutoUpdater extends Task
             }
 
             if ($fileToExtract === null) {
-                throw new Exception(Piwik::translate('GeoIp2_CannotFindGeoIPDatabaseInArchive',
-                    array("'$path'")));
+                throw new Exception(Piwik::translate(
+                    'GeoIp2_CannotFindGeoIPDatabaseInArchive',
+                    array("'$path'")
+                ));
             }
 
             // extract JUST the .dat file
             $unzipped = $unzip->extractInString($fileToExtract);
 
             if (empty($unzipped)) {
-                throw new Exception(Piwik::translate('GeoIp2_CannotUnzipGeoIPFile',
-                    array("'$path'", $unzip->errorInfo())));
+                throw new Exception(Piwik::translate(
+                    'GeoIp2_CannotUnzipGeoIPFile',
+                    array("'$path'", $unzip->errorInfo())
+                ));
             }
 
             $dbFilename = basename($fileToExtract);
@@ -269,7 +277,8 @@ class GeoIP2AutoUpdater extends Task
             $fd = fopen($outputPath, 'wb');
             fwrite($fd, $unzipped);
             fclose($fd);
-        } else if (substr($filename, -3, 3) == '.gz'
+        } elseif (
+            substr($filename, -3, 3) == '.gz'
             || $isDbIpUnknownDbType
         ) {
             $unzip = Unzip::factory('gz', $path);
@@ -285,8 +294,10 @@ class GeoIP2AutoUpdater extends Task
 
             $success = $unzip->extract($outputPath);
             if ($success !== true) {
-                throw new Exception(Piwik::translate('General_CannotUnzipFile',
-                    array("'$path'", $unzip->errorInfo())));
+                throw new Exception(Piwik::translate(
+                    'General_CannotUnzipFile',
+                    array("'$path'", $unzip->errorInfo())
+                ));
             }
 
             if ($isDbIpUnknownDbType) {
@@ -443,7 +454,8 @@ class GeoIP2AutoUpdater extends Task
         if (!empty($options['period'])) {
             $period = $options['period'];
 
-            if ($period != self::SCHEDULE_PERIOD_MONTHLY
+            if (
+                $period != self::SCHEDULE_PERIOD_MONTHLY
                 && $period != self::SCHEDULE_PERIOD_WEEKLY
             ) {
                 throw new Exception(Piwik::translate(
@@ -500,7 +512,8 @@ class GeoIP2AutoUpdater extends Task
      */
     public static function isUpdaterSetup()
     {
-        if (Option::get(self::LOC_URL_OPTION_NAME) !== false
+        if (
+            Option::get(self::LOC_URL_OPTION_NAME) !== false
             || Option::get(self::ISP_URL_OPTION_NAME) !== false
         ) {
             return true;
@@ -578,7 +591,8 @@ class GeoIP2AutoUpdater extends Task
                 // if a database of the type does not exist, but there's a url to update, then
                 // a database is missing
                 $path = LocationProviderGeoIp2::getPathToGeoIpDatabase(
-                    LocationProviderGeoIp2::$dbNames[$key]);
+                    LocationProviderGeoIp2::$dbNames[$key]
+                );
                 if ($path === false) {
                     $result[] = $key;
                 }
@@ -627,7 +641,8 @@ class GeoIP2AutoUpdater extends Task
             return;
         }
 
-        if ($ext != 'tar.gz'
+        if (
+            $ext != 'tar.gz'
             && $ext != 'gz'
             && $ext != 'mmdb.gz'
         ) {
@@ -685,7 +700,8 @@ class GeoIP2AutoUpdater extends Task
                 [$oldPath, $newPath] = $this->getOldAndNewPathsForBrokenDb($customNames[$type]);
 
                 // rename the DB so tracking will not fail
-                if ($oldPath !== false
+                if (
+                    $oldPath !== false
                     && $newPath !== false
                 ) {
                     if (file_exists($newPath)) {
@@ -779,7 +795,8 @@ class GeoIP2AutoUpdater extends Task
 
             // if there is a URL for this DB type and the GeoIP 2 DB file's last modified time is before
             // the time the updater should have been previously run, then **the file is out of date**
-            if (!empty($dbUrl)
+            if (
+                !empty($dbUrl)
                 && filemtime($dbPath) < $previousScheduledRuntime
             ) {
                 return true;
@@ -795,7 +812,7 @@ class GeoIP2AutoUpdater extends Task
 
         if ($updaterPeriod == self::SCHEDULE_PERIOD_WEEKLY) {
             return Date::factory($rescheduledTime)->subWeek(1);
-        } else if ($updaterPeriod == self::SCHEDULE_PERIOD_MONTHLY) {
+        } elseif ($updaterPeriod == self::SCHEDULE_PERIOD_MONTHLY) {
             return Date::factory($rescheduledTime)->subMonth(1);
         }
         throw new Exception("Unknown GeoIP 2 updater period found in database: %s", $updaterPeriod);
@@ -869,8 +886,7 @@ class GeoIP2AutoUpdater extends Task
      */
     protected function updateDbIpUrlOption(string $option): void
     {
-        if ($option !== self::LOC_URL_OPTION_NAME && $option !== self::ISP_URL_OPTION_NAME)
-        {
+        if ($option !== self::LOC_URL_OPTION_NAME && $option !== self::ISP_URL_OPTION_NAME) {
             return;
         }
 
@@ -879,7 +895,7 @@ class GeoIP2AutoUpdater extends Task
         if (self::isDbIpUrl($url)) {
             $latestUrl = $this->getDbIpUrlWithLatestDate($url);
 
-            if($url !== $latestUrl) {
+            if ($url !== $latestUrl) {
                 Option::set($option, $latestUrl);
             }
         }

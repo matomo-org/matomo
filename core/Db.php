@@ -1,15 +1,17 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Exception;
 use Piwik\Db\Adapter;
+use Piwik\Db\Schema;
 
 /**
  * Contains SQL related helper functions for Piwik's MySQL database.
@@ -32,7 +34,7 @@ use Piwik\Db\Adapter;
  */
 class Db
 {
-    const SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
+    public const SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
 
     private static $connection = null;
     private static $readerConnection = null;
@@ -286,6 +288,49 @@ class Db
     }
 
     /**
+     * Executes a callback with potential recovery from a "MySQL server has gone away" error.
+     *
+     * If the callback throws a "MySQL server has gone away" exception
+     * it will be called again after a single reconnection attempt.
+     *
+     * @param callable $callback
+     *
+     * @return mixed
+     *
+     * @throws Exception
+     *
+     * @internal
+     */
+    public static function executeWithDatabaseWriterReconnectionAttempt(callable $callback)
+    {
+        try {
+            return $callback();
+        } catch (Exception $ex) {
+            // only attempt reconnection in a reader/writer configuration
+            if (!self::hasReaderConfigured()) {
+                throw $ex;
+            }
+
+            // only attempt reconnection if we encounter a "server has gone away" error
+            if (
+                !self::get()->isErrNo($ex, Updater\Migration\Db::ERROR_CODE_MYSQL_SERVER_HAS_GONE_AWAY)
+                && false === stripos($ex->getMessage(), 'server has gone away')
+            ) {
+                throw $ex;
+            }
+
+            // reconnect and retry query
+            // after a 100ms wait (to avoid re-hitting a network problem immediately)
+            self::$connection = null;
+
+            usleep(100 * 1000);
+            self::createDatabaseObject();
+
+            return $callback();
+        }
+    }
+
+    /**
      * Executes an SQL `SELECT` statement and returns all fetched rows from the result set.
      *
      * @param string $sql The SQL query.
@@ -422,60 +467,17 @@ class Db
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @param bool $force If true, the `OPTIMIZE TABLE` query will be run even if InnoDB tables are being used.
      * @return bool
+     * @deprecated  will be removed in Matomo 6
+     *              use Schema::getInstance()->optimizeTables() instead
      */
     public static function optimizeTables($tables, $force = false)
     {
-        $optimize = Config::getInstance()->General['enable_sql_optimize_queries'];
-
-        if (empty($optimize)
-            && !$force
-        ) {
-            return false;
-        }
-
         if (empty($tables)) {
             return false;
         }
 
-        if (!is_array($tables)) {
-            $tables = array($tables);
-        }
-
-        if (!self::isOptimizeInnoDBSupported()
-            && !$force
-        ) {
-            // filter out all InnoDB tables
-            $myisamDbTables = array();
-            foreach (self::getTableStatus() as $row) {
-                if (strtolower($row['Engine']) == 'myisam'
-                    && in_array($row['Name'], $tables)
-                ) {
-                    $myisamDbTables[] = $row['Name'];
-                }
-            }
-
-            $tables = $myisamDbTables;
-        }
-
-        if (empty($tables)) {
-            return false;
-        }
-
-        // optimize the tables
-        $success = true;
-        foreach ($tables as &$t) {
-            $ok = self::query('OPTIMIZE TABLE ' . $t);
-            if (!$ok) {
-                $success = false;
-            }
-        }
-
-        return $success;
-    }
-
-    private static function getTableStatus()
-    {
-        return Db::fetchAll("SHOW TABLE STATUS");
+        $tables = !is_array($tables) ? [$tables] : $tables;
+        return Schema::getInstance()->optimizeTables($tables, (bool) $force);
     }
 
     /**
@@ -800,7 +802,8 @@ class Db
 
     private static function logExtraInfoIfDeadlock($ex)
     {
-        if (!self::get()->isErrNo($ex, 1213)
+        if (
+            !self::get()->isErrNo($ex, 1213)
             && !self::get()->isErrNo($ex, 1205)
         ) {
             return;
@@ -811,7 +814,7 @@ class Db
 
             // log using exception so backtrace appears in log output
             Log::debug(new Exception("Encountered deadlock: " . print_r($deadlockInfo, true)));
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             //  1227 Access denied; you need (at least one of) the PROCESS privilege(s) for this operation
         }
     }
@@ -820,7 +823,8 @@ class Db
     {
         self::checkBoundParametersIfInDevMode($sql, $parameters);
 
-        if (self::$logQueries === false
+        if (
+            self::$logQueries === false
             || @Config::getInstance()->Debug['log_sql_queries'] != 1
         ) {
             return;
@@ -863,19 +867,12 @@ class Db
         return self::$logQueries;
     }
 
+    /**
+     * @deprecated will be removed with Matomo 6
+     *             use Schema::getInstance()->isOptimizeInnoDBSupported() instead
+     */
     public static function isOptimizeInnoDBSupported($version = null)
     {
-        if ($version === null) {
-            $version = Db::fetchOne("SELECT VERSION()");
-        }
-
-        $version = strtolower($version);
-
-        if (strpos($version, "mariadb") === false) {
-            return false;
-        }
-
-        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
-        return version_compare($semanticVersion, '10.1.1', '>=');
+        return Db\Schema::getInstance()->isOptimizeInnoDBSupported();
     }
 }

@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik;
@@ -45,9 +45,9 @@ use Piwik\Log\LoggerInterface;
  */
 class Config
 {
-    const DEFAULT_LOCAL_CONFIG_PATH = '/config/config.ini.php';
-    const DEFAULT_COMMON_CONFIG_PATH = '/config/common.config.ini.php';
-    const DEFAULT_GLOBAL_CONFIG_PATH = '/config/global.ini.php';
+    public const DEFAULT_LOCAL_CONFIG_PATH = '/config/config.ini.php';
+    public const DEFAULT_COMMON_CONFIG_PATH = '/config/common.config.ini.php';
+    public const DEFAULT_GLOBAL_CONFIG_PATH = '/config/global.ini.php';
 
     /**
      * @var boolean
@@ -213,7 +213,8 @@ class Config
         $hostConfigs = self::getLocalConfigInfoForHostname($host);
 
         foreach ($hostConfigs as $hostConfig) {
-            if (Filesystem::isValidFilename($hostConfig['file'])
+            if (
+                Filesystem::isValidFilename($hostConfig['file'])
                 && file_exists($hostConfig['path'])
             ) {
                 return $hostConfig['path'];
@@ -261,9 +262,11 @@ class Config
         $fileNames = '';
 
         foreach ($hostConfigs as $hostConfig) {
-            if (count($hostConfigs) > 1
+            if (
+                count($hostConfigs) > 1
                 && $preferredPath
-                && strpos($hostConfig['path'], $preferredPath) === false) {
+                && strpos($hostConfig['path'], $preferredPath) === false
+            ) {
                 continue;
             }
 
@@ -316,7 +319,7 @@ class Config
     {
         $configLocal = $this->getLocalPath();
 
-        if(file_exists($configLocal)){
+        if (file_exists($configLocal)) {
             @unlink($configLocal);
         }
     }

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
@@ -35,8 +37,13 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
     private function setUpWebsitesAndGoals()
     {
         if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test', $siteUrl = false,
-                                $siteSearch = 1);
+            self::createWebsite(
+                $this->dateTime,
+                $ecommerce = 0,
+                $siteName = 'Piwik test',
+                $siteUrl = false,
+                $siteSearch = 1
+            );
         }
     }
 
@@ -117,9 +124,15 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
         $this->trackPageView($tracker, 0.2, 'page/one.html', $laterDate);
         $this->trackPageView($tracker, 0.25, '', $laterDate, $pageViewType = 'download');
         $this->trackPageView($tracker, 0.3, 'page/one.html', $laterDate);
-        $this->trackPageView($tracker, 0.35, 'page/search.html#q=anotherkwd', $laterDate,
-                             $pageViewType = 'site-search', $searchKeyword = 'anotherkwd',
-                             $searchCategory = 'mysearchcat');
+        $this->trackPageView(
+            $tracker,
+            0.35,
+            'page/search.html#q=anotherkwd',
+            $laterDate,
+            $pageViewType = 'site-search',
+            $searchKeyword = 'anotherkwd',
+            $searchCategory = 'mysearchcat'
+        );
 
 
         $tracker->setIp('156.5.3.8');
@@ -154,14 +167,14 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
 
         if ($pageViewType == 'normal') {
             self::assertTrue($visit->doTrackPageView('page title - ' . $path));
-        } else if ($pageViewType == 'outlink') {
+        } elseif ($pageViewType == 'outlink') {
             self::assertTrue($visit->doTrackAction($prefix . 'anothersite.com/' . $path, 'link'));
-        } else if ($pageViewType == 'download') {
+        } elseif ($pageViewType == 'download') {
             $downloadUrl = $prefix . 'example.org/downloads/' . $this->prefixCounter . '.tar.gz';
             self::assertTrue($visit->doTrackAction($downloadUrl, 'download'));
-        } else if ($pageViewType == 'site-search') {
+        } elseif ($pageViewType == 'site-search') {
             self::assertTrue($visit->doTrackSiteSearch($searchKeyword, $searchCategory, $this->prefixCounter));
-        } else if ($pageViewType == 'event') {
+        } elseif ($pageViewType == 'event') {
             self::assertTrue($visit->doTrackEvent($searchCategory, "event name", $searchKeyword, $this->prefixCounter));
         }
     }

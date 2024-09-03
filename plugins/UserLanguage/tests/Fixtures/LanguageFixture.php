@@ -1,14 +1,13 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\UserLanguage\tests\Fixtures;
-
 
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Date;
@@ -58,7 +57,6 @@ class LanguageFixture extends Fixture
 
         $hour = 1;
         foreach ($this->getBrowserLangs() as $browserLang) {
-
             $tracker->setForceVisitDateTime(
                 Date::factory($this->dateTime)->addHour($hour++)->getDatetime()
             );

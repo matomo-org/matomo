@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\BulkTracking\Tracker;
 
 use Exception;
@@ -99,7 +100,6 @@ class Requests
         $validRequests = array();
 
         if (!empty($requests)) {
-
             foreach ($requests as $index => $request) {
                 // if a string is sent, we assume its a URL and try to parse it
                 if (is_string($request)) {

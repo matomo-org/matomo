@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\PrivacyManager\Tracker;
 
 use Piwik\Common;
@@ -68,7 +69,7 @@ class RequestProcessor extends Tracker\RequestProcessor
 
     public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
     {
-        if (isset($valuesToUpdate['referer_type'])){
+        if (isset($valuesToUpdate['referer_type'])) {
             $type = $valuesToUpdate['referer_type'];
         } else {
             $type = $visitProperties->getProperty('referer_type');
@@ -100,7 +101,7 @@ class RequestProcessor extends Tracker\RequestProcessor
         if (!empty($trackerCache[PrivacyManager::OPTION_USERID_SALT])) {
             $salt = $trackerCache[PrivacyManager::OPTION_USERID_SALT];
         }
-        if(empty($salt)) {
+        if (empty($salt)) {
             return $userId;
         }
         return sha1($userId . $salt);

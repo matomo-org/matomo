@@ -5,8 +5,8 @@
  *
  * @backupGlobals enabled
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit;
@@ -177,8 +177,19 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         yield 'Integer value' => [17, 17.0];
         yield 'Float value' => [17.123, 17.123];
         yield 'String value' => ['17.123', 17.123];
+        yield 'Negative string value' => ['-17.123', -17.123];
+        yield 'Positive string value' => ['+17.123', 17.123];
+        yield 'String value, only fraction digits' => ['.123', 0.123];
+        yield 'String value, no fraction digits' => ['123.e-3', 0.123];
+        yield 'Negative string value, only fraction digits' => ['-.123', -0.123];
         yield 'Exp value' => [2e-2, 0.02];
+        yield 'String exp value' => ['2e-3', 0.002];
+        yield 'String Exp value' => ['1.2E-26', 1.2E-26];
         yield 'Octal exp value' => [0123e-2, 1.23];
+        yield 'Octal value as string' => ['0123', 123.0];
+        yield 'Underscore notation as string' => ['1_123.123_33', 1123.12333];
+        yield 'String value with many digits' => ['1254254645455484545.1', 1.2542546454554847E+18];
+        yield 'String value with many fraction digits' => ['14.051545421864646123', 14.051545421864645];
     }
 
     /**
@@ -209,10 +220,9 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         yield 'random string' => ['random string'];
         yield 'array' => [['x' => 'y']];
         yield 'object' => [new \stdClass()];
-        yield 'Exp value as string' => ['2e-3'];
         yield 'Hex value as string' => ['0x3'];
         yield 'Binary value as string' => ['0b11'];
-        yield 'Octal value as string' => ['0123'];
+        yield 'Invalid exp float string' => ['4e5.5'];
     }
 
     /**

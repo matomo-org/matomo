@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Actions;
 
 use Piwik\Common;
@@ -49,7 +50,6 @@ class VisitorDetails extends VisitorDetailsAbstract
         // Enrich with time spent per action
         $nextActionId = 0;
         foreach ($actionDetails as $idx => &$action) {
-
             if ($idx < $nextActionId || !$this->isPageView($action)) {
                 unset($action['timeSpentRef']);
                 continue; // skip to next page view
@@ -273,8 +273,10 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         // Convert datetimes to the site timezone
-        $dateTimeVisit              = Date::factory($action['serverTimePretty'],
-            Site::getTimezoneFor($visitorDetails['idSite']));
+        $dateTimeVisit              = Date::factory(
+            $action['serverTimePretty'],
+            Site::getTimezoneFor($visitorDetails['idSite'])
+        );
         $action['serverTimePretty'] = $dateTimeVisit->getLocalized(Date::DATETIME_FORMAT_SHORT);
         $action['timestamp']        = $dateTimeVisit->getTimestamp();
 

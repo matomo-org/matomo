@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Tour\tests\Integration;
@@ -66,7 +67,7 @@ class ChallengeTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_skip()
+    public function testSkip()
     {
         $login = 'foo';
         $this->assertFalse($this->challenge->isSkipped($login));
@@ -83,7 +84,7 @@ class ChallengeTest extends IntegrationTestCase
         $this->assertFalse($this->challenge2->isCompleted($login));
     }
 
-    public function test_complete()
+    public function testComplete()
     {
         $login = 'foo';
         $this->assertFalse($this->challenge->isSkipped($login));

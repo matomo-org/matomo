@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\API\tests\Unit;
@@ -30,7 +31,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         DataTable\Manager::getInstance()->deleteAll();
     }
 
-    public function test_renderSuccess_shouldIncludeMessage()
+    public function testRenderSuccessShouldIncludeMessage()
     {
         $response = $this->jsonBuilder->renderSuccess('ok');
 
@@ -39,7 +40,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderSuccess_shouldWrapIfEnabledAndCallbackShouldBePreferred()
+    public function testRenderSuccessShouldWrapIfEnabledAndCallbackShouldBePreferred()
     {
         $builder  = $this->makeBuilder(array('callback' => 'myName', 'jsoncallback' => 'myOther'));
         $response = $builder->renderSuccess('ok');
@@ -48,7 +49,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderSuccess_shouldWrapIfEnabledAndFallbackToJsonCallbackIfCallbackNotSet()
+    public function testRenderSuccessShouldWrapIfEnabledAndFallbackToJsonCallbackIfCallbackNotSet()
     {
         $builder  = $this->makeBuilder(array('jsoncallback' => 'myOther'));
         $response = $builder->renderSuccess('ok');
@@ -57,7 +58,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderSuccess_shouldNotWrapIfCallbackContainsInvalidCharacters()
+    public function testRenderSuccessShouldNotWrapIfCallbackContainsInvalidCharacters()
     {
         $builder  = $this->makeBuilder(array('callback' => 'myOther#?._kek'));
         $response = $builder->renderSuccess('ok');
@@ -66,7 +67,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderException_shouldIncludeTheMessageAndNotExceptionMessage()
+    public function testRenderExceptionShouldIncludeTheMessageAndNotExceptionMessage()
     {
         $response = $this->jsonBuilder->renderException("The error message", new \Exception('The other message'));
 
@@ -75,7 +76,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderException_shouldRemoveNewlines()
+    public function testRenderExceptionShouldRemoveNewlines()
     {
         $response = $this->jsonBuilder->renderException("The\nerror\r\nmessage", new \Exception());
 
@@ -84,7 +85,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderException_shouldWrapIfEnabled()
+    public function testRenderExceptionShouldWrapIfEnabled()
     {
         $builder  = $this->makeBuilder(array('callback' => 'myName'));
         $response = $builder->renderException('error', new \Exception());
@@ -93,7 +94,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderObject_shouldReturAnError()
+    public function testRenderObjectShouldReturAnError()
     {
         $response = $this->jsonBuilder->renderObject(new \stdClass());
 
@@ -101,7 +102,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderResource_shouldReturAnError()
+    public function testRenderResourceShouldReturAnError()
     {
         $response = $this->jsonBuilder->renderResource(new \stdClass());
 
@@ -109,7 +110,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderScalar_shouldReturnABooleanWrappedInValue()
+    public function testRenderScalarShouldReturnABooleanWrappedInValue()
     {
         $response = $this->jsonBuilder->renderScalar(true);
 
@@ -117,7 +118,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderScalar_shouldReturnAnIntegerWrappedInValue()
+    public function testRenderScalarShouldReturnAnIntegerWrappedInValue()
     {
         $response = $this->jsonBuilder->renderScalar(5);
 
@@ -125,7 +126,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderScalar_shouldReturnAStringWrappedInValue()
+    public function testRenderScalarShouldReturnAStringWrappedInValue()
     {
         $response = $this->jsonBuilder->renderScalar('The Output');
 
@@ -133,7 +134,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderScalar_shouldNotRemoveLineBreaks()
+    public function testRenderScalarShouldNotRemoveLineBreaks()
     {
         $response = $this->jsonBuilder->renderScalar('The\nOutput');
 
@@ -141,7 +142,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderScalar_shouldWrapJsonIfNeeded()
+    public function testRenderScalarShouldWrapJsonIfNeeded()
     {
         $builder  = $this->makeBuilder(array('callback' => 'myName'));
         $response = $builder->renderScalar(true);
@@ -150,7 +151,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderDataTable_shouldRenderABasicDataTable()
+    public function testRenderDataTableShouldRenderABasicDataTable()
     {
         $dataTable = new DataTable();
         $dataTable->addRowFromSimpleArray(array('nb_visits' => 5, 'nb_random' => 10));
@@ -161,7 +162,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderDataTable_shouldRenderSubtables()
+    public function testRenderDataTableShouldRenderSubtables()
     {
         $subtable = new DataTable();
         $subtable->addRowFromSimpleArray(array('nb_visits' => 2, 'nb_random' => 6));
@@ -176,7 +177,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderDataTable_shouldRenderDataTableMaps()
+    public function testRenderDataTableShouldRenderDataTableMaps()
     {
         $map = new DataTable\Map();
 
@@ -195,7 +196,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderDataTable_shouldRenderSimpleDataTable()
+    public function testRenderDataTableShouldRenderSimpleDataTable()
     {
         $dataTable = new DataTable\Simple();
         $dataTable->addRowsFromArray(array('nb_visits' => 3, 'nb_random' => 6));
@@ -206,7 +207,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderDataTable_shouldWrapADataTable()
+    public function testRenderDataTableShouldWrapADataTable()
     {
         $builder  = $this->makeBuilder(array('callback' => 'myName'));
         $dataTable = new DataTable();
@@ -218,7 +219,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderArray_ShouldConvertSimpleArrayToJson()
+    public function testRenderArrayShouldConvertSimpleArrayToJson()
     {
         $input = array(1, 2, 5, 'string', 10);
 
@@ -228,7 +229,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderArray_ShouldWrapJsonIfRequested()
+    public function testRenderArrayShouldWrapJsonIfRequested()
     {
         $input = array(1, 2, 5, 'string', 10);
 
@@ -238,7 +239,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('myName([1,2,5,"string",10])', $response);
     }
 
-    public function test_renderArray_withAssociativeArrayJsonpCorrectlyFormatted()
+    public function testRenderArrayWithAssociativeArrayJsonpCorrectlyFormatted()
     {
         $input = array('key' => 'value');
         $renderer  = $this->makeBuilder(array('callback' => '__myfunc', 'jsoncallback' => '__myfunc'));
@@ -248,7 +249,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($result);
     }
 
-    public function test_renderArray_withMultidimensionalArrayJsonpCorrectlyFormatted()
+    public function testRenderArrayWithMultidimensionalArrayJsonpCorrectlyFormatted()
     {
         $input = array('key' => 'value', 'deepKey' => array('deeper' => 'deepValue'));
         $renderer  = $this->makeBuilder(array('callback' => '__myfunc', 'jsoncallback' => '__myfunc'));
@@ -258,7 +259,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($result);
     }
 
-    public function test_renderArray_ShouldRenderAnEmptyArray()
+    public function testRenderArrayShouldRenderAnEmptyArray()
     {
         $response = $this->jsonBuilder->renderArray(array());
 
@@ -266,7 +267,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderArray_ShouldConvertAssociativeArrayToJson()
+    public function testRenderArrayShouldConvertAssociativeArrayToJson()
     {
         $input = array('nb_visits' => 6, 'nb_random' => 8);
 
@@ -277,7 +278,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderArray_ShouldConvertsIndexedAssociativeArrayToJson()
+    public function testRenderArrayShouldConvertsIndexedAssociativeArrayToJson()
     {
         $input = array(
             array('nb_visits' => 6, 'nb_random' => 8),
@@ -291,7 +292,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($response);
     }
 
-    public function test_renderArray_ShouldConvertMultiDimensionalStandardArrayToJson()
+    public function testRenderArrayShouldConvertMultiDimensionalStandardArrayToJson()
     {
         $input = array("firstElement",
             array(
@@ -307,7 +308,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($actual);
     }
 
-    public function test_renderArray_ShouldConvertMultiDimensionalAssociativeArrayToJson()
+    public function testRenderArrayShouldConvertMultiDimensionalAssociativeArrayToJson()
     {
         $input = array(
             "firstElement"  => "isFirst",
@@ -324,7 +325,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($actual);
     }
 
-    public function test_renderArray_ShouldConvertSingleDimensionalAssociativeArrayToJson()
+    public function testRenderArrayShouldConvertSingleDimensionalAssociativeArrayToJson()
     {
         $input = array(
             "fistElement" => "isFirst",
@@ -338,7 +339,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($actual);
     }
 
-    public function test_renderArray_ShouldConvertMultiDimensionalIndexArrayToJson()
+    public function testRenderArrayShouldConvertMultiDimensionalIndexArrayToJson()
     {
         $input = array(array("firstElement",
             array(
@@ -354,7 +355,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($actual);
     }
 
-    public function test_renderArray_ShouldConvertMultiDimensionalMixedArrayToJson()
+    public function testRenderArrayShouldConvertMultiDimensionalMixedArrayToJson()
     {
         $input = array(
             "firstElement" => "isFirst",
@@ -375,7 +376,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($actual);
     }
 
-    public function test_json_renderArray_ShouldConvertSingleDimensionalAssociativeArray()
+    public function testJsonRenderArrayShouldConvertSingleDimensionalAssociativeArray()
     {
         $input = array(
             "firstElement" => "isFirst",
@@ -390,7 +391,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertNoJsonError($actual);
     }
 
-    public function test_render_withNestedEmptyArrayWorks()
+    public function testRenderWithNestedEmptyArrayWorks()
     {
         $input = [[]];
         $render = new Json($input);

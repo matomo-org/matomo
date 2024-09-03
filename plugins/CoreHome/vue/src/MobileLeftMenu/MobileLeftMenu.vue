@@ -1,7 +1,8 @@
 <!--
   Matomo - free/libre analytics platform
-  @link https://matomo.org
-  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
 <template>
@@ -10,7 +11,7 @@
       <ul class="collapsible collapsible-accordion" v-side-nav="{activator: activateLeftMenu}">
         <li>
           <a class="collapsible-header">
-            {{ translate(level1) }}<i :class="level2._icon || 'icon-chevron-down'"></i>
+            {{ translateOrDefault(level1) }}<i :class="level2._icon || 'icon-chevron-down'"></i>
           </a>
 
           <div class="collapsible-body">

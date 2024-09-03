@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Exception;
@@ -297,7 +298,7 @@ class View implements ViewInterface
             Common::sendHeader('Content-Type: ' . $this->contentType);
             // always sending this header, sometimes empty, to ensure that Dashboard embed loads
             // - when calling sendHeader() multiple times, the last one prevails
-            if(!empty($this->xFrameOptions)) {
+            if (!empty($this->xFrameOptions)) {
                 Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
             }
 

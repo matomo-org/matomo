@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\ArchiveProcessor;
 
 use Exception;
@@ -30,11 +31,11 @@ use Piwik\Tracker\Cache;
  */
 class Rules
 {
-    const OPTION_TODAY_ARCHIVE_TTL = 'todayArchiveTimeToLive';
+    public const OPTION_TODAY_ARCHIVE_TTL = 'todayArchiveTimeToLive';
 
-    const OPTION_BROWSER_TRIGGER_ARCHIVING = 'enableBrowserTriggerArchiving';
+    public const OPTION_BROWSER_TRIGGER_ARCHIVING = 'enableBrowserTriggerArchiving';
 
-    const FLAG_TABLE_PURGED = 'lastPurge_';
+    public const FLAG_TABLE_PURGED = 'lastPurge_';
 
     /** Flag that will forcefully disable the archiving process (used in tests only) */
     public static $archivingDisabledByTests = false;
@@ -55,7 +56,8 @@ class Rules
      */
     public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin)
     {
-        if (!empty($plugin)
+        if (
+            !empty($plugin)
             && !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel)
         ) {
             return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
@@ -142,7 +144,8 @@ class Rules
         $idSites = array($site->getId());
         $isArchivingDisabled = Rules::isArchivingDisabledFor($idSites, $segment, $period->getLabel());
         if ($isArchivingDisabled) {
-            if ($period->getNumberOfSubperiods() == 0
+            if (
+                $period->getNumberOfSubperiods() == 0
                 && $dateStart->getTimestamp() <= $now
             ) {
                 // Today: accept any recent enough archive
@@ -151,8 +154,10 @@ class Rules
                 // This week, this month, this year:
                 // accept any archive that was processed today after 00:00:01 this morning
                 $timezone = $site->getTimezone();
-                $minimumArchiveTime = Date::factory(Date::factory('now',
-                  $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
+                $minimumArchiveTime = Date::factory(Date::factory(
+                    'now',
+                    $timezone
+                )->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
             }
         }
         return $minimumArchiveTime;
@@ -215,7 +220,8 @@ class Rules
         $generalConfig = Config::getInstance()->General;
 
         if ($periodLabel === 'range') {
-            if (isset($generalConfig['archiving_range_force_on_browser_request'])
+            if (
+                isset($generalConfig['archiving_range_force_on_browser_request'])
                 && $generalConfig['archiving_range_force_on_browser_request'] == false
             ) {
                 Log::debug("Not forcing archiving for range period.");
@@ -230,7 +236,8 @@ class Rules
             return $isArchivingEnabled;
         }
 
-        if (!$isArchivingEnabled
+        if (
+            !$isArchivingEnabled
             && (!self::isBrowserArchivingAvailableForSegments() || self::isSegmentPreProcessed($idSites, $segment))
             && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
         ) {

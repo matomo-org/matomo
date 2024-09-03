@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tracker;
@@ -20,9 +20,9 @@ use Piwik\Url;
 
 class Failures
 {
-    const CLEANUP_OLD_FAILURES_DAYS = 2;
-    const FAILURE_ID_INVALID_SITE = 1;
-    const FAILURE_ID_NOT_AUTHENTICATED = 2;
+    public const CLEANUP_OLD_FAILURES_DAYS = 2;
+    public const FAILURE_ID_INVALID_SITE = 1;
+    public const FAILURE_ID_NOT_AUTHENTICATED = 2;
 
     private $table = 'tracking_failure';
     private $tablePrefixed;
@@ -101,9 +101,11 @@ class Failures
         foreach ($params as $key => $value) {
             if (!empty($token) && $value === $token) {
                 $params[$key] = '__TOKEN_AUTH__'; // user accidentally posted the token in a wrong field
-            } elseif (!empty($value) && is_string($value)
+            } elseif (
+                !empty($value) && is_string($value)
                 && mb_strlen($value) >= 29 && mb_strlen($value) <= 36
-                && ctype_xdigit($value)) {
+                && ctype_xdigit($value)
+            ) {
                 $params[$key] = '__TOKEN_AUTH__'; // user maybe posted a token in a different field... it looks like it might be a token
             }
         }

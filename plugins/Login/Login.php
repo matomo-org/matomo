@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\Login;
 
 use Exception;
@@ -133,7 +134,6 @@ class Login extends \Piwik\Plugin
 
         // Only throw an exception if this is an API request
         if ($this->isModuleIsAPI()) {
-
             // Throw an exception if a token was provided but it was invalid
             if (Request::isTokenAuthProvidedSecurely()) {
                 throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid or expired.');
@@ -155,7 +155,8 @@ class Login extends \Piwik\Plugin
 
         // now check that user login (from any ip) is not blocked
         $login = $this->getUsernameUsedInPasswordLogin();
-        if (empty($login)
+        if (
+            empty($login)
             || $login == 'anonymous'
         ) {
             return; // can't do the check if we don't know the login

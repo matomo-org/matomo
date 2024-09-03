@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Framework;
@@ -93,7 +94,7 @@ class TestingEnvironmentVariables
     {
         $includePath = __DIR__ . '/../../..';
 
-        if(!file_exists($includePath . '/tmp')){
+        if (!file_exists($includePath . '/tmp')) {
             mkdir($includePath . '/tmp');
         }
 

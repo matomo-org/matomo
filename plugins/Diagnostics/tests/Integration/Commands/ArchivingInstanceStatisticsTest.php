@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Diagnostics\tests\Integration\Commands;
@@ -44,7 +45,7 @@ class ArchivingInstanceStatisticsTest extends ConsoleCommandTestCase
         Date::$now = strtotime('2010-04-07 06:00:00');
     }
 
-    public function test_CommandOutput_IsAsExpected()
+    public function testCommandOutputIsAsExpected()
     {
         $expected = <<<OUTPUT
 +----------------------+------------------------+
@@ -66,7 +67,7 @@ OUTPUT;
         $this->assertStringMatchesFormat($expected, $actual);
     }
 
-    public function test_CommandOutput_withJsonOption_IsAsExpected()
+    public function testCommandOutputWithJsonOptionIsAsExpected()
     {
         $expected = '[["Site Count",3],["Segment Count",1],["Database Version","mysql-version-redacted"],["Last full Month Hits",8],["Last 12 Month Hits",8]]';
         $this->applicationTester->run([

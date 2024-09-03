@@ -4,8 +4,7 @@
  * Matomo - free/libre analytics platform
  *
  * @link    https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Live;
@@ -25,6 +24,11 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
+    /**
+     * @var array<int, array<string>>
+     */
+    private $cachedAdditionalSiteUrls = [];
+
     public function extendVisitorDetails(&$visitor)
     {
         $idSite     = $this->getIdSite();
@@ -99,16 +103,16 @@ class VisitorDetails extends VisitorDetailsAbstract
             return;
         }
 
-        $sitesModel = new \Piwik\Plugins\SitesManager\Model();
-
         if (isset($action['type']) && in_array($action['type'], ['outlink', 'download']) && isset($action['url'])) {
             $action['url'] = html_entity_decode($action['url'], ENT_QUOTES, "UTF-8");
         }
 
+        $idSite = $this->getIdSite();
+
         $view                 = new View($template);
         $view->sendHeadersWhenRendering = false;
-        $view->mainUrl        = trim(Site::getMainUrlFor($this->getIdSite()));
-        $view->additionalUrls = $sitesModel->getAliasSiteUrlsFromId($this->getIdSite());
+        $view->mainUrl        = trim(Site::getMainUrlFor($idSite));
+        $view->additionalUrls = $this->getAdditionalUrlsForSite($idSite);
         $view->action         = $action;
         $view->previousAction = $previousAction;
         $view->visitInfo      = $visitorDetails;
@@ -142,7 +146,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         return $view->render();
     }
 
-    function getVisitorId()
+    public function getVisitorId()
     {
         if (isset($this->details['idvisitor'])) {
             return bin2hex($this->details['idvisitor']);
@@ -150,17 +154,17 @@ class VisitorDetails extends VisitorDetailsAbstract
         return false;
     }
 
-    function getVisitServerHour()
+    public function getVisitServerHour()
     {
         return date('G', strtotime($this->details['visit_last_action_time']));
     }
 
-    function getServerDate()
+    public function getServerDate()
     {
         return date('Y-m-d', strtotime($this->details['visit_last_action_time']));
     }
 
-    function getIp()
+    public function getIp()
     {
         if (isset($this->details['location_ip'])) {
             return IPUtils::binaryToStringIP($this->details['location_ip']);
@@ -168,17 +172,17 @@ class VisitorDetails extends VisitorDetailsAbstract
         return null;
     }
 
-    function getIdVisit()
+    public function getIdVisit()
     {
         return $this->details['idvisit'];
     }
 
-    function getIdSite()
+    public function getIdSite()
     {
         return isset($this->details['idsite']) ? $this->details['idsite'] : Common::getRequestVar('idSite');
     }
 
-    function getFingerprint()
+    public function getFingerprint()
     {
         if (isset($this->details['config_id'])) {
             return bin2hex($this->details['config_id']);
@@ -186,12 +190,12 @@ class VisitorDetails extends VisitorDetailsAbstract
         return false;
     }
 
-    function getTimestampLastAction()
+    public function getTimestampLastAction()
     {
         return strtotime($this->details['visit_last_action_time']);
     }
 
-    function getDateTimeLastAction()
+    public function getDateTimeLastAction()
     {
         return date('Y-m-d H:i:s', strtotime($this->details['visit_last_action_time']));
     }
@@ -308,5 +312,22 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         return $visit->getColumn('referrerName');
+    }
+
+    /**
+     * @return array<int, array<string>>
+     */
+    private function getAdditionalUrlsForSite(int $idSite): array
+    {
+        if (isset($this->cachedAdditionalSiteUrls[$idSite])) {
+            return $this->cachedAdditionalSiteUrls[$idSite];
+        }
+
+        $sitesModel = new \Piwik\Plugins\SitesManager\Model();
+        $additionalSiteUrls = $sitesModel->getAliasSiteUrlsFromId($idSite);
+
+        $this->cachedAdditionalSiteUrls[$idSite] = $additionalSiteUrls;
+
+        return $additionalSiteUrls;
     }
 }

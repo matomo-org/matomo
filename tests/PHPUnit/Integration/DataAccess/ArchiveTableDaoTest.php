@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\DataAccess;
@@ -33,7 +34,8 @@ class ArchiveTableDaoTest extends IntegrationTestCase
         parent::setUp();
 
         $this->archiveTableDao = self::$fixture->piwikEnvironment->getContainer()->get(
-            'Piwik\DataAccess\ArchiveTableDao');
+            'Piwik\DataAccess\ArchiveTableDao'
+        );
 
         ArchiveTableCreator::getBlobTable(Date::factory('2015-01-01'));
         ArchiveTableCreator::getNumericTable(Date::factory('2015-01-01'));
@@ -42,7 +44,7 @@ class ArchiveTableDaoTest extends IntegrationTestCase
     /**
      *
      */
-    public function test_getArchiveTableAnalysis_QueriesNumericAndBlobTable_IncludingArchivesInBlobThatAreNotInNumeric()
+    public function testGetArchiveTableAnalysisQueriesNumericAndBlobTableIncludingArchivesInBlobThatAreNotInNumeric()
     {
         $tableMonth = '2015_01';
 
@@ -50,35 +52,101 @@ class ArchiveTableDaoTest extends IntegrationTestCase
         $this->insertArchive($tableMonth, $idSite = 2, $period = 'day', $date1 = '2015-01-03', $date2 = '2015-01-03');
         $this->insertArchive($tableMonth, $idSite = 1, $period = 'week', $date1 = '2015-01-04', $date2 = '2015-01-11');
         $this->insertArchive($tableMonth, $idSite = 3, $period = 'month', $date1 = '2015-01-01', $date2 = '2015-01-31');
-        $this->insertArchive($tableMonth, $idSite = 4, $period = 'year', $date1 = '2015-01-01', $date2 = '2015-12-31',
-            $segment = 'browserCode==FF');
+        $this->insertArchive(
+            $tableMonth,
+            $idSite = 4,
+            $period = 'year',
+            $date1 = '2015-01-01',
+            $date2 = '2015-12-31',
+            $segment = 'browserCode==FF'
+        );
         $this->insertArchive($tableMonth, $idSite = 1, $period = 'range', $date1 = '2015-01-15', $date2 = '2015-01-20');
 
         // invalid
-        $this->insertArchive($tableMonth, $idSite = 1, $period = 'day', $date1 = '2015-01-01', $date2 = '2015-01-01',
-            $segment = false, $doneValue = ArchiveWriter::DONE_INVALIDATED);
-        $this->insertArchive($tableMonth, $idSite = 1, $period = 'day', $date1 = '2015-01-01', $date2 = '2015-01-01',
-            $segment = false, $doneValue = ArchiveWriter::DONE_INVALIDATED);
-        $this->insertArchive($tableMonth, $idSite = 4, $period = 'year', $date1 = '2015-01-01', $date2 = '2015-12-31',
-            $segment = 'browserCode==FF', $doneValue = ArchiveWriter::DONE_INVALIDATED);
+        $this->insertArchive(
+            $tableMonth,
+            $idSite = 1,
+            $period = 'day',
+            $date1 = '2015-01-01',
+            $date2 = '2015-01-01',
+            $segment = false,
+            $doneValue = ArchiveWriter::DONE_INVALIDATED
+        );
+        $this->insertArchive(
+            $tableMonth,
+            $idSite = 1,
+            $period = 'day',
+            $date1 = '2015-01-01',
+            $date2 = '2015-01-01',
+            $segment = false,
+            $doneValue = ArchiveWriter::DONE_INVALIDATED
+        );
+        $this->insertArchive(
+            $tableMonth,
+            $idSite = 4,
+            $period = 'year',
+            $date1 = '2015-01-01',
+            $date2 = '2015-12-31',
+            $segment = 'browserCode==FF',
+            $doneValue = ArchiveWriter::DONE_INVALIDATED
+        );
 
         // temporary
-        $this->insertArchive($tableMonth, $idSite = 1, $period = 'week', $date1 = '2015-01-04', $date2 = '2015-01-11',
-            $segment = false, $doneValue = ArchiveWriter::DONE_OK_TEMPORARY);
-        $this->insertArchive($tableMonth, $idSite = 3, $period = 'month', $date1 = '2015-01-01', $date2 = '2015-01-31',
-            $segment = 'daysSinceFirstVisit==1', $doneValue = ArchiveWriter::DONE_OK_TEMPORARY);
+        $this->insertArchive(
+            $tableMonth,
+            $idSite = 1,
+            $period = 'week',
+            $date1 = '2015-01-04',
+            $date2 = '2015-01-11',
+            $segment = false,
+            $doneValue = ArchiveWriter::DONE_OK_TEMPORARY
+        );
+        $this->insertArchive(
+            $tableMonth,
+            $idSite = 3,
+            $period = 'month',
+            $date1 = '2015-01-01',
+            $date2 = '2015-01-31',
+            $segment = 'daysSinceFirstVisit==1',
+            $doneValue = ArchiveWriter::DONE_OK_TEMPORARY
+        );
 
         // error
-        $this->insertArchive($tableMonth, $idSite = 1, $period = 'week', $date1 = '2015-01-04', $date2 = '2015-01-11',
-            $segment = false, $doneValue = ArchiveWriter::DONE_ERROR);
-        $this->insertArchive($tableMonth, $idSite = 3, $period = 'month', $date1 = '2015-01-01', $date2 = '2015-01-31',
-            $segment = 'daysSinceFirstVisit==1', $doneValue = ArchiveWriter::DONE_ERROR);
+        $this->insertArchive(
+            $tableMonth,
+            $idSite = 1,
+            $period = 'week',
+            $date1 = '2015-01-04',
+            $date2 = '2015-01-11',
+            $segment = false,
+            $doneValue = ArchiveWriter::DONE_ERROR
+        );
+        $this->insertArchive(
+            $tableMonth,
+            $idSite = 3,
+            $period = 'month',
+            $date1 = '2015-01-01',
+            $date2 = '2015-01-31',
+            $segment = 'daysSinceFirstVisit==1',
+            $doneValue = ArchiveWriter::DONE_ERROR
+        );
 
         // blob only
-        $this->insertBlobArchive($tableMonth, $idSite = 1, $period = 'day', $date1 = '2015-01-20',
-            $date2 = '2015-01-20');
-        $this->insertBlobArchive($tableMonth, $idSite = 2, $period = 'day', $date1 = '2015-01-21',
-            $date2 = '2015-01-21', $segment = 'browserCode==SF');
+        $this->insertBlobArchive(
+            $tableMonth,
+            $idSite = 1,
+            $period = 'day',
+            $date1 = '2015-01-20',
+            $date2 = '2015-01-20'
+        );
+        $this->insertBlobArchive(
+            $tableMonth,
+            $idSite = 2,
+            $period = 'day',
+            $date1 = '2015-01-21',
+            $date2 = '2015-01-21',
+            $segment = 'browserCode==SF'
+        );
 
         $expectedStats = array(
             '1.2015-01-01.2015-01-01.1' => array(
@@ -149,31 +217,41 @@ class ArchiveTableDaoTest extends IntegrationTestCase
             ),
             '1.2015-01-20.2015-01-20.1' => array(
                 'label' => '1.2015-01-20.2015-01-20.1',
-                'count_blob_rows' => '3',
                 'count_archives' => '-',
                 'count_invalidated_archives' => '-',
                 'count_temporary_archives' => '-',
                 'count_error_archives' => '-',
                 'count_segment_archives' => '-',
                 'count_numeric_rows' => '-',
+                'count_blob_rows' => '3',
                 'sum_blob_length' => '36',
             ),
             '2.2015-01-21.2015-01-21.1' => array(
                 'label' => '2.2015-01-21.2015-01-21.1',
-                'count_blob_rows' => '3',
                 'count_archives' => '-',
                 'count_invalidated_archives' => '-',
                 'count_temporary_archives' => '-',
                 'count_error_archives' => '-',
                 'count_segment_archives' => '-',
                 'count_numeric_rows' => '-',
+                'count_blob_rows' => '3',
                 'sum_blob_length' => '36',
             ),
         );
 
         $actualStats = $this->archiveTableDao->getArchiveTableAnalysis($tableMonth);
 
-        $this->assertEquals($expectedStats, $actualStats);
+        // the type of the "count_blob_rows" column depends on the used PHP
+        // version and database adapter, so we cast it to string first to
+        // have assertSame always give the result we expect
+        foreach ($actualStats as &$actualStat) {
+            $actualStat['count_blob_rows'] = (string) $actualStat['count_blob_rows'];
+        }
+
+        // assertSame ensure array keys have the same internal order,
+        // so the console table displaying this information is placing
+        // each value in the correct column
+        $this->assertSame($expectedStats, $actualStats);
     }
 
     private function insertArchive(

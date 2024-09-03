@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Tests\Integration\Tracker;
 
 use Matomo\Network\IPUtils;
@@ -21,9 +23,9 @@ use Piwik\Tracker\Model;
  */
 class ModelTest extends IntegrationTestCase
 {
-    const TEST_ACTION_NAME = 'action_name';
-    const TEST_ACTION_TYPE = 1;
-    const TEST_ACTION_URL_PREFIX = 1;
+    public const TEST_ACTION_NAME = 'action_name';
+    public const TEST_ACTION_TYPE = 1;
+    public const TEST_ACTION_URL_PREFIX = 1;
 
     /**
      * @var Model
@@ -37,7 +39,7 @@ class ModelTest extends IntegrationTestCase
         $this->model = new Model();
     }
 
-    public function test_hasVisit()
+    public function testHasVisit()
     {
         $this->model->createVisit(array(
             'idvisitor' => hex2bin('1234567812345678'),
@@ -61,14 +63,14 @@ class ModelTest extends IntegrationTestCase
         $this->assertFalse($this->model->hasVisit(3, 8));
     }
 
-    public function test_createNewIdAction_CreatesNewAction_WhenNoActionWithSameNameAndType()
+    public function testCreateNewIdActionCreatesNewActionWhenNoActionWithSameNameAndType()
     {
         $newIdAction = $this->model->createNewIdAction(self::TEST_ACTION_NAME, self::TEST_ACTION_TYPE, self::TEST_ACTION_URL_PREFIX);
 
         $this->assertLogActionTableContainsTestAction($newIdAction);
     }
 
-    public function test_createNewIdAction_DoesNotCreateDuplicateActions_AndReturnsExistingIdAction_IfActionAlreadyExists()
+    public function testCreateNewIdActionDoesNotCreateDuplicateActionsAndReturnsExistingIdActionIfActionAlreadyExists()
     {
         $this->insertSingleDuplicateAction();
 
@@ -78,7 +80,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertLogActionTableContainsTestAction(5);
     }
 
-    public function test_getIdsAction_CorrectlyReturnsRequestedActionIds()
+    public function testGetIdsActionCorrectlyReturnsRequestedActionIds()
     {
         $this->insertManyActions();
 
@@ -88,6 +90,11 @@ class ModelTest extends IntegrationTestCase
             array('name' => 'action1', 'type' => 2),
             array('name' => 'action2', 'type' => 2)
         ));
+
+        // The order might differ depending on the database, so sort by 'idaction'
+        usort($result, function ($a, $b) {
+            return $a['idaction'] - $b['idaction'];
+        });
 
         $expectedResult = array(
             array(
@@ -114,7 +121,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function test_getIdsAction_CorrectlyReturnsLowestIdActions_IfDuplicateIdActionsExistInDb()
+    public function testGetIdsActionCorrectlyReturnsLowestIdActionsIfDuplicateIdActionsExistInDb()
     {
         $this->insertManyActionsWithDuplicates();
 
@@ -138,7 +145,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function test_isSiteEmpty()
+    public function testIsSiteEmpty()
     {
         $this->assertTrue($this->model->isSiteEmpty(1));
 
@@ -148,7 +155,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertFalse($this->model->isSiteEmpty(1));
     }
 
-    public function test_createEcommerceItems_shouldNotFail_IfWritingSameItemTwice()
+    public function testCreateEcommerceItemsShouldNotFailIfWritingSameItemTwice()
     {
         $item = array(
             'idsite' => '1',
@@ -222,9 +229,11 @@ class ModelTest extends IntegrationTestCase
     private function insertSingleDuplicateAction()
     {
         $logActionTable = Common::prefixTable('log_action');
-        Db::query("INSERT INTO $logActionTable (idaction, name, type, url_prefix, hash) VALUES (?, ?, ?, ?, CRC32(?))",
+        Db::query(
+            "INSERT INTO $logActionTable (idaction, name, type, url_prefix, hash) VALUES (?, ?, ?, ?, CRC32(?))",
             array(5, self::TEST_ACTION_NAME, self::TEST_ACTION_TYPE, self::TEST_ACTION_URL_PREFIX,
-                  self::TEST_ACTION_NAME));
+            self::TEST_ACTION_NAME)
+        );
     }
 
     private function insertManyActions()

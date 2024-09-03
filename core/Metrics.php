@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
@@ -30,84 +31,84 @@ class Metrics
      * When saving DataTables in the DB, we replace all columns name with these IDs. This saves many bytes,
      * eg. INDEX_NB_UNIQ_VISITORS is an integer: 4 bytes, but 'nb_uniq_visitors' is 16 bytes at least
      */
-    const INDEX_NB_UNIQ_VISITORS = 1;
-    const INDEX_NB_VISITS = 2;
-    const INDEX_NB_ACTIONS = 3;
-    const INDEX_MAX_ACTIONS = 4;
-    const INDEX_SUM_VISIT_LENGTH = 5;
-    const INDEX_BOUNCE_COUNT = 6;
-    const INDEX_NB_VISITS_CONVERTED = 7;
-    const INDEX_NB_CONVERSIONS = 8;
-    const INDEX_REVENUE = 9;
-    const INDEX_GOALS = 10;
-    const INDEX_SUM_DAILY_NB_UNIQ_VISITORS = 11;
+    public const INDEX_NB_UNIQ_VISITORS = 1;
+    public const INDEX_NB_VISITS = 2;
+    public const INDEX_NB_ACTIONS = 3;
+    public const INDEX_MAX_ACTIONS = 4;
+    public const INDEX_SUM_VISIT_LENGTH = 5;
+    public const INDEX_BOUNCE_COUNT = 6;
+    public const INDEX_NB_VISITS_CONVERTED = 7;
+    public const INDEX_NB_CONVERSIONS = 8;
+    public const INDEX_REVENUE = 9;
+    public const INDEX_GOALS = 10;
+    public const INDEX_SUM_DAILY_NB_UNIQ_VISITORS = 11;
 
     // Specific to the Actions reports
-    const INDEX_PAGE_NB_HITS = 12;
-    const INDEX_PAGE_SUM_TIME_SPENT = 13;
-    const INDEX_PAGE_EXIT_NB_UNIQ_VISITORS = 14;
-    const INDEX_PAGE_EXIT_NB_VISITS = 15;
-    const INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS = 16;
-    const INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS = 17;
-    const INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS = 18;
-    const INDEX_PAGE_ENTRY_NB_VISITS = 19;
-    const INDEX_PAGE_ENTRY_NB_ACTIONS = 20;
-    const INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH = 21;
-    const INDEX_PAGE_ENTRY_BOUNCE_COUNT = 22;
+    public const INDEX_PAGE_NB_HITS = 12;
+    public const INDEX_PAGE_SUM_TIME_SPENT = 13;
+    public const INDEX_PAGE_EXIT_NB_UNIQ_VISITORS = 14;
+    public const INDEX_PAGE_EXIT_NB_VISITS = 15;
+    public const INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS = 16;
+    public const INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS = 17;
+    public const INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS = 18;
+    public const INDEX_PAGE_ENTRY_NB_VISITS = 19;
+    public const INDEX_PAGE_ENTRY_NB_ACTIONS = 20;
+    public const INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH = 21;
+    public const INDEX_PAGE_ENTRY_BOUNCE_COUNT = 22;
 
     // Ecommerce Items reports
-    const INDEX_ECOMMERCE_ITEM_REVENUE = 23;
-    const INDEX_ECOMMERCE_ITEM_QUANTITY = 24;
-    const INDEX_ECOMMERCE_ITEM_PRICE = 25;
-    const INDEX_ECOMMERCE_ORDERS = 26;
-    const INDEX_ECOMMERCE_ITEM_PRICE_VIEWED = 27;
+    public const INDEX_ECOMMERCE_ITEM_REVENUE = 23;
+    public const INDEX_ECOMMERCE_ITEM_QUANTITY = 24;
+    public const INDEX_ECOMMERCE_ITEM_PRICE = 25;
+    public const INDEX_ECOMMERCE_ORDERS = 26;
+    public const INDEX_ECOMMERCE_ITEM_PRICE_VIEWED = 27;
 
     // Site Search
-    const INDEX_SITE_SEARCH_HAS_NO_RESULT = 28;
-    const INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS = 29;
+    public const INDEX_SITE_SEARCH_HAS_NO_RESULT = 28;
+    public const INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS = 29;
 
     // Performance Analytics
-    const INDEX_PAGE_SUM_TIME_GENERATION = 30;
-    const INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION = 31;
-    const INDEX_PAGE_MIN_TIME_GENERATION = 32;
-    const INDEX_PAGE_MAX_TIME_GENERATION = 33;
+    public const INDEX_PAGE_SUM_TIME_GENERATION = 30;
+    public const INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION = 31;
+    public const INDEX_PAGE_MIN_TIME_GENERATION = 32;
+    public const INDEX_PAGE_MAX_TIME_GENERATION = 33;
 
     // Events
-    const INDEX_EVENT_NB_HITS = 34;
-    const INDEX_EVENT_SUM_EVENT_VALUE = 35;
-    const INDEX_EVENT_MIN_EVENT_VALUE = 36;
-    const INDEX_EVENT_MAX_EVENT_VALUE = 37;
-    const INDEX_EVENT_NB_HITS_WITH_VALUE = 38;
+    public const INDEX_EVENT_NB_HITS = 34;
+    public const INDEX_EVENT_SUM_EVENT_VALUE = 35;
+    public const INDEX_EVENT_MIN_EVENT_VALUE = 36;
+    public const INDEX_EVENT_MAX_EVENT_VALUE = 37;
+    public const INDEX_EVENT_NB_HITS_WITH_VALUE = 38;
 
     // Number of unique User IDs
-    const INDEX_NB_USERS = 39;
-    const INDEX_SUM_DAILY_NB_USERS = 40;
+    public const INDEX_NB_USERS = 39;
+    public const INDEX_SUM_DAILY_NB_USERS = 40;
 
     // Contents
-    const INDEX_CONTENT_NB_IMPRESSIONS = 41;
-    const INDEX_CONTENT_NB_INTERACTIONS = 42;
+    public const INDEX_CONTENT_NB_IMPRESSIONS = 41;
+    public const INDEX_CONTENT_NB_INTERACTIONS = 42;
 
     // Unique visitors fingerprints (useful to process unique visitors across websites)
-    const INDEX_NB_UNIQ_FINGERPRINTS = 43;
+    public const INDEX_NB_UNIQ_FINGERPRINTS = 43;
 
     // Goal reports
-    const INDEX_GOAL_NB_CONVERSIONS = 1;
-    const INDEX_GOAL_REVENUE = 2;
-    const INDEX_GOAL_NB_VISITS_CONVERTED = 3;
-    const INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL = 4;
-    const INDEX_GOAL_ECOMMERCE_REVENUE_TAX = 5;
-    const INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING = 6;
-    const INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT = 7;
-    const INDEX_GOAL_ECOMMERCE_ITEMS = 8;
-    const INDEX_GOAL_NB_PAGES_UNIQ_BEFORE = 9;
-    const INDEX_GOAL_NB_CONVERSIONS_ATTRIB = 10;
-    const INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE = 11;
-    const INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ = 12;
-    const INDEX_GOAL_NB_CONVERSIONS_ENTRY_RATE = 13;
-    const INDEX_GOAL_REVENUE_PER_ENTRY = 14;
-    const INDEX_GOAL_REVENUE_ATTRIB = 15;
-    const INDEX_GOAL_NB_CONVERSIONS_ENTRY = 16;
-    const INDEX_GOAL_REVENUE_ENTRY = 17;
+    public const INDEX_GOAL_NB_CONVERSIONS = 1;
+    public const INDEX_GOAL_REVENUE = 2;
+    public const INDEX_GOAL_NB_VISITS_CONVERTED = 3;
+    public const INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL = 4;
+    public const INDEX_GOAL_ECOMMERCE_REVENUE_TAX = 5;
+    public const INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING = 6;
+    public const INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT = 7;
+    public const INDEX_GOAL_ECOMMERCE_ITEMS = 8;
+    public const INDEX_GOAL_NB_PAGES_UNIQ_BEFORE = 9;
+    public const INDEX_GOAL_NB_CONVERSIONS_ATTRIB = 10;
+    public const INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE = 11;
+    public const INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ = 12;
+    public const INDEX_GOAL_NB_CONVERSIONS_ENTRY_RATE = 13;
+    public const INDEX_GOAL_REVENUE_PER_ENTRY = 14;
+    public const INDEX_GOAL_REVENUE_ATTRIB = 15;
+    public const INDEX_GOAL_NB_CONVERSIONS_ENTRY = 16;
+    public const INDEX_GOAL_REVENUE_ENTRY = 17;
 
     public static $mappingFromIdToName = array(
         Metrics::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
@@ -618,7 +619,7 @@ class Metrics
                 Metrics::INDEX_GOAL_NB_VISITS_CONVERTED,
                 Metrics::INDEX_GOAL_REVENUE,
             ];
-        } else if ($idGoal == GoalManager::IDGOAL_ORDER) { // ecommerce order
+        } elseif ($idGoal == GoalManager::IDGOAL_ORDER) { // ecommerce order
             $columns = [
                 Metrics::INDEX_GOAL_NB_CONVERSIONS,
                 Metrics::INDEX_GOAL_NB_VISITS_CONVERTED,

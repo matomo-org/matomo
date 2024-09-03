@@ -3,8 +3,8 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Login\tests\Integration;
@@ -26,7 +26,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class PasswordResetterTest extends IntegrationTestCase
 {
-    const NEWPASSWORD = 'newpassword';
+    public const NEWPASSWORD = 'newpassword';
 
     /**
      * @var string

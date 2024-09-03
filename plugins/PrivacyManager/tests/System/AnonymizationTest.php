@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\PrivacyManager\tests\System;
@@ -34,7 +35,7 @@ class AnonymizationTest extends SystemTestCase
         $this->runApiTests($api, $params);
     }
 
-    public function test_orderIdAnonymized()
+    public function testOrderIdAnonymized()
     {
         $idOrder = Db::fetchOne('SELECT idorder FROM ' . Common::prefixTable('log_conversion'));
         $this->assertSame(40, strlen($idOrder));

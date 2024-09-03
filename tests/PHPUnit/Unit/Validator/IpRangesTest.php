@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Unit\Validator;
@@ -17,7 +18,7 @@ use Piwik\Validators\IpRanges;
  */
 class IpRangesTest extends \PHPUnit\Framework\TestCase
 {
-    public function test_validate_success()
+    public function testValidateSuccess()
     {
         self::expectNotToPerformAssertions();
 
@@ -32,7 +33,7 @@ class IpRangesTest extends \PHPUnit\Framework\TestCase
         $this->validate(null);
     }
 
-    public function test_validate_failNotValidIpRange()
+    public function testValidateFailNotValidIpRange()
     {
         $this->expectException(\Piwik\Validators\Exception::class);
         $this->expectExceptionMessage('SitesManager_ExceptionInvalidIPFormat');

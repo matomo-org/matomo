@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration\Settings\Plugin;
@@ -43,7 +44,7 @@ class MeasurableSettingTest extends IntegrationTestCase
         return new FakeMeasurableSettings($idSite = 1);
     }
 
-    public function test_constructor_shouldNotEstablishADatabaseConnection()
+    public function testConstructorShouldNotEstablishADatabaseConnection()
     {
         $this->assertNotDbConnectionCreated();
 
@@ -52,7 +53,7 @@ class MeasurableSettingTest extends IntegrationTestCase
         $this->assertNotDbConnectionCreated();
     }
 
-    public function test_save()
+    public function testSave()
     {
         $site1 = $this->buildSetting('field1', null, $site = '1');
         $site1->setValue('value1');

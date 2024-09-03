@@ -1,12 +1,14 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik;
+
 use Piwik\Container\StaticContainer;
 use Piwik\Translation\Translator;
 
@@ -67,7 +69,8 @@ class NumberFormatter
      */
     public function format($value, $maximumFractionDigits = 0, $minimumFractionDigits = 0)
     {
-        if (is_string($value)
+        if (
+            is_string($value)
             && trim($value, '%') != $value
         ) {
             return $this->formatPercent($value, $maximumFractionDigits, $minimumFractionDigits);
@@ -247,7 +250,7 @@ class NumberFormatter
             }
         }
         // Assemble the final number and insert it into the pattern.
-        $value = $minorDigits ? $majorDigits . '.' . $minorDigits : $majorDigits;
+        $value = strlen($minorDigits) ? $majorDigits . '.' . $minorDigits : $majorDigits;
         $value = preg_replace('/#(?:[\.,]#+)*0(?:[,\.][0#]+)*/', $value, $pattern);
         // Localize the number.
         $value = $this->replaceSymbols($value);

@@ -148,8 +148,8 @@ if (typeof window !== 'undefined') {
 /*!
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
@@ -170,8 +170,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /*!
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 
@@ -262,7 +262,7 @@ var SegmentGenerator_store_SegmentGeneratorStore = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ var SegmentGenerator_store = (new SegmentGenerator_store_SegmentGeneratorStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=452cbe04
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=1efeab05
 
 var _hoisted_1 = {
   class: "segment-generator",
@@ -406,15 +406,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     innerHTML: _ctx.$sanitize(_ctx.addNewAndConditionLinkText)
   }, null, 8, _hoisted_20)])])], 512);
 }
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=452cbe04
+// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=1efeab05
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=8c48d084
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=8dceff9a
 
-var ValueInputvue_type_template_id_8c48d084_hoisted_1 = ["placeholder", "title", "value"];
-function ValueInputvue_type_template_id_8c48d084_render(_ctx, _cache, $props, $setup, $data, $options) {
+var ValueInputvue_type_template_id_8dceff9a_hoisted_1 = ["placeholder", "title", "value"];
+function ValueInputvue_type_template_id_8dceff9a_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("input", {
     placeholder: _ctx.translate('General_Value'),
     type: "text",
@@ -428,9 +428,9 @@ function ValueInputvue_type_template_id_8c48d084_render(_ctx, _cache, $props, $s
     onChange: _cache[1] || (_cache[1] = function ($event) {
       return _ctx.onKeydownOrConditionValue($event);
     })
-  }, null, 40, ValueInputvue_type_template_id_8c48d084_hoisted_1);
+  }, null, 40, ValueInputvue_type_template_id_8dceff9a_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=8c48d084
+// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=8dceff9a
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=script&lang=ts
 
@@ -455,7 +455,7 @@ function ValueInputvue_type_template_id_8c48d084_render(_ctx, _cache, $props, $s
 
 
 
-ValueInputvue_type_script_lang_ts.render = ValueInputvue_type_template_id_8c48d084_render
+ValueInputvue_type_script_lang_ts.render = ValueInputvue_type_template_id_8dceff9a_render
 
 /* harmony default export */ var ValueInput = (ValueInputvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=script&lang=ts
@@ -652,6 +652,10 @@ var _window = window,
       this.conditions.push(condition);
     },
     addNewOrCondition: function addNewOrCondition(condition) {
+      if (!this.firstSegment) {
+        return; // skip till list of segments is available
+      }
+
       var orCondition = {
         segment: this.firstSegment,
         matches: this.firstMatch,
@@ -768,9 +772,13 @@ var _window = window,
       var condition = {
         orConditions: []
       };
+
+      if (!this.firstSegment) {
+        return; // skip till list of segments is available
+      }
+
       this.addAndCondition(condition);
       this.addNewOrCondition(condition);
-      return condition;
     },
     // NOTE: can't use a computed property since we need to recompute on changes inside the
     //       structure. don't have to if we don't do in-place changes, but with nested structures,
@@ -808,7 +816,9 @@ var _window = window,
   },
   computed: {
     firstSegment: function firstSegment() {
-      return this.queriedSegments[0].segment;
+      var _this$queriedSegments;
+
+      return ((_this$queriedSegments = this.queriedSegments[0]) === null || _this$queriedSegments === void 0 ? void 0 : _this$queriedSegments.segment) || null;
     },
     firstMatch: function firstMatch() {
       var segment = this.queriedSegments[0];
@@ -867,8 +877,8 @@ SegmentGeneratorvue_type_script_lang_ts.render = render
 /*!
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 
