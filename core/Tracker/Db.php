@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db\Adapter;
+use Piwik\Db\TransactionalDatabaseInterface;
 use Piwik\Piwik;
 use Piwik\Timer;
 use Piwik\Tracker\Db\DbException;
@@ -23,7 +24,7 @@ use Piwik\Tracker\Db\DbException;
  * We wrote this simple class
  *
  */
-abstract class Db
+abstract class Db implements TransactionalDatabaseInterface
 {
     protected static $profiling = false;
 
@@ -31,8 +32,7 @@ abstract class Db
 
     protected $connection = null;
 
-    // this is used for indicate TransactionLevel Cache
-    public $supportsUncommitted = null;
+    protected $supportsTransactionLevelForNonLockingReads;
 
     /**
      * Enables the SQL profiling.
@@ -300,5 +300,28 @@ abstract class Db
             $db->query('SET @@innodb_lock_wait_timeout = ' . $time);
         }
         return $db;
+    }
+
+    public function getCurrentTransactionIsolationLevelForSession(): string
+    {
+        return self::fetchOne('SELECT 
+            IF(@@transaction_isolation IS NOT NULL, 
+               @@transaction_isolation, 
+               @@tx_isolation) AS isolation_level;');
+    }
+
+    public function setTransactionIsolationLevel(string $level): void
+    {
+        self::query("SET SESSION TRANSACTION ISOLATION LEVEL $level");
+    }
+
+    public function setSupportsTransactionLevelForNonLockingReads(bool $supports): void
+    {
+        $this->supportsTransactionLevelForNonLockingReads = $supports;
+    }
+
+    public function getSupportsTransactionLevelForNonLockingReads(): ?bool
+    {
+        return $this->supportsTransactionLevelForNonLockingReads;
     }
 }

@@ -887,4 +887,17 @@ class Db implements TransactionalDatabaseInterface
     {
         return $this->supportsTransactionLevelForNonLockingReads;
     }
+
+    public function getCurrentTransactionIsolationLevelForSession(): string
+    {
+        return self::fetchOne('SELECT 
+            IF(@@transaction_isolation IS NOT NULL, 
+               @@transaction_isolation, 
+               @@tx_isolation) AS isolation_level;');
+    }
+
+    public function setTransactionIsolationLevel(string $level): void
+    {
+        self::query("SET SESSION TRANSACTION ISOLATION LEVEL $level");
+    }
 }
