@@ -421,13 +421,13 @@ class LogAggregatorTest extends IntegrationTestCase
 
         $db = Db::get();
 
-        $db->supportsUncommitted = null;
+        $this->assertNull($db->getSupportsTransactionLevelForNonLockingReads());
 
         $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
 
         $this->setSqlRequirePrimaryKeySetting(0);
 
-        $this->assertTrue($db->supportsUncommitted);
+        $this->assertTrue($db->getSupportsTransactionLevelForNonLockingReads());
     }
 
     public function testGetSegmentTmpTableName()
