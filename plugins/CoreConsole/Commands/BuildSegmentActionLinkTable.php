@@ -8,6 +8,9 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use DateInterval;
+use DatePeriod;
+use DateTime;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
@@ -26,11 +29,15 @@ class BuildSegmentActionLinkTable extends ConsoleCommand
 {
     private $verbose = false;
     private $noSites = false;
+    private $dateFrom = null;
+    private $dateTo = null;
 
     protected function configure()
     {
         $this->setName('development:build-salt');
         $this->setDescription('Test');
+        $this->addRequiredValueOption('DateFrom', null, '', '2022-01-01');
+        $this->addRequiredValueOption('DateTo', null, '', '2023-01-01');
         $this->addNoValueOption('v', null, 'Show more verbose debug info');
         $this->addNoValueOption('nosites', null, 'Prevent use of idsite in link tables');
         $this->addNoValueOption('drop', null, 'Drop the segment part action link tables');
@@ -46,12 +53,21 @@ class BuildSegmentActionLinkTable extends ConsoleCommand
         $input = $this->getInput();
         $this->verbose = $input->getOption('v');
         $this->noSites = $input->getOption('nosites');
+
+        $this->dateFrom = DateTime::createFromFormat('Y-m-d', $input->getOption('DateFrom'));
+        $this->dateTo = DateTime::createFromFormat('Y-m-d', $input->getOption('DateTo'));
+
+        $output = $this->getOutput();
+        if ($dateFrom === false || $dateTo === false) {
+            $output->write("Error: DateFrom / DateTo are required and should be in the format YYYY-MM-DD");
+            return 0;
+        }
+
         if ($input->getOption('drop')) {
             $this->drop();
             return 1;
         }
 
-        $output = $this->getOutput();
         $output->write("Creating link tables...");
 
         Db::exec('
@@ -59,7 +75,7 @@ class BuildSegmentActionLinkTable extends ConsoleCommand
         (
           idaction               bigint(10) UNSIGNED,
           idsegmentpart          bigint(10) UNSIGNED,
-          PRIMARY KEY (idaction, idsegmentpart) 
+          PRIMARY KEY (idaction, idsegmentpart)
         );
         ');
 
@@ -155,36 +171,55 @@ class BuildSegmentActionLinkTable extends ConsoleCommand
             // If sites are to be used then make sure only actions which have visits for the segment site are matched
             if (!$this->noSites && $idsite !== null) {
 
-                // Add joins to find visits for the actions
-                $query['SQL'] = str_replace('FROM log_action', 'FROM log_action a 
-                    LEFT JOIN log_link_visit_action llva_u ON llva_u.idaction_url = a.idaction
-                    LEFT JOIN log_link_visit_action llva_n ON llva_n.idaction_name = a.idaction', $query['SQL']);
-
                 // Group by action id and add a clause to only include actions for visits for the chosen site
-                $query['SQL'] .= ' AND (llva_n.idsite = ? OR llva_u.idsite = ?) 
-                    GROUP BY a.idaction
-                    HAVING COUNT(llva_u.idaction_url) > 0 OR COUNT(llva_n.idaction_url) > 0';
+                $query['SQL'] .= ' AND log_action.idaction IN (
+                    SELECT llva_u.#columnNameToJoin#
+                        FROM log_link_visit_action llva_u
+                        WHERE
+                            llva_u.idsite = ?
+                         AND (llva_u.server_time > ?
+                            AND llva_u.server_time < ?)
+                )';
 
                 // Add binds for the site
                 if (!is_array($query['bind'])) {
                     $query['bind'] = [$query['bind']];
                 }
                 $query['bind'][] = $idsite;
-                $query['bind'][] = $idsite;
             }
 
             // Use an INSERT INTO ... SELECT for speed
             $insertSQL = 'INSERT IGNORE INTO ' . Common::prefixTable('log_link_segment_part_action') . ' ' . $query['SQL'];
-            if ($this->verbose) {
+
+            $startDate = $this->dateFrom;
+            $endDate = $this->dateTo;
+
+            $interval = new DateInterval('P1D'); // 1 Day interval
+            $period = new DatePeriod($startDate, $interval, $endDate);
+
+            foreach ($period as $date) {
+
+                $startDate = $date->format('Y-m-d 00:00:00');
+                $endDate = $date->format('Y-m-d 23:59:59');
+
+                $output->writeln("Starting date range: $startDate, End: $endDate");
+
+                $params = array_merge($query['bind'], [$startDate, $endDate]);
+
                 $output->writeln($insertSQL);
-                $output->writeln(json_encode($query['bind']));
+                $output->writeln(json_encode($params));
+
+
+                Db::query(str_replace('#columnNameToJoin#', 'idaction_name', $insertSQL), $params);
+                Db::query(str_replace('#columnNameToJoin#', 'idaction_url', $insertSQL), $params);
+
+                $output->writeln((new DateTime())->format('H:i:s') . " Finished range: $startDate, End: $endDate");
             }
-            Db::query($insertSQL, $query['bind']);
         }
         // Set the max idactions matched for each part (not really needed for query testing)
-        $maxIdAction = Db::fetchOne('SELECT MAX(idaction) FROM ' . Common::prefixTable('log_link_segment_part_action') . ' WHERE idsegmentpart = ?', [$idSegmentPart]);
-        Db::query('UPDATE ' . Common::prefixTable('log_link_segment_part') . ' SET last_idaction_checked = ? WHERE idsegmentpart = ?',
-            [$maxIdAction, $idSegmentPart]);
+        //$maxIdAction = Db::fetchOne('SELECT MAX(idaction) FROM ' . Common::prefixTable('log_link_segment_part_action') . ' WHERE idsegmentpart = ?', [$idSegmentPart]);
+        //Db::query('UPDATE ' . Common::prefixTable('log_link_segment_part') . ' SET last_idaction_checked = ? WHERE idsegmentpart = ?',
+        // [$maxIdAction, $idSegmentPart]);
     }
 
     private static function findActionType($segmentPart)
