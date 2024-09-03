@@ -316,7 +316,7 @@ abstract class Db implements TransactionalDatabaseInterface
         self::query("SET SESSION TRANSACTION ISOLATION LEVEL $level");
     }
 
-    public function setSupportsTransactionLevelForNonLockingReads(bool $supports): void
+    public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void
     {
         $this->supportsTransactionLevelForNonLockingReads = $supports;
     }

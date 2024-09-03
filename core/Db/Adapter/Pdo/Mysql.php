@@ -352,7 +352,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         return parent::_dsn();
     }
 
-    public function setSupportsTransactionLevelForNonLockingReads(bool $supports): void
+    public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void
     {
         $this->supportsTransactionLevelForNonLockingReads = $supports;
     }

@@ -6,6 +6,6 @@ interface TransactionalDatabaseInterface
 {
     public function getCurrentTransactionIsolationLevelForSession(): string;
     public function setTransactionIsolationLevel(string $level): void;
-    public function setSupportsTransactionLevelForNonLockingReads(bool $supports): void;
+    public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void;
     public function getSupportsTransactionLevelForNonLockingReads(): ?bool;
 }

@@ -255,7 +255,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
         return $major . '.' . $minor . '.' . $revision;
     }
 
-    public function setSupportsTransactionLevelForNonLockingReads(bool $supports): void
+    public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void
     {
         $this->supportsTransactionLevelForNonLockingReads = $supports;
     }

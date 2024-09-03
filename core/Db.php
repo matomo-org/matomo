@@ -878,7 +878,7 @@ class Db implements TransactionalDatabaseInterface
         return Db\Schema::getInstance()->isOptimizeInnoDBSupported();
     }
 
-    public function setSupportsTransactionLevelForNonLockingReads(bool $supports): void
+    public function setSupportsTransactionLevelForNonLockingReads(?bool $supports): void
     {
         $this->supportsTransactionLevelForNonLockingReads = $supports;
     }
