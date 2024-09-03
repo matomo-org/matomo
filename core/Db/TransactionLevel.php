@@ -52,7 +52,7 @@ class TransactionLevel
 
         try {
             $backup = $this->transactionalDatabase->getCurrentTransactionIsolationLevelForSession();
-        } catch (\Exception) {
+        } catch (\Exception $e) {
             $this->transactionalDatabase->setSupportsTransactionLevelForNonLockingReads(false);
             return false;
         }
