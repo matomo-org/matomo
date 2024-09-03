@@ -890,10 +890,11 @@ class Db implements TransactionalDatabaseInterface
 
     public function getCurrentTransactionIsolationLevelForSession(): string
     {
-        return self::fetchOne('SELECT 
-            IF(@@transaction_isolation IS NOT NULL, 
-               @@transaction_isolation, 
-               @@tx_isolation) AS isolation_level;');
+        try {
+            return self::fetchOne('SELECT @@TX_ISOLATION');
+        } catch (Exception) {
+            return self::fetchOne('SELECT @@transaction_isolation');
+        }
     }
 
     public function setTransactionIsolationLevel(string $level): void

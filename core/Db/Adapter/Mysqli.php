@@ -267,10 +267,11 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
 
     public function getCurrentTransactionIsolationLevelForSession(): string
     {
-        return $this->fetchOne('SELECT 
-            IF(@@transaction_isolation IS NOT NULL, 
-               @@transaction_isolation, 
-               @@tx_isolation) AS isolation_level;');
+        try {
+            return $this->fetchOne('SELECT @@TX_ISOLATION');
+        } catch (Exception) {
+            return $this->fetchOne('SELECT @@transaction_isolation');
+        }
     }
 
     public function setTransactionIsolationLevel(string $level): void
