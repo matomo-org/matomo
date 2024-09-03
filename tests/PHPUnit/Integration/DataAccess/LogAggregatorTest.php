@@ -419,7 +419,7 @@ class LogAggregatorTest extends IntegrationTestCase
 
         $this->setSqlRequirePrimaryKeySetting(1);
 
-        $db = Db::get();
+        $db = Db::createDatabaseObject();
 
         $this->assertNull($db->getSupportsTransactionLevelForNonLockingReads());
 
