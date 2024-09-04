@@ -37,7 +37,7 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite The site ID to add the annotation to.
      * @param string $date The date the annotation is attached to.
      * @param string $note The text of the annotation (max 255 chars).
-     * @param boolean $starred Either 0 or 1. Whether the annotation should be starred.
+     * @param boolean $starred Whether the annotation should be starred.
      * @return array Returns an array of two elements. The first element (indexed by
      *               'annotation') is the new annotation. The second element (indexed
      *               by 'idNote' is the new note's ID).
