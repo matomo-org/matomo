@@ -348,6 +348,11 @@ class API extends \Piwik\Plugin\API
             return $note;
         }
 
+        // shorten note if longer than 255 characters
+        if (mb_strlen($note) > 255) {
+            $note = mb_substr($note, 0, 254) . '…';
+        }
+
         // @todo store message unsanitized, sanitize on output instead.
         // can be changed when migrating annotations to a separate table.
         return Common::sanitizeInputValue($note);
