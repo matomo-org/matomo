@@ -93,7 +93,7 @@
               <button
                 class="table-action"
                 v-show="theSite.idsite"
-                @click="this.showRemoveDialog = true"
+                @click="getMessagesToWarnOnSiteRemoval()"
                 :title="translate('General_Delete')"
               >
                 <span class="icon-delete"></span>
@@ -187,6 +187,7 @@
     >
         <h2>{{ removeDialogTitle }}</h2>
         <p>{{ translate('SitesManager_DeleteSiteExplanation') }}</p>
+        <p v-if="deleteSiteExplanation" v-html="$sanitize(deleteSiteExplanation)"></p>
     </PasswordConfirmation>
   </div>
 </template>
@@ -222,6 +223,7 @@ interface SiteFieldsState {
   measurableSettings: DeepReadonly<SettingsForSinglePlugin[]>;
   settingValues: Record<string, unknown>;
   showRemoveDialog: boolean;
+  deleteSiteExplanation: string;
 }
 
 interface CreateEditSiteResponse {
@@ -267,6 +269,7 @@ export default defineComponent({
       measurableSettings: [],
       settingValues: {},
       showRemoveDialog: false,
+      deleteSiteExplanation: '',
     };
   },
   components: {
@@ -450,6 +453,20 @@ export default defineComponent({
         passwordConfirmation: password,
       }).then(() => {
         this.$emit('delete', this.theSite);
+      });
+    },
+    getMessagesToWarnOnSiteRemoval() {
+      AjaxHelper.post({
+        idSite: this.theSite.idsite,
+        module: 'API',
+        format: 'json',
+        method: 'SitesManager.getMessagesToWarnOnSiteRemoval',
+      }).then((response) => {
+        this.deleteSiteExplanation = '';
+        if (response.length) {
+          this.deleteSiteExplanation += response.join('<br>');
+        }
+        this.showRemoveDialog = true;
       });
     },
   },
