@@ -36,7 +36,7 @@
           {% if annotation.canEditOrDelete %}
             <div class="annotation-edit-mode" style="display:none;">
                 <div class="input-field">
-                    <input class="annotation-edit" type="text" value="{{ annotation.note|raw }}"/>
+                    <input class="annotation-edit" type="text" maxlength="255" value="{{ annotation.note|raw }}"/>
                 </div>
                 <br/>
                 <input class="annotation-save btn" type="button" value="{{ 'General_Save'|translate }}"/>

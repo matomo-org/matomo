@@ -45,7 +45,7 @@ class API extends \Piwik\Plugin\API
         // add, save & return a new annotation
         $annotations = new AnnotationList($idSite);
 
-        $newAnnotation = $annotations->add($idSite, $date, $note, $starred);
+        $newAnnotation = $annotations->add($idSite, $date, $this->filterNote($note), $starred);
         $annotations->save($idSite);
 
         return $newAnnotation;
@@ -85,7 +85,7 @@ class API extends \Piwik\Plugin\API
         $this->checkUserCanModifyOrDelete($idSite, $annotations->get($idSite, $idNote));
 
         // modify the annotation, and save the whole list
-        $annotations->update($idSite, $idNote, $date, $note, $starred);
+        $annotations->update($idSite, $idNote, $date, $this->filterNote($note), $starred);
         $annotations->save($idSite);
 
         return $annotations->get($idSite, $idNote);
@@ -323,5 +323,19 @@ class API extends \Piwik\Plugin\API
         }
 
         Date::factory($date);
+    }
+
+    private function filterNote(?string $note): ?string
+    {
+        if (empty($note)) {
+            return $note;
+        }
+
+        // shorten note if longer than 255 characters
+        if (mb_strlen($note) > 255) {
+            $note = mb_substr($note, 0, 254) . '…';
+        }
+
+        return $note;
     }
 }
