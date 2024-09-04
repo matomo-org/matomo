@@ -70,11 +70,11 @@ class API extends \Piwik\Plugin\API
      *    created the note
      *
      * @param int $idSite The site ID to add the annotation to.
-     * @param string $idNote The ID of the note.
+     * @param int $idNote The ID of the note.
      * @param string|null $date The date the annotation is attached to. If null, the annotation's
      *                          date is not modified.
-     * @param string|null $note The text of the annotation. If null, the annotation's text
-     *                          is not modified.
+     * @param string|null $note The text of the annotation (max 255 chars).
+     *                          If null, the annotation's text is not modified.
      * @param bool|null $starred Whether the annotation should be starred.
      *                           If null, the annotation is not starred/un-starred, so the current state won't change.
      * @return array Returns an array of two elements. The first element (indexed by
@@ -162,6 +162,8 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
+        $this->checkSiteExists($idSite);
+
         // get single annotation
         $annotations = new AnnotationList($idSite);
         return $annotations->get($idSite, $idNote);
@@ -172,7 +174,7 @@ class API extends \Piwik\Plugin\API
      * The date range is specified by a date, the period type (day/week/month/year)
      * and an optional number of N periods in the past to include.
      *
-     * @param string $idSite The site ID to add the annotation to. Can be one ID or
+     * @param string $idSite The site ID to get annotations for. Can be one ID or
      *                       a list of site IDs.
      * @param null|string $date The date of the period.
      * @param string $period The period type.
@@ -240,7 +242,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // create list of dates
-        $dates = array();
+        $dates = [];
         for (; $startDate->getTimestamp() <= $endDate->getTimestamp(); $startDate = $startDate->addPeriod(1, $period)) {
             $dates[] = $startDate;
         }
@@ -251,7 +253,7 @@ class API extends \Piwik\Plugin\API
         $annotations = new AnnotationList($idSite);
 
         // create result w/ 0-counts
-        $result = array();
+        $result = [];
         for ($i = 0; $i != count($dates) - 1; ++$i) {
             $date = $dates[$i];
             $nextDate = $dates[$i + 1];
@@ -342,7 +344,7 @@ class API extends \Piwik\Plugin\API
         Date::factory($date);
     }
 
-    private function filterNote(?string $note)
+    private function filterNote(?string $note): ?string
     {
         if (empty($note)) {
             return $note;
