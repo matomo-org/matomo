@@ -406,8 +406,16 @@ class API extends \Piwik\Plugin\API
     public function getMessagesToWarnOnSiteRemoval(int $idSite): array
     {
         $messages = [];
-        Piwik::checkUserHasSuperUserAccess($idSite);
-        Piwik::postEvent('SitesManager.getMessagesToWarnOnSiteRemoval', [$idSite, &$messages]);
+        Piwik::checkUserHasSuperUserAccess();
+        /**
+         * Triggered before a modal to delete a measurable is displayed
+         *
+         * A plugin can listen to it and add additional information to be displayed in the measurable delete modal body
+         *
+         * @param array &$messages Additional messages to be shown in the delete measurable modal body
+         * @param int $idSite The idSite to be deleted
+         */
+        Piwik::postEvent('SitesManager.getMessagesToWarnOnSiteRemoval', [&$messages, $idSite]);
 
         return $messages;
     }
