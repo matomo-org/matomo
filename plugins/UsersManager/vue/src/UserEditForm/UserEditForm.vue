@@ -208,6 +208,14 @@
         >
           <p>{{ translate('UsersManager_SuperUserIntro1') }}</p>
           <p><strong>{{ translate('UsersManager_SuperUserIntro2') }}</strong></p>
+          <p><strong>{{ translate('UsersManager_SuperUserIntro3') }}</strong></p>
+          <ul class="browser-default">
+            <li
+              v-for="index in 8"
+              :key="index"
+              v-html="$sanitize(translateSuperUserRiskString(index))"
+            ></li>
+          </ul>
           <div>
             <Field
               v-model="superUserAccessChecked"
@@ -520,6 +528,13 @@ export default defineComponent({
     },
     onDoneEditing() {
       this.$emit('done', { isUserModified: this.isUserModified });
+    },
+    translateSuperUserRiskString(item: number) {
+      return translate(
+        `UsersManager_SuperUserRisk${item}`,
+        '<strong>',
+        '</strong>',
+      );
     },
   },
   computed: {

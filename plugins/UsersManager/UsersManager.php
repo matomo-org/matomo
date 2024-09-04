@@ -390,6 +390,15 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_SuperUserAccess';
         $translationKeys[] = 'UsersManager_SuperUserIntro1';
         $translationKeys[] = 'UsersManager_SuperUserIntro2';
+        $translationKeys[] = 'UsersManager_SuperUserIntro3';
+        $translationKeys[] = 'UsersManager_SuperUserRisk1';
+        $translationKeys[] = 'UsersManager_SuperUserRisk2';
+        $translationKeys[] = 'UsersManager_SuperUserRisk3';
+        $translationKeys[] = 'UsersManager_SuperUserRisk4';
+        $translationKeys[] = 'UsersManager_SuperUserRisk5';
+        $translationKeys[] = 'UsersManager_SuperUserRisk6';
+        $translationKeys[] = 'UsersManager_SuperUserRisk7';
+        $translationKeys[] = 'UsersManager_SuperUserRisk8';
         $translationKeys[] = 'UsersManager_SuperUsersPermissionsNotice';
         $translationKeys[] = 'UsersManager_TheDisplayedUsersAreSelected';
         $translationKeys[] = 'UsersManager_TheDisplayedWebsitesAreSelected';
