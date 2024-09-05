@@ -25,14 +25,13 @@ use Zend_Db_Statement_Interface;
  */
 class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
 {
+    use Db\TransactionalDatabaseDynamicTrait;
+
     /**
      * Constructor
      *
      * @param array|Zend_Config $config database configuration
      */
-
-    private $supportsTransactionLevelForNonLockingReads;
-
     public function __construct($config)
     {
         // Enable LOAD DATA INFILE
@@ -350,29 +349,5 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         }
 
         return parent::_dsn();
-    }
-
-    public function getCurrentTransactionIsolationLevelForSession(): string
-    {
-        try {
-            return $this->fetchOne('SELECT @@TX_ISOLATION');
-        } catch (Exception $e) {
-            return $this->fetchOne('SELECT @@transaction_isolation');
-        }
-    }
-
-    public function setTransactionIsolationLevel(string $level): void
-    {
-        $this->query("SET SESSION TRANSACTION ISOLATION LEVEL $level");
-    }
-
-    public function getSupportsTransactionLevelForNonLockingReads(): ?bool
-    {
-        return $this->supportsTransactionLevelForNonLockingReads;
-    }
-
-    public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void
-    {
-        $this->supportsTransactionLevelForNonLockingReads = $supports;
     }
 }

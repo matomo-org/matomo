@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
 use Piwik\Db\TransactionalDatabaseInterface;
+use Piwik\Db\TransactionalDatabaseStaticTrait;
 
 /**
  * Contains SQL related helper functions for Piwik's MySQL database.
@@ -35,15 +36,14 @@ use Piwik\Db\TransactionalDatabaseInterface;
  */
 class Db implements TransactionalDatabaseInterface
 {
+    use TransactionalDatabaseStaticTrait;
+
     public const SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
 
     private static $connection = null;
     private static $readerConnection = null;
 
     private static $logQueries = true;
-
-    // this is used for indicate TransactionLevel Cache
-    private $supportsTransactionLevelForNonLockingReads;
 
     /**
      * Returns the database connection and creates it if it hasn't been already.
@@ -876,29 +876,5 @@ class Db implements TransactionalDatabaseInterface
     public static function isOptimizeInnoDBSupported($version = null)
     {
         return Db\Schema::getInstance()->isOptimizeInnoDBSupported();
-    }
-
-    public function getCurrentTransactionIsolationLevelForSession(): string
-    {
-        try {
-            return self::fetchOne('SELECT @@TX_ISOLATION');
-        } catch (Exception $e) {
-            return self::fetchOne('SELECT @@transaction_isolation');
-        }
-    }
-
-    public function setTransactionIsolationLevel(string $level): void
-    {
-        self::query("SET SESSION TRANSACTION ISOLATION LEVEL $level");
-    }
-
-    public function getSupportsTransactionLevelForNonLockingReads(): ?bool
-    {
-        return $this->supportsTransactionLevelForNonLockingReads;
-    }
-
-    public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void
-    {
-        $this->supportsTransactionLevelForNonLockingReads = $supports;
     }
 }
