@@ -878,16 +878,6 @@ class Db implements TransactionalDatabaseInterface
         return Db\Schema::getInstance()->isOptimizeInnoDBSupported();
     }
 
-    public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void
-    {
-        $this->supportsTransactionLevelForNonLockingReads = $supports;
-    }
-
-    public function getSupportsTransactionLevelForNonLockingReads(): ?bool
-    {
-        return $this->supportsTransactionLevelForNonLockingReads;
-    }
-
     public function getCurrentTransactionIsolationLevelForSession(): string
     {
         try {
@@ -900,5 +890,15 @@ class Db implements TransactionalDatabaseInterface
     public function setTransactionIsolationLevel(string $level): void
     {
         self::query("SET SESSION TRANSACTION ISOLATION LEVEL $level");
+    }
+
+    public function getSupportsTransactionLevelForNonLockingReads(): ?bool
+    {
+        return $this->supportsTransactionLevelForNonLockingReads;
+    }
+
+    public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void
+    {
+        $this->supportsTransactionLevelForNonLockingReads = $supports;
     }
 }

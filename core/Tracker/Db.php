@@ -302,6 +302,11 @@ abstract class Db implements TransactionalDatabaseInterface
         return $db;
     }
 
+    public function setTransactionIsolationLevel(string $level): void
+    {
+        self::query("SET SESSION TRANSACTION ISOLATION LEVEL $level");
+    }
+
     public function getCurrentTransactionIsolationLevelForSession(): string
     {
         try {
@@ -309,11 +314,6 @@ abstract class Db implements TransactionalDatabaseInterface
         } catch (Exception $e) {
             return self::fetchOne('SELECT @@transaction_isolation');
         }
-    }
-
-    public function setTransactionIsolationLevel(string $level): void
-    {
-        self::query("SET SESSION TRANSACTION ISOLATION LEVEL $level");
     }
 
     public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void

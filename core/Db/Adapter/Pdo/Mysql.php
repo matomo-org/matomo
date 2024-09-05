@@ -352,16 +352,6 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         return parent::_dsn();
     }
 
-    public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void
-    {
-        $this->supportsTransactionLevelForNonLockingReads = $supports;
-    }
-
-    public function getSupportsTransactionLevelForNonLockingReads(): ?bool
-    {
-        return $this->supportsTransactionLevelForNonLockingReads;
-    }
-
     public function getCurrentTransactionIsolationLevelForSession(): string
     {
         try {
@@ -374,5 +364,15 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     public function setTransactionIsolationLevel(string $level): void
     {
         $this->query("SET SESSION TRANSACTION ISOLATION LEVEL $level");
+    }
+
+    public function getSupportsTransactionLevelForNonLockingReads(): ?bool
+    {
+        return $this->supportsTransactionLevelForNonLockingReads;
+    }
+
+    public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void
+    {
+        $this->supportsTransactionLevelForNonLockingReads = $supports;
     }
 }
