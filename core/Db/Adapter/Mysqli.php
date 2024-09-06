@@ -21,15 +21,13 @@ use Zend_Db_Adapter_Mysqli;
  */
 class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
 {
+    use Db\TransactionalDatabaseDynamicTrait;
+
     /**
      * Constructor
      *
      * @param array|Zend_Config $config database configuration
      */
-
-    // this is used for indicate TransactionLevel Cache
-    public $supportsUncommitted;
-
     public function __construct($config)
     {
         // Enable LOAD DATA INFILE

@@ -13,6 +13,8 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db\Adapter;
+use Piwik\Db\TransactionalDatabaseInterface;
+use Piwik\Db\TransactionalDatabaseStaticTrait;
 use Piwik\Piwik;
 use Piwik\Timer;
 use Piwik\Tracker\Db\DbException;
@@ -23,16 +25,15 @@ use Piwik\Tracker\Db\DbException;
  * We wrote this simple class
  *
  */
-abstract class Db
+abstract class Db implements TransactionalDatabaseInterface
 {
+    use TransactionalDatabaseStaticTrait;
+
     protected static $profiling = false;
 
     protected $queriesProfiling = array();
 
     protected $connection = null;
-
-    // this is used for indicate TransactionLevel Cache
-    public $supportsUncommitted = null;
 
     /**
      * Enables the SQL profiling.

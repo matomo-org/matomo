@@ -25,15 +25,13 @@ use Zend_Db_Statement_Interface;
  */
 class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
 {
+    use Db\TransactionalDatabaseDynamicTrait;
+
     /**
      * Constructor
      *
      * @param array|Zend_Config $config database configuration
      */
-
-    // this is used for indicate TransactionLevel Cache
-    public $supportsUncommitted;
-
     public function __construct($config)
     {
         // Enable LOAD DATA INFILE

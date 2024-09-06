@@ -13,7 +13,7 @@ use Exception;
 
 /**
  */
-interface AdapterInterface
+interface AdapterInterface extends TransactionalDatabaseInterface
 {
     /**
      * Reset the configuration variables in this adapter.
