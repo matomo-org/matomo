@@ -127,7 +127,7 @@ class AnnotationsTest extends SystemTestCase
 
     public function testAddMultipleSitesFail()
     {
-        self::expectException(Exception::class);
+        self::expectError();
 
         API::getInstance()->add("1,2,3", "2012-01-01", "whatever");
     }
@@ -141,7 +141,7 @@ class AnnotationsTest extends SystemTestCase
 
     public function testSaveMultipleSitesFail()
     {
-        self::expectException(Exception::class);
+        self::expectError();
 
         API::getInstance()->save("1,2,3", 0);
     }
@@ -162,7 +162,7 @@ class AnnotationsTest extends SystemTestCase
 
     public function testDeleteMultipleSitesFail()
     {
-        self::expectException(Exception::class);
+        self::expectError();
 
         API::getInstance()->delete("1,2,3", 0);
     }
@@ -176,7 +176,7 @@ class AnnotationsTest extends SystemTestCase
 
     public function testGetMultipleSitesFail()
     {
-        self::expectException(Exception::class);
+        self::expectError();
 
         API::getInstance()->get("1,2,3", 0);
     }
