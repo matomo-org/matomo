@@ -27,6 +27,12 @@ class LogAggregatorTest extends \PHPUnit\Framework\TestCase
     {
         $dimensions = ['custom_var_k1', 'custom_var_v1'];
         $where = "%s.custom_var_k1 != ''";
+        $extraFrom = [
+            [
+                'table' => 'log_visit',
+                'joinOn' => 'log_visit.idvisit = log_conversion.idvisit',
+            ],
+        ];
 
         $expectedSelect = "log_conversion.idgoal AS `idgoal`, 
 			log_conversion.custom_var_k1 AS `custom_var_k1`, 
@@ -42,6 +48,7 @@ class LogAggregatorTest extends \PHPUnit\Framework\TestCase
         $expectedFrom = $forceIndex
             ? [['table' => LogAggregator::LOG_CONVERSION_TABLE, 'useIndex' => 'index_idsite_datetime']]
             : [LogAggregator::LOG_CONVERSION_TABLE];
+        $expectedFrom = array_merge($expectedFrom, $extraFrom);
         $expectedWhere = "log_conversion.server_time >= ?
 				AND log_conversion.server_time <= ?
 				AND log_conversion.idsite IN (?) AND log_conversion.custom_var_k1 != ''";
@@ -53,7 +60,7 @@ class LogAggregatorTest extends \PHPUnit\Framework\TestCase
         $aggregatorMock->expects($this->once())->method('generateQuery')->with($expectedSelect, $expectedFrom, $expectedWhere)->willReturn(['sql' => '', 'bind' => []]);
         $aggregatorMock->expects($this->once())->method('getDb')->willReturn($dbMock);
         $aggregatorMock->setSites([1]);
-        $aggregatorMock->queryConversionsByDimension($dimensions, $where, [], [], false, false, $forceIndex);
+        $aggregatorMock->queryConversionsByDimension($dimensions, $where, [], $extraFrom, false, false, $forceIndex);
     }
 
     public function getTestQueryConversionsByDimensionForcingIndexFlagTestData(): array
