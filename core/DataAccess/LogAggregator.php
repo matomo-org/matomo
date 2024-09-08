@@ -1177,7 +1177,7 @@ class LogAggregator
      * @param bool $rankingQueryGenerate if `true`, generates a SQL query / bind array pair and returns it. If false, the
      *                                   ranking query SQL will be immediately executed and the results returned.
      * @param bool $forceSiteDateIndex Forces the resulting query to use the index_idsite_datetime index. For some
-     * reason, the engine doesn't always use that index automatically. This allows use to make sure that it uses it.
+     * reason, the engine doesn't always use that index automatically. This allows us to make sure that it uses it.
      * @return \Zend_Db_Statement|array
      */
     public function queryConversionsByDimension(
