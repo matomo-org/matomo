@@ -155,7 +155,7 @@ class JoinTables extends \ArrayObject
         $firstTable = array_shift($tables);
         $sorted = [$firstTable];
 
-        // Added the ability to specify which index to use, so the first table might be an array
+        // With the ability to specify which index to use, the $firstTable var may be an array
         if (is_array($firstTable) && !empty($firstTable['table'])) {
             $firstTable = $firstTable['table'];
         }
