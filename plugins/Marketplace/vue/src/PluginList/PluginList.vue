@@ -87,6 +87,7 @@
                     :update-nonce="updateNonce"
                     :plugin="plugin"
                     :in-modal="false"
+                    :should-show-install-link="plugin.hasDownloadLink"
                     @openDetailsModal="this.openDetailsModal(plugin)"
                     @requestTrial="this.requestTrial(plugin)"
                     @startFreeTrial="this.startFreeTrial(plugin)"

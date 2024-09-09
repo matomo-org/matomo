@@ -186,6 +186,8 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'CorePluginsAdmin_Activity';
         $translationKeys[] = 'CorePluginsAdmin_Version';
         $translationKeys[] = 'CorePluginsAdmin_Websites';
+        $translationKeys[] = 'Marketplace_PluginLicenseStatusPending';
+        $translationKeys[] = 'Marketplace_PluginLicenseStatusCancelled';
     }
 
     /**

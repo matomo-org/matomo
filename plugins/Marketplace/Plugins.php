@@ -60,8 +60,9 @@ class Plugins
 
     public function getPluginInfo($pluginName)
     {
+        $consumer = $this->getConsumerWisePluginStatus();
         $plugin = $this->marketplaceClient->getPluginInfo($pluginName);
-        $plugin = $this->enrichPluginInformation($plugin);
+        $plugin = $this->enrichPluginInformation($plugin, $consumer);
 
         return $plugin;
     }
@@ -105,6 +106,7 @@ class Plugins
 
     public function searchPlugins($query, $sort, $themesOnly, $purchaseType = '')
     {
+        $consumer = $this->getConsumerWisePluginStatus();
         if ($themesOnly) {
             $plugins = $this->marketplaceClient->searchForThemes('', $query, $sort, $purchaseType);
         } else {
@@ -112,7 +114,7 @@ class Plugins
         }
 
         foreach ($plugins as $index => $plugin) {
-            $plugins[$index] = $this->enrichPluginInformation($plugin);
+            $plugins[$index] = $this->enrichPluginInformation($plugin, $consumer);
         }
 
         return array_values($plugins);
@@ -245,7 +247,7 @@ class Plugins
         return $this->pluginManager->isPluginInstalled($pluginName, true);
     }
 
-    private function enrichPluginInformation($plugin)
+    private function enrichPluginInformation($plugin, $consumer)
     {
         if (empty($plugin)) {
             return $plugin;
@@ -295,6 +297,9 @@ class Plugins
                 $plugin['versions'][$index]['release'] = $this->toLongDate($version['release']);
             }
         }
+
+        $plugin['licenseStatus'] = $consumer[$plugin['name']]['licenseStatus'] ?? '';
+        $plugin['hasDownloadLink'] = !empty($plugin['versions'][0]['download']);
 
         $plugin = $this->addMissingRequirements($plugin);
 
@@ -443,5 +448,19 @@ class Plugins
         }
 
         $plugin['numDownloadsPretty'] = $nice;
+    }
+
+    private function getConsumerWisePluginStatus(): array
+    {
+        $consumer = $this->consumer->getConsumer();
+        $data = [];
+
+        if (!empty($consumer['licenses'])) {
+            foreach ($consumer['licenses'] as $license) {
+                $data[$license['plugin']['name']] = ['licenseStatus' => $license['status']];
+            }
+        }
+
+        return $data;
     }
 }

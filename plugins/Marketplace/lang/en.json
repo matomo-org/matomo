@@ -147,6 +147,8 @@
         "AutoUpdateDisabledWarning": "You cannot install or update the plugin directly as automatic updates are disabled in the config. To enable automatic updates set %1$s in %2$s.",
         "ViewRepositoryChangelog": "View the changes",
         "Show": "Show",
-        "Sort": "Sort"
+        "Sort": "Sort",
+        "PluginLicenseStatusPending": "Your license key, for plugin %1$s is in pending state.",
+        "PluginLicenseStatusCancelled": "Your license key, for plugin %1$s is cancelled."
     }
 }

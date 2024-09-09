@@ -125,7 +125,7 @@
         />)</span>
     </div>
 
-    <a v-else-if="isPluginsAdminEnabled"
+    <a v-else-if="isPluginsAdminEnabled && shouldShowInstallLink"
        tabindex="7"
        :href="linkToInstall(plugin.name)"
        class="btn btn-block"
@@ -219,6 +219,11 @@ export default defineComponent({
     inModal: {
       type: Boolean,
       required: true,
+    },
+    shouldShowInstallLink: {
+      type: Boolean,
+      required: true,
+      default: true,
     },
     shopVariationUrl: {
       type: String,

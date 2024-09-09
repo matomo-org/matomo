@@ -226,6 +226,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (SettingsPiwik::isAutoUpdatePossible()) {
             foreach ($paidPlugins as $paidPlugin) {
                 if (
+                    $paidPlugin['licenseStatus'] === 'Active' &&
                     $this->canPluginBeInstalled($paidPlugin)
                     || ($this->pluginManager->isPluginInstalled($paidPlugin['name'], true)
                         && !$this->pluginManager->isPluginActivated($paidPlugin['name']))
@@ -353,7 +354,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             $hasErrors = false;
             foreach ($paidPlugins as $paidPlugin) {
-                if (!$this->canPluginBeInstalled($paidPlugin)) {
+                if (!$this->canPluginBeInstalled($paidPlugin) || $paidPlugin['status'] !== 'Active') {
                     continue;
                 }
 
