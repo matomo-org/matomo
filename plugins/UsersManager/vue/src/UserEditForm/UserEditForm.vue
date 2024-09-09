@@ -206,15 +206,22 @@
           v-if="activeTab === 'superuser' && currentUserRole === 'superuser' && !isAdd"
           class="superuser-access form-group"
         >
-          <p>{{ translate('UsersManager_SuperUserIntro1') }}</p>
+          <p v-if="isMarketplacePluginEnabled">{{ translate('UsersManager_SuperUserIntro1') }}</p>
+          <p v-else>{{ translate('UsersManager_SuperUserIntro1WithoutMarketplace') }}</p>
           <p><strong>{{ translate('UsersManager_SuperUserIntro2') }}</strong></p>
           <p><strong>{{ translate('UsersManager_SuperUserIntro3') }}</strong></p>
           <ul class="browser-default">
+            <li v-html="$sanitize(translateSuperUserRiskString('Data'))"></li>
+            <li v-html="$sanitize(translateSuperUserRiskString('Security'))"></li>
+            <li v-html="$sanitize(translateSuperUserRiskString('Misconfiguration'))"></li>
+            <li v-html="$sanitize(translateSuperUserRiskString('UserManagement'))"></li>
+            <li v-html="$sanitize(translateSuperUserRiskString('ServiceDisruption'))"></li>
             <li
-              v-for="index in 8"
-              :key="index"
-              v-html="$sanitize(translateSuperUserRiskString(index))"
+              v-html="$sanitize(translateSuperUserRiskString('Marketplace'))"
+              v-if="isPluginsAdminEnabled && isMarketplacePluginEnabled"
             ></li>
+            <li v-html="$sanitize(accountabilityRisk)"></li>
+            <li v-html="$sanitize(translateSuperUserRiskString('Compliance'))"></li>
           </ul>
           <div>
             <Field
@@ -281,6 +288,8 @@ import {
   translate,
   AjaxHelper,
   NotificationsStore,
+  externalLink,
+  Matomo,
 } from 'CoreHome';
 import {
   PasswordConfirmation,
@@ -342,6 +351,10 @@ export default defineComponent({
     },
     inviteTokenExpiryDays: {
       type: String,
+      required: true,
+    },
+    activatedPlugins: {
+      type: Array,
       required: true,
     },
   },
@@ -529,7 +542,7 @@ export default defineComponent({
     onDoneEditing() {
       this.$emit('done', { isUserModified: this.isUserModified });
     },
-    translateSuperUserRiskString(item: number) {
+    translateSuperUserRiskString(item: string) {
       return translate(
         `UsersManager_SuperUserRisk${item}`,
         '<strong>',
@@ -563,6 +576,38 @@ export default defineComponent({
         'UsersManager_AreYouSureChangeDetails',
         `<strong>${this.theUser.login}</strong>`,
       );
+    },
+    isPluginsAdminEnabled() {
+      return Matomo.config.enable_plugins_admin;
+    },
+    isActivityLogPluginEnabled() {
+      return this.activatedPlugins.includes('ActivityLog');
+    },
+    isMarketplacePluginEnabled() {
+      return this.activatedPlugins.includes('Marketplace');
+    },
+    isProfessionalServicesPluginEnabled() {
+      return this.activatedPlugins.includes('ProfessionalServices');
+    },
+    accountabilityRisk() {
+      const riskInfo = this.translateSuperUserRiskString('Accountability');
+      let pluginInfo = '';
+
+      if (this.isPluginsAdminEnabled && this.isProfessionalServicesPluginEnabled) {
+        if (this.isActivityLogPluginEnabled) {
+          pluginInfo = translate(
+            'UsersManager_SuperUserRiskAccountabilityCheckActivityLog',
+            '<a href="?module=ActivityLog&action=index" rel="noreferrer noopener" target="_blank">', '</a>',
+          );
+        } else if (this.isMarketplacePluginEnabled) {
+          pluginInfo = translate(
+            'UsersManager_SuperUserRiskAccountabilityGetActivityLogPlugin',
+            externalLink('https://plugins.matomo.org/ActivityLog'), '</a>',
+          );
+        }
+      }
+
+      return pluginInfo ? `${riskInfo} ${pluginInfo}` : riskInfo;
     },
   },
 });
