@@ -375,9 +375,9 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
             throw new Zend_Db_Adapter_Mysqli_Exception(mysqli_connect_error());
         }
 
-        if (!empty($this->_config['charset']) && !empty($this->_config['connection_collation'])) {
+        if (!empty($this->_config['charset']) && !empty($this->_config['collation'])) {
             // mysqli_set_charset does not support setting a collation
-            $query = "SET NAMES '" . $this->_config['charset'] . "' COLLATE '" . $this->_config['connection_collation'] . "'";
+            $query = "SET NAMES '" . $this->_config['charset'] . "' COLLATE '" . $this->_config['collation'] . "'";
 
             mysqli_query($this->_connection, $query);
         } elseif (!empty($this->_config['charset'])) {

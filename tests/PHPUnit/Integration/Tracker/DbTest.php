@@ -195,7 +195,7 @@ class DbTest extends IntegrationTestCase
     public function testConnectionCollationDefault(): void
     {
         $config = Config::getInstance();
-        $config->database['connection_collation'] = null;
+        $config->database['collation'] = null;
         $db = Tracker\Db::connectPiwikTrackerDb();
 
         // exact value depends on database used
@@ -206,11 +206,11 @@ class DbTest extends IntegrationTestCase
     public function testConnectionCollationSetInConfig(): void
     {
         $config = Config::getInstance();
-        $config->database['connection_collation'] = $config->database['charset'] . '_swedish_ci';
+        $config->database['collation'] = $config->database['charset'] . '_swedish_ci';
         $db = Tracker\Db::connectPiwikTrackerDb();
 
         $currentCollation = $db->fetchOne('SELECT @@collation_connection');
-        self::assertSame($config->database['connection_collation'], $currentCollation);
+        self::assertSame($config->database['collation'], $currentCollation);
     }
 
     private function insertRowId($value = '1')

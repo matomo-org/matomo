@@ -50,7 +50,7 @@ class Mysql extends Db
     /**
      * @var string|null
      */
-    private $connectionCollation;
+    private $collation;
 
     protected $mysqlOptions = [];
 
@@ -79,8 +79,8 @@ class Mysql extends Db
             $this->charset = $dbInfo['charset'];
             $this->dsn .= ';charset=' . $this->charset;
 
-            if (!empty($dbInfo['connection_collation'])) {
-                $this->connectionCollation = $dbInfo['connection_collation'];
+            if (!empty($dbInfo['collation'])) {
+                $this->collation = $dbInfo['collation'];
             }
         }
 
@@ -433,8 +433,8 @@ class Mysql extends Db
         if (!empty($this->charset)) {
             $sql = "SET NAMES '" . $this->charset . "'";
 
-            if (!empty($this->connectionCollation)) {
-                $sql .= " COLLATE '" . $this->connectionCollation . "'";
+            if (!empty($this->collation)) {
+                $sql .= " COLLATE '" . $this->collation . "'";
             }
 
             $this->connection->exec($sql);

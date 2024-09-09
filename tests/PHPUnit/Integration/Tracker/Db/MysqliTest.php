@@ -46,7 +46,7 @@ class MysqliTest extends IntegrationTestCase
         self::expectExceptionMessageMatches('/Set charset\/connection collation failed/');
 
         $config = Config::getInstance();
-        $config->database['connection_collation'] = 'something really invalid';
+        $config->database['collation'] = 'something really invalid';
 
         Tracker\Db::connectPiwikTrackerDb();
     }

@@ -266,7 +266,7 @@ class DbTest extends IntegrationTestCase
 
         $config = Config::getInstance();
         $config->database['adapter'] = $adapter;
-        $config->database['connection_collation'] = null;
+        $config->database['collation'] = null;
 
         $db = Db::get();
         self::assertInstanceOf($expectedClass, $db);
@@ -285,13 +285,13 @@ class DbTest extends IntegrationTestCase
 
         $config = Config::getInstance();
         $config->database['adapter'] = $adapter;
-        $config->database['connection_collation'] = $config->database['charset'] . '_swedish_ci';
+        $config->database['collation'] = $config->database['charset'] . '_swedish_ci';
 
         $db = Db::get();
         self::assertInstanceOf($expectedClass, $db);
 
         $currentCollation = $db->fetchOne('SELECT @@collation_connection');
-        self::assertSame($config->database['connection_collation'], $currentCollation);
+        self::assertSame($config->database['collation'], $currentCollation);
     }
 
     public function getDbAdapter()

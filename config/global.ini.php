@@ -50,7 +50,7 @@ charset = utf8
 ; If you encounter "Illegal mix of collation" errors, setting this config to the value matching
 ; your existing database tables can help.
 ; This setting will only be used if "charset" is also set.
-connection_collation =
+collation =
 
 ; Database error codes to ignore during updates
 ;
