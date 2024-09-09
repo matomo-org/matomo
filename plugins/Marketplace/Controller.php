@@ -226,8 +226,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (SettingsPiwik::isAutoUpdatePossible()) {
             foreach ($paidPlugins as $paidPlugin) {
                 if (
-                    $paidPlugin['licenseStatus'] === 'Active' &&
-                    $this->canPluginBeInstalled($paidPlugin)
+                    $paidPlugin['licenseStatus'] === 'Active'
+                    && $this->canPluginBeInstalled($paidPlugin)
                     || ($this->pluginManager->isPluginInstalled($paidPlugin['name'], true)
                         && !$this->pluginManager->isPluginActivated($paidPlugin['name']))
                 ) {
