@@ -58,13 +58,7 @@ class LogAggregatorTest extends \PHPUnit\Framework\TestCase
         $dbMock = $this->createMock(ArchivingDbAdapter::class);
         $dbMock->expects($this->once())->method('query');
 
-        $configMock = $this->createMock(Config::class);
-        $configMock->method('__get')
-            ->with('General')
-            ->willReturn([
-                'enable_force_site_date_index' => $configSettingValue,
-            ]);
-        StaticContainer::getContainer()->set(Config::class, $configMock);
+        Config::getInstance()->General['enable_force_site_date_index'] = $configSettingValue;
 
         $aggregatorMock = $this->createPartialMock(LogAggregator::class, ['generateQuery', 'getDb']);
         $aggregatorMock->expects($this->once())->method('generateQuery')->with($expectedSelect, $expectedFrom, $expectedWhere)->willReturn(['sql' => '', 'bind' => []]);
