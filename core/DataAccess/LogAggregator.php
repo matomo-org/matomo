@@ -22,6 +22,7 @@ use Piwik\Metrics;
 use Piwik\Plugin\LogTablesProvider;
 use Piwik\RankingQuery;
 use Piwik\Segment;
+use Piwik\SettingsPiwik;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 use Piwik\Log\LoggerInterface;
@@ -1195,7 +1196,8 @@ class LogAggregator
 
         $select = $this->getSelectStatement($dimensions, $tableName, $additionalSelects, $availableMetrics);
 
-        $primaryFrom = !$forceSiteDateIndex ? [$tableName] : [['table' => $tableName, 'useIndex' => 'index_idsite_datetime']];
+        $isForceSiteDateIndexEnabled = SettingsPiwik::isForceSiteDateIndexEnabled();
+        $primaryFrom = (!$forceSiteDateIndex || !$isForceSiteDateIndexEnabled) ? [$tableName] : [['table' => $tableName, 'useIndex' => 'index_idsite_datetime']];
         $from    = array_merge($primaryFrom, $extraFrom);
         $where   = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);

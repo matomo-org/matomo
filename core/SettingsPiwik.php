@@ -526,4 +526,14 @@ class SettingsPiwik
     {
         return (bool)Config::getInstance()->Tracker['enable_fingerprinting_across_websites'];
     }
+
+    /**
+     * @return bool Whether the feature to force the idSite datetime index is enabled. This is currently limited to a
+     * few queries and only when the appropriate flag is provided when the query method is called.
+     */
+    public static function isForceSiteDateIndexEnabled(): bool
+    {
+        $general = Config::getInstance()->General;
+        return !empty($general['enable_force_site_date_index']);
+    }
 }
