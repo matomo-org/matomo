@@ -678,9 +678,14 @@ class Mysql implements SchemaInterface
     {
         $engine = $this->getTableEngine();
         $charset = $this->getUsedCharset();
+        $collation = $this->getUsedCollation();
         $rowFormat = $this->getTableRowFormat();
 
         $options = "ENGINE=$engine DEFAULT CHARSET=$charset";
+
+        if ('' !== $collation) {
+            $options .= " COLLATE=$collation";
+        }
 
         if ('' !== $rowFormat) {
             $options .= " $rowFormat";
@@ -782,6 +787,11 @@ class Mysql implements SchemaInterface
     protected function getUsedCharset(): string
     {
         return $this->getDbSettings()->getUsedCharset();
+    }
+
+    protected function getUsedCollation(): string
+    {
+        return $this->getDbSettings()->getUsedCollation();
     }
 
     private function getTablePrefix()

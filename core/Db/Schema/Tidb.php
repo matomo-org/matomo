@@ -36,12 +36,17 @@ class Tidb extends Mysql
     {
         $engine = $this->getTableEngine();
         $charset = $this->getUsedCharset();
+        $collation = $this->getUsedCollation();
         $rowFormat = $this->getTableRowFormat();
+
+        if ('utf8mb4' === $charset && '' === $collation) {
+            $collation = 'utf8mb4_0900_ai_ci';
+        }
 
         $options = "ENGINE=$engine DEFAULT CHARSET=$charset";
 
-        if ('utf8mb4' === $charset) {
-            $options .= ' COLLATE=utf8mb4_0900_ai_ci';
+        if ('' !== $collation) {
+            $options .= " COLLATE=$collation";
         }
 
         if ('' !== $rowFormat) {

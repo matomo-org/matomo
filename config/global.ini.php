@@ -45,11 +45,12 @@ ssl_no_verify =
 ; Matomo should work correctly without this setting but we recommend to have a charset set.
 charset = utf8
 
-; In some database setups the collation for the connection changes after a "SET NAMES" statement
-; is issued, unless a "COLLATE" argument is added.
+; In some database setups the collation used for queries and creating tables can have unexpected
+; values, or change after a database version upgrade.
 ; If you encounter "Illegal mix of collation" errors, setting this config to the value matching
 ; your existing database tables can help.
 ; This setting will only be used if "charset" is also set.
+; Matomo should work correctly without this setting but we recommend to have a collation set.
 collation =
 
 ; Database error codes to ignore during updates

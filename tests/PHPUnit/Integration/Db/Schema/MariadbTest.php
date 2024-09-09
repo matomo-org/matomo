@@ -68,4 +68,45 @@ class MariadbTest extends IntegrationTestCase
         // should optimize when forced
         $this->assertTrue($schema->optimizeTables(['table3', 'table4'], true), true);
     }
+
+    /**
+     * @dataProvider getTableCreateOptionsTestData
+     */
+    public function testTableCreateOptions(array $optionOverrides, string $expected): void
+    {
+        if (DatabaseConfig::getConfigValue('schema') !== 'Mariadb') {
+            self::markTestSkipped('Mariadb is not available');
+        }
+
+        foreach ($optionOverrides as $name => $value) {
+            DatabaseConfig::setConfigValue($name, $value);
+        }
+
+        $schema = Db\Schema::getInstance();
+
+        self::assertSame($expected, $schema->getTableCreateOptions());
+    }
+
+    public function getTableCreateOptionsTestData(): iterable
+    {
+        yield 'defaults' => [
+            [],
+            'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC'
+        ];
+
+        yield 'override charset' => [
+            ['charset' => 'utf8mb3'],
+            'ENGINE=InnoDB DEFAULT CHARSET=utf8mb3'
+        ];
+
+        yield 'override collation' => [
+            ['collation' => 'utf8mb4_general_ci'],
+            'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC'
+        ];
+
+        yield 'override charset and collation' => [
+            ['charset' => 'utf8mb3', 'collation' => 'utf8mb3_general_ci'],
+            'ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci'
+        ];
+    }
 }
