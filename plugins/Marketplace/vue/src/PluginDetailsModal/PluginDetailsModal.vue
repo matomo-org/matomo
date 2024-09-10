@@ -86,7 +86,7 @@
             {{ translate('Marketplace_PluginLicenseExceededDescription') }}
           </div>
           <div v-else-if="plugin.licenseStatus === 'Pending'"  class="alert alert-warning">
-            {{ translate('Marketplace_PluginLicenseStatusPending', plugin.displayNam) }}
+            {{ translate('Marketplace_PluginLicenseStatusPending', plugin.displayName) }}
           </div>
           <div v-else-if="plugin.licenseStatus === 'Cancelled'"  class="alert alert-warning">
             {{ translate('Marketplace_PluginLicenseStatusCancelled', plugin.displayName) }}
@@ -298,7 +298,6 @@
             :update-nonce="updateNonce"
             :plugin="plugin"
             :in-modal="true"
-            :should-show-install-link="plugin.hasDownloadLink"
             :shop-variation-url="selectedShopVariationUrl"
             @requestTrial="emitTrialEvent('requestTrial')"
             @startFreeTrial="emitTrialEvent('startFreeTrial')"

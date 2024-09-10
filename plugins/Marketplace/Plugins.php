@@ -50,19 +50,24 @@ class Plugins
 
     private $pluginsHavingUpdateCache = null;
 
+    /**
+     * @var array
+     */
+    private $consumerLicenseStatusPluginWise;
+
     public function __construct(Api\Client $marketplaceClient, Consumer $consumer, Advertising $advertising)
     {
         $this->marketplaceClient = $marketplaceClient;
         $this->consumer = $consumer;
+        $this->consumerLicenseStatusPluginWise = $this->getConsumerLicenseStatusPluginWise();
         $this->advertising = $advertising;
         $this->pluginManager = Plugin\Manager::getInstance();
     }
 
     public function getPluginInfo($pluginName)
     {
-        $consumer = $this->getConsumerWisePluginStatus();
         $plugin = $this->marketplaceClient->getPluginInfo($pluginName);
-        $plugin = $this->enrichPluginInformation($plugin, $consumer);
+        $plugin = $this->enrichPluginInformation($plugin);
 
         return $plugin;
     }
@@ -106,7 +111,6 @@ class Plugins
 
     public function searchPlugins($query, $sort, $themesOnly, $purchaseType = '')
     {
-        $consumer = $this->getConsumerWisePluginStatus();
         if ($themesOnly) {
             $plugins = $this->marketplaceClient->searchForThemes('', $query, $sort, $purchaseType);
         } else {
@@ -114,7 +118,7 @@ class Plugins
         }
 
         foreach ($plugins as $index => $plugin) {
-            $plugins[$index] = $this->enrichPluginInformation($plugin, $consumer);
+            $plugins[$index] = $this->enrichPluginInformation($plugin);
         }
 
         return array_values($plugins);
@@ -247,7 +251,7 @@ class Plugins
         return $this->pluginManager->isPluginInstalled($pluginName, true);
     }
 
-    private function enrichPluginInformation($plugin, $consumer)
+    private function enrichPluginInformation($plugin)
     {
         if (empty($plugin)) {
             return $plugin;
@@ -298,7 +302,7 @@ class Plugins
             }
         }
 
-        $plugin['licenseStatus'] = $consumer[$plugin['name']]['licenseStatus'] ?? '';
+        $plugin['licenseStatus'] = $this->consumerLicenseStatusPluginWise[$plugin['name']]['licenseStatus'] ?? '';
         $plugin['hasDownloadLink'] = !empty($plugin['versions'][0]['download']);
 
         $plugin = $this->addMissingRequirements($plugin);
@@ -450,7 +454,7 @@ class Plugins
         $plugin['numDownloadsPretty'] = $nice;
     }
 
-    private function getConsumerWisePluginStatus(): array
+    private function getConsumerLicenseStatusPluginWise(): array
     {
         $consumer = $this->consumer->getConsumer();
         $data = [];

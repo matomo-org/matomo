@@ -148,7 +148,7 @@
         "ViewRepositoryChangelog": "View the changes",
         "Show": "Show",
         "Sort": "Sort",
-        "PluginLicenseStatusPending": "Your license key, for plugin %1$s is in pending state.",
-        "PluginLicenseStatusCancelled": "Your license key, for plugin %1$s is cancelled."
+        "PluginLicenseStatusPending": "Your license key, for %1$s is in pending state.",
+        "PluginLicenseStatusCancelled": "Your license key, for %1$s is cancelled."
     }
 }

@@ -225,9 +225,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $paidPluginsToInstallAtOnce = [];
         if (SettingsPiwik::isAutoUpdatePossible()) {
             foreach ($paidPlugins as $paidPlugin) {
-                if (
-                    $paidPlugin['licenseStatus'] === 'Active'
-                    && $this->canPluginBeInstalled($paidPlugin)
+                if ($this->canPluginBeInstalled($paidPlugin)
                     || ($this->pluginManager->isPluginInstalled($paidPlugin['name'], true)
                         && !$this->pluginManager->isPluginActivated($paidPlugin['name']))
                 ) {
@@ -354,7 +352,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             $hasErrors = false;
             foreach ($paidPlugins as $paidPlugin) {
-                if (!$this->canPluginBeInstalled($paidPlugin) || $paidPlugin['status'] !== 'Active') {
+                if (!$this->canPluginBeInstalled($paidPlugin)) {
                     continue;
                 }
 
@@ -539,7 +537,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             || $this->pluginManager->isPluginLoaded($pluginName)
             || $this->pluginManager->isPluginActivated($pluginName);
 
-        return !$isAlreadyInstalled;
+        return !$isAlreadyInstalled && $plugin['licenseStatus'] === Consumer::CONSUMER_LICENSE_STATUS_ACTIVE;
     }
 
     protected function configureViewAndCheckPermission($template)

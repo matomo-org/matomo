@@ -14,6 +14,8 @@ namespace Piwik\Plugins\Marketplace;
  */
 class Consumer
 {
+    public const CONSUMER_LICENSE_STATUS_ACTIVE = 'Active';
+
     /**
      * @var Api\Client
      */
