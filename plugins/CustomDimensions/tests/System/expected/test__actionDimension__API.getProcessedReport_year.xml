@@ -52,11 +52,11 @@
 	<reportData>
 		<row>
 			<label>en</label>
-			<nb_visits>5</nb_visits>
+			<nb_visits>4</nb_visits>
 			<nb_hits>5</nb_hits>
-			<bounce_rate>60%</bounce_rate>
+			<bounce_rate>75%</bounce_rate>
 			<avg_time_on_dimension>00:01:12</avg_time_on_dimension>
-			<exit_rate>80%</exit_rate>
+			<exit_rate>100%</exit_rate>
 		</row>
 		<row>
 			<label>value3</label>
@@ -106,7 +106,7 @@
 		</row>
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>8</nb_visits>
+		<nb_visits>7</nb_visits>
 		<nb_hits>8</nb_hits>
 		<sum_time_network>0</sum_time_network>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
@@ -139,6 +139,6 @@
 		<sum_time_spent>1080</sum_time_spent>
 		<bounce_count>4</bounce_count>
 		<exit_nb_visits>5</exit_nb_visits>
-		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 	</reportTotal>
 </result>
