@@ -225,7 +225,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $paidPluginsToInstallAtOnce = [];
         if (SettingsPiwik::isAutoUpdatePossible()) {
             foreach ($paidPlugins as $paidPlugin) {
-                if ($this->canPluginBeInstalled($paidPlugin)
+                if (
+                    $this->canPluginBeInstalled($paidPlugin)
                     || ($this->pluginManager->isPluginInstalled($paidPlugin['name'], true)
                         && !$this->pluginManager->isPluginActivated($paidPlugin['name']))
                 ) {
