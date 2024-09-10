@@ -50,16 +50,10 @@ class Plugins
 
     private $pluginsHavingUpdateCache = null;
 
-    /**
-     * @var array
-     */
-    private $consumerLicenseStatusPluginWise;
-
     public function __construct(Api\Client $marketplaceClient, Consumer $consumer, Advertising $advertising)
     {
         $this->marketplaceClient = $marketplaceClient;
         $this->consumer = $consumer;
-        $this->consumerLicenseStatusPluginWise = $this->getConsumerLicenseStatusPluginWise();
         $this->advertising = $advertising;
         $this->pluginManager = Plugin\Manager::getInstance();
     }
@@ -302,10 +296,10 @@ class Plugins
             }
         }
 
-        $plugin['licenseStatus'] = $this->consumerLicenseStatusPluginWise[$plugin['name']]['licenseStatus'] ?? '';
         $plugin['hasDownloadLink'] = !empty($plugin['versions'][0]['download']);
 
         $plugin = $this->addMissingRequirements($plugin);
+        $plugin = $this->addConsumerLicenseStatus($plugin);
 
         $plugin['isEligibleForFreeTrial'] =
             $plugin['canBePurchased']
@@ -466,5 +460,13 @@ class Plugins
         }
 
         return $data;
+    }
+
+    private function addConsumerLicenseStatus($plugin): array
+    {
+        $consumerLicenseStatusPluginWise = $this->consumer->getConsumerLicenseStatusPluginWise();
+        $plugin['licenseStatus'] = $consumerLicenseStatusPluginWise[$plugin['name']]['licenseStatus'] ?? '';
+
+        return $plugin;
     }
 }
