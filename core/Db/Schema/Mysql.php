@@ -669,6 +669,31 @@ class Mysql implements SchemaInterface
         return true;
     }
 
+    /**
+     * Returns the default collation for a charset.
+     *
+     * @param string $charset
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function getDefaultCollationForCharset(string $charset): string
+    {
+        $result = $this->getDb()->fetchRow(
+            'SHOW COLLATION WHERE `Default` = "Yes" AND `Charset` = ?',
+            [$charset]
+        );
+
+        if (!isset($result['Collation'])) {
+            throw new Exception(sprintf(
+                'Failed to detect default collation for character set "%s"',
+                $charset
+            ));
+        }
+
+        return $result['Collation'];
+    }
+
     public function getDefaultPort(): int
     {
         return 3306;
@@ -770,8 +795,9 @@ class Mysql implements SchemaInterface
     protected function getDatabaseCreateOptions(): string
     {
         $charset = DbHelper::getDefaultCharset();
+        $collation = $this->getDefaultCollationForCharset($charset);
 
-        return "DEFAULT CHARACTER SET $charset";
+        return "DEFAULT CHARACTER SET $charset COLLATE $collation";
     }
 
     protected function getTableEngine()

@@ -44,6 +44,20 @@ class TidbTest extends IntegrationTestCase
         $this->assertFalse($schema->optimizeTables(['table3', 'table4'], true));
     }
 
+    public function testGetDefaultCollationForCharsetReplacesUtf8mb4Binary(): void
+    {
+        if (DatabaseConfig::getConfigValue('schema') !== 'Tidb') {
+            self::markTestSkipped('Tidb is not available');
+        }
+
+        $schema = Db\Schema::getInstance();
+
+        self::assertSame(
+            'utf8mb4_0900_ai_ci',
+            $schema->getDefaultCollationForCharset('utf8mb4')
+        );
+    }
+
     /**
      * @dataProvider getTableCreateOptionsTestData
      */
