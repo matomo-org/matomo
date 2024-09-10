@@ -173,12 +173,30 @@ class CustomDimension extends RecordBuilder
     {
         $metricsConfig = ActionsMetrics::getActionMetrics();
 
-        $resultSet = $this->queryCustomDimensionActions($metricsConfig, $logAggregator, $valueField);
-
         $metricIds = array_keys($metricsConfig);
         $metricIds[] = Metrics::INDEX_PAGE_SUM_TIME_SPENT;
         $metricIds[] = Metrics::INDEX_BOUNCE_COUNT;
         $metricIds[] = Metrics::INDEX_PAGE_EXIT_NB_VISITS;
+
+        $resultSet = $this->queryCustomDimensions($metricsConfig, $logAggregator, $valueField);
+
+        while ($row = $resultSet->fetch()) {
+            if (!isset($row[Metrics::INDEX_NB_VISITS])) {
+                return;
+            }
+
+            $label = $row[$valueField];
+            $label = $this->cleanCustomDimensionValue($label);
+
+            $columns = ['label' => $label];
+            foreach ($metricIds as $id) {
+                $columns[$id] = (float) ($row[$id] ?? 0);
+            }
+
+            $tableRow = $report->addRowFromSimpleArray($columns);
+        }
+
+        $resultSet = $this->queryCustomDimensionActions($metricsConfig, $logAggregator, $valueField);
 
         while ($row = $resultSet->fetch()) {
             if (!isset($row[Metrics::INDEX_NB_VISITS])) {
@@ -193,7 +211,7 @@ class CustomDimension extends RecordBuilder
                 $columns[$id] = (float) ($row[$id] ?? 0);
             }
 
-            $tableRow = $report->sumRowWithLabel($label, $columns);
+            $tableRow = $report->getRowFromLabel($label);
 
             $url = $row['url'];
             if (empty($url)) {
@@ -212,10 +230,16 @@ class CustomDimension extends RecordBuilder
         }
     }
 
-    public function queryCustomDimensionActions(array $metricsConfig, LogAggregator $logAggregator, $valueField, $additionalWhere = '')
+    protected function queryCustomDimensions(array $metricsConfig, LogAggregator $logAggregator, $valueField, $additionalDimensions = [], $additionalWhere = '')
     {
+        $additionalSelects = '';
+
+        foreach ($additionalDimensions as $name => $selectField) {
+            $additionalSelects .= "$selectField as $name,";
+        }
+
         $select = "log_link_visit_action.$valueField,
-                  log_action.name as url,
+                  $additionalSelects
                   sum(log_link_visit_action.time_spent) as `" . Metrics::INDEX_PAGE_SUM_TIME_SPENT . "`,
                   sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `" . Metrics::INDEX_BOUNCE_COUNT . "`,
                   sum(IF(log_visit.last_idlink_va = log_link_visit_action.idlink_va, 1, 0)) as `" . Metrics::INDEX_PAGE_EXIT_NB_VISITS . "`";
@@ -241,7 +265,12 @@ class CustomDimension extends RecordBuilder
             $where .= ' AND ' . $additionalWhere;
         }
 
-        $groupBy = "log_link_visit_action.$valueField, url";
+        $groupBy = "log_link_visit_action.$valueField";
+
+        foreach ($additionalDimensions as $name => $selectField) {
+            $groupBy .= ", $name";
+        }
+
         $orderBy = "`" . Metrics::INDEX_PAGE_NB_HITS . "` DESC";
 
         // get query with segmentation
@@ -249,7 +278,8 @@ class CustomDimension extends RecordBuilder
 
         if ($this->rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
-            $rankingQuery->addLabelColumn([$valueField, 'url']);
+
+            $rankingQuery->addLabelColumn(array_merge([$valueField], array_keys($additionalDimensions)));
 
             $sumMetrics = [
                 Metrics::INDEX_PAGE_SUM_TIME_SPENT,
@@ -274,6 +304,11 @@ class CustomDimension extends RecordBuilder
         $resultSet = $db->query($query['sql'], $query['bind']);
 
         return $resultSet;
+    }
+
+    public function queryCustomDimensionActions(array $metricsConfig, LogAggregator $logAggregator, $valueField, $additionalWhere = '')
+    {
+        return $this->queryCustomDimensions($metricsConfig, $logAggregator, $valueField, ['url' => 'log_action.name'], $additionalWhere);
     }
 
     private function getRankingQueryLimit(): int
