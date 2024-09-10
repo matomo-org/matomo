@@ -193,7 +193,7 @@ class CustomDimension extends RecordBuilder
                 $columns[$id] = (float) ($row[$id] ?? 0);
             }
 
-            $tableRow = $report->addRowFromSimpleArray($columns);
+            $report->addRowFromSimpleArray($columns);
         }
 
         $resultSet = $this->queryCustomDimensionActions($metricsConfig, $logAggregator, $valueField);
@@ -214,7 +214,7 @@ class CustomDimension extends RecordBuilder
             $tableRow = $report->getRowFromLabel($label);
 
             $url = $row['url'];
-            if (empty($url)) {
+            if (empty($url) || empty($tableRow)) {
                 continue;
             }
 
