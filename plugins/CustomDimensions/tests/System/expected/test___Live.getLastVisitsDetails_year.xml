@@ -14,7 +14,7 @@
 				<pageIdAction>6</pageIdAction>
 				
 				
-				<pageId>4</pageId>
+				<pageId>5</pageId>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -34,7 +34,7 @@
 				<goalId>1</goalId>
 				
 				<revenue>0</revenue>
-				<goalPageId>4</goalPageId>
+				<goalPageId>5</goalPageId>
 				
 				<url>http://example.com/sub_en/page?param=en_US</url>
 				<referrerType>direct</referrerType>
@@ -160,7 +160,7 @@
 				<pageIdAction>6</pageIdAction>
 				
 				
-				<pageId>6</pageId>
+				<pageId>7</pageId>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -180,7 +180,7 @@
 				<goalId>1</goalId>
 				
 				<revenue>0</revenue>
-				<goalPageId>6</goalPageId>
+				<goalPageId>7</goalPageId>
 				
 				<url>http://example.com/sub_en/page?param=en_US</url>
 				<referrerType>direct</referrerType>
@@ -306,7 +306,7 @@
 				<pageIdAction>6</pageIdAction>
 				
 				
-				<pageId>5</pageId>
+				<pageId>6</pageId>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -326,7 +326,7 @@
 				<goalId>1</goalId>
 				
 				<revenue>0</revenue>
-				<goalPageId>5</goalPageId>
+				<goalPageId>6</goalPageId>
 				
 				<url>http://example.com/sub_en/page?param=en_US</url>
 				<referrerType>direct</referrerType>
@@ -516,8 +516,8 @@
 				
 				<pageId>3</pageId>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Third page view</title>
 				<subtitle>http://example.com/sub_en/page?param=en_US</subtitle>
@@ -525,6 +525,27 @@
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<dimension3>value5 3</dimension3>
+				<dimension5>en_US</dimension5>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.com/sub_en/page?param=en_US</url>
+				<pageTitle>Fourth page view</pageTitle>
+				<pageIdAction>6</pageIdAction>
+				
+				
+				<pageId>4</pageId>
+				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<pageviewPosition>4</pageviewPosition>
+				<title>Fourth page view</title>
+				<subtitle>http://example.com/sub_en/page?param=en_US</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<dimension3>en</dimension3>
 				<dimension5>en_US</dimension5>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -555,11 +576,11 @@
 		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<secondsSinceLastEcommerceOrder />
-		<visitDuration>722</visitDuration>
-		<visitDurationPretty>12 min 2s</visitDurationPretty>
+		<visitDuration>1082</visitDuration>
+		<visitDurationPretty>18 min 2s</visitDurationPretty>
 		<searches>0</searches>
-		<actions>3</actions>
-		<interactions>3</interactions>
+		<actions>4</actions>
+		<interactions>4</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -640,7 +661,7 @@
 				<pageIdAction>10</pageIdAction>
 				
 				
-				<pageId>9</pageId>
+				<pageId>10</pageId>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -660,7 +681,7 @@
 				<goalId>1</goalId>
 				
 				<revenue>0</revenue>
-				<goalPageId>9</goalPageId>
+				<goalPageId>10</goalPageId>
 				
 				<url>http://example.com/sub_en/page</url>
 				<referrerType>direct</referrerType>
