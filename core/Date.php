@@ -141,6 +141,11 @@ class Date
             $date = self::lastMonth();
         } elseif (is_string($dateString) && preg_match('/last[ -]?year/i', urldecode($dateString))) {
             $date = self::lastYear();
+        } else if (preg_match('/(\d{4})-(\d{2})-(\d{2})/', urldecode($dateString))) {
+            if (!self::isDateStringValid($dateString)) {
+                throw self::getFictiousDateException($dateString);
+            }
+            $date = new Date(strtotime($dateString));
         } elseif (
             !is_int($dateString)
             && (
@@ -174,6 +179,23 @@ class Date
         $timestamp = self::adjustForTimezone($timestamp, $timezone);
         return Date::factory($timestamp);
     }
+
+    /**
+     * Returns if the date string is valid
+     *
+     * @param $dateString
+     * @return Boolean
+     * @ignore
+     */
+    public static function isDateStringValid($dateString)
+    {
+        $ret = date_parse($dateString);
+        if ($ret['warning_count'] || $ret['error_count']) {
+            return false;
+        }
+        return true;
+    }
+
 
     /**
      * Returns Date w/ UTC timestamp of time $dateString/$timezone.
@@ -1138,6 +1160,13 @@ class Date
     {
         return $secs / self::NUM_SECONDS_IN_DAY;
     }
+
+    private static function getFictiousDateException($dateString)
+    {
+        $message = Piwik::translate('General_ExceptionFictiousDate');
+        return new Exception($message . ": $dateString");
+    }
+
 
     private static function getInvalidDateFormatException($dateString)
     {

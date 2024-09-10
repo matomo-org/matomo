@@ -199,6 +199,7 @@
         "ExceptionIncompatibleClientServerVersions": "Your %1$s client version is %2$s which is incompatible with server version %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Aggregate reports format '%1$s' not valid. Try any of the following instead: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Today archive time to live must be a number of seconds greater than zero",
+        "ExceptionFictiousDate": "This date does not exist.",
         "ExceptionInvalidDateBeforeFirstWebsite": "The date '%1$s' is a date before first website was online. Try date that's after %2$s (timestamp %3$s).",
         "ExceptionInvalidDateFormat": "Date format must be: %1$s or any keyword supported by the %2$s function (see %3$s for more information)",
         "ExceptionInvalidDateRange": "The date '%1$s' is not a correct date range. It should have the following format: %2$s.",

@@ -415,6 +415,14 @@ class DateTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    public function testIsDateStringValid()
+    {
+        $this->assertTrue(Date::isDateStringValid('2024-02-29'));
+        $this->assertFalse(Date::isDateStringValid('2025-02-29'));
+        $this->assertFalse(Date::isDateStringValid('2025-09-31'));
+        $this->assertTrue(Date::isDateStringValid('2025-03-31'));
+    }
+
 
     public function getLocalizedLongStrings()
     {
