@@ -44,6 +44,21 @@
         "displayName": "Paid Plugin 3",
         "htmlUrl": "https:\/\/plugins.piwik.org\/PaidPlugin3"
       }
+    },
+    {
+      "startDate": "2016-05-21 04:46:05",
+      "endDate": "2029-05-27 11:03:06",
+      "nextPaymentDate": null,
+      "status": "Active",
+      "productType": "Up to 4 users",
+      "isValid": true,
+      "isExceeded": null,
+      "isExpiredSoon": false,
+      "plugin": {
+        "name": "PaidPlugin4",
+        "displayName": "Paid Plugin 4",
+        "htmlUrl": "https:\/\/plugins.piwik.org\/PaidPlugin4"
+      }
     }
   ],
   "loginUrl": "https:\/\/shop.piwik.org\/my-account"

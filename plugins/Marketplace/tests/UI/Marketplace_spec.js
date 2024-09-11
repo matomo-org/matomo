@@ -138,24 +138,45 @@ describe("Marketplace", function () {
             await captureMarketplace('paid_plugins_with_license_' + mode);
         });
 
-        it(mode + ' for a user with license key should be able to open install purchased plugins modal', async function() {
-          setEnvironment(mode, validLicense);
+        it(mode + ' for a user with license key should be able to open install purchased plugins modal', async function () {
+            setEnvironment(mode, validLicense);
 
-          await page.goto('about:blank');
-          await page.goto(paidPluginsUrl);
+            await page.goto('about:blank');
+            await page.goto(paidPluginsUrl);
 
-          const elem = await page.jQuery(
-            '.installAllPaidPlugins button'
-          ).click();
+            const elem = await page.jQuery(
+                '.installAllPaidPlugins button'
+            ).click();
 
-          await page.waitForSelector('.modal.open', { visible: true });
+            await page.waitForSelector('.modal.open', { visible: true });
 
-          // give it some time to fetch, animate, and render everything properly
-          await page.waitForNetworkIdle();
-          await page.waitForTimeout(100);
+            // give it some time to fetch, animate, and render everything properly
+            await page.waitForNetworkIdle();
+            await page.waitForTimeout(100);
 
-          await captureMarketplace('install_purchased_plugins_modal_' + mode,'.modal.open');
-      });
+            await captureMarketplace('install_purchased_plugins_modal_' + mode,'.modal.open');
+        });
+
+        it(mode + ' should open paid plugins modal for paid plugin 2', async function () {
+            setEnvironment(mode, validLicense);
+            await loadPluginDetailPage('Paid Plugin 2', false);
+
+            await captureWithPluginDetails('paid_plugin2_plugin_details_' + mode);
+        });
+
+        it(mode + ' should open paid plugins modal for paid plugin 3', async function () {
+            setEnvironment(mode, validLicense);
+            await loadPluginDetailPage('Paid Plugin 3', false);
+
+            await captureWithPluginDetails('paid_plugin3_plugin_details_' + mode);
+        });
+
+        it(mode + ' should open paid plugins modal for paid plugin 4', async function () {
+            setEnvironment(mode, validLicense);
+            await loadPluginDetailPage('Paid Plugin 4', false);
+
+            await captureWithPluginDetails('paid_plugin4_plugin_details_' + mode);
+        });
 
         it(mode + ' for a user with exceeded license key should be able to open paid plugins', async function() {
             setEnvironment(mode, exceededLicense);
