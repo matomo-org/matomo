@@ -3,17 +3,17 @@
 	<row>
 		<label>en_US</label>
 		<nb_visits>1</nb_visits>
-		<nb_actions>3</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>722</sum_visit_length>
+		<nb_actions>4</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1082</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		
-		<avg_time_on_site>722</avg_time_on_site>
+		<avg_time_on_site>1082</avg_time_on_site>
 		<bounce_rate>0%</bounce_rate>
-		<nb_actions_per_visit>3</nb_actions_per_visit>
+		<nb_actions_per_visit>4</nb_actions_per_visit>
 		<segment>dimension2==en_US</segment>
 	</row>
 	<row>
