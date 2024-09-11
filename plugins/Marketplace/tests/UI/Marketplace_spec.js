@@ -138,6 +138,25 @@ describe("Marketplace", function () {
             await captureMarketplace('paid_plugins_with_license_' + mode);
         });
 
+        it(mode + ' for a user with license key should be able to open install purchased plugins modal', async function() {
+          setEnvironment(mode, validLicense);
+
+          await page.goto('about:blank');
+          await page.goto(paidPluginsUrl);
+
+          const elem = await page.jQuery(
+            '.installAllPaidPlugins button'
+          ).click();
+
+          await page.waitForSelector('.modal.open', { visible: true });
+
+          // give it some time to fetch, animate, and render everything properly
+          await page.waitForNetworkIdle();
+          await page.waitForTimeout(100);
+
+          await captureMarketplace('install_purchased_plugins_modal_' + mode,'.modal.open');
+      });
+
         it(mode + ' for a user with exceeded license key should be able to open paid plugins', async function() {
             setEnvironment(mode, exceededLicense);
             assumePaidPluginsActivated();

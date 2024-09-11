@@ -84,6 +84,6 @@ class Consumer
             }
         }
 
-        return $this->consumerLicenseStatusPluginWise;
+        return $this->consumerLicenseStatusPluginWise ?? [];
     }
 }
