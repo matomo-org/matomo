@@ -188,12 +188,12 @@ class CustomDimension extends RecordBuilder
             $label = $row[$valueField];
             $label = $this->cleanCustomDimensionValue($label);
 
-            $columns = ['label' => $label];
+            $columns = [];
             foreach ($metricIds as $id) {
                 $columns[$id] = (float) ($row[$id] ?? 0);
             }
 
-            $report->addRowFromSimpleArray($columns);
+            $report->sumRowWithLabel($label, $columns);
         }
 
         $resultSet = $this->queryCustomDimensionActions($metricsConfig, $logAggregator, $valueField);
