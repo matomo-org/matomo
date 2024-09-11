@@ -138,31 +138,33 @@ describe("Marketplace", function () {
             await captureMarketplace('paid_plugins_with_license_' + mode);
         });
 
-        it(mode + ' for a user with license key should be able to open install purchased plugins modal', async function () {
-            setEnvironment(mode, validLicense);
+        if (mode === 'superuser.') {
+            it(mode + ' for a user with license key should be able to open install purchased plugins modal', async function () {
+                setEnvironment(mode, validLicense);
 
-            await page.goto('about:blank');
-            await page.goto(paidPluginsUrl);
+                await page.goto('about:blank');
+                await page.goto(paidPluginsUrl);
 
-            const elem = await page.jQuery(
-                '.installAllPaidPlugins button'
-            );
+                const elem = await page.jQuery(
+                    '.installAllPaidPlugins button'
+                );
 
-            await elem.click();
+                await elem.click();
 
-            // await page.waitForSelector('.modal.open', { visible: true });
+                await page.waitForSelector('.modal.open', { visible: true });
 
-            // give it some time to fetch, animate, and render everything properly
-            await page.waitForNetworkIdle();
-            await page.waitForTimeout(100);
+                // give it some time to fetch, animate, and render everything properly
+                await page.waitForNetworkIdle();
+                await page.waitForTimeout(100);
 
-            await captureMarketplace('install_purchased_plugins_modal_' + mode,'.modal.open');
+                await captureMarketplace('install_purchased_plugins_modal_' + mode,'.modal.open');
 
-             const closedElem = await page.jQuery(
-                 '.installAllPaidPlugins button'
-             );
-             await closedElem[1].click()
-        });
+                 const closedElem = await page.jQuery(
+                     '.installAllPaidPlugins button'
+                 );
+                 await closedElem[1].click()
+            });
+        }
 
         it(mode + ' should open paid plugins modal for paid plugin 2', async function () {
             setEnvironment(mode, validLicense);
