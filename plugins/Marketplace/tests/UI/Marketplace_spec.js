@@ -146,7 +146,9 @@ describe("Marketplace", function () {
 
             const elem = await page.jQuery(
                 '.installAllPaidPlugins button'
-            ).click();
+            );
+
+            await elem.click();
 
             await page.waitForSelector('.modal.open', { visible: true });
 
