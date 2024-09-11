@@ -538,7 +538,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             || $this->pluginManager->isPluginLoaded($pluginName)
             || $this->pluginManager->isPluginActivated($pluginName);
 
-        return !$isAlreadyInstalled && $plugin['licenseStatus'] === Consumer::CONSUMER_LICENSE_STATUS_ACTIVE;
+        return !$isAlreadyInstalled && $plugin['hasDownloadLink'];
     }
 
     protected function configureViewAndCheckPermission($template)

@@ -313,6 +313,7 @@ class PluginsTest extends IntegrationTestCase
             'numDownloadsPretty' => 0,
             'hasDownloadLink' => true,
             'licenseStatus' => '',
+            'category' => 'customisation',
         ];
         $this->assertEquals($expected, $plugin);
     }

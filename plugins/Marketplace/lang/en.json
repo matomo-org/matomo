@@ -149,6 +149,7 @@
         "Show": "Show",
         "Sort": "Sort",
         "PluginLicenseStatusPending": "Your license key, for %1$s is in pending state.",
-        "PluginLicenseStatusCancelled": "Your license key, for %1$s is cancelled."
+        "PluginLicenseStatusCancelled": "Your license key, for %1$s is cancelled.",
+        "PluginDownloadLinkMissing": "There seems to be no download link available for this %1$s plugin, please check your license"
     }
 }

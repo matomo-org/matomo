@@ -150,13 +150,18 @@ describe("Marketplace", function () {
 
             await elem.click();
 
-            await page.waitForSelector('.modal.open', { visible: true });
+            // await page.waitForSelector('.modal.open', { visible: true });
 
             // give it some time to fetch, animate, and render everything properly
             await page.waitForNetworkIdle();
             await page.waitForTimeout(100);
 
             await captureMarketplace('install_purchased_plugins_modal_' + mode,'.modal.open');
+
+             const closedElem = await page.jQuery(
+                 '.installAllPaidPlugins button'
+             );
+             await closedElem[1].click()
         });
 
         it(mode + ' should open paid plugins modal for paid plugin 2', async function () {

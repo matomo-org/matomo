@@ -14,8 +14,6 @@ namespace Piwik\Plugins\Marketplace;
  */
 class Consumer
 {
-    public const CONSUMER_LICENSE_STATUS_ACTIVE = 'Active';
-
     /**
      * @var Api\Client
      */
@@ -27,7 +25,7 @@ class Consumer
     /**
      * @var array
      */
-    private $consumerLicenseStatusPluginWise = null;
+    private $pluginLicenseInfo = null;
 
     public function __construct(Api\Client $marketplaceClient)
     {
@@ -73,17 +71,17 @@ class Consumer
         return $this->isValid;
     }
 
-    public function getConsumerLicenseStatusPluginWise(): array
+    public function getConsumerLicenseInfoPluginWise(): array
     {
-        if (!$this->consumerLicenseStatusPluginWise) {
+        if (!$this->pluginLicenseInfo) {
             $consumer = $this->getConsumer();
             if (!empty($consumer['licenses'])) {
                 foreach ($consumer['licenses'] as $license) {
-                    $this->consumerLicenseStatusPluginWise[$license['plugin']['name']] = ['licenseStatus' => $license['status']];
+                    $this->pluginLicenseInfo[$license['plugin']['name']] = ['licenseStatus' => $license['status']];
                 }
             }
         }
 
-        return $this->consumerLicenseStatusPluginWise ?? [];
+        return $this->pluginLicenseInfo ?? [];
     }
 }

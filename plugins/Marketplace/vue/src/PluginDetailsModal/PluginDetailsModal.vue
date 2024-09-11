@@ -91,6 +91,9 @@
           <div v-else-if="plugin.licenseStatus === 'Cancelled'"  class="alert alert-warning">
             {{ translate('Marketplace_PluginLicenseStatusCancelled', plugin.displayName) }}
           </div>
+          <div v-if="!plugin.hasDownloadLink"  class="alert alert-warning">
+            {{ translate('Marketplace_PluginDownloadLinkMissing', plugin.displayName) }}
+          </div>
 
           <div v-html="$sanitize(pluginDescription)"></div>
         </div>
