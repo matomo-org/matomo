@@ -114,7 +114,7 @@ class InvalidLicensesTest extends IntegrationTestCase
     {
         $expired = $this->buildWithValidLicense();
 
-        $expected = array('exceeded' => array(), 'expired' => array(), 'noLicense' => array());
+        $expected = array('exceeded' => array(), 'expired' => array(), 'noLicense' => array('PaidPlugin3'));
 
         $this->assertSame($expected, $expired->getPluginNamesOfInvalidLicenses());
     }
@@ -162,7 +162,7 @@ class InvalidLicensesTest extends IntegrationTestCase
 
         $this->assertTrue($this->cache->contains($this->cacheKey));
 
-        $expected = array('exceeded' => array(), 'expired' => array(), 'noLicense' => array());
+        $expected = array('exceeded' => array(), 'expired' => array(), 'noLicense' => array('PaidPlugin3'));
 
         $this->assertSame($expected, $this->cache->fetch($this->cacheKey));
     }
@@ -214,7 +214,10 @@ class InvalidLicensesTest extends IntegrationTestCase
 
         $this->assertNull($expired->getMessageExceededLicenses());
         $this->assertNull($expired->getMessageExpiredLicenses());
-        $this->assertNull($expired->getMessageNoLicense());
+        $this->assertEquals(
+            'The following plugins have been deactivated because you are using them without a license: <strong>PaidPlugin3</strong>. <br/>To resolve this issue either update your license key, <strong><a href="https://shop.piwik.org/my-account" target="_blank" rel="noreferrer noopener">get a subscription now</a></strong> or deactivate the plugin. <br/><a href="?module=Marketplace&action=subscriptionOverview">View your plugin subscriptions.</a>',
+            $expired->getMessageNoLicense()
+        );
     }
 
     public function testGetMessageExceededLicensesGetMessageExpiredLicensesNoLicensesPaidPluginActivated()

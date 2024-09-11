@@ -448,20 +448,6 @@ class Plugins
         $plugin['numDownloadsPretty'] = $nice;
     }
 
-    private function getConsumerLicenseStatusPluginWise(): array
-    {
-        $consumer = $this->consumer->getConsumer();
-        $data = [];
-
-        if (!empty($consumer['licenses'])) {
-            foreach ($consumer['licenses'] as $license) {
-                $data[$license['plugin']['name']] = ['licenseStatus' => $license['status']];
-            }
-        }
-
-        return $data;
-    }
-
     private function addConsumerLicenseStatus($plugin): array
     {
         $consumerLicenseStatusPluginWise = $this->consumer->getConsumerLicenseStatusPluginWise();
