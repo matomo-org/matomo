@@ -473,29 +473,6 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_tab');
     });
 
-    it('should display the superuser access tab when the superuser tab is clicked with ActivityLog', async function () {
-        testEnvironment.pluginsToLoad = ['ActivityLog'];
-        await testEnvironment.save();
-
-        await page.reload();
-        await page.waitForTimeout(100);
-
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_tab_activityLog');
-    });
-
-    it('should display the superuser access tab when the superuser tab is clicked without Marketplace', async function () {
-        testEnvironment.pluginsToUnload = ['ActivityLog', 'Marketplace'];
-        await testEnvironment.save();
-
-        await page.reload();
-        await page.waitForTimeout(100);
-
-        testEnvironment.pluginsToLoad = ['Marketplace'];
-        await testEnvironment.save();
-
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_tab_no_marketplace');
-    });
-
     it('should show superuser confirm modal when the superuser toggle is clicked', async function () {
         await page.click('.userEditForm #superuser_access+span');
         await page.waitForSelector('.modal.open');
@@ -541,6 +518,45 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('manage_users_back');
     });
 
+    it('should display the superuser access tab when the superuser tab is clicked with ActivityLog', async function () {
+      testEnvironment.pluginsToLoad = ['ActivityLog'];
+      await testEnvironment.save();
+
+      await page.reload();
+      await page.waitForTimeout(100);
+
+      await (await page.jQuery('button.edituser:eq(2)', { waitFor: true })).click();
+      await page.waitForTimeout(250);
+      await page.waitForNetworkIdle();
+
+      await page.click('.userEditForm .menuSuperuser');
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(100);
+
+      expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_tab_activityLog');
+    });
+
+    it('should display the superuser access tab when the superuser tab is clicked without Marketplace', async function () {
+      testEnvironment.pluginsToUnload = ['ActivityLog', 'Marketplace'];
+      await testEnvironment.save();
+
+      await page.reload();
+      await page.waitForTimeout(100);
+
+      await (await page.jQuery('button.edituser:eq(2)', { waitFor: true })).click();
+      await page.waitForTimeout(250);
+      await page.waitForNetworkIdle();
+
+      await page.click('.userEditForm .menuSuperuser');
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(100);
+
+      testEnvironment.pluginsToLoad = ['Marketplace'];
+      await testEnvironment.save();
+
+      expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_tab_no_marketplace');
+    });
+    
     it('should show the edit user form when the edit icon in a row is clicked', async function () {
         await (await page.jQuery('button.edituser:eq(2)', { waitFor: true })).click();
         await page.waitForTimeout(250);
