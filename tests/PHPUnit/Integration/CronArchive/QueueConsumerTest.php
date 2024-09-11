@@ -13,7 +13,10 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti\RequestParser;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Period\Day;
 use Piwik\Period\Factory;
+use Piwik\Period\Month;
+use Piwik\Period\Range;
 use Piwik\Plugins\CustomDimensions;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
@@ -616,12 +619,15 @@ class QueueConsumerTest extends IntegrationTestCase
         $segmentHash2 = (new Segment('browserCode==FF', [1]))->getHash();
 
         $invalidations = [
-            ['idarchive' => 1, 'name' => 'done' . $segmentHash1, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done' . $segmentHash2, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done' . $segmentHash1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done' . $segmentHash2 . '.ExamplePlugin', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 1, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done' . $segmentHash1, 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => 3, 'report' => null],
-            ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => 1, 'report' => null],
+            ['idarchive' => 1, 'name' => 'done' . $segmentHash1, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 2, 'name' => 'done' . $segmentHash2, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 3, 'name' => 'done' . $segmentHash1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 4, 'name' => 'done' . $segmentHash2 . '.ExamplePlugin', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 5, 'name' => 'done' . $segmentHash1, 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => null],
+            ['idarchive' => 6, 'name' => 'done' . $segmentHash1, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-31', 'period' => Range::PERIOD_ID, 'report' => null],
+            ['idarchive' => 7, 'name' => 'done' . $segmentHash2, 'idsite' => 1, 'date1' => '2018-02-02', 'date2' => '2018-03-04', 'period' => Range::PERIOD_ID, 'report' => null],
+            ['idarchive' => 8, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 9, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-03', 'period' => Range::PERIOD_ID, 'report' => null],
         ];
         shuffle($invalidations);
 
@@ -646,60 +652,84 @@ class QueueConsumerTest extends IntegrationTestCase
         }
 
         $expectedInvalidationsFound = [
-            array (
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-04',
-                        'date2' => '2018-03-04',
-                        'period' => '1',
-                        'name' => 'done',
-                        'report' => null,
-                        'plugin' => null,
-                        'segment' => '',
-                        'ts_started' => null,
-                        'status' => '0',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                        'report' => null,
-                        'plugin' => null,
-                        'segment' => 'browserCode==IE',
-                        'ts_started' => null,
-                        'status' => '0',
-                    ),
-            ),
-            array (
-                0 =>
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-01',
-                        'date2' => '2018-03-31',
-                        'period' => '3',
-                        'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
-                        'report' => null,
-                        'plugin' => null,
-                        'segment' => 'browserCode==IE',
-                        'ts_started' => null,
-                        'status' => '0',
-                    ),
-            ),
-            array (// end of idsite=1
-            ),
+            [
+                [
+                    'idarchive' => '8',
+                    'idsite' => '1',
+                    'date1' => '2018-03-04',
+                    'date2' => '2018-03-04',
+                    'period' => '1',
+                    'name' => 'done',
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => '',
+                    'ts_started' => null,
+                    'status' => '0',
+                ],
+                [
+                    'idarchive' => '3',
+                    'idsite' => '1',
+                    'date1' => '2018-03-03',
+                    'date2' => '2018-03-03',
+                    'period' => '1',
+                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => 'browserCode==IE',
+                    'ts_started' => null,
+                    'status' => '0',
+                ],
+            ],
+            [
+                [
+                    'idarchive' => '5',
+                    'idsite' => '1',
+                    'date1' => '2018-03-01',
+                    'date2' => '2018-03-31',
+                    'period' => '3',
+                    'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc',
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => 'browserCode==IE',
+                    'ts_started' => null,
+                    'status' => '0',
+                ],
+            ],
+            [
+                [
+                    'idarchive' => '9',
+                    'name' => 'done',
+                    'idsite' => '1',
+                    'date1' => '2018-03-01',
+                    'date2' => '2018-03-03',
+                    'period' => '5',
+                    'ts_started' => null,
+                    'status' => '0',
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => '',
+                ],
+            ],
+            [
+                [
+                    'idarchive' => '7',
+                    'name' => 'done3736b708e4d20cfc10610e816a1b2341',
+                    'idsite' => '1',
+                    'date1' => '2018-02-02',
+                    'date2' => '2018-03-04',
+                    'period' => '5',
+                    'ts_started' => null,
+                    'status' => '0',
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => 'browserCode==FF',
+                ],
+            ],
+            [// end of idsite=1
+            ],
         ];
 
-        try {
-            $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations);
-        } catch (\Exception $ex) {
-            print "\nInvalidations inserted:\n" . var_export($invalidations, true) . "\n";
-            throw $ex;
-        }
+        $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations);
 
         // automated check for no duplicates
         $invalidationDescs = [];
