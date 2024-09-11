@@ -744,6 +744,69 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertEquals($uniqueInvalidationDescs, $invalidationDescs, "Found duplicate archives being processed.");
     }
 
+    /**
+     * @dataProvider getAllPeriods
+     */
+    public function testSkipSegmentsTodayShouldSkipAllSegmentInvalidationsIfPeriodBeginsToday(string $periodType)
+    {
+        if ($periodType === 'range') {
+            $period = Factory::build($periodType, '2018-03-04,2018-04-03');
+        } else {
+            $period = Factory::build($periodType, '2018-03-04');
+        }
+
+        Date::$now = strtotime($period->getDateStart()->toString() . ' 01:00:00');
+
+        Fixture::createWebsite('2015-02-03');
+
+        Rules::setBrowserTriggerArchiving(false);
+        API::getInstance()->add('testegment', 'browserCode==IE', false, true);
+        Rules::setBrowserTriggerArchiving(true);
+
+        // force archiving so we don't skip those without visits
+        Piwik::addAction('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {
+            $idSites[] = 1;
+        });
+
+        $cronArchive = new MockCronArchive();
+        $cronArchive->init();
+
+        $archiveFilter = $this->makeTestArchiveFilter(null, null, null, false, true);
+
+        $queueConsumer = new QueueConsumer(
+            StaticContainer::get(LoggerInterface::class),
+            new FixedSiteIds([1]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving(),
+            $cronArchive,
+            new RequestParser(true),
+            $archiveFilter
+        );
+
+        $segmentHash1 = (new Segment('browserCode==IE', [1]))->getHash();
+
+        $invalidations = [
+            ['idarchive' => 1, 'name' => 'done' . $segmentHash1, 'idsite' => 1, 'date1' => $period->getDateStart()->toString(), 'date2' => $period->getDateEnd()->toString(), 'period' => $period::PERIOD_ID, 'report' => null],
+        ];
+
+        $this->insertInvalidations($invalidations);
+
+        self::assertEmpty($queueConsumer->getNextArchivesToProcess());
+    }
+
+    public function getAllPeriods()
+    {
+        return [
+            ['day'],
+            ['week'],
+            ['month'],
+            ['year'],
+            ['range'],
+        ];
+    }
+
     public function testMaxWebsitesToProcess()
     {
         Fixture::createWebsite('2021-11-16');
