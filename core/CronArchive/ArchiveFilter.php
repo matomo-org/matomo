@@ -14,6 +14,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period\Factory;
 use Piwik\Period\Factory as PeriodFactory;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 use Piwik\Segment;
@@ -89,7 +90,11 @@ class ArchiveFilter
 
         if (!empty($this->skipSegmentsForToday)) {
             $site = new Site($archive['idsite']);
-            $period = Factory::build($this->periodIdsToLabels[$archive['period']], $archive['date1']);
+            if ((int) $archive['period'] === Range::PERIOD_ID) {
+                $period = Factory::build($this->periodIdsToLabels[$archive['period']], "{$archive['date1']},{$archive['date2']}");
+            } else {
+                $period = Factory::build($this->periodIdsToLabels[$archive['period']], $archive['date1']);
+            }
             $segment = new Segment($segment, [$archive['idsite']]);
             if (Archive::shouldSkipArchiveIfSkippingSegmentArchiveForToday($site, $period, $segment)) {
                 return "skipping segment archives for today";
