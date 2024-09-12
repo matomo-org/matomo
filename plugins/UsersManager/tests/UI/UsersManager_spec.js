@@ -475,10 +475,10 @@ describe("UsersManager", function () {
 
     it('should show superuser confirm modal when the superuser toggle is clicked', async function () {
         await page.click('.userEditForm #superuser_access+span');
-        await page.waitForSelector('.modal.open');
+        const elem = await page.$('.modal.open');
         await page.waitForTimeout(500);
 
-        expect(await page.screenshotSelector('.modal.open')).to.matchImage('superuser_confirm');
+        expect(await elem.screenshot()).to.matchImage('superuser_confirm');
     });
 
     it('should fail to set superuser access if password is wrong', async function () {
