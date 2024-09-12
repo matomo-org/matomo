@@ -35,6 +35,7 @@ class MysqliTest extends IntegrationTestCase
         self::expectExceptionMessageMatches('/Set Charset failed/');
 
         $config = Config::getInstance();
+        $config->database['collation'] = null;
         $config->database['charset'] = 'something really invalid';
 
         Tracker\Db::connectPiwikTrackerDb();

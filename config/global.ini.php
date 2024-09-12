@@ -92,6 +92,7 @@ adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
 charset = utf8mb4
+collation = utf8mb4_general_ci
 enable_ssl = 0
 ssl_ca =
 ssl_cert =
