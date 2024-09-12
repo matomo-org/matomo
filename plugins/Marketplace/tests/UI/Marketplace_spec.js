@@ -138,7 +138,7 @@ describe("Marketplace", function () {
             await captureMarketplace('paid_plugins_with_license_' + mode);
         });
 
-        if (mode === 'superuser.') {
+        if (mode === 'superuser') {
             it(mode + ' for a user with license key should be able to open install purchased plugins modal', async function () {
                 setEnvironment(mode, validLicense);
 
