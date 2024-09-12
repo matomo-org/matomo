@@ -3,6 +3,7 @@
         "JsTrackingCodeInstallCheckFailureMessage": "La verificació del codi de seguiment ha fallat. Si us plau, verifiqueu que heu instal·lat el codi correctament. %1$sMés informació%2$s.",
         "JsTrackingCodeInstallCheckFailureMessageWordpress": "La verificació del codi de seguiment ha fallat. Verifiqueu que heu instal·lat el connector \"%1$s\" i que heu seguit tots els passos. %2$sMés informació%3$s.",
         "JsTrackingCodeInstallCheckSuccessMessage": "El codi de seguiment s'ha instal·lat correctament! Aquesta pantalla desapareixerà tan bon punt es faci el seguiment d'algunes dades del vostre lloc web.",
+        "OptionalTestInstallationDescription": "Opcional: per provar que el codi de seguiment és capaç d'enviar sol·licituds a la vostra instància de Matomo, introduïu l'URL exacte que esteu fent el seguiment i feu clic a \"Prova la instal·lació\". S'obrirà una pestanya nova i hauria de tancar-se en 10 segons.",
         "PluginDescription": "Valideu si el codi de seguiment s'ha instal·lat al vostre lloc i que pot enviar sol·licituds de seguiment a la vostra instància de Matomo",
         "TestInstallationBtnText": "Prova de l'instal·lació"
     }
