@@ -77,7 +77,7 @@
         "Themes": "Temes",
         "ThemesDescription": "Els temes poden canviar l'aspecte de la interfície d'usuari de Matomo i proporcionar una experiència visual completament nova per gaudir dels vostres informes d'anàlisi.",
         "ThemesManagement": "Gestionar els temes",
-        "UninstallConfirm": "Esteu a punt de desinstal·lar un connector %s. El connector s'eliminarà completament de la vostra plataforma i no es podrà recuperar. Esteu segur que voleu fer-ho?",
+        "UninstallConfirm": "Esteu a punt de desinstal·lar un connector %s. El connector i totes les dades recollides s'eliminaran completament de la vostra plataforma i no es podran recuperar. Esteu segur que voleu fer-ho?",
         "UpdateSelected": "Actualitzar els escollits",
         "Version": "Versió",
         "ViewAllMarketplacePlugins": "Veure tots els connectors de Marketplace",

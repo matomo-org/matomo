@@ -1,8 +1,30 @@
 {
     "VisitsSummary": {
         "AverageGenerationTime": "vidējais ģenerēšanas ilgums",
+        "AverageVisitDuration": "vidējais apmeklējuma ilgums",
+        "GenerateQueries": "%s vaicājumi izpildīti",
+        "GenerateTime": "%s sekundes nepieciešamas, lai ģenerētu lapu",
+        "MaxNbActions": "maksimālais darbību skaits vienā apmeklējumā",
         "NbActionsDescription": "%s darbības",
+        "NbActionsPerVisit": "darbības (lapas skatījumi, lejupielādes, ārējās saites un iekšējās vietnes meklēšanas) vienā apmeklējumā",
+        "NbDownloadsDescription": "lejupielādes",
+        "NbKeywordsDescription": "unikālie atslēgvārdi",
+        "NbOutlinksDescription": "ārējās saites",
+        "NbPageviewsDescription": "lapas skatījumi",
+        "NbSearchesDescription": "kopējais meklējumu skaits vietnē",
+        "NbUniqueDownloadsDescription": "unikālās lejupielādes",
+        "NbUniqueOutlinksDescription": "unikālās ārējās saites",
+        "NbUniquePageviewsDescription": "unikālie lapas skatījumi",
+        "NbUniqueVisitors": "unikālie apmeklētāji",
+        "NbUsersDescription": "lietotāji",
+        "NbVisitsBounced": "apmeklējumi ir atlēkuši (atstāj tīmekļa vietni pēc vienas lapas)",
+        "NbVisitsDescription": "apmeklējumi",
+        "PluginDescription": "Ziņojumi par vispārīgiem analīzes rādījumiem: apmeklējumiem, unikāliem apmeklētājiem, darbību skaitu, atlēcienu skaitu utt.",
+        "VisitsSummary": "Apmeklējumu kopsavilkums",
+        "VisitsSummaryDocumentation": "Šis ir apmeklējumu dinamikas pārskats.",
+        "VisitsSummaryReportDocumentation": "Šis ziņojums sniedz ļoti vispārīgu pārskatu par to, kā jūsu apmeklētāji uzvedas.",
         "WidgetLastVisits": "Pēdējo apmeklējumu grafiks",
+        "WidgetOverviewGraph": "Apmeklējumu pārskats (ar diagrammu)",
         "WidgetVisits": "Apmeklējumu pārskats"
     }
 }
