@@ -155,7 +155,7 @@ describe("Marketplace", function () {
                 await page.waitForNetworkIdle();
                 await page.waitForTimeout(200);
 
-                await captureMarketplace('install_purchased_plugins_modal_' + mode);
+                await captureSelector('install_purchased_plugins_modal_', '.modal.open');
 
                  const closedElem = await page.jQuery(
                      '.installAllPaidPlugins button'
