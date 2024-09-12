@@ -477,7 +477,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             try {
                 $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
             } catch (\Exception $e) {
-                $notification = new Notification($e->getMessage());
+                $message = $e->getMessage();
+                if (stripos($message, 'PCLZIP_ERR_BAD_FORMAT') !== false) {
+                    $downloadLink = Url::addCampaignParametersToMatomoLink('https://shop.matomo.org/my-account/downloads');
+                    $faqLink = Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/plugins/faq_21/');
+                    $message = Piwik::translate('Marketplace_PluginDownloadLinkMissing', [$pluginName, "<a href='$downloadLink' target='_blank' rel='noreferrer noopener'>", '</a>', "<a href='$faqLink' target='_blank' rel='noreferrer noopener'>", '</a>']);
+                }
+                $notification = new Notification($message);
                 $notification->context = Notification::CONTEXT_ERROR;
                 $notification->type = Notification::TYPE_PERSISTENT;
                 $notification->flags = Notification::FLAG_CLEAR;
