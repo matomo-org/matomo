@@ -558,6 +558,9 @@ describe("UsersManager", function () {
     });
 
     it('should show the edit user form when the edit icon in a row is clicked', async function () {
+        await page.reload();
+        await page.waitForTimeout(100);
+
         await (await page.jQuery('button.edituser:eq(2)', { waitFor: true })).click();
         await page.waitForTimeout(250);
         await page.waitForNetworkIdle();
