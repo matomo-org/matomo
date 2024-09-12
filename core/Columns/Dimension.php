@@ -419,6 +419,10 @@ abstract class Dimension
             case Dimension::TYPE_BOOL:
                 return !empty($value) ? '1' : '0';
             case Dimension::TYPE_DURATION_MS:
+                if (!is_numeric($value)) {
+                    // This might happen if ranking query has too many results and `__mtm_ranking_query_others__` is returned
+                    return $value;
+                }
                 return round($value / 1000, 2) * 1000; // because we divide we need to group them and cannot do this in formatting step
         }
         return $value;
