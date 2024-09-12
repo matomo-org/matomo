@@ -11,6 +11,7 @@ namespace Piwik\Updates;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -37,26 +38,14 @@ class Updates_5_2_0_b2 extends Updates
 
         // only run migration if config is not set
         if (empty($dbConfig['collation'])) {
-            try {
-                $db = Db::get();
-                $userTable = Common::prefixTable('user');
-                $userTableStatus = $db->fetchRow('SHOW TABLE STATUS WHERE Name = ?', [$userTable]);
-                $connectionCollation = $db->fetchOne('SELECT @@collation_connection');
+            $collation = $this->detectCollationForMigration();
 
-                // only update config if user table and connection report same collation
-                if (
-                    !empty($userTableStatus['Collation'])
-                    && !empty($connectionCollation)
-                    && $userTableStatus['Collation'] === $connectionCollation
-                ) {
-                    $migrations[] = $this->migration->config->set(
-                        'database',
-                        'collation',
-                        $connectionCollation
-                    );
-                }
-            } catch (\Exception $e) {
-                // rely on the system check if detection failed
+            if (null !== $collation) {
+                $migrations[] = $this->migration->config->set(
+                    'database',
+                    'collation',
+                    $collation
+                );
             }
         }
 
@@ -66,5 +55,54 @@ class Updates_5_2_0_b2 extends Updates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+    }
+
+    private function detectCollationForMigration(): ?string
+    {
+        try {
+            $db = Db::get();
+            $userTable = Common::prefixTable('user');
+            $userTableStatus = $db->fetchRow('SHOW TABLE STATUS WHERE Name = ?', [$userTable]);
+
+            if (empty($userTableStatus['Collation'])) {
+                // if there is no user table, or no collation for it, abort detection
+                // this table should always exist and something must be wrong in this case
+                return null;
+            }
+
+            $userTableCollation = $userTableStatus['Collation'];
+            $connectionCollation = $db->fetchOne('SELECT @@collation_connection');
+
+            if ($userTableCollation === $connectionCollation) {
+                // if the connection is matching the user table
+                // we should be safe to assume we have already found a config value
+                return $userTableCollation;
+            }
+
+            $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled(ArchiveTableCreator::NUMERIC_TABLE);
+
+            if (0 === count($archiveTables)) {
+                // skip if there is no archive table (yet)
+                return null;
+            }
+
+            // sort tables so we have them in order of their date
+            rsort($archiveTables);
+
+            $archiveTableStatus = $db->fetchRow('SHOW TABLE STATUS WHERE Name = ?', [$archiveTables[0]]);
+
+            if (
+                !empty($archiveTableStatus['Collation'])
+                && $archiveTableStatus['Collation'] === $userTableCollation
+            ) {
+                // the most recent numeric archive table is matching the collation
+                // of the users table, should be a good config value to choose
+                return $userTableCollation;
+            }
+        } catch (\Exception $e) {
+            // rely on the system check if detection failed
+        }
+
+        return null;
     }
 }
