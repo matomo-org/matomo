@@ -153,7 +153,7 @@ describe("Marketplace", function () {
 
                 // give it some time to fetch, animate, and render everything properly
                 await page.waitForNetworkIdle();
-                await page.waitForTimeout(200);
+                await page.waitForTimeout(500);
 
                 await captureSelector('install_purchased_plugins_modal_', '.modal.open');
 
