@@ -71,7 +71,7 @@ class Consumer
         return $this->isValid;
     }
 
-    public function getConsumerLicenseInfoPluginWise(): array
+    public function getConsumerPluginLicenseInfo(): array
     {
         if (!$this->pluginLicenseInfo) {
             $consumer = $this->getConsumer();

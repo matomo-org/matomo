@@ -450,8 +450,8 @@ class Plugins
 
     private function addConsumerLicenseStatus($plugin): array
     {
-        $consumerLicenseStatusPluginWise = $this->consumer->getConsumerLicenseInfoPluginWise();
-        $plugin['licenseStatus'] = $consumerLicenseStatusPluginWise[$plugin['name']]['licenseStatus'] ?? '';
+        $consumerPluginLicenseInfo = $this->consumer->getConsumerPluginLicenseInfo();
+        $plugin['licenseStatus'] = $consumerPluginLicenseInfo[$plugin['name']]['licenseStatus'] ?? '';
 
         return $plugin;
     }
