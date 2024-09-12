@@ -151,11 +151,9 @@ describe("Marketplace", function () {
 
                 await elem.click();
 
-                await page.waitForSelector('.modal.open', { visible: true });
-
                 // give it some time to fetch, animate, and render everything properly
                 await page.waitForNetworkIdle();
-                await page.waitForTimeout(100);
+                await page.waitForTimeout(200);
 
                 await captureMarketplace('install_purchased_plugins_modal_' + mode,'.modal.open');
 
