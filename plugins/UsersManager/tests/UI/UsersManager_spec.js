@@ -525,7 +525,7 @@ describe("UsersManager", function () {
       await page.reload();
       await page.waitForTimeout(100);
 
-      await (await page.jQuery('button.edituser:eq(2)', { waitFor: true })).click();
+      await (await page.jQuery('button.edituser:eq(0)', { waitFor: true })).click();
       await page.waitForTimeout(250);
       await page.waitForNetworkIdle();
 
@@ -543,7 +543,7 @@ describe("UsersManager", function () {
       await page.reload();
       await page.waitForTimeout(100);
 
-      await (await page.jQuery('button.edituser:eq(2)', { waitFor: true })).click();
+      await (await page.jQuery('button.edituser:eq(0)', { waitFor: true })).click();
       await page.waitForTimeout(250);
       await page.waitForNetworkIdle();
 
@@ -556,7 +556,7 @@ describe("UsersManager", function () {
 
       expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_tab_no_marketplace');
     });
-    
+
     it('should show the edit user form when the edit icon in a row is clicked', async function () {
         await (await page.jQuery('button.edituser:eq(2)', { waitFor: true })).click();
         await page.waitForTimeout(250);
