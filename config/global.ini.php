@@ -1091,6 +1091,12 @@ custom_image =
 ; If you define Custom Variables for your visitor, for example set the visit type
 ;Segments[]="customVariableName1==VisitType;customVariableValue1==Customer"
 
+[CustomDimensions]
+; The maximum length for custom dimension values stored in the database.
+; If this value is -1, no truncation will be applied.
+; If the value is too high, it will be capped to 65535.
+custom_dimensions_max_length = 250
+
 [Deletelogs]
 ; delete_logs_enable - enable (1) or disable (0) delete log feature. Make sure that all archives for the given period have been processed (setup a cronjob!),
 ; otherwise you may lose tracking data.
