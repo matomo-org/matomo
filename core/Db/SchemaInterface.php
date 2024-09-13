@@ -126,9 +126,25 @@ interface SchemaInterface
     public function supportsComplexColumnUpdates(): bool;
 
     /**
+     * Returns the default collation for a charset used by this database engine.
+     *
+     * @param string $charset
+     *
+     * @return string
+     */
+    public function getDefaultCollationForCharset(string $charset): string;
+
+    /**
      * Return the default port used by this database engine
      *
      * @return int
      */
     public function getDefaultPort(): int;
+
+    /**
+     * Return the table options to use for a CREATE TABLE statement.
+     *
+     * @return string
+     */
+    public function getTableCreateOptions(): string;
 }
