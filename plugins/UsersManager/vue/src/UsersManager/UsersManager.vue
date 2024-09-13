@@ -76,6 +76,7 @@
         :filter-access-levels="filterAccessLevels"
         :initial-site-id="initialSiteId"
         :initial-site-name="initialSiteName"
+        :activated-plugins="activatedPlugins"
         @resend-invite="showResendPopup($event.user)"
         @updated="userBeingEdited = $event.user"
       />
@@ -208,6 +209,10 @@ export default defineComponent({
       required: true,
     },
     filterStatusLevels: {
+      type: Array,
+      required: true,
+    },
+    activatedPlugins: {
       type: Array,
       required: true,
     },
