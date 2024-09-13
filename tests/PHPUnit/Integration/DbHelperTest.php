@@ -119,6 +119,25 @@ class DbHelperTest extends IntegrationTestCase
         self::assertEquals($expected, $result);
     }
 
+    public function testGetDefaultCollationForCharset(): void
+    {
+        $charset = 'utf8mb4';
+        $collation = DbHelper::getDefaultCollationForCharset($charset);
+        $expectedPrefix = $charset . '_';
+
+        // exact collation depends on the database used
+        // but should always start with the charset
+        self::assertStringStartsWith($expectedPrefix, $collation);
+    }
+
+    public function testGetDefaultCollationForCharsetThrowsForInvalidCharset(): void
+    {
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('Failed to detect default collation for character set "invalid"');
+
+        DbHelper::getDefaultCollationForCharset('invalid');
+    }
+
     private function assertDbExists($dbName)
     {
         $dbs = Db::fetchAll("SHOW DATABASES");

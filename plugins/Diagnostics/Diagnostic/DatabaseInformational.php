@@ -16,7 +16,7 @@ use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
 /**
- * Informatation about the database.
+ * Information about the database.
  */
 class DatabaseInformational implements Diagnostic
 {
@@ -38,6 +38,7 @@ class DatabaseInformational implements Diagnostic
             $dbConfig = Config::getInstance()->database;
             $results[] = DiagnosticResult::informationalResult('DB Prefix', $dbConfig['tables_prefix']);
             $results[] = DiagnosticResult::informationalResult('DB Charset', $dbConfig['charset']);
+            $results[] = DiagnosticResult::informationalResult('DB Collation', $dbConfig['collation']);
             $results[] = DiagnosticResult::informationalResult('DB Adapter', $dbConfig['adapter']);
             $results[] = DiagnosticResult::informationalResult('MySQL Version', $this->getServerVersion());
             $results[] = DiagnosticResult::informationalResult('Num Tables', $this->getNumMatomoTables());

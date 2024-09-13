@@ -186,6 +186,7 @@ class Db implements TransactionalDatabaseInterface
         $dbConfig['type'] = $masterDbConfig['type'];
         $dbConfig['tables_prefix'] = $masterDbConfig['tables_prefix'];
         $dbConfig['charset'] = $masterDbConfig['charset'];
+        $dbConfig['collation'] = $masterDbConfig['collation'] ?? null;
 
         $db = @Adapter::factory($dbConfig['adapter'], $dbConfig);
 
