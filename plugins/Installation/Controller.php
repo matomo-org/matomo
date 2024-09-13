@@ -609,6 +609,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $config->database = $dbInfos;
         $config->database['charset'] = DbHelper::getDefaultCharset();
+        $config->database['collation'] = DbHelper::getDefaultCollationForCharset($config->database['charset']);
 
         $config->forceSave();
 

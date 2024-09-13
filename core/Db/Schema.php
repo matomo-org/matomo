@@ -90,6 +90,17 @@ class Schema extends Singleton
     }
 
     /**
+     * Returns the default collation for a charset.
+     *
+     * @param string $charset
+     * @return string
+     */
+    public function getDefaultCollationForCharset(string $charset): string
+    {
+        return $this->getSchema()->getDefaultCollationForCharset($charset);
+    }
+
+    /**
      * Get the table options to use for a CREATE TABLE statement.
      *
      * @return string
