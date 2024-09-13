@@ -669,6 +669,31 @@ class Mysql implements SchemaInterface
         return true;
     }
 
+    /**
+     * Returns the default collation for a charset.
+     *
+     * @param string $charset
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function getDefaultCollationForCharset(string $charset): string
+    {
+        $result = $this->getDb()->fetchRow(
+            'SHOW COLLATION WHERE `Default` = "Yes" AND `Charset` = ?',
+            [$charset]
+        );
+
+        if (!isset($result['Collation'])) {
+            throw new Exception(sprintf(
+                'Failed to detect default collation for character set "%s"',
+                $charset
+            ));
+        }
+
+        return $result['Collation'];
+    }
+
     public function getDefaultPort(): int
     {
         return 3306;
@@ -678,9 +703,14 @@ class Mysql implements SchemaInterface
     {
         $engine = $this->getTableEngine();
         $charset = $this->getUsedCharset();
+        $collation = $this->getUsedCollation();
         $rowFormat = $this->getTableRowFormat();
 
         $options = "ENGINE=$engine DEFAULT CHARSET=$charset";
+
+        if ('' !== $collation) {
+            $options .= " COLLATE=$collation";
+        }
 
         if ('' !== $rowFormat) {
             $options .= " $rowFormat";
@@ -765,8 +795,9 @@ class Mysql implements SchemaInterface
     protected function getDatabaseCreateOptions(): string
     {
         $charset = DbHelper::getDefaultCharset();
+        $collation = $this->getDefaultCollationForCharset($charset);
 
-        return "DEFAULT CHARACTER SET $charset";
+        return "DEFAULT CHARACTER SET $charset COLLATE $collation";
     }
 
     protected function getTableEngine()
@@ -782,6 +813,11 @@ class Mysql implements SchemaInterface
     protected function getUsedCharset(): string
     {
         return $this->getDbSettings()->getUsedCharset();
+    }
+
+    protected function getUsedCollation(): string
+    {
+        return $this->getDbSettings()->getUsedCollation();
     }
 
     private function getTablePrefix()

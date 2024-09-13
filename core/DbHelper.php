@@ -210,7 +210,7 @@ class DbHelper
      * @return string
      * @throws Tracker\Db\DbException
      */
-    public static function getDefaultCharset()
+    public static function getDefaultCharset(): string
     {
         $result = Db::get()->fetchRow("SHOW CHARACTER SET LIKE 'utf8mb4'");
 
@@ -231,6 +231,19 @@ class DbHelper
         }
 
         return 'utf8mb4';
+    }
+
+    /**
+     * Returns the default collation for a charset.
+     *
+     * @param string $charset
+     *
+     * @return string
+     * @throws Exception
+     */
+    public static function getDefaultCollationForCharset(string $charset): string
+    {
+        return Schema::getInstance()->getDefaultCollationForCharset($charset);
     }
 
     /**
