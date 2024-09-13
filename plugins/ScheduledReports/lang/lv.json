@@ -1,19 +1,20 @@
 {
     "ScheduledReports": {
         "AggregateReportsFormat": "Attēlojuma uzstādījumi",
-        "CreateReport": "Izveidot atskaiti",
+        "CreateReport": "Izveidot ziņojumu",
+        "CustomVisitorSegment": "Pielāgots apmeklētāju segments:",
         "EmailHello": "Sveiki,",
-        "EmailReports": "E-pasta atskaites",
+        "EmailReports": "Nosūtīt ziņojumus e-pastā",
         "FrontPage": "Pirmā lapa",
         "Pagination": "%1$s. lapa no %2$s",
-        "PiwikReports": "Matomo atskaites",
+        "PiwikReports": "Matomo ziņojumi",
         "ReportFormat": "Atskaites formāts",
         "ReportsIncluded": "Iekļautā statistika",
-        "SendReportNow": "Sūtīt atskaiti tagad",
-        "SendReportTo": "Sūtīt atskaites uz",
+        "SendReportNow": "Tūlīt nosūtīt ziņojumu",
+        "SendReportTo": "Nosūtīt ziņojumu uz",
         "SentToMe": "Sūtīt man",
         "TableOfContent": "Atskaišu saraksts",
         "TopOfReport": "Atpakaļ uz sākumu",
-        "UpdateReport": "Atjaunināt atskaiti"
+        "UpdateReport": "Atjaunināt ziņojuma saturu"
     }
 }

@@ -1,6 +1,9 @@
 {
     "UserLanguage": {
         "BrowserLanguage": "Pārlūkprogrammas valoda",
-        "LanguageCode": "Valodas kods"
+        "LanguageCode": "Valodas kods",
+        "PluginDescription": "Ziņo par primāro pārlūka valodu, ko izmanto apmeklētāji.",
+        "getLanguageCodeDocumentation": "Rāda, kāds valodas kods ir iestatīts apmeklētāja pārlūkā (piemēram, Vācu — Austrija (de-at))",
+        "getLanguageDocumentation": "Rāda, kādu valodu apmeklētāja pārlūkprogramma izmanto (piemēram, franču)"
     }
 }
