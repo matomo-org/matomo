@@ -1,6 +1,9 @@
 {
     "SEO": {
+        "Bing_IndexedPages": "Bing indeksētās lapas",
         "DomainAge": "Domēna vecums",
+        "Google_IndexedPages": "Google indeksētās lapas",
+        "PluginDescription": "Šis spraudnis izvelk un attēlo SEO rādījumus: Google Pagerank, indeksēto lapu skaitu un atpakaļsaites izvēlētajai vietnei.",
         "Rank": "ranks",
         "SEORankingsFor": "%s SEO ranks",
         "SeoRankings": "SEO ranks"
