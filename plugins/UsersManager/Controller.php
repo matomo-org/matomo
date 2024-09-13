@@ -53,6 +53,11 @@ class Controller extends ControllerAdmin
     private $passwordVerify;
 
     /**
+     * @var Plugin\Manager
+     */
+    private $pluginManager;
+
+    /**
      * @var Model
      */
     private $userModel;
@@ -62,6 +67,7 @@ class Controller extends ControllerAdmin
         $this->translator = $translator;
         $this->passwordVerify = $passwordVerify;
         $this->userModel = $userModel;
+        $this->pluginManager = Plugin\Manager::getInstance();
 
         parent::__construct();
     }
@@ -130,6 +136,8 @@ class Controller extends ControllerAdmin
             $view->accessLevels[] = $capabilityEntry;
             $view->filterAccessLevels[] = $capabilityEntry;
         }
+
+        $view->activatedPlugins = $this->pluginManager->getActivatedPlugins();
 
         $this->setBasicVariablesView($view);
 
