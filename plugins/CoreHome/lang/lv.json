@@ -116,7 +116,7 @@
         "TableNoData": "Šai tabulai nav datu.",
         "TechDeprecationWarning": "Sākot ar versiju %1$s, Matomo pārtrauks atbalstu %2$s. Lai iegūtu vairāk informācijas, %3$slasiet mūsu bloga ierakstu.%4$s",
         "ThanksFromAllOfUs": "Paldies no mums visiem Matomo!",
-        "ThereIsNoDataForThisReport": "Nav šajai atskaitei vajadzīgo datu.",
+        "ThereIsNoDataForThisReport": "Dati šim ziņojumam nav pieejami.",
         "UnFlattenDataTable": "Ziņojums ir plakans %s Padariet to hierarhisku",
         "UndoPivotBySubtable": "Šis ir ziņojuma apkopojums %s Atcelt apkopojumu",
         "ViewAllPiwikVideoTutorials": "Skatīt visas Matomo video pamācības",
@@ -127,7 +127,7 @@
         "VisitorsCategoryHelp1": "Apmeklētāju lapās ir informācija par to, kas ir jūsu apmeklētāji. Piemēram, no kurienes radās jūsu apmeklētāji, kādas ierīces un pārlūkprogrammas viņi izmanto un kad viņi apmeklē jūsu tīmekļa vietni. Apkopojums parāda, kas ir jūsu auditorija, un ļauj meklēt netipiskas personas, lai redzētu, kā jūsu auditorija varētu pieaugt.",
         "VisitorsCategoryHelp2": "Papildus vispārīgai informācijai par jūsu apmeklētājiem, jūs varat arī izmantot %1$sapmeklējumu žurnālu%2$s, lai redzētu, kas notika katrā atsevišķā apmeklējumā.",
         "VisitorsOverviewHelp": "Apmeklētāju pārskats palīdz izprast vietnes popularitāti. Tas redzams diagrammās, kurās parādīts, cik apmeklējumu jūsu vietne saņem atlasītajā periodā, un kāds ir vidējais piesaistes līmenis tādām darbībām kā meklējumiem un lejupielādēm.",
-        "WebAnalyticsReports": "Tīkla analīzes atskaites",
+        "WebAnalyticsReports": "Tīmekļa analīzes ziņojumi",
         "YouAreUsingTheLatestVersion": "Jūs izmantojat jaunāko Matomo versiju!",
         "YourDonationWillHelp": "Jūsu ziedojums palīdzēs finansēt jaunas funkcijas un uzlabojumus šai atvērtā koda analīzes platformai. Tas nozīmē, ka kopiena gūs labumu no rīka, kas aizsargā privātumu un ļauj jums kontrolēt savus datus."
     }
