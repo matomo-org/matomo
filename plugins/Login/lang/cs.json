@@ -1,10 +1,14 @@
 {
     "Login": {
+        "BruteForceLog": "Protokol brutální síly",
         "ChangeYourPassword": "Změnit své heslo",
         "ConfirmationLinkSent": "Pro potvrzení požadavku na změnu hesla navštivte odkaz uvedený v e-mailu zaslaném do vaší schránky.",
-        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Uživatel se super-uživatelským přístupem nemůže být ověřen mechanismem %s.",
+        "ContactAdmin": "Možný důvod: váš hostitel možná zakázal funkci mail(). <br>Obraťte se prosím na svého správce Matomo.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Uživatel s přístupem superuživatele nemůže být ověřen pomocí mechanismu '%s'.",
         "ExceptionPasswordMD5HashExpected": "Parametr hesla je očekáván jako MD5 hash hesla.",
+        "InvalidNonceReferrer": "Zabezpečení formuláře se nezdařilo z důvodu neplatné hlavičky „Referer“. Pokud používáte proxy server, musíte %1$snakonfigurovat Matomo, aby akceptoval proxy hlavičku%2$s, která předává hlavičku hostitele. Zkontrolujte také, zda je správně odesláno záhlaví „Referer“. Pokud jste se dříve připojovali pomocí HTTPS, ujistěte se, že se připojujete přes zabezpečené připojení (SSL/TLS), a zkuste to znovu.",
         "InvalidNonceSSLMisconfigured": "Můžete také %1$s přinutit Matomo používat zabezpečené připojení%2$s: ve svém konfiguračním souboru %3$s nastavte %4$s pod sekci %5$s",
+        "InvalidNonceToken": "Zabezpečení formuláře se nezdařilo z důvodu neshody tokenu. Znovu načtěte formulář a zkontrolujte, zda máte zapnuté soubory cookie.",
         "InvalidOrExpiredToken": "Token není platný, nebo jeho platnost vypršela.",
         "InvalidUsernameEmail": "Neplatné uživatelské jméno nebo e-mailová adresa.",
         "LogIn": "Přihlásit",
