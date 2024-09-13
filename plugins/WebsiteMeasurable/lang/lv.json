@@ -1,1 +1,7 @@
-{}
+{
+    "WebsiteMeasurable": {
+        "Website": "Tīmekļa vietne",
+        "WebsiteDescription": "Tīmekļa vietne sastāv no tīmekļa lapām, kas parasti tiek nodrošinātas no viena domēna tīmeklī.",
+        "Websites": "Tīmekļa vietnes"
+    }
+}
