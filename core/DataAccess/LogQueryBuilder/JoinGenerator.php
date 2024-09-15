@@ -148,7 +148,7 @@ class JoinGenerator
         foreach ($this->tables as $i => $table) {
             $useIndex = '';
             if ($i === 0 && is_array($table)) {
-                $useIndex = $table['useIndex'];
+                $useIndex = $table['useIndex'] ?? '';
                 $table = $table['table'];
             }
 
