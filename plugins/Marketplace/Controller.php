@@ -489,7 +489,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                         $downloadLink = Url::addCampaignParametersToMatomoLink('https://plugins.matomo.org/' . $pluginName);
                         $translateKey = 'Marketplace_PluginDownloadLinkMissingFree';
                     }
-                    $message = Piwik::translate($translateKey, [$pluginName, "<a href='$downloadLink' target='_blank' rel='noreferrer noopener'>", '</a>', "<a href='$faqLink' target='_blank' rel='noreferrer noopener'>", '</a>']);;
+                    $message = Piwik::translate($translateKey, [$pluginName, "<a href='$downloadLink' target='_blank' rel='noreferrer noopener'>", '</a>', "<a href='$faqLink' target='_blank' rel='noreferrer noopener'>", '</a>']);
                     $isRaw = true;
                 }
                 $notification = new Notification($message);
