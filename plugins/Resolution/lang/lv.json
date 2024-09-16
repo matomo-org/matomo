@@ -3,9 +3,11 @@
         "ColumnConfiguration": "Konfigurācija",
         "ColumnResolution": "Ekrāna izšķirtspēja",
         "Configurations": "Konfigurācijas",
-        "Resolutions": "Ekrāna izšķirtspējas",
-        "WidgetGlobalVisitors": "Globālā apmeklētāju konfigurācija",
-        "WidgetGlobalVisitorsDocumentation": "Šajā atskaitē redzamas visbiežāk izmantotās apmeklētāju konfigurācijas. Konfigurācija ir operētājsistēmas, pārlūka tipa un ekrāna izšķirtspējas kombinācija.",
-        "WidgetResolutions": "Ekrāna izšķirtspējas"
+        "PluginDescription": "Ziņo par apmeklētāju ekrāna izšķirtspēju.",
+        "Resolutions": "Izšķirtspējas",
+        "WidgetGlobalVisitors": "Apmeklētāja konfigurācija",
+        "WidgetGlobalVisitorsDocumentation": "Šajā ziņojumā parādītas visizplatītākās konfigurācijas, kādas bija jūsu apmeklētājiem. Konfigurācija ir operētājsistēmas, pārlūkprogrammas tipa un ekrāna izšķirtspējas kombinācija.",
+        "WidgetResolutions": "Ekrāna izšķirtspēja",
+        "WidgetResolutionsDocumentation": "Šis ziņojums parāda ekrāna izšķirtspējas, ko apmeklētāji izmantoja, pārlūkojot vietni."
     }
 }

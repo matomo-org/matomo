@@ -3,13 +3,13 @@
         "BrowserEngine": "Pārlūks",
         "BrowserEngineDocumentation": "Šis grafiks rāda apmeklētāju pārlūkus izdalītus pa pārlūku ģimenēm. %s Vissvarīgākā informācija tīkla izstrādātājiem ir kādu atveidojuma dzinēju apmeklētāji izmanto. Etiķetes satur dzinēju nosaukumus, kuriem seko visbiežāk izmantotie dzinēji.",
         "BrowserFamily": "Pārlūku ģimene",
-        "Browsers": "Pārlūki",
         "BrowserVersion": "Pārlūka versija",
+        "Browsers": "Pārlūki",
         "ColumnBrowser": "Pārlūks",
         "ColumnOperatingSystem": "Operētājsistēma",
-        "dataTableLabelTypes": "Tips",
         "OperatingSystems": "Operētājsistēmas",
+        "WidgetBrowserVersionsDocumentation": "Šis ir ziņojums par to, kādus pārlūkus izmanto apmeklētāji. Katra pārlūka versija ir izdalīta atsevišķi.",
         "WidgetBrowsers": "Apmeklētāju pārlūki",
-        "WidgetBrowserVersionsDocumentation": "Šajā atskaitē ir informācija par to kādus pārlūkus Jūsu apmeklētāji izmanto. Katra pārlūka versija ir izdalīta atsevišķi."
+        "dataTableLabelTypes": "Tips"
     }
 }

@@ -257,6 +257,43 @@ class DbTest extends IntegrationTestCase
         $this->assertEquals(1, $db->rowCount($result));
     }
 
+    /**
+     * @dataProvider getDbAdapter
+     */
+    public function testConnectionCollationDefault(string $adapter, string $expectedClass): void
+    {
+        Db::destroyDatabaseObject();
+
+        $config = Config::getInstance();
+        $config->database['adapter'] = $adapter;
+        $config->database['collation'] = null;
+
+        $db = Db::get();
+        self::assertInstanceOf($expectedClass, $db);
+
+        // exact value depends on database used
+        $currentCollation = $db->fetchOne('SELECT @@collation_connection');
+        self::assertStringStartsWith('utf8', $currentCollation);
+    }
+
+    /**
+     * @dataProvider getDbAdapter
+     */
+    public function testConnectionCollationSetInConfig(string $adapter, string $expectedClass): void
+    {
+        Db::destroyDatabaseObject();
+
+        $config = Config::getInstance();
+        $config->database['adapter'] = $adapter;
+        $config->database['collation'] = $config->database['charset'] . '_swedish_ci';
+
+        $db = Db::get();
+        self::assertInstanceOf($expectedClass, $db);
+
+        $currentCollation = $db->fetchOne('SELECT @@collation_connection');
+        self::assertSame($config->database['collation'], $currentCollation);
+    }
+
     public function getDbAdapter()
     {
         return array(
