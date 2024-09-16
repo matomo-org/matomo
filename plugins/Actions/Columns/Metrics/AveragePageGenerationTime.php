@@ -14,6 +14,7 @@ use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
+use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Columns\Dimension;
 
@@ -123,5 +124,19 @@ class AveragePageGenerationTime extends ProcessedMetric
     public function getFormula(): ?string
     {
         return '$sum_time_generation / $nb_hits_with_time_generation';
+    }
+
+    public function getExtraMetricSemanticTypes(): array
+    {
+        return [
+            'sum_time_generation' => Dimension::TYPE_DURATION_S,
+        ];
+    }
+
+    public function getExtraMetricAggregationTypes(): array
+    {
+        return [
+            'sum_time_generation' => Metric::AGGREGATION_TYPE_SUM,
+        ];
     }
 }
