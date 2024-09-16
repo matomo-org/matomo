@@ -90,6 +90,17 @@ class Schema extends Singleton
     }
 
     /**
+     * Returns the default collation for a charset.
+     *
+     * @param string $charset
+     * @return string
+     */
+    public function getDefaultCollationForCharset(string $charset): string
+    {
+        return $this->getSchema()->getDefaultCollationForCharset($charset);
+    }
+
+    /**
      * Get the table options to use for a CREATE TABLE statement.
      *
      * @return string
@@ -279,5 +290,28 @@ class Schema extends Singleton
     public function optimizeTables(array $tables, bool $force = false): bool
     {
         return $this->getSchema()->optimizeTables($tables, $force);
+    }
+
+    /**
+     * Returns if the database engine is able to use sorted subqueries
+     *
+     * @return bool
+     */
+    public function supportsSortingInSubquery(): bool
+    {
+        return $this->getSchema()->supportsSortingInSubquery();
+    }
+
+    /**
+     * Returns the supported read isolation transaction level
+     *
+     * For example:
+     *      READ COMMITTED
+     *      or
+     *      READ UNCOMMITTED
+     */
+    public function getSupportedReadIsolationTransactionLevel(): string
+    {
+        return $this->getSchema()->getSupportedReadIsolationTransactionLevel();
     }
 }

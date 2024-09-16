@@ -16,6 +16,7 @@
         "DatabaseSetup": "Pengaturan Basis Data",
         "DatabaseSetupAdapter": "Adaptor",
         "DatabaseSetupDatabaseName": "Nama Basis Data",
+        "DatabaseSetupEngine": "Mesin Basis Data",
         "DatabaseSetupLogin": "Log Masuk",
         "DatabaseSetupServer": "Server Basis Data",
         "DatabaseSetupTablePrefix": "Prefiks Tabel",

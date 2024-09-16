@@ -67,6 +67,11 @@ class ArchiveWriter
      */
     public const DONE_PARTIAL = 5;
 
+    /**
+     * Flag indicates an archive that is currently being processed, but has already been invalidated again
+     */
+    public const DONE_ERROR_INVALIDATED = 6;
+
     protected $fields = ['idarchive',
         'idsite',
         'date1',
@@ -192,6 +197,18 @@ class ArchiveWriter
 
     public function finalizeArchive()
     {
+        if (
+            empty($this->recordsToWriteSpool['blob'])
+            && count($this->recordsToWriteSpool['numeric']) === 1
+            && $this->recordsToWriteSpool['numeric'][0][0] === $this->doneFlag
+            && $this->parameters->isPartialArchive()
+        ) {
+            // This part avoids writing done flags for empty partial archives:
+            // We skip writing the records to the database if there aren't any blob records to write,
+            // the only available numeric record to write would be the done flag and the archive would only be partial
+            return;
+        }
+
         $this->flushSpools();
 
         $numericTable = $this->getTableNumeric();
@@ -200,6 +217,13 @@ class ArchiveWriter
         $doneValue = $this->parameters->isPartialArchive() ? self::DONE_PARTIAL : self::DONE_OK;
         $this->checkDoneValueIsOnlyPartialForPluginArchives($doneValue); // check and log
 
+        $currentStatus = $this->getModel()->getArchiveStatus($numericTable, $idArchive, $this->doneFlag);
+
+        // If the current archive was already invalidated during runtime, directly update status to invalidated instead of done
+        if (self::DONE_ERROR_INVALIDATED === $currentStatus) {
+            $doneValue = self::DONE_INVALIDATED;
+        }
+
         $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, $doneValue);
 
         if (
@@ -207,7 +231,7 @@ class ArchiveWriter
             // sanity check, just in case nothing was inserted (the archive status should always be inserted)
             && !empty($this->earliestNow)
         ) {
-            $this->getModel()->deleteOlderArchives($this->parameters, $this->doneFlag, $this->earliestNow, $this->idArchive);
+            $this->getModel()->deleteOlderArchives($this->parameters, $this->doneFlag, $this->earliestNow, $idArchive);
         }
     }
 

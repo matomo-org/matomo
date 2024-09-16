@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "DirectLink": "› Esteka zuzena",
-        "DisplayDashboardInIframe": "Matomoren arbel osoa ere bistaratu dezakezu zure aplikazioan edo webgunean IFRAME batean(%1$sikusi adibidea%2$s). Data parametroan egutegiko data zehatz bat ezarri daiteke, \"today\" edo \"yesterday\". Epearen parametroan \"day\", \"week\", \"month\" edo\n\"year\" ezarri daiteke. Hizkuntzaren parametroan itzulpen baten hizkuntza-kodea ezarri daiteke, esaterako language=fr. Adibidez, idSite=1 eta date=yesterday parametroentzat idatz dezakezu:",
+        "DisplayDashboardInIframe": "Matomoren arbel osoa ere bistaratu dezakezu zure aplikazioan edo webgunean IFRAME batean(%1$sikusi adibidea%2$s). Data parametroan egutegiko data zehatz bat ezarri daiteke, \"today\" edo \"yesterday\". Epearen parametroan \"day\", \"week\", \"month\" edo \"year\" ezarri daiteke. Hizkuntzaren parametroan itzulpen baten hizkuntza-kodea ezarri daiteke, esaterako language=fr. Adibidez, idSite=1 eta date=yesterday parametroentzat idatz dezakezu:",
         "DisplayDashboardInIframeAllSites": "Webgune guztien arbela ere widget bihurtu dezakezu IFRAME batean (%1$sikusi adibidea%2$s)",
         "EmbedIframe": "› Kapsulatu iframe-a",
         "Intro": "Matomorekin %1$szure web analitika txostenak esportatu%2$s ditzakezu zure blogera, webgunera, edo intraneteko arbelera... klik bakarrean.",

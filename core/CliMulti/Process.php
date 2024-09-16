@@ -25,7 +25,7 @@ use Piwik\SettingsServer;
  */
 class Process
 {
-    public const PS_COMMAND = 'ps x';
+    public const PS_COMMAND = 'ps wwx';
     public const AWK_COMMAND = 'awk \'! /defunct/ {print $1}\'';
 
     private $finished = null;

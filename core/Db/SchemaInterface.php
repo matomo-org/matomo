@@ -70,6 +70,16 @@ interface SchemaInterface
     public function getInstallVersion();
 
     /**
+     * Returns the supported read isolation transaction level
+     *
+     * For example:
+     *      READ COMMITTED
+     *      or
+     *      READ UNCOMMITTED
+     */
+    public function getSupportedReadIsolationTransactionLevel(): string;
+
+    /**
      * Truncate all tables
      */
     public function truncateAllTables();
@@ -126,6 +136,15 @@ interface SchemaInterface
     public function supportsComplexColumnUpdates(): bool;
 
     /**
+     * Returns the default collation for a charset used by this database engine.
+     *
+     * @param string $charset
+     *
+     * @return string
+     */
+    public function getDefaultCollationForCharset(string $charset): string;
+
+    /**
      * Return the default port used by this database engine
      *
      * @return int
@@ -158,4 +177,11 @@ interface SchemaInterface
      * @return bool
      */
     public function optimizeTables(array $tables, bool $force = false): bool;
+
+    /**
+     * Returns if the database engine is able to use sorted subqueries
+     *
+     * @return bool
+     */
+    public function supportsSortingInSubquery(): bool;
 }

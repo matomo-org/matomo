@@ -335,7 +335,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $parsedUrl = parse_url($urlToRedirect);
 
-        if (!empty($urlToRedirect) && false === $parsedUrl) {
+        if (
+            (!empty($urlToRedirect) && false === $parsedUrl)
+            || (!empty($parsedUrl['scheme']) && empty($parsedUrl['host']))
+        ) {
             $e = new \Piwik\Exception\Exception('The redirect URL is not valid.');
             $e->setIsHtmlMessage();
             throw $e;

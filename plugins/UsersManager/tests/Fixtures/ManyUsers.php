@@ -125,7 +125,7 @@ class ManyUsers extends Fixture
 
                 $textAddition = $this->textAdditions[$totalUserCount % count($this->textAdditions)];
 
-                $login = $this->addTextSuffixes ? ($i . '_' . $baseLogin) : $baseLogin;
+                $login = $this->addTextSuffixes ? ($i . $baseLogin) : $baseLogin;
                 if ($this->addTextSuffixes && !$addToEmail) {
                     $login .= $textAddition;
                 }

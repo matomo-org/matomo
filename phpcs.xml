@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <ruleset name="matomo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
 
-    <description>Matomo Coding Standard</description>
+    <description>Matomo Core Coding Standard</description>
 
     <arg name="extensions" value="php" />
 
@@ -12,21 +12,11 @@
     <exclude-pattern>tests/PHPUnit/proxy/*</exclude-pattern>
     <exclude-pattern>tests/PHPUnit/Unit/Config/test_files/*</exclude-pattern>
     <exclude-pattern>tests/javascript/*</exclude-pattern>
-    <exclude-pattern>*/vendor/*</exclude-pattern>
-    <exclude-pattern>*/libs/*</exclude-pattern>
 
     <!-- exclude all plugins included as submodule as long as they might not fully follow this CS -->
     <exclude-pattern>plugins/(AnonymousPiwikUsageMeasurement|Bandwidth|CustomAlerts|CustomVariables|DeviceDetectorCache|LogViewer|LoginLdap|MarketingCampaignsReporting|Provider|QueuedTracking|SecurityInfo|TagManager|TasksTimetable|TrackingSpamPrevention|TreemapVisualization|VisitorGenerator)/*</exclude-pattern>
 
-    <config name="installed_paths" value="../../slevomat/coding-standard"/>
-
-    <!-- Use PSR 12 standard as default -->
-    <!-- Some rules are currently excluded/restricted, but those restrictions should be removed in the future -->
-
-    <rule ref="PSR12">
-        <!-- can't use this as long as we have functions.php files that need to be required manually -->
-        <exclude name="PSR1.Files.SideEffects.FoundWithSymbols" />
-    </rule>
+    <rule ref="Matomo"></rule>
 
     <rule ref="Generic.Files.LineLength">
         <properties>
@@ -36,42 +26,9 @@
         <exclude-pattern>plugins/*/tests/*</exclude-pattern>
     </rule>
 
-    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
-        <!-- Classnames for our update files don't match PascalCase, this can't be changed easily -->
-        <exclude-pattern>core/Updates/*</exclude-pattern>
-        <exclude-pattern>plugins/*/Updates/*</exclude-pattern>
-    </rule>
-
     <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">
         <!-- Allow using multiple classes in one file for tests -->
         <exclude-pattern>tests/PHPUnit/*</exclude-pattern>
         <exclude-pattern>plugins/*/tests/*</exclude-pattern>
-    </rule>
-
-
-    <!-- Additional rules that are not covered by PSR above -->
-
-    <!-- Forbid unused use statements -->
-    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
-        <properties>
-            <property name="searchAnnotations" value="true"/>
-            <property name="ignoredAnnotations" type="array">
-                <element value="@group"/>
-                <element value="@api"/>
-            </property>
-        </properties>
-    </rule>
-
-    <!-- Forbid some functions that should not be used (directly) -->
-    <rule ref="Generic.PHP.ForbiddenFunctions">
-        <properties>
-            <property name="forbiddenFunctions" type="array">
-                <element key="eval" value="null"/>
-                <element key="create_function" value="null"/>
-                <element key="unserialize" value="\Piwik\Common::safe_unserialize"/>
-            </property>
-        </properties>
-        <!-- still allow those functions in tests -->
-        <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
 </ruleset>

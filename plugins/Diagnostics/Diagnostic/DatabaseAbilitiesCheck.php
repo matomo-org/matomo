@@ -42,6 +42,7 @@ class DatabaseAbilitiesCheck implements Diagnostic
         $result = new DiagnosticResult($this->translator->translate('Installation_DatabaseAbilities'));
 
         $result->addItem($this->checkUtf8mb4Charset());
+        $result->addItem($this->checkCollation());
 
         if (Config::getInstance()->General['enable_load_data_infile']) {
             $result->addItem($this->checkLoadDataInfile());
@@ -89,6 +90,29 @@ class DatabaseAbilitiesCheck implements Diagnostic
             $this->translator->translate('Diagnostics_DatabaseUtf8Requirement', ['�',
                 '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/') . '" rel="noreferrer noopener" target="_blank">', '</a>']) .
             '<br/>'
+        );
+    }
+
+    protected function checkCollation(): DiagnosticResultItem
+    {
+        $dbSettings = new Db\Settings();
+        $collation = $dbSettings->getUsedCollation();
+
+        if ('' !== $collation) {
+            return new DiagnosticResultItem(DiagnosticResult::STATUS_OK, 'Connection collation');
+        }
+
+        $collationConnection = Db::get()->fetchOne('SELECT @@collation_connection');
+        $collationCharset = DbHelper::getDefaultCollationForCharset($dbSettings->getUsedCharset());
+
+        return new DiagnosticResultItem(
+            DiagnosticResult::STATUS_WARNING,
+            sprintf(
+                'Connection collation<br/><br/>%s<br/><br/>%s<br/>%s<br/>',
+                $this->translator->translate('Diagnostics_DatabaseCollationNotConfigured'),
+                $this->translator->translate('Diagnostics_DatabaseCollationConnection', [$collationConnection]),
+                $this->translator->translate('Diagnostics_DatabaseCollationCharset', [$collationCharset])
+            )
         );
     }
 
@@ -181,7 +205,7 @@ class DatabaseAbilitiesCheck implements Diagnostic
         $comment = 'Changing transaction isolation level';
 
         $level = new Db\TransactionLevel(Db::getReader());
-        if (!$level->setUncommitted()) {
+        if (!$level->setTransactionLevelForNonLockingReads()) {
             $status = DiagnosticResult::STATUS_WARNING;
             $comment .= '<br/>' . $this->translator->translate('Diagnostics_MysqlTransactionLevel');
         } else {

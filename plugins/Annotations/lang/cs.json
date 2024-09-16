@@ -15,7 +15,7 @@
         "InlineQuickHelp": "Můžete vytvořit anotace k důležitým událostem, jako je třeba nový příspěvek na blogu, redesign stránek, nebo cokoliv, co považujete za důležité.",
         "LoginToAnnotate": "Přihlásit se pro vytvoření anotace.",
         "NoAnnotations": "Nejsou zde žádné anotace k tomuto časovému rozsahu.",
-        "PluginDescription": "Dovoluje vám přidat poznámky k jednotlivým dnům (k označení změn na stránkách, poznamenání analýz dat, které lze sdílet s kolegy…). Anotováním dat zajistíte, že budete v budoucnu vědět, proč data vypadají tak, jak vypadají.",
+        "PluginDescription": "Umožňuje připojovat poznámky k různým dnům a označovat tak změny provedené na webu, ukládat provedené analýzy dat a sdílet své myšlenky s kolegy. Poznámkami k datům si zajistíte, že si budete pamatovat, proč vaše data vypadají tak, jak vypadají.",
         "ViewAndAddAnnotations": "Zobrazit a přidat anotace k %s…",
         "YouCannotModifyThisNote": "Nemůžete upravit tuto anotaci, protože jste ji nevytvořili a ani nemáte administrátorský přístup k této stránce."
     }

@@ -9,8 +9,6 @@
 
 namespace Piwik\Db\Schema;
 
-use Piwik\DbHelper;
-
 /**
  * Mariadb schema
  */
@@ -27,6 +25,18 @@ class Tidb extends Mysql
         return false;
     }
 
+    public function getDefaultCollationForCharset(string $charset): string
+    {
+        $collation = parent::getDefaultCollationForCharset($charset);
+
+        if ('utf8mb4' === $charset && 'utf8mb4_bin' === $collation) {
+            // replace the TiDB default "utf8mb4_bin" with a better default
+            return 'utf8mb4_0900_ai_ci';
+        }
+
+        return $collation;
+    }
+
     public function getDefaultPort(): int
     {
         return 4000;
@@ -36,12 +46,17 @@ class Tidb extends Mysql
     {
         $engine = $this->getTableEngine();
         $charset = $this->getUsedCharset();
+        $collation = $this->getUsedCollation();
         $rowFormat = $this->getTableRowFormat();
+
+        if ('utf8mb4' === $charset && '' === $collation) {
+            $collation = 'utf8mb4_0900_ai_ci';
+        }
 
         $options = "ENGINE=$engine DEFAULT CHARSET=$charset";
 
-        if ('utf8mb4' === $charset) {
-            $options .= ' COLLATE=utf8mb4_0900_ai_ci';
+        if ('' !== $collation) {
+            $options .= " COLLATE=$collation";
         }
 
         if ('' !== $rowFormat) {
@@ -62,15 +77,15 @@ class Tidb extends Mysql
         return false;
     }
 
-    protected function getDatabaseCreateOptions(): string
+    public function supportsSortingInSubquery(): bool
     {
-        $charset = DbHelper::getDefaultCharset();
-        $options = "DEFAULT CHARACTER SET $charset";
+        // TiDb optimizer removes all sorting from subqueries
+        return false;
+    }
 
-        if ('utf8mb4' === $charset) {
-            $options .= ' COLLATE=utf8mb4_0900_ai_ci';
-        }
-
-        return $options;
+    public function getSupportedReadIsolationTransactionLevel(): string
+    {
+        // TiDB doesn't support READ UNCOMMITTED
+        return 'READ COMMITTED';
     }
 }

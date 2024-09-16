@@ -18,6 +18,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Period\Factory;
 use Piwik\Plugins\CoreAdminHome\tests\Framework\Mock\API;
 use Piwik\Plugins\SegmentEditor\Model;
@@ -464,6 +465,354 @@ class CronArchiveTest extends IntegrationTestCase
     }
 
     /**
+     * @dataProvider getInvalidateYesterdayTestData
+     */
+    public function testInvalidateRecentDateForYesterdayIsSkippedWhenAlreadyInProgress($segmentsToCreate, $timezone, $nowTs, $existingInvalidations, $expectedInvalidationCalls)
+    {
+        $idSite = Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, null, null, $timezone);
+
+        Rules::setBrowserTriggerArchiving(false);
+        foreach ($segmentsToCreate as $segment) {
+            SegmentAPI::getInstance()->add($segment, $segment, 1, true, true);
+        }
+        Rules::setBrowserTriggerArchiving(true);
+
+        $offset = Date::getUtcOffset($timezone);
+        Date::$now = $nowTs;
+
+        $this->insertInvalidations($existingInvalidations);
+
+        $t = Fixture::getTracker($idSite, Date::yesterday()->addHour(2)->getDatetime());
+        $t->setUrl('http://someurl.com/abc');
+        Fixture::checkResponse($t->doTrackPageView('some page'));
+
+        $t = Fixture::getTracker($idSite, Date::today()->addHour(2)->getDatetime());
+        $t->setUrl('http://someurl.com/def');
+        Fixture::checkResponse($t->doTrackPageView('some page 2'));
+
+        $mockInvalidateApi = $this->getMockInvalidateApi();
+
+        $archiver = new CronArchive();
+        $archiver->init();
+        $archiver->setApiToInvalidateArchivedReport($mockInvalidateApi);
+
+        $archiver->invalidateRecentDate('yesterday', $idSite);
+        $actualInvalidationCalls = $mockInvalidateApi->getInvalidations();
+
+        $this->assertEquals($expectedInvalidationCalls, $actualInvalidationCalls);
+    }
+
+    public function getInvalidateYesterdayTestData()
+    {
+        $timezones = [
+            'UTC-12',
+            'America/Caracas', // UTC-4
+            'UTC-0.5',
+            'UTC',
+            'Asia/Kathmandu', // UTC+5:45
+            'Australia/Brisbane', // UTC+10
+            'UTC+14',
+        ];
+
+        foreach ($timezones as $timezone) {
+            $offset = Date::getUtcOffset($timezone);
+
+            yield "invalidating yesterday all visits should be skipped if archiving was started after midnight in sites timezone ($timezone)" => [
+                [],
+                $timezone,
+                Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp(),
+                [
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                    ],
+                ],
+                [],
+            ];
+
+            yield "invalidating yesterday all visits should not be skipped if archiving for a segment was started after midnight in sites timezone ($timezone)" => [
+                ['actions>=1'],
+                $timezone,
+                Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp(),
+                [
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done' . md5('actions>=1'),
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                    ],
+                ],
+                [
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        false,
+                        false,
+                        false,
+                    ],
+                ],
+            ];
+
+            yield "invalidating yesterdays segments should not be skipped even if archiving all visits was started after midnight in sites timezone ($timezone)" => [
+                ['actions>=1', 'actions>=2',],
+                $timezone,
+                Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp(),
+                [
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                    ],
+                ],
+                [
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'actions>=1',
+                        false,
+                        false,
+                    ],
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'actions>=2',
+                        false,
+                        false,
+                    ],
+                ],
+            ];
+
+            yield "invalidating yesterdays segments should be skipped if an archiving for it was started after midnight in sites timezone ($timezone)" => [
+                ['actions>=1', 'actions>=2',],
+                $timezone,
+                Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp(),
+                [
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                    ],
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done' . md5('actions>=2'),
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                    ],
+                ],
+                [
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'actions>=1',
+                        false,
+                        false,
+                    ],
+                ],
+            ];
+
+            yield "invalidating yesterday all visits should not be skipped if archiving was started before midnight in sites timezone ($timezone)" => [
+                [],
+                $timezone,
+                Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp(),
+                [
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime()
+                    ],
+                ],
+                [
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        false,
+                        false,
+                        false,
+                    ],
+                ],
+            ];
+
+            yield "invalidating yesterdays segment should not be skipped if archiving was started before midnight in sites timezone ($timezone)" => [
+                ['actions>=1'],
+                $timezone,
+                Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp(),
+                [
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done' . md5('actions>=1'),
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime()
+                    ],
+                ],
+                [
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        false,
+                        false,
+                        false,
+                    ],
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'actions>=1',
+                        false,
+                        false,
+                    ],
+                ],
+            ];
+
+            yield "invalidating yesterdays data should be skipped correctly for multiple segments with various in progress invalidations in sites timezone ($timezone)" => [
+                ['actions>=1', 'actions>=2', 'actions>=3'],
+                $timezone,
+                Date::factory('2020-02-03 04:05:06')->subSeconds($offset)->getTimestamp(),
+                [
+                    [
+                        'idarchive' => 3,
+                        'idsite' => 1,
+                        'period' => 3,
+                        'date1' => '2020-02-01',
+                        'date2' => '2020-02-29',
+                        'name' => 'done' . md5('actions>=1'),
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime()
+                    ], // different period, so should be ignored
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done' . md5('actions>=1'),
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime()
+                    ], // started too early, so should be ignored
+                    [
+                        'idarchive' => 1,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done' . md5('actions>=2') . '.MyPlugin',
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:10:33')->subSeconds($offset)->getDatetime()
+                    ], // partial archive, so should be ignored
+                    [
+                        'idarchive' => 2,
+                        'idsite' => 2,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done' . md5('actions>=2'),
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:10:33')->subSeconds($offset)->getDatetime()
+                    ], // different site, so should be ignored
+                    [
+                        'idarchive' => 2,
+                        'idsite' => 1,
+                        'period' => 1,
+                        'date1' => '2020-02-02',
+                        'date2' => '2020-02-02',
+                        'name' => 'done' . md5('actions>=3'),
+                        'report' => null,
+                        'ts_invalidated' => '2020-02-02 21:00:00',
+                        'status' => 1,
+                        'ts_started' => Date::factory('2020-02-03 00:10:33')->subSeconds($offset)->getDatetime()
+                    ], // should be considered and invalidation skipped
+                ],
+                [
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        false,
+                        false,
+                        false,
+                    ],
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'actions>=1',
+                        false,
+                        false,
+                    ],
+                    [
+                        1,
+                        '2020-02-02',
+                        'day',
+                        'actions>=2',
+                        false,
+                        false,
+                    ],
+                ],
+            ];
+        }
+    }
+
+    /**
      * @dataProvider getArchivingTestData
      */
     public function testCanWeSkipInvalidatingBecauseThereIsAUsablePeriodReturnsExpectedValue(
@@ -497,8 +846,13 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1, $period::PERIOD_ID, $period->getDateStart()->toString(), $period->getDateEnd()->toString(), 'done', $archiveStatus, $tsArchived
         ]);
 
-        // $doNotIncludeTtlInExistingArchiveCheck is set to true when running invalidateRecentDate('yesterday');
-        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $dayToArchive === 'yesterday');
+        // $skipWhenRunningOrNewEnoughArchiveExists is set to true when running invalidateRecentDate('yesterday');
+
+        $class = new \ReflectionClass(CronArchive::class);
+        $method = $class->getMethod('canWeSkipInvalidatingBecauseThereIsAUsablePeriod');
+        $method->setAccessible(true);
+
+        $actual = $method->invoke($archiver, $params, $dayToArchive === 'yesterday');
         $this->assertSame($expected, $actual);
     }
 
@@ -727,25 +1081,35 @@ class CronArchiveTest extends IntegrationTestCase
         $this->assertFalse($cronarchive->wasSegmentChangedRecently('actions>=999', $allSegments));
     }
 
-    public function testSkipSegmentsToday()
+    public function testSkipSegmentsTodayDoesNotRequestAnySegmentInvalidationsForToday()
     {
-        \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
-            '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
-        );
+        Date::$now = strtotime('2020-09-09 09:00:00');
 
         Fixture::createWebsite('2014-12-12 00:01:02');
+
+        // track a visit for today, so todays data will get invalidated
+        $tracker = Fixture::getTracker(1, '2020-09-09 07:00:00');
+        $tracker->setUrl('http://someurl.com');
+        Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
+
+        // remove invalidation options created through tracking
+        Option::deleteLike('%report_to_invalidate_%');
+
         Rules::setBrowserTriggerArchiving(false);
-        SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
-        $id = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+        $id1 = SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
+        $id2 = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
         Rules::setBrowserTriggerArchiving(true);
 
         $segments = new Model();
-        $segments->updateSegment($id, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
+        $segments->updateSegment($id1, array('ts_created' => Date::now()->subHour(300)->getDatetime()));
+        $segments->updateSegment($id2, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
 
         $logger = new FakeLogger();
+        $mockInvalidateApi = $this->getMockInvalidateApi();
 
         $archiver = new CronArchive($logger);
         $archiver->init();
+        $archiver->setApiToInvalidateArchivedReport($mockInvalidateApi);
         $archiveFilter = new CronArchive\ArchiveFilter();
         $archiveFilter->setSkipSegmentsForToday(true);
         $archiver->setArchiveFilter($archiveFilter);
@@ -753,8 +1117,164 @@ class CronArchiveTest extends IntegrationTestCase
         $archiver->init();
         $archiver->run();
 
+        // check that no segment invalidations were requested
+        $requestedInvalidations = $mockInvalidateApi->getInvalidations();
+        $expectedInvalidations = [
+            [
+                1,
+                Date::now()->toString(),
+                'day',
+                false,
+                false,
+                false,
+            ],
+        ];
+        self::assertEquals($expectedInvalidations, $requestedInvalidations);
+
         self::assertStringContainsString('Will skip segments archiving for today unless they were created recently', $logger->output);
-        self::assertStringNotContainsString('Segment "actions>=2" was created recently', $logger->output);
+    }
+
+    public function testSkipSegmentsTodayDoesStillRequestSegmentInvalidationsForRecentlyCreatedSegments()
+    {
+        Date::$now = strtotime('2020-09-09 09:00:00');
+
+        Fixture::createWebsite('2014-12-12 00:01:02');
+
+        // track a visit for today, so todays data will get invalidated
+        $tracker = Fixture::getTracker(1, '2020-09-09 07:00:00');
+        $tracker->setUrl('http://someurl.com');
+        Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
+
+        // remove invalidation options created through tracking
+        Option::deleteLike('%report_to_invalidate_%');
+
+        Rules::setBrowserTriggerArchiving(false);
+        $id1 = SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
+        $id2 = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+        Rules::setBrowserTriggerArchiving(true);
+
+        $segments = new Model();
+        $segments->updateSegment($id1, array('ts_created' => Date::now()->subHour(300)->getDatetime()));
+        $segments->updateSegment($id2, array('ts_created' => Date::now()->subHour(12)->getDatetime()));
+
+        $logger = new FakeLogger();
+        $mockInvalidateApi = $this->getMockInvalidateApi();
+
+        $archiver = new CronArchive($logger);
+        $archiver->init();
+        $archiver->setApiToInvalidateArchivedReport($mockInvalidateApi);
+        $archiveFilter = new CronArchive\ArchiveFilter();
+        $archiveFilter->setSkipSegmentsForToday(true);
+        $archiver->setArchiveFilter($archiveFilter);
+        $archiver->shouldArchiveAllSites = true;
+        $archiver->init();
+        $archiver->run();
+
+        // check that no segment invalidations were requested
+        $requestedInvalidations = $mockInvalidateApi->getInvalidations();
+        $expectedInvalidations = [
+            [
+                1,
+                Date::now()->toString(),
+                'day',
+                false,
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::now()->toString(),
+                'day',
+                'actions>=2',
+                false,
+                false,
+            ],
+        ];
+        self::assertEquals($expectedInvalidations, $requestedInvalidations);
+
+        self::assertStringContainsString('Will skip segments archiving for today unless they were created recently', $logger->output);
+    }
+
+    public function testInvalidatingYesterdayWillStillRequestSegmentInvalidationsWithSkipSegmentsToday()
+    {
+        Date::$now = strtotime('2020-08-05 09:00:00');
+
+        Fixture::createWebsite('2014-12-12 00:01:02');
+
+        // track a visit for yesterday, so yesterdays data will get invalidated
+        $tracker = Fixture::getTracker(1, '2020-08-04 16:00:00');
+        $tracker->setUrl('http://someurl.com');
+        Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
+
+        // track a visit for today, so todays data will get invalidated
+        $tracker = Fixture::getTracker(1, '2020-08-05 07:00:00');
+        $tracker->setUrl('http://someurl.com');
+        Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
+
+        // remove invalidation options created through tracking
+        Option::deleteLike('%report_to_invalidate_%');
+
+        Rules::setBrowserTriggerArchiving(false);
+        $id1 = SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
+        $id2 = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+        Rules::setBrowserTriggerArchiving(true);
+
+        $segments = new Model();
+        $segments->updateSegment($id1, array('ts_created' => Date::now()->subHour(120)->getDatetime()));
+        $segments->updateSegment($id2, array('ts_created' => Date::now()->subHour(120)->getDatetime()));
+
+        $logger = new FakeLogger();
+        $mockInvalidateApi = $this->getMockInvalidateApi();
+
+        $archiver = new CronArchive($logger);
+        $archiver->init();
+        $archiver->setApiToInvalidateArchivedReport($mockInvalidateApi);
+        $archiveFilter = new CronArchive\ArchiveFilter();
+        $archiveFilter->setSkipSegmentsForToday(true);
+        $archiver->setArchiveFilter($archiveFilter);
+        $archiver->shouldArchiveAllSites = true;
+        $archiver->init();
+        $archiver->run();
+
+        // check that no segment invalidations were requested
+        $requestedInvalidations = $mockInvalidateApi->getInvalidations();
+        $expectedInvalidations = [
+            [
+                1,
+                '2020-08-05',
+                'day',
+                false,
+                false,
+                false,
+            ],
+            [
+                1,
+                '2020-08-04',
+                'day',
+                false,
+                false,
+                false,
+            ],
+            [
+                1,
+                '2020-08-04',
+                'day',
+                'actions>=1',
+                false,
+                false,
+            ],
+            [
+                1,
+                '2020-08-04',
+                'day',
+                'actions>=2',
+                false,
+                false,
+            ],
+        ];
+        self::assertEquals($expectedInvalidations, $requestedInvalidations);
+
+        self::assertStringContainsString('Will skip segments archiving for today unless they were created recently', $logger->output);
     }
 
     public function testOutput()
@@ -823,31 +1343,31 @@ Checking for queued invalidations...
   Today archive can be skipped due to no visits for idSite = 1, skipping invalidation...
   Yesterday archive can be skipped due to no visits for idSite = 1, skipping invalidation...
 Done invalidating
-Processing invalidation: [idinvalidation = 269, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
-Processing invalidation: [idinvalidation = 268, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
-Processing invalidation: [idinvalidation = 267, idsite = 1, period = day(2019-12-10 - 2019-12-10), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = %d, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = %d, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = %d, idsite = 1, period = day(2019-12-10 - 2019-12-10), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-12&format=json&segment=actions%3E%3D2&trigger=archivephp
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-11&format=json&segment=actions%3E%3D2&trigger=archivephp
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-10&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = day, date = 2019-12-12, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-11, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-10, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 266, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
-Processing invalidation: [idinvalidation = 257, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = %d, idsite = 1, period = week(2019-12-09 - 2019-12-15), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = %d, idsite = 1, period = day(2019-12-02 - 2019-12-02), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-09&format=json&segment=actions%3E%3D2&trigger=archivephp
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=day&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = week, date = 2019-12-09, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
 Archived website id 1, period = day, date = 2019-12-02, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 258, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = %d, idsite = 1, period = week(2019-12-02 - 2019-12-08), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=week&date=2019-12-02&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = week, date = 2019-12-02, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 256, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = %d, idsite = 1, period = month(2019-12-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=month&date=2019-12-01&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = month, date = 2019-12-01, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 65, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+Processing invalidation: [idinvalidation = %d, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=year&date=2019-01-01&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = year, date = 2019-01-01, segment = 'actions>=2', 0 visits found. Time elapsed: %fs
@@ -933,22 +1453,22 @@ Checking for queued invalidations...
   Today archive can be skipped due to no visits for idSite = 2, skipping invalidation...
   Yesterday archive can be skipped due to no visits for idSite = 2, skipping invalidation...
 Done invalidating
-Processing invalidation: [idinvalidation = 1, idsite = 2, period = day(2019-12-11 - 2019-12-11), name = done, segment = ].
-Processing invalidation: [idinvalidation = 5, idsite = 2, period = day(2019-12-10 - 2019-12-10), name = done, segment = ].
+Processing invalidation: [idinvalidation = %d, idsite = 2, period = day(2019-12-11 - 2019-12-11), name = done, segment = ].
+Processing invalidation: [idinvalidation = %d, idsite = 2, period = day(2019-12-10 - 2019-12-10), name = done, segment = ].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=day&date=2019-12-11&format=json&trigger=archivephp
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=day&date=2019-12-10&format=json&trigger=archivephp
 Archived website id 2, period = day, date = 2019-12-11, segment = '', 1 visits found. Time elapsed: %fs
 Archived website id 2, period = day, date = 2019-12-10, segment = '', 1 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 2, idsite = 2, period = week(2019-12-09 - 2019-12-15), name = done, segment = ].
+Processing invalidation: [idinvalidation = %d, idsite = 2, period = week(2019-12-09 - 2019-12-15), name = done, segment = ].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=week&date=2019-12-09&format=json&trigger=archivephp
 Archived website id 2, period = week, date = 2019-12-09, segment = '', 2 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 3, idsite = 2, period = month(2019-12-01 - 2019-12-31), name = done, segment = ].
+Processing invalidation: [idinvalidation = %d, idsite = 2, period = month(2019-12-01 - 2019-12-31), name = done, segment = ].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=month&date=2019-12-01&format=json&trigger=archivephp
 Archived website id 2, period = month, date = 2019-12-01, segment = '', 2 visits found. Time elapsed: %fs
-Processing invalidation: [idinvalidation = 4, idsite = 2, period = year(2019-01-01 - 2019-12-31), name = done, segment = ].
+Processing invalidation: [idinvalidation = %d, idsite = 2, period = year(2019-01-01 - 2019-12-31), name = done, segment = ].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=year&date=2019-01-01&format=json&trigger=archivephp
 Archived website id 2, period = year, date = 2019-01-01, segment = '', 2 visits found. Time elapsed: %fs
@@ -1056,9 +1576,10 @@ LOG;
                 isset($inv['ts_invalidated']) ? $inv['ts_invalidated'] : $now,
                 $inv['report'],
                 isset($inv['status']) ? $inv['status'] : 0,
+                isset($inv['ts_started']) ? $inv['ts_started'] : null,
             ];
-            Db::query("INSERT INTO `$table` (idarchive, name, idsite, date1, date2, period, ts_invalidated, report, status)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", $bind);
+            Db::query("INSERT INTO `$table` (idarchive, name, idsite, date1, date2, period, ts_invalidated, report, status, ts_started)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", $bind);
         }
     }
 

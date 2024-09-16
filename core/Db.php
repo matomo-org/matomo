@@ -12,6 +12,8 @@ namespace Piwik;
 use Exception;
 use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
+use Piwik\Db\TransactionalDatabaseInterface;
+use Piwik\Db\TransactionalDatabaseStaticTrait;
 
 /**
  * Contains SQL related helper functions for Piwik's MySQL database.
@@ -32,8 +34,10 @@ use Piwik\Db\Schema;
  *
  * @api
  */
-class Db
+class Db implements TransactionalDatabaseInterface
 {
+    use TransactionalDatabaseStaticTrait;
+
     public const SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
 
     private static $connection = null;
@@ -41,8 +45,6 @@ class Db
 
     private static $logQueries = true;
 
-    // this is used for indicate TransactionLevel Cache
-    public $supportsUncommitted;
     /**
      * Returns the database connection and creates it if it hasn't been already.
      *
@@ -184,6 +186,7 @@ class Db
         $dbConfig['type'] = $masterDbConfig['type'];
         $dbConfig['tables_prefix'] = $masterDbConfig['tables_prefix'];
         $dbConfig['charset'] = $masterDbConfig['charset'];
+        $dbConfig['collation'] = $masterDbConfig['collation'] ?? null;
 
         $db = @Adapter::factory($dbConfig['adapter'], $dbConfig);
 

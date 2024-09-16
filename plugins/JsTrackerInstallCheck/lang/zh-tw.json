@@ -4,7 +4,6 @@
         "JsTrackingCodeInstallCheckFailureMessageWordpress": "追蹤程式碼驗證失敗。請確認你是否安裝了「%1$s」外掛並完成所有步驟。%2$s了解更多%3$s。",
         "JsTrackingCodeInstallCheckSuccessMessage": "成功安裝追蹤程式碼！此畫面將於你的網站提交追蹤資料之後關閉。",
         "PluginDescription": "驗證追蹤程式碼是否正確置入你的網站，且能傳送追蹤要求回到你的 Matomo 主機",
-        "TestInstallationBtnText": "測試安裝",
-        "TestInstallationDescription": "輸入與你追蹤的完全一致的 URL，並點擊「測試安裝」，來測試你的追蹤程式碼是否能傳送要求到你的 Matomo 伺服器。這會開啟一個新分頁並於10秒左右關閉。"
+        "TestInstallationBtnText": "測試安裝"
     }
 }

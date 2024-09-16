@@ -15,6 +15,7 @@ use Piwik\Config\DatabaseConfig;
 use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Db\Schema;
 use Piwik\Period;
 use Piwik\Segment;
@@ -334,7 +335,7 @@ class LogAggregatorTest extends IntegrationTestCase
         // limit query to one milli second
         Config::getInstance()->General['archiving_query_max_execution_time'] = 0.001;
         try {
-            $this->logAggregator->getDb()->query('SELECT SLEEP(5) FROM ' . Common::prefixTable('log_visit'));
+            $this->logAggregator->getDb()->query('SELECT *, SLEEP(5) FROM ' . Common::prefixTable('log_visit'));
             $this->fail('Query was not aborted by max execution limit');
         } catch (\Zend_Db_Statement_Exception $e) {
             $isMaxExecutionTimeError = $this->logAggregator->getDb()->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED)
@@ -406,6 +407,27 @@ class LogAggregatorTest extends IntegrationTestCase
             )
         );
         $this->assertSame($expected, $query);
+    }
+
+    public function testGenerateQuerySwitchesSupportsUncommittedToTrueWhenSupports()
+    {
+        $segment = new Segment('userId==1111', array($this->site->getId()));
+
+        $params = new Parameters($this->site, $this->period, $segment);
+        $this->logAggregator = new LogAggregator($params);
+        $this->logAggregator->allowUsageSegmentCache();
+
+        $this->setSqlRequirePrimaryKeySetting(1);
+
+        $db = Db::get();
+
+        $db->setSupportsTransactionLevelForNonLockingReads(null);
+
+        $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
+
+        $this->setSqlRequirePrimaryKeySetting(0);
+
+        $this->assertTrue($db->getSupportsTransactionLevelForNonLockingReads());
     }
 
     public function testGetSegmentTmpTableName()

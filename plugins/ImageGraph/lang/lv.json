@@ -1,5 +1,6 @@
 {
     "ImageGraph": {
-        "PluginDescription": "Ģenerējiet skaistus, statiskus PNG formāta grafikus jebkurai Matomo atskaitei."
+        "ColumnOrdinateMissing": "Nevarēja atrast kolonnu \"%1$s\" šajā ziņojumā. Mēģiniet jebkuru no %2$s.",
+        "PluginDescription": "Izveidojiet skaistu statisku PNG diagrammu attēlus jebkuram datu ziņojumam."
     }
 }

@@ -3,6 +3,7 @@
         "Clicks": "%s kliknutí",
         "ClicksFromXLinks": "%1$s kliknutí z některého z %2$s odkazů",
         "Domain": "Doména",
+        "ErrorNoSiteUrls": "UPOZORNĚNÍ: Tato webová stránka nemá v systému Matomo definovány žádné adresy URL stránek. To může způsobit, že se překryvné a další funkce rozbijí nebo se budou chovat podivně. Chcete-li to napravit, přidejte adresu URL v nastavení této webové stránky v sekci Správa Matomo.",
         "ErrorNotLoading": "Sezení překryvu stránky nemohlo být zatím spuštěno.",
         "ErrorNotLoadingDetails": "Možná nemá načtená stránka na pravé straně sledovací kód. V tomto případě zkuste spustit překryv pro jinou stránku z hlášení stránek.",
         "ErrorNotLoadingDetailsSSL": "Protože používáte Matomo přes HTTPS, nejpravděpodobnější je, že stránky nepodporují SSL. Zkuste přistoupit k Matomu přes HTTP.",

@@ -714,6 +714,25 @@ class ApiTest extends IntegrationTestCase
         $this->assertReturnedSitesContainsSiteIds([5, 15], $sites);
     }
 
+    public function testGetMessagesToWarnOnSiteRemovalShouldReturnDefaultValue()
+    {
+        $pluginManager = Plugin\Manager::getInstance();
+        if ($pluginManager->isPluginActivated('TagManager')) {
+            $pluginManager->deactivatePlugin('TagManager');
+        }
+        API::getInstance()->addSite("site1", ["http://piwik.net", "http://piwik.com"]);
+        API::getInstance()->addSite("site2", ["http://piwik.com", "http://piwik.net"]);
+        $this->assertEmpty(API::getInstance()->getMessagesToWarnOnSiteRemoval(1));
+        $this->assertEmpty(API::getInstance()->getMessagesToWarnOnSiteRemoval(2));
+    }
+
+    public function testGetMessagesToWarnOnSiteRemovalShouldThrowExceptionIfNotSuperUser()
+    {
+        $this->expectException(\Exception::class);
+        $this->createManySitesWithAdminAccess(1);
+        API::getInstance()->getMessagesToWarnOnSiteRemoval(1);
+    }
+
     private function createManySitesWithAdminAccess($numSites)
     {
         for ($i = 1; $i <= $numSites; $i++) {
@@ -1192,7 +1211,7 @@ class ApiTest extends IntegrationTestCase
             API::getInstance()->addSite("test toto@{}", 'http://example.org', $ecommerce = 1, $siteSearch = null, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group);
         }
 
-        $this->assertEquals($expectedGroups, API::getInstance()->getSitesGroups());
+        $this->assertEqualsCanonicalizing($expectedGroups, API::getInstance()->getSitesGroups());
     }
 
     public function getInvalidTimezoneData()

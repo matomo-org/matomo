@@ -648,29 +648,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await screenshotPageWrap()).to.matchImage('admin_settings_mobilemessaging_provider');
         });
 
-        it('should load the themes admin page correctly', async function () {
-            await page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=themes");
-
-            expect(await screenshotPageWrap()).to.matchImage('admin_themes');
-        });
-
-        it('should load the plugins admin page correctly', async function () {
-            await page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
-
-            expect(await screenshotPageWrap()).to.matchImage('admin_plugins');
-        });
-
-        it('should load the plugins admin page correctly when internet disabled', async function () {
-            testEnvironment.overrideConfig('General', {
-                enable_internet_features: 0
-            });
-            testEnvironment.save();
-
-            await page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
-
-            expect(await screenshotPageWrap()).to.matchImage('admin_plugins_no_internet');
-        });
-
         it('should load the config file page correctly', async function () {
             await page.goto("?" + generalParams + "&module=Diagnostics&action=configfile");
 
@@ -775,7 +752,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should load the scheduled reports when Edit button is clicked', async function () {
             await page.goto("?" + generalParams + "&module=ScheduledReports&action=index");
-            await page.click('.entityTable tr:nth-child(4) button[title="Edit"]');
+            await page.click('.entityTable tr:nth-child(3) button[title="Edit"]');
 
             expect(await screenshotPageWrap()).to.matchImage('email_reports_editor');
         });

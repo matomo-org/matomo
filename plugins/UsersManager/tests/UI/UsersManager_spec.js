@@ -475,10 +475,10 @@ describe("UsersManager", function () {
 
     it('should show superuser confirm modal when the superuser toggle is clicked', async function () {
         await page.click('.userEditForm #superuser_access+span');
-        await page.waitForSelector('.modal.open');
+        const elem = await page.$('.modal.open');
         await page.waitForTimeout(500);
 
-        expect(await page.screenshotSelector('.modal.open')).to.matchImage('superuser_confirm');
+        expect(await elem.screenshot()).to.matchImage('superuser_confirm');
     });
 
     it('should fail to set superuser access if password is wrong', async function () {
@@ -518,7 +518,49 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('manage_users_back');
     });
 
+    it('should display the superuser access tab when the superuser tab is clicked with ActivityLog', async function () {
+      testEnvironment.pluginsToLoad = ['ActivityLog'];
+      await testEnvironment.save();
+
+      await page.reload();
+      await page.waitForTimeout(100);
+
+      await (await page.jQuery('button.edituser:eq(0)', { waitFor: true })).click();
+      await page.waitForTimeout(250);
+      await page.waitForNetworkIdle();
+
+      await page.click('.userEditForm .menuSuperuser');
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(100);
+
+      expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_tab_activityLog');
+    });
+
+    it('should display the superuser access tab when the superuser tab is clicked without Marketplace', async function () {
+      testEnvironment.pluginsToUnload = ['ActivityLog', 'Marketplace'];
+      await testEnvironment.save();
+
+      await page.reload();
+      await page.waitForTimeout(100);
+
+      await (await page.jQuery('button.edituser:eq(0)', { waitFor: true })).click();
+      await page.waitForTimeout(250);
+      await page.waitForNetworkIdle();
+
+      await page.click('.userEditForm .menuSuperuser');
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(100);
+
+      testEnvironment.pluginsToLoad = ['Marketplace'];
+      await testEnvironment.save();
+
+      expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_tab_no_marketplace');
+    });
+
     it('should show the edit user form when the edit icon in a row is clicked', async function () {
+        await page.reload();
+        await page.waitForTimeout(100);
+
         await (await page.jQuery('button.edituser:eq(2)', { waitFor: true })).click();
         await page.waitForTimeout(250);
         await page.waitForNetworkIdle();
@@ -665,13 +707,13 @@ describe("UsersManager", function () {
         });
 
         it('should add a user by email when an email is entered', async function () {
-            await page.type('input[name="add-existing-user-email"]', '0_login3conchords@example.com');
+            await page.type('input[name="add-existing-user-email"]', '0login3conchords@example.com');
             await page.waitForSelector('.add-existing-user-modal');
             await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no):visible')).click();
             await page.waitForNetworkIdle();
 
             await page.evaluate(function () { // show new user
-                $('#user-text-filter').val('0_login3conchords@example.com').change();
+                $('#user-text-filter').val('0login3conchords@example.com').change();
             });
 
             await page.mouse.move(-10, -10);
@@ -687,12 +729,12 @@ describe("UsersManager", function () {
             await page.click('.add-existing-user');
             await page.waitForSelector('.add-existing-user-modal');
             await page.evaluate(() => $('input[name="add-existing-user-email"]').val('').change());
-            await page.type('input[name="add-existing-user-email"]', '10_login8');
+            await page.type('input[name="add-existing-user-email"]', '10login8');
             await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no):visible')).click();
             await page.waitForNetworkIdle();
 
             await page.evaluate(function () { // show new user
-                $('#user-text-filter').val('10_login8').change();
+                $('#user-text-filter').val('10login8').change();
             });
 
             await page.mouse.move(-10, -10);

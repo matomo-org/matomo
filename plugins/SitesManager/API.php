@@ -395,6 +395,32 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Returns the messages to warn users on site deletion.
+     *
+     * @param int $idSite
+     * @return array messages to warn users
+     * @throws Exception if the website ID doesn't exist or the user doesn't have super user access to it
+     * @internal
+     * @unsanitized
+     */
+    public function getMessagesToWarnOnSiteRemoval(int $idSite): array
+    {
+        $messages = [];
+        Piwik::checkUserHasSuperUserAccess();
+        /**
+         * Triggered before a modal to delete a measurable is displayed
+         *
+         * A plugin can listen to it and add additional information to be displayed in the measurable delete modal body
+         *
+         * @param array &$messages Additional messages to be shown in the delete measurable modal body
+         * @param int $idSite The idSite to be deleted
+         */
+        Piwik::postEvent('SitesManager.getMessagesToWarnOnSiteRemoval', [&$messages, $idSite]);
+
+        return $messages;
+    }
+
+    /**
      * Returns the list of websites with the 'view' access for the current user.
      * For the superUser it doesn't return any result because the superUser has admin access on all the websites (use getSitesWithAtLeastViewAccess() instead).
      *

@@ -19,7 +19,7 @@
         "EnableRequiredDirectoriesDiagnostic": "Yapılandırma ayarlarında kapatıldığından bu denetim atlandı. Bu denetimi açmak için \"config/config.ini.php\" dosyasında [General] enable_required_directories_diagnostic = 1 ayarını yapın.",
         "HideUnchanged": "Yalnızca değiştirilmiş değerlerin görüntülenmesi için %1$sdeğiştirilmemiş tüm değerleri gizleyin%2$s.",
         "HtaccessWarningNginx": "Hassas dosyalara doğrudan erişilemediğinden emin olmak için, site sunucunuzu belirli klasörlere erişimi engelleyecek şekilde yapılandırmanız önerilir. Ayrıntılı bilgi almak için %1$s resmi Nginx sunucu yapılandırmasına %2$s bakabilirsiniz",
-        "MariaDbNotConfigured": "Veri tabanı sürümünüz bir MariaDB sunucusu kullanıyor olabileceğinizi gösteriyor. Bu durumda, tüm veri tabanı özelliklerinin beklendiği gibi çalıştığından emin olmak için lütfen \"config/config.ini.php\" dosyasında <code>[database] schema = Mariadb</code> ayarladığınızdan emin olun.",
+        "MariaDbNotConfigured": "Veri tabanı sürümünüz bir MariaDB sunucusu kullanıyor olabileceğinizi gösteriyor. Bu durumda, tüm veri tabanı özelliklerinin beklendiği gibi çalıştığından emin olmak için lütfen \"config/config.ini.php\" dosyasında <code>[database] schema = Mariadb</code> ayarının yapıldığından emin olun.",
         "MysqlMaxPacketSize": "En büyük paket boyutu",
         "MysqlMaxPacketSizeWarning": "MySQL veri tabanınız için '%1$smax_allowed_packet%2$s' değerini en az %3$s olarak ayarlamanız önerilir. Şu anda %4$s olarak ayarlanmış.",
         "MysqlTemporaryTablesWarning": "Matomo uygulamasının düzgün çalışabilmesi için CREATE TEMPORARY TABLES MySQL izninin verilmiş olması gereklidir.",

@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Integration\DataAccess;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
@@ -69,7 +70,7 @@ class ModelTest extends IntegrationTestCase
 
         // sanity check
         $table = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'));
-        $sql = "SELECT GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
+        $sql = "SELECT GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC, idarchive DESC) as archives
                   FROM `$table`
               GROUP BY idsite, date1, date2, period, name";
         $result = Db::fetchRow($sql);
@@ -91,18 +92,23 @@ class ModelTest extends IntegrationTestCase
             ['idsite' => 1, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'doneblablah', 'value' => 3, 'status' => 0, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-03 00:00:00'],
             ['idsite' => 3, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'donebluhbluh', 'value' => 4, 'status' => 1, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-02 12:00:00'],
             ['idsite' => 1, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'donedone', 'value' => 5, 'status' => 1, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-01 03:00:00'],
+            ['idsite' => 2, 'date1' => '2020-02-02', 'date2' => '2020-02-02', 'period' => 1, 'name' => 'done', 'value' => 2, 'status' => 1, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-02 03:00:00'],
         ]);
+
+        // Setting the time to two days for idsite 2, should skip the last in progress archive, as it was started within that time
+        Config::getInstance()->General_2['archive_failure_recovery_timeout'] = 86400 * 2;
 
         $this->model->resetFailedArchivingJobs();
 
-        $idinvalidationStatus = Db::fetchAll('SELECT idinvalidation, status FROM ' . Common::prefixTable('archive_invalidations'));
+        $idinvalidationStatus = Db::fetchAll('SELECT idinvalidation, idsite, status FROM ' . Common::prefixTable('archive_invalidations'));
 
         $expected = [
-            ['idinvalidation' => 1, 'status' => 0],
-            ['idinvalidation' => 2, 'status' => 0],
-            ['idinvalidation' => 3, 'status' => 0],
-            ['idinvalidation' => 4, 'status' => 1],
-            ['idinvalidation' => 5, 'status' => 0],
+            ['idinvalidation' => 1, 'idsite' => 1, 'status' => 0],
+            ['idinvalidation' => 2, 'idsite' => 2, 'status' => 0],
+            ['idinvalidation' => 3, 'idsite' => 1, 'status' => 0],
+            ['idinvalidation' => 4, 'idsite' => 3, 'status' => 1],
+            ['idinvalidation' => 5, 'idsite' => 1, 'status' => 0],
+            ['idinvalidation' => 6, 'idsite' => 2, 'status' => 1],
         ];
 
         $this->assertEquals($expected, $idinvalidationStatus);
@@ -123,6 +129,27 @@ class ModelTest extends IntegrationTestCase
         $id = $this->model->allocateNewArchiveId($this->tableName);
 
         $this->assertEquals($expectedId, $id);
+    }
+
+    public function testGetAndUpdateArchiveStatus()
+    {
+        $this->insertArchiveData([
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_ERROR],
+        ]);
+
+        $numericTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'));
+
+        self::assertEquals(
+            ArchiveWriter::DONE_ERROR,
+            $this->model->getArchiveStatus($numericTable, '1', 'done')
+        );
+
+        $this->model->updateArchiveStatus($numericTable, '1', 'done', ArchiveWriter::DONE_ERROR_INVALIDATED);
+
+        self::assertEquals(
+            ArchiveWriter::DONE_ERROR_INVALIDATED,
+            $this->model->getArchiveStatus($numericTable, '1', 'done')
+        );
     }
 
     /**

@@ -45,6 +45,14 @@ ssl_no_verify =
 ; Matomo should work correctly without this setting but we recommend to have a charset set.
 charset = utf8
 
+; In some database setups the collation used for queries and creating tables can have unexpected
+; values, or change after a database version upgrade.
+; If you encounter "Illegal mix of collation" errors, setting this config to the value matching
+; your existing database tables can help.
+; This setting will only be used if "charset" is also set.
+; Matomo should work correctly without this setting but we recommend to have a collation set.
+collation =
+
 ; Database error codes to ignore during updates
 ;
 ;ignore_error_codes[] = 1105
@@ -84,6 +92,7 @@ adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
 charset = utf8mb4
+collation = utf8mb4_general_ci
 enable_ssl = 0
 ssl_ca =
 ssl_cert =
@@ -371,6 +380,10 @@ time_before_year_archive_considered_outdated = -1
 
 ; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to range archives
 time_before_range_archive_considered_outdated = -1
+
+; Time in seconds after a started archiving job is considered as failed and will be retried
+; Do not configure this value lower than the maximum time it can take for the longest running archiving job to finish
+archive_failure_recovery_timeout = 86400
 
 ; This setting is overridden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Matomo archiving process.

@@ -34,7 +34,7 @@
     <template
       v-else-if="plugin.canBeUpdated && 0 == plugin.missingRequirements.length"
     >
-      <a v-if="isAutoUpdatePossible"
+      <a v-if="isAutoUpdatePossible && isPluginsAdminEnabled"
          tabindex="7"
          class="btn btn-block"
          :href="linkToUpdate(plugin.name)"
@@ -83,14 +83,17 @@
       </template>
     </div>
 
-    <a v-else-if="plugin.isEligibleForFreeTrial"
-       tabindex="7"
+    <div v-else-if="plugin.isEligibleForFreeTrial && !inModal && isPluginsAdminEnabled"
        class="btn btn-block purchaseable"
-       href=""
-       @click.prevent="$emit('startFreeTrial');"
-       @keyup.enter="$emit('startFreeTrial')"
        :title="translate('Marketplace_StartFreeTrial')"
-    >{{ translate('Marketplace_StartFreeTrial') }}</a>
+    >{{ translate('Marketplace_StartFreeTrial') }}</div>
+
+    <a v-else-if="plugin.isEligibleForFreeTrial && inModal"
+       class="btn btn-block addToCartLink" target="_blank"
+       :title="translate('Marketplace_ClickToCompletePurchase')"
+       rel="noreferrer noopener"
+       :href="shopVariationUrl"
+    >{{ translate('Marketplace_AddToCart') }}</a>
 
     <MoreDetailsAction
       v-else-if="!inModal && !plugin.isDownloadable && (
@@ -122,13 +125,22 @@
         />)</span>
     </div>
 
-    <a v-else
+    <a v-else-if="isPluginsAdminEnabled"
        tabindex="7"
        :href="linkToInstall(plugin.name)"
        class="btn btn-block"
     >
       {{ translate('Marketplace_ActionInstall') }}
     </a>
+
+    <template v-else>
+      <MoreDetailsAction
+        v-if="!inModal"
+        :show-as-button="true"
+        :label="translate('General_MoreDetails')"
+        @action="$emit('openDetailsModal')"
+      />
+    </template>
   </template>
 
   <a v-else-if="plugin.isTrialRequested"
@@ -138,7 +150,7 @@
      :title="translate('Marketplace_TrialRequested')"
   >{{ translate('Marketplace_TrialRequested') }}</a>
 
-  <a v-else-if="plugin.canTrialBeRequested"
+  <a v-else-if="plugin.canTrialBeRequested && !plugin.isMissingLicense"
      tabindex="7"
      class="btn btn-block purchaseable"
      href=""
@@ -207,6 +219,11 @@ export default defineComponent({
     inModal: {
       type: Boolean,
       required: true,
+    },
+    shopVariationUrl: {
+      type: String,
+      required: false,
+      default: '',
     },
   },
   emits: [
