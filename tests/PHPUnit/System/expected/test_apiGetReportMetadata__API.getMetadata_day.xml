@@ -29,8 +29,20 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<revenue_per_visit>$revenue / ($nb_visits ? $nb_visits : $nb_conversions)</revenue_per_visit>
+			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
+			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
+			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
+			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_visit_length>sum</sum_visit_length>
+			<bounce_count>sum</bounce_count>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_visit_length>number</sum_visit_length>
+			<bounce_count>number</bounce_count>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
