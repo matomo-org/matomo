@@ -114,7 +114,7 @@ class RevenuePerVisit extends ProcessedMetric
             $revenueSum = '(' . implode(' + ', $revenueSum) . ')';
         }
 
-        $divisor = '($nb_visits ? $nb_visits : $nb_conversions)';
+        $divisor = '($nb_visits != 0 ? $nb_visits : $nb_conversions)';
 
         return $revenueSum . ' / ' . $divisor;
     }
