@@ -472,7 +472,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $pluginInfos = [];
         foreach ($plugins as $pluginName) {
-            $pluginInfos[] = $this->plugins->getPluginInfo($pluginName);
+            $currentPluginInfo = $this->plugins->getPluginInfo($pluginName);
+            $pluginInfos[] = $currentPluginInfo;
 
             try {
                 $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
@@ -480,9 +481,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $message = $e->getMessage();
                 $isRaw = false;
                 if (stripos($message, 'PCLZIP_ERR_BAD_FORMAT') !== false) {
-                    $downloadLink = Url::addCampaignParametersToMatomoLink('https://shop.matomo.org/my-account/downloads');
                     $faqLink = Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/plugins/faq_21/');
-                    $message = Piwik::translate('Marketplace_PluginDownloadLinkMissing', [$pluginName, "<a href='$downloadLink' target='_blank' rel='noreferrer noopener'>", '</a>', "<a href='$faqLink' target='_blank' rel='noreferrer noopener'>", '</a>']);
+                    if (!empty($currentPluginInfo['isPaid'])) {
+                        $downloadLink = Url::addCampaignParametersToMatomoLink('https://shop.matomo.org/my-account/downloads');
+                        $translateKey = 'Marketplace_PluginDownloadLinkMissing';
+                    } else {
+                        $downloadLink = Url::addCampaignParametersToMatomoLink('https://plugins.matomo.org/' . $pluginName);
+                        $translateKey = 'Marketplace_PluginDownloadLinkMissingFree';
+                    }
+                    $message = Piwik::translate($translateKey, [$pluginName, "<a href='$downloadLink' target='_blank' rel='noreferrer noopener'>", '</a>', "<a href='$faqLink' target='_blank' rel='noreferrer noopener'>", '</a>']);;
                     $isRaw = true;
                 }
                 $notification = new Notification($message);
