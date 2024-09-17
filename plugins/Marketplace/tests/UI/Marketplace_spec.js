@@ -158,7 +158,7 @@ describe("Marketplace", function () {
                 await captureSelector('install_purchased_plugins_modal_', '.modal.open');
 
                  const closedElem = await page.jQuery(
-                     '.installAllPaidPlugins button'
+                     '.modal.open .modal-close'
                  );
                  await closedElem[1].click()
             });
