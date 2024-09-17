@@ -332,9 +332,9 @@ class FileIntegrity
     protected static function getMessagesFilesMismatch($messages)
     {
         $messagesMismatch = array();
-        $hasMd5file = function_exists('md5_file');
+        $hasHashFile = function_exists('hash_file');
         $files = \Piwik\Manifest::$files;
-        $hasMd5 = function_exists('md5');
+        $hasHash = function_exists('hash');
         foreach ($files as $path => $props) {
             $file = PIWIK_INCLUDE_PATH . '/' . $path;
 
@@ -345,7 +345,7 @@ class FileIntegrity
                     continue;
                 }
 
-                if (!$hasMd5 || in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf'))) {
+                if (!$hasHash || in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf'))) {
                     // files that contain binary data (e.g., images) must match the file size
                     $messagesMismatch[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
                 } else {
@@ -354,12 +354,12 @@ class FileIntegrity
                     $content = str_replace("\r\n", "\n", $content);
                     if (
                         (strlen($content) != $props[0])
-                        || (@md5($content) !== $props[1])
+                        || (@hash('sha256', $content) !== $props[1])
                     ) {
                         $messagesMismatch[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
                     }
                 }
-            } elseif ($hasMd5file && (@md5_file($file) !== $props[1])) {
+            } elseif ($hasHashFile && (@hash_file('sha256', $file) !== $props[1])) {
                 if (self::isModifiedPathValid($path)) {
                     continue;
                 }
@@ -368,8 +368,8 @@ class FileIntegrity
             }
         }
 
-        if (!$hasMd5file) {
-            $messages[] = Piwik::translate('General_WarningFileIntegrityNoMd5file');
+        if (!$hasHashFile) {
+            $messages[] = Piwik::translate('General_WarningFileIntegrityNoHashFile');
         }
 
         if (!empty($messagesMismatch)) {

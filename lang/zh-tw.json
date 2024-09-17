@@ -525,7 +525,7 @@
         "WarningDevelopmentModeOnButNotGitInstalled": "你正在使用 Matomo 的開發模式，但它並非從 git 安裝的。我們不推薦於正式環境使用 Matomo 開發模式。",
         "WarningFileIntegrityNoManifest": "缺少 manifest.inc.php 所以檔案完整性檢查無法執行。",
         "WarningFileIntegrityNoManifestDeployingFromGit": "如果你從 Git 部署 Matomo，這個訊息可以忽略。",
-        "WarningFileIntegrityNoMd5file": "缺少 md5_file() 功能所以檔案完整性檢查無法完成。",
+        "WarningFileIntegrityNoHashFile": "缺少 hash_file() 功能所以檔案完整性檢查無法完成。",
         "WarningPasswordStored": "%1$s警告：%2$s此密碼將被儲存在設定檔中，而且每個能存取它的人都看得到。",
         "WarningPhpVersionXIsTooOld": "你正在使用的 PHP 版本 %s 已到達壽命盡頭（EOL）。強烈建議你升級到目前版本，持續使用舊版本可能會暴露在安全性漏洞和 Bug 下，而那些問題可能已經在近期的 PHP 版本中修復。",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomo 將在下次主要更新停止支援 PHP %1$s。請盡快將你的 PHP 版本升級到 %2$s 或更新版本！",
