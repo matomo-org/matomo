@@ -156,16 +156,13 @@ describe("Marketplace", function () {
                 await page.waitForTimeout(500);
 
                 await captureSelector('install_purchased_plugins_modal_', '.modal.open');
-
-                 const closedElem = await page.jQuery(
-                     '.modal.open .modal-close'
-                 );
-                 await closedElem[1].click()
             });
         }
 
         it(mode + ' should open paid plugins modal for paid plugin 2', async function () {
             setEnvironment(mode, validLicense);
+            await page.goto('about:blank');
+            await page.goto(paidPluginsUrl);
             await loadPluginDetailPage('Paid Plugin 2', false);
 
             await captureWithPluginDetails('paid_plugin2_plugin_details_' + mode);
