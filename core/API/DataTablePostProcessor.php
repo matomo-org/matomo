@@ -524,6 +524,8 @@ class DataTablePostProcessor
                     $row->addColumns($processedMetric->getAllExtraMetrics($row));
                 }
             }
+
+            $processedMetric->afterCompute($this->report, $dataTable);
         }
 
         foreach ($dataTable->getRows() as $row) {

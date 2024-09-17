@@ -84,6 +84,18 @@ abstract class ProcessedMetric extends Metric
     }
 
     /**
+     * TODO
+     *
+     * @param ?Report $report
+     * @param DataTable $table
+     * @return void
+     */
+    public function afterCompute(?Report $report, DataTable $table)
+    {
+        // empty
+    }
+
+    /**
      * @param Row $row
      * @ignore
      */
