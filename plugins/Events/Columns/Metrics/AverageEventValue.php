@@ -53,6 +53,6 @@ class AverageEventValue extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return '$sum_event_value / $nb_evens_with_value';
+        return '$sum_event_value / $nb_events_with_value';
     }
 }
