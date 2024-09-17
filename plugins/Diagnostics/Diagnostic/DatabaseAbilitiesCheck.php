@@ -105,15 +105,17 @@ class DatabaseAbilitiesCheck implements Diagnostic
         $collationConnection = Db::get()->fetchOne('SELECT @@collation_connection');
         $collationCharset = DbHelper::getDefaultCollationForCharset($dbSettings->getUsedCharset());
 
-        return new DiagnosticResultItem(
-            DiagnosticResult::STATUS_WARNING,
-            sprintf(
-                'Connection collation<br/><br/>%s<br/><br/>%s<br/>%s<br/>',
-                $this->translator->translate('Diagnostics_DatabaseCollationNotConfigured'),
-                $this->translator->translate('Diagnostics_DatabaseCollationConnection', [$collationConnection]),
-                $this->translator->translate('Diagnostics_DatabaseCollationCharset', [$collationCharset])
-            )
+        $message = sprintf(
+            'Connection collation<br/><br/>%s<br/><br/>%s<br/>',
+            $this->translator->translate('Diagnostics_DatabaseCollationNotConfigured'),
+            $this->translator->translate('Diagnostics_DatabaseCollationConnection', [$collationConnection])
         );
+
+        if ('' !== $collationCharset) {
+            $message .= $this->translator->translate('Diagnostics_DatabaseCollationCharset', [$collationCharset]) . '<br/>';
+        }
+
+        return new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, $message);
     }
 
     protected function checkLoadDataInfile()
