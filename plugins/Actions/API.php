@@ -519,6 +519,7 @@ class API extends \Piwik\Plugin\API
         // Must be applied before Sort in this case, since the DataTable can contain both int and strings indexes
         // (in the transition period between pre 1.2 and post 1.2 datatable structure)
         $dataTable->filter('Piwik\Plugins\Actions\DataTable\Filter\Actions', [$isPageTitleType]);
+        $dataTable->filter('Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate');
         return $dataTable;
     }
 

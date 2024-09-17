@@ -33,6 +33,9 @@
 		<processedMetrics>
 			<avg_event_value>The average of all values for this event</avg_event_value>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_event_value>$sum_event_value / $nb_events_with_value</avg_event_value>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_events>number</nb_events>
 			<sum_event_value>number</sum_event_value>
