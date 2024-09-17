@@ -310,7 +310,7 @@ class Goals extends \Piwik\Plugin
 
         $reportsWithGoals = self::getAllReportsWithGoalMetrics();
 
-        foreach ($reports as &$apiReportToUpdate) {
+        foreach ($reports as $index => &$apiReportToUpdate) {
             $reportHasGoals = false;
             foreach ($reportsWithGoals as $reportWithGoals) {
                 if (
@@ -325,6 +325,10 @@ class Goals extends \Piwik\Plugin
 
             if (!$reportHasGoals) {
                 continue;
+            }
+
+            if (empty($apiReportToUpdate)) { // TODO: remove after done debugging
+                throw new \Exception("found empty report at $index");
             }
 
             // collect extra metrics and processed metrics
