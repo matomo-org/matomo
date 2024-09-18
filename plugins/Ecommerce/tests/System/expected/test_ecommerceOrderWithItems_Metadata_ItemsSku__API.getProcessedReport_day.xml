@@ -21,6 +21,11 @@
 			<avg_quantity>Average Quantity</avg_quantity>
 			<conversion_rate>Product Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_price>$orders &gt; 0 ? ($price / $orders) : ($price / $abandoned_carts)</avg_price>
+			<avg_quantity>$orders &gt; 0 ? ($quantity / $orders) : ($quantity / $abandoned_carts)</avg_quantity>
+			<conversion_rate>$order &gt; 0 ? ($orders / $nb_visits) : ($abandoned_carts / $nb_visits)</conversion_rate>
+		</processedMetricFormulas>
 		<metricTypes>
 			<revenue>money</revenue>
 			<quantity>number</quantity>

@@ -424,9 +424,17 @@ class Goals extends \Piwik\Plugin
             }
 
             foreach ($goalMetrics as $metricId => $metricInfo) {
-                $apiReportToUpdate['metricsGoal'][$metricId] = $metricInfo['name'];
-                $apiReportToUpdate['metricTypesGoal'][$metricId] = $metricInfo['type'];
-                $apiReportToUpdate['metricAggregationTypesGoal'][$metricId] = $metricInfo['aggregation'];
+                if (!empty($metricInfo['name'])) {
+                    $apiReportToUpdate['metricsGoal'][$metricId] = $metricInfo['name'];
+                }
+
+                if (!empty($metricInfo['type'])) {
+                    $apiReportToUpdate['metricTypesGoal'][$metricId] = $metricInfo['type'];
+                }
+
+                if (!empty($metricInfo['aggregation'])) {
+                    $apiReportToUpdate['metricAggregationTypesGoal'][$metricId] = $metricInfo['aggregation'];
+                }
             }
 
             foreach ($goalProcessedMetrics as $metric) {

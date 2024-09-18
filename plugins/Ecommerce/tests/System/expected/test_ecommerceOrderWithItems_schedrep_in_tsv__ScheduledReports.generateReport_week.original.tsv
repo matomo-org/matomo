@@ -8,17 +8,17 @@ nb_uniq_visitors	nb_visits	nb_actions	max_actions	nb_actions_per_visit	avg_time_
 1	5	16	6	3.2	00:22:49	20%
 
 Country
-label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Poland	4	12	"$13,351.11"	3	00:25:32	25%
-France	1	4	$10	4	00:12:01	0%
+label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue_per_visit
+Poland	4	12	"$13,351.11"	3	00:25:32	25%	$0
+France	1	4	$10	4	00:12:01	0%	$0
 
 Continent
-label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Europe	5	16	"$13,361.11"	3.2	00:22:49	20%
+label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue_per_visit
+Europe	5	16	"$13,361.11"	3.2	00:22:49	20%	$0
 
 Region
-label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Unknown	5	16	"$13,361.11"	3.2	00:22:49	20%
+label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue_per_visit
+Unknown	5	16	"$13,361.11"	3.2	00:22:49	20%	$0
 
 Web-browser language
 label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
@@ -26,8 +26,8 @@ Polish	4	12	75%	3	00:25:32	25%
 French	1	4	100%	4	00:12:01	0%
 
 City
-label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Unknown	5	16	"$13,361.11"	3.2	00:22:49	20%
+label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue_per_visit
+Unknown	5	16	"$13,361.11"	3.2	00:22:49	20%	$0
 
 Language code
 label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
@@ -35,16 +35,16 @@ Polish (pl)	4	12	75%	3	00:25:32	25%
 French (fr)	1	4	100%	4	00:12:01	0%
 
 Device type
-label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Desktop	5	16	"$13,361.11"	3.2	00:22:49	20%
+label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue_per_visit
+Desktop	5	16	"$13,361.11"	3.2	00:22:49	20%	$0
 
 Device model
-label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Generic Desktop	5	16	"$13,361.11"	3.2	00:22:49	20%
+label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue_per_visit
+Generic Desktop	5	16	"$13,361.11"	3.2	00:22:49	20%	$0
 
 Device brand
-label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Unknown	5	16	"$13,361.11"	3.2	00:22:49	20%
+label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue_per_visit
+Unknown	5	16	"$13,361.11"	3.2	00:22:49	20%	$0
 
 Screen Resolution
 label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
@@ -55,8 +55,8 @@ label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site
 Windows XP	5	16	80%	3.2	00:22:49	20%
 
 Browsers
-label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Firefox	5	16	"$13,361.11"	3.2	00:22:49	20%
+label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue_per_visit
+Firefox	5	16	"$13,361.11"	3.2	00:22:49	20%	$0
 
 Browser version
 label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
@@ -113,31 +113,31 @@ label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site
 23	0	0	0%	0	00:00:00	0%
 
 Visits per hour in the site's timezone
-label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-00	1	4	$10	4	00:12:01	0%
-01	1	6	$0	6	01:06:01	0%
-02	1	3	"$3,111.11"	3	00:18:01	0%
-03	0	0	$0	0	00:00:00	0%
-04	0	0	$0	0	00:00:00	0%
-05	0	0	$0	0	00:00:00	0%
-06	1	0	"$10,240"	0	00:06:03	100%
-07	1	3	$0	3	00:12:01	0%
-08	0	0	$0	0	00:00:00	0%
-09	0	0	$0	0	00:00:00	0%
-10	0	0	$0	0	00:00:00	0%
-11	0	0	$0	0	00:00:00	0%
-12	0	0	$0	0	00:00:00	0%
-13	0	0	$0	0	00:00:00	0%
-14	0	0	$0	0	00:00:00	0%
-15	0	0	$0	0	00:00:00	0%
-16	0	0	$0	0	00:00:00	0%
-17	0	0	$0	0	00:00:00	0%
-18	0	0	$0	0	00:00:00	0%
-19	0	0	$0	0	00:00:00	0%
-20	0	0	$0	0	00:00:00	0%
-21	0	0	$0	0	00:00:00	0%
-22	0	0	$0	0	00:00:00	0%
-23	0	0	$0	0	00:00:00	0%
+label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue_per_visit
+00	1	4	$10	4	00:12:01	0%	$0
+01	1	6	$0	6	01:06:01	0%	$0
+02	1	3	"$3,111.11"	3	00:18:01	0%	$0
+03	0	0	$0	0	00:00:00	0%	$0
+04	0	0	$0	0	00:00:00	0%	$0
+05	0	0	$0	0	00:00:00	0%	$0
+06	1	0	"$10,240"	0	00:06:03	100%	$0
+07	1	3	$0	3	00:12:01	0%	$0
+08	0	0	$0	0	00:00:00	0%	$0
+09	0	0	$0	0	00:00:00	0%	$0
+10	0	0	$0	0	00:00:00	0%	$0
+11	0	0	$0	0	00:00:00	0%	$0
+12	0	0	$0	0	00:00:00	0%	$0
+13	0	0	$0	0	00:00:00	0%	$0
+14	0	0	$0	0	00:00:00	0%	$0
+15	0	0	$0	0	00:00:00	0%	$0
+16	0	0	$0	0	00:00:00	0%	$0
+17	0	0	$0	0	00:00:00	0%	$0
+18	0	0	$0	0	00:00:00	0%	$0
+19	0	0	$0	0	00:00:00	0%	$0
+20	0	0	$0	0	00:00:00	0%	$0
+21	0	0	$0	0	00:00:00	0%	$0
+22	0	0	$0	0	00:00:00	0%	$0
+23	0	0	$0	0	00:00:00	0%	$0
 
 Visits by day of the week
 label	nb_visits	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate	nb_actions
@@ -153,10 +153,10 @@ User IDs
 No data available
 
 Custom Variables
-label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-ValueIsZero - 0	5	16	"$13,361.11"	3.2	00:22:49	20%
-VisitorType - NewLoggedOut	5	16	"$13,361.11"	3.2	00:22:49	20%
-VisitorName - Great name!	4	12	"$13,351.11"	3	00:25:32	25%
+label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue_per_visit
+ValueIsZero - 0	5	16	"$13,361.11"	3.2	00:22:49	20%	$0
+VisitorType - NewLoggedOut	5	16	"$13,361.11"	3.2	00:22:49	20%	$0
+VisitorName - Great name!	4	12	"$13,351.11"	3	00:25:32	25%	$0
 
 Actions - Main metrics
 nb_pageviews	nb_uniq_pageviews	nb_downloads	nb_uniq_downloads	nb_outlinks	nb_uniq_outlinks	nb_searches	nb_keywords
@@ -167,18 +167,18 @@ nb_total_overall_bandwidth	nb_total_pageview_bandwidth	nb_total_download_bandwid
 0	0	0
 
 Page URLs
-label	nb_visits	nb_hits	bounce_rate	avg_time_on_page	exit_rate
-/index.htm	4	16	0%	00:03:23	100%
+label	nb_visits	nb_hits	bounce_rate	avg_time_on_page	exit_rate	revenue_per_visit
+/index.htm	4	16	0%	00:03:23	100%	$0
 
 Entry pages
-label	entry_nb_visits	entry_bounce_count	bounce_rate
-/index.htm	4	0	0%
+label	entry_nb_visits	entry_bounce_count	bounce_rate	revenue_per_visit	revenue
+/index.htm	4	0	0%	$0	$0
 
 Entry page titles
-label	entry_nb_visits	entry_bounce_count	bounce_rate
-View product left in cart	1	0	0%
-incredible title!	1	0	0%
-Looking at Electronics & Cameras page with a page level custom variable	1	0	0%
+label	entry_nb_visits	entry_bounce_count	bounce_rate	revenue_per_visit	revenue
+View product left in cart	1	0	0%	$0	$0
+incredible title!	1	0	0%	$0	$0
+Looking at Electronics & Cameras page with a page level custom variable	1	0	0%	$0	$0
 
 Exit pages
 label	nb_visits	exit_nb_visits	exit_rate
@@ -190,15 +190,15 @@ View product left in cart	3	3	100%
 Another Product page with multiple categories	1	1	100%
 
 Page titles
-label	nb_visits	nb_hits	bounce_rate	avg_time_on_page	exit_rate
-View product left in cart	3	9	0%	00:02:00	100%
-Another Product page	1	1	0%	00:06:00	0%
-Another Product page with multiple categories	1	1	0%	00:00:00	100%
-Another Product page with no category	1	1	0%	00:00:00	0%
-incredible title!	1	1	0%	00:06:00	0%
-Looking at Electronics & Cameras page again	1	1	0%	00:06:00	0%
-Looking at Electronics & Cameras page with a page level custom variable	1	1	0%	00:06:00	0%
-Looking at product page	1	1	0%	00:12:00	0%
+label	nb_visits	nb_hits	bounce_rate	avg_time_on_page	exit_rate	revenue_per_visit
+View product left in cart	3	9	0%	00:02:00	100%	$0
+Another Product page	1	1	0%	00:06:00	0%	$0
+Another Product page with multiple categories	1	1	0%	00:00:00	100%	$0
+Another Product page with no category	1	1	0%	00:00:00	0%	$0
+incredible title!	1	1	0%	00:06:00	0%	$0
+Looking at Electronics & Cameras page again	1	1	0%	00:06:00	0%	$0
+Looking at Electronics & Cameras page with a page level custom variable	1	1	0%	00:06:00	0%	$0
+Looking at product page	1	1	0%	00:12:00	0%	$0
 
 Site Search Keywords
 No data available
@@ -310,8 +310,8 @@ Referrers_visitorsFromSearchEngines	Referrers_visitorsFromSocialNetworks	Referre
 0	0	5	0	0	0	0	0	0	0	100%	0%	0%	0%	0%
 
 Channel Type
-label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Direct Entry	5	16	"$13,361.11"	3.2	00:22:49	20%
+label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue_per_visit
+Direct Entry	5	16	"$13,361.11"	3.2	00:22:49	20%	$0
 
 All Channels
 No data available
@@ -439,37 +439,37 @@ nb_conversions	nb_visits_converted	revenue	conversion_rate
 5	4	"$13,361.11"	80%
 
 Visits to Conversion
-label	nb_conversions	revenue
-1 visit	1	$0
-2 visits	0	$0
-3 visits	0	$0
-4 visits	0	$0
-5 visits	0	$0
-6 visits	0	$0
-7 visits	0	$0
-8 visits	0	$0
-9-14 visits	0	$0
-15-25 visits	0	$0
-26-50 visits	0	$0
-51-100 visits	0	$0
-101+ visits	0	$0
+label	nb_conversions	revenue_per_visit	revenue
+1 visit	1	$0	$0
+2 visits	0	$0	$0
+3 visits	0	$0	$0
+4 visits	0	$0	$0
+5 visits	0	$0	$0
+6 visits	0	$0	$0
+7 visits	0	$0	$0
+8 visits	0	$0	$0
+9-14 visits	0	$0	$0
+15-25 visits	0	$0	$0
+26-50 visits	0	$0	$0
+51-100 visits	0	$0	$0
+101+ visits	0	$0	$0
 
 Days to Conversion
-label	nb_conversions	revenue
-0 days	1	$0
-1 day	0	$0
-2 days	0	$0
-3 days	0	$0
-4 days	0	$0
-5 days	0	$0
-6 days	0	$0
-7 days	0	$0
-8-14 days	0	$0
-15-30 days	0	$0
-31-60 days	0	$0
-61-120 days	0	$0
-121-364 days	0	$0
-365+ days	0	$0
+label	nb_conversions	revenue_per_visit	revenue
+0 days	1	$0	$0
+1 day	0	$0	$0
+2 days	0	$0	$0
+3 days	0	$0	$0
+4 days	0	$0	$0
+5 days	0	$0	$0
+6 days	0	$0	$0
+7 days	0	$0	$0
+8-14 days	0	$0	$0
+15-30 days	0	$0	$0
+31-60 days	0	$0	$0
+61-120 days	0	$0	$0
+121-364 days	0	$0	$0
+365+ days	0	$0	$0
 
 Goals Overview
 nb_conversions	nb_visits_converted	revenue	conversion_rate
