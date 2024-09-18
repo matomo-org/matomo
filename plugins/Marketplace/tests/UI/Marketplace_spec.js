@@ -162,6 +162,15 @@ describe("Marketplace", function () {
             });
         }
 
+        it(mode + ' should open paid plugins modal for paid plugin 1', async function () {
+            setEnvironment(mode, validLicense);
+            await page.goto('about:blank');
+            await page.goto(paidPluginsUrl);
+            await loadPluginDetailPage('Paid Plugin 1', false);
+
+            await captureWithPluginDetails('paid_plugin1_plugin_details_' + mode);
+        });
+
         it(mode + ' should open paid plugins modal for paid plugin 2', async function () {
             setEnvironment(mode, validLicense);
             await page.goto('about:blank');
@@ -183,6 +192,13 @@ describe("Marketplace", function () {
             await loadPluginDetailPage('Paid Plugin 4', false);
 
             await captureWithPluginDetails('paid_plugin4_plugin_details_' + mode);
+        });
+
+        it(mode + ' should open paid plugins modal for paid plugin 5', async function () {
+            setEnvironment(mode, validLicense);
+            await loadPluginDetailPage('Paid Plugin 5', false);
+
+            await captureWithPluginDetails('paid_plugin5_plugin_details_' + mode);
         });
 
         it(mode + ' for a user with exceeded license key should be able to open paid plugins', async function() {
