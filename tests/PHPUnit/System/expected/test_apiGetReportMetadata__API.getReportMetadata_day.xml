@@ -273,8 +273,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -340,8 +340,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getContinent&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getContinent&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -411,8 +411,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getRegion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getRegion&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -537,8 +537,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCity&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCity&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -666,8 +666,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getType&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getType&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -740,8 +740,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getModel&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getModel&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -814,8 +814,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrand&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrand&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1005,8 +1005,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1372,8 +1372,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerServerTime&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitTime_getVisitInformationPerServerTime</uniqueId>
@@ -1549,8 +1549,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariables&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariables&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1722,9 +1722,9 @@
 			<nb_conversions_page_rate>Viewed before Ecommerce order rate</nb_conversions_page_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
-			<nb_conversions_page_rate>min($goals[&quot;idgoal=0&quot;].nb_conversions_page_uniq / goal_0_total_conversions, 1)</nb_conversions_page_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<nb_conversions_page_rate>min($goals[&quot;idgoal={idGoal}&quot;].nb_conversions_page_uniq / goal_ecommerceOrder_total_conversions, 1)</nb_conversions_page_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1816,10 +1816,10 @@
 			<nb_conversions_entry_rate>Ecommerce order conversion rate</nb_conversions_entry_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
-			<revenue_per_entry>$goals[&quot;idgoal=0&quot;].revenue / ($entry_nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $entry_nb_visits)</revenue_per_entry>
-			<nb_conversions_entry_rate>$entry_nb_visits ? ($goals[&quot;idgoal=0&quot;].nb_conversions_entry / $entry_nb_visits) : 0</nb_conversions_entry_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_entry>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($entry_nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $entry_nb_visits)</revenue_per_entry>
+			<nb_conversions_entry_rate>$entry_nb_visits ? ($goals[&quot;idgoal={idGoal}&quot;].nb_conversions_entry / $entry_nb_visits) : 0</nb_conversions_entry_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageUrls&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageUrls&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1916,10 +1916,10 @@
 			<nb_conversions_entry_rate>Ecommerce order conversion rate</nb_conversions_entry_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
-			<revenue_per_entry>$goals[&quot;idgoal=0&quot;].revenue / ($entry_nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $entry_nb_visits)</revenue_per_entry>
-			<nb_conversions_entry_rate>$entry_nb_visits ? ($goals[&quot;idgoal=0&quot;].nb_conversions_entry / $entry_nb_visits) : 0</nb_conversions_entry_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_entry>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($entry_nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $entry_nb_visits)</revenue_per_entry>
+			<nb_conversions_entry_rate>$entry_nb_visits ? ($goals[&quot;idgoal={idGoal}&quot;].nb_conversions_entry / $entry_nb_visits) : 0</nb_conversions_entry_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -2137,9 +2137,9 @@
 			<nb_conversions_page_rate>Viewed before Ecommerce order rate</nb_conversions_page_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
-			<nb_conversions_page_rate>min($goals[&quot;idgoal=0&quot;].nb_conversions_page_uniq / goal_0_total_conversions, 1)</nb_conversions_page_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<nb_conversions_page_rate>min($goals[&quot;idgoal={idGoal}&quot;].nb_conversions_page_uniq / goal_ecommerceOrder_total_conversions, 1)</nb_conversions_page_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -2933,8 +2933,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getReferrerType&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getReferrerType&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -3055,8 +3055,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getKeywords&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getKeywords&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -3130,8 +3130,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getSearchEngines&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getSearchEngines&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -3209,8 +3209,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getWebsites&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getWebsites&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -3338,8 +3338,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getCampaigns&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getCampaigns&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -3678,8 +3678,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion</uniqueId>
@@ -3725,8 +3725,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion</uniqueId>

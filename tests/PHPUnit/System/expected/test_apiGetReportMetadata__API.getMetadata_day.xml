@@ -64,8 +64,8 @@
 			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
-			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
-			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>

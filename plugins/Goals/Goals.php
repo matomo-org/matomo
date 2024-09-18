@@ -292,7 +292,7 @@ class Goals extends \Piwik\Plugin
         // Example: Conversion rate for Goal 2 for the keyword 'piwik'
 
         // TODO: comment
-        $idGoalPlaceholder = 0;
+        $idGoalPlaceholder = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
 
         $idSites = $info['parameters']['idSites'] ?? null;
         $idSite = $info['parameters']['idSite'] ?? null;
@@ -431,10 +431,10 @@ class Goals extends \Piwik\Plugin
 
             foreach ($goalProcessedMetrics as $metric) {
                 $name = $metric->getName();
-                $name = preg_replace('/^goal_\d+_/', '', $name);
+                $name = preg_replace('/^goal_.*?_/', '', $name);
 
                 $formula = $metric->getFormula();
-                $formula = str_replace('[idgoal="' . $idGoalPlaceholder . '"]', '{idGoal}', $formula);
+                $formula = str_replace('["idgoal=' . $idGoalPlaceholder . '"]', '["idgoal={idGoal}"]', $formula);
 
                 $apiReportToUpdate['processedMetricsGoal'][$name] = $metric->getTranslatedName();
                 $apiReportToUpdate['metricTypesGoal'][$name] = $metric->getSemanticType() ?: 'unspecified';
