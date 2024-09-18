@@ -1344,10 +1344,10 @@ class Report
     private function getProcessedMetricsMetadata(): array
     {
         $metadata = [
-            'names' => $this->getProcessedMetrics(),
-            'formulas' => null,
-            'temporaryMetricAggregationTypes' => null,
-            'temporaryMetricSemanticTypes' => null,
+            'names' => $this->getProcessedMetrics() ?: [],
+            'formulas' => [],
+            'temporaryMetricAggregationTypes' => [],
+            'temporaryMetricSemanticTypes' => [],
         ];
 
         if (empty($this->processedMetrics)) {

@@ -327,7 +327,7 @@ class Goals extends \Piwik\Plugin
                 continue;
             }
 
-            if (empty($apiReportToUpdate)) { // TODO: remove after done debugging
+            if (!is_array($apiReportToUpdate)) { // TODO: remove after done debugging
                 throw new \Exception("found empty report at $index");
             }
 
