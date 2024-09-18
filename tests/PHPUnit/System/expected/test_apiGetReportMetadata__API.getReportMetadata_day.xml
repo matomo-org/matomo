@@ -238,20 +238,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -321,20 +309,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -400,20 +376,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -484,20 +448,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -552,20 +502,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -636,20 +574,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -706,20 +630,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -792,20 +704,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -878,20 +778,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -963,20 +851,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -1032,20 +906,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -1102,20 +962,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -1194,20 +1042,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -1263,20 +1097,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -1328,20 +1148,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -1397,20 +1203,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -1487,20 +1279,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -1557,20 +1335,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -1642,20 +1408,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -1706,20 +1458,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_actions>number</nb_actions>
@@ -1774,20 +1512,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -1998,7 +1724,7 @@
 		<processedMetricFormulasGoal>
 			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
 			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
-			<nb_conversions_page_rate>min($goals[&quot;idgoal=%s&quot;].nb_conversions_page_uniq / $total_conversions, 1)</nb_conversions_page_rate>
+			<nb_conversions_page_rate>min($goals[&quot;idgoal=0&quot;].nb_conversions_page_uniq / goal_0_total_conversions, 1)</nb_conversions_page_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -2413,7 +2139,7 @@
 		<processedMetricFormulasGoal>
 			<revenue_per_visit>$goals[&quot;idgoal=0&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal=0&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
 			<conversion_rate>$goals[&quot;idgoal=0&quot;].nb_conversions / $nb_visits</conversion_rate>
-			<nb_conversions_page_rate>min($goals[&quot;idgoal=%s&quot;].nb_conversions_page_uniq / $total_conversions, 1)</nb_conversions_page_rate>
+			<nb_conversions_page_rate>min($goals[&quot;idgoal=0&quot;].nb_conversions_page_uniq / goal_0_total_conversions, 1)</nb_conversions_page_rate>
 		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -2718,7 +2444,7 @@
 			<avg_event_value>The average of all values for this event</avg_event_value>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<avg_event_value>$sum_event_value / $nb_evens_with_value</avg_event_value>
+			<avg_event_value>$sum_event_value / $nb_events_with_value</avg_event_value>
 		</processedMetricFormulas>
 		<metricTypes>
 			<nb_events>number</nb_events>
@@ -2765,7 +2491,7 @@
 			<avg_event_value>The average of all values for this event</avg_event_value>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<avg_event_value>$sum_event_value / $nb_evens_with_value</avg_event_value>
+			<avg_event_value>$sum_event_value / $nb_events_with_value</avg_event_value>
 		</processedMetricFormulas>
 		<metricTypes>
 			<nb_events>number</nb_events>
@@ -2812,7 +2538,7 @@
 			<avg_event_value>The average of all values for this event</avg_event_value>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<avg_event_value>$sum_event_value / $nb_evens_with_value</avg_event_value>
+			<avg_event_value>$sum_event_value / $nb_events_with_value</avg_event_value>
 		</processedMetricFormulas>
 		<metricTypes>
 			<nb_events>number</nb_events>
@@ -3170,20 +2896,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -3256,20 +2970,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -3318,20 +3018,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -3409,20 +3097,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -3496,20 +3172,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -3586,20 +3250,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -3651,20 +3301,8 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -4414,20 +4052,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -4470,20 +4094,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -4527,20 +4137,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -4584,20 +4180,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
-		<processedMetricFormulas>
-			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
-			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
-			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
-			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
-		</processedMetricFormulas>
-		<temporaryMetricAggregationTypes>
-			<sum_visit_length>sum</sum_visit_length>
-			<bounce_count>sum</bounce_count>
-		</temporaryMetricAggregationTypes>
-		<temporaryMetricSemanticTypes>
-			<sum_visit_length>number</sum_visit_length>
-			<bounce_count>number</bounce_count>
-		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>

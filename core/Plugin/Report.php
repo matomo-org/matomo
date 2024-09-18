@@ -120,7 +120,8 @@ class Report
      * @var array
      * @api
      */
-    protected $processedMetrics = []; // default set in constructor
+    protected $processedMetrics = array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate');
+    // for a little performance improvement we avoid having to call Metrics::getDefaultProcessedMetrics for each report
 
     /**
      * The semantic types for all metrics this report displays (including processed metrics).
@@ -260,13 +261,6 @@ class Report
             $this->module = $parts[2];
             $this->action = lcfirst($parts[4]);
         }
-
-        $this->processedMetrics = [
-            new ActionsPerVisit(),
-            new AverageTimeOnSite(),
-            new BounceRate(),
-            new ConversionRate(),
-        ];
 
         $this->init();
     }
