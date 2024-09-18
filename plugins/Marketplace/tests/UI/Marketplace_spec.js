@@ -155,7 +155,10 @@ describe("Marketplace", function () {
                 await page.waitForNetworkIdle();
                 await page.waitForTimeout(500);
 
-                await captureSelector('install_purchased_plugins_modal_', '.modal.open');
+                const selector = '.modal.open';
+                await page.screenshotSelector(selector);
+
+                expect(await page.screenshotSelector(selector)).to.matchImage('install_purchased_plugins_modal_' + mode);
             });
         }
 
