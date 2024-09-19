@@ -194,6 +194,12 @@ The new API parameter `showMetadata` was introduced. In can be used to toggle di
 * New command `core:reset-invalidations` allows administrators to reset stuck invalidations that are incorrectly marked as "in progress".
 
 
+## Matomo 6.0.0
+
+### Breaking Changes
+
+* The API methods `Annotations.add` will now require `Write` permission, instead of `View` permission.
+
 ## Matomo 5.2.0
 
 ### Breaking Changes
