@@ -21,10 +21,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\CoreHome\Columns\Metrics\BounceRate;
-use Piwik\Plugins\CoreHome\Columns\Metrics\ActionsPerVisit;
-use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
-use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
@@ -370,15 +366,26 @@ class Report
     }
 
     /**
-     *
      * Processing a uniqueId for each report, can be used by UIs as a key to match a given report
+     *
      * @return string
      */
     public function getId()
     {
-        $params = $this->getParameters();
+        return self::buildId($this->getModule(), $this->getAction(), $this->getParameters());
+    }
 
-        $paramsKey = $this->getModule() . '.' . $this->getAction();
+    /**
+     * TODO
+     *
+     * @param string $module
+     * @param string $action
+     * @param array|null $params
+     * @return string
+     */
+    public static function buildId(string $module, string $action, ?array $params = null): string
+    {
+        $paramsKey = $module . '.' . $action;
 
         if (!empty($params)) {
             foreach ($params as $key => $value) {
@@ -436,7 +443,7 @@ class Report
      */
     public function getMetrics()
     {
-        return $this->getMetricTranslations($this->metrics);
+        return self::getMetricTranslations($this->metrics);
     }
 
     /**
@@ -494,7 +501,7 @@ class Report
             return $this->processedMetrics;
         }
 
-        return $this->getMetricTranslations($this->processedMetrics);
+        return self::getMetricTranslations($this->processedMetrics);
     }
 
     /**
@@ -795,7 +802,10 @@ class Report
         $report['metrics']              = $this->getMetrics();
         $report['metricsDocumentation'] = $this->getMetricsDocumentation();
 
-        $processedMetricMetadata = $this->getProcessedMetricsMetadata();
+        $processedMetricMetadata = self::getProcessedMetricsMetadata(
+            $this->processedMetrics ?: [],
+            $this->getProcessedMetrics() ?: null
+        );
         $report['processedMetrics'] = $processedMetricMetadata['names'];
         $report['processedMetricFormulas'] = $processedMetricMetadata['formulas'];
         $report['temporaryMetricAggregationTypes'] = $processedMetricMetadata['temporaryMetricAggregationTypes'];
@@ -927,7 +937,8 @@ class Report
     }
 
     /**
-     * Get the translated name of the category the report belongs to.
+     * Get the ID of the category the report belongs to.
+     * The ID should also be a valid translation key.
      * @return string|null
      * @ignore
      */
@@ -937,8 +948,9 @@ class Report
     }
 
     /**
-     * Get the translated name of the subcategory the report belongs to.
+     * Get the ID of the subcategory the report belongs to.
      * @return string|null
+     * The ID should also be a valid translation key.
      * @ignore
      */
     public function getSubcategoryId()
@@ -1094,7 +1106,7 @@ class Report
         return Request::processRequest($module . '.' . $action, $paramOverride);
     }
 
-    private function getMetricTranslations($metricsToTranslate)
+    private static function getMetricTranslations($metricsToTranslate)
     {
         $translations = Metrics::getDefaultMetricTranslations();
         $metrics = array();
@@ -1341,20 +1353,20 @@ class Report
         return false;
     }
 
-    private function getProcessedMetricsMetadata(): array
+    public static function getProcessedMetricsMetadata(?array $processedMetrics, ?array $processedMetricTranslations = null): array
     {
         $metadata = [
-            'names' => $this->getProcessedMetrics() ?: [],
+            'names' => $processedMetricTranslations ?: self::getMetricTranslations($processedMetrics ?: []),
             'formulas' => [],
             'temporaryMetricAggregationTypes' => [],
             'temporaryMetricSemanticTypes' => [],
         ];
 
-        if (empty($this->processedMetrics)) {
+        if (empty($processedMetrics)) {
             return $metadata;
         }
 
-        foreach ($this->processedMetrics as $processedMetric) {
+        foreach ($processedMetrics as $processedMetric) {
             if (!($processedMetric instanceof ProcessedMetric)) {
                 continue;
             }

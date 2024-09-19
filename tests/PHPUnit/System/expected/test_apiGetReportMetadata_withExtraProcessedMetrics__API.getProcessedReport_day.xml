@@ -28,11 +28,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+			<revenue_per_visit>($goals[&quot;idgoal=3&quot;].revenue) / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
 			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
@@ -94,6 +94,7 @@
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
+		<conversion_rate>Conversion Rate</conversion_rate>
 		<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		<revenue>Revenue</revenue>
 	</columns>
@@ -103,25 +104,16 @@
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
-			<nb_users>0</nb_users>
-			<max_actions>1</max_actions>
-			<sum_visit_length>1086</sum_visit_length>
-			<bounce_count>1</bounce_count>
-			<nb_visits_converted>1</nb_visits_converted>
-			<goals>
-				<row idgoal='3'>
-					<nb_conversions>1</nb_conversions>
-					<nb_visits_converted>1</nb_visits_converted>
-					<revenue>42.26</revenue>
-				</row>
-			</goals>
-			<nb_conversions>1</nb_conversions>
 			<revenue>$42.26</revenue>
 			<conversion_rate>100%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:18:06</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
-			<revenue_per_visit>$0</revenue_per_visit>
+			<revenue_per_visit>$42</revenue_per_visit>
+			<goal_3_conversion_rate>100%</goal_3_conversion_rate>
+			<goal_3_nb_conversions>1</goal_3_nb_conversions>
+			<goal_3_revenue_per_visit>$42.26</goal_3_revenue_per_visit>
+			<goal_3_revenue>$42.26</goal_3_revenue>
 		</row>
 	</reportData>
 	<reportMetadata>
