@@ -78,10 +78,6 @@
               )
             }}
           </div>
-
-          <div v-if="showMissingLicenseDescription" class="alert alert-danger">
-            {{ translate('Marketplace_PluginLicenseMissingDescription') }}
-          </div>
           <div v-else-if="showExceededLicenseDescription" class="alert alert-warning">
             {{ translate('Marketplace_PluginLicenseExceededDescription') }}
           </div>
@@ -94,8 +90,12 @@
           >
           </div>
           <div v-else-if="!plugin.hasDownloadLink" class="alert alert-warning"
-               v-html="$sanitize(getDownloadLinkMissingHelpText(plugin.displayName, plugin.isPaid))"
+               v-html="$sanitize(getDownloadLinkMissingHelpText(plugin.displayName))"
           >
+          </div>
+
+          <div v-if="showMissingLicenseDescription" class="alert alert-danger">
+            {{ translate('Marketplace_PluginLicenseMissingDescription') }}
           </div>
 
           <div v-html="$sanitize(pluginDescription)"></div>
@@ -633,20 +633,10 @@ export default defineComponent({
         '</a>',
       );
     },
-    getDownloadLinkMissingHelpText(pluginName: string, isPaid: boolean) {
-      let translateKey = 'Marketplace_PluginDownloadLinkMissingFree';
-      let downloadLink = externalLink(`https://plugins.matomo.org/${pluginName}`);
-      if (isPaid) {
-        translateKey = 'Marketplace_PluginDownloadLinkMissing';
-        downloadLink = externalLink('https://shop.matomo.org/my-account/downloads');
-      }
+    getDownloadLinkMissingHelpText(pluginName: string) {
       return translate(
-        translateKey,
+        'Marketplace_PluginDownloadLinkMissingDescription',
         pluginName,
-        downloadLink,
-        '</a>',
-        externalLink('https://matomo.org/faq/plugins/faq_21/'),
-        '</a>',
       );
     },
   },

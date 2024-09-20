@@ -296,7 +296,12 @@ class Plugins
             }
         }
 
-        $plugin['hasDownloadLink'] = !empty($plugin['versions'][0]['download']);
+        $haDownloadLink = false;
+        if (!empty($plugin['versions'])) {
+            $latestVersion = array_pop($plugin['versions']);
+            $hasDownloadLink = !empty($latestVersion['download']);
+        }
+        $plugin['hasDownloadLink'] = $hasDownloadLink;
 
         $plugin = $this->addMissingRequirements($plugin);
         $plugin = $this->addConsumerLicenseStatus($plugin);
@@ -450,8 +455,8 @@ class Plugins
 
     private function addConsumerLicenseStatus($plugin): array
     {
-        $consumerPluginLicenseInfo = $this->consumer->getConsumerPluginLicenseInfo();
-        $plugin['licenseStatus'] = $consumerPluginLicenseInfo[$plugin['name']]['licenseStatus'] ?? '';
+        $consumerPluginLicenseInfo = $this->consumer->getConsumerPluginLicenseStatus();
+        $plugin['licenseStatus'] = $consumerPluginLicenseInfo[$plugin['name']] ?? '';
 
         return $plugin;
     }

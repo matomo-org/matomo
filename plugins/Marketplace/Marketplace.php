@@ -190,6 +190,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_PluginLicenseStatusCancelled';
         $translationKeys[] = 'Marketplace_PluginDownloadLinkMissing';
         $translationKeys[] = 'Marketplace_PluginDownloadLinkMissingFree';
+        $translationKeys[] = 'Marketplace_PluginDownloadLinkMissingDescription';
     }
 
     /**
