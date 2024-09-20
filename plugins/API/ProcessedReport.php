@@ -968,9 +968,17 @@ class ProcessedReport
             return;
         }
 
-        $extraProcessedMetrics = array_filter($extraProcessedMetrics, function ($processedMetric) {
+        $extraProcessedMetrics = array_filter($extraProcessedMetrics, function ($processedMetric) use ($reportMetadata) {
             return $processedMetric instanceof ProcessedMetric
-                && !($processedMetric instanceof GoalSpecificProcessedMetric);
+                && !($processedMetric instanceof GoalSpecificProcessedMetric)
+                // if a metric is added by the Report, the added processed metric will not
+                // overwrite the existing one. in this case, the metric metadata should come
+                // from the Report, not the one in DataTable metadata.
+                //
+                // Note: this can happen when a report defines a BounceRate for a custom
+                // formula, for example. API.getProcessedReport invokes the AddColumnsProcessedMetrics
+                // filter, which adds the default BounceRate metric to the datatable metadata.
+                && empty($reportMetadata['processedMetricFormulas'][$processedMetric->getName()]);
         });
 
         $extraMetadata = Report::getProcessedMetricsMetadata($extraProcessedMetrics);

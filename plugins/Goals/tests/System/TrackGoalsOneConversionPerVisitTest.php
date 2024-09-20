@@ -35,6 +35,20 @@ class TrackGoalsOneConversionPerVisitTest extends SystemTestCase
     {
         $apiToCall = array('Goals.get');
 
+        return [
+            ['API.getProcessedReport', [
+                'idSite' => self::$fixture->idSite,
+                'date' => self::$fixture->dateTime,
+                'period' => 'day',
+                'testSuffix' => 'showGoalsMetricsSingleGoal',
+                'otherRequestParameters' => [
+                    'filter_update_columns_when_show_all_goals' => '1',
+                    'filter_show_goal_columns_process_goals' => '1',
+                    'apiModule' => 'DevicesDetection',
+                    'apiAction' => 'getBrowsers',
+                ],
+            ]],
+        ];
         return array(
             array($apiToCall, array(
                 'idSite'       => self::$fixture->idSite,

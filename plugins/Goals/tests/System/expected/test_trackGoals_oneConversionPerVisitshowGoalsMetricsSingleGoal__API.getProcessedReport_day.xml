@@ -35,6 +35,10 @@
 		</processedMetrics>
 		<processedMetricFormulas>
 			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
+			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
+			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
+			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
 		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
@@ -83,6 +87,14 @@
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2010-01-03</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2009-12-05,2010-01-03</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getBrowsers</uniqueId>
+		<temporaryMetricAggregationTypes>
+			<sum_visit_length>sum</sum_visit_length>
+			<bounce_count>sum</bounce_count>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_visit_length>number</sum_visit_length>
+			<bounce_count>number</bounce_count>
+		</temporaryMetricSemanticTypes>
 	</metadata>
 	<columns>
 		<label>Browser</label>
