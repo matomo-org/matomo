@@ -391,7 +391,7 @@
         "Warning": "تنبيه",
         "WarningFileIntegrityNoManifest": "لم يمكن إجراء فحص سلامة الملفات بسبب فقد ملف manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "هذه الرسالة طبيعية إن كنت تنشر Matomo من Git .",
-        "WarningFileIntegrityNoMd5file": "لم يمكن إتمام فحص سلامة الملفات بسبب فقد دالة md5_file().",
+        "WarningFileIntegrityNoHashFile": "لم يمكن إتمام فحص سلامة الملفات بسبب فقد دالة hash_file().",
         "WarningPasswordStored": "%1$sتنبيه:%2$s سيتم حفظ كلمة المرور هذه في ملف الإعدادات وظاهرة لأياً كان ممن يمكنه الوصول إليه.",
         "Website": "الموقع",
         "Weekly": "أسبوعي",

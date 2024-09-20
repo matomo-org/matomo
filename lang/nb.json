@@ -521,7 +521,7 @@
         "WarningDevelopmentModeOnButNotGitInstalled": "Du bruker nå Matomo i utviklingsmodus, men det ble ikke installert gjennom Git. Det anbefales ikke å bruke Matomo i utviklingsmodus i noe produksjonsmiljø.",
         "WarningFileIntegrityNoManifest": "Klarte ikke å utføre integritetskontroll av filer fordi manifest.inc.php mangler.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Hvis du installerer Matomo fra Git, er denne meldingen normal.",
-        "WarningFileIntegrityNoMd5file": "Klarte ikke utføre integritetskontroll av filer fordi funksjonen md5_file mangler.",
+        "WarningFileIntegrityNoHashFile": "Klarte ikke utføre integritetskontroll av filer fordi funksjonen hash_file() mangler.",
         "WarningPasswordStored": "%1$sAdvarsel:%2$s Dette passordet lagres i klartekst i konfigurasjonsfilen slik at alle med tilgang kan lese det.",
         "WarningPhpVersionXIsTooOld": "PHP-versjonen du bruker (%s) er utdatert. Du bør oppgradere til en støttet versjon, siden den versjonen du bruker kan eksponere deg for sårbarheter og feil som har blitt fikset i nyere versjoner av PHP.",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomo vil slutte å støtte PHP %1$s i neste versjon. Oppgrader din PHP til minst PHP %2$s, før det er for sent!",

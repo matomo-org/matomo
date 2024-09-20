@@ -308,7 +308,7 @@
         "VisitsWith": "Posjete sa %s",
         "Warning": "Upozorenje",
         "WarningFileIntegrityNoManifest": "Provjera integracije fajlova nije mogla biti pokrenuta zbog nedostatka manifest.inc.php.",
-        "WarningFileIntegrityNoMd5file": "Provjera fajla nije mogla biti pokrenuta zbog nedostatka md5_file() function.",
+        "WarningFileIntegrityNoHashFile": "Provjera fajla nije mogla biti pokrenuta zbog nedostatka hash_file() function.",
         "WarningPasswordStored": "%1$sUpozorenje:%2$s Ovaj password će biti sačuvan u config fajl koji će biti vidljiv svima koji mogu pristupiti tom fajlu.",
         "Website": "Web stranica",
         "Weekly": "Sedmično",

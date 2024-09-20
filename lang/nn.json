@@ -270,7 +270,7 @@
         "VisitsWith": "Vitjingar med %s",
         "Warning": "Åtvaring",
         "WarningFileIntegrityNoManifest": "Sjekking av filintegritet kunne ikkje bli utført av di manifest.inc.php manglar.",
-        "WarningFileIntegrityNoMd5file": "Sjekking av filintegritet kunne ikkje bli utført av di md5_file()-funksjonen manglar.",
+        "WarningFileIntegrityNoHashFile": "Sjekking av filintegritet kunne ikkje bli utført av di hash_file()-funksjonen manglar.",
         "WarningPasswordStored": "%1$sÅtvaring:%2$s Dette passordet vil lagrast i konfigurasjonsfila og er synleg for alle som har tilgang til den.",
         "Warnings": "Åtvaringar",
         "Website": "Nettstad",
