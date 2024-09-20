@@ -13,6 +13,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated method `Piwik\Db\TransactionLevel::setUncommitted()` has been removed. Use `Piwik\Db\TransactionLevel::setTransactionLevelForNonLockingReads()` instead.
 * The deprecated `SitesManager.setGlobalExcludedQueryParameters` API method has been removed. Use `SitesManager.setGlobalQueryParamExclusion` instead.
 * The deprecated method `Piwik\API\Request::isTokenAuthProvidedSecurely()` has been removed.
+* The API method `Annotations.add` now requires `Write` permission instead of `View` permission.
 
 ## Matomo 5.12.0
 
@@ -193,12 +194,6 @@ The new API parameter `showMetadata` was introduced. In can be used to toggle di
 
 * New command `core:reset-invalidations` allows administrators to reset stuck invalidations that are incorrectly marked as "in progress".
 
-
-## Matomo 6.0.0
-
-### Breaking Changes
-
-* The API methods `Annotations.add` will now require `Write` permission, instead of `View` permission.
 
 ## Matomo 5.2.0
 
