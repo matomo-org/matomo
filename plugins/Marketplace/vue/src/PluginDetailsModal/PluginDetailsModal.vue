@@ -78,24 +78,30 @@
               )
             }}
           </div>
-          <div v-else-if="showExceededLicenseDescription" class="alert alert-warning">
-            {{ translate('Marketplace_PluginLicenseExceededDescription') }}
-          </div>
-          <div v-else-if="plugin.licenseStatus === 'Pending'" class="alert alert-warning"
-               v-html="$sanitize(getPendingLicenseHelpText(plugin.displayName))"
-          >
-          </div>
-          <div v-else-if="plugin.licenseStatus === 'Cancelled'" class="alert alert-warning"
-               v-html="$sanitize(getCancelledLicenseHelpText(plugin.displayName))"
-          >
-          </div>
-          <div v-else-if="!plugin.hasDownloadLink" class="alert alert-warning"
-               v-html="$sanitize(getDownloadLinkMissingHelpText(plugin.displayName))"
-          >
-          </div>
 
           <div v-if="showMissingLicenseDescription" class="alert alert-danger">
             {{ translate('Marketplace_PluginLicenseMissingDescription') }}
+          </div>
+          <div v-else-if="showExceededLicenseDescription" class="alert alert-warning">
+            {{ translate('Marketplace_PluginLicenseExceededDescription') }}
+          </div>
+          <div v-else-if="plugin.licenseStatus === 'Pending' && !isMultiServerEnvironment"
+               class="alert alert-warning"
+               v-html="$sanitize(getPendingLicenseHelpText(plugin.displayName))"
+          >
+          </div>
+          <div v-else-if="plugin.licenseStatus === 'Cancelled' && !isMultiServerEnvironment"
+               class="alert alert-warning"
+               v-html="$sanitize(getCancelledLicenseHelpText(plugin.displayName))"
+          >
+          </div>
+          <div v-else-if="
+          !plugin.hasDownloadLink
+          && !isMultiServerEnvironment
+          && plugin.licenseStatus"
+               class="alert alert-warning"
+               v-html="$sanitize(getDownloadLinkMissingHelpText(plugin.displayName))"
+          >
           </div>
 
           <div v-html="$sanitize(pluginDescription)"></div>
