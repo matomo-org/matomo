@@ -95,6 +95,7 @@
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+		<conversion_rate>Conversion Rate</conversion_rate>
 		<revenue>Revenue</revenue>
 	</columns>
 	<reportData>
@@ -104,6 +105,7 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
 			<revenue>$42.26</revenue>
+			<conversion_rate>100%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:18:06</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>

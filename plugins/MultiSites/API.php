@@ -22,9 +22,8 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\Metric;
-use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
-use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\MultiSites\FeatureFlags\ImprovedAllWebsitesDashboard;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Scheduler\Scheduler;
@@ -507,7 +506,24 @@ class API extends \Piwik\Plugin\API
                 next($pastArray);
             }
         } else {
-            $currentData->setMetadata(EvolutionMetric::DATATABLE_METADATA_PAST_DATA_NAME, $pastData);
+            $extraProcessedMetrics = $currentData->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+            foreach ($apiMetrics as $metricSettings) {
+                $evolutionMetricClass = $this->isEcommerceEvolutionMetric($metricSettings)
+                                      ? "Piwik\\Plugins\\MultiSites\\Columns\\Metrics\\EcommerceOnlyEvolutionMetric"
+                                      : "Piwik\\Plugins\\CoreHome\\Columns\\Metrics\\EvolutionMetric";
+
+                $extraProcessedMetrics = is_array($extraProcessedMetrics) ? $extraProcessedMetrics : [];
+                $extraProcessedMetrics[] = new $evolutionMetricClass(
+                    $metricSettings[self::METRIC_RECORD_NAME_KEY],
+                    $pastData,
+                    $metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY],
+                    $quotientPrecision = 1,
+                    $currentData,
+                    $metricSettings[API::METRIC_TRANSLATION_KEY],
+                    $metricSettings[API::METRIC_WRAPPED_SEMANTIC_TYPE_KEY],
+                    $metricSettings[API::METRIC_WRAPPED_AGGREGATION_TYPE_KEY]                );
+            }
+            $currentData->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
         }
     }
 
@@ -700,5 +716,14 @@ class API extends \Piwik\Plugin\API
                 $row->setColumns(array_merge(array('label' => $row->getColumn('label')), $row->getColumns()));
             }
         });
+    }
+
+    private function isEcommerceEvolutionMetric($metricSettings)
+    {
+        return in_array($metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY], array(
+            self::GOAL_REVENUE_METRIC . '_evolution',
+            self::ECOMMERCE_ORDERS_METRIC . '_evolution',
+            self::ECOMMERCE_REVENUE_METRIC . '_evolution'
+        ));
     }
 }

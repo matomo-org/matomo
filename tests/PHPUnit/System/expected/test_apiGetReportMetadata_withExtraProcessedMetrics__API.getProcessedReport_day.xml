@@ -32,7 +32,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<revenue_per_visit>($goals[&quot;idgoal=3&quot;].revenue) / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
 			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>

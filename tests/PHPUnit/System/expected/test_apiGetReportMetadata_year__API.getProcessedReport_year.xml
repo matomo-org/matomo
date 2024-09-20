@@ -93,6 +93,7 @@
 		<avg_time_on_site>Temps moyen sur le site web</avg_time_on_site>
 		<bounce_rate>Taux de rebond</bounce_rate>
 		<revenue_per_visit>Revenu par visite</revenue_per_visit>
+		<conversion_rate>Taux de conversion</conversion_rate>
 		<revenue>Revenu</revenue>
 	</columns>
 	<reportData />

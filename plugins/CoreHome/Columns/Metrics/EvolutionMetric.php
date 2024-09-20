@@ -32,8 +32,6 @@ use Piwik\Plugin\ProcessedMetric;
  */
 class EvolutionMetric extends ProcessedMetric
 {
-    const DATATABLE_METADATA_PAST_DATA_NAME = 'EvolutionMetric_past_data';
-
     /**
      * @var Metric|string
      */
@@ -99,7 +97,6 @@ class EvolutionMetric extends ProcessedMetric
      * @param int $quotientPrecision The percent's quotient precision.
      * @param DataTable|null $currentData The current datatable, optional but required to calculate the proportionate
      *                                    evolution values
-     * TODO: add extra params
      */
     public function __construct(
         $wrapped,
@@ -115,9 +112,6 @@ class EvolutionMetric extends ProcessedMetric
         $this->isLowerBetter = Metrics::isLowerValueBetter($this->wrapped);
         $this->pastData = $pastData;
         $this->currentData = $currentData;
-        $this->wrappedMetricTranslatedName = $wrappedMetricTranslatedName;
-        $this->wrappedSemanticType = $wrappedSemanticType;
-        $this->wrappedMetricAggregationType = $wrappedMetricAggregationType;
 
         if (empty($evolutionMetricName)) {
             $wrappedName = $this->getWrappedName();
@@ -152,19 +146,6 @@ class EvolutionMetric extends ProcessedMetric
         return Piwik::translate('API_EvolutionMetricName', [$metricName]);
     }
 
-    public function beforeCompute($report, DataTable $table)
-    {
-        if (empty($this->pastData)) {
-            $this->pastData = $table->getMetadata(self::DATATABLE_METADATA_PAST_DATA_NAME);
-        }
-
-        if (empty($this->currentData)) {
-            $this->currentData = $table;
-        }
-
-        return true; // always compute
-    }
-
     public function getTrendValue($computedValue = 0)
     {
         if ($this->isLowerBetter) {
@@ -192,38 +173,6 @@ class EvolutionMetric extends ProcessedMetric
         $pastValue = ($pastValue * $ratio);
 
         return [ "past_{$columnName}" => $pastValue ];
-    }
-
-    public function getExtraMetricAggregationTypes(): array
-    {
-        $columnName = $this->getWrappedName();
-
-        if (!empty($this->wrappedMetricAggregationType)) {
-            $aggregationType = $this->wrappedMetricAggregationType;
-        } else if ($this->wrapped instanceof Metric) {
-            $aggregationType = $this->wrapped->getAggregationType();
-        } else {
-            $allAggregationTypes = Metrics::getDefaultMetricAggregationTypes();
-            $aggregationType = $allAggregationTypes[$columnName] ?? null;
-        }
-
-        return [ "past_{$columnName}" => $aggregationType ];
-    }
-
-    public function getExtraMetricSemanticTypes(): array
-    {
-        $columnName = $this->getWrappedName();
-
-        if (!empty($this->wrappedSemanticType)) {
-            $semanticType = $this->wrappedSemanticType;
-        } else if ($this->wrapped instanceof Metric) {
-            $semanticType = $this->wrapped->getSemanticType();
-        } else {
-            $allSemanticTypes = Metrics::getDefaultMetricSemanticTypes();
-            $semanticType = $allSemanticTypes[$columnName] ?? null;
-        }
-
-        return [ "past_{$columnName}" => $semanticType ];
     }
 
     public function compute(Row $row)
@@ -364,5 +313,37 @@ class EvolutionMetric extends ProcessedMetric
         $pastColumnName = '$past_' . $columnName;
 
         return sprintf("%s == 0 ? 1 : ((%s - %s) / %s)", $pastColumnName, '$' . $columnName, $pastColumnName, $pastColumnName);
+    }
+
+    public function getExtraMetricAggregationTypes(): array
+    {
+        $columnName = $this->getWrappedName();
+
+        if (!empty($this->wrappedMetricAggregationType)) {
+            $aggregationType = $this->wrappedMetricAggregationType;
+        } else if ($this->wrapped instanceof Metric) {
+            $aggregationType = $this->wrapped->getAggregationType();
+        } else {
+            $allAggregationTypes = Metrics::getDefaultMetricAggregationTypes();
+            $aggregationType = $allAggregationTypes[$columnName] ?? null;
+        }
+
+        return [ "past_{$columnName}" => $aggregationType ];
+    }
+
+    public function getExtraMetricSemanticTypes(): array
+    {
+        $columnName = $this->getWrappedName();
+
+        if (!empty($this->wrappedSemanticType)) {
+            $semanticType = $this->wrappedSemanticType;
+        } else if ($this->wrapped instanceof Metric) {
+            $semanticType = $this->wrapped->getSemanticType();
+        } else {
+            $allSemanticTypes = Metrics::getDefaultMetricSemanticTypes();
+            $semanticType = $allSemanticTypes[$columnName] ?? null;
+        }
+
+        return [ "past_{$columnName}" => $semanticType ];
     }
 }
