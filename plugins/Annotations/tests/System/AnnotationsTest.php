@@ -232,41 +232,71 @@ class AnnotationsTest extends SystemTestCase
         API::getInstance()->get(self::$fixture->idSite1, 1);
     }
 
-    public function getPermissionsFailData()
+    public function getPermissionsChecks(): iterable
     {
-        return array(
-            // getAll
-            array(false, false, "module=API&method=Annotations.getAll&idSite=1&date=2012-01-01&period=year", true, "getAll should throw if user does not have view access"),
+        yield 'Annotations.getAll should throw if user does not have view access' => [
+            null, 'module=API&method=Annotations.getAll&idSite=1&date=2012-01-01&period=year', true
+        ];
 
-            // get
-            array(false, false, "module=API&method=Annotations.get&idSite=1&idNote=0", true, "get should throw if user does not have view access"),
+        yield 'Annotations.get should throw if user does not have view access' => [
+            null, 'module=API&method=Annotations.get&idSite=1&idNote=0', true
+        ];
 
-            // getAnnotationCountForDates
-            array(false, false, "module=API&method=Annotations.getAnnotationCountForDates&idSite=1&date=2012-01-01&period=year", true, "getAnnotationCountForDates should throw if user does not have view access"),
+        yield 'Annotations.getAnnotationCountForDates should throw if user does not have view access' => [
+            null, 'module=API&method=Annotations.getAnnotationCountForDates&idSite=1&date=2012-01-01&period=year', true
+        ];
 
-            // add
-            array(false, false, "module=API&method=Annotations.add&idSite=1&date=2011-02-01&note=whatever", true, "add should throw if user does not have view access"),
-            array(false, true, "module=API&method=Annotations.add&idSite=1&date=2011-02-01&note=whatever2", false, "add should not throw if user has view access"),
-            array(true, true, "module=API&method=Annotations.add&idSite=1&date=2011-02-01&note=whatever3", false, "add should not throw if user has admin access"),
+        yield 'Annotations.add should throw if user has view access' => [
+            'view', 'module=API&method=Annotations.add&idSite=1&date=2011-02-01&note=whatever', true
+        ];
 
-            // save
-            array(false, false, "module=API&method=Annotations.save&idSite=1&idNote=0&date=2011-03-01&note=newnote", true, "save should throw if user does not have view access"),
-            array(false, true, "module=API&method=Annotations.save&idSite=1&idNote=0&date=2011-03-01&note=newnote", true, "save should throw if user has view access but did not edit note"),
-            array(true, true, "module=API&method=Annotations.save&idSite=1&idNote=0&date=2011-03-01&note=newnote", false, "save should not throw if user has admin access"),
+        yield 'Annotations.add should not throw if user has write access' => [
+            'write', 'module=API&method=Annotations.add&idSite=1&date=2011-02-01&note=whatever', false
+        ];
 
-            // delete
-            array(false, false, "module=API&method=Annotations.delete&idSite=1&idNote=0", true, "delete should throw if user does not have view access"),
-            array(false, true, "module=API&method=Annotations.delete&idSite=1&idNote=0", true, "delete should throw if user does not have view access"),
-            array(true, true, "module=API&method=Annotations.delete&idSite=1&idNote=0", false, "delete should not throw if user has admin access"),
-        );
+        yield 'Annotations.add should not throw if user has admin access' => [
+            'admin', 'module=API&method=Annotations.add&idSite=1&date=2011-02-01&note=whatever', false
+        ];
+
+        yield 'Annotations.save should throw if user does not have view access' => [
+            null, 'module=API&method=Annotations.save&idSite=1&idNote=0&date=2011-03-01&note=newnote', true
+        ];
+
+        yield 'Annotations.save should throw if user has view access but did not edit note' => [
+            'view', 'module=API&method=Annotations.save&idSite=1&idNote=0&date=2011-03-01&note=newnote', true
+        ];
+
+        yield 'Annotations.save should not throw if user has write access' => [
+            'write', 'module=API&method=Annotations.save&idSite=1&idNote=0&date=2011-03-01&note=newnote', false
+        ];
+
+        yield 'Annotations.save should not throw if user has admin access' => [
+            'admin', 'module=API&method=Annotations.save&idSite=1&idNote=0&date=2011-03-01&note=newnote', false
+        ];
+
+        yield 'Annotations.delete should throw if user does not have view access' => [
+            null, 'module=API&method=Annotations.delete&idSite=1&idNote=0', true
+        ];
+
+        yield 'Annotations.delete should throw if user has view access but did not edit note' => [
+            'view', 'module=API&method=Annotations.delete&idSite=1&idNote=0', true
+        ];
+
+        yield 'Annotations.delete should not throw if user has write access' => [
+            'write', 'module=API&method=Annotations.delete&idSite=1&idNote=0', false
+        ];
+
+        yield 'Annotations.delete should not throw if user has admin access' => [
+            'admin', 'module=API&method=Annotations.delete&idSite=1&idNote=2', false
+        ];
     }
 
     /**
-     * @dataProvider getPermissionsFailData
+     * @dataProvider getPermissionsChecks
      */
-    public function testMethodPermissions($hasAdminAccess, $hasViewAccess, $request, $checkException, $failMessage)
+    public function testMethodPermissions($permissionLevel, $request, $shouldThrowException)
     {
-        if (true === $checkException) {
+        if (true === $shouldThrowException) {
             self::expectException(Exception::class);
         } else {
             self::expectNotToPerformAssertions();
@@ -274,9 +304,10 @@ class AnnotationsTest extends SystemTestCase
 
         // create fake access that denies user access
         FakeAccess::clearAccess(false);
-        FakeAccess::$identity = 'user' . (int)$hasAdminAccess . (int)$hasViewAccess;
-        FakeAccess::$idSitesAdmin = $hasAdminAccess ? array(self::$fixture->idSite1) : array();
-        FakeAccess::$idSitesView = $hasViewAccess ? array(self::$fixture->idSite1) : array();
+        FakeAccess::$identity = 'user' . $permissionLevel;
+        FakeAccess::$idSitesAdmin = $permissionLevel === 'admin' ? array(self::$fixture->idSite1) : [];
+        FakeAccess::$idSitesWrite = $permissionLevel === 'write' ? array(self::$fixture->idSite1) : [];
+        FakeAccess::$idSitesView = $permissionLevel === 'view' ? array(self::$fixture->idSite1) : [];
 
         $request = new Request($request . '&format=original');
         $request->process();
