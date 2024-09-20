@@ -524,7 +524,7 @@
         "WarningDevelopmentModeOnButNotGitInstalled": "Je gebruikt Matomo momenteel in ontwikkelmodus, maar het was niet via git geïnstalleerd. Wij je om Matomo niet in ontwikkelmodus in een productie-omgeving te gebruiken.",
         "WarningFileIntegrityNoManifest": "Bestandsintegriteitscontrole kon niet worden uitgevoerd omdat manifest.inc.php ontbreekt.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Als u Matomo vanuit Git opzet, is dit bericht normaal.",
-        "WarningFileIntegrityNoMd5file": "Bestand integriteit controle kon niet worden voltooid vanwege ontbrekende md5_file() functie.",
+        "WarningFileIntegrityNoHashFile": "Bestand integriteit controle kon niet worden voltooid vanwege ontbrekende hash_file() functie.",
         "WarningPasswordStored": "%1$sWaarschuwing:%2$s Dit wachtwoord zal worden bewaard in het configuratie bestand, zichtbaar voor iedereen die toegang heeft.",
         "WarningPhpVersionXIsTooOld": "Je gebruikt PHP versie %s. Deze heeft de status 'End of Life (OEL)'. We adviseren je ten zeerste om te upgraden naar de recente versie van PHP, omdat de versie die nu gebruikt beveiligingslekken en bugs kan bevatten, welke in meer recente versies van PHP opgelost zijn.",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomo zal de ondersteuning voor PHP %1$s stopzetten in de volgende grote versie. Werk je PHP ten minste bij tot PHP %2$s, voordat het te laat is!",

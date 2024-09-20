@@ -400,7 +400,7 @@
         "VisitsWith": "Látogatások ezzel: %s",
         "Warning": "Figyelmeztetés",
         "WarningFileIntegrityNoManifest": "A fájlintegritás ellenőrzés nem hajtható végre, mivel hiányzik a manifest.inc.php fájl.",
-        "WarningFileIntegrityNoMd5file": "A fájlintegritás ellenőrzés nem hajtható végre, mivel az md5_file() funkció nem elérhető.",
+        "WarningFileIntegrityNoHashFile": "A fájlintegritás ellenőrzés nem hajtható végre, mivel az hash_file() funkció nem elérhető.",
         "WarningPasswordStored": "%1$sFigyelmeztetés:%2$s Ez a jelszó eltárolásra kerül a konfigurációs fájlban, így bárki láthatja, aki hozzáfér a fájlhoz.",
         "Warnings": "Figyelmeztetések",
         "Website": "Weboldal",

@@ -518,7 +518,7 @@
         "WarningDevelopmentModeOnButNotGitInstalled": "現在、開発モードでMatomoを使用していますが、gitを介してインストールされていません。 本番環境の開発モードでMatomoを使用することはお勧めしません。",
         "WarningFileIntegrityNoManifest": "manifest.inc.php が欠落しているため、ファイルの整合性チェックを実行することができませんでした。",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Git から Matomo をデプロイする場合、このメッセージは正常です。",
-        "WarningFileIntegrityNoMd5file": "md5_file() 関数が存在しないため、ファイルの整合性チェックを完了することができませんでした。",
+        "WarningFileIntegrityNoHashFile": "hash_file() 関数が存在しないため、ファイルの整合性チェックを完了することができませんでした。",
         "WarningPasswordStored": "%1$s警告：%2$s このパスワードは、アクセス可能なすべての人に見える設定ファイルに保存されます。",
         "WarningPhpVersionXIsTooOld": "ご利用の PHP バージョン %s は、サポート期間が終了( EOL )しています。セキュリティの脆弱性と、最新の PHP バージョンで既に修正されたバグに対するリスクを避けるため、必ず最新バージョンへアップグレードしてください。",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomo は、次のメジャーバージョンで PHP %1$s のサポートを停止します。手遅れになる前に PHP を少なくとも PHP %2$s にアップグレードしてください！",
