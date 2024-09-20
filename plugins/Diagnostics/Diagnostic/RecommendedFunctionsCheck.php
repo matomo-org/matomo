@@ -61,6 +61,7 @@ class RecommendedFunctionsCheck implements Diagnostic
             'glob',
             'gzopen',
             'md5_file',
+            'hash_file',
         );
     }
 

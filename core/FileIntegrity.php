@@ -334,7 +334,6 @@ class FileIntegrity
         $messagesMismatch = array();
         $hasHashFile = function_exists('hash_file');
         $files = \Piwik\Manifest::$files;
-        $hasHash = function_exists('hash');
         foreach ($files as $path => $props) {
             $file = PIWIK_INCLUDE_PATH . '/' . $path;
 
@@ -345,7 +344,7 @@ class FileIntegrity
                     continue;
                 }
 
-                if (!$hasHash || in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf'))) {
+                if (in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf'))) {
                     // files that contain binary data (e.g., images) must match the file size
                     $messagesMismatch[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
                 } else {
