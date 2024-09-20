@@ -112,7 +112,6 @@ class EvolutionMetric extends ProcessedMetric
         $this->isLowerBetter = Metrics::isLowerValueBetter($this->wrapped);
         $this->pastData = $pastData;
         $this->currentData = $currentData;
-
         if (empty($evolutionMetricName)) {
             $wrappedName = $this->getWrappedName();
             $evolutionMetricName = $wrappedName . '_evolution';
@@ -121,6 +120,9 @@ class EvolutionMetric extends ProcessedMetric
         $this->evolutionMetricTrendName = $evolutionMetricName . '_trend';
         $this->evolutionMetricName = $evolutionMetricName;
         $this->quotientPrecision = $quotientPrecision;
+        $this->wrappedMetricTranslatedName = $wrappedMetricTranslatedName;
+        $this->wrappedSemanticType = $wrappedSemanticType;
+        $this->wrappedMetricAggregationType = $wrappedMetricAggregationType;
     }
 
     public function getName()
@@ -141,7 +143,9 @@ class EvolutionMetric extends ProcessedMetric
             $metricName = $this->wrapped->getTranslatedName();
         } else {
             $defaultMetricTranslations = Metrics::getDefaultMetricTranslations();
-            $metricName = $defaultMetricTranslations[$this->wrapped] ?? $this->wrapped;
+            $metricName = isset($defaultMetricTranslations[$this->wrapped])
+                ? Piwik::translate($defaultMetricTranslations[$this->wrapped])
+                : $this->wrapped;
         }
         return Piwik::translate('API_EvolutionMetricName', [$metricName]);
     }

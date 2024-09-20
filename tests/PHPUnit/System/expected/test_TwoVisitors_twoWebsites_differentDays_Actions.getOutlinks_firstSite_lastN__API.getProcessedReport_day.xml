@@ -22,15 +22,42 @@
 			<nb_visits>number</nb_visits>
 			<nb_hits>number</nb_hits>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_hits>sum</nb_hits>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getOutlinks</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getOutlinks&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getOutlinks&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getOutlinks</uniqueId>
+		<processedMetrics>
+			<nb_hits_with_bandwidth>Recorded hits with bandwidth</nb_hits_with_bandwidth>
+			<max_bandwidth>Max Bandwidth</max_bandwidth>
+			<min_bandwidth>Min Bandwidth</min_bandwidth>
+			<sum_bandwidth>Sum Bandwidth</sum_bandwidth>
+			<avg_bandwidth>Avg. Bandwidth</avg_bandwidth>
+			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
+			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
+		</processedMetrics>
+		<processedMetricFormulas>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+		</temporaryMetricSemanticTypes>
 	</metadata>
 	<columns>
 		<label>Clicked Outlink</label>
 		<nb_visits>Unique Clicks</nb_visits>
 		<nb_hits>Clicks</nb_hits>
+		<nb_hits_with_bandwidth>Recorded hits with bandwidth</nb_hits_with_bandwidth>
+		<max_bandwidth>Max Bandwidth</max_bandwidth>
+		<min_bandwidth>Min Bandwidth</min_bandwidth>
+		<sum_bandwidth>Sum Bandwidth</sum_bandwidth>
+		<avg_bandwidth>Avg. Bandwidth</avg_bandwidth>
+		<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
+		<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+		<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010" />

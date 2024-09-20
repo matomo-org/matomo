@@ -210,6 +210,7 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<exit_rate>Exit rate</exit_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</columns>
 	</metadata>
 </result>

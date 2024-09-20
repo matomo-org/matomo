@@ -521,7 +521,8 @@ class API extends \Piwik\Plugin\API
                     $currentData,
                     $metricSettings[API::METRIC_TRANSLATION_KEY],
                     $metricSettings[API::METRIC_WRAPPED_SEMANTIC_TYPE_KEY],
-                    $metricSettings[API::METRIC_WRAPPED_AGGREGATION_TYPE_KEY]                );
+                    $metricSettings[API::METRIC_WRAPPED_AGGREGATION_TYPE_KEY]
+                );
             }
             $currentData->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
         }

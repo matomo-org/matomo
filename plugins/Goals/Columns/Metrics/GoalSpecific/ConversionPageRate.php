@@ -46,7 +46,11 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
 
     public function getTranslatedName()
     {
-        return Piwik::translate('Goals_ConversionRatePageViewedBefore', $this->getGoalName());
+        $goalName = $this->getGoalName();
+        if (empty($goalName)) {
+            return Piwik::translate('Goals_ConversionRatePageViewedBeforeGeneric');
+        }
+        return Piwik::translate('Goals_ConversionRatePageViewedBefore', $goalName);
     }
 
     public function getDocumentation()

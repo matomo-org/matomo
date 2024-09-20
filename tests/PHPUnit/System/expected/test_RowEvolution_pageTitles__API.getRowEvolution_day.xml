@@ -140,6 +140,9 @@
 			<avg_time_generation>
 				<name>Avg. generation time</name>
 			</avg_time_generation>
+			<revenue_per_visit>
+				<name>Revenue per Visit</name>
+			</revenue_per_visit>
 		</metrics>
 		<dimension>Page Title</dimension>
 	</metadata>

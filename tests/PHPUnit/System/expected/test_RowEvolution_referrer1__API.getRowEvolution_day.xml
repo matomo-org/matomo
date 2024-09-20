@@ -127,6 +127,9 @@
 				<min>0</min>
 				<max>100</max>
 			</bounce_rate>
+			<revenue_per_visit>
+				<name>Revenue per Visit</name>
+			</revenue_per_visit>
 		</metrics>
 		<dimension>Website</dimension>
 	</metadata>

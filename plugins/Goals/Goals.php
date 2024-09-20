@@ -292,7 +292,7 @@ class Goals extends \Piwik\Plugin
         // Example: Conversion rate for Goal 2 for the keyword 'piwik'
 
         // TODO: comment
-        $idGoalPlaceholder = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
+        $idGoalPlaceholder = 0;
 
         $idSites = $info['parameters']['idSites'] ?? null;
         $idSite = $info['parameters']['idSite'] ?? null;
@@ -410,7 +410,7 @@ class Goals extends \Piwik\Plugin
             foreach ($extraProcessedMetrics as $metric) {
                 $name = $metric->getName();
 
-                $apiReportToUpdate['processedMetrics'][$name] = $metric->getTranslatedName();
+                $apiReportToUpdate['processedMetrics'][$name] = trim($metric->getTranslatedName());
                 $apiReportToUpdate['metricTypes'][$name] = $metric->getSemanticType() ?: 'unspecified';
                 $apiReportToUpdate['processedMetricFormulas'][$name] = $metric->getFormula();
                 $apiReportToUpdate['temporaryMetricSemanticTypes'] = array_merge(
@@ -443,8 +443,9 @@ class Goals extends \Piwik\Plugin
 
                 $formula = $metric->getFormula();
                 $formula = str_replace('["idgoal=' . $idGoalPlaceholder . '"]', '["idgoal={idGoal}"]', $formula);
+                $formula = str_replace('goal_' . $idGoalPlaceholder . '_', 'goal_{idGoal}_', $formula);
 
-                $apiReportToUpdate['processedMetricsGoal'][$name] = $metric->getTranslatedName();
+                $apiReportToUpdate['processedMetricsGoal'][$name] = ucfirst(trim($metric->getTranslatedName()));
                 $apiReportToUpdate['metricTypesGoal'][$name] = $metric->getSemanticType() ?: 'unspecified';
                 $apiReportToUpdate['processedMetricFormulasGoal'][$name] = $formula;
                 $apiReportToUpdate['temporaryMetricSemanticTypesGoal'] = array_merge(

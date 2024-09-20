@@ -27,7 +27,22 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
+			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
+			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
+			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
+			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<bounce_count>sum</bounce_count>
+			<sum_visit_length>sum</sum_visit_length>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<bounce_count>number</bounce_count>
+			<sum_visit_length>number</sum_visit_length>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
 			<nb_visits>number</nb_visits>
@@ -50,6 +65,7 @@
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
+		<conversion_rate>Conversion Rate</conversion_rate>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">
@@ -57,6 +73,7 @@
 			<nb_visits>2</nb_visits>
 			<nb_actions>2</nb_actions>
 			<max_actions>1</max_actions>
+			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
@@ -66,6 +83,7 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
 			<max_actions>1</max_actions>
+			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
@@ -75,6 +93,7 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
+			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
 			<avg_time_on_site>00:15:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
@@ -84,6 +103,7 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
+			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
 			<avg_time_on_site>00:15:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
@@ -93,6 +113,7 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
+			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
 			<avg_time_on_site>00:15:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
@@ -102,6 +123,7 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
+			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
 			<avg_time_on_site>00:15:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
@@ -111,6 +133,7 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>5</nb_actions>
 			<max_actions>5</max_actions>
+			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
 			<avg_time_on_site>00:15:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
