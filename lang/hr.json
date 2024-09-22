@@ -277,7 +277,7 @@
         "VisitsWith": "Posjete sa %s",
         "Warning": "Upozorenje",
         "WarningFileIntegrityNoManifest": "Nije moguće napraviti provjeru integriteta datoteke jer nedostaje manifest.inc.php.",
-        "WarningFileIntegrityNoMd5file": "Nije moguće napraviti provjeru integriteta datoteke jer funkcija md5_file() nije dostupna.",
+        "WarningFileIntegrityNoHashFile": "Nije moguće napraviti provjeru integriteta datoteke jer funkcija hash_file() nije dostupna.",
         "WarningPasswordStored": "%1$sPozor:%2$s Ova će lozinka biti pohranjena u konfiguracijsku datoteka i biti će vidljiva svima koji imaju pristup toj datoteci.",
         "Website": "Web stranica",
         "Weekly": "Tjedno",

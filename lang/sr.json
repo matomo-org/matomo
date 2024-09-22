@@ -454,7 +454,7 @@
         "WarningDebugOnDemandEnabled": "Uključen je %1$s mod za praćenje. Iz bezbednosnih razloga ovo bi trebalo da bude uključeno samo u kratkom vremenskom periodu. Ukoliko želite da ga isključite, postavite %2$s na %3$s u %4$s",
         "WarningFileIntegrityNoManifest": "Proveru integriteta datoteka nije moguće sprovesti zato što nedostaje datoteka manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Ukoliko podižete Matomo iz Git-a, ova poruka je sasvim prirodna.",
-        "WarningFileIntegrityNoMd5file": "Proveru integriteta datoteka nije moguće okončati zato što nedostaje funkcija md5_file().",
+        "WarningFileIntegrityNoHashFile": "Proveru integriteta datoteka nije moguće okončati zato što nedostaje funkcija hash_file().",
         "WarningPasswordStored": "%1$sUpozorenje:%2$s Ova lozinka će biti upisana u datoteku sa podešavanjima i biće vidljiva svakome ko ima pristup.",
         "WarningPhpVersionXIsTooOld": "PHP verzija %s koju koristite je zastarela. Molimo vas da hitno nadogradite PHP na najnoviju verziju jer ukoliko nastavite da koristite postojeću, izlažete se sigurnosnim rizicima i bagovima koji su već ispravljeni u novijim verzijama PHP-a.",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomo će prestati sa podrškom za PHP %1$s sledećom verzijom. Nadogradite vaš PHP na barem %2$s pre nego što bude bilo kasno!",

@@ -525,7 +525,7 @@
         "WarningDevelopmentModeOnButNotGitInstalled": "V současné době používáte Matomo ve vývojovém režimu, systém ale nebyl nainstalován prostřednictvím gitu. V produkčním prostředí se nedoporučuje používat Matomo ve vývojovém režimu.",
         "WarningFileIntegrityNoManifest": "Test integrity nemůže být proveden z důvodů chybějícího souboru manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Pokud nasazujete Matomo z Gitu, pak je tato zpráva normální.",
-        "WarningFileIntegrityNoMd5file": "Test integrity nemůže být dokončen z důvodů chybějící funkce md5_file().",
+        "WarningFileIntegrityNoHashFile": "Test integrity nemůže být dokončen z důvodů chybějící funkce hash_file().",
         "WarningPasswordStored": "%1$sUpozornění:%2$s Toto heslo bude uloženo v konfiguračním souboru viditelné pro všechny s přístupem k němu.",
         "WarningPhpVersionXIsTooOld": "PHP verze %s, kterou používáte již není podporována (EOL). Důrazně doporučujeme aktualizovat na novější verzi, protože stávající může obsahovat bezpečnostní a další problémy, které byly opraveny v novějších verzích PHP.",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomo přestane podporavat PHP %1$s v dalším vydání. Aktualizujte PHP alespoň na %2$s, než bude pozdě!",

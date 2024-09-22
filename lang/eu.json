@@ -525,7 +525,7 @@
         "WarningDevelopmentModeOnButNotGitInstalled": "Matomo garapeneko moduan erabiltzen ari zara, baina ez zen git erabiliz instalatu. Ez da gomendagarria Matomo garapeneko moduan erabiltzea produkzioko ingurunean.",
         "WarningFileIntegrityNoManifest": "Ezin izan da fitxategien osotasuna egiaztatu, manifest.inc.php falta delako.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Matomo Git erabiliz hedatzen ari bazara, mezu hau normala da.",
-        "WarningFileIntegrityNoMd5file": "Ezin izan da fitxategien osotasuna egiaztatu, md5_file() funtzioa falta delako.",
+        "WarningFileIntegrityNoHashFile": "Ezin izan da fitxategien osotasuna egiaztatu, hash_file() funtzioa falta delako.",
         "WarningPasswordStored": "%1$sAbisua:%2$s Pasahitz hau konfigurazio-fitxategian gordeko da eta atzitu dezakeen edonork ikusi dezake.",
         "WarningPhpVersionXIsTooOld": "Erabiltzen ari zaren PHP bertsioa, %s, bere bizitzaren amaierara (EOL) iritsi da. Guztiz gomendagarria da eguneratutako bertsio batera bertsio-berritzea, PHPren bertsio berriagoetan zuzendutako segurtasun ahulguneak eta erroreak izan baititzake bertsio honek.",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomok ez du onartuko PHP %1$s hurrengo bertsio nagusian. Bertsio-berritu zure PHP gutxienez %2$s bertsiora berandu izan baino lehen!",

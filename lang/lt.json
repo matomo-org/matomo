@@ -284,7 +284,7 @@
         "Visitors": "Lankytojai",
         "Warning": "Įspėjimas",
         "WarningFileIntegrityNoManifest": "Failo vientisumo patikra negali būti atlikta dėl nesamo manifest.inc.php failo.",
-        "WarningFileIntegrityNoMd5file": "Failo vientisumo patikra negali būti atlikta dėl nesamos md5_file() funkcijos.",
+        "WarningFileIntegrityNoHashFile": "Failo vientisumo patikra negali būti atlikta dėl nesamos hash_file() funkcijos.",
         "WarningPasswordStored": "%1$sĮspėjimas:%2$s Šis slaptažodis bus išsaugotas konfigūracijos faile, kuris bus matomas kiekvienam turinčiam priėjimą prie šio failo.",
         "Warnings": "Įspėjimai",
         "Website": "Svetainė",
