@@ -34,7 +34,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
 		<processedMetricFormulas>
-			<revenue_per_visit>($goals[&quot;idgoal=1&quot;].revenue + $goals[&quot;idgoal=2&quot;].revenue) / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
 			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
 			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
 			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
@@ -77,8 +77,8 @@
 			<revenue>sum</revenue>
 		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
-			<revenue_per_visit>Ecommerce order Revenue per Visit</revenue_per_visit>
-			<conversion_rate>Ecommerce order conversion rate</conversion_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
 		<processedMetricFormulasGoal>
 			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>

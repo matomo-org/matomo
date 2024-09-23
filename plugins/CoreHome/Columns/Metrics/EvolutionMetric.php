@@ -139,7 +139,7 @@ class EvolutionMetric extends ProcessedMetric
     {
         if (isset($this->wrappedMetricTranslatedName)) {
             $metricName = Piwik::translate($this->wrappedMetricTranslatedName);
-        } else if ($this->wrapped instanceof Metric) {
+        } elseif ($this->wrapped instanceof Metric) {
             $metricName = $this->wrapped->getTranslatedName();
         } else {
             $defaultMetricTranslations = Metrics::getDefaultMetricTranslations();
@@ -325,7 +325,7 @@ class EvolutionMetric extends ProcessedMetric
 
         if (!empty($this->wrappedMetricAggregationType)) {
             $aggregationType = $this->wrappedMetricAggregationType;
-        } else if ($this->wrapped instanceof Metric) {
+        } elseif ($this->wrapped instanceof Metric) {
             $aggregationType = $this->wrapped->getAggregationType();
         } else {
             $allAggregationTypes = Metrics::getDefaultMetricAggregationTypes();
@@ -341,7 +341,7 @@ class EvolutionMetric extends ProcessedMetric
 
         if (!empty($this->wrappedSemanticType)) {
             $semanticType = $this->wrappedSemanticType;
-        } else if ($this->wrapped instanceof Metric) {
+        } elseif ($this->wrapped instanceof Metric) {
             $semanticType = $this->wrapped->getSemanticType();
         } else {
             $allSemanticTypes = Metrics::getDefaultMetricSemanticTypes();

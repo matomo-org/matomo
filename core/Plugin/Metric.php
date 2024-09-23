@@ -37,9 +37,9 @@ abstract class Metric
      */
     public const COMPONENT_SUBNAMESPACE = 'Metrics';
 
-    const AGGREGATION_TYPE_MAX = 'max';
-    const AGGREGATION_TYPE_MIN = 'min';
-    const AGGREGATION_TYPE_SUM = 'sum';
+    public const AGGREGATION_TYPE_MAX = 'max';
+    public const AGGREGATION_TYPE_MIN = 'min';
+    public const AGGREGATION_TYPE_SUM = 'sum';
 
     /**
      * Returns the column name of this metric, eg, `"nb_visits"` or `"avg_time_on_site"`.

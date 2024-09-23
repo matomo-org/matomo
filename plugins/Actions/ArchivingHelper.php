@@ -16,7 +16,6 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;
-use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionPageRate;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;

@@ -25,7 +25,7 @@ use Piwik\Plugin\ProcessedMetric;
  */
 class VisitsPercent extends ProcessedMetric
 {
-    const FORCED_TOTAL_VISITS_METADATA_NAME = 'VisitsPercent_total_visits';
+    public const FORCED_TOTAL_VISITS_METADATA_NAME = 'VisitsPercent_total_visits';
 
     private $cachedTotalVisits = null;
     private $forceTotalVisits;

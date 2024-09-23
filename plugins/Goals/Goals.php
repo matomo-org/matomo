@@ -25,7 +25,6 @@ use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\AverageOrderRevenue;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionEntryRate;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionPageRate;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionRate;
-use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ItemsCount;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenuePerEntry;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenuePerVisit;
 use Piwik\Plugins\Goals\RecordBuilders\ProductRecord;
@@ -394,7 +393,8 @@ class Goals extends \Piwik\Plugin
 
             // add ecommerce metrics if idGoal is an ecommerce goal
             $idGoal = \Piwik\Request::fromRequest()->getParameter('idGoal', '');
-            if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
+            if (
+                $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
                 || $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
             ) {
                 $goalMetrics['items'] = [

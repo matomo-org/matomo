@@ -617,7 +617,8 @@ class Report
         $metricScopes = $this->getMetricScopes();
         foreach ($aggregationTypes as $metricName => $aggregationType) {
             $metricScope = $metricScopes[$metricName];
-            if (empty($metricScope)
+            if (
+                empty($metricScope)
                 || !$this->isScopeSameOrSubsetOf($metricScope, $reportScope)
             ) {
                 unset($aggregationTypes[$metricName]);
@@ -1319,9 +1320,9 @@ class Report
 
         if ($dimension instanceof ConversionDimension) {
             return 'log_conversion';
-        } else if ($dimension instanceof ActionDimension) {
+        } elseif ($dimension instanceof ActionDimension) {
             return 'log_link_visit_action';
-        } else if ($dimension instanceof VisitDimension) {
+        } elseif ($dimension instanceof VisitDimension) {
             return 'log_visit';
         }
 
