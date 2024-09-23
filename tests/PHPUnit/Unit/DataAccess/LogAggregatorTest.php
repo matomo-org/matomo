@@ -9,15 +9,40 @@
 
 namespace Piwik\Tests\Unit\DataAccess;
 
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Config;
+use Piwik\Config\DatabaseConfig;
 use Piwik\DataAccess\ArchivingDbAdapter;
 use Piwik\DataAccess\LogAggregator;
+use Piwik\Date;
+use Piwik\Period\Factory;
+use Piwik\Segment;
+use Piwik\Tests\Framework\Mock\Site;
 
 /**
  * @group Core
  */
 class LogAggregatorTest extends \PHPUnit\Framework\TestCase
 {
+    public function testQueryConversionsByDimensionForcingIndexFlagJoinPrefixHint()
+    {
+        $expectedSql = 'SELECT /*+ JOIN_PREFIX(log_conversion) */ /* segmenthash  */ /* sites 1 */ ';
+        $dbMock = $this->createMock(ArchivingDbAdapter::class);
+        $dbMock->expects($this->once())->method('query')->with($this->stringContains($expectedSql), $this->equalTo([]));
+
+        Config::getInstance()->General['enable_force_site_date_index'] = 1;
+
+        DatabaseConfig::setConfigValue('enable_first_table_join_prefix', 1);
+
+        $segmentMock = $this->createMock(Segment::class);
+        $segmentMock->expects($this->once())->method('getSelectQuery')->willReturn(['sql' => 'SELECT * FROM log_visit', 'bind' => []]);
+
+        $aggregatorMock = $this->createPartialMock(LogAggregator::class, ['getDb']);
+        $aggregatorMock->expects($this->once())->method('getDb')->willReturn($dbMock);
+        $aggregatorMock->__construct(new Parameters(new Site(1), Factory::build('day', Date::now()), $segmentMock));
+        $aggregatorMock->queryConversionsByDimension([], '', [], [], false, false, true);
+    }
+
     /**
      * @dataProvider getTestQueryConversionsByDimensionForcingIndexFlagTestData
      *
