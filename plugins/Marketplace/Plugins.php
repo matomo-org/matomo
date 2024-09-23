@@ -298,7 +298,7 @@ class Plugins
 
         $haDownloadLink = false;
         if (!empty($plugin['versions'])) {
-            $latestVersion = array_pop($plugin['versions']);
+            $latestVersion = $plugin['versions'][count($plugin['versions']) - 1];
             $hasDownloadLink = !empty($latestVersion['download']);
         }
         $plugin['hasDownloadLink'] = $hasDownloadLink;
