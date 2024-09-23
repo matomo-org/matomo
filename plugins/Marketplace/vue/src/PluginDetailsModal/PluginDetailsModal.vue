@@ -98,7 +98,7 @@
           <div v-else-if="
           !plugin.hasDownloadLink
           && !isMultiServerEnvironment
-          && plugin.licenseStatus"
+          && (plugin.licenseStatus || !plugin.isPaid)"
                class="alert alert-warning"
                v-html="$sanitize(getDownloadLinkMissingHelpText(plugin.displayName))"
           >

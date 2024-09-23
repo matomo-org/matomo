@@ -77,7 +77,7 @@ class Consumer
             $consumer = $this->getConsumer();
             if (!empty($consumer['licenses'])) {
                 foreach ($consumer['licenses'] as $license) {
-                    $this->pluginLicenseStatus[$license['plugin']['name']] = ['licenseStatus' => $license['status']];
+                    $this->pluginLicenseStatus[$license['plugin']['name']] = $license['status'];
                 }
             }
         }
