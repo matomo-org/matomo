@@ -55,9 +55,9 @@ function checkEnv() {
         die "Cannot find zip"
     fi
 
-    if [ ! -x "/usr/bin/md5sum" ] && [ ! -x "$(which md5sum)" ]
+    if [ ! -x "/usr/bin/sha256sum" ] && [ ! -x "$(which sha256sum)" ]
     then
-        die "Cannot find md5sum"
+        die "Cannot find sha256sum"
     fi
 }
 
@@ -123,7 +123,7 @@ function organizePackage() {
         rm -rf misc/package/
     fi
 
-    find ./ -type f -printf '%s ' -exec md5sum {} \; \
+    find ./ -type f -printf '%s ' -exec sha256sum {} \; \
         | grep -v "user/.htaccess" \
         | egrep -v 'manifest.inc.php|vendor/autoload.php|vendor/composer/autoload_real.php' \
         | sed '1,$ s/\([0-9]*\) \([a-z0-9]*\) *\.\/\(.*\)/\t\t"\3" => array("\1", "\2"),/;' \

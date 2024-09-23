@@ -95,7 +95,7 @@ export default defineComponent({
       let text = '';
 
       if (this.isMultiServerEnvironment) {
-        const link = externalRawLink(`https://builds.matomo.org/piwik-${this.latestVersionAvailable}.zip`);
+        const link = externalRawLink(`https://builds.matomo.org/matomo-${this.latestVersionAvailable}.zip`);
         text = translate(
           'CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment',
           `<a rel="noreferrer noopener" href="${link}">builds.matomo.org</a>`,

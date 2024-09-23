@@ -202,7 +202,7 @@
         "VisitsWith": "Ymweliadau gyda %s",
         "Warning": "Rhybudd",
         "WarningFileIntegrityNoManifest": "Nid oedd yn bosib perfformio gwiriad cywirdeb ar y ffeil am fod manifest.inc.php ar goll.",
-        "WarningFileIntegrityNoMd5file": "Nid oedd yn bosib perfformio gwiriad cywirdeb ar y ffeil am fod gweithred md5_file() ar goll.",
+        "WarningFileIntegrityNoHashFile": "Nid oedd yn bosib perfformio gwiriad cywirdeb ar y ffeil am fod gweithred hash_file() ar goll.",
         "WarningPasswordStored": "%1$sRhybudd:%2$s Bydd y cyfrinair yn cael ei storio yn y ffeil config ac yn weladwy i bawb sydd a mynediad iddo.",
         "Website": "Gwefan",
         "Weekly": "Wythnosol",

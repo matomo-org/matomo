@@ -525,7 +525,7 @@
         "WarningDevelopmentModeOnButNotGitInstalled": "Actualment esteu utilitzant Matomo en mode de desenvolupament, però no s'ha instal·lat mitjançant git. No es recomana utilitzar Matomo en mode de desenvolupament en un entorn de producció.",
         "WarningFileIntegrityNoManifest": "La verificació de la integritat dels fitxers no s'ha pogut fer perquè falta el manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Si esteu desplegant Matomo des de Git, aquest missatge és normal.",
-        "WarningFileIntegrityNoMd5file": "La verificació de la integritat dels fitxers no s'ha pogut completar perquè falta la funció md5_file().",
+        "WarningFileIntegrityNoHashFile": "La verificació de la integritat dels fitxers no s'ha pogut completar perquè falta la funció hash_file().",
         "WarningPasswordStored": "%1$sAlerta:%2$s Aquesta contrasenya es guardarà en un fitxer de configuració visible on tothom pot accedir.",
         "WarningPhpVersionXIsTooOld": "La versió de PHP %s que esteu utilitzant ha arribat al final de la seva vida útil (EOL). Us demanem vivament que actualitzeu a una versió actual, ja que l'ús d'aquesta versió us pot exposar a vulnerabilitats de seguretat i errors que s'han corregit en versions més recents de PHP.",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomo deixarà de suportar PHP %1$s a la propera versió principal. Actualitzeu el vostre PHP com a mínim a PHP %2$s, abans que sigui massa tard!",

@@ -518,7 +518,7 @@
         "WarningDevelopmentModeOnButNotGitInstalled": "Anda saat ini menggunakan Matomo dalam mode pengembangan, tetapi tidak dipasang melalui git. Tidak disarankan untuk menggunakan Matomo mode pengembangan di lingkungan produksi.",
         "WarningFileIntegrityNoManifest": "Pemeriksaan integritas berkas tak dapat dilakukan sebab berkas manifest.inc.php tak ditemukan.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Jika Anda meluncurkan Matomo dari Git, pesan ini normal terjadi.",
-        "WarningFileIntegrityNoMd5file": "Pemeriksaan integritas berkas tak dapat diselesaikan sebab fungsi md5_file() tak ditemukan.",
+        "WarningFileIntegrityNoHashFile": "Pemeriksaan integritas berkas tak dapat diselesaikan sebab fungsi hash_file() tak ditemukan.",
         "WarningPasswordStored": "%1$sPeringatan:%2$s Sandi akan disimpan dalam berkas konfigurasi yang tampak kepada semua yang dapat mengakses ini.",
         "WarningPhpVersionXIsTooOld": "Versi PHP %s yang Anda gunakan telah mencapai End of Life (EOL). Anda sangat disarankan untuk meningkatkan ke terbaru, karena menggunakan versi ini dapat membuat Anda rentan terhadap kerentanan keamanan dan kesalahan yang telah diperbaiki di versi PHP yang lebih baru.",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomo berhenti mendukung versi PHP %1$s di versi mayor berikutnya. Perbarui PHP Anda paling tidak %2$s, sebelum hal ini terlambat!",

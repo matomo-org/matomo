@@ -368,7 +368,7 @@
         "Warning": "चेतावनी",
         "WarningFileIntegrityNoManifest": "फ़ाइल अखंडता की जांच manifest.inc.php गुम की वजह से नहीं किया जा सकता है.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "आप Git से Matomo की तैनाती कर रहे हैं, तो यह संदेश सामान्य है।",
-        "WarningFileIntegrityNoMd5file": "फ़ाइल अखंडता की जांच लापता md5_file () फ़ंक्शन के कारण पूरा नहीं हो सका.",
+        "WarningFileIntegrityNoHashFile": "फ़ाइल अखंडता की जांच लापता hash_file() फ़ंक्शन के कारण पूरा नहीं हो सका.",
         "WarningPasswordStored": "%1$sचेतावनी:%2$s यह पासवर्ड config फाइल में संग्रहीत किया जाएगा यह उपयोग कर सकते हैं जो हर किसी को दिखाई दे.",
         "Website": "वेबसाइट",
         "Weekly": "साप्ताहिक",

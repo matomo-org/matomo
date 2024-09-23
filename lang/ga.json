@@ -524,7 +524,7 @@
         "WarningDevelopmentModeOnButNotGitInstalled": "Tá Matomo á úsáid agat faoi láthair i mód forbartha, ach níor suiteáladh é trí git. Ní mholtar Matomo a úsáid i mód forbartha i dtimpeallacht táirgthe.",
         "WarningFileIntegrityNoManifest": "Níorbh fhéidir seiceáil sláine an chomhaid a dhéanamh mar gheall ar manifest.inc.php ar iarraidh.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Má tá Matomo á úsáid agat ó Git, is gnáthrud é an teachtaireacht seo.",
-        "WarningFileIntegrityNoMd5file": "Níorbh fhéidir seiceáil sláine an chomhaid a chur i gcrích mar gheall ar fheidhm md5_file() atá ar iarraidh.",
+        "WarningFileIntegrityNoHashFile": "Níorbh fhéidir seiceáil sláine an chomhaid a chur i gcrích mar gheall ar fheidhm hash_file() atá ar iarraidh.",
         "WarningPasswordStored": "%1$sWarning:%2$s Stórálfar an pasfhocal seo sa chomhad cumraíochta atá infheicthe ag gach duine ar féidir leo rochtain a fháil air.",
         "WarningPhpVersionXIsTooOld": "Tá deireadh a shaoil (EOL) sroichte ag an leagan PHP %s atá in úsáid agat. Moltar go láidir duit uasghrádú a dhéanamh ar leagan reatha, mar d'fhéadfadh úsáid a bhaint as an leagan seo tú a nochtadh do leochaileachtaí slándála agus fabhtanna a socraíodh i leaganacha níos déanaí de PHP.",
         "WarningPiwikWillStopSupportingPHPVersion": "Stopfaidh Matomo ag tacú le PHP %1$s sa chéad mhórleagan eile. Uasghrádú do PHP go PHP %2$s ar a laghad, sula bhfuil sé ró-dhéanach!",
