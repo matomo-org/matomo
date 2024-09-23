@@ -415,7 +415,7 @@
         "WarningDebugOnDemandEnabled": "Je povolený režim sledovača (tracker) %1$s. Z bezpečnostných dôvodov by mal byť povolený len veľmi krátky čas. Na jeho ukončenie nastavte %2$s na %3$s v %4$s",
         "WarningFileIntegrityNoManifest": "Súbor kontrola integrity nemohla byť vykonaná z dôvodu chýbajúcich manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Ak nasadzujete Matomo z Git-u, tak toto je normálna správa.",
-        "WarningFileIntegrityNoMd5file": "Súbor kontrola integrity nemožno dokončiť z dôvodu chýbajúcich md5_file () funkcie.",
+        "WarningFileIntegrityNoHashFile": "Súbor kontrola integrity nemožno dokončiť z dôvodu chýbajúcich hash_file() funkcie.",
         "WarningPasswordStored": "%1$sVarovanie:%2$s Toto heslo bude uložené v konfiguračnom súbore viditeľné pre všetkých, ako prístup.",
         "WarningPhpVersionXIsTooOld": "PHP verzia %s, ktorú používate, práve dospela do svojho konca (EOL). Nutne ju potrebujete aktualizovať na najnovšiu verziu , pretože používanie tejto verzie Vás môže vystaviť bezpečnostnému riziku a chybám, ktoré boli odstránené v novších verziách PHP.",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomo ukončí podporu PHP %1$s pri nasledujúcej hlavnej verzií. Aktualizujte svoje PHP aspoň na verziu %2$s skôr než bude neskoro!",

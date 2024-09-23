@@ -338,7 +338,7 @@
         "VisitsWith": "Vizitoj kun %s",
         "Warning": "Averto",
         "WarningFileIntegrityNoManifest": "La testo de integreco ne povas esti farita ĉar manifest.inc.php ne troviĝas.",
-        "WarningFileIntegrityNoMd5file": "La testo de integreco ne povis kompletiĝi ĉar md5_file() funkcio ne troviĝas.",
+        "WarningFileIntegrityNoHashFile": "La testo de integreco ne povis kompletiĝi ĉar hash_file() funkcio ne troviĝas.",
         "WarningPasswordStored": "%1$sAverto:%2$s Ĉi-pasvorto estos konservita en la konfigurdosiero videbla de ĉiuj kiuj povas atingis ĝin.",
         "Warnings": "Avertoj",
         "Website": "Retejo",

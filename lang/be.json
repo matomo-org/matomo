@@ -249,7 +249,7 @@
         "VisitsWith": "Наведванняў з %s",
         "Warning": "Увага",
         "WarningFileIntegrityNoManifest": "Праверка цэласнасці файлаў не можа быць выканана з-за адсутнасці файла manifest.inc.php.",
-        "WarningFileIntegrityNoMd5file": "Праверка цэласнасці файлаў не можа быць завершана з-за адсутнасці md5_file () функцыі.",
+        "WarningFileIntegrityNoHashFile": "Праверка цэласнасці файлаў не можа быць завершана з-за адсутнасці hash_file() функцыі.",
         "WarningPasswordStored": "%1$sWarning:%2$s Гэты пароль будзе захаваны ў файле канфігурацыі, ен будзе бачным ўсім, хто мае да яго доступ.",
         "Website": "Сайт",
         "Weekly": "Штотыдзень",

@@ -525,7 +525,7 @@
         "WarningDevelopmentModeOnButNotGitInstalled": "Jeni duke përdorur Matomo-n nën mënyrën zhvillim, por s’qe instaluar përmes git-i. Nuk rekomandohet të përdoret Matomo-ja nën mënyrën zhvillim në një mjedis funksionimi faktik.",
         "WarningFileIntegrityNoManifest": "Kontrolli i pacenueshmërisë së kartelës s’u krye dot për shkak të mungesës së manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Nëse po kryeni instalim të Matomo-s nga Git, ky mesazh është normal.",
-        "WarningFileIntegrityNoMd5file": "Kontrolli i pacenueshmërisë së kartelës s’u plotësua dot, për shkak të mungesës së funksionit md5_file().",
+        "WarningFileIntegrityNoHashFile": "Kontrolli i pacenueshmërisë së kartelës s’u plotësua dot, për shkak të mungesës së funksionit hash_file().",
         "WarningPasswordStored": "%1$sKujdes:%2$s Ky fjalëkalim do të depozitohet te kartela e formësimit që është e dukshme karshi kujtdo që mund të mbërrijë deri te ajo.",
         "WarningPhpVersionXIsTooOld": "Versioni PHP %s që po përdorni, ka mbërritur në Fundin e Vet (EOL). Këshilloheni me forcë ta përmirësoni me një version të tanishëm, ngaqë përdorimi i këtij versioni mund t’ju lërë zbuluar përballë cenueshmërish sigurie dhe të metash që janë ndrequr në versione më të rinj të PHP-së.",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomo do të reshtë së mbuluari PHP %1$s në versionin pasues të rëndësishëm. Përmirësojeni PHP-në tuaj të paktën me PHP %2$s, para se të jetë shumë vonë!",

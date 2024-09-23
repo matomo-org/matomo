@@ -401,7 +401,7 @@
         "Warning": "Cảnh báo",
         "WarningFileIntegrityNoManifest": "Tập tin kiểm tra tính toàn vẹn không thể thực hiện do thiếu manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Nếu bạn triển khai Matomo từ Git, thông báo này là bình thường.",
-        "WarningFileIntegrityNoMd5file": "Tập tin kiểm tra tính toàn vẹn không thể hoàn thành do thiếu md5_file() function.",
+        "WarningFileIntegrityNoHashFile": "Tập tin kiểm tra tính toàn vẹn không thể hoàn thành do thiếu hash_file() function.",
         "WarningPasswordStored": "%1$s Cảnh báo: %2$s Mật khẩu này sẽ lưu trữ trong tập tin cấu hình có thể thấy để tất cả mọi người có thể truy cập nó.",
         "Warnings": "Các cảnh báo",
         "Website": "Website",

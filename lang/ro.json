@@ -432,7 +432,7 @@
         "Warning": "Atentie",
         "WarningFileIntegrityNoManifest": "Verificare integritatii fisierelor nu a putut fi efectuata din cauza lipsei manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Dacă implementați Matomo din Git, acest mesaj este normal.",
-        "WarningFileIntegrityNoMd5file": "Verificare integritatii fisierelor nu a putut fi efectuata din cauza lipsei functiei md5_file()",
+        "WarningFileIntegrityNoHashFile": "Verificare integritatii fisierelor nu a putut fi efectuata din cauza lipsei functiei hash_file()",
         "WarningPasswordStored": "%1$sAtentie:%2$s Parola va fi stocata in fisierul config vizibil oricui il poate accesa.",
         "Warnings": "Avertizări",
         "Website": "Website",

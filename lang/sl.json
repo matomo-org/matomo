@@ -388,7 +388,7 @@
         "WarningDebugOnDemandEnabled": "Sledilni način %1$s je vkljulen. Zaradi varnostnih razlogov priporočamo vklop le za kratek čas. Za izklop nastavi %2$s na %3$s v %4$s",
         "WarningFileIntegrityNoManifest": "Pregleda integritete datotek ni bilo mogoče izvesti, saj manjka manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Če nameščate Matomo iz Git repozitorija, je to sporočilo normalno.",
-        "WarningFileIntegrityNoMd5file": "Ne morem preveriti integritete datoteke, ker manjka funkcija md5_file().",
+        "WarningFileIntegrityNoHashFile": "Ne morem preveriti integritete datoteke, ker manjka funkcija hash_file().",
         "WarningPasswordStored": "%1$sPozor:%2$s To geslo bo shranjeno v config datoteki. Tako bo vidna vsem, ki imajo dostop do te datoteke.",
         "WarningPhpVersionXIsTooOld": "Različica PHP %s, ki jo uporabljate, ni več podprta! Priporočamo čim prejšnjo nadgradnjo na zadnjo stabilno različico, saj ste z nadaljnjo uporabo trenutne različice lahko izpostavljeni varnostnim ranljivostim in napakam, ki so odpravljene v novejših različicah PHP.",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomo will stop supporting PHP %1$s in the next major version. Upgrade your PHP to at least PHP %2$s, before it's too late!",

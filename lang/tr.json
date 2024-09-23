@@ -525,7 +525,7 @@
         "WarningDevelopmentModeOnButNotGitInstalled": "Şu anda Matomo uygulamasını geliştirme kipinde kullanıyorsunuz. Ancak bu kip git üzerinden yüklenmemiş. Matomo uygulamasını üretim ortamında geliştirme kipinde kullanmanız önerilmez.",
         "WarningFileIntegrityNoManifest": "manifest.inc.php dosyası bulunamadığı için dosya bütünlüğü denetimi yapılamadı.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Matomo uygulamasını Git üzerinden yüklüyorsanız bu ileti normaldir.",
-        "WarningFileIntegrityNoMd5file": "md5_file() işlevi bulunamadığı için dosya bütünlüğü denetimi yapılamadı.",
+        "WarningFileIntegrityNoHashFile": "hash_file() işlevi bulunamadığı için dosya bütünlüğü denetimi yapılamadı.",
         "WarningPasswordStored": "%1$sUyarı:%2$s Bu parola yapılandırma dosyasında saklanacağından bu dosyaya erişilebilen herkes tarafından görülebilir.",
         "WarningPhpVersionXIsTooOld": "Kullandığınız PHP %s sürümü artık desteklenmiyor. Bu sürümü kullanmayı sürdürürseniz daha yeni PHP sürümlerinde kapatılmış güvenlik açıkları ve giderilmiş hatalardan kaynaklanan sorunlarla karşılaşabilirsiniz.",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomo sonraki ana sürüm değişikliğinde PHP %1$s sürümünü desteklemeyecek. Çok geç olmadan önce en az PHP %2$s sürümüne güncelleyin!",

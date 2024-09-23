@@ -525,7 +525,7 @@
         "WarningDevelopmentModeOnButNotGitInstalled": "Jūs izmantojat Matomo izstrādes režīmu, bet tas netika instalēts caur Git. Neiesakām izmantot Matomo izstrādes režīmā produkcijas vidē.",
         "WarningFileIntegrityNoManifest": "Datņu integritātes pārbaudi nav iespējams veikt, jo trūkst manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Ja izvietojat Matomo caur Git, šī ziņa ir sagaidāma.",
-        "WarningFileIntegrityNoMd5file": "Datņu integritātes pārbaudi nav iespējams pabeigt, jo trūkst md5_file() metodes.",
+        "WarningFileIntegrityNoHashFile": "Datņu integritātes pārbaudi nav iespējams pabeigt, jo trūkst hash_file() metodes.",
         "WarningPasswordStored": "%1$sBrīdinājums:%2$s šī parole tiks saglabāta konfigurācijas failā un redzama ikvienam, kurš var tam piekļūt.",
         "WarningPhpVersionXIsTooOld": "Jūsu izmantotā PHP versija %s ir sasniegusi sava dzīves cikla beigas. Mēs stingri iesakām pāriet uz aktuālo versiju, jo novecojušas versijas izmantošana var pakļaut jūs drošības riskiem un kļūdām, kas novērstas jaunākās PHP versijās.",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomo nākamajā galvenajā versijā pārstās atbalstīt PHP %1$s. Pirms ir par vēlu, atjauniniet savu PHP vismaz līdz PHP %2$s!",

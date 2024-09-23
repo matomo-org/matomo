@@ -430,7 +430,7 @@
         "Warning": "אזהרה",
         "WarningFileIntegrityNoManifest": "לא ניתן לבצע בדיקת תקינות קבצים מכיוון שהקובץ manifest.inc.php חסר.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "אם אתם מפעילים את פיוויק מתוך GIT, אז ההודעה הזו רגילה.",
-        "WarningFileIntegrityNoMd5file": "לא ניתן לבצע בדיקת תקינות קבצים מכיוון שהפונקציה md5_file() חסרה.",
+        "WarningFileIntegrityNoHashFile": "לא ניתן לבצע בדיקת תקינות קבצים מכיוון שהפונקציה hash_file() חסרה.",
         "WarningPasswordStored": "%1$sאזהרה:%2$s הסיסמה תאוכסן בקובץ ההגדרות וחושפת לכל כיצד להתחבר.",
         "WarningPiwikWillStopSupportingPHPVersion": "פיוויק יפסיק לתמוך ב-PHP %1$s בשדרוג הראשי הבא. שדרגו את גירסת ה-PHP שלכם לפחות לגירסת PHP %2$s לפני שזה מאוחר מדי!",
         "Warnings": "אזהרות",
