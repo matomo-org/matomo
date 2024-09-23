@@ -32,7 +32,7 @@
         "ReturningVisitDocumentation": "Ein wiederkehrender Besuch wird (im Vergleich zu einem neuen Besuch) von jemandem gemacht, der bereits mindestens einmal die Webseite besucht hat.",
         "ReturningVisitsDocumentation": "Dies ist eine Übersicht über die wiederkehrenden Besuche.",
         "SubmenuFrequency": "Häufigkeit",
-        "VisitFrequencyReportDocumentation": "Dieser Bericht zeigt allgemeine Metriken wie Besuche wiederkehrender Benutzer Seite an Seite mit den selben Metriken neuer Besucher. Lernen Sie wie sich wiederkehrende Besucher im Vergleich zu neuen Besuchern verhalten.",
+        "VisitFrequencyReportDocumentation": "Dieser Bericht zeigt allgemeine Metriken wie z.B. Besuche wiederkehrender Besucher verglichen mit den selben Metriken neuer Besucher. Lernen Sie wie sich wiederkehrende Besucher im Vergleich zu neuen Besuchern verhalten.",
         "WidgetGraphReturning": "Graph der wiederkehrenden Besuche",
         "WidgetOverview": "Häufigkeitsübersicht"
     }
