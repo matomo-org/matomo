@@ -35,7 +35,7 @@ class RevenuePerVisit extends ProcessedMetric
      */
     private $allIdGoals;
 
-    public function __construct(?array $allIdGoals)
+    public function __construct(?array $allIdGoals = null)
     {
         $this->allIdGoals = $allIdGoals;
     }
