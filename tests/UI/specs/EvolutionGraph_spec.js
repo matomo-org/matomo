@@ -211,4 +211,19 @@ describe("EvolutionGraph", function () {
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('periods_selected');
     });
+
+    it("should not show add annotation form for user with view access", async function () {
+        testEnvironment.idSitesViewAccess = [1];
+        testEnvironment.testUseMockAuth = 1;
+        testEnvironment.save();
+
+        await page.goto(url);
+        await showDataTableFooter();
+        await page.click('.annotationView');
+        await page.waitForNetworkIdle();
+
+        // check that add annotation link is not shown
+        const element = await page.$('.add-annotation');
+        expect(element).to.be.not.ok;
+    });
 });

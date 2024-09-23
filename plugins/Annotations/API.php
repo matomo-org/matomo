@@ -311,7 +311,7 @@ class API extends \Piwik\Plugin\API
      */
     private static function checkUserCanAddNotesFor($idSite): void
     {
-        if (!AnnotationList::canUserAddNotesFor($idSite)) {
+        if (!Piwik::isUserHasViewAccess($idSite) || Piwik::isUserIsAnonymous()) {
             throw new Exception("The current user is not allowed to add notes for site #$idSite.");
         }
     }

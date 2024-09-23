@@ -443,8 +443,7 @@ class AnnotationList
      */
     public static function canUserAddNotesFor($idSite)
     {
-        return Piwik::isUserHasViewAccess($idSite)
-        && !Piwik::isUserIsAnonymous();
+        return Piwik::isUserHasWriteAccess($idSite);
     }
 
     /**
