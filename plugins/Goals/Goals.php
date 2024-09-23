@@ -292,7 +292,7 @@ class Goals extends \Piwik\Plugin
         // Example: Conversion rate for Goal 2 for the keyword 'piwik'
 
         // TODO: comment
-        $idGoalPlaceholder = 0;
+        $idGoalPlaceholder = -99;
 
         $idSites = $info['parameters']['idSites'] ?? null;
         $idSite = $info['parameters']['idSite'] ?? null;
