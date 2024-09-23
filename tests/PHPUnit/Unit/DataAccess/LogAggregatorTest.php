@@ -35,7 +35,9 @@ class LogAggregatorTest extends \PHPUnit\Framework\TestCase
         DatabaseConfig::setConfigValue('enable_first_table_join_prefix', 1);
 
         $segmentMock = $this->createMock(Segment::class);
-        $segmentMock->expects($this->once())->method('getSelectQuery')->willReturn(['sql' => 'SELECT * FROM log_visit', 'bind' => []]);
+        $segmentMock->expects($this->once())->method('getSelectQuery')
+            ->with($this->anything(), $this->equalTo([['table' => 'log_conversion', 'useIndex' => 'index_idsite_datetime']]))
+            ->willReturn(['sql' => 'SELECT * FROM log_visit', 'bind' => []]);
 
         $aggregatorMock = $this->createPartialMock(LogAggregator::class, ['getDb']);
         $aggregatorMock->expects($this->once())->method('getDb')->willReturn($dbMock);
