@@ -643,6 +643,8 @@ export default defineComponent({
       return translate(
         'Marketplace_PluginDownloadLinkMissingDescription',
         pluginName,
+        externalLink('https://matomo.org/faq/plugins/faq_21/'),
+        '</a>',
       );
     },
   },
