@@ -48,7 +48,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                 FROM
                     ( SELECT @counter:=0 ) initCounter,
                     ( SELECT label, column, columnSum FROM myTable ) actualQuery
-             ) AS withCounter
+            ) AS withCounter
             GROUP BY counter
         ";
 
@@ -73,7 +73,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                     FROM
                         ( SELECT @counter:=0 ) initCounter,
                         ( SELECT label, column, columnSum FROM myTable LIMIT 18446744073709551615 ) actualQuery
-                 ) AS withCounter
+                ) AS withCounter
                 GROUP BY counter
                 ORDER BY counter
             ";
@@ -85,9 +85,90 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * @group Core
      */
+    public function testBasicWithRollup()
+    {
+        $query = new RankingQuery();
+        $query->setOthersLabel('Others');
+        $query->addLabelColumn('label');
+        $query->addColumn('column');
+        $query->addColumn('columnSum', 'sum');
+        $query->setLimit(10);
+
+        $innerQuery = "SELECT label, column, columnSum FROM myTable";
+
+        $expected = "
+            SELECT
+                CASE
+                    WHEN counterRollup > 0 THEN `label`
+                    WHEN counter = 11 THEN 'Others'
+                    ELSE `label`
+                END AS `label`,
+                `column`,
+                sum(`columnSum`) AS `columnSum`
+            FROM (
+                SELECT
+                    `label`,
+                    CASE
+                        WHEN `label` IS NULL THEN -1
+                        WHEN @counter = 11 THEN 11
+                        ELSE @counter:=@counter+1
+                    END AS counter,
+                    CASE
+                        WHEN `label` IS NULL THEN @counterRollup := @counterRollup + 1
+                        ELSE 0
+                    END AS counterRollup,
+                    `column`,
+                    `columnSum`
+                FROM
+                    ( SELECT @counter:=0 ) initCounter,
+                    ( SELECT @counterRollup:=0 ) initCounterRollup,
+                    ( SELECT label, column, columnSum FROM myTable ) actualQuery
+            ) AS withCounter
+            GROUP BY counter, counterRollup
+        ";
+
+        if (!Schema::getInstance()->supportsSortingInSubquery()) {
+            $expected = "
+                SELECT
+                    CASE
+                        WHEN counterRollup > 0 THEN `label`
+                        WHEN counter = 11 THEN 'Others'
+                        ELSE `label`
+                    END AS `label`,
+                    `column`,
+                    sum(`columnSum`) AS `columnSum`
+                FROM (
+                    SELECT
+                        `label`,
+                        CASE
+                            WHEN `label` IS NULL THEN -1
+                            WHEN @counter = 11 THEN 11
+                            ELSE @counter:=@counter+1
+                        END AS counter,
+                        CASE
+                            WHEN `label` IS NULL THEN @counterRollup := @counterRollup + 1
+                            ELSE 0
+                        END AS counterRollup,
+                        `column`,
+                        `columnSum`
+                    FROM
+                        ( SELECT @counter:=0 ) initCounter,
+                        ( SELECT @counterRollup:=0 ) initCounterRollup,
+                        ( SELECT label, column, columnSum FROM myTable LIMIT 18446744073709551615 ) actualQuery
+                ) AS withCounter
+                GROUP BY counter, counterRollup
+                ORDER BY counter, counterRollup
+            ";
+        }
+
+        $this->checkQuery($query, $innerQuery, $expected, true);
+    }
+
+    /**
+     * @group Core
+     */
     public function testExcludeRows()
     {
-
         $query = new RankingQuery(20);
         $query->setOthersLabel('Others');
         $query->addLabelColumn('label');
@@ -229,14 +310,13 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $this->checkQuery($query, $innerQuery, $expected);
     }
 
-    /**
-     * @param RankingQuery $rankingQuery
-     * @param string $innerQuerySql
-     * @param string $expected
-     */
-    private function checkQuery($rankingQuery, $innerQuerySql, $expected)
-    {
-        $query = $rankingQuery->generateRankingQuery($innerQuerySql);
+    public function checkQuery(
+        RankingQuery $rankingQuery,
+        string $innerQuerySql,
+        string $expected,
+        bool $withRollup = false
+    ) {
+        $query = $rankingQuery->generateRankingQuery($innerQuerySql, $withRollup);
 
         $queryNoWhitespace = preg_replace("/\s+/", "", $query);
         $expectedNoWhitespace = preg_replace("/\s+/", "", $expected);

@@ -180,31 +180,62 @@ class CustomDimension extends RecordBuilder
         $metricIds[] = Metrics::INDEX_BOUNCE_COUNT;
         $metricIds[] = Metrics::INDEX_PAGE_EXIT_NB_VISITS;
 
+        $actionRows = [];
+
         while ($row = $resultSet->fetch()) {
             if (!isset($row[Metrics::INDEX_NB_VISITS])) {
                 return;
             }
 
             $label = $row[$valueField];
-            $label = $this->cleanCustomDimensionValue($label);
+            $url = $row['url'];
+
+            if (null === $label) {
+                continue;
+            }
+
+            if (null !== $url) {
+                $actionRows[] = $row;
+                continue;
+            }
 
             $columns = [];
+
             foreach ($metricIds as $id) {
                 $columns[$id] = (float) ($row[$id] ?? 0);
             }
 
-            $tableRow = $report->sumRowWithLabel($label, $columns);
+            $label = $this->cleanCustomDimensionValue($label);
 
+            $report->sumRowWithLabel($label, $columns);
+        }
+
+        foreach ($actionRows as $row) {
+            if (!isset($row[Metrics::INDEX_NB_VISITS])) {
+                return;
+            }
+
+            $label = $row[$valueField];
             $url = $row['url'];
-            if (empty($url)) {
+
+            if (null === $label || null === $url) {
                 continue;
             }
+
+            $columns = [];
+
+            foreach ($metricIds as $id) {
+                $columns[$id] = (float) ($row[$id] ?? 0);
+            }
+
+            $label = $this->cleanCustomDimensionValue($label);
+            $tableRow = $report->getRowFromLabel($label);
 
             // make sure we always work with normalized URL no matter how the individual action stores it
             $normalized = Tracker\PageUrl::normalizeUrl($url);
             $url = $normalized['url'];
 
-            if (empty($url)) {
+            if (empty($url) || empty($tableRow)) {
                 continue;
             }
 
@@ -245,7 +276,16 @@ class CustomDimension extends RecordBuilder
         $orderBy = "`" . Metrics::INDEX_PAGE_NB_HITS . "` DESC";
 
         // get query with segmentation
-        $query     = $logAggregator->generateQuery($select, $from, $where, $groupBy, $orderBy);
+        $query     = $logAggregator->generateQuery(
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            $limit = 0,
+            $offset = 0,
+            $withRollup = true
+        );
 
         if ($this->rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
@@ -267,7 +307,7 @@ class CustomDimension extends RecordBuilder
                 $rankingQuery->addColumn($column, $config['aggregation']);
             }
 
-            $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
+            $query['sql'] = $rankingQuery->generateRankingQuery($query['sql'], $withRollup = true);
         }
 
         $db        = $logAggregator->getDb();
@@ -289,7 +329,7 @@ class CustomDimension extends RecordBuilder
 
     protected function cleanCustomDimensionValue(string $value): string
     {
-        if (isset($value) && strlen($value)) {
+        if ('' !== $value) {
             return $value;
         }
 
