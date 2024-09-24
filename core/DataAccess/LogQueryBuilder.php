@@ -57,7 +57,8 @@ class LogQueryBuilder
         $bind,
         $groupBy,
         $orderBy,
-        $limitAndOffset
+        $limitAndOffset,
+        bool $withRollup = false
     ) {
         if (!is_array($from)) {
             $from = array($from);
@@ -96,7 +97,7 @@ class LogQueryBuilder
         } elseif ($joinWithSubSelect) {
             $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $tables);
         } else {
-            $sql = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset);
+            $sql = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $withRollup);
         }
         return array(
             'sql' => $sql,
@@ -238,7 +239,7 @@ class LogQueryBuilder
      * @param string|int $limitAndOffset limit by clause eg '5' for Limit 5 Offset 0 or '10, 5' for Limit 5 Offset 10
      * @return string
      */
-    private function buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset)
+    private function buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, bool $withRollup = false)
     {
         $sql = "
 			SELECT
@@ -256,9 +257,21 @@ class LogQueryBuilder
             $sql .= "
 			GROUP BY
 				$groupBy";
+
+            if ($withRollup) {
+                $sql .= "
+				WITH ROLLUP";
+            }
         }
 
         if ($orderBy) {
+            if ($withRollup) {
+                $sql = "
+			SELECT * FROM (
+				$sql
+			) rollupQuery";
+            }
+
             $sql .= "
 			ORDER BY
 				$orderBy";
