@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "2FA": "divfaktoru autentifikācija",
         "AllWebsites": "Visas vietnes",
         "ApplyToAllWebsites": "Apstipriniet visām vietnēm",
         "ClickHereToDeleteTheCookie": "Klikšķiniet šeit, lai dzēstu sīkdatni un atļautu Matomo izsekot Jūsu pašu apmeklējumus",
@@ -23,13 +24,16 @@
         "PrivView": "Skatījums",
         "ReportDateToLoadByDefault": "Atskaites datums, kuru ielādēt pēc noklusējuma",
         "ReportToLoadByDefault": "Atskaite, kuru ielādēt pēc noklusējuma",
+        "ResetTwoFactorAuthentication": "Atiestatīt divfaktoru autentifikāciju",
         "TheLoginScreen": "Pieteikšanās skats",
         "ThereAreCurrentlyNRegisteredUsers": "Pašlaik ir %s reģistrēti lietotāji.",
+        "TwoFactorAuthentication": "Divfaktoru autentifikācija",
         "TypeYourPasswordAgain": "Ierakstiet savu jauno paroli atkārtoti.",
         "User": "Lietotājs",
         "Username": "Lietotājvārds",
         "UsersManagement": "Lietotāju pārvaldīšana",
         "UsersManagementMainDescription": "Izveidojiet jaunus vai labojiet esošu lietotāju iestatījumus. Augstāk Jūs varat uzstādīt šo lietotāju pieejas atļaujas.",
+        "UsesTwoFactorAuthentication": "Izmanto divfaktoru autentifikāciju",
         "YourUsernameCannotBeChanged": "Jūsu lietotājvārdu nav iespējams izmainīt.",
         "YourVisitsAreIgnoredOnDomain": "%1$sJūsu apmeklējumi tiek ignorēti %2$s %3$s (pārlūkā tika atrasta Matomo ignorēšanas sīkdatne)."
     }

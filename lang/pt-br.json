@@ -525,7 +525,7 @@
         "WarningDevelopmentModeOnButNotGitInstalled": "Você está usando Matomo no modo desenvolvedor, mas não foi instalado através do git. Não é recomendado utilizar o Matomo no modo desenvolvedor em ambiente de produção.",
         "WarningFileIntegrityNoManifest": "O check de integridade do arquivo não pode ser feita enquanto estiver faltando manifest.inc.php.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "Se você estiver implantando Matomo a partir do repositório Git, esta mensagem é normal.",
-        "WarningFileIntegrityNoMd5file": "O check de integridade do arquivo não pode ser completado enquanto estiver faltando a função md5_file().",
+        "WarningFileIntegrityNoHashFile": "O check de integridade do arquivo não pode ser completado enquanto estiver faltando a função hash_file().",
         "WarningPasswordStored": "%1$sWarning:%2$s Esta senha será armazenada no arquivo de configuração visível para todos que possam acessá-lo.",
         "WarningPhpVersionXIsTooOld": "A versão %s do PHP que você está usando atingiu seu limite de vida (EOL). Encorajamos fortemente a atualizar para a versão mais atual, podendo a utilização desta versão expô-lo a vulnerabilidades de segurança e bugs que foram corrigidos em versões mais recentes do PHP.",
         "WarningPiwikWillStopSupportingPHPVersion": "Matomo vai parar de suportar PHP %1$s na próxima versão principal. Atualize o seu PHP para, pelo menos, PHP %2$s, antes que seja tarde demais!",

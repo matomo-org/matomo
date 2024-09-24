@@ -435,7 +435,7 @@
         "Warning": "경고",
         "WarningFileIntegrityNoManifest": "manifest.inc.php가 없기 때문에, 파일의 무결성 검사를 수행할 수 없습니다.",
         "WarningFileIntegrityNoManifestDeployingFromGit": "만약 Git으로부터 Matomo를 사용하고 있다면, 이 메세지는 정상입니다.",
-        "WarningFileIntegrityNoMd5file": "md5_file() 함수가 존재하지 않기 때문에, 파일 무결성 검사를 완료할 수 없습니다.",
+        "WarningFileIntegrityNoHashFile": "hash_file() 함수가 존재하지 않기 때문에, 파일 무결성 검사를 완료할 수 없습니다.",
         "WarningPasswordStored": "%1$s 경고: %2$s 암호는 설정 파일에 저장됩니다. 이 설정 파일에 액세스 할 수있는 사람이라면, 패스워드를 볼 수 있을 가능성이 있다는 점에 유의하세요.",
         "WarningPhpVersionXIsTooOld": "현재 사용하고 있는 PHP 버전 %s은 지원이 끝났습니다(End of Life, EOL). 최근에 업그레이드 된 PHP 버전에서 해결한 보안 문제나 버그 등이 사용하고 계신 버전에서 남아 있을 수 있으니 업그레이드 하시길 강력히 권장합니다.",
         "Warnings": "경고",
