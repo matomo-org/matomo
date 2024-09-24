@@ -605,7 +605,7 @@ class Range extends Period
     public static function getMaxAllowedEndTimestamp(): int
     {
         return strtotime(
-            date('Y-12-31 00:00:00', strtotime("+10 year", Date::$now ?? time()))
+            date('Y-12-31 00:00:00', strtotime('+10 year', Date::getNowTimestamp()))
         );
     }
 }
