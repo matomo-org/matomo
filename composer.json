@@ -76,6 +76,7 @@
         "matomo-org/matomo-coding-standards": "dev-master",
         "phpstan/phpdoc-parser": "~1.24.0",
         "phpunit/phpunit": "~8.5",
+        "symfony/expression-language": "^5.4",
         "symfony/var-dumper": "~5.4.0",
         "symfony/yaml": "~5.4.0"
     },
