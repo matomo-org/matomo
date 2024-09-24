@@ -60,6 +60,6 @@ class ProductConversionRate extends ProcessedMetric
     }
     public function getFormula(): ?string
     {
-        return '$order > 0 ? ($orders / $nb_visits) : ($abandoned_carts / $nb_visits)';
+        return 'order > 0 ? (orders / nb_visits) : (abandoned_carts / nb_visits)';
     }
 }

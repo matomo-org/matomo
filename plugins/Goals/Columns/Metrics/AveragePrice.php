@@ -71,6 +71,6 @@ class AveragePrice extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return '$orders > 0 ? ($price / $orders) : ($price / $abandoned_carts)';
+        return 'orders > 0 ? (price / orders) : (price / abandoned_carts)';
     }
 }

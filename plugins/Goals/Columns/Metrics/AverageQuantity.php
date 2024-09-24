@@ -54,6 +54,6 @@ class AverageQuantity extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return '$orders > 0 ? ($quantity / $orders) : ($quantity / $abandoned_carts)';
+        return 'orders > 0 ? (quantity / orders) : (quantity / abandoned_carts)';
     }
 }

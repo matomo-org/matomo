@@ -72,12 +72,6 @@ class AveragePageLoadTime extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        $parts = array_map(
-            function ($n) {
-                return '$' . $n;
-            },
-            $this->getDependentMetrics()
-        );
-        return implode(' + ', $parts);
+        return implode(' + ', $this->getDependentMetrics());
     }
 }

@@ -59,6 +59,6 @@ class ExitRate extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return '$exit_nb_visits / $nb_visits';
+        return 'exit_nb_visits / nb_visits';
     }
 }

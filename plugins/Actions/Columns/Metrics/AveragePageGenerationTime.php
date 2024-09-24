@@ -123,7 +123,7 @@ class AveragePageGenerationTime extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return '$sum_time_generation / $nb_hits_with_time_generation';
+        return 'sum_time_generation / nb_hits_with_time_generation';
     }
 
     public function getExtraMetricSemanticTypes(): array

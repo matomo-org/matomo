@@ -314,9 +314,9 @@ class EvolutionMetric extends ProcessedMetric
     public function getFormula(): ?string
     {
         $columnName = $this->getWrappedName();
-        $pastColumnName = '$past_' . $columnName;
+        $pastColumnName = 'past_' . $columnName;
 
-        return sprintf("%s == 0 ? 1 : ((%s - %s) / %s)", $pastColumnName, '$' . $columnName, $pastColumnName, $pastColumnName);
+        return sprintf("%s == 0 ? 1 : ((%s - %s) / %s)", $pastColumnName, $columnName, $pastColumnName, $pastColumnName);
     }
 
     public function getExtraMetricAggregationTypes(): array

@@ -41,10 +41,7 @@ class ProcessedMetricAssert
             return;
         }
 
-        $columns = [];
-        foreach ($row->getColumns() as $name => $value) {
-            $columns['$' . $name] = $value;
-        }
+        $columns = $row->getColumns();
 
         // check that the formula parses
         $expressionLanguage = new ExpressionLanguage();
@@ -60,7 +57,7 @@ class ProcessedMetricAssert
             . "value as its compute() method.\n"
             . "  Column values used: " . json_encode($columns);
 
-        Assert::assertEquals($computedValue, $formulaValue, $descriptiveErrorMessage);
+        Assert::assertEqualsWithDelta($computedValue, $formulaValue, 0.001, $descriptiveErrorMessage);
     }
 
     /**

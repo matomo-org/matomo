@@ -61,7 +61,7 @@ class AverageTimeOnSite extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return '$sum_visit_length / $nb_visits';
+        return 'sum_visit_length / nb_visits';
     }
 
     public function getExtraMetricSemanticTypes(): array

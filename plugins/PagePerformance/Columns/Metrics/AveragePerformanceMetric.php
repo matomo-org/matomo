@@ -109,6 +109,6 @@ abstract class AveragePerformanceMetric extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return '$sum_' . static::ID . ' / $nb_hits_with_' . static::ID;
+        return 'sum_' . static::ID . ' / nb_hits_with_' . static::ID;
     }
 }

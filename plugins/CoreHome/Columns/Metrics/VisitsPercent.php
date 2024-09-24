@@ -96,6 +96,6 @@ class VisitsPercent extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return '$visits / $total_visits';
+        return 'visits / total_visits';
     }
 }

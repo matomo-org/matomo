@@ -59,6 +59,6 @@ class AverageTimeOnPage extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return '$sum_time_spent / $nb_hits';
+        return 'sum_time_spent / nb_hits';
     }
 }

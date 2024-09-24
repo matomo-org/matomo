@@ -80,6 +80,6 @@ class VisitorsFromReferrerPercent extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return '$' . $this->referrerSourceColumn . ' / $total_visits';
+        return $this->referrerSourceColumn . ' / total_visits';
     }
 }

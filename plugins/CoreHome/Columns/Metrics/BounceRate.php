@@ -60,7 +60,7 @@ class BounceRate extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return '$bounce_count / $nb_visits';
+        return 'bounce_count / nb_visits';
     }
 
     public function getExtraMetricSemanticTypes(): array

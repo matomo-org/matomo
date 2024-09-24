@@ -100,7 +100,7 @@ class RevenuePerVisit extends ProcessedMetric
     public function getFormula(): ?string
     {
         if (empty($this->allIdGoals)) {
-            $revenueSum = '$revenue';
+            $revenueSum = 'revenue';
         } else {
             $revenueSum = [];
             foreach ($this->allIdGoals as $idGoal) {
@@ -108,13 +108,13 @@ class RevenuePerVisit extends ProcessedMetric
                     continue;
                 }
 
-                $revenueSum[] = '$goals["idgoal=' . $idGoal . '"].revenue';
+                $revenueSum[] = 'goals["idgoal=' . $idGoal . '"].revenue';
             }
 
             $revenueSum = '(' . implode(' + ', $revenueSum) . ')';
         }
 
-        $divisor = '($nb_visits != 0 ? $nb_visits : $nb_conversions)';
+        $divisor = '(nb_visits != 0 ? nb_visits : nb_conversions)';
 
         return $revenueSum . ' / ' . $divisor;
     }

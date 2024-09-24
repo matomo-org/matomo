@@ -64,6 +64,6 @@ class InteractionRate extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return '$nb_interactions / $nb_impressions';
+        return 'nb_interactions / nb_impressions';
     }
 }

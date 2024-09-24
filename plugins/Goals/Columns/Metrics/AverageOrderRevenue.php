@@ -69,6 +69,6 @@ class AverageOrderRevenue extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return '$revenue / $nb_conversions';
+        return 'revenue / nb_conversions';
     }
 }

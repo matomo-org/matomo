@@ -53,6 +53,6 @@ class ActionsPerVisit extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return '$nb_actions / $nb_visits';
+        return 'nb_actions / nb_visits';
     }
 }
