@@ -6,12 +6,13 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace PHPUnit\Framework\Assert;
+namespace Piwik\Tests\Framework\Assert;
 
+use PHPUnit\Framework\Assert;
 use Piwik\Columns\Dimension;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Plugin\Manager;
@@ -33,14 +34,12 @@ class ProcessedMetricAssert
      * @param DataTable $dataTable
      * @return void
      */
-    public function assertProcessedMetricIsValidFor(ProcessedMetric $processedMetric, DataTable $dataTable): void
+    public function assertProcessedMetricIsValidFor(ProcessedMetric $processedMetric, Row $row): void
     {
         $formula = $processedMetric->getFormula();
         if (empty($formula)) {
             return;
         }
-
-        $row = $dataTable->getFirstRow();
 
         $columns = [];
         foreach ($row->getColumns() as $name => $value) {
@@ -61,7 +60,7 @@ class ProcessedMetricAssert
             . "value as its compute() method.\n"
             . "  Column values used: " . json_encode($columns);
 
-        $this->assertEquals($computedValue, $formulaValue, $descriptiveErrorMessage);
+        Assert::assertEquals($computedValue, $formulaValue, $descriptiveErrorMessage);
     }
 
     /**
@@ -94,23 +93,26 @@ class ProcessedMetricAssert
         }
     }
 
-    private function checkProcessedMetricsInReport(Report $report)
+    /**
+     * public for tests
+     *
+     * @internal
+     */
+    public function checkProcessedMetricsInReport(Report $report)
     {
         $processedMetrics = $report->getProcessedMetricsById();
         if (empty($processedMetrics)) {
             return;
         }
 
-        $dataTable = $this->createRandomTestDataFor($report);
+        $dataTableRow = $this->createRandomTestDataFor($report);
         foreach ($processedMetrics as $processedMetric) {
-            $this->assertProcessedMetricIsValidFor($processedMetric, $dataTable);
+            $this->assertProcessedMetricIsValidFor($processedMetric, $dataTableRow);
         }
     }
 
-    private function createRandomTestDataFor(Report $report): DataTable
+    private function createRandomTestDataFor(Report $report): Row
     {
-        $dataTable = new DataTable();
-
         $testDataRow = new DataTable\Row();
         foreach ($report->getMetrics() as $name => $translatedName) {
             $testDataRow->addColumn($name, $this->randomColumnValue($name));
@@ -118,10 +120,7 @@ class ProcessedMetricAssert
         foreach ($report->getProcessedMetricsById() as $name => $metric) {
             $testDataRow->addColumn($name, $metric);
         }
-
-        $dataTable->addRow($testDataRow);
-
-        return $dataTable;
+        return $testDataRow;
     }
 
     /**
