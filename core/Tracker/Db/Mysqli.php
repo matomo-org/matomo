@@ -26,6 +26,7 @@ class Mysqli extends Db
     protected $username;
     protected $password;
     protected $charset;
+    protected $collation;
     protected $activeTransaction = false;
 
     protected $enable_ssl;
@@ -57,11 +58,12 @@ class Mysqli extends Db
             $this->port = (int)$dbInfo['port'];
             $this->socket = null;
         }
+
         $this->dbname = $dbInfo['dbname'];
         $this->username = $dbInfo['username'];
         $this->password = $dbInfo['password'];
-        $this->charset = isset($dbInfo['charset']) ? $dbInfo['charset'] : null;
-
+        $this->charset = $dbInfo['charset'] ?? null;
+        $this->collation = $dbInfo['collation'] ?? null;
 
         if (!empty($dbInfo['enable_ssl'])) {
             $this->enable_ssl = $dbInfo['enable_ssl'];
@@ -133,8 +135,17 @@ class Mysqli extends Db
             throw new DbException("Connect failed: " . mysqli_connect_error());
         }
 
-        if ($this->charset && !mysqli_set_charset($this->connection, $this->charset)) {
-            throw new DbException("Set Charset failed: " . mysqli_error($this->connection));
+        if ($this->charset && $this->collation) {
+            // mysqli_set_charset does not support setting a collation
+            $query = "SET NAMES '" . $this->charset . "' COLLATE '" . $this->collation . "'";
+
+            if (!mysqli_query($this->connection, $query)) {
+                throw new DbException("Set charset/connection collation failed: " . mysqli_error($this->connection));
+            }
+        } elseif ($this->charset) {
+            if (!mysqli_set_charset($this->connection, $this->charset)) {
+                throw new DbException("Set Charset failed: " . mysqli_error($this->connection));
+            }
         }
 
         $this->password = '';

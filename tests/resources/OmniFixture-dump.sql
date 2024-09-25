@@ -29,7 +29,7 @@ CREATE TABLE `access` (
   `access` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`idaccess`),
   KEY `index_loginidsite` (`login`,`idsite`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +161,7 @@ CREATE TABLE `archive_invalidations` (
   `report` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idinvalidation`),
   KEY `index_idsite_dates_period_name` (`idsite`,`date1`,`period`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,7 +187,7 @@ CREATE TABLE `brute_force_log` (
   `login` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_brute_force_log`),
   KEY `index_ip_address` (`ip_address`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -217,7 +217,7 @@ CREATE TABLE `changes` (
   `link` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idchange`),
   UNIQUE KEY `unique_plugin_version_title` (`plugin_name`,`version`,`title`(100))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -281,7 +281,7 @@ CREATE TABLE `goal` (
   `deleted` tinyint(4) NOT NULL DEFAULT '0',
   `event_value_as_revenue` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idsite`,`idgoal`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -306,7 +306,7 @@ CREATE TABLE `locks` (
   `value` varchar(255) DEFAULT NULL,
   `expiry_time` bigint(20) unsigned DEFAULT '9999999999',
   PRIMARY KEY (`key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -333,7 +333,7 @@ CREATE TABLE `log_action` (
   `url_prefix` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`idaction`),
   KEY `index_type_hash` (`type`,`hash`)
-) ENGINE=InnoDB AUTO_INCREMENT=2764 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2764 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -406,7 +406,7 @@ CREATE TABLE `log_conversion` (
   PRIMARY KEY (`idvisit`,`idgoal`,`buster`),
   UNIQUE KEY `unique_idsite_idorder` (`idsite`,`idorder`),
   KEY `index_idsite_datetime` (`idsite`,`server_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -444,7 +444,7 @@ CREATE TABLE `log_conversion_item` (
   `deleted` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`idvisit`,`idorder`,`idaction_sku`),
   KEY `index_idsite_servertime` (`idsite`,`server_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -520,7 +520,7 @@ CREATE TABLE `log_link_visit_action` (
   PRIMARY KEY (`idlink_va`),
   KEY `index_idvisit` (`idvisit`),
   KEY `index_idsite_servertime` (`idsite`,`server_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=2833 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2833 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -547,7 +547,7 @@ CREATE TABLE `log_profiling` (
   `idprofiling` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`idprofiling`),
   UNIQUE KEY `query` (`query`(100))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -641,7 +641,7 @@ CREATE TABLE `log_visit` (
   KEY `index_idsite_config_datetime` (`idsite`,`config_id`,`visit_last_action_time`),
   KEY `index_idsite_datetime` (`idsite`,`visit_last_action_time`),
   KEY `index_idsite_idvisitor_time` (`idsite`,`idvisitor`,`visit_last_action_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=500 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=500 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -668,7 +668,7 @@ CREATE TABLE `logger_message` (
   `level` varchar(16) DEFAULT NULL,
   `message` text,
   PRIMARY KEY (`idlogger_message`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -693,7 +693,7 @@ CREATE TABLE `option` (
   `autoload` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`option_name`),
   KEY `autoload` (`autoload`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -722,7 +722,7 @@ CREATE TABLE `plugin_setting` (
   `idplugin_setting` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`idplugin_setting`),
   KEY `plugin_name` (`plugin_name`,`user_login`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -904,7 +904,7 @@ CREATE TABLE `sequence` (
   `name` varchar(120) NOT NULL,
   `value` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -929,7 +929,7 @@ CREATE TABLE `session` (
   `lifetime` int(11) DEFAULT NULL,
   `data` mediumtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -969,7 +969,7 @@ CREATE TABLE `site` (
   `keep_url_fragment` tinyint(4) NOT NULL DEFAULT '0',
   `creator_login` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idsite`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -998,7 +998,7 @@ CREATE TABLE `site_setting` (
   `idsite_setting` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`idsite_setting`),
   KEY `idsite` (`idsite`,`plugin_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1021,7 +1021,7 @@ CREATE TABLE `site_url` (
   `idsite` int(10) unsigned NOT NULL,
   `url` varchar(190) NOT NULL,
   PRIMARY KEY (`idsite`,`url`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1257,7 +1257,7 @@ CREATE TABLE `tracking_failure` (
   `date_first_occurred` datetime NOT NULL,
   `request_url` mediumtext NOT NULL,
   PRIMARY KEY (`idsite`,`idfailure`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1281,7 +1281,7 @@ CREATE TABLE `twofactor_recovery_code` (
   `login` varchar(100) NOT NULL,
   `recovery_code` varchar(40) NOT NULL,
   PRIMARY KEY (`idrecoverycode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1345,7 +1345,7 @@ CREATE TABLE `user` (
   `ts_changes_shown` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`login`),
   UNIQUE KEY `uniq_email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1428,7 +1428,7 @@ CREATE TABLE `user_token_auth` (
   `secure_only` tinyint(2) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`idusertokenauth`),
   UNIQUE KEY `uniq_password` (`password`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Integration\Updater\Migration\Db;
 
 use Piwik\Common;
+use Piwik\Db\Schema;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater\Migration\Db\AddColumn;
 use Piwik\Updater\Migration\Db\AddColumns;
@@ -94,7 +95,9 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->createTable();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;", '' . $migration);
+        $createOptions = Schema::getInstance()->getTableCreateOptions();
+        self::assertStringContainsString('ROW_FORMAT=DYNAMIC', $createOptions);
+        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)) $createOptions;", '' . $migration);
     }
 
 
@@ -103,7 +106,9 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->createTable('column2');
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255), PRIMARY KEY ( `column2` )) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;", '' . $migration);
+        $createOptions = Schema::getInstance()->getTableCreateOptions();
+        self::assertStringContainsString('ROW_FORMAT=DYNAMIC', $createOptions);
+        $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255), PRIMARY KEY ( `column2` )) $createOptions;", '' . $migration);
     }
 
     public function testDropTableReturnsDropTableInstance()
