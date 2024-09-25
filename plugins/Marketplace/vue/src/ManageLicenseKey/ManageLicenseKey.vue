@@ -12,6 +12,13 @@
   >
     <div class="manage-license-key-intro" v-html="$sanitize(manageLicenseKeyIntro)"></div>
 
+    <div v-if="isInstallAllPaidPluginsVisible && hasValidLicense">
+      <InstallAllPaidPluginsButton
+        :paid-plugins-to-install-at-once="paidPluginsToInstallAtOnce"
+        :install-nonce="installAllPluginsNonce"
+      />
+    </div>
+
     <div class="manage-license-key-input">
       <Field
         uicontrol="text"
@@ -58,6 +65,8 @@ import {
   externalLink,
 } from 'CoreHome';
 import { Field, SaveButton } from 'CorePluginsAdmin';
+import InstallAllPaidPluginsButton
+  from '../InstallAllPaidPluginsButton/InstallAllPaidPluginsButton.vue';
 
 interface LicenseKeyState {
   licenseKey: string;
@@ -68,12 +77,19 @@ interface LicenseKeyState {
 export default defineComponent({
   props: {
     hasValidLicenseKey: Boolean,
+    isInstallAllPaidPluginsVisible: Boolean,
+    installAllPluginsNonce: String,
+    paidPluginsToInstallAtOnce: {
+      type: Array,
+      required: true,
+    },
   },
   components: {
     Field,
     ContentBlock,
     SaveButton,
     ActivityIndicator,
+    InstallAllPaidPluginsButton,
   },
   data(): LicenseKeyState {
     return {

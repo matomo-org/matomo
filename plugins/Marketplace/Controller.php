@@ -144,10 +144,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function manageLicenseKey()
     {
+        $marketplace = StaticContainer::get('Piwik\Plugins\Marketplace\Marketplace');
         Piwik::checkUserHasSuperUserAccess();
 
         return $this->renderTemplate('@Marketplace/manageLicenseKey', array(
             'hasValidLicenseKey' => $this->licenseKey->has() && $this->consumer->isValidConsumer(),
+            'paidPluginsToInstallAtOnce' => $marketplace->getPaidPluginsToInstallAtOnce(),
+            'isInstallAllPaidPluginsVisible' => $marketplace->isInstallAllPaidPluginsVisible(),
+            'installAllPluginsNonce' =>  Nonce::getNonce(self::INSTALL_NONCE),
         ));
     }
 
@@ -220,7 +224,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
     }
 
-    private function getPaidPluginsToInstallAtOnceData(array $paidPlugins): array
+    public function getPaidPluginsToInstallAtOnceData(array $paidPlugins): array
     {
         $paidPluginsToInstallAtOnce = [];
         if (SettingsPiwik::isAutoUpdatePossible()) {

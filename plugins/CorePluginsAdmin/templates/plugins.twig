@@ -17,6 +17,9 @@
         is-marketplace-enabled="{{ isMarketplaceEnabled|default(null)|json_encode }}"
         is-plugin-upload-enabled="{{ isPluginUploadEnabled|default(null)|json_encode }}"
         is-plugins-admin-enabled="{{ isPluginsAdminEnabled|default(null)|json_encode }}"
+        is-install-all-paid-plugins-visible="{{ isInstallAllPaidPluginsVisible|json_encode }}"
+        install-all-plugins-nonce="{{ installAllPluginsNonce|json_encode }}"
+        paid-plugins-to-install-at-once="{{ paidPluginsToInstallAtOnce|default([])|json_encode }}"
     ></div>
 
     <div

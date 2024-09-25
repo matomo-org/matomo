@@ -2515,20 +2515,25 @@ function InstallAllPaidPluginsButtonvue_type_template_id_1d0cceb8_render(_ctx, _
 InstallAllPaidPluginsButtonvue_type_script_lang_ts.render = InstallAllPaidPluginsButtonvue_type_template_id_1d0cceb8_render
 
 /* harmony default export */ var InstallAllPaidPluginsButton = (InstallAllPaidPluginsButtonvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/ManageLicenseKey/ManageLicenseKey.vue?vue&type=template&id=8dd04b4e
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/ManageLicenseKey/ManageLicenseKey.vue?vue&type=template&id=5e808558
 
-var ManageLicenseKeyvue_type_template_id_8dd04b4e_hoisted_1 = ["innerHTML"];
-var ManageLicenseKeyvue_type_template_id_8dd04b4e_hoisted_2 = {
+var ManageLicenseKeyvue_type_template_id_5e808558_hoisted_1 = ["innerHTML"];
+var ManageLicenseKeyvue_type_template_id_5e808558_hoisted_2 = {
+  key: 0
+};
+var ManageLicenseKeyvue_type_template_id_5e808558_hoisted_3 = {
   class: "manage-license-key-input"
 };
-var ManageLicenseKeyvue_type_template_id_8dd04b4e_hoisted_3 = {
+var ManageLicenseKeyvue_type_template_id_5e808558_hoisted_4 = {
   class: "ui-confirm",
   id: "confirmRemoveLicense",
   ref: "confirmRemoveLicense"
 };
-var ManageLicenseKeyvue_type_template_id_8dd04b4e_hoisted_4 = ["value"];
-var ManageLicenseKeyvue_type_template_id_8dd04b4e_hoisted_5 = ["value"];
-function ManageLicenseKeyvue_type_template_id_8dd04b4e_render(_ctx, _cache, $props, $setup, $data, $options) {
+var ManageLicenseKeyvue_type_template_id_5e808558_hoisted_5 = ["value"];
+var ManageLicenseKeyvue_type_template_id_5e808558_hoisted_6 = ["value"];
+function ManageLicenseKeyvue_type_template_id_5e808558_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_InstallAllPaidPluginsButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("InstallAllPaidPluginsButton");
+
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
@@ -2545,7 +2550,10 @@ function ManageLicenseKeyvue_type_template_id_8dd04b4e_render(_ctx, _cache, $pro
       return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
         class: "manage-license-key-intro",
         innerHTML: _ctx.$sanitize(_ctx.manageLicenseKeyIntro)
-      }, null, 8, ManageLicenseKeyvue_type_template_id_8dd04b4e_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageLicenseKeyvue_type_template_id_8dd04b4e_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      }, null, 8, ManageLicenseKeyvue_type_template_id_5e808558_hoisted_1), _ctx.isInstallAllPaidPluginsVisible && _ctx.hasValidLicense ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ManageLicenseKeyvue_type_template_id_5e808558_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_InstallAllPaidPluginsButton, {
+        "paid-plugins-to-install-at-once": _ctx.paidPluginsToInstallAtOnce,
+        "install-nonce": _ctx.installAllPluginsNonce
+      }, null, 8, ["paid-plugins-to-install-at-once", "install-nonce"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageLicenseKeyvue_type_template_id_5e808558_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
         uicontrol: "text",
         name: "license_key",
         modelValue: _ctx.licenseKey,
@@ -2562,7 +2570,7 @@ function ManageLicenseKeyvue_type_template_id_8dd04b4e_render(_ctx, _cache, $pro
         disabled: !_ctx.licenseKey || _ctx.isUpdating,
         id: "submit_license_key"
       }, null, 8, ["value", "disabled"]), _ctx.hasValidLicense ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_SaveButton, {
-        key: 0,
+        key: 1,
         id: "remove_license_key",
         onConfirm: _cache[2] || (_cache[2] = function ($event) {
           return _ctx.removeLicense();
@@ -2574,31 +2582,39 @@ function ManageLicenseKeyvue_type_template_id_8dd04b4e_render(_ctx, _cache, $pro
       }, null, 8, ["loading"])];
     }),
     _: 1
-  }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageLicenseKeyvue_type_template_id_8dd04b4e_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_ConfirmRemoveLicense')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageLicenseKeyvue_type_template_id_5e808558_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_ConfirmRemoveLicense')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     role: "yes",
     type: "button",
     value: _ctx.translate('General_Yes')
-  }, null, 8, ManageLicenseKeyvue_type_template_id_8dd04b4e_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, null, 8, ManageLicenseKeyvue_type_template_id_5e808558_hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     role: "no",
     type: "button",
     value: _ctx.translate('General_No')
-  }, null, 8, ManageLicenseKeyvue_type_template_id_8dd04b4e_hoisted_5)], 512)], 64);
+  }, null, 8, ManageLicenseKeyvue_type_template_id_5e808558_hoisted_6)], 512)], 64);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/ManageLicenseKey/ManageLicenseKey.vue?vue&type=template&id=8dd04b4e
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/ManageLicenseKey/ManageLicenseKey.vue?vue&type=template&id=5e808558
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/ManageLicenseKey/ManageLicenseKey.vue?vue&type=script&lang=ts
 
 
 
+
 /* harmony default export */ var ManageLicenseKeyvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
-    hasValidLicenseKey: Boolean
+    hasValidLicenseKey: Boolean,
+    isInstallAllPaidPluginsVisible: Boolean,
+    installAllPluginsNonce: String,
+    paidPluginsToInstallAtOnce: {
+      type: Array,
+      required: true
+    }
   },
   components: {
     Field: external_CorePluginsAdmin_["Field"],
     ContentBlock: external_CoreHome_["ContentBlock"],
     SaveButton: external_CorePluginsAdmin_["SaveButton"],
-    ActivityIndicator: external_CoreHome_["ActivityIndicator"]
+    ActivityIndicator: external_CoreHome_["ActivityIndicator"],
+    InstallAllPaidPluginsButton: InstallAllPaidPluginsButton
   },
   data: function data() {
     return {
@@ -2675,7 +2691,7 @@ function ManageLicenseKeyvue_type_template_id_8dd04b4e_render(_ctx, _cache, $pro
 
 
 
-ManageLicenseKeyvue_type_script_lang_ts.render = ManageLicenseKeyvue_type_template_id_8dd04b4e_render
+ManageLicenseKeyvue_type_script_lang_ts.render = ManageLicenseKeyvue_type_template_id_5e808558_render
 
 /* harmony default export */ var ManageLicenseKey = (ManageLicenseKeyvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/GetNewPlugins/GetNewPlugins.vue?vue&type=template&id=f1842798
