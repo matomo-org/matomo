@@ -484,7 +484,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     $faqLink = Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/plugins/faq_21/');
                     if (!empty($currentPluginInfo['isPaid'])) {
                         $downloadLink = Url::addCampaignParametersToMatomoLink('https://shop.matomo.org/my-account/downloads');
-                        $translateKey = 'Marketplace_PluginDownloadLinkMissing';
+                        $translateKey = 'Marketplace_PluginDownloadLinkMissingPremium';
                     } else {
                         $downloadLink = Url::addCampaignParametersToMatomoLink('https://plugins.matomo.org/' . $pluginName);
                         $translateKey = 'Marketplace_PluginDownloadLinkMissingFree';

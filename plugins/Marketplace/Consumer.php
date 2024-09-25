@@ -73,8 +73,9 @@ class Consumer
 
     public function getConsumerPluginLicenseStatus(): array
     {
-        if (!$this->pluginLicenseStatus) {
+        if ($this->pluginLicenseStatus === null) {
             $consumer = $this->getConsumer();
+            $this->pluginLicenseStatus = [];
             if (!empty($consumer['licenses'])) {
                 foreach ($consumer['licenses'] as $license) {
                     $this->pluginLicenseStatus[$license['plugin']['name']] = $license['status'];
@@ -82,6 +83,6 @@ class Consumer
             }
         }
 
-        return $this->pluginLicenseStatus ?? [];
+        return $this->pluginLicenseStatus;
     }
 }
