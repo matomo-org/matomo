@@ -10,7 +10,9 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
@@ -225,6 +227,32 @@ class Marketplace extends \Piwik\Plugin
         } catch (\Exception $e) {
             // ignore any type of error
         }
+    }
+
+    public function isInstallAllPaidPluginsVisible(): bool
+    {
+        $consumer = StaticContainer::get('Piwik\Plugins\Marketplace\Consumer');
+        $plugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
+        $controller = StaticContainer::get('Piwik\Plugins\Marketplace\Controller');
+        $paidPlugins = $plugins->getAllPaidPlugins();
+        $paidPluginsToInstallAtOnce = $controller->getPaidPluginsToInstallAtOnceData($paidPlugins);
+
+        return (
+            $consumer->isValidConsumer() &&
+            Piwik::hasUserSuperUserAccess() &&
+            SettingsPiwik::isAutoUpdatePossible() &&
+            CorePluginsAdmin::isPluginsAdminEnabled() &&
+            count($paidPluginsToInstallAtOnce) > 0
+        );
+    }
+
+    public function getPaidPluginsToInstallAtOnce(): array
+    {
+        $plugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
+        $controller = StaticContainer::get('Piwik\Plugins\Marketplace\Controller');
+        $paidPlugins = $plugins->getAllPaidPlugins();
+
+        return $controller->getPaidPluginsToInstallAtOnceData($paidPlugins);
     }
 
     public static function isMarketplaceEnabled()

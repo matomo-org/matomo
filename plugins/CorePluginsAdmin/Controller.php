@@ -251,7 +251,11 @@ class Controller extends Plugin\ControllerAdmin
 
     public function plugins()
     {
+        $marketplace = StaticContainer::get('Piwik\Plugins\Marketplace\Marketplace');
         $view = $this->createPluginsOrThemesView('plugins', $themesOnly = false);
+        $view->isInstallAllPaidPluginsVisible = $marketplace->isInstallAllPaidPluginsVisible();
+        $view->paidPluginsToInstallAtOnce = $marketplace->getPaidPluginsToInstallAtOnce();
+        $view->installAllPluginsNonce = Nonce::getNonce(\Piwik\Plugins\Marketplace\Controller::INSTALL_NONCE);
         return $view->render();
     }
 

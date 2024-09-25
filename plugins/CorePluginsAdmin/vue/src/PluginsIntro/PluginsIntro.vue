@@ -28,6 +28,12 @@
       <span v-html="$sanitize(changeLookByManageThemesText)"></span>
     </p>
   </div>
+  <div v-if="isInstallAllPaidPluginsVisible">
+    <InstallAllPaidPluginsButton
+      :paid-plugins-to-install-at-once="paidPluginsToInstallAtOnce"
+      :install-nonce="installAllPluginsNonce"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -38,15 +44,23 @@ import {
   translate,
   MatomoUrl,
 } from 'CoreHome';
+import InstallAllPaidPluginsButton from '../../../../Marketplace/vue/src/InstallAllPaidPluginsButton/InstallAllPaidPluginsButton.vue';
 
 export default defineComponent({
   props: {
     isMarketplaceEnabled: Boolean,
     isPluginUploadEnabled: Boolean,
     isPluginsAdminEnabled: Boolean,
+    isInstallAllPaidPluginsVisible: Boolean,
+    installAllPluginsNonce: String,
+    paidPluginsToInstallAtOnce: {
+      type: Array,
+      required: true,
+    },
   },
   components: {
     EnrichedHeadline,
+    InstallAllPaidPluginsButton,
   },
   directives: {
     ContentIntro,

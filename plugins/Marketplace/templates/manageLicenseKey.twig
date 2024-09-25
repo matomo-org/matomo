@@ -7,6 +7,9 @@
 <div
         vue-entry="Marketplace.ManageLicenseKey"
         has-valid-license-key="{{ hasValidLicenseKey|default(false)|json_encode }}"
+        is-install-all-paid-plugins-visible="{{ isInstallAllPaidPluginsVisible|json_encode }}"
+        install-all-plugins-nonce="{{ installAllPluginsNonce|json_encode }}"
+        paid-plugins-to-install-at-once="{{ paidPluginsToInstallAtOnce|default([])|json_encode }}"
 ></div>
 
 {% endblock %}
