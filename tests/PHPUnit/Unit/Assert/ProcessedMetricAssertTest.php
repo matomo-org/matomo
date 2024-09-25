@@ -108,15 +108,80 @@ class ProcessedMetricAssertTest extends TestCase
     /**
      * @dataProvider getFailureTestDataForAssertProcessedMetricIsValidFor
      */
-    public function test_assertProcessedMetricIsValidFor_failsWhenAFormulaIsAnInvalidExpression(string $formula, Row $testData)
+    public function test_assertProcessedMetricIsValidFor_failsWhenAFormulaIsAnInvalidExpression(string $formula, callable $compute, array $testData)
     {
-        // TODO
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageMatches('/Formula for.*?did not evaluate to the same value as its compute\(\)/');
+
+        $processedMetric = new class() extends ProcessedMetric {
+            /**
+             * @var string
+             */
+            private $formula;
+
+            /**
+             * @var callable
+             */
+            private $compute;
+
+            public function __construct(string $formula, callable $compute)
+            {
+                $this->formula = $formula;
+                $this->compute = $compute;
+            }
+
+            public function getName()
+            {
+                return 'test_metric';
+            }
+
+            public function getTranslatedName()
+            {
+                return 'TestPlugin_TestMetric';
+            }
+
+            public function compute(Row $row)
+            {
+                $compute = $this->compute;
+                return $compute($row);
+            }
+
+            public function getDependentMetrics()
+            {
+                return [];
+            }
+
+            public function getFormula(): ?string
+            {
+                return $this->formula;
+            }
+        };
+
+        $this->testInstance->assertProcessedMetricIsValidFor($processedMetric, new Row([Row::COLUMNS => $testData]));
     }
 
     private function getFailureTestDataForAssertProcessedMetricIsValidFor()
     {
         return [
-            // TODO
+            // formula is invalid
+            [
+                // TODO
+            ],
+
+            // metric used in formula does not exist in row
+            [
+                // TODO
+            ],
+
+            // formula and compute are different
+            [
+                // TODO
+            ],
+
+            // formula and compute are different, but only for some metric values
+            [
+                // TODO
+            ],
         ];
     }
 
