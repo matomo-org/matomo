@@ -197,6 +197,8 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
 			<nb_users>Users</nb_users>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>

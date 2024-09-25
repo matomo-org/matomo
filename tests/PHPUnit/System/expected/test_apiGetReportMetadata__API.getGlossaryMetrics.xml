@@ -96,6 +96,11 @@
 		<documentation>The percentage of visits that triggered a goal conversion.</documentation>
 	</row>
 	<row>
+		<name>Conversions</name>
+		<id>nb_conversions</id>
+		<documentation>The total number of conversions for all goals.</documentation>
+	</row>
+	<row>
 		<name>Downloads</name>
 		<id>nb_downloads</id>
 		<documentation>The number of times this link was clicked.</documentation>
@@ -164,6 +169,11 @@
 		<name>Pageviews</name>
 		<id>nb_pageviews</id>
 		<documentation>The number of times this page was visited.</documentation>
+	</row>
+	<row>
+		<name>Revenue</name>
+		<id>revenue</id>
+		<documentation>The total revenue generated for all goals.</documentation>
 	</row>
 	<row>
 		<name>Search Results pages</name>

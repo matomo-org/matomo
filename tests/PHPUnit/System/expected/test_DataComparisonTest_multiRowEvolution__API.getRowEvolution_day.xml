@@ -206,6 +206,8 @@
 		<columns>
 			<nb_hits>Pageviews</nb_hits>
 			<nb_visits>Unique Pageviews</nb_visits>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
 			<avg_time_on_page>Avg. time on page</avg_time_on_page>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<exit_rate>Exit rate</exit_rate>

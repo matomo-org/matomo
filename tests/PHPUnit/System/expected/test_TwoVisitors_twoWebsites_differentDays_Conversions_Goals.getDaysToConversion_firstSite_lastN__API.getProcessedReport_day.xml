@@ -12,9 +12,15 @@
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
 		</metrics>
+		<metricsDocumentation>
+			<nb_conversions>The total number of conversions for all goals.</nb_conversions>
+			<revenue>The total revenue generated for all goals.</revenue>
+		</metricsDocumentation>
 		<metricTypes>
 			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
 		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>

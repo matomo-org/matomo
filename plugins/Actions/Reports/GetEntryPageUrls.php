@@ -41,6 +41,7 @@ class GetEntryPageUrls extends Base
         $this->actionToLoadSubTables = $this->action;
         $this->subcategoryId = 'Actions_SubmenuPagesEntry';
         $this->hasGoalMetrics = true;
+        $this->hasGoalSumMetrics = false;
     }
 
     public function getProcessedMetrics()

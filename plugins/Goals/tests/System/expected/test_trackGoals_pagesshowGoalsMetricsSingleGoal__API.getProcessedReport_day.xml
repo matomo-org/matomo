@@ -13,11 +13,15 @@
 		<metrics>
 			<entry_nb_visits>Entrances</entry_nb_visits>
 			<entry_bounce_count>Bounces</entry_bounce_count>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
 		</metrics>
 		<metricsDocumentation>
 			<entry_nb_visits>Number of visits that started on this page.</entry_nb_visits>
 			<entry_bounce_count>Number of visits that started and ended on this page. This means that the visitor left the website after viewing only this page.</entry_bounce_count>
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
+			<nb_conversions>The total number of conversions for all goals.</nb_conversions>
+			<revenue>The total revenue generated for all goals.</revenue>
 		</metricsDocumentation>
 		<processedMetrics>
 			<bounce_rate>Bounce Rate</bounce_rate>
@@ -30,6 +34,8 @@
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
 		</metricTypes>
 		<actionToLoadSubTables>getEntryPageTitles</actionToLoadSubTables>
 		<relatedReports>
@@ -72,6 +78,8 @@
 		<label>Entry Page title</label>
 		<entry_nb_visits>Entrances</entry_nb_visits>
 		<entry_bounce_count>Bounces</entry_bounce_count>
+		<nb_conversions>Conversions</nb_conversions>
+		<revenue>Revenue</revenue>
 		<bounce_rate>Bounce Rate</bounce_rate>
 	</columns>
 	<reportData>
@@ -96,6 +104,8 @@
 			<goal_2_revenue_per_entry>$5</goal_2_revenue_per_entry>
 			<goal_2_revenue_entry>$10</goal_2_revenue_entry>
 			<goal_2_nb_conversions_entry_rate>25%</goal_2_nb_conversions_entry_rate>
+			<nb_conversions>0</nb_conversions>
+			<revenue>$0</revenue>
 		</row>
 	</reportData>
 	<reportMetadata>

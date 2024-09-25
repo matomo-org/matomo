@@ -13,6 +13,8 @@
 		<metrics>
 			<nb_visits>Visites</nb_visits>
 			<nb_actions>Actions</nb_actions>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenu</revenue>
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>Si un visiteur se rend sur votre site web pour la première fois ou s'il visite une page plus de 30 minutes après sa dernière consultation, il sera comptabilisé comme une nouvelle visite.</nb_visits>
@@ -22,6 +24,8 @@
 			<avg_time_on_site>Durée moyenne d'une visite.</avg_time_on_site>
 			<bounce_rate>Pourcentage de visites qui ont eu un affichage unique de page. Cela signifie que le visiteur a quitté le site directement depuis la page d'entrée.</bounce_rate>
 			<conversion_rate>Le pourcentage de visites qui ont déclenché une conversion d'objectif.</conversion_rate>
+			<nb_conversions>The total number of conversions for all goals.</nb_conversions>
+			<revenue>The total revenue generated for all goals.</revenue>
 		</metricsDocumentation>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions par visite</nb_actions_per_visit>
@@ -36,6 +40,8 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
 		</metricTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
@@ -58,10 +64,11 @@
 		<label>Pays</label>
 		<nb_visits>Visites</nb_visits>
 		<nb_actions>Actions</nb_actions>
+		<nb_conversions>Conversions</nb_conversions>
+		<revenue>Revenu</revenue>
 		<nb_actions_per_visit>Actions par visite</nb_actions_per_visit>
 		<avg_time_on_site>Temps moyen sur le site web</avg_time_on_site>
 		<bounce_rate>Taux de rebond</bounce_rate>
-		<revenue>Revenu</revenue>
 	</columns>
 	<reportData />
 	<reportMetadata />

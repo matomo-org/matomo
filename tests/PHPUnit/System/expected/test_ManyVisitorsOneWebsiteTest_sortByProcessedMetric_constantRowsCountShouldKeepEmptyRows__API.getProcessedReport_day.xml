@@ -15,6 +15,8 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
 			<nb_users>Users</nb_users>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
@@ -25,6 +27,8 @@
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<nb_conversions>The total number of conversions for all goals.</nb_conversions>
+			<revenue>The total revenue generated for all goals.</revenue>
 		</metricsDocumentation>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
@@ -40,6 +44,8 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
 		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
@@ -64,10 +70,11 @@
 		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 		<nb_actions>Actions</nb_actions>
 		<nb_users>Users</nb_users>
+		<nb_conversions>Conversions</nb_conversions>
+		<revenue>Revenue</revenue>
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
-		<revenue>Revenue</revenue>
 	</columns>
 	<reportData>
 		<row>
@@ -76,6 +83,7 @@
 			<nb_visits>4</nb_visits>
 			<nb_actions>20</nb_actions>
 			<nb_users>0</nb_users>
+			<nb_conversions>8</nb_conversions>
 			<revenue>$40</revenue>
 			<nb_actions_per_visit>5</nb_actions_per_visit>
 			<avg_time_on_site>00:27:01</avg_time_on_site>
@@ -87,6 +95,7 @@
 			<nb_visits>4</nb_visits>
 			<nb_actions>4</nb_actions>
 			<nb_users>0</nb_users>
+			<nb_conversions>4</nb_conversions>
 			<revenue>$20</revenue>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
@@ -101,6 +110,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -112,6 +122,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -123,6 +134,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -134,6 +146,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -145,6 +158,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -156,6 +170,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -167,6 +182,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -178,6 +194,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -189,6 +206,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -200,6 +218,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -211,6 +230,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -222,6 +242,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -233,6 +254,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -244,6 +266,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -255,6 +278,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -266,6 +290,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -277,6 +302,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -288,6 +314,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -299,6 +326,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -310,6 +338,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -321,6 +350,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 		<row>
@@ -332,6 +362,7 @@
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_conversions>0</nb_conversions>
 			<revenue>$0</revenue>
 		</row>
 	</reportData>

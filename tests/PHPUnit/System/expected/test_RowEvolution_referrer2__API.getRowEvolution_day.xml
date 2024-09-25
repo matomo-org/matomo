@@ -82,6 +82,12 @@
 			<nb_users>
 				<name>Users</name>
 			</nb_users>
+			<nb_conversions>
+				<name>Conversions</name>
+			</nb_conversions>
+			<revenue>
+				<name>Revenue</name>
+			</revenue>
 			<nb_actions_per_visit>
 				<name>Actions per Visit</name>
 				<min>0</min>

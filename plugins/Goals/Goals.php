@@ -359,6 +359,9 @@ class Goals extends \Piwik\Plugin
 
         $reportsWithGoals = self::getAllReportsWithGoalMetrics();
 
+        $conversionDocsTranslation = Piwik::translate('Goals_ColumnConversionSumDocumentation');
+        $revenueDocsTranslation = Piwik::translate('Goals_ColumnRevenueSumDocumentation');
+
         foreach ($reportsWithGoals as $reportWithGoals) {
             $goalMetricsToUse = $goalMetrics;
             $goalProcessedMetricsToUse = $goalProcessedMetrics;
@@ -383,6 +386,21 @@ class Goals extends \Piwik\Plugin
                     && $apiReportToUpdate['action'] == $reportWithGoals['action']
                     && empty($apiReportToUpdate['parameters'])
                 ) {
+                    // add overall Goal metrics computed during archiving by EnrichRecordWithGoalMetricSums
+                    if (
+                        !isset($reportsWithGoals['hasGoalSumMetrics'])
+                        || $reportWithGoals['hasGoalSumMetrics']
+                    ) {
+                        $apiReportToUpdate['metrics']['nb_conversions'] = $goalMetrics['nb_conversions'];
+                        $apiReportToUpdate['metrics']['revenue'] = $goalMetrics['revenue'];
+
+                        $apiReportToUpdate['metricsDocumentation']['nb_conversions'] = $conversionDocsTranslation;
+                        $apiReportToUpdate['metricsDocumentation']['revenue'] = $revenueDocsTranslation;
+
+                        $apiReportToUpdate['metricTypes']['nb_conversions'] = Dimension::TYPE_NUMBER;
+                        $apiReportToUpdate['metricTypes']['revenue'] = Dimension::TYPE_MONEY;
+                    }
+
                     $apiReportToUpdate['metricsGoal'] = $goalMetricsToUse;
                     $apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetricsToUse;
                     $apiReportToUpdate['metricTypesGoal'] = $goalMetricTypesToUse;
@@ -405,7 +423,8 @@ class Goals extends \Piwik\Plugin
                     'name'     => $report->getName(),
                     'module'   => $report->getModule(),
                     'action'   => $report->getAction(),
-                    'parameters' => $report->getParameters()
+                    'parameters' => $report->getParameters(),
+                    'hasGoalSumMetrics' => $report->hasGoalSumMetrics(),
                 );
             }
         }

@@ -45,6 +45,7 @@ class GetPageTitles extends Base
         $this->actionToLoadSubTables = $this->action;
         $this->subcategoryId = 'Actions_SubmenuPageTitles';
         $this->hasGoalMetrics = true;
+        $this->hasGoalSumMetrics = false;
     }
 
     public function getMetrics()

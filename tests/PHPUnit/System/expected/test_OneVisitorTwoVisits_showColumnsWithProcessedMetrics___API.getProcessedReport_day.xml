@@ -12,12 +12,15 @@
 		<documentation>This graph shows what time it was in the &lt;strong&gt; site's time zone &lt;/strong&gt; during the visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
+			<revenue>Revenue</revenue>
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<revenue>The total revenue generated for all goals.</revenue>
 		</metricsDocumentation>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
+			<revenue>money</revenue>
 		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
