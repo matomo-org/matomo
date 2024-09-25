@@ -671,6 +671,9 @@ class Mysql implements SchemaInterface
     /**
      * Returns the default collation for a charset.
      *
+     * Will return an empty string for an unknown charset
+     * (can happen for alias charsets like "utf8").
+     *
      * @param string $charset
      *
      * @return string
@@ -678,19 +681,9 @@ class Mysql implements SchemaInterface
      */
     public function getDefaultCollationForCharset(string $charset): string
     {
-        $result = $this->getDb()->fetchRow(
-            'SHOW COLLATION WHERE `Default` = "Yes" AND `Charset` = ?',
-            [$charset]
-        );
+        $result = $this->getDb()->fetchRow('SHOW CHARACTER SET WHERE `Charset` = ?', [$charset]);
 
-        if (!isset($result['Collation'])) {
-            throw new Exception(sprintf(
-                'Failed to detect default collation for character set "%s"',
-                $charset
-            ));
-        }
-
-        return $result['Collation'];
+        return $result['Default collation'] ?? '';
     }
 
     public function getDefaultPort(): int
@@ -723,7 +716,13 @@ class Mysql implements SchemaInterface
         $charset = DbHelper::getDefaultCharset();
         $collation = $this->getDefaultCollationForCharset($charset);
 
-        return "DEFAULT CHARACTER SET $charset COLLATE $collation";
+        $options = "DEFAULT CHARACTER SET $charset";
+
+        if ('' !== $collation) {
+            $options .= " COLLATE $collation";
+        }
+
+        return $options;
     }
 
     protected function getTableEngine()
