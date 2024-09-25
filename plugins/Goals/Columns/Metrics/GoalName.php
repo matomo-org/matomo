@@ -7,14 +7,14 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Goals\Columns;
+namespace Piwik\Plugins\Goals\Columns\Metrics;
 
 use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\Join;
 use Piwik\Columns\MetricsList;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Plugin\Dimension\ConversionDimension;
-use Piwik\Columns\Join;
 use Piwik\Plugins\Goals\API;
 
 class GoalName extends ConversionDimension

@@ -10,11 +10,13 @@
 namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
 
 use Piwik\Columns\Dimension;
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecificProcessedMetric;
+use Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate;
 use Piwik\Plugins\Goals\Goals;
 
 /**
@@ -27,6 +29,16 @@ use Piwik\Plugins\Goals\Goals;
  */
 class ConversionPageRate extends GoalSpecificProcessedMetric
 {
+    /**
+     * @var array|null
+     */
+    private $goalTotals = null;
+
+    /**
+     * @var DataTable
+     */
+    private $dataTable = null;
+
     public function getName()
     {
         return Goals::makeGoalColumn($this->idGoal, 'nb_conversions_page_rate', false);
@@ -34,7 +46,11 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
 
     public function getTranslatedName()
     {
-        return Piwik::translate('Goals_ConversionRatePageViewedBefore', $this->getGoalName());
+        $goalName = $this->getGoalName();
+        if (empty($goalName)) {
+            return Piwik::translate('Goals_ConversionRatePageViewedBeforeGeneric');
+        }
+        return Piwik::translate('Goals_ConversionRatePageViewedBefore', $goalName);
     }
 
     public function getDocumentation()
@@ -52,6 +68,18 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
         return $formatter->getPrettyPercentFromQuotient($value);
     }
 
+    public function beforeCompute($report, DataTable $table)
+    {
+        $this->dataTable = $table;
+        unset($this->goalTotals);
+        return true;
+    }
+
+    public function afterCompute($report, DataTable $table)
+    {
+        unset($this->dataTable); // remove the reference to the datatable
+    }
+
     public function compute(Row $row)
     {
         $mappingFromNameToIdGoal = Metrics::getMappingFromNameToIdGoal();
@@ -60,8 +88,44 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
         return $this->getMetric($goalMetrics, 'nb_conversions_page_rate', $mappingFromNameToIdGoal);
     }
 
+    public function computeExtraTemporaryMetrics(Row $row): array
+    {
+        $goalTotals = $this->getGoalTotals();
+
+        $totalConversionsColumnName = $this->getTotalConversionsColumnName();
+        return [
+            $totalConversionsColumnName => $goalTotals[$this->idGoal],
+        ];
+    }
+
+    private function getGoalTotals(): array
+    {
+        if (isset($this->goalTotals)) {
+            return $this->goalTotals;
+        }
+
+        $this->goalTotals = CalculateConversionPageRate::getGoalTotalConversions($this->dataTable);
+
+        return $this->goalTotals;
+    }
+
     public function getSemanticType(): ?string
     {
         return Dimension::TYPE_PERCENT;
+    }
+
+    public function getFormula(): ?string
+    {
+        $totalConversionsColumnName = $this->getTotalConversionsColumnName();
+        return sprintf(
+            'min($goals["idgoal=%s"].nb_conversions_page_uniq / %s, 1)',
+            $this->idGoal,
+            $totalConversionsColumnName
+        );
+    }
+
+    private function getTotalConversionsColumnName()
+    {
+        return Goals::makeGoalColumn($this->idGoal, 'total_conversions', false);
     }
 }

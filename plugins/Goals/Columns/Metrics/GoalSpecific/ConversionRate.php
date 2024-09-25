@@ -69,4 +69,9 @@ class ConversionRate extends GoalSpecificProcessedMetric
     {
         return Dimension::TYPE_PERCENT;
     }
+
+    public function getFormula(): ?string
+    {
+        return sprintf('$goals["idgoal=%s"].nb_conversions / $nb_visits', $this->idGoal);
+    }
 }

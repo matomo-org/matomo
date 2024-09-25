@@ -274,7 +274,7 @@ class ArchivingHelper
         ) {
             /**
              * Ensures this metric is available. It will be calculated later using a filter.
-             * @see \Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate
+             * @see \Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionPageRate
              */
             $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE] = 0;
         }

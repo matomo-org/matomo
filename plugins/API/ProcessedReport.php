@@ -17,7 +17,9 @@ use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
+use Piwik\DataTable\Map;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 use Piwik\Date;
@@ -25,7 +27,10 @@ use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugin\ProcessedMetric;
+use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecificProcessedMetric;
 use Piwik\Site;
 use Piwik\Timer;
 use Piwik\Url;
@@ -179,9 +184,10 @@ class ProcessedReport
      * @param bool|Date $date
      * @param bool $hideMetricsDoc
      * @param bool $showSubtableReports
+     * @param array $dataTables TODO
      * @return array
      */
-    public function getReportMetadata($idSite, $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
+    public function getReportMetadata($idSite, $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false, ?array $dataTables = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -200,7 +206,8 @@ class ProcessedReport
         $availableReports = array();
 
         foreach ($this->reportsProvider->getAllReports() as $report) {
-            $report->configureReportMetadata($availableReports, $parameters);
+            $dataTable = $dataTables[$report->getId()] ?? null;
+            $report->configureReportMetadata($availableReports, $parameters, $dataTable);
         }
 
         foreach ($availableReports as &$availableReport) {
@@ -429,6 +436,8 @@ class ProcessedReport
         } catch (Exception $e) {
             throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()) . ":" . $e->getLine() . "\n");
         }
+
+        $this->handleExtraProcessedMetricsMetadata($dataTable, $reportMetadata);
 
         list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics, $formatMetrics);
 
@@ -945,5 +954,47 @@ class ProcessedReport
             return AddColumnsProcessedMetricsGoal::getProcessOnlyIdGoalToUseForReport($idGoal, $requestMethod);
         }
         return $idGoal;
+    }
+
+    private function handleExtraProcessedMetricsMetadata(DataTableInterface $reportData, array &$reportMetadata): void
+    {
+        $dataTable = $this->getFirstDataTable($reportData);
+        if (empty($dataTable)) {
+            return;
+        }
+
+        $extraProcessedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+        if (empty($extraProcessedMetrics)) {
+            return;
+        }
+
+        $extraProcessedMetrics = array_filter($extraProcessedMetrics, function ($processedMetric) use ($reportMetadata) {
+            return $processedMetric instanceof ProcessedMetric
+                && !($processedMetric instanceof GoalSpecificProcessedMetric)
+                // if a metric is added by the Report, the added processed metric will not
+                // overwrite the existing one. in this case, the metric metadata should come
+                // from the Report, not the one in DataTable metadata.
+                //
+                // Note: this can happen when a report defines a BounceRate for a custom
+                // formula, for example. API.getProcessedReport invokes the AddColumnsProcessedMetrics
+                // filter, which adds the default BounceRate metric to the datatable metadata.
+                && empty($reportMetadata['processedMetricFormulas'][$processedMetric->getName()]);
+        });
+
+        $extraMetadata = Report::getProcessedMetricsMetadata($extraProcessedMetrics);
+
+        $reportMetadata['processedMetrics'] = array_merge($reportMetadata['processedMetrics'] ?? [], $extraMetadata['names']);
+        $reportMetadata['processedMetricFormulas'] = array_merge($reportMetadata['processedMetricFormulas'] ?? [], $extraMetadata['formulas']);
+        $reportMetadata['temporaryMetricAggregationTypes'] = array_merge($reportMetadata['temporaryMetricAggregationTypes'] ?? [], $extraMetadata['temporaryMetricAggregationTypes']);
+        $reportMetadata['temporaryMetricSemanticTypes'] = array_merge($reportMetadata['temporaryMetricSemanticTypes'] ?? [], $extraMetadata['temporaryMetricSemanticTypes']);
+    }
+
+    private function getFirstDataTable(DataTableInterface $reportData)
+    {
+        $table = $reportData;
+        while ($table instanceof Map) {
+            $table = $table->getFirstRow();
+        }
+        return $table;
     }
 }

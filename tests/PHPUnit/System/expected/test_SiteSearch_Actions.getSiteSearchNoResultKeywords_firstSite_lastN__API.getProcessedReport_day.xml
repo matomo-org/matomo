@@ -20,7 +20,35 @@
 		</metricsDocumentation>
 		<processedMetrics>
 			<exit_rate>% Search Exits</exit_rate>
+			<nb_hits_with_bandwidth>Recorded hits with bandwidth</nb_hits_with_bandwidth>
+			<max_bandwidth>Max Bandwidth</max_bandwidth>
+			<min_bandwidth>Min Bandwidth</min_bandwidth>
+			<sum_bandwidth>Sum Bandwidth</sum_bandwidth>
+			<avg_bandwidth>Avg. Bandwidth</avg_bandwidth>
+			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
+			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_page>$sum_time_spent / $nb_hits</avg_time_on_page>
+			<bounce_rate>$entry_bounce_count / $entry_nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
+			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
+			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+			<sum_visit_length>sum</sum_visit_length>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+			<sum_visit_length>number</sum_visit_length>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<avg_time_on_page>duration_s</avg_time_on_page>
@@ -36,20 +64,53 @@
 		<label>Keyword with No Search Result</label>
 		<nb_visits>Searches</nb_visits>
 		<exit_rate>% Search Exits</exit_rate>
+		<nb_hits_with_bandwidth>Recorded hits with bandwidth</nb_hits_with_bandwidth>
+		<max_bandwidth>Max Bandwidth</max_bandwidth>
+		<min_bandwidth>Min Bandwidth</min_bandwidth>
+		<sum_bandwidth>Sum Bandwidth</sum_bandwidth>
+		<avg_bandwidth>Avg. Bandwidth</avg_bandwidth>
+		<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
+		<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+		<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
+		<conversion_rate>Conversion Rate</conversion_rate>
+		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
 				<label>No Result Keyword!</label>
 				<nb_visits>1</nb_visits>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth>0</min_bandwidth>
+				<max_bandwidth>0</max_bandwidth>
+				<avg_bandwidth>0</avg_bandwidth>
+				<conversion_rate>0%</conversion_rate>
+				<nb_actions_per_visit>0</nb_actions_per_visit>
+				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<exit_rate>0%</exit_rate>
+				<nb_total_download_bandwidth>0</nb_total_download_bandwidth>
+				<nb_total_pageview_bandwidth>0</nb_total_pageview_bandwidth>
+				<nb_total_overall_bandwidth>0</nb_total_overall_bandwidth>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
 				<label>No Result Keyword!</label>
 				<nb_visits>1</nb_visits>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth>0</min_bandwidth>
+				<max_bandwidth>0</max_bandwidth>
+				<avg_bandwidth>0</avg_bandwidth>
+				<conversion_rate>0%</conversion_rate>
+				<nb_actions_per_visit>0</nb_actions_per_visit>
+				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<exit_rate>0%</exit_rate>
+				<nb_total_download_bandwidth>0</nb_total_download_bandwidth>
+				<nb_total_pageview_bandwidth>0</nb_total_pageview_bandwidth>
+				<nb_total_overall_bandwidth>0</nb_total_overall_bandwidth>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />

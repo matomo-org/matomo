@@ -30,6 +30,15 @@
 		<processedMetrics>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_pageviews>number</nb_pageviews>
 			<nb_uniq_pageviews>number</nb_uniq_pageviews>

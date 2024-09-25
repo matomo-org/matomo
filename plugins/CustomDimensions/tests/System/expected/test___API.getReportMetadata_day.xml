@@ -26,6 +26,19 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
+			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
+			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_visit_length>sum</sum_visit_length>
+			<bounce_count>sum</bounce_count>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_visit_length>number</sum_visit_length>
+			<bounce_count>number</bounce_count>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_actions>number</nb_actions>
@@ -33,6 +46,10 @@
 			<bounce_rate>percent</bounce_rate>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getCustomDimension</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=1&amp;period=day&amp;date=2013-01-23</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=1&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphEvolutionUrl>
@@ -64,6 +81,19 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
+			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
+			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_visit_length>sum</sum_visit_length>
+			<bounce_count>sum</bounce_count>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_visit_length>number</sum_visit_length>
+			<bounce_count>number</bounce_count>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_actions>number</nb_actions>
@@ -71,6 +101,10 @@
 			<bounce_rate>percent</bounce_rate>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getCustomDimension</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=2&amp;period=day&amp;date=2013-01-23</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=2&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphEvolutionUrl>
@@ -102,6 +136,19 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
+			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
+			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_visit_length>sum</sum_visit_length>
+			<bounce_count>sum</bounce_count>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_visit_length>number</sum_visit_length>
+			<bounce_count>number</bounce_count>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_actions>number</nb_actions>
@@ -109,6 +156,10 @@
 			<bounce_rate>percent</bounce_rate>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getCustomDimension</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=6&amp;period=day&amp;date=2013-01-23</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=6&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphEvolutionUrl>
@@ -141,6 +192,20 @@
 			<exit_rate>Exit rate</exit_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_dimension>$sum_time_spent / $nb_hits</avg_time_on_dimension>
+			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<bounce_count>sum</bounce_count>
+			<sum_time_generation>sum</sum_time_generation>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<bounce_count>number</bounce_count>
+			<sum_time_generation>duration_s</sum_time_generation>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_hits>number</nb_hits>
 			<nb_visits>number</nb_visits>
@@ -149,6 +214,9 @@
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_hits>sum</nb_hits>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getCustomDimension</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=3&amp;period=day&amp;date=2013-01-23</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=3&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphEvolutionUrl>
@@ -181,6 +249,20 @@
 			<exit_rate>Exit rate</exit_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_dimension>$sum_time_spent / $nb_hits</avg_time_on_dimension>
+			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<bounce_count>sum</bounce_count>
+			<sum_time_generation>sum</sum_time_generation>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<bounce_count>number</bounce_count>
+			<sum_time_generation>duration_s</sum_time_generation>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_hits>number</nb_hits>
 			<nb_visits>number</nb_visits>
@@ -189,6 +271,9 @@
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_hits>sum</nb_hits>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getCustomDimension</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=5&amp;period=day&amp;date=2013-01-23</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=5&amp;period=day&amp;date=2012-12-25,2013-01-23</imageGraphEvolutionUrl>

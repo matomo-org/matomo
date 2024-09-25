@@ -51,6 +51,24 @@
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>MultiSites_getAll</uniqueId>
+		<processedMetricFormulas>
+			<visits_evolution>$past_nb_visits == 0 ? 1 : (($nb_visits - $past_nb_visits) / $past_nb_visits)</visits_evolution>
+			<actions_evolution>$past_nb_actions == 0 ? 1 : (($nb_actions - $past_nb_actions) / $past_nb_actions)</actions_evolution>
+			<pageviews_evolution>$past_Actions_nb_pageviews == 0 ? 1 : (($Actions_nb_pageviews - $past_Actions_nb_pageviews) / $past_Actions_nb_pageviews)</pageviews_evolution>
+			<revenue_evolution>$past_Goal_revenue == 0 ? 1 : (($Goal_revenue - $past_Goal_revenue) / $past_Goal_revenue)</revenue_evolution>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<past_nb_visits>sum</past_nb_visits>
+			<past_nb_actions>sum</past_nb_actions>
+			<past_Actions_nb_pageviews>sum</past_Actions_nb_pageviews>
+			<past_Goal_revenue>sum</past_Goal_revenue>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<past_nb_visits>number</past_nb_visits>
+			<past_nb_actions>number</past_nb_actions>
+			<past_Actions_nb_pageviews>number</past_Actions_nb_pageviews>
+			<past_Goal_revenue>money</past_Goal_revenue>
+		</temporaryMetricSemanticTypes>
 	</metadata>
 	<columns>
 		<label>Website</label>

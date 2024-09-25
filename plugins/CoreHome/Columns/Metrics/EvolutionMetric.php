@@ -73,6 +73,21 @@ class EvolutionMetric extends ProcessedMetric
     private $labelPath = [];
 
     /**
+     * @var string|null
+     */
+    private $wrappedMetricTranslatedName;
+
+    /**
+     * @var string|null
+     */
+    private $wrappedSemanticType;
+
+    /**
+     * @var string|null
+     */
+    private $wrappedMetricAggregationType;
+
+    /**
      * Constructor.
      *
      * @param string|Metric $wrapped The metric used to calculate the evolution.
@@ -88,13 +103,15 @@ class EvolutionMetric extends ProcessedMetric
         ?DataTable $pastData = null,
         $evolutionMetricName = false,
         $quotientPrecision = 0,
-        ?DataTable $currentData = null
+        ?DataTable $currentData = null,
+        ?string $wrappedMetricTranslatedName = null,
+        ?string $wrappedSemanticType = null,
+        ?string $wrappedMetricAggregationType = null
     ) {
         $this->wrapped = $wrapped;
         $this->isLowerBetter = Metrics::isLowerValueBetter($this->wrapped);
         $this->pastData = $pastData;
         $this->currentData = $currentData;
-
         if (empty($evolutionMetricName)) {
             $wrappedName = $this->getWrappedName();
             $evolutionMetricName = $wrappedName . '_evolution';
@@ -103,6 +120,9 @@ class EvolutionMetric extends ProcessedMetric
         $this->evolutionMetricTrendName = $evolutionMetricName . '_trend';
         $this->evolutionMetricName = $evolutionMetricName;
         $this->quotientPrecision = $quotientPrecision;
+        $this->wrappedMetricTranslatedName = $wrappedMetricTranslatedName;
+        $this->wrappedSemanticType = $wrappedSemanticType;
+        $this->wrappedMetricAggregationType = $wrappedMetricAggregationType;
     }
 
     public function getName()
@@ -117,13 +137,17 @@ class EvolutionMetric extends ProcessedMetric
 
     public function getTranslatedName()
     {
-        if ($this->wrapped instanceof Metric) {
+        if (isset($this->wrappedMetricTranslatedName)) {
+            $metricName = Piwik::translate($this->wrappedMetricTranslatedName);
+        } elseif ($this->wrapped instanceof Metric) {
             $metricName = $this->wrapped->getTranslatedName();
         } else {
             $defaultMetricTranslations = Metrics::getDefaultMetricTranslations();
-            $metricName = isset($defaultMetricTranslations[$this->wrapped]) ? $defaultMetricTranslations[$this->wrapped] : $this->wrapped;
+            $metricName = isset($defaultMetricTranslations[$this->wrapped])
+                ? Piwik::translate($defaultMetricTranslations[$this->wrapped])
+                : $this->wrapped;
         }
-        return Piwik::translate('CoreHome_EvolutionMetricName', [$metricName]);
+        return Piwik::translate('API_EvolutionMetricName', [$metricName]);
     }
 
     public function getTrendValue($computedValue = 0)
@@ -135,12 +159,11 @@ class EvolutionMetric extends ProcessedMetric
         return ($computedValue < 0 ? -1 : ($computedValue > 0 ? 1 : 0));
     }
 
-    public function compute(Row $row)
+    public function computeExtraTemporaryMetrics(Row $row): array
     {
-        $columnName = $this->getWrappedName();
-        $pastRow = $this->getPastRowFromCurrent($row);
+        $columnName = $this->getWrappedName(); // TODO: set this during construction
 
-        $currentValue = $this->getMetric($row, $columnName);
+        $pastRow = $this->getPastRowFromCurrent($row);
         $pastValue = $pastRow ? $this->getMetric($pastRow, $columnName) : 0;
 
         // Reduce past value proportionally to match the percent of the current period which is complete, if applicable
@@ -152,6 +175,16 @@ class EvolutionMetric extends ProcessedMetric
         $row->setMetadata('periodName', $period->getLabel());
         $row->setMetadata('previousRange', $period->getLocalizedShortString());
         $pastValue = ($pastValue * $ratio);
+
+        return [ "past_{$columnName}" => $pastValue ];
+    }
+
+    public function compute(Row $row)
+    {
+        $columnName = $this->getWrappedName();
+
+        $pastValue = $this->getExtraMetric($row, "past_{$columnName}");
+        $currentValue = $this->getMetric($row, $columnName);
 
         $dividend = $currentValue - $pastValue;
         $divisor = $pastValue;
@@ -276,5 +309,45 @@ class EvolutionMetric extends ProcessedMetric
     public function getSemanticType(): ?string
     {
         return Dimension::TYPE_PERCENT;
+    }
+
+    public function getFormula(): ?string
+    {
+        $columnName = $this->getWrappedName();
+        $pastColumnName = 'past_' . $columnName;
+
+        return sprintf("%s == 0 ? 1 : ((%s - %s) / %s)", $pastColumnName, $columnName, $pastColumnName, $pastColumnName);
+    }
+
+    public function getExtraMetricAggregationTypes(): array
+    {
+        $columnName = $this->getWrappedName();
+
+        if (!empty($this->wrappedMetricAggregationType)) {
+            $aggregationType = $this->wrappedMetricAggregationType;
+        } elseif ($this->wrapped instanceof Metric) {
+            $aggregationType = $this->wrapped->getAggregationType();
+        } else {
+            $allAggregationTypes = Metrics::getDefaultMetricAggregationTypes();
+            $aggregationType = $allAggregationTypes[$columnName] ?? null;
+        }
+
+        return [ "past_{$columnName}" => $aggregationType ];
+    }
+
+    public function getExtraMetricSemanticTypes(): array
+    {
+        $columnName = $this->getWrappedName();
+
+        if (!empty($this->wrappedSemanticType)) {
+            $semanticType = $this->wrappedSemanticType;
+        } elseif ($this->wrapped instanceof Metric) {
+            $semanticType = $this->wrapped->getSemanticType();
+        } else {
+            $allSemanticTypes = Metrics::getDefaultMetricSemanticTypes();
+            $semanticType = $allSemanticTypes[$columnName] ?? null;
+        }
+
+        return [ "past_{$columnName}" => $semanticType ];
     }
 }

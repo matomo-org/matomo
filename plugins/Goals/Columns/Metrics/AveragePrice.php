@@ -68,4 +68,9 @@ class AveragePrice extends ProcessedMetric
     {
         return Dimension::TYPE_MONEY;
     }
+
+    public function getFormula(): ?string
+    {
+        return 'orders > 0 ? (price / orders) : (price / abandoned_carts)';
+    }
 }

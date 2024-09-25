@@ -55,4 +55,9 @@ class ConversionRate extends ProcessedMetric
     {
         return Dimension::TYPE_PERCENT;
     }
+
+    public function getFormula(): ?string
+    {
+        return 'nb_visits_converted / nb_visits';
+    }
 }

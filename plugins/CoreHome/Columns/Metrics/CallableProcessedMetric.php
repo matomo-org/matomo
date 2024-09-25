@@ -18,13 +18,15 @@ class CallableProcessedMetric extends ProcessedMetric
     private $callback;
     private $dependentMetrics;
     private $semanticType;
+    private $formula;
 
-    public function __construct($name, $callback, $dependentMetrics = array(), string $semanticType = null)
+    public function __construct($name, $callback, $dependentMetrics = array(), string $semanticType = null, string $formula = null)
     {
         $this->name = $name;
         $this->callback = $callback;
         $this->dependentMetrics = $dependentMetrics;
         $this->semanticType = $semanticType;
+        $this->formula = $formula;
     }
 
     public function getName()
@@ -52,5 +54,10 @@ class CallableProcessedMetric extends ProcessedMetric
     public function getSemanticType(): ?string
     {
         return $this->semanticType;
+    }
+
+    public function getFormula(): ?string
+    {
+        return $this->formula;
     }
 }

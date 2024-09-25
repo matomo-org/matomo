@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<website>Piwik test</website>
-	<prettyDate>Sunday, January 3, 2010</prettyDate>
+	<prettyDate>Sunday, January 4, 2009</prettyDate>
 	<metadata>
 		<category>Visitors</category>
-		<subcategory>Software</subcategory>
-		<name>Browsers</name>
-		<module>DevicesDetection</module>
-		<action>getBrowsers</action>
-		<dimension>Browser</dimension>
-		<documentation>This report contains information about what kind of browser your visitors were using.</documentation>
+		<subcategory>Locations</subcategory>
+		<name>Country</name>
+		<module>UserCountry</module>
+		<action>getCountry</action>
+		<dimension>Country</dimension>
+		<documentation>Shows which country your visitors connected from when accessing your website.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
@@ -44,7 +42,6 @@
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
 			<nb_actions>number</nb_actions>
-			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
@@ -55,13 +52,6 @@
 			<nb_visits>sum</nb_visits>
 			<nb_actions>sum</nb_actions>
 		</metricAggregationTypes>
-		<relatedReports>
-			<row>
-				<name>Browser version</name>
-				<module>DevicesDetection</module>
-				<action>getBrowserVersions</action>
-			</row>
-		</relatedReports>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
@@ -84,9 +74,9 @@
 			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
 			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
 		</processedMetricFormulasGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2010-01-03</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2009-12-05,2010-01-03</imageGraphEvolutionUrl>
-		<uniqueId>DevicesDetection_getBrowsers</uniqueId>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>UserCountry_getCountry</uniqueId>
 		<temporaryMetricAggregationTypes>
 			<sum_visit_length>sum</sum_visit_length>
 			<bounce_count>sum</bounce_count>
@@ -97,11 +87,10 @@
 		</temporaryMetricSemanticTypes>
 	</metadata>
 	<columns>
-		<label>Browser</label>
+		<label>Country</label>
 		<nb_visits>Visits</nb_visits>
 		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 		<nb_actions>Actions</nb_actions>
-		<nb_users>Users</nb_users>
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
@@ -111,52 +100,48 @@
 	</columns>
 	<reportData>
 		<row>
-			<label>Firefox</label>
-			<nb_uniq_visitors>2</nb_uniq_visitors>
-			<nb_visits>3</nb_visits>
-			<nb_actions>5</nb_actions>
-			<nb_users>0</nb_users>
-			<revenue>$1,000</revenue>
-			<conversion_rate>66.67%</conversion_rate>
-			<nb_actions_per_visit>1.7</nb_actions_per_visit>
-			<avg_time_on_site>00:04:02</avg_time_on_site>
-			<bounce_rate>67%</bounce_rate>
-			<revenue_per_visit>$333.33</revenue_per_visit>
-			<goal_1_conversion_rate>66.67%</goal_1_conversion_rate>
-			<goal_1_nb_conversions>2</goal_1_nb_conversions>
-			<goal_1_revenue_per_visit>$333.33</goal_1_revenue_per_visit>
-			<goal_1_revenue>$1,000</goal_1_revenue>
+			<label>France</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>1</nb_visits>
+			<nb_actions>1</nb_actions>
+			<revenue>$42.26</revenue>
+			<conversion_rate>100%</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:18:06</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+			<revenue_per_visit>$42</revenue_per_visit>
+			<goal_3_conversion_rate>100%</goal_3_conversion_rate>
+			<goal_3_nb_conversions>1</goal_3_nb_conversions>
+			<goal_3_revenue_per_visit>$42.26</goal_3_revenue_per_visit>
+			<goal_3_revenue>$42.26</goal_3_revenue>
 		</row>
 	</reportData>
 	<reportMetadata>
 		<row>
-			<logo>plugins/Morpheus/icons/dist/browsers/FF.png</logo>
-			<segment>browserCode==FF</segment>
+			<code>fr</code>
+			<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+			<segment>countryCode==fr</segment>
+			<logoHeight>16</logoHeight>
 		</row>
 	</reportMetadata>
 	<reportTotal>
-		<nb_uniq_visitors>2</nb_uniq_visitors>
-		<nb_visits>3</nb_visits>
-		<nb_actions>5</nb_actions>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
 		<nb_users>0</nb_users>
-		<max_actions>3</max_actions>
-		<sum_visit_length>725</sum_visit_length>
-		<bounce_count>2</bounce_count>
-		<nb_visits_converted>2</nb_visits_converted>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1086</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
-			<row idgoal="1">
-				<nb_conversions>2</nb_conversions>
-				<nb_visits_converted>2</nb_visits_converted>
-				<revenue>1000</revenue>
-			</row>
-			<row idgoal="2">
+			<row idgoal="3">
 				<nb_conversions>1</nb_conversions>
 				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>0</revenue>
+				<revenue>42.26</revenue>
 			</row>
 		</goals>
-		<nb_conversions>3</nb_conversions>
-		<revenue>1000</revenue>
-		<nb_actions_per_visit>1.7</nb_actions_per_visit>
+		<nb_conversions>1</nb_conversions>
+		<revenue>42.26</revenue>
+		<nb_actions_per_visit>1</nb_actions_per_visit>
 	</reportTotal>
 </result>

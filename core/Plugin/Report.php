@@ -13,10 +13,14 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\Sort;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Plugin\Dimension\ConversionDimension;
+use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
@@ -108,7 +112,7 @@ class Report
      * The processed metrics this report supports, eg `avg_time_on_site` or `nb_actions_per_visit`. Defaults to the
      * platform default processed metrics, see {@link Metrics::getDefaultProcessedMetrics()}. Set it to boolean `false`
      * if your report does not support any processed metrics at all. Otherwise an array of metric names.
-     * Eg `array('avg_time_on_site', 'nb_actions_per_visit', ...)`
+     * Eg `array(new AverageTimeOnSite(), new ActionsPerVisit(), ...)`
      * @var array
      * @api
      */
@@ -123,6 +127,22 @@ class Report
      * @var null|(string|null)[]
      */
     protected $metricSemanticTypes = null;
+
+    /**
+     * Metric aggregation types for metrics this report displays. By default, aggregation types
+     * are determined by Metric classes overriding the {@see Metric::getAggregationType()}
+     * method, or by associations set by the `Metrics.getDefaultMetricAggregationTypes` event.
+     *
+     * @var null|(string|null)[]
+     */
+    protected $metricAggregationTypes = null;
+
+    /**
+     * TODO
+     *
+     * @var null|(string|null)[]
+     */
+    protected $metricScopes = null;
 
     /**
      * Set this property to true in case your report supports goal metrics. In this case, the goal metrics will be
@@ -346,15 +366,26 @@ class Report
     }
 
     /**
-     *
      * Processing a uniqueId for each report, can be used by UIs as a key to match a given report
+     *
      * @return string
      */
     public function getId()
     {
-        $params = $this->getParameters();
+        return self::buildId($this->getModule(), $this->getAction(), $this->getParameters());
+    }
 
-        $paramsKey = $this->getModule() . '.' . $this->getAction();
+    /**
+     * TODO
+     *
+     * @param string $module
+     * @param string $action
+     * @param array|null $params
+     * @return string
+     */
+    public static function buildId(string $module, string $action, ?array $params = null): string
+    {
+        $paramsKey = $module . '.' . $action;
 
         if (!empty($params)) {
             foreach ($params as $key => $value) {
@@ -412,7 +443,7 @@ class Report
      */
     public function getMetrics()
     {
-        return $this->getMetricTranslations($this->metrics);
+        return self::getMetricTranslations($this->metrics);
     }
 
     /**
@@ -470,7 +501,7 @@ class Report
             return $this->processedMetrics;
         }
 
-        return $this->getMetricTranslations($this->processedMetrics);
+        return self::getMetricTranslations($this->processedMetrics);
     }
 
     /**
@@ -504,6 +535,97 @@ class Report
         }
 
         return $metricTypes;
+    }
+
+    /**
+     * TODO
+     *
+     * @return array
+     * @api
+     */
+    public function getMetricScopes(): array
+    {
+        $scopes = $this->metricScopes ?: [];
+        $metrics = $this->metrics ?: [];
+
+        $defaultMetricScopes = Metrics::getDefaultMetricScopes();
+
+        foreach ($metrics as $metric) {
+            if (!($metric instanceof Metric)) {
+                $scopes[$metric] = $defaultMetricScopes[$metric] ?? null;
+                continue;
+            }
+
+            $metricName = $metric->getName();
+            if (
+                $metricName == 'label'
+                || !empty($metricTypes[$metricName])
+            ) {
+                continue;
+            }
+
+            $scopes[$metricName] = $metric->getScope();
+        }
+
+        return $scopes;
+    }
+
+    /**
+     * Returns the aggregation types for metrics this report displays.
+     *
+     * Metric classes can set aggregation types via the {@link Metric::getAggregationType()}
+     * method. Derived report classes that identify metrics by their string IDs alone
+     * can set their aggregation type via the {@link self::metricAggregationTypes()}
+     * property.
+     *
+     * @return string[] maps metric name => metric aggregation type
+     * @api
+     */
+    public function getMetricAggregationTypes(): array
+    {
+        $reportScope = $this->getScope();
+        if (empty($reportScope)) {
+            return [];
+        }
+
+        $aggregationTypes = $this->metricAggregationTypes ?: [];
+        $metrics = $this->metrics ?: [];
+
+        $defaultAggregationTypes = Metrics::getDefaultMetricAggregationTypes();
+
+        foreach ($metrics as $metric) {
+            if (!($metric instanceof Metric)) {
+                $aggregationTypes[$metric] = $defaultAggregationTypes[$metric] ?? null;
+                continue;
+            }
+
+            $metricName = $metric->getName();
+            if (
+                $metricName == 'label'
+                || !empty($aggregationTypes[$metricName])
+            ) {
+                continue;
+            }
+
+            $aggregationTypes[$metricName] = $metric->getAggregationType();
+        }
+
+        // remove aggregation types for metrics that cannot be aggregated
+        // within the context of this report
+        //
+        // TODO: more detailed description (either here or in getMetricScopes())
+        $metricScopes = $this->getMetricScopes();
+        foreach ($aggregationTypes as $metricName => $aggregationType) {
+            $metricScope = $metricScopes[$metricName];
+            if (
+                empty($metricScope)
+                || !$this->isScopeSameOrSubsetOf($metricScope, $reportScope)
+            ) {
+                unset($aggregationTypes[$metricName]);
+            }
+        }
+
+        return array_filter($aggregationTypes);
     }
 
     /**
@@ -680,12 +802,22 @@ class Report
 
         $report['metrics']              = $this->getMetrics();
         $report['metricsDocumentation'] = $this->getMetricsDocumentation();
-        $report['processedMetrics']     = $this->getProcessedMetrics();
+
+        $processedMetricMetadata = self::getProcessedMetricsMetadata(
+            $this->processedMetrics ?: [],
+            $this->getProcessedMetrics() ?: null
+        );
+        $report['processedMetrics'] = $processedMetricMetadata['names'];
+        $report['processedMetricFormulas'] = $processedMetricMetadata['formulas'];
+        $report['temporaryMetricAggregationTypes'] = $processedMetricMetadata['temporaryMetricAggregationTypes'];
+        $report['temporaryMetricSemanticTypes'] = $processedMetricMetadata['temporaryMetricSemanticTypes'];
 
         $report['metricTypes'] = $this->getMetricSemanticTypes();
         $report['metricTypes'] = array_map(function ($t) {
             return $t ?: 'unspecified';
         }, $report['metricTypes']);
+
+        $report['metricAggregationTypes'] = $this->getMetricAggregationTypes();
 
         if (!empty($this->actionToLoadSubTables)) {
             $report['actionToLoadSubTables'] = $this->actionToLoadSubTables;
@@ -806,7 +938,8 @@ class Report
     }
 
     /**
-     * Get the translated name of the category the report belongs to.
+     * Get the ID of the category the report belongs to.
+     * The ID should also be a valid translation key.
      * @return string|null
      * @ignore
      */
@@ -816,8 +949,9 @@ class Report
     }
 
     /**
-     * Get the translated name of the subcategory the report belongs to.
+     * Get the ID of the subcategory the report belongs to.
      * @return string|null
+     * The ID should also be a valid translation key.
      * @ignore
      */
     public function getSubcategoryId()
@@ -973,7 +1107,7 @@ class Report
         return Request::processRequest($module . '.' . $action, $paramOverride);
     }
 
-    private function getMetricTranslations($metricsToTranslate)
+    private static function getMetricTranslations($metricsToTranslate)
     {
         $translations = Metrics::getDefaultMetricTranslations();
         $metrics = array();
@@ -1175,5 +1309,89 @@ class Report
         }
 
         return $metricType;
+    }
+
+    private function getScope(): ?string
+    {
+        $dimension = $this->getDimension();
+        if (empty($dimension)) {
+            return null;
+        }
+
+        if ($dimension instanceof ConversionDimension) {
+            return 'log_conversion';
+        } elseif ($dimension instanceof ActionDimension) {
+            return 'log_link_visit_action';
+        } elseif ($dimension instanceof VisitDimension) {
+            return 'log_visit';
+        }
+
+        return null;
+    }
+
+    private function isScopeSameOrSubsetOf(?string $scope, string $supersetScope): bool
+    {
+        $logTableProvider = StaticContainer::get(LogTablesProvider::class);
+
+        $supersetScopeTable = $logTableProvider->getLogTable($supersetScope);
+        if (empty($supersetScopeTable)) {
+            return false;
+        }
+
+        while ($scope) {
+            if ($scope === $supersetScope) {
+                return true;
+            }
+
+            $scopeTable = $logTableProvider->getLogTable($scope);
+            if (empty($scopeTable)) {
+                return false;
+            }
+
+            $scope = $scopeTable->getParentTable();
+        }
+
+        return false;
+    }
+
+    public static function getProcessedMetricsMetadata(?array $processedMetrics, ?array $processedMetricTranslations = null): array
+    {
+        $metadata = [
+            'names' => $processedMetricTranslations ?: self::getMetricTranslations($processedMetrics ?: []),
+            'formulas' => [],
+            'temporaryMetricAggregationTypes' => [],
+            'temporaryMetricSemanticTypes' => [],
+        ];
+
+        if (empty($processedMetrics)) {
+            return $metadata;
+        }
+
+        foreach ($processedMetrics as $processedMetric) {
+            if (!($processedMetric instanceof ProcessedMetric)) {
+                continue;
+            }
+
+            $formula = $processedMetric->getFormula();
+            if (!empty($formula)) {
+                $metadata['formulas'][$processedMetric->getName()] = $formula;
+            }
+
+            $extraMetricAggregationTypes = array_filter($processedMetric->getExtraMetricAggregationTypes());
+            if (!empty($extraMetricAggregationTypes)) {
+                foreach ($extraMetricAggregationTypes as $name => $type) {
+                    $metadata['temporaryMetricAggregationTypes'][$name] = $type;
+                }
+            }
+
+            $extraMetricSemanticTypes = array_filter($processedMetric->getExtraMetricSemanticTypes());
+            if (!empty($extraMetricSemanticTypes)) {
+                foreach ($extraMetricSemanticTypes as $name => $type) {
+                    $metadata['temporaryMetricSemanticTypes'][$name] = $type;
+                }
+            }
+        }
+
+        return $metadata;
     }
 }

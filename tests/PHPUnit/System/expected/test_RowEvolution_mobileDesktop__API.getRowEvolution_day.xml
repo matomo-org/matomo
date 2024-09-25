@@ -60,6 +60,7 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</columns>
 	</metadata>
 </result>

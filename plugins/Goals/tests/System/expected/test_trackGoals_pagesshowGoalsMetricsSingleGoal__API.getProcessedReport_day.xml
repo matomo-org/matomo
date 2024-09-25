@@ -22,7 +22,51 @@
 		<processedMetrics>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<nb_hits_with_bandwidth>Recorded hits with bandwidth</nb_hits_with_bandwidth>
+			<max_bandwidth>Max Bandwidth</max_bandwidth>
+			<min_bandwidth>Min Bandwidth</min_bandwidth>
+			<sum_bandwidth>Sum Bandwidth</sum_bandwidth>
+			<avg_bandwidth>Avg. Bandwidth</avg_bandwidth>
+			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
+			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
+			<avg_time_network>Avg. network time</avg_time_network>
+			<avg_time_server>Avg. server time</avg_time_server>
+			<avg_time_transfer>Avg. transfer time</avg_time_transfer>
+			<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
+			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
+			<avg_time_on_load>Avg. on load time</avg_time_on_load>
+			<avg_page_load_time>Avg. page load time</avg_page_load_time>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_page>$sum_time_spent / $nb_hits</avg_time_on_page>
+			<bounce_rate>$entry_bounce_count / $entry_nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+			<avg_time_network>$sum_time_network / $nb_hits_with_time_network</avg_time_network>
+			<avg_time_server>$sum_time_server / $nb_hits_with_time_server</avg_time_server>
+			<avg_time_transfer>$sum_time_transfer / $nb_hits_with_time_transfer</avg_time_transfer>
+			<avg_time_dom_processing>$sum_time_dom_processing / $nb_hits_with_time_dom_processing</avg_time_dom_processing>
+			<avg_time_dom_completion>$sum_time_dom_completion / $nb_hits_with_time_dom_completion</avg_time_dom_completion>
+			<avg_time_on_load>$sum_time_on_load / $nb_hits_with_time_on_load</avg_time_on_load>
+			<avg_page_load_time>$avg_time_network + $avg_time_server + $avg_time_transfer + $avg_time_dom_processing + $avg_time_dom_completion + $avg_time_on_load</avg_page_load_time>
+			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
+			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
+			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+			<sum_visit_length>sum</sum_visit_length>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+			<sum_visit_length>number</sum_visit_length>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<entry_nb_visits>number</entry_nb_visits>
 			<entry_bounce_count>number</entry_bounce_count>
@@ -30,7 +74,12 @@
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<entry_nb_visits>sum</entry_nb_visits>
+			<entry_bounce_count>sum</entry_bounce_count>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getEntryPageTitles</actionToLoadSubTables>
 		<relatedReports>
 			<row>
@@ -46,24 +95,38 @@
 		</relatedReports>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
-			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
 			<nb_conversions_entry>Conversions</nb_conversions_entry>
 			<revenue_entry>Revenue</revenue_entry>
 		</metricsGoal>
-		<processedMetricsGoal>
-			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-			<revenue_per_entry>Revenue per Entry</revenue_per_entry>
-			<nb_conversions_entry_rate>Conversion Rate</nb_conversions_entry_rate>
-		</processedMetricsGoal>
 		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
 			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
 			<nb_conversions_entry>number</nb_conversions_entry>
 			<revenue_entry>money</revenue_entry>
-			<revenue_per_entry>number</revenue_per_entry>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+			<revenue_per_entry>money</revenue_per_entry>
 			<nb_conversions_entry_rate>percent</nb_conversions_entry_rate>
 		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+			<nb_conversions_entry>sum</nb_conversions_entry>
+			<revenue_entry>sum</revenue_entry>
+		</metricAggregationTypesGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
+			<revenue_per_entry>Revenue per Entry</revenue_per_entry>
+			<nb_conversions_entry_rate>Conversion rate</nb_conversions_entry_rate>
+		</processedMetricsGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_entry>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($entry_nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $entry_nb_visits)</revenue_per_entry>
+			<nb_conversions_entry_rate>$entry_nb_visits ? ($goals[&quot;idgoal={idGoal}&quot;].nb_conversions_entry / $entry_nb_visits) : 0</nb_conversions_entry_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2009-01-05</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2008-12-07,2009-01-05</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getEntryPageTitles</uniqueId>
@@ -73,13 +136,43 @@
 		<entry_nb_visits>Entrances</entry_nb_visits>
 		<entry_bounce_count>Bounces</entry_bounce_count>
 		<bounce_rate>Bounce Rate</bounce_rate>
+		<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+		<nb_hits_with_bandwidth>Recorded hits with bandwidth</nb_hits_with_bandwidth>
+		<max_bandwidth>Max Bandwidth</max_bandwidth>
+		<min_bandwidth>Min Bandwidth</min_bandwidth>
+		<sum_bandwidth>Sum Bandwidth</sum_bandwidth>
+		<avg_bandwidth>Avg. Bandwidth</avg_bandwidth>
+		<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
+		<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+		<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
+		<avg_time_network>Avg. network time</avg_time_network>
+		<avg_time_server>Avg. server time</avg_time_server>
+		<avg_time_transfer>Avg. transfer time</avg_time_transfer>
+		<avg_time_dom_processing>Avg. DOM processing time</avg_time_dom_processing>
+		<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
+		<avg_time_on_load>Avg. on load time</avg_time_on_load>
+		<avg_page_load_time>Avg. page load time</avg_page_load_time>
+		<conversion_rate>Conversion Rate</conversion_rate>
+		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+		<revenue>Revenue</revenue>
 	</columns>
 	<reportData>
 		<row>
 			<label> Page A - index.html</label>
+			<sum_bandwidth>0</sum_bandwidth>
+			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+			<min_bandwidth>0</min_bandwidth>
+			<max_bandwidth>0</max_bandwidth>
 			<entry_nb_visits>4</entry_nb_visits>
 			<entry_bounce_count>0</entry_bounce_count>
+			<avg_bandwidth>0</avg_bandwidth>
+			<avg_page_load_time>00:00:00</avg_page_load_time>
+			<conversion_rate>0%</conversion_rate>
+			<nb_actions_per_visit>0</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<revenue_per_visit>$12.50</revenue_per_visit>
 			<goal_1_conversion_rate>75%</goal_1_conversion_rate>
 			<goal_1_nb_conversions>3</goal_1_nb_conversions>
 			<goal_1_revenue_per_visit>$7.50</goal_1_revenue_per_visit>
@@ -96,6 +189,16 @@
 			<goal_2_revenue_per_entry>$5</goal_2_revenue_per_entry>
 			<goal_2_revenue_entry>$10</goal_2_revenue_entry>
 			<goal_2_nb_conversions_entry_rate>25%</goal_2_nb_conversions_entry_rate>
+			<nb_total_download_bandwidth>0</nb_total_download_bandwidth>
+			<nb_total_pageview_bandwidth>0</nb_total_pageview_bandwidth>
+			<nb_total_overall_bandwidth>0</nb_total_overall_bandwidth>
+			<avg_time_network>00:00:00</avg_time_network>
+			<avg_time_server>00:00:00</avg_time_server>
+			<avg_time_transfer>00:00:00</avg_time_transfer>
+			<avg_time_dom_processing>00:00:00</avg_time_dom_processing>
+			<avg_time_dom_completion>00:00:00</avg_time_dom_completion>
+			<avg_time_on_load>00:00:00</avg_time_on_load>
+			<revenue>$0</revenue>
 		</row>
 	</reportData>
 	<reportMetadata>

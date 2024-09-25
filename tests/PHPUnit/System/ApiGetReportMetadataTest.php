@@ -80,6 +80,21 @@ class ApiGetReportMetadataTest extends SystemTestCase
                 ],
             ],
 
+            [
+                'API.getProcessedReport',
+                [
+                    'idSite'                 => $idSite,
+                    'date'                   => $dateTime,
+                    'apiModule'              => 'UserCountry',
+                    'apiAction'              => 'getCountry',
+                    'testSuffix'             => '_withExtraProcessedMetrics',
+                    'otherRequestParameters' => [
+                        'filter_update_columns_when_show_all_goals' => '1',
+                        'idGoal' => '0',
+                    ],
+                ],
+            ],
+
             // Test w/ showRawMetrics=true
             [
                 'API.getProcessedReport',

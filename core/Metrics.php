@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
+use Piwik\Plugin\Metric;
 use Piwik\Tracker\GoalManager;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
@@ -339,6 +340,119 @@ class Metrics
         return '';
     }
 
+    public static function getDefaultMetricAggregationTypes(): array
+    {
+        $cacheId = CacheId::pluginAware('DefaultMetricAggregationTypes');
+        $cache = PiwikCache::getTransientCache();
+
+        $types = $cache->fetch($cacheId);
+        if (empty($types)) {
+            $types = [
+                'nb_visits'                     => Metric::AGGREGATION_TYPE_SUM,
+                'nb_uniq_visitors'              => null,
+                'nb_actions'                    => Metric::AGGREGATION_TYPE_SUM,
+                'nb_users'                      => null,
+                'sum_time_spent'                => Metric::AGGREGATION_TYPE_SUM,
+                'sum_visit_length'              => Metric::AGGREGATION_TYPE_SUM,
+                'bounce_count'                  => Metric::AGGREGATION_TYPE_SUM,
+                'bounce_count_returning'        => Metric::AGGREGATION_TYPE_SUM,
+                'max_actions'                   => Metric::AGGREGATION_TYPE_MAX,
+                'max_actions_returning'         => Metric::AGGREGATION_TYPE_MAX,
+                'nb_visits_converted_returning' => Metric::AGGREGATION_TYPE_SUM,
+                'sum_visit_length_returning'    => Metric::AGGREGATION_TYPE_SUM,
+                'nb_visits_converted'           => Metric::AGGREGATION_TYPE_SUM,
+                'nb_conversions'                => Metric::AGGREGATION_TYPE_SUM,
+                'revenue'                       => Metric::AGGREGATION_TYPE_SUM,
+                'nb_hits'                       => Metric::AGGREGATION_TYPE_SUM,
+                'entry_nb_visits'               => Metric::AGGREGATION_TYPE_SUM,
+                'entry_nb_uniq_visitors'        => null,
+                'exit_nb_visits'                => Metric::AGGREGATION_TYPE_SUM,
+                'exit_nb_uniq_visitors'         => null,
+                'entry_bounce_count'            => Metric::AGGREGATION_TYPE_SUM,
+                'sum_daily_nb_uniq_visitors'    => Metric::AGGREGATION_TYPE_SUM,
+                'sum_daily_nb_users'            => Metric::AGGREGATION_TYPE_SUM,
+                'sum_daily_entry_nb_uniq_visitors' => Metric::AGGREGATION_TYPE_SUM,
+                'sum_daily_exit_nb_uniq_visitors' => Metric::AGGREGATION_TYPE_SUM,
+                'entry_nb_actions'              => Metric::AGGREGATION_TYPE_SUM,
+                'entry_sum_visit_length'        => Metric::AGGREGATION_TYPE_SUM,
+                'nb_actions_per_visit'          => Metric::AGGREGATION_TYPE_SUM,
+            ];
+
+            /**
+             * Use this event to notify Matomo of the aggregation types of metrics your plugin adds.
+             *
+             * A metric's aggregations type is metadata used primarily in integrations with Matomo
+             * and third party services/applications. It provides information that can be used
+             * to determine how API consumers can aggregate metric values together outside of Matomo.
+             *
+             * It is recommended for your plugin to provide this information so users of third
+             * party services that connect with Matomo can make full use of the data your plugin
+             * tracks.
+             *
+             * See {@link Metric} for the list of available aggregation types.
+             *
+             * @param string $types The array mapping of metric_name => metric aggregation type
+             */
+            Piwik::postEvent('Metrics.getDefaultMetricAggregationTypes', [&$types]);
+
+            $cache->save($cacheId, $types);
+        }
+
+        return $types;
+    }
+
+    public static function getDefaultMetricScopes(): array
+    {
+        $cacheId = CacheId::pluginAware('DefaultMetricScopes');
+        $cache = PiwikCache::getTransientCache();
+
+        $scopes = $cache->fetch($cacheId);
+        if (empty($scopes)) {
+            $scopes = [
+                'nb_visits'                     => 'log_visit',
+                'nb_uniq_visitors'              => 'log_visit',
+                'nb_actions'                    => 'log_link_visit_action',
+                'nb_users'                      => 'log_visit',
+                'sum_time_spent'                => 'log_link_visit_action',
+                'sum_visit_length'              => 'log_visit',
+                'bounce_count'                  => 'log_visit',
+                'bounce_count_returning'        => 'log_visit',
+                'max_actions'                   => 'log_visit',
+                'max_actions_returning'         => 'log_visit',
+                'nb_visits_converted_returning' => 'log_visit',
+                'sum_visit_length_returning'    => 'log_visit',
+                'nb_visits_converted'           => 'log_visit',
+                'nb_conversions'                => 'log_conversion',
+                'revenue'                       => 'log_conversion',
+                'nb_hits'                       => 'log_link_visit_action',
+                'entry_nb_visits'               => 'log_link_visit_action',
+                'entry_nb_uniq_visitors'        => 'log_link_visit_action',
+                'exit_nb_visits'                => 'log_link_visit_action',
+                'exit_nb_uniq_visitors'         => 'log_link_visit_action',
+                'entry_bounce_count'            => 'log_link_visit_action',
+                'entry_nb_actions'              => 'log_link_visit_action',
+                'entry_sum_visit_length'        => 'log_link_visit_action',
+            ];
+
+            /**
+             * TODO
+             *
+             * It is recommended for your plugin to provide this information so users of third
+             * party services that connect with Matomo can make full use of the data your plugin
+             * tracks.
+             *
+             * See TODO for the list of available aggregation types.
+             *
+             * @param string $scopes The array mapping of metric_name => metric aggregation type
+             */
+            Piwik::postEvent('Metrics.getDefaultMetricScopes', [&$scopes]);
+
+            $cache->save($cacheId, $scopes);
+        }
+
+        return $scopes;
+    }
+
     public static function getDefaultMetricSemanticTypes(): array
     {
         $cacheId = CacheId::pluginAware('DefaultMetricSemanticTypes');
@@ -369,7 +483,6 @@ class Metrics
                 'exit_nb_visits'                => Dimension::TYPE_NUMBER,
                 'exit_nb_uniq_visitors'         => Dimension::TYPE_NUMBER,
                 'entry_bounce_count'            => Dimension::TYPE_NUMBER,
-                'exit_bounce_count'             => Dimension::TYPE_NUMBER,
                 'exit_rate'                     => Dimension::TYPE_PERCENT,
                 'sum_daily_nb_uniq_visitors'    => Dimension::TYPE_NUMBER,
                 'sum_daily_nb_users'            => Dimension::TYPE_NUMBER,
@@ -394,7 +507,7 @@ class Metrics
              * party services that connect with Matomo can make full use of the data your plugin
              * tracks.
              *
-             * See {@link Metrics} for the list of available semantic types.
+             * See {@link Dimension} for the list of available semantic types.
              *
              * @param string $types The array mapping of metric_name => metric semantic type
              */
@@ -436,7 +549,6 @@ class Metrics
             'exit_nb_visits'                => 'General_ColumnExits',
             'exit_nb_uniq_visitors'         => 'General_ColumnUniqueExits',
             'entry_bounce_count'            => 'General_ColumnBounces',
-            'exit_bounce_count'             => 'General_ColumnBounces',
             'exit_rate'                     => 'General_ColumnExitRate',
         );
 

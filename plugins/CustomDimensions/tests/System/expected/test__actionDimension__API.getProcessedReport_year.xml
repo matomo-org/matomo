@@ -27,7 +27,37 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<exit_rate>Exit rate</exit_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
+			<nb_hits_with_bandwidth>Recorded hits with bandwidth</nb_hits_with_bandwidth>
+			<max_bandwidth>Max Bandwidth</max_bandwidth>
+			<min_bandwidth>Min Bandwidth</min_bandwidth>
+			<sum_bandwidth>Sum Bandwidth</sum_bandwidth>
+			<avg_bandwidth>Avg. Bandwidth</avg_bandwidth>
+			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
+			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_dimension>$sum_time_spent / $nb_hits</avg_time_on_dimension>
+			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+			<conversion_rate>$nb_visits_converted / $nb_visits</conversion_rate>
+			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
+			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<bounce_count>sum</bounce_count>
+			<sum_time_generation>sum</sum_time_generation>
+			<sum_visit_length>sum</sum_visit_length>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<bounce_count>number</bounce_count>
+			<sum_time_generation>duration_s</sum_time_generation>
+			<sum_visit_length>number</sum_visit_length>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_hits>number</nb_hits>
 			<nb_visits>number</nb_visits>
@@ -36,6 +66,9 @@
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_hits>sum</nb_hits>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getCustomDimension</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=3&amp;period=year&amp;date=2013-01-23</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=3&amp;period=year&amp;date=2004-01-01,2013-12-31</imageGraphEvolutionUrl>
@@ -48,39 +81,94 @@
 		<avg_time_on_dimension>Avg. Time On Dimension</avg_time_on_dimension>
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<exit_rate>Exit rate</exit_rate>
+		<nb_hits_with_bandwidth>Recorded hits with bandwidth</nb_hits_with_bandwidth>
+		<max_bandwidth>Max Bandwidth</max_bandwidth>
+		<min_bandwidth>Min Bandwidth</min_bandwidth>
+		<sum_bandwidth>Sum Bandwidth</sum_bandwidth>
+		<avg_bandwidth>Avg. Bandwidth</avg_bandwidth>
+		<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
+		<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
+		<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
+		<conversion_rate>Conversion Rate</conversion_rate>
+		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 	</columns>
 	<reportData>
 		<row>
 			<label>en</label>
 			<nb_visits>4</nb_visits>
 			<nb_hits>4</nb_hits>
+			<sum_bandwidth>0</sum_bandwidth>
+			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+			<min_bandwidth>0</min_bandwidth>
+			<max_bandwidth>0</max_bandwidth>
+			<avg_bandwidth>0</avg_bandwidth>
+			<conversion_rate>0%</conversion_rate>
+			<nb_actions_per_visit>0</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>75%</bounce_rate>
 			<avg_time_on_dimension>00:01:30</avg_time_on_dimension>
 			<exit_rate>75%</exit_rate>
+			<nb_total_download_bandwidth>0</nb_total_download_bandwidth>
+			<nb_total_pageview_bandwidth>0</nb_total_pageview_bandwidth>
+			<nb_total_overall_bandwidth>0</nb_total_overall_bandwidth>
 		</row>
 		<row>
 			<label>value3</label>
 			<nb_visits>1</nb_visits>
 			<nb_hits>1</nb_hits>
+			<sum_bandwidth>0</sum_bandwidth>
+			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+			<min_bandwidth>0</min_bandwidth>
+			<max_bandwidth>0</max_bandwidth>
+			<avg_bandwidth>0</avg_bandwidth>
+			<conversion_rate>0%</conversion_rate>
+			<nb_actions_per_visit>0</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<avg_time_on_dimension>00:06:00</avg_time_on_dimension>
 			<exit_rate>0%</exit_rate>
+			<nb_total_download_bandwidth>0</nb_total_download_bandwidth>
+			<nb_total_pageview_bandwidth>0</nb_total_pageview_bandwidth>
+			<nb_total_overall_bandwidth>0</nb_total_overall_bandwidth>
 		</row>
 		<row>
 			<label>value5 3</label>
 			<nb_visits>1</nb_visits>
 			<nb_hits>1</nb_hits>
+			<sum_bandwidth>0</sum_bandwidth>
+			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+			<min_bandwidth>0</min_bandwidth>
+			<max_bandwidth>0</max_bandwidth>
+			<avg_bandwidth>0</avg_bandwidth>
+			<conversion_rate>0%</conversion_rate>
+			<nb_actions_per_visit>0</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<avg_time_on_dimension>00:00:00</avg_time_on_dimension>
 			<exit_rate>100%</exit_rate>
+			<nb_total_download_bandwidth>0</nb_total_download_bandwidth>
+			<nb_total_pageview_bandwidth>0</nb_total_pageview_bandwidth>
+			<nb_total_overall_bandwidth>0</nb_total_overall_bandwidth>
 		</row>
 		<row>
 			<label>Value not defined</label>
 			<nb_visits>1</nb_visits>
 			<nb_hits>1</nb_hits>
+			<sum_bandwidth>0</sum_bandwidth>
+			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+			<min_bandwidth>0</min_bandwidth>
+			<max_bandwidth>0</max_bandwidth>
+			<avg_bandwidth>0</avg_bandwidth>
+			<conversion_rate>0%</conversion_rate>
+			<nb_actions_per_visit>0</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
 			<avg_time_on_dimension>00:00:00</avg_time_on_dimension>
 			<exit_rate>100%</exit_rate>
+			<nb_total_download_bandwidth>0</nb_total_download_bandwidth>
+			<nb_total_pageview_bandwidth>0</nb_total_pageview_bandwidth>
+			<nb_total_overall_bandwidth>0</nb_total_overall_bandwidth>
 		</row>
 	</reportData>
 	<reportMetadata>

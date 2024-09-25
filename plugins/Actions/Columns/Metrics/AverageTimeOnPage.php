@@ -56,4 +56,9 @@ class AverageTimeOnPage extends ProcessedMetric
     {
         return Dimension::TYPE_DURATION_S;
     }
+
+    public function getFormula(): ?string
+    {
+        return 'sum_time_spent / nb_hits';
+    }
 }

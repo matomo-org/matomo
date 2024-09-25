@@ -34,19 +34,8 @@ class CalculateConversionPageRate extends BaseFilter
      */
     public function filter($table)
     {
-
-        // Find all goal ids used in the table and store in an array
-        $goals = [];
-        foreach ($table->getRowsWithoutSummaryRow() as $row) {
-            if (isset($row[Metrics::INDEX_GOALS])) {
-                foreach ($row[Metrics::INDEX_GOALS] as $goalIdString => $metrics) {
-                    $goals[$goalIdString] = $goalIdString;
-                }
-            }
-        }
-
         // Get the total top-level conversions for the goals in the table
-        $goalTotals = $this->getGoalTotalConversions($table, $goals);
+        $goalTotals = $this->getGoalTotalConversions($table);
         if (count($goalTotals) === 0) {
             return;
         }
@@ -80,8 +69,18 @@ class CalculateConversionPageRate extends BaseFilter
      * @param array $goalIds
      * @return array
      */
-    private function getGoalTotalConversions(DataTable $table, array $goalIds): array
+    public static function getGoalTotalConversions(DataTable $table): array
     {
+        // Find all goal ids used in the table and store in an array
+        $goalIds = [];
+        foreach ($table->getRowsWithoutSummaryRow() as $row) {
+            if (isset($row[Metrics::INDEX_GOALS])) {
+                foreach ($row[Metrics::INDEX_GOALS] as $goalIdString => $metrics) {
+                    $goalIds[$goalIdString] = $goalIdString;
+                }
+            }
+        }
+
         $goalTotals = [];
 
         if (empty($goalIds)) {

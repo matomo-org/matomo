@@ -297,6 +297,9 @@ message', $response);
 		<td>\'processedRows\' =&gt; array (
   0 =&gt; 
   ' . ($isPHP82orNewer ? '\\' : '') . 'Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite::__set_state(array(
+     \'cachedExtraTemporaryMetrics\' =&gt; 
+    array (
+    ),
   )),
   1 =&gt; 
   ' . $stdClass . '

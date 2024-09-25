@@ -10,13 +10,19 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\API\Proxy;
+use Piwik\Columns\Dimension;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable\Row;
+use Piwik\Plugin\Metric;
+use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
+use Piwik\Plugins\DevicesDetection\Columns\BrowserName;
 use Piwik\Plugins\ExampleReport\Reports\GetExampleReport;
 use Piwik\Plugins\Actions\Columns\ExitPageUrl;
 use Piwik\Piwik;
 use Piwik\Metrics;
 use Piwik\Plugins\ExampleTracker\Columns\ExampleDimension;
+use Piwik\Plugins\Goals\Columns\Metrics\RevenuePerVisit;
 use Piwik\Plugins\Referrers\Columns\Keyword;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Report\ReportWidgetFactory;
@@ -31,12 +37,55 @@ class GetBasicReport extends Report
     {
         parent::init();
 
+        $this->dimension = new BrowserName();
         $this->name = 'My Custom Report Name';
         $this->order  = 20;
         $this->module = 'TestPlugin';
         $this->action = 'getBasicReport';
         $this->categoryId = 'Goals_Goals';
         $this->actionToLoadSubTables = 'invalidReport';
+    }
+}
+
+class AdvancedProcessedMetric extends ProcessedMetric
+{
+    public function getName()
+    {
+        return 'advancedmetric';
+    }
+
+    public function getTranslatedName()
+    {
+        return 'MyPlugin_AdvancedMetric';
+    }
+
+    public function compute(Row $row)
+    {
+        // unimplemented (not required for test)
+    }
+
+    public function getDependentMetrics()
+    {
+        return [];
+    }
+
+    public function getExtraMetricSemanticTypes(): array
+    {
+        return [
+            'intermediate_value' => Dimension::TYPE_NUMBER,
+        ];
+    }
+
+    public function getExtraMetricAggregationTypes(): array
+    {
+        return [
+            'intermediate_value' => Metric::AGGREGATION_TYPE_SUM,
+        ];
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return Dimension::TYPE_PERCENT;
     }
 }
 
@@ -51,7 +100,12 @@ class GetAdvancedReport extends GetBasicReport
         $this->documentation = Piwik::translate('ExampleReportDocumentation');
         $this->dimension   = new ExitPageUrl();
         $this->metrics     = array('nb_actions', 'nb_visits');
-        $this->processedMetrics = array('conversion_rate', 'bounce_rate');
+        $this->processedMetrics = [
+            'conversion_rate',
+            'bounce_rate',
+            new RevenuePerVisit(),
+            new AdvancedProcessedMetric(),
+        ];
         $this->parameters = array('idGoal' => 1);
         $this->isSubtableReport = true;
         $this->actionToLoadSubTables = 'GetBasicReport';
@@ -108,7 +162,6 @@ class ReportTest extends IntegrationTestCase
         parent::setUp();
 
         Fixture::createWebsite('2014-01-01 00:00:00');
-        $this->unloadAllPlugins();
         $_GET['idSite'] = 1;
 
         $this->exampleReport  = new GetExampleReport();
@@ -199,7 +252,9 @@ class ReportTest extends IntegrationTestCase
     {
         $expected = array(
             'conversion_rate' => 'General_ColumnConversionRate',
-            'bounce_rate'     => 'General_ColumnBounceRate'
+            'bounce_rate'     => 'General_ColumnBounceRate',
+            'revenue_per_visit' => 'General_ColumnValuePerVisit',
+            'advancedmetric' => 'MyPlugin_AdvancedMetric',
         );
         $this->assertEquals($expected, $this->advancedReport->getProcessedMetrics());
     }
@@ -274,7 +329,15 @@ class ReportTest extends IntegrationTestCase
                     'bounce_rate' => 'percent',
                     'conversion_rate' => 'percent',
                 ],
-            )
+                'processedMetricFormulas' => [],
+                'temporaryMetricAggregationTypes' => [],
+                'temporaryMetricSemanticTypes' => [],
+                'metricAggregationTypes' => [
+                    'nb_visits' => 'sum',
+                    'nb_actions' => 'sum',
+                ],
+                'dimension' => 'DevicesDetection_ColumnBrowser',
+            ),
         ), $reports);
     }
 
@@ -307,18 +370,35 @@ class ReportTest extends IntegrationTestCase
                 'processedMetrics' => array(
                     'conversion_rate' => 'General_ColumnConversionRate',
                     'bounce_rate' => 'General_ColumnBounceRate',
+                    'revenue_per_visit' => 'General_ColumnValuePerVisit',
+                    'advancedmetric' => 'MyPlugin_AdvancedMetric',
                 ),
                 'actionToLoadSubTables' => 'GetBasicReport',
                 'constantRowsCount' => true,
-                'order' => '20',
+                'order' => 20,
                 'subcategory' => 'Actions_SubmenuPageTitles',
                 'metricTypes' => [
                     'nb_actions' => 'number',
                     'nb_visits' => 'number',
                     'conversion_rate' => 'percent',
                     'bounce_rate' => 'percent',
+                    'revenue_per_visit' => 'money',
+                    'advancedmetric' => 'percent',
                 ],
-            )
+                'processedMetricFormulas' => [
+                    'revenue_per_visit' => '$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)',
+                ],
+                'temporaryMetricAggregationTypes' => [
+                    'intermediate_value' => 'sum',
+                ],
+                'temporaryMetricSemanticTypes' => [
+                    'intermediate_value' => 'number',
+                ],
+                'metricAggregationTypes' => [
+                    'nb_visits' => 'sum',
+                    'nb_actions' => 'sum',
+                ],
+            ),
         ), $reports);
     }
 

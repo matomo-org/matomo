@@ -57,4 +57,10 @@ class GoalConversionRate extends GoalSpecificProcessedMetric
 
         return Piwik::getQuotientSafe($conversions, $nbVisits, GoalManager::REVENUE_PRECISION + 2);
     }
+
+    public function getFormula(): ?string
+    {
+        $goalColumn = Goals::makeGoalColumn($this->idGoal, 'nb_visits_converted');
+        return '$' . $goalColumn . ' / $nb_visits';
+    }
 }

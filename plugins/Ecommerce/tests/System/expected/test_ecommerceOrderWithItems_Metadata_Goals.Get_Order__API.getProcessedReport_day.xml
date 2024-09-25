@@ -42,6 +42,13 @@
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--ecommerceOrder</uniqueId>
+		<processedMetricFormulas>
+			<avg_order_revenue>$revenue / $nb_conversions</avg_order_revenue>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+		</temporaryMetricSemanticTypes>
 	</metadata>
 	<columns>
 		<nb_conversions>Ecommerce Orders</nb_conversions>

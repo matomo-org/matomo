@@ -30,6 +30,16 @@ class RevenuePerVisit extends ProcessedMetric
 {
     private $idSite;
 
+    /**
+     * @var int[]|null
+     */
+    private $allIdGoals;
+
+    public function __construct(?array $allIdGoals = null)
+    {
+        $this->allIdGoals = $allIdGoals;
+    }
+
     public function getName()
     {
         return 'revenue_per_visit';
@@ -52,11 +62,7 @@ class RevenuePerVisit extends ProcessedMetric
 
         $revenue = 0;
         foreach ($goals as $goalId => $goalMetrics) {
-            if (is_numeric($goalId) && $goalId < GoalManager::IDGOAL_ORDER) {
-                continue;
-            }
-
-            if (!is_numeric($goalId) && $goalId != Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+            if ($this->shouldIgnoreIdGoal($goalId)) {
                 continue;
             }
 
@@ -89,5 +95,40 @@ class RevenuePerVisit extends ProcessedMetric
     public function getSemanticType(): ?string
     {
         return Dimension::TYPE_MONEY;
+    }
+
+    public function getFormula(): ?string
+    {
+        if (empty($this->allIdGoals)) {
+            $revenueSum = 'revenue';
+        } else {
+            $revenueSum = [];
+            foreach ($this->allIdGoals as $idGoal) {
+                if ($this->shouldIgnoreIdGoal($idGoal)) {
+                    continue;
+                }
+
+                $revenueSum[] = 'goals["idgoal=' . $idGoal . '"].revenue';
+            }
+
+            $revenueSum = '(' . implode(' + ', $revenueSum) . ')';
+        }
+
+        $divisor = '(nb_visits != 0 ? nb_visits : nb_conversions)';
+
+        return $revenueSum . ' / ' . $divisor;
+    }
+
+    private function shouldIgnoreIdGoal($goalId): bool
+    {
+        if (is_numeric($goalId) && $goalId < GoalManager::IDGOAL_ORDER) {
+            return true; // abandoned cart
+        }
+
+        if (!is_numeric($goalId) && $goalId != Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+            return true; // string goal ID that isn't ecommerce order
+        }
+
+        return false;
     }
 }

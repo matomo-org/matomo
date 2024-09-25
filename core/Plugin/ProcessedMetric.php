@@ -25,6 +25,8 @@ abstract class ProcessedMetric extends Metric
      */
     public const COMPONENT_SUBNAMESPACE = 'Columns\\Metrics';
 
+    private $cachedExtraTemporaryMetrics = [];
+
     /**
      * Computes the metric using the values in a {@link Piwik\DataTable\Row}.
      *
@@ -57,6 +59,17 @@ abstract class ProcessedMetric extends Metric
     }
 
     /**
+     * TODO
+     *
+     * @param Row $row
+     * @return array
+     */
+    public function computeExtraTemporaryMetrics(Row $row): array
+    {
+        return [];
+    }
+
+    /**
      * Executed before computing all processed metrics for a report. Implementers can return `false`
      * to skip computing this metric.
      *
@@ -68,6 +81,18 @@ abstract class ProcessedMetric extends Metric
     public function beforeCompute($report, DataTable $table)
     {
         return true;
+    }
+
+    /**
+     * TODO
+     *
+     * @param ?Report $report
+     * @param DataTable $table
+     * @return void
+     */
+    public function afterCompute(?Report $report, DataTable $table)
+    {
+        // empty
     }
 
     /**
@@ -86,5 +111,73 @@ abstract class ProcessedMetric extends Metric
     public function afterComputeSubtable(Row $row)
     {
         // empty
+    }
+
+    /**
+     * TODO
+     *
+     * @return string|null
+     */
+    public function getFormula(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * TODO
+     *
+     * @return mixed
+     */
+    public function getExtraMetric(Row $row, string $metricName)
+    {
+        $extraMetrics = $this->getAllExtraMetrics($row);
+        return $extraMetrics[$metricName];
+    }
+
+    /**
+     * TODO
+     *
+     * @param Row $row
+     * @return array
+     */
+    public function getAllExtraMetrics(Row $row): array
+    {
+        if (empty($this->cachedExtraTemporaryMetrics)) {
+            $extraTempMetrics = $this->computeExtraTemporaryMetrics($row);
+            $this->cachedExtraTemporaryMetrics = $extraTempMetrics;
+        }
+
+        return $this->cachedExtraTemporaryMetrics;
+    }
+
+    /**
+     * @internal
+     */
+    public function clearTemporaryMetricCache()
+    {
+        $this->cachedExtraTemporaryMetrics = [];
+    }
+
+    // TODO: add to report metadata
+    // TODO: implement in processed metrics that need it
+
+    /**
+     * TODO
+     *
+     * @return array
+     */
+    public function getExtraMetricAggregationTypes(): array
+    {
+        return [];
+    }
+
+    /**
+     * TODO
+     *
+     * @return array
+     */
+    public function getExtraMetricSemanticTypes(): array
+    {
+        return [];
     }
 }

@@ -82,4 +82,13 @@ class RevenuePerEntry extends GoalSpecificProcessedMetric
     {
         return Dimension::TYPE_MONEY;
     }
+
+    public function getFormula(): ?string
+    {
+        return sprintf(
+            '$goals["idgoal=%s"].revenue / ($entry_nb_visits == 0 ? $goals["idgoal=%s"].nb_conversions : $entry_nb_visits)',
+            $this->idGoal,
+            $this->idGoal
+        );
+    }
 }

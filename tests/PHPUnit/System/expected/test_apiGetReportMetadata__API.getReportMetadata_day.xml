@@ -128,6 +128,19 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
+			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
+			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<bounce_count>sum</bounce_count>
+			<sum_visit_length>sum</sum_visit_length>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<bounce_count>number</bounce_count>
+			<sum_visit_length>number</sum_visit_length>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
 			<nb_visits>number</nb_visits>
@@ -168,7 +181,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -177,20 +194,34 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getCountry</uniqueId>
@@ -221,7 +252,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -230,20 +265,30 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getContinent&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getContinent&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getContinent</uniqueId>
@@ -274,7 +319,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -283,20 +332,34 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getRegion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getRegion&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getRegion</uniqueId>
@@ -341,6 +404,10 @@
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<relatedReports>
 			<row>
 				<name>Language code</name>
@@ -378,7 +445,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -387,20 +458,34 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCity&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCity&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getCity</uniqueId>
@@ -445,6 +530,10 @@
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<relatedReports>
 			<row>
 				<name>Web-browser language</name>
@@ -484,7 +573,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -494,20 +587,34 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getType&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getType&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getType</uniqueId>
@@ -540,7 +647,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -550,20 +661,34 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getModel&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getModel&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getModel</uniqueId>
@@ -596,7 +721,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -606,20 +735,34 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrand&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrand&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getBrand</uniqueId>
@@ -664,6 +807,10 @@
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<relatedReports>
 			<row>
 				<name>Configurations</name>
@@ -715,6 +862,10 @@
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<relatedReports>
 			<row>
 				<name>Operating System families</name>
@@ -754,7 +905,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -764,7 +919,12 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<relatedReports>
 			<row>
 				<name>Browser version</name>
@@ -776,15 +936,24 @@
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getBrowsers</uniqueId>
@@ -829,6 +998,10 @@
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<relatedReports>
 			<row>
 				<name>Browsers</name>
@@ -931,6 +1104,10 @@
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<relatedReports>
 			<row>
 				<name>Operating System versions</name>
@@ -982,6 +1159,10 @@
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowserEngines&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowserEngines&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getBrowserEngines</uniqueId>
@@ -1003,6 +1184,9 @@
 		<processedMetrics>
 			<nb_visits_percentage>% Visits</nb_visits_percentage>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<nb_visits_percentage>$visits / $total_visits</nb_visits_percentage>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_visits_percentage>percent</nb_visits_percentage>
@@ -1051,6 +1235,10 @@
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<relatedReports>
 			<row>
@@ -1090,7 +1278,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -1100,21 +1292,35 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerServerTime&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitTime_getVisitInformationPerServerTime</uniqueId>
 	</row>
@@ -1207,6 +1413,11 @@
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+			<nb_visits_converted>sum</nb_visits_converted>
+		</metricAggregationTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserId&amp;apiAction=getUsers&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserId&amp;apiAction=getUsers&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserId_getUsers</uniqueId>
@@ -1244,7 +1455,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -1254,21 +1469,35 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getCustomVariablesValuesFromNameId</actionToLoadSubTables>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariables&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariables&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>CustomVariables_getCustomVariables</uniqueId>
@@ -1302,6 +1531,15 @@
 		<processedMetrics>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_pageviews>number</nb_pageviews>
 			<nb_uniq_pageviews>number</nb_uniq_pageviews>
@@ -1366,7 +1604,21 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<exit_rate>Exit rate</exit_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_page>$sum_time_spent / $nb_hits</avg_time_on_page>
+			<bounce_rate>$entry_bounce_count / $entry_nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_hits>number</nb_hits>
 			<nb_visits>number</nb_visits>
@@ -1374,7 +1626,11 @@
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_hits>sum</nb_hits>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
 		<relatedReports>
 			<row>
@@ -1393,18 +1649,27 @@
 			<nb_conversions_attrib>Conversions</nb_conversions_attrib>
 			<revenue_attrib>Revenue</revenue_attrib>
 		</metricsGoal>
-		<processedMetricsGoal>
-			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-			<nb_conversions_page_rate>Viewed before conversion rate</nb_conversions_page_rate>
-		</processedMetricsGoal>
 		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
 			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
 			<nb_conversions_attrib>number</nb_conversions_attrib>
 			<revenue_attrib>money</revenue_attrib>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
 			<nb_conversions_page_rate>percent</nb_conversions_page_rate>
 		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+		</metricAggregationTypesGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
+			<nb_conversions_page_rate>Viewed before conversion rate</nb_conversions_page_rate>
+		</processedMetricsGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<nb_conversions_page_rate>min($goals[&quot;idgoal={idGoal}&quot;].nb_conversions_page_uniq / goal_{idGoal}_total_conversions, 1)</nb_conversions_page_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getPageUrls</uniqueId>
@@ -1430,7 +1695,21 @@
 		<processedMetrics>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_page>$sum_time_spent / $nb_hits</avg_time_on_page>
+			<bounce_rate>$entry_bounce_count / $entry_nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<entry_nb_visits>number</entry_nb_visits>
 			<entry_bounce_count>number</entry_bounce_count>
@@ -1438,7 +1717,12 @@
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<entry_nb_visits>sum</entry_nb_visits>
+			<entry_bounce_count>sum</entry_bounce_count>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getEntryPageUrls</actionToLoadSubTables>
 		<relatedReports>
 			<row>
@@ -1449,23 +1733,38 @@
 		</relatedReports>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
 			<nb_conversions_entry>Conversions</nb_conversions_entry>
 			<revenue_entry>Revenue</revenue_entry>
 		</metricsGoal>
-		<processedMetricsGoal>
-			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-			<revenue_per_entry>Revenue per Entry</revenue_per_entry>
-			<nb_conversions_entry_rate>Conversion Rate</nb_conversions_entry_rate>
-		</processedMetricsGoal>
 		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
 			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
 			<nb_conversions_entry>number</nb_conversions_entry>
 			<revenue_entry>money</revenue_entry>
-			<revenue_per_entry>number</revenue_per_entry>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+			<revenue_per_entry>money</revenue_per_entry>
 			<nb_conversions_entry_rate>percent</nb_conversions_entry_rate>
 		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+			<nb_conversions_entry>sum</nb_conversions_entry>
+			<revenue_entry>sum</revenue_entry>
+		</metricAggregationTypesGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
+			<revenue_per_entry>Revenue per Entry</revenue_per_entry>
+			<nb_conversions_entry_rate>Conversion rate</nb_conversions_entry_rate>
+		</processedMetricsGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_entry>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($entry_nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $entry_nb_visits)</revenue_per_entry>
+			<nb_conversions_entry_rate>$entry_nb_visits ? ($goals[&quot;idgoal={idGoal}&quot;].nb_conversions_entry / $entry_nb_visits) : 0</nb_conversions_entry_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageUrls&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageUrls&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getEntryPageUrls</uniqueId>
@@ -1491,7 +1790,21 @@
 		<processedMetrics>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_page>$sum_time_spent / $nb_hits</avg_time_on_page>
+			<bounce_rate>$entry_bounce_count / $entry_nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<entry_nb_visits>number</entry_nb_visits>
 			<entry_bounce_count>number</entry_bounce_count>
@@ -1499,7 +1812,12 @@
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<entry_nb_visits>sum</entry_nb_visits>
+			<entry_bounce_count>sum</entry_bounce_count>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getEntryPageTitles</actionToLoadSubTables>
 		<relatedReports>
 			<row>
@@ -1515,23 +1833,38 @@
 		</relatedReports>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
 			<nb_conversions_entry>Conversions</nb_conversions_entry>
 			<revenue_entry>Revenue</revenue_entry>
 		</metricsGoal>
-		<processedMetricsGoal>
-			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-			<revenue_per_entry>Revenue per Entry</revenue_per_entry>
-			<nb_conversions_entry_rate>Conversion Rate</nb_conversions_entry_rate>
-		</processedMetricsGoal>
 		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
 			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
 			<nb_conversions_entry>number</nb_conversions_entry>
 			<revenue_entry>money</revenue_entry>
-			<revenue_per_entry>number</revenue_per_entry>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+			<revenue_per_entry>money</revenue_per_entry>
 			<nb_conversions_entry_rate>percent</nb_conversions_entry_rate>
 		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+			<nb_conversions_entry>sum</nb_conversions_entry>
+			<revenue_entry>sum</revenue_entry>
+		</metricAggregationTypesGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
+			<revenue_per_entry>Revenue per Entry</revenue_per_entry>
+			<nb_conversions_entry_rate>Conversion rate</nb_conversions_entry_rate>
+		</processedMetricsGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<revenue_per_entry>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($entry_nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $entry_nb_visits)</revenue_per_entry>
+			<nb_conversions_entry_rate>$entry_nb_visits ? ($goals[&quot;idgoal={idGoal}&quot;].nb_conversions_entry / $entry_nb_visits) : 0</nb_conversions_entry_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getEntryPageTitles</uniqueId>
@@ -1560,6 +1893,18 @@
 			<exit_rate>Exit rate</exit_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_page>$sum_time_spent / $nb_hits</avg_time_on_page>
+			<bounce_rate>$entry_bounce_count / $entry_nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<exit_nb_visits>number</exit_nb_visits>
 			<nb_visits>number</nb_visits>
@@ -1568,6 +1913,10 @@
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
+		<metricAggregationTypes>
+			<exit_nb_visits>sum</exit_nb_visits>
+			<nb_visits>sum</nb_visits>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getExitPageUrls</actionToLoadSubTables>
 		<relatedReports>
 			<row>
@@ -1602,6 +1951,18 @@
 			<exit_rate>Exit rate</exit_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_page>$sum_time_spent / $nb_hits</avg_time_on_page>
+			<bounce_rate>$entry_bounce_count / $entry_nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<exit_nb_visits>number</exit_nb_visits>
 			<nb_visits>number</nb_visits>
@@ -1610,6 +1971,10 @@
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
+		<metricAggregationTypes>
+			<exit_nb_visits>sum</exit_nb_visits>
+			<nb_visits>sum</nb_visits>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getExitPageTitles</actionToLoadSubTables>
 		<relatedReports>
 			<row>
@@ -1652,7 +2017,21 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<exit_rate>Exit rate</exit_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_page>$sum_time_spent / $nb_hits</avg_time_on_page>
+			<bounce_rate>$entry_bounce_count / $entry_nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_hits>number</nb_hits>
 			<nb_visits>number</nb_visits>
@@ -1660,7 +2039,11 @@
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_hits>sum</nb_hits>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
 		<relatedReports>
 			<row>
@@ -1679,18 +2062,27 @@
 			<nb_conversions_attrib>Conversions</nb_conversions_attrib>
 			<revenue_attrib>Revenue</revenue_attrib>
 		</metricsGoal>
-		<processedMetricsGoal>
-			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-			<nb_conversions_page_rate>Viewed before conversion rate</nb_conversions_page_rate>
-		</processedMetricsGoal>
 		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
 			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
 			<nb_conversions_attrib>number</nb_conversions_attrib>
 			<revenue_attrib>money</revenue_attrib>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
 			<nb_conversions_page_rate>percent</nb_conversions_page_rate>
 		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+		</metricAggregationTypesGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
+			<nb_conversions_page_rate>Viewed before conversion rate</nb_conversions_page_rate>
+		</processedMetricsGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+			<nb_conversions_page_rate>min($goals[&quot;idgoal={idGoal}&quot;].nb_conversions_page_uniq / goal_{idGoal}_total_conversions, 1)</nb_conversions_page_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getPageTitles</uniqueId>
@@ -1716,6 +2108,18 @@
 		<processedMetrics>
 			<exit_rate>% Search Exits</exit_rate>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_page>$sum_time_spent / $nb_hits</avg_time_on_page>
+			<bounce_rate>$entry_bounce_count / $entry_nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_pages_per_search>number</nb_pages_per_search>
@@ -1745,6 +2149,24 @@
 			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 		</metricsDocumentation>
+		<processedMetrics>
+			<avg_time_on_page>Avg. time on page</avg_time_on_page>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<exit_rate>Exit rate</exit_rate>
+			<avg_time_generation>Avg. generation time</avg_time_generation>
+		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_page>$sum_time_spent / $nb_hits</avg_time_on_page>
+			<bounce_rate>$entry_bounce_count / $entry_nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_hits_following_search>number</nb_hits_following_search>
 			<nb_hits>number</nb_hits>
@@ -1783,6 +2205,18 @@
 		<processedMetrics>
 			<exit_rate>% Search Exits</exit_rate>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_page>$sum_time_spent / $nb_hits</avg_time_on_page>
+			<bounce_rate>$entry_bounce_count / $entry_nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<avg_time_on_page>duration_s</avg_time_on_page>
@@ -1811,6 +2245,24 @@
 			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 		</metricsDocumentation>
+		<processedMetrics>
+			<avg_time_on_page>Avg. time on page</avg_time_on_page>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<exit_rate>Exit rate</exit_rate>
+			<avg_time_generation>Avg. generation time</avg_time_generation>
+		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_on_page>$sum_time_spent / $nb_hits</avg_time_on_page>
+			<bounce_rate>$entry_bounce_count / $entry_nb_visits</bounce_rate>
+			<exit_rate>$exit_nb_visits / $nb_visits</exit_rate>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_hits_following_search>number</nb_hits_following_search>
 			<nb_hits>number</nb_hits>
@@ -1878,6 +2330,9 @@
 			<nb_visits>number</nb_visits>
 			<nb_hits>number</nb_hits>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_hits>sum</nb_hits>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getOutlinks</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getOutlinks&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getOutlinks&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1903,6 +2358,9 @@
 			<nb_visits>number</nb_visits>
 			<nb_hits>number</nb_hits>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_hits>sum</nb_hits>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getDownloads</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getDownloads&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getDownloads&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1939,6 +2397,9 @@
 		<processedMetrics>
 			<avg_event_value>The average of all values for this event</avg_event_value>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_event_value>$sum_event_value / $nb_events_with_value</avg_event_value>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_events>number</nb_events>
 			<sum_event_value>number</sum_event_value>
@@ -1983,6 +2444,9 @@
 		<processedMetrics>
 			<avg_event_value>The average of all values for this event</avg_event_value>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_event_value>$sum_event_value / $nb_events_with_value</avg_event_value>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_events>number</nb_events>
 			<sum_event_value>number</sum_event_value>
@@ -2027,6 +2491,9 @@
 		<processedMetrics>
 			<avg_event_value>The average of all values for this event</avg_event_value>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_event_value>$sum_event_value / $nb_events_with_value</avg_event_value>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_events>number</nb_events>
 			<sum_event_value>number</sum_event_value>
@@ -2061,6 +2528,9 @@
 		<processedMetrics>
 			<interaction_rate>Interaction Rate</interaction_rate>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<interaction_rate>$nb_interactions / $nb_impressions</interaction_rate>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_impressions>number</nb_impressions>
 			<nb_interactions>number</nb_interactions>
@@ -2092,6 +2562,9 @@
 		<processedMetrics>
 			<interaction_rate>Interaction Rate</interaction_rate>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<interaction_rate>$nb_interactions / $nb_impressions</interaction_rate>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_impressions>number</nb_impressions>
 			<nb_interactions>number</nb_interactions>
@@ -2161,6 +2634,9 @@
 		<processedMetrics>
 			<nb_visits_percentage>% Visits</nb_visits_percentage>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<nb_visits_percentage>$visits / $total_visits</nb_visits_percentage>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_visits_percentage>percent</nb_visits_percentage>
@@ -2186,6 +2662,9 @@
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+		</metricAggregationTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByDaysSinceLast&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsByDaysSinceLast</uniqueId>
@@ -2274,6 +2753,15 @@
 			<avg_time_on_load>Avg. on load time</avg_time_on_load>
 			<avg_page_load_time>Avg. page load time</avg_page_load_time>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_network>$sum_time_network / $nb_hits_with_time_network</avg_time_network>
+			<avg_time_server>$sum_time_server / $nb_hits_with_time_server</avg_time_server>
+			<avg_time_transfer>$sum_time_transfer / $nb_hits_with_time_transfer</avg_time_transfer>
+			<avg_time_dom_processing>$sum_time_dom_processing / $nb_hits_with_time_dom_processing</avg_time_dom_processing>
+			<avg_time_dom_completion>$sum_time_dom_completion / $nb_hits_with_time_dom_completion</avg_time_dom_completion>
+			<avg_time_on_load>$sum_time_on_load / $nb_hits_with_time_on_load</avg_time_on_load>
+			<avg_page_load_time>$avg_time_network + $avg_time_server + $avg_time_transfer + $avg_time_dom_processing + $avg_time_dom_completion + $avg_time_on_load</avg_page_load_time>
+		</processedMetricFormulas>
 		<metricTypes>
 			<avg_time_network>duration_s</avg_time_network>
 			<avg_time_server>duration_s</avg_time_server>
@@ -2359,7 +2847,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -2369,21 +2861,35 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getReferrerType&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getReferrerType&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getReferrerType</uniqueId>
@@ -2463,7 +2969,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -2473,21 +2983,35 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getSearchEnginesFromKeywordId</actionToLoadSubTables>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getKeywords&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getKeywords&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getKeywords</uniqueId>
@@ -2524,7 +3048,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -2534,21 +3062,31 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
 		<actionToLoadSubTables>getKeywordsFromSearchEngineId</actionToLoadSubTables>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getSearchEngines&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getSearchEngines&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getSearchEngines</uniqueId>
@@ -2585,7 +3123,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -2595,21 +3137,35 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getUrlsFromWebsiteId</actionToLoadSubTables>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getWebsites&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getWebsites&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getWebsites</uniqueId>
@@ -2696,7 +3252,11 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
@@ -2706,21 +3266,35 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<actionToLoadSubTables>getKeywordsFromCampaignId</actionToLoadSubTables>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getCampaigns&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getCampaigns&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getCampaigns</uniqueId>
@@ -2897,6 +3471,11 @@
 			<avg_quantity>Average Quantity</avg_quantity>
 			<conversion_rate>Product Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_price>$orders &gt; 0 ? ($price / $orders) : ($price / $abandoned_carts)</avg_price>
+			<avg_quantity>$orders &gt; 0 ? ($quantity / $orders) : ($quantity / $abandoned_carts)</avg_quantity>
+			<conversion_rate>$order &gt; 0 ? ($orders / $nb_visits) : ($abandoned_carts / $nb_visits)</conversion_rate>
+		</processedMetricFormulas>
 		<metricTypes>
 			<revenue>money</revenue>
 			<quantity>number</quantity>
@@ -2929,6 +3508,11 @@
 			<avg_quantity>Average Quantity</avg_quantity>
 			<conversion_rate>Product Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_price>$orders &gt; 0 ? ($price / $orders) : ($price / $abandoned_carts)</avg_price>
+			<avg_quantity>$orders &gt; 0 ? ($quantity / $orders) : ($quantity / $abandoned_carts)</avg_quantity>
+			<conversion_rate>$order &gt; 0 ? ($orders / $nb_visits) : ($abandoned_carts / $nb_visits)</conversion_rate>
+		</processedMetricFormulas>
 		<metricTypes>
 			<revenue>money</revenue>
 			<quantity>number</quantity>
@@ -2961,6 +3545,11 @@
 			<avg_quantity>Average Quantity</avg_quantity>
 			<conversion_rate>Product Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_price>$orders &gt; 0 ? ($price / $orders) : ($price / $abandoned_carts)</avg_price>
+			<avg_quantity>$orders &gt; 0 ? ($quantity / $orders) : ($quantity / $abandoned_carts)</avg_quantity>
+			<conversion_rate>$order &gt; 0 ? ($orders / $nb_visits) : ($abandoned_carts / $nb_visits)</conversion_rate>
+		</processedMetricFormulas>
 		<metricTypes>
 			<revenue>money</revenue>
 			<quantity>number</quantity>
@@ -3013,23 +3602,39 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<processedMetrics>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_conversions>number</nb_conversions>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion</uniqueId>
 	</row>
@@ -3044,23 +3649,39 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<processedMetrics>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+		</processedMetrics>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_conversions>number</nb_conversions>
+			<revenue_per_visit>money</revenue_per_visit>
 		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion</uniqueId>
 	</row>
@@ -3634,6 +4255,29 @@
 			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
 			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<avg_time_generation>$sum_time_generation / $nb_hits_with_time_generation</avg_time_generation>
+			<bounce_rate>$bounce_count / $nb_visits</bounce_rate>
+			<nb_actions_per_visit>$nb_actions / $nb_visits</nb_actions_per_visit>
+			<avg_time_on_site>$sum_visit_length / $nb_visits</avg_time_on_site>
+			<avg_time_network>$sum_time_network / $nb_hits_with_time_network</avg_time_network>
+			<avg_time_server>$sum_time_server / $nb_hits_with_time_server</avg_time_server>
+			<avg_time_transfer>$sum_time_transfer / $nb_hits_with_time_transfer</avg_time_transfer>
+			<avg_time_dom_processing>$sum_time_dom_processing / $nb_hits_with_time_dom_processing</avg_time_dom_processing>
+			<avg_time_dom_completion>$sum_time_dom_completion / $nb_hits_with_time_dom_completion</avg_time_dom_completion>
+			<avg_time_on_load>$sum_time_on_load / $nb_hits_with_time_on_load</avg_time_on_load>
+			<avg_page_load_time>$avg_time_network + $avg_time_server + $avg_time_transfer + $avg_time_dom_processing + $avg_time_dom_completion + $avg_time_on_load</avg_page_load_time>
+		</processedMetricFormulas>
+		<temporaryMetricAggregationTypes>
+			<sum_time_generation>sum</sum_time_generation>
+			<bounce_count>sum</bounce_count>
+			<sum_visit_length>sum</sum_visit_length>
+		</temporaryMetricAggregationTypes>
+		<temporaryMetricSemanticTypes>
+			<sum_time_generation>duration_s</sum_time_generation>
+			<bounce_count>number</bounce_count>
+			<sum_visit_length>number</sum_visit_length>
+		</temporaryMetricSemanticTypes>
 		<metricTypes>
 			<nb_pageviews>number</nb_pageviews>
 			<nb_uniq_pageviews>number</nb_uniq_pageviews>

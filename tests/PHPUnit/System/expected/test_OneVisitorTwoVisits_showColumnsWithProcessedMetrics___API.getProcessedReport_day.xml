@@ -16,23 +16,39 @@
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 		</metricsDocumentation>
+		<processedMetricFormulas>
+			<revenue_per_visit>$revenue / ($nb_visits != 0 ? $nb_visits : $nb_conversions)</revenue_per_visit>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 		</metricTypes>
+		<metricAggregationTypes>
+			<nb_visits>sum</nb_visits>
+			<nb_actions>sum</nb_actions>
+		</metricAggregationTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
 		</metricsGoal>
+		<metricTypesGoal>
+			<nb_conversions>number</nb_conversions>
+			<revenue>money</revenue>
+			<revenue_per_visit>money</revenue_per_visit>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypesGoal>
+		<metricAggregationTypesGoal>
+			<nb_conversions>sum</nb_conversions>
+			<revenue>sum</revenue>
+		</metricAggregationTypesGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<conversion_rate>Conversion rate</conversion_rate>
 		</processedMetricsGoal>
-		<metricTypesGoal>
-			<revenue_per_visit>money</revenue_per_visit>
-			<nb_conversions>number</nb_conversions>
-			<conversion_rate>percent</conversion_rate>
-			<revenue>money</revenue>
-		</metricTypesGoal>
+		<processedMetricFormulasGoal>
+			<revenue_per_visit>$goals[&quot;idgoal={idGoal}&quot;].revenue / ($nb_visits == 0 ? $goals[&quot;idgoal={idGoal}&quot;].nb_conversions : $nb_visits)</revenue_per_visit>
+			<conversion_rate>$goals[&quot;idgoal={idGoal}&quot;].nb_conversions / $nb_visits</conversion_rate>
+		</processedMetricFormulasGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerServerTime&amp;period=day&amp;date=2010-03-06</imageGraphUrl>
 		<uniqueId>VisitTime_getVisitInformationPerServerTime</uniqueId>
 	</metadata>

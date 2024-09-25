@@ -50,4 +50,9 @@ class ActionsPerVisit extends ProcessedMetric
     {
         return Dimension::TYPE_NUMBER;
     }
+
+    public function getFormula(): ?string
+    {
+        return 'nb_actions / nb_visits';
+    }
 }

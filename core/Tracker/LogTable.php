@@ -120,4 +120,14 @@ abstract class LogTable
     {
         return array();
     }
+
+    /**
+     * TODO
+     *
+     * @return string|null
+     */
+    public function getParentTable(): ?string
+    {
+        return null;
+    }
 }

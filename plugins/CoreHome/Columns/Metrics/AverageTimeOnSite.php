@@ -58,4 +58,23 @@ class AverageTimeOnSite extends ProcessedMetric
     {
         return Dimension::TYPE_DURATION_S;
     }
+
+    public function getFormula(): ?string
+    {
+        return 'sum_visit_length / nb_visits';
+    }
+
+    public function getExtraMetricSemanticTypes(): array
+    {
+        return [
+            'sum_visit_length' => Dimension::TYPE_NUMBER,
+        ];
+    }
+
+    public function getExtraMetricAggregationTypes(): array
+    {
+        return [
+            'sum_visit_length' => self::AGGREGATION_TYPE_SUM,
+        ];
+    }
 }

@@ -39,7 +39,7 @@ class GetPageUrls extends Base
             new AverageTimeOnPage(),
             new BounceRate(),
             new ExitRate(),
-            new AveragePageGenerationTime()
+            new AveragePageGenerationTime(),
         );
 
         $this->subcategoryId = 'General_Pages';

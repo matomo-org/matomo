@@ -29,6 +29,7 @@ class ApiGetReportMetadataYearTest extends SystemTestCase
                         'date'     => self::$fixture->dateTime,
                         'periods'  => 'year',
                         'language' => 'fr');
+        return [array('API.getProcessedReport', $params)];
         return array(
             array('API.getProcessedReport', $params),
             array('LanguagesManager.getAvailableLanguageNames', $params),

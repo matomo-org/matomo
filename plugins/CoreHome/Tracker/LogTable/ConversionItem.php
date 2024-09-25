@@ -32,4 +32,9 @@ class ConversionItem extends LogTable
     {
         return array('idvisit', 'idorder', 'idaction_sku');
     }
+
+    public function getParentTable(): ?string
+    {
+        return 'log_conversion';
+    }
 }

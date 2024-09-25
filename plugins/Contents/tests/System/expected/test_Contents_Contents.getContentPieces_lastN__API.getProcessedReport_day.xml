@@ -23,6 +23,9 @@
 		<processedMetrics>
 			<interaction_rate>Interaction Rate</interaction_rate>
 		</processedMetrics>
+		<processedMetricFormulas>
+			<interaction_rate>$nb_interactions / $nb_impressions</interaction_rate>
+		</processedMetricFormulas>
 		<metricTypes>
 			<nb_impressions>number</nb_impressions>
 			<nb_interactions>number</nb_interactions>

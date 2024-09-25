@@ -58,4 +58,8 @@ class ProductConversionRate extends ProcessedMetric
     {
         return Dimension::TYPE_PERCENT;
     }
+    public function getFormula(): ?string
+    {
+        return 'order > 0 ? (orders / nb_visits) : (abandoned_carts / nb_visits)';
+    }
 }
