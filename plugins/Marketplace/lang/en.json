@@ -147,6 +147,11 @@
         "AutoUpdateDisabledWarning": "You cannot install or update the plugin directly as automatic updates are disabled in the config. To enable automatic updates set %1$s in %2$s.",
         "ViewRepositoryChangelog": "View the changes",
         "Show": "Show",
-        "Sort": "Sort"
+        "Sort": "Sort",
+        "PluginLicenseStatusPending": "Your license key for %1$s is in pending state. To resolve this, please go to your %2$sMarketplace account%3$s and update your payment details.",
+        "PluginLicenseStatusCancelled": "Your license key for %1$s is cancelled. To continue using this plugin, go to your %2$sMarketplace%3$s account and start a new subscription for this plugin.",
+        "PluginDownloadLinkMissingPremium": "The %1$s plugin could not be installed. Please check your license. If you have an active subscription for the %1$s plugin, try installing it manually using a zip file downloaded from your %2$sMarketplace account%3$s. %4$sLearn more%5$s.",
+        "PluginDownloadLinkMissingFree": "The %1$s plugin could not be installed, try installing it manually using a zip file from this %2$slink%3$s. %4$sLearn more%5$s.",
+        "PluginDownloadLinkMissingDescription": "Unable to fetch download link for %1$s plugin, try installing the plugin manually from marketplace. %2$sLearn more%3$s."
     }
 }

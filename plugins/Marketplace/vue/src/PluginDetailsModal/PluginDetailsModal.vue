@@ -85,6 +85,24 @@
           <div v-else-if="showExceededLicenseDescription" class="alert alert-warning">
             {{ translate('Marketplace_PluginLicenseExceededDescription') }}
           </div>
+          <div v-else-if="plugin.licenseStatus === 'Pending' && !isMultiServerEnvironment"
+               class="alert alert-warning"
+               v-html="$sanitize(getPendingLicenseHelpText(plugin.displayName))"
+          >
+          </div>
+          <div v-else-if="plugin.licenseStatus === 'Cancelled' && !isMultiServerEnvironment"
+               class="alert alert-warning"
+               v-html="$sanitize(getCancelledLicenseHelpText(plugin.displayName))"
+          >
+          </div>
+          <div v-else-if="
+          !plugin.hasDownloadLink
+          && !isMultiServerEnvironment
+          && (plugin.licenseStatus || !plugin.isPaid)"
+               class="alert alert-warning"
+               v-html="$sanitize(getDownloadLinkMissingHelpText(plugin.displayName))"
+          >
+          </div>
 
           <div v-html="$sanitize(pluginDescription)"></div>
         </div>
@@ -310,7 +328,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { MatomoUrl } from 'CoreHome';
+import { MatomoUrl, translate, externalLink } from 'CoreHome';
 import {
   IPluginShopDetails,
   IPluginShopReviews,
@@ -604,6 +622,30 @@ export default defineComponent({
       setTimeout(() => {
         this.isLoading = false;
       }, 10); // just to prevent showing the modal when the plugin data are not yet passed in
+    },
+    getPendingLicenseHelpText(pluginName: string) {
+      return translate(
+        'Marketplace_PluginLicenseStatusPending',
+        pluginName,
+        externalLink('https://shop.matomo.org/my-account/'),
+        '</a>',
+      );
+    },
+    getCancelledLicenseHelpText(pluginName: string) {
+      return translate(
+        'Marketplace_PluginLicenseStatusCancelled',
+        pluginName,
+        externalLink('https://shop.matomo.org/my-account/'),
+        '</a>',
+      );
+    },
+    getDownloadLinkMissingHelpText(pluginName: string) {
+      return translate(
+        'Marketplace_PluginDownloadLinkMissingDescription',
+        pluginName,
+        externalLink('https://matomo.org/faq/plugins/faq_21/'),
+        '</a>',
+      );
     },
   },
 });
