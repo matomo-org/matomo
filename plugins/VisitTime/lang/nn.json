@@ -1,7 +1,16 @@
 {
     "VisitTime": {
+        "ColumnLocalHour": "Lokal tid — time (start av besøk)",
+        "ColumnLocalMinute": "Lokal tid — minutt (start av besøk)",
         "ColumnLocalTime": "Brukartid",
+        "ColumnServerHour": "Tid på tenaren — time",
         "ColumnServerTime": "Tenartid",
+        "ColumnSiteHour": "Nettstadtid — time",
+        "ColumnVisitEndServerHour": "Tenar tid — time (tidspunkt for siste handling)",
+        "ColumnVisitEndServerMinute": "Tenar tid — minutt (tidspunkt for siste handling)",
+        "ColumnVisitEndSiteHour": "Nettstad tid — time (tidspunkt for siste handling)",
+        "ColumnVisitEndUTCMinute": "Tid i UTC — minutt (tidspunkt for siste handling)",
+        "DayOfWeek": "Vekedag",
         "LocalTime": "Vitjingar per brukartid",
         "NHour": "%st",
         "ServerTime": "Vitjingar per tenartid",
