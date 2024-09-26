@@ -6,7 +6,7 @@
         "MobileReport_MobileMessagingSettingsLink": "la pàgina de configuració de missatgeria mòbil",
         "MobileReport_NoPhoneNumbers": "Si us plau activeu almenys un número de telèfon accedint a",
         "MultiSites_Must_Be_Activated": "Per generar SMS de les vostres estadístiques web, siusplau activeu la extensió MultiSites de Matomo.",
-        "PhoneNumbers": "Nombres de telèfon",
+        "PhoneNumbers": "Números de telèfon",
         "PluginDescription": "Crea i descarrega informes personalitzats per SMS i envieu-los al vostre mobil de forma diària, semanal o mensual.",
         "SMS_Content_Too_Long": "[massa llarg]",
         "SettingsMenu": "Missatgeria Mòbil",
