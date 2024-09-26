@@ -14,6 +14,66 @@
         "displayName": "Paid Plugin 1",
         "htmlUrl": "https:\/\/plugins.piwik.org\/PaidPlugin1"
       }
+    },
+    {
+      "startDate": "2016-05-21 04:46:05",
+      "endDate": "2029-05-27 11:03:06",
+      "nextPaymentDate": null,
+      "status": "Pending",
+      "productType": "Up to 4 users",
+      "isValid": true,
+      "isExceeded": null,
+      "isExpiredSoon": false,
+      "plugin": {
+        "name": "PaidPlugin2",
+        "displayName": "Paid Plugin 2",
+        "htmlUrl": "https:\/\/plugins.piwik.org\/PaidPlugin2"
+      }
+    },
+    {
+      "startDate": "2016-05-21 04:46:05",
+      "endDate": "2029-05-27 11:03:06",
+      "nextPaymentDate": null,
+      "status": "Cancelled",
+      "productType": "Up to 4 users",
+      "isValid": true,
+      "isExceeded": null,
+      "isExpiredSoon": false,
+      "plugin": {
+        "name": "PaidPlugin3",
+        "displayName": "Paid Plugin 3",
+        "htmlUrl": "https:\/\/plugins.piwik.org\/PaidPlugin3"
+      }
+    },
+    {
+      "startDate": "2016-05-21 04:46:05",
+      "endDate": "2029-05-27 11:03:06",
+      "nextPaymentDate": null,
+      "status": "Active",
+      "productType": "Up to 4 users",
+      "isValid": true,
+      "isExceeded": null,
+      "isExpiredSoon": false,
+      "plugin": {
+        "name": "PaidPlugin4",
+        "displayName": "Paid Plugin 4",
+        "htmlUrl": "https:\/\/plugins.piwik.org\/PaidPlugin4"
+      }
+    },
+    {
+      "startDate": "2016-05-21 04:46:05",
+      "endDate": "2029-05-27 11:03:06",
+      "nextPaymentDate": null,
+      "status": "Active",
+      "productType": "Up to 4 users",
+      "isValid": true,
+      "isExceeded": null,
+      "isExpiredSoon": false,
+      "plugin": {
+        "name": "PaidPlugin5",
+        "displayName": "Paid Plugin 5",
+        "htmlUrl": "https:\/\/plugins.piwik.org\/PaidPlugin5"
+      }
     }
   ],
   "loginUrl": "https:\/\/shop.piwik.org\/my-account"
