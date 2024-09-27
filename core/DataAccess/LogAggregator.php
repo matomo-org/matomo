@@ -318,7 +318,7 @@ class LogAggregator
             $all = $readerDb->fetchAll($segmentSelectSql, $segmentSelectBind);
             if (!empty($all)) {
                 // we're not using batchinsert since this would not support the reader DB.
-                $readerDb->query('INSERT INTO ' . $table . ' VALUES (' . implode('),(', array_column($all, 'idvisit')) . ')');
+                $readerDb->query('INSERT IGNORE INTO ' . $table . ' VALUES (' . implode('),(', array_column($all, 'idvisit')) . ')');
             }
             return;
         }
