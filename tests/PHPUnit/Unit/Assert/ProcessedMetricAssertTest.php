@@ -172,7 +172,7 @@ class ProcessedMetricAssertTest extends TestCase
                     return 5;
                 },
                 [],
-                '/^Unexpected character "#" around position 4 for expression/',
+                '/Unexpected character "#" around position 4 for expression/',
             ],
 
             // metric used in formula does not exist in row
@@ -185,7 +185,7 @@ class ProcessedMetricAssertTest extends TestCase
                     'metric1' => 5,
                     'metric3' => 10,
                 ],
-                '/^Variable "metric2" is not valid around position 11/',
+                '/has unknown metric: metric2/',
             ],
 
             // formula and compute are different
@@ -206,7 +206,7 @@ class ProcessedMetricAssertTest extends TestCase
     public function test_checkProcessedMetricsInReport_failsIfAProcessedMetricReferencesAnUnknownColumn()
     {
         $this->expectException('Exception');
-        $this->expectExceptionMessage('Variable "nb_hits" is not valid around position 1 for expression');
+        $this->expectExceptionMessage('has unknown metric: nb_hits');
 
         $testReport = new class extends Report {
             protected function init()
@@ -231,7 +231,7 @@ class ProcessedMetricAssertTest extends TestCase
 
                     public function getDependentMetrics()
                     {
-                        return ['nb_hits', 'nb_actions'];
+                        return [];
                     }
 
                     public function getFormula(): ?string
@@ -256,7 +256,7 @@ class ProcessedMetricAssertTest extends TestCase
     public function test_checkProcessedMetricsInReport_failsIfAProcessedMetricFormulaCannotBeParsed()
     {
         $this->expectException('Exception');
-        $this->expectExceptionMessage('Variable "this" is not valid around position 1 for expression');
+        $this->expectExceptionMessage('has unknown metric: this');
 
         $testReport = new class extends Report {
             protected function init()

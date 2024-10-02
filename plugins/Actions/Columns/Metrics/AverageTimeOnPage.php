@@ -59,6 +59,25 @@ class AverageTimeOnPage extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return 'sum_time_spent / nb_hits';
+        return 'round(sum_time_spent / nb_hits, 0)';
+    }
+
+    public function getTemporaryMetrics()
+    {
+        return ['sum_time_spent'];
+    }
+
+    public function getExtraMetricSemanticTypes(): array
+    {
+        return [
+            'sum_time_spent' => Dimension::TYPE_DURATION_S,
+        ];
+    }
+
+    public function getExtraMetricAggregationTypes(): array
+    {
+        return [
+            'sum_time_spent' => self::AGGREGATION_TYPE_SUM,
+        ];
     }
 }

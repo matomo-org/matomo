@@ -59,6 +59,6 @@ class BounceRate extends ProcessedMetric
 
     public function getFormula(): ?string
     {
-        return 'entry_bounce_count / entry_nb_visits';
+        return 'round(entry_bounce_count / entry_nb_visits, 2)';
     }
 }

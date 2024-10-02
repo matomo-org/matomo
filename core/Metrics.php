@@ -494,6 +494,7 @@ class Metrics
                 'avg_time_on_site'              => Dimension::TYPE_DURATION_S,
                 'bounce_rate'                   => Dimension::TYPE_PERCENT,
                 'conversion_rate'               => Dimension::TYPE_PERCENT,
+                'nb_hits_with_time_generation'  => Dimension::TYPE_NUMBER,
             ];
 
             /**

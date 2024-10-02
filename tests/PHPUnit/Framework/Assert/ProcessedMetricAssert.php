@@ -20,6 +20,7 @@ use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
+use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 /**
@@ -34,7 +35,7 @@ class ProcessedMetricAssert
      * @param DataTable $dataTable
      * @return void
      */
-    public function assertProcessedMetricIsValidFor(ProcessedMetric $processedMetric, Row $row): void
+    public function assertProcessedMetricIsValidFor(ProcessedMetric $processedMetric, Row $row, ?Report $report = null): void
     {
         $formula = $processedMetric->getFormula();
         if (empty($formula)) {
@@ -43,9 +44,28 @@ class ProcessedMetricAssert
 
         $columns = $row->getColumns();
 
-        // check that the formula parses
         $expressionLanguage = new ExpressionLanguage();
-        $expressionLanguage->lint($formula, array_keys($columns));
+        $expressionLanguage->addFunction(ExpressionFunction::fromPhp('round'));
+        $expressionLanguage->addFunction(ExpressionFunction::fromPhp('min'));
+        $expressionLanguage->addFunction(ExpressionFunction::fromPhp('max'));
+        $expressionLanguage->addFunction(ExpressionFunction::fromPhp('abs'));
+
+        // check that the formula parses
+        try {
+            $expressionLanguage->lint($formula, array_keys($columns));
+        } catch (\Exception $ex) {
+            $optionalReportDesc = $this->getReportDescriptor($report);
+
+            if (preg_match('/Variable "(.*?)" is not valid around/i', $ex->getMessage(), $matches)) {
+                $missingVariable = $matches[1];
+                throw new \Exception(
+                    get_class($processedMetric) . '\'s formula ' . $optionalReportDesc . ' has unknown metric: ' . $missingVariable
+                    . '. Please make sure it is either specified in the report or in ProcessedMetric::getDependentMetrics() or in ProcessedMetric::getTemporaryMetrics().'
+                );
+            }
+
+            throw new \Exception(get_class($processedMetric) . '\'s formula' . $optionalReportDesc . ' is invalid: ' . $ex->getMessage());
+        }
 
         // check that the formula computes to the same value as the compute() method
         $processedMetric->clearTemporaryMetricCache();
@@ -67,7 +87,7 @@ class ProcessedMetricAssert
      * @throws \Piwik\Exception\DI\DependencyException
      * @throws \Piwik\Exception\DI\NotFoundException
      */
-    public function assertProcessedMetricsInReportMetadataAreValid(string $pluginName): void
+    public function assertProcessedMetricsInReportMetadataAreValid(string $pluginName, array $metricClassesToIgnore = []): void
     {
         if (!Manager::getInstance()->isPluginLoaded($pluginName)) {
             throw new \Exception("Unexpected: Plugin '$pluginName' is not loaded, cannot run test.");
@@ -86,7 +106,7 @@ class ProcessedMetricAssert
         }
 
         foreach ($allReports as $report) {
-            $this->checkProcessedMetricsInReport($report);
+            $this->checkProcessedMetricsInReport($report, $metricClassesToIgnore);
         }
     }
 
@@ -95,7 +115,7 @@ class ProcessedMetricAssert
      *
      * @internal
      */
-    public function checkProcessedMetricsInReport(Report $report)
+    public function checkProcessedMetricsInReport(Report $report, array $metricClassesToIgnore = [])
     {
         $processedMetrics = $report->getProcessedMetricsById();
         if (empty($processedMetrics)) {
@@ -104,7 +124,11 @@ class ProcessedMetricAssert
 
         $dataTableRow = $this->createRandomTestDataFor($report);
         foreach ($processedMetrics as $processedMetric) {
-            $this->assertProcessedMetricIsValidFor($processedMetric, $dataTableRow);
+            if (in_array(get_class($processedMetric), $metricClassesToIgnore)) {
+                continue;
+            }
+
+            $this->assertProcessedMetricIsValidFor($processedMetric, $dataTableRow, $report);
         }
     }
 
@@ -112,35 +136,48 @@ class ProcessedMetricAssert
     {
         $testDataRow = new DataTable\Row();
         foreach ($report->getMetrics() as $name => $translatedName) {
-            $testDataRow->addColumn($name, $this->randomColumnValue($name));
+            $testDataRow->addColumn($name, $this->randomColumnValue($name, null, $report));
         }
         foreach ($report->getProcessedMetricsById() as $name => $metric) {
-            $testDataRow->addColumn($name, $metric);
+            if ($metric instanceof ProcessedMetric) {
+                $metricSemanticTypes = $metric->getExtraMetricSemanticTypes();
+                $dependentMetrics = array_unique(array_merge($metric->getDependentMetrics(), $metric->getTemporaryMetrics()));
+
+                foreach ($dependentMetrics as $tempMetricName) {
+                    $semanticType = $metricSemanticTypes[$tempMetricName] ?? null;
+                    $testDataRow->setColumn($tempMetricName, $this->randomColumnValue($tempMetricName, $semanticType, $report));
+                }
+            }
         }
         return $testDataRow;
     }
 
     /**
      * @param string|Metric $metric
+     * @param ?string $semanticType
      * @return mixed
      */
-    private function randomColumnValue($metric)
+    private function randomColumnValue($metric, ?string $semanticType = null, ?Report $report = null)
     {
-        if ($metric instanceof Metric) {
-            $metricDescriptor = get_class($metric);
+        $reportDescriptor = $this->getReportDescriptor($report);
 
-            $semanticType = $metric->getSemanticType();
-            if (empty($semanticType)) {
-                throw new \Exception($metricDescriptor . ' does not have an associated semantic type. Associate one by overriding the Metric::getSemanticType() method.');
-            }
-        } else {
-            $metricDescriptor = $metric;
+        if (!$semanticType) {
+            if ($metric instanceof Metric) {
+                $metricDescriptor = get_class($metric);
 
-            $defaultSemanticTypes = Metrics::getDefaultMetricSemanticTypes();
-            if (!isset($defaultSemanticTypes[$metric])) {
-                throw new \Exception("Metric '$metricDescriptor' has no associated semantic type. Associate type type through the Metrics.getDefaultMetricSemanticTypes event.");
+                $semanticType = $metric->getSemanticType();
+                if (empty($semanticType)) {
+                    throw new \Exception($metricDescriptor . "$reportDescriptor does not have an associated semantic type. Associate one by overriding the Metric::getSemanticType() method.");
+                }
+            } else {
+                $metricDescriptor = $metric;
+
+                $defaultSemanticTypes = Metrics::getDefaultMetricSemanticTypes();
+                if (!isset($defaultSemanticTypes[$metric])) {
+                    throw new \Exception("Metric '$metricDescriptor'$reportDescriptor has no associated semantic type. Associate type type through the Metrics.getDefaultMetricSemanticTypes event.");
+                }
+                $semanticType = $defaultSemanticTypes[$metric];
             }
-            $semanticType = $defaultSemanticTypes[$metric];
         }
 
         switch ($semanticType) {
@@ -184,5 +221,10 @@ class ProcessedMetricAssert
     private function randomTimestamp()
     {
         return random_int(strtotime('2023-01-01 00:00:00'), time());
+    }
+
+    private function getReportDescriptor(?Report $report)
+    {
+        return $report ? (' (in report ' . get_class($report) . ')') : '';
     }
 }
