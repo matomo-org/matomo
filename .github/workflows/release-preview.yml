@@ -157,6 +157,8 @@ jobs:
     with:
       is_preview: true
       ref: 5.x-preview
+    secrets:
+      ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
 
   release_preview_version:
     needs: [run_matomo_tests]
