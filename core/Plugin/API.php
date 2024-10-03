@@ -152,4 +152,29 @@ abstract class API
     {
         return $this->autoSanitizeInputParams;
     }
+
+    /**
+     * Check whether the provided lastMinutes value is within the allowed range. If the value is too low or greater than
+     * the maxMinutes value, an exception is thrown.
+     *
+     * @param int $maxMinutes This should come from a config or constant. It is a system constraint to fight against DDOS
+     * @param int $lastMinutes The parameter value provided to the API
+     * @return void
+     * @internal
+     * @throws Exception If the provided values aren't valid
+     */
+    public function checkLastNMinutes(int $maxMinutes, int $lastMinutes)
+    {
+        if ($maxMinutes <= 0) {
+            throw new \Exception(Piwik::translate('Max minutes must be greater than 0'));
+        }
+
+        if ($lastMinutes <= 0) {
+            throw new \Exception(Piwik::translate('General_ValidatorErrorNumberTooLow', [$lastMinutes, 0]));
+        }
+
+        if ($lastMinutes > $maxMinutes) {
+            throw new \Exception(Piwik::translate('General_ValidatorErrorNumberTooHigh', [$lastMinutes, $maxMinutes]));
+        }
+    }
 }
