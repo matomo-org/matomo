@@ -125,7 +125,7 @@
         />)</span>
     </div>
 
-    <a v-else-if="isPluginsAdminEnabled"
+    <a v-else-if="isPluginsAdminEnabled && plugin.hasDownloadLink"
        tabindex="7"
        :href="linkToInstall(plugin.name)"
        class="btn btn-block"
