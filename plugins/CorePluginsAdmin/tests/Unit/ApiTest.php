@@ -26,6 +26,21 @@ class ApiTest extends TestCase
     public function testCheckLastMinutes($maxMinutes, $lastNMinutes, $isMaxInvalid = false, $areMinutesTooLow = false, $areMinutesTooHigh = false)
     {
         $isExceptionExpected = false;
+        if (!is_numeric($maxMinutes)) {
+            if (version_compare(PHP_VERSION, '8.0', '<')) {
+                $this->markTestSkipped();
+            }
+            $this->expectException(\TypeError::class);
+            $isExceptionExpected = true;
+        }
+
+        if (!is_numeric($lastNMinutes)) {
+            if (version_compare(PHP_VERSION, '8.0', '<')) {
+                $this->markTestSkipped();
+            }
+            $this->expectException(\TypeError::class);
+            $isExceptionExpected = true;
+        }
 
         if ($isMaxInvalid || $areMinutesTooLow || $areMinutesTooHigh) {
             $this->expectException(\Exception::class);
@@ -52,7 +67,9 @@ class ApiTest extends TestCase
     {
         return [
             ['60', 60, false, false, false],
+            ['60a', 60, false, false, false],
             [60, '60', false, false, false],
+            [60, '60a', false, false, false],
             [-60, 60, true, false, false],
             [-1, 60, true, false, false],
             [0, 60, true, false, false],
