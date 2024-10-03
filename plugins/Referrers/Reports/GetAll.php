@@ -53,7 +53,7 @@ class GetAll extends Base
         $view->requestConfig->filter_limit = 20;
 
         if ($view->isViewDataTableId(HtmlTable::ID)) {
-            $view->config->disable_row_actions = true;
+            $view->config->disable_row_evolution = true;
         }
 
         $view->config->filters[] = array('MetadataCallbackAddMetadata', array('referer_type', 'html_label_prefix', $setGetAllHtmlPrefix));
