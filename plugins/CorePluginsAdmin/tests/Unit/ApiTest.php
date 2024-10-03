@@ -23,7 +23,7 @@ class ApiTest extends TestCase
      * @return void
      * @throws \Exception
      */
-    public function testCheckLastNMinutes($maxMinutes, $lastNMinutes, $isMaxInvalid = false, $areMinutesTooLow = false, $areMinutesTooHigh = false)
+    public function testCheckLastMinutes($maxMinutes, $lastNMinutes, $isMaxInvalid = false, $areMinutesTooLow = false, $areMinutesTooHigh = false)
     {
         $isExceptionExpected = false;
         if (!is_numeric($maxMinutes)) {
@@ -54,7 +54,7 @@ class ApiTest extends TestCase
             $this->expectNotToPerformAssertions();
         }
 
-        \Piwik\Plugins\CorePluginsAdmin\API::getInstance()->checkLastNMinutes($maxMinutes, $lastNMinutes);
+        \Piwik\Plugins\CorePluginsAdmin\API::getInstance()->checkLastMinutes($maxMinutes, $lastNMinutes);
     }
 
     public function getCheckLastNHoursTestData(): array

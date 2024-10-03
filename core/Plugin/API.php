@@ -163,7 +163,7 @@ abstract class API
      * @internal
      * @throws Exception If the provided values aren't valid
      */
-    public function checkLastNMinutes(int $maxMinutes, int $lastMinutes)
+    public function checkLastMinutes(int $maxMinutes, int $lastMinutes)
     {
         if ($maxMinutes <= 0) {
             throw new \Exception(Piwik::translate('Max minutes must be greater than 0'));
