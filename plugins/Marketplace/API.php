@@ -195,7 +195,7 @@ class API extends \Piwik\Plugin\API
             throw new Exception('Unable to find plugin with given name: ' . $pluginName);
         }
 
-        $this->pluginTrialService->request($pluginInfo['name'], $pluginInfo['displayName'] ?? $pluginInfo['name']);
+        $this->pluginTrialService->request($pluginInfo['name'], $pluginInfo['displayName'] ?: $pluginInfo['name']);
 
         return true;
     }
