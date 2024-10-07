@@ -117,18 +117,24 @@
               :title="translate('General_Password')"
             />
           </div>
-          <div>
+          <div class="email-input">
             <Field
               v-model="theUser.email"
               :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
                 || isShowingPasswordConfirm"
               v-if="currentUserRole === 'superuser' || isAdd"
+              :inline-help="user && isPending ? '#invitationEmailChange' : ''"
               uicontrol="text"
               name="user_email"
               autocomplete="off"
               :maxlength="100"
               :title="translate('UsersManager_Email')"
             />
+          </div>
+          <div id="invitationEmailChange" v-if="user && isPending">
+            <Notification context="info" :noclear="true">
+              <strong v-html="$sanitize(translate('UsersManager_InviteEmailChange'))"></strong>
+            </Notification>
           </div>
           <div>
             <Field
@@ -289,7 +295,7 @@ import {
   AjaxHelper,
   NotificationsStore,
   externalLink,
-  Matomo,
+  Matomo, Notification,
 } from 'CoreHome';
 import {
   PasswordConfirmation,
@@ -359,6 +365,7 @@ export default defineComponent({
     },
   },
   components: {
+    Notification,
     ContentBlock,
     Field,
     SaveButton,

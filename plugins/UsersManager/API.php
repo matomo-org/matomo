@@ -953,7 +953,12 @@ class API extends \Piwik\Plugin\API
 
         Cache::deleteTrackerCache();
 
-        if ($hasEmailChanged && $isEmailNotificationOnInConfig) {
+        if ($hasEmailChanged && $this->model->isPendingUser($userLogin)) {
+            // If the email of a user is changed, who was invited and did not yet accept the invitation
+            // we send a new invite to the new address.
+            // this will indirectly invalidate the invitation sent to the previous address
+            $this->userRepository->reInviteUser($userLogin);
+        } elseif ($hasEmailChanged && $isEmailNotificationOnInConfig) {
             $this->sendEmailChangedEmail($userInfo, $email);
         }
 
