@@ -1,1 +1,22 @@
-{}
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Pievienot %s anotācijas…",
+        "AnnotationOnDate": "Anotācija %1$s: %2$s",
+        "Annotations": "Anotācijas",
+        "ClickToDelete": "Klikšķiniet, lai dzēstu šo anotāciju.",
+        "ClickToEdit": "Klikšķiet, lai rediģētu šo anotāciju.",
+        "ClickToEditOrAdd": "Klikšķiet, lai rediģētu vai pievienotu jaunu anotāciju.",
+        "ClickToStarOrUnstar": "Klikšķiniet, lai pievienotu vai noņemtu zvaigznīti šai anotācijai.",
+        "CreateNewAnnotation": "Izveidot jaunu anotāciju…",
+        "EnterAnnotationText": "Ievadiet savu piezīmi…",
+        "HideAnnotationsFor": "Paslēpt anotācijas %s…",
+        "IconDesc": "Apskatiet piezīmes šim datumu diapazonam.",
+        "IconDescHideNotes": "Paslēpt piezīmes šim datumu diapazonam.",
+        "InlineQuickHelp": "Jūs varat izveidot anotācijas, lai atzīmētu īpašus notikumus (piemēram, jaunu bloga ierakstu vai vietnes pārprojektēšanu), lai saglabātu savus datu analīzes rezultātus vai jebko citu, ko uzskatāt par svarīgu.",
+        "LoginToAnnotate": "Pieslēdzieties, lai izveidotu anotāciju.",
+        "NoAnnotations": "Šim datumu diapazonam nav anotāciju.",
+        "PluginDescription": "Ļauj pievienot piezīmes dažādām dienām, lai atzīmētu tīmekļa vietnē veiktās izmaiņas, saglabātu veiktās datu analīzes un dalītos pārdomās ar kolēģiem. Anotējot datus, jūs noteikti atcerēsities, kāpēc dati izskatās tā, kā tie izskatās.",
+        "ViewAndAddAnnotations": "Skatīt un pievienot anotācijas %s…",
+        "YouCannotModifyThisNote": "Jūs nevarat mainīt šo anotāciju, jo neesat to izveidojis, un jums nav administratīvās piekļuves šai vietnei."
+    }
+}

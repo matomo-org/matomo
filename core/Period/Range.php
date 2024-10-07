@@ -264,7 +264,13 @@ class Range extends Period
             if (strpos($strDateEnd, '-') === false) {
                 $timezone = $this->timezone;
             }
+
             $endDate = Date::factory($strDateEnd, $timezone)->setTime("00:00:00");
+            $maxAllowedEndDate = Date::factory(self::getMaxAllowedEndTimestamp());
+
+            if ($endDate->isLater($maxAllowedEndDate)) {
+                $endDate = $maxAllowedEndDate;
+            }
         } else {
             throw new Exception($this->translator->translate('General_ExceptionInvalidDateRange', array($this->strDate, ' \'lastN\', \'previousN\', \'YYYY-MM-DD,YYYY-MM-DD\'')));
         }
@@ -586,5 +592,20 @@ class Range extends Period
     public function getParentPeriodLabel()
     {
         return null;
+    }
+
+    /**
+     * Returns the max allowed end timestamp for a range. If an enddate after this timestamp is provided, Matomo will
+     * automatically lower the end date to the date returned by this method.
+     * The max supported timestamp is always set to end of the current year plus 10 years.
+     *
+     * @return int
+     * @api
+     */
+    public static function getMaxAllowedEndTimestamp(): int
+    {
+        return strtotime(
+            date('Y-12-31 00:00:00', strtotime('+10 year', Date::getNowTimestamp()))
+        );
     }
 }

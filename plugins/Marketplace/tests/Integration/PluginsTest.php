@@ -311,6 +311,8 @@ class PluginsTest extends IntegrationTestCase
             'isEligibleForFreeTrial' => false,
             'priceFrom' => null,
             'numDownloadsPretty' => 0,
+            'hasDownloadLink' => true,
+            'licenseStatus' => '',
             'category' => 'customisation',
         ];
         $this->assertEquals($expected, $plugin);

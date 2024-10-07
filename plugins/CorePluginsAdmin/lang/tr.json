@@ -77,7 +77,7 @@
         "Themes": "Temalar",
         "ThemesDescription": "Temalar Matomo kullanıcı arayüzünün görünümü değiştirerek yeni bir görsel deneyimle istatistiklerinizin tadını çıkarmanızı sağlar.",
         "ThemesManagement": "Tema yönetimi",
-        "UninstallConfirm": "%s eklentisini kaldırmak üzeresiniz. Eklenti Matomo üzerinden tümüyle kaldırılacak ve bu işlem geri alınamayacak. İlerlemek istediğinize emin misiniz?",
+        "UninstallConfirm": "%s eklentisini kaldırmak üzeresiniz. Eklenti ve topladığı tüm veriler Matomo üzerinden tümüyle kaldırılacak ve bu işlem geri alınamayacak. İlerlemek istediğinize emin misiniz?",
         "UpdateSelected": "Seçilmişleri güncelle",
         "Version": "Sürüm",
         "ViewAllMarketplacePlugins": "Mağazadaki tüm eklentileri görüntüle",

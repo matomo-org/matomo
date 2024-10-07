@@ -60,6 +60,9 @@
           >
             <span class="icon-error" v-if="!subscription.isValid"></span>
             <span class="icon-warning" v-else-if="subscription.isExpiredSoon"></span>
+            <span class="icon-error"
+                  v-else-if="subscription.status !== '' && subscription.status !== 'Active'">
+            </span>
             <span class="icon-ok" v-else></span>
 
             {{ subscription.status }}

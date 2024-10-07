@@ -296,7 +296,15 @@ class Plugins
             }
         }
 
+        $haDownloadLink = false;
+        if (!empty($plugin['versions'])) {
+            $latestVersion = end($plugin['versions']);
+            $hasDownloadLink = !empty($latestVersion['download']);
+        }
+        $plugin['hasDownloadLink'] = $hasDownloadLink;
+
         $plugin = $this->addMissingRequirements($plugin);
+        $plugin = $this->addConsumerLicenseStatus($plugin);
 
         $plugin['isEligibleForFreeTrial'] =
             $plugin['canBePurchased']
@@ -443,5 +451,13 @@ class Plugins
         }
 
         $plugin['numDownloadsPretty'] = $nice;
+    }
+
+    private function addConsumerLicenseStatus($plugin): array
+    {
+        $consumerPluginLicenseInfo = $this->consumer->getConsumerPluginLicenseStatus();
+        $plugin['licenseStatus'] = $consumerPluginLicenseInfo[$plugin['name']] ?? '';
+
+        return $plugin;
     }
 }

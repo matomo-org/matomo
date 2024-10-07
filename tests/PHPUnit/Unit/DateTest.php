@@ -126,15 +126,14 @@ class DateTest extends \PHPUnit\Framework\TestCase
         Date::factory($valueToTest);
     }
 
-    public function getInvalidDates(): array
+    public function getInvalidDates(): iterable
     {
-        return [
-            ['0001-01-01'],
-            ['randomString'],
-            [null],
-            [''],
-            [['arrayValue']],
-        ];
+        yield 'valid format, earliest possible date' => ['0001-01-01'];
+        yield 'valid format, day before first website creation' => ['1991-08-05'];
+        yield 'ivalid string value' => ['randomString'];
+        yield 'empty string value' => [''];
+        yield 'null value' => [null];
+        yield 'array value' => [['arrayValue']];
     }
 
     public function getTimezoneOffsets()

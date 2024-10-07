@@ -1,5 +1,10 @@
 {
     "UserId": {
-        "UserReportTitle": "Lietotāji"
+        "PluginDescription": "Rāda lietotāja ziņojumus",
+        "ThereIsNoDataForThisReportHelp": "%1$sLai uzzinātu, kā ģenerēt datus šim ziņojumam, izlasiet lietotāja rokasgrāmatu.%2$s",
+        "UserId": "Lietotāja Id",
+        "UserReportDocumentation": "Rāda apmeklējumus un citus vispārīgus rādījumus katram lietotāja ID.",
+        "UserReportTitle": "Lietotāji",
+        "VisitorsUserSubcategoryHelp": "Lietotāja ID ziņojums parāda apmeklējumus, kas saistīti ar visiem reģistrētajiem un pieslēgtajiem lietotājiem. Izprotiet konkrēto lietotāju vietnes lietojumu un uzziniet, kuri ir jūsu aktīvākie un mazāk aktīvie lietotāji."
     }
 }

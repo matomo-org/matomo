@@ -198,6 +198,802 @@
         "loginUrl": "https:\/\/shop.piwik.org\/my-account"
       },
       "category": "matomo"
+    },
+    {
+      "name": "PaidPlugin2",
+      "displayName": "Paid Plugin 2",
+      "owner": "TestVendor",
+      "description": "Clears all temporary cache files",
+      "homepage": "https:\/\/github.com\/JohnDeery\/piwik-clearcache-plugin",
+      "createdDateTime": "2014-12-23 01:18:01",
+      "donate": {},
+      "support": [
+        {
+          "name": "Documentation",
+          "key": "docs",
+          "value": "https:\/\/PaidPlugin2.org\/docs\/",
+          "type": "url"
+        },
+        {
+          "name": "Wiki",
+          "key": "wiki",
+          "value": "https:\/\/github.com\/PaidPlugin2\/piwik\/wiki",
+          "type": "url"
+        },
+        {
+          "name": "Forum",
+          "key": "forum",
+          "value": "https:\/\/forum.PaidPlugin2.org",
+          "type": "url"
+        },
+        {
+          "name": "Email",
+          "key": "email",
+          "value": "PaidPlugin2@example.com",
+          "type": "email"
+        },
+        {
+          "name": "IRC",
+          "key": "irc",
+          "value": "irc:\/\/freenode\/PaidPlugin2",
+          "type": "text"
+        },
+        {
+          "name": "Issues \/ Bugs",
+          "key": "issues",
+          "value": "https:\/\/github.com\/PaidPlugin2\/piwik\/issues",
+          "type": "url"
+        },
+        {
+          "name": "Source",
+          "key": "source",
+          "value": "https:\/\/github.com\/PaidPlugin2\/piwik\/",
+          "type": "url"
+        },
+        {
+          "name": "RSS",
+          "key": "rss",
+          "value": "https:\/\/PaidPlugin2.org\/feed\/",
+          "type": "url"
+        }
+      ],
+      "isTheme": false,
+      "keywords": [
+        "cache",
+        "delete",
+        "tmp"
+      ],
+      "basePrice": 100,
+      "authors": [
+        {
+          "name": "John Deery",
+          "email": "test3@example.com",
+          "homepage": "http:\/\/fractalice.com"
+        }
+      ],
+      "repositoryUrl": "https:\/\/github.com\/TestVendor\/PaidPlugin2",
+      "lastUpdated": "2014-12-23 01:18:20",
+      "latestVersion": "1.1",
+      "numDownloads": null,
+      "screenshots": [],
+      "coverImage": "https:\/\/plugins.piwik.org\/img\/categories\/matomo.png",
+      "previews": [
+        {
+          "type": "demo",
+          "provider": "link",
+          "url": "https:\/\/demo.PaidPlugin2.com"
+        }
+      ],
+      "activity": {
+        "numCommits": null,
+        "numContributors": null,
+        "lastCommitDate": null
+      },
+      "featured": false,
+      "isFree": false,
+      "isPaid": true,
+      "isCustomPlugin": false,
+      "shop": {
+        "url": "https:\/\/plugins.piwik.org\/PaidPlugin2",
+        "variations": [
+          {
+            "price": "150",
+            "prettyPrice": "150\u20ac",
+            "currency": "EUR",
+            "period": "year",
+            "name": "Up to 4 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin2?add-to-cart=s&currency=EUR",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin2?attribute_type=Up+to+4+users&add-to-cart=0&variation_id=372&aelia_cs_currency=EUR"
+          },
+          {
+            "price": "175",
+            "prettyPrice": "$175",
+            "currency": "USD",
+            "period": "year",
+            "name": "Up to 4 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin2?add-to-cart=s&currency=USD",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin2?attribute_type=Up+to+4+users&add-to-cart=0&variation_id=372&aelia_cs_currency=USD"
+          },
+          {
+            "price": "300",
+            "prettyPrice": "300\u20ac",
+            "currency": "EUR",
+            "period": "year",
+            "name": "5 to 15 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin2?add-to-cart=m&currency=EUR",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin2?attribute_type=5+to+15+users&add-to-cart=0&variation_id=373&aelia_cs_currency=EUR"
+          },
+          {
+            "price": "345",
+            "prettyPrice": "$345",
+            "currency": "USD",
+            "period": "year",
+            "name": "5 to 15 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin2?add-to-cart=m&currency=USD",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin2?attribute_type=5+to+15+users&add-to-cart=0&variation_id=373&aelia_cs_currency=USD"
+          },
+          {
+            "price": "600",
+            "prettyPrice": "600\u20ac",
+            "currency": "EUR",
+            "period": "year",
+            "name": "Unlimited users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin2?add-to-cart=l&currency=EUR",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin2?attribute_type=Unlimited+users&add-to-cart=0&variation_id=374&aelia_cs_currency=EUR"
+          },
+          {
+            "price": "690",
+            "prettyPrice": "$690",
+            "currency": "USD",
+            "period": "year",
+            "name": "Unlimited users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin2?add-to-cart=l&currency=USD",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin2?attribute_type=Unlimited+users&add-to-cart=0&variation_id=374&aelia_cs_currency=USD"
+          }
+        ],
+        "reviews": {
+          "embedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin2?show_reviews=1&piwik_embed=1",
+          "height": 200
+        }
+      },
+      "versions": [
+        {
+          "name": "1.1",
+          "release": "2014-12-23 01:18:20",
+          "requires": {
+            "piwik": ">=2.0.0,<6.0.0-b1",
+            "php": ">=5.3.0"
+          },
+          "numDownloads": null,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": null,
+          "readmeHtml": {
+            "description": "\n\n<p>This plugin will clear out the tmp dir of Piwik. Useful for when you are developing other plugins or just need to kill that file and can't get to your installation to delete it normally<\/p>\n\n",
+            "faq": "",
+            "documentation": "",
+            "changelog": "<p>~2014~<\/p>\n\n<p>2014-02-21 - Update some more code, added in notification area but it's not quite working yet (TODO - make it work)<\/p>\n\n<p>2014-02-21 - Rebranded to cacheBuster and set version to 1.0, updated code to use a better check for directory seperator<\/p>\n\n<p>2014-02-20 - v2.0\n    - Updated plugin to work with Piwik 2.0.3<\/p>\n\n<p>~2013~\n    Inital creation of plugin at http:\/\/www.spherexx.com under the name ClearCache<\/p>"
+          },
+          "download": null
+        }
+      ],
+      "isDownloadable": true,
+      "changelog": {
+        "url": ""
+      },
+      "consumer": {
+        "license": {
+          "startDate": "2016-05-21 04:46:05",
+          "endDate": "2029-05-27 11:03:06",
+          "nextPaymentDate": null,
+          "status": "Pending",
+          "productType": "Up to 4 users",
+          "isValid": true,
+          "isExceeded": null,
+          "isExpiredSoon": false
+        },
+        "loginUrl": "https:\/\/shop.piwik.org\/my-account"
+      },
+      "category": "matomo"
+    },
+    {
+      "name": "PaidPlugin3",
+      "displayName": "Paid Plugin 3",
+      "owner": "TestVendor",
+      "description": "Clears all temporary cache files",
+      "homepage": "https:\/\/github.com\/JohnDeery\/piwik-clearcache-plugin",
+      "createdDateTime": "2014-12-23 01:18:01",
+      "donate": {},
+      "support": [
+        {
+          "name": "Documentation",
+          "key": "docs",
+          "value": "https:\/\/PaidPlugin3.org\/docs\/",
+          "type": "url"
+        },
+        {
+          "name": "Wiki",
+          "key": "wiki",
+          "value": "https:\/\/github.com\/PaidPlugin3\/piwik\/wiki",
+          "type": "url"
+        },
+        {
+          "name": "Forum",
+          "key": "forum",
+          "value": "https:\/\/forum.PaidPlugin3.org",
+          "type": "url"
+        },
+        {
+          "name": "Email",
+          "key": "email",
+          "value": "PaidPlugin3@example.com",
+          "type": "email"
+        },
+        {
+          "name": "IRC",
+          "key": "irc",
+          "value": "irc:\/\/freenode\/PaidPlugin3",
+          "type": "text"
+        },
+        {
+          "name": "Issues \/ Bugs",
+          "key": "issues",
+          "value": "https:\/\/github.com\/PaidPlugin3\/piwik\/issues",
+          "type": "url"
+        },
+        {
+          "name": "Source",
+          "key": "source",
+          "value": "https:\/\/github.com\/PaidPlugin3\/piwik\/",
+          "type": "url"
+        },
+        {
+          "name": "RSS",
+          "key": "rss",
+          "value": "https:\/\/PaidPlugin3.org\/feed\/",
+          "type": "url"
+        }
+      ],
+      "isTheme": false,
+      "keywords": [
+        "cache",
+        "delete",
+        "tmp"
+      ],
+      "basePrice": 100,
+      "authors": [
+        {
+          "name": "John Deery",
+          "email": "test3@example.com",
+          "homepage": "http:\/\/fractalice.com"
+        }
+      ],
+      "repositoryUrl": "https:\/\/github.com\/TestVendor\/PaidPlugin3",
+      "lastUpdated": "2014-12-23 01:18:20",
+      "latestVersion": "1.1",
+      "numDownloads": null,
+      "screenshots": [],
+      "coverImage": "https:\/\/plugins.piwik.org\/img\/categories\/matomo.png",
+      "previews": [
+        {
+          "type": "demo",
+          "provider": "link",
+          "url": "https:\/\/demo.PaidPlugin3.com"
+        }
+      ],
+      "activity": {
+        "numCommits": null,
+        "numContributors": null,
+        "lastCommitDate": null
+      },
+      "featured": false,
+      "isFree": false,
+      "isPaid": true,
+      "isCustomPlugin": false,
+      "shop": {
+        "url": "https:\/\/plugins.piwik.org\/PaidPlugin3",
+        "variations": [
+          {
+            "price": "150",
+            "prettyPrice": "150\u20ac",
+            "currency": "EUR",
+            "period": "year",
+            "name": "Up to 4 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin3?add-to-cart=s&currency=EUR",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin3?attribute_type=Up+to+4+users&add-to-cart=0&variation_id=372&aelia_cs_currency=EUR"
+          },
+          {
+            "price": "175",
+            "prettyPrice": "$175",
+            "currency": "USD",
+            "period": "year",
+            "name": "Up to 4 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin3?add-to-cart=s&currency=USD",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin3?attribute_type=Up+to+4+users&add-to-cart=0&variation_id=372&aelia_cs_currency=USD"
+          },
+          {
+            "price": "300",
+            "prettyPrice": "300\u20ac",
+            "currency": "EUR",
+            "period": "year",
+            "name": "5 to 15 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin3?add-to-cart=m&currency=EUR",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin3?attribute_type=5+to+15+users&add-to-cart=0&variation_id=373&aelia_cs_currency=EUR"
+          },
+          {
+            "price": "345",
+            "prettyPrice": "$345",
+            "currency": "USD",
+            "period": "year",
+            "name": "5 to 15 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin3?add-to-cart=m&currency=USD",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin3?attribute_type=5+to+15+users&add-to-cart=0&variation_id=373&aelia_cs_currency=USD"
+          },
+          {
+            "price": "600",
+            "prettyPrice": "600\u20ac",
+            "currency": "EUR",
+            "period": "year",
+            "name": "Unlimited users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin3?add-to-cart=l&currency=EUR",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin3?attribute_type=Unlimited+users&add-to-cart=0&variation_id=374&aelia_cs_currency=EUR"
+          },
+          {
+            "price": "690",
+            "prettyPrice": "$690",
+            "currency": "USD",
+            "period": "year",
+            "name": "Unlimited users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin3?add-to-cart=l&currency=USD",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin3?attribute_type=Unlimited+users&add-to-cart=0&variation_id=374&aelia_cs_currency=USD"
+          }
+        ],
+        "reviews": {
+          "embedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin3?show_reviews=1&piwik_embed=1",
+          "height": 200
+        }
+      },
+      "versions": [
+        {
+          "name": "1.1",
+          "release": "2014-12-23 01:18:20",
+          "requires": {
+            "piwik": ">=2.0.0,<6.0.0-b1",
+            "php": ">=5.3.0"
+          },
+          "numDownloads": null,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": null,
+          "readmeHtml": {
+            "description": "\n\n<p>This plugin will clear out the tmp dir of Piwik. Useful for when you are developing other plugins or just need to kill that file and can't get to your installation to delete it normally<\/p>\n\n",
+            "faq": "",
+            "documentation": "",
+            "changelog": "<p>~2014~<\/p>\n\n<p>2014-02-21 - Update some more code, added in notification area but it's not quite working yet (TODO - make it work)<\/p>\n\n<p>2014-02-21 - Rebranded to cacheBuster and set version to 1.0, updated code to use a better check for directory seperator<\/p>\n\n<p>2014-02-20 - v2.0\n    - Updated plugin to work with Piwik 2.0.3<\/p>\n\n<p>~2013~\n    Inital creation of plugin at http:\/\/www.spherexx.com under the name ClearCache<\/p>"
+          },
+          "download": "\/api\/2.0\/plugins\/PaidPlugin3\/download\/1.1"
+        }
+      ],
+      "isDownloadable": true,
+      "changelog": {
+        "url": ""
+      },
+      "consumer": {
+        "license": {
+          "startDate": "2016-05-21 04:46:05",
+          "endDate": "2029-05-27 11:03:06",
+          "nextPaymentDate": null,
+          "status": "Cancelled",
+          "productType": "Up to 4 users",
+          "isValid": true,
+          "isExceeded": null,
+          "isExpiredSoon": false
+        },
+        "loginUrl": "https:\/\/shop.piwik.org\/my-account"
+      },
+      "category": "matomo"
+    },
+    {
+      "name": "PaidPlugin4",
+      "displayName": "Paid Plugin 4",
+      "owner": "TestVendor",
+      "description": "Clears all temporary cache files",
+      "homepage": "https:\/\/github.com\/JohnDeery\/piwik-clearcache-plugin",
+      "createdDateTime": "2014-12-23 01:18:01",
+      "donate": {},
+      "support": [
+        {
+          "name": "Documentation",
+          "key": "docs",
+          "value": "https:\/\/PaidPlugin4.org\/docs\/",
+          "type": "url"
+        },
+        {
+          "name": "Wiki",
+          "key": "wiki",
+          "value": "https:\/\/github.com\/PaidPlugin4\/piwik\/wiki",
+          "type": "url"
+        },
+        {
+          "name": "Forum",
+          "key": "forum",
+          "value": "https:\/\/forum.PaidPlugin4.org",
+          "type": "url"
+        },
+        {
+          "name": "Email",
+          "key": "email",
+          "value": "PaidPlugin4@example.com",
+          "type": "email"
+        },
+        {
+          "name": "IRC",
+          "key": "irc",
+          "value": "irc:\/\/freenode\/PaidPlugin4",
+          "type": "text"
+        },
+        {
+          "name": "Issues \/ Bugs",
+          "key": "issues",
+          "value": "https:\/\/github.com\/PaidPlugin4\/piwik\/issues",
+          "type": "url"
+        },
+        {
+          "name": "Source",
+          "key": "source",
+          "value": "https:\/\/github.com\/PaidPlugin4\/piwik\/",
+          "type": "url"
+        },
+        {
+          "name": "RSS",
+          "key": "rss",
+          "value": "https:\/\/PaidPlugin4.org\/feed\/",
+          "type": "url"
+        }
+      ],
+      "isTheme": false,
+      "keywords": [
+        "cache",
+        "delete",
+        "tmp"
+      ],
+      "basePrice": 100,
+      "authors": [
+        {
+          "name": "John Deery",
+          "email": "test3@example.com",
+          "homepage": "http:\/\/fractalice.com"
+        }
+      ],
+      "repositoryUrl": "https:\/\/github.com\/TestVendor\/PaidPlugin4",
+      "lastUpdated": "2014-12-23 01:18:20",
+      "latestVersion": "1.1",
+      "numDownloads": null,
+      "screenshots": [],
+      "coverImage": "https:\/\/plugins.piwik.org\/img\/categories\/matomo.png",
+      "previews": [
+        {
+          "type": "demo",
+          "provider": "link",
+          "url": "https:\/\/demo.PaidPlugin4.com"
+        }
+      ],
+      "activity": {
+        "numCommits": null,
+        "numContributors": null,
+        "lastCommitDate": null
+      },
+      "featured": false,
+      "isFree": false,
+      "isPaid": true,
+      "isCustomPlugin": false,
+      "shop": {
+        "url": "https:\/\/plugins.piwik.org\/PaidPlugin4",
+        "variations": [
+          {
+            "price": "150",
+            "prettyPrice": "150\u20ac",
+            "currency": "EUR",
+            "period": "year",
+            "name": "Up to 4 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin4?add-to-cart=s&currency=EUR",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin4?attribute_type=Up+to+4+users&add-to-cart=0&variation_id=372&aelia_cs_currency=EUR"
+          },
+          {
+            "price": "175",
+            "prettyPrice": "$175",
+            "currency": "USD",
+            "period": "year",
+            "name": "Up to 4 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin4?add-to-cart=s&currency=USD",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin4?attribute_type=Up+to+4+users&add-to-cart=0&variation_id=372&aelia_cs_currency=USD"
+          },
+          {
+            "price": "300",
+            "prettyPrice": "300\u20ac",
+            "currency": "EUR",
+            "period": "year",
+            "name": "5 to 15 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin4?add-to-cart=m&currency=EUR",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin4?attribute_type=5+to+15+users&add-to-cart=0&variation_id=373&aelia_cs_currency=EUR"
+          },
+          {
+            "price": "345",
+            "prettyPrice": "$345",
+            "currency": "USD",
+            "period": "year",
+            "name": "5 to 15 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin4?add-to-cart=m&currency=USD",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin4?attribute_type=5+to+15+users&add-to-cart=0&variation_id=373&aelia_cs_currency=USD"
+          },
+          {
+            "price": "600",
+            "prettyPrice": "600\u20ac",
+            "currency": "EUR",
+            "period": "year",
+            "name": "Unlimited users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin4?add-to-cart=l&currency=EUR",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin4?attribute_type=Unlimited+users&add-to-cart=0&variation_id=374&aelia_cs_currency=EUR"
+          },
+          {
+            "price": "690",
+            "prettyPrice": "$690",
+            "currency": "USD",
+            "period": "year",
+            "name": "Unlimited users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin4?add-to-cart=l&currency=USD",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin4?attribute_type=Unlimited+users&add-to-cart=0&variation_id=374&aelia_cs_currency=USD"
+          }
+        ],
+        "reviews": {
+          "embedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin4?show_reviews=1&piwik_embed=1",
+          "height": 200
+        }
+      },
+      "versions": [
+        {
+          "name": "1.1",
+          "release": "2014-12-23 01:18:20",
+          "requires": {
+            "piwik": ">=2.0.0,<6.0.0-b1",
+            "php": ">=5.3.0"
+          },
+          "numDownloads": null,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": null,
+          "readmeHtml": {
+            "description": "\n\n<p>This plugin will clear out the tmp dir of Piwik. Useful for when you are developing other plugins or just need to kill that file and can't get to your installation to delete it normally<\/p>\n\n",
+            "faq": "",
+            "documentation": "",
+            "changelog": "<p>~2014~<\/p>\n\n<p>2014-02-21 - Update some more code, added in notification area but it's not quite working yet (TODO - make it work)<\/p>\n\n<p>2014-02-21 - Rebranded to cacheBuster and set version to 1.0, updated code to use a better check for directory seperator<\/p>\n\n<p>2014-02-20 - v2.0\n    - Updated plugin to work with Piwik 2.0.3<\/p>\n\n<p>~2013~\n    Inital creation of plugin at http:\/\/www.spherexx.com under the name ClearCache<\/p>"
+          },
+          "download": null
+        }
+      ],
+      "isDownloadable": true,
+      "changelog": {
+        "url": ""
+      },
+      "consumer": {
+        "license": {
+          "startDate": "2016-05-21 04:46:05",
+          "endDate": "2029-05-27 11:03:06",
+          "nextPaymentDate": null,
+          "status": "Active",
+          "productType": "Up to 4 users",
+          "isValid": true,
+          "isExceeded": null,
+          "isExpiredSoon": false
+        },
+        "loginUrl": "https:\/\/shop.piwik.org\/my-account"
+      },
+      "category": "matomo"
+    },
+    {
+      "name": "PaidPlugin5",
+      "displayName": "Paid Plugin 5",
+      "owner": "TestVendor",
+      "description": "Clears all temporary cache files",
+      "homepage": "https:\/\/github.com\/JohnDeery\/piwik-clearcache-plugin",
+      "createdDateTime": "2014-12-23 01:18:01",
+      "donate": {},
+      "support": [
+        {
+          "name": "Documentation",
+          "key": "docs",
+          "value": "https:\/\/PaidPlugin5.org\/docs\/",
+          "type": "url"
+        },
+        {
+          "name": "Wiki",
+          "key": "wiki",
+          "value": "https:\/\/github.com\/PaidPlugin5\/piwik\/wiki",
+          "type": "url"
+        },
+        {
+          "name": "Forum",
+          "key": "forum",
+          "value": "https:\/\/forum.PaidPlugin5.org",
+          "type": "url"
+        },
+        {
+          "name": "Email",
+          "key": "email",
+          "value": "PaidPlugin5@example.com",
+          "type": "email"
+        },
+        {
+          "name": "IRC",
+          "key": "irc",
+          "value": "irc:\/\/freenode\/PaidPlugin5",
+          "type": "text"
+        },
+        {
+          "name": "Issues \/ Bugs",
+          "key": "issues",
+          "value": "https:\/\/github.com\/PaidPlugin5\/piwik\/issues",
+          "type": "url"
+        },
+        {
+          "name": "Source",
+          "key": "source",
+          "value": "https:\/\/github.com\/PaidPlugin5\/piwik\/",
+          "type": "url"
+        },
+        {
+          "name": "RSS",
+          "key": "rss",
+          "value": "https:\/\/PaidPlugin5.org\/feed\/",
+          "type": "url"
+        }
+      ],
+      "isTheme": false,
+      "keywords": [
+        "cache",
+        "delete",
+        "tmp"
+      ],
+      "basePrice": 100,
+      "authors": [
+        {
+          "name": "John Deery",
+          "email": "test3@example.com",
+          "homepage": "http:\/\/fractalice.com"
+        }
+      ],
+      "repositoryUrl": "https:\/\/github.com\/TestVendor\/PaidPlugin5",
+      "lastUpdated": "2014-12-23 01:18:20",
+      "latestVersion": "1.1",
+      "numDownloads": null,
+      "screenshots": [],
+      "coverImage": "https:\/\/plugins.piwik.org\/img\/categories\/matomo.png",
+      "previews": [
+        {
+          "type": "demo",
+          "provider": "link",
+          "url": "https:\/\/demo.PaidPlugin5.com"
+        }
+      ],
+      "activity": {
+        "numCommits": null,
+        "numContributors": null,
+        "lastCommitDate": null
+      },
+      "featured": false,
+      "isFree": false,
+      "isPaid": true,
+      "isCustomPlugin": false,
+      "shop": {
+        "url": "https:\/\/plugins.piwik.org\/PaidPlugin5",
+        "variations": [
+          {
+            "price": "150",
+            "prettyPrice": "150\u20ac",
+            "currency": "EUR",
+            "period": "year",
+            "name": "Up to 4 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin5?add-to-cart=s&currency=EUR",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin5?attribute_type=Up+to+4+users&add-to-cart=0&variation_id=372&aelia_cs_currency=EUR"
+          },
+          {
+            "price": "175",
+            "prettyPrice": "$175",
+            "currency": "USD",
+            "period": "year",
+            "name": "Up to 4 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin5?add-to-cart=s&currency=USD",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin5?attribute_type=Up+to+4+users&add-to-cart=0&variation_id=372&aelia_cs_currency=USD"
+          },
+          {
+            "price": "300",
+            "prettyPrice": "300\u20ac",
+            "currency": "EUR",
+            "period": "year",
+            "name": "5 to 15 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin5?add-to-cart=m&currency=EUR",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin5?attribute_type=5+to+15+users&add-to-cart=0&variation_id=373&aelia_cs_currency=EUR"
+          },
+          {
+            "price": "345",
+            "prettyPrice": "$345",
+            "currency": "USD",
+            "period": "year",
+            "name": "5 to 15 users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin5?add-to-cart=m&currency=USD",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin5?attribute_type=5+to+15+users&add-to-cart=0&variation_id=373&aelia_cs_currency=USD"
+          },
+          {
+            "price": "600",
+            "prettyPrice": "600\u20ac",
+            "currency": "EUR",
+            "period": "year",
+            "name": "Unlimited users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin5?add-to-cart=l&currency=EUR",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin5?attribute_type=Unlimited+users&add-to-cart=0&variation_id=374&aelia_cs_currency=EUR"
+          },
+          {
+            "price": "690",
+            "prettyPrice": "$690",
+            "currency": "USD",
+            "period": "year",
+            "name": "Unlimited users",
+            "addToCartUrl": "https:\/\/plugins.piwik.org\/PaidPlugin5?add-to-cart=l&currency=USD",
+            "addToCartEmbedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin5?attribute_type=Unlimited+users&add-to-cart=0&variation_id=374&aelia_cs_currency=USD"
+          }
+        ],
+        "reviews": {
+          "embedUrl": "http:\/\/myshop.piwik\/product\/PaidPlugin5?show_reviews=1&piwik_embed=1",
+          "height": 200
+        }
+      },
+      "versions": [
+        {
+          "name": "1.1",
+          "release": "2014-12-23 01:18:20",
+          "requires": {
+            "piwik": ">=2.0.0,<6.0.0-b1",
+            "php": ">=5.3.0"
+          },
+          "numDownloads": null,
+          "license": {
+            "name": "GPLv3+",
+            "url": ""
+          },
+          "repositoryChangelogUrl": null,
+          "readmeHtml": {
+            "description": "\n\n<p>This plugin will clear out the tmp dir of Piwik. Useful for when you are developing other plugins or just need to kill that file and can't get to your installation to delete it normally<\/p>\n\n",
+            "faq": "",
+            "documentation": "",
+            "changelog": "<p>~2014~<\/p>\n\n<p>2014-02-21 - Update some more code, added in notification area but it's not quite working yet (TODO - make it work)<\/p>\n\n<p>2014-02-21 - Rebranded to cacheBuster and set version to 1.0, updated code to use a better check for directory seperator<\/p>\n\n<p>2014-02-20 - v2.0\n    - Updated plugin to work with Piwik 2.0.3<\/p>\n\n<p>~2013~\n    Inital creation of plugin at http:\/\/www.spherexx.com under the name ClearCache<\/p>"
+          },
+          "download": "\/api\/2.0\/plugins\/PaidPlugin5\/download\/1.1"
+        }
+      ],
+      "isDownloadable": true,
+      "changelog": {
+        "url": ""
+      },
+      "consumer": {
+        "license": {
+          "startDate": "2016-05-21 04:46:05",
+          "endDate": "2029-05-27 11:03:06",
+          "nextPaymentDate": null,
+          "status": "Active",
+          "productType": "Up to 4 users",
+          "isValid": true,
+          "isExceeded": null,
+          "isExpiredSoon": false
+        },
+        "loginUrl": "https:\/\/shop.piwik.org\/my-account"
+      },
+      "category": "matomo"
     }
   ]
 }

@@ -83,6 +83,8 @@ export interface PluginDetails {
   priceFrom: IPluginShopVariation;
   coverImage: string;
   numDownloadsPretty: TNumberOrString;
+  hasDownloadLink: boolean;
+  licenseStatus: string;
 }
 
 declare global {

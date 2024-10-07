@@ -1,8 +1,13 @@
 {
     "SitesManager": {
+        "AddMeasurable": "Pievienot jaunu izpētāmo vietni",
         "AddSite": "Pievienot jaunu vietni",
+        "AdvancedTimezoneSupportNotFound": "Jūsu PHP netika atrasts papildu laika joslu atbalsts (tiek atbalstīts PHP&gt;=5.2). Joprojām var izvēlēties manuālu UTC nobīdi.",
+        "AliasUrlHelp": "Ir ieteicams (bet nav nepieciešams) norādīt dažādus URL, pa vienam katrā rindā, kurus apmeklētāji izmanto, lai piekļūtu šai tīmekļa vietnei. Šie URL netiks rādīti ziņojumā Nosūtītāji → Tīmekļa vietnes. Ņemiet vērā, ka nav nepieciešams norādīt URL ar un bez “www”, jo Matomo automātiski ņem vērā abus.",
+        "ChangingYourTimezoneWillOnlyAffectDataForward": "Jūsu laika zonas maiņa ietekmēs tikai turpmākos datus un netiks piemērota atpakaļgaitā.",
         "Currency": "Valūta",
         "CurrencySymbolWillBeUsedForGoals": "Valūtas simbols tiks norādīts blakus mērķu ienākumiem.",
+        "CustomizeJavaScriptTracker": "Pielāgot JavaScript izsekošanu",
         "DefaultCurrencyForNewWebsites": "Noklusētā valūta jaunām vietnēm",
         "DefaultTimezoneForNewWebsites": "Noklusētā laika zona jaunām vietnēm",
         "DeleteConfirm": "Vai tiešām vēlaties dzēst vietni %s?",

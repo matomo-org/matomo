@@ -22,6 +22,11 @@ class Consumer
     private $consumer = false;
     private $isValid = null;
 
+    /**
+     * @var array
+     */
+    private $pluginLicenseStatus = null;
+
     public function __construct(Api\Client $marketplaceClient)
     {
         $this->marketplaceClient = $marketplaceClient;
@@ -64,5 +69,20 @@ class Consumer
         }
 
         return $this->isValid;
+    }
+
+    public function getConsumerPluginLicenseStatus(): array
+    {
+        if ($this->pluginLicenseStatus === null) {
+            $consumer = $this->getConsumer();
+            $this->pluginLicenseStatus = [];
+            if (!empty($consumer['licenses'])) {
+                foreach ($consumer['licenses'] as $license) {
+                    $this->pluginLicenseStatus[$license['plugin']['name']] = $license['status'];
+                }
+            }
+        }
+
+        return $this->pluginLicenseStatus;
     }
 }

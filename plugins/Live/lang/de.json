@@ -45,7 +45,7 @@
         "RowActionTooltipDefault": "Zeigt das Besucher-Log segmentiert nach dieser Zeile",
         "RowActionTooltipTitle": "Segmentiertes Besucher-Log öffnen",
         "RowActionTooltipWithDimension": "Besucher-Log segmentiert mit %s zeigen",
-        "SegmentedVisitorLogTitle": "Besucher-Log mit Besuchen, bei denen %1$s\"%2$s\" ist",
+        "SegmentedVisitorLogTitle": "Besucher-Log mit Besuchen, bei denen %1$s \"%2$s\" ist",
         "ShowMap": "Karte einblenden",
         "SimpleRealTimeWidget_Message": "%1$s und %2$s in den letzten %3$s",
         "ToggleActions": "Sichtbarkeit aller Aktionen umschalten",
