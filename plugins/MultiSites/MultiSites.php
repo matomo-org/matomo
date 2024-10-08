@@ -38,6 +38,7 @@ class MultiSites extends \Piwik\Plugin
             'visits_evolution'    => Piwik::translate('General_ColumnNbVisits') . $appendix,
             'actions_evolution'   => Piwik::translate('General_ColumnNbActions') . $appendix,
             'pageviews_evolution' => Piwik::translate('General_ColumnPageviews') . $appendix,
+            'hits_evolution' => Piwik::translate('General_ColumnHits') . $appendix,
             'revenue_evolution'   => Piwik::translate('General_ColumnRevenue') . $appendix,
             'nb_conversions_evolution' => Piwik::translate('Goals_ColumnConversions') . $appendix,
             'orders_evolution'         => Piwik::translate('General_EcommerceOrders') . $appendix,

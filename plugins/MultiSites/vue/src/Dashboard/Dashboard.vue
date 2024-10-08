@@ -77,6 +77,22 @@
             <span class="heading">{{ translate('General_ColumnPageviews') }}</span>
           </th>
           <th
+            id="hits"
+            class="multisites-column"
+            @click="sortBy('nb_hits')"
+            :class="{columnSorted: 'nb_hits' === sortColumn}"
+          >
+            <span
+              class="arrow"
+              :class="{
+                multisites_asc: !reverse && 'nb_hits' === sortColumn,
+                multisites_desc: reverse && 'nb_hits' === sortColumn,
+              }"
+              style="margin-right: 3.5px"
+            />
+            <span class="heading">{{ translate('General_ColumnHits') }}</span>
+          </th>
+          <th
             id="revenue"
             class="multisites-column"
             v-if="displayRevenueColumn"
@@ -120,6 +136,9 @@
               <option value="visits_evolution">{{ translate('General_ColumnNbVisits') }}</option>
               <option value="pageviews_evolution">
                 {{ translate('General_ColumnPageviews') }}
+              </option>
+              <option value="hits_evolution">
+                {{ translate('General_ColumnHits') }}
               </option>
               <option
                 value="revenue_evolution"
