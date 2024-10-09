@@ -51,7 +51,7 @@ class ConsoleCommand extends SymfonyCommand
      * @param string|string[] $messages
      * @return void
      */
-    public function writeSuccessMessage(string|array $messages): void
+    public function writeSuccessMessage($messages): void
     {
         if (is_string($messages)) {
             $messages = [$messages];
