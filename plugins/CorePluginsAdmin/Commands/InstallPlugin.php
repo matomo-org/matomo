@@ -9,18 +9,19 @@
 
 namespace Piwik\Plugins\CorePluginsAdmin\Commands;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\Marketplace\Plugins;
+use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 use Piwik\Plugins\Marketplace\Marketplace;
-use Piwik\Container\StaticContainer;
+use Piwik\Plugins\Marketplace\Plugins;
 
 /**
  * plugin:install console command.
  */
 class InstallPlugin extends ConsoleCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('plugin:install');
         $this->setDescription('Install a plugin.');
@@ -46,29 +47,40 @@ class InstallPlugin extends ConsoleCommand
                     $output->writeln(sprintf("<error>Marketplace is not enabled, can't install plugins.</error>"));
                     return self::FAILURE;
                 }
+
                 try {
-                    $this->fetchPluginJson($pluginName, $output);
+                    $this->fetchPluginJson($pluginName);
                 } catch (\Piwik\Plugins\Marketplace\Api\Exception $e) {
-                    $output->writeln(sprintf("<error>Requested plugin does not exist.</error>"));
+                    $output->writeln(sprintf("<error>%s</error>", $e->getMessage()));
+                    continue;
+                    // Catch the unnamed core/Http.php(751) exception if no connection:
+                    // curl_exec: Could not resolve host: plugins.matomo.org. Hostname requested was: plugins.matomo.org
+                } catch (\Exception $e) {
+                    $output->writeln(sprintf("<error>%s</error>", $e->getMessage()));
+                    continue;
+                }
+
+                if ($this->hasMissingDependencies($pluginName, $pluginManager)) {
+                    $output->writeln(sprintf('<error>The plugin %s is not compatible with the current Matomo version.</error>', $pluginName));
                     continue;
                 }
             }
-
-            $plugin = $pluginManager->loadPlugin($pluginName);
-
-            if ($plugin->hasMissingDependencies()) {
-                $output->writeln(sprintf('<error>The plugin %s is not compatible with the current Matomo version.</error>', $pluginName));
+            try {
+                $this->installPlugin($pluginName);
+                $output->writeln(sprintf("Installed plugin <info>%s</info>", $pluginName));
+            } catch (\Piwik\Plugins\CorePluginsAdmin\PluginInstallerException $e) {
+                $output->writeln(sprintf("<error>%s</error>", $e->getMessage()));
                 continue;
             }
-
-            $pluginManager->installLoadedPlugins();
-            $output->writeln("Installed plugin <info>$pluginName</info>");
         }
 
         return self::SUCCESS;
     }
 
-    private function fetchPluginJson($pluginName, $output): void
+    /**
+     * @param string $pluginName
+     */
+    private function fetchPluginJson($pluginName): void
     {
         $marketplacePlugins = StaticContainer::get(Plugins::class);
         $pluginInfo = $marketplacePlugins->getPluginInfo($pluginName);
@@ -81,5 +93,26 @@ class InstallPlugin extends ConsoleCommand
         }
 
         file_put_contents($pluginJsonPath, $pluginJson);
+    }
+
+    /**
+     * @param string $pluginName
+     * @param Piwik\Plugin\Manager $pluginManager
+     */
+    private function hasMissingDependencies($pluginName, $pluginManager): bool
+    {
+        $plugin = $pluginManager->loadPlugin($pluginName);
+
+        return $plugin->hasMissingDependencies();
+    }
+
+    /**
+     * @param string $pluginName
+     */
+    private function installPlugin($pluginName): void
+    {
+        $marketplaceClient = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Api\Client');
+        $pluginInstaller = new PluginInstaller($marketplaceClient);
+        $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
     }
 }
