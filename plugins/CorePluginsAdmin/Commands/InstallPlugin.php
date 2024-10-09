@@ -14,7 +14,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 use Piwik\Plugins\Marketplace\Marketplace;
-use Piwik\Plugins\Marketplace\Plugins;
 
 /**
  * plugin:install console command.
@@ -42,28 +41,9 @@ class InstallPlugin extends ConsoleCommand
                 continue;
             }
 
-            if (!$pluginManager->isPluginInFilesystem($pluginName)) {
-                if (!Marketplace::isMarketplaceEnabled()) {
-                    $output->writeln(sprintf("<error>Marketplace is not enabled, can't install plugins.</error>"));
-                    return self::FAILURE;
-                }
-
-                try {
-                    $this->fetchPluginJson($pluginName);
-                } catch (\Piwik\Plugins\Marketplace\Api\Exception $e) {
-                    $output->writeln(sprintf("<error>%s</error>", $e->getMessage()));
-                    continue;
-                    // Catch the unnamed core/Http.php(751) exception if no connection:
-                    // curl_exec: Could not resolve host: plugins.matomo.org. Hostname requested was: plugins.matomo.org
-                } catch (\Exception $e) {
-                    $output->writeln(sprintf("<error>%s</error>", $e->getMessage()));
-                    continue;
-                }
-
-                if ($this->hasMissingDependencies($pluginName, $pluginManager)) {
-                    $output->writeln(sprintf('<error>The plugin %s is not compatible with the current Matomo version.</error>', $pluginName));
-                    continue;
-                }
+            if (!$pluginManager->isPluginInFilesystem($pluginName) && !Marketplace::isMarketplaceEnabled()) {
+                $output->writeln(sprintf("<error>Marketplace is not enabled, can't install plugins.</error>"));
+                return self::FAILURE;
             }
             try {
                 $this->installPlugin($pluginName);
@@ -75,35 +55,6 @@ class InstallPlugin extends ConsoleCommand
         }
 
         return self::SUCCESS;
-    }
-
-    /**
-     * @param string $pluginName
-     */
-    private function fetchPluginJson($pluginName): void
-    {
-        $marketplacePlugins = StaticContainer::get(Plugins::class);
-        $pluginInfo = $marketplacePlugins->getPluginInfo($pluginName);
-        $pluginJson = json_encode((array)$pluginInfo, JSON_PRETTY_PRINT);
-        $pluginDir = PIWIK_INCLUDE_PATH . "/plugins/$pluginName";
-        $pluginJsonPath = $pluginDir . "/plugin.json";
-
-        if (!is_dir($pluginDir)) {
-            mkdir($pluginDir, 0755, true);
-        }
-
-        file_put_contents($pluginJsonPath, $pluginJson);
-    }
-
-    /**
-     * @param string $pluginName
-     * @param Piwik\Plugin\Manager $pluginManager
-     */
-    private function hasMissingDependencies($pluginName, $pluginManager): bool
-    {
-        $plugin = $pluginManager->loadPlugin($pluginName);
-
-        return $plugin->hasMissingDependencies();
     }
 
     /**
