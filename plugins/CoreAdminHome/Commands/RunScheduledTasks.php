@@ -48,7 +48,7 @@ class RunScheduledTasks extends ConsoleCommand
             $scheduler->run();
         }
 
-        $this->writeSuccessMessage(array('Scheduled Tasks executed'));
+        $this->writeSuccessMessage('Scheduled Tasks executed');
 
         return self::SUCCESS;
     }
