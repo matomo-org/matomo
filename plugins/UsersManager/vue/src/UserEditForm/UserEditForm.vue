@@ -123,18 +123,12 @@
               :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
                 || isShowingPasswordConfirm"
               v-if="currentUserRole === 'superuser' || isAdd"
-              inline-help="#invitationEmailChange"
               uicontrol="text"
               name="user_email"
               autocomplete="off"
               :maxlength="100"
               :title="translate('UsersManager_Email')"
             />
-          </div>
-          <div id="invitationEmailChange" v-show="user && isPending">
-            <Notification context="info" :noclear="true">
-              <strong v-html="$sanitize(translate('UsersManager_InviteEmailChange'))"></strong>
-            </Notification>
           </div>
           <div>
             <Field
@@ -282,6 +276,9 @@
       @confirmed="updateUser"
     >
       <h2 v-html="$sanitize(changePasswordTitle)"></h2>
+      <Notification context="info" :noclear="true" v-if="user && isPending">
+        <strong v-html="$sanitize(translate('UsersManager_InviteEmailChange'))"></strong>
+      </Notification>
     </PasswordConfirmation>
   </ContentBlock>
 </template>
