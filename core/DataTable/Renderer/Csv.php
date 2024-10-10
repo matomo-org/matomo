@@ -480,10 +480,16 @@ class Csv extends Renderer
      */
     protected function removeFirstPercentSign($value)
     {
-        $needle = '%';
-        $posPercent = strpos($value ?? '', $needle);
+        // remove all null byte chars from the beginning
+        $value = ltrim($value, "\0");
+
+        while (0 === strpos($value, '%00')) {
+            $value = ltrim(substr($value, 3), "\0");
+        }
+
+        $posPercent = strpos($value ?? '', '%');
         if ($posPercent !== false) {
-            return substr_replace($value, '', $posPercent, strlen($needle));
+            return substr_replace($value, '', $posPercent, 1);
         }
         return $value;
     }
