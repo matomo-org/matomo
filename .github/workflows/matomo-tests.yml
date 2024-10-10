@@ -47,22 +47,9 @@ jobs:
       fail-fast: ${{ inputs.is_preview == true }}
       matrix:
         type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
-        php: [ '7.2', '8.2', '8.3' ]
+        php: [ '8.4' ]
         engine: [ 'Mysql', 'Mariadb' ]
         adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
-        exclude:
-          - php: '7.2'
-            engine: 'Mariadb'
-          - php: '8.2'
-            engine: 'Mysql'
-          - php: '8.3'
-            engine: 'Mariadb'
-          - php: '7.2'
-            adapter: 'MYSQLI'
-          - php: '8.2'
-            adapter: 'MYSQLI'
-          - php: '8.3'
-            adapter: 'PDO_MYSQL'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -97,7 +84,7 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'JS'
-          php-version: '7.2'
+          php-version: '8.4'
           node-version: '12'
   Client:
     runs-on: ubuntu-20.04
@@ -136,7 +123,7 @@ jobs:
           testomatio: ${{ secrets.TESTOMATIO }}
           ui-test-options: '--num-test-groups=4 --test-group=${{ matrix.parts }}'
           test-type: 'UI'
-          php-version: '7.2'
+          php-version: '8.4'
           node-version: '16'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
