@@ -49,7 +49,7 @@ class InstallPlugin extends ConsoleCommand
                 $this->installPlugin($pluginName);
                 $output->writeln(sprintf("Installed plugin <info>%s</info>", $pluginName));
             } catch (\Piwik\Plugins\CorePluginsAdmin\PluginInstallerException $e) {
-                $output->writeln(sprintf("<error>%s</error>", $e->getMessage()));
+                $output->writeln(sprintf("<error>Unable to install plugin %s. %s</error>", $pluginName, $e->getMessage()));
                 continue;
             }
         }
