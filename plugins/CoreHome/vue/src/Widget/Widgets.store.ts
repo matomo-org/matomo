@@ -66,11 +66,9 @@ class WidgetsStore {
   }
 
   reloadAvailableWidgets(): Promise<WidgetsStore['widgets']['value']> {
-    if (typeof window.widgetsHelper === 'object' && window.widgetsHelper.availableWidgets) {
-      // lets also update widgetslist so will be easier to update list of available widgets in
-      // dashboard selector immediately
-      delete window.widgetsHelper.availableWidgets;
-    }
+    // Let's also update widgetslist so will be easier to update list of available widgets in
+    // dashboard selector immediately
+    window.widgetsHelper.clearAvailableWidgets();
 
     return this.fetchAvailableWidgets();
   }
