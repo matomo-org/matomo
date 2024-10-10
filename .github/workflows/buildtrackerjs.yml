@@ -49,7 +49,7 @@ jobs:
 
         echo "branch=$REF" >> $GITHUB_OUTPUT
       if: github.event.comment.body == 'build js'
-    - uses: actions/setup-java@v3
+    - uses: actions/setup-java@v4
       with:
         distribution: 'zulu'
         java-version: '9'
