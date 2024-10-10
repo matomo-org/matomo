@@ -146,7 +146,7 @@ jobs:
             fi
           fi
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         with:
           script: |
             github.rest.issues.createComment({
