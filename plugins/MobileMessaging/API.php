@@ -156,6 +156,17 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @return array
+     * @throws \Piwik\NoAccessException
+     */
+    public function getPhoneNumbers()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        return $this->model->getPhoneNumbers(Piwik::getCurrentUserLogin(), false);
+    }
+
+    /**
      * remove phone number
      *
      * @param string $phoneNumber

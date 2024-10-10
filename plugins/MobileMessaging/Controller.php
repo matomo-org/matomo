@@ -131,16 +131,6 @@ class Controller extends ControllerAdmin
             }
         }
         $view->countries = $countries;
-        $phoneNumbers = $model->getPhoneNumbers(Piwik::getCurrentUserLogin(), false);
-
-        uasort($phoneNumbers, function ($a, $b) {
-            if ($a['verified'] === $a['verified']) {
-                return $a['verified'] ? $a['verificationTime'] <=> $b['verificationTime'] : $a['requestTime'] <=> $b['requestTime'];
-            }
-            return $a['verified'] <=> $b['verified'];
-        });
-
-        $view->phoneNumbers = $phoneNumbers;
 
         $this->setBasicVariablesView($view);
     }
