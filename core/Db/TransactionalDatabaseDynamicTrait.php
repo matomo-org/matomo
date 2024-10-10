@@ -10,7 +10,7 @@ trait TransactionalDatabaseDynamicTrait
     {
         try {
             return $this->fetchOne('SELECT @@TX_ISOLATION');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->fetchOne('SELECT @@transaction_isolation');
         }
     }
