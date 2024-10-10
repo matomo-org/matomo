@@ -38,6 +38,7 @@
         "Settings_ValidatePhoneNumber": "Validate",
         "Settings_VerificationCodeJustSent": "We just sent an SMS to this number with a code: please enter this code above and click \"Validate\".",
         "SettingsMenu": "Mobile Messaging",
+        "ConfirmRemovePhoneNumber": "Are you sure you want to remove the phone number %1$s?",
         "SMS_Content_Too_Long": "[too long]",
         "Available_Credits": "Available credits: %1$s",
         "TopLinkTooltip": "Get Web Analytics Reports delivered to your email inbox or your mobile phone.",

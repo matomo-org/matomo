@@ -120,6 +120,22 @@
     <div id="invalidVerificationCodeAjaxError" style="display:none"></div>
     <ActivityIndicator :loading="isChangingPhoneNumber"/>
   </div>
+  <div
+    class="ui-confirm"
+    id="confirmDeletePhoneNumber"
+  >
+    <h2 v-html="$sanitize(removeNumberConfirmation)"></h2>
+    <input
+      type="button"
+      role="yes"
+      :value="translate('General_Yes')"
+    />
+    <input
+      type="button"
+      role="no"
+      :value="translate('General_No')"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -141,6 +157,7 @@ interface ManageMobilePhoneNumbersState {
   countryCallingCode: string;
   newPhoneNumber: string;
   validationCode: Record<string, string>;
+  numberToRemove: string;
 }
 
 export default defineComponent({
@@ -171,6 +188,7 @@ export default defineComponent({
       countryCallingCode: this.defaultCallingCode || '',
       newPhoneNumber: '',
       validationCode: {},
+      numberToRemove: '',
     };
   },
   methods: {
@@ -226,23 +244,33 @@ export default defineComponent({
         return;
       }
 
-      this.isChangingPhoneNumber = true;
-      AjaxHelper.post(
+      this.numberToRemove = phoneNumber;
+
+      Matomo.helper.modalConfirm(
+        '#confirmDeletePhoneNumber',
         {
-          method: 'MobileMessaging.removePhoneNumber',
+          yes: () => {
+            this.isChangingPhoneNumber = true;
+            AjaxHelper.post(
+              {
+                method: 'MobileMessaging.removePhoneNumber',
+              },
+              {
+                phoneNumber,
+              },
+              {
+                errorElement: '#invalidVerificationCodeAjaxError',
+              },
+            ).then(() => {
+              this.isChangingPhoneNumber = false;
+              Matomo.helper.redirect();
+            }).finally(() => {
+              this.isChangingPhoneNumber = false;
+              this.numberToRemove = '';
+            });
+          },
         },
-        {
-          phoneNumber,
-        },
-        {
-          errorElement: '#invalidVerificationCodeAjaxError',
-        },
-      ).then(() => {
-        this.isChangingPhoneNumber = false;
-        Matomo.helper.redirect();
-      }).finally(() => {
-        this.isChangingPhoneNumber = false;
-      });
+      );
     },
     addPhoneNumber() {
       const phoneNumber = `+${this.countryCallingCode}${this.newPhoneNumber}`;
@@ -274,6 +302,9 @@ export default defineComponent({
     },
     canAddNumber() {
       return !!this.newPhoneNumber && this.newPhoneNumber !== '';
+    },
+    removeNumberConfirmation() {
+      return translate('MobileMessaging_ConfirmRemovePhoneNumber', this.numberToRemove);
     },
   },
 });
