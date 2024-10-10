@@ -97,10 +97,7 @@ class API extends \Piwik\Plugin\API
 
         $phoneNumber = $this->sanitizePhoneNumber($phoneNumber);
 
-        $verificationCode = "";
-        for ($i = 0; $i < self::VERIFICATION_CODE_LENGTH; $i++) {
-            $verificationCode .= Common::getRandomInt(0, 9);
-        }
+        $verificationCode = Common::getRandomString(6, 'abcdefghijklmnoprstuvwxyz0123456789');
 
         $smsText = Piwik::translate(
             'MobileMessaging_VerificationText',
