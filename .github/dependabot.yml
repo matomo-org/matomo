@@ -1,0 +1,29 @@
+version: 2
+updates:       
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "[GitHub Actions] "
+    open-pull-requests-limit: 10
+    reviewers:
+      - "matomo-org/core-reviewers"
+    pull-request-branch-name:
+      separator: "-"    
+     
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+    groups:
+      all-submodules:
+        patterns:
+         - "*"
+    commit-message:
+      prefix: "[Submodules] "
+    reviewers:
+      - "matomo-org/core-reviewers"
+    pull-request-branch-name:
+      separator: "-" 
