@@ -84,13 +84,13 @@
     </div>
     <div
       class="form-group row"
-      v-for="(validated, phoneNumber, index) in phoneNumbers || []"
+      v-for="(verificationData, phoneNumber, index) in phoneNumbers || []"
       :key="index"
     >
       <div class="col s12 m6">
         <span class="phoneNumber">{{ phoneNumber }}</span>
         <input
-          v-if="!validated && !isActivated[index]"
+          v-if="!verificationData.verified && !isActivated[index]"
           type="text"
           class="verificationCode"
           v-model="validationCode[index]"
@@ -98,7 +98,7 @@
           style="margin-right:3.5px"
         />
         <SaveButton
-          v-if="!validated && !(isActivated[index])"
+          v-if="!verificationData.verified && !(isActivated[index])"
           :disabled="!validationCode[index] || isChangingPhoneNumber"
           @confirm="validateActivationCode(phoneNumber, index)"
           :value="translate('MobileMessaging_Settings_ValidatePhoneNumber')"
@@ -110,7 +110,7 @@
           style="margin-left:3.5px"
         />
       </div>
-      <div class="form-help col s12 m6" v-if="!validated && !(isActivated[index])">
+      <div class="form-help col s12 m6" v-if="!verificationData.verified && !(isActivated[index])">
         <div>
             {{ translate('MobileMessaging_Settings_VerificationCodeJustSent') }}
         </div>

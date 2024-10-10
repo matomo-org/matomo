@@ -95,9 +95,16 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $phoneNumbers = $this->model->retrievePhoneNumbers(Piwik::getCurrentUserLogin());
+        $phoneNumbers = $this->model->getPhoneNumbers(Piwik::getCurrentUserLogin(), false);
 
-        if (count(array_filter($phoneNumbers)) >= 3) {
+        $unverifiedPhoneNumbers = array_filter(
+            $phoneNumbers,
+            function ($phoneNumber) {
+                return !$phoneNumber['verified'];
+            }
+        );
+
+        if (count($unverifiedPhoneNumbers) >= 3) {
             throw new \Exception('You cannot add more than 3 unverified phone numbers!');
         }
 
@@ -116,10 +123,7 @@ class API extends \Piwik\Plugin\API
 
         $this->model->sendSMS($smsText, $phoneNumber, self::SMS_FROM);
 
-        $phoneNumbers[$phoneNumber] = $verificationCode;
-        $this->model->savePhoneNumbers(Piwik::getCurrentUserLogin(), $phoneNumbers);
-
-        $this->model->increaseCount(Piwik::getCurrentUserLogin(), MobileMessaging::PHONE_NUMBER_VALIDATION_REQUEST_COUNT_OPTION, $phoneNumber);
+        $this->model->addPhoneNumber(Piwik::getCurrentUserLogin(), $phoneNumber, $verificationCode);
 
         return true;
     }
@@ -162,9 +166,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $phoneNumbers = $this->model->retrievePhoneNumbers(Piwik::getCurrentUserLogin());
-        unset($phoneNumbers[$phoneNumber]);
-        $this->model->savePhoneNumbers(Piwik::getCurrentUserLogin(), $phoneNumbers);
+        $phoneNumbers = $this->model->removePhoneNumber(Piwik::getCurrentUserLogin(), $phoneNumber);
 
         /**
          * Triggered after a phone number has been deleted. This event should be used to clean up any data that is
@@ -186,28 +188,18 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * validate phone number
+     * Verify a phone number
      *
      * @param string $phoneNumber
      * @param string $verificationCode
      *
-     * @return bool true if validation code is correct, false otherwise
+     * @return bool true if verification was successful, false otherwise
      */
     public function validatePhoneNumber($phoneNumber, $verificationCode)
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $phoneNumbers = $this->model->retrievePhoneNumbers(Piwik::getCurrentUserLogin());
-
-        if (isset($phoneNumbers[$phoneNumber])) {
-            if ($verificationCode == $phoneNumbers[$phoneNumber]) {
-                $phoneNumbers[$phoneNumber] = null;
-                $this->model->savePhoneNumbers(Piwik::getCurrentUserLogin(), $phoneNumbers);
-                return true;
-            }
-        }
-
-        return false;
+        return $this->model->verifyPhoneNumber(Piwik::getCurrentUserLogin(), $phoneNumber, $verificationCode);
     }
 
     /**

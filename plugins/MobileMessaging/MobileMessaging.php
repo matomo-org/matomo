@@ -27,7 +27,6 @@ class MobileMessaging extends \Piwik\Plugin
     public const PROVIDER_OPTION = 'Provider';
     public const API_KEY_OPTION = 'APIKey';
     public const PHONE_NUMBERS_OPTION = 'PhoneNumbers';
-    public const PHONE_NUMBER_VALIDATION_REQUEST_COUNT_OPTION = 'PhoneNumberValidationRequestCount';
     public const SMS_SENT_COUNT_OPTION = 'SMSSentCount';
     public const DELEGATED_MANAGEMENT_OPTION_DEFAULT = 'false';
     public const USER_SETTINGS_POSTFIX_OPTION = '_MobileMessagingSettings';
