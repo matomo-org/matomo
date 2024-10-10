@@ -452,6 +452,16 @@ class Config
     }
 
     /**
+     * @throws MissingFilePermissionException If config file is not writable.
+     */
+    public function checkConfigIsWritable()
+    {
+        if (!$this->isFileWritable()) {
+            throw $this->getConfigNotWritableException();
+        }
+    }
+
+    /**
      * Convenience method for setting settings in a single section. Will set them in a new array first
      * to be compatible with certain PHP versions.
      *

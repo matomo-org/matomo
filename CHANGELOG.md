@@ -15,6 +15,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The methods `Db::isOptimizeInnoDBSupported`, `Db::optimizeTables` have been deprecated. Use `Db\Schema::getInstance()->isOptimizeInnoDBSupported` and `Db\Schema::getInstance()->optimizeTables` instead
 * The method `TransactionLevel::setUncommitted` has been deprecated. Use `TransactionLevel::setTransactionLevelForNonLockingReads` instead
 
+### New commands
+* New command `marketplace:install-or-update-plugin` lets you install or update a plugin from the Marketplace.
+
 ## Matomo 5.1.0
 
 ### Breaking Changes
