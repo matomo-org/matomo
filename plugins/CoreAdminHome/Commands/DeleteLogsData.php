@@ -100,8 +100,7 @@ class DeleteLogsData extends ConsoleCommand
             throw $ex;
         }
 
-        $this->writeSuccessMessage(array(
-            "Successfully deleted $logsDeleted visits. <comment>" . $timer . "</comment>"));
+        $this->writeSuccessMessage("Successfully deleted {$logsDeleted} visits. <comment>{$timer}</comment>");
 
         if ($input->getOption('optimize-tables')) {
             $this->optimizeTables();
@@ -203,6 +202,6 @@ class DeleteLogsData extends ConsoleCommand
             }
         }
 
-        $this->writeSuccessMessage(['Table optimization finished.']);
+        $this->writeSuccessMessage('Table optimization finished.');
     }
 }

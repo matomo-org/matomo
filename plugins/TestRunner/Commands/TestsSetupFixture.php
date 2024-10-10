@@ -189,7 +189,7 @@ class TestsSetupFixture extends ConsoleCommand
             $fixture->performSetUp();
         }
 
-        $this->writeSuccessMessage(array("Fixture successfully setup!"));
+        $this->writeSuccessMessage("Fixture successfully set up!");
 
         $sqlDumpPath = $input->getOption('sqldump');
         if ($sqlDumpPath) {
@@ -236,7 +236,7 @@ class TestsSetupFixture extends ConsoleCommand
         $output->writeln("<info>Executing $command...</info>");
         passthru($command);
 
-        $this->writeSuccessMessage(array("SQL dump created!"));
+        $this->writeSuccessMessage("SQL dump created!");
     }
 
     private function setupDatabaseOverrides(Fixture $fixture)
