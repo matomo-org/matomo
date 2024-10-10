@@ -95,6 +95,12 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsNotAnonymous();
 
+        $phoneNumbers = $this->model->retrievePhoneNumbers(Piwik::getCurrentUserLogin());
+
+        if (count(array_filter($phoneNumbers)) >= 3) {
+            throw new \Exception('You cannot add more than 3 unverified phone numbers!');
+        }
+
         $phoneNumber = $this->sanitizePhoneNumber($phoneNumber);
 
         $verificationCode = Common::getRandomString(6, 'abcdefghijklmnoprstuvwxyz0123456789');
@@ -110,7 +116,6 @@ class API extends \Piwik\Plugin\API
 
         $this->model->sendSMS($smsText, $phoneNumber, self::SMS_FROM);
 
-        $phoneNumbers = $this->model->retrievePhoneNumbers(Piwik::getCurrentUserLogin());
         $phoneNumbers[$phoneNumber] = $verificationCode;
         $this->model->savePhoneNumbers(Piwik::getCurrentUserLogin(), $phoneNumbers);
 
