@@ -50,13 +50,13 @@
                 rows = $('tr', domElem);
             }
 
-            // we don't display the link on the row with subDataTable when we are already
-            // printing all the subTables (case of recursive search when the content is
-            // including recursively all the subtables
             self.numberOfSubtables = rows.filter('.subDataTable').click(function () {
-              if (!self.param.filter_pattern_recursive) {
-                  self.onClickActionSubDataTable(this);
-              }
+                if (!self.param.filter_pattern_recursive) {
+                    // we don't display the link on the row with subDataTable when we are already
+                    // printing all the subTables (case of recursive search when the content is
+                    // including recursively all the subtables
+                    self.onClickActionSubDataTable(this);
+                }
             }).length;
             self.applyCosmetics(domElem, rows);
             self.handleColumnHighlighting(domElem);
