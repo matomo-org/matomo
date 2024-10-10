@@ -209,6 +209,14 @@ class ClientTest extends SystemTestCase
         $this->assertRegExp('/\d+\.\d+\.\d+/', $version);
     }
 
+    public function testGetDownloadUrlMissingLicense()
+    {
+        $this->expectException(\Piwik\Plugins\Marketplace\Api\Exception::class);
+        $this->expectExceptionMessage('Plugin is not downloadable');
+
+        $this->client->getDownloadUrl('FormAnalytics');
+    }
+
     public function testClientResponseShouldBeCached()
     {
         $params = array(
