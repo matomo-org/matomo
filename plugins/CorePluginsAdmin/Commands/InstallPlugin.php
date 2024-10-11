@@ -63,8 +63,7 @@ class InstallPlugin extends ConsoleCommand
      */
     private function installPlugin(string $pluginName): void
     {
-        $marketplaceClient = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Api\Client');
-        $pluginInstaller = new PluginInstaller($marketplaceClient);
+        $pluginInstaller = StaticContainer::get(PluginInstaller::class);
         $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
 
         $pluginManager = Manager::getInstance();
