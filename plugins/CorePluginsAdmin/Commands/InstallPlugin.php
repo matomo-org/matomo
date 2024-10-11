@@ -23,9 +23,9 @@ class InstallPlugin extends ConsoleCommand
 {
     protected function configure(): void
     {
-        $this->setName('plugin:install');
-        $this->setDescription('Install a plugin.');
-        $this->addOptionalArgument('plugin', 'The plugin name you want to install. Multiple plugin names can be specified separated by a space.', null, true);
+        $this->setName('plugin:install-or-update');
+        $this->setDescription('Install or update a plugin.');
+        $this->addOptionalArgument('plugin', 'The name of the plugin you want to install or update. Multiple plugin names can be specified separated by a space.', null, true);
     }
 
     protected function doExecute(): int
@@ -37,18 +37,13 @@ class InstallPlugin extends ConsoleCommand
         $pluginManager = Manager::getInstance();
 
         if (!Marketplace::isMarketplaceEnabled()) {
-            $output->writeln(sprintf("<error>Marketplace is not enabled, can't install plugins.</error>"));
+            $output->writeln(sprintf("<error>Marketplace is not enabled, can't install or update plugins.</error>"));
             return self::FAILURE;
         }
 
         $pluginNames = $input->getArgument('plugin');
 
         foreach ($pluginNames as $pluginName) {
-            if ($pluginManager->isPluginInstalled($pluginName)) {
-                $output->writeln(sprintf('<comment>The plugin %s is already installed.</comment>', $pluginName));
-                continue;
-            }
-
             try {
                 $this->installPlugin($pluginName);
                 $output->writeln(sprintf("Installed plugin <info>%s</info>", $pluginName));

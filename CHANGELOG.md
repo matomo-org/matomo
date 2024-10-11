@@ -17,7 +17,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New commands
 
-* New command `plugin:install` lets you install a plugin from the Marketplace.
+* New command `plugin:install-or-update` lets you install or update a plugin from the Marketplace.
 
 ## Matomo 5.1.0
 
