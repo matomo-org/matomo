@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CorePluginsAdmin\Commands;
 
+use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
@@ -29,6 +30,8 @@ class InstallPlugin extends ConsoleCommand
 
     protected function doExecute(): int
     {
+        PiwikConfig::getInstance()->checkConfigIsWritable();
+
         $input = $this->getInput();
         $output = $this->getOutput();
         $pluginManager = Manager::getInstance();
