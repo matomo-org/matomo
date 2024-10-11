@@ -11,6 +11,7 @@ namespace Piwik\Updates;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\Updater;
@@ -61,9 +62,9 @@ class Updates_5_2_0_b2 extends Updates
     {
         try {
             $db = Db::get();
-            $userTable = Common::prefixTable('user');
-            $userTableStatus = $db->fetchRow('SHOW TABLE STATUS WHERE Name = ?', [$userTable]);
 
+            $metadataProvider = StaticContainer::get('Piwik\Plugins\DBStats\MySQLMetadataProvider');
+            $userTableStatus = $metadataProvider->getTableStatus('user');
             if (empty($userTableStatus['Collation'])) {
                 // if there is no user table, or no collation for it, abort detection
                 // this table should always exist and something must be wrong in this case
@@ -89,7 +90,7 @@ class Updates_5_2_0_b2 extends Updates
             // sort tables so we have them in order of their date
             rsort($archiveTables);
 
-            $archiveTableStatus = $db->fetchRow('SHOW TABLE STATUS WHERE Name = ?', [$archiveTables[0]]);
+            $archiveTableStatus = $metadataProvider->getTableStatus(Common::unprefixTable($archiveTables[0]));
 
             if (
                 !empty($archiveTableStatus['Collation'])
