@@ -1,0 +1,65 @@
+name: DependaBot PRs
+
+on:
+  pull_request:
+
+permissions:
+  actions: read
+  checks: none
+  contents: write
+  deployments: none
+  issues: read
+  packages: none
+  pull-requests: write
+  repository-projects: none
+  security-events: none
+  statuses: none
+
+jobs:
+  handle_npm_update:
+    name: Handle NPM dependency updates for production packages
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    steps:
+      - name: Dependabot metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v2
+      - uses: actions/checkout@v4
+        if: ${{ steps.dependabot-metadata.outputs.package-ecosystem == 'npm_and_yarn' }}
+        with:
+          ref: ${{ github.head_ref }}
+          submodules: false
+          lfs: false
+          persist-credentials: false
+      - name: Prepare Git
+        if: ${{ steps.dependabot-metadata.outputs.package-ecosystem == 'npm_and_yarn' }}
+        run: |
+          cat <<- EOF > $HOME/.netrc
+            machine github.com
+            login innocraft-automation
+            password $CUSTOM_ACCESS_TOKEN
+          EOF
+          chmod 600 $HOME/.netrc
+
+          git config --global user.email "innocraft-automation@users.noreply.github.com"
+          git config --global user.name "innocraft-automation"
+          git remote set-url origin https://x-access-token:${{ secrets.CUSTOM_ACCESS_TOKEN }}@github.com/$GITHUB_REPOSITORY
+
+          git remote add upstream https://github.com/${GITHUB_REPOSITORY}.git
+      - name: Install npm dependencies
+        if: ${{ steps.dependabot-metadata.outputs.package-ecosystem == 'npm_and_yarn' }}
+        run: npm install --omit=dev
+      - name: Push changes if needed
+        if: ${{ steps.dependabot-metadata.outputs.package-ecosystem == 'npm_and_yarn' }}
+        run: |
+          changes=( $(git diff node_modules) )
+
+          # abort here if no change available
+          if [[ ${#changes[@]} -eq 0 ]]
+          then
+              exit 0
+          fi
+          git add ./node_modules
+          git commit -m "Update npm dependencies"
+          git push --set-upstream origin ${{ github.head_ref }}
+        shell: bash
