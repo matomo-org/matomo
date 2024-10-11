@@ -33,10 +33,10 @@ class InstallPlugin extends ConsoleCommand
         $output = $this->getOutput();
         $pluginManager = Manager::getInstance();
 
-		if (!Marketplace::isMarketplaceEnabled()) {
-			$output->writeln(sprintf("<error>Marketplace is not enabled, can't install plugins.</error>"));
-			return self::FAILURE;
-		}
+        if (!Marketplace::isMarketplaceEnabled()) {
+            $output->writeln(sprintf("<error>Marketplace is not enabled, can't install plugins.</error>"));
+            return self::FAILURE;
+        }
 
         $pluginNames = $input->getArgument('plugin');
 
@@ -68,7 +68,7 @@ class InstallPlugin extends ConsoleCommand
         $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
 
         $pluginManager = Manager::getInstance();
-		$pluginManager->loadPlugin($pluginName);
-		$pluginManager->installLoadedPlugins();
+        $pluginManager->loadPlugin($pluginName);
+        $pluginManager->installLoadedPlugins();
     }
 }

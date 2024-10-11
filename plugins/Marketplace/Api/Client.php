@@ -321,9 +321,9 @@ class Client
     {
         $plugin = $this->getPluginInfo($pluginOrThemeName);
 
-		if (empty($plugin['isDownloadable'])) {
-			throw new Exception('Plugin is not downloadable. License may be missing or expired.');
-		}
+        if (empty($plugin['isDownloadable'])) {
+            throw new Exception('Plugin is not downloadable. License may be missing or expired.');
+        }
 
         if (empty($plugin['versions'])) {
             throw new Exception('Plugin has no versions.');
