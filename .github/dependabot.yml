@@ -1,5 +1,5 @@
 version: 2
-updates:       
+updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -10,8 +10,8 @@ updates:
     reviewers:
       - "matomo-org/core-reviewers"
     pull-request-branch-name:
-      separator: "-"    
-     
+      separator: "-"
+
   - package-ecosystem: "gitsubmodule"
     directory: "/"
     schedule:
@@ -27,3 +27,25 @@ updates:
       - "matomo-org/core-reviewers"
     pull-request-branch-name:
       separator: "-" 
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+    labels:
+      - "dependencies"
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "[NPM] "
+    reviewers:
+      - "sgiehl"
+    pull-request-branch-name:
+      separator: "-"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
+    versioning-strategy: lockfile-only
