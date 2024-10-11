@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\MobileMessaging;
 
+use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
 
@@ -108,7 +109,7 @@ class Model
         }
 
         // unset verification code if it's older than 10 minutes
-        if ($phoneNumbers[$phoneNumber]['requestTime'] < time() - 600) {
+        if ($phoneNumbers[$phoneNumber]['requestTime'] < Date::getNowTimestamp() - 600) {
             $phoneNumbers[$phoneNumber]['verificationCode'] = null;
         } elseif ($phoneNumbers[$phoneNumber]['verificationCode'] !== $verificationCode) {
             // failed attempt: increase verification tries
@@ -123,7 +124,7 @@ class Model
             $phoneNumbers[$phoneNumber]['verificationTries'] = 0;
             $phoneNumbers[$phoneNumber]['verificationCode'] = null;
             $phoneNumbers[$phoneNumber]['verified'] = true;
-            $phoneNumbers[$phoneNumber]['verificationTime'] = time();
+            $phoneNumbers[$phoneNumber]['verificationTime'] = Date::getNowTimestamp();
         }
 
         $this->savePhoneNumbers($login, $phoneNumbers);
@@ -148,7 +149,7 @@ class Model
             'verificationCode' => $verificationCode,
             'verificationTries' => 0,
             'verificationTime' => null,
-            'requestTime' => time(),
+            'requestTime' => Date::getNowTimestamp(),
         ];
 
         $this->savePhoneNumbers($login, $phoneNumbers);
@@ -287,7 +288,7 @@ class Model
                     'verificationCode' => $verificationData,
                     'verificationTime' => null,
                     'verificationTries' => 0,
-                    'requestTime' => time(),
+                    'requestTime' => Date::getNowTimestamp(),
                 ];
             } elseif (null === $verificationData) {
                 $verificationData = [
@@ -295,7 +296,7 @@ class Model
                     'verificationCode' => null,
                     'verificationTime' => null,
                     'verificationTries' => 0,
-                    'requestTime' => time(),
+                    'requestTime' => Date::getNowTimestamp(),
                 ];
             }
         }

@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\MobileMessaging\tests\Integration;
 
+use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
@@ -192,13 +193,102 @@ class MobileMessagingTest extends IntegrationTestCase
         );
     }
 
+    /**
+     * @dataProvider getInvalidPhoneNumbers
+     */
+    public function testPhoneNumberIsValidated(string $phoneNumber)
+    {
+        self::expectException(\Exception::class);
+
+        $mobileMessagingAPI = APIMobileMessaging::getInstance();
+        $model = new Model();
+        $mobileMessagingAPI->setSMSAPICredential('StubbedProvider', []);
+        $mobileMessagingAPI->addPhoneNumber($phoneNumber);
+    }
+
+    public function getInvalidPhoneNumbers(): iterable
+    {
+        yield "not starting with +" => [
+            "123456789"
+        ];
+
+        yield "shorter than 5 numbers" => [
+            "+4526"
+        ];
+
+        yield "longer than 15 numbers" => [
+            "+4526512345678905"
+        ];
+
+        yield "invalid characters" => [
+            "+452d89#05"
+        ];
+    }
+
     public function testPhoneNumberIsSanitized()
     {
         $mobileMessagingAPI = APIMobileMessaging::getInstance();
         $model = new Model();
         $mobileMessagingAPI->setSMSAPICredential('StubbedProvider', []);
-        $mobileMessagingAPI->addPhoneNumber('+6  76 93 26 47');
+        $mobileMessagingAPI->addPhoneNumber('+6  (76) 93 26 47');
         $this->assertEquals('+676932647', key($model->getPhoneNumbers(Piwik::getCurrentUserLogin(), false)));
+    }
+
+    public function testResendVerificationCodeDoesNotWorkWithin60Seconds()
+    {
+        self::expectException(\Exception::class);
+
+        $mobileMessagingAPI = APIMobileMessaging::getInstance();
+        $model = new Model();
+        $mobileMessagingAPI->setSMSAPICredential('StubbedProvider', []);
+        $mobileMessagingAPI->addPhoneNumber('+1234567895');
+
+        Date::$now = time() - 60;
+        $mobileMessagingAPI->resendVerificationCode('+1234567895');
+
+        Date::$now = time() - 58;
+        $mobileMessagingAPI->resendVerificationCode('+1234567895');
+    }
+
+    public function testResendVerificationCodeWorksAgainAfter60Seconds()
+    {
+        self::expectException(\Exception::class);
+
+        $mobileMessagingAPI = APIMobileMessaging::getInstance();
+        $model = new Model();
+        $mobileMessagingAPI->setSMSAPICredential('StubbedProvider', []);
+        $mobileMessagingAPI->addPhoneNumber('+1234567895');
+
+        Date::$now = time() - 62;
+        $mobileMessagingAPI->resendVerificationCode('+1234567895');
+
+        Date::$now = time();
+        $mobileMessagingAPI->resendVerificationCode('+1234567895');
+    }
+
+    public function testAdding3UnverifiedNumbersWorks()
+    {
+        self::expectNotToPerformAssertions();
+
+        $mobileMessagingAPI = APIMobileMessaging::getInstance();
+        $model = new Model();
+        $mobileMessagingAPI->setSMSAPICredential('StubbedProvider', []);
+        $mobileMessagingAPI->addPhoneNumber('+1234567895');
+        $mobileMessagingAPI->addPhoneNumber('+2345678890');
+        $mobileMessagingAPI->addPhoneNumber('+2345678901');
+    }
+
+    public function testAddingMoreThan3UnverifiedNumbersDoesNotWork()
+    {
+        self::expectException(\Exception::class);
+
+        $mobileMessagingAPI = APIMobileMessaging::getInstance();
+        $model = new Model();
+        $mobileMessagingAPI->setSMSAPICredential('StubbedProvider', []);
+        $mobileMessagingAPI->addPhoneNumber('+1234567895');
+        $mobileMessagingAPI->addPhoneNumber('+2345678890');
+        $mobileMessagingAPI->addPhoneNumber('+2345678901');
+        $mobileMessagingAPI->addPhoneNumber('+3456789012');
     }
 
     /**
