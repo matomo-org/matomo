@@ -274,7 +274,7 @@ class API extends \Piwik\Plugin\API
      * @param bool $delegatedManagement false if SMS API credential only manageable by super admin, true otherwise
      * @return void
      */
-    public function setDelegatedManagement($delegatedManagement): void
+    public function setDelegatedManagement(bool $delegatedManagement): void
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->model->setDelegatedManagement($delegatedManagement);

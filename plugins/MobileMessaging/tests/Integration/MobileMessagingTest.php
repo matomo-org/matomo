@@ -196,9 +196,9 @@ class MobileMessagingTest extends IntegrationTestCase
     {
         $mobileMessagingAPI = APIMobileMessaging::getInstance();
         $model = new Model();
-        $mobileMessagingAPI->setSMSAPICredential('StubbedProvider', '');
-        $mobileMessagingAPI->addPhoneNumber('  6  76 93 26 47');
-        $this->assertEquals('676932647', key($model->getPhoneNumbers(Piwik::getCurrentUserLogin(), false)));
+        $mobileMessagingAPI->setSMSAPICredential('StubbedProvider', []);
+        $mobileMessagingAPI->addPhoneNumber('+6  76 93 26 47');
+        $this->assertEquals('+676932647', key($model->getPhoneNumbers(Piwik::getCurrentUserLogin(), false)));
     }
 
     /**
