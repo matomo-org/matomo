@@ -71,6 +71,19 @@ class Model
             });
         }
 
+        // Sort numbers. Unverified numbers first, then sorted by verification or request time
+        uasort($phoneNumbers, function ($a, $b) {
+            if ($a['verified'] === $b['verified']) {
+                if ($a['verified']) {
+                    return $b['verificationTime'] <=> $a['verificationTime'];
+                }
+
+                return $b['requestTime'] <=> $a['requestTime'];
+            }
+
+            return $a['verified'] <=> $b['verified'];
+        });
+
         return $phoneNumbers;
     }
 
@@ -219,7 +232,7 @@ class Model
     public function getDelegatedManagement(): bool
     {
         $option = Option::get(MobileMessaging::DELEGATED_MANAGEMENT_OPTION);
-        return $option === 'true';
+        return true === $option || 'true' === $option || 1 === $option;
     }
 
     public function setDelegatedManagement($delegatedManagement): void
@@ -235,7 +248,7 @@ class Model
         );
     }
 
-    private function getCredentialManagerLogin()
+    private function getCredentialManagerLogin(): string
     {
         return $this->getDelegatedManagement() ? Piwik::getCurrentUserLogin() : '';
     }

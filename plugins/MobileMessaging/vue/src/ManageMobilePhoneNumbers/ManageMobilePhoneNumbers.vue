@@ -77,7 +77,8 @@
         {{ strHelpAddPhone }}
       </div>
     </div>
-    <div id="ajaxErrorAddPhoneNumber" />
+    <div id="ajaxErrorManagePhoneNumber" ref="errorContainer"></div>
+    <div id="notificationManagePhoneNumber"></div>
     <div class="row" v-if="Object.keys(phoneNumbers || {}).length > 0">
       <h3 class="col s12">{{ translate('MobileMessaging_Settings_ManagePhoneNumbers') }}</h3>
     </div>
@@ -113,11 +114,13 @@
       <div class="form-help col s12 m6" v-if="!verificationData.verified">
         <div>
             {{ translate('MobileMessaging_Settings_VerificationCodeJustSent') }}
+            <a @click="resendVerificationCode(phoneNumber, index)">
+              {{ translate('MobileMessaging_Settings_ResendVerification') }}
+            </a>
         </div>
         &nbsp;
       </div>
     </div>
-    <div id="invalidVerificationCodeAjaxError" style="display:none"></div>
   </div>
   <div
     class="ui-confirm"
@@ -199,6 +202,7 @@ export default defineComponent({
       const verificationCode = this.validationCode[index];
 
       this.isUpdatingPhoneNumbers = true;
+      this.clearNotifcationsAndErrorsContainer();
       AjaxHelper.post(
         {
           method: 'MobileMessaging.validatePhoneNumber',
@@ -208,7 +212,7 @@ export default defineComponent({
           verificationCode,
         },
         {
-          errorElement: '#invalidVerificationCodeAjaxError',
+          errorElement: '#ajaxErrorManagePhoneNumber',
         },
       ).then((response) => {
         let notificationInstanceId;
@@ -216,6 +220,7 @@ export default defineComponent({
           const message = translate('MobileMessaging_Settings_InvalidActivationCode');
           notificationInstanceId = NotificationsStore.show({
             message,
+            placeat: '#notificationManagePhoneNumber',
             context: 'error',
             id: 'MobileMessaging_ValidatePhoneNumber',
             type: 'transient',
@@ -224,6 +229,7 @@ export default defineComponent({
           const message = translate('MobileMessaging_Settings_PhoneActivated');
           notificationInstanceId = NotificationsStore.show({
             message,
+            placeat: '#notificationManagePhoneNumber',
             context: 'success',
             id: 'MobileMessaging_ValidatePhoneNumber',
             type: 'transient',
@@ -232,6 +238,36 @@ export default defineComponent({
         }
 
         NotificationsStore.scrollToNotification(notificationInstanceId);
+      }).finally(() => {
+        this.validationCode[index] = '';
+        this.isUpdatingPhoneNumbers = false;
+      });
+    },
+    resendVerificationCode(phoneNumber: string) {
+      this.isUpdatingPhoneNumbers = true;
+      this.clearNotifcationsAndErrorsContainer();
+      AjaxHelper.post(
+        {
+          method: 'MobileMessaging.resendVerificationCode',
+        },
+        {
+          phoneNumber,
+        },
+        {
+          errorElement: '#ajaxErrorManagePhoneNumber',
+        },
+      ).then(() => {
+        const message = translate('MobileMessaging_Settings_NewVerificationCodeSent');
+        const notificationInstanceId = NotificationsStore.show({
+          message,
+          placeat: '#notificationManagePhoneNumber',
+          context: 'success',
+          id: 'MobileMessaging_ValidatePhoneNumber',
+          type: 'transient',
+        });
+
+        NotificationsStore.scrollToNotification(notificationInstanceId);
+        this.updatePhoneNumbers();
       }).finally(() => {
         this.isUpdatingPhoneNumbers = false;
       });
@@ -255,6 +291,7 @@ export default defineComponent({
       }
 
       this.numberToRemove = phoneNumber;
+      this.clearNotifcationsAndErrorsContainer();
 
       Matomo.helper.modalConfirm(
         '#confirmDeletePhoneNumber',
@@ -269,7 +306,7 @@ export default defineComponent({
                 phoneNumber,
               },
               {
-                errorElement: '#invalidVerificationCodeAjaxError',
+                errorElement: '#ajaxErrorManagePhoneNumber',
               },
             ).then(() => {
               this.updatePhoneNumbers();
@@ -286,6 +323,7 @@ export default defineComponent({
 
       if (this.canAddNumber && phoneNumber.length > 1) {
         this.isUpdatingPhoneNumbers = true;
+        this.clearNotifcationsAndErrorsContainer();
         AjaxHelper.post(
           {
             method: 'MobileMessaging.addPhoneNumber',
@@ -294,7 +332,7 @@ export default defineComponent({
             phoneNumber,
           },
           {
-            errorElement: '#ajaxErrorAddPhoneNumber',
+            errorElement: '#ajaxErrorManagePhoneNumber',
           },
         ).then(() => {
           this.updatePhoneNumbers();
@@ -304,6 +342,10 @@ export default defineComponent({
           this.isUpdatingPhoneNumbers = false;
         });
       }
+    },
+    clearNotifcationsAndErrorsContainer() {
+      (this.$refs.errorContainer as HTMLElement).innerHTML = '';
+      NotificationsStore.remove('MobileMessaging_ValidatePhoneNumber');
     },
   },
   computed: {

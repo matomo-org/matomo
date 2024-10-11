@@ -127,6 +127,8 @@ class MobileMessaging extends \Piwik\Plugin
         $translationKeys[] = 'MobileMessaging_Settings_SuspiciousPhoneNumber';
         $translationKeys[] = 'MobileMessaging_SettingsMenu';
         $translationKeys[] = 'MobileMessaging_ConfirmRemovePhoneNumber';
+        $translationKeys[] = 'MobileMessaging_Settings_ResendVerification';
+        $translationKeys[] = 'MobileMessaging_Settings_NewVerificationCodeSent';
         $translationKeys[] = 'General_Yes';
         $translationKeys[] = 'General_No';
     }

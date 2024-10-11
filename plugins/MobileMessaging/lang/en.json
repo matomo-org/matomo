@@ -37,6 +37,8 @@
         "Settings_UpdateOrDeleteAccount": "You can also %1$supdate%2$s or %3$sdelete%4$s this account.",
         "Settings_ValidatePhoneNumber": "Validate",
         "Settings_VerificationCodeJustSent": "We just sent an SMS to this number with a code: please enter this code above and click \"Validate\".",
+        "Settings_ResendVerification": "Resend verification code",
+        "Settings_NewVerificationCodeSent": "A new verification code has been sent.",
         "SettingsMenu": "Mobile Messaging",
         "ConfirmRemovePhoneNumber": "Are you sure you want to remove the phone number %1$s?",
         "SMS_Content_Too_Long": "[too long]",
