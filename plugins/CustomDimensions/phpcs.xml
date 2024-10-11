@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<ruleset name="customDimensions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+
+    <description>Matomo Coding Standard for CustomDimensions plugin</description>
+
+    <arg name="extensions" value="php" />
+
+    <file>.</file>
+
+    <exclude-pattern>tests/javascript/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+
+    <rule ref="Matomo"></rule>
+
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="250" />
+        </properties>
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+
+    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
+        <!-- Classnames for our update files don't match PascalCase, this can't be changed easily -->
+        <exclude-pattern>Updates/*</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
+        <!-- Allow using method name without camel caps in tests as long as some methods are named test_* -->
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">
+        <!-- Allow using multiple classes in one file for tests -->
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+</ruleset>
