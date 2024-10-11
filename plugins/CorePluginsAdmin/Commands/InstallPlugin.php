@@ -20,8 +20,6 @@ use Piwik\Plugins\Marketplace\Marketplace;
  */
 class InstallPlugin extends ConsoleCommand
 {
-	private $pluginManager;
-
     protected function configure(): void
     {
         $this->setName('plugin:install');
@@ -33,7 +31,7 @@ class InstallPlugin extends ConsoleCommand
     {
         $input = $this->getInput();
         $output = $this->getOutput();
-        $this->pluginManager = Manager::getInstance();
+        $pluginManager = Manager::getInstance();
 
 		if (!Marketplace::isMarketplaceEnabled()) {
 			$output->writeln(sprintf("<error>Marketplace is not enabled, can't install plugins.</error>"));
@@ -43,13 +41,13 @@ class InstallPlugin extends ConsoleCommand
         $pluginNames = $input->getArgument('plugin');
 
         foreach ($pluginNames as $pluginName) {
-            if ($this->pluginManager->isPluginInstalled($pluginName)) {
+            if ($pluginManager->isPluginInstalled($pluginName)) {
                 $output->writeln(sprintf('<comment>The plugin %s is already installed.</comment>', $pluginName));
                 continue;
             }
 
             try {
-                $this->installPlugin($pluginName);
+                $this->installPlugin($pluginName, $pluginManager);
                 $output->writeln(sprintf("Installed plugin <info>%s</info>", $pluginName));
             } catch (\Piwik\Plugins\CorePluginsAdmin\PluginInstallerException $e) {
                 $output->writeln(sprintf("<error>Unable to install plugin %s. %s</error>", $pluginName, $e->getMessage()));
@@ -62,14 +60,14 @@ class InstallPlugin extends ConsoleCommand
 
     /**
      * @param string $pluginName
+	 * @param \Piwik\Plugin\Manager $pluginManager
      */
-    private function installPlugin(string $pluginName): void
+    private function installPlugin(string $pluginName, Manager $pluginManager): void
     {
         $marketplaceClient = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Api\Client');
         $pluginInstaller = new PluginInstaller($marketplaceClient);
         $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
-
-		$this->pluginManager->loadPlugin($pluginName);
-		$this->pluginManager->installLoadedPlugins();
+		$pluginManager->loadPlugin($pluginName);
+		$pluginManager->installLoadedPlugins();
     }
 }
