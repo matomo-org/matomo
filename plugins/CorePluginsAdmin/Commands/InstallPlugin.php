@@ -47,7 +47,7 @@ class InstallPlugin extends ConsoleCommand
             }
 
             try {
-                $this->installPlugin($pluginName, $pluginManager);
+                $this->installPlugin($pluginName);
                 $output->writeln(sprintf("Installed plugin <info>%s</info>", $pluginName));
             } catch (\Piwik\Plugins\CorePluginsAdmin\PluginInstallerException $e) {
                 $output->writeln(sprintf("<error>Unable to install plugin %s. %s</error>", $pluginName, $e->getMessage()));
@@ -60,13 +60,14 @@ class InstallPlugin extends ConsoleCommand
 
     /**
      * @param string $pluginName
-	 * @param \Piwik\Plugin\Manager $pluginManager
      */
-    private function installPlugin(string $pluginName, Manager $pluginManager): void
+    private function installPlugin(string $pluginName): void
     {
         $marketplaceClient = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Api\Client');
         $pluginInstaller = new PluginInstaller($marketplaceClient);
         $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
+
+        $pluginManager = Manager::getInstance();
 		$pluginManager->loadPlugin($pluginName);
 		$pluginManager->installLoadedPlugins();
     }
