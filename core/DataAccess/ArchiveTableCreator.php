@@ -98,6 +98,44 @@ class ArchiveTableCreator
         return $archiveTables;
     }
 
+    /**
+     * Returns the latest table name archive_*.
+     * If no type is specified, blob table is returned when both blob and numeric are found for the same year_month.
+     *
+     * @param string|null $type The type of archive table to return. Either `self::NUMERIC_TABLE` or `self::BLOB_TABLE`.
+     * @param bool   $forceReload
+     * @return string|null
+     */
+    public static function getLatestArchiveTableInstalled(?string $type = null, bool $forceReload = false): ?string
+    {
+        $archiveTables = static::getTablesArchivesInstalled($type, $forceReload);
+
+        // skip if there is no archive table (yet)
+        if (0 === count($archiveTables)) {
+            return null;
+        }
+
+        // sort tables so we have them in descending order of their date
+        rsort($archiveTables);
+
+        // if we have a type, we can rely on name ordering, otherwise we need to extract the year_month and compare
+        if ($type) {
+            return $archiveTables[0];
+        } else {
+            $latestDate = '0_00';
+            $latestTable = null;
+            foreach ($archiveTables as $archiveTable) {
+                $tableDate = static::getDateFromTableName($archiveTable);
+                if ($tableDate > $latestDate) {
+                    $latestDate = $tableDate;
+                    $latestTable = $archiveTable;
+                }
+            }
+
+            return $latestTable;
+        }
+    }
+
     public static function getDateFromTableName($tableName)
     {
         $tableName = Common::unprefixTable($tableName);
