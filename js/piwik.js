@@ -2349,6 +2349,9 @@ if (typeof window.Matomo !== 'object') {
                 // Whether to use "Secure" cookies that only work over SSL
                 configCookieIsSecure = false,
 
+                 // Set Partitioned attribute for cookies
+                configCookieIsPartitioned = false,
+
                 // Set SameSite attribute for cookies
                 configCookieSameSite = 'Lax',
 
@@ -2520,7 +2523,7 @@ if (typeof window.Matomo !== 'object') {
             /*
              * Set cookie value
              */
-            function setCookie(cookieName, value, msToExpire, path, domain, isSecure, sameSite) {
+            function setCookie(cookieName, value, msToExpire, path, domain, isSecure, sameSite, isPartitioned) {
                 if (configCookiesDisabled && cookieName !== CONSENT_REMOVED_COOKIE_NAME) {
                     return;
                 }
@@ -2542,6 +2545,7 @@ if (typeof window.Matomo !== 'object') {
                     ';path=' + (path || '/') +
                     (domain ? ';domain=' + domain : '') +
                     (isSecure ? ';secure' : '') +
+                    (isPartitioned ? ';partitioned' : '') +
                     ';SameSite=' + sameSite;
 
                 // check the cookie was actually set
@@ -3340,7 +3344,7 @@ if (typeof window.Matomo !== 'object') {
 
                 // for IE we want to actually set the cookie to avoid trigger a warning eg in IE see #11507
                 var testCookieName = configCookieNamePrefix + 'testcookie';
-                setCookie(testCookieName, '1', undefined, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+                setCookie(testCookieName, '1', undefined, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite, configCookieIsPartitioned);
 
                 var hasCookie = getCookie(testCookieName) === '1' ? '1' : '0';
                 deleteCookie(testCookieName);
@@ -3664,7 +3668,7 @@ if (typeof window.Matomo !== 'object') {
                 var cookieValue = visitorIdCookieValues.uuid + '.' +
                     visitorIdCookieValues.createTs + '.';
 
-                setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+                setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite, configCookieIsPartitioned);
             }
 
             /*
@@ -3705,7 +3709,7 @@ if (typeof window.Matomo !== 'object') {
             {
                 var testCookieName = configCookieNamePrefix + 'testcookie_domain';
                 var valueToSet = 'testvalue';
-                setCookie(testCookieName, valueToSet, 10000, null, domainToTest, configCookieIsSecure, configCookieSameSite);
+                setCookie(testCookieName, valueToSet, 10000, null, domainToTest, configCookieIsSecure, configCookieSameSite, configCookieIsPartitioned);
 
                 if (getCookie(testCookieName) === valueToSet) {
                     deleteCookie(testCookieName, null, domainToTest);
@@ -3769,7 +3773,7 @@ if (typeof window.Matomo !== 'object') {
              * Creates the session cookie
              */
             function setSessionCookie() {
-                setCookie(getCookieName('ses'), '1', configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+                setCookie(getCookieName('ses'), '1', configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite, configCookieIsPartitioned);
             }
 
             function generateUniqueId() {
@@ -3971,7 +3975,7 @@ if (typeof window.Matomo !== 'object') {
                             purify(referralUrl.slice(0, referralUrlMaxLength))
                         ];
 
-                        setCookie(cookieReferrerName, windowAlias.JSON.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+                        setCookie(cookieReferrerName, windowAlias.JSON.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite, configCookieIsPartitioned);
                     }
                 }
 
@@ -4125,7 +4129,7 @@ if (typeof window.Matomo !== 'object') {
                     }
 
                     if (configStoreCustomVariablesInCookie) {
-                        setCookie(cookieCustomVariablesName, windowAlias.JSON.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+                        setCookie(cookieCustomVariablesName, windowAlias.JSON.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite, configCookieIsPartitioned);
                     }
                 }
 
@@ -6197,7 +6201,7 @@ if (typeof window.Matomo !== 'object') {
 
                 configCookiesToDelete.push(cookieName);
 
-                setCookie(getCookieName(cookieName), cookieValue, msToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+                setCookie(getCookieName(cookieName), cookieValue, msToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite, configCookieIsPartitioned);
             };
 
             /**
@@ -6300,6 +6304,27 @@ if (typeof window.Matomo !== 'object') {
                 }
                 configCookieIsSecure = enable;
             };
+
+            /**
+             * Enable the Partitioned cookie flag on all first party cookies.
+             * This should be used when your website is only available under HTTPS
+             * so that all tracking cookies are always sent over secure connection.
+             *
+             * Warning: If your site is available under http and https,
+             * setting this might lead to duplicate or incomplete visits.
+             *
+             * @param {boolean} enable
+             */
+            this.setPartitionedCookie = function (enable) {
+              if(enable && location.protocol !== 'https:') {
+                  logConsoleError("Error in setPartitionedCookie: You cannot use `Secure` on http.");
+                  return;
+              }
+              if (location.protocol === 'https:') {
+                  this.setSecureCookie(true);
+              }
+              configCookieIsPartitioned = enable;
+          };
 
             /**
              * Set the SameSite attribute for cookies to a custom value.
@@ -6454,7 +6479,7 @@ if (typeof window.Matomo !== 'object') {
                 }
                 this.setCookieConsentGiven();
                 var now = new Date().getTime();
-                setCookie(COOKIE_CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+                setCookie(COOKIE_CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite, configCookieIsPartitioned);
             };
 
             /**
@@ -7373,7 +7398,7 @@ if (typeof window.Matomo !== 'object') {
                 // cookies should be automatically enabled or not.
                 this.setConsentGiven(setCookieConsent);
                 var now = new Date().getTime();
-                setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+                setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite, configCookieIsPartitioned);
             };
 
             /**
@@ -7395,7 +7420,7 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
-                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite, configCookieIsPartitioned);
                 this.forgetCookieConsentGiven();
                 this.requireConsent();
             };
