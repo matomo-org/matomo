@@ -16,7 +16,7 @@ use Piwik\Tracker\Action;
 class OsVersion extends Base
 {
     protected $columnName = 'config_os_version';
-    protected $columnType = 'VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL';
+    protected $columnType = 'VARCHAR( 100 ) NULL DEFAULT NULL';
     protected $nameSingular = 'DevicesDetection_ColumnOperatingSystemVersion';
     protected $namePlural = 'DevicesDetection_OperatingSystemVersions';
     protected $segmentName = 'operatingSystemVersion';
