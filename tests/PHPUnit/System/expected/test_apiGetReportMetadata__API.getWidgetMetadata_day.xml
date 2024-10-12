@@ -1419,7 +1419,7 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
-		<name>Overview</name>
+		<name>Ecommerce Overview</name>
 		<category>
 			<name>Ecommerce</name>
 			<order>20</order>
