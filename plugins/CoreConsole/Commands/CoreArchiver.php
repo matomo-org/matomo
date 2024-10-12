@@ -15,6 +15,26 @@ use Piwik\Site;
 
 class CoreArchiver extends ConsoleCommand
 {
+    /**
+     * @var CronArchive|null
+     */
+    private $archiver = null;
+
+    public function getSystemSignalsToHandle(): array
+    {
+        return [\SIGINT, \SIGTERM];
+    }
+
+    public function handleSystemSignal(int $signal): void
+    {
+        if (null === $this->archiver) {
+            // archiving has not yet started, stop immediately
+            exit;
+        }
+
+        $this->archiver->handleSignal($signal);
+    }
+
     protected function configure()
     {
         $this->configureArchiveCommand($this);
@@ -30,8 +50,8 @@ class CoreArchiver extends ConsoleCommand
             $output->writeln('<comment>' . $message . '</comment>');
         }
 
-        $archiver = $this->makeArchiver($input->getOption('url'));
-        $archiver->main();
+        $this->archiver = $this->makeArchiver($input->getOption('url'));
+        $this->archiver->main();
 
         return self::SUCCESS;
     }

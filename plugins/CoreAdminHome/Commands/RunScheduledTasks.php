@@ -11,11 +11,45 @@ namespace Piwik\Plugins\CoreAdminHome\Commands;
 
 use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
+use Piwik\Log\LoggerInterface;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Scheduler\Scheduler;
 
 class RunScheduledTasks extends ConsoleCommand
 {
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @var Scheduler|null
+     */
+    private $scheduler = null;
+
+    public function __construct(LoggerInterface $logger = null)
+    {
+        parent::__construct();
+
+        $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
+    }
+
+    public function getSystemSignalsToHandle(): array
+    {
+        return [\SIGINT, \SIGTERM];
+    }
+
+    public function handleSystemSignal(int $signal): void
+    {
+        if (null === $this->scheduler) {
+            // scheduled tasks have not yet started, stop immediately
+            exit;
+        }
+
+        $this->logger->info('Received system signal to stop scheduled tasks: ' . $signal);
+        $this->scheduler->handleSignal($signal);
+    }
+
     protected function configure()
     {
         $this->setName('scheduled-tasks:run');
@@ -37,15 +71,14 @@ class RunScheduledTasks extends ConsoleCommand
         FrontController::getInstance()->init();
 
         // TODO use dependency injection
-        /** @var Scheduler $scheduler */
-        $scheduler = StaticContainer::get('Piwik\Scheduler\Scheduler');
+        $this->scheduler = StaticContainer::get(Scheduler::class);
 
         $task = $input->getArgument('task');
 
         if ($task) {
-            $this->runSingleTask($scheduler, $task);
+            $this->runSingleTask($this->scheduler, $task);
         } else {
-            $scheduler->run();
+            $this->scheduler->run();
         }
 
         $this->writeSuccessMessage('Scheduled Tasks executed');
