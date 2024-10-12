@@ -128,7 +128,7 @@ class Extraction
 
         $pattern = $this->pattern;
         if ($this->dimension === 'urlparam') {
-            $pattern = '\?.*' . $pattern . '=([^&]*)';
+            $pattern = '\?(?:.*&)?' . $pattern . '=([^&]*)';
         }
 
         $regex = '/' . str_replace('/', '\/', $pattern) . '/';
