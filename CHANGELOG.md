@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 6.0.0
+
+### Breaking Changes
+
+* The API methods `Annotations.add` will now require `Write` permission, instead of `View` permission.
+
 ## Matomo 5.2.0
 
 ### Breaking Changes
