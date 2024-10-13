@@ -264,8 +264,13 @@ class ApiTest extends IntegrationTestCase
         });
 
         $this->setUser();
+        $service = $this->service;
 
-        self::assertTrue($this->api->requestTrial('testPlugin'));
+        $this->service->setOnDownloadCallback(static function ($action, $params, $postData) use ($service) {
+            return $service->getFixtureContent('v2.0_plugins_TreemapVisualization_info.json');
+        });
+
+        self::assertTrue($this->api->requestTrial('TreemapVisualization'));
 
         self::assertNotNull($sentMail);
         self::assertInstanceOf(RequestTrialNotificationEmail::class, $sentMail);

@@ -31,7 +31,7 @@ class ClearCaches extends ConsoleCommand
         // Note: the logic for this command must be refactored in this helper function below.
         Filesystem::deleteAllCacheOnUpdate();
 
-        $this->writeSuccessMessage(array('Caches cleared'));
+        $this->writeSuccessMessage('Caches cleared');
 
         return self::SUCCESS;
     }

@@ -48,7 +48,7 @@ class DevelopmentEnable extends ConsoleCommand
 
         Filesystem::deleteAllCacheOnUpdate();
 
-        $this->writeSuccessMessage(array($message));
+        $this->writeSuccessMessage($message);
 
         if ($enable && !SettingsPiwik::isGitDeployment()) {
             $comment = 'Development mode should be only enabled when installed through git. Not every development feature will be available.';

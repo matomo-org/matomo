@@ -1,63 +1,67 @@
 [submodule "plugins/SecurityInfo"]
     path = plugins/SecurityInfo
     url = https://github.com/matomo-org/plugin-SecurityInfo.git
-    branch = master
+    branch = 5.x-dev
 [submodule "plugins/TreemapVisualization"]
     path = plugins/TreemapVisualization
     url = https://github.com/matomo-org/plugin-TreemapVisualization.git
-    branch = master
+    branch = 5.x-dev
 [submodule "plugins/VisitorGenerator"]
     path = plugins/VisitorGenerator
     url = https://github.com/matomo-org/plugin-VisitorGenerator.git
-    branch = master
+    branch = 5.x-dev
 [submodule "plugins/CustomAlerts"]
     path = plugins/CustomAlerts
     url = https://github.com/matomo-org/plugin-CustomAlerts.git
-    branch = master
+    branch = 5.x-dev
 [submodule "plugins/TasksTimetable"]
     path = plugins/TasksTimetable
     url = https://github.com/matomo-org/plugin-TasksTimetable.git
-    branch = master
+    branch = 5.x-dev
 [submodule "plugins/QueuedTracking"]
     path = plugins/QueuedTracking
     url = https://github.com/matomo-org/plugin-QueuedTracking.git
-    branch = master
+    branch = 5.x-dev
 [submodule "plugins/LogViewer"]
-	path = plugins/LogViewer
-	url = https://github.com/matomo-org/plugin-LogViewer.git
-    branch = master
+    path = plugins/LogViewer
+    url = https://github.com/matomo-org/plugin-LogViewer.git
+    branch = 5.x-dev
 [submodule "plugins/AnonymousPiwikUsageMeasurement"]
-	path = plugins/AnonymousPiwikUsageMeasurement
-	url = https://github.com/matomo-org/plugin-AnonymousPiwikUsageMeasurement.git
-    branch = master
+    path = plugins/AnonymousPiwikUsageMeasurement
+    url = https://github.com/matomo-org/plugin-AnonymousPiwikUsageMeasurement.git
+    branch = 5.x-dev
 [submodule "plugins/Bandwidth"]
-	path = plugins/Bandwidth
-	url = https://github.com/matomo-org/plugin-Bandwidth.git
-    branch = master
+    path = plugins/Bandwidth
+    url = https://github.com/matomo-org/plugin-Bandwidth.git
+    branch = 5.x-dev
 [submodule "plugins/LoginLdap"]
-	path = plugins/LoginLdap
-	url = https://github.com/matomo-org/plugin-LoginLdap.git
-    branch = master
+    path = plugins/LoginLdap
+    url = https://github.com/matomo-org/plugin-LoginLdap.git
+    branch = 5.x-dev
 [submodule "plugins/MarketingCampaignsReporting"]
-	path = plugins/MarketingCampaignsReporting
-	url = https://github.com/matomo-org/plugin-MarketingCampaignsReporting.git
-    branch = master
+    path = plugins/MarketingCampaignsReporting
+    url = https://github.com/matomo-org/plugin-MarketingCampaignsReporting.git
+    branch = 5.x-dev
 [submodule "plugins/TagManager"]
-	path = plugins/TagManager
-	url = https://github.com/matomo-org/tag-manager.git
-	branch = master
+    path = plugins/TagManager
+    url = https://github.com/matomo-org/tag-manager.git
+    branch = 5.x-dev
 [submodule "plugins/DeviceDetectorCache"]
-	path = plugins/DeviceDetectorCache
-	url = https://github.com/matomo-org/plugin-DeviceDetectorCache.git
+    path = plugins/DeviceDetectorCache
+    url = https://github.com/matomo-org/plugin-DeviceDetectorCache.git
+    branch = 5.x-dev
 [submodule "plugins/Provider"]
-	path = plugins/Provider
-	url = https://github.com/matomo-org/plugin-Provider.git
+    path = plugins/Provider
+    url = https://github.com/matomo-org/plugin-Provider.git
+    branch = 5.x-dev
 [submodule "plugins/CustomVariables"]
-	path = plugins/CustomVariables
-	url = https://github.com/matomo-org/plugin-CustomVariables.git
+    path = plugins/CustomVariables
+    url = https://github.com/matomo-org/plugin-CustomVariables.git
+    branch = 5.x-dev
 [submodule "plugins/TrackingSpamPrevention"]
-	path = plugins/TrackingSpamPrevention
-	url = https://github.com/matomo-org/plugin-TrackingSpamPrevention.git
+    path = plugins/TrackingSpamPrevention
+    url = https://github.com/matomo-org/plugin-TrackingSpamPrevention.git
+    branch = 5.x-dev
 
 
 # Add new Plugin submodule above this line ^^
@@ -68,9 +72,10 @@
 [submodule "misc/log-analytics"]
     path = misc/log-analytics
     url = https://github.com/matomo-org/matomo-log-analytics.git
-    branch = master
+    branch = 5.x-dev
 [submodule "plugins/Morpheus/icons"]
-	path = plugins/Morpheus/icons
-	url = https://github.com/matomo-org/matomo-icons.git
+    path = plugins/Morpheus/icons
+    url = https://github.com/matomo-org/matomo-icons.git
+    branch = master
 
 # Note: do not add new plugin submodules here, but a few lines above

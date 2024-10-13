@@ -467,6 +467,42 @@ b,d,f,g';
         $this->assertEquals($expected, $render->render());
     }
 
+    /**
+     * @dataProvider getFormulaExpressions
+     */
+    public function testRendersFormulasAndNullBytesCorrectly($input, $expectedOutput)
+    {
+        $render = new Csv();
+        $render->setTable($input);
+        $render->convertToUnicode = false;
+        $expected = $expectedOutput;
+
+        $this->assertEquals($expected, $render->render());
+    }
+
+    public function getFormulaExpressions(): iterable
+    {
+        yield "formula starting with =, should be escaped with leading '" => [
+            ['=SUM(A)' => '=SUM(A;B)'], "'=SUM(A)\n\"'=SUM(A;B)\""
+        ];
+
+        yield "formula starting with +, should be escaped with leading '" => [
+            ['+A1' => '+A2,B3'], "'+A1\n\"'+A2,B3\""
+        ];
+
+        yield "formula starting with -, should be escaped with leading '" => [
+            ['-A1' => '-A2,B3'], "'-A1\n\"'-A2,B3\""
+        ];
+
+        yield "formula with leading null byte, should still be escaped with leading '" => [
+            ["\0-A1" => '%00=SUM(A)'], "'\0-A1\n'%00=SUM(A)"
+        ];
+
+        yield "formula with leading null bytes, should still be escaped with leading '" => [
+            ["\0%00\0%00=@A1" => "%00\0%00%00=SUM(A)"], "'\0%00\0%00=@A1\n'%00\0%00%00=SUM(A)"
+        ];
+    }
+
     private function getDataTableSimpleWithCommasInCells()
     {
         $table = new DataTable();

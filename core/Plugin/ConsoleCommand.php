@@ -46,13 +46,17 @@ class ConsoleCommand extends SymfonyCommand
     private $input = null;
 
     /**
-     * Sends the given messages as success message to the output interface (surrounded by empty lines)
+     * Sends the given message(s) as success message(s) to the output interface (surrounded by empty lines)
      *
-     * @param string[] $messages
+     * @param string|string[] $messages
      * @return void
      */
-    public function writeSuccessMessage(array $messages): void
+    public function writeSuccessMessage($messages): void
     {
+        if (is_string($messages)) {
+            $messages = [$messages];
+        }
+
         $this->getOutput()->writeln('');
 
         foreach ($messages as $message) {

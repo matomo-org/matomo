@@ -5083,7 +5083,7 @@
 		</subcategory>
 		<widgets>
 			<row>
-				<name>Overview</name>
+				<name>Ecommerce Overview</name>
 				<module>CoreHome</module>
 				<action>renderWidgetContainer</action>
 				<order>1</order>

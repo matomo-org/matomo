@@ -44,9 +44,7 @@ class GenerateCommand extends GeneratePluginBase
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
-        $this->writeSuccessMessage(array(
-            sprintf('Command %s for plugin %s generated', $commandName, $pluginName)
-        ));
+        $this->writeSuccessMessage(sprintf('Command %s for plugin %s generated', $commandName, $pluginName));
 
         return self::SUCCESS;
     }

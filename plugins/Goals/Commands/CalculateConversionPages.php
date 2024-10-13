@@ -97,7 +97,7 @@ class CalculateConversionPages extends ConsoleCommand
             $output->write(".");
         }
 
-        $this->writeSuccessMessage(["Successfully calculated the pages before metric for $totalCalculated conversions. <comment>" . $timer . "</comment>"]);
+        $this->writeSuccessMessage("Successfully calculated the pages before metric for $totalCalculated conversions. <comment>{$timer}</comment>");
 
         return self::SUCCESS;
     }

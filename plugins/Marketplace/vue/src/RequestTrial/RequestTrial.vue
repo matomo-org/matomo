@@ -65,7 +65,7 @@ export default defineComponent({
           module: 'API',
           method: 'Marketplace.requestTrial',
         },
-        { pluginName: plugin.name, pluginDisplayName: plugin.displayName },
+        { pluginName: plugin.name },
       ).then(() => {
         const notificationInstanceId = NotificationsStore.show({
           message: translate(
