@@ -341,13 +341,36 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expected, $items);
     }
 
-    public function testRemoveInvalidationsFromDistributedListRemovesAllSiteEntries()
+    public function testRemoveInvalidationsFromDistributedListRemovesEntriesFromListWhenIntSiteIdSpecified()
+    {
+        $this->invalidator->scheduleReArchiving([1,2,3], 'ExamplePlugin');
+        $this->invalidator->scheduleReArchiving([1,4,5], 'MyOtherPlugin');
+
+        $this->invalidator->removeInvalidationsFromDistributedList(3, 'ExamplePlugin');
+
+        $list = new ReArchiveList();
+        $items = $list->getAll();
+
+        $expected = [
+            '{"idSites":[1,2],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}',
+            '{"idSites":[1,4,5],"pluginName":"MyOtherPlugin","report":null,"startDate":null,"segment":null}',
+        ];
+
+        $this->assertEquals($expected, $items);
+    }
+
+    /**
+     * @dataProvider getRemoveInvalidationsFromDistributedListRemovesAllSiteEntriesTestData
+     * @param $idSites
+     * @return void
+     */
+    public function testRemoveInvalidationsFromDistributedListRemovesAllSiteEntries($idSites)
     {
         $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving([1, 4, 5], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving('all', 'ExamplePlugin');
 
-        $this->invalidator->removeInvalidationsFromDistributedList('all', 'ExamplePlugin');
+        $this->invalidator->removeInvalidationsFromDistributedList($idSites, 'ExamplePlugin');
 
         $list = new ReArchiveList();
         $items = $list->getAll();
@@ -355,6 +378,17 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $expected = [];
 
         $this->assertEquals($expected, $items);
+    }
+
+    public function getRemoveInvalidationsFromDistributedListRemovesAllSiteEntriesTestData(): array
+    {
+        return [
+            [null],
+            [0],
+            ['0'],
+            [false],
+            ['all'],
+        ];
     }
 
     public function testRemoveInvalidationsFromDistributedListRemovesEntriesFromListWhenPluginNameAndReportIsSpecified()
