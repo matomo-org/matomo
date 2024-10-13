@@ -655,7 +655,7 @@ class ArchiveInvalidator
         $entries = $list->getAll();
 
         // Make sure that idSites is an array or all before using it
-        $idSites = $idSites === 0 || $idSites === '0' || $idSites == 'all'
+        $idSites = empty($idSites) || 'all' === $idSites
             ? 'all' : (is_array($idSites) ? $idSites : [$idSites]);
 
         if ($idSites === 'all') {
