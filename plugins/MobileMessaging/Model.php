@@ -281,6 +281,7 @@ class Model
             $phoneNumbers = [];
         }
 
+        // Map old storage data to new format
         foreach ($phoneNumbers as $phoneNumber => &$verificationData) {
             if (is_string($verificationData)) {
                 $verificationData = [
