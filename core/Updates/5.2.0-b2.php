@@ -80,17 +80,8 @@ class Updates_5_2_0_b2 extends Updates
                 return $userTableCollation;
             }
 
-            $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled(ArchiveTableCreator::NUMERIC_TABLE);
-
-            if (0 === count($archiveTables)) {
-                // skip if there is no archive table (yet)
-                return null;
-            }
-
-            // sort tables so we have them in order of their date
-            rsort($archiveTables);
-
-            $archiveTableStatus = $metadataProvider->getTableStatus(Common::unprefixTable($archiveTables[0]));
+            $archiveTable = ArchiveTableCreator::getLatestArchiveTableInstalled(ArchiveTableCreator::NUMERIC_TABLE);
+            $archiveTableStatus = $metadataProvider->getTableStatus(Common::unprefixTable($archiveTable));
 
             if (
                 !empty($archiveTableStatus['Collation'] ?? null)
