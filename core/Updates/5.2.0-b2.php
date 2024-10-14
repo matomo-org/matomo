@@ -65,7 +65,7 @@ class Updates_5_2_0_b2 extends Updates
 
             $metadataProvider = StaticContainer::get('Piwik\Plugins\DBStats\MySQLMetadataProvider');
             $userTableStatus = $metadataProvider->getTableStatus('user');
-            if (empty($userTableStatus['Collation'])) {
+            if (empty($userTableStatus['Collation'] ?? null)) {
                 // if there is no user table, or no collation for it, abort detection
                 // this table should always exist and something must be wrong in this case
                 return null;
@@ -93,7 +93,7 @@ class Updates_5_2_0_b2 extends Updates
             $archiveTableStatus = $metadataProvider->getTableStatus(Common::unprefixTable($archiveTables[0]));
 
             if (
-                !empty($archiveTableStatus['Collation'])
+                !empty($archiveTableStatus['Collation'] ?? null)
                 && $archiveTableStatus['Collation'] === $userTableCollation
             ) {
                 // the most recent numeric archive table is matching the collation

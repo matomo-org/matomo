@@ -154,7 +154,7 @@ class ConvertToUtf8mb4 extends ConsoleCommand
         try {
             $metadataProvider = StaticContainer::get('Piwik\Plugins\DBStats\MySQLMetadataProvider');
             $userTableStatus = $metadataProvider->getTableStatus('user');
-            if (empty($userTableStatus['Collation'])) {
+            if (empty($userTableStatus['Collation'] ?? null)) {
                 // if there is no user table, or no collation for it, abort detection
                 // this table should always exist and something must be wrong in this case
                 return null;
@@ -165,7 +165,7 @@ class ConvertToUtf8mb4 extends ConsoleCommand
             $archiveTableStatus = $metadataProvider->getTableStatus(Common::unprefixTable($archiveTable));
 
             if (
-                !empty($archiveTableStatus['Collation'])
+                !empty($archiveTableStatus['Collation'] ?? null)
                 && $archiveTableStatus['Collation'] === $userTableCollation
             ) {
                 // the most recent numeric archive table is matching the collation
