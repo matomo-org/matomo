@@ -277,7 +277,7 @@ class Model
         return hash(self::TOKEN_HASH_ALGO, $tokenAuth . $salt);
     }
 
-    public function generateRandomInviteToken()
+    public function generateRandomInviteToken(): string
     {
         $count = 0;
 
@@ -618,7 +618,7 @@ class Model
         $db->insert($this->userTable, $user);
     }
 
-    public function attachInviteToken($userLogin, $token, $expiryInDays = 7)
+    public function attachInviteToken(string $userLogin, string $token, int $expiryInDays): void
     {
         $this->updateUserFields($userLogin, [
           'invite_token'      => $this->hashTokenAuth($token),
@@ -626,7 +626,7 @@ class Model
         ]);
     }
 
-    public function attachInviteLinkToken($userLogin, $token, $expiryInDays = 7)
+    public function attachInviteLinkToken(string $userLogin, string $token, int $expiryInDays): void
     {
         $this->updateUserFields($userLogin, [
             'invite_link_token' => $this->hashTokenAuth($token),
