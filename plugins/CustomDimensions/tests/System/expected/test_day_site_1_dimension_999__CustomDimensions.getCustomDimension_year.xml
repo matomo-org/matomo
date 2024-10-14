@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<result>
-	<error message="Dimension 999 for website 1 does not exist
- 
- --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php" />
-</result>

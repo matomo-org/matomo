@@ -53,10 +53,10 @@
 		<row>
 			<label>en</label>
 			<nb_visits>4</nb_visits>
-			<nb_hits>4</nb_hits>
+			<nb_hits>5</nb_hits>
 			<bounce_rate>75%</bounce_rate>
-			<avg_time_on_dimension>00:01:30</avg_time_on_dimension>
-			<exit_rate>75%</exit_rate>
+			<avg_time_on_dimension>00:01:12</avg_time_on_dimension>
+			<exit_rate>100%</exit_rate>
 		</row>
 		<row>
 			<label>value3</label>
@@ -71,8 +71,8 @@
 			<nb_visits>1</nb_visits>
 			<nb_hits>1</nb_hits>
 			<bounce_rate>0%</bounce_rate>
-			<avg_time_on_dimension>00:00:00</avg_time_on_dimension>
-			<exit_rate>100%</exit_rate>
+			<avg_time_on_dimension>00:06:00</avg_time_on_dimension>
+			<exit_rate>0%</exit_rate>
 		</row>
 		<row>
 			<label>Value not defined</label>
@@ -107,7 +107,7 @@
 	</reportMetadata>
 	<reportTotal>
 		<nb_visits>7</nb_visits>
-		<nb_hits>7</nb_hits>
+		<nb_hits>8</nb_hits>
 		<sum_time_network>0</sum_time_network>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network>0</min_time_network>
@@ -136,7 +136,7 @@
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth>0</min_bandwidth>
 		<max_bandwidth>0</max_bandwidth>
-		<sum_time_spent>720</sum_time_spent>
+		<sum_time_spent>1080</sum_time_spent>
 		<bounce_count>4</bounce_count>
 		<exit_nb_visits>5</exit_nb_visits>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>

@@ -46,7 +46,7 @@
 		<label>en_US</label>
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_hits>1</nb_hits>
+		<nb_hits>2</nb_hits>
 		<sum_time_network>0</sum_time_network>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network>0</min_time_network>
@@ -75,11 +75,11 @@
 		
 		
 		
-		<sum_time_spent>0</sum_time_spent>
+		<sum_time_spent>360</sum_time_spent>
 		<bounce_count>0</bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
 		
-		<avg_time_on_dimension>0</avg_time_on_dimension>
+		<avg_time_on_dimension>180</avg_time_on_dimension>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<segment>dimension5==en_US</segment>
