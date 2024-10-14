@@ -42,7 +42,7 @@ updates:
     commit-message:
       prefix: "[NPM] "
     reviewers:
-      - "sgiehl"
+      - "matomo-org/core-reviewers"
     pull-request-branch-name:
       separator: "-"
     ignore:
