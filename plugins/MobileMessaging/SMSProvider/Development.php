@@ -9,10 +9,10 @@
 
 namespace Piwik\Plugins\MobileMessaging\SMSProvider;
 
-use Piwik\Notification;
+use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
 use Piwik\Development as PiwikDevelopment;
-use Piwik\Session;
 
 /**
  * Used for development only
@@ -28,7 +28,7 @@ class Development extends SMSProvider
 
     public function getDescription()
     {
-        return 'Development SMS Provider<br />All sent SMS will be displayed as Notification';
+        return 'Development SMS Provider<br />All sent SMS will be logged on info level';
     }
 
     public function isAvailable()
@@ -48,13 +48,10 @@ class Development extends SMSProvider
 
     public function sendSMS($credentials, $smsText, $phoneNumber, $from)
     {
-        Session::start(); // ensure session is writable to add a notification
-        $message = sprintf('An SMS was sent:<br />From: %s<br />To: %s<br />Message: %s', $from, $phoneNumber, $smsText);
-
-        $notification = new Notification($message);
-        $notification->raw = true;
-        $notification->context = Notification::CONTEXT_INFO;
-        Notification\Manager::notify('StubbedSMSProvider' . preg_replace('/[^a-z0-9]/', '', $phoneNumber), $notification);
+        StaticContainer::get(LoggerInterface::class)->info(
+            'SMS sent from {from}, to {to}: {message}',
+            ['from' => $from, 'to' => $phoneNumber, 'message' => $smsText]
+        );
     }
 
     public function getCreditLeft($credentials)
