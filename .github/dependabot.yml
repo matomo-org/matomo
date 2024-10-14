@@ -4,6 +4,9 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    labels:
+      - "Needs Review"
+      - "github_actions"
     commit-message:
       prefix: "[GitHub Actions] "
     open-pull-requests-limit: 10
@@ -17,6 +20,9 @@ updates:
     schedule:
       interval: "weekly"
       day: "sunday"
+    labels:
+      - "Needs Review"
+      - "submodules"
     groups:
       all-submodules:
         patterns:
@@ -34,6 +40,7 @@ updates:
       interval: "weekly"
       day: "sunday"
     labels:
+      - "Needs Review"
       - "dependencies"
     groups:
       all-dependencies:
@@ -55,6 +62,8 @@ updates:
     schedule:
       interval: "monthly"
     labels:
+      - "Needs Review"
+      - "dependencies"
       - "c: Tests & QA"
     groups:
       all-dependencies:
