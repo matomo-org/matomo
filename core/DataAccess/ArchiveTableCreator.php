@@ -116,24 +116,11 @@ class ArchiveTableCreator
         }
 
         // sort tables so we have them in descending order of their date
-        rsort($archiveTables);
+        usort($archiveTables, function ($a, $b) {
+            return static::getDateFromTableName($b) <=> static::getDateFromTableName($a);
+        });
 
-        // if we have a type, we can rely on name ordering, otherwise we need to extract the year_month and compare
-        if ($type) {
-            return $archiveTables[0];
-        } else {
-            $latestDate = '0_00';
-            $latestTable = null;
-            foreach ($archiveTables as $archiveTable) {
-                $tableDate = static::getDateFromTableName($archiveTable);
-                if ($tableDate > $latestDate) {
-                    $latestDate = $tableDate;
-                    $latestTable = $archiveTable;
-                }
-            }
-
-            return $latestTable;
-        }
+        return $archiveTables[0];
     }
 
     public static function getDateFromTableName($tableName)
