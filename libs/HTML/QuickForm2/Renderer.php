@@ -302,7 +302,7 @@ abstract class HTML_QuickForm2_Renderer
     * @param    HTML_QuickForm2_JavascriptBuilder
     * @return   HTML_QuickForm2_Renderer
     */
-    public function setJavascriptBuilder(HTML_QuickForm2_JavascriptBuilder $builder = null)
+    public function setJavascriptBuilder(?HTML_QuickForm2_JavascriptBuilder $builder = null)
     {
         $this->jsBuilder = $builder;
         return $this;

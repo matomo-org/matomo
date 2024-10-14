@@ -16,7 +16,7 @@ class ReArchiveList extends DistributedList
 {
     public const OPTION_NAME = 'ReArchiveList';
 
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(?LoggerInterface $logger = null)
     {
         parent::__construct(self::OPTION_NAME, $logger);
     }

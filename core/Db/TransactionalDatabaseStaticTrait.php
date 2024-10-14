@@ -20,7 +20,7 @@ trait TransactionalDatabaseStaticTrait
         }
     }
 
-    public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void
+    public function setSupportsTransactionLevelForNonLockingReads(?bool $supports = null): void
     {
         $this->supportsTransactionLevelForNonLockingReads = $supports;
     }

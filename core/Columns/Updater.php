@@ -48,7 +48,7 @@ class Updater extends \Piwik\Updates
      * @param ActionDimension[]|null $actionDimensions
      * @param ConversionDimension[]|null $conversionDimensions
      */
-    public function __construct(array $visitDimensions = null, array $actionDimensions = null, array $conversionDimensions = null)
+    public function __construct(?array $visitDimensions = null, ?array $actionDimensions = null, ?array $conversionDimensions = null)
     {
         $this->visitDimensions = $visitDimensions;
         $this->actionDimensions = $actionDimensions;

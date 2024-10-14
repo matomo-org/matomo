@@ -150,7 +150,7 @@ class EventReports extends RecordBuilder
         string $where,
         string $groupBy,
         string $orderBy,
-        RankingQuery $rankingQuery = null
+        ?RankingQuery $rankingQuery = null
     ): void {
         // get query with segmentation
         $query = $logAggregator->generateQuery($select, $from, $where, $groupBy, $orderBy);

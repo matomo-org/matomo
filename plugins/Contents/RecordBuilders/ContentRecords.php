@@ -171,7 +171,7 @@ class ContentRecords extends RecordBuilder
         string $where,
         string $groupBy,
         string $orderBy,
-        RankingQuery $rankingQuery = null
+        ?RankingQuery $rankingQuery = null
     ) {
         // get query with segmentation
         $query = $logAggregator->generateQuery($select, $from, $where, $groupBy, $orderBy);

@@ -174,7 +174,7 @@ class Formatter
      *                           This parameter is not currently supported and subject to change.
      * @api
      */
-    public function formatMetrics(DataTable $dataTable, Report $report = null, $metricsToFormat = null, $formatAll = false)
+    public function formatMetrics(DataTable $dataTable, ?Report $report = null, $metricsToFormat = null, $formatAll = false)
     {
         $metrics = $this->getMetricsToFormat($dataTable, $report);
         if (
@@ -285,7 +285,7 @@ class Formatter
      * @param Report $report
      * @return Metric[]
      */
-    private function getMetricsToFormat(DataTable $dataTable, Report $report = null)
+    private function getMetricsToFormat(DataTable $dataTable, ?Report $report = null)
     {
         return Report::getMetricsForTable($dataTable, $report, $baseType = 'Piwik\\Plugin\\Metric');
     }

@@ -51,7 +51,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $marketplacePlugins;
 
-    public function __construct(Updater $updater, Plugins $marketplacePlugins = null)
+    public function __construct(Updater $updater, ?Plugins $marketplacePlugins = null)
     {
         $this->updater = $updater;
         $this->marketplacePlugins = $marketplacePlugins;

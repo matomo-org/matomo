@@ -191,7 +191,7 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
      * @return bool
      * @throws Zend_Db_Statement_Db2_Exception
      */
-    public function _execute(array $params = null)
+    public function _execute(?array $params = null)
     {
         if (!$this->_stmt) {
             return false;

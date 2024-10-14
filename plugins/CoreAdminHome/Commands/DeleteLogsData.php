@@ -42,7 +42,7 @@ class DeleteLogsData extends ConsoleCommand
      */
     private $logDeleter;
 
-    public function __construct(LogDeleter $logDeleter = null, RawLogDao $rawLogDao = null)
+    public function __construct(?LogDeleter $logDeleter = null, ?RawLogDao $rawLogDao = null)
     {
         parent::__construct();
 

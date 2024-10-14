@@ -66,7 +66,7 @@ class PluginsArchiver
      */
     private $archiveWriter;
 
-    public function __construct(Parameters $params, ArchiveWriter $archiveWriter = null)
+    public function __construct(Parameters $params, ?ArchiveWriter $archiveWriter = null)
     {
         $this->params = $params;
         $this->archiveWriter = $archiveWriter ?: new ArchiveWriter($this->params);

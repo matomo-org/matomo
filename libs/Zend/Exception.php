@@ -40,7 +40,7 @@ class Zend_Exception extends Exception
      * @param  Exception $previous
      * @return void
      */
-    public function __construct($msg = '', $code = 0, Exception $previous = null)
+    public function __construct($msg = '', $code = 0, ?Exception $previous = null)
     {
         if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             parent::__construct($msg, (int) $code);

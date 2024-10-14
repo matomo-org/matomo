@@ -33,7 +33,7 @@ class Logger
      */
     private $archivingRunId;
 
-    public function __construct(Config $config, LoggerInterface $logger = null)
+    public function __construct(Config $config, ?LoggerInterface $logger = null)
     {
         $this->isEnabled = $config->Debug['archiving_profile'] == 1;
         $this->logger = $logger;

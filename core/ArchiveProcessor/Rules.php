@@ -253,7 +253,7 @@ class Rules
         return !self::isArchivingEnabledFor($idSites, $segment, $periodLabel);
     }
 
-    public static function isRequestAuthorizedToArchive(Parameters $params = null)
+    public static function isRequestAuthorizedToArchive(?Parameters $params = null)
     {
         $isRequestAuthorizedToArchive = Rules::isBrowserTriggerEnabled() || SettingsServer::isArchivePhpTriggered();
 
@@ -334,7 +334,7 @@ class Rules
      */
     public static function getSelectableDoneFlagValues(
         $includeInvalidated = true,
-        Parameters $params = null,
+        ?Parameters $params = null,
         $checkAuthorizedToArchive = true
     ) {
         $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
