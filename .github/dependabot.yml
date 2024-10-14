@@ -27,3 +27,21 @@ updates:
       - "matomo-org/core-reviewers"
     pull-request-branch-name:
       separator: "-" 
+
+  - package-ecosystem: "npm"
+    directory: "/tests/lib/screenshot-testing"
+    schedule:
+      interval: "monthly"
+    labels:
+      - "c: Tests & QA"
+    groups:
+      all-dependencies:
+        patterns:
+         - "*"
+    commit-message:
+      prefix: "[NPM UI Tests] "
+    reviewers:
+      - "matomo-org/core-reviewers"
+    pull-request-branch-name:
+      separator: "-"    
+    versioning-strategy: lockfile-only
