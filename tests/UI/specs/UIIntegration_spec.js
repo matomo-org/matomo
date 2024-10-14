@@ -619,24 +619,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await page.screenshot({fullPage: true})).to.matchImage('admin_privacy_optout_iframe');
         });
 
-        it('should load the Settings > Mobile Messaging admin page correctly', async function () {
-            await page.goto("?" + generalParams + "&module=MobileMessaging&action=index");
-            await page.waitForNetworkIdle();
-
-            expect(await screenshotPageWrap()).to.matchImage('admin_settings_mobilemessaging');
-        })
-
-        it('should switch the SMS provider correctly', async function () {
-            await page.evaluate(function () {
-              $('[name=smsProviders]').val('string:Clockwork').trigger('change');
-            });
-            await page.waitForTimeout(200);
-            await page.waitForNetworkIdle();
-            await page.waitForTimeout(200);
-
-            expect(await screenshotPageWrap()).to.matchImage('admin_settings_mobilemessaging_provider');
-        });
-
         it('should load the themes admin page correctly', async function () {
             await page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=themes");
 
