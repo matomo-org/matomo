@@ -54,13 +54,13 @@ class ConvertToUtf8mb4 extends ConsoleCommand
         $show = $input->getOption('show');
 
         if (DbHelper::getDefaultCharset() !== 'utf8mb4') {
-            $this->writeSuccessMessage('Your database does not support utf8mb4');
+            $this->writeErrorMessage('Your database does not support utf8mb4');
             return self::FAILURE;
         }
 
         $defaultCollation = DbHelper::getDefaultCollationForCharset('utf8mb4');
         if (empty($defaultCollation)) {
-            $this->writeSuccessMessage('Could not detect default collation for utf8mb4 charset');
+            $this->writeErrorMessage('Could not detect default collation for utf8mb4 charset');
             return self::FAILURE;
         }
 
