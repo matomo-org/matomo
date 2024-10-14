@@ -216,8 +216,8 @@ class MobileMessagingTest extends IntegrationTestCase
             "+4526"
         ];
 
-        yield "longer than 15 numbers" => [
-            "+4526512345678905"
+        yield "longer than 30 numbers" => [
+            "+452651234564565456545641893248932148632578905"
         ];
 
         yield "invalid characters" => [

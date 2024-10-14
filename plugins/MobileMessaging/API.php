@@ -93,6 +93,12 @@ class API extends \Piwik\Plugin\API
 
         $phoneNumber = $this->sanitizePhoneNumber($phoneNumber);
 
+        // Check format matches the international public telecommunication numbering plan (E.164)
+        // See https://en.wikipedia.org/wiki/E.164
+        if (!preg_match('/^\+[0-9]{5,30}$/', $phoneNumber)) {
+            throw new \Exception("The phone number $phoneNumber does not match the expected number format.");
+        }
+
         $phoneNumbers = $this->model->getPhoneNumbers(Piwik::getCurrentUserLogin(), false);
 
         $unverifiedPhoneNumbers = array_filter(
@@ -167,9 +173,8 @@ class API extends \Piwik\Plugin\API
         // remove common formatting characters: - _ ( )
         $phoneNumber = str_replace(['-', '_', ' ', '(', ')'], '', $phoneNumber);
 
-        // Check format matches the international public telecommunication numbering plan (E.164)
-        // See https://en.wikipedia.org/wiki/E.164
-        if (!preg_match('/^\+[0-9]{5,15}$/', $phoneNumber)) {
+        // Avoid that any method tries to handle phone numbers that are obviously too long
+        if (strlen($phoneNumber) > 100) {
             throw new \Exception("The phone number $phoneNumber does not match the expected number format.");
         }
 
