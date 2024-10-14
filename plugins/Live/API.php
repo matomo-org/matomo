@@ -349,7 +349,7 @@ class API extends \Piwik\Plugin\API
      * @return string
      * @throws Exception
      */
-    public function getMostRecentVisitsDateTime($idSite, string $period = null, string $date = null): string
+    public function getMostRecentVisitsDateTime($idSite, ?string $period = null, ?string $date = null): string
     {
         Piwik::checkUserHasViewAccess($idSite);
 

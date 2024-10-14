@@ -100,7 +100,7 @@ class Access
     /**
      * Constructor
      */
-    public function __construct(RolesProvider $roleProvider = null, CapabilitiesProvider $capabilityProvider = null)
+    public function __construct(?RolesProvider $roleProvider = null, ?CapabilitiesProvider $capabilityProvider = null)
     {
         if (!isset($roleProvider)) {
             $roleProvider = StaticContainer::get('Piwik\Access\RolesProvider');
@@ -135,7 +135,7 @@ class Access
      * @param null|Auth $auth Auth adapter
      * @return bool  true on success, false if reloading access failed (when auth object wasn't specified and user is not enforced to be Super User)
      */
-    public function reloadAccess(Auth $auth = null)
+    public function reloadAccess(?Auth $auth = null)
     {
         $this->resetSites();
 

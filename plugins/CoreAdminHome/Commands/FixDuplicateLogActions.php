@@ -70,10 +70,10 @@ class FixDuplicateLogActions extends ConsoleCommand
      * @param LoggerInterface $logger
      */
     public function __construct(
-        ArchiveInvalidator $invalidator = null,
-        DuplicateActionRemover $duplicateActionRemover = null,
-        Actions $actionsAccess = null,
-        LoggerInterface $logger = null
+        ?ArchiveInvalidator $invalidator = null,
+        ?DuplicateActionRemover $duplicateActionRemover = null,
+        ?Actions $actionsAccess = null,
+        ?LoggerInterface $logger = null
     ) {
         parent::__construct();
 

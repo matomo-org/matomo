@@ -19,7 +19,7 @@ class CallableProcessedMetric extends ProcessedMetric
     private $dependentMetrics;
     private $semanticType;
 
-    public function __construct($name, $callback, $dependentMetrics = array(), string $semanticType = null)
+    public function __construct($name, $callback, $dependentMetrics = array(), ?string $semanticType = null)
     {
         $this->name = $name;
         $this->callback = $callback;

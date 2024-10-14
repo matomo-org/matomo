@@ -460,7 +460,7 @@ class Fixture extends \PHPUnit\Framework\Assert
      * @param array $extraPluginsToLoad Ignoerd.
      */
     public static function loadAllPlugins(
-        TestingEnvironmentVariables $testEnvironment = null,
+        ?TestingEnvironmentVariables $testEnvironment = null,
         $testCaseClass = false,
         $extraPluginsToLoad = []
     ) {

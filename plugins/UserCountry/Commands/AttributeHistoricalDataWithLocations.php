@@ -60,7 +60,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
      */
     private $processedPercent = 0;
 
-    public function __construct(RawLogDao $dao = null)
+    public function __construct(?RawLogDao $dao = null)
     {
         parent::__construct();
 

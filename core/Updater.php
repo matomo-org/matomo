@@ -61,7 +61,7 @@ class Updater
      *                                           for the plugin name.
      * @param Columns\Updater|null $columnsUpdater The dimensions updater instance.
      */
-    public function __construct($pathUpdateFileCore = null, $pathUpdateFilePlugins = null, Columns\Updater $columnsUpdater = null)
+    public function __construct($pathUpdateFileCore = null, $pathUpdateFilePlugins = null, ?Columns\Updater $columnsUpdater = null)
     {
         $this->pathUpdateFileCore = $pathUpdateFileCore ?: PIWIK_INCLUDE_PATH . '/core/Updates/';
 

@@ -156,7 +156,7 @@ class ArchiveInvalidator
         return array_keys($this->getRememberedArchivedReportsThatShouldBeInvalidated($idSite));
     }
 
-    public function getRememberedArchivedReportsThatShouldBeInvalidated(int $idSite = null)
+    public function getRememberedArchivedReportsThatShouldBeInvalidated(?int $idSite = null)
     {
         if (null === $idSite) {
             $optionName = $this->rememberArchivedReportIdStart . '%';
@@ -276,7 +276,7 @@ class ArchiveInvalidator
         array $idSites,
         array $dates,
         $period,
-        Segment $segment = null,
+        ?Segment $segment = null,
         bool $cascadeDown = false,
         bool $forceInvalidateNonexistentRanges = false,
         ?string $name = null,
@@ -416,7 +416,7 @@ class ArchiveInvalidator
         }
     }
 
-    private function addParentPeriodsByYearMonth(&$result, Period $period, Date $originalDate = null)
+    private function addParentPeriodsByYearMonth(&$result, Period $period, ?Date $originalDate = null)
     {
         if (
             $period->getLabel() == 'year'
@@ -442,7 +442,7 @@ class ArchiveInvalidator
      * @return InvalidationResult
      * @throws \Exception
      */
-    public function markArchivesOverlappingRangeAsInvalidated(array $idSites, array $dates, Segment $segment = null)
+    public function markArchivesOverlappingRangeAsInvalidated(array $idSites, array $dates, ?Segment $segment = null)
     {
         $invalidationInfo = new InvalidationResult();
 
@@ -485,7 +485,7 @@ class ArchiveInvalidator
      * @throws \Exception
      * @api
      */
-    public function reArchiveReport($idSites, string $plugin = null, string $report = null, Date $startDate = null, Segment $segment = null)
+    public function reArchiveReport($idSites, ?string $plugin = null, ?string $report = null, ?Date $startDate = null, ?Segment $segment = null)
     {
         $date2 = Date::today();
 
@@ -571,10 +571,10 @@ class ArchiveInvalidator
      */
     public function scheduleReArchiving(
         $idSites,
-        string $pluginName = null,
+        ?string $pluginName = null,
         $report = null,
-        Date $startDate = null,
-        Segment $segment = null
+        ?Date $startDate = null,
+        ?Segment $segment = null
     ) {
         if (!empty($report)) {
             $this->removeInvalidationsSafely($idSites, $pluginName, $report);
@@ -709,7 +709,7 @@ class ArchiveInvalidator
     private function markArchivesInvalidated(
         $idSites,
         $dates,
-        Segment $segment = null,
+        ?Segment $segment = null,
         bool $removeRanges = false,
         bool $forceInvalidateNonexistentRanges = false,
         ?string $name = null,

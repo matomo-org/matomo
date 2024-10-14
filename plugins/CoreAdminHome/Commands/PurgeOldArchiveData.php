@@ -37,7 +37,7 @@ class PurgeOldArchiveData extends ConsoleCommand
      */
     private $archivePurger;
 
-    public function __construct(ArchivePurger $archivePurger = null)
+    public function __construct(?ArchivePurger $archivePurger = null)
     {
         parent::__construct();
 

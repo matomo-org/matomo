@@ -25,7 +25,7 @@ trait TransactionalDatabaseDynamicTrait
         return $this->supportsTransactionLevelForNonLockingReads;
     }
 
-    public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void
+    public function setSupportsTransactionLevelForNonLockingReads(?bool $supports = null): void
     {
         $this->supportsTransactionLevelForNonLockingReads = $supports;
     }
