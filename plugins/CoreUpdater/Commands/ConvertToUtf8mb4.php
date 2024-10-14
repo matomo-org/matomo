@@ -162,10 +162,14 @@ class ConvertToUtf8mb4 extends ConsoleCommand
             $userTableCollation = $userTableStatus['Collation'];
 
             $archiveTable = ArchiveTableCreator::getLatestArchiveTableInstalled(ArchiveTableCreator::NUMERIC_TABLE);
+            if (null === $archiveTable) {
+                return null;
+            }
+
             $archiveTableStatus = $metadataProvider->getTableStatus(Common::unprefixTable($archiveTable));
 
             if (
-                !empty($archiveTableStatus['Collation'] ?? null)
+                !empty($archiveTableStatus['Collation'])
                 && $archiveTableStatus['Collation'] === $userTableCollation
             ) {
                 // the most recent numeric archive table is matching the collation

@@ -81,10 +81,14 @@ class Updates_5_2_0_b2 extends Updates
             }
 
             $archiveTable = ArchiveTableCreator::getLatestArchiveTableInstalled(ArchiveTableCreator::NUMERIC_TABLE);
+            if (null === $archiveTable) {
+                return null;
+            }
+
             $archiveTableStatus = $metadataProvider->getTableStatus(Common::unprefixTable($archiveTable));
 
             if (
-                !empty($archiveTableStatus['Collation'] ?? null)
+                !empty($archiveTableStatus['Collation'])
                 && $archiveTableStatus['Collation'] === $userTableCollation
             ) {
                 // the most recent numeric archive table is matching the collation
