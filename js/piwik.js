@@ -3183,7 +3183,7 @@ if (typeof window.Matomo !== 'object') {
                 // currently this methods simply returns the requested values through a Promise
                 // In later versions it might require a user permission
                 navigatorAlias.userAgentData.getHighEntropyValues(
-                    ['brands', 'model', 'platform', 'platformVersion', 'uaFullVersion', 'fullVersionList']
+                    ['brands', 'model', 'platform', 'platformVersion', 'uaFullVersion', 'fullVersionList', 'formFactors']
                 ).then(function(ua) {
                     var i;
                     if (ua.fullVersionList) {
