@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
 
@@ -109,7 +110,7 @@ class API extends \Piwik\Plugin\API
         );
 
         if (count($unverifiedPhoneNumbers) >= 3) {
-            throw new \Exception('You cannot add more than 3 unverified phone numbers!');
+            throw new \Exception(Piwik::translate('MobileMessaging_TooManyUnverifiedNumbersError'));
         }
 
         $this->sendVerificationCodeAndAddPhoneNumber($phoneNumber);
@@ -137,8 +138,8 @@ class API extends \Piwik\Plugin\API
             throw new \Exception("The phone number $phoneNumber has already been verified.");
         }
 
-        if ($phoneNumbers[$phoneNumber]['requestTime'] > time() - 60) {
-            throw new \Exception("A verification code for phone number $phoneNumber has already been requested recently.");
+        if ($phoneNumbers[$phoneNumber]['requestTime'] > Date::getNowTimestamp() - 60) {
+            throw new \Exception(Piwik::translate('MobileMessaging_VerificationCodeRecentlySentError', $phoneNumber));
         }
 
         $this->sendVerificationCodeAndAddPhoneNumber($phoneNumber);

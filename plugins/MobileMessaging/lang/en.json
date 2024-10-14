@@ -39,6 +39,8 @@
         "Settings_VerificationCodeJustSent": "We just sent an SMS to this number with a code: please enter this code above and click \"Validate\".",
         "Settings_ResendVerification": "Resend verification code",
         "Settings_NewVerificationCodeSent": "A new verification code has been sent.",
+        "VerificationCodeRecentlySentError": "A verification code for phone number %1$s has already been requested recently.",
+        "TooManyUnverifiedNumbersError": "You cannot add more than 3 unverified phone numbers!",
         "SettingsMenu": "Mobile Messaging",
         "ConfirmRemovePhoneNumber": "Are you sure you want to remove the phone number %1$s?",
         "SMS_Content_Too_Long": "[too long]",

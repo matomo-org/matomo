@@ -237,30 +237,29 @@ class MobileMessagingTest extends IntegrationTestCase
     public function testResendVerificationCodeDoesNotWorkWithin60Seconds()
     {
         self::expectException(\Exception::class);
+        self::expectExceptionMessage('MobileMessaging_VerificationCodeRecentlySentError');
 
         $mobileMessagingAPI = APIMobileMessaging::getInstance();
         $model = new Model();
         $mobileMessagingAPI->setSMSAPICredential('StubbedProvider', []);
+
+        Date::$now = time() - 55;
         $mobileMessagingAPI->addPhoneNumber('+1234567895');
 
-        Date::$now = time() - 60;
-        $mobileMessagingAPI->resendVerificationCode('+1234567895');
-
-        Date::$now = time() - 58;
+        Date::$now = time();
         $mobileMessagingAPI->resendVerificationCode('+1234567895');
     }
 
     public function testResendVerificationCodeWorksAgainAfter60Seconds()
     {
-        self::expectException(\Exception::class);
+        self::expectNotToPerformAssertions();
 
         $mobileMessagingAPI = APIMobileMessaging::getInstance();
         $model = new Model();
         $mobileMessagingAPI->setSMSAPICredential('StubbedProvider', []);
-        $mobileMessagingAPI->addPhoneNumber('+1234567895');
 
-        Date::$now = time() - 62;
-        $mobileMessagingAPI->resendVerificationCode('+1234567895');
+        Date::$now = time() - 65;
+        $mobileMessagingAPI->addPhoneNumber('+1234567895');
 
         Date::$now = time();
         $mobileMessagingAPI->resendVerificationCode('+1234567895');
