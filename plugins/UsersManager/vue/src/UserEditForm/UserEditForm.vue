@@ -117,7 +117,7 @@
               :title="translate('General_Password')"
             />
           </div>
-          <div>
+          <div class="email-input">
             <Field
               v-model="theUser.email"
               :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
@@ -276,6 +276,9 @@
       @confirmed="updateUser"
     >
       <h2 v-html="$sanitize(changePasswordTitle)"></h2>
+      <Notification context="info" :noclear="true" v-if="user && isPending">
+        <strong v-html="$sanitize(translate('UsersManager_InviteEmailChange'))"></strong>
+      </Notification>
     </PasswordConfirmation>
   </ContentBlock>
 </template>
@@ -290,6 +293,7 @@ import {
   NotificationsStore,
   externalLink,
   Matomo,
+  Notification,
 } from 'CoreHome';
 import {
   PasswordConfirmation,
@@ -359,6 +363,7 @@ export default defineComponent({
     },
   },
   components: {
+    Notification,
     ContentBlock,
     Field,
     SaveButton,
