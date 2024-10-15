@@ -287,6 +287,7 @@ export default defineComponent({
       });
 
       WidgetsStoreInstance.reloadAvailableWidgets();
+      Matomo.postEvent('ReportingMenu.availableWidgetsReloaded');
     });
   },
   methods: {
