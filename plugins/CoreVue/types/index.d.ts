@@ -194,6 +194,7 @@ declare global {
   interface WidgetsHelper {
     availableWidgets?: unknown[];
     getAvailableWidgets(callback?: (widgets: Record<string, unknown[]>) => unknown);
+    clearAvailableWidgets();
     getWidgetObjectFromUniqueId(id: string, callback: (widget: unknown) => void);
 
     firstGetAvailableWidgetsCall?: Promise<void>;
