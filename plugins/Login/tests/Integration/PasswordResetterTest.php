@@ -244,7 +244,7 @@ class PasswordResetterTest extends IntegrationTestCase
                 ['Test.Mail.send', \Piwik\DI::value(function (PHPMailer $mail) {
                     $body = $mail->createBody();
                     $body = preg_replace("/=[\r\n]+/", '', $body);
-                    preg_match('/resetToken=[\s]*3D([a-zA-Z0-9=\s]+)"/', $body, $matches);
+                    preg_match('/resetToken=[\s]*3D([a-zA-Z0-9=\s]+)/', $body, $matches);
                     if (!empty($matches[1])) {
                         $capturedToken = $matches[1];
                         $capturedToken = preg_replace('/=\s*/', '', $capturedToken);
