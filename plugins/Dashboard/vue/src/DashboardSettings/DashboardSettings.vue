@@ -146,7 +146,7 @@ export default defineComponent({
       createWidgetPreview();
 
       // When the available widgets list is reloaded, re-create the widget preview to include update
-      Matomo.on('ReportingMenu.availableWidgetsReloaded', () => {
+      Matomo.on('WidgetsStore.reloaded', () => {
         createWidgetPreview();
       });
 

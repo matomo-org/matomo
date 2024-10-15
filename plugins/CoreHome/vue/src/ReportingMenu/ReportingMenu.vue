@@ -286,9 +286,7 @@ export default defineComponent({
         }
       });
 
-      WidgetsStoreInstance.reloadAvailableWidgets().then(() => {
-        Matomo.postEvent('ReportingMenu.availableWidgetsReloaded');
-      });
+      WidgetsStoreInstance.reloadAvailableWidgets();
     });
   },
   methods: {
