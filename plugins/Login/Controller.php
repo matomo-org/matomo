@@ -502,6 +502,36 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
+     * Password reset reject action. Invalidates a password reset token.
+     * Users visit this action from a link supplied in an email.
+     */
+    public function resetPasswordWasNotMe(): string
+    {
+        if (!Url::isValidHost()) {
+            throw new Exception("Cannot invalidate reset password token with untrusted hostname!");
+        }
+
+        $request = Request::fromRequest();
+        $login = $request->getStringParameter('login');
+        $resetToken = $request->getStringParameter('resetToken');
+
+        try {
+            $this->passwordResetter->checkValidConfirmPasswordToken($login, $resetToken);
+        } catch (Exception $ex) {
+            Log::debug($ex);
+            $errorMessage = $ex->getMessage();
+        }
+
+        if (!empty($errorMessage)) {
+            return $this->login($errorMessage);
+        }
+
+        $this->passwordResetter->removePasswordResetInfo($login);
+
+        return $this->renderTemplateAs('@Login/resetPasswordWasNotMe', [], 'basic');
+    }
+
+    /**
      * The action used after a password is successfully reset. Displays the login
      * screen with an extra message. A separate action is used instead of returning
      * the HTML in confirmResetPassword so the resetToken won't be in the URL.
