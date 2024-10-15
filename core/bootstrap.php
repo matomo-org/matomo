@@ -15,7 +15,7 @@ if (!defined('PIWIK_USER_PATH')) {
     define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);
 }
 
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~ E_DEPRECATED);
 @ini_set('display_errors', defined('PIWIK_DISPLAY_ERRORS') ? PIWIK_DISPLAY_ERRORS : @ini_get('display_errors'));
 @ini_set('xdebug.show_exception_trace', 0);
 
