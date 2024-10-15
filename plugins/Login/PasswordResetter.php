@@ -147,6 +147,23 @@ class PasswordResetter
     }
 
     /**
+     * Cancel an active password reset process.
+     *
+     * The current password reset information will be deleted.
+     *
+     * @param string $login The user's login.
+     * @param string $resetToken The reset token to invalidate.
+     * @throws Exception if $loginOrEmail does not have a reset process active,
+     *                   if $token does not match the active reset token,
+     *                   or if sending an email fails in some way
+     */
+    public function cancelPasswordResetProcess(string $login, string $resetToken): void
+    {
+        $this->checkValidConfirmPasswordToken($login, $resetToken);
+        $this->removePasswordResetInfo($login);
+    }
+
+    /**
      * Initiates the password reset process. This method will save the password reset
      * information as an {@link Option} and send an email with the reset confirmation
      * link to the user whose password is being reset.

@@ -183,6 +183,38 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->passwordResetter->initiatePasswordResetProcess('pendingUser', self::NEWPASSWORD);
     }
 
+    public function testPasswordResetCanBeCancelled(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The token is invalid or has expired.');
+
+        $this->passwordResetter->initiatePasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, self::NEWPASSWORD);
+        $this->assertNotEmpty($this->capturedToken);
+
+        $this->passwordResetter->checkValidConfirmPasswordToken(self::$fixture::ADMIN_USER_LOGIN, $this->capturedToken);
+        $this->passwordResetter->cancelPasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, $this->capturedToken);
+
+        // password should not have changed and the token should be invalid
+        $this->checkPasswordIs(self::$fixture::ADMIN_USER_PASSWORD);
+        $this->passwordResetter->checkValidConfirmPasswordToken(self::$fixture::ADMIN_USER_LOGIN, $this->capturedToken);
+    }
+
+    public function testPasswordResetCanNotBeCancelledWithAnOutdatedResetToken(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The token is invalid or has expired.');
+
+        $this->passwordResetter->initiatePasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, self::NEWPASSWORD);
+        $this->assertNotEmpty($this->capturedToken);
+
+        $oldCapturedToken = $this->capturedToken;
+
+        $this->passwordResetter->initiatePasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, self::NEWPASSWORD);
+        $this->assertNotEquals($oldCapturedToken, $this->capturedToken);
+
+        $this->passwordResetter->cancelPasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, $oldCapturedToken);
+    }
+
     /**
      * @param Fixture $fixture
      */

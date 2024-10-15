@@ -8,6 +8,8 @@
  */
 
 describe('ResetPassword', function () {
+    const parentSuite = this;
+
     before(async function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.save();
@@ -17,6 +19,14 @@ describe('ResetPassword', function () {
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
+
+    async function goToForgotPasswordPage() {
+        await page.goto('');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('a#login_form_nav');
+        await page.click('a#login_form_nav');
+        await page.waitForNetworkIdle();
+    }
 
     async function readResetPasswordUrl() {
         const expectedMailOutputFile = PIWIK_INCLUDE_PATH + '/tmp/Login.resetPassword.mail.json',
@@ -36,17 +46,23 @@ describe('ResetPassword', function () {
         return resetUrl;
     }
 
-    it('should display password reset form when forgot password link clicked', async function() {
-        await page.goto('');
+    async function requestPasswordReset() {
+        await page.type('#reset_form_login', superUserLogin);
+        await page.type('#reset_form_password', superUserPassword + '2');
+        await page.type('#reset_form_password_bis', superUserPassword + '2');
+        await page.click('#reset_form_submit');
         await page.waitForNetworkIdle();
-        await page.waitForSelector('a#login_form_nav');
-        await page.click('a#login_form_nav');
-        await page.waitForNetworkIdle();
+    }
+
+    it('should display password reset form when forgot password link clicked', async function () {
+        await goToForgotPasswordPage();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('forgot_password');
     });
 
-    it('should show reset password form and error message on error', async function() {
+    it('should show reset password form and error message on error', async function () {
+        await goToForgotPasswordPage();
+
         await page.type('#reset_form_login', superUserLogin);
         await page.type('#reset_form_password', superUserPassword + '2');
         await page.click('#reset_form_submit');
@@ -56,42 +72,103 @@ describe('ResetPassword', function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset_error');
     });
 
-    it('should send email when password reset form submitted', async function() {
-        await page.reload();
-        await page.click('a#login_form_nav');
-        await page.type('#reset_form_login', superUserLogin);
-        await page.type('#reset_form_password', superUserPassword + '2');
-        await page.type('#reset_form_password_bis', superUserPassword + '2');
-        await page.click('#reset_form_submit');
-        await page.waitForNetworkIdle();
+    describe('confirm password reset', function () {
+        this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset');
+        before(async function () {
+            // make sure we are not logged in
+            await page.clearCookies();
+        });
+
+        it('should send email when password reset form submitted', async function () {
+            await goToForgotPasswordPage();
+            await requestPasswordReset();
+
+            expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset');
+        });
+
+        it('should show reset password confirmation page when password reset link is clicked', async function () {
+            const resetUrl = await readResetPasswordUrl();
+
+            await page.goto(resetUrl);
+            await page.waitForNetworkIdle();
+
+            expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset_confirm');
+        });
+
+        it('should reset password when password reset link is clicked', async function () {
+            await page.type('#mtmpasswordconfirm', superUserPassword + '2');
+            await page.click('#login_reset_confirm');
+            await page.waitForNetworkIdle();
+
+            expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset_complete');
+        });
+
+        it('should show an error message if an outdated password reset token is used', async function () {
+            const resetUrl = await readResetPasswordUrl();
+
+            await page.goto(resetUrl);
+            await page.waitForNetworkIdle();
+
+            const notification = await page.$('.notification-error .notification-body');
+            const notificationText = await notification.getProperty('textContent');
+
+            expect(notificationText).to.match(/The token is invalid or has expired/i);
+        });
+
+        it('should login successfully when new credentials used', async function () {
+            await page.type('#login_form_login', superUserLogin);
+            await page.type('#login_form_password', superUserPassword + '2');
+            await page.click('#login_form_submit');
+
+            // check dashboard is shown
+            await page.waitForNetworkIdle();
+            await page.waitForSelector('#dashboard');
+        });
     });
 
-    it('should show reset password confirmation page when password reset link is clicked', async function() {
-        const resetUrl = await readResetPasswordUrl();
+    describe('password reset "was not me"', function () {
+        this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
-        await page.goto(resetUrl);
-        await page.waitForNetworkIdle();
+        before(async function () {
+            // make sure we are not logged in
+            await page.clearCookies();
+        });
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset_confirm');
-    });
+        it('should send email when password reset form submitted', async function () {
+            await goToForgotPasswordPage();
+            await requestPasswordReset();
 
-    it('should reset password when password reset link is clicked', async function() {
-        await page.type('#mtmpasswordconfirm', superUserPassword + '2');
-        await page.click('#login_reset_confirm');
-        await page.waitForNetworkIdle();
+            // wait for "link sent" message
+            await page.waitForNetworkIdle();
+            await page.waitForSelector('.message_container .message');
+        });
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset_complete');
-    });
+        it('should show confirmation page when "was not me" link is clicked', async function () {
+            let cancelUrl = await readResetPasswordUrl();
 
-    it('should login successfully when new credentials used', async function() {
-        await page.type('#login_form_login', superUserLogin);
-        await page.type('#login_form_password', superUserPassword + '2');
-        await page.click('#login_form_submit');
+            // link not yet in email
+            cancelUrl = cancelUrl.replace('action=confirmResetPassword', 'action=cancelResetPassword');
 
-        // check dashboard is shown
-        await page.waitForNetworkIdle();
-        await page.waitForSelector('#dashboard');
+            await page.goto(cancelUrl);
+            await page.waitForNetworkIdle();
+
+            expect(await page.screenshot({ fullPage: true })).to.matchImage('cancel');
+        });
+
+        it('should show an error message if an outdated password reset token is used', async function () {
+            let cancelUrl = await readResetPasswordUrl();
+
+            // link not yet in email
+            cancelUrl = cancelUrl.replace('action=confirmResetPassword', 'action=cancelResetPassword');
+
+            await page.goto(cancelUrl);
+            await page.waitForNetworkIdle();
+
+            const notification = await page.$('.notification-error .notification-body');
+            const notificationText = await notification.getProperty('textContent');
+
+            expect(notificationText).to.match(/The token is invalid or has expired/i);
+        });
     });
 });

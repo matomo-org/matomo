@@ -69,6 +69,10 @@
         "AcceptPrivacyPolicy": "You need to accept the privacy policy.",
         "AcceptTermsAndCondition": "You need to accept the terms &amp; conditions.",
         "AcceptPrivacyPolicyAndTermsAndCondition": "You need to accept the privacy policy and the terms &amp; conditions.",
-        "CreatePasswordDescription": "Make sure you remember this password and keep it in a safe place."
+        "CreatePasswordDescription": "Make sure you remember this password and keep it in a safe place.",
+        "CancelPasswordResetRequestRemoved": "Your request has been removed",
+        "CancelPasswordResetRequestRemovedMessage": "We have recorded that you did not request this password reset. The reset request has been removed, and no changes have been made to your account.",
+        "CancelPasswordResetSecurityTip": "For added protection, we recommend enabling two-factor authentication (2FA).",
+        "SecurityTip": "Security Tip"
     }
 }
