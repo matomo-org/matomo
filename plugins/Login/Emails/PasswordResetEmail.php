@@ -9,29 +9,29 @@
 
 namespace Piwik\Plugins\Login\Emails;
 
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Piwik;
+use Piwik\View;
 
 class PasswordResetEmail extends Mail
 {
     /**
      * @var string
      */
-    private $login;
+    protected $login;
 
     /**
      * @var string
      */
-    private $ip;
+    protected $ip;
 
     /**
      * @var string
      */
-    private $resetUrl;
+    protected $resetUrl;
 
-    public function __construct($login, $ip, $resetUrl)
+    public function __construct(string $login, string $ip, string $resetUrl)
     {
         parent::__construct();
 
@@ -42,52 +42,28 @@ class PasswordResetEmail extends Mail
         $this->setUpEmail();
     }
 
-    private function setUpEmail()
+    private function setUpEmail(): void
     {
         $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
         $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
 
         $this->setSubject($this->getDefaultSubject());
         $this->addReplyTo($replytoEmailAddress, $replytoEmailName);
-        $this->setWrappedHtmlBody($this->getHTMLBody());
-        $this->setBodyText($this->getDefaultBodyText());
+        $this->setWrappedHtmlBody($this->getDefaultBodyView());
     }
 
-    private function getDefaultSubject()
+    protected function getDefaultSubject(): string
     {
         return Piwik::translate('Login_MailTopicPasswordChange');
     }
 
-    /**
-     * Get the translated plain text email body with the reset link
-     *
-     * @return string
-     */
-    private function getDefaultBodyText(): string
+    protected function getDefaultBodyView(): string
     {
-        return Piwik::translate(
-            'Login_MailPasswordChangeBody2',
-            [Common::sanitizeInputValue($this->login), Common::sanitizeInputValue($this->ip), Common::sanitizeInputValue($this->resetUrl)]
-        );
-    }
+        $view = new View('@Login/_passwordResetEmail.twig');
+        $view->login = $this->login;
+        $view->ip = $this->ip;
+        $view->resetUrl = $this->resetUrl;
 
-    /**
-     * Create the HTML email body from the plain text body
-     *
-     * @return string
-     */
-    private function getHTMLBody(): string
-    {
-        return '<p>' . str_replace(
-            "\n\n",
-            "</p><p>",
-            Piwik::translate(
-                'Login_MailPasswordChangeBody2',
-                [Common::sanitizeInputValue($this->login),
-                 Common::sanitizeInputValue($this->ip),
-                '<p style="word-break: break-all"><a href="' . Common::sanitizeInputValue($this->resetUrl) . '">' .
-                Common::sanitizeInputValue($this->resetUrl) . '</a></p>']
-            )
-        ) . "</p>";
+        return $view->render();
     }
 }
