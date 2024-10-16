@@ -31,13 +31,19 @@ class PasswordResetEmail extends Mail
      */
     private $resetUrl;
 
-    public function __construct($login, $ip, $resetUrl)
+    /**
+     * @var string
+     */
+    private $wasNotMeUrl;
+
+    public function __construct($login, $ip, $resetUrl, $wasNotMeUrl)
     {
         parent::__construct();
 
         $this->login = $login;
         $this->ip = $ip;
         $this->resetUrl = $resetUrl;
+        $this->wasNotMeUrl = $wasNotMeUrl;
 
         $this->setUpEmail();
     }
@@ -54,7 +60,7 @@ class PasswordResetEmail extends Mail
 
     private function getDefaultSubject()
     {
-        return Piwik::translate('Login_MailTopicPasswordChange');
+        return Piwik::translate('Login_PasswordResetEmailSubject');
     }
 
     private function getDefaultBodyView()
@@ -63,6 +69,7 @@ class PasswordResetEmail extends Mail
         $view->login = $this->login;
         $view->ip = $this->ip;
         $view->resetUrl = $this->resetUrl;
+        $view->wasNotMeUrl = $this->wasNotMeUrl;
 
         return $view->render();
     }

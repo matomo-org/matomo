@@ -88,6 +88,13 @@ class PasswordResetter
     private $confirmPasswordAction = "confirmResetPassword";
 
     /**
+     * The action to link to in the confirm password reset email for the "was not me" link.
+     *
+     * @var string
+     */
+    private $resetPasswordWasNotMeAction = "resetPasswordWasNotMe";
+
+    /**
      * The name to use in the From: part of the confirm password reset email.
      *
      * Defaults to the `[General] noreply_email_name` INI config option.
@@ -114,6 +121,7 @@ class PasswordResetter
      * @param string|null $emailFromName
      * @param string|null $emailFromAddress
      * @param Password $passwordHelper
+     * @param string|null $resetPasswordWasNotMeAction
      */
     public function __construct(
         $usersManagerApi = null,
@@ -121,7 +129,8 @@ class PasswordResetter
         $confirmPasswordAction = null,
         $emailFromName = null,
         $emailFromAddress = null,
-        $passwordHelper = null
+        $passwordHelper = null,
+        $resetPasswordWasNotMeAction = null
     ) {
         if (empty($usersManagerApi)) {
             $usersManagerApi = UsersManagerAPI::getInstance();
@@ -144,6 +153,10 @@ class PasswordResetter
             $passwordHelper = new Password();
         }
         $this->passwordHelper = $passwordHelper;
+
+        if (!empty($resetPasswordWasNotMeAction)) {
+            $this->resetPasswordWasNotMeAction = $resetPasswordWasNotMeAction;
+        }
     }
 
     /**
@@ -446,16 +459,17 @@ class PasswordResetter
         // construct a password reset token from user information
         $resetToken = $this->generatePasswordResetToken($user, $keySuffix);
 
-        $confirmPasswordModule = $this->confirmPasswordModule;
-        $confirmPasswordAction = $this->confirmPasswordAction;
-
         $ip = IP::getIpFromHeader();
-        $url = Url::getCurrentUrlWithoutQueryString()
-            . "?module=$confirmPasswordModule&action=$confirmPasswordAction&login=" . urlencode($login)
+        $urlBase = Url::getCurrentUrlWithoutQueryString()
+            . "?module={$this->confirmPasswordModule}"
+            . "&login=" . urlencode($login)
             . "&resetToken=" . urlencode($resetToken);
 
+        $urlConfirm = $urlBase . "&action={$this->confirmPasswordAction}";
+        $urlWasNotMe = $urlBase . "&action={$this->resetPasswordWasNotMeAction}";
+
         // send email with new password
-        $mail = new PasswordResetEmail($login, $ip, $url);
+        $mail = new PasswordResetEmail($login, $ip, $urlConfirm, $urlWasNotMe);
         $mail->addTo($email, $login);
 
         if ($this->emailFromAddress || $this->emailFromName) {
