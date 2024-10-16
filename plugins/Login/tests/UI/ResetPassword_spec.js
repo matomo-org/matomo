@@ -28,15 +28,15 @@ describe('ResetPassword', function () {
         await page.waitForNetworkIdle();
     }
 
-    async function readResetPasswordUrl() {
+    async function readLinkFromPasswordResetMail(action) {
         const expectedMailOutputFile = PIWIK_INCLUDE_PATH + '/tmp/Login.resetPassword.mail.json',
               fileContents = require('fs').readFileSync(expectedMailOutputFile),
               mailSent = JSON.parse(fileContents);
 
-        let resetUrl = mailSent.contents.match(/http:\/\/[^"]+resetToken[^"]+"/);
+        let resetUrl = mailSent.contents.match(new RegExp('http://[^"]*' + action + '[^"]*"'));
 
         if (!resetUrl || !resetUrl[0]) {
-            throw new Error(`Could not find reset URL in email, captured mail info: ${fileContents}`)
+            throw new Error(`Could not find ${action} URL in email, captured mail info: ${fileContents}`)
         }
         resetUrl = resetUrl[0].replace(/"$/, '');
         resetUrl = await page.evaluate((resetUrl) => {
@@ -88,7 +88,7 @@ describe('ResetPassword', function () {
         });
 
         it('should show reset password confirmation page when password reset link is clicked', async function () {
-            const resetUrl = await readResetPasswordUrl();
+            const resetUrl = await readLinkFromPasswordResetMail('confirmResetPassword');
 
             await page.goto(resetUrl);
             await page.waitForNetworkIdle();
@@ -105,7 +105,7 @@ describe('ResetPassword', function () {
         });
 
         it('should show an error message if an outdated password reset token is used', async function () {
-            const resetUrl = await readResetPasswordUrl();
+            const resetUrl = await readLinkFromPasswordResetMail('confirmResetPassword');
 
             await page.goto(resetUrl);
             await page.waitForNetworkIdle();
@@ -145,10 +145,7 @@ describe('ResetPassword', function () {
         });
 
         it('should show confirmation page when "was not me" link is clicked', async function () {
-            let cancelUrl = await readResetPasswordUrl();
-
-            // link not yet in email
-            cancelUrl = cancelUrl.replace('action=confirmResetPassword', 'action=cancelResetPassword');
+            const cancelUrl = await readLinkFromPasswordResetMail('cancelResetPassword');
 
             await page.goto(cancelUrl);
             await page.waitForNetworkIdle();
@@ -157,10 +154,7 @@ describe('ResetPassword', function () {
         });
 
         it('should show an error message if an outdated password reset token is used', async function () {
-            let cancelUrl = await readResetPasswordUrl();
-
-            // link not yet in email
-            cancelUrl = cancelUrl.replace('action=confirmResetPassword', 'action=cancelResetPassword');
+            const cancelUrl = await readLinkFromPasswordResetMail('cancelResetPassword');
 
             await page.goto(cancelUrl);
             await page.waitForNetworkIdle();
