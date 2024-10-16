@@ -52,6 +52,12 @@ FORMAT;
 test message on {includePath}/tests/resources/trigger-fatal-exception.php(23) #0 [internal function]: {closure}('CoreHome', 'index', Array) #1 {includePath}/core/EventDispatcher.php(141): call_user_func_array(Object(Closure), Array) #2 {includePath}/core/Piwik.php(845): Piwik\EventDispatcher-&gt;postEvent('Request.dispatc...', Array, false, Array) #3 {includePath}/core/FrontController.php(606): Piwik\Piwik::postEvent('Request.dispatc...', Array) #4 {includePath}/core/FrontController.php(168): Piwik\FrontController-&gt;doDispatch('CoreHome', 'index', Array) #5 {includePath}/tests/resources/trigger-fatal-exception.php(31): Piwik\FrontController-&gt;dispatch('CoreHome', 'index') #6 {main}
 FORMAT;
 
+        if (version_compare(PHP_VERSION, '8.4.0-dev', '>=')) {
+            $expectedFormat = <<<FORMAT
+test message on {includePath}/tests/resources/trigger-fatal-exception.php(23) #0 [internal function]: {closure:{includePath}/tests/resources/trigger-fatal-exception.php:20}('...', '...', Array) #1 {includePath}/core/EventDispatcher.php(147): call_user_func_array(Object(Closure), Array) #2 {includePath}/core/Piwik.php(880): Piwik\EventDispatcher-&gt;postEvent('...', Array, false, Array) #3 {includePath}/core/FrontController.php(625): Piwik\Piwik::postEvent('...', Array) #4 {includePath}/core/FrontController.php(169): Piwik\FrontController-&gt;doDispatch('...', '...', Array) #5 {includePath}/tests/resources/trigger-fatal-exception.php(31): Piwik\FrontController-&gt;dispatch('...', '...') #6 {main}
+FORMAT;
+        }
+
         //remove all the numbers
         $expectedFormat = preg_replace('/[0-9]+/', 'x', $expectedFormat);
         $expectedFormat = preg_replace('/".*?"|\'.*?\'/', 'xxx', $expectedFormat);
