@@ -1,6 +1,7 @@
 {
     "MobileMessaging": {
         "Available_Credits": "Kalan kredi: %1$s",
+        "ConfirmRemovePhoneNumber": "%1$s telefon numarasını silmek istediğinize emin misiniz?",
         "Exception_UnknownProvider": "'%1$s' adlı hizmet sağlayıcı geçersiz. Onun yerine şunlardan birini kullanın: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Şuraya erişerek daha fazla telefon numarası ekleyebilirsiniz",
         "MobileReport_MobileMessagingSettingsLink": "Mobil iletişim ayarları sayfası",
@@ -25,6 +26,7 @@
         "Settings_LetUsersManageAPICredential_No_Help": "Tüm kullanıcılar SMS iletileri alabilir ve hesap kredisini kullanabilir.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "Tüm kullanıcılar kendi SMS API hesaplarını kurabilir ve sizin kredinizi kullanmaz.",
         "Settings_ManagePhoneNumbers": "Telefon numaraları yönetimi",
+        "Settings_NewVerificationCodeSent": "Yeni bir doğrulama kodu gönderildi.",
         "Settings_PhoneActivated": "Telefon numarası doğrulandı! Artık istatistikleri SMS iletileri ile alabilirsiniz.",
         "Settings_PhoneNumber": "Telefon numarası",
         "Settings_PhoneNumbers_Add": "Yeni telefon numarası ekle",
@@ -32,6 +34,7 @@
         "Settings_PhoneNumbers_Help": "Telefona SMS (metin iletisi) bildirimlerini almadan önce aşağıya bir telefon numarası yazmalısınız.",
         "Settings_PhoneNumbers_HelpAdd": "\"Ekle\" üzerine tıkladığınızda telefona bir kod içeren SMS gönderilir. Kodu aldıktan sonra Matomo üzerinde oturum açıp, önce ayarlar sonra mobil iletişim üzerine tıklayın. Kodu yazdıktan sonra kullanıcının telefonuna metin raporları gönderilmeye başlanır.",
         "Settings_PleaseSignUp": "SMS bilgilendirmeleri oluşturmak ve site istatistiklerini SMS iletileri olarak telefonunuzdan almak için SMS API hesabınızı açın ve aşağıdaki bilgileri yazın.",
+        "Settings_ResendVerification": "Doğrulama kodunu yeniden gönder",
         "Settings_SMSAPIAccount": "SMS API hesabı yönetimi",
         "Settings_SMSProvider": "SMS hizmeti sağlayıcı",
         "Settings_SelectCountry": "Ülke seçin",
@@ -40,9 +43,11 @@
         "Settings_UpdateOrDeleteAccount": "Ayrıca bu hesabı %1$sgüncelleyebilir%2$s ya da %3$ssilebilirsiniz%4$s.",
         "Settings_ValidatePhoneNumber": "Doğrula",
         "Settings_VerificationCodeJustSent": "Bu telefon numarasına bir kod içeren bir SMS gönderildi. Lütfen gönderilen kodu yukarıya yazıp \"Doğrula\" üzerine tıklayın.",
+        "TooManyUnverifiedNumbersError": "3 taneden fazla doğrulanmamış telefon numarası ekleyemezsiniz!",
         "TopLinkTooltip": "Site istatistikleri raporlarını e-postanıza ya da cep telefonunuza gönderin.",
         "TopMenu": "E-posta ve SMS raporları",
         "UserKey": "Kullanıcı anahtarı",
+        "VerificationCodeRecentlySentError": "Kısa süre önce %1$s telefon numarası için bir doğrulama kodu zaten istendi.",
         "VerificationText": "Kod: %1$s. Telefon numaranızı doğrulamak ve Matomo SMS raporlarını almak için lütfen Matomo → %2$s → %3$s bölümüne bu kodu kopyalayın."
     }
 }
