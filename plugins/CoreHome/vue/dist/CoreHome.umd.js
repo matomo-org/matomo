@@ -8773,6 +8773,7 @@ function Widgets_store_defineProperty(obj, key, value) { if (key in obj) { Objec
  */
 
 
+
 function getWidgetChildren(widget) {
   var container = widget;
 
@@ -8838,7 +8839,11 @@ var Widgets_store_WidgetsStore = /*#__PURE__*/function () {
       // Let's also update widgetslist so will be easier to update list of available widgets in
       // dashboard selector immediately
       window.widgetsHelper.clearAvailableWidgets();
-      return this.fetchAvailableWidgets();
+      var fetchPromise = this.fetchAvailableWidgets();
+      fetchPromise.then(function () {
+        Matomo_Matomo.postEvent('WidgetsStore.reloaded');
+      });
+      return fetchPromise;
     }
   }]);
 

@@ -13,6 +13,7 @@ import {
 } from 'vue';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import { Widget, WidgetContainer } from './types';
+import Matomo from '../Matomo/Matomo';
 
 interface WidgetsStoreState {
   isFetchedFirstTime: boolean;
@@ -70,7 +71,12 @@ class WidgetsStore {
     // dashboard selector immediately
     window.widgetsHelper.clearAvailableWidgets();
 
-    return this.fetchAvailableWidgets();
+    const fetchPromise = this.fetchAvailableWidgets();
+    fetchPromise.then(() => {
+      Matomo.postEvent('WidgetsStore.reloaded');
+    });
+
+    return fetchPromise;
   }
 }
 
