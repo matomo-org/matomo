@@ -8757,8 +8757,6 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
 }();
 /* harmony default export */ var ReportingMenu_store = (new ReportingMenu_store_ReportingMenuStore());
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Widget/Widgets.store.ts
-function Widgets_store_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { Widgets_store_typeof = function _typeof(obj) { return typeof obj; }; } else { Widgets_store_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return Widgets_store_typeof(obj); }
-
 function Widgets_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function Widgets_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -8773,6 +8771,7 @@ function Widgets_store_defineProperty(obj, key, value) { if (key in obj) { Objec
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 function getWidgetChildren(widget) {
@@ -8837,13 +8836,14 @@ var Widgets_store_WidgetsStore = /*#__PURE__*/function () {
   }, {
     key: "reloadAvailableWidgets",
     value: function reloadAvailableWidgets() {
-      if (Widgets_store_typeof(window.widgetsHelper) === 'object' && window.widgetsHelper.availableWidgets) {
-        // lets also update widgetslist so will be easier to update list of available widgets in
-        // dashboard selector immediately
-        delete window.widgetsHelper.availableWidgets;
-      }
-
-      return this.fetchAvailableWidgets();
+      // Let's also update widgetslist so will be easier to update list of available widgets in
+      // dashboard selector immediately
+      window.widgetsHelper.clearAvailableWidgets();
+      var fetchPromise = this.fetchAvailableWidgets();
+      fetchPromise.then(function () {
+        Matomo_Matomo.postEvent('WidgetsStore.reloaded');
+      });
+      return fetchPromise;
     }
   }]);
 

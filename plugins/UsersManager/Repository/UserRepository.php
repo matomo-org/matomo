@@ -109,7 +109,7 @@ class UserRepository
         $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
     }
 
-    public function reInviteUser(string $userLogin, $expiryInDays = null): void
+    public function reInviteUser(string $userLogin, int $expiryInDays): void
     {
         $user = $this->model->getUser($userLogin);
         $generatedToken = $this->model->generateRandomInviteToken();
@@ -117,7 +117,7 @@ class UserRepository
         $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
     }
 
-    public function generateInviteToken(string $userLogin, $expiryInDays = null): string
+    public function generateInviteToken(string $userLogin, int $expiryInDays): string
     {
         $generatedToken = $this->model->generateRandomInviteToken();
         $this->model->attachInviteLinkToken($userLogin, $generatedToken, $expiryInDays);

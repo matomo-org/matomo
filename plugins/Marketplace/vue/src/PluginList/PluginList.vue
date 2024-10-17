@@ -71,6 +71,12 @@
                 <div class="card-description">{{ plugin.description }}</div>
               </div>
               <div class="card-content-bottom">
+                <div class="owner">
+                  {{translate('Marketplace_CreatedBy')}}
+                  <span
+                    v-if="plugin.owner === 'piwik' || plugin.owner === 'matomo-org'"> Matomo</span>
+                  <span v-else> {{ plugin.owner }}</span>
+                </div>
                 <div v-if="plugin.numDownloads > 0" class="downloads">
                   {{ plugin.numDownloadsPretty }} {{ translate('General_Downloads').toLowerCase() }}
                 </div>
