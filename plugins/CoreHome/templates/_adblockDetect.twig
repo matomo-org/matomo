@@ -27,15 +27,31 @@
                     var warning = document.createElement('p');
                     warning.innerText = '{{ 'CoreHome_AdblockIsMaybeUsed'|translate|e('js') }}';
 
+                    var warningBox = document.createElement('div');
+                    warningBox.style.border = '3px solid red';
+                    warningBox.style.padding = '10px';
+                    warningBox.style.margin = '10px 20px'; 
+                    warningBox.style.textAlign = 'center';
+                    warningBox.style.display = 'flex';
+                    warningBox.style.justifyContent = 'center';
+                    warningBox.style.alignItems = 'center';
+                    warningBox.style.position = 'fixed';
+                    warningBox.style.top = '0';
+                    warningBox.style.left = '0';
+                    warningBox.style.right = '0'; 
+                    warningBox.style.backgroundColor = 'white';
+                    warningBox.style.zIndex = '1000';
+
+                    warning.style.color = 'red';
+                    warning.style.fontWeight = 'bold';
+                    warning.style.fontSize = '20px';
+
+                    warningBox.appendChild(warning);
+
                     if (shouldGetHiddenElement) {
-                        shouldGetHiddenElement.appendChild(warning);
+                        shouldGetHiddenElement.appendChild(warningBox);
                     } else {
-                        body[0].insertBefore(warning, body[0].firstChild);
-                        warning.style.color = 'red';
-                        warning.style.fontWeight = 'bold';
-                        warning.style.marginLeft = '16px';
-                        warning.style.marginBottom = '16px';
-                        warning.style.fontSize = '20px';
+                        body[0].insertBefore(warningBox, body[0].firstChild);
                     }
                 }
             })();

@@ -125,6 +125,7 @@
         "InviteActionNotes": "Lütfen bir çağrıyı yeniden göndermenin ya da çağrı bağlantısını kopyalamanın önceki çağrının kullanma süresi sınırını %1$s gün uzatacağını unutmayın.",
         "InviteConfirmMessage": "Çağrı bağlantısını kopyalayıp doğrudan %1$s ile paylaşarak çağrıyı yeniden gönderebilir ya da %2$s adresine bir çağrı e-postası gönderebilirsiniz.",
         "InviteDayLeft": "%s gün sonra süresi geçecek",
+        "InviteEmailChange": "Bu kullanıcı henüz hesabını onaylamamış. E-posta adresini değiştirmek, önceki daveti geçersiz kılar ve yeni e-posta adresine bir davetiye gönderir.",
         "InviteNewUser": "Yeni bir kullanıcı çağır",
         "InviteSuccess": "Çağrı gönderildi.",
         "InviteSuccessNotification": "Çağrılan kullanıcıya çağrıyı kabul etmesi için bir e-posta gönderilir. Bu çağrı %1$s gün boyunca geçerlidir. Ayrıca kullanıcı yönetimi sayfasından çağrıyı yeniden gönderebilir ya da silebilirsiniz.",

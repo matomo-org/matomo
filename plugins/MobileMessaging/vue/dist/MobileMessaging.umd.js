@@ -724,37 +724,37 @@ function DelegateMobileMessagingSettingsvue_type_template_id_40b6024f_render(_ct
 DelegateMobileMessagingSettingsvue_type_script_lang_ts.render = DelegateMobileMessagingSettingsvue_type_template_id_40b6024f_render
 
 /* harmony default export */ var DelegateMobileMessagingSettings = (DelegateMobileMessagingSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/ManageMobilePhoneNumbers/ManageMobilePhoneNumbers.vue?vue&type=template&id=07ab3544
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/ManageMobilePhoneNumbers/ManageMobilePhoneNumbers.vue?vue&type=template&id=3fa85a3e
 
-var ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_1 = {
+var ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_1 = {
   key: 0
 };
-var ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_2 = {
+var ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_2 = {
   class: "row"
 };
-var ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_3 = {
+var ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_3 = {
   class: "col s12"
 };
-var ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_4 = {
+var ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_4 = {
   class: "form-group row"
 };
-var ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_5 = {
+var ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_5 = {
   class: "col s12 m6"
 };
-var ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_6 = {
+var ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_6 = {
   class: "col s12 m6 form-help"
 };
-var ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_7 = {
+var ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_7 = {
   class: "form-group row addPhoneNumber"
 };
-var ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_8 = {
+var ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_8 = {
   class: "col s12 m6"
 };
-var ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_9 = {
+var ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_9 = {
   class: "countryCode left"
 };
 
-var ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+var ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "countryCodeSymbol"
 }, "+", -1);
 
@@ -767,40 +767,45 @@ var _hoisted_12 = {
 var _hoisted_13 = {
   class: "col s12 m6 form-help"
 };
+var _hoisted_14 = {
+  id: "ajaxErrorManagePhoneNumber",
+  ref: "errorContainer"
+};
 
-var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-  id: "ajaxErrorAddPhoneNumber"
+var _hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+  id: "notificationManagePhoneNumber"
 }, null, -1);
 
-var _hoisted_15 = {
+var _hoisted_16 = {
   key: 1,
   class: "row"
 };
-var _hoisted_16 = {
+var _hoisted_17 = {
   class: "col s12"
 };
-var _hoisted_17 = {
+var _hoisted_18 = {
   class: "col s12 m6"
 };
-var _hoisted_18 = {
+var _hoisted_19 = {
   class: "phoneNumber"
 };
-var _hoisted_19 = ["onUpdate:modelValue", "placeholder"];
-var _hoisted_20 = {
+var _hoisted_20 = ["onUpdate:modelValue", "placeholder"];
+var _hoisted_21 = {
   key: 0,
   class: "form-help col s12 m6"
 };
+var _hoisted_22 = ["onClick"];
 
-var _hoisted_21 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("   ");
+var _hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("   ");
 
-var _hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-  id: "invalidVerificationCodeAjaxError",
-  style: {
-    "display": "none"
-  }
-}, null, -1);
-
-function ManageMobilePhoneNumbersvue_type_template_id_07ab3544_render(_ctx, _cache, $props, $setup, $data, $options) {
+var _hoisted_24 = {
+  class: "ui-confirm",
+  id: "confirmDeletePhoneNumber"
+};
+var _hoisted_25 = ["innerHTML"];
+var _hoisted_26 = ["value"];
+var _hoisted_27 = ["value"];
+function ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
@@ -809,7 +814,7 @@ function ManageMobilePhoneNumbersvue_type_template_id_07ab3544_render(_ctx, _cac
 
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_PhoneNumbers_Help')), 1), _ctx.isSuperUser ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_DelegatedPhoneNumbersOnlyUsedByYou')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_PhoneNumbers_Add')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_PhoneNumbers_Help')), 1), _ctx.isSuperUser ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_DelegatedPhoneNumbersOnlyUsedByYou')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_PhoneNumbers_Add')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "select",
     name: "countryCodeSelect",
     title: _ctx.translate('MobileMessaging_Settings_SelectCountry'),
@@ -819,7 +824,7 @@ function ManageMobilePhoneNumbersvue_type_template_id_07ab3544_render(_ctx, _cac
     }),
     "full-width": true,
     options: _ctx.countries
-  }, null, 8, ["title", "modelValue", "options"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_PhoneNumbers_CountryCode_Help')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_9, [ManageMobilePhoneNumbersvue_type_template_id_07ab3544_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, ["title", "modelValue", "options"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_PhoneNumbers_CountryCode_Help')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_9, [ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "text",
     name: "countryCallingCode",
     title: _ctx.translate('MobileMessaging_Settings_CountryCode'),
@@ -841,7 +846,7 @@ function ManageMobilePhoneNumbersvue_type_template_id_07ab3544_render(_ctx, _cac
     maxlength: 80
   }, null, 8, ["modelValue", "title"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
     class: "valign",
-    disabled: !_ctx.canAddNumber || _ctx.isAddingPhonenumber,
+    disabled: !_ctx.canAddNumber || _ctx.isUpdatingPhoneNumbers,
     onConfirm: _cache[3] || (_cache[3] = function ($event) {
       return _ctx.addPhoneNumber();
     }),
@@ -854,13 +859,13 @@ function ManageMobilePhoneNumbersvue_type_template_id_07ab3544_render(_ctx, _cac
       return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_SuspiciousPhoneNumber', '54184032')), 1)];
     }),
     _: 1
-  }, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showSuspiciousPhoneNumber]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.strHelpAddPhone), 1)]), _hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
-    loading: _ctx.isAddingPhonenumber
-  }, null, 8, ["loading"]), Object.keys(_ctx.phoneNumbers || {}).length > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", _hoisted_16, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_ManagePhoneNumbers')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.phoneNumbers || [], function (validated, phoneNumber, index) {
+  }, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showSuspiciousPhoneNumber]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.strHelpAddPhone), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_14, null, 512), _hoisted_15, Object.keys(_ctx.phoneNumbers || {}).length > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", _hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_ManagePhoneNumbers')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+    loading: _ctx.isUpdatingPhoneNumbers
+  }, null, 8, ["loading"]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.phoneNumbers || [], function (verificationData, phoneNumber, index) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       class: "form-group row",
       key: index
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_17, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_18, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(phoneNumber), 1), !validated && !_ctx.isActivated[index] ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("input", {
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_18, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(phoneNumber), 1), !verificationData.verified ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("input", {
       key: 0,
       type: "text",
       class: "verificationCode",
@@ -871,15 +876,15 @@ function ManageMobilePhoneNumbersvue_type_template_id_07ab3544_render(_ctx, _cac
       style: {
         "margin-right": "3.5px"
       }
-    }, null, 8, _hoisted_19)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.validationCode[index]]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !validated && !_ctx.isActivated[index] ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_SaveButton, {
+    }, null, 8, _hoisted_20)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.validationCode[index]]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !verificationData.verified ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_SaveButton, {
       key: 1,
-      disabled: !_ctx.validationCode[index] || _ctx.isChangingPhoneNumber,
+      disabled: !_ctx.validationCode[index] || _ctx.isUpdatingPhoneNumbers,
       onConfirm: function onConfirm($event) {
         return _ctx.validateActivationCode(phoneNumber, index);
       },
       value: _ctx.translate('MobileMessaging_Settings_ValidatePhoneNumber')
     }, null, 8, ["disabled", "onConfirm", "value"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
-      disabled: _ctx.isChangingPhoneNumber,
+      disabled: _ctx.isUpdatingPhoneNumbers,
       onConfirm: function onConfirm($event) {
         return _ctx.removePhoneNumber(phoneNumber);
       },
@@ -887,12 +892,24 @@ function ManageMobilePhoneNumbersvue_type_template_id_07ab3544_render(_ctx, _cac
       style: {
         "margin-left": "3.5px"
       }
-    }, null, 8, ["disabled", "onConfirm", "value"])]), !validated && !_ctx.isActivated[index] ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_20, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_VerificationCodeJustSent')), 1), _hoisted_21])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
-  }), 128)), _hoisted_22, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
-    loading: _ctx.isChangingPhoneNumber
-  }, null, 8, ["loading"])]);
+    }, null, 8, ["disabled", "onConfirm", "value"])]), !verificationData.verified ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_VerificationCodeJustSent')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      onClick: function onClick($event) {
+        return _ctx.resendVerificationCode(phoneNumber, index);
+      }
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MobileMessaging_Settings_ResendVerification')), 9, _hoisted_22)]), _hoisted_23])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+  }), 128))]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_24, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", {
+    innerHTML: _ctx.$sanitize(_ctx.removeNumberConfirmation)
+  }, null, 8, _hoisted_25), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    type: "button",
+    role: "yes",
+    value: _ctx.translate('General_Yes')
+  }, null, 8, _hoisted_26), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    type: "button",
+    role: "no",
+    value: _ctx.translate('General_No')
+  }, null, 8, _hoisted_27)])], 64);
 }
-// CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/ManageMobilePhoneNumbers/ManageMobilePhoneNumbers.vue?vue&type=template&id=07ab3544
+// CONCATENATED MODULE: ./plugins/MobileMessaging/vue/src/ManageMobilePhoneNumbers/ManageMobilePhoneNumbers.vue?vue&type=template&id=3fa85a3e
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/ManageMobilePhoneNumbers/ManageMobilePhoneNumbers.vue?vue&type=script&lang=ts
 
@@ -909,8 +926,7 @@ function ManageMobilePhoneNumbersvue_type_template_id_07ab3544_render(_ctx, _cac
     strHelpAddPhone: {
       type: String,
       required: true
-    },
-    phoneNumbers: Object
+    }
   },
   components: {
     Field: external_CorePluginsAdmin_["Field"],
@@ -920,13 +936,16 @@ function ManageMobilePhoneNumbersvue_type_template_id_07ab3544_render(_ctx, _cac
   },
   data: function data() {
     return {
-      isAddingPhonenumber: false,
-      isChangingPhoneNumber: false,
-      isActivated: {},
+      isUpdatingPhoneNumbers: false,
+      phoneNumbers: {},
       countryCallingCode: this.defaultCallingCode || '',
       newPhoneNumber: '',
-      validationCode: {}
+      validationCode: {},
+      numberToRemove: ''
     };
+  },
+  mounted: function mounted() {
+    this.updatePhoneNumbers();
   },
   methods: {
     validateActivationCode: function validateActivationCode(phoneNumber, index) {
@@ -937,22 +956,23 @@ function ManageMobilePhoneNumbersvue_type_template_id_07ab3544_render(_ctx, _cac
       }
 
       var verificationCode = this.validationCode[index];
-      this.isChangingPhoneNumber = true;
+      this.isUpdatingPhoneNumbers = true;
+      this.clearNotifcationsAndErrorsContainer();
       external_CoreHome_["AjaxHelper"].post({
         method: 'MobileMessaging.validatePhoneNumber'
       }, {
         phoneNumber: phoneNumber,
         verificationCode: verificationCode
       }, {
-        errorElement: '#invalidVerificationCodeAjaxError'
+        errorElement: '#ajaxErrorManagePhoneNumber'
       }).then(function (response) {
-        _this.isChangingPhoneNumber = false;
         var notificationInstanceId;
 
         if (!response || !response.value) {
           var message = Object(external_CoreHome_["translate"])('MobileMessaging_Settings_InvalidActivationCode');
           notificationInstanceId = external_CoreHome_["NotificationsStore"].show({
             message: message,
+            placeat: '#notificationManagePhoneNumber',
             context: 'error',
             id: 'MobileMessaging_ValidatePhoneNumber',
             type: 'transient'
@@ -962,59 +982,113 @@ function ManageMobilePhoneNumbersvue_type_template_id_07ab3544_render(_ctx, _cac
 
           notificationInstanceId = external_CoreHome_["NotificationsStore"].show({
             message: _message,
+            placeat: '#notificationManagePhoneNumber',
             context: 'success',
             id: 'MobileMessaging_ValidatePhoneNumber',
             type: 'transient'
           });
-          _this.isActivated[index] = true;
+
+          _this.updatePhoneNumbers();
         }
 
         external_CoreHome_["NotificationsStore"].scrollToNotification(notificationInstanceId);
       }).finally(function () {
-        _this.isChangingPhoneNumber = false;
+        _this.validationCode[index] = '';
+        _this.isUpdatingPhoneNumbers = false;
+      });
+    },
+    resendVerificationCode: function resendVerificationCode(phoneNumber) {
+      var _this2 = this;
+
+      this.isUpdatingPhoneNumbers = true;
+      this.clearNotifcationsAndErrorsContainer();
+      external_CoreHome_["AjaxHelper"].post({
+        method: 'MobileMessaging.resendVerificationCode'
+      }, {
+        phoneNumber: phoneNumber
+      }, {
+        errorElement: '#ajaxErrorManagePhoneNumber'
+      }).then(function () {
+        var message = Object(external_CoreHome_["translate"])('MobileMessaging_Settings_NewVerificationCodeSent');
+        var notificationInstanceId = external_CoreHome_["NotificationsStore"].show({
+          message: message,
+          placeat: '#notificationManagePhoneNumber',
+          context: 'success',
+          id: 'MobileMessaging_ValidatePhoneNumber',
+          type: 'transient'
+        });
+        external_CoreHome_["NotificationsStore"].scrollToNotification(notificationInstanceId);
+
+        _this2.updatePhoneNumbers();
+      }).finally(function () {
+        _this2.isUpdatingPhoneNumbers = false;
+      });
+    },
+    updatePhoneNumbers: function updatePhoneNumbers() {
+      var _this3 = this;
+
+      this.isUpdatingPhoneNumbers = true;
+      external_CoreHome_["AjaxHelper"].post({
+        method: 'MobileMessaging.getPhoneNumbers'
+      }, {}).then(function (phoneNumbers) {
+        _this3.phoneNumbers = phoneNumbers;
+        _this3.isUpdatingPhoneNumbers = false;
       });
     },
     removePhoneNumber: function removePhoneNumber(phoneNumber) {
-      var _this2 = this;
+      var _this4 = this;
 
       if (!phoneNumber) {
         return;
       }
 
-      this.isChangingPhoneNumber = true;
-      external_CoreHome_["AjaxHelper"].post({
-        method: 'MobileMessaging.removePhoneNumber'
-      }, {
-        phoneNumber: phoneNumber
-      }, {
-        errorElement: '#invalidVerificationCodeAjaxError'
-      }).then(function () {
-        _this2.isChangingPhoneNumber = false;
-        external_CoreHome_["Matomo"].helper.redirect();
-      }).finally(function () {
-        _this2.isChangingPhoneNumber = false;
+      this.numberToRemove = phoneNumber;
+      this.clearNotifcationsAndErrorsContainer();
+      external_CoreHome_["Matomo"].helper.modalConfirm('#confirmDeletePhoneNumber', {
+        yes: function yes() {
+          _this4.isUpdatingPhoneNumbers = true;
+          external_CoreHome_["AjaxHelper"].post({
+            method: 'MobileMessaging.removePhoneNumber'
+          }, {
+            phoneNumber: phoneNumber
+          }, {
+            errorElement: '#ajaxErrorManagePhoneNumber'
+          }).then(function () {
+            _this4.updatePhoneNumbers();
+          }).finally(function () {
+            _this4.isUpdatingPhoneNumbers = false;
+            _this4.numberToRemove = '';
+          });
+        }
       });
     },
     addPhoneNumber: function addPhoneNumber() {
-      var _this3 = this;
+      var _this5 = this;
 
       var phoneNumber = "+".concat(this.countryCallingCode).concat(this.newPhoneNumber);
 
       if (this.canAddNumber && phoneNumber.length > 1) {
-        this.isAddingPhonenumber = true;
+        this.isUpdatingPhoneNumbers = true;
+        this.clearNotifcationsAndErrorsContainer();
         external_CoreHome_["AjaxHelper"].post({
           method: 'MobileMessaging.addPhoneNumber'
         }, {
           phoneNumber: phoneNumber
         }, {
-          errorElement: '#ajaxErrorAddPhoneNumber'
+          errorElement: '#ajaxErrorManagePhoneNumber'
         }).then(function () {
-          _this3.isAddingPhonenumber = false;
-          external_CoreHome_["Matomo"].helper.redirect();
+          _this5.updatePhoneNumbers();
+
+          _this5.countryCallingCode = '';
+          _this5.newPhoneNumber = '';
         }).finally(function () {
-          _this3.isAddingPhonenumber = false;
+          _this5.isUpdatingPhoneNumbers = false;
         });
       }
+    },
+    clearNotifcationsAndErrorsContainer: function clearNotifcationsAndErrorsContainer() {
+      this.$refs.errorContainer.innerHTML = '';
+      external_CoreHome_["NotificationsStore"].remove('MobileMessaging_ValidatePhoneNumber');
     }
   },
   computed: {
@@ -1023,6 +1097,9 @@ function ManageMobilePhoneNumbersvue_type_template_id_07ab3544_render(_ctx, _cac
     },
     canAddNumber: function canAddNumber() {
       return !!this.newPhoneNumber && this.newPhoneNumber !== '';
+    },
+    removeNumberConfirmation: function removeNumberConfirmation() {
+      return Object(external_CoreHome_["translate"])('MobileMessaging_ConfirmRemovePhoneNumber', this.numberToRemove);
     }
   }
 }));
@@ -1032,7 +1109,7 @@ function ManageMobilePhoneNumbersvue_type_template_id_07ab3544_render(_ctx, _cac
 
 
 
-ManageMobilePhoneNumbersvue_type_script_lang_ts.render = ManageMobilePhoneNumbersvue_type_template_id_07ab3544_render
+ManageMobilePhoneNumbersvue_type_script_lang_ts.render = ManageMobilePhoneNumbersvue_type_template_id_3fa85a3e_render
 
 /* harmony default export */ var ManageMobilePhoneNumbers = (ManageMobilePhoneNumbersvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MobileMessaging/vue/src/AdminPage/AdminPage.vue?vue&type=template&id=39c941b4

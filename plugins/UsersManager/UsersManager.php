@@ -421,5 +421,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_YourUsernameCannotBeChanged';
         $translationKeys[] = 'UsersManager_YourVisitsAreIgnoredOnDomain';
         $translationKeys[] = 'UsersManager_YourVisitsAreNotIgnored';
+        $translationKeys[] = 'UsersManager_InviteEmailChange';
     }
 }

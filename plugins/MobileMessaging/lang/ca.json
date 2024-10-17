@@ -1,6 +1,7 @@
 {
     "MobileMessaging": {
         "Available_Credits": "Crèdits disponibles: %1$s",
+        "ConfirmRemovePhoneNumber": "Esteu segur que voleu eliminar el número de telèfon %1$s?",
         "Exception_UnknownProvider": "Nom del proveïdor '%1$s' desconegut. Proveu qualsevol de les opcions següents: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Podeu afegir més números de telèfon accedint a",
         "MobileReport_MobileMessagingSettingsLink": "la pàgina de configuració de missatgeria mòbil",
@@ -25,6 +26,7 @@
         "Settings_LetUsersManageAPICredential_No_Help": "Tots els usuaris poden rebre informes per SMS i faran servir els credits de la vostra compta.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "Cada usuari podrà configurar el seu propi compte SMS API i no utilitzarà el vostre crèdit.",
         "Settings_ManagePhoneNumbers": "Administra nombres de telèfon",
+        "Settings_NewVerificationCodeSent": "S'ha enviat un nou codi de verificació.",
         "Settings_PhoneActivated": "Nombre de telèfon validat! Ara podeu rebre SMS amb les vostres estadístiques.",
         "Settings_PhoneNumber": "Telèfon",
         "Settings_PhoneNumbers_Add": "Afegir un nou telèfon",
@@ -32,6 +34,7 @@
         "Settings_PhoneNumbers_Help": "Abans de rebre informes SMS (missatges de text) en un telèfon cal introduir el número de telèfon a continuació.",
         "Settings_PhoneNumbers_HelpAdd": "Quan feu clic a \"Afegeix\" s'enviarà un SMS amb un codi al telèfon. L'usuari que rebi el codi haurà d'iniciar sessió a Matomo, fer clic a Configuració i després a Missatgeria mòbil. Després d'introduir el codi l'usuari podrà rebre informes de text al seu telèfon.",
         "Settings_PleaseSignUp": "Per crear informes per SMS i rebre missatges de text breus amb les estadístiques dels vostres llocs web al vostre telèfon mòbil, registreu-vos amb l'API d'SMS i introduïu la vostra informació a continuació.",
+        "Settings_ResendVerification": "Torna a enviar el codi de verificació",
         "Settings_SMSAPIAccount": "Administra el compte de l'API de SMS",
         "Settings_SMSProvider": "Proveïdor SMS",
         "Settings_SelectCountry": "Escull un país",
@@ -40,9 +43,11 @@
         "Settings_UpdateOrDeleteAccount": "També podeu %1$sactualitzar%2$s o %3$ssuprimir%4$s aquest compte.",
         "Settings_ValidatePhoneNumber": "Valida",
         "Settings_VerificationCodeJustSent": "Acabem d'enviar un SMS a aquest número amb un codi: introduïu aquest codi a dalt i feu clic a \"Validar\".",
+        "TooManyUnverifiedNumbersError": "No podeu afegir més de 3 números de telèfon no verificats!",
         "TopLinkTooltip": "Obteniu informes d'anàlisi web a la vostra safata d'entrada de correu electrònic o al vostre telèfon mòbil.",
         "TopMenu": "Informes per Email i SMS",
         "UserKey": "Clau d'usuari",
+        "VerificationCodeRecentlySentError": "Ja s'ha sol·licitat recentment un codi de verificació per al número de telèfon %1$s.",
         "VerificationText": "El codi és %1$s. Per validar el vostre número de telèfon i rebre informes SMS de Matomo, copieu aquest codi en el formulari disponible mitjançant Matomo → %2$s → %3$s."
     }
 }

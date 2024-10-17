@@ -327,7 +327,7 @@ class ApiTest extends IntegrationTestCase
     {
         // set mobile provider account
         self::setSuperUser();
-        APIMobileMessaging::getInstance()->setSMSAPICredential('StubbedProvider', '');
+        APIMobileMessaging::getInstance()->setSMSAPICredential('StubbedProvider', []);
 
         $pdfReportPlugin = new Menu();
         $this->assertEquals(
@@ -366,10 +366,10 @@ class ApiTest extends IntegrationTestCase
             0,
             MobileMessaging::MOBILE_TYPE,
             MobileMessaging::SMS_FORMAT,
-            array(),
-            array(
-                 MobileMessaging::PHONE_NUMBERS_PARAMETER => array()
-            )
+            [],
+            [
+                 MobileMessaging::PHONE_NUMBERS_PARAMETER => []
+            ]
         );
 
         $pdfReportPlugin = new Menu();
@@ -389,7 +389,7 @@ class ApiTest extends IntegrationTestCase
     {
         // set mobile provider account
         self::setSuperUser();
-        APIMobileMessaging::getInstance()->setSMSAPICredential('StubbedProvider', '');
+        APIMobileMessaging::getInstance()->setSMSAPICredential('StubbedProvider', []);
 
         self::addReport(self::getMonthlyEmailReportData($this->idSite));
 

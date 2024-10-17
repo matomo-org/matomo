@@ -66,6 +66,19 @@
 		<logo>plugins/Morpheus/icons/dist/os/AND.png</logo>
 	</row>
 	<row>
+		<label>Android 14.0</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>operatingSystemCode==AND;operatingSystemVersion==14.0</segment>
+		<logo>plugins/Morpheus/icons/dist/os/AND.png</logo>
+	</row>
+	<row>
 		<label>Java ME</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>

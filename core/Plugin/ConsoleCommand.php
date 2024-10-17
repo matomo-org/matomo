@@ -67,13 +67,38 @@ class ConsoleCommand extends SymfonyCommand
     }
 
     /**
-     * Sends the given messages as comment message to the output interface (surrounded by empty lines)
+     * Sends the given message(s) as error message(s) to the output interface (surrounded by empty lines)
      *
-     * @param string[] $messages
+     * @param string|string[] $messages
      * @return void
      */
-    public function writeComment(array $messages): void
+    public function writeErrorMessage($messages): void
     {
+        if (is_string($messages)) {
+            $messages = [$messages];
+        }
+
+        $this->getOutput()->writeln('');
+
+        foreach ($messages as $message) {
+            $this->getOutput()->writeln(self::wrapInTag('error', $message));
+        }
+
+        $this->getOutput()->writeln('');
+    }
+
+    /**
+     * Sends the given messages as comment message to the output interface (surrounded by empty lines)
+     *
+     * @param string|string[] $messages
+     * @return void
+     */
+    public function writeComment($messages): void
+    {
+        if (is_string($messages)) {
+            $messages = [$messages];
+        }
+
         $this->getOutput()->writeln('');
 
         foreach ($messages as $message) {

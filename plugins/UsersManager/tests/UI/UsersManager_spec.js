@@ -249,7 +249,25 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('user_created');
     });
 
+    it('should warn about invitation resend when changing email', async function () {
+        await page.evaluate(() => $('.userEditForm #user_email').val('theuser2@email.com'));
+        await page.evaluate(() => $('.userEditForm .matomo-save-button input').click());
+        await page.waitForTimeout(100);
+        await page.waitForFunction(() => $('.modal.open:visible').length)
+        const modal = await page.jQuery('.modal.open:visible');
+        await page.focus('.modal.open #currentUserPassword');
+        await page.waitForTimeout(250);
+        expect(await modal.screenshot()).to.matchImage({
+          imageName: 'user_invited_change',
+          comparisonThreshold: 0.025
+        });
+    });
+
     it('should show the permissions edit when the permissions tab is clicked', async function () {
+        // close modal from previous step
+        await (await page.jQuery('.confirm-password-modal .modal-close.modal-no:visible')).click();
+        await page.waitForNetworkIdle();
+
         await page.click('.userEditForm .menuPermissions');
         await page.mouse.move(0, 0);
 
@@ -483,7 +501,7 @@ describe("UsersManager", function () {
 
     it('should fail to set superuser access if password is wrong', async function () {
         await page.type('.modal.open #currentUserPassword', 'wrongpassword');
-        await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();
+        await page.evaluate(() => $('.modal.open .modal-close:not(.modal-no):visible').click());
         await page.waitForNetworkIdle();
 
         await page.waitForSelector('.notification-error', { visible: true });

@@ -27,6 +27,9 @@
     "url": "https://github.com/matomo-org/matomo/issues"
   },
   "homepage": "https://github.com/matomo-org/matomo#readme",
+  "engines" : {
+    "node" : ">=16.0.0 <17.0.0"
+  },
   "dependencies": {
     "@materializecss/materialize": "^1.1.0",
     "@types/jquery": "^3.5.6",

@@ -59,13 +59,13 @@ jobs:
     steps:
       - name: "Check release password"
         if: ${{ inputs.is_preview != true && github.event.inputs.password != env.RELEASE_PASSWORD }}
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
               core.setFailed('Release password didn\'t match.')
       - name: "Check if user is allowed"
         if: ${{ inputs.is_preview != true && github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'mneudert' && github.actor != 'michalkleiner' && github.actor != 'caddoo'}}
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             core.setFailed('User is not allowed to release.')

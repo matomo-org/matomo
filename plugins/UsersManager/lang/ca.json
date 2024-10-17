@@ -125,6 +125,7 @@
         "InviteActionNotes": "Tingueu en compte que tornar a enviar una invitació o copiar l'enllaç d'invitació ampliarà el límit de temps per a les invitacions anteriors en %1$s dies.",
         "InviteConfirmMessage": "Podeu tornar a enviar la invitació copiant l'enllaç d'invitació i compartint-la directament amb %1$s, o tornar a enviar un correu electrònic d'invitació a %2$s.",
         "InviteDayLeft": "Caduca d'aquí a %s dies",
+        "InviteEmailChange": "Aquest usuari encara no ha confirmat el seu compte. Si canvieu el correu electrònic, invalidarà la invitació anterior i s'enviarà una invitació a la nova adreça de correu electrònic.",
         "InviteNewUser": "Convida un usuari nou",
         "InviteSuccess": "Invitació enviada.",
         "InviteSuccessNotification": "L'usuari convidat rebrà un correu electrònic per acceptar la invitació, que és vàlida durant %1$s dies. La podeu reenviar i eliminar des de la pàgina de gestió d'usuaris.",

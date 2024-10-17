@@ -125,10 +125,7 @@ export default defineComponent({
 
     const root = ref<HTMLElement|null>(null);
 
-    onMounted(() => {
-      Matomo.postEvent('Dashboard.DashboardSettings.mounted', root.value);
-
-      rootJQuery.value = $(root.value!);
+    const createWidgetPreview = () => {
       rootJQuery.value.widgetPreview({
         isWidgetAvailable,
         onSelect: (widgetUniqueId: string) => {
@@ -139,6 +136,18 @@ export default defineComponent({
           });
         },
         resetOnSelect: true,
+      });
+    };
+
+    onMounted(() => {
+      Matomo.postEvent('Dashboard.DashboardSettings.mounted', root.value);
+
+      rootJQuery.value = $(root.value!);
+      createWidgetPreview();
+
+      // When the available widgets list is reloaded, re-create the widget preview to include update
+      Matomo.on('WidgetsStore.reloaded', () => {
+        createWidgetPreview();
       });
 
       rootJQuery.value.hide(); // hide dashboard-manager initially (shown manually by Dashboard.ts)

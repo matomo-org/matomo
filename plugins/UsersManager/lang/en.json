@@ -212,6 +212,7 @@
         "FirstWebsitePermission": "First website permission",
         "InviteSuccessNotification": "The invited user will receive an email to accept the invite. This invite is valid for %1$s days. You can also resend and delete the invite on the user management page.",
         "InviteConfirmMessage": "You can resend the invitation by copying the invite link and sharing directly with %1$s, or resend an invite email to %2$s.",
+        "InviteEmailChange": "This user has not yet confirmed their account. Changing the email will invalidate the previous invitation and send an invitation to the new email address.",
         "Status": "Status",
         "Pending": "Pending",
         "Active": "Active",
