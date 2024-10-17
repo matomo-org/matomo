@@ -654,6 +654,9 @@ class ArchiveInvalidator
         $list = new ReArchiveList();
         $entries = $list->getAll();
 
+        // Make sure that idSites is an array to prevent typeError
+        $idSites = is_array($idSites) || $idSites === 'all' ? $idSites : (is_numeric($idSites) ? [$idSites] : []);
+
         if ($idSites === 'all') {
             $idSites = $this->getAllSitesId();
         }
