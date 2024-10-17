@@ -360,34 +360,35 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     }
 
     /**
-     * @dataProvider getRemoveInvalidationsFromDistributedListRemovesAllSiteEntriesTestData
+     * @dataProvider getRemoveInvalidationsFromDistributedListDifferentIdSiteValues
      * @param $idSites
      * @return void
      */
-    public function testRemoveInvalidationsFromDistributedListRemovesAllSiteEntries($idSites)
+    public function testRemoveInvalidationsFromDistributedListDifferentIdSiteValues($idSites, $expectedArray)
     {
         $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving([1, 4, 5], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving('all', 'ExamplePlugin');
 
+        if (empty($idSites)) {
+            $this->expectException(\TypeError::class);
+        }
         $this->invalidator->removeInvalidationsFromDistributedList($idSites, 'ExamplePlugin');
 
         $list = new ReArchiveList();
         $items = $list->getAll();
 
-        $expected = [];
-
-        $this->assertEquals($expected, $items);
+        $this->assertEquals($expectedArray, $items);
     }
 
-    public function getRemoveInvalidationsFromDistributedListRemovesAllSiteEntriesTestData(): array
+    public function getRemoveInvalidationsFromDistributedListDifferentIdSiteValues(): array
     {
         return [
-            [null],
-            [0],
-            ['0'],
-            [false],
-            ['all'],
+            [null, [1, 2, 3, 4, 5]],
+            [0, [1, 2, 3, 4, 5]],
+            ['0', [1, 2, 3, 4, 5]],
+            [false, [1, 2, 3, 4, 5]],
+            ['all', []],
         ];
     }
 
