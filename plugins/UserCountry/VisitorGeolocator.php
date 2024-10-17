@@ -83,11 +83,11 @@ class VisitorGeolocator
     protected $logger;
 
     public function __construct(
-        LocationProvider $provider = null,
-        LocationProvider $backupProvider = null,
-        Cache $locationCache = null,
-        RawLogDao $dao = null,
-        LoggerInterface $logger = null
+        ?LocationProvider $provider = null,
+        ?LocationProvider $backupProvider = null,
+        ?Cache $locationCache = null,
+        ?RawLogDao $dao = null,
+        ?LoggerInterface $logger = null
     ) {
         if ($provider === null) {
             // note: Common::getCurrentLocationProviderId() uses the tracker cache, which is why it's used here instead

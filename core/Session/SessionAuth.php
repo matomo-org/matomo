@@ -46,7 +46,7 @@ class SessionAuth implements Auth
 
     private $tokenAuth;
 
-    public function __construct(UsersModel $userModel = null, $shouldDestroySession = true)
+    public function __construct(?UsersModel $userModel = null, $shouldDestroySession = true)
     {
         $this->userModel = $userModel ?: new UsersModel();
         $this->shouldDestroySession = $shouldDestroySession;

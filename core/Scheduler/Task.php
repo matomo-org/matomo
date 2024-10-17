@@ -93,7 +93,7 @@ class Task
         $methodParameter,
         $scheduledTime,
         $priority = self::NORMAL_PRIORITY,
-        int $ttlInSeconds = null
+        ?int $ttlInSeconds = null
     ) {
         $this->className = $this->getClassNameFromInstance($objectInstance);
 

@@ -58,7 +58,7 @@ class DuplicateActionRemover
      * @param TableMetadata $tableMetadataAccess
      * @param LoggerInterface $logger
      */
-    public function __construct(TableMetadata $tableMetadataAccess = null, LoggerInterface $logger = null)
+    public function __construct(?TableMetadata $tableMetadataAccess = null, ?LoggerInterface $logger = null)
     {
         $this->tableMetadataAccess = $tableMetadataAccess ?: new TableMetadata();
         $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);

@@ -235,7 +235,7 @@ class CronArchive
      *
      * @param LoggerInterface|null $logger
      */
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(?LoggerInterface $logger = null)
     {
         $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
         $this->formatter = new Formatter();
@@ -1063,7 +1063,7 @@ class CronArchive
         return true;
     }
 
-    private function canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress(int $idSite, Period $period, Segment $segment = null): bool
+    private function canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress(int $idSite, Period $period, ?Segment $segment = null): bool
     {
         $invalidationsInProgress = $this->model->getInvalidationsInProgress($idSite);
         $timezone = Site::getTimezoneFor($idSite);

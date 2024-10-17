@@ -95,7 +95,7 @@ class CliMulti
      */
     private $logger;
 
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(?LoggerInterface $logger = null)
     {
         $this->supportsAsync = $this->supportsAsync();
         $this->supportsAsyncSymfony = $this->supportsAsyncSymfony();

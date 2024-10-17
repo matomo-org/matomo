@@ -70,10 +70,10 @@ class SegmentArchiving
 
     public function __construct(
         $beginningOfTimeLastNInYears = self::DEFAULT_BEGINNING_OF_TIME_LAST_N_YEARS,
-        Model $segmentEditorModel = null,
-        Cache $segmentListCache = null,
-        Date $now = null,
-        LoggerInterface $logger = null
+        ?Model $segmentEditorModel = null,
+        ?Cache $segmentListCache = null,
+        ?Date $now = null,
+        ?LoggerInterface $logger = null
     ) {
         $this->processNewSegmentsFrom = StaticContainer::get('ini.General.process_new_segments_from');
         $this->beginningOfTimeLastNInYears = $beginningOfTimeLastNInYears;
