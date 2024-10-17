@@ -380,10 +380,17 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
     public function getRemoveInvalidationsFromDistributedListDifferentIdSiteValues(): array
     {
+        $idSites = [1,2,3,4,5,6,7,8,9,10];
+        if (version_compare(PHP_VERSION, '8.0.0', '<')) {
+            for ($i = 0; $i < count($idSites); $i++) {
+                $idSites[$i] = '"' . $idSites[$i] . '"';
+            }
+        }
+        $allEntry = '{"idSites":[' . implode(',', $idSites) . '],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}';
         $expected = [
             '{"idSites":[1,2,3],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}',
             '{"idSites":[1,4,5],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}',
-            '{"idSites":[1,2,3,4,5,6,7,8,9,10],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}',
+            $allEntry,
         ];
 
         return [
