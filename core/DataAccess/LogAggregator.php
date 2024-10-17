@@ -22,7 +22,6 @@ use Piwik\Metrics;
 use Piwik\Plugin\LogTablesProvider;
 use Piwik\RankingQuery;
 use Piwik\Segment;
-use Piwik\SettingsPiwik;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 use Piwik\Log\LoggerInterface;
