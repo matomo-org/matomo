@@ -144,7 +144,7 @@ class VisitorRecognizer
         }
     }
 
-    public function removeUnchangedValues($visit, VisitProperties $originalVisit = null)
+    public function removeUnchangedValues($visit, ?VisitProperties $originalVisit = null)
     {
         if (empty($originalVisit)) {
             return $visit;

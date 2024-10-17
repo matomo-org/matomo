@@ -173,7 +173,7 @@ class LogAggregator
      *
      * @param \Piwik\ArchiveProcessor\Parameters $params
      */
-    public function __construct(Parameters $params, LoggerInterface $logger = null)
+    public function __construct(Parameters $params, ?LoggerInterface $logger = null)
     {
         $this->dateStart = $params->getDateTimeStart();
         $this->dateEnd = $params->getDateTimeEnd();

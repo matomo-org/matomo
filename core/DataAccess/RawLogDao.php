@@ -33,7 +33,7 @@ class RawLogDao
      */
     private $logTablesProvider;
 
-    public function __construct(DimensionMetadataProvider $provider = null, LogTablesProvider $logTablesProvider = null)
+    public function __construct(?DimensionMetadataProvider $provider = null, ?LogTablesProvider $logTablesProvider = null)
     {
         $this->dimensionMetadataProvider = $provider ?: StaticContainer::get('Piwik\Plugin\Dimension\DimensionMetadataProvider');
         $this->logTablesProvider = $logTablesProvider ?: StaticContainer::get('Piwik\Plugin\LogTablesProvider');

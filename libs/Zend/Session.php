@@ -33,12 +33,6 @@
 // require_once 'Zend/Session/Namespace.php';
 
 /**
- * @see Zend_Session_SaveHandler_Interface
- */
-// require_once 'Zend/Session/SaveHandler/Interface.php';
-
-
-/**
  * Zend_Session
  *
  * @category   Zend
@@ -176,7 +170,7 @@ class Zend_Session extends Zend_Session_Abstract
     /**
      * A reference to the set session save handler
      *
-     * @var Zend_Session_SaveHandler_Interface
+     * @var \SessionHandlerInterface
      */
     private static $_saveHandler = null;
 
@@ -258,10 +252,10 @@ class Zend_Session extends Zend_Session_Abstract
     /**
      * setSaveHandler() - Session Save Handler assignment
      *
-     * @param Zend_Session_SaveHandler_Interface $interface
+     * @param \SessionHandlerInterface $interface
      * @return void
      */
-    public static function setSaveHandler(Zend_Session_SaveHandler_Interface $saveHandler)
+    public static function setSaveHandler(\SessionHandlerInterface $saveHandler)
     {
         self::$_saveHandler = $saveHandler;
 
@@ -269,21 +263,14 @@ class Zend_Session extends Zend_Session_Abstract
             return;
         }
 
-        session_set_save_handler(
-            array(&$saveHandler, 'open'),
-            array(&$saveHandler, 'close'),
-            array(&$saveHandler, 'read'),
-            array(&$saveHandler, 'write'),
-            array(&$saveHandler, 'destroy'),
-            array(&$saveHandler, 'gc')
-            );
+        session_set_save_handler($saveHandler, false);
     }
 
 
     /**
      * getSaveHandler() - Get the session Save Handler
      *
-     * @return Zend_Session_SaveHandler_Interface
+     * @return \SessionHandlerInterface
      */
     public static function getSaveHandler()
     {

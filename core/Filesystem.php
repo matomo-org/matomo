@@ -218,7 +218,7 @@ class Filesystem
      * @param \Closure|false $beforeUnlink An optional closure to execute on a file path before unlinking.
      * @api
      */
-    public static function unlinkRecursive($dir, $deleteRootToo, \Closure $beforeUnlink = null)
+    public static function unlinkRecursive($dir, $deleteRootToo, ?\Closure $beforeUnlink = null)
     {
         if (!$dh = @opendir($dir)) {
             return;

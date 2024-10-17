@@ -157,7 +157,7 @@ class DataCollection
      * @param string        $value  eg 5
      * @param array|null    $meta   Optional metadata to add to the row
      */
-    public function set($idSite, $period, $name, $value, array $meta = null)
+    public function set($idSite, $period, $name, $value, ?array $meta = null)
     {
         $row = & $this->get($idSite, $period);
         $row[$name] = $value;

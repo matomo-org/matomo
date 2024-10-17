@@ -231,7 +231,7 @@ class ConsoleCommand extends SymfonyCommand
     public function addOption(
         string $name,
         $shortcut = null,
-        int $mode = null,
+        ?int $mode = null,
         string $description = '',
         $default = null
     ) {
@@ -281,7 +281,7 @@ class ConsoleCommand extends SymfonyCommand
      *
      * @see addOptionalArgument, addRequiredArgument
      */
-    public function addArgument(string $name, int $mode = null, string $description = '', $default = null)
+    public function addArgument(string $name, ?int $mode = null, string $description = '', $default = null)
     {
         throw new \LogicException('addArgument can not be used.');
     }
@@ -409,9 +409,9 @@ class ConsoleCommand extends SymfonyCommand
      */
     protected function askAndValidate(
         string $question,
-        callable $validator = null,
+        ?callable $validator = null,
         $default = null,
-        iterable $autocompleterValues = null
+        ?iterable $autocompleterValues = null
     ) {
         /** @var QuestionHelper $helper */
         $helper   = parent::getHelper('question');
