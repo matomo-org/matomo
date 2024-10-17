@@ -1198,8 +1198,7 @@ class LogAggregator
 
         $select = $this->getSelectStatement($dimensions, $tableName, $additionalSelects, $availableMetrics);
 
-        $isForceSiteDateIndexEnabled = SettingsPiwik::isForceSiteDateIndexEnabled();
-        $primaryFrom = (!$forceSiteDateIndex || !$isForceSiteDateIndexEnabled) ? [$tableName] : [['table' => $tableName, 'useIndex' => 'index_idsite_datetime']];
+        $primaryFrom = !$forceSiteDateIndex ? [$tableName] : [['table' => $tableName, 'useIndex' => 'index_idsite_datetime']];
         $from    = array_merge($primaryFrom, $extraFrom);
         $where   = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
