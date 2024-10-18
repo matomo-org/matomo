@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Development;
+use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Notification;
@@ -202,14 +203,11 @@ abstract class ControllerAdmin extends Controller
      */
     public static function displayWarningIfConfigFileNotWritable()
     {
-        $isConfigFileWritable = PiwikConfig::getInstance()->isFileWritable();
-
-        if (!$isConfigFileWritable) {
-            $exception = PiwikConfig::getInstance()->getConfigNotWritableException();
-            $message = $exception->getMessage();
-
-            $notification = new Notification($message);
-            $notification->raw     = true;
+        try {
+            PiwikConfig::getInstance()->checkConfigIsWritable();
+        } catch (MissingFilePermissionException $exception) {
+            $notification = new Notification($exception->getMessage());
+            $notification->raw = true;
             $notification->context = Notification::CONTEXT_WARNING;
             Notification\Manager::notify('ControllerAdmin_ConfigNotWriteable', $notification);
         }
