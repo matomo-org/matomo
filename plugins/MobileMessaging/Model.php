@@ -233,7 +233,7 @@ class Model
     public function getDelegatedManagement(): bool
     {
         $option = Option::get(MobileMessaging::DELEGATED_MANAGEMENT_OPTION);
-        return true === $option || 'true' === $option || 1 === $option;
+        return true === $option || 'true' === $option || 1 === $option || '1' === $option;
     }
 
     public function setDelegatedManagement(bool $delegatedManagement): void
