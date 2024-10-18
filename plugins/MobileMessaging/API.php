@@ -102,6 +102,10 @@ class API extends \Piwik\Plugin\API
 
         $phoneNumbers = $this->model->getPhoneNumbers(Piwik::getCurrentUserLogin(), false);
 
+        if (!empty($phoneNumbers[$phoneNumber])) {
+            throw new \Exception(Piwik::translate('MobileMessaging_NumberAlreadyAdded', $phoneNumber));
+        }
+
         $unverifiedPhoneNumbers = array_filter(
             $phoneNumbers,
             function ($phoneNumber) {
