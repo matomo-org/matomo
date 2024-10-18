@@ -189,6 +189,34 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $tables->getTables());
     }
 
+    public function testSortTablesForJoinShouldSortTablesAsSpecifiedIncludingUseIndex()
+    {
+        $tables = [
+            ['table' => 'log_link_visit_action', 'useIndex' => 'index_idsite_servertime'],
+            'log_action',
+            ['table' => 'log_conversion', 'joinOn' => 'log_conversion.idvisit = log_visit.idvisit'],
+            'log_conversion_item',
+            'log_conversion',
+            'log_visit',
+            ['table' => 'log_foo_bar'],
+        ];
+
+        $tables = $this->makeTables($tables);
+        $tables->sort();
+
+        $expected = [
+            ['table' => 'log_link_visit_action', 'useIndex' => 'index_idsite_servertime'],
+            'log_visit',
+            ['table' => 'log_conversion', 'joinOn' => 'log_conversion.idvisit = log_visit.idvisit'],
+            'log_conversion_item',
+            'log_action',
+            'log_conversion',
+            ['table' => 'log_foo_bar'],
+        ];
+
+        $this->assertEquals($expected, $tables->getTables());
+    }
+
     public function testSortTablesForJoinAnotherTestMakingSureWorksOhPhp55()
     {
         $tables = array (
