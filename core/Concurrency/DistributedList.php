@@ -41,7 +41,7 @@ class DistributedList
      *
      * @param string $optionName
      */
-    public function __construct($optionName, LoggerInterface $logger = null)
+    public function __construct($optionName, ?LoggerInterface $logger = null)
     {
         $this->optionName = $optionName;
         $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);

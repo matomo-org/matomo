@@ -64,7 +64,7 @@ class OptOutManager
     /**
      * @param DoNotTrackHeaderChecker|null $doNotTrackHeaderChecker
      */
-    public function __construct(DoNotTrackHeaderChecker $doNotTrackHeaderChecker = null)
+    public function __construct(?DoNotTrackHeaderChecker $doNotTrackHeaderChecker = null)
     {
         $this->doNotTrackHeaderChecker = $doNotTrackHeaderChecker ?: new DoNotTrackHeaderChecker();
 
@@ -531,7 +531,7 @@ JS;
      *
      * @return array
      */
-    private function getTranslations(string $language = null): array
+    private function getTranslations(?string $language = null): array
     {
         return [
             'OptOutComplete'        => Piwik::translate('CoreAdminHome_OptOutComplete', [], $language),

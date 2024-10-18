@@ -92,7 +92,7 @@ class VisitLastActionTimeTest extends IntegrationTestCase
         $this->assertEquals(12, $hourConverted);
     }
 
-    private function getVisitor(VisitProperties $previousProperties = null)
+    private function getVisitor(?VisitProperties $previousProperties = null)
     {
         $visit = new VisitProperties();
         $visit->setProperty('idvisit', '321');

@@ -123,7 +123,7 @@ class Segment
      * @param Date|null $endDate end date used to limit subqueries
      * @throws
      */
-    public function __construct($segmentCondition, $idSites, Date $startDate = null, Date $endDate = null)
+    public function __construct($segmentCondition, $idSites, ?Date $startDate = null, ?Date $endDate = null)
     {
 
         $this->segmentQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');

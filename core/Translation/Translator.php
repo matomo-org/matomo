@@ -52,7 +52,7 @@ class Translator
     private const LIST_TYPE_AND = 'And';
     private const LIST_TYPE_OR = 'Or';
 
-    public function __construct(LoaderInterface $loader, array $directories = null)
+    public function __construct(LoaderInterface $loader, ?array $directories = null)
     {
         $this->loader          = $loader;
         $this->currentLanguage = $this->getDefaultLanguage();
@@ -111,7 +111,7 @@ class Translator
      * @param string|null $language
      * @return string
      */
-    public function createAndListing(array $items, string $language = null): string
+    public function createAndListing(array $items, ?string $language = null): string
     {
         return $this->createListing(self::LIST_TYPE_AND, $items, $language);
     }
@@ -123,7 +123,7 @@ class Translator
      * @param string|null $language
      * @return string
      */
-    public function createOrListing(array $items, string $language = null): string
+    public function createOrListing(array $items, ?string $language = null): string
     {
         return $this->createListing(self::LIST_TYPE_OR, $items, $language);
     }
@@ -134,7 +134,7 @@ class Translator
      * @param string|null $language
      * @return string
      */
-    private function createListing(string $listType, array $items, string $language = null): string
+    private function createListing(string $listType, array $items, ?string $language = null): string
     {
         switch (count($items)) {
             case 0:

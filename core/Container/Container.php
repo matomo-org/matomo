@@ -23,9 +23,9 @@ use Psr\Container\ContainerInterface;
 class Container extends DIContainer implements ContainerInterface
 {
     public function __construct(
-        MutableDefinitionSource $definitionSource = null,
-        ProxyFactory $proxyFactory = null,
-        ContainerInterface $wrapperContainer = null
+        ?MutableDefinitionSource $definitionSource = null,
+        ?ProxyFactory $proxyFactory = null,
+        ?ContainerInterface $wrapperContainer = null
     ) {
         parent::__construct($definitionSource, $proxyFactory, $wrapperContainer);
         // ensure this container class can be resolved

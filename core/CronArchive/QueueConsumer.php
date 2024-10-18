@@ -119,7 +119,7 @@ class QueueConsumer
         SegmentArchiving $segmentArchiving,
         CronArchive $cronArchive,
         RequestParser $cliMultiRequestParser,
-        ArchiveFilter $archiveFilter = null
+        ?ArchiveFilter $archiveFilter = null
     ) {
         $this->logger = $logger;
         $this->websiteIdArchiveList = $websiteIdArchiveList;
