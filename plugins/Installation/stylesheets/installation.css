@@ -155,11 +155,11 @@ p.next-step:first-child {
     font-style: normal;
     font-variant: normal;
     text-transform: none;
-    font-size: 1.6em;
+    font-size: 1.1em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     display:inline-block;
-    margin-left:4px;
+    margin-left:3px;
     float:left;
 }
 
@@ -173,7 +173,7 @@ p.next-step:first-child {
     font-weight: 400;
     font-variant: normal;
     text-transform: none;
-    font-size: 1.6em;
+    font-size: 1.1em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     display:inline-block;
@@ -188,13 +188,11 @@ p.next-step:first-child {
 
 .copyToClipboardButton {
     position: absolute;
-    right: .5em;
-    top: .5em;
-    margin-right: 0.2em;
-    margin-top: 0.2em;
+    right: .8em;
+    top: .8em;
     border-radius: 100%;
-    width: 3.0em;
-    height: 3.0em;
+    width: 2.3em;
+    height: 2.3em;
     display: inline-block;
     transition: width 0.7s;
     overflow: hidden;
@@ -209,12 +207,12 @@ p.next-step:first-child {
     display: none;
     position: absolute;
     right: 9em;
-    top: 1.6em;
+    top: 1.4em;
     margin-right: 1em;
     padding-top:0.4em;
     width: 10.2em;
     height: 2em;
-    border-radius: 5%;
+    border-radius: 5px;
     background: #fefefe;
     text-align: center;
     vertical-align: middle;
@@ -226,19 +224,17 @@ p.next-step:first-child {
 
 .copyToClipboardButton:hover {
     width: 6.3em;
-    border-radius: 10%;
+    border-radius: 5px;
 }
 
 .copyToClipboardButton span {
-    display: inline-block;
-    line-height: 1.3em;
-    margin-left: 1em;
+    display: block;
+    margin-left: 2.2em;
     white-space: nowrap;
     overflow: hidden;
-    position: absolute;
     left: 2em;
     text-transform: uppercase;
-    padding-top: 0.35em;
+    text-align: left;
 }
 
 .copyToClipboardWrapper {
