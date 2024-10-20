@@ -106,10 +106,10 @@ class API extends \Piwik\Plugin\API
         Model $model,
         UserAccessFilter $filter,
         Password $password,
-        Access $access = null,
-        Access\RolesProvider $roleProvider = null,
-        Access\CapabilitiesProvider $capabilityProvider = null,
-        PasswordVerifier $passwordVerifier = null
+        ?Access $access = null,
+        ?Access\RolesProvider $roleProvider = null,
+        ?Access\CapabilitiesProvider $capabilityProvider = null,
+        ?PasswordVerifier $passwordVerifier = null
     ) {
         $this->model = $model;
         $this->userFilter = $filter;

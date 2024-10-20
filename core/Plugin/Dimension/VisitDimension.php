@@ -240,7 +240,7 @@ abstract class VisitDimension extends Dimension
      * @return bool Return true to force a visit, false if otherwise.
      * @api
      */
-    public function shouldForceNewVisit(Request $request, Visitor $visitor, Action $action = null)
+    public function shouldForceNewVisit(Request $request, Visitor $visitor, ?Action $action = null)
     {
         return false;
     }

@@ -31,7 +31,7 @@ class Console extends Application
      */
     private $environment;
 
-    public function __construct(Environment $environment = null)
+    public function __construct(?Environment $environment = null)
     {
         $this->setServerArgsIfPhpCgi();
 

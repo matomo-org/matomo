@@ -388,7 +388,7 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
     *                                           before (not including) that page
     * @return bool
     */
-    public function isValid(HTML_QuickForm2_Controller_Page $reference = null)
+    public function isValid(?HTML_QuickForm2_Controller_Page $reference = null)
     {
         $container = $this->getSessionContainer();
         foreach ($this->pages as $id => $page) {

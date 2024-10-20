@@ -1072,7 +1072,7 @@ class Report
      * @return Metric[]
      * @api
      */
-    public static function getMetricsForTable(DataTable $dataTable, Report $report = null, $baseType = 'Piwik\\Plugin\\Metric')
+    public static function getMetricsForTable(DataTable $dataTable, ?Report $report = null, $baseType = 'Piwik\\Plugin\\Metric')
     {
         $metrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: array();
 
@@ -1104,7 +1104,7 @@ class Report
      * @return ProcessedMetric[]
      * @api
      */
-    public static function getProcessedMetricsForTable(DataTable $dataTable, Report $report = null)
+    public static function getProcessedMetricsForTable(DataTable $dataTable, ?Report $report = null)
     {
         /** @var ProcessedMetric[] $metrics */
         $metrics = self::getMetricsForTable($dataTable, $report, 'Piwik\\Plugin\\ProcessedMetric');
