@@ -397,7 +397,13 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             [null, $expected],
             [0, $expected],
             ['0', $expected],
+            ['unexpectedString', $expected],
+            [2.2, $expected],
+            [123.45, $expected],
             [false, $expected],
+            [true, $expected],
+            ['false', $expected],
+            ['true', $expected],
             ['all', []],
         ];
     }
