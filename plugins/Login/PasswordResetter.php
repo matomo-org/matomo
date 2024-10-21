@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\Auth\Password;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\IP;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -481,7 +482,7 @@ class PasswordResetter
         $login = $user['login'];
         $email = $user['email'];
 
-        $mail = new PasswordResetCancelEmail($login);
+        $mail = StaticContainer::getContainer()->make(PasswordResetCancelEmail::class, ['login' => $login]);
         $mail->addTo($email, $login);
 
         if ($this->emailFromAddress || $this->emailFromName) {
@@ -517,7 +518,12 @@ class PasswordResetter
         $urlConfirm = $urlBase . "&action={$this->confirmPasswordAction}";
 
         // send email with new password
-        $mail = new PasswordResetEmail($login, $ip, $urlConfirm, $urlCancel);
+        $mail = StaticContainer::getContainer()->make(PasswordResetEmail::class, [
+            'login' => $login,
+            'ip' => $ip,
+            'resetUrl' => $urlConfirm,
+            'cancelUrl' => $urlCancel,
+        ]);
         $mail->addTo($email, $login);
 
         if ($this->emailFromAddress || $this->emailFromName) {
