@@ -140,21 +140,22 @@ var external_CoreHome_ = __webpack_require__("19dc");
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-
 function onClickDismissPromoWidgetLink(binding, event) {
-  var widgetName = binding.value.widgetName;
-  var currentCategory = external_CoreHome_["ReportingMenuStore"].activeCategory.value;
+  const {
+    widgetName
+  } = binding.value;
+  const currentCategory = external_CoreHome_["ReportingMenuStore"].activeCategory.value;
   event.preventDefault();
   external_CoreHome_["Matomo"].helper.showAjaxLoading();
   return external_CoreHome_["AjaxHelper"].post({
     method: 'ProfessionalServices.dismissWidget'
   }, {
-    widgetName: widgetName
-  }).catch(function (e) {
+    widgetName
+  }).catch(e => {
     external_CoreHome_["Matomo"].helper.hideAjaxLoading();
     throw e;
-  }).then(function () {
-    external_CoreHome_["ReportingMenuStore"].reloadMenuItems().then(function () {
+  }).then(() => {
+    external_CoreHome_["ReportingMenuStore"].reloadMenuItems().then(() => {
       external_CoreHome_["Matomo"].helper.hideAjaxLoading();
       external_CoreHome_["MatomoUrl"].updateHash('category=Dashboard_Dashboard&subcategory=1');
       external_CoreHome_["NotificationsStore"].show({
@@ -168,19 +169,18 @@ function onClickDismissPromoWidgetLink(binding, event) {
     });
   });
 }
-
 /* harmony default export */ var DismissPromoWidget = ({
-  mounted: function mounted(element, binding) {
-    var widgetName = binding.value.widgetName;
-
+  mounted(element, binding) {
+    const {
+      widgetName
+    } = binding.value;
     if (!widgetName) {
       return;
     }
-
     binding.value.onClickHandler = onClickDismissPromoWidgetLink.bind(null, binding);
     element.addEventListener('click', binding.value.onClickHandler);
   },
-  unmounted: function unmounted(element, binding) {
+  unmounted(element, binding) {
     element.removeEventListener('click', binding.value.onClickHandler);
   }
 });

@@ -157,55 +157,52 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.vue?vue&type=template&id=c86c842a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.vue?vue&type=template&id=c86c842a
 
-var _hoisted_1 = ["title"];
-var _hoisted_2 = ["onClick"];
-var _hoisted_3 = {
+const _hoisted_1 = ["title"];
+const _hoisted_2 = ["onClick"];
+const _hoisted_3 = {
   key: 0,
   class: "addCapability"
 };
-var _hoisted_4 = {
+const _hoisted_4 = {
   class: "ui-confirm confirmCapabilityToggle modal",
   ref: "confirmCapabilityToggleModal"
 };
-var _hoisted_5 = {
+const _hoisted_5 = {
   class: "modal-content"
 };
-var _hoisted_6 = ["innerHTML"];
-var _hoisted_7 = ["innerHTML"];
-var _hoisted_8 = {
+const _hoisted_6 = ["innerHTML"];
+const _hoisted_7 = ["innerHTML"];
+const _hoisted_8 = {
   class: "modal-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["capabilitiesEdit", {
       busy: _ctx.isBusy
     }])
-  }, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.actualCapabilities, function (capability) {
+  }, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.actualCapabilities, capability => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       key: capability.id,
       class: "chip"
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
       class: "capability-name",
-      title: "".concat(capability.description, " ").concat(_ctx.isIncludedInRole(capability) ? "<br/><br/>".concat(_ctx.translate('UsersManager_IncludedInUsersRole')) : '')
+      title: `${capability.description} ${_ctx.isIncludedInRole(capability) ? `<br/><br/>${_ctx.translate('UsersManager_IncludedInUsersRole')}` : ''}`
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(capability.category) + ": " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(capability.name), 9, _hoisted_1), !_ctx.isIncludedInRole(capability) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
       key: 0,
       class: "icon-close",
-      onClick: function onClick($event) {
+      onClick: $event => {
         _ctx.capabilityToRemoveId = capability.id;
-
         _ctx.onToggleCapability(false);
       }
     }, null, 8, _hoisted_2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
   }), 128)), _ctx.availableCapabilitiesGrouped.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_3, [_ctx.userRole !== 'noaccess' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
     key: 0,
     "model-value": _ctx.capabilityToAddId,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => {
       _ctx.capabilityToAddId = $event;
-
       _ctx.onToggleCapability(true);
     }),
     disabled: _ctx.isBusy,
@@ -222,13 +219,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8, _hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close btn",
-    onClick: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.toggleCapability();
-    }, ["prevent"]))
+    onClick: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.toggleCapability(), ["prevent"]))
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close modal-no",
-    onClick: _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+    onClick: _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => {
       _ctx.capabilityToAddOrRemove = null;
       _ctx.capabilityToAddId = null;
       _ctx.capabilityToRemoveId = null;
@@ -244,14 +239,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/CapabilitiesStore/CapabilitiesStore.ts
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -260,70 +248,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  */
 
 
-
-var CapabilitiesStore_CapabilitiesStore = /*#__PURE__*/function () {
-  function CapabilitiesStore() {
-    var _this = this;
-
-    _classCallCheck(this, CapabilitiesStore);
-
+class CapabilitiesStore_CapabilitiesStore {
+  constructor() {
     _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       isLoading: false,
       capabilities: []
     }));
-
-    _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
-    }));
-
-    _defineProperty(this, "capabilities", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.state.value.capabilities;
-    }));
-
-    _defineProperty(this, "isLoading", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.state.value.isLoading;
-    }));
-
+    _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState)));
+    _defineProperty(this, "capabilities", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => this.state.value.capabilities));
+    _defineProperty(this, "isLoading", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => this.state.value.isLoading));
     _defineProperty(this, "fetchPromise", void 0);
   }
-
-  _createClass(CapabilitiesStore, [{
-    key: "init",
-    value: function init() {
-      return this.fetchCapabilities();
+  init() {
+    return this.fetchCapabilities();
+  }
+  fetchCapabilities() {
+    if (!this.fetchPromise) {
+      this.privateState.isLoading = true;
+      this.fetchPromise = external_CoreHome_["AjaxHelper"].fetch({
+        method: 'UsersManager.getAvailableCapabilities'
+      }).then(capabilities => {
+        this.privateState.capabilities = capabilities;
+        return this.capabilities.value;
+      }).finally(() => {
+        this.privateState.isLoading = false;
+      });
     }
-  }, {
-    key: "fetchCapabilities",
-    value: function fetchCapabilities() {
-      var _this2 = this;
-
-      if (!this.fetchPromise) {
-        this.privateState.isLoading = true;
-        this.fetchPromise = external_CoreHome_["AjaxHelper"].fetch({
-          method: 'UsersManager.getAvailableCapabilities'
-        }).then(function (capabilities) {
-          _this2.privateState.capabilities = capabilities;
-          return _this2.capabilities.value;
-        }).finally(function () {
-          _this2.privateState.isLoading = false;
-        });
-      }
-
-      return this.fetchPromise;
-    }
-  }]);
-
-  return CapabilitiesStore;
-}();
-
+    return this.fetchPromise;
+  }
+}
 /* harmony default export */ var src_CapabilitiesStore_CapabilitiesStore = (new CapabilitiesStore_CapabilitiesStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.vue?vue&type=script&lang=ts
 
 
 
 
-var _window = window,
-    $ = _window.$;
+const {
+  $
+} = window;
 /* harmony default export */ var CapabilitiesEditvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     idsite: [String, Number],
@@ -344,7 +306,7 @@ var _window = window,
   components: {
     Field: external_CorePluginsAdmin_["Field"]
   },
-  data: function data() {
+  data() {
     return {
       theCapabilities: this.capabilities || [],
       isBusy: false,
@@ -356,88 +318,74 @@ var _window = window,
   },
   emits: ['change'],
   watch: {
-    capabilities: function capabilities(newValue) {
+    capabilities(newValue) {
       if (newValue) {
         this.theCapabilities = newValue;
       }
     }
   },
-  created: function created() {
-    var _this = this;
-
+  created() {
     src_CapabilitiesStore_CapabilitiesStore.init();
-
     if (!this.capabilities) {
       this.isBusy = true;
       external_CoreHome_["AjaxHelper"].fetch({
         method: 'UsersManager.getUsersPlusRole',
         limit: '1',
         filter_search: this.userLogin
-      }).then(function (user) {
+      }).then(user => {
         if (!user || !user.capabilities) {
           return [];
         }
-
         return user.capabilities;
-      }).then(function (capabilities) {
-        _this.theCapabilities = capabilities;
-      }).finally(function () {
-        _this.isBusy = false;
+      }).then(capabilities => {
+        this.theCapabilities = capabilities;
+      }).finally(() => {
+        this.isBusy = false;
       });
     } else {
       this.theCapabilities = this.capabilities;
     }
   },
   methods: {
-    onToggleCapability: function onToggleCapability(isAdd) {
-      var _this2 = this;
-
+    onToggleCapability(isAdd) {
       this.isAddingCapability = isAdd;
-      var capabilityToAddOrRemoveId = isAdd ? this.capabilityToAddId : this.capabilityToRemoveId;
+      const capabilityToAddOrRemoveId = isAdd ? this.capabilityToAddId : this.capabilityToRemoveId;
       this.capabilityToAddOrRemove = null;
-      this.availableCapabilities.forEach(function (capability) {
+      this.availableCapabilities.forEach(capability => {
         if (capability.id === capabilityToAddOrRemoveId) {
-          _this2.capabilityToAddOrRemove = capability;
+          this.capabilityToAddOrRemove = capability;
         }
       });
-
       if (this.$refs.confirmCapabilityToggleModal) {
         $(this.$refs.confirmCapabilityToggleModal).modal({
           dismissible: false,
-          yes: function yes() {
-            return null;
-          }
+          yes: () => null
         }).modal('open');
       }
     },
-    toggleCapability: function toggleCapability() {
+    toggleCapability() {
       if (this.isAddingCapability) {
         this.addCapability(this.capabilityToAddOrRemove);
       } else {
         this.removeCapability(this.capabilityToAddOrRemove);
       }
     },
-    isIncludedInRole: function isIncludedInRole(capability) {
+    isIncludedInRole(capability) {
       return (capability.includedInRoles || []).indexOf(this.userRole) !== -1;
     },
-    getCapabilitiesList: function getCapabilitiesList() {
-      var _this3 = this;
-
-      var result = [];
-      this.availableCapabilities.forEach(function (capability) {
-        if (_this3.isIncludedInRole(capability)) {
+    getCapabilitiesList() {
+      const result = [];
+      this.availableCapabilities.forEach(capability => {
+        if (this.isIncludedInRole(capability)) {
           return;
         }
-
-        if (_this3.capabilitiesSet[capability.id]) {
+        if (this.capabilitiesSet[capability.id]) {
           result.push(capability.id);
         }
       });
       return result;
     },
-    addCapability: function addCapability(capability) {
-      var _this4 = this;
-
+    addCapability(capability) {
       this.isBusy = true;
       external_CoreHome_["AjaxHelper"].post({
         method: 'UsersManager.addCapabilities'
@@ -445,18 +393,16 @@ var _window = window,
         userLogin: this.userLogin,
         capabilities: capability.id,
         idSites: this.idsite
-      }).then(function () {
-        _this4.$emit('change', _this4.getCapabilitiesList());
-      }).finally(function () {
-        _this4.isBusy = false;
-        _this4.capabilityToAddOrRemove = null;
-        _this4.capabilityToAddId = null;
-        _this4.capabilityToRemoveId = null;
+      }).then(() => {
+        this.$emit('change', this.getCapabilitiesList());
+      }).finally(() => {
+        this.isBusy = false;
+        this.capabilityToAddOrRemove = null;
+        this.capabilityToAddId = null;
+        this.capabilityToRemoveId = null;
       });
     },
-    removeCapability: function removeCapability(capability) {
-      var _this5 = this;
-
+    removeCapability(capability) {
       this.isBusy = true;
       external_CoreHome_["AjaxHelper"].post({
         method: 'UsersManager.removeCapabilities'
@@ -464,75 +410,65 @@ var _window = window,
         userLogin: this.userLogin,
         capabilities: capability.id,
         idSites: this.idsite
-      }).then(function () {
-        _this5.$emit('change', _this5.getCapabilitiesList());
-      }).finally(function () {
-        _this5.isBusy = false;
-        _this5.capabilityToAddOrRemove = null;
-        _this5.capabilityToAddId = null;
-        _this5.capabilityToRemoveId = null;
+      }).then(() => {
+        this.$emit('change', this.getCapabilitiesList());
+      }).finally(() => {
+        this.isBusy = false;
+        this.capabilityToAddOrRemove = null;
+        this.capabilityToAddId = null;
+        this.capabilityToRemoveId = null;
       });
     }
   },
   computed: {
-    availableCapabilities: function availableCapabilities() {
+    availableCapabilities() {
       return src_CapabilitiesStore_CapabilitiesStore.capabilities.value;
     },
-    confirmAddCapabilityToggleContent: function confirmAddCapabilityToggleContent() {
-      return Object(external_CoreHome_["translate"])('UsersManager_AreYouSureAddCapability', "<strong>".concat(this.userLogin, "</strong>"), "<strong>".concat(this.capabilityToAddOrRemove ? this.capabilityToAddOrRemove.name : '', "</strong>"), "<strong>".concat(this.siteNameText, "</strong>"));
+    confirmAddCapabilityToggleContent() {
+      return Object(external_CoreHome_["translate"])('UsersManager_AreYouSureAddCapability', `<strong>${this.userLogin}</strong>`, `<strong>${this.capabilityToAddOrRemove ? this.capabilityToAddOrRemove.name : ''}</strong>`, `<strong>${this.siteNameText}</strong>`);
     },
-    confirmCapabilityToggleContent: function confirmCapabilityToggleContent() {
-      return Object(external_CoreHome_["translate"])('UsersManager_AreYouSureRemoveCapability', "<strong>".concat(this.capabilityToAddOrRemove ? this.capabilityToAddOrRemove.name : '', "</strong>"), "<strong>".concat(this.userLogin, "</strong>"), "<strong>".concat(this.siteNameText, "</strong>"));
+    confirmCapabilityToggleContent() {
+      return Object(external_CoreHome_["translate"])('UsersManager_AreYouSureRemoveCapability', `<strong>${this.capabilityToAddOrRemove ? this.capabilityToAddOrRemove.name : ''}</strong>`, `<strong>${this.userLogin}</strong>`, `<strong>${this.siteNameText}</strong>`);
     },
-    siteNameText: function siteNameText() {
+    siteNameText() {
       return external_CoreHome_["Matomo"].helper.htmlEntities(this.siteName);
     },
-    availableCapabilitiesGrouped: function availableCapabilitiesGrouped() {
-      var _this6 = this;
-
-      var availableCapabilitiesGrouped = this.availableCapabilities.filter(function (c) {
-        return !_this6.capabilitiesSet[c.id];
-      }).map(function (c) {
-        return {
-          group: c.category,
-          key: c.id,
-          value: c.name,
-          tooltip: c.description
-        };
-      });
-      availableCapabilitiesGrouped.sort(function (lhs, rhs) {
+    availableCapabilitiesGrouped() {
+      const availableCapabilitiesGrouped = this.availableCapabilities.filter(c => !this.capabilitiesSet[c.id]).map(c => ({
+        group: c.category,
+        key: c.id,
+        value: c.name,
+        tooltip: c.description
+      }));
+      availableCapabilitiesGrouped.sort((lhs, rhs) => {
         if (lhs.group === rhs.group) {
           if (lhs.value === rhs.value) {
             return 0;
           }
-
           return lhs.value < rhs.value ? -1 : 1;
         }
-
         return lhs.group < rhs.group ? -1 : 1;
       });
       return availableCapabilitiesGrouped;
     },
-    capabilitiesSet: function capabilitiesSet() {
-      var _this7 = this;
-
-      var capabilitiesSet = {};
-      var capabilities = this.theCapabilities;
-      (capabilities || []).forEach(function (capability) {
+    capabilitiesSet() {
+      const capabilitiesSet = {};
+      const capabilities = this.theCapabilities;
+      (capabilities || []).forEach(capability => {
         capabilitiesSet[capability] = true;
       });
-      (this.availableCapabilities || []).forEach(function (capability) {
-        if (_this7.isIncludedInRole(capability)) {
+      (this.availableCapabilities || []).forEach(capability => {
+        if (this.isIncludedInRole(capability)) {
           capabilitiesSet[capability.id] = true;
         }
       });
       return capabilitiesSet;
     },
-    actualCapabilities: function actualCapabilities() {
-      var capabilitiesSet = this.capabilitiesSet;
-      return this.availableCapabilities.filter(function (c) {
-        return !!capabilitiesSet[c.id];
-      });
+    actualCapabilities() {
+      const {
+        capabilitiesSet
+      } = this;
+      return this.availableCapabilities.filter(c => !!capabilitiesSet[c.id]);
     }
   }
 }));
@@ -545,199 +481,186 @@ var _window = window,
 CapabilitiesEditvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var CapabilitiesEdit = (CapabilitiesEditvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.vue?vue&type=template&id=da62b99e
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.vue?vue&type=template&id=da62b99e
 
-var UserPermissionsEditvue_type_template_id_da62b99e_hoisted_1 = {
+const UserPermissionsEditvue_type_template_id_da62b99e_hoisted_1 = {
   key: 0,
   class: "row"
 };
-var UserPermissionsEditvue_type_template_id_da62b99e_hoisted_2 = {
+const UserPermissionsEditvue_type_template_id_da62b99e_hoisted_2 = {
   class: "row to-all-websites"
 };
-var UserPermissionsEditvue_type_template_id_da62b99e_hoisted_3 = {
+const UserPermissionsEditvue_type_template_id_da62b99e_hoisted_3 = {
   class: "col s12"
 };
-var UserPermissionsEditvue_type_template_id_da62b99e_hoisted_4 = {
+const UserPermissionsEditvue_type_template_id_da62b99e_hoisted_4 = {
   style: {
     "margin-right": "3.5px"
   }
 };
-var UserPermissionsEditvue_type_template_id_da62b99e_hoisted_5 = {
+const UserPermissionsEditvue_type_template_id_da62b99e_hoisted_5 = {
   id: "all-sites-access-select",
   style: {
     "margin-right": "3.5px"
   }
 };
-var UserPermissionsEditvue_type_template_id_da62b99e_hoisted_6 = {
+const UserPermissionsEditvue_type_template_id_da62b99e_hoisted_6 = {
   style: {
     "margin-top": "18px"
   }
 };
-var UserPermissionsEditvue_type_template_id_da62b99e_hoisted_7 = {
+const UserPermissionsEditvue_type_template_id_da62b99e_hoisted_7 = {
   class: "filters row"
 };
-var UserPermissionsEditvue_type_template_id_da62b99e_hoisted_8 = {
+const UserPermissionsEditvue_type_template_id_da62b99e_hoisted_8 = {
   class: "col s12 m12 l8"
 };
-var _hoisted_9 = {
+const _hoisted_9 = {
   class: "input-field bulk-actions",
   style: {
     "margin-right": "3.5px"
   }
 };
-var _hoisted_10 = {
+const _hoisted_10 = {
   id: "user-permissions-edit-bulk-actions",
   class: "dropdown-content"
 };
-var _hoisted_11 = {
+const _hoisted_11 = {
   class: "dropdown-trigger",
   "data-target": "user-permissions-bulk-set-access"
 };
-var _hoisted_12 = {
+const _hoisted_12 = {
   id: "user-permissions-bulk-set-access",
   class: "dropdown-content"
 };
-var _hoisted_13 = ["onClick"];
-var _hoisted_14 = {
+const _hoisted_13 = ["onClick"];
+const _hoisted_14 = {
   class: "input-field site-filter",
   style: {
     "margin-right": "3.5px"
   }
 };
-var _hoisted_15 = ["value", "placeholder"];
-var _hoisted_16 = {
+const _hoisted_15 = ["value", "placeholder"];
+const _hoisted_16 = {
   class: "input-field access-filter",
   style: {
     "margin-right": "3.5px"
   }
 };
-var _hoisted_17 = {
+const _hoisted_17 = {
   key: 0,
   class: "col s12 m12 l4 sites-for-permission-pagination-container"
 };
-var _hoisted_18 = {
+const _hoisted_18 = {
   class: "sites-for-permission-pagination"
 };
-var _hoisted_19 = {
+const _hoisted_19 = {
   class: "counter"
 };
-var _hoisted_20 = ["textContent"];
-var _hoisted_21 = {
+const _hoisted_20 = ["textContent"];
+const _hoisted_21 = {
   class: "roles-help-notification"
 };
-var _hoisted_22 = ["innerHTML"];
-var _hoisted_23 = {
+const _hoisted_22 = ["innerHTML"];
+const _hoisted_23 = {
   class: "capabilities-help-notification"
 };
-var _hoisted_24 = {
+const _hoisted_24 = {
   id: "sitesForPermission"
 };
-var _hoisted_25 = {
+const _hoisted_25 = {
   class: "select-cell"
 };
-var _hoisted_26 = {
+const _hoisted_26 = {
   class: "checkbox-container"
 };
-var _hoisted_27 = ["checked"];
-
-var _hoisted_28 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, null, -1);
-
-var _hoisted_29 = {
+const _hoisted_27 = ["checked"];
+const _hoisted_28 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, null, -1);
+const _hoisted_29 = {
   class: "role_header"
 };
-var _hoisted_30 = ["innerHTML"];
-
-var _hoisted_31 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const _hoisted_30 = ["innerHTML"];
+const _hoisted_31 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-help"
 }, null, -1);
-
-var _hoisted_32 = [_hoisted_31];
-var _hoisted_33 = {
+const _hoisted_32 = [_hoisted_31];
+const _hoisted_33 = {
   class: "capabilities_header"
 };
-var _hoisted_34 = ["innerHTML"];
-
-var _hoisted_35 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const _hoisted_34 = ["innerHTML"];
+const _hoisted_35 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-help"
 }, null, -1);
-
-var _hoisted_36 = [_hoisted_35];
-var _hoisted_37 = {
+const _hoisted_36 = [_hoisted_35];
+const _hoisted_37 = {
   key: 0,
   class: "select-all-row"
 };
-var _hoisted_38 = {
+const _hoisted_38 = {
   colspan: "4"
 };
-var _hoisted_39 = {
+const _hoisted_39 = {
   key: 0
 };
-var _hoisted_40 = ["innerHTML"];
-var _hoisted_41 = ["innerHTML"];
-var _hoisted_42 = {
+const _hoisted_40 = ["innerHTML"];
+const _hoisted_41 = ["innerHTML"];
+const _hoisted_42 = {
   key: 1
 };
-var _hoisted_43 = ["innerHTML"];
-var _hoisted_44 = ["innerHTML"];
-var _hoisted_45 = {
+const _hoisted_43 = ["innerHTML"];
+const _hoisted_44 = ["innerHTML"];
+const _hoisted_45 = {
   class: "select-cell"
 };
-var _hoisted_46 = {
+const _hoisted_46 = {
   class: "checkbox-container"
 };
-var _hoisted_47 = ["id", "onUpdate:modelValue"];
-
-var _hoisted_48 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, null, -1);
-
-var _hoisted_49 = {
+const _hoisted_47 = ["id", "onUpdate:modelValue"];
+const _hoisted_48 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, null, -1);
+const _hoisted_49 = {
   class: "role-select"
 };
-var _hoisted_50 = {
+const _hoisted_50 = {
   class: "delete-access-confirm-modal modal",
   ref: "deleteAccessConfirmModal"
 };
-var _hoisted_51 = {
+const _hoisted_51 = {
   class: "modal-content"
 };
-var _hoisted_52 = ["innerHTML"];
-var _hoisted_53 = ["innerHTML"];
-var _hoisted_54 = {
+const _hoisted_52 = ["innerHTML"];
+const _hoisted_53 = ["innerHTML"];
+const _hoisted_54 = {
   class: "modal-footer"
 };
-var _hoisted_55 = {
+const _hoisted_55 = {
   class: "change-access-confirm-modal modal",
   ref: "changeAccessConfirmModal"
 };
-var _hoisted_56 = {
+const _hoisted_56 = {
   class: "modal-content"
 };
-var _hoisted_57 = ["innerHTML"];
-var _hoisted_58 = ["innerHTML"];
-var _hoisted_59 = {
+const _hoisted_57 = ["innerHTML"];
+const _hoisted_58 = ["innerHTML"];
+const _hoisted_59 = {
   class: "modal-footer"
 };
-var _hoisted_60 = {
+const _hoisted_60 = {
   class: "confirm-give-access-all-sites modal",
   ref: "confirmGiveAccessAllSitesModal"
 };
-var _hoisted_61 = {
+const _hoisted_61 = {
   class: "modal-content"
 };
-var _hoisted_62 = ["innerHTML"];
-var _hoisted_63 = {
+const _hoisted_62 = ["innerHTML"];
+const _hoisted_63 = {
   class: "modal-footer"
 };
 function UserPermissionsEditvue_type_template_id_da62b99e_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
-
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_CapabilitiesEdit = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("CapabilitiesEdit");
-
-  var _directive_dropdown_menu = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("dropdown-menu");
-
-  var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
-
+  const _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+  const _component_CapabilitiesEdit = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("CapabilitiesEdit");
+  const _directive_dropdown_menu = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("dropdown-menu");
+  const _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["userPermissionsEdit", {
       loading: _ctx.isLoadingAccess
@@ -747,15 +670,11 @@ function UserPermissionsEditvue_type_template_id_da62b99e_render(_ctx, _cache, $
     type: "transient",
     noclear: true
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Warning')) + ":", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_NoAccessWarning')), 1)];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Warning')) + ":", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_NoAccessWarning')), 1)]),
     _: 1
   })])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserPermissionsEditvue_type_template_id_da62b99e_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserPermissionsEditvue_type_template_id_da62b99e_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", UserPermissionsEditvue_type_template_id_da62b99e_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_GiveAccessToAll')) + ":", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserPermissionsEditvue_type_template_id_da62b99e_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     modelValue: _ctx.allWebsitesAccssLevelSet,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.allWebsitesAccssLevelSet = $event;
-    }),
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.allWebsitesAccssLevelSet = $event),
     uicontrol: "select",
     options: _ctx.filteredAccessLevels,
     "full-width": true
@@ -764,54 +683,48 @@ function UserPermissionsEditvue_type_template_id_da62b99e_render(_ctx, _cache, $
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["btn", {
       disabled: _ctx.isGivingAccessToAllSites
     }]),
-    onClick: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.showChangeAccessAllSitesModal();
-    }, ["prevent"]))
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Apply')), 3)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", UserPermissionsEditvue_type_template_id_da62b99e_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_OrManageIndividually')) + ":", 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserPermissionsEditvue_type_template_id_da62b99e_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserPermissionsEditvue_type_template_id_da62b99e_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    onClick: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.showChangeAccessAllSitesModal(), ["prevent"]))
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Apply')), 3)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", UserPermissionsEditvue_type_template_id_da62b99e_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_OrManageIndividually')) + ":", 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserPermissionsEditvue_type_template_id_da62b99e_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserPermissionsEditvue_type_template_id_da62b99e_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["dropdown-trigger btn", {
       disabled: _ctx.isBulkActionsDisabled
     }]),
     href: "",
     "data-target": "user-permissions-edit-bulk-actions"
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_BulkActions')), 1)], 2), [[_directive_dropdown_menu, {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_BulkActions')), 1)], 2)), [[_directive_dropdown_menu, {
     activates: '#user-permissions-edit-bulk-actions'
-  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SetPermission')), 1)], 512), [[_directive_dropdown_menu, {
+  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SetPermission')), 1)])), [[_directive_dropdown_menu, {
     activates: '#user-permissions-bulk-set-access'
-  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", _hoisted_12, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.filteredAccessLevels, function (access) {
+  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", _hoisted_12, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.filteredAccessLevels, access => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       key: access.key
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
       href: "",
-      onClick: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      onClick: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => {
         _ctx.siteAccessToChange = null;
         _ctx.roleToChangeTo = access.key;
-
         _ctx.showChangeAccessConfirm();
       }, ["prevent"])
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(access.value), 9, _hoisted_13)]);
   }), 128))])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
-    onClick: _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+    onClick: _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => {
       _ctx.siteAccessToChange = null;
       _ctx.roleToChangeTo = 'noaccess';
-
       _ctx.showRemoveAccessConfirm();
     }, ["prevent"]))
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_RemovePermissions')), 1)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "text",
     value: _ctx.siteNameFilter,
-    onKeydown: _cache[3] || (_cache[3] = function ($event) {
+    onKeydown: _cache[3] || (_cache[3] = $event => {
       _ctx.onChangeSiteFilter($event);
     }),
-    onChange: _cache[4] || (_cache[4] = function ($event) {
+    onChange: _cache[4] || (_cache[4] = $event => {
       _ctx.onChangeSiteFilter($event);
     }),
     placeholder: _ctx.translate('UsersManager_FilterByWebsite')
   }, null, 40, _hoisted_15)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     modelValue: _ctx.accessLevelFilter,
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-      return _ctx.accessLevelFilter = $event;
-    }),
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => _ctx.accessLevelFilter = $event),
     uicontrol: "select",
     options: _ctx.filteredSelectAccessLevels,
     "full-width": true,
@@ -822,9 +735,7 @@ function UserPermissionsEditvue_type_template_id_da62b99e_render(_ctx, _cache, $
     }])
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "pointer",
-    onClick: _cache[6] || (_cache[6] = function ($event) {
-      return _ctx.gotoPreviousPage();
-    })
+    onClick: _cache[6] || (_cache[6] = $event => _ctx.gotoPreviousPage())
   }, "« " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Previous')), 1)], 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_19, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.paginationText)
   }, null, 8, _hoisted_20)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
@@ -833,20 +744,16 @@ function UserPermissionsEditvue_type_template_id_da62b99e_render(_ctx, _cache, $
     }])
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "pointer",
-    onClick: _cache[7] || (_cache[7] = function ($event) {
-      return _ctx.gotoNextPage();
-    })
+    onClick: _cache[7] || (_cache[7] = $event => _ctx.gotoNextPage())
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Next')) + " »", 1)], 2)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_21, [_ctx.isRoleHelpToggled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Notification, {
     key: 0,
     context: "info",
     type: "persistent",
     noclear: true
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.rolesHelpText)
-      }, null, 8, _hoisted_22)];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      innerHTML: _ctx.$sanitize(_ctx.rolesHelpText)
+    }, null, 8, _hoisted_22)]),
     _: 1
   })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_23, [_ctx.isCapabilitiesHelpToggled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Notification, {
     key: 0,
@@ -854,37 +761,29 @@ function UserPermissionsEditvue_type_template_id_da62b99e_render(_ctx, _cache, $
     type: "persistent",
     noclear: true
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_CapabilitiesHelp')), 1)];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_CapabilitiesHelp')), 1)]),
     _: 1
-  })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", _hoisted_24, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", _hoisted_25, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_26, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("table", _hoisted_24, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", _hoisted_25, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_26, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "checkbox",
     id: "perm_edit_select_all",
     checked: _ctx.isAllCheckboxSelected,
-    onChange: _cache[8] || (_cache[8] = function ($event) {
-      return _ctx.onAllCheckboxChange($event);
-    })
+    onChange: _cache[8] || (_cache[8] = $event => _ctx.onAllCheckboxChange($event))
   }, null, 40, _hoisted_27), _hoisted_28])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Name')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", _hoisted_29, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    innerHTML: _ctx.$sanitize("".concat(_ctx.translate('UsersManager_Role'), " "))
+    innerHTML: _ctx.$sanitize(`${_ctx.translate('UsersManager_Role')} `)
   }, null, 8, _hoisted_30), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["helpIcon", {
       sticky: _ctx.isRoleHelpToggled
     }]),
-    onClick: _cache[9] || (_cache[9] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.isRoleHelpToggled = !_ctx.isRoleHelpToggled;
-    }, ["prevent"]))
+    onClick: _cache[9] || (_cache[9] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.isRoleHelpToggled = !_ctx.isRoleHelpToggled, ["prevent"]))
   }, _hoisted_32, 2)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", _hoisted_33, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    innerHTML: _ctx.$sanitize("".concat(_ctx.translate('UsersManager_Capabilities'), " "))
+    innerHTML: _ctx.$sanitize(`${_ctx.translate('UsersManager_Capabilities')} `)
   }, null, 8, _hoisted_34), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["helpIcon", {
       sticky: _ctx.isCapabilitiesHelpToggled
     }]),
-    onClick: _cache[10] || (_cache[10] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.isCapabilitiesHelpToggled = !_ctx.isCapabilitiesHelpToggled;
-    }, ["prevent"]))
+    onClick: _cache[10] || (_cache[10] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.isCapabilitiesHelpToggled = !_ctx.isCapabilitiesHelpToggled, ["prevent"]))
   }, _hoisted_36, 2)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [_ctx.isAllCheckboxSelected && _ctx.siteAccess.length < _ctx.totalEntries ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", _hoisted_37, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", _hoisted_38, [!_ctx.areAllResultsSelected ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_39, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     innerHTML: _ctx.$sanitize(_ctx.theDisplayedWebsitesAreSelectedText),
     style: {
@@ -892,9 +791,7 @@ function UserPermissionsEditvue_type_template_id_da62b99e_render(_ctx, _cache, $
     }
   }, null, 8, _hoisted_40), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "#",
-    onClick: _cache[11] || (_cache[11] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.areAllResultsSelected = !_ctx.areAllResultsSelected;
-    }, ["prevent"])),
+    onClick: _cache[11] || (_cache[11] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.areAllResultsSelected = !_ctx.areAllResultsSelected, ["prevent"])),
     innerHTML: _ctx.$sanitize(_ctx.clickToSelectAllText)
   }, null, 8, _hoisted_41)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.areAllResultsSelected ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_42, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     innerHTML: _ctx.$sanitize(_ctx.allWebsitesAreSelectedText),
@@ -903,25 +800,19 @@ function UserPermissionsEditvue_type_template_id_da62b99e_render(_ctx, _cache, $
     }
   }, null, 8, _hoisted_43), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "#",
-    onClick: _cache[12] || (_cache[12] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.areAllResultsSelected = !_ctx.areAllResultsSelected;
-    }, ["prevent"])),
+    onClick: _cache[12] || (_cache[12] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.areAllResultsSelected = !_ctx.areAllResultsSelected, ["prevent"])),
     innerHTML: _ctx.$sanitize(_ctx.clickToSelectDisplayedWebsitesText)
-  }, null, 8, _hoisted_44)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.siteAccess, function (entry, index) {
+  }, null, 8, _hoisted_44)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.siteAccess, (entry, index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
       key: entry.idsite
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", _hoisted_45, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_46, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
       type: "checkbox",
-      id: "perm_edit_select_row".concat(index),
-      "onUpdate:modelValue": function onUpdateModelValue($event) {
-        return _ctx.selectedRows[index] = $event;
-      },
-      onClick: _cache[13] || (_cache[13] = function ($event) {
-        return _ctx.onRowSelected();
-      })
+      id: `perm_edit_select_row${index}`,
+      "onUpdate:modelValue": $event => _ctx.selectedRows[index] = $event,
+      onClick: _cache[13] || (_cache[13] = $event => _ctx.onRowSelected())
     }, null, 8, _hoisted_47), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], _ctx.selectedRows[index]]]), _hoisted_48])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(entry.site_name), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_49, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
       "model-value": entry.role,
-      "onUpdate:modelValue": function onUpdateModelValue($event) {
+      "onUpdate:modelValue": $event => {
         _ctx.onRoleChange(entry, $event);
       },
       "model-modifiers": {
@@ -936,11 +827,9 @@ function UserPermissionsEditvue_type_template_id_da62b99e_render(_ctx, _cache, $
       "user-login": _ctx.userLogin,
       "user-role": entry.role,
       capabilities: entry.capabilities,
-      onChange: _cache[14] || (_cache[14] = function ($event) {
-        return _ctx.fetchAccess();
-      })
+      onChange: _cache[14] || (_cache[14] = $event => _ctx.fetchAccess())
     }, null, 8, ["idsite", "site-name", "user-login", "user-role", "capabilities"])])])]);
-  }), 128))])], 512), [[_directive_content_table]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_50, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_51, [_ctx.siteAccessToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h3", {
+  }), 128))])])), [[_directive_content_table]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_50, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_51, [_ctx.siteAccessToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h3", {
     key: 0,
     innerHTML: _ctx.$sanitize(_ctx.deletePermConfirmSingleText)
   }, null, 8, _hoisted_52)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.siteAccessToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
@@ -949,16 +838,14 @@ function UserPermissionsEditvue_type_template_id_da62b99e_render(_ctx, _cache, $
   }, null, 8, _hoisted_53)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_54, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close btn",
-    onClick: _cache[15] || (_cache[15] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.changeUserRole();
-    }, ["prevent"])),
+    onClick: _cache[15] || (_cache[15] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.changeUserRole(), ["prevent"])),
     style: {
       "margin-right": "3.5px"
     }
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close modal-no",
-    onClick: _cache[16] || (_cache[16] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+    onClick: _cache[16] || (_cache[16] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => {
       _ctx.siteAccessToChange = null;
       _ctx.roleToChangeTo = null;
     }, ["prevent"]))
@@ -971,16 +858,14 @@ function UserPermissionsEditvue_type_template_id_da62b99e_render(_ctx, _cache, $
   }, null, 8, _hoisted_58)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_59, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close btn",
-    onClick: _cache[17] || (_cache[17] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.changeUserRole();
-    }, ["prevent"])),
+    onClick: _cache[17] || (_cache[17] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.changeUserRole(), ["prevent"])),
     style: {
       "margin-right": "3.5px"
     }
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close modal-no",
-    onClick: _cache[18] || (_cache[18] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+    onClick: _cache[18] || (_cache[18] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => {
       _ctx.accessChangeEvent && _ctx.accessChangeEvent.abort();
       _ctx.siteAccessToChange = null;
       _ctx.roleToChangeTo = null;
@@ -990,29 +875,26 @@ function UserPermissionsEditvue_type_template_id_da62b99e_render(_ctx, _cache, $
   }, null, 8, _hoisted_62), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ChangePermToAllSitesConfirm2')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_63, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close btn",
-    onClick: _cache[19] || (_cache[19] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.giveAccessToAllSites();
-    }, ["prevent"])),
+    onClick: _cache[19] || (_cache[19] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.giveAccessToAllSites(), ["prevent"])),
     style: {
       "margin-right": "3.5px"
     }
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close modal-no",
-    onClick: _cache[20] || (_cache[20] = function ($event) {
-      return $event.preventDefault();
-    })
+    onClick: _cache[20] || (_cache[20] = $event => $event.preventDefault())
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_No')), 1)])], 512)], 2);
 }
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.vue?vue&type=template&id=da62b99e
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.vue?vue&type=script&lang=ts
 
 
 
 
-var UserPermissionsEditvue_type_script_lang_ts_window = window,
-    UserPermissionsEditvue_type_script_lang_ts_$ = UserPermissionsEditvue_type_script_lang_ts_window.$;
+const {
+  $: UserPermissionsEditvue_type_script_lang_ts_$
+} = window;
 /* harmony default export */ var UserPermissionsEditvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     userLogin: {
@@ -1041,7 +923,7 @@ var UserPermissionsEditvue_type_script_lang_ts_window = window,
     DropdownMenu: external_CoreHome_["DropdownMenu"],
     ContentTable: external_CoreHome_["ContentTable"]
   },
-  data: function data() {
+  data() {
     return {
       siteAccess: [],
       offset: 0,
@@ -1064,59 +946,48 @@ var UserPermissionsEditvue_type_script_lang_ts_window = window,
     };
   },
   emits: ['userHasAccessDetected', 'accessChanged'],
-  created: function created() {
-    var _this = this;
-
+  created() {
     this.onChangeSiteFilter = Object(external_CoreHome_["debounce"])(this.onChangeSiteFilter, 300);
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
-      return _this.allPropsWatch;
-    }, function () {
-      if (_this.limit) {
-        _this.fetchAccess();
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => this.allPropsWatch, () => {
+      if (this.limit) {
+        this.fetchAccess();
       }
     });
     this.fetchAccess();
   },
   watch: {
-    accessLevelFilter: function accessLevelFilter() {
+    accessLevelFilter() {
       this.offset = 0;
       this.fetchAccess();
     }
   },
   methods: {
-    onAllCheckboxChange: function onAllCheckboxChange(event) {
-      var _this2 = this;
-
+    onAllCheckboxChange(event) {
       this.isAllCheckboxSelected = event.target.checked;
-
       if (!this.isAllCheckboxSelected) {
         this.clearSelection();
       } else {
-        this.siteAccess.forEach(function (e, i) {
-          _this2.selectedRows[i] = true;
+        this.siteAccess.forEach((e, i) => {
+          this.selectedRows[i] = true;
         });
         this.isBulkActionsDisabled = false;
       }
     },
-    clearSelection: function clearSelection() {
+    clearSelection() {
       this.selectedRows = {};
       this.areAllResultsSelected = false;
       this.isBulkActionsDisabled = true;
       this.isAllCheckboxSelected = false;
       this.siteAccessToChange = null;
     },
-    onRowSelected: function onRowSelected() {
-      var _this3 = this;
-
-      setTimeout(function () {
-        var selectedRowKeyCount = _this3.selectedRowsCount;
-        _this3.isBulkActionsDisabled = selectedRowKeyCount === 0;
-        _this3.isAllCheckboxSelected = selectedRowKeyCount === _this3.siteAccess.length;
+    onRowSelected() {
+      setTimeout(() => {
+        const selectedRowKeyCount = this.selectedRowsCount;
+        this.isBulkActionsDisabled = selectedRowKeyCount === 0;
+        this.isAllCheckboxSelected = selectedRowKeyCount === this.siteAccess.length;
       });
     },
-    fetchAccess: function fetchAccess() {
-      var _this4 = this;
-
+    fetchAccess() {
       this.isLoadingAccess = true;
       return external_CoreHome_["AjaxHelper"].fetch({
         method: 'UsersManager.getSitesAccessForUser',
@@ -1127,160 +998,129 @@ var UserPermissionsEditvue_type_script_lang_ts_window = window,
         userLogin: this.userLogin
       }, {
         returnResponseObject: true
-      }).then(function (helper) {
-        var result = helper.getRequestHandle();
-        _this4.isLoadingAccess = false;
-        _this4.siteAccess = result.responseJSON;
-        _this4.totalEntries = parseInt(result.getResponseHeader('x-matomo-total-results'), 10) || 0;
-        _this4.hasAccessToAtLeastOneSite = !!result.getResponseHeader('x-matomo-has-some');
-
-        _this4.$emit('userHasAccessDetected', {
-          hasAccess: _this4.hasAccessToAtLeastOneSite
+      }).then(helper => {
+        const result = helper.getRequestHandle();
+        this.isLoadingAccess = false;
+        this.siteAccess = result.responseJSON;
+        this.totalEntries = parseInt(result.getResponseHeader('x-matomo-total-results'), 10) || 0;
+        this.hasAccessToAtLeastOneSite = !!result.getResponseHeader('x-matomo-has-some');
+        this.$emit('userHasAccessDetected', {
+          hasAccess: this.hasAccessToAtLeastOneSite
         });
-
-        _this4.clearSelection();
-      }).catch(function () {
-        _this4.isLoadingAccess = false;
-
-        _this4.clearSelection();
+        this.clearSelection();
+      }).catch(() => {
+        this.isLoadingAccess = false;
+        this.clearSelection();
       });
     },
-    gotoPreviousPage: function gotoPreviousPage() {
+    gotoPreviousPage() {
       this.offset = Math.max(0, this.offset - this.limit);
       this.fetchAccess();
     },
-    gotoNextPage: function gotoNextPage() {
-      var newOffset = this.offset + this.limit;
-
+    gotoNextPage() {
+      const newOffset = this.offset + this.limit;
       if (newOffset >= (this.totalEntries || 0)) {
         return;
       }
-
       this.offset = newOffset;
       this.fetchAccess();
     },
-    showRemoveAccessConfirm: function showRemoveAccessConfirm() {
+    showRemoveAccessConfirm() {
       UserPermissionsEditvue_type_script_lang_ts_$(this.$refs.deleteAccessConfirmModal).modal({
         dismissible: false
       }).modal('open');
     },
-    changeUserRole: function changeUserRole() {
-      var _this5 = this;
-
-      var getSelectedSites = function getSelectedSites() {
-        var result = [];
-        Object.keys(_this5.selectedRows).forEach(function (index) {
-          if (_this5.selectedRows[index] && _this5.siteAccess[index] // safety check
+    changeUserRole() {
+      const getSelectedSites = () => {
+        const result = [];
+        Object.keys(this.selectedRows).forEach(index => {
+          if (this.selectedRows[index] && this.siteAccess[index] // safety check
           ) {
-            result.push(_this5.siteAccess[index].idsite);
+            result.push(this.siteAccess[index].idsite);
           }
         });
         return result;
       };
-
-      var getAllSitesInSearch = function getAllSitesInSearch() {
-        return external_CoreHome_["AjaxHelper"].fetch({
-          method: 'UsersManager.getSitesAccessForUser',
-          filter_search: _this5.siteNameFilter,
-          filter_access: _this5.accessLevelFilter,
-          userLogin: _this5.userLogin,
-          filter_limit: '-1'
-        }).then(function (access) {
-          return access.map(function (a) {
-            return a.idsite;
-          });
-        });
-      };
-
+      const getAllSitesInSearch = () => external_CoreHome_["AjaxHelper"].fetch({
+        method: 'UsersManager.getSitesAccessForUser',
+        filter_search: this.siteNameFilter,
+        filter_access: this.accessLevelFilter,
+        userLogin: this.userLogin,
+        filter_limit: '-1'
+      }).then(access => access.map(a => a.idsite));
       this.isLoadingAccess = true;
-      return Promise.resolve().then(function () {
-        if (_this5.siteAccessToChange) {
-          return [_this5.siteAccessToChange.idsite];
+      return Promise.resolve().then(() => {
+        if (this.siteAccessToChange) {
+          return [this.siteAccessToChange.idsite];
         }
-
-        if (_this5.areAllResultsSelected) {
+        if (this.areAllResultsSelected) {
           return getAllSitesInSearch();
         }
-
         return getSelectedSites();
-      }).then(function (idSites) {
-        return external_CoreHome_["AjaxHelper"].post({
-          method: 'UsersManager.setUserAccess'
-        }, {
-          userLogin: _this5.userLogin,
-          access: _this5.roleToChangeTo,
-          idSites: idSites
-        });
-      }).catch(function () {// ignore (errors will still be displayed to the user)
-      }).then(function () {
-        _this5.$emit('accessChanged');
-
-        return _this5.fetchAccess();
+      }).then(idSites => external_CoreHome_["AjaxHelper"].post({
+        method: 'UsersManager.setUserAccess'
+      }, {
+        userLogin: this.userLogin,
+        access: this.roleToChangeTo,
+        idSites
+      })).catch(() => {
+        // ignore (errors will still be displayed to the user)
+      }).then(() => {
+        this.$emit('accessChanged');
+        return this.fetchAccess();
       });
     },
-    showChangeAccessConfirm: function showChangeAccessConfirm() {
-      var _this6 = this;
-
+    showChangeAccessConfirm() {
       UserPermissionsEditvue_type_script_lang_ts_$(this.$refs.changeAccessConfirmModal).modal({
         dismissible: false,
-        onCloseEnd: function onCloseEnd() {
-          _this6.accessChangeEvent = null;
+        onCloseEnd: () => {
+          this.accessChangeEvent = null;
         }
       }).modal('open');
     },
-    getRoleDisplay: function getRoleDisplay(role) {
-      var result = null;
-      this.filteredAccessLevels.forEach(function (entry) {
+    getRoleDisplay(role) {
+      let result = null;
+      this.filteredAccessLevels.forEach(entry => {
         if (entry.key === role) {
           result = entry.value;
         }
       });
       return result;
     },
-    giveAccessToAllSites: function giveAccessToAllSites() {
-      var _this7 = this;
-
+    giveAccessToAllSites() {
       this.isGivingAccessToAllSites = true;
       external_CoreHome_["AjaxHelper"].fetch({
         method: 'SitesManager.getSitesWithAdminAccess',
         filter_limit: -1
-      }).then(function (allSites) {
-        var idSites = allSites.map(function (s) {
-          return s.idsite;
-        });
+      }).then(allSites => {
+        const idSites = allSites.map(s => s.idsite);
         return external_CoreHome_["AjaxHelper"].post({
           method: 'UsersManager.setUserAccess'
         }, {
-          userLogin: _this7.userLogin,
-          access: _this7.allWebsitesAccssLevelSet,
-          idSites: idSites
+          userLogin: this.userLogin,
+          access: this.allWebsitesAccssLevelSet,
+          idSites
         });
-      }).then(function () {
-        return _this7.fetchAccess();
-      }).finally(function () {
-        _this7.isGivingAccessToAllSites = false;
+      }).then(() => this.fetchAccess()).finally(() => {
+        this.isGivingAccessToAllSites = false;
       });
     },
-    showChangeAccessAllSitesModal: function showChangeAccessAllSitesModal() {
+    showChangeAccessAllSitesModal() {
       UserPermissionsEditvue_type_script_lang_ts_$(this.$refs.confirmGiveAccessAllSitesModal).modal({
         dismissible: false
       }).modal('open');
     },
-    onChangeSiteFilter: function onChangeSiteFilter(event) {
-      var _this8 = this;
-
-      setTimeout(function () {
-        var inputValue = event.target.value;
-
-        if (_this8.siteNameFilter !== inputValue) {
-          _this8.siteNameFilter = inputValue;
-          _this8.offset = 0;
-
-          _this8.fetchAccess();
+    onChangeSiteFilter(event) {
+      setTimeout(() => {
+        const inputValue = event.target.value;
+        if (this.siteNameFilter !== inputValue) {
+          this.siteNameFilter = inputValue;
+          this.offset = 0;
+          this.fetchAccess();
         }
       });
     },
-    onRoleChange: function onRoleChange(entry, event) {
+    onRoleChange(entry, event) {
       this.siteAccessToChange = entry;
       this.roleToChangeTo = event.value;
       this.accessChangeEvent = event;
@@ -1288,84 +1128,78 @@ var UserPermissionsEditvue_type_script_lang_ts_window = window,
     }
   },
   computed: {
-    rolesHelpText: function rolesHelpText() {
+    rolesHelpText() {
       return Object(external_CoreHome_["translate"])('UsersManager_RolesHelp', Object(external_CoreHome_["externalLink"])('https://matomo.org/faq/general/faq_70/'), '</a>', Object(external_CoreHome_["externalLink"])('https://matomo.org/faq/general/faq_69/'), '</a>');
     },
-    theDisplayedWebsitesAreSelectedText: function theDisplayedWebsitesAreSelectedText() {
-      var text = Object(external_CoreHome_["translate"])('UsersManager_TheDisplayedWebsitesAreSelected', "<strong>".concat(this.siteAccess.length, "</strong>"));
-      return "".concat(text, " ");
+    theDisplayedWebsitesAreSelectedText() {
+      const text = Object(external_CoreHome_["translate"])('UsersManager_TheDisplayedWebsitesAreSelected', `<strong>${this.siteAccess.length}</strong>`);
+      return `${text} `;
     },
-    clickToSelectAllText: function clickToSelectAllText() {
-      return Object(external_CoreHome_["translate"])('UsersManager_ClickToSelectAll', "<strong>".concat(this.totalEntries, "</strong>"));
+    clickToSelectAllText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_ClickToSelectAll', `<strong>${this.totalEntries}</strong>`);
     },
-    allWebsitesAreSelectedText: function allWebsitesAreSelectedText() {
-      return Object(external_CoreHome_["translate"])('UsersManager_AllWebsitesAreSelected', "<strong>".concat(this.totalEntries, "</strong>"));
+    allWebsitesAreSelectedText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_AllWebsitesAreSelected', `<strong>${this.totalEntries}</strong>`);
     },
-    clickToSelectDisplayedWebsitesText: function clickToSelectDisplayedWebsitesText() {
-      return Object(external_CoreHome_["translate"])('UsersManager_ClickToSelectDisplayedWebsites', "<strong>".concat(this.siteAccess.length, "</strong>"));
+    clickToSelectDisplayedWebsitesText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_ClickToSelectDisplayedWebsites', `<strong>${this.siteAccess.length}</strong>`);
     },
-    deletePermConfirmSingleText: function deletePermConfirmSingleText() {
-      return Object(external_CoreHome_["translate"])('UsersManager_DeletePermConfirmSingle', "<strong>".concat(this.userLogin, "</strong>"), "<strong>".concat(this.siteAccessToChangeName, "</strong>"));
+    deletePermConfirmSingleText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_DeletePermConfirmSingle', `<strong>${this.userLogin}</strong>`, `<strong>${this.siteAccessToChangeName}</strong>`);
     },
-    deletePermConfirmMultipleText: function deletePermConfirmMultipleText() {
-      return Object(external_CoreHome_["translate"])('UsersManager_DeletePermConfirmMultiple', "<strong>".concat(this.userLogin, "</strong>"), "<strong>".concat(this.affectedSitesCount, "</strong>"));
+    deletePermConfirmMultipleText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_DeletePermConfirmMultiple', `<strong>${this.userLogin}</strong>`, `<strong>${this.affectedSitesCount}</strong>`);
     },
-    changePermToSiteConfirmSingleText: function changePermToSiteConfirmSingleText() {
-      return Object(external_CoreHome_["translate"])('UsersManager_ChangePermToSiteConfirmSingle', "<strong>".concat(this.userLogin, "</strong>"), "<strong>".concat(this.siteAccessToChangeName, "</strong>"), "<strong>".concat(this.getRoleDisplay(this.roleToChangeTo), "</strong>"));
+    changePermToSiteConfirmSingleText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_ChangePermToSiteConfirmSingle', `<strong>${this.userLogin}</strong>`, `<strong>${this.siteAccessToChangeName}</strong>`, `<strong>${this.getRoleDisplay(this.roleToChangeTo)}</strong>`);
     },
-    changePermToSiteConfirmMultipleText: function changePermToSiteConfirmMultipleText() {
-      return Object(external_CoreHome_["translate"])('UsersManager_ChangePermToSiteConfirmMultiple', "<strong>".concat(this.userLogin, "</strong>"), "<strong>".concat(this.affectedSitesCount, "</strong>"), "<strong>".concat(this.getRoleDisplay(this.roleToChangeTo), "</strong>"));
+    changePermToSiteConfirmMultipleText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_ChangePermToSiteConfirmMultiple', `<strong>${this.userLogin}</strong>`, `<strong>${this.affectedSitesCount}</strong>`, `<strong>${this.getRoleDisplay(this.roleToChangeTo)}</strong>`);
     },
-    changePermToAllSitesConfirmText: function changePermToAllSitesConfirmText() {
-      return Object(external_CoreHome_["translate"])('UsersManager_ChangePermToAllSitesConfirm', "<strong>".concat(this.userLogin, "</strong>"), "<strong>".concat(this.getRoleDisplay(this.allWebsitesAccssLevelSet), "</strong>"));
+    changePermToAllSitesConfirmText() {
+      return Object(external_CoreHome_["translate"])('UsersManager_ChangePermToAllSitesConfirm', `<strong>${this.userLogin}</strong>`, `<strong>${this.getRoleDisplay(this.allWebsitesAccssLevelSet)}</strong>`);
     },
-    paginationLowerBound: function paginationLowerBound() {
+    paginationLowerBound() {
       return this.offset + 1;
     },
-    paginationUpperBound: function paginationUpperBound() {
+    paginationUpperBound() {
       if (!this.totalEntries) {
         return '?';
       }
-
       return Math.min(this.offset + this.limit, this.totalEntries);
     },
-    filteredAccessLevels: function filteredAccessLevels() {
-      return this.accessLevels.filter(function (entry) {
-        return entry.key !== 'superuser' && entry.type === 'role';
-      });
+    filteredAccessLevels() {
+      return this.accessLevels.filter(entry => entry.key !== 'superuser' && entry.type === 'role');
     },
-    filteredSelectAccessLevels: function filteredSelectAccessLevels() {
-      return this.filterAccessLevels.filter(function (entry) {
-        return entry.key !== 'superuser';
-      });
+    filteredSelectAccessLevels() {
+      return this.filterAccessLevels.filter(entry => entry.key !== 'superuser');
     },
-    selectedRowsCount: function selectedRowsCount() {
-      var selectedRowKeyCount = 0;
-      Object.values(this.selectedRows).forEach(function (v) {
+    selectedRowsCount() {
+      let selectedRowKeyCount = 0;
+      Object.values(this.selectedRows).forEach(v => {
         if (v) {
           selectedRowKeyCount += 1;
         }
       });
       return selectedRowKeyCount;
     },
-    affectedSitesCount: function affectedSitesCount() {
+    affectedSitesCount() {
       if (this.areAllResultsSelected) {
         return this.totalEntries;
       }
-
       return this.selectedRowsCount;
     },
-    allPropsWatch: function allPropsWatch() {
+    allPropsWatch() {
       // see https://github.com/vuejs/vue/issues/844#issuecomment-390500758
       // eslint-disable-next-line no-sequences
       return this.userLogin, this.limit, this.accessLevels, this.filterAccessLevels, Date.now();
     },
-    siteAccessToChangeName: function siteAccessToChangeName() {
+    siteAccessToChangeName() {
       return this.siteAccessToChange ? external_CoreHome_["Matomo"].helper.htmlEntities(this.siteAccessToChange.site_name) : '';
     },
-    paginationText: function paginationText() {
-      var text = Object(external_CoreHome_["translate"])('General_Pagination', "".concat(this.paginationLowerBound), "".concat(this.paginationUpperBound), "".concat(this.totalEntries));
-      return " ".concat(text, " ");
+    paginationText() {
+      const text = Object(external_CoreHome_["translate"])('General_Pagination', `${this.paginationLowerBound}`, `${this.paginationUpperBound}`, `${this.totalEntries}`);
+      return ` ${text} `;
     }
   }
 }));
@@ -1378,374 +1212,312 @@ var UserPermissionsEditvue_type_script_lang_ts_window = window,
 UserPermissionsEditvue_type_script_lang_ts.render = UserPermissionsEditvue_type_template_id_da62b99e_render
 
 /* harmony default export */ var UserPermissionsEdit = (UserPermissionsEditvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/UserEditForm/UserEditForm.vue?vue&type=template&id=b96898cc
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserEditForm/UserEditForm.vue?vue&type=template&id=b96898cc
 
-var UserEditFormvue_type_template_id_b96898cc_hoisted_1 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_1 = {
   class: "row"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_2 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_2 = {
   key: 0,
   class: "col s12 m6 invite-notes"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_3 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_3 = {
   class: "form-help"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_4 = ["innerHTML"];
-var UserEditFormvue_type_template_id_b96898cc_hoisted_5 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_4 = ["innerHTML"];
+const UserEditFormvue_type_template_id_b96898cc_hoisted_5 = {
   key: 1,
   class: "col m2 entityList"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_6 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_6 = {
   class: "listCircle"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_7 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_7 = {
   key: 0,
   class: "icon-warning"
 };
-
-var UserEditFormvue_type_template_id_b96898cc_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   class: "save-button-spacer hide-on-small-only"
 }, null, -1);
-
-var UserEditFormvue_type_template_id_b96898cc_hoisted_9 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_9 = {
   href: "",
   class: "entityCancelLink"
 };
-
-var UserEditFormvue_type_template_id_b96898cc_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-arrow-left"
 }, "  ", -1);
-
-var UserEditFormvue_type_template_id_b96898cc_hoisted_11 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_11 = {
   class: "visibleTab col m10"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_12 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_12 = {
   key: 0,
   class: "basic-info-tab"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_13 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_13 = {
   class: "email-input"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_14 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_14 = {
   class: "form-group row",
   style: {
     "position": "relative"
   }
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_15 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_15 = {
   class: "col s12 m6 save-button"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_16 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_16 = {
   key: 0,
   class: "resend-notes"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_17 = ["innerHTML"];
-var UserEditFormvue_type_template_id_b96898cc_hoisted_18 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_17 = ["innerHTML"];
+const UserEditFormvue_type_template_id_b96898cc_hoisted_18 = {
   key: 0,
   class: "entityCancel"
 };
-
-var UserEditFormvue_type_template_id_b96898cc_hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon icon-arrow-left"
 }, "  ", -1);
-
-var UserEditFormvue_type_template_id_b96898cc_hoisted_20 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_20 = {
   key: 1,
   class: "user-permissions"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_21 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_21 = {
   key: 0
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_22 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_22 = {
   key: 1,
   class: "alert alert-info"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_23 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_23 = {
   key: 2,
   class: "superuser-access form-group"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_24 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_24 = {
   key: 0
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_25 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_25 = {
   key: 1
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_26 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_26 = {
   class: "browser-default"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_27 = ["innerHTML"];
-var UserEditFormvue_type_template_id_b96898cc_hoisted_28 = ["innerHTML"];
-var UserEditFormvue_type_template_id_b96898cc_hoisted_29 = ["innerHTML"];
-var UserEditFormvue_type_template_id_b96898cc_hoisted_30 = ["innerHTML"];
-var UserEditFormvue_type_template_id_b96898cc_hoisted_31 = ["innerHTML"];
-var UserEditFormvue_type_template_id_b96898cc_hoisted_32 = ["innerHTML"];
-var UserEditFormvue_type_template_id_b96898cc_hoisted_33 = ["innerHTML"];
-var UserEditFormvue_type_template_id_b96898cc_hoisted_34 = ["innerHTML"];
-var UserEditFormvue_type_template_id_b96898cc_hoisted_35 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_27 = ["innerHTML"];
+const UserEditFormvue_type_template_id_b96898cc_hoisted_28 = ["innerHTML"];
+const UserEditFormvue_type_template_id_b96898cc_hoisted_29 = ["innerHTML"];
+const UserEditFormvue_type_template_id_b96898cc_hoisted_30 = ["innerHTML"];
+const UserEditFormvue_type_template_id_b96898cc_hoisted_31 = ["innerHTML"];
+const UserEditFormvue_type_template_id_b96898cc_hoisted_32 = ["innerHTML"];
+const UserEditFormvue_type_template_id_b96898cc_hoisted_33 = ["innerHTML"];
+const UserEditFormvue_type_template_id_b96898cc_hoisted_34 = ["innerHTML"];
+const UserEditFormvue_type_template_id_b96898cc_hoisted_35 = {
   key: 0
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_36 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_36 = {
   key: 1
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_37 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_37 = {
   key: 3,
   class: "twofa-reset form-group"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_38 = {
+const UserEditFormvue_type_template_id_b96898cc_hoisted_38 = {
   class: "resetTwoFa"
 };
-var UserEditFormvue_type_template_id_b96898cc_hoisted_39 = ["innerHTML"];
-var UserEditFormvue_type_template_id_b96898cc_hoisted_40 = ["innerHTML"];
+const UserEditFormvue_type_template_id_b96898cc_hoisted_39 = ["innerHTML"];
+const UserEditFormvue_type_template_id_b96898cc_hoisted_40 = ["innerHTML"];
 function UserEditFormvue_type_template_id_b96898cc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
-  var _component_PasswordConfirmation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PasswordConfirmation");
-
-  var _component_UserPermissionsEdit = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("UserPermissionsEdit");
-
-  var _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
-  var _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
-
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+  const _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
+  const _component_PasswordConfirmation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PasswordConfirmation");
+  const _component_UserPermissionsEdit = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("UserPermissionsEdit");
+  const _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
+  const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+  const _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["userEditForm", {
       loading: _ctx.isSavingUserInfo
     }]),
-    "content-title": "".concat(_ctx.formTitle, " ").concat(!_ctx.isAdd ? "".concat(_ctx.theUser.login) : '')
+    "content-title": `${_ctx.formTitle} ${!_ctx.isAdd ? `${_ctx.theUser.login}` : ''}`
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_1, [_ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_InviteSuccessNotification', [_ctx.inviteTokenExpiryDays]))
-      }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_4)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", UserEditFormvue_type_template_id_b96898cc_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
-        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
-          active: _ctx.activeTab === 'basic'
-        }, "menuBasicInfo"])
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-        href: "",
-        onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-          return _ctx.activeTab = 'basic';
-        }, ["prevent"]))
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_BasicInformation')), 1)], 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
-        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
-          active: _ctx.activeTab === 'permissions'
-        }, "menuPermissions"])
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-        href: "",
-        onClick: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-          return _ctx.activeTab = 'permissions';
-        }, ["prevent"])),
-        style: {
-          "margin-right": "3.5px"
-        }
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_Permissions')), 1), !_ctx.userHasAccess && !_ctx.theUser.superuser_access ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", UserEditFormvue_type_template_id_b96898cc_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_1, [_ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_InviteSuccessNotification', [_ctx.inviteTokenExpiryDays]))
+    }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_4)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", UserEditFormvue_type_template_id_b96898cc_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
+        active: _ctx.activeTab === 'basic'
+      }, "menuBasicInfo"])
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      href: "",
+      onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.activeTab = 'basic', ["prevent"]))
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_BasicInformation')), 1)], 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
+        active: _ctx.activeTab === 'permissions'
+      }, "menuPermissions"])
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      href: "",
+      onClick: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.activeTab = 'permissions', ["prevent"])),
+      style: {
+        "margin-right": "3.5px"
+      }
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_Permissions')), 1), !_ctx.userHasAccess && !_ctx.theUser.superuser_access ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", UserEditFormvue_type_template_id_b96898cc_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+      key: 0,
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
+        active: _ctx.activeTab === 'superuser'
+      }, "menuSuperuser"])
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      href: "",
+      onClick: _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.activeTab = 'superuser', ["prevent"]))
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SuperUserAccess')), 1)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.currentUserRole === 'superuser' && _ctx.theUser.uses_2fa && !_ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+      key: 1,
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
+        active: _ctx.activeTab === '2fa'
+      }, "menuUserTwoFa"])
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      href: "",
+      onClick: _cache[3] || (_cache[3] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.activeTab = '2fa', ["prevent"]))
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_TwoFactorAuthentication')), 1)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), UserEditFormvue_type_template_id_b96898cc_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+      class: "entityCancel",
+      onClick: _cache[4] || (_cache[4] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.onDoneEditing(), ["prevent"]))
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", UserEditFormvue_type_template_id_b96898cc_hoisted_9, [UserEditFormvue_type_template_id_b96898cc_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_BackToUser')), 1)])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_11, [_ctx.activeTab === 'basic' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      modelValue: _ctx.theUser.login,
+      "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => _ctx.theUser.login = $event),
+      disabled: _ctx.isSavingUserInfo || !_ctx.isAdd || _ctx.isShowingPasswordConfirm,
+      autocomplete: "off",
+      uicontrol: "text",
+      name: "user_login",
+      maxlength: 100,
+      title: _ctx.translate('General_Username')
+    }, null, 8, ["modelValue", "disabled", "title"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [!_ctx.isPending ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
+      key: 0,
+      "model-value": _ctx.theUser.password,
+      disabled: _ctx.isSavingUserInfo || _ctx.currentUserRole !== 'superuser' && !_ctx.isAdd || _ctx.isShowingPasswordConfirm,
+      "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => {
+        _ctx.theUser.password = $event;
+        _ctx.isPasswordModified = true;
+      }),
+      uicontrol: "password",
+      name: "user_password",
+      autocomplete: "new-password",
+      title: _ctx.translate('General_Password')
+    }, null, 8, ["model-value", "disabled", "title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_13, [_ctx.currentUserRole === 'superuser' || _ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
+      key: 0,
+      modelValue: _ctx.theUser.email,
+      "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => _ctx.theUser.email = $event),
+      disabled: _ctx.isSavingUserInfo || _ctx.currentUserRole !== 'superuser' && !_ctx.isAdd || _ctx.isShowingPasswordConfirm,
+      uicontrol: "text",
+      name: "user_email",
+      autocomplete: "off",
+      maxlength: 100,
+      title: _ctx.translate('UsersManager_Email')
+    }, null, 8, ["modelValue", "disabled", "title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [_ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
+      key: 0,
+      modelValue: _ctx.firstSiteAccess,
+      "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => _ctx.firstSiteAccess = $event),
+      disabled: _ctx.isSavingUserInfo,
+      uicontrol: "site",
+      name: "user_site",
+      "ui-control-attributes": {
+        onlySitesWithAdminAccess: true
+      },
+      title: _ctx.translate('UsersManager_FirstWebsitePermission'),
+      "inline-help": _ctx.translate('UsersManager_FirstSiteInlineHelp')
+    }, null, 8, ["modelValue", "disabled", "title", "inline-help"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_15, [_ctx.currentUserRole === 'superuser' || _ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_SaveButton, {
+      key: 0,
+      value: _ctx.saveButtonLabel,
+      disabled: _ctx.isAdd && (!_ctx.firstSiteAccess || !_ctx.firstSiteAccess.id),
+      saving: _ctx.isSavingUserInfo,
+      onConfirm: _ctx.saveUserInfo
+    }, null, 8, ["value", "disabled", "saving", "onConfirm"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]), _ctx.user && _ctx.isPending ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", UserEditFormvue_type_template_id_b96898cc_hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_InvitationSent')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      class: "resend-link",
+      onClick: _cache[9] || (_cache[9] = (...args) => _ctx.resendRequestedUser && _ctx.resendRequestedUser(...args)),
+      innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_ResendInvite') + '/' + _ctx.translate('UsersManager_CopyLink'))
+    }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_17)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
+      modelValue: _ctx.showPasswordConfirmationForInviteUser,
+      "onUpdate:modelValue": _cache[10] || (_cache[10] = $event => _ctx.showPasswordConfirmationForInviteUser = $event),
+      onConfirmed: _ctx.inviteUser
+    }, null, 8, ["modelValue", "onConfirmed"])]), _ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_18, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      href: "",
+      class: "entityCancelLink",
+      onClick: _cache[11] || (_cache[11] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.onDoneEditing(), ["prevent"]))
+    }, [UserEditFormvue_type_template_id_b96898cc_hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_BackToUser')), 1)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.isAdd ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_20, [!_ctx.theUser.superuser_access ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_UserPermissionsEdit, {
+      "user-login": _ctx.theUser.login,
+      onUserHasAccessDetected: _cache[12] || (_cache[12] = $event => _ctx.userHasAccess = $event.hasAccess),
+      onAccessChanged: _cache[13] || (_cache[13] = $event => _ctx.isUserModified = true),
+      "access-levels": _ctx.accessLevels,
+      "filter-access-levels": _ctx.filterAccessLevels
+    }, null, 8, ["user-login", "access-levels", "filter-access-levels"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.theUser.superuser_access ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_22, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SuperUsersPermissionsNotice')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.activeTab === 'permissions']]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.activeTab === 'superuser' && _ctx.currentUserRole === 'superuser' && !_ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_23, [_ctx.isMarketplacePluginEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", UserEditFormvue_type_template_id_b96898cc_hoisted_24, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SuperUserIntro1')), 1)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", UserEditFormvue_type_template_id_b96898cc_hoisted_25, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SuperUserIntro1WithoutMarketplace')), 1)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SuperUserIntro2')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SuperUserIntro3')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", UserEditFormvue_type_template_id_b96898cc_hoisted_26, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+      innerHTML: _ctx.$sanitize(_ctx.translateSuperUserRiskString('Data'))
+    }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_27), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+      innerHTML: _ctx.$sanitize(_ctx.translateSuperUserRiskString('Security'))
+    }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_28), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+      innerHTML: _ctx.$sanitize(_ctx.translateSuperUserRiskString('Misconfiguration'))
+    }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_29), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+      innerHTML: _ctx.$sanitize(_ctx.translateSuperUserRiskString('UserManagement'))
+    }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_30), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+      innerHTML: _ctx.$sanitize(_ctx.translateSuperUserRiskString('ServiceDisruption'))
+    }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_31), _ctx.isPluginsAdminEnabled && _ctx.isMarketplacePluginEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+      key: 0,
+      innerHTML: _ctx.$sanitize(_ctx.translateSuperUserRiskString('Marketplace'))
+    }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_32)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+      innerHTML: _ctx.$sanitize(_ctx.accountabilityRisk)
+    }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_33), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+      innerHTML: _ctx.$sanitize(_ctx.translateSuperUserRiskString('Compliance'))
+    }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_34)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      modelValue: _ctx.superUserAccessChecked,
+      "onUpdate:modelValue": _cache[14] || (_cache[14] = $event => _ctx.superUserAccessChecked = $event),
+      onClick: _cache[15] || (_cache[15] = $event => _ctx.confirmSuperUserChange()),
+      disabled: _ctx.isSavingUserInfo,
+      uicontrol: "checkbox",
+      name: "superuser_access",
+      title: _ctx.translate('UsersManager_HasSuperUserAccess')
+    }, null, 8, ["modelValue", "disabled", "title"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
+      modelValue: _ctx.showPasswordConfirmationForSuperUser,
+      "onUpdate:modelValue": _cache[16] || (_cache[16] = $event => _ctx.showPasswordConfirmationForSuperUser = $event),
+      onConfirmed: _ctx.toggleSuperuserAccess,
+      onAborted: _cache[17] || (_cache[17] = $event => _ctx.setSuperUserAccessChecked())
+    }, {
+      default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_AreYouSure')), 1), _ctx.theUser.superuser_access ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", UserEditFormvue_type_template_id_b96898cc_hoisted_35, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_RemoveSuperuserAccessConfirm')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.theUser.superuser_access ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", UserEditFormvue_type_template_id_b96898cc_hoisted_36, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_AddSuperuserAccessConfirm')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]),
+      _: 1
+    }, 8, ["modelValue", "onConfirmed"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.currentUserRole === 'superuser' && !_ctx.isAdd ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_37, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ResetTwoFactorAuthenticationInfo')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_38, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+      saving: _ctx.isResetting2FA,
+      onConfirm: _cache[18] || (_cache[18] = $event => _ctx.confirmReset2FA()),
+      value: _ctx.translate('UsersManager_ResetTwoFactorAuthentication')
+    }, null, 8, ["saving", "value"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
+      modelValue: _ctx.showPasswordConfirmationFor2FA,
+      "onUpdate:modelValue": _cache[19] || (_cache[19] = $event => _ctx.showPasswordConfirmationFor2FA = $event),
+      onConfirmed: _ctx.reset2FA
+    }, {
+      default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_AreYouSure')), 1)]),
+      _: 1
+    }, 8, ["modelValue", "onConfirmed"])], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.activeTab === '2fa']]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])])), [[_directive_form]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
+      modelValue: _ctx.isShowingPasswordConfirm,
+      "onUpdate:modelValue": _cache[20] || (_cache[20] = $event => _ctx.isShowingPasswordConfirm = $event),
+      onConfirmed: _ctx.updateUser
+    }, {
+      default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", {
+        innerHTML: _ctx.$sanitize(_ctx.changePasswordTitle)
+      }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_39), _ctx.user && _ctx.isPending ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Notification, {
         key: 0,
-        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
-          active: _ctx.activeTab === 'superuser'
-        }, "menuSuperuser"])
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-        href: "",
-        onClick: _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-          return _ctx.activeTab = 'superuser';
-        }, ["prevent"]))
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SuperUserAccess')), 1)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.currentUserRole === 'superuser' && _ctx.theUser.uses_2fa && !_ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
-        key: 1,
-        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
-          active: _ctx.activeTab === '2fa'
-        }, "menuUserTwoFa"])
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-        href: "",
-        onClick: _cache[3] || (_cache[3] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-          return _ctx.activeTab = '2fa';
-        }, ["prevent"]))
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_TwoFactorAuthentication')), 1)], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), UserEditFormvue_type_template_id_b96898cc_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-        class: "entityCancel",
-        onClick: _cache[4] || (_cache[4] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-          return _ctx.onDoneEditing();
-        }, ["prevent"]))
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", UserEditFormvue_type_template_id_b96898cc_hoisted_9, [UserEditFormvue_type_template_id_b96898cc_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_BackToUser')), 1)])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_11, [_ctx.activeTab === 'basic' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        modelValue: _ctx.theUser.login,
-        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-          return _ctx.theUser.login = $event;
-        }),
-        disabled: _ctx.isSavingUserInfo || !_ctx.isAdd || _ctx.isShowingPasswordConfirm,
-        autocomplete: "off",
-        uicontrol: "text",
-        name: "user_login",
-        maxlength: 100,
-        title: _ctx.translate('General_Username')
-      }, null, 8, ["modelValue", "disabled", "title"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [!_ctx.isPending ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
-        key: 0,
-        "model-value": _ctx.theUser.password,
-        disabled: _ctx.isSavingUserInfo || _ctx.currentUserRole !== 'superuser' && !_ctx.isAdd || _ctx.isShowingPasswordConfirm,
-        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-          _ctx.theUser.password = $event;
-          _ctx.isPasswordModified = true;
-        }),
-        uicontrol: "password",
-        name: "user_password",
-        autocomplete: "new-password",
-        title: _ctx.translate('General_Password')
-      }, null, 8, ["model-value", "disabled", "title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_13, [_ctx.currentUserRole === 'superuser' || _ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
-        key: 0,
-        modelValue: _ctx.theUser.email,
-        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-          return _ctx.theUser.email = $event;
-        }),
-        disabled: _ctx.isSavingUserInfo || _ctx.currentUserRole !== 'superuser' && !_ctx.isAdd || _ctx.isShowingPasswordConfirm,
-        uicontrol: "text",
-        name: "user_email",
-        autocomplete: "off",
-        maxlength: 100,
-        title: _ctx.translate('UsersManager_Email')
-      }, null, 8, ["modelValue", "disabled", "title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [_ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
-        key: 0,
-        modelValue: _ctx.firstSiteAccess,
-        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-          return _ctx.firstSiteAccess = $event;
-        }),
-        disabled: _ctx.isSavingUserInfo,
-        uicontrol: "site",
-        name: "user_site",
-        "ui-control-attributes": {
-          onlySitesWithAdminAccess: true
-        },
-        title: _ctx.translate('UsersManager_FirstWebsitePermission'),
-        "inline-help": _ctx.translate('UsersManager_FirstSiteInlineHelp')
-      }, null, 8, ["modelValue", "disabled", "title", "inline-help"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_15, [_ctx.currentUserRole === 'superuser' || _ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_SaveButton, {
-        key: 0,
-        value: _ctx.saveButtonLabel,
-        disabled: _ctx.isAdd && (!_ctx.firstSiteAccess || !_ctx.firstSiteAccess.id),
-        saving: _ctx.isSavingUserInfo,
-        onConfirm: _ctx.saveUserInfo
-      }, null, 8, ["value", "disabled", "saving", "onConfirm"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]), _ctx.user && _ctx.isPending ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", UserEditFormvue_type_template_id_b96898cc_hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_InvitationSent')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        class: "resend-link",
-        onClick: _cache[9] || (_cache[9] = function () {
-          return _ctx.resendRequestedUser && _ctx.resendRequestedUser.apply(_ctx, arguments);
-        }),
-        innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_ResendInvite') + '/' + _ctx.translate('UsersManager_CopyLink'))
-      }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_17)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
-        modelValue: _ctx.showPasswordConfirmationForInviteUser,
-        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
-          return _ctx.showPasswordConfirmationForInviteUser = $event;
-        }),
-        onConfirmed: _ctx.inviteUser
-      }, null, 8, ["modelValue", "onConfirmed"])]), _ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_18, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-        href: "",
-        class: "entityCancelLink",
-        onClick: _cache[11] || (_cache[11] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-          return _ctx.onDoneEditing();
-        }, ["prevent"]))
-      }, [UserEditFormvue_type_template_id_b96898cc_hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_BackToUser')), 1)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.isAdd ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_20, [!_ctx.theUser.superuser_access ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_UserPermissionsEdit, {
-        "user-login": _ctx.theUser.login,
-        onUserHasAccessDetected: _cache[12] || (_cache[12] = function ($event) {
-          return _ctx.userHasAccess = $event.hasAccess;
-        }),
-        onAccessChanged: _cache[13] || (_cache[13] = function ($event) {
-          return _ctx.isUserModified = true;
-        }),
-        "access-levels": _ctx.accessLevels,
-        "filter-access-levels": _ctx.filterAccessLevels
-      }, null, 8, ["user-login", "access-levels", "filter-access-levels"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.theUser.superuser_access ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_22, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SuperUsersPermissionsNotice')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.activeTab === 'permissions']]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.activeTab === 'superuser' && _ctx.currentUserRole === 'superuser' && !_ctx.isAdd ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_23, [_ctx.isMarketplacePluginEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", UserEditFormvue_type_template_id_b96898cc_hoisted_24, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SuperUserIntro1')), 1)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", UserEditFormvue_type_template_id_b96898cc_hoisted_25, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SuperUserIntro1WithoutMarketplace')), 1)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SuperUserIntro2')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SuperUserIntro3')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", UserEditFormvue_type_template_id_b96898cc_hoisted_26, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
-        innerHTML: _ctx.$sanitize(_ctx.translateSuperUserRiskString('Data'))
-      }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_27), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
-        innerHTML: _ctx.$sanitize(_ctx.translateSuperUserRiskString('Security'))
-      }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_28), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
-        innerHTML: _ctx.$sanitize(_ctx.translateSuperUserRiskString('Misconfiguration'))
-      }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_29), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
-        innerHTML: _ctx.$sanitize(_ctx.translateSuperUserRiskString('UserManagement'))
-      }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_30), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
-        innerHTML: _ctx.$sanitize(_ctx.translateSuperUserRiskString('ServiceDisruption'))
-      }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_31), _ctx.isPluginsAdminEnabled && _ctx.isMarketplacePluginEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
-        key: 0,
-        innerHTML: _ctx.$sanitize(_ctx.translateSuperUserRiskString('Marketplace'))
-      }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_32)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
-        innerHTML: _ctx.$sanitize(_ctx.accountabilityRisk)
-      }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_33), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
-        innerHTML: _ctx.$sanitize(_ctx.translateSuperUserRiskString('Compliance'))
-      }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_34)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        modelValue: _ctx.superUserAccessChecked,
-        "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
-          return _ctx.superUserAccessChecked = $event;
-        }),
-        onClick: _cache[15] || (_cache[15] = function ($event) {
-          return _ctx.confirmSuperUserChange();
-        }),
-        disabled: _ctx.isSavingUserInfo,
-        uicontrol: "checkbox",
-        name: "superuser_access",
-        title: _ctx.translate('UsersManager_HasSuperUserAccess')
-      }, null, 8, ["modelValue", "disabled", "title"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
-        modelValue: _ctx.showPasswordConfirmationForSuperUser,
-        "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
-          return _ctx.showPasswordConfirmationForSuperUser = $event;
-        }),
-        onConfirmed: _ctx.toggleSuperuserAccess,
-        onAborted: _cache[17] || (_cache[17] = function ($event) {
-          return _ctx.setSuperUserAccessChecked();
-        })
+        context: "info",
+        noclear: true
       }, {
-        default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_AreYouSure')), 1), _ctx.theUser.superuser_access ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", UserEditFormvue_type_template_id_b96898cc_hoisted_35, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_RemoveSuperuserAccessConfirm')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.theUser.superuser_access ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", UserEditFormvue_type_template_id_b96898cc_hoisted_36, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_AddSuperuserAccessConfirm')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
-        }),
+        default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", {
+          innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_InviteEmailChange'))
+        }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_40)]),
         _: 1
-      }, 8, ["modelValue", "onConfirmed"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.currentUserRole === 'superuser' && !_ctx.isAdd ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_37, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ResetTwoFactorAuthenticationInfo')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserEditFormvue_type_template_id_b96898cc_hoisted_38, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
-        saving: _ctx.isResetting2FA,
-        onConfirm: _cache[18] || (_cache[18] = function ($event) {
-          return _ctx.confirmReset2FA();
-        }),
-        value: _ctx.translate('UsersManager_ResetTwoFactorAuthentication')
-      }, null, 8, ["saving", "value"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
-        modelValue: _ctx.showPasswordConfirmationFor2FA,
-        "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
-          return _ctx.showPasswordConfirmationFor2FA = $event;
-        }),
-        onConfirmed: _ctx.reset2FA
-      }, {
-        default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_AreYouSure')), 1)];
-        }),
-        _: 1
-      }, 8, ["modelValue", "onConfirmed"])], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.activeTab === '2fa']]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 512), [[_directive_form]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
-        modelValue: _ctx.isShowingPasswordConfirm,
-        "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
-          return _ctx.isShowingPasswordConfirm = $event;
-        }),
-        onConfirmed: _ctx.updateUser
-      }, {
-        default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", {
-            innerHTML: _ctx.$sanitize(_ctx.changePasswordTitle)
-          }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_39), _ctx.user && _ctx.isPending ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Notification, {
-            key: 0,
-            context: "info",
-            noclear: true
-          }, {
-            default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-              return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", {
-                innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_InviteEmailChange'))
-              }, null, 8, UserEditFormvue_type_template_id_b96898cc_hoisted_40)];
-            }),
-            _: 1
-          })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
-        }),
-        _: 1
-      }, 8, ["modelValue", "onConfirmed"])];
-    }),
+      })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]),
+      _: 1
+    }, 8, ["modelValue", "onConfirmed"])]),
     _: 1
   }, 8, ["class", "content-title"]);
 }
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/UserEditForm/UserEditForm.vue?vue&type=template&id=b96898cc
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/UserEditForm/UserEditForm.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserEditForm/UserEditForm.vue?vue&type=script&lang=ts
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
 
 
-var DEFAULT_USER = {
+const DEFAULT_USER = {
   login: '',
   superuser_access: false,
   uses_2fa: false,
@@ -1796,9 +1568,9 @@ var DEFAULT_USER = {
   directives: {
     Form: external_CorePluginsAdmin_["Form"]
   },
-  data: function data() {
+  data() {
     return {
-      theUser: this.user || Object.assign({}, DEFAULT_USER),
+      theUser: this.user || _extends({}, DEFAULT_USER),
       activeTab: 'basic',
       permissionsForIdSite: 1,
       isSavingUserInfo: false,
@@ -1819,32 +1591,28 @@ var DEFAULT_USER = {
   },
   emits: ['done', 'updated', 'resendInvite'],
   watch: {
-    user: function user(newVal) {
+    user(newVal) {
       this.onUserChange(newVal);
     }
   },
-  created: function created() {
+  created() {
     this.onUserChange(this.user);
   },
   methods: {
-    onUserChange: function onUserChange(newVal) {
-      this.theUser = newVal || Object.assign({}, DEFAULT_USER);
-
+    onUserChange(newVal) {
+      this.theUser = newVal || _extends({}, DEFAULT_USER);
       if (!this.theUser.password) {
         this.resetPasswordVar();
       }
-
       this.setSuperUserAccessChecked();
     },
-    confirmSuperUserChange: function confirmSuperUserChange() {
+    confirmSuperUserChange() {
       this.showPasswordConfirmationForSuperUser = true;
     },
-    confirmReset2FA: function confirmReset2FA() {
+    confirmReset2FA() {
       this.showPasswordConfirmationFor2FA = true;
     },
-    toggleSuperuserAccess: function toggleSuperuserAccess(password) {
-      var _this = this;
-
+    toggleSuperuserAccess(password) {
       this.isSavingUserInfo = true;
       external_CoreHome_["AjaxHelper"].post({
         method: 'UsersManager.setSuperUserAccess'
@@ -1852,30 +1620,28 @@ var DEFAULT_USER = {
         userLogin: this.theUser.login,
         hasSuperUserAccess: this.theUser.superuser_access ? '0' : '1',
         passwordConfirmation: password
-      }).then(function () {
-        _this.theUser.superuser_access = !_this.theUser.superuser_access;
-      }).catch(function () {// ignore error (still displayed to user)
-      }).then(function () {
-        _this.isSavingUserInfo = false;
-
-        _this.setSuperUserAccessChecked();
+      }).then(() => {
+        this.theUser.superuser_access = !this.theUser.superuser_access;
+      }).catch(() => {
+        // ignore error (still displayed to user)
+      }).then(() => {
+        this.isSavingUserInfo = false;
+        this.setSuperUserAccessChecked();
       });
     },
-    saveUserInfo: function saveUserInfo() {
+    saveUserInfo() {
       if (this.isAdd) {
         this.showPasswordConfirmationForInviteUser = true;
       } else {
         this.isShowingPasswordConfirm = true;
       }
     },
-    resendRequestedUser: function resendRequestedUser() {
+    resendRequestedUser() {
       this.$emit('resendInvite', {
         user: this.user
       });
     },
-    inviteUser: function inviteUser(password) {
-      var _this2 = this;
-
+    inviteUser(password) {
       this.isSavingUserInfo = true;
       return external_CoreHome_["AjaxHelper"].post({
         method: 'UsersManager.inviteUser'
@@ -1884,67 +1650,59 @@ var DEFAULT_USER = {
         email: this.theUser.email,
         initialIdSite: this.firstSiteAccess ? this.firstSiteAccess.id : undefined,
         passwordConfirmation: password
-      }).catch(function (e) {
-        _this2.isSavingUserInfo = false;
+      }).catch(e => {
+        this.isSavingUserInfo = false;
         throw e;
-      }).then(function () {
-        _this2.firstSiteAccess = null;
-        _this2.isSavingUserInfo = false;
-        _this2.isUserModified = true;
-        _this2.theUser.invite_status = 'pending';
-
-        _this2.resetPasswordVar();
-
-        _this2.showUserCreatedNotification();
-
-        _this2.$emit('updated', {
-          user: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this2.theUser)
+      }).then(() => {
+        this.firstSiteAccess = null;
+        this.isSavingUserInfo = false;
+        this.isUserModified = true;
+        this.theUser.invite_status = 'pending';
+        this.resetPasswordVar();
+        this.showUserCreatedNotification();
+        this.$emit('updated', {
+          user: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.theUser)
         });
       });
     },
-    resetPasswordVar: function resetPasswordVar() {
+    resetPasswordVar() {
       if (!this.isAdd) {
         // make sure password is not stored in the client after update/save
         this.theUser.password = 'XXXXXXXX';
       }
     },
-    showUserSavedNotification: function showUserSavedNotification() {
+    showUserSavedNotification() {
       external_CoreHome_["NotificationsStore"].show({
         message: Object(external_CoreHome_["translate"])('General_YourChangesHaveBeenSaved'),
         context: 'success',
         type: 'toast'
       });
     },
-    showUserCreatedNotification: function showUserCreatedNotification() {
+    showUserCreatedNotification() {
       external_CoreHome_["NotificationsStore"].show({
         message: Object(external_CoreHome_["translate"])('UsersManager_InviteSuccess'),
         context: 'success',
         type: 'toast'
       });
     },
-    reset2FA: function reset2FA(password) {
-      var _this3 = this;
-
+    reset2FA(password) {
       this.isResetting2FA = true;
       return external_CoreHome_["AjaxHelper"].post({
         method: 'TwoFactorAuth.resetTwoFactorAuth'
       }, {
         userLogin: this.theUser.login,
         passwordConfirmation: password
-      }).catch(function (e) {
-        _this3.isResetting2FA = false;
+      }).catch(e => {
+        this.isResetting2FA = false;
         throw e;
-      }).then(function () {
-        _this3.isResetting2FA = false;
-        _this3.theUser.uses_2fa = false;
-        _this3.activeTab = 'basic';
-
-        _this3.showUserSavedNotification();
+      }).then(() => {
+        this.isResetting2FA = false;
+        this.theUser.uses_2fa = false;
+        this.activeTab = 'basic';
+        this.showUserSavedNotification();
       });
     },
-    updateUser: function updateUser(password) {
-      var _this4 = this;
-
+    updateUser(password) {
       this.isSavingUserInfo = true;
       return external_CoreHome_["AjaxHelper"].post({
         method: 'UsersManager.updateUser'
@@ -1953,74 +1711,68 @@ var DEFAULT_USER = {
         password: this.isPasswordModified && this.theUser.password ? this.theUser.password : undefined,
         passwordConfirmation: password,
         email: this.theUser.email
-      }).then(function () {
-        _this4.isSavingUserInfo = false;
-        _this4.isUserModified = true;
-        _this4.isPasswordModified = false;
-
-        _this4.resetPasswordVar();
-
-        _this4.showUserSavedNotification();
-
-        _this4.$emit('updated', {
-          user: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this4.theUser)
+      }).then(() => {
+        this.isSavingUserInfo = false;
+        this.isUserModified = true;
+        this.isPasswordModified = false;
+        this.resetPasswordVar();
+        this.showUserSavedNotification();
+        this.$emit('updated', {
+          user: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.theUser)
         });
-      }).catch(function () {
-        _this4.isSavingUserInfo = false;
+      }).catch(() => {
+        this.isSavingUserInfo = false;
       });
     },
-    setSuperUserAccessChecked: function setSuperUserAccessChecked() {
+    setSuperUserAccessChecked() {
       this.superUserAccessChecked = !!this.theUser.superuser_access;
     },
-    onDoneEditing: function onDoneEditing() {
+    onDoneEditing() {
       this.$emit('done', {
         isUserModified: this.isUserModified
       });
     },
-    translateSuperUserRiskString: function translateSuperUserRiskString(item) {
-      return Object(external_CoreHome_["translate"])("UsersManager_SuperUserRisk".concat(item), '<strong>', '</strong>');
+    translateSuperUserRiskString(item) {
+      return Object(external_CoreHome_["translate"])(`UsersManager_SuperUserRisk${item}`, '<strong>', '</strong>');
     }
   },
   computed: {
-    formTitle: function formTitle() {
+    formTitle() {
       return this.isAdd ? Object(external_CoreHome_["translate"])('UsersManager_InviteNewUser') : '';
     },
-    saveButtonLabel: function saveButtonLabel() {
+    saveButtonLabel() {
       return this.isAdd ? Object(external_CoreHome_["translate"])('UsersManager_InviteUser') : Object(external_CoreHome_["translate"])('UsersManager_SaveBasicInfo');
     },
-    isPending: function isPending() {
+    isPending() {
       if (!this.user) {
         return true;
       }
-
       if (this.user.invite_status === 'pending' || Number.isInteger(this.user.invite_status)) {
         return true;
       }
-
       return false;
     },
-    isAdd: function isAdd() {
+    isAdd() {
       return !this.user;
     },
-    changePasswordTitle: function changePasswordTitle() {
-      return Object(external_CoreHome_["translate"])('UsersManager_AreYouSureChangeDetails', "<strong>".concat(this.theUser.login, "</strong>"));
+    changePasswordTitle() {
+      return Object(external_CoreHome_["translate"])('UsersManager_AreYouSureChangeDetails', `<strong>${this.theUser.login}</strong>`);
     },
-    isPluginsAdminEnabled: function isPluginsAdminEnabled() {
+    isPluginsAdminEnabled() {
       return external_CoreHome_["Matomo"].config.enable_plugins_admin;
     },
-    isActivityLogPluginEnabled: function isActivityLogPluginEnabled() {
+    isActivityLogPluginEnabled() {
       return this.activatedPlugins.includes('ActivityLog');
     },
-    isMarketplacePluginEnabled: function isMarketplacePluginEnabled() {
+    isMarketplacePluginEnabled() {
       return this.activatedPlugins.includes('Marketplace');
     },
-    isProfessionalServicesPluginEnabled: function isProfessionalServicesPluginEnabled() {
+    isProfessionalServicesPluginEnabled() {
       return this.activatedPlugins.includes('ProfessionalServices');
     },
-    accountabilityRisk: function accountabilityRisk() {
-      var riskInfo = this.translateSuperUserRiskString('Accountability');
-      var pluginInfo = '';
-
+    accountabilityRisk() {
+      const riskInfo = this.translateSuperUserRiskString('Accountability');
+      let pluginInfo = '';
       if (this.isPluginsAdminEnabled && this.isProfessionalServicesPluginEnabled) {
         if (this.isActivityLogPluginEnabled) {
           pluginInfo = Object(external_CoreHome_["translate"])('UsersManager_SuperUserRiskAccountabilityCheckActivityLog', '<a href="?module=ActivityLog&action=index" rel="noreferrer noopener" target="_blank">', '</a>');
@@ -2028,8 +1780,7 @@ var DEFAULT_USER = {
           pluginInfo = Object(external_CoreHome_["translate"])('UsersManager_SuperUserRiskAccountabilityGetActivityLogPlugin', Object(external_CoreHome_["externalLink"])('https://plugins.matomo.org/ActivityLog'), '</a>');
         }
       }
-
-      return pluginInfo ? "".concat(riskInfo, " ").concat(pluginInfo) : riskInfo;
+      return pluginInfo ? `${riskInfo} ${pluginInfo}` : riskInfo;
     }
   }
 }));
@@ -2042,265 +1793,239 @@ var DEFAULT_USER = {
 UserEditFormvue_type_script_lang_ts.render = UserEditFormvue_type_template_id_b96898cc_render
 
 /* harmony default export */ var UserEditForm = (UserEditFormvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/PagedUsersList/PagedUsersList.vue?vue&type=template&id=3c24998f
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/PagedUsersList/PagedUsersList.vue?vue&type=template&id=3c24998f
 
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_1 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_1 = {
   class: "userListFilters row"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_2 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_2 = {
   class: "col s12 m12 l8"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_3 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_3 = {
   class: "input-field col s12 m3 l3"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_4 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_4 = {
   id: "user-list-bulk-actions",
   class: "dropdown-content"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_5 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_5 = {
   class: "dropdown-trigger",
   "data-target": "bulk-set-access"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_6 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_6 = {
   id: "bulk-set-access",
   class: "dropdown-content"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_7 = ["onClick"];
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_8 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_7 = ["onClick"];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_8 = {
   key: 0
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_9 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_9 = {
   class: "input-field col s12 m3 l3"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_10 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_10 = {
   class: "permissions-for-selector"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_11 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_11 = {
   class: "input-field col s12 m3 l3"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_12 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_12 = {
   class: "input-field col s12 m3 l3"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_13 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_13 = {
   key: 0,
   class: "input-field col s12 m12 l4 users-list-pagination-container"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_14 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_14 = {
   class: "usersListPagination"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_15 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_15 = {
   class: "pointer"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_16 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_16 = {
   class: "counter"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_17 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_17 = {
   class: "pointer"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_18 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_18 = {
   key: 0,
   class: "roles-help-notification"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_19 = ["innerHTML"];
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_20 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_19 = ["innerHTML"];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_20 = {
   class: "select-cell"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_21 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_21 = {
   class: "checkbox-container"
 };
-
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, null, -1);
-
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_23 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, null, -1);
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_23 = {
   class: "first"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_24 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_24 = {
   class: "role_header"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_25 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_25 = {
   style: {
     "margin-right": "3.5px"
   }
 };
-
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-help"
 }, null, -1);
-
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_27 = [PagedUsersListvue_type_template_id_3c24998f_hoisted_26];
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_28 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_27 = [PagedUsersListvue_type_template_id_3c24998f_hoisted_26];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_28 = {
   key: 0
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_29 = ["title"];
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_30 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_29 = ["title"];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_30 = {
   key: 2
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_31 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_31 = {
   class: "actions-cell-header"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_32 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_32 = {
   key: 0,
   class: "select-all-row"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_33 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_33 = {
   colspan: "8"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_34 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_34 = {
   key: 0
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_35 = ["innerHTML"];
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_36 = ["innerHTML"];
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_37 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_35 = ["innerHTML"];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_36 = ["innerHTML"];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_37 = {
   key: 1
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_38 = ["innerHTML"];
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_39 = ["innerHTML"];
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_40 = ["id"];
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_41 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_38 = ["innerHTML"];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_39 = ["innerHTML"];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_40 = ["id"];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_41 = {
   class: "select-cell"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_42 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_42 = {
   class: "checkbox-container"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_43 = ["id", "onUpdate:modelValue"];
-
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_44 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, null, -1);
-
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_45 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_43 = ["id", "onUpdate:modelValue"];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_44 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, null, -1);
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_45 = {
   id: "userLogin"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_46 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_46 = {
   class: "access-cell"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_47 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_47 = {
   key: 0,
   id: "email"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_48 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_48 = {
   key: 1,
   id: "twofa"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_49 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_49 = {
   key: 0,
   class: "icon-ok"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_50 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_50 = {
   key: 1,
   class: "icon-close"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_51 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_51 = {
   key: 2,
   id: "last_seen"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_52 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_52 = {
   id: "status"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_53 = ["title"];
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_54 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_53 = ["title"];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_54 = {
   class: "center actions-cell"
 };
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_55 = ["onClick"];
-
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_56 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_55 = ["onClick"];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_56 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-email"
 }, null, -1);
-
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_57 = [PagedUsersListvue_type_template_id_3c24998f_hoisted_56];
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_58 = ["onClick"];
-
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_59 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_57 = [PagedUsersListvue_type_template_id_3c24998f_hoisted_56];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_58 = ["onClick"];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_59 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-edit"
 }, null, -1);
-
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_60 = [PagedUsersListvue_type_template_id_3c24998f_hoisted_59];
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_61 = ["onClick"];
-
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_62 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_60 = [PagedUsersListvue_type_template_id_3c24998f_hoisted_59];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_61 = ["onClick"];
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_62 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-delete"
 }, null, -1);
-
-var PagedUsersListvue_type_template_id_3c24998f_hoisted_63 = [PagedUsersListvue_type_template_id_3c24998f_hoisted_62];
-var _hoisted_64 = ["innerHTML"];
-var _hoisted_65 = ["innerHTML"];
-var _hoisted_66 = ["innerHTML"];
-var _hoisted_67 = ["innerHTML"];
-var _hoisted_68 = ["innerHTML"];
-var _hoisted_69 = {
+const PagedUsersListvue_type_template_id_3c24998f_hoisted_63 = [PagedUsersListvue_type_template_id_3c24998f_hoisted_62];
+const _hoisted_64 = ["innerHTML"];
+const _hoisted_65 = ["innerHTML"];
+const _hoisted_66 = ["innerHTML"];
+const _hoisted_67 = ["innerHTML"];
+const _hoisted_68 = ["innerHTML"];
+const _hoisted_69 = {
   class: "change-user-role-confirm-modal modal",
   ref: "changeUserRoleConfirmModal"
 };
-var _hoisted_70 = {
+const _hoisted_70 = {
   class: "modal-content"
 };
-var _hoisted_71 = ["innerHTML"];
-var _hoisted_72 = ["innerHTML"];
-var _hoisted_73 = {
+const _hoisted_71 = ["innerHTML"];
+const _hoisted_72 = ["innerHTML"];
+const _hoisted_73 = {
   class: "modal-footer"
 };
 function PagedUsersListvue_type_template_id_3c24998f_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
-  var _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
-  var _component_PasswordConfirmation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PasswordConfirmation");
-
-  var _directive_dropdown_menu = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("dropdown-menu");
-
-  var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
-
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+  const _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
+  const _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
+  const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+  const _component_PasswordConfirmation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PasswordConfirmation");
+  const _directive_dropdown_menu = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("dropdown-menu");
+  const _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["pagedUsersList", {
       loading: _ctx.isLoadingUsers
     }])
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["dropdown-trigger btn bulk-actions", {
       disabled: _ctx.isBulkActionsDisabled
     }]),
     href: "",
     "data-target": "user-list-bulk-actions"
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_BulkActions')), 1)], 2), [[_directive_dropdown_menu]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", PagedUsersListvue_type_template_id_3c24998f_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", PagedUsersListvue_type_template_id_3c24998f_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SetPermission')), 1)], 512), [[_directive_dropdown_menu]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", PagedUsersListvue_type_template_id_3c24998f_hoisted_6, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.bulkActionAccessLevels, function (access) {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_BulkActions')), 1)], 2)), [[_directive_dropdown_menu]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", PagedUsersListvue_type_template_id_3c24998f_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", PagedUsersListvue_type_template_id_3c24998f_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SetPermission')), 1)])), [[_directive_dropdown_menu]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", PagedUsersListvue_type_template_id_3c24998f_hoisted_6, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.bulkActionAccessLevels, access => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       key: access.key
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
       href: "",
-      onClick: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      onClick: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => {
         _ctx.userToChange = null;
         _ctx.roleToChangeTo = access.key;
-
         _ctx.showAccessChangeConfirm();
       }, ["prevent"])
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(access.value), 9, PagedUsersListvue_type_template_id_3c24998f_hoisted_7)]);
   }), 128))])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
-    onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+    onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => {
       _ctx.userToChange = null;
       _ctx.roleToChangeTo = 'noaccess';
-
       _ctx.showAccessChangeConfirm();
     }, ["prevent"]))
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_RemovePermissions')), 1)]), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", PagedUsersListvue_type_template_id_3c24998f_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
-    onClick: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.showDeleteConfirm();
-    }, ["prevent"]))
+    onClick: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.showDeleteConfirm(), ["prevent"]))
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_DeleteUsers')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     "model-value": _ctx.userTextFilter,
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.onUserTextFilterChange($event);
-    }),
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => _ctx.onUserTextFilterChange($event)),
     name: "user-text-filter",
     uicontrol: "text",
     "full-width": true,
     placeholder: _ctx.translate('UsersManager_UserSearch')
   }, null, 8, ["model-value", "placeholder"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     "model-value": _ctx.accessLevelFilter,
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => {
       _ctx.accessLevelFilter = $event;
-
       _ctx.changeSearch({
         filter_access: _ctx.accessLevelFilter,
         offset: 0
@@ -2313,9 +2038,8 @@ function PagedUsersListvue_type_template_id_3c24998f_render(_ctx, _cache, $props
     placeholder: _ctx.translate('UsersManager_FilterByAccess')
   }, null, 8, ["model-value", "options", "placeholder"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     "model-value": _ctx.statusLevelFilter,
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => {
       _ctx.statusLevelFilter = $event;
-
       _ctx.changeSearch({
         filter_status: _ctx.statusLevelFilter,
         offset: 0
@@ -2330,9 +2054,7 @@ function PagedUsersListvue_type_template_id_3c24998f_render(_ctx, _cache, $props
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["btn prev", {
       disabled: _ctx.searchParams.offset <= 0
     }]),
-    onClick: _cache[5] || (_cache[5] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.gotoPreviousPage();
-    }, ["prevent"]))
+    onClick: _cache[5] || (_cache[5] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.gotoPreviousPage(), ["prevent"]))
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", PagedUsersListvue_type_template_id_3c24998f_hoisted_15, "« " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Previous')), 1)], 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
       visibility: _ctx.isLoadingUsers ? 'hidden' : 'visible'
@@ -2343,182 +2065,148 @@ function PagedUsersListvue_type_template_id_3c24998f_render(_ctx, _cache, $props
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["btn next", {
       disabled: _ctx.searchParams.offset + _ctx.searchParams.limit >= _ctx.totalEntries
     }]),
-    onClick: _cache[6] || (_cache[6] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.gotoNextPage();
-    }, ["prevent"]))
+    onClick: _cache[6] || (_cache[6] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.gotoNextPage(), ["prevent"]))
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", PagedUsersListvue_type_template_id_3c24998f_hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Next')) + " »", 1)], 2)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), _ctx.isRoleHelpToggled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_18, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Notification, {
     context: "info",
     type: "persistent",
     noclear: true
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.rolesHelpText)
-      }, null, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_19)];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      innerHTML: _ctx.$sanitize(_ctx.rolesHelpText)
+    }, null, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_19)]),
     _: 1
   })])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, null, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", {
-        id: "manageUsersTable",
-        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
-          loading: _ctx.isLoadingUsers
-        })
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", PagedUsersListvue_type_template_id_3c24998f_hoisted_20, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", PagedUsersListvue_type_template_id_3c24998f_hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("table", {
+      id: "manageUsersTable",
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+        loading: _ctx.isLoadingUsers
+      })
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", PagedUsersListvue_type_template_id_3c24998f_hoisted_20, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", PagedUsersListvue_type_template_id_3c24998f_hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      type: "checkbox",
+      id: "paged_users_select_all",
+      checked: "checked",
+      "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => _ctx.isAllCheckboxSelected = $event),
+      onChange: _cache[8] || (_cache[8] = $event => _ctx.onAllCheckboxChange())
+    }, null, 544), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], _ctx.isAllCheckboxSelected]]), PagedUsersListvue_type_template_id_3c24998f_hoisted_22])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", PagedUsersListvue_type_template_id_3c24998f_hoisted_23, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_Username')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", PagedUsersListvue_type_template_id_3c24998f_hoisted_24, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", PagedUsersListvue_type_template_id_3c24998f_hoisted_25, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_RoleFor')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      href: "",
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["helpIcon", {
+        sticky: _ctx.isRoleHelpToggled
+      }]),
+      onClick: _cache[9] || (_cache[9] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.isRoleHelpToggled = !_ctx.isRoleHelpToggled, ["prevent"]))
+    }, PagedUsersListvue_type_template_id_3c24998f_hoisted_27, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      class: "permissions-for-selector",
+      "model-value": _ctx.permissionsForSite,
+      "onUpdate:modelValue": _cache[10] || (_cache[10] = $event => {
+        _ctx.onPermissionsForUpdate($event);
+      }),
+      uicontrol: "site",
+      "ui-control-attributes": {
+        onlySitesWithAdminAccess: _ctx.currentUserRole !== 'superuser'
+      }
+    }, null, 8, ["model-value", "ui-control-attributes"])])]), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("th", PagedUsersListvue_type_template_id_3c24998f_hoisted_28, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_Email')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("th", {
+      key: 1,
+      title: _ctx.translate('UsersManager_UsesTwoFactorAuthentication')
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_2FA')), 9, PagedUsersListvue_type_template_id_3c24998f_hoisted_29)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("th", PagedUsersListvue_type_template_id_3c24998f_hoisted_30, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_LastSeen')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_Status')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", PagedUsersListvue_type_template_id_3c24998f_hoisted_31, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Actions')), 1)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [_ctx.isAllCheckboxSelected && _ctx.users.length && _ctx.users.length < _ctx.totalEntries ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", PagedUsersListvue_type_template_id_3c24998f_hoisted_32, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_33, [!_ctx.areAllResultsSelected ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_34, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_TheDisplayedUsersAreSelected', `<strong>${_ctx.users.length}</strong>`)),
+      style: {
+        "margin-right": "3.5px"
+      }
+    }, null, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_35), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      class: "toggle-select-all-in-search",
+      href: "#",
+      onClick: _cache[11] || (_cache[11] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.areAllResultsSelected = !_ctx.areAllResultsSelected, ["prevent"])),
+      innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_ClickToSelectAll', `<strong>${_ctx.totalEntries}</strong>`))
+    }, null, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_36)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.areAllResultsSelected ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_37, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_AllUsersAreSelected', `<strong>${_ctx.totalEntries}</strong>`)),
+      style: {
+        "margin-right": "3.5px"
+      }
+    }, null, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_38), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      class: "toggle-select-all-in-search",
+      href: "#",
+      onClick: _cache[12] || (_cache[12] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.areAllResultsSelected = !_ctx.areAllResultsSelected, ["prevent"])),
+      innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_ClickToSelectDisplayedUsers', `<strong>${_ctx.users.length}</strong>`))
+    }, null, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_39)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.users, (user, index) => {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
+        id: `row${index}`,
+        key: user.login
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_41, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", PagedUsersListvue_type_template_id_3c24998f_hoisted_42, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
         type: "checkbox",
-        id: "paged_users_select_all",
-        checked: "checked",
-        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-          return _ctx.isAllCheckboxSelected = $event;
-        }),
-        onChange: _cache[8] || (_cache[8] = function ($event) {
-          return _ctx.onAllCheckboxChange();
-        })
-      }, null, 544), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], _ctx.isAllCheckboxSelected]]), PagedUsersListvue_type_template_id_3c24998f_hoisted_22])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", PagedUsersListvue_type_template_id_3c24998f_hoisted_23, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_Username')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", PagedUsersListvue_type_template_id_3c24998f_hoisted_24, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", PagedUsersListvue_type_template_id_3c24998f_hoisted_25, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_RoleFor')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-        href: "",
-        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["helpIcon", {
-          sticky: _ctx.isRoleHelpToggled
-        }]),
-        onClick: _cache[9] || (_cache[9] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-          return _ctx.isRoleHelpToggled = !_ctx.isRoleHelpToggled;
-        }, ["prevent"]))
-      }, PagedUsersListvue_type_template_id_3c24998f_hoisted_27, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        class: "permissions-for-selector",
-        "model-value": _ctx.permissionsForSite,
-        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
-          _ctx.onPermissionsForUpdate($event);
-        }),
-        uicontrol: "site",
-        "ui-control-attributes": {
-          onlySitesWithAdminAccess: _ctx.currentUserRole !== 'superuser'
+        id: `paged_users_select_row${index}`,
+        "onUpdate:modelValue": $event => _ctx.selectedRows[index] = $event,
+        onClick: _cache[13] || (_cache[13] = $event => _ctx.onRowSelected())
+      }, null, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_43), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], _ctx.selectedRows[index]]]), PagedUsersListvue_type_template_id_3c24998f_hoisted_44])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_45, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(user.login), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_46, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+        "model-value": user.role,
+        "onUpdate:modelValue": $event => {
+          _ctx.userToChange = user;
+          _ctx.roleToChangeTo = $event.value;
+          _ctx.showAccessChangeConfirm();
+          $event.abort();
+        },
+        "model-modifiers": {
+          abortable: true
+        },
+        disabled: user.role === 'superuser',
+        uicontrol: "select",
+        options: user.login === 'anonymous' ? _ctx.anonymousAccessLevels : user.role === 'noaccess' ? _ctx.onlyRoleAccessLevels : _ctx.accessLevels
+      }, null, 8, ["model-value", "onUpdate:modelValue", "disabled", "options"])])]), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_47, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(user.email), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_48, [user.uses_2fa ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", PagedUsersListvue_type_template_id_3c24998f_hoisted_49)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !user.uses_2fa ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", PagedUsersListvue_type_template_id_3c24998f_hoisted_50)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_51, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(user.last_seen ? `${user.last_seen} ago` : '-'), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_52, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(Number.isInteger(user.invite_status) ? 'pending' : user.invite_status),
+        title: user.invite_status === 'expired' ? _ctx.translate('UsersManager_ExpiredInviteAutomaticallyRemoved', '3') : ''
+      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getInviteStatus(user.invite_status)), 11, PagedUsersListvue_type_template_id_3c24998f_hoisted_53)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_54, [(_ctx.currentUserRole === 'superuser' || _ctx.currentUserRole === 'admin' && user.invited_by === _ctx.currentUserLogin) && user.invite_status !== 'active' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+        key: 0,
+        class: "resend table-action",
+        title: "Resend/Copy Invite Link",
+        onClick: $event => {
+          _ctx.userToChange = user;
+          _ctx.resendRequestedUser();
         }
-      }, null, 8, ["model-value", "ui-control-attributes"])])]), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("th", PagedUsersListvue_type_template_id_3c24998f_hoisted_28, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_Email')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("th", {
+      }, PagedUsersListvue_type_template_id_3c24998f_hoisted_57, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_55)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), user.login !== 'anonymous' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
         key: 1,
-        title: _ctx.translate('UsersManager_UsesTwoFactorAuthentication')
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_2FA')), 9, PagedUsersListvue_type_template_id_3c24998f_hoisted_29)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("th", PagedUsersListvue_type_template_id_3c24998f_hoisted_30, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_LastSeen')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_Status')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", PagedUsersListvue_type_template_id_3c24998f_hoisted_31, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Actions')), 1)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [_ctx.isAllCheckboxSelected && _ctx.users.length && _ctx.users.length < _ctx.totalEntries ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", PagedUsersListvue_type_template_id_3c24998f_hoisted_32, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_33, [!_ctx.areAllResultsSelected ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_34, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_TheDisplayedUsersAreSelected', "<strong>".concat(_ctx.users.length, "</strong>"))),
-        style: {
-          "margin-right": "3.5px"
+        class: "edituser table-action",
+        title: "Edit",
+        onClick: $event => _ctx.$emit('editUser', {
+          user: user
+        })
+      }, PagedUsersListvue_type_template_id_3c24998f_hoisted_60, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_58)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (_ctx.currentUserRole === 'superuser' || _ctx.currentUserRole === 'admin' && user.invited_by === _ctx.currentUserLogin) && user.login !== 'anonymous' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+        key: 2,
+        class: "deleteuser table-action",
+        title: "Delete",
+        onClick: $event => {
+          _ctx.userToChange = user;
+          _ctx.showDeleteConfirm();
         }
-      }, null, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_35), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-        class: "toggle-select-all-in-search",
-        href: "#",
-        onClick: _cache[11] || (_cache[11] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-          return _ctx.areAllResultsSelected = !_ctx.areAllResultsSelected;
-        }, ["prevent"])),
-        innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_ClickToSelectAll', "<strong>".concat(_ctx.totalEntries, "</strong>")))
-      }, null, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_36)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.areAllResultsSelected ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PagedUsersListvue_type_template_id_3c24998f_hoisted_37, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_AllUsersAreSelected', "<strong>".concat(_ctx.totalEntries, "</strong>"))),
-        style: {
-          "margin-right": "3.5px"
-        }
-      }, null, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_38), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-        class: "toggle-select-all-in-search",
-        href: "#",
-        onClick: _cache[12] || (_cache[12] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-          return _ctx.areAllResultsSelected = !_ctx.areAllResultsSelected;
-        }, ["prevent"])),
-        innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_ClickToSelectDisplayedUsers', "<strong>".concat(_ctx.users.length, "</strong>")))
-      }, null, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_39)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.users, function (user, index) {
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
-          id: "row".concat(index),
-          key: user.login
-        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_41, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", PagedUsersListvue_type_template_id_3c24998f_hoisted_42, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-          type: "checkbox",
-          id: "paged_users_select_row".concat(index),
-          "onUpdate:modelValue": function onUpdateModelValue($event) {
-            return _ctx.selectedRows[index] = $event;
-          },
-          onClick: _cache[13] || (_cache[13] = function ($event) {
-            return _ctx.onRowSelected();
-          })
-        }, null, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_43), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], _ctx.selectedRows[index]]]), PagedUsersListvue_type_template_id_3c24998f_hoisted_44])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_45, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(user.login), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_46, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-          "model-value": user.role,
-          "onUpdate:modelValue": function onUpdateModelValue($event) {
-            _ctx.userToChange = user;
-            _ctx.roleToChangeTo = $event.value;
-
-            _ctx.showAccessChangeConfirm();
-
-            $event.abort();
-          },
-          "model-modifiers": {
-            abortable: true
-          },
-          disabled: user.role === 'superuser',
-          uicontrol: "select",
-          options: user.login === 'anonymous' ? _ctx.anonymousAccessLevels : user.role === 'noaccess' ? _ctx.onlyRoleAccessLevels : _ctx.accessLevels
-        }, null, 8, ["model-value", "onUpdate:modelValue", "disabled", "options"])])]), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_47, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(user.email), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_48, [user.uses_2fa ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", PagedUsersListvue_type_template_id_3c24998f_hoisted_49)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !user.uses_2fa ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", PagedUsersListvue_type_template_id_3c24998f_hoisted_50)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_51, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(user.last_seen ? "".concat(user.last_seen, " ago") : '-'), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_52, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-          class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(Number.isInteger(user.invite_status) ? 'pending' : user.invite_status),
-          title: user.invite_status === 'expired' ? _ctx.translate('UsersManager_ExpiredInviteAutomaticallyRemoved', '3') : ''
-        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getInviteStatus(user.invite_status)), 11, PagedUsersListvue_type_template_id_3c24998f_hoisted_53)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", PagedUsersListvue_type_template_id_3c24998f_hoisted_54, [(_ctx.currentUserRole === 'superuser' || _ctx.currentUserRole === 'admin' && user.invited_by === _ctx.currentUserLogin) && user.invite_status !== 'active' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
-          key: 0,
-          class: "resend table-action",
-          title: "Resend/Copy Invite Link",
-          onClick: function onClick($event) {
-            _ctx.userToChange = user;
-
-            _ctx.resendRequestedUser();
-          }
-        }, PagedUsersListvue_type_template_id_3c24998f_hoisted_57, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_55)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), user.login !== 'anonymous' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
-          key: 1,
-          class: "edituser table-action",
-          title: "Edit",
-          onClick: function onClick($event) {
-            return _ctx.$emit('editUser', {
-              user: user
-            });
-          }
-        }, PagedUsersListvue_type_template_id_3c24998f_hoisted_60, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_58)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (_ctx.currentUserRole === 'superuser' || _ctx.currentUserRole === 'admin' && user.invited_by === _ctx.currentUserLogin) && user.login !== 'anonymous' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
-          key: 2,
-          class: "deleteuser table-action",
-          title: "Delete",
-          onClick: function onClick($event) {
-            _ctx.userToChange = user;
-
-            _ctx.showDeleteConfirm();
-          }
-        }, PagedUsersListvue_type_template_id_3c24998f_hoisted_63, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_61)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_40);
-      }), 128))])], 2), [[_directive_content_table]])];
-    }),
+      }, PagedUsersListvue_type_template_id_3c24998f_hoisted_63, 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_61)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 8, PagedUsersListvue_type_template_id_3c24998f_hoisted_40);
+    }), 128))])], 2)), [[_directive_content_table]])]),
     _: 1
   }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
     modelValue: _ctx.showPasswordConfirmationForUserRemoval,
-    "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
-      return _ctx.showPasswordConfirmationForUserRemoval = $event;
-    }),
+    "onUpdate:modelValue": _cache[14] || (_cache[14] = $event => _ctx.showPasswordConfirmationForUserRemoval = $event),
     onConfirmed: _ctx.deleteRequestedUsers,
     onAborted: _ctx.resetUserAndRoleToChange
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [_ctx.userToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", {
-        key: 0,
-        innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_DeleteUserConfirmSingle', "<strong>".concat(_ctx.userToChange.login, "</strong>")))
-      }, null, 8, _hoisted_64)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.userToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", {
-        key: 1,
-        innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_DeleteUserConfirmMultiple', "<strong>".concat(_ctx.affectedUsersCount, "</strong>")))
-      }, null, 8, _hoisted_65)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [_ctx.userToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", {
+      key: 0,
+      innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_DeleteUserConfirmSingle', `<strong>${_ctx.userToChange.login}</strong>`))
+    }, null, 8, _hoisted_64)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.userToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", {
+      key: 1,
+      innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_DeleteUserConfirmMultiple', `<strong>${_ctx.affectedUsersCount}</strong>`))
+    }, null, 8, _hoisted_65)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]),
     _: 1
   }, 8, ["modelValue", "onConfirmed", "onAborted"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
     modelValue: _ctx.showPasswordConfirmationForAnonymousAccess,
-    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
-      return _ctx.showPasswordConfirmationForAnonymousAccess = $event;
-    }),
+    "onUpdate:modelValue": _cache[15] || (_cache[15] = $event => _ctx.showPasswordConfirmationForAnonymousAccess = $event),
     onConfirmed: _ctx.changeUserRole,
     onAborted: _ctx.resetUserAndRoleToChange
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [_ctx.userToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h3", {
-        key: 0,
-        innerHTML: _ctx.$sanitize(_ctx.deleteUserPermConfirmSingleText)
-      }, null, 8, _hoisted_66)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.userToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h3", {
-        key: 1,
-        innerHTML: _ctx.$sanitize(_ctx.deleteUserPermConfirmMultipleText)
-      }, null, 8, _hoisted_67)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("em", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Note')) + ": ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_AnonymousUserRoleChangeWarning', 'anonymous', _ctx.getRoleDisplay(_ctx.roleToChangeTo)))
-      }, null, 8, _hoisted_68)])])];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [_ctx.userToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h3", {
+      key: 0,
+      innerHTML: _ctx.$sanitize(_ctx.deleteUserPermConfirmSingleText)
+    }, null, 8, _hoisted_66)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.userToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h3", {
+      key: 1,
+      innerHTML: _ctx.$sanitize(_ctx.deleteUserPermConfirmMultipleText)
+    }, null, 8, _hoisted_67)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("em", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Note')) + ": ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_AnonymousUserRoleChangeWarning', 'anonymous', _ctx.getRoleDisplay(_ctx.roleToChangeTo)))
+    }, null, 8, _hoisted_68)])])]),
     _: 1
   }, 8, ["modelValue", "onConfirmed", "onAborted"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_69, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_70, [_ctx.userToChange ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h3", {
     key: 0,
@@ -2529,28 +2217,26 @@ function PagedUsersListvue_type_template_id_3c24998f_render(_ctx, _cache, $props
   }, null, 8, _hoisted_72)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_73, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close btn",
-    onClick: _cache[16] || (_cache[16] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.changeUserRole();
-    }, ["prevent"])),
+    onClick: _cache[16] || (_cache[16] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.changeUserRole(), ["prevent"])),
     style: {
       "margin-right": "3.5px"
     }
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close modal-no",
-    onClick: _cache[17] || (_cache[17] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.resetUserAndRoleToChange();
-    }, ["prevent"]))
+    onClick: _cache[17] || (_cache[17] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.resetUserAndRoleToChange(), ["prevent"]))
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_No')), 1)])], 512)], 2);
 }
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/PagedUsersList/PagedUsersList.vue?vue&type=template&id=3c24998f
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/PagedUsersList/PagedUsersList.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/PagedUsersList/PagedUsersList.vue?vue&type=script&lang=ts
+function PagedUsersListvue_type_script_lang_ts_extends() { PagedUsersListvue_type_script_lang_ts_extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return PagedUsersListvue_type_script_lang_ts_extends.apply(this, arguments); }
 
 
 
-var PagedUsersListvue_type_script_lang_ts_window = window,
-    PagedUsersListvue_type_script_lang_ts_$ = PagedUsersListvue_type_script_lang_ts_window.$;
+const {
+  $: PagedUsersListvue_type_script_lang_ts_$
+} = window;
 /* harmony default export */ var PagedUsersListvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     initialSiteId: {
@@ -2596,7 +2282,7 @@ var PagedUsersListvue_type_script_lang_ts_window = window,
     DropdownMenu: external_CoreHome_["DropdownMenu"],
     ContentTable: external_CoreHome_["ContentTable"]
   },
-  data: function data() {
+  data() {
     return {
       areAllResultsSelected: false,
       selectedRows: {},
@@ -2617,85 +2303,79 @@ var PagedUsersListvue_type_script_lang_ts_window = window,
     };
   },
   emits: ['editUser', 'changeUserRole', 'deleteUser', 'searchChange', 'resendInvite'],
-  created: function created() {
+  created() {
     this.onUserTextFilterChange = Object(external_CoreHome_["debounce"])(this.onUserTextFilterChange, 300);
   },
   watch: {
-    users: function users() {
+    users() {
       this.clearSelection();
     }
   },
   methods: {
-    getInviteStatus: function getInviteStatus(inviteStatus) {
+    getInviteStatus(inviteStatus) {
       if (Number.isInteger(inviteStatus)) {
         return Object(external_CoreHome_["translate"])('UsersManager_InviteDayLeft', inviteStatus);
       }
-
       if (inviteStatus === 'expired') {
         return Object(external_CoreHome_["translate"])('UsersManager_Expired');
       }
-
       return Object(external_CoreHome_["translate"])('UsersManager_Active');
     },
-    onPermissionsForUpdate: function onPermissionsForUpdate(site) {
+    onPermissionsForUpdate(site) {
       this.permissionsForSite = site;
       this.changeSearch({
         idSite: this.permissionsForSite.id
       });
     },
-    clearSelection: function clearSelection() {
+    clearSelection() {
       this.selectedRows = {};
       this.areAllResultsSelected = false;
       this.isBulkActionsDisabled = true;
       this.isAllCheckboxSelected = false;
       this.userToChange = null;
     },
-    resetUserAndRoleToChange: function resetUserAndRoleToChange() {
+    resetUserAndRoleToChange() {
       this.userToChange = null;
       this.roleToChangeTo = null;
     },
-    onAllCheckboxChange: function onAllCheckboxChange() {
+    onAllCheckboxChange() {
       if (!this.isAllCheckboxSelected) {
         this.clearSelection();
       } else {
-        for (var i = 0; i !== this.users.length; i += 1) {
+        for (let i = 0; i !== this.users.length; i += 1) {
           this.selectedRows[i] = true;
         }
-
         this.isBulkActionsDisabled = false;
       }
     },
-    changeUserRole: function changeUserRole(password) {
+    changeUserRole(password) {
       this.$emit('changeUserRole', {
         users: this.userOperationSubject,
         role: this.roleToChangeTo,
-        password: password
+        password
       });
     },
-    onRowSelected: function onRowSelected() {
-      var selectedRowKeyCount = this.selectedCount;
+    onRowSelected() {
+      const selectedRowKeyCount = this.selectedCount;
       this.isBulkActionsDisabled = selectedRowKeyCount === 0;
       this.isAllCheckboxSelected = selectedRowKeyCount === this.users.length;
     },
-    deleteRequestedUsers: function deleteRequestedUsers(password) {
+    deleteRequestedUsers(password) {
       this.$emit('deleteUser', {
         users: this.userOperationSubject,
-        password: password
+        password
       });
     },
-    resendRequestedUser: function resendRequestedUser() {
+    resendRequestedUser() {
       this.$emit('resendInvite', {
         user: this.userToChange
       });
     },
-    showDeleteConfirm: function showDeleteConfirm() {
+    showDeleteConfirm() {
       this.showPasswordConfirmationForUserRemoval = true;
     },
-    showAccessChangeConfirm: function showAccessChangeConfirm() {
-      var containsAnonymous = this.userOperationSubject === 'all' || Array.isArray(this.userOperationSubject) && this.userOperationSubject.filter(function (user) {
-        return user.login === 'anonymous';
-      }).length;
-
+    showAccessChangeConfirm() {
+      const containsAnonymous = this.userOperationSubject === 'all' || Array.isArray(this.userOperationSubject) && this.userOperationSubject.filter(user => user.login === 'anonymous').length;
       if (containsAnonymous && this.roleToChangeTo === 'view') {
         this.showPasswordConfirmationForAnonymousAccess = true;
       } else {
@@ -2704,38 +2384,36 @@ var PagedUsersListvue_type_script_lang_ts_window = window,
         }).modal('open');
       }
     },
-    getRoleDisplay: function getRoleDisplay(role) {
-      var result = null;
-      this.accessLevels.forEach(function (entry) {
+    getRoleDisplay(role) {
+      let result = null;
+      this.accessLevels.forEach(entry => {
         if (entry.key === role) {
           result = entry.value;
         }
       });
       return result;
     },
-    changeSearch: function changeSearch(changes) {
-      var params = Object.assign(Object.assign({}, this.searchParams), changes);
+    changeSearch(changes) {
+      const params = PagedUsersListvue_type_script_lang_ts_extends(PagedUsersListvue_type_script_lang_ts_extends({}, this.searchParams), changes);
       this.$emit('searchChange', {
-        params: params
+        params
       });
     },
-    gotoPreviousPage: function gotoPreviousPage() {
+    gotoPreviousPage() {
       this.changeSearch({
         offset: Math.max(0, this.searchParams.offset - this.searchParams.limit)
       });
     },
-    gotoNextPage: function gotoNextPage() {
-      var newOffset = this.searchParams.offset + this.searchParams.limit;
-
+    gotoNextPage() {
+      const newOffset = this.searchParams.offset + this.searchParams.limit;
       if (newOffset >= this.totalEntries) {
         return;
       }
-
       this.changeSearch({
         offset: newOffset
       });
     },
-    onUserTextFilterChange: function onUserTextFilterChange(filter) {
+    onUserTextFilterChange(filter) {
       this.userTextFilter = filter;
       this.changeSearch({
         filter_search: filter,
@@ -2744,91 +2422,74 @@ var PagedUsersListvue_type_script_lang_ts_window = window,
     }
   },
   computed: {
-    currentUserLogin: function currentUserLogin() {
+    currentUserLogin() {
       return external_CoreHome_["Matomo"].userLogin;
     },
-    paginationLowerBound: function paginationLowerBound() {
+    paginationLowerBound() {
       return this.searchParams.offset + 1;
     },
-    paginationUpperBound: function paginationUpperBound() {
+    paginationUpperBound() {
       if (this.totalEntries === null) {
         return '?';
       }
-
-      var searchParams = this.searchParams;
+      const searchParams = this.searchParams;
       return Math.min(searchParams.offset + searchParams.limit, this.totalEntries);
     },
-    userOperationSubject: function userOperationSubject() {
+    userOperationSubject() {
       if (this.userToChange) {
         return [this.userToChange];
       }
-
       if (this.areAllResultsSelected) {
         return 'all';
       }
-
       return this.selectedUsers;
     },
-    selectedUsers: function selectedUsers() {
-      var _this = this;
-
-      var users = this.users;
-      var result = [];
-      Object.keys(this.selectedRows).forEach(function (index) {
-        var indexN = parseInt(index, 10);
-
-        if (_this.selectedRows[index] && users[indexN] // sanity check
+    selectedUsers() {
+      const users = this.users;
+      const result = [];
+      Object.keys(this.selectedRows).forEach(index => {
+        const indexN = parseInt(index, 10);
+        if (this.selectedRows[index] && users[indexN] // sanity check
         ) {
           result.push(users[indexN]);
         }
       });
       return result;
     },
-    rolesHelpText: function rolesHelpText() {
+    rolesHelpText() {
       return Object(external_CoreHome_["translate"])('UsersManager_RolesHelp', Object(external_CoreHome_["externalLink"])('https://matomo.org/faq/general/faq_70/'), '</a>', Object(external_CoreHome_["externalLink"])('https://matomo.org/faq/general/faq_69/'), '</a>');
     },
-    affectedUsersCount: function affectedUsersCount() {
+    affectedUsersCount() {
       if (this.areAllResultsSelected) {
         return this.totalEntries || 0;
       }
-
       return this.selectedCount;
     },
-    selectedCount: function selectedCount() {
-      var _this2 = this;
-
-      var selectedRowKeyCount = 0;
-      Object.keys(this.selectedRows).forEach(function (key) {
-        if (_this2.selectedRows[key]) {
+    selectedCount() {
+      let selectedRowKeyCount = 0;
+      Object.keys(this.selectedRows).forEach(key => {
+        if (this.selectedRows[key]) {
           selectedRowKeyCount += 1;
         }
       });
       return selectedRowKeyCount;
     },
-    deleteUserPermConfirmSingleText: function deleteUserPermConfirmSingleText() {
+    deleteUserPermConfirmSingleText() {
       var _this$userToChange, _this$permissionsForS;
-
-      return Object(external_CoreHome_["translate"])('UsersManager_DeleteUserPermConfirmSingle', "<strong>".concat(((_this$userToChange = this.userToChange) === null || _this$userToChange === void 0 ? void 0 : _this$userToChange.login) || '', "</strong>"), "<strong>".concat(this.getRoleDisplay(this.roleToChangeTo), "</strong>"), "<strong>".concat(external_CoreHome_["Matomo"].helper.htmlEntities(((_this$permissionsForS = this.permissionsForSite) === null || _this$permissionsForS === void 0 ? void 0 : _this$permissionsForS.name) || ''), "</strong>"));
+      return Object(external_CoreHome_["translate"])('UsersManager_DeleteUserPermConfirmSingle', `<strong>${((_this$userToChange = this.userToChange) === null || _this$userToChange === void 0 ? void 0 : _this$userToChange.login) || ''}</strong>`, `<strong>${this.getRoleDisplay(this.roleToChangeTo)}</strong>`, `<strong>${external_CoreHome_["Matomo"].helper.htmlEntities(((_this$permissionsForS = this.permissionsForSite) === null || _this$permissionsForS === void 0 ? void 0 : _this$permissionsForS.name) || '')}</strong>`);
     },
-    deleteUserPermConfirmMultipleText: function deleteUserPermConfirmMultipleText() {
+    deleteUserPermConfirmMultipleText() {
       var _this$permissionsForS2;
-
-      return Object(external_CoreHome_["translate"])('UsersManager_DeleteUserPermConfirmMultiple', "<strong>".concat(this.affectedUsersCount, "</strong>"), "<strong>".concat(this.getRoleDisplay(this.roleToChangeTo), "</strong>"), "<strong>".concat(external_CoreHome_["Matomo"].helper.htmlEntities(((_this$permissionsForS2 = this.permissionsForSite) === null || _this$permissionsForS2 === void 0 ? void 0 : _this$permissionsForS2.name) || ''), "</strong>"));
+      return Object(external_CoreHome_["translate"])('UsersManager_DeleteUserPermConfirmMultiple', `<strong>${this.affectedUsersCount}</strong>`, `<strong>${this.getRoleDisplay(this.roleToChangeTo)}</strong>`, `<strong>${external_CoreHome_["Matomo"].helper.htmlEntities(((_this$permissionsForS2 = this.permissionsForSite) === null || _this$permissionsForS2 === void 0 ? void 0 : _this$permissionsForS2.name) || '')}</strong>`);
     },
-    bulkActionAccessLevels: function bulkActionAccessLevels() {
-      return this.accessLevels.filter(function (e) {
-        return e.key !== 'noaccess' && e.key !== 'superuser';
-      });
+    bulkActionAccessLevels() {
+      return this.accessLevels.filter(e => e.key !== 'noaccess' && e.key !== 'superuser');
     },
-    anonymousAccessLevels: function anonymousAccessLevels() {
-      return this.accessLevels.filter(function (e) {
-        return e.key === 'noaccess' || e.key === 'view';
-      });
+    anonymousAccessLevels() {
+      return this.accessLevels.filter(e => e.key === 'noaccess' || e.key === 'view');
     },
-    onlyRoleAccessLevels: function onlyRoleAccessLevels() {
-      return this.accessLevels.filter(function (e) {
-        return e.type === 'role';
-      });
+    onlyRoleAccessLevels() {
+      return this.accessLevels.filter(e => e.type === 'role');
     }
   }
 }));
@@ -2841,127 +2502,101 @@ var PagedUsersListvue_type_script_lang_ts_window = window,
 PagedUsersListvue_type_script_lang_ts.render = PagedUsersListvue_type_template_id_3c24998f_render
 
 /* harmony default export */ var PagedUsersList = (PagedUsersListvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/UsersManager/UsersManager.vue?vue&type=template&id=92c94f4a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UsersManager/UsersManager.vue?vue&type=template&id=92c94f4a
 
-var UsersManagervue_type_template_id_92c94f4a_hoisted_1 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_1 = {
   class: "usersManager"
 };
-var UsersManagervue_type_template_id_92c94f4a_hoisted_2 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_2 = {
   key: 0
 };
-var UsersManagervue_type_template_id_92c94f4a_hoisted_3 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_3 = {
   key: 1
 };
-var UsersManagervue_type_template_id_92c94f4a_hoisted_4 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_4 = {
   class: "row add-user-container"
 };
-var UsersManagervue_type_template_id_92c94f4a_hoisted_5 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_5 = {
   class: "col s12"
 };
-var UsersManagervue_type_template_id_92c94f4a_hoisted_6 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_6 = {
   class: "input-field",
   style: {
     "margin-right": "3.5px"
   }
 };
-var UsersManagervue_type_template_id_92c94f4a_hoisted_7 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_7 = {
   key: 0,
   class: "input-field"
 };
-var UsersManagervue_type_template_id_92c94f4a_hoisted_8 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_8 = {
   key: 0
 };
-var UsersManagervue_type_template_id_92c94f4a_hoisted_9 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_9 = {
   class: "resend-invite-confirm-modal modal",
   ref: "resendInviteConfirmModal"
 };
-
-var UsersManagervue_type_template_id_92c94f4a_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   class: "btn-close modal-close"
 }, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
   class: "icon-close"
 })], -1);
-
-var UsersManagervue_type_template_id_92c94f4a_hoisted_11 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_11 = {
   class: "modal-content"
 };
-var UsersManagervue_type_template_id_92c94f4a_hoisted_12 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_12 = {
   class: "modal-title"
 };
-var UsersManagervue_type_template_id_92c94f4a_hoisted_13 = ["innerHTML"];
-var UsersManagervue_type_template_id_92c94f4a_hoisted_14 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_13 = ["innerHTML"];
+const UsersManagervue_type_template_id_92c94f4a_hoisted_14 = {
   class: "modal-footer"
 };
-var UsersManagervue_type_template_id_92c94f4a_hoisted_15 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_15 = {
   key: 0,
   class: "success-copied"
 };
-
-var UsersManagervue_type_template_id_92c94f4a_hoisted_16 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_16 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
   class: "icon-success"
 }, null, -1);
-
-var UsersManagervue_type_template_id_92c94f4a_hoisted_17 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_17 = {
   class: "add-existing-user-modal modal",
   ref: "addExistingUserModal"
 };
-var UsersManagervue_type_template_id_92c94f4a_hoisted_18 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_18 = {
   class: "modal-content"
 };
-var UsersManagervue_type_template_id_92c94f4a_hoisted_19 = {
+const UsersManagervue_type_template_id_92c94f4a_hoisted_19 = {
   class: "modal-footer"
 };
 function UsersManagervue_type_template_id_92c94f4a_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
-
-  var _component_PagedUsersList = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PagedUsersList");
-
-  var _component_UserEditForm = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("UserEditForm");
-
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_PasswordConfirmation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PasswordConfirmation");
-
-  var _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
-
-  var _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UsersManagervue_type_template_id_92c94f4a_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
+  const _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
+  const _component_PagedUsersList = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PagedUsersList");
+  const _component_UserEditForm = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("UserEditForm");
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+  const _component_PasswordConfirmation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PasswordConfirmation");
+  const _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
+  const _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UsersManagervue_type_template_id_92c94f4a_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
     "help-url": _ctx.externalRawLink('https://matomo.org/docs/manage-users/'),
     "feature-name": "Users Management"
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ManageUsers')), 1)];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ManageUsers')), 1)]),
     _: 1
   }, 8, ["help-url"])]), _ctx.currentUserRole === 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", UsersManagervue_type_template_id_92c94f4a_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ManageUsersDesc')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.currentUserRole === 'admin' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", UsersManagervue_type_template_id_92c94f4a_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ManageUsersAdminDesc')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UsersManagervue_type_template_id_92c94f4a_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UsersManagervue_type_template_id_92c94f4a_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UsersManagervue_type_template_id_92c94f4a_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     class: "btn add-new-user",
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.onAddNewUser();
-    })
+    onClick: _cache[0] || (_cache[0] = $event => _ctx.onAddNewUser())
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_InviteNewUser')), 1)]), _ctx.currentUserRole !== 'superuser' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UsersManagervue_type_template_id_92c94f4a_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     class: "btn add-existing-user",
-    onClick: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.showAddExistingUserModal();
-    })
+    onClick: _cache[1] || (_cache[1] = $event => _ctx.showAddExistingUserModal())
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_AddExistingUser')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PagedUsersList, {
-    onEditUser: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.onEditUser($event.user);
-    }),
-    onChangeUserRole: _cache[3] || (_cache[3] = function ($event) {
-      return _ctx.onChangeUserRole($event.users, $event.role, $event.password);
-    }),
-    onDeleteUser: _cache[4] || (_cache[4] = function ($event) {
-      return _ctx.onDeleteUser($event.users, $event.password);
-    }),
-    onSearchChange: _cache[5] || (_cache[5] = function ($event) {
+    onEditUser: _cache[2] || (_cache[2] = $event => _ctx.onEditUser($event.user)),
+    onChangeUserRole: _cache[3] || (_cache[3] = $event => _ctx.onChangeUserRole($event.users, $event.role, $event.password)),
+    onDeleteUser: _cache[4] || (_cache[4] = $event => _ctx.onDeleteUser($event.users, $event.password)),
+    onSearchChange: _cache[5] || (_cache[5] = $event => {
       _ctx.searchParams = $event.params;
-
       _ctx.fetchUsers();
     }),
-    onResendInvite: _cache[6] || (_cache[6] = function ($event) {
-      return _ctx.showResendPopup($event.user);
-    }),
+    onResendInvite: _cache[6] || (_cache[6] = $event => _ctx.showResendPopup($event.user)),
     "initial-site-id": _ctx.initialSiteId,
     "initial-site-name": _ctx.initialSiteName,
     "is-loading-users": _ctx.isLoadingUsers,
@@ -2972,10 +2607,8 @@ function UsersManagervue_type_template_id_92c94f4a_render(_ctx, _cache, $props, 
     "search-params": _ctx.searchParams,
     users: _ctx.users,
     "total-entries": _ctx.totalEntries
-  }, null, 8, ["initial-site-id", "initial-site-name", "is-loading-users", "current-user-role", "access-levels", "filter-access-levels", "filter-status-levels", "search-params", "users", "total-entries"])], 512), [[_directive_content_intro]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isEditing]]), _ctx.isEditing ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UsersManagervue_type_template_id_92c94f4a_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_UserEditForm, {
-    onDone: _cache[7] || (_cache[7] = function ($event) {
-      return _ctx.onDoneEditing($event.isUserModified);
-    }),
+  }, null, 8, ["initial-site-id", "initial-site-name", "is-loading-users", "current-user-role", "access-levels", "filter-access-levels", "filter-status-levels", "search-params", "users", "total-entries"])])), [[_directive_content_intro]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isEditing]]), _ctx.isEditing ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UsersManagervue_type_template_id_92c94f4a_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_UserEditForm, {
+    onDone: _cache[7] || (_cache[7] = $event => _ctx.onDoneEditing($event.isUserModified)),
     user: _ctx.userBeingEdited,
     "current-user-role": _ctx.currentUserRole,
     "invite-token-expiry-days": _ctx.inviteTokenExpiryDays,
@@ -2984,70 +2617,56 @@ function UsersManagervue_type_template_id_92c94f4a_render(_ctx, _cache, $props, 
     "initial-site-id": _ctx.initialSiteId,
     "initial-site-name": _ctx.initialSiteName,
     "activated-plugins": _ctx.activatedPlugins,
-    onResendInvite: _cache[8] || (_cache[8] = function ($event) {
-      return _ctx.showResendPopup($event.user);
-    }),
-    onUpdated: _cache[9] || (_cache[9] = function ($event) {
-      return _ctx.userBeingEdited = $event.user;
-    })
+    onResendInvite: _cache[8] || (_cache[8] = $event => _ctx.showResendPopup($event.user)),
+    onUpdated: _cache[9] || (_cache[9] = $event => _ctx.userBeingEdited = $event.user)
   }, null, 8, ["user", "current-user-role", "invite-token-expiry-days", "access-levels", "filter-access-levels", "initial-site-id", "initial-site-name", "activated-plugins"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UsersManagervue_type_template_id_92c94f4a_hoisted_9, [UsersManagervue_type_template_id_92c94f4a_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UsersManagervue_type_template_id_92c94f4a_hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", UsersManagervue_type_template_id_92c94f4a_hoisted_12, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ResendInvite')), 1), _ctx.userBeingEdited ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
     key: 0,
-    innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_InviteConfirmMessage', ["<strong>".concat(_ctx.userBeingEdited.login, "</strong>"), "<strong>".concat(_ctx.userBeingEdited.email, "</strong>")]))
+    innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_InviteConfirmMessage', [`<strong>${_ctx.userBeingEdited.login}</strong>`, `<strong>${_ctx.userBeingEdited.email}</strong>`]))
   }, null, 8, UsersManagervue_type_template_id_92c94f4a_hoisted_13)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_InviteActionNotes', _ctx.inviteTokenExpiryDays)), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UsersManagervue_type_template_id_92c94f4a_hoisted_14, [_ctx.copied ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", UsersManagervue_type_template_id_92c94f4a_hoisted_15, [UsersManagervue_type_template_id_92c94f4a_hoisted_16, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_LinkCopied')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
-    onClick: _cache[10] || (_cache[10] = function ($event) {
-      return _ctx.showInviteActionPasswordConfirm('copy');
-    }),
+    onClick: _cache[10] || (_cache[10] = $event => _ctx.showInviteActionPasswordConfirm('copy')),
     class: "btn btn-copy-link modal-action",
     style: {
       "margin-right": "3.5px"
     }
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_CopyLink')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
     class: "btn btn-resend modal-action modal-no",
-    onClick: _cache[11] || (_cache[11] = function ($event) {
-      return _ctx.showInviteActionPasswordConfirm('send');
-    })
+    onClick: _cache[11] || (_cache[11] = $event => _ctx.showInviteActionPasswordConfirm('send'))
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ResendInvite')), 1)])], 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UsersManagervue_type_template_id_92c94f4a_hoisted_17, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UsersManagervue_type_template_id_92c94f4a_hoisted_18, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_AddExistingUser')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_EnterUsernameOrEmail')) + ":", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     modelValue: _ctx.addNewUserLoginEmail,
-    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
-      return _ctx.addNewUserLoginEmail = $event;
-    }),
+    "onUpdate:modelValue": _cache[12] || (_cache[12] = $event => _ctx.addNewUserLoginEmail = $event),
     name: "add-existing-user-email",
     uicontrol: "text"
   }, null, 8, ["modelValue"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UsersManagervue_type_template_id_92c94f4a_hoisted_19, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close btn",
-    onClick: _cache[13] || (_cache[13] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.addExistingUser();
-    }, ["prevent"])),
+    onClick: _cache[13] || (_cache[13] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.addExistingUser(), ["prevent"])),
     style: {
       "margin-right": "3.5px"
     }
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Add')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close modal-no",
-    onClick: _cache[14] || (_cache[14] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.addNewUserLoginEmail = null;
-    }, ["prevent"]))
+    onClick: _cache[14] || (_cache[14] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.addNewUserLoginEmail = null, ["prevent"]))
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Cancel')), 1)])], 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
     modelValue: _ctx.showPasswordConfirmationForInviteAction,
-    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
-      return _ctx.showPasswordConfirmationForInviteAction = $event;
-    }),
+    "onUpdate:modelValue": _cache[15] || (_cache[15] = $event => _ctx.showPasswordConfirmationForInviteAction = $event),
     onConfirmed: _ctx.onInviteAction
-  }, null, 8, ["modelValue", "onConfirmed"])], 512)), [[_directive_tooltips]]);
+  }, null, 8, ["modelValue", "onConfirmed"])])), [[_directive_tooltips]]);
 }
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/UsersManager/UsersManager.vue?vue&type=template&id=92c94f4a
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/UsersManager/UsersManager.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UsersManager/UsersManager.vue?vue&type=script&lang=ts
+function UsersManagervue_type_script_lang_ts_extends() { UsersManagervue_type_script_lang_ts_extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return UsersManagervue_type_script_lang_ts_extends.apply(this, arguments); }
 /* eslint-disable newline-per-chained-call */
 
 
 
 
 
-var NUM_USERS_PER_PAGE = 20;
-var UsersManagervue_type_script_lang_ts_window = window,
-    UsersManagervue_type_script_lang_ts_$ = UsersManagervue_type_script_lang_ts_window.$;
+const NUM_USERS_PER_PAGE = 20;
+const {
+  $: UsersManagervue_type_script_lang_ts_$
+} = window;
 /* harmony default export */ var UsersManagervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     currentUserRole: {
@@ -3094,7 +2713,7 @@ var UsersManagervue_type_script_lang_ts_window = window,
     ContentIntro: external_CoreHome_["ContentIntro"],
     Tooltips: external_CoreHome_["Tooltips"]
   },
-  data: function data() {
+  data() {
     return {
       isEditing: !!external_CoreHome_["MatomoUrl"].urlParsed.value.showadduser,
       isCurrentUserSuperUser: true,
@@ -3117,109 +2736,87 @@ var UsersManagervue_type_script_lang_ts_window = window,
       inviteAction: ''
     };
   },
-  created: function created() {
+  created() {
     this.fetchUsers();
   },
   watch: {
-    limit: function limit() {
+    limit() {
       this.fetchUsers();
     }
   },
   methods: {
-    showInviteActionPasswordConfirm: function showInviteActionPasswordConfirm(action) {
+    showInviteActionPasswordConfirm(action) {
       if (this.loading) return;
       this.showPasswordConfirmationForInviteAction = true;
       this.inviteAction = action;
     },
-    showResendPopup: function showResendPopup(user) {
+    showResendPopup(user) {
       this.userBeingEdited = user;
       UsersManagervue_type_script_lang_ts_$(this.$refs.resendInviteConfirmModal).modal({
         dismissible: false
       }).modal('open');
       this.copied = false;
     },
-    onInviteAction: function onInviteAction(password) {
+    onInviteAction(password) {
       if (this.inviteAction === 'send') {
         this.onResendInvite(password);
       } else {
         this.generateInviteLink(password);
       }
     },
-    onEditUser: function onEditUser(user) {
+    onEditUser(user) {
       external_CoreHome_["Matomo"].helper.lazyScrollToContent();
       this.isEditing = true;
       this.userBeingEdited = user;
     },
-    onDoneEditing: function onDoneEditing(isUserModified) {
+    onDoneEditing(isUserModified) {
       this.isEditing = false;
-
       if (isUserModified) {
         // if a user was modified, we must reload the users list
         this.fetchUsers();
       }
     },
-    showAddExistingUserModal: function showAddExistingUserModal() {
+    showAddExistingUserModal() {
       UsersManagervue_type_script_lang_ts_$(this.$refs.addExistingUserModal).modal({
         dismissible: false
       }).modal('open');
     },
-    onChangeUserRole: function onChangeUserRole(users, role, password) {
-      var _this = this;
-
+    onChangeUserRole(users, role, password) {
       this.isLoadingUsers = true;
-      Promise.resolve().then(function () {
+      Promise.resolve().then(() => {
         if (users === 'all') {
-          return _this.getAllUsersInSearch();
+          return this.getAllUsersInSearch();
         }
-
         return users;
-      }).then(function (usersResolved) {
-        return usersResolved.filter(function (u) {
-          return u.role !== 'superuser';
-        }).map(function (u) {
-          return u.login;
-        });
-      }).then(function (userLogins) {
+      }).then(usersResolved => usersResolved.filter(u => u.role !== 'superuser').map(u => u.login)).then(userLogins => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        var type = _this.accessLevels.filter(function (a) {
-          return a.key === role;
-        }).map(function (a) {
-          return a.type;
-        });
-
-        var requests;
-
+        const type = this.accessLevels.filter(a => a.key === role).map(a => a.type);
+        let requests;
         if (type.length && type[0] === 'capability') {
-          requests = userLogins.map(function (login) {
-            return {
-              method: 'UsersManager.addCapabilities',
-              userLogin: login,
-              capabilities: role,
-              idSites: _this.searchParams.idSite,
-              passwordConfirmation: password
-            };
-          });
+          requests = userLogins.map(login => ({
+            method: 'UsersManager.addCapabilities',
+            userLogin: login,
+            capabilities: role,
+            idSites: this.searchParams.idSite,
+            passwordConfirmation: password
+          }));
         } else {
-          requests = userLogins.map(function (login) {
-            return {
-              method: 'UsersManager.setUserAccess',
-              userLogin: login,
-              access: role,
-              idSites: _this.searchParams.idSite,
-              passwordConfirmation: password
-            };
-          });
+          requests = userLogins.map(login => ({
+            method: 'UsersManager.setUserAccess',
+            userLogin: login,
+            access: role,
+            idSites: this.searchParams.idSite,
+            passwordConfirmation: password
+          }));
         }
-
         return external_CoreHome_["AjaxHelper"].fetch(requests, {
           createErrorNotification: true
         });
-      }).catch(function () {// ignore (errors will still be displayed to the user)
-      }).finally(function () {
-        return _this.fetchUsers();
-      });
+      }).catch(() => {
+        // ignore (errors will still be displayed to the user)
+      }).finally(() => this.fetchUsers());
     },
-    getAllUsersInSearch: function getAllUsersInSearch() {
+    getAllUsersInSearch() {
       return external_CoreHome_["AjaxHelper"].fetch({
         method: 'UsersManager.getUsersPlusRole',
         filter_search: this.searchParams.filter_search,
@@ -3229,41 +2826,31 @@ var UsersManagervue_type_script_lang_ts_window = window,
         filter_limit: '-1'
       });
     },
-    onDeleteUser: function onDeleteUser(users, password) {
-      var _this2 = this;
-
+    onDeleteUser(users, password) {
       this.isLoadingUsers = true;
-      Promise.resolve().then(function () {
+      Promise.resolve().then(() => {
         if (users === 'all') {
-          return _this2.getAllUsersInSearch();
+          return this.getAllUsersInSearch();
         }
-
         return users;
-      }).then(function (usersResolved) {
-        return usersResolved.map(function (u) {
-          return u.login;
-        });
-      }).then(function (userLogins) {
-        var requests = userLogins.map(function (login) {
-          return {
-            method: 'UsersManager.deleteUser',
-            userLogin: login,
-            passwordConfirmation: password
-          };
-        });
+      }).then(usersResolved => usersResolved.map(u => u.login)).then(userLogins => {
+        const requests = userLogins.map(login => ({
+          method: 'UsersManager.deleteUser',
+          userLogin: login,
+          passwordConfirmation: password
+        }));
         return external_CoreHome_["AjaxHelper"].fetch(requests, {
           createErrorNotification: true
         });
-      }).then(function () {
+      }).then(() => {
         external_CoreHome_["NotificationsStore"].scrollToNotification(external_CoreHome_["NotificationsStore"].show({
           id: 'removeUserSuccess',
           message: Object(external_CoreHome_["translate"])('UsersManager_DeleteSuccess'),
           context: 'success',
           type: 'toast'
         }));
-
-        _this2.fetchUsers();
-      }, function () {
+        this.fetchUsers();
+      }, () => {
         if (users !== 'all' && users.length > 1) {
           // Show a notification that some users might not have been removed if an error occurs
           // and more than one users was tried to remove
@@ -3276,50 +2863,47 @@ var UsersManagervue_type_script_lang_ts_window = window,
             type: 'toast'
           });
         }
-
-        _this2.fetchUsers();
+        this.fetchUsers();
       });
     },
-    generateInviteLink: async function generateInviteLink(password) {
+    async generateInviteLink(password) {
       if (this.loading) {
         return;
       }
-
       this.loading = true;
-
       try {
-        var res = await external_CoreHome_["AjaxHelper"].post({
+        const res = await external_CoreHome_["AjaxHelper"].post({
           method: 'UsersManager.generateInviteLink'
         }, {
           userLogin: this.userBeingEdited.login,
           passwordConfirmation: password
         });
-        await this.copyToClipboard(res.value); // eslint-disable-next-line no-empty
+        await this.copyToClipboard(res.value);
+        // eslint-disable-next-line no-empty
       } catch (e) {}
-
       this.loading = false;
     },
-    copyToClipboard: async function copyToClipboard(value) {
+    async copyToClipboard(value) {
       try {
-        var tempInput = document.createElement('input');
+        const tempInput = document.createElement('input');
         tempInput.style.top = '-100px';
         tempInput.style.left = '0';
         tempInput.style.position = 'fixed';
         tempInput.value = value;
         document.body.appendChild(tempInput);
         tempInput.select();
-
         if (window.location.protocol !== 'https:') {
           document.execCommand('copy');
         } else {
           await navigator.clipboard.writeText(tempInput.value);
         }
-
         document.body.removeChild(tempInput);
-        this.copied = true; // eslint-disable-next-line no-empty
+        this.copied = true;
+        // eslint-disable-next-line no-empty
       } catch (e) {
-        var id = external_CoreHome_["NotificationsStore"].show({
-          message: "<strong>".concat(Object(external_CoreHome_["translate"])('UsersManager_CopyDenied'), "</strong><br>\n").concat(Object(external_CoreHome_["translate"])('UsersManager_CopyDeniedHints', ["<br><span class=\"invite-link\">".concat(value, "</span>")])),
+        const id = external_CoreHome_["NotificationsStore"].show({
+          message: `<strong>${Object(external_CoreHome_["translate"])('UsersManager_CopyDenied')}</strong><br>
+${Object(external_CoreHome_["translate"])('UsersManager_CopyDeniedHints', [`<br><span class="invite-link">${value}</span>`])}`,
           id: 'copyError',
           context: 'error',
           type: 'transient'
@@ -3327,20 +2911,17 @@ var UsersManagervue_type_script_lang_ts_window = window,
         external_CoreHome_["NotificationsStore"].scrollToNotification(id);
       }
     },
-    onResendInvite: function onResendInvite(password) {
-      var _this3 = this;
-
+    onResendInvite(password) {
       if (password === '') return;
       external_CoreHome_["AjaxHelper"].post({
         method: 'UsersManager.resendInvite',
         userLogin: this.userBeingEdited.login
       }, {
         passwordConfirmation: password
-      }).then(function () {
-        _this3.fetchUsers();
-
-        UsersManagervue_type_script_lang_ts_$(_this3.$refs.resendInviteConfirmModal).modal('close');
-        var id = external_CoreHome_["NotificationsStore"].show({
+      }).then(() => {
+        this.fetchUsers();
+        UsersManagervue_type_script_lang_ts_$(this.$refs.resendInviteConfirmModal).modal('close');
+        const id = external_CoreHome_["NotificationsStore"].show({
           message: Object(external_CoreHome_["translate"])('UsersManager_InviteSuccess'),
           id: 'resendInvite',
           context: 'success',
@@ -3349,65 +2930,52 @@ var UsersManagervue_type_script_lang_ts_window = window,
         external_CoreHome_["NotificationsStore"].scrollToNotification(id);
       });
     },
-    fetchUsers: function fetchUsers() {
-      var _this4 = this;
-
+    fetchUsers() {
       this.isLoadingUsers = true;
-      return external_CoreHome_["AjaxHelper"].fetch(Object.assign(Object.assign({}, this.searchParams), {}, {
+      return external_CoreHome_["AjaxHelper"].fetch(UsersManagervue_type_script_lang_ts_extends(UsersManagervue_type_script_lang_ts_extends({}, this.searchParams), {}, {
         method: 'UsersManager.getUsersPlusRole'
       }), {
         returnResponseObject: true
-      }).then(function (helper) {
-        var result = helper.getRequestHandle();
-        _this4.totalEntries = parseInt(result.getResponseHeader('x-matomo-total-results') || '0', 10);
-        _this4.users = result.responseJSON;
-        _this4.isLoadingUsers = false;
-      }).catch(function () {
-        _this4.isLoadingUsers = false;
+      }).then(helper => {
+        const result = helper.getRequestHandle();
+        this.totalEntries = parseInt(result.getResponseHeader('x-matomo-total-results') || '0', 10);
+        this.users = result.responseJSON;
+        this.isLoadingUsers = false;
+      }).catch(() => {
+        this.isLoadingUsers = false;
       });
     },
-    addExistingUser: function addExistingUser() {
-      var _this5 = this;
-
+    addExistingUser() {
       this.isLoadingUsers = true;
       return external_CoreHome_["AjaxHelper"].fetch({
         method: 'UsersManager.userExists',
         userLogin: this.addNewUserLoginEmail
-      }).then(function (response) {
+      }).then(response => {
         if (response && response.value) {
-          return _this5.addNewUserLoginEmail;
+          return this.addNewUserLoginEmail;
         }
-
         return external_CoreHome_["AjaxHelper"].fetch({
           method: 'UsersManager.getUserLoginFromUserEmail',
-          userEmail: _this5.addNewUserLoginEmail
-        }).then(function (r) {
-          return r.value;
-        });
-      }).then(function (login) {
-        return external_CoreHome_["AjaxHelper"].post({
-          method: 'UsersManager.setUserAccess'
-        }, {
-          userLogin: login,
-          access: 'view',
-          idSites: _this5.searchParams.idSite
-        });
-      }).then(function () {
-        return _this5.fetchUsers();
-      }).catch(function () {
-        _this5.isLoadingUsers = false;
+          userEmail: this.addNewUserLoginEmail
+        }).then(r => r.value);
+      }).then(login => external_CoreHome_["AjaxHelper"].post({
+        method: 'UsersManager.setUserAccess'
+      }, {
+        userLogin: login,
+        access: 'view',
+        idSites: this.searchParams.idSite
+      })).then(() => this.fetchUsers()).catch(() => {
+        this.isLoadingUsers = false;
       });
     },
-    onAddNewUser: function onAddNewUser() {
-      var parameters = {
+    onAddNewUser() {
+      const parameters = {
         isAllowed: true
       };
       external_CoreHome_["Matomo"].postEvent('UsersManager.initAddUser', parameters);
-
       if (parameters && !parameters.isAllowed) {
         return;
       }
-
       this.isEditing = true;
       this.userBeingEdited = null;
     }
@@ -3422,67 +2990,53 @@ var UsersManagervue_type_script_lang_ts_window = window,
 UsersManagervue_type_script_lang_ts.render = UsersManagervue_type_template_id_92c94f4a_render
 
 /* harmony default export */ var UsersManager = (UsersManagervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/AnonymousSettings/AnonymousSettings.vue?vue&type=template&id=2293559a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/AnonymousSettings/AnonymousSettings.vue?vue&type=template&id=2293559a
 
-var AnonymousSettingsvue_type_template_id_2293559a_hoisted_1 = {
+const AnonymousSettingsvue_type_template_id_2293559a_hoisted_1 = {
   key: 0,
   class: "alert alert-info"
 };
-var AnonymousSettingsvue_type_template_id_2293559a_hoisted_2 = {
+const AnonymousSettingsvue_type_template_id_2293559a_hoisted_2 = {
   key: 1
 };
 function AnonymousSettingsvue_type_template_id_2293559a_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
-  var _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
-
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+  const _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
+  const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+  const _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     "content-title": _ctx.title
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [_ctx.anonymousSites.length === 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AnonymousSettingsvue_type_template_id_2293559a_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed2')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.anonymousSites.length > 0 ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AnonymousSettingsvue_type_template_id_2293559a_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "radio",
-        name: "anonymousDefaultReport",
-        modelValue: _ctx.defaultReport,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.defaultReport = $event;
-        }),
-        introduction: _ctx.translate('UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess'),
-        options: _ctx.defaultReportOptions
-      }, null, 8, ["modelValue", "introduction", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "select",
-        name: "anonymousDefaultReportWebsite",
-        modelValue: _ctx.defaultReportWebsite,
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-          return _ctx.defaultReportWebsite = $event;
-        }),
-        options: _ctx.anonymousSites
-      }, null, 8, ["modelValue", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "radio",
-        name: "anonymousDefaultDate",
-        modelValue: _ctx.defaultDate,
-        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-          return _ctx.defaultDate = $event;
-        }),
-        introduction: _ctx.translate('UsersManager_ForAnonymousUsersReportDateToLoadByDefault'),
-        options: _ctx.availableDefaultDates
-      }, null, 8, ["modelValue", "introduction", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
-        saving: _ctx.loading,
-        onConfirm: _cache[3] || (_cache[3] = function ($event) {
-          return _ctx.save();
-        })
-      }, null, 8, ["saving"])], 512)), [[_directive_form]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [_ctx.anonymousSites.length === 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AnonymousSettingsvue_type_template_id_2293559a_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed2')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.anonymousSites.length > 0 ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AnonymousSettingsvue_type_template_id_2293559a_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "radio",
+      name: "anonymousDefaultReport",
+      modelValue: _ctx.defaultReport,
+      "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.defaultReport = $event),
+      introduction: _ctx.translate('UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess'),
+      options: _ctx.defaultReportOptions
+    }, null, 8, ["modelValue", "introduction", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "select",
+      name: "anonymousDefaultReportWebsite",
+      modelValue: _ctx.defaultReportWebsite,
+      "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.defaultReportWebsite = $event),
+      options: _ctx.anonymousSites
+    }, null, 8, ["modelValue", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "radio",
+      name: "anonymousDefaultDate",
+      modelValue: _ctx.defaultDate,
+      "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => _ctx.defaultDate = $event),
+      introduction: _ctx.translate('UsersManager_ForAnonymousUsersReportDateToLoadByDefault'),
+      options: _ctx.availableDefaultDates
+    }, null, 8, ["modelValue", "introduction", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+      saving: _ctx.loading,
+      onConfirm: _cache[3] || (_cache[3] = $event => _ctx.save())
+    }, null, 8, ["saving"])])), [[_directive_form]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]),
     _: 1
   }, 8, ["content-title"]);
 }
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/AnonymousSettings/AnonymousSettings.vue?vue&type=template&id=2293559a
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/AnonymousSettings/AnonymousSettings.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/AnonymousSettings/AnonymousSettings.vue?vue&type=script&lang=ts
 
 
 
@@ -3525,19 +3079,17 @@ function AnonymousSettingsvue_type_template_id_2293559a_render(_ctx, _cache, $pr
   directives: {
     Form: external_CorePluginsAdmin_["Form"]
   },
-  data: function data() {
+  data() {
     return {
       loading: false,
-      defaultReport: "".concat(this.anonymousDefaultReport),
+      defaultReport: `${this.anonymousDefaultReport}`,
       defaultReportWebsite: this.anonymousDefaultSite,
       defaultDate: this.anonymousDefaultDate
     };
   },
   methods: {
-    save: function save() {
-      var _this = this;
-
-      var postParams = {
+    save() {
+      const postParams = {
         anonymousDefaultReport: this.defaultReport === '1' ? this.defaultReportWebsite : this.defaultReport,
         anonymousDefaultDate: this.defaultDate
       };
@@ -3548,16 +3100,16 @@ function AnonymousSettingsvue_type_template_id_2293559a_render(_ctx, _cache, $pr
         format: 'json'
       }, postParams, {
         withTokenInUrl: true
-      }).then(function () {
-        var id = external_CoreHome_["NotificationsStore"].show({
+      }).then(() => {
+        const id = external_CoreHome_["NotificationsStore"].show({
           message: Object(external_CoreHome_["translate"])('CoreAdminHome_SettingsSaveSuccess'),
           id: 'anonymousUserSettings',
           context: 'success',
           type: 'transient'
         });
         external_CoreHome_["NotificationsStore"].scrollToNotification(id);
-      }).finally(function () {
-        _this.loading = false;
+      }).finally(() => {
+        this.loading = false;
       });
     }
   }
@@ -3571,53 +3123,44 @@ function AnonymousSettingsvue_type_template_id_2293559a_render(_ctx, _cache, $pr
 AnonymousSettingsvue_type_script_lang_ts.render = AnonymousSettingsvue_type_template_id_2293559a_render
 
 /* harmony default export */ var AnonymousSettings = (AnonymousSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue?vue&type=template&id=464433cd
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue?vue&type=template&id=464433cd
 
-var NewsletterSettingsvue_type_template_id_464433cd_hoisted_1 = {
+const NewsletterSettingsvue_type_template_id_464433cd_hoisted_1 = {
   id: "newsletterSignup"
 };
 function NewsletterSettingsvue_type_template_id_464433cd_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+  const _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
+  const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", NewsletterSettingsvue_type_template_id_464433cd_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('UsersManager_NewsletterSignupTitle')
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "checkbox",
-        name: "newsletterSignupCheckbox",
-        id: "newsletterSignupCheckbox",
-        modelValue: _ctx.newsletterSignupCheckbox,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.newsletterSignupCheckbox = $event;
-        }),
-        "full-width": true,
-        title: _ctx.signupTitleText
-      }, null, 8, ["modelValue", "title"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
-        id: "newsletterSignupBtn",
-        onConfirm: _cache[1] || (_cache[1] = function ($event) {
-          return _ctx.signupForNewsletter();
-        }),
-        disabled: !_ctx.newsletterSignupCheckbox,
-        value: _ctx.newsletterSignupButtonTitle,
-        saving: _ctx.isProcessingNewsletterSignup
-      }, null, 8, ["disabled", "value", "saving"])];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "checkbox",
+      name: "newsletterSignupCheckbox",
+      id: "newsletterSignupCheckbox",
+      modelValue: _ctx.newsletterSignupCheckbox,
+      "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.newsletterSignupCheckbox = $event),
+      "full-width": true,
+      title: _ctx.signupTitleText
+    }, null, 8, ["modelValue", "title"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+      id: "newsletterSignupBtn",
+      onConfirm: _cache[1] || (_cache[1] = $event => _ctx.signupForNewsletter()),
+      disabled: !_ctx.newsletterSignupCheckbox,
+      value: _ctx.newsletterSignupButtonTitle,
+      saving: _ctx.isProcessingNewsletterSignup
+    }, null, 8, ["disabled", "value", "saving"])]),
     _: 1
   }, 8, ["content-title"])], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showNewsletterSignup]]);
 }
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue?vue&type=template&id=464433cd
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/NewsletterSettings/NewsletterSettings.vue?vue&type=script&lang=ts
 
 
 
 /* harmony default export */ var NewsletterSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  data: function data() {
+  data() {
     return {
       showNewsletterSignup: true,
       newsletterSignupCheckbox: false,
@@ -3631,14 +3174,12 @@ function NewsletterSettingsvue_type_template_id_464433cd_render(_ctx, _cache, $p
     Field: external_CorePluginsAdmin_["Field"]
   },
   computed: {
-    signupTitleText: function signupTitleText() {
+    signupTitleText() {
       return Object(external_CoreHome_["translate"])('UsersManager_NewsletterSignupMessage', Object(external_CoreHome_["externalLink"])('https://matomo.org/privacy-policy/'), '</a>');
     }
   },
   methods: {
-    signupForNewsletter: function signupForNewsletter() {
-      var _this = this;
-
+    signupForNewsletter() {
       this.newsletterSignupButtonTitle = Object(external_CoreHome_["translate"])('General_Loading');
       this.isProcessingNewsletterSignup = true;
       external_CoreHome_["AjaxHelper"].fetch({
@@ -3646,26 +3187,26 @@ function NewsletterSettingsvue_type_template_id_464433cd_render(_ctx, _cache, $p
         method: 'UsersManager.newsletterSignup'
       }, {
         withTokenInUrl: true
-      }).then(function () {
-        _this.isProcessingNewsletterSignup = false;
-        _this.showNewsletterSignup = false;
-        var id = external_CoreHome_["NotificationsStore"].show({
+      }).then(() => {
+        this.isProcessingNewsletterSignup = false;
+        this.showNewsletterSignup = false;
+        const id = external_CoreHome_["NotificationsStore"].show({
           message: Object(external_CoreHome_["translate"])('UsersManager_NewsletterSignupSuccessMessage'),
           id: 'newslettersignup',
           context: 'success',
           type: 'transient'
         });
         external_CoreHome_["NotificationsStore"].scrollToNotification(id);
-      }).catch(function () {
-        _this.isProcessingNewsletterSignup = false;
-        var id = external_CoreHome_["NotificationsStore"].show({
+      }).catch(() => {
+        this.isProcessingNewsletterSignup = false;
+        const id = external_CoreHome_["NotificationsStore"].show({
           message: Object(external_CoreHome_["translate"])('UsersManager_NewsletterSignupFailureMessage'),
           id: 'newslettersignup',
           context: 'error',
           type: 'transient'
         });
         external_CoreHome_["NotificationsStore"].scrollToNotification(id);
-        _this.newsletterSignupButtonTitle = Object(external_CoreHome_["translate"])('General_PleaseTryAgain');
+        this.newsletterSignupButtonTitle = Object(external_CoreHome_["translate"])('General_PleaseTryAgain');
       });
     }
   }
@@ -3679,131 +3220,107 @@ function NewsletterSettingsvue_type_template_id_464433cd_render(_ctx, _cache, $p
 NewsletterSettingsvue_type_script_lang_ts.render = NewsletterSettingsvue_type_template_id_464433cd_render
 
 /* harmony default export */ var NewsletterSettings = (NewsletterSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=template&id=f35048b0
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=template&id=f35048b0
 
-var PersonalSettingsvue_type_template_id_f35048b0_hoisted_1 = {
+const PersonalSettingsvue_type_template_id_f35048b0_hoisted_1 = {
   id: "userSettingsTable"
 };
-var PersonalSettingsvue_type_template_id_f35048b0_hoisted_2 = {
+const PersonalSettingsvue_type_template_id_f35048b0_hoisted_2 = {
   key: 0
 };
-var PersonalSettingsvue_type_template_id_f35048b0_hoisted_3 = {
+const PersonalSettingsvue_type_template_id_f35048b0_hoisted_3 = {
   id: "languageHelp",
   class: "inline-help-node"
 };
-var PersonalSettingsvue_type_template_id_f35048b0_hoisted_4 = ["href"];
-var PersonalSettingsvue_type_template_id_f35048b0_hoisted_5 = {
+const PersonalSettingsvue_type_template_id_f35048b0_hoisted_4 = ["href"];
+const PersonalSettingsvue_type_template_id_f35048b0_hoisted_5 = {
   class: "sites_autocomplete"
 };
 function PersonalSettingsvue_type_template_id_f35048b0_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_SiteSelector = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SiteSelector");
-
-  var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
-  var _component_PasswordConfirmation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PasswordConfirmation");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
-  var _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
-
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+  const _component_SiteSelector = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SiteSelector");
+  const _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
+  const _component_PasswordConfirmation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PasswordConfirmation");
+  const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+  const _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     "content-title": _ctx.title,
     feature: 'true'
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", PersonalSettingsvue_type_template_id_f35048b0_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "username",
-        title: _ctx.translate('General_Username'),
-        disabled: true,
-        modelValue: _ctx.username,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.username = $event;
-        }),
-        "inline-help": _ctx.translate('UsersManager_YourUsernameCannotBeChanged')
-      }, null, 8, ["title", "modelValue", "inline-help"])]), _ctx.isUsersAdminEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PersonalSettingsvue_type_template_id_f35048b0_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "email",
-        "model-value": _ctx.email,
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-          _ctx.email = $event;
-          _ctx.doesRequirePasswordConfirmation = true;
-        }),
-        maxlength: 100,
-        title: _ctx.translate('UsersManager_Email')
-      }, null, 8, ["model-value", "title"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_f35048b0_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-        target: "_blank",
-        rel: "noreferrer noopener",
-        href: _ctx.externalRawLink('https://matomo.org/translations/')
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('LanguagesManager_AboutPiwikTranslations')), 9, PersonalSettingsvue_type_template_id_f35048b0_hoisted_4)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "select",
-        name: "language",
-        modelValue: _ctx.language,
-        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-          return _ctx.language = $event;
-        }),
-        title: _ctx.translate('General_Language'),
-        options: _ctx.languageOptions,
-        "inline-help": "#languageHelp"
-      }, null, 8, ["modelValue", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "select",
-        name: "timeformat",
-        modelValue: _ctx.timeformat,
-        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-          return _ctx.timeformat = $event;
-        }),
-        title: _ctx.translate('General_TimeFormat'),
-        options: _ctx.timeFormats
-      }, null, 8, ["modelValue", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "radio",
-        name: "defaultReport",
-        modelValue: _ctx.theDefaultReport,
-        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-          return _ctx.theDefaultReport = $event;
-        }),
-        introduction: _ctx.translate('UsersManager_ReportToLoadByDefault'),
-        title: _ctx.translate('General_AllWebsitesDashboard'),
-        options: _ctx.defaultReportOptions
-      }, null, 8, ["modelValue", "introduction", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_f35048b0_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SiteSelector, {
-        modelValue: _ctx.site,
-        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-          return _ctx.site = $event;
-        }),
-        "show-selected-site": true,
-        "switch-site-on-select": false,
-        "show-all-sites-item": false,
-        showselectedsite: true,
-        id: "defaultReportSiteSelector"
-      }, null, 8, ["modelValue"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "radio",
-        name: "defaultDate",
-        modelValue: _ctx.theDefaultDate,
-        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-          return _ctx.theDefaultDate = $event;
-        }),
-        introduction: _ctx.translate('UsersManager_ReportDateToLoadByDefault'),
-        options: _ctx.availableDefaultDates
-      }, null, 8, ["modelValue", "introduction", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
-        onConfirm: _cache[7] || (_cache[7] = function ($event) {
-          return _ctx.save();
-        }),
-        saving: _ctx.loading
-      }, null, 8, ["saving"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
-        modelValue: _ctx.showPasswordConfirmation,
-        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-          return _ctx.showPasswordConfirmation = $event;
-        }),
-        onConfirmed: _ctx.doSave
-      }, null, 8, ["modelValue", "onConfirmed"])], 512), [[_directive_form]])];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("form", PersonalSettingsvue_type_template_id_f35048b0_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "text",
+      name: "username",
+      title: _ctx.translate('General_Username'),
+      disabled: true,
+      modelValue: _ctx.username,
+      "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.username = $event),
+      "inline-help": _ctx.translate('UsersManager_YourUsernameCannotBeChanged')
+    }, null, 8, ["title", "modelValue", "inline-help"])]), _ctx.isUsersAdminEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PersonalSettingsvue_type_template_id_f35048b0_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "text",
+      name: "email",
+      "model-value": _ctx.email,
+      "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => {
+        _ctx.email = $event;
+        _ctx.doesRequirePasswordConfirmation = true;
+      }),
+      maxlength: 100,
+      title: _ctx.translate('UsersManager_Email')
+    }, null, 8, ["model-value", "title"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_f35048b0_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      target: "_blank",
+      rel: "noreferrer noopener",
+      href: _ctx.externalRawLink('https://matomo.org/translations/')
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('LanguagesManager_AboutPiwikTranslations')), 9, PersonalSettingsvue_type_template_id_f35048b0_hoisted_4)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "select",
+      name: "language",
+      modelValue: _ctx.language,
+      "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => _ctx.language = $event),
+      title: _ctx.translate('General_Language'),
+      options: _ctx.languageOptions,
+      "inline-help": "#languageHelp"
+    }, null, 8, ["modelValue", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "select",
+      name: "timeformat",
+      modelValue: _ctx.timeformat,
+      "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => _ctx.timeformat = $event),
+      title: _ctx.translate('General_TimeFormat'),
+      options: _ctx.timeFormats
+    }, null, 8, ["modelValue", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "radio",
+      name: "defaultReport",
+      modelValue: _ctx.theDefaultReport,
+      "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => _ctx.theDefaultReport = $event),
+      introduction: _ctx.translate('UsersManager_ReportToLoadByDefault'),
+      title: _ctx.translate('General_AllWebsitesDashboard'),
+      options: _ctx.defaultReportOptions
+    }, null, 8, ["modelValue", "introduction", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_f35048b0_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SiteSelector, {
+      modelValue: _ctx.site,
+      "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => _ctx.site = $event),
+      "show-selected-site": true,
+      "switch-site-on-select": false,
+      "show-all-sites-item": false,
+      showselectedsite: true,
+      id: "defaultReportSiteSelector"
+    }, null, 8, ["modelValue"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "radio",
+      name: "defaultDate",
+      modelValue: _ctx.theDefaultDate,
+      "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => _ctx.theDefaultDate = $event),
+      introduction: _ctx.translate('UsersManager_ReportDateToLoadByDefault'),
+      options: _ctx.availableDefaultDates
+    }, null, 8, ["modelValue", "introduction", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+      onConfirm: _cache[7] || (_cache[7] = $event => _ctx.save()),
+      saving: _ctx.loading
+    }, null, 8, ["saving"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
+      modelValue: _ctx.showPasswordConfirmation,
+      "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => _ctx.showPasswordConfirmation = $event),
+      onConfirmed: _ctx.doSave
+    }, null, 8, ["modelValue", "onConfirmed"])])), [[_directive_form]])]),
     _: 1
   }, 8, ["content-title"]);
 }
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=template&id=f35048b0
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=script&lang=ts
 
 
 
@@ -3876,7 +3393,7 @@ function PersonalSettingsvue_type_template_id_f35048b0_render(_ctx, _cache, $pro
   directives: {
     Form: external_CorePluginsAdmin_["Form"]
   },
-  data: function data() {
+  data() {
     return {
       doesRequirePasswordConfirmation: false,
       username: this.userLogin,
@@ -3894,29 +3411,24 @@ function PersonalSettingsvue_type_template_id_f35048b0_render(_ctx, _cache, $pro
     };
   },
   methods: {
-    save: function save() {
+    save() {
       if (this.doesRequirePasswordConfirmation) {
         this.showPasswordConfirmation = true;
         return;
       }
-
       this.doSave();
     },
-    doSave: function doSave(password) {
-      var _this = this;
-
-      var postParams = {
+    doSave(password) {
+      const postParams = {
         email: this.email,
         defaultReport: this.theDefaultReport === 'MultiSites' ? this.theDefaultReport : this.site.id,
         defaultDate: this.theDefaultDate,
         language: this.language,
         timeformat: this.timeformat
       };
-
       if (password) {
         postParams.passwordConfirmation = password;
       }
-
       this.loading = true;
       external_CoreHome_["AjaxHelper"].post({
         module: 'UsersManager',
@@ -3924,18 +3436,18 @@ function PersonalSettingsvue_type_template_id_f35048b0_render(_ctx, _cache, $pro
         format: 'json'
       }, postParams, {
         withTokenInUrl: true
-      }).then(function () {
-        var id = external_CoreHome_["NotificationsStore"].show({
+      }).then(() => {
+        const id = external_CoreHome_["NotificationsStore"].show({
           message: Object(external_CoreHome_["translate"])('CoreAdminHome_SettingsSaveSuccess'),
           id: 'PersonalSettingsSuccess',
           context: 'success',
           type: 'transient'
         });
         external_CoreHome_["NotificationsStore"].scrollToNotification(id);
-        _this.doesRequirePasswordConfirmation = false;
-        _this.loading = false;
-      }).catch(function () {
-        _this.loading = false;
+        this.doesRequirePasswordConfirmation = false;
+        this.loading = false;
+      }).catch(() => {
+        this.loading = false;
       });
     }
   }
@@ -3949,75 +3461,68 @@ function PersonalSettingsvue_type_template_id_f35048b0_render(_ctx, _cache, $pro
 PersonalSettingsvue_type_script_lang_ts.render = PersonalSettingsvue_type_template_id_f35048b0_render
 
 /* harmony default export */ var PersonalSettings = (PersonalSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/AddNewToken/AddNewToken.vue?vue&type=template&id=5852e320
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/AddNewToken/AddNewToken.vue?vue&type=template&id=5852e320
 
-var AddNewTokenvue_type_template_id_5852e320_hoisted_1 = {
+const AddNewTokenvue_type_template_id_5852e320_hoisted_1 = {
   key: 0
 };
-var AddNewTokenvue_type_template_id_5852e320_hoisted_2 = {
+const AddNewTokenvue_type_template_id_5852e320_hoisted_2 = {
   key: 1,
   class: "alert alert-danger"
 };
-var AddNewTokenvue_type_template_id_5852e320_hoisted_3 = ["action"];
-var AddNewTokenvue_type_template_id_5852e320_hoisted_4 = ["value"];
-var AddNewTokenvue_type_template_id_5852e320_hoisted_5 = ["value"];
-var AddNewTokenvue_type_template_id_5852e320_hoisted_6 = ["innerHTML"];
+const AddNewTokenvue_type_template_id_5852e320_hoisted_3 = ["action"];
+const AddNewTokenvue_type_template_id_5852e320_hoisted_4 = ["value"];
+const AddNewTokenvue_type_template_id_5852e320_hoisted_5 = ["value"];
+const AddNewTokenvue_type_template_id_5852e320_hoisted_6 = ["innerHTML"];
 function AddNewTokenvue_type_template_id_5852e320_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+  const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     "content-title": _ctx.translate('UsersManager_AuthTokens')
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_TokenAuthIntro')), 1), _ctx.noDescription ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("br", AddNewTokenvue_type_template_id_5852e320_hoisted_1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.noDescription ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AddNewTokenvue_type_template_id_5852e320_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Description')) + ": " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ValidatorErrorEmptyValue')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
-        action: _ctx.addNewTokenFormUrl,
-        method: "post",
-        class: "addTokenForm"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "description",
-        title: _ctx.translate('General_Description'),
-        maxlength: 100,
-        required: true,
-        "inline-help": _ctx.translate('UsersManager_AuthTokenPurpose'),
-        modelValue: _ctx.tokenDescription,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.tokenDescription = $event;
-        })
-      }, null, 8, ["title", "inline-help", "modelValue"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "checkbox",
-        name: "secure_only",
-        title: _ctx.translate('UsersManager_OnlyAllowSecureRequests'),
-        required: false,
-        "inline-help": _ctx.secureOnlyHelp,
-        modelValue: _ctx.tokenSecureOnly,
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-          return _ctx.tokenSecureOnly = $event;
-        }),
-        disabled: _ctx.forceSecureOnlyCalc
-      }, null, 8, ["title", "inline-help", "modelValue", "disabled"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "hidden",
-        value: _ctx.formNonce,
-        name: "nonce"
-      }, null, 8, AddNewTokenvue_type_template_id_5852e320_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "submit",
-        value: _ctx.translate('UsersManager_CreateNewToken'),
-        class: "btn",
-        style: {
-          "margin-right": "3.5px"
-        }
-      }, null, 8, AddNewTokenvue_type_template_id_5852e320_hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.cancelLink)
-      }, null, 8, AddNewTokenvue_type_template_id_5852e320_hoisted_6)], 8, AddNewTokenvue_type_template_id_5852e320_hoisted_3)];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_TokenAuthIntro')), 1), _ctx.noDescription ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("br", AddNewTokenvue_type_template_id_5852e320_hoisted_1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.noDescription ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AddNewTokenvue_type_template_id_5852e320_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Description')) + ": " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ValidatorErrorEmptyValue')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
+      action: _ctx.addNewTokenFormUrl,
+      method: "post",
+      class: "addTokenForm"
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "text",
+      name: "description",
+      title: _ctx.translate('General_Description'),
+      maxlength: 100,
+      required: true,
+      "inline-help": _ctx.translate('UsersManager_AuthTokenPurpose'),
+      modelValue: _ctx.tokenDescription,
+      "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.tokenDescription = $event)
+    }, null, 8, ["title", "inline-help", "modelValue"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "checkbox",
+      name: "secure_only",
+      title: _ctx.translate('UsersManager_OnlyAllowSecureRequests'),
+      required: false,
+      "inline-help": _ctx.secureOnlyHelp,
+      modelValue: _ctx.tokenSecureOnly,
+      "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.tokenSecureOnly = $event),
+      disabled: _ctx.forceSecureOnlyCalc
+    }, null, 8, ["title", "inline-help", "modelValue", "disabled"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      type: "hidden",
+      value: _ctx.formNonce,
+      name: "nonce"
+    }, null, 8, AddNewTokenvue_type_template_id_5852e320_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      type: "submit",
+      value: _ctx.translate('UsersManager_CreateNewToken'),
+      class: "btn",
+      style: {
+        "margin-right": "3.5px"
+      }
+    }, null, 8, AddNewTokenvue_type_template_id_5852e320_hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      innerHTML: _ctx.$sanitize(_ctx.cancelLink)
+    }, null, 8, AddNewTokenvue_type_template_id_5852e320_hoisted_6)], 8, AddNewTokenvue_type_template_id_5852e320_hoisted_3)]),
     _: 1
   }, 8, ["content-title"]);
 }
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/AddNewToken/AddNewToken.vue?vue&type=template&id=5852e320
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/AddNewToken/AddNewToken.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/AddNewToken/AddNewToken.vue?vue&type=script&lang=ts
+function AddNewTokenvue_type_script_lang_ts_extends() { AddNewTokenvue_type_script_lang_ts_extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return AddNewTokenvue_type_script_lang_ts_extends.apply(this, arguments); }
 
 
 
@@ -4031,30 +3536,30 @@ function AddNewTokenvue_type_template_id_5852e320_render(_ctx, _cache, $props, $
     ContentBlock: external_CoreHome_["ContentBlock"],
     Field: external_CorePluginsAdmin_["Field"]
   },
-  data: function data() {
+  data() {
     return {
       tokenDescription: '',
       tokenSecureOnly: true
     };
   },
   computed: {
-    addNewTokenFormUrl: function addNewTokenFormUrl() {
-      return "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+    addNewTokenFormUrl() {
+      return `?${external_CoreHome_["MatomoUrl"].stringify(AddNewTokenvue_type_script_lang_ts_extends(AddNewTokenvue_type_script_lang_ts_extends({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
         module: 'UsersManager',
         action: 'addNewToken'
-      })));
+      }))}`;
     },
-    cancelLink: function cancelLink() {
-      var backlink = "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+    cancelLink() {
+      const backlink = `?${external_CoreHome_["MatomoUrl"].stringify(AddNewTokenvue_type_script_lang_ts_extends(AddNewTokenvue_type_script_lang_ts_extends({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
         module: 'UsersManager',
         action: 'userSecurity'
-      })));
-      return Object(external_CoreHome_["translate"])('General_OrCancel', "<a class='entityCancelLink' href='".concat(backlink, "'>"), '</a>');
+      }))}`;
+      return Object(external_CoreHome_["translate"])('General_OrCancel', `<a class='entityCancelLink' href='${backlink}'>`, '</a>');
     },
-    forceSecureOnlyCalc: function forceSecureOnlyCalc() {
+    forceSecureOnlyCalc() {
       return this.forceSecureOnly;
     },
-    secureOnlyHelp: function secureOnlyHelp() {
+    secureOnlyHelp() {
       return this.forceSecureOnly ? Object(external_CoreHome_["translate"])('UsersManager_AuthTokenSecureOnlyHelpForced') : Object(external_CoreHome_["translate"])('UsersManager_AuthTokenSecureOnlyHelp');
     }
   }
@@ -4068,41 +3573,36 @@ function AddNewTokenvue_type_template_id_5852e320_render(_ctx, _cache, $props, $
 AddNewTokenvue_type_script_lang_ts.render = AddNewTokenvue_type_template_id_5852e320_render
 
 /* harmony default export */ var AddNewToken = (AddNewTokenvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/AddNewToken/AddNewTokenSuccess.vue?vue&type=template&id=c60f0f6c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/AddNewToken/AddNewTokenSuccess.vue?vue&type=template&id=c60f0f6c
 
-
-var AddNewTokenSuccessvue_type_template_id_c60f0f6c_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var AddNewTokenSuccessvue_type_template_id_c60f0f6c_hoisted_2 = {
+const AddNewTokenSuccessvue_type_template_id_c60f0f6c_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const AddNewTokenSuccessvue_type_template_id_c60f0f6c_hoisted_2 = {
   style: {
     "font-size": "40px"
   },
   class: "generatedTokenAuth"
 };
-var AddNewTokenSuccessvue_type_template_id_c60f0f6c_hoisted_3 = ["href"];
+const AddNewTokenSuccessvue_type_template_id_c60f0f6c_hoisted_3 = ["href"];
 function AddNewTokenSuccessvue_type_template_id_c60f0f6c_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
-  var _directive_copy_to_clipboard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("copy-to-clipboard");
-
+  const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+  const _directive_copy_to_clipboard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("copy-to-clipboard");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     "content-title": _ctx.translate('UsersManager_TokenSuccessfullyGenerated')
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_PleaseStoreToken')) + " ", 1), AddNewTokenSuccessvue_type_template_id_c60f0f6c_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_DoNotStoreToken')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", AddNewTokenSuccessvue_type_template_id_c60f0f6c_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("code", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.generatedToken), 1)], 512), [[_directive_copy_to_clipboard, {}]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-        href: _ctx.userSecurityLink,
-        class: "btn",
-        style: {
-          "height": "auto"
-        }
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmTokenCopied')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_GoBackSecurityPage')), 9, AddNewTokenSuccessvue_type_template_id_c60f0f6c_hoisted_3)];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_PleaseStoreToken')) + " ", 1), AddNewTokenSuccessvue_type_template_id_c60f0f6c_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_DoNotStoreToken')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("pre", AddNewTokenSuccessvue_type_template_id_c60f0f6c_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("code", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.generatedToken), 1)])), [[_directive_copy_to_clipboard, {}]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      href: _ctx.userSecurityLink,
+      class: "btn",
+      style: {
+        "height": "auto"
+      }
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmTokenCopied')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_GoBackSecurityPage')), 9, AddNewTokenSuccessvue_type_template_id_c60f0f6c_hoisted_3)]),
     _: 1
   }, 8, ["content-title"]);
 }
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/AddNewToken/AddNewTokenSuccess.vue?vue&type=template&id=c60f0f6c
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/AddNewToken/AddNewTokenSuccess.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/AddNewToken/AddNewTokenSuccess.vue?vue&type=script&lang=ts
+function AddNewTokenSuccessvue_type_script_lang_ts_extends() { AddNewTokenSuccessvue_type_script_lang_ts_extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return AddNewTokenSuccessvue_type_script_lang_ts_extends.apply(this, arguments); }
 
 
 /* harmony default export */ var AddNewTokenSuccessvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
@@ -4119,11 +3619,11 @@ function AddNewTokenSuccessvue_type_template_id_c60f0f6c_render(_ctx, _cache, $p
     CopyToClipboard: external_CoreHome_["CopyToClipboard"]
   },
   computed: {
-    userSecurityLink: function userSecurityLink() {
-      return "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+    userSecurityLink() {
+      return `?${external_CoreHome_["MatomoUrl"].stringify(AddNewTokenSuccessvue_type_script_lang_ts_extends(AddNewTokenSuccessvue_type_script_lang_ts_extends({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
         module: 'UsersManager',
         action: 'userSecurity'
-      })));
+      }))}`;
     }
   }
 }));
@@ -4136,161 +3636,139 @@ function AddNewTokenSuccessvue_type_template_id_c60f0f6c_render(_ctx, _cache, $p
 AddNewTokenSuccessvue_type_script_lang_ts.render = AddNewTokenSuccessvue_type_template_id_c60f0f6c_render
 
 /* harmony default export */ var AddNewTokenSuccess = (AddNewTokenSuccessvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/UserSecurity/UserSecurity.vue?vue&type=template&id=60a12226
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserSecurity/UserSecurity.vue?vue&type=template&id=60a12226
 
-var UserSecurityvue_type_template_id_60a12226_hoisted_1 = ["action"];
-var UserSecurityvue_type_template_id_60a12226_hoisted_2 = ["value"];
-var UserSecurityvue_type_template_id_60a12226_hoisted_3 = {
+const UserSecurityvue_type_template_id_60a12226_hoisted_1 = ["action"];
+const UserSecurityvue_type_template_id_60a12226_hoisted_2 = ["value"];
+const UserSecurityvue_type_template_id_60a12226_hoisted_3 = {
   key: 0
 };
-var UserSecurityvue_type_template_id_60a12226_hoisted_4 = {
+const UserSecurityvue_type_template_id_60a12226_hoisted_4 = {
   class: "alert alert-info"
 };
-var UserSecurityvue_type_template_id_60a12226_hoisted_5 = ["value"];
-var UserSecurityvue_type_template_id_60a12226_hoisted_6 = {
+const UserSecurityvue_type_template_id_60a12226_hoisted_5 = ["value"];
+const UserSecurityvue_type_template_id_60a12226_hoisted_6 = {
   key: 1
 };
-var UserSecurityvue_type_template_id_60a12226_hoisted_7 = {
+const UserSecurityvue_type_template_id_60a12226_hoisted_7 = {
   class: "alert alert-danger"
 };
-var UserSecurityvue_type_template_id_60a12226_hoisted_8 = ["innerHTML"];
-var UserSecurityvue_type_template_id_60a12226_hoisted_9 = {
+const UserSecurityvue_type_template_id_60a12226_hoisted_8 = ["innerHTML"];
+const UserSecurityvue_type_template_id_60a12226_hoisted_9 = {
   ref: "afterPassword"
 };
-
-var UserSecurityvue_type_template_id_60a12226_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+const UserSecurityvue_type_template_id_60a12226_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
   name: "authtokens",
   id: "authtokens"
 }, null, -1);
-
-var UserSecurityvue_type_template_id_60a12226_hoisted_11 = {
+const UserSecurityvue_type_template_id_60a12226_hoisted_11 = {
   key: 0
 };
-var UserSecurityvue_type_template_id_60a12226_hoisted_12 = {
+const UserSecurityvue_type_template_id_60a12226_hoisted_12 = {
   class: "listAuthTokens"
 };
-var UserSecurityvue_type_template_id_60a12226_hoisted_13 = ["title"];
-var UserSecurityvue_type_template_id_60a12226_hoisted_14 = {
+const UserSecurityvue_type_template_id_60a12226_hoisted_13 = ["title"];
+const UserSecurityvue_type_template_id_60a12226_hoisted_14 = {
   key: 0
 };
-var UserSecurityvue_type_template_id_60a12226_hoisted_15 = ["colspan", "innerHTML"];
-var UserSecurityvue_type_template_id_60a12226_hoisted_16 = {
+const UserSecurityvue_type_template_id_60a12226_hoisted_15 = ["colspan", "innerHTML"];
+const UserSecurityvue_type_template_id_60a12226_hoisted_16 = {
   class: "creationDate"
 };
-var UserSecurityvue_type_template_id_60a12226_hoisted_17 = ["title"];
-var UserSecurityvue_type_template_id_60a12226_hoisted_18 = ["action"];
-var UserSecurityvue_type_template_id_60a12226_hoisted_19 = ["value"];
-var UserSecurityvue_type_template_id_60a12226_hoisted_20 = ["value"];
-var UserSecurityvue_type_template_id_60a12226_hoisted_21 = ["title"];
-
-var UserSecurityvue_type_template_id_60a12226_hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const UserSecurityvue_type_template_id_60a12226_hoisted_17 = ["title"];
+const UserSecurityvue_type_template_id_60a12226_hoisted_18 = ["action"];
+const UserSecurityvue_type_template_id_60a12226_hoisted_19 = ["value"];
+const UserSecurityvue_type_template_id_60a12226_hoisted_20 = ["value"];
+const UserSecurityvue_type_template_id_60a12226_hoisted_21 = ["title"];
+const UserSecurityvue_type_template_id_60a12226_hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-delete"
 }, null, -1);
-
-var UserSecurityvue_type_template_id_60a12226_hoisted_23 = [UserSecurityvue_type_template_id_60a12226_hoisted_22];
-var UserSecurityvue_type_template_id_60a12226_hoisted_24 = {
+const UserSecurityvue_type_template_id_60a12226_hoisted_23 = [UserSecurityvue_type_template_id_60a12226_hoisted_22];
+const UserSecurityvue_type_template_id_60a12226_hoisted_24 = {
   class: "tableActionBar"
 };
-var UserSecurityvue_type_template_id_60a12226_hoisted_25 = ["href"];
-
-var UserSecurityvue_type_template_id_60a12226_hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const UserSecurityvue_type_template_id_60a12226_hoisted_25 = ["href"];
+const UserSecurityvue_type_template_id_60a12226_hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-add"
 }, null, -1);
-
-var UserSecurityvue_type_template_id_60a12226_hoisted_27 = ["action"];
-var UserSecurityvue_type_template_id_60a12226_hoisted_28 = ["value"];
-
-var UserSecurityvue_type_template_id_60a12226_hoisted_29 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+const UserSecurityvue_type_template_id_60a12226_hoisted_27 = ["action"];
+const UserSecurityvue_type_template_id_60a12226_hoisted_28 = ["value"];
+const UserSecurityvue_type_template_id_60a12226_hoisted_29 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
   name: "idtokenauth",
   type: "hidden",
   value: "all"
 }, null, -1);
-
-var UserSecurityvue_type_template_id_60a12226_hoisted_30 = {
+const UserSecurityvue_type_template_id_60a12226_hoisted_30 = {
   type: "submit",
   class: "table-action"
 };
-
-var UserSecurityvue_type_template_id_60a12226_hoisted_31 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const UserSecurityvue_type_template_id_60a12226_hoisted_31 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-delete"
 }, null, -1);
-
 function UserSecurityvue_type_template_id_60a12226_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
-  var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
-
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+  const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+  const _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [_ctx.isUsersAdminEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     key: 0,
     "content-title": _ctx.translate('General_ChangePassword'),
     feature: "true"
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
-        id: "userSettingsTable",
-        method: "post",
-        action: _ctx.recordPasswordChangeAction
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "hidden",
-        value: _ctx.changePasswordNonce,
-        name: "nonce"
-      }, null, 8, UserSecurityvue_type_template_id_60a12226_hoisted_2), _ctx.isValidHost ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserSecurityvue_type_template_id_60a12226_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "password",
-        name: "password",
-        autocomplete: false,
-        modelValue: _ctx.password,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.password = $event;
-        }),
-        title: _ctx.translate('Login_NewPassword'),
-        "inline-help": _ctx.translate('UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne')
-      }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "password",
-        name: "passwordBis",
-        autocomplete: false,
-        modelValue: _ctx.passwordBis,
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-          return _ctx.passwordBis = $event;
-        }),
-        title: _ctx.translate('Login_NewPasswordRepeat'),
-        "inline-help": _ctx.translate('UsersManager_TypeYourPasswordAgain')
-      }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "password",
-        name: "passwordConfirmation",
-        autocomplete: false,
-        modelValue: _ctx.passwordConfirmation,
-        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-          return _ctx.passwordConfirmation = $event;
-        }),
-        title: _ctx.translate('UsersManager_YourCurrentPassword'),
-        "inline-help": _ctx.translate('UsersManager_TypeYourCurrentPassword')
-      }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserSecurityvue_type_template_id_60a12226_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_PasswordChangeTerminatesOtherSessions')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "submit",
-        value: _ctx.translate('General_Save'),
-        class: "btn"
-      }, null, 8, UserSecurityvue_type_template_id_60a12226_hoisted_5)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.isValidHost ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserSecurityvue_type_template_id_60a12226_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserSecurityvue_type_template_id_60a12226_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_InjectedHostCannotChangePwd', _ctx.invalidHost)) + " ", 1), !_ctx.isSuperUser ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
-        key: 0,
-        innerHTML: _ctx.$sanitize(_ctx.emailYourAdminText)
-      }, null, 8, UserSecurityvue_type_template_id_60a12226_hoisted_8)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 8, UserSecurityvue_type_template_id_60a12226_hoisted_1)];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
+      id: "userSettingsTable",
+      method: "post",
+      action: _ctx.recordPasswordChangeAction
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      type: "hidden",
+      value: _ctx.changePasswordNonce,
+      name: "nonce"
+    }, null, 8, UserSecurityvue_type_template_id_60a12226_hoisted_2), _ctx.isValidHost ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserSecurityvue_type_template_id_60a12226_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "password",
+      name: "password",
+      autocomplete: false,
+      modelValue: _ctx.password,
+      "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.password = $event),
+      title: _ctx.translate('Login_NewPassword'),
+      "inline-help": _ctx.translate('UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne')
+    }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "password",
+      name: "passwordBis",
+      autocomplete: false,
+      modelValue: _ctx.passwordBis,
+      "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.passwordBis = $event),
+      title: _ctx.translate('Login_NewPasswordRepeat'),
+      "inline-help": _ctx.translate('UsersManager_TypeYourPasswordAgain')
+    }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      uicontrol: "password",
+      name: "passwordConfirmation",
+      autocomplete: false,
+      modelValue: _ctx.passwordConfirmation,
+      "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => _ctx.passwordConfirmation = $event),
+      title: _ctx.translate('UsersManager_YourCurrentPassword'),
+      "inline-help": _ctx.translate('UsersManager_TypeYourCurrentPassword')
+    }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserSecurityvue_type_template_id_60a12226_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_PasswordChangeTerminatesOtherSessions')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      type: "submit",
+      value: _ctx.translate('General_Save'),
+      class: "btn"
+    }, null, 8, UserSecurityvue_type_template_id_60a12226_hoisted_5)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.isValidHost ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserSecurityvue_type_template_id_60a12226_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserSecurityvue_type_template_id_60a12226_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_InjectedHostCannotChangePwd', _ctx.invalidHost)) + " ", 1), !_ctx.isSuperUser ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
+      key: 0,
+      innerHTML: _ctx.$sanitize(_ctx.emailYourAdminText)
+    }, null, 8, UserSecurityvue_type_template_id_60a12226_hoisted_8)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 8, UserSecurityvue_type_template_id_60a12226_hoisted_1)]),
     _: 1
   }, 8, ["content-title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserSecurityvue_type_template_id_60a12226_hoisted_9, [_ctx.isUsersAdminEnabled && _ctx.afterPasswordComponent ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])(_ctx.afterPasswordComponent), {
     key: 0
   })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), UserSecurityvue_type_template_id_60a12226_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('UsersManager_AuthTokens')
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => {
       var _ctx$tokens, _ctx$tokens2;
-
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_TokenAuthIntro')) + " ", 1), _ctx.hasTokensWithExpireDate ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", UserSecurityvue_type_template_id_60a12226_hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ExpiredTokensDeleteAutomatically')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", UserSecurityvue_type_template_id_60a12226_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_CreationDate')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Description')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_LastUsed')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SecureUseOnly')), 1), _ctx.hasTokensWithExpireDate ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("th", {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_TokenAuthIntro')) + " ", 1), _ctx.hasTokensWithExpireDate ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", UserSecurityvue_type_template_id_60a12226_hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ExpiredTokensDeleteAutomatically')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("table", UserSecurityvue_type_template_id_60a12226_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_CreationDate')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Description')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_LastUsed')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_SecureUseOnly')), 1), _ctx.hasTokensWithExpireDate ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("th", {
         key: 0,
         title: _ctx.translate('UsersManager_TokensWithExpireDateCreationBySystem')
       }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ExpireDate')), 9, UserSecurityvue_type_template_id_60a12226_hoisted_13)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Actions')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [!((_ctx$tokens = _ctx.tokens) !== null && _ctx$tokens !== void 0 && _ctx$tokens.length) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", UserSecurityvue_type_template_id_60a12226_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", {
         colspan: _ctx.hasTokensWithExpireDate ? 5 : 4,
         innerHTML: _ctx.$sanitize(_ctx.noTokenCreatedYetText)
-      }, null, 8, UserSecurityvue_type_template_id_60a12226_hoisted_15)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.tokens || [], function (theToken) {
+      }, null, 8, UserSecurityvue_type_template_id_60a12226_hoisted_15)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.tokens || [], theToken => {
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
           key: theToken.idusertokenauth
         }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", UserSecurityvue_type_template_id_60a12226_hoisted_16, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(theToken.date_created), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(theToken.description), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(theToken.last_used ? theToken.last_used : _ctx.translate('General_Never')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(parseInt(theToken.secure_only, 10) === 1 ? _ctx.translate('General_Yes') : _ctx.translate('General_No')), 1), _ctx.hasTokensWithExpireDate ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("td", {
@@ -4315,7 +3793,7 @@ function UserSecurityvue_type_template_id_60a12226_render(_ctx, _cache, $props, 
           class: "table-action",
           title: _ctx.translate('General_Delete')
         }, UserSecurityvue_type_template_id_60a12226_hoisted_23, 8, UserSecurityvue_type_template_id_60a12226_hoisted_21)], 8, UserSecurityvue_type_template_id_60a12226_hoisted_18)])]);
-      }), 128))])], 512), [[_directive_content_table]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserSecurityvue_type_template_id_60a12226_hoisted_24, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      }), 128))])])), [[_directive_content_table]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserSecurityvue_type_template_id_60a12226_hoisted_24, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
         href: _ctx.addNewTokenLink,
         class: "addNewToken"
       }, [UserSecurityvue_type_template_id_60a12226_hoisted_26, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_CreateNewToken')), 1)], 8, UserSecurityvue_type_template_id_60a12226_hoisted_25), (_ctx$tokens2 = _ctx.tokens) !== null && _ctx$tokens2 !== void 0 && _ctx$tokens2.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("form", {
@@ -4336,7 +3814,8 @@ function UserSecurityvue_type_template_id_60a12226_render(_ctx, _cache, $props, 
 }
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/UserSecurity/UserSecurity.vue?vue&type=template&id=60a12226
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/UserSecurity/UserSecurity.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserSecurity/UserSecurity.vue?vue&type=script&lang=ts
+function UserSecurityvue_type_script_lang_ts_extends() { UserSecurityvue_type_script_lang_ts_extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return UserSecurityvue_type_script_lang_ts_extends.apply(this, arguments); }
 
 
 
@@ -4360,55 +3839,54 @@ function UserSecurityvue_type_template_id_60a12226_render(_ctx, _cache, $props, 
   directives: {
     ContentTable: external_CoreHome_["ContentTable"]
   },
-  data: function data() {
+  data() {
     return {
       password: '',
       passwordBis: '',
       passwordConfirmation: ''
     };
   },
-  mounted: function mounted() {
-    var afterPassword = this.$refs.afterPassword;
+  mounted() {
+    const afterPassword = this.$refs.afterPassword;
     external_CoreHome_["Matomo"].helper.compileVueEntryComponents(afterPassword);
   },
   computed: {
-    recordPasswordChangeAction: function recordPasswordChangeAction() {
-      return "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+    recordPasswordChangeAction() {
+      return `?${external_CoreHome_["MatomoUrl"].stringify(UserSecurityvue_type_script_lang_ts_extends(UserSecurityvue_type_script_lang_ts_extends({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
         module: 'UsersManager',
         action: 'recordPasswordChange'
-      })));
+      }))}`;
     },
-    emailYourAdminText: function emailYourAdminText() {
+    emailYourAdminText() {
       return Object(external_CoreHome_["translate"])('UsersManager_EmailYourAdministrator', this.invalidHostMailLinkStart || '', '</a>');
     },
-    noTokenCreatedYetText: function noTokenCreatedYetText() {
-      var addNewTokenLink = "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+    noTokenCreatedYetText() {
+      const addNewTokenLink = `?${external_CoreHome_["MatomoUrl"].stringify(UserSecurityvue_type_script_lang_ts_extends(UserSecurityvue_type_script_lang_ts_extends({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
         module: 'UsersManager',
         action: 'addNewToken'
-      })));
-      return Object(external_CoreHome_["translate"])('UsersManager_NoTokenCreatedYetCreateNow', "<a href=\"".concat(addNewTokenLink, "\">"), '</a>');
+      }))}`;
+      return Object(external_CoreHome_["translate"])('UsersManager_NoTokenCreatedYetCreateNow', `<a href="${addNewTokenLink}">`, '</a>');
     },
-    deleteTokenAction: function deleteTokenAction() {
-      return "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+    deleteTokenAction() {
+      return `?${external_CoreHome_["MatomoUrl"].stringify(UserSecurityvue_type_script_lang_ts_extends(UserSecurityvue_type_script_lang_ts_extends({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
         module: 'UsersManager',
         action: 'deleteToken'
-      })));
+      }))}`;
     },
-    addNewTokenLink: function addNewTokenLink() {
-      return "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+    addNewTokenLink() {
+      return `?${external_CoreHome_["MatomoUrl"].stringify(UserSecurityvue_type_script_lang_ts_extends(UserSecurityvue_type_script_lang_ts_extends({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
         module: 'UsersManager',
         action: 'addNewToken'
-      })));
+      }))}`;
     },
-    afterPasswordComponent: function afterPasswordComponent() {
+    afterPasswordComponent() {
       if (!this.afterPasswordEventContent) {
         return null;
       }
-
-      var afterPassword = this.$refs.afterPassword;
+      const afterPassword = this.$refs.afterPassword;
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])({
         template: this.afterPasswordEventContent,
-        beforeUnmount: function beforeUnmount() {
+        beforeUnmount() {
           external_CoreHome_["Matomo"].helper.destroyVueComponent(afterPassword);
         }
       });
@@ -4424,27 +3902,21 @@ function UserSecurityvue_type_template_id_60a12226_render(_ctx, _cache, $props, 
 UserSecurityvue_type_script_lang_ts.render = UserSecurityvue_type_template_id_60a12226_render
 
 /* harmony default export */ var UserSecurity = (UserSecurityvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/UserSettings/UserSettings.vue?vue&type=template&id=2115584c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserSettings/UserSettings.vue?vue&type=template&id=2115584c
 
-var UserSettingsvue_type_template_id_2115584c_hoisted_1 = ["innerHTML"];
-var UserSettingsvue_type_template_id_2115584c_hoisted_2 = {
+const UserSettingsvue_type_template_id_2115584c_hoisted_1 = ["innerHTML"];
+const UserSettingsvue_type_template_id_2115584c_hoisted_2 = {
   style: {
     "margin-left": "20px"
   }
 };
-var UserSettingsvue_type_template_id_2115584c_hoisted_3 = ["href"];
-
-var UserSettingsvue_type_template_id_2115584c_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
+const UserSettingsvue_type_template_id_2115584c_hoisted_3 = ["href"];
+const UserSettingsvue_type_template_id_2115584c_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 function UserSettingsvue_type_template_id_2115584c_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_PersonalSettings = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PersonalSettings");
-
-  var _component_NewsletterSettings = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("NewsletterSettings");
-
-  var _component_PluginSettings = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PluginSettings");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
+  const _component_PersonalSettings = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PersonalSettings");
+  const _component_NewsletterSettings = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("NewsletterSettings");
+  const _component_PluginSettings = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PluginSettings");
+  const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PersonalSettings, {
     "is-users-admin-enabled": _ctx.isUsersAdminEnabled,
     title: _ctx.translate('UsersManager_PersonalSettings'),
@@ -4467,19 +3939,17 @@ function UserSettingsvue_type_template_id_2115584c_render(_ctx, _cache, $props, 
   }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('UsersManager_ExcludeVisitsViaCookie')
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
-        innerHTML: _ctx.$sanitize(_ctx.yourVisitsAreText)
-      }, null, 8, UserSettingsvue_type_template_id_2115584c_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", UserSettingsvue_type_template_id_2115584c_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-        href: _ctx.setIgnoreCookieLink
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" › " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.ignoreCookieSet ? _ctx.translate('UsersManager_ClickHereToDeleteTheCookie') : _ctx.translate('UsersManager_ClickHereToSetTheCookieOnDomain', _ctx.piwikHost)) + " ", 1), UserSettingsvue_type_template_id_2115584c_hoisted_4], 8, UserSettingsvue_type_template_id_2115584c_hoisted_3)])];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+      innerHTML: _ctx.$sanitize(_ctx.yourVisitsAreText)
+    }, null, 8, UserSettingsvue_type_template_id_2115584c_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", UserSettingsvue_type_template_id_2115584c_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+      href: _ctx.setIgnoreCookieLink
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" › " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.ignoreCookieSet ? _ctx.translate('UsersManager_ClickHereToDeleteTheCookie') : _ctx.translate('UsersManager_ClickHereToSetTheCookieOnDomain', _ctx.piwikHost)) + " ", 1), UserSettingsvue_type_template_id_2115584c_hoisted_4], 8, UserSettingsvue_type_template_id_2115584c_hoisted_3)])]),
     _: 1
   }, 8, ["content-title"])]);
 }
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/UserSettings/UserSettings.vue?vue&type=template&id=2115584c
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UsersManager/vue/src/UserSettings/UserSettings.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserSettings/UserSettings.vue?vue&type=script&lang=ts
 
 
 
@@ -4554,19 +4024,18 @@ function UserSettingsvue_type_template_id_2115584c_render(_ctx, _cache, $props, 
     PluginSettings: external_CorePluginsAdmin_["PluginSettings"]
   },
   computed: {
-    yourVisitsAreText: function yourVisitsAreText() {
+    yourVisitsAreText() {
       if (this.ignoreCookieSet) {
         return Object(external_CoreHome_["translate"])('UsersManager_YourVisitsAreIgnoredOnDomain', '<strong>', this.piwikHost, '</strong>');
       }
-
       return Object(external_CoreHome_["translate"])('UsersManager_YourVisitsAreNotIgnored', '<strong>', '</strong>');
     },
-    setIgnoreCookieLink: function setIgnoreCookieLink() {
-      return "?".concat(external_CoreHome_["MatomoUrl"].stringify({
+    setIgnoreCookieLink() {
+      return `?${external_CoreHome_["MatomoUrl"].stringify({
         ignoreSalt: this.ignoreSalt,
         module: 'UsersManager',
         action: 'setIgnoreCookie'
-      }), "#excludeCookie");
+      })}#excludeCookie`;
     }
   }
 }));
