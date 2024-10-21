@@ -22,6 +22,7 @@
         "CreateAccountErrorAPIEmailInvalid": "Níl formáid bhailí ag an ríomhphost a chuirtear ar fáil.",
         "CreateAccountErrorEmailInvalid": "Ní ríomhphost bailí é an luach \"%s\".",
         "CreateAccountErrorLicenseExists": "Aimsíodh ceadúnas atá ann cheana. Bain an eochair cheadúnais sula gcruthaítear cuntas nua.",
+        "CreatedBy": "Cruthaithe ag",
         "CurrentNumPiwikUsers": "Tá úsáideoirí cláraithe %1$s ag do Matomo faoi láthair.",
         "Developer": "Forbróir",
         "DevelopersLearnHowToDevelopPlugins": "Forbróirí: Foghlaim conas is féidir leat Matomo a leathnú agus a shaincheapadh le%1$s breiseáin nó téamaí%2$s a fhorbairt.",
