@@ -17,6 +17,7 @@ use Piwik\IP;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\Emails\PasswordResetEmail;
+use Piwik\Plugins\Login\Emails\PasswordResetCancelEmail;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -173,6 +174,14 @@ class PasswordResetter
     {
         $this->checkValidConfirmPasswordToken($loginOrEmail, $resetToken);
         $this->removePasswordResetInfo($loginOrEmail);
+
+        $user = self::getUserInformation($loginOrEmail);
+
+        try {
+            $this->sendEmailProcessCancelled($user);
+        } catch (Exception $ex) {
+            throw new Exception($ex->getMessage() . Piwik::translate('Login_ContactAdmin'));
+        }
     }
 
     /**
@@ -459,6 +468,28 @@ class PasswordResetter
         if (!isset($hashInfo['algo']) || 0 >= $hashInfo['algo']) {
             throw new Exception(Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
         }
+    }
+
+    /**
+     * Sends email notification that a password reset process has been cancelled.
+     *
+     * @param array $user User info for the cancelled password reset.
+     */
+    private function sendEmailProcessCancelled(array $user): void
+    {
+        $login = $user['login'];
+        $email = $user['email'];
+
+        $mail = new PasswordResetCancelEmail($login);
+        $mail->addTo($email, $login);
+
+        if ($this->emailFromAddress || $this->emailFromName) {
+            $mail->setFrom($this->emailFromAddress, $this->emailFromName);
+        } else {
+            $mail->setDefaultFromPiwik();
+        }
+
+        @$mail->send();
     }
 
     /**
