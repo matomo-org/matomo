@@ -22,6 +22,7 @@
         "CreateAccountErrorAPIEmailInvalid": "Η διεύθυνση email που δώσατε δεν είναι σε έγκυρη μορφή.",
         "CreateAccountErrorEmailInvalid": "Η τιμή \"%s\" δεν είναι έγκυρη διεύθυνση email.",
         "CreateAccountErrorLicenseExists": "Βρέθηκε υπάρχουσα άδεια. Αφαιρέστε το κλειδί της άδειας προτού δημιουργήσετε νέο λογαριασμό.",
+        "CreatedBy": "Δημιουργήθηκε από",
         "CurrentNumPiwikUsers": "Το Matomo σας αυτή τη στιγμή έχει %1$s εγγεγραμμένους χρήστες.",
         "Developer": "Προγραμματιστής",
         "DevelopersLearnHowToDevelopPlugins": "Προγραμματιστές: Μάθετε πώς να επεκτείνετε και να προσαρμόζετε το Matomo %1$sδημιουργώντας πρόσθετα ή θέματα%2$s.",
