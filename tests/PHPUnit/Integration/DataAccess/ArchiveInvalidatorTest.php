@@ -341,20 +341,71 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expected, $items);
     }
 
-    public function testRemoveInvalidationsFromDistributedListRemovesAllSiteEntries()
+    public function testRemoveInvalidationsFromDistributedListRemovesEntriesFromListWhenIntSiteIdSpecified()
+    {
+        $this->invalidator->scheduleReArchiving([1,2,3], 'ExamplePlugin');
+        $this->invalidator->scheduleReArchiving([1,4,5], 'MyOtherPlugin');
+
+        $this->invalidator->removeInvalidationsFromDistributedList(3, 'ExamplePlugin');
+
+        $list = new ReArchiveList();
+        $items = $list->getAll();
+
+        $expected = [
+            '{"idSites":[1,2],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}',
+            '{"idSites":[1,4,5],"pluginName":"MyOtherPlugin","report":null,"startDate":null,"segment":null}',
+        ];
+
+        $this->assertEquals($expected, $items);
+    }
+
+    /**
+     * @dataProvider getRemoveInvalidationsFromDistributedListDifferentIdSiteValues
+     * @param $idSites
+     * @return void
+     */
+    public function testRemoveInvalidationsFromDistributedListDifferentIdSiteValues($idSites, $expectedArray)
     {
         $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving([1, 4, 5], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving('all', 'ExamplePlugin');
 
-        $this->invalidator->removeInvalidationsFromDistributedList('all', 'ExamplePlugin');
+        $this->invalidator->removeInvalidationsFromDistributedList($idSites, 'ExamplePlugin');
 
         $list = new ReArchiveList();
         $items = $list->getAll();
 
-        $expected = [];
+        $this->assertEquals($expectedArray, $items);
+    }
 
-        $this->assertEquals($expected, $items);
+    public function getRemoveInvalidationsFromDistributedListDifferentIdSiteValues(): array
+    {
+        $idSites = [1,2,3,4,5,6,7,8,9,10];
+        if (version_compare(PHP_VERSION, '8.0.0', '<')) {
+            for ($i = 0; $i < count($idSites); $i++) {
+                $idSites[$i] = '"' . $idSites[$i] . '"';
+            }
+        }
+        $allEntry = '{"idSites":[' . implode(',', $idSites) . '],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}';
+        $expected = [
+            '{"idSites":[1,2,3],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}',
+            '{"idSites":[1,4,5],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}',
+            $allEntry,
+        ];
+
+        return [
+            [null, $expected],
+            [0, $expected],
+            ['0', $expected],
+            ['unexpectedString', $expected],
+            [2.2, $expected],
+            [123.45, $expected],
+            [false, $expected],
+            [true, $expected],
+            ['false', $expected],
+            ['true', $expected],
+            ['all', []],
+        ];
     }
 
     public function testRemoveInvalidationsFromDistributedListRemovesEntriesFromListWhenPluginNameAndReportIsSpecified()
