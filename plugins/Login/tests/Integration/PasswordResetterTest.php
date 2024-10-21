@@ -15,6 +15,7 @@ use Piwik\API\Request;
 use Piwik\Auth;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Login\PasswordResetter;
 use Piwik\Plugins\UsersManager\Model;
@@ -38,12 +39,18 @@ class PasswordResetterTest extends IntegrationTestCase
      */
     private $passwordResetter;
 
+    /**
+     * @var bool
+     */
+    private $receivedCancelEmail;
+
     public function setUp(): void
     {
         parent::setUp();
         Fixture::createWebsite('2010-01-01 05:00:00');
         $this->passwordResetter = new PasswordResetter();
         $this->capturedToken = null;
+        $this->receivedCancelEmail = false;
 
         Manager::getInstance()->loadPluginTranslations();
     }
@@ -190,9 +197,11 @@ class PasswordResetterTest extends IntegrationTestCase
 
         $this->passwordResetter->initiatePasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, self::NEWPASSWORD);
         $this->assertNotEmpty($this->capturedToken);
+        $this->assertFalse($this->receivedCancelEmail);
 
         $this->passwordResetter->checkValidConfirmPasswordToken(self::$fixture::ADMIN_USER_LOGIN, $this->capturedToken);
         $this->passwordResetter->cancelPasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, $this->capturedToken);
+        $this->assertTrue($this->receivedCancelEmail);
 
         // password should not have changed and the token should be invalid
         $this->checkPasswordIs(self::$fixture::ADMIN_USER_PASSWORD);
@@ -206,11 +215,13 @@ class PasswordResetterTest extends IntegrationTestCase
 
         $this->passwordResetter->initiatePasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, self::NEWPASSWORD);
         $this->assertNotEmpty($this->capturedToken);
+        $this->assertFalse($this->receivedCancelEmail);
 
         $oldCapturedToken = $this->capturedToken;
 
         $this->passwordResetter->initiatePasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, self::NEWPASSWORD);
         $this->assertNotEquals($oldCapturedToken, $this->capturedToken);
+        $this->assertFalse($this->receivedCancelEmail);
 
         $this->passwordResetter->cancelPasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, $oldCapturedToken);
     }
@@ -242,13 +253,24 @@ class PasswordResetterTest extends IntegrationTestCase
         return [
             'observers.global' => \Piwik\DI::add([
                 ['Test.Mail.send', \Piwik\DI::value(function (PHPMailer $mail) {
-                    $body = $mail->createBody();
-                    $body = preg_replace("/=[\r\n]+/", '', $body);
-                    preg_match('/resetToken=[\s]*3D([a-zA-Z0-9=\s]+)/', $body, $matches);
-                    if (!empty($matches[1])) {
+                    $subjectReset = Piwik::translate('Login_PasswordResetEmailSubject');
+                    $subjectCancel = Piwik::translate('Login_PasswordResetCancelEmailSubject');
+
+                    if ($subjectReset === $mail->Subject) {
+                        $body = $mail->createBody();
+                        $body = preg_replace("/=[\r\n]+/", '', $body);
+
+                        preg_match('/resetToken=[\s]*3D([a-zA-Z0-9=\s]+)/', $body, $matches);
+
+                        $this->assertNotEmpty($matches[1]);
+
                         $capturedToken = $matches[1];
                         $capturedToken = preg_replace('/=\s*/', '', $capturedToken);
                         $this->capturedToken = $capturedToken;
+                    }
+
+                    if ($subjectCancel === $mail->Subject) {
+                        $this->receivedCancelEmail = true;
                     }
                 })],
             ]),
