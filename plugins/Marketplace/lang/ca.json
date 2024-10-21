@@ -22,6 +22,7 @@
         "CreateAccountErrorAPIEmailInvalid": "El correu electrònic proporcionat no té un format vàlid.",
         "CreateAccountErrorEmailInvalid": "El valor \"%s\" no és un correu electrònic vàlid.",
         "CreateAccountErrorLicenseExists": "S'ha trobat una llicència existent. Si us plau, traieu la clau de llicència abans de crear un compte nou.",
+        "CreatedBy": "Creat per",
         "CurrentNumPiwikUsers": "Actualment el vostre Matomo té %1$s usuaris registrats.",
         "Developer": "Desenvolupador",
         "DevelopersLearnHowToDevelopPlugins": "Desenvolupadors: obteniu informació sobre com podeu ampliar i personalitzar Matomo %1$sdesenvolupant connectors o temes%2$s.",
