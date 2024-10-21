@@ -17,6 +17,7 @@
         "CannotUpdate": "Impossible de mettre à jour",
         "ClickToCompletePurchase": "Cliquez pour terminer l'achat.",
         "ConfirmRemoveLicense": "Êtes-vous sûr(e) de vouloir supprimer votre clé de licence ? Vous ne recevrez plus aucune mise à jour des composants achetés.",
+        "CreatedBy": "Créé par",
         "CurrentNumPiwikUsers": "Votre Matomo contient actuellement %1$s utilisateurs enregistrés.",
         "Developer": "Développeur",
         "DevelopersLearnHowToDevelopPlugins": "Développeurs : Apprenez comment vous pouvez étendre et personaliser Matomo en %1$sdévelopant des composants ou themes%2$s.",
