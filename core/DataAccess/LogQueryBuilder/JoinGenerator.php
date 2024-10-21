@@ -146,6 +146,12 @@ class JoinGenerator
         $this->tables->sort();
 
         foreach ($this->tables as $i => $table) {
+            $useIndex = '';
+            if ($i === 0 && is_array($table)) {
+                $useIndex = $table['useIndex'] ?? '';
+                $table = $table['table'];
+            }
+
             if (is_array($table)) {
                 // join condition provided
                 $alias = isset($table['tableAlias']) ? $table['tableAlias'] : $table['table'];
@@ -180,6 +186,11 @@ class JoinGenerator
             if ($i == 0) {
                 // first table
                 $this->joinString .= $tableSql;
+
+                // Force the use of the index if an index was provided
+                if (!empty($useIndex)) {
+                    $this->joinString .= " USE INDEX ($useIndex)";
+                }
             } else {
                 $join = $this->findJoinCriteriasForTables($logTable, $availableLogTables);
 

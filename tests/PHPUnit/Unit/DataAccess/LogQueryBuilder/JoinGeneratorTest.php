@@ -212,6 +212,20 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
+    public function testGenerateGetJoinStringForceIndexUse()
+    {
+        $generator = $this->generate([
+            ['table' => 'log_visit', 'useIndex' => 'index_idsite_datetime'],
+            ['table' => 'log_link_visit_action', 'join' => 'RIGHT JOIN'],
+            'log_action'
+        ]);
+
+        $expected  = 'log_visit AS log_visit USE INDEX (index_idsite_datetime) ';
+        $expected  .= 'RIGHT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit ';
+        $expected  .= 'LEFT JOIN log_action AS log_action ON log_link_visit_action.idaction_url = log_action.idaction';
+        $this->assertEquals($expected, $generator->getJoinString());
+    }
+
     public function testGenerateGetJoinStringManuallyJoinedAlreadyPlusCustomJoinAtEndButAlsoLeftNeedsKeepOrder()
     {
         $generator = $this->generate(array(
