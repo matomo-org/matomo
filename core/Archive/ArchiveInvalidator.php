@@ -658,6 +658,9 @@ class ArchiveInvalidator
             $idSites = $this->getAllSitesId();
         }
 
+        // Make sure that idSites is an array to prevent typeError
+        $idSites = is_array($idSites) ? $idSites : ($idSites !== true ? [$idSites] : []);
+
         foreach ($entries as $index => $entry) {
             $entry = @json_decode($entry, true);
             if (empty($entry)) {
