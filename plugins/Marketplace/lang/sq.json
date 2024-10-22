@@ -17,6 +17,7 @@
         "CannotUpdate": "S’përditësohet dot",
         "ClickToCompletePurchase": "Klikoni që të plotësoni blerjen.",
         "ConfirmRemoveLicense": "Jeni i sigurt se doni të hiqe kyçi juaj i licencës? S’do të merrni më përditësime, për cilëndo nga shtojcat që keni blerë.",
+        "CreatedBy": "Krijuar nga",
         "CurrentNumPiwikUsers": "Matomo-ja juaj hëpërhë ka %1$s përdorues të regjistruar.",
         "Developer": "Zhvillues",
         "DevelopersLearnHowToDevelopPlugins": "Zhvillues: Mësoni se si ta thelloni dhe përshtatni Matomo-n përmes %1$shartimit të shtojcave ose temave%2$s.",

@@ -22,6 +22,7 @@
         "CreateAccountErrorAPIEmailInvalid": "Belirtilen e-posta adresinin biçimi geçerli değil.",
         "CreateAccountErrorEmailInvalid": "\"%s\" geçerli bir e-posta adresi değil.",
         "CreateAccountErrorLicenseExists": "Var olan lisans bulundu. Lütfen yeni bir hesap oluşturmadan önce lisans anahtarını silin.",
+        "CreatedBy": "Oluşturan",
         "CurrentNumPiwikUsers": "Matomo uygulamanızda şu anda %1$s kayıtlı kullanıcı var.",
         "Developer": "Geliştirici",
         "DevelopersLearnHowToDevelopPlugins": "Geliştiriciler: Matomo uygulamasını geliştirmek ve gereksinimlerinize göre özelleştirmek için %1$seklenti ya da tema geliştirmeyi öğrenin%2$s.",
