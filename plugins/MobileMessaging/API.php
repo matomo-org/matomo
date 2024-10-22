@@ -97,10 +97,14 @@ class API extends \Piwik\Plugin\API
         // Check format matches the international public telecommunication numbering plan (E.164)
         // See https://en.wikipedia.org/wiki/E.164
         if (!preg_match('/^\+[0-9]{5,30}$/', $phoneNumber)) {
-            throw new \Exception("The phone number $phoneNumber does not match the expected number format.");
+            throw new \Exception(Piwik::translate('MobileMessaging_IncorrectNumberFormat', $phoneNumber));
         }
 
         $phoneNumbers = $this->model->getPhoneNumbers(Piwik::getCurrentUserLogin(), false);
+
+        if (!empty($phoneNumbers[$phoneNumber])) {
+            throw new \Exception(Piwik::translate('MobileMessaging_NumberAlreadyAdded', $phoneNumber));
+        }
 
         $unverifiedPhoneNumbers = array_filter(
             $phoneNumbers,
@@ -176,7 +180,7 @@ class API extends \Piwik\Plugin\API
 
         // Avoid that any method tries to handle phone numbers that are obviously too long
         if (strlen($phoneNumber) > 100) {
-            throw new \Exception("The phone number $phoneNumber does not match the expected number format.");
+            throw new \Exception(Piwik::translate('MobileMessaging_IncorrectNumberFormat', $phoneNumber));
         }
 
         return $phoneNumber;
