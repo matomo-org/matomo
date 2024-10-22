@@ -22,9 +22,9 @@ class DocumentationGeneratorTest extends TestCase
 {
     public function testCheckIfModuleContainsHideAnnotation()
     {
-        $refelction = new ReflectionClass(DocumentationGenerator::class);
+        $reflection = new ReflectionClass(DocumentationGenerator::class);
         $documentationGenerator = new DocumentationGenerator();
-        $this->assertTrue($documentationGenerator->checkIfClassCommentContainsHideAnnotation($refelction));
+        $this->assertTrue($documentationGenerator->checkIfClassCommentContainsHideAnnotation($reflection));
     }
 
     public function testCheckDocumentation()
