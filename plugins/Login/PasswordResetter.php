@@ -175,9 +175,18 @@ class PasswordResetter
     public function cancelPasswordResetProcess(string $login, string $resetToken): void
     {
         $this->checkValidConfirmPasswordToken($login, $resetToken);
+
+        $resetInfo = $this->getPasswordResetInfo($login);
+        $user = self::getUserInformation($login);
+
         $this->removePasswordResetInfo($login);
 
-        $user = self::getUserInformation($login);
+        /**
+         * Triggered after a user cancelled a password reset process.
+         *
+         * @param string $userLogin The user's login.
+         */
+        Piwik::postEvent('Login.resetPassword.cancelled', [$user['login']]);
 
         try {
             $this->sendEmailProcessCancelled($user);
@@ -229,6 +238,13 @@ class PasswordResetter
 
             throw new Exception($ex->getMessage() . Piwik::translate('Login_ContactAdmin'));
         }
+
+        /**
+         * Triggered after a user initiated a password reset process.
+         *
+         * @param string $userLogin The user's login.
+         */
+        Piwik::postEvent('Login.resetPassword.initiated', [$login]);
     }
 
     public function checkValidConfirmPasswordToken($login, $resetToken)
@@ -240,7 +256,7 @@ class PasswordResetter
         }
 
         // check that the reset token is valid
-        $resetInfo = $this->getPasswordToResetTo($login);
+        $resetInfo = $this->getPasswordResetInfo($login);
         if (
             $resetInfo === false
             || empty($resetInfo['hash'])
@@ -282,6 +298,13 @@ class PasswordResetter
                 $isPasswordHashed = true
             );
         });
+
+        /**
+         * Triggered after a user confirmed/completed a password reset process.
+         *
+         * @param string $userLogin The user's login.
+         */
+        Piwik::postEvent('Login.resetPassword.confirmed', [$login]);
     }
 
     /**
@@ -566,12 +589,12 @@ class PasswordResetter
             }
         }
 
-
         $optionData = [
             'hash' => $this->passwordHelper->hash(UsersManager::getPasswordHash($newPassword)),
             'keySuffix' => $keySuffix,
             'timestamp' => $time,
-            'requests' => $count + 1
+            'requests' => $count + 1,
+            'ip' => IP::getIpFromHeader(),
         ];
         $optionData = json_encode($optionData);
 
@@ -579,17 +602,21 @@ class PasswordResetter
     }
 
     /**
-     * Gets password hash stored in password reset info.
+     * Gets the password reset info.
      *
      * @param string $login The user login to check for.
-     * @return string|false The hashed password or false if no reset info exists.
+     * @return array|false The reset info or false if no reset info exists.
      */
-    private function getPasswordToResetTo($login)
+    private function getPasswordResetInfo(string $login)
     {
         $optionName = self::getPasswordResetInfoOptionName($login);
         $optionValue = Option::get($optionName);
-        $optionValue = json_decode($optionValue, $isAssoc = true);
-        return $optionValue;
+
+        if (!is_string($optionValue)) {
+            return false;
+        }
+
+        return json_decode($optionValue, $isAssoc = true);
     }
 
     /**

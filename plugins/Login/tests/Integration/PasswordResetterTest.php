@@ -14,6 +14,7 @@ use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Auth;
 use Piwik\Container\StaticContainer;
+use Piwik\DI;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
@@ -44,6 +45,21 @@ class PasswordResetterTest extends IntegrationTestCase
      */
     private $receivedCancelEmail;
 
+    /**
+     * @var array
+     */
+    private $eventCancelledInfo;
+
+    /**
+     * @var array
+     */
+    private $eventConfirmedInfo;
+
+    /**
+     * @var array
+     */
+    private $eventInitiatedInfo;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -51,6 +67,9 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->passwordResetter = new PasswordResetter();
         $this->capturedToken = null;
         $this->receivedCancelEmail = false;
+        $this->eventCancelledInfo = [];
+        $this->eventConfirmedInfo = [];
+        $this->eventInitiatedInfo = [];
 
         Manager::getInstance()->loadPluginTranslations();
     }
@@ -58,6 +77,7 @@ class PasswordResetterTest extends IntegrationTestCase
     public function testPasswordResetProcessWorksAsExpected()
     {
         $this->passwordResetter->setHashedPasswordForLogin('superUserLogin', $this->capturedToken);
+        $this->assertSame(['superUserLogin'], $this->eventConfirmedInfo);
 
         $this->checkPasswordIs(self::NEWPASSWORD);
     }
@@ -66,6 +86,7 @@ class PasswordResetterTest extends IntegrationTestCase
     {
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
 
+        $this->assertSame(['superUserLogin'], $this->eventInitiatedInfo);
         $this->assertNotEmpty($this->capturedToken);
 
         $token = $this->capturedToken;
@@ -84,6 +105,7 @@ class PasswordResetterTest extends IntegrationTestCase
 
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
 
+        $this->assertSame($this->eventInitiatedInfo, ['superUserLogin']);
         $this->assertNotEmpty($this->capturedToken);
 
         $token = $this->capturedToken;
@@ -187,7 +209,14 @@ class PasswordResetterTest extends IntegrationTestCase
         $model = new Model();
         self::assertTrue($model->isPendingUser('pendingUser'));
 
-        $this->passwordResetter->initiatePasswordResetProcess('pendingUser', self::NEWPASSWORD);
+        try {
+            $this->passwordResetter->initiatePasswordResetProcess('pendingUser', self::NEWPASSWORD);
+        } catch (\Exception $e) {
+            // event should not have been dispatched
+            $this->assertSame([], $this->eventInitiatedInfo);
+
+            throw $e;
+        }
     }
 
     public function testPasswordResetCanBeCancelled(): void
@@ -196,11 +225,13 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->expectExceptionMessage('The token is invalid or has expired.');
 
         $this->passwordResetter->initiatePasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, self::NEWPASSWORD);
+        $this->assertSame(['superUserLogin'], $this->eventInitiatedInfo);
         $this->assertNotEmpty($this->capturedToken);
         $this->assertFalse($this->receivedCancelEmail);
 
         $this->passwordResetter->checkValidConfirmPasswordToken(self::$fixture::ADMIN_USER_LOGIN, $this->capturedToken);
         $this->passwordResetter->cancelPasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, $this->capturedToken);
+        $this->assertSame(['superUserLogin'], $this->eventCancelledInfo);
         $this->assertTrue($this->receivedCancelEmail);
 
         // password should not have changed and the token should be invalid
@@ -214,6 +245,7 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->expectExceptionMessage('The token is invalid or has expired.');
 
         $this->passwordResetter->initiatePasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, self::NEWPASSWORD);
+        $this->assertSame(['superUserLogin'], $this->eventInitiatedInfo);
         $this->assertNotEmpty($this->capturedToken);
         $this->assertFalse($this->receivedCancelEmail);
 
@@ -223,7 +255,14 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->assertNotEquals($oldCapturedToken, $this->capturedToken);
         $this->assertFalse($this->receivedCancelEmail);
 
-        $this->passwordResetter->cancelPasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, $oldCapturedToken);
+        try {
+            $this->passwordResetter->cancelPasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, $oldCapturedToken);
+        } catch (\Exception $e) {
+            // event should not have been dispatched
+            $this->assertSame([], $this->eventCancelledInfo);
+
+            throw $e;
+        }
     }
 
     /**
@@ -251,8 +290,8 @@ class PasswordResetterTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            'observers.global' => \Piwik\DI::add([
-                ['Test.Mail.send', \Piwik\DI::value(function (PHPMailer $mail) {
+            'observers.global' => DI::add([
+                ['Test.Mail.send', DI::value(function (PHPMailer $mail) {
                     $subjectReset = Piwik::translate('Login_PasswordResetEmailSubject');
                     $subjectCancel = Piwik::translate('Login_PasswordResetCancelEmailSubject');
 
@@ -272,6 +311,15 @@ class PasswordResetterTest extends IntegrationTestCase
                     if ($subjectCancel === $mail->Subject) {
                         $this->receivedCancelEmail = true;
                     }
+                })],
+                ['Login.resetPassword.cancelled', DI::value(function (...$eventData) {
+                    $this->eventCancelledInfo = $eventData;
+                })],
+                ['Login.resetPassword.confirmed', DI::value(function (...$eventData) {
+                    $this->eventConfirmedInfo = $eventData;
+                })],
+                ['Login.resetPassword.initiated', DI::value(function (...$eventData) {
+                    $this->eventInitiatedInfo = $eventData;
                 })],
             ]),
         ];
