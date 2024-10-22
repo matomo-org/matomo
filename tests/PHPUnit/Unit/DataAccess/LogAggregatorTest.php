@@ -10,7 +10,6 @@
 namespace Piwik\Tests\Unit\DataAccess;
 
 use Piwik\ArchiveProcessor\Parameters;
-use Piwik\Config;
 use Piwik\Config\DatabaseConfig;
 use Piwik\DataAccess\ArchivingDbAdapter;
 use Piwik\DataAccess\LogAggregator;
