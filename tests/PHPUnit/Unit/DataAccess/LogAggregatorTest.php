@@ -30,8 +30,6 @@ class LogAggregatorTest extends \PHPUnit\Framework\TestCase
         $dbMock = $this->createMock(ArchivingDbAdapter::class);
         $dbMock->expects($this->once())->method('query')->with($this->stringContains($expectedSql), $this->equalTo([]));
 
-        Config::getInstance()->General['enable_force_site_date_index'] = 1;
-
         DatabaseConfig::setConfigValue('enable_first_table_join_prefix', 1);
 
         $segmentMock = $this->createMock(Segment::class);
