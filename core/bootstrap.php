@@ -15,7 +15,15 @@ if (!defined('PIWIK_USER_PATH')) {
     define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);
 }
 
-error_reporting(E_ALL);
+$errorLevel = E_ALL;
+
+// We cannot enable deprecations for PHP 8.4 until we are able to update php-di/php-di to a version compatible
+// with PHP 8.4. Otherwise deprecation notices would be triggered at a point where they break Matomo completely.
+if (version_compare(PHP_VERSION, '8.4.0-dev', '>=')) {
+    $errorLevel = E_ALL & ~E_DEPRECATED;
+}
+
+error_reporting($errorLevel);
 @ini_set('display_errors', defined('PIWIK_DISPLAY_ERRORS') ? PIWIK_DISPLAY_ERRORS : @ini_get('display_errors'));
 @ini_set('xdebug.show_exception_trace', 0);
 

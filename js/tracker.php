@@ -26,6 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'
  */
 define('PIWIK_DOCUMENT_ROOT', '..');
 
+// ensure errors are not printed
+ini_set('display_errors', 0);
+
 if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
     require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
 }
