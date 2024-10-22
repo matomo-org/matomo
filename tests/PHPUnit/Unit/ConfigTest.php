@@ -12,6 +12,7 @@ namespace Piwik\Tests\Unit;
 use PHPUnit\Framework\TestCase;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
+use Piwik\Exception\MissingFilePermissionException;
 
 class DumpConfigTestMockIniFileChain extends Config\IniFileChain
 {
@@ -561,5 +562,28 @@ class ConfigTest extends TestCase
         $this->assertFalse($config->sanityCheck($userFile, $incorrectContent, true));
         $this->assertTrue($config->sanityCheck($userFile, $correctContent));
         $this->assertSame($userFile, $expectedPath);
+    }
+
+    public function testCheckConfigIsWritableNotThrowsExceptionWhenWritable()
+    {
+        $this->assertTrue($this->checkConfigIsWritable('Config'));
+    }
+
+    public function testCheckConfigIsWritableThrowsExceptionWhenNotWritable()
+    {
+        $this->expectException(MissingFilePermissionException::class);
+        $this->expectExceptionMessage('ConfigFileIsNotWritable');
+        $this->checkConfigIsWritable('ConfigNotExists');
+    }
+
+    private function checkConfigIsWritable(string $directory): bool
+    {
+        $userFile = PIWIK_INCLUDE_PATH . "/tests/resources/$directory/config.ini.php";
+        $globalFile = PIWIK_INCLUDE_PATH . "/tests/resources/$directory/global.ini.php";
+        $commonFile = PIWIK_INCLUDE_PATH . "/tests/resources/$directory/common.config.ini.php";
+
+        $config = new Config(new GlobalSettingsProvider($globalFile, $userFile, $commonFile));
+        $config->checkConfigIsWritable();
+        return true;
     }
 }
