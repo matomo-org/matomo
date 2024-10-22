@@ -19,6 +19,7 @@ use Piwik\DataAccess\Model as CoreModel;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Intl\Data\Provider\CurrencyDataProvider;
+use Piwik\Measurable\Type\TypeManager;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
@@ -89,12 +90,21 @@ class API extends \Piwik\Plugin\API
     /** @var SiteContentDetector */
     private $siteContentDetector;
 
-    public function __construct(SettingsProvider $provider, SettingsMetadata $settingsMetadata, Translator $translator, SiteContentDetector $siteContentDetector)
-    {
+    /** @var TypeManager */
+    private $typeManager;
+
+    public function __construct(
+        SettingsProvider $provider,
+        SettingsMetadata $settingsMetadata,
+        Translator $translator,
+        SiteContentDetector $siteContentDetector,
+        TypeManager $typeManager
+    ) {
         $this->settingsProvider = $provider;
         $this->settingsMetadata = $settingsMetadata;
         $this->translator = $translator;
         $this->siteContentDetector = $siteContentDetector;
+        $this->typeManager = $typeManager;
     }
 
     /**
@@ -914,7 +924,7 @@ class API extends \Piwik\Plugin\API
             $type = Site::DEFAULT_SITE_TYPE;
         }
 
-        if (!is_string($type)) {
+        if (!is_string($type) || !$this->typeManager->isExistingType($type)) {
             throw new Exception("Invalid website type $type");
         }
 
@@ -1447,7 +1457,8 @@ class API extends \Piwik\Plugin\API
             $bind['ts_created'] = Date::factory($startDate)->getDatetime();
         }
 
-        if (isset($type)) {
+        // check and update type only if it has changed
+        if (isset($type) && Site::getTypeFor($idSite) !== $type) {
             $bind['type'] = $this->checkAndReturnType($type);
         }
 
