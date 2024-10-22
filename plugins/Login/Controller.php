@@ -466,7 +466,22 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             return $this->login($errorMessage);
         }
 
-        return $this->renderTemplateAs('@Login/cancelResetPassword', [], 'basic');
+        $cancelResetPasswordContent = '';
+
+        /**
+         * Overwrite the content displayed on the "reset password process cancelled page".
+         *
+         * Will display default content if no event content returned.
+         *
+         * @param string $cancelResetPasswordContent The content to render.
+         */
+        Piwik::postEvent('Template.loginCancelResetPasswordContent', [&$cancelResetPasswordContent]);
+
+        return $this->renderTemplateAs(
+            '@Login/cancelResetPassword',
+            ['cancelResetPasswordContent' => $cancelResetPasswordContent],
+            'basic'
+        );
     }
 
     /**
