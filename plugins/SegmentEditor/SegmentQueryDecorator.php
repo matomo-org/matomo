@@ -42,7 +42,8 @@ class SegmentQueryDecorator extends LogQueryBuilder
         $bind,
         $groupBy,
         $orderBy,
-        $limit
+        $limit,
+        bool $withRollup = false
     ) {
         $result = parent::getSelectQueryString(
             $segmentExpression,
@@ -52,7 +53,8 @@ class SegmentQueryDecorator extends LogQueryBuilder
             $bind,
             $groupBy,
             $orderBy,
-            $limit
+            $limit,
+            $withRollup
         );
 
         $prefixParts = array();

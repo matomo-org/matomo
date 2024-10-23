@@ -127,6 +127,10 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
         $t->setUrl('http://example.com/sub_en/page?param=en_US');
         self::checkResponse($t->doTrackPageView('Third page view'));
 
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.4)->getDatetime());
+        $t->setUrl('http://example.com/sub_en/page?param=en_US');
+        self::checkResponse($t->doTrackPageView('Fourth page view'));
+
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addDay(0.4)->getDatetime());
         $t->setUrl('http://example.com/sub_en/page?param=en_US');
         self::checkResponse($t->doTrackPageView('Fourth page view'));
