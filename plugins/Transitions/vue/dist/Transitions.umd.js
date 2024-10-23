@@ -152,35 +152,32 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterPopover.vue?vue&type=template&id=2826c363
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterPopover.vue?vue&type=template&id=2826c363
 
-var _hoisted_1 = {
+const _hoisted_1 = {
   class: "transition-export-popover row"
 };
-var _hoisted_2 = {
+const _hoisted_2 = {
   class: "col l6"
 };
-var _hoisted_3 = {
+const _hoisted_3 = {
   class: "input-field"
 };
-var _hoisted_4 = {
+const _hoisted_4 = {
   class: "matomo-field"
 };
-var _hoisted_5 = {
+const _hoisted_5 = {
   class: "col l12"
 };
-var _hoisted_6 = ["href"];
+const _hoisted_6 = ["href"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "radio",
     name: "exportFormat",
     title: _ctx.translate('CoreHome_ExportFormat'),
     "model-value": _ctx.exportFormat,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.exportFormat = $event;
-    }),
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.exportFormat = $event),
     "full-width": true,
     options: _ctx.exportFormatOptions
   }, null, 8, ["title", "model-value", "options"])])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
@@ -204,17 +201,15 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
  */
 
 
-var actionType = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])('');
-var actionName = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])('');
-
-var onDataChanged = function onDataChanged(params) {
+const actionType = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])('');
+const actionName = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])('');
+const onDataChanged = params => {
   actionType.value = params.actionType;
   actionName.value = params.actionName;
 };
-
 external_CoreHome_["Matomo"].on('Transitions.dataChanged', onDataChanged);
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterPopover.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterPopover.vue?vue&type=script&lang=ts
 
 
 
@@ -229,14 +224,14 @@ external_CoreHome_["Matomo"].on('Transitions.dataChanged', onDataChanged);
   components: {
     Field: external_CorePluginsAdmin_["Field"]
   },
-  data: function data() {
+  data() {
     return {
       exportFormat: 'JSON'
     };
   },
   computed: {
-    exportLink: function exportLink() {
-      var exportUrlParams = {
+    exportLink() {
+      const exportUrlParams = {
         module: 'API'
       };
       exportUrlParams.method = 'Transitions.getTransitionsForAction';
@@ -248,11 +243,11 @@ external_CoreHome_["Matomo"].on('Transitions.dataChanged', onDataChanged);
       exportUrlParams.format = this.exportFormat;
       exportUrlParams.token_auth = external_CoreHome_["Matomo"].token_auth;
       exportUrlParams.force_api_session = 1;
-      var currentUrl = window.location.href;
-      var urlParts = currentUrl.split('/');
+      const currentUrl = window.location.href;
+      const urlParts = currentUrl.split('/');
       urlParts.pop();
-      var url = urlParts.join('/');
-      return "".concat(url, "/index.php?").concat(external_CoreHome_["MatomoUrl"].stringify(exportUrlParams));
+      const url = urlParts.join('/');
+      return `${url}/index.php?${external_CoreHome_["MatomoUrl"].stringify(exportUrlParams)}`;
     }
   }
 }));
@@ -275,13 +270,14 @@ TransitionExporterPopovervue_type_script_lang_ts.render = render
 
 
 
-var _window = window,
-    Piwik_Popover = _window.Piwik_Popover;
+const {
+  Piwik_Popover
+} = window;
 /* harmony default export */ var TransitionExporter = ({
-  mounted: function mounted(element) {
-    element.addEventListener('click', function (e) {
+  mounted(element) {
+    element.addEventListener('click', e => {
       e.preventDefault();
-      var props = {
+      const props = {
         exportFormat: 'JSON',
         exportFormatOptions: [{
           key: 'JSON',
@@ -291,97 +287,90 @@ var _window = window,
           value: 'XML'
         }]
       };
-      var app = Object(external_CoreHome_["createVueApp"])({
+      const app = Object(external_CoreHome_["createVueApp"])({
         template: '<popover v-bind="bind"/>',
-        data: function data() {
+        data() {
           return {
             bind: props
           };
         }
       });
       app.component('popover', TransitionExporterPopover);
-      var mountPoint = document.createElement('div');
+      const mountPoint = document.createElement('div');
       app.mount(mountPoint);
       Piwik_Popover.showLoading('');
-      Piwik_Popover.setTitle("".concat(actionName.value, " ").concat(Object(external_CoreHome_["translate"])('Transitions_Transitions')));
+      Piwik_Popover.setTitle(`${actionName.value} ${Object(external_CoreHome_["translate"])('Transitions_Transitions')}`);
       Piwik_Popover.setContent(mountPoint);
-      Piwik_Popover.onClose(function () {
+      Piwik_Popover.onClose(() => {
         app.unmount();
       });
     });
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionSwitcher/TransitionSwitcher.vue?vue&type=template&id=5af29651
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Transitions/vue/src/TransitionSwitcher/TransitionSwitcher.vue?vue&type=template&id=5af29651
 
-var TransitionSwitchervue_type_template_id_5af29651_hoisted_1 = {
+const TransitionSwitchervue_type_template_id_5af29651_hoisted_1 = {
   class: "row"
 };
-var TransitionSwitchervue_type_template_id_5af29651_hoisted_2 = {
+const TransitionSwitchervue_type_template_id_5af29651_hoisted_2 = {
   class: "col s12 m3"
 };
-var TransitionSwitchervue_type_template_id_5af29651_hoisted_3 = {
+const TransitionSwitchervue_type_template_id_5af29651_hoisted_3 = {
   name: "actionType"
 };
-var TransitionSwitchervue_type_template_id_5af29651_hoisted_4 = {
+const TransitionSwitchervue_type_template_id_5af29651_hoisted_4 = {
   class: "col s12 m9"
 };
-var TransitionSwitchervue_type_template_id_5af29651_hoisted_5 = {
+const TransitionSwitchervue_type_template_id_5af29651_hoisted_5 = {
   name: "actionName"
 };
-var TransitionSwitchervue_type_template_id_5af29651_hoisted_6 = {
+const TransitionSwitchervue_type_template_id_5af29651_hoisted_6 = {
   class: "loadingPiwik",
   style: {
     "display": "none"
   },
   id: "transitions_inline_loading"
 };
-
-var _hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+const _hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   src: "plugins/Morpheus/images/loading-blue.gif",
   alt: ""
 }, null, -1);
-
-var _hoisted_8 = {
+const _hoisted_8 = {
   class: "popoverContainer"
 };
-var _hoisted_9 = {
+const _hoisted_9 = {
   id: "Transitions_Error_Container"
 };
-var _hoisted_10 = {
+const _hoisted_10 = {
   class: "dataTableWrapper"
 };
-var _hoisted_11 = {
+const _hoisted_11 = {
   class: "dataTableFeatures"
 };
-var _hoisted_12 = {
+const _hoisted_12 = {
   class: "dataTableFooterNavigation"
 };
-var _hoisted_13 = {
+const _hoisted_13 = {
   class: "dataTableControls"
 };
-var _hoisted_14 = {
+const _hoisted_14 = {
   class: "row"
 };
-var _hoisted_15 = {
+const _hoisted_15 = {
   class: "dataTableAction"
 };
-
-var _hoisted_16 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const _hoisted_16 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-export"
 }, null, -1);
-
-var _hoisted_17 = [_hoisted_16];
-var _hoisted_18 = {
+const _hoisted_17 = [_hoisted_16];
+const _hoisted_18 = {
   class: "alert alert-info"
 };
-var _hoisted_19 = ["innerHTML"];
+const _hoisted_19 = ["innerHTML"];
 function TransitionSwitchervue_type_template_id_5af29651_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
-  var _directive_transition_exporter = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("transition-exporter");
-
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+  const _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
+  const _directive_transition_exporter = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("transition-exporter");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
       widgetBody: _ctx.isWidget
@@ -391,9 +380,7 @@ function TransitionSwitchervue_type_template_id_5af29651_render(_ctx, _cache, $p
     uicontrol: "select",
     name: "actionType",
     modelValue: _ctx.actionType,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.actionType = $event;
-    }),
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.actionType = $event),
     title: _ctx.translate('Actions_ActionType'),
     "full-width": true,
     options: _ctx.actionTypeOptions
@@ -401,34 +388,20 @@ function TransitionSwitchervue_type_template_id_5af29651_render(_ctx, _cache, $p
     uicontrol: "select",
     name: "actionName",
     modelValue: _ctx.actionName,
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.actionName = $event;
-    }),
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.actionName = $event),
     title: _ctx.translate('Transitions_TopX', 100),
     "full-width": true,
     disabled: !_ctx.isEnabled,
     options: _ctx.actionNameOptions
   }, null, 8, ["modelValue", "title", "disabled", "options"])])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
     loading: _ctx.isLoading
-  }, null, 8, ["loading"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", TransitionSwitchervue_type_template_id_5af29651_hoisted_6, [_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading && _ctx.isEnabled]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", _hoisted_15, _hoisted_17, 512), [[_directive_transition_exporter]])])])])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isEnabled]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_18, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Transitions_AvailableInOtherReports')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Actions_PageUrls')) + ", " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Actions_SubmenuPageTitles')) + ", " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Actions_SubmenuPagesEntry')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_And')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Actions_SubmenuPagesExit')) + ". ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }, null, 8, ["loading"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", TransitionSwitchervue_type_template_id_5af29651_hoisted_6, [_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading && _ctx.isEnabled]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", _hoisted_15, _hoisted_17)), [[_directive_transition_exporter]])])])])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isEnabled]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_18, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Transitions_AvailableInOtherReports')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Actions_PageUrls')) + ", " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Actions_SubmenuPageTitles')) + ", " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Actions_SubmenuPagesEntry')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_And')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Actions_SubmenuPagesExit')) + ". ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     innerHTML: _ctx.$sanitize(_ctx.availableInOtherReports2)
   }, null, 8, _hoisted_19)])], 2);
 }
 // CONCATENATED MODULE: ./plugins/Transitions/vue/src/TransitionSwitcher/TransitionSwitcher.vue?vue&type=template&id=5af29651
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionSwitcher/TransitionSwitcher.vue?vue&type=script&lang=ts
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Transitions/vue/src/TransitionSwitcher/TransitionSwitcher.vue?vue&type=script&lang=ts
 
 
 
@@ -444,7 +417,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   directives: {
     TransitionExporter: TransitionExporter
   },
-  data: function data() {
+  data() {
     return {
       actionType: 'Actions.getPageUrls',
       actionNameOptions: [],
@@ -461,124 +434,100 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       noDataKey: '_____ignore_____'
     };
   },
-  setup: function setup() {
-    var transitionsInstance = null;
-    var transitionsUrl = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])();
-
-    var onSwitchTransitionsUrl = function onSwitchTransitionsUrl(params) {
+  setup() {
+    let transitionsInstance = null;
+    const transitionsUrl = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])();
+    const onSwitchTransitionsUrl = params => {
       if (params !== null && params !== void 0 && params.url) {
         transitionsUrl.value = params.url;
       }
     };
-
     external_CoreHome_["Matomo"].on('Transitions.switchTransitionsUrl', onSwitchTransitionsUrl);
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onBeforeUnmount"])(function () {
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onBeforeUnmount"])(() => {
       external_CoreHome_["Matomo"].off('Transitions.switchTransitionsUrl', onSwitchTransitionsUrl);
     });
-
-    var createTransitionsInstance = function createTransitionsInstance(type, actionName) {
+    const createTransitionsInstance = (type, actionName) => {
       if (!transitionsInstance) {
         transitionsInstance = new window.Piwik_Transitions(type, actionName, null, '');
       } else {
         transitionsInstance.reset(type, actionName, '');
       }
     };
-
-    var getTransitionsInstance = function getTransitionsInstance() {
-      return transitionsInstance;
-    };
-
+    const getTransitionsInstance = () => transitionsInstance;
     return {
-      transitionsUrl: transitionsUrl,
-      createTransitionsInstance: createTransitionsInstance,
-      getTransitionsInstance: getTransitionsInstance
+      transitionsUrl,
+      createTransitionsInstance,
+      getTransitionsInstance
     };
   },
   watch: {
-    transitionsUrl: function transitionsUrl(newValue) {
-      var _this = this;
-
-      var url = newValue;
-
+    transitionsUrl(newValue) {
+      let url = newValue;
       if (this.isUrlReport) {
         url = url.replace('https://', '').replace('http://', '');
       }
-
-      var found = this.actionNameOptions.find(function (option) {
-        var optionUrl = option.url;
-
-        if (optionUrl && _this.isUrlReport) {
+      const found = this.actionNameOptions.find(option => {
+        let optionUrl = option.url;
+        if (optionUrl && this.isUrlReport) {
           optionUrl = String(optionUrl).replace('https://', '').replace('http://', '');
         } else {
           optionUrl = undefined;
         }
-
         return option.key === url || url === optionUrl && optionUrl;
       });
-
       if (found) {
         this.actionName = found.key;
       } else {
         // we only fetch top 100 in the report... so the entry the user clicked on, might not
         // be in the top 100
-        this.actionNameOptions = [].concat(_toConsumableArray(this.actionNameOptions), [{
+        this.actionNameOptions = [...this.actionNameOptions, {
           key: url,
           value: url
-        }]);
+        }];
         this.actionName = url;
       }
     },
-    actionName: function actionName(newValue) {
+    actionName(newValue) {
       if (newValue === null || newValue === this.noDataKey) {
         return;
       }
-
-      var type = this.isUrlReport ? 'url' : 'title';
+      const type = this.isUrlReport ? 'url' : 'title';
       this.createTransitionsInstance(type, newValue);
       this.getTransitionsInstance().showPopover(true);
     },
-    actionType: function actionType(newValue) {
+    actionType(newValue) {
       this.fetch(newValue);
     }
   },
-  created: function created() {
+  created() {
     this.fetch(this.actionType);
   },
   methods: {
-    detectActionName: function detectActionName(reports) {
-      var _this2 = this;
-
-      var othersLabel = Object(external_CoreHome_["translate"])('General_Others');
-      reports.forEach(function (report) {
+    detectActionName(reports) {
+      const othersLabel = Object(external_CoreHome_["translate"])('General_Others');
+      reports.forEach(report => {
         if (!report) {
           return;
         }
-
         if (report.label === othersLabel) {
           return;
         }
-
-        var key = _this2.isUrlReport ? report.url : report.label;
-
+        const key = this.isUrlReport ? report.url : report.label;
         if (key) {
-          var pageviews = Object(external_CoreHome_["translate"])('Transitions_NumPageviews', report.nb_hits);
-          var label = "".concat(report.label, " (").concat(pageviews, ")");
-
-          _this2.actionNameOptions.push({
-            key: key,
+          const pageviews = Object(external_CoreHome_["translate"])('Transitions_NumPageviews', report.nb_hits);
+          const label = `${report.label} (${pageviews})`;
+          this.actionNameOptions.push({
+            key,
             value: label,
             url: report.url
           });
-
-          if (!_this2.actionName) {
-            _this2.actionName = key;
+          if (!this.actionName) {
+            this.actionName = key;
           }
         }
       });
     },
-    fetch: function fetch(type) {
-      var _this3 = this;
-
+    fetch(type) {
       this.isLoading = true;
       this.actionNameOptions = [];
       this.actionName = null;
@@ -589,37 +538,33 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         filter_sort_order: 'desc',
         filter_sort_column: 'nb_hits',
         showColumns: 'label,nb_hits,url'
-      }).then(function (report) {
-        _this3.isLoading = false;
-        _this3.actionNameOptions = [];
-        _this3.actionName = null;
-
+      }).then(report => {
+        this.isLoading = false;
+        this.actionNameOptions = [];
+        this.actionName = null;
         if (report !== null && report !== void 0 && report.length) {
-          _this3.isEnabled = true;
-
-          _this3.detectActionName(report);
+          this.isEnabled = true;
+          this.detectActionName(report);
         }
-
-        if (_this3.actionName === null || _this3.actionNameOptions.length === 0) {
-          _this3.isEnabled = false;
-          _this3.actionName = _this3.noDataKey;
-
-          _this3.actionNameOptions.push({
-            key: _this3.noDataKey,
+        if (this.actionName === null || this.actionNameOptions.length === 0) {
+          this.isEnabled = false;
+          this.actionName = this.noDataKey;
+          this.actionNameOptions.push({
+            key: this.noDataKey,
             value: Object(external_CoreHome_["translate"])('CoreHome_ThereIsNoDataForThisReport')
           });
         }
-      }).catch(function () {
-        _this3.isLoading = false;
-        _this3.isEnabled = false;
+      }).catch(() => {
+        this.isLoading = false;
+        this.isEnabled = false;
       });
     }
   },
   computed: {
-    isUrlReport: function isUrlReport() {
+    isUrlReport() {
       return this.actionType === 'Actions.getPageUrls';
     },
-    availableInOtherReports2: function availableInOtherReports2() {
+    availableInOtherReports2() {
       return Object(external_CoreHome_["translate"])('Transitions_AvailableInOtherReports2', '<span class="icon-transition"></span>');
     }
   }
@@ -633,24 +578,20 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 TransitionSwitchervue_type_script_lang_ts.render = TransitionSwitchervue_type_template_id_5af29651_render
 
 /* harmony default export */ var TransitionSwitcher = (TransitionSwitchervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue?vue&type=template&id=7f0eaf9e
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue?vue&type=template&id=7f0eaf9e
 
 function TransitionsPagevue_type_template_id_7f0eaf9e_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_TransitionSwitcher = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("TransitionSwitcher");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
+  const _component_TransitionSwitcher = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("TransitionSwitcher");
+  const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
   return !_ctx.isWidget ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     key: 0,
     "help-text": _ctx.translate('Transitions_FeatureDescription'),
     "help-url": _ctx.externalRawLink('https://matomo.org/docs/transitions/'),
     "content-title": _ctx.translate('Transitions_Transitions')
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_TransitionSwitcher, {
-        "is-widget": _ctx.isWidget
-      }, null, 8, ["is-widget"])];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_TransitionSwitcher, {
+      "is-widget": _ctx.isWidget
+    }, null, 8, ["is-widget"])]),
     _: 1
   }, 8, ["help-text", "help-url", "content-title"])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_TransitionSwitcher, {
     key: 1,
@@ -659,7 +600,7 @@ function TransitionsPagevue_type_template_id_7f0eaf9e_render(_ctx, _cache, $prop
 }
 // CONCATENATED MODULE: ./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue?vue&type=template&id=7f0eaf9e
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue?vue&type=script&lang=ts
 
 
 
@@ -681,25 +622,22 @@ function TransitionsPagevue_type_template_id_7f0eaf9e_render(_ctx, _cache, $prop
 TransitionsPagevue_type_script_lang_ts.render = TransitionsPagevue_type_template_id_7f0eaf9e_render
 
 /* harmony default export */ var TransitionsPage = (TransitionsPagevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterLink.vue?vue&type=template&id=e5b0991c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterLink.vue?vue&type=template&id=e5b0991c
 
-var TransitionExporterLinkvue_type_template_id_e5b0991c_hoisted_1 = {
+const TransitionExporterLinkvue_type_template_id_e5b0991c_hoisted_1 = {
   class: "dataTableAction"
 };
-
-var TransitionExporterLinkvue_type_template_id_e5b0991c_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const TransitionExporterLinkvue_type_template_id_e5b0991c_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-export"
 }, null, -1);
-
-var TransitionExporterLinkvue_type_template_id_e5b0991c_hoisted_3 = [TransitionExporterLinkvue_type_template_id_e5b0991c_hoisted_2];
+const TransitionExporterLinkvue_type_template_id_e5b0991c_hoisted_3 = [TransitionExporterLinkvue_type_template_id_e5b0991c_hoisted_2];
 function TransitionExporterLinkvue_type_template_id_e5b0991c_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _directive_transition_exporter = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("transition-exporter");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", TransitionExporterLinkvue_type_template_id_e5b0991c_hoisted_1, TransitionExporterLinkvue_type_template_id_e5b0991c_hoisted_3, 512)), [[_directive_transition_exporter]]);
+  const _directive_transition_exporter = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("transition-exporter");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", TransitionExporterLinkvue_type_template_id_e5b0991c_hoisted_1, TransitionExporterLinkvue_type_template_id_e5b0991c_hoisted_3)), [[_directive_transition_exporter]]);
 }
 // CONCATENATED MODULE: ./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterLink.vue?vue&type=template&id=e5b0991c
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterLink.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterLink.vue?vue&type=script&lang=ts
 
 
 /* harmony default export */ var TransitionExporterLinkvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
