@@ -14,36 +14,18 @@ use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\View;
 
-class PasswordResetEmail extends Mail
+class PasswordResetCancelEmail extends Mail
 {
     /**
      * @var string
      */
     protected $login;
 
-    /**
-     * @var string
-     */
-    protected $ip;
-
-    /**
-     * @var string
-     */
-    protected $cancelUrl;
-
-    /**
-     * @var string
-     */
-    protected $resetUrl;
-
-    public function __construct(string $login, string $ip, string $resetUrl, string $cancelUrl)
+    public function __construct(string $login)
     {
         parent::__construct();
 
         $this->login = $login;
-        $this->ip = $ip;
-        $this->resetUrl = $resetUrl;
-        $this->cancelUrl = $cancelUrl;
 
         $this->setUpEmail();
     }
@@ -61,12 +43,13 @@ class PasswordResetEmail extends Mail
 
     protected function getDefaultSubject(): string
     {
-        return Piwik::translate('Login_PasswordResetEmailSubject');
+        return Piwik::translate('Login_PasswordResetCancelEmailSubject');
     }
 
     protected function getDefaultBodyText(): string
     {
-        $view = new View('@Login/_passwordResetTextEmail.twig');
+        $view = new View('@Login/_passwordResetCancelTextEmail.twig');
+        $view->setContentType('text/plain');
 
         $this->assignCommonParameters($view);
 
@@ -75,7 +58,7 @@ class PasswordResetEmail extends Mail
 
     protected function getDefaultBodyView(): View
     {
-        $view = new View('@Login/_passwordResetHtmlEmail.twig');
+        $view = new View('@Login/_passwordResetCancelHtmlEmail.twig');
 
         $this->assignCommonParameters($view);
 
@@ -85,8 +68,5 @@ class PasswordResetEmail extends Mail
     protected function assignCommonParameters(View $view): void
     {
         $view->login = $this->login;
-        $view->ip = $this->ip;
-        $view->resetUrl = $this->resetUrl;
-        $view->cancelUrl = $this->cancelUrl;
     }
 }

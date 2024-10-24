@@ -442,6 +442,49 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
+     * Password reset cancel action. Invalidates a password reset token.
+     * Users visit this action from a link supplied in an email.
+     */
+    public function cancelResetPassword(): string
+    {
+        if (!Url::isValidHost()) {
+            throw new Exception("Cannot invalidate reset password token with untrusted hostname!");
+        }
+
+        $request = Request::fromRequest();
+        $login = $request->getStringParameter('login');
+        $resetToken = $request->getStringParameter('resetToken');
+
+        try {
+            $this->passwordResetter->cancelPasswordResetProcess($login, $resetToken);
+        } catch (Exception $ex) {
+            Log::debug($ex);
+            $errorMessage = $ex->getMessage();
+        }
+
+        if (!empty($errorMessage)) {
+            return $this->login($errorMessage);
+        }
+
+        $cancelResetPasswordContent = '';
+
+        /**
+         * Overwrite the content displayed on the "reset password process cancelled page".
+         *
+         * Will display default content if no event content returned.
+         *
+         * @param string $cancelResetPasswordContent The content to render.
+         */
+        Piwik::postEvent('Template.loginCancelResetPasswordContent', [&$cancelResetPasswordContent]);
+
+        return $this->renderTemplateAs(
+            '@Login/cancelResetPassword',
+            ['cancelResetPasswordContent' => $cancelResetPasswordContent],
+            'basic'
+        );
+    }
+
+    /**
      * Password reset confirmation action. Finishes the password reset process.
      * Users visit this action from a link supplied in an email.
      */

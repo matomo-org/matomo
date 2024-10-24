@@ -13,10 +13,12 @@ use Exception;
 use Piwik\Access;
 use Piwik\Auth\Password;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\IP;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\Emails\PasswordResetEmail;
+use Piwik\Plugins\Login\Emails\PasswordResetCancelEmail;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -88,6 +90,13 @@ class PasswordResetter
     private $confirmPasswordAction = "confirmResetPassword";
 
     /**
+     * The action to link to in the confirm password reset email for the "was not me" link.
+     *
+     * @var string
+     */
+    private $cancelResetPasswordAction = "cancelResetPassword";
+
+    /**
      * The name to use in the From: part of the confirm password reset email.
      *
      * Defaults to the `[General] noreply_email_name` INI config option.
@@ -114,6 +123,7 @@ class PasswordResetter
      * @param string|null $emailFromName
      * @param string|null $emailFromAddress
      * @param Password $passwordHelper
+     * @param string|null $cancelResetPasswordAction
      */
     public function __construct(
         $usersManagerApi = null,
@@ -121,7 +131,8 @@ class PasswordResetter
         $confirmPasswordAction = null,
         $emailFromName = null,
         $emailFromAddress = null,
-        $passwordHelper = null
+        $passwordHelper = null,
+        $cancelResetPasswordAction = null
     ) {
         if (empty($usersManagerApi)) {
             $usersManagerApi = UsersManagerAPI::getInstance();
@@ -144,6 +155,43 @@ class PasswordResetter
             $passwordHelper = new Password();
         }
         $this->passwordHelper = $passwordHelper;
+
+        if (!empty($cancelResetPasswordAction)) {
+            $this->cancelResetPasswordAction = $cancelResetPasswordAction;
+        }
+    }
+
+    /**
+     * Cancel an active password reset process.
+     *
+     * The current password reset information will be deleted.
+     *
+     * @param string $loginOrEmail The user's login or email address.
+     * @param string $resetToken The reset token to invalidate.
+     * @throws Exception if $loginOrEmail does not have a reset process active,
+     *                   if $token does not match the active reset token,
+     *                   or if sending an email fails in some way
+     */
+    public function cancelPasswordResetProcess(string $loginOrEmail, string $resetToken): void
+    {
+        $this->checkValidConfirmPasswordToken($loginOrEmail, $resetToken);
+
+        $user = self::getUserInformation($loginOrEmail);
+
+        $this->removePasswordResetInfo($user['login']);
+
+        /**
+         * Triggered after a user cancelled a password reset process.
+         *
+         * @param string $userLogin The user's login.
+         */
+        Piwik::postEvent('Login.resetPassword.cancelled', [$user['login']]);
+
+        try {
+            $this->sendEmailProcessCancelled($user);
+        } catch (Exception $ex) {
+            throw new Exception($ex->getMessage() . Piwik::translate('Login_ContactAdmin'));
+        }
     }
 
     /**
@@ -189,6 +237,13 @@ class PasswordResetter
 
             throw new Exception($ex->getMessage() . Piwik::translate('Login_ContactAdmin'));
         }
+
+        /**
+         * Triggered after a user initiated a password reset process.
+         *
+         * @param string $userLogin The user's login.
+         */
+        Piwik::postEvent('Login.resetPassword.initiated', [$login]);
     }
 
     public function checkValidConfirmPasswordToken($login, $resetToken)
@@ -200,7 +255,7 @@ class PasswordResetter
         }
 
         // check that the reset token is valid
-        $resetInfo = $this->getPasswordToResetTo($login);
+        $resetInfo = $this->getPasswordResetInfo($login);
         if (
             $resetInfo === false
             || empty($resetInfo['hash'])
@@ -242,6 +297,13 @@ class PasswordResetter
                 $isPasswordHashed = true
             );
         });
+
+        /**
+         * Triggered after a user confirmed/completed a password reset process.
+         *
+         * @param string $userLogin The user's login.
+         */
+        Piwik::postEvent('Login.resetPassword.confirmed', [$login]);
     }
 
     /**
@@ -433,6 +495,28 @@ class PasswordResetter
     }
 
     /**
+     * Sends email notification that a password reset process has been cancelled.
+     *
+     * @param array $user User info for the cancelled password reset.
+     */
+    private function sendEmailProcessCancelled(array $user): void
+    {
+        $login = $user['login'];
+        $email = $user['email'];
+
+        $mail = StaticContainer::getContainer()->make(PasswordResetCancelEmail::class, ['login' => $login]);
+        $mail->addTo($email, $login);
+
+        if ($this->emailFromAddress || $this->emailFromName) {
+            $mail->setFrom($this->emailFromAddress, $this->emailFromName);
+        } else {
+            $mail->setDefaultFromPiwik();
+        }
+
+        $mail->safeSend();
+    }
+
+    /**
      * Sends email confirmation link for a password reset request.
      *
      * @param array $user User info for the requested password reset.
@@ -446,16 +530,22 @@ class PasswordResetter
         // construct a password reset token from user information
         $resetToken = $this->generatePasswordResetToken($user, $keySuffix);
 
-        $confirmPasswordModule = $this->confirmPasswordModule;
-        $confirmPasswordAction = $this->confirmPasswordAction;
-
         $ip = IP::getIpFromHeader();
-        $url = Url::getCurrentUrlWithoutQueryString()
-            . "?module=$confirmPasswordModule&action=$confirmPasswordAction&login=" . urlencode($login)
+        $urlBase = Url::getCurrentUrlWithoutQueryString()
+            . "?module={$this->confirmPasswordModule}"
+            . "&login=" . urlencode($login)
             . "&resetToken=" . urlencode($resetToken);
 
+        $urlCancel = $urlBase . "&action={$this->cancelResetPasswordAction}";
+        $urlConfirm = $urlBase . "&action={$this->confirmPasswordAction}";
+
         // send email with new password
-        $mail = new PasswordResetEmail($login, $ip, $url);
+        $mail = StaticContainer::getContainer()->make(PasswordResetEmail::class, [
+            'login' => $login,
+            'ip' => $ip,
+            'resetUrl' => $urlConfirm,
+            'cancelUrl' => $urlCancel,
+        ]);
         $mail->addTo($email, $login);
 
         if ($this->emailFromAddress || $this->emailFromName) {
@@ -498,12 +588,12 @@ class PasswordResetter
             }
         }
 
-
         $optionData = [
             'hash' => $this->passwordHelper->hash(UsersManager::getPasswordHash($newPassword)),
             'keySuffix' => $keySuffix,
             'timestamp' => $time,
-            'requests' => $count + 1
+            'requests' => $count + 1,
+            'ip' => IP::getIpFromHeader(),
         ];
         $optionData = json_encode($optionData);
 
@@ -511,17 +601,21 @@ class PasswordResetter
     }
 
     /**
-     * Gets password hash stored in password reset info.
+     * Gets the password reset info.
      *
      * @param string $login The user login to check for.
-     * @return string|false The hashed password or false if no reset info exists.
+     * @return array|false The reset info or false if no reset info exists.
      */
-    private function getPasswordToResetTo($login)
+    private function getPasswordResetInfo(string $login)
     {
         $optionName = self::getPasswordResetInfoOptionName($login);
         $optionValue = Option::get($optionName);
-        $optionValue = json_decode($optionValue, $isAssoc = true);
-        return $optionValue;
+
+        if (!is_string($optionValue)) {
+            return false;
+        }
+
+        return json_decode($optionValue, $isAssoc = true);
     }
 
     /**
