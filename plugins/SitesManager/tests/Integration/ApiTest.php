@@ -13,6 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\IntranetMeasurable\Type as IntranetType;
 use Piwik\Plugins\MobileAppMeasurable;
 use Piwik\Plugins\WebsiteMeasurable\Type as WebsiteType;
 use Piwik\Plugins\SitesManager\API;
@@ -84,14 +85,6 @@ class ApiTest extends IntegrationTestCase
     {
         $this->expectException(\Exception::class);
         API::getInstance()->addSite("name", $url);
-    }
-
-    /**
-     * Test with valid IPs
-     */
-    public function testAddSiteWithExcludedIpsAndTimezoneAndCurrencyAndExcludedQueryParametersSucceedsWhenParamsAreValid()
-    {
-        $this->addSiteTest($expectedWebsiteType = 'mobile-\'app');
     }
 
     /**
@@ -249,6 +242,23 @@ class ApiTest extends IntegrationTestCase
         try {
             $settings = ['WebsiteMeasurable' => [['name' => 'exclude_unknown_urls', 'value' => 'fooBar']]];
             $this->addSiteWithType($type, $settings);
+        } catch (Exception $e) {
+            // make sure no site created
+            $ids = API::getInstance()->getAllSitesId();
+            $this->assertEquals([], $ids);
+
+            throw $e;
+        }
+    }
+
+    public function testAddSiteShouldFailAndNotCreateASiteIfTypeIsInvalid()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid website type notexistingtype');
+
+        try {
+            $settings = ['WebsiteMeasurable' => [['name' => 'exclude_unknown_urls', 'value' => 'fooBar']]];
+            $this->addSiteWithType('notexistingtype', $settings);
         } catch (Exception $e) {
             // make sure no site created
             $ids = API::getInstance()->getAllSitesId();
@@ -906,7 +916,7 @@ class ApiTest extends IntegrationTestCase
 
         // Updating the group to nothing
         $group = '';
-        $type = 'mobileAppTest';
+        $type = MobileAppMeasurable\Type::ID;
         API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ecommerce = 0, $ss = false, $ss_kwd = '', $ss_cat = null, $ips = null, $parametersExclude = null, $timezone = null, $currency = null, $group, $startDate = '2010-01-01', $excludedUserAgent = null, $keepUrlFragment = 1, $type);
         $websites = API::getInstance()->getSitesFromGroup($group);
         $this->assertEquals(1, count($websites));
@@ -1081,6 +1091,38 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals(1, $site['exclude_unknown_urls']);
     }
 
+    public function testUpdateSiteWithInvalidTypeFails()
+    {
+        $idSite = $this->addSiteWithType('website', []);
+
+        $site = API::getInstance()->getSiteFromId($idSite);
+        $this->assertEquals(0, $site['exclude_unknown_urls']);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid website type invalidtype');
+
+        API::getInstance()->updateSite(
+            $idSite,
+            $siteName = 'new site name',
+            $urls = null,
+            $ecommerce = true,
+            $siteSearch = false,
+            $searchKeywordParams = null,
+            $searchCategoryParams = null,
+            $excludedIps = null,
+            $excludedQueryParameters = null,
+            $timzeone = null,
+            $currency = 'NZD',
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepUrlFragments = null,
+            $type = 'invalidtype',
+            $settings = null,
+            $excludeUnknownUrls = true
+        );
+    }
+
     /**
      * @dataProvider getDifferentTypesDataProvider
      */
@@ -1123,9 +1165,9 @@ class ApiTest extends IntegrationTestCase
     public function getDifferentTypesDataProvider()
     {
         return [
-            ['website'],
-            ['mobileapp'],
-            ['notexistingtype'],
+            [WebsiteType::ID],
+            [MobileAppMeasurable\Type::ID],
+            [IntranetType::ID],
         ];
     }
 
