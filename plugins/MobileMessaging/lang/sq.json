@@ -1,11 +1,14 @@
 {
     "MobileMessaging": {
         "Available_Credits": "Krediti që zotëroni: %1$s",
+        "ConfirmRemovePhoneNumber": "Jeni i sigurt se doni të hiqet numri i telefonit %1$s?",
         "Exception_UnknownProvider": "Emër furnizuesi '%1$s' i panjohur. Provoni më mirë një nga vijuesit: %2$s.",
+        "IncorrectNumberFormat": "Numri i telefonit %1$s nuk përkon me formatin e pritshëm të numrave.",
         "MobileReport_AdditionalPhoneNumbers": "Mund të shtoni më tepër numra telefoni duke hyrë te",
         "MobileReport_MobileMessagingSettingsLink": "faqja e rregullimeve për Mesazhe Celulari",
         "MobileReport_NoPhoneNumbers": "Ju lutemi, aktivizoni të paktën një numër telefoni duke hyrë te",
         "MultiSites_Must_Be_Activated": "Që të prodhohen tekste SMS për statistikat e sajtit tuaj, ju lutemi, aktivizoni shtojcën MultiSajte te Matomo.",
+        "NumberAlreadyAdded": "Është shtuar tashmë numri i telefonit %1$s.",
         "PhoneNumbers": "Numra Telefonash",
         "PluginDescription": "Krijoni dhe shkarkoni raporte vetjake SMS dhe bëni që të dërgohen te celulari juaj përditë, çdo javë ose çdo muaj.",
         "SMS_Content_Too_Long": "[shumë i gjatë]",
@@ -25,6 +28,7 @@
         "Settings_LetUsersManageAPICredential_No_Help": "Krejt përdoruesit janë në gjendje të marrin Raporte SMS dhe do të përdorin kreditin e llogarisë tuaj.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "Çdo përdorues do të jetë në gjendje të rregullojë Llogarinë e vet API SMS dhe nuk do të përdorë kreditin tuaj.",
         "Settings_ManagePhoneNumbers": "Administroni Numra Telefonash",
+        "Settings_NewVerificationCodeSent": "U dërgua një kod i ri verifikim.",
         "Settings_PhoneActivated": "Numër telefoni i vlefshëm! Tani mund të merrni SMS me statistika tuajat.",
         "Settings_PhoneNumber": "Numër Telefoni",
         "Settings_PhoneNumbers_Add": "Shtoni një Numër Telefoni të ri",
@@ -32,6 +36,7 @@
         "Settings_PhoneNumbers_Help": "Përpara se të merren raporte me SMS (mesazhe tekst) në një telefon, duhet dhënë më poshtë numri i telefonit.",
         "Settings_PhoneNumbers_HelpAdd": "Kur klikoni “Shtoje”, te telefoni do të dërgohet një SMS që përmban një kod. Përdoruesi që merr kodin, duhet mandej të bëjë hyrjen në Matomo, të klikojë mbi Rregullime, mandej të klikojë mbi Mesazhe Me Celular. Pasi të japë kodin, përdoruesi do të jetë në gjendje të marrë raporte tekst në celularin e tij.",
         "Settings_PleaseSignUp": "Që të krijoni dhe të merrni në celularin tuaj raporte SMS me statistika nga sajti juaj, ju lutemi, bëni regjistrimin te API SMS dhe jepni më poshtë hollësitë tuaja.",
+        "Settings_ResendVerification": "Ridërgo kod verifikimi",
         "Settings_SMSAPIAccount": "Administroni Llogari SMS API",
         "Settings_SMSProvider": "Furnizues SMS-sh",
         "Settings_SelectCountry": "Përzgjidhni vend",
@@ -40,9 +45,11 @@
         "Settings_UpdateOrDeleteAccount": "Mundeni edhe ta %1$spërditësoni%2$s, ose %3$sfshini%4$s këtë llogari.",
         "Settings_ValidatePhoneNumber": "Vleftësoje",
         "Settings_VerificationCodeJustSent": "Sapo dërguam një SMS me një kod te ky numër: ju lutemi, jepeni këtë kod më sipër dhe klikoni mbi “Vleftësoje”.",
+        "TooManyUnverifiedNumbersError": "S’mund të shtoni më tepër se 3 numra të paverifikuar telefonash!",
         "TopLinkTooltip": "Merrni Raporte Analizash Web drejt e te email-i ose celulari juaj.",
         "TopMenu": "Raporte me Email &amp; SMS",
         "UserKey": "Kyç përdoruesi",
+        "VerificationCodeRecentlySentError": "Është kërkuar tashmë së fundi një kod verifikimi për numrin e telefonit %1$s.",
         "VerificationText": "Kodi është %1$s. Që të vleftësohet numri i telefonit tuaj dhe të merrni raporte Matomo me SMS, ju lutemi, kopjojeni këtë kod te formulari përkatës përmes Matomo → %2$s → %3$s."
     }
 }
