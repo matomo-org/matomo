@@ -1,5 +1,6 @@
 {
     "TwoFactorAuth": {
+        "PluginDescription": "Enhance your Matomo account security with Two-Factor Authentication (2FA) to protect against unauthorized access.",
         "TwoFactorAuthentication": "Two-factor authentication",
         "TwoFAShort": "2FA",
         "TwoFactorAuthenticationIntro": "%1$sTwo-factor authentication%2$s increases account security by also asking you for a code generated on a mobile device, or one of the remaining recovery codes (in addition to your password) to log in.",
