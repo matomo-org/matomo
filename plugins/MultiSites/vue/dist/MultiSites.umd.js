@@ -142,43 +142,37 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=template&id=75bcc548
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=template&id=75bcc548
 
-var _hoisted_1 = {
+const _hoisted_1 = {
   class: "dashboardHeader"
 };
-var _hoisted_2 = {
+const _hoisted_2 = {
   class: "card-title"
 };
-var _hoisted_3 = {
+const _hoisted_3 = {
   key: 0,
   id: "periodString",
   class: "borderedControl"
 };
-var _hoisted_4 = {
+const _hoisted_4 = {
   class: "dashboardControls"
 };
-var _hoisted_5 = {
+const _hoisted_5 = {
   class: "siteSearch"
 };
-var _hoisted_6 = ["placeholder"];
-var _hoisted_7 = ["title"];
-var _hoisted_8 = ["href"];
+const _hoisted_6 = ["placeholder"];
+const _hoisted_7 = ["title"];
+const _hoisted_8 = ["href"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
-
-  var _component_PeriodSelector = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PeriodSelector");
-
-  var _component_KPICardContainer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("KPICardContainer");
-
-  var _component_SitesTable = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SitesTable");
-
+  const _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
+  const _component_PeriodSelector = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PeriodSelector");
+  const _component_KPICardContainer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("KPICardContainer");
+  const _component_SitesTable = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SitesTable");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h1", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
     "feature-name": _ctx.translate('MultiSites_AllWebsitesDashboardTitle')
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MultiSites_AllWebsitesDashboardTitle')), 1)];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MultiSites_AllWebsitesDashboardTitle')), 1)]),
     _: 1
   }, 8, ["feature-name"])]), !_ctx.isWidgetized ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodSelector, {
     periods: _ctx.selectablePeriods
@@ -187,18 +181,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "model-value": _ctx.kpis
   }, null, 8, ["is-loading", "model-value"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "text",
-    onKeydown: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(function ($event) {
-      return _ctx.searchSite(_ctx.searchTerm);
-    }, ["enter"])),
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.searchTerm = $event;
-    }),
+    onKeydown: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])($event => _ctx.searchSite(_ctx.searchTerm), ["enter"])),
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.searchTerm = $event),
     placeholder: _ctx.translate('Actions_SubmenuSitesearch')
   }, null, 40, _hoisted_6), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.searchTerm]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "icon-search",
-    onClick: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.searchSite(_ctx.searchTerm);
-    }),
+    onClick: _cache[2] || (_cache[2] = $event => _ctx.searchSite(_ctx.searchTerm)),
     title: _ctx.translate('General_ClickToSearch')
   }, null, 8, _hoisted_7)]), !_ctx.isWidgetized && _ctx.isUserAllowedToAddSite ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     key: 0,
@@ -215,14 +203,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 var external_CoreHome_ = __webpack_require__("19dc");
 
 // CONCATENATED MODULE: ./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.store.ts
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -231,17 +212,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  */
 
 
-var DEFAULT_SORT_ORDER = 'desc';
-var DEFAULT_SORT_COLUMN = 'nb_visits';
-
-var AllWebsitesDashboard_store_DashboardStore = /*#__PURE__*/function () {
-  function DashboardStore() {
-    var _this = this;
-
-    _classCallCheck(this, DashboardStore);
-
+const DEFAULT_SORT_ORDER = 'desc';
+const DEFAULT_SORT_COLUMN = 'nb_visits';
+class AllWebsitesDashboard_store_DashboardStore {
+  constructor() {
     _defineProperty(this, "fetchAbort", null);
-
     _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       dashboardKPIs: {
         evolutionPeriod: 'day',
@@ -268,265 +243,191 @@ var AllWebsitesDashboard_store_DashboardStore = /*#__PURE__*/function () {
       sortColumn: DEFAULT_SORT_COLUMN,
       sortOrder: DEFAULT_SORT_ORDER
     }));
-
     _defineProperty(this, "autoRefreshInterval", 0);
-
     _defineProperty(this, "autoRefreshTimeout", null);
-
     _defineProperty(this, "pageSize", 25);
-
     _defineProperty(this, "searchTerm", '');
-
-    _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
-    }));
-
-    _defineProperty(this, "numberOfPages", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Math.ceil(_this.state.value.numSites / _this.pageSize - 1);
-    }));
-
-    _defineProperty(this, "currentPagingOffset", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Math.ceil(_this.state.value.paginationCurrentPage * _this.pageSize);
-    }));
-
-    _defineProperty(this, "paginationLowerBound", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      if (_this.state.value.numSites === 0) {
+    _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState)));
+    _defineProperty(this, "numberOfPages", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Math.ceil(this.state.value.numSites / this.pageSize - 1)));
+    _defineProperty(this, "currentPagingOffset", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Math.ceil(this.state.value.paginationCurrentPage * this.pageSize)));
+    _defineProperty(this, "paginationLowerBound", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      if (this.state.value.numSites === 0) {
         return 0;
       }
-
-      return 1 + _this.currentPagingOffset.value;
+      return 1 + this.currentPagingOffset.value;
     }));
-
-    _defineProperty(this, "paginationUpperBound", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      if (_this.state.value.numSites === 0) {
+    _defineProperty(this, "paginationUpperBound", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      if (this.state.value.numSites === 0) {
         return 0;
       }
-
-      var end = _this.pageSize + _this.currentPagingOffset.value;
-      var max = _this.state.value.numSites;
-
+      const end = this.pageSize + this.currentPagingOffset.value;
+      const max = this.state.value.numSites;
       if (end < max) {
         return end;
       }
-
       return max;
     }));
   }
-
-  _createClass(DashboardStore, [{
-    key: "reloadDashboard",
-    value: function reloadDashboard() {
-      this.privateState.sortColumn = DEFAULT_SORT_COLUMN;
-      this.privateState.sortOrder = DEFAULT_SORT_ORDER;
-      this.privateState.paginationCurrentPage = 0;
-      this.refreshData();
+  reloadDashboard() {
+    this.privateState.sortColumn = DEFAULT_SORT_COLUMN;
+    this.privateState.sortOrder = DEFAULT_SORT_ORDER;
+    this.privateState.paginationCurrentPage = 0;
+    this.refreshData();
+  }
+  navigateNextPage() {
+    if (this.privateState.paginationCurrentPage === this.numberOfPages.value) {
+      return;
     }
-  }, {
-    key: "navigateNextPage",
-    value: function navigateNextPage() {
-      if (this.privateState.paginationCurrentPage === this.numberOfPages.value) {
-        return;
-      }
-
-      this.privateState.paginationCurrentPage += 1;
-      this.refreshData(true);
+    this.privateState.paginationCurrentPage += 1;
+    this.refreshData(true);
+  }
+  navigatePreviousPage() {
+    if (this.privateState.paginationCurrentPage === 0) {
+      return;
     }
-  }, {
-    key: "navigatePreviousPage",
-    value: function navigatePreviousPage() {
-      if (this.privateState.paginationCurrentPage === 0) {
-        return;
-      }
-
-      this.privateState.paginationCurrentPage -= 1;
-      this.refreshData(true);
+    this.privateState.paginationCurrentPage -= 1;
+    this.refreshData(true);
+  }
+  searchSite(term) {
+    this.searchTerm = term;
+    this.privateState.paginationCurrentPage = 0;
+    this.refreshData(true);
+  }
+  setAutoRefreshInterval(interval) {
+    this.autoRefreshInterval = interval;
+  }
+  setPageSize(size) {
+    this.pageSize = size;
+  }
+  sortBy(column) {
+    if (this.privateState.sortColumn === column) {
+      this.privateState.sortOrder = this.privateState.sortOrder === 'desc' ? 'asc' : 'desc';
+    } else {
+      this.privateState.sortOrder = column === 'label' ? 'asc' : 'desc';
     }
-  }, {
-    key: "searchSite",
-    value: function searchSite(term) {
-      this.searchTerm = term;
-      this.privateState.paginationCurrentPage = 0;
-      this.refreshData(true);
+    this.privateState.sortColumn = column;
+    this.refreshData(true);
+  }
+  cancelAutoRefresh() {
+    if (!this.autoRefreshTimeout) {
+      return;
     }
-  }, {
-    key: "setAutoRefreshInterval",
-    value: function setAutoRefreshInterval(interval) {
-      this.autoRefreshInterval = interval;
-    }
-  }, {
-    key: "setPageSize",
-    value: function setPageSize(size) {
-      this.pageSize = size;
-    }
-  }, {
-    key: "sortBy",
-    value: function sortBy(column) {
-      if (this.privateState.sortColumn === column) {
-        this.privateState.sortOrder = this.privateState.sortOrder === 'desc' ? 'asc' : 'desc';
-      } else {
-        this.privateState.sortOrder = column === 'label' ? 'asc' : 'desc';
-      }
-
-      this.privateState.sortColumn = column;
-      this.refreshData(true);
-    }
-  }, {
-    key: "cancelAutoRefresh",
-    value: function cancelAutoRefresh() {
-      if (!this.autoRefreshTimeout) {
-        return;
-      }
-
-      clearTimeout(this.autoRefreshTimeout);
-      this.autoRefreshTimeout = null;
-    }
-  }, {
-    key: "refreshData",
-    value: function refreshData() {
-      var _this2 = this;
-
-      var onlySites = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-      if (this.fetchAbort) {
-        this.fetchAbort.abort();
-        this.fetchAbort = null;
-        this.cancelAutoRefresh();
-      }
-
-      this.fetchAbort = new AbortController();
-      this.privateState.errorLoading = false;
-      this.privateState.isLoadingKPIs = !onlySites;
-      this.privateState.isLoadingSites = true;
-      var params = {
-        method: 'MultiSites.mockDashboardData',
-        filter_limit: this.pageSize,
-        filter_offset: this.currentPagingOffset.value,
-        filter_sort_column: this.privateState.sortColumn,
-        filter_sort_order: this.privateState.sortOrder,
-        showColumns: ['hits_evolution', 'hits_evolution_trend', 'label', 'nb_hits', 'nb_pageviews', 'nb_visits', 'pageviews_evolution', 'pageviews_evolution_trend', 'revenue', 'revenue_evolution', 'revenue_evolution_trend', 'visits_evolution', 'visits_evolution_trend'].join(',')
-      };
-
-      if (this.searchTerm) {
-        params.pattern = this.searchTerm;
-      }
-
-      return external_CoreHome_["AjaxHelper"].fetch(params, {
-        abortController: this.fetchAbort
-      }).then(function (response) {
-        if (!onlySites) {
-          _this2.updateDashboardKPIs(response);
-        }
-
-        _this2.updateDashboardSites(response);
-      }).catch(function () {
-        _this2.privateState.dashboardSites = [];
-        _this2.privateState.errorLoading = true;
-      }).finally(function () {
-        _this2.privateState.isLoadingKPIs = false;
-        _this2.privateState.isLoadingSites = false;
-        _this2.fetchAbort = null;
-
-        _this2.startAutoRefresh();
-      });
-    }
-  }, {
-    key: "startAutoRefresh",
-    value: function startAutoRefresh() {
-      var _this3 = this;
-
+    clearTimeout(this.autoRefreshTimeout);
+    this.autoRefreshTimeout = null;
+  }
+  refreshData(onlySites = false) {
+    if (this.fetchAbort) {
+      this.fetchAbort.abort();
+      this.fetchAbort = null;
       this.cancelAutoRefresh();
-
-      if (this.autoRefreshInterval <= 0) {
-        return;
-      }
-
-      var currentPeriod;
-
-      try {
-        currentPeriod = external_CoreHome_["Periods"].parse(external_CoreHome_["Matomo"].period, external_CoreHome_["Matomo"].currentDateString);
-      } catch (e) {// gracefully ignore period parsing errors
-      }
-
-      if (!currentPeriod || !currentPeriod.containsToday()) {
-        return;
-      }
-
-      this.autoRefreshTimeout = setTimeout(function () {
-        _this3.autoRefreshTimeout = null;
-
-        _this3.refreshData();
-      }, this.autoRefreshInterval * 1000);
     }
-  }, {
-    key: "updateDashboardKPIs",
-    value: function updateDashboardKPIs(response) {
-      this.privateState.dashboardKPIs = {
-        evolutionPeriod: external_CoreHome_["Matomo"].period,
-        hits: response.totals.nb_hits,
-        hitsEvolution: response.totals.hits_evolution,
-        hitsTrend: response.totals.hits_evolution_trend,
-        pageviews: response.totals.nb_pageviews,
-        pageviewsEvolution: response.totals.pageviews_evolution,
-        pageviewsTrend: response.totals.pageviews_evolution_trend,
-        revenue: response.totals.revenue,
-        revenueEvolution: response.totals.revenue_evolution,
-        revenueTrend: response.totals.revenue_evolution_trend,
-        visits: response.totals.nb_visits,
-        visitsEvolution: response.totals.visits_evolution,
-        visitsTrend: response.totals.visits_evolution_trend
-      };
+    this.fetchAbort = new AbortController();
+    this.privateState.errorLoading = false;
+    this.privateState.isLoadingKPIs = !onlySites;
+    this.privateState.isLoadingSites = true;
+    const params = {
+      method: 'MultiSites.mockDashboardData',
+      filter_limit: this.pageSize,
+      filter_offset: this.currentPagingOffset.value,
+      filter_sort_column: this.privateState.sortColumn,
+      filter_sort_order: this.privateState.sortOrder,
+      showColumns: ['hits_evolution', 'hits_evolution_trend', 'label', 'nb_hits', 'nb_pageviews', 'nb_visits', 'pageviews_evolution', 'pageviews_evolution_trend', 'revenue', 'revenue_evolution', 'revenue_evolution_trend', 'visits_evolution', 'visits_evolution_trend'].join(',')
+    };
+    if (this.searchTerm) {
+      params.pattern = this.searchTerm;
     }
-  }, {
-    key: "updateDashboardSites",
-    value: function updateDashboardSites(response) {
-      this.privateState.dashboardSites = response.sites;
-      this.privateState.numSites = response.numSites;
-      this.privateState.sparklineDate = response.sparklineDate;
+    return external_CoreHome_["AjaxHelper"].fetch(params, {
+      abortController: this.fetchAbort
+    }).then(response => {
+      if (!onlySites) {
+        this.updateDashboardKPIs(response);
+      }
+      this.updateDashboardSites(response);
+    }).catch(() => {
+      this.privateState.dashboardSites = [];
+      this.privateState.errorLoading = true;
+    }).finally(() => {
+      this.privateState.isLoadingKPIs = false;
+      this.privateState.isLoadingSites = false;
+      this.fetchAbort = null;
+      this.startAutoRefresh();
+    });
+  }
+  startAutoRefresh() {
+    this.cancelAutoRefresh();
+    if (this.autoRefreshInterval <= 0) {
+      return;
     }
-  }]);
-
-  return DashboardStore;
-}();
-
+    let currentPeriod;
+    try {
+      currentPeriod = external_CoreHome_["Periods"].parse(external_CoreHome_["Matomo"].period, external_CoreHome_["Matomo"].currentDateString);
+    } catch (e) {
+      // gracefully ignore period parsing errors
+    }
+    if (!currentPeriod || !currentPeriod.containsToday()) {
+      return;
+    }
+    this.autoRefreshTimeout = setTimeout(() => {
+      this.autoRefreshTimeout = null;
+      this.refreshData();
+    }, this.autoRefreshInterval * 1000);
+  }
+  updateDashboardKPIs(response) {
+    this.privateState.dashboardKPIs = {
+      evolutionPeriod: external_CoreHome_["Matomo"].period,
+      hits: response.totals.nb_hits,
+      hitsEvolution: response.totals.hits_evolution,
+      hitsTrend: response.totals.hits_evolution_trend,
+      pageviews: response.totals.nb_pageviews,
+      pageviewsEvolution: response.totals.pageviews_evolution,
+      pageviewsTrend: response.totals.pageviews_evolution_trend,
+      revenue: response.totals.revenue,
+      revenueEvolution: response.totals.revenue_evolution,
+      revenueTrend: response.totals.revenue_evolution_trend,
+      visits: response.totals.nb_visits,
+      visitsEvolution: response.totals.visits_evolution,
+      visitsTrend: response.totals.visits_evolution_trend
+    };
+  }
+  updateDashboardSites(response) {
+    this.privateState.dashboardSites = response.sites;
+    this.privateState.numSites = response.numSites;
+    this.privateState.sparklineDate = response.sparklineDate;
+  }
+}
 /* harmony default export */ var AllWebsitesDashboard_store = (new AllWebsitesDashboard_store_DashboardStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICardContainer.vue?vue&type=template&id=87c62b90
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICardContainer.vue?vue&type=template&id=87c62b90
 
-var KPICardContainervue_type_template_id_87c62b90_hoisted_1 = {
+const KPICardContainervue_type_template_id_87c62b90_hoisted_1 = {
   class: "kpiCardContainer"
 };
-var KPICardContainervue_type_template_id_87c62b90_hoisted_2 = {
+const KPICardContainervue_type_template_id_87c62b90_hoisted_2 = {
   key: 0,
   class: "kpiCard kpiCardLoading"
 };
-
-var KPICardContainervue_type_template_id_87c62b90_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+const KPICardContainervue_type_template_id_87c62b90_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   class: "kpiCardTitle"
 }, " ", -1);
-
-var KPICardContainervue_type_template_id_87c62b90_hoisted_4 = {
+const KPICardContainervue_type_template_id_87c62b90_hoisted_4 = {
   class: "kpiCardValue"
 };
-
-var KPICardContainervue_type_template_id_87c62b90_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+const KPICardContainervue_type_template_id_87c62b90_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   class: "kpiCardEvolution"
 }, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "kpiCardEvolutionTrend"
 }, " ")], -1);
-
-var KPICardContainervue_type_template_id_87c62b90_hoisted_6 = {
+const KPICardContainervue_type_template_id_87c62b90_hoisted_6 = {
   key: 0,
   class: "kpiCardBadge"
 };
 function KPICardContainervue_type_template_id_87c62b90_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_MatomoLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoLoader");
-
-  var _component_KPICard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("KPICard");
-
+  const _component_MatomoLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoLoader");
+  const _component_KPICard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("KPICard");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", KPICardContainervue_type_template_id_87c62b90_hoisted_1, [_ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", KPICardContainervue_type_template_id_87c62b90_hoisted_2, [KPICardContainervue_type_template_id_87c62b90_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", KPICardContainervue_type_template_id_87c62b90_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoLoader)]), KPICardContainervue_type_template_id_87c62b90_hoisted_5, _ctx.hasKpiBadge ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", KPICardContainervue_type_template_id_87c62b90_hoisted_6, " ")) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
     key: 1
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.kpis, function (kpi, index) {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.kpis, (kpi, index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
-      key: "kpi-card-".concat(index)
+      key: `kpi-card-${index}`
     }, [index > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       key: 0,
       class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
@@ -540,40 +441,38 @@ function KPICardContainervue_type_template_id_87c62b90_render(_ctx, _cache, $pro
 }
 // CONCATENATED MODULE: ./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICardContainer.vue?vue&type=template&id=87c62b90
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICard.vue?vue&type=template&id=3c2758fa
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICard.vue?vue&type=template&id=3c2758fa
 
-var KPICardvue_type_template_id_3c2758fa_hoisted_1 = {
+const KPICardvue_type_template_id_3c2758fa_hoisted_1 = {
   class: "kpiCard"
 };
-var KPICardvue_type_template_id_3c2758fa_hoisted_2 = {
+const KPICardvue_type_template_id_3c2758fa_hoisted_2 = {
   class: "kpiCardTitle"
 };
-var KPICardvue_type_template_id_3c2758fa_hoisted_3 = {
+const KPICardvue_type_template_id_3c2758fa_hoisted_3 = {
   class: "kpiCardValue"
 };
-var KPICardvue_type_template_id_3c2758fa_hoisted_4 = {
+const KPICardvue_type_template_id_3c2758fa_hoisted_4 = {
   class: "kpiCardEvolution"
 };
-var KPICardvue_type_template_id_3c2758fa_hoisted_5 = {
+const KPICardvue_type_template_id_3c2758fa_hoisted_5 = {
   key: 1,
   class: "kpiCardEvolution"
 };
-
-var KPICardvue_type_template_id_3c2758fa_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const KPICardvue_type_template_id_3c2758fa_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "kpiCardEvolutionTrend"
 }, " ", -1);
-
-var KPICardvue_type_template_id_3c2758fa_hoisted_7 = [KPICardvue_type_template_id_3c2758fa_hoisted_6];
-var KPICardvue_type_template_id_3c2758fa_hoisted_8 = ["innerHTML"];
+const KPICardvue_type_template_id_3c2758fa_hoisted_7 = [KPICardvue_type_template_id_3c2758fa_hoisted_6];
+const KPICardvue_type_template_id_3c2758fa_hoisted_8 = ["innerHTML"];
 function KPICardvue_type_template_id_3c2758fa_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", KPICardvue_type_template_id_3c2758fa_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", KPICardvue_type_template_id_3c2758fa_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("kpiCardIcon ".concat(_ctx.kpi.icon))
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(`kpiCardIcon ${_ctx.kpi.icon}`)
   }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.kpi.title)), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", KPICardvue_type_template_id_3c2758fa_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.kpi.value), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", KPICardvue_type_template_id_3c2758fa_hoisted_4, [_ctx.kpi.evolutionValue !== '' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
     key: 0
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("kpiCardEvolutionTrend ".concat(_ctx.evolutionTrendClass))
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(`kpiCardEvolutionTrend ${_ctx.evolutionTrendClass}`)
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("kpiCardEvolutionIcon ".concat(_ctx.evolutionTrendIcon))
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(`kpiCardEvolutionIcon ${_ctx.evolutionTrendIcon}`)
   }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.kpi.evolutionValue), 1)], 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.evolutionTrendFrom)), 1)], 64)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", KPICardvue_type_template_id_3c2758fa_hoisted_5, KPICardvue_type_template_id_3c2758fa_hoisted_7))]), _ctx.kpi.badge ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     key: 0,
     innerHTML: _ctx.$sanitize(_ctx.kpi.badge),
@@ -582,7 +481,7 @@ function KPICardvue_type_template_id_3c2758fa_render(_ctx, _cache, $props, $setu
 }
 // CONCATENATED MODULE: ./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICard.vue?vue&type=template&id=3c2758fa
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICard.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICard.vue?vue&type=script&lang=ts
 
 /* harmony default export */ var KPICardvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
@@ -592,47 +491,39 @@ function KPICardvue_type_template_id_3c2758fa_render(_ctx, _cache, $props, $setu
     }
   },
   computed: {
-    evolutionTrendFrom: function evolutionTrendFrom() {
+    evolutionTrendFrom() {
       switch (this.kpi.evolutionPeriod) {
         case 'day':
           return 'MultiSites_EvolutionFromPreviousDay';
-
         case 'week':
           return 'MultiSites_EvolutionFromPreviousWeek';
-
         case 'month':
           return 'MultiSites_EvolutionFromPreviousMonth';
-
         case 'year':
           return 'MultiSites_EvolutionFromPreviousYear';
-
         default:
           return 'MultiSites_EvolutionFromPreviousPeriod';
       }
     },
-    evolutionTrendClass: function evolutionTrendClass() {
+    evolutionTrendClass() {
       if (this.kpi.evolutionTrend === 1) {
         return 'kpiTrendPositive';
       }
-
       if (this.kpi.evolutionTrend === -1) {
         return 'kpiTrendNegative';
       }
-
       return 'kpiTrendNeutral';
     },
-    evolutionTrendIcon: function evolutionTrendIcon() {
+    evolutionTrendIcon() {
       if (this.kpi.evolutionTrend === 1) {
         return 'icon-chevron-up';
       }
-
       if (this.kpi.evolutionTrend === -1) {
         return 'icon-chevron-down';
       }
-
       return 'icon-circle';
     },
-    kpi: function kpi() {
+    kpi() {
       return this.modelValue;
     }
   }
@@ -646,7 +537,7 @@ function KPICardvue_type_template_id_3c2758fa_render(_ctx, _cache, $props, $setu
 KPICardvue_type_script_lang_ts.render = KPICardvue_type_template_id_3c2758fa_render
 
 /* harmony default export */ var KPICard = (KPICardvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICardContainer.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICardContainer.vue?vue&type=script&lang=ts
 
 
 
@@ -663,12 +554,10 @@ KPICardvue_type_script_lang_ts.render = KPICardvue_type_template_id_3c2758fa_ren
     }
   },
   computed: {
-    hasKpiBadge: function hasKpiBadge() {
-      return this.kpis.some(function (kpi) {
-        return !!kpi.badge;
-      });
+    hasKpiBadge() {
+      return this.kpis.some(kpi => !!kpi.badge);
     },
-    kpis: function kpis() {
+    kpis() {
       return this.modelValue;
     }
   }
@@ -682,200 +571,169 @@ KPICardvue_type_script_lang_ts.render = KPICardvue_type_template_id_3c2758fa_ren
 KPICardContainervue_type_script_lang_ts.render = KPICardContainervue_type_template_id_87c62b90_render
 
 /* harmony default export */ var KPICardContainer = (KPICardContainervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/SitesTable.vue?vue&type=template&id=0d846a88
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/SitesTable.vue?vue&type=template&id=0d846a88
 
-var SitesTablevue_type_template_id_0d846a88_hoisted_1 = {
+const SitesTablevue_type_template_id_0d846a88_hoisted_1 = {
   class: "sitesTableContainer"
 };
-var SitesTablevue_type_template_id_0d846a88_hoisted_2 = {
+const SitesTablevue_type_template_id_0d846a88_hoisted_2 = {
   class: "card-table dataTable sitesTable"
 };
-var SitesTablevue_type_template_id_0d846a88_hoisted_3 = {
+const SitesTablevue_type_template_id_0d846a88_hoisted_3 = {
   class: "sitesTableEvolutionSelector"
 };
-var SitesTablevue_type_template_id_0d846a88_hoisted_4 = ["value"];
-var SitesTablevue_type_template_id_0d846a88_hoisted_5 = {
+const SitesTablevue_type_template_id_0d846a88_hoisted_4 = ["value"];
+const SitesTablevue_type_template_id_0d846a88_hoisted_5 = {
   value: "hits_evolution"
 };
-var SitesTablevue_type_template_id_0d846a88_hoisted_6 = {
+const SitesTablevue_type_template_id_0d846a88_hoisted_6 = {
   value: "visits_evolution"
 };
-var SitesTablevue_type_template_id_0d846a88_hoisted_7 = {
+const SitesTablevue_type_template_id_0d846a88_hoisted_7 = {
   value: "pageviews_evolution"
 };
-var SitesTablevue_type_template_id_0d846a88_hoisted_8 = {
+const SitesTablevue_type_template_id_0d846a88_hoisted_8 = {
   key: 0,
   value: "revenue_evolution"
 };
-var _hoisted_9 = {
+const _hoisted_9 = {
   key: 0
 };
-var _hoisted_10 = {
+const _hoisted_10 = {
   class: "sitesTableLoading",
   colspan: "7"
 };
-var _hoisted_11 = {
+const _hoisted_11 = {
   key: 1
 };
-var _hoisted_12 = {
+const _hoisted_12 = {
   colspan: "7"
 };
-var _hoisted_13 = {
+const _hoisted_13 = {
   class: "notification system notification-error"
 };
-
-var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_16 = ["href"];
-
-var _hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" – ");
-
-var _hoisted_18 = ["href"];
-var _hoisted_19 = ["href"];
-
-var _hoisted_20 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(". ");
-
-var _hoisted_21 = {
+const _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const _hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const _hoisted_16 = ["href"];
+const _hoisted_17 = ["href"];
+const _hoisted_18 = ["href"];
+const _hoisted_19 = {
   key: 0,
   class: "sitesTablePagination"
 };
-var _hoisted_22 = {
+const _hoisted_20 = {
   class: "dataTablePages"
 };
 function SitesTablevue_type_template_id_0d846a88_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_MatomoLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoLoader");
-
-  var _component_SitesTableSite = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SitesTableSite");
-
+  const _component_MatomoLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoLoader");
+  const _component_SitesTableSite = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SitesTableSite");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SitesTablevue_type_template_id_0d846a88_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", SitesTablevue_type_template_id_0d846a88_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.sortBy('label');
-    }),
+    onClick: _cache[0] || (_cache[0] = $event => _ctx.sortBy('label')),
     class: "label"
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Website')) + " ", 1), _ctx.sortColumn === 'label' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
     key: 0,
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.sortColumnClass)
   }, null, 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
-    onClick: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.sortBy('nb_visits');
-    })
+    onClick: _cache[1] || (_cache[1] = $event => _ctx.sortBy('nb_visits'))
   }, [_ctx.sortColumn === 'nb_visits' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
     key: 0,
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.sortColumnClass)
   }, null, 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnNbVisits')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
-    onClick: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.sortBy('nb_pageviews');
-    })
+    onClick: _cache[2] || (_cache[2] = $event => _ctx.sortBy('nb_pageviews'))
   }, [_ctx.sortColumn === 'nb_pageviews' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
     key: 0,
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.sortColumnClass)
   }, null, 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnPageviews')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
-    onClick: _cache[3] || (_cache[3] = function ($event) {
-      return _ctx.sortBy('nb_hits');
-    })
+    onClick: _cache[3] || (_cache[3] = $event => _ctx.sortBy('nb_hits'))
   }, [_ctx.sortColumn === 'nb_hits' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
     key: 0,
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.sortColumnClass)
   }, null, 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnHits')), 1)]), _ctx.displayRevenue ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("th", {
     key: 0,
-    onClick: _cache[4] || (_cache[4] = function ($event) {
-      return _ctx.sortBy('revenue');
-    })
+    onClick: _cache[4] || (_cache[4] = $event => _ctx.sortBy('revenue'))
   }, [_ctx.sortColumn === 'revenue' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
     key: 0,
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.sortColumnClass)
   }, null, 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnRevenue')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
-    onClick: _cache[5] || (_cache[5] = function ($event) {
-      return _ctx.sortBy(_ctx.evolutionSelector);
-    })
+    onClick: _cache[5] || (_cache[5] = $event => _ctx.sortBy(_ctx.evolutionSelector))
   }, [_ctx.sortColumn === _ctx.evolutionSelector ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
     key: 0,
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.sortColumnClass)
   }, null, 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('MultiSites_Evolution')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", SitesTablevue_type_template_id_0d846a88_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("select", {
     class: "browser-default",
     value: _ctx.evolutionSelector,
-    onChange: _cache[6] || (_cache[6] = function ($event) {
-      return _ctx.changeEvolutionSelector($event.target.value);
-    })
+    onChange: _cache[6] || (_cache[6] = $event => _ctx.changeEvolutionSelector($event.target.value))
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("option", SitesTablevue_type_template_id_0d846a88_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnHits')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("option", SitesTablevue_type_template_id_0d846a88_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnNbVisits')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("option", SitesTablevue_type_template_id_0d846a88_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnPageviews')), 1), _ctx.displayRevenue ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("option", SitesTablevue_type_template_id_0d846a88_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnRevenue')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 40, SitesTablevue_type_template_id_0d846a88_hoisted_4)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [_ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoLoader)])])) : _ctx.errorLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", _hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ErrorRequest', '', '')) + " ", 1), _hoisted_14, _hoisted_15, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_NeedMoreHelp')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     rel: "noreferrer noopener",
     target: "_blank",
     href: _ctx.externalRawLink('https://matomo.org/faq/troubleshooting/faq_19489/')
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Faq')), 9, _hoisted_16), _hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Faq')), 9, _hoisted_16), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" – "), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     rel: "noreferrer noopener",
     target: "_blank",
     href: _ctx.externalRawLink('https://forum.matomo.org/')
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_CommunityHelp')), 9, _hoisted_18), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, " – ", 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.errorShowProfessionalHelp]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_CommunityHelp')), 9, _hoisted_17), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, " – ", 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.errorShowProfessionalHelp]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     rel: "noreferrer noopener",
     target: "_blank",
     href: _ctx.externalRawLink('https://matomo.org/support-plans/')
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_ProfessionalHelp')), 9, _hoisted_19), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.errorShowProfessionalHelp]]), _hoisted_20])])])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_ProfessionalHelp')), 9, _hoisted_18), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.errorShowProfessionalHelp]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(". ")])])])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
     key: 2
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.sites, function (site) {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.sites, site => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_SitesTableSite, {
       "display-revenue": _ctx.displayRevenue,
       "evolution-metric": _ctx.evolutionMetric,
-      key: "site-".concat(site.idsite),
+      key: `site-${site.idsite}`,
       "model-value": site,
       "sparkline-date": _ctx.sparklineDate,
       "sparkline-metric": _ctx.sparklineMetric
     }, null, 8, ["display-revenue", "evolution-metric", "model-value", "sparkline-date", "sparkline-metric"]);
-  }), 128))])])]), !_ctx.isLoading || _ctx.paginationUpperBound > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }), 128))])])]), !_ctx.isLoading || _ctx.paginationUpperBound > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_19, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "dataTablePrevious",
-    onClick: _cache[7] || (_cache[7] = function ($event) {
-      return _ctx.navigatePreviousPage();
-    })
-  }, " « " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Previous')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.paginationCurrentPage !== 0]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_22, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Pagination', _ctx.paginationLowerBound, _ctx.paginationUpperBound, _ctx.numberOfFilteredSites)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    onClick: _cache[7] || (_cache[7] = $event => _ctx.navigatePreviousPage())
+  }, " « " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Previous')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.paginationCurrentPage !== 0]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_20, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Pagination', _ctx.paginationLowerBound, _ctx.paginationUpperBound, _ctx.numberOfFilteredSites)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "dataTableNext",
-    onClick: _cache[8] || (_cache[8] = function ($event) {
-      return _ctx.navigateNextPage();
-    })
+    onClick: _cache[8] || (_cache[8] = $event => _ctx.navigateNextPage())
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Next')) + " » ", 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.paginationCurrentPage < _ctx.paginationMaxPage]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 64);
 }
 // CONCATENATED MODULE: ./plugins/MultiSites/vue/src/AllWebsitesDashboard/SitesTable.vue?vue&type=template&id=0d846a88
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/SitesTableSite.vue?vue&type=template&id=47f7cfe0
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/SitesTableSite.vue?vue&type=template&id=47f7cfe0
 
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_1 = {
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_1 = {
   class: "label"
 };
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_2 = ["href", "title"];
-
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_2 = ["href", "title"];
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon icon-outlink"
 }, null, -1);
-
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_4 = [SitesTableSitevue_type_template_id_47f7cfe0_hoisted_3];
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_5 = ["href"];
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_6 = {
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_4 = [SitesTableSitevue_type_template_id_47f7cfe0_hoisted_3];
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_5 = ["href"];
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_6 = {
   key: 1,
   class: "value"
 };
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_7 = {
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_7 = {
   class: "value"
 };
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_8 = {
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_8 = {
   class: "value"
 };
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_9 = {
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_9 = {
   class: "value"
 };
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_10 = {
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_10 = {
   key: 0
 };
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_11 = {
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_11 = {
   class: "value"
 };
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_12 = ["colspan"];
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_13 = ["src"];
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_14 = {
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_12 = ["colspan"];
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_13 = ["src"];
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_14 = {
   key: 1,
   class: "sitesTableSparkline"
 };
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_15 = ["href", "title"];
-var SitesTableSitevue_type_template_id_47f7cfe0_hoisted_16 = ["src"];
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_15 = ["href", "title"];
+const SitesTableSitevue_type_template_id_47f7cfe0_hoisted_16 = ["src"];
 function SitesTableSitevue_type_template_id_47f7cfe0_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
@@ -917,7 +775,7 @@ function SitesTableSitevue_type_template_id_47f7cfe0_render(_ctx, _cache, $props
 }
 // CONCATENATED MODULE: ./plugins/MultiSites/vue/src/AllWebsitesDashboard/SitesTableSite.vue?vue&type=template&id=47f7cfe0
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/SitesTableSite.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/SitesTableSite.vue?vue&type=script&lang=ts
 
 
 /* harmony default export */ var SitesTableSitevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
@@ -938,32 +796,30 @@ function SitesTableSitevue_type_template_id_47f7cfe0_render(_ctx, _cache, $props
     sparklineMetric: String
   },
   computed: {
-    dashboardUrl: function dashboardUrl() {
-      var dashboardParams = external_CoreHome_["MatomoUrl"].stringify({
+    dashboardUrl() {
+      const dashboardParams = external_CoreHome_["MatomoUrl"].stringify({
         module: 'CoreHome',
         action: 'index',
         date: external_CoreHome_["Matomo"].currentDateString,
         period: external_CoreHome_["Matomo"].period,
         idSite: this.site.idsite
       });
-      return "?".concat(dashboardParams).concat(this.tokenParam);
+      return `?${dashboardParams}${this.tokenParam}`;
     },
-    displaySparkline: function displaySparkline() {
+    displaySparkline() {
       return !this.site.isGroup && this.sparklineDate && this.sparklineMetric;
     },
-    evolutionIconSrc: function evolutionIconSrc() {
+    evolutionIconSrc() {
       if (this.evolutionTrend === 1) {
         return 'plugins/MultiSites/images/arrow_up.png';
       }
-
       if (this.evolutionTrend === -1) {
         return 'plugins/MultiSites/images/arrow_down.png';
       }
-
       return 'plugins/MultiSites/images/stop.png';
     },
-    evolutionSparklineSrc: function evolutionSparklineSrc() {
-      var sparklineParams = external_CoreHome_["MatomoUrl"].stringify({
+    evolutionSparklineSrc() {
+      const sparklineParams = external_CoreHome_["MatomoUrl"].stringify({
         module: 'MultiSites',
         action: 'getEvolutionGraph',
         date: this.sparklineDate,
@@ -974,32 +830,30 @@ function SitesTableSitevue_type_template_id_47f7cfe0_render(_ctx, _cache, $props
         colors: JSON.stringify(external_CoreHome_["Matomo"].getSparklineColors()),
         viewDataTable: 'sparkline'
       });
-      return "?".concat(sparklineParams).concat(this.tokenParam);
+      return `?${sparklineParams}${this.tokenParam}`;
     },
-    evolutionTrend: function evolutionTrend() {
-      var property = "".concat(this.evolutionMetric, "_trend");
+    evolutionTrend() {
+      const property = `${this.evolutionMetric}_trend`;
       return this.site[property];
     },
-    evolutionTrendClass: function evolutionTrendClass() {
+    evolutionTrendClass() {
       if (this.evolutionTrend === 1) {
         return 'evolutionTrendPositive';
       }
-
       if (this.evolutionTrend === -1) {
         return 'evolutionTrendNegative';
       }
-
       return '';
     },
-    site: function site() {
+    site() {
       return this.modelValue;
     },
-    siteLabel: function siteLabel() {
+    siteLabel() {
       return external_CoreHome_["Matomo"].helper.htmlDecode(this.site.label);
     },
-    tokenParam: function tokenParam() {
-      var token_auth = external_CoreHome_["MatomoUrl"].urlParsed.value.token_auth;
-      return token_auth ? "&token_auth=".concat(token_auth) : '';
+    tokenParam() {
+      const token_auth = external_CoreHome_["MatomoUrl"].urlParsed.value.token_auth;
+      return token_auth ? `&token_auth=${token_auth}` : '';
     }
   }
 }));
@@ -1012,7 +866,7 @@ function SitesTableSitevue_type_template_id_47f7cfe0_render(_ctx, _cache, $props
 SitesTableSitevue_type_script_lang_ts.render = SitesTableSitevue_type_template_id_47f7cfe0_render
 
 /* harmony default export */ var SitesTableSite = (SitesTableSitevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/SitesTable.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/SitesTable.vue?vue&type=script&lang=ts
 
 
 
@@ -1032,89 +886,85 @@ SitesTableSitevue_type_script_lang_ts.render = SitesTableSitevue_type_template_i
       required: true
     }
   },
-  data: function data() {
+  data() {
     return {
       evolutionSelector: 'visits_evolution'
     };
   },
   computed: {
-    errorLoading: function errorLoading() {
+    errorLoading() {
       return AllWebsitesDashboard_store.state.value.errorLoading;
     },
-    errorShowProfessionalHelp: function errorShowProfessionalHelp() {
+    errorShowProfessionalHelp() {
       return external_CoreHome_["Matomo"].config && external_CoreHome_["Matomo"].config.are_ads_enabled;
     },
-    evolutionMetric: function evolutionMetric() {
+    evolutionMetric() {
       return this.evolutionSelector;
     },
-    isLoading: function isLoading() {
+    isLoading() {
       return AllWebsitesDashboard_store.state.value.isLoadingSites;
     },
-    numberOfFilteredSites: function numberOfFilteredSites() {
+    numberOfFilteredSites() {
       return AllWebsitesDashboard_store.state.value.numSites;
     },
-    paginationCurrentPage: function paginationCurrentPage() {
+    paginationCurrentPage() {
       return AllWebsitesDashboard_store.state.value.paginationCurrentPage;
     },
-    paginationLowerBound: function paginationLowerBound() {
+    paginationLowerBound() {
       return AllWebsitesDashboard_store.paginationLowerBound.value;
     },
-    paginationUpperBound: function paginationUpperBound() {
+    paginationUpperBound() {
       return AllWebsitesDashboard_store.paginationUpperBound.value;
     },
-    paginationMaxPage: function paginationMaxPage() {
+    paginationMaxPage() {
       return AllWebsitesDashboard_store.numberOfPages.value;
     },
-    sites: function sites() {
+    sites() {
       return AllWebsitesDashboard_store.state.value.dashboardSites;
     },
-    sortColumn: function sortColumn() {
+    sortColumn() {
       return AllWebsitesDashboard_store.state.value.sortColumn;
     },
-    sortColumnClass: function sortColumnClass() {
+    sortColumnClass() {
       return {
         sitesTableSort: true,
         sitesTableSortAsc: this.sortOrder === 'asc',
         sitesTableSortDesc: this.sortOrder === 'desc'
       };
     },
-    sortOrder: function sortOrder() {
+    sortOrder() {
       return AllWebsitesDashboard_store.state.value.sortOrder;
     },
-    sparklineMetric: function sparklineMetric() {
+    sparklineMetric() {
       switch (this.evolutionMetric) {
         case 'hits_evolution':
           return 'nb_hits';
-
         case 'pageviews_evolution':
           return 'nb_pageviews';
-
         case 'revenue_evolution':
           return 'revenue';
-
         case 'visits_evolution':
           return 'nb_visits';
-
         default:
           return '';
       }
     },
-    sparklineDate: function sparklineDate() {
+    sparklineDate() {
       return this.displaySparklines ? AllWebsitesDashboard_store.state.value.sparklineDate : null;
     }
   },
   methods: {
-    changeEvolutionSelector: function changeEvolutionSelector(metric) {
+    changeEvolutionSelector(metric) {
       this.evolutionSelector = metric;
       this.sortBy(metric);
     },
-    navigateNextPage: function navigateNextPage() {
+    navigateNextPage() {
       AllWebsitesDashboard_store.navigateNextPage();
     },
-    navigatePreviousPage: function navigatePreviousPage() {
+    navigatePreviousPage() {
       AllWebsitesDashboard_store.navigatePreviousPage();
     },
-    sortBy: function sortBy(column) {
+    sortBy(column) {
       AllWebsitesDashboard_store.sortBy(column);
     }
   }
@@ -1128,7 +978,8 @@ SitesTableSitevue_type_script_lang_ts.render = SitesTableSitevue_type_template_i
 SitesTablevue_type_script_lang_ts.render = SitesTablevue_type_template_id_0d846a88_render
 
 /* harmony default export */ var SitesTable = (SitesTablevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=script&lang=ts
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
 
@@ -1171,35 +1022,33 @@ SitesTablevue_type_script_lang_ts.render = SitesTablevue_type_template_id_0d846a
       required: true
     }
   },
-  data: function data() {
+  data() {
     return {
       searchTerm: ''
     };
   },
-  mounted: function mounted() {
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
-      return external_CoreHome_["MatomoUrl"].hashParsed.value;
-    }, function () {
-      return AllWebsitesDashboard_store.reloadDashboard();
-    });
+  mounted() {
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => external_CoreHome_["MatomoUrl"].hashParsed.value, () => AllWebsitesDashboard_store.reloadDashboard());
     AllWebsitesDashboard_store.setAutoRefreshInterval(this.autoRefreshInterval);
     AllWebsitesDashboard_store.setPageSize(this.pageSize);
     AllWebsitesDashboard_store.reloadDashboard();
   },
   computed: {
-    addSiteUrl: function addSiteUrl() {
-      return "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
+    addSiteUrl() {
+      return `?${external_CoreHome_["MatomoUrl"].stringify(_extends(_extends(_extends({}, external_CoreHome_["MatomoUrl"].urlParsed.value), external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
         module: 'SitesManager',
         action: 'index',
         showaddsite: '1'
-      })));
+      }))}`;
     },
-    isLoadingKPIs: function isLoadingKPIs() {
+    isLoadingKPIs() {
       return AllWebsitesDashboard_store.state.value.isLoadingKPIs;
     },
-    kpis: function kpis() {
-      var dashboardKPIs = AllWebsitesDashboard_store.state.value.dashboardKPIs;
-      var kpis = [{
+    kpis() {
+      const {
+        dashboardKPIs
+      } = AllWebsitesDashboard_store.state.value;
+      const kpis = [{
         icon: 'icon-user',
         title: 'MultiSites_TotalVisits',
         value: dashboardKPIs.visits,
@@ -1222,7 +1071,6 @@ SitesTablevue_type_script_lang_ts.render = SitesTablevue_type_template_id_0d846a
         evolutionTrend: dashboardKPIs.hitsTrend,
         evolutionValue: dashboardKPIs.hitsEvolution
       }];
-
       if (this.displayRevenue) {
         kpis.push({
           icon: 'icon-dollar-sign',
@@ -1233,15 +1081,14 @@ SitesTablevue_type_script_lang_ts.render = SitesTablevue_type_template_id_0d846a
           evolutionValue: dashboardKPIs.revenueEvolution
         });
       }
-
       return kpis;
     },
-    isUserAllowedToAddSite: function isUserAllowedToAddSite() {
+    isUserAllowedToAddSite() {
       return external_CoreHome_["Matomo"].hasSuperUserAccess;
     }
   },
   methods: {
-    searchSite: function searchSite(term) {
+    searchSite(term) {
       AllWebsitesDashboard_store.searchSite(term);
     }
   }
@@ -1255,97 +1102,84 @@ SitesTablevue_type_script_lang_ts.render = SitesTablevue_type_template_id_0d846a
 AllWebsitesDashboardvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var AllWebsitesDashboard = (AllWebsitesDashboardvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/MultisitesSite/MultisitesSite.vue?vue&type=template&id=052ab191
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/MultisitesSite/MultisitesSite.vue?vue&type=template&id=052ab191
 
-var MultisitesSitevue_type_template_id_052ab191_hoisted_1 = {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_1 = {
   key: 0,
   class: "multisites-label label"
 };
-var MultisitesSitevue_type_template_id_052ab191_hoisted_2 = ["href"];
-var MultisitesSitevue_type_template_id_052ab191_hoisted_3 = {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_2 = ["href"];
+const MultisitesSitevue_type_template_id_052ab191_hoisted_3 = {
   key: 0
 };
-var MultisitesSitevue_type_template_id_052ab191_hoisted_4 = ["href", "title"];
-
-var MultisitesSitevue_type_template_id_052ab191_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_4 = ["href", "title"];
+const MultisitesSitevue_type_template_id_052ab191_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon icon-outlink"
 }, null, -1);
-
-var MultisitesSitevue_type_template_id_052ab191_hoisted_6 = [MultisitesSitevue_type_template_id_052ab191_hoisted_5];
-var MultisitesSitevue_type_template_id_052ab191_hoisted_7 = {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_6 = [MultisitesSitevue_type_template_id_052ab191_hoisted_5];
+const MultisitesSitevue_type_template_id_052ab191_hoisted_7 = {
   key: 1,
   class: "multisites-label label"
 };
-var MultisitesSitevue_type_template_id_052ab191_hoisted_8 = {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_8 = {
   class: "value"
 };
-var MultisitesSitevue_type_template_id_052ab191_hoisted_9 = {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_9 = {
   class: "multisites-column"
 };
-var MultisitesSitevue_type_template_id_052ab191_hoisted_10 = {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_10 = {
   class: "value"
 };
-var MultisitesSitevue_type_template_id_052ab191_hoisted_11 = {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_11 = {
   class: "multisites-column"
 };
-var MultisitesSitevue_type_template_id_052ab191_hoisted_12 = {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_12 = {
   class: "value"
 };
-var MultisitesSitevue_type_template_id_052ab191_hoisted_13 = {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_13 = {
   key: 2,
   class: "multisites-column"
 };
-var MultisitesSitevue_type_template_id_052ab191_hoisted_14 = {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_14 = {
   class: "value"
 };
-var MultisitesSitevue_type_template_id_052ab191_hoisted_15 = ["title"];
-var MultisitesSitevue_type_template_id_052ab191_hoisted_16 = {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_15 = ["title"];
+const MultisitesSitevue_type_template_id_052ab191_hoisted_16 = {
   key: 0,
   class: "visits value"
 };
-
-var MultisitesSitevue_type_template_id_052ab191_hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   class: "multisites_icon",
   src: "plugins/MultiSites/images/arrow_up.png",
   alt: ""
 }, null, -1);
-
-var MultisitesSitevue_type_template_id_052ab191_hoisted_18 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])();
-
-var MultisitesSitevue_type_template_id_052ab191_hoisted_19 = {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_18 = {
   style: {
     "color": "green"
   }
 };
-
-var MultisitesSitevue_type_template_id_052ab191_hoisted_20 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   class: "multisites_icon",
   src: "plugins/MultiSites/images/stop.png",
   alt: ""
 }, null, -1);
-
-var MultisitesSitevue_type_template_id_052ab191_hoisted_21 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])();
-
-var MultisitesSitevue_type_template_id_052ab191_hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+const MultisitesSitevue_type_template_id_052ab191_hoisted_20 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   class: "multisites_icon",
   src: "plugins/MultiSites/images/arrow_down.png",
   alt: ""
 }, null, -1);
-
-var _hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])();
-
-var _hoisted_24 = {
+const _hoisted_21 = {
   style: {
     "color": "red"
   }
 };
-var _hoisted_25 = {
+const _hoisted_22 = {
   key: 4,
   style: {
     "width": "180px"
   }
 };
-var _hoisted_26 = {
+const _hoisted_23 = {
   key: 0,
   class: "sparkline",
   style: {
@@ -1353,8 +1187,8 @@ var _hoisted_26 = {
     "margin": "auto"
   }
 };
-var _hoisted_27 = ["href", "title"];
-var _hoisted_28 = ["src"];
+const _hoisted_24 = ["href", "title"];
+const _hoisted_25 = ["src"];
 function MultisitesSitevue_type_template_id_052ab191_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
@@ -1376,7 +1210,7 @@ function MultisitesSitevue_type_template_id_052ab191_render(_ctx, _cache, $props
     key: 3,
     class: "multisites-evolution",
     title: _ctx.website.tooltip
-  }, [!_ctx.website.isGroup ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MultisitesSitevue_type_template_id_052ab191_hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [MultisitesSitevue_type_template_id_052ab191_hoisted_17, MultisitesSitevue_type_template_id_052ab191_hoisted_18, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MultisitesSitevue_type_template_id_052ab191_hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.website[_ctx.evolutionMetric]), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.website["".concat(_ctx.evolutionMetric, "_trend")] === 1]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [MultisitesSitevue_type_template_id_052ab191_hoisted_20, MultisitesSitevue_type_template_id_052ab191_hoisted_21, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.website[_ctx.evolutionMetric]), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.website["".concat(_ctx.evolutionMetric, "_trend")] === 0]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [MultisitesSitevue_type_template_id_052ab191_hoisted_22, _hoisted_23, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_24, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.website[_ctx.evolutionMetric]), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.website["".concat(_ctx.evolutionMetric, "_trend")] === -1]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 8, MultisitesSitevue_type_template_id_052ab191_hoisted_15)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.showSparklines ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("td", _hoisted_25, [!_ctx.website.isGroup ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_26, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  }, [!_ctx.website.isGroup ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MultisitesSitevue_type_template_id_052ab191_hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [MultisitesSitevue_type_template_id_052ab191_hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MultisitesSitevue_type_template_id_052ab191_hoisted_18, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.website[_ctx.evolutionMetric]), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.website[`${_ctx.evolutionMetric}_trend`] === 1]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [MultisitesSitevue_type_template_id_052ab191_hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.website[_ctx.evolutionMetric]), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.website[`${_ctx.evolutionMetric}_trend`] === 0]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [MultisitesSitevue_type_template_id_052ab191_hoisted_20, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_21, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.website[_ctx.evolutionMetric]), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.website[`${_ctx.evolutionMetric}_trend`] === -1]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 8, MultisitesSitevue_type_template_id_052ab191_hoisted_15)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.showSparklines ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("td", _hoisted_22, [!_ctx.website.isGroup ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_23, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     rel: "noreferrer noopener",
     target: "_blank",
     href: _ctx.dashboardUrl(_ctx.website),
@@ -1386,11 +1220,11 @@ function MultisitesSitevue_type_template_id_052ab191_render(_ctx, _cache, $props
     width: "100",
     height: "25",
     src: _ctx.sparklineImage(_ctx.website)
-  }, null, 8, _hoisted_28)], 8, _hoisted_27)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2);
+  }, null, 8, _hoisted_25)], 8, _hoisted_24)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2);
 }
 // CONCATENATED MODULE: ./plugins/MultiSites/vue/src/MultisitesSite/MultisitesSite.vue?vue&type=template&id=052ab191
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/MultisitesSite/MultisitesSite.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/MultisitesSite/MultisitesSite.vue?vue&type=script&lang=ts
 
 
 /* harmony default export */ var MultisitesSitevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
@@ -1408,55 +1242,52 @@ function MultisitesSitevue_type_template_id_052ab191_render(_ctx, _cache, $props
     displayRevenueColumn: Boolean,
     metric: String
   },
-  mounted: function mounted() {
+  mounted() {
     external_CoreHome_["Matomo"].postEvent('MultiSites.MultiSitesSite.mounted', {
       element: this.$refs.root
     });
   },
-  unmounted: function unmounted() {
+  unmounted() {
     external_CoreHome_["Matomo"].postEvent('MultiSites.MultiSitesSite.unmounted', {
       element: this.$refs.root
     });
   },
   methods: {
-    dashboardUrl: function dashboardUrl(website) {
-      return "index.php?module=CoreHome&action=index&date=".concat(this.date, "&period=").concat(this.period) + "&idSite=".concat(website.idsite).concat(this.tokenParam);
+    dashboardUrl(website) {
+      return `index.php?module=CoreHome&action=index&date=${this.date}&period=${this.period}` + `&idSite=${website.idsite}${this.tokenParam}`;
     },
-    sparklineImage: function sparklineImage(website) {
-      var metric = this.metric;
-
+    sparklineImage(website) {
+      let {
+        metric
+      } = this;
       switch (this.evolutionMetric) {
         case 'visits_evolution':
           metric = 'nb_visits';
           break;
-
         case 'pageviews_evolution':
           metric = 'nb_pageviews';
           break;
-
         case 'revenue_evolution':
           metric = 'revenue';
           break;
-
         default:
           break;
       }
-
-      return "index.php?module=MultiSites&action=getEvolutionGraph&period=".concat(this.period, "&date=") + "".concat(this.dateSparkline, "&evolutionBy=").concat(metric, "&columns=").concat(metric, "&idSite=").concat(website.idsite) + "&idsite=".concat(website.idsite, "&viewDataTable=sparkline").concat(this.tokenParam, "&colors=") + "".concat(encodeURIComponent(JSON.stringify(external_CoreHome_["Matomo"].getSparklineColors())));
+      return `index.php?module=MultiSites&action=getEvolutionGraph&period=${this.period}&date=` + `${this.dateSparkline}&evolutionBy=${metric}&columns=${metric}&idSite=${website.idsite}` + `&idsite=${website.idsite}&viewDataTable=sparkline${this.tokenParam}&colors=` + `${encodeURIComponent(JSON.stringify(external_CoreHome_["Matomo"].getSparklineColors()))}`;
     }
   },
   computed: {
-    tokenParam: function tokenParam() {
-      var token_auth = external_CoreHome_["MatomoUrl"].urlParsed.value.token_auth;
-      return token_auth ? "&token_auth=".concat(token_auth) : '';
+    tokenParam() {
+      const token_auth = external_CoreHome_["MatomoUrl"].urlParsed.value.token_auth;
+      return token_auth ? `&token_auth=${token_auth}` : '';
     },
-    period: function period() {
+    period() {
       return external_CoreHome_["Matomo"].period;
     },
-    date: function date() {
+    date() {
       return external_CoreHome_["MatomoUrl"].urlParsed.value.date;
     },
-    websiteLabel: function websiteLabel() {
+    websiteLabel() {
       return external_CoreHome_["Matomo"].helper.htmlDecode(this.website.label);
     }
   }
@@ -1471,14 +1302,7 @@ MultisitesSitevue_type_script_lang_ts.render = MultisitesSitevue_type_template_i
 
 /* harmony default export */ var MultisitesSite = (MultisitesSitevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/MultiSites/vue/src/Dashboard/Dashboard.store.ts
-function Dashboard_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function Dashboard_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function Dashboard_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) Dashboard_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) Dashboard_store_defineProperties(Constructor, staticProps); return Constructor; }
-
 function Dashboard_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -1487,15 +1311,11 @@ function Dashboard_store_defineProperty(obj, key, value) { if (key in obj) { Obj
  */
 
 
-var _window = window,
-    NumberFormatter = _window.NumberFormatter;
-
-var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
-  function DashboardStore() {
-    var _this = this;
-
-    Dashboard_store_classCallCheck(this, DashboardStore);
-
+const {
+  NumberFormatter
+} = window;
+class Dashboard_store_DashboardStore {
+  constructor() {
     Dashboard_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       sites: [],
       isLoading: false,
@@ -1515,394 +1335,304 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
       refreshInterval: 0,
       errorLoadingSites: false
     }));
-
     Dashboard_store_defineProperty(this, "refreshTimeout", null);
-
     Dashboard_store_defineProperty(this, "fetchAbort", null);
-
-    Dashboard_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
-    }));
-
-    Dashboard_store_defineProperty(this, "numberOfFilteredSites", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.state.value.numberOfSites;
-    }));
-
-    Dashboard_store_defineProperty(this, "numberOfPages", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Math.ceil(_this.numberOfFilteredSites.value / _this.state.value.pageSize - 1);
-    }));
-
-    Dashboard_store_defineProperty(this, "currentPagingOffset", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Math.ceil(_this.state.value.currentPage * _this.state.value.pageSize);
-    }));
-
-    Dashboard_store_defineProperty(this, "paginationLowerBound", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.currentPagingOffset.value + 1;
-    }));
-
-    Dashboard_store_defineProperty(this, "paginationUpperBound", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      var end = _this.currentPagingOffset.value + _this.state.value.pageSize;
-      var max = _this.numberOfFilteredSites.value;
-
+    Dashboard_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState)));
+    Dashboard_store_defineProperty(this, "numberOfFilteredSites", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => this.state.value.numberOfSites));
+    Dashboard_store_defineProperty(this, "numberOfPages", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Math.ceil(this.numberOfFilteredSites.value / this.state.value.pageSize - 1)));
+    Dashboard_store_defineProperty(this, "currentPagingOffset", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Math.ceil(this.state.value.currentPage * this.state.value.pageSize)));
+    Dashboard_store_defineProperty(this, "paginationLowerBound", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => this.currentPagingOffset.value + 1));
+    Dashboard_store_defineProperty(this, "paginationUpperBound", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      let end = this.currentPagingOffset.value + this.state.value.pageSize;
+      const max = this.numberOfFilteredSites.value;
       if (end > max) {
         end = max;
       }
-
       return end;
     }));
   }
-
-  Dashboard_store_createClass(DashboardStore, [{
-    key: "cancelRefereshInterval",
-    value: function cancelRefereshInterval() {
-      if (this.refreshTimeout) {
-        clearTimeout(this.refreshTimeout);
-        this.refreshTimeout = null;
-      }
+  cancelRefereshInterval() {
+    if (this.refreshTimeout) {
+      clearTimeout(this.refreshTimeout);
+      this.refreshTimeout = null;
     }
-  }, {
-    key: "updateWebsitesList",
-    value: function updateWebsitesList(report) {
-      var _this2 = this;
-
-      if (!report) {
-        this.onError();
-        return;
-      }
-
-      var allSites = report.sites;
-      allSites.forEach(function (site) {
-        if (site.ratio !== 1 && site.ratio !== '1') {
-          var percent = NumberFormatter.formatPercent(Math.round(parseInt(site.ratio, 10) * 100));
-          var metricName = null;
-          var previousTotal = '0';
-          var currentTotal = '0';
-          var evolution = '0';
-          var previousTotalAdjusted = '0';
-
-          if (_this2.state.value.sortColumn === 'nb_visits' || _this2.state.value.sortColumn === 'visits_evolution') {
-            previousTotal = NumberFormatter.formatNumber(site.previous_nb_visits);
-            currentTotal = NumberFormatter.formatNumber(site.nb_visits);
-            evolution = NumberFormatter.formatPercent(site.visits_evolution);
-            metricName = Object(external_CoreHome_["translate"])('General_ColumnNbVisits');
-            previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(parseInt(site.previous_nb_visits, 10) * parseInt(site.ratio, 10)));
-          }
-
-          if (_this2.state.value.sortColumn === 'pageviews_evolution') {
-            previousTotal = "".concat(site.previous_Actions_nb_pageviews);
-            currentTotal = "".concat(site.nb_pageviews);
-            evolution = NumberFormatter.formatPercent(site.pageviews_evolution);
-            metricName = Object(external_CoreHome_["translate"])('General_ColumnPageviews');
-            previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(parseInt(site.previous_Actions_nb_pageviews, 10) * parseInt(site.ratio, 10)));
-          }
-
-          if (_this2.state.value.sortColumn === 'revenue_evolution') {
-            previousTotal = NumberFormatter.formatCurrency(site.previous_Goal_revenue, site.currencySymbol);
-            currentTotal = NumberFormatter.formatCurrency(site.revenue, site.currencySymbol);
-            evolution = NumberFormatter.formatPercent(site.revenue_evolution);
-            metricName = Object(external_CoreHome_["translate"])('General_ColumnRevenue');
-            previousTotalAdjusted = NumberFormatter.formatCurrency(Math.round(parseInt(site.previous_Goal_revenue, 10) * parseInt(site.ratio, 10)), site.currencySymbol);
-          }
-
-          if (metricName) {
-            site.tooltip = "".concat(Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonIncomplete', [percent]), "\n");
-            site.tooltip += "".concat(Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonProportional', [percent, "".concat(previousTotalAdjusted), metricName, "".concat(previousTotal)]), "\n");
-
-            switch (site.periodName) {
-              case 'day':
-                site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonDay', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
-                break;
-
-              case 'week':
-                site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonWeek', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
-                break;
-
-              case 'month':
-                site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonMonth', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
-                break;
-
-              case 'year':
-                site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonYear', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
-                break;
-
-              default:
-                break;
-            }
+  }
+  updateWebsitesList(report) {
+    if (!report) {
+      this.onError();
+      return;
+    }
+    const allSites = report.sites;
+    allSites.forEach(site => {
+      if (site.ratio !== 1 && site.ratio !== '1') {
+        const percent = NumberFormatter.formatPercent(Math.round(parseInt(site.ratio, 10) * 100));
+        let metricName = null;
+        let previousTotal = '0';
+        let currentTotal = '0';
+        let evolution = '0';
+        let previousTotalAdjusted = '0';
+        if (this.state.value.sortColumn === 'nb_visits' || this.state.value.sortColumn === 'visits_evolution') {
+          previousTotal = NumberFormatter.formatNumber(site.previous_nb_visits);
+          currentTotal = NumberFormatter.formatNumber(site.nb_visits);
+          evolution = NumberFormatter.formatPercent(site.visits_evolution);
+          metricName = Object(external_CoreHome_["translate"])('General_ColumnNbVisits');
+          previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(parseInt(site.previous_nb_visits, 10) * parseInt(site.ratio, 10)));
+        }
+        if (this.state.value.sortColumn === 'pageviews_evolution') {
+          previousTotal = `${site.previous_Actions_nb_pageviews}`;
+          currentTotal = `${site.nb_pageviews}`;
+          evolution = NumberFormatter.formatPercent(site.pageviews_evolution);
+          metricName = Object(external_CoreHome_["translate"])('General_ColumnPageviews');
+          previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(parseInt(site.previous_Actions_nb_pageviews, 10) * parseInt(site.ratio, 10)));
+        }
+        if (this.state.value.sortColumn === 'revenue_evolution') {
+          previousTotal = NumberFormatter.formatCurrency(site.previous_Goal_revenue, site.currencySymbol);
+          currentTotal = NumberFormatter.formatCurrency(site.revenue, site.currencySymbol);
+          evolution = NumberFormatter.formatPercent(site.revenue_evolution);
+          metricName = Object(external_CoreHome_["translate"])('General_ColumnRevenue');
+          previousTotalAdjusted = NumberFormatter.formatCurrency(Math.round(parseInt(site.previous_Goal_revenue, 10) * parseInt(site.ratio, 10)), site.currencySymbol);
+        }
+        if (metricName) {
+          site.tooltip = `${Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonIncomplete', [percent])}\n`;
+          site.tooltip += `${Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonProportional', [percent, `${previousTotalAdjusted}`, metricName, `${previousTotal}`])}\n`;
+          switch (site.periodName) {
+            case 'day':
+              site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonDay', [`${currentTotal}`, metricName, `${previousTotalAdjusted}`, site.previousRange, `${evolution}`]);
+              break;
+            case 'week':
+              site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonWeek', [`${currentTotal}`, metricName, `${previousTotalAdjusted}`, site.previousRange, `${evolution}`]);
+              break;
+            case 'month':
+              site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonMonth', [`${currentTotal}`, metricName, `${previousTotalAdjusted}`, site.previousRange, `${evolution}`]);
+              break;
+            case 'year':
+              site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonYear', [`${currentTotal}`, metricName, `${previousTotalAdjusted}`, site.previousRange, `${evolution}`]);
+              break;
+            default:
+              break;
           }
         }
-      });
-      this.privateState.totalVisits = report.totals.nb_visits;
-      this.privateState.totalPageviews = report.totals.nb_pageviews;
-      this.privateState.totalActions = report.totals.nb_actions;
-      this.privateState.totalRevenue = report.totals.revenue;
-      this.privateState.lastVisits = report.totals.nb_visits_lastdate;
-      this.privateState.sites = allSites;
-      this.privateState.numberOfSites = report.numSites;
-      this.privateState.lastVisitsDate = report.lastDate;
-    }
-  }, {
-    key: "sortBy",
-    value: function sortBy(metric) {
-      if (this.state.value.sortColumn === metric) {
-        this.privateState.reverse = !this.state.value.reverse;
       }
-
-      this.privateState.sortColumn = metric;
-      this.fetchAllSites();
+    });
+    this.privateState.totalVisits = report.totals.nb_visits;
+    this.privateState.totalPageviews = report.totals.nb_pageviews;
+    this.privateState.totalActions = report.totals.nb_actions;
+    this.privateState.totalRevenue = report.totals.revenue;
+    this.privateState.lastVisits = report.totals.nb_visits_lastdate;
+    this.privateState.sites = allSites;
+    this.privateState.numberOfSites = report.numSites;
+    this.privateState.lastVisitsDate = report.lastDate;
+  }
+  sortBy(metric) {
+    if (this.state.value.sortColumn === metric) {
+      this.privateState.reverse = !this.state.value.reverse;
     }
-  }, {
-    key: "previousPage",
-    value: function previousPage() {
-      this.privateState.currentPage = this.state.value.currentPage - 1;
-      this.fetchAllSites();
+    this.privateState.sortColumn = metric;
+    this.fetchAllSites();
+  }
+  previousPage() {
+    this.privateState.currentPage = this.state.value.currentPage - 1;
+    this.fetchAllSites();
+  }
+  nextPage() {
+    this.privateState.currentPage = this.state.value.currentPage + 1;
+    this.fetchAllSites();
+  }
+  searchSite(term) {
+    this.privateState.searchTerm = term;
+    this.privateState.currentPage = 0;
+    this.fetchAllSites();
+  }
+  fetchAllSites() {
+    if (this.fetchAbort) {
+      this.fetchAbort.abort();
+      this.fetchAbort = null;
+      this.cancelRefereshInterval();
     }
-  }, {
-    key: "nextPage",
-    value: function nextPage() {
-      this.privateState.currentPage = this.state.value.currentPage + 1;
-      this.fetchAllSites();
+    this.privateState.isLoading = true;
+    this.privateState.errorLoadingSites = false;
+    const params = {
+      method: 'MultiSites.getAllWithGroups',
+      hideMetricsDoc: '1',
+      filter_sort_order: 'asc',
+      filter_limit: this.state.value.pageSize,
+      filter_offset: this.currentPagingOffset.value,
+      showColumns: ['label', 'nb_visits', 'nb_pageviews', 'visits_evolution', 'visits_evolution_trend', 'pageviews_evolution', 'pageviews_evolution_trend', 'revenue_evolution', 'revenue_evolution_trend', 'nb_actions,revenue'].join(',')
+    };
+    if (this.privateState.searchTerm) {
+      params.pattern = this.privateState.searchTerm;
     }
-  }, {
-    key: "searchSite",
-    value: function searchSite(term) {
-      this.privateState.searchTerm = term;
-      this.privateState.currentPage = 0;
-      this.fetchAllSites();
+    if (this.privateState.sortColumn) {
+      params.filter_sort_column = this.privateState.sortColumn;
     }
-  }, {
-    key: "fetchAllSites",
-    value: function fetchAllSites() {
-      var _this3 = this;
-
-      if (this.fetchAbort) {
-        this.fetchAbort.abort();
-        this.fetchAbort = null;
+    if (this.privateState.reverse) {
+      params.filter_sort_order = 'desc';
+    }
+    this.fetchAbort = new AbortController();
+    return external_CoreHome_["AjaxHelper"].fetch(params, {
+      abortController: this.fetchAbort
+    }).then(response => {
+      this.updateWebsitesList(response);
+    }).catch(() => {
+      this.onError();
+    }).finally(() => {
+      this.privateState.isLoading = false;
+      this.fetchAbort = null;
+      if (this.state.value.refreshInterval && this.state.value.refreshInterval > 0) {
         this.cancelRefereshInterval();
+        this.refreshTimeout = setTimeout(() => {
+          this.refreshTimeout = null;
+          this.fetchAllSites();
+        }, this.state.value.refreshInterval * 1000);
       }
-
-      this.privateState.isLoading = true;
-      this.privateState.errorLoadingSites = false;
-      var params = {
-        method: 'MultiSites.getAllWithGroups',
-        hideMetricsDoc: '1',
-        filter_sort_order: 'asc',
-        filter_limit: this.state.value.pageSize,
-        filter_offset: this.currentPagingOffset.value,
-        showColumns: ['label', 'nb_visits', 'nb_pageviews', 'visits_evolution', 'visits_evolution_trend', 'pageviews_evolution', 'pageviews_evolution_trend', 'revenue_evolution', 'revenue_evolution_trend', 'nb_actions,revenue'].join(',')
-      };
-
-      if (this.privateState.searchTerm) {
-        params.pattern = this.privateState.searchTerm;
-      }
-
-      if (this.privateState.sortColumn) {
-        params.filter_sort_column = this.privateState.sortColumn;
-      }
-
-      if (this.privateState.reverse) {
-        params.filter_sort_order = 'desc';
-      }
-
-      this.fetchAbort = new AbortController();
-      return external_CoreHome_["AjaxHelper"].fetch(params, {
-        abortController: this.fetchAbort
-      }).then(function (response) {
-        _this3.updateWebsitesList(response);
-      }).catch(function () {
-        _this3.onError();
-      }).finally(function () {
-        _this3.privateState.isLoading = false;
-        _this3.fetchAbort = null;
-
-        if (_this3.state.value.refreshInterval && _this3.state.value.refreshInterval > 0) {
-          _this3.cancelRefereshInterval();
-
-          _this3.refreshTimeout = setTimeout(function () {
-            _this3.refreshTimeout = null;
-
-            _this3.fetchAllSites();
-          }, _this3.state.value.refreshInterval * 1000);
-        }
-      });
-    }
-  }, {
-    key: "onError",
-    value: function onError() {
-      this.privateState.errorLoadingSites = true;
-      this.privateState.sites = [];
-    }
-  }, {
-    key: "setRefreshInterval",
-    value: function setRefreshInterval(interval) {
-      this.privateState.refreshInterval = interval;
-    }
-  }, {
-    key: "setPageSize",
-    value: function setPageSize(pageSize) {
-      this.privateState.pageSize = pageSize;
-    }
-  }]);
-
-  return DashboardStore;
-}();
-
+    });
+  }
+  onError() {
+    this.privateState.errorLoadingSites = true;
+    this.privateState.sites = [];
+  }
+  setRefreshInterval(interval) {
+    this.privateState.refreshInterval = interval;
+  }
+  setPageSize(pageSize) {
+    this.privateState.pageSize = pageSize;
+  }
+}
 /* harmony default export */ var Dashboard_store = (new Dashboard_store_DashboardStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/Dashboard/Dashboard.vue?vue&type=template&id=40e2a52d
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/Dashboard/Dashboard.vue?vue&type=template&id=40e2a52d
 
-var Dashboardvue_type_template_id_40e2a52d_hoisted_1 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_1 = {
   ref: "root"
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_2 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_2 = {
   class: "card-title"
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_3 = ["innerHTML", "title"];
-var Dashboardvue_type_template_id_40e2a52d_hoisted_4 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_3 = ["innerHTML", "title"];
+const Dashboardvue_type_template_id_40e2a52d_hoisted_4 = {
   id: "mt",
   class: "dataTable card-table",
   cellspacing: "0"
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_5 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_5 = {
   class: "heading"
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_6 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_6 = {
   class: "heading"
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_7 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_7 = {
   class: "heading"
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_8 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_8 = {
   class: "heading"
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_9 = ["colspan"];
-var Dashboardvue_type_template_id_40e2a52d_hoisted_10 = ["value"];
-var Dashboardvue_type_template_id_40e2a52d_hoisted_11 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_9 = ["colspan"];
+const Dashboardvue_type_template_id_40e2a52d_hoisted_10 = ["value"];
+const Dashboardvue_type_template_id_40e2a52d_hoisted_11 = {
   value: "visits_evolution"
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_12 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_12 = {
   value: "pageviews_evolution"
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_13 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_13 = {
   key: 0,
   value: "revenue_evolution"
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_14 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_14 = {
   key: 0
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_15 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_15 = {
   colspan: "7",
   class: "allWebsitesLoading"
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_16 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_16 = {
   key: 1
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_17 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_17 = {
   key: 0
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_18 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_18 = {
   colspan: "7"
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_19 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_19 = {
   class: "notification system notification-error"
 };
-
-var Dashboardvue_type_template_id_40e2a52d_hoisted_20 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var Dashboardvue_type_template_id_40e2a52d_hoisted_21 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var Dashboardvue_type_template_id_40e2a52d_hoisted_22 = ["href"];
-
-var Dashboardvue_type_template_id_40e2a52d_hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" – ");
-
-var Dashboardvue_type_template_id_40e2a52d_hoisted_24 = ["href"];
-var Dashboardvue_type_template_id_40e2a52d_hoisted_25 = ["href"];
-
-var Dashboardvue_type_template_id_40e2a52d_hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(". ");
-
-var Dashboardvue_type_template_id_40e2a52d_hoisted_27 = {
+const Dashboardvue_type_template_id_40e2a52d_hoisted_20 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const Dashboardvue_type_template_id_40e2a52d_hoisted_21 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const Dashboardvue_type_template_id_40e2a52d_hoisted_22 = ["href"];
+const Dashboardvue_type_template_id_40e2a52d_hoisted_23 = ["href"];
+const Dashboardvue_type_template_id_40e2a52d_hoisted_24 = ["href"];
+const Dashboardvue_type_template_id_40e2a52d_hoisted_25 = {
   colspan: "8",
   class: "paging"
 };
-var Dashboardvue_type_template_id_40e2a52d_hoisted_28 = {
+const _hoisted_26 = {
   class: "row"
 };
-var _hoisted_29 = {
+const _hoisted_27 = {
   class: "col s3 add_new_site"
 };
-var _hoisted_30 = ["href"];
-
-var _hoisted_31 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const _hoisted_28 = ["href"];
+const _hoisted_29 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-add"
 }, null, -1);
-
-var _hoisted_32 = {
+const _hoisted_30 = {
   class: "col s6"
 };
-var _hoisted_33 = {
+const _hoisted_31 = {
   style: {
     "cursor": "pointer"
   }
 };
-var _hoisted_34 = {
+const _hoisted_32 = {
   class: "dataTablePages"
 };
-var _hoisted_35 = {
+const _hoisted_33 = {
   id: "counter"
 };
-var _hoisted_36 = {
+const _hoisted_34 = {
   style: {
     "cursor": "pointer"
   },
   class: "pointer"
 };
-
-var _hoisted_37 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+const _hoisted_35 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   class: "col s3"
 }, " ", -1);
-
-var _hoisted_38 = {
+const _hoisted_36 = {
   row_id: "last"
 };
-var _hoisted_39 = {
+const _hoisted_37 = {
   colspan: "8",
   class: "site_search"
 };
-var _hoisted_40 = {
+const _hoisted_38 = {
   class: "row"
 };
-var _hoisted_41 = {
+const _hoisted_39 = {
   class: "input-field col s12"
 };
-var _hoisted_42 = ["placeholder"];
-var _hoisted_43 = ["title"];
+const _hoisted_40 = ["placeholder"];
+const _hoisted_41 = ["title"];
 function Dashboardvue_type_template_id_40e2a52d_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _this = this;
-
-  var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
-
-  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
-  var _component_MultisitesSite = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MultisitesSite");
-
+  const _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
+  const _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
+  const _component_MultisitesSite = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MultisitesSite");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Dashboardvue_type_template_id_40e2a52d_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", Dashboardvue_type_template_id_40e2a52d_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
     "help-url": _ctx.externalRawLink('https://matomo.org/faq/new-to-piwik/all-websites-dashboard/'),
     "feature-name": _ctx.translate('General_AllWebsitesDashboard')
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_AllWebsitesDashboard')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        class: "smallTitle",
-        innerHTML: _ctx.$sanitize(_this.smallTitleContent),
-        title: _ctx.smallTitleTooltip
-      }, null, 8, Dashboardvue_type_template_id_40e2a52d_hoisted_3)];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_AllWebsitesDashboard')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      class: "smallTitle",
+      innerHTML: _ctx.$sanitize(this.smallTitleContent),
+      title: _ctx.smallTitleTooltip
+    }, null, 8, Dashboardvue_type_template_id_40e2a52d_hoisted_3)]),
     _: 1
   }, 8, ["help-url", "feature-name"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", Dashboardvue_type_template_id_40e2a52d_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
     id: "names",
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["label", {
       columnSorted: 'label' === _ctx.sortColumn
     }]),
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.sortBy('label');
-    })
+    onClick: _cache[0] || (_cache[0] = $event => _ctx.sortBy('label'))
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", Dashboardvue_type_template_id_40e2a52d_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Website')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["arrow", {
       multisites_asc: !_ctx.reverse && 'label' === _ctx.sortColumn,
@@ -1916,9 +1646,7 @@ function Dashboardvue_type_template_id_40e2a52d_render(_ctx, _cache, $props, $se
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["multisites-column", {
       columnSorted: 'nb_visits' === _ctx.sortColumn
     }]),
-    onClick: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.sortBy('nb_visits');
-    })
+    onClick: _cache[1] || (_cache[1] = $event => _ctx.sortBy('nb_visits'))
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["arrow", {
       multisites_asc: !_ctx.reverse && 'nb_visits' === _ctx.sortColumn,
@@ -1932,9 +1660,7 @@ function Dashboardvue_type_template_id_40e2a52d_render(_ctx, _cache, $props, $se
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["multisites-column", {
       columnSorted: 'nb_pageviews' === _ctx.sortColumn
     }]),
-    onClick: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.sortBy('nb_pageviews');
-    })
+    onClick: _cache[2] || (_cache[2] = $event => _ctx.sortBy('nb_pageviews'))
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["arrow", {
       multisites_asc: !_ctx.reverse && 'nb_pageviews' === _ctx.sortColumn,
@@ -1949,9 +1675,7 @@ function Dashboardvue_type_template_id_40e2a52d_render(_ctx, _cache, $props, $se
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["multisites-column", {
       columnSorted: 'revenue' === _ctx.sortColumn
     }]),
-    onClick: _cache[3] || (_cache[3] = function ($event) {
-      return _ctx.sortBy('revenue');
-    })
+    onClick: _cache[3] || (_cache[3] = $event => _ctx.sortBy('revenue'))
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["arrow", {
       multisites_asc: !_ctx.reverse && 'revenue' === _ctx.sortColumn,
@@ -1976,9 +1700,7 @@ function Dashboardvue_type_template_id_40e2a52d_render(_ctx, _cache, $props, $se
     }
   }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "evolution",
-    onClick: _cache[4] || (_cache[4] = function ($event) {
-      return _ctx.sortBy(_ctx.evolutionSelector);
-    }),
+    onClick: _cache[4] || (_cache[4] = $event => _ctx.sortBy(_ctx.evolutionSelector)),
     style: {
       "margin-right": "3.5px"
     }
@@ -1986,9 +1708,8 @@ function Dashboardvue_type_template_id_40e2a52d_render(_ctx, _cache, $props, $se
     class: "selector browser-default",
     id: "evolution_selector",
     value: _ctx.evolutionSelector,
-    onChange: _cache[5] || (_cache[5] = function ($event) {
+    onChange: _cache[5] || (_cache[5] = $event => {
       _ctx.evolutionSelector = $event.target.value;
-
       _ctx.sortBy(_ctx.evolutionSelector);
     })
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("option", Dashboardvue_type_template_id_40e2a52d_hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnNbVisits')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("option", Dashboardvue_type_template_id_40e2a52d_hoisted_12, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnPageviews')), 1), _ctx.displayRevenueColumn ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("option", Dashboardvue_type_template_id_40e2a52d_hoisted_13, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnRevenue')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 40, Dashboardvue_type_template_id_40e2a52d_hoisted_10)], 10, Dashboardvue_type_template_id_40e2a52d_hoisted_9)])]), _ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tbody", Dashboardvue_type_template_id_40e2a52d_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", Dashboardvue_type_template_id_40e2a52d_hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
@@ -1998,15 +1719,15 @@ function Dashboardvue_type_template_id_40e2a52d_render(_ctx, _cache, $props, $se
     rel: "noreferrer noopener",
     target: "_blank",
     href: _ctx.externalRawLink('https://matomo.org/faq/troubleshooting/faq_19489/')
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Faq')), 9, Dashboardvue_type_template_id_40e2a52d_hoisted_22), Dashboardvue_type_template_id_40e2a52d_hoisted_23, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Faq')), 9, Dashboardvue_type_template_id_40e2a52d_hoisted_22), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" – "), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     rel: "noreferrer noopener",
     target: "_blank",
     href: _ctx.externalRawLink('https://forum.matomo.org/')
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_CommunityHelp')), 9, Dashboardvue_type_template_id_40e2a52d_hoisted_24), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, " – ", 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.areAdsForProfessionalServicesEnabled]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_CommunityHelp')), 9, Dashboardvue_type_template_id_40e2a52d_hoisted_23), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, " – ", 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.areAdsForProfessionalServicesEnabled]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     rel: "noreferrer noopener",
     target: "_blank",
     href: _ctx.professionalHelpUrl
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_ProfessionalHelp')), 9, Dashboardvue_type_template_id_40e2a52d_hoisted_25), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.areAdsForProfessionalServicesEnabled]]), Dashboardvue_type_template_id_40e2a52d_hoisted_26])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.sites, function (website) {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_ProfessionalHelp')), 9, Dashboardvue_type_template_id_40e2a52d_hoisted_24), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.areAdsForProfessionalServicesEnabled]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(". ")])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.sites, website => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_MultisitesSite, {
       key: website.idsite,
       website: website,
@@ -2016,41 +1737,31 @@ function Dashboardvue_type_template_id_40e2a52d_render(_ctx, _cache, $props, $se
       metric: _ctx.sortColumn,
       "display-revenue-column": _ctx.displayRevenueColumn
     }, null, 8, ["website", "evolution-metric", "date-sparkline", "show-sparklines", "metric", "display-revenue-column"]);
-  }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tfoot", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", Dashboardvue_type_template_id_40e2a52d_hoisted_27, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Dashboardvue_type_template_id_40e2a52d_hoisted_28, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_29, [_ctx.hasSuperUserAccess ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+  }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tfoot", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", Dashboardvue_type_template_id_40e2a52d_hoisted_25, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_26, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_27, [_ctx.hasSuperUserAccess ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     key: 0,
     href: _ctx.addSiteUrl
-  }, [_hoisted_31, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SitesManager_AddSite')), 1)], 8, _hoisted_30)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_32, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }, [_hoisted_29, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SitesManager_AddSite')), 1)], 8, _hoisted_28)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_30, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     id: "prev",
     class: "previous dataTablePrevious",
-    onClick: _cache[6] || (_cache[6] = function ($event) {
-      return _ctx.previousPage();
-    })
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_33, "« " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Previous')), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !(_ctx.currentPage === 0)]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_34, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_35, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Pagination', _ctx.paginationLowerBound, _ctx.paginationUpperBound, _ctx.numberOfFilteredSites)), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    onClick: _cache[6] || (_cache[6] = $event => _ctx.previousPage())
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_31, "« " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Previous')), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !(_ctx.currentPage === 0)]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_32, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_33, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Pagination', _ctx.paginationLowerBound, _ctx.paginationUpperBound, _ctx.numberOfFilteredSites)), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     id: "next",
     class: "next dataTableNext",
-    onClick: _cache[7] || (_cache[7] = function ($event) {
-      return _ctx.nextPage();
-    })
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_36, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Next')) + " »", 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !(_ctx.currentPage >= _ctx.numberOfPages)]])]), _hoisted_37])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", _hoisted_38, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", _hoisted_39, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_40, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_41, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    onClick: _cache[7] || (_cache[7] = $event => _ctx.nextPage())
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_34, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Next')) + " »", 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !(_ctx.currentPage >= _ctx.numberOfPages)]])]), _hoisted_35])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", _hoisted_36, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", _hoisted_37, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_38, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_39, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "text",
-    onKeydown: _cache[8] || (_cache[8] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(function ($event) {
-      return _ctx.searchSite(_ctx.searchTerm);
-    }, ["enter"])),
-    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
-      return _ctx.searchTerm = $event;
-    }),
+    onKeydown: _cache[8] || (_cache[8] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])($event => _ctx.searchSite(_ctx.searchTerm), ["enter"])),
+    "onUpdate:modelValue": _cache[9] || (_cache[9] = $event => _ctx.searchTerm = $event),
     placeholder: _ctx.translate('Actions_SubmenuSitesearch')
-  }, null, 40, _hoisted_42), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.searchTerm]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }, null, 40, _hoisted_40), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.searchTerm]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "icon-search search_ico",
-    onClick: _cache[10] || (_cache[10] = function ($event) {
-      return _ctx.searchSite(_ctx.searchTerm);
-    }),
+    onClick: _cache[10] || (_cache[10] = $event => _ctx.searchSite(_ctx.searchTerm)),
     title: _ctx.translate('General_ClickToSearch')
-  }, null, 8, _hoisted_43)])])])])])])], 512);
+  }, null, 8, _hoisted_41)])])])])])])], 512);
 }
 // CONCATENATED MODULE: ./plugins/MultiSites/vue/src/Dashboard/Dashboard.vue?vue&type=template&id=40e2a52d
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/Dashboard/Dashboard.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/Dashboard/Dashboard.vue?vue&type=script&lang=ts
 
 
 
@@ -2068,102 +1779,101 @@ function Dashboardvue_type_template_id_40e2a52d_render(_ctx, _cache, $props, $se
     ActivityIndicator: external_CoreHome_["ActivityIndicator"],
     MultisitesSite: MultisitesSite
   },
-  data: function data() {
+  data() {
     return {
       evolutionSelector: 'visits_evolution',
       searchTerm: ''
     };
   },
-  created: function created() {
+  created() {
     if (this.pageSize) {
       Dashboard_store.setPageSize(this.pageSize);
     }
-
     this.refresh(this.autoRefreshTodayReport);
   },
   methods: {
-    refresh: function refresh(interval) {
+    refresh(interval) {
       Dashboard_store.setRefreshInterval(interval);
       Dashboard_store.fetchAllSites();
     },
-    sortBy: function sortBy(column) {
+    sortBy(column) {
       Dashboard_store.sortBy(column);
     },
-    previousPage: function previousPage() {
+    previousPage() {
       Dashboard_store.previousPage();
     },
-    nextPage: function nextPage() {
+    nextPage() {
       Dashboard_store.nextPage();
     },
-    searchSite: function searchSite() {
+    searchSite() {
       Dashboard_store.searchSite(this.searchTerm);
     }
   },
   computed: {
-    hasSuperUserAccess: function hasSuperUserAccess() {
+    hasSuperUserAccess() {
       return external_CoreHome_["Matomo"].hasSuperUserAccess;
     },
-    date: function date() {
+    date() {
       return external_CoreHome_["MatomoUrl"].urlParsed.value.date;
     },
-    idSite: function idSite() {
+    idSite() {
       return external_CoreHome_["MatomoUrl"].urlParsed.value.idSite;
     },
-    url: function url() {
+    url() {
       return external_CoreHome_["Matomo"].piwik_url;
     },
-    period: function period() {
+    period() {
       return external_CoreHome_["Matomo"].period;
     },
-    areAdsForProfessionalServicesEnabled: function areAdsForProfessionalServicesEnabled() {
+    areAdsForProfessionalServicesEnabled() {
       return external_CoreHome_["Matomo"].config && external_CoreHome_["Matomo"].config.are_ads_enabled;
     },
-    sortColumn: function sortColumn() {
+    sortColumn() {
       return Dashboard_store.state.value.sortColumn;
     },
-    reverse: function reverse() {
+    reverse() {
       return Dashboard_store.state.value.reverse;
     },
-    smallTitleContent: function smallTitleContent() {
-      var state = Dashboard_store.state.value;
-      return Object(external_CoreHome_["translate"])('General_TotalVisitsPageviewsActionsRevenue', "<strong>".concat(state.totalVisits, "</strong>"), "<strong>".concat(state.totalPageviews, "</strong>"), "<strong>".concat(state.totalActions, "</strong>"), "<strong>".concat(state.totalRevenue, "</strong>"));
+    smallTitleContent() {
+      const state = Dashboard_store.state.value;
+      return Object(external_CoreHome_["translate"])('General_TotalVisitsPageviewsActionsRevenue', `<strong>${state.totalVisits}</strong>`, `<strong>${state.totalPageviews}</strong>`, `<strong>${state.totalActions}</strong>`, `<strong>${state.totalRevenue}</strong>`);
     },
-    smallTitleTooltip: function smallTitleTooltip() {
-      var state = Dashboard_store.state.value;
-      return Object(external_CoreHome_["translate"])('General_EvolutionSummaryGeneric', Object(external_CoreHome_["translate"])('General_NVisits', "".concat(state.totalVisits)), this.date, "".concat(state.lastVisits), state.lastVisitsDate, Object(external_CoreHome_["getFormattedEvolution"])(state.totalVisits, state.lastVisits));
+    smallTitleTooltip() {
+      const state = Dashboard_store.state.value;
+      return Object(external_CoreHome_["translate"])('General_EvolutionSummaryGeneric', Object(external_CoreHome_["translate"])('General_NVisits', `${state.totalVisits}`), this.date, `${state.lastVisits}`, state.lastVisitsDate, Object(external_CoreHome_["getFormattedEvolution"])(state.totalVisits, state.lastVisits));
     },
-    loadingMessage: function loadingMessage() {
+    loadingMessage() {
       return Dashboard_store.state.value.loadingMessage;
     },
-    isLoading: function isLoading() {
+    isLoading() {
       return Dashboard_store.state.value.isLoading;
     },
-    errorLoadingSites: function errorLoadingSites() {
+    errorLoadingSites() {
       return Dashboard_store.state.value.errorLoadingSites;
     },
-    sites: function sites() {
+    sites() {
       return Dashboard_store.state.value.sites;
     },
-    numberOfPages: function numberOfPages() {
+    numberOfPages() {
       return Dashboard_store.numberOfPages.value;
     },
-    currentPage: function currentPage() {
+    currentPage() {
       return Dashboard_store.state.value.currentPage;
     },
-    paginationLowerBound: function paginationLowerBound() {
+    paginationLowerBound() {
       return Dashboard_store.paginationLowerBound.value;
     },
-    paginationUpperBound: function paginationUpperBound() {
+    paginationUpperBound() {
       return Dashboard_store.paginationUpperBound.value;
     },
-    numberOfFilteredSites: function numberOfFilteredSites() {
+    numberOfFilteredSites() {
       return Dashboard_store.numberOfFilteredSites.value;
     },
-    professionalHelpUrl: function professionalHelpUrl() {
+    professionalHelpUrl() {
       return Object(external_CoreHome_["externalRawLink"])('https://matomo.org/support-plans/');
     },
-    addSiteUrl: function addSiteUrl() {
-      return "index.php?module=SitesManager&action=index&showaddsite=1&period=".concat(this.period, "&") + "date=".concat(this.date, "&idSite=").concat(this.idSite);
+    addSiteUrl() {
+      return `index.php?module=SitesManager&action=index&showaddsite=1&period=${this.period}&` + `date=${this.date}&idSite=${this.idSite}`;
     }
   }
 }));
