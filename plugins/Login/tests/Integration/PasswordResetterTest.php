@@ -150,7 +150,12 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
         $this->assertNotEmpty($this->capturedToken);
 
-        $this->passwordResetter->checkValidConfirmPasswordToken('superUserLogin', $this->capturedToken);
+        try {
+            $this->passwordResetter->checkValidConfirmPasswordToken('superUserLogin', $this->capturedToken);
+        } catch (\Exception $e) {
+            $this->fail("Expected password reset token '{$this->capturedToken}' to be valid, but it wasn't");
+        }
+
         $this->checkPasswordIs(self::NEWPASSWORD);
 
         sleep(1);
@@ -229,7 +234,12 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->assertNotEmpty($this->capturedToken);
         $this->assertFalse($this->receivedCancelEmail);
 
-        $this->passwordResetter->checkValidConfirmPasswordToken(self::$fixture::ADMIN_USER_LOGIN, $this->capturedToken);
+        try {
+            $this->passwordResetter->checkValidConfirmPasswordToken(self::$fixture::ADMIN_USER_LOGIN, $this->capturedToken);
+        } catch (\Exception $e) {
+            $this->fail("Expected password reset token '{$this->capturedToken}' to be valid, but it wasn't");
+        }
+
         $this->passwordResetter->cancelPasswordResetProcess(self::$fixture::ADMIN_USER_LOGIN, $this->capturedToken);
         $this->assertSame(['superUserLogin'], $this->eventCancelledInfo);
         $this->assertTrue($this->receivedCancelEmail);

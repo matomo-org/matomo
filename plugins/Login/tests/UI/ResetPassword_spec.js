@@ -139,9 +139,13 @@ describe('ResetPassword', function () {
             await goToForgotPasswordPage();
             await requestPasswordReset();
 
-            // wait for "link sent" message
             await page.waitForNetworkIdle();
             await page.waitForSelector('.message_container .message');
+
+            const message = await page.$('.message_container .message');
+            const messageText = await message.getProperty('textContent');
+
+            expect(messageText).to.match(/Open the confirmation link sent to your e-mail inbox to confirm changing your password/i);
         });
 
         it('should show confirmation page when "was not me" link is clicked', async function () {

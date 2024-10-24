@@ -166,20 +166,19 @@ class PasswordResetter
      *
      * The current password reset information will be deleted.
      *
-     * @param string $login The user's login.
+     * @param string $loginOrEmail The user's login or email address.
      * @param string $resetToken The reset token to invalidate.
      * @throws Exception if $loginOrEmail does not have a reset process active,
      *                   if $token does not match the active reset token,
      *                   or if sending an email fails in some way
      */
-    public function cancelPasswordResetProcess(string $login, string $resetToken): void
+    public function cancelPasswordResetProcess(string $loginOrEmail, string $resetToken): void
     {
-        $this->checkValidConfirmPasswordToken($login, $resetToken);
+        $this->checkValidConfirmPasswordToken($loginOrEmail, $resetToken);
 
-        $resetInfo = $this->getPasswordResetInfo($login);
-        $user = self::getUserInformation($login);
+        $user = self::getUserInformation($loginOrEmail);
 
-        $this->removePasswordResetInfo($login);
+        $this->removePasswordResetInfo($user['login']);
 
         /**
          * Triggered after a user cancelled a password reset process.
@@ -514,7 +513,7 @@ class PasswordResetter
             $mail->setDefaultFromPiwik();
         }
 
-        @$mail->send();
+        $mail->safeSend();
     }
 
     /**
