@@ -55,6 +55,7 @@ class PasswordResetEmail extends Mail
 
         $this->setSubject($this->getDefaultSubject());
         $this->addReplyTo($replytoEmailAddress, $replytoEmailName);
+        $this->setBodyText($this->getDefaultBodyText());
         $this->setWrappedHtmlBody($this->getDefaultBodyView());
     }
 
@@ -63,14 +64,29 @@ class PasswordResetEmail extends Mail
         return Piwik::translate('Login_PasswordResetEmailSubject');
     }
 
-    protected function getDefaultBodyView(): string
+    protected function getDefaultBodyText(): string
     {
-        $view = new View('@Login/_passwordResetEmail.twig');
+        $view = new View('@Login/_passwordResetTextEmail.twig');
+
+        $this->assignCommonParameters($view);
+
+        return $view->render();
+    }
+
+    protected function getDefaultBodyView(): View
+    {
+        $view = new View('@Login/_passwordResetHtmlEmail.twig');
+
+        $this->assignCommonParameters($view);
+
+        return $view;
+    }
+
+    protected function assignCommonParameters(View $view): void
+    {
         $view->login = $this->login;
         $view->ip = $this->ip;
         $view->resetUrl = $this->resetUrl;
         $view->cancelUrl = $this->cancelUrl;
-
-        return $view->render();
     }
 }
