@@ -251,7 +251,7 @@ class ApiTest extends IntegrationTestCase
         }
     }
 
-    public function testAddSiteShouldFailAndNotCreatedASiteIfTypeIsInvalid()
+    public function testAddSiteShouldFailAndNotCreateASiteIfTypeIsInvalid()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid website type notexistingtype');
