@@ -86,6 +86,17 @@ jobs:
           gpg-connect-agent "RELOADAGENT" /bye
           gpg-connect-agent "PRESET_PASSPHRASE ${keygrip} -1 ${hexPassphrase}" /bye
           gpg-connect-agent "KEYINFO ${keygrip}" /bye
+      # Prevents dev dependencies from being reported in SBOM
+      - name: Prepare for SBOM
+        run: rm ./package-lock.json ./tests/lib/screenshot-testing/package-lock.json
+      - name: Create SBOM
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          export bin=docker-scout_1.6.3_linux_$(dpkg --print-architecture).tar.gz
+          curl -OL https://github.com/docker/scout-cli/releases/download/v1.6.3/$bin
+          tar -xvzf $bin -C "$HOME/.local/bin"
+          docker-scout sbom --format spdx fs:///${{ github.workspace }} > ${{ github.workspace }}/matomo.spdx.json
       - name: Check preconditions, create tag, build and publish release
         id: tag
         run: |
