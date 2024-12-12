@@ -113,7 +113,6 @@ class DataTablePostProcessor
         //       this is non-trivial since it will require, eg, to make sure processed metrics aren't added
         //       after pivotBy is handled.
         $dataTable = $this->applyPivotByFilter($dataTable);
-        $dataTable = $this->applyTotalsCalculator($dataTable);
         $dataTable = $this->applyFlattener($dataTable);
 
         if ($this->callbackBeforeGenericFilters) {
@@ -253,7 +252,12 @@ class DataTablePostProcessor
                 $genericFilter->disableFilters(array('Limit', 'Truncate'));
             }
 
-            $genericFilter->filter($dataTable);
+            $genericFilter->filter($dataTable, function ($dataTable) {
+                return $this->applyTotalsCalculator($dataTable);
+            });
+        } else {
+            // ensure totals calculator is applied even if generic filters are disabled
+            $this->applyTotalsCalculator($dataTable);
         }
 
         return $dataTable;
