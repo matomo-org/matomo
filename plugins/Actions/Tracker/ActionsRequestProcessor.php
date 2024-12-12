@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\Actions\Tracker;
 
+use Piwik\Common;
+use Piwik\Tracker;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestProcessor;
@@ -80,6 +82,11 @@ class ActionsRequestProcessor extends RequestProcessor
 
     public function recordLogs(VisitProperties $visitProperties, Request $request)
     {
+        // Record page view time.
+        if ($request->getParam('pv_id')) {
+            $this->upsertPageViewTime($request->getParam('pv_id'), $request->getCurrentTimestamp());
+        }
+
         /** @var Action $action */
         $action = $request->getMetadata('Actions', 'action');
 
@@ -94,9 +101,28 @@ class ActionsRequestProcessor extends RequestProcessor
                 $idReferrerActionUrl = $request->getMetadata('Actions', 'idReferrerActionUrl');
                 $idReferrerActionName = $request->getMetadata('Actions', 'idReferrerActionName');
             }
-
             $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
             $action->record($visitor, $idReferrerActionUrl, $idReferrerActionName);
         }
+    }
+
+    private function upsertPageViewTime(string $idPageView, $timestamp) {
+
+        $table = Common::prefixTable('log_pageview_time');
+
+        $bind = [
+            $idPageView,
+            $timestamp
+        ];
+
+        $query = <<<QUERY
+INSERT INTO $table (idpageview, server_time, time_spent)
+VALUES (?, ?, 0)
+ON DUPLICATE KEY UPDATE
+                     time_spent = VALUES(server_time) - server_time;
+QUERY;
+
+        $db = Tracker::getDatabase();
+        $db->query($query, $bind);
     }
 }
