@@ -82,18 +82,15 @@ class ActionsRequestProcessor extends RequestProcessor
 
     public function recordLogs(VisitProperties $visitProperties, Request $request)
     {
-        // Record page view time.
-        if ($request->getParam('pv_id')) {
-            $this->upsertPageViewTime($request->getParam('pv_id'), $request->getCurrentTimestamp());
-        }
-
         /** @var Action $action */
         $action = $request->getMetadata('Actions', 'action');
-
         if (
             $action !== null
             && !$request->getMetadata('CoreHome', 'visitorNotFoundInDb')
         ) {
+
+            $this->upsertPageViewTime($action, $visitProperties, $request);
+
             $idReferrerActionUrl = 0;
             $idReferrerActionName = 0;
 
@@ -106,23 +103,75 @@ class ActionsRequestProcessor extends RequestProcessor
         }
     }
 
-    private function upsertPageViewTime(string $idPageView, $timestamp) {
+    private function upsertPageViewTime(Action $action, VisitProperties $visitProperties, Request $request) {
 
-        $table = Common::prefixTable('log_pageview_time');
+        $idVisit = $visitProperties->getProperty('idvisit');
+        $idSite = $visitProperties->getProperty('idsite');
+        $idActionName = $action->getIdActionName();
+        $idActionUrl = $action->getIdActionUrl();
 
-        $bind = [
-            $idPageView,
-            $timestamp
-        ];
-
-        $query = <<<QUERY
-INSERT INTO $table (idpageview, server_time, time_spent)
-VALUES (?, ?, 0)
-ON DUPLICATE KEY UPDATE
-                     time_spent = VALUES(server_time) - server_time;
-QUERY;
-
+        $table = Common::prefixTable('log_timespent_pageview');
         $db = Tracker::getDatabase();
-        $db->query($query, $bind);
+
+        if ($action->getActionType() === Action::TYPE_PAGE_URL) {
+            // New pageview
+            $currentTimestamp = $request->getCurrentTimestamp();
+
+            // 1. Update the time_spent of the previous pageview (if it exists)
+            $bindUpdatePrevious = [
+                $currentTimestamp,
+                (int) $idVisit,
+                (int) $idSite,
+                (int) $idVisit,
+                (int) $idSite,
+                $currentTimestamp
+            ];
+            $queryUpdatePrevious = <<<SQL
+            UPDATE $table
+            SET time_spent = ? - servertime
+            WHERE idvisit = ? AND idsite = ?
+            AND servertime = (
+                SELECT MAX(servertime)
+                FROM $table
+                WHERE idvisit = ? AND idsite = ?
+                  AND servertime <= ?
+            );
+SQL;
+            $db->query($queryUpdatePrevious, $bindUpdatePrevious);
+
+            // 2. Insert the new pageview
+            $bindInsert = [
+                (int) $idVisit,
+                (int) $idSite,
+                (int) $idActionName,
+                (int) $idActionUrl,
+                $currentTimestamp
+            ];
+            $queryInsert = <<<SQL
+            INSERT INTO $table (idvisit, idsite, idaction_name, idaction_url, servertime, time_spent)
+            VALUES (?, ?, ?, ?, ?, 0);
+SQL;
+            $db->query($queryInsert, $bindInsert);
+        } else {
+            // Update time spent for the latest record
+            $bindUpdate = [
+                $request->getCurrentTimestamp(),
+                (int) $idVisit,
+                (int) $idSite,
+                (int) $idVisit,
+                (int) $idSite
+            ];
+            $queryUpdate = <<<SQL
+            UPDATE $table
+            SET time_spent = ? - servertime
+            WHERE idvisit = ? AND idsite = ?
+            AND servertime = (
+                SELECT MAX(servertime)
+                FROM $table
+                WHERE idvisit = ? AND idsite = ?
+            );
+SQL;
+            $db->query($queryUpdate, $bindUpdate);
+        }
     }
 }
