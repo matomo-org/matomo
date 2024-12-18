@@ -119,23 +119,27 @@ class ActionsRequestProcessor extends RequestProcessor
 
             // 1. Update the time_spent of the previous pageview (if it exists)
             $bindUpdatePrevious = [
+                (int) $idVisit,
+                (int) $idSite,
+                $currentTimestamp,
                 $currentTimestamp,
                 (int) $idVisit,
-                (int) $idSite,
-                (int) $idVisit,
-                (int) $idSite,
-                $currentTimestamp
+                (int) $idSite
             ];
+
             $queryUpdatePrevious = <<<SQL
+            SELECT MAX(servertime) AS max_servertime
+            INTO @max_servertime
+            FROM $table
+            WHERE idvisit = ? 
+              AND idsite = ? 
+              AND servertime <= ?;
+              
             UPDATE $table
             SET time_spent = ? - servertime
-            WHERE idvisit = ? AND idsite = ?
-            AND servertime = (
-                SELECT MAX(servertime)
-                FROM $table
-                WHERE idvisit = ? AND idsite = ?
-                  AND servertime <= ?
-            );
+            WHERE idvisit = ? 
+              AND idsite = ? 
+              AND servertime = @max_servertime;
 SQL;
             $db->query($queryUpdatePrevious, $bindUpdatePrevious);
 
@@ -148,29 +152,32 @@ SQL;
                 $currentTimestamp
             ];
             $queryInsert = <<<SQL
-            INSERT INTO $table (idvisit, idsite, idaction_name, idaction_url, servertime, time_spent)
+            INSERT IGNORE INTO $table (idvisit, idsite, idaction_name, idaction_url, servertime, time_spent)
             VALUES (?, ?, ?, ?, ?, 0);
 SQL;
             $db->query($queryInsert, $bindInsert);
         } else {
             // Update time spent for the latest record
             $bindUpdate = [
-                $request->getCurrentTimestamp(),
                 (int) $idVisit,
                 (int) $idSite,
+                $request->getCurrentTimestamp(),
                 (int) $idVisit,
                 (int) $idSite
             ];
             $queryUpdate = <<<SQL
+            SELECT MAX(servertime) AS max_servertime
+            INTO @max_servertime
+            FROM $table
+            WHERE idvisit = ? AND idsite = ?;
+
             UPDATE $table
             SET time_spent = ? - servertime
-            WHERE idvisit = ? AND idsite = ?
-            AND servertime = (
-                SELECT MAX(servertime)
-                FROM $table
-                WHERE idvisit = ? AND idsite = ?
-            );
+            WHERE idvisit = ? 
+              AND idsite = ? 
+              AND servertime = @max_servertime;
 SQL;
+
             $db->query($queryUpdate, $bindUpdate);
         }
     }
