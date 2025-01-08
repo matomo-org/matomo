@@ -257,7 +257,7 @@ class DataTablePostProcessor
             });
         } else {
             // ensure totals calculator is applied even if generic filters are disabled
-            $this->applyTotalsCalculator($dataTable);
+            $dataTable = $this->applyTotalsCalculator($dataTable);
         }
 
         return $dataTable;
