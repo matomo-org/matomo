@@ -420,19 +420,6 @@
 		<nb_uniq_visitors>8</nb_uniq_visitors>
 		<nb_visits>8</nb_visits>
 		<nb_actions>8</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>8</bounce_count>
-		<nb_visits_converted>8</nb_visits_converted>
-		<goals>
-			<row idgoal="1">
-				<nb_conversions>8</nb_conversions>
-				<nb_visits_converted>8</nb_visits_converted>
-				<revenue>40</revenue>
-			</row>
-		</goals>
-		<nb_conversions>8</nb_conversions>
 		<revenue>40</revenue>
 		<nb_actions_per_visit>1</nb_actions_per_visit>
 	</reportTotal>

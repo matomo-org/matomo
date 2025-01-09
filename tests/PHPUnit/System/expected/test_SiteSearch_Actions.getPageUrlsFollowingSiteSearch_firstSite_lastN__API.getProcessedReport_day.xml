@@ -80,12 +80,7 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>2</nb_visits>
-		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>3</nb_hits>
-		<sum_time_spent>252</sum_time_spent>
 		<nb_hits_following_search>2</nb_hits_following_search>
-		<sum_bandwidth>0</sum_bandwidth>
-		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 	</reportTotal>
 </result>

@@ -234,45 +234,16 @@
 	</reportMetadata>
 	<reportTotal>
 		<nb_visits>12</nb_visits>
-		<nb_uniq_visitors>12</nb_uniq_visitors>
 		<nb_hits>14</nb_hits>
-		<sum_time_spent>3600</sum_time_spent>
-		<sum_bandwidth>0</sum_bandwidth>
-		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-		<entry_nb_uniq_visitors>4</entry_nb_uniq_visitors>
-		<entry_nb_visits>4</entry_nb_visits>
-		<entry_nb_actions>18</entry_nb_actions>
-		<entry_sum_visit_length>5047</entry_sum_visit_length>
-		<entry_bounce_count>0</entry_bounce_count>
-		<goals>
-			<row idgoal="1">
-				<nb_conversions>9</nb_conversions>
-				<revenue>90</revenue>
-				<nb_conv_pages_before>19</nb_conv_pages_before>
-				<nb_conversions_attrib>2.9999</nb_conversions_attrib>
-				<nb_conversions_page_uniq>9</nb_conversions_page_uniq>
-				<revenue_attrib>29.99</revenue_attrib>
-				<revenue_entry>30</revenue_entry>
-				<revenue_per_entry>7.5</revenue_per_entry>
-				<nb_conversions_entry>3</nb_conversions_entry>
-				<nb_conversions_page_rate>2.999</nb_conversions_page_rate>
-				<nb_conversions_entry_rate>0.75</nb_conversions_entry_rate>
-			</row>
-			<row idgoal="2">
-				<nb_conversions>5</nb_conversions>
-				<revenue>50</revenue>
-				<nb_conv_pages_before>15</nb_conv_pages_before>
-				<nb_conversions_attrib>1</nb_conversions_attrib>
-				<nb_conversions_page_uniq>5</nb_conversions_page_uniq>
-				<revenue_attrib>10</revenue_attrib>
-				<revenue_entry>10</revenue_entry>
-				<revenue_per_entry>2.5</revenue_per_entry>
-				<nb_conversions_entry>1</nb_conversions_entry>
-				<nb_conversions_page_rate>3</nb_conversions_page_rate>
-				<nb_conversions_entry_rate>0.25</nb_conversions_entry_rate>
-			</row>
-		</goals>
-		<exit_nb_uniq_visitors>4</exit_nb_uniq_visitors>
-		<exit_nb_visits>4</exit_nb_visits>
+		<goal_1_nb_conversions>9</goal_1_nb_conversions>
+		<goal_1_revenue_per_visit>7.5</goal_1_revenue_per_visit>
+		<goal_1_revenue>90</goal_1_revenue>
+		<goal_1_nb_conversions_attrib>2.9999</goal_1_nb_conversions_attrib>
+		<goal_1_revenue_attrib>29.99</goal_1_revenue_attrib>
+		<goal_2_nb_conversions>5</goal_2_nb_conversions>
+		<goal_2_revenue_per_visit>4.17</goal_2_revenue_per_visit>
+		<goal_2_revenue>50</goal_2_revenue>
+		<goal_2_nb_conversions_attrib>1</goal_2_nb_conversions_attrib>
+		<goal_2_revenue_attrib>10</goal_2_revenue_attrib>
 	</reportTotal>
 </result>
