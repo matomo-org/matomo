@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 
@@ -128,6 +129,18 @@ class ReportTotalsCalculator extends DataTableManipulator
         ) {
             // hack for AllColumns table or default processed metrics
             $clone->filter('AddColumnsProcessedMetrics', array($deleteRowsWithNoVisit = false));
+        }
+
+        // remove processed metrics as they might haven been incorrectly summed up before
+        $clone->deleteMetadata(DataTablePostProcessor::PROCESSED_METRICS_COMPUTED_FLAG);
+        $processedMetrics = $clone->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+        if (!empty($processedMetrics) && is_array($processedMetrics)) {
+            foreach ($processedMetrics as $metric) {
+                if ($metric instanceof ProcessedMetric) {
+                    $metric = $metric->getName();
+                }
+                $clone->deleteColumn($metric);
+            }
         }
 
         $processor = new DataTablePostProcessor($this->apiModule, $this->apiMethod, $this->request);

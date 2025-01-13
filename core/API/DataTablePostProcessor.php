@@ -252,8 +252,8 @@ class DataTablePostProcessor
                 $genericFilter->disableFilters(array('Limit', 'Truncate'));
             }
 
-            $genericFilter->filter($dataTable, function ($dataTable) {
-                return $this->applyTotalsCalculator($dataTable);
+            $genericFilter->filter($dataTable, function ($dataTable) use ($self) {
+                return $self->applyTotalsCalculator($dataTable);
             });
         } else {
             // ensure totals calculator is applied even if generic filters are disabled
