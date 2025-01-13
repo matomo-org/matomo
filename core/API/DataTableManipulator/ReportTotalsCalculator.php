@@ -107,6 +107,10 @@ class ReportTotalsCalculator extends DataTableManipulator
         /** @var DataTable\Row $totalRow */
         $totalRow = null;
         foreach ($firstLevelTable->getRows() as $row) {
+            if ($row->getMetadata('is_aggregate') == '1') {
+                continue; // skip aggregated row added by flattening
+            }
+
             if (!isset($totalRow)) {
                 $columns = $row->getColumns();
                 $columns['label'] = DataTable::LABEL_TOTALS_ROW;
