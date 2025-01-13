@@ -483,24 +483,7 @@ class Row extends \ArrayObject
 
             $thisColumnValue = $this->getColumn($columnToSumName);
 
-            $operation = 'sum';
-            if ($operationsIsArray && isset($aggregationOperations[$columnToSumName])) {
-                $operationName = $aggregationOperations[$columnToSumName];
-                if (is_string($operationName)) {
-                    $operation = strtolower($operationName);
-                } elseif (is_callable($operationName)) {
-                    $operation = $operationName;
-                }
-            }
-
-            // max_actions is a core metric that is generated in ArchiveProcess_Day. Therefore, it can be
-            // present in any data table and is not part of the $aggregationOperations mechanism.
-            if ($columnToSumName == Metrics::INDEX_MAX_ACTIONS) {
-                $operation = 'max';
-            }
-            if (empty($operation)) {
-                throw new Exception("Unknown aggregation operation for column $columnToSumName.");
-            }
+            $operation = $this->getColumnAggregationOperation($columnToSumName, $aggregationOperations);
 
             $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $this, $rowToSum, $columnToSumName);
 
@@ -510,6 +493,51 @@ class Row extends \ArrayObject
         if ($enableCopyMetadata) {
             $this->sumRowMetadata($rowToSum, $aggregationOperations);
         }
+    }
+
+    protected function getColumnAggregationOperation($columnNameOrId, $aggregationOperations)
+    {
+        // max_actions is a core metric that is generated in ArchiveProcess_Day. Therefore, it can be
+        // present in any data table and is not part of the $aggregationOperations mechanism.
+        if ($columnNameOrId == Metrics::INDEX_MAX_ACTIONS) {
+            return 'max';
+        }
+
+        if (empty($aggregationOperations) || !is_array($aggregationOperations)) {
+            return 'sum';
+        }
+
+        $operationName = 'sum';
+
+        if (isset($aggregationOperations[$columnNameOrId])) {
+            $operationName = $aggregationOperations[$columnNameOrId];
+        } elseif (is_numeric($columnNameOrId)) {
+            // if the column was provided as index, check if a aggration is set for the real name
+            $metricsIdToName = Metrics::getMappingFromIdToName();
+            if (isset($metricsIdToName[$columnNameOrId]) && isset($aggregationOperations[$metricsIdToName[$columnNameOrId]])) {
+                $operationName = $aggregationOperations[$metricsIdToName[$columnNameOrId]];
+            }
+        } else {
+            // if the column was provided as string, check if a aggration is set for the index
+            $metricsNameToId = Metrics::getMappingFromNameToId();
+            if (isset($metricsNameToId[$columnNameOrId]) && isset($aggregationOperations[$metricsNameToId[$columnNameOrId]])) {
+                $operationName = $aggregationOperations[$metricsNameToId[$columnNameOrId]];
+            }
+        }
+
+        if (is_string($operationName)) {
+            return strtolower($operationName);
+        } elseif (is_callable($operationName)) {
+            return $operationName;
+        } elseif (!empty($operationName)) {
+            // log a debug message if set aggregation is invalid, but  fall back to `sum`
+            StaticContainer::get(LoggerInterface::class)->debug(
+                'Invalid column aggregation set for {column}: {aggregation}',
+                ['column' => $columnNameOrId, 'aggregation' => $operationName]
+            );
+        }
+
+        return 'sum';
     }
 
     /**
