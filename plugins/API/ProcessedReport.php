@@ -779,7 +779,7 @@ class ProcessedReport
 
     private function aggregateReportTotalValues($simpleDataTable, $metadateColumns, $totals)
     {
-        $metadataTotals = $simpleDataTable->getTotalsRow();
+        $metadataTotals = $simpleDataTable->getMetadata('totalsUnformatted');
 
         if (empty($metadataTotals)) {
             return $totals;
