@@ -98,6 +98,16 @@
       >
       </Field>
     </div>
+    <div>
+      <Field
+        uicontrol="checkbox"
+        name="randomizeConfigId"
+        :title="translate('PrivacyManager_UseRandomizeConfigId')"
+        v-model="actualAnonymizeOrderId"
+        :inline-help="translate('PrivacyManager_RandomizeConfigIdNote')"
+      >
+      </Field>
+    </div>
     <SaveButton
       @confirm="save()"
       :saving="isLoading"
@@ -119,6 +129,7 @@ interface AnonymizeIpState {
   actualAnonymizeOrderId: boolean;
   actualForceCookielessTracking: boolean;
   actualAnonymizeReferrer?: string;
+  actualRandomizeConfigId: boolean;
 }
 
 function configBoolToInt(value?: string|number|boolean): number {
@@ -157,6 +168,7 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    randomizeConfigId: Boolean,
   },
   components: {
     Field,
@@ -177,6 +189,7 @@ export default defineComponent({
       actualAnonymizeOrderId: !!this.anonymizeOrderId,
       actualForceCookielessTracking: !!this.forceCookielessTracking,
       actualAnonymizeReferrer: this.anonymizeReferrer,
+      actualRandomizeConfigId: !!this.randomizeConfigId,
     };
   },
   methods: {
@@ -195,6 +208,7 @@ export default defineComponent({
           anonymizeReferrer: this.actualAnonymizeReferrer ? this.actualAnonymizeReferrer : '',
           maskLength: this.actualMaskLength,
           useAnonymizedIpForVisitEnrichment: this.actualUseAnonymizedIpForVisitEnrichment,
+          randomizeConfigId: this.actualRandomizeConfigId ? '1' : '0',
         },
       ).then(() => {
         const notificationInstanceId = NotificationsStore.show({

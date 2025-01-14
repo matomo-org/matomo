@@ -363,6 +363,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (!$anonymizeIP["useAnonymizedIpForVisitEnrichment"]) {
             $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = '0';
         }
+        $anonymizeIP["randomizeConfigId"] = $privacyConfig->randomizeConfigId;
 
         return $anonymizeIP;
     }

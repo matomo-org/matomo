@@ -28,6 +28,7 @@ use Piwik\Tracker\Cache;
  * @property int  $anonymizeUserId      If enabled, it will pseudo anonymize the User ID
  * @property int  $anonymizeOrderId     If enabled, it will anonymize the Order ID
  * @property string  $anonymizeReferrer  Whether the referrer should be anonymized and how it much it should be anonymized
+ * @property bool $randomizeConfigId    If enabled, Matomo will generate a new random Config ID (fingerprint) for each tracking request
  */
 class Config
 {
@@ -40,6 +41,7 @@ class Config
         'anonymizeUserId'                   => array('type' => 'boolean', 'default' => false),
         'anonymizeOrderId'                  => array('type' => 'boolean', 'default' => false),
         'anonymizeReferrer'                 => array('type' => 'string', 'default' => ''),
+        'randomizeConfigId'                 => array('type' => 'boolean', 'default' => false),
     );
 
     public function __set($name, $value)
