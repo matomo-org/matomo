@@ -115,7 +115,7 @@ class VisitRequestProcessor extends RequestProcessor
             $ip = $visitProperties->getProperty('location_ip');
         }
 
-        if (!$privacyConfig->randomizeConfigId) {
+        if ($privacyConfig->randomizeConfigId) {
             // always new visit when randomising config id
             $visitorId = $this->userSettings->getRandomConfigId();
             $isKnown = false;
