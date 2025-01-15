@@ -777,7 +777,7 @@ class ProcessedReport
         );
     }
 
-    private function aggregateReportTotalValues($simpleDataTable, $metadateColumns, $totals)
+    private function aggregateReportTotalValues($simpleDataTable, $metadataColumns, $totals)
     {
         $metadataTotals = $simpleDataTable->getMetadata('totalsUnformatted');
 
@@ -790,7 +790,7 @@ class ProcessedReport
         // remove columns from totals row that are not in metadata
         foreach ($metadataTotals as $metadataCol => $metadataValue) {
             if (
-                isset($metadateColumns[$metadataCol])
+                isset($metadataColumns[$metadataCol])
                 || preg_match('/^goal_[0-9]+_/', $metadataCol)
             ) {
                 $simpleTotals[$metadataCol] = $metadataValue;

@@ -512,13 +512,13 @@ class Row extends \ArrayObject
         if (isset($aggregationOperations[$columnNameOrId])) {
             $operationName = $aggregationOperations[$columnNameOrId];
         } elseif (is_numeric($columnNameOrId)) {
-            // if the column was provided as index, check if a aggration is set for the real name
+            // if the column was provided as index, check if an aggregation is set for the real name
             $metricsIdToName = Metrics::getMappingFromIdToName();
             if (isset($metricsIdToName[$columnNameOrId]) && isset($aggregationOperations[$metricsIdToName[$columnNameOrId]])) {
                 $operationName = $aggregationOperations[$metricsIdToName[$columnNameOrId]];
             }
         } else {
-            // if the column was provided as string, check if a aggration is set for the index
+            // if the column was provided as string, check if an aggregation is set for the index
             $metricsNameToId = Metrics::getMappingFromNameToId();
             if (isset($metricsNameToId[$columnNameOrId]) && isset($aggregationOperations[$metricsNameToId[$columnNameOrId]])) {
                 $operationName = $aggregationOperations[$metricsNameToId[$columnNameOrId]];
