@@ -117,22 +117,25 @@ class VisitRequestProcessor extends RequestProcessor
 
         if ($privacyConfig->randomizeConfigId) {
             // always new visit when randomising config id
-            $visitorId = $this->userSettings->getRandomConfigId();
-            $isKnown = false;
-            $isNewVisit = true;
-            $lastKnownVisit = false;
-        } else {
-            // visitor recognition
-            $visitorId = $this->userSettings->getConfigId($request, $ip);
-            $isKnown = $this->visitorRecognizer->findKnownVisitor($visitorId, $visitProperties, $request);
-            $isNewVisit = $this->isVisitNew($visitProperties, $request, $this->visitorRecognizer->getLastKnownVisit());
-            $lastKnownVisit = $this->visitorRecognizer->getLastKnownVisit();
+            $request->setMetadata('CoreHome', 'visitorId', $this->userSettings->getRandomConfigId());
+            $request->setMetadata('CoreHome', 'isVisitorKnown', false);
+            $request->setMetadata('CoreHome', 'isNewVisit', true);
+            $request->setMetadata('CoreHome', 'lastKnownVisit', false);
+
+            return false;
         }
 
+        // visitor recognition
+        $visitorId = $this->userSettings->getConfigId($request, $ip);
         $request->setMetadata('CoreHome', 'visitorId', $visitorId);
+
+        $isKnown = $this->visitorRecognizer->findKnownVisitor($visitorId, $visitProperties, $request);
         $request->setMetadata('CoreHome', 'isVisitorKnown', $isKnown);
+
+        $isNewVisit = $this->isVisitNew($visitProperties, $request, $this->visitorRecognizer->getLastKnownVisit());
         $request->setMetadata('CoreHome', 'isNewVisit', $isNewVisit);
-        $request->setMetadata('CoreHome', 'lastKnownVisit', $lastKnownVisit);
+
+        $request->setMetadata('CoreHome', 'lastKnownVisit', $this->visitorRecognizer->getLastKnownVisit());
 
         if (!$isNewVisit) { // only copy over known visitor's information, if this is for an ongoing visit
             $this->visitorRecognizer->updateVisitPropertiesFromLastVisitRow($visitProperties);
