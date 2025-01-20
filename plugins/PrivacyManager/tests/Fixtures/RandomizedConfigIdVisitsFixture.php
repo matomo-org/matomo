@@ -30,39 +30,38 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         $this->setUpWebsite();
 
         // track visits
-//        $this->addHour();
-//        $this->trackStandardVisits(2);
+        $this->addHour();
+        $this->trackStandardVisits(2);
 
         // track visits with multiple actions
         $this->addHour();
         $this->trackVisitsWithMultipleActions(3, 2);
 
-//        // track visits with set UserID
-//        $this->addHour();
-//        $this->trackVisitsWithUserId(2);
-//
-//        // track ecommerce order
-//        $this->addHour();
-//        $this->trackEcommerceOrder(3);
-//
-//        $this->addDay();
-//
-//        // track visits WITH config id randomisation
-//        $this->addHour();
-//        $this->trackStandardVisits(2, true);
-//
-//        // track visits with multiple actions WITH config id randomisation
-//        $this->addHour();
-//        $this->trackVisitsWithMultipleActions(3, 2, true);
-//
-//        // track visits with set UserID WITH config id randomisation
-//        $this->addHour();
-//        $this->trackVisitsWithUserId(2, true);
-//
-//        // track ecommerce order WITH config id randomisation
-//        $this->addHour();
-//        $this->trackEcommerceOrder(3, true);
+        // track visits with set UserID
+        $this->addHour();
+        $this->trackVisitsWithUserId(2);
 
+        // track ecommerce order
+        $this->addHour();
+        $this->trackEcommerceOrder(3);
+
+        $this->addDay();
+
+        // track visits WITH config id randomisation
+        $this->addHour();
+        $this->trackStandardVisits(2, true);
+
+        // track visits with multiple actions WITH config id randomisation
+        $this->addHour();
+        $this->trackVisitsWithMultipleActions(3, 2, true);
+
+        // track visits with set UserID WITH config id randomisation
+        $this->addHour();
+        $this->trackVisitsWithUserId(2, true);
+
+        // track ecommerce order WITH config id randomisation
+        $this->addHour();
+        $this->trackEcommerceOrder(3, true);
     }
 
     public function tearDown(): void
