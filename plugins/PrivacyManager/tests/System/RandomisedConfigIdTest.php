@@ -33,7 +33,7 @@ class RandomisedConfigIdTest extends SystemTestCase
     {
         // four sets of visits with an hour break each which creates a new visit (as over the default visit inactivity)
         $count = Db::fetchOne('SELECT COUNT(idvisitor) FROM ' . Common::prefixTable('log_visit') . ' WHERE DATE(visit_last_action_time) = DATE("' . self::$dateTimeNormalConfig . '")');
-        $this->assertSame(4, $count);
+        $this->assertEquals(4, $count);
 
         // 2 standard visits
         // 3 visits with 2 actions -> 9 LLVA connections as each visit also stores the URL
@@ -41,15 +41,15 @@ class RandomisedConfigIdTest extends SystemTestCase
         // 1 ecommerce since conversion is not an action here
         // total => 14 rows of LLVA
         $count = Db::fetchOne('SELECT COUNT(idlink_va) FROM ' . Common::prefixTable('log_link_visit_action') . ' WHERE DATE(server_time) = DATE("' . self::$dateTimeNormalConfig . '")');
-        $this->assertSame(14, $count);
+        $this->assertEquals(14, $count);
 
         // 1 rows with user set
         $count = Db::fetchOne('SELECT COUNT(user_id) FROM ' . Common::prefixTable('log_visit') . ' WHERE DATE(visit_last_action_time) = DATE("' . self::$dateTimeNormalConfig . '")');
-        $this->assertSame(1, $count);
+        $this->assertEquals(1, $count);
 
         // 3 rows of ecommerce conversion
         $count = Db::fetchOne('SELECT COUNT(1) FROM ' . Common::prefixTable('log_conversion') . ' WHERE DATE(server_time) = DATE("' . self::$dateTimeNormalConfig . '")');
-        $this->assertSame(3, $count);
+        $this->assertEquals(3, $count);
     }
 
     public function testConfigIdRandomised()
@@ -60,7 +60,7 @@ class RandomisedConfigIdTest extends SystemTestCase
         // 3 ecommerce orders + order page visit -> 4
         // total => 17
         $count = Db::fetchOne('SELECT COUNT(idvisitor) FROM ' . Common::prefixTable('log_visit') . ' WHERE DATE(visit_last_action_time) = DATE("' . self::$dateTimeRandomisedConfig . '")');
-        $this->assertSame(17, $count);
+        $this->assertEquals(17, $count);
 
         // 2 standard visits
         // 3 visits with 2 actions -> 9 LLVA connections as each visit also stores the URL
@@ -68,15 +68,15 @@ class RandomisedConfigIdTest extends SystemTestCase
         // 1 ecommerce since conversion is not an action here
         // total => 14 rows of LLVA
         $count = Db::fetchOne('SELECT COUNT(idlink_va) FROM ' . Common::prefixTable('log_link_visit_action') . ' WHERE DATE(server_time) = DATE("' . self::$dateTimeRandomisedConfig . '")');
-        $this->assertSame(14, $count);
+        $this->assertEquals(14, $count);
 
         // 2 rows with user set
         $count = Db::fetchOne('SELECT COUNT(user_id) FROM ' . Common::prefixTable('log_visit') . ' WHERE DATE(visit_last_action_time) = DATE("' . self::$dateTimeRandomisedConfig . '")');
-        $this->assertSame(2, $count);
+        $this->assertEquals(2, $count);
 
         // 0 rows of conversion
         $count = Db::fetchOne('SELECT COUNT(1) FROM ' . Common::prefixTable('log_conversion') . ' WHERE DATE(server_time) = DATE("' . self::$dateTimeRandomisedConfig . '")');
-        $this->assertSame(0, $count);
+        $this->assertEquals(0, $count);
     }
 }
 
