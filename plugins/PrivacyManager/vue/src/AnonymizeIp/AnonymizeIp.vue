@@ -100,6 +100,7 @@
     </div>
     <div>
       <Field
+        v-if="configRandomisationFeatureFlag"
         uicontrol="checkbox"
         name="randomizeConfigId"
         :title="translate('PrivacyManager_UseRandomizeConfigId')"
@@ -169,6 +170,7 @@ export default defineComponent({
       required: true,
     },
     randomizeConfigId: Boolean,
+    configRandomisationFeatureFlag: Boolean,
   },
   components: {
     Field,

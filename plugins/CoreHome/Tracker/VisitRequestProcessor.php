@@ -13,6 +13,8 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\EventDispatcher;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\ConfigIdRandomisation;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestProcessor;
@@ -70,6 +72,11 @@ class VisitRequestProcessor extends RequestProcessor
     private $userSettings;
 
     /**
+     * @var FeatureFlagManager
+     */
+    private $featureFlagManager;
+
+    /**
      * @var int
      */
     private $visitStandardLength;
@@ -85,12 +92,14 @@ class VisitRequestProcessor extends RequestProcessor
         EventDispatcher $eventDispatcher,
         VisitorRecognizer $visitorRecognizer,
         Settings $userSettings,
+        FeatureFlagManager $featureFlagManager,
         $visitStandardLength,
         $trackerAlwaysNewVisitor
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->visitorRecognizer = $visitorRecognizer;
         $this->userSettings = $userSettings;
+        $this->featureFlagManager = $featureFlagManager;
         $this->visitStandardLength = $visitStandardLength;
         $this->trackerAlwaysNewVisitor = $trackerAlwaysNewVisitor;
     }
@@ -115,7 +124,10 @@ class VisitRequestProcessor extends RequestProcessor
             $ip = $visitProperties->getProperty('location_ip');
         }
 
-        if ($privacyConfig->randomizeConfigId) {
+        if (
+            $this->featureFlagManager->isFeatureActive(ConfigIdRandomisation::class)
+            && $privacyConfig->randomizeConfigId
+        ) {
             // always new visit when randomising config id
             $request->setMetadata('CoreHome', 'visitorId', $this->userSettings->getRandomConfigId());
             $request->setMetadata('CoreHome', 'isVisitorKnown', false);
