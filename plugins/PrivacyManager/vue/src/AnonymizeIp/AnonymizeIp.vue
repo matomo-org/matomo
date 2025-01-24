@@ -104,7 +104,7 @@
         uicontrol="checkbox"
         name="randomizeConfigId"
         :title="translate('PrivacyManager_UseRandomizeConfigId')"
-        v-model="actualAnonymizeOrderId"
+        v-model="actualRandomizeConfigId"
         :inline-help="translate('PrivacyManager_RandomizeConfigIdNote')"
       >
       </Field>
