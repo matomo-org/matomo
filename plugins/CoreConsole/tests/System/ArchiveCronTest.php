@@ -458,6 +458,9 @@ class ArchiveCronTest extends SystemTestCase
         $output = $this->runArchivePhpCron(['-vvv --stop-processing-after=1' => null]);
 
         self::assertStringContainsString('Maximum time limit per execution has been reached.', $output);
+
+        // Ensure work has stopped and some invalidations are left over
+        self::assertNotEmpty($this->getInvalidatedArchiveTableEntries());
     }
 
     private function runArchivePhpCron($options = array(), $archivePhpScript = false)
