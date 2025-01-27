@@ -259,14 +259,14 @@ class ArchiveInvalidator
     }
 
     /**
-     * @param $idSites int[]
-     * @param $dates Date[]|string[]
-     * @param $period string
-     * @param $segment Segment
+     * @param int[] $idSites
+     * @param Date[]|string[] $dates
+     * @param string $period
+     * @param null|Segment $segment
      * @param bool $cascadeDown
      * @param bool $forceInvalidateNonexistentRanges set true to force inserting rows for ranges in archive_invalidations
-     * @param string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
-     *                     or a plugin name to only archive the specific plugin.
+     * @param null|string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
+     *                          or a plugin name to only archive the specific plugin.
      * @param bool $ignorePurgeLogDataDate
      * @param bool $doNotCreateInvalidations If true, archives will only be marked as invalid, but no archive_invalidation record will be created
      * @return InvalidationResult
@@ -317,7 +317,7 @@ class ArchiveInvalidator
          * @param array &$idSites An array containing a list of site IDs which are requested to be invalidated.
          * @param array $dates An array containing the dates to invalidate.
          * @param string $period A string containing the period to be invalidated.
-         * @param Segment $segment A Segment Object containing segment to invalidate.
+         * @param null|Segment $segment A Segment Object containing segment to invalidate.
          * @param string $name A string containing the name of the archive to be invalidated.
          * @param bool $isPrivacyDeleteData A boolean value if event is triggered via Privacy delete visit action.
          */

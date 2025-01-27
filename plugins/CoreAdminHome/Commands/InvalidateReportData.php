@@ -116,7 +116,7 @@ class InvalidateReportData extends ConsoleCommand
             }
             foreach ($dateRanges as $dateRange) {
                 foreach ($segments as $segment) {
-                    $segmentStr = $segment ? $segment->getString() : '';
+                    $segmentStr = $segment ? $segment->getString() : 'all segments';
 
                     $logger->info("Invalidating $periodType periods in $dateRange [segment = $segmentStr]...");
 
@@ -168,7 +168,7 @@ class InvalidateReportData extends ConsoleCommand
             }
             if (!empty($rangeDates)) {
                 foreach ($segments as $segment) {
-                    $segmentStr = $segment ? $segment->getString() : '';
+                    $segmentStr = $segment ? $segment->getString() : 'all segments';
                     if ($dryRun) {
                         $dateRangeStr = implode(';', $dateRanges);
                         $logger->info("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
@@ -283,6 +283,11 @@ class InvalidateReportData extends ConsoleCommand
         $result = [];
 
         foreach ($segments as $segmentOptionValue) {
+            if ($segmentOptionValue === "") {
+                $result[] = new Segment("", $idSites);
+                continue;
+            }
+
             $segmentDefinition = $this->findSegment($segmentOptionValue, $idSites);
 
             if (empty($segmentDefinition)) {
