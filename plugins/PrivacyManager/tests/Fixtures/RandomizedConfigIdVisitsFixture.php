@@ -25,9 +25,6 @@ class RandomizedConfigIdVisitsFixture extends Fixture
     public $idSite = 1;
     public $dropDatabaseInTearDown = false; // temporary to be able to debug db
 
-    /** @var ConfigFeatureFlagStorage */
-    private $configFeatureFlagStorage;
-
     /** @var PrivacyManagerConfig */
     private $privacyManagerConfig;
 
@@ -36,30 +33,18 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         Option::set(PrivacyManager::OPTION_USERID_SALT, 'simpleuseridsalt1');
         Cache::clearCacheGeneral();
 
-        $config =
-        $this->configFeatureFlagStorage = new ConfigFeatureFlagStorage(Config::getInstance());
         $this->privacyManagerConfig = new PrivacyManagerConfig();
 
         $this->setUpWebsite();
 
-        // config off, feature flag off
+        // config off
         // should NOT randomise
-        $this->trackVisits(false, false);
+        $this->trackVisits(false);
         $this->addMonth();
 
-        // config on, feature flag on
+        // config on
         // should randomise
-        $this->trackVisits(true, true);
-        $this->addMonth();
-
-        // config on, feature flag off
-        // should NOT randomise
-        $this->trackVisits(true, false);
-        $this->addMonth();
-
-        // config off, feature flag on
-        // should NOT randomise
-        $this->trackVisits(false, true);
+        $this->trackVisits(true);
     }
 
     public function tearDown(): void
@@ -70,17 +55,6 @@ class RandomizedConfigIdVisitsFixture extends Fixture
     private function setConfigIdRandomisationPrivacyConfig(bool $config)
     {
         $this->privacyManagerConfig->randomizeConfigId = $config;
-    }
-
-    private function setConfigIdRandomisationFeatureFlag(bool $status)
-    {
-        $flag = new ConfigIdRandomisation();
-
-        if ($status === true) {
-            $this->configFeatureFlagStorage->enableFeatureFlag($flag);
-        } else {
-            $this->configFeatureFlagStorage->disableFeatureFlag($flag);
-        }
     }
 
     private function addHour()
@@ -154,17 +128,9 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         }
     }
 
-    /**
-     * Track a set of visits for the test to then evaluate in the database
-     *
-     * @param bool $randomizeConfigId
-     * @param bool $configRandomisationFeatureFlag
-     * @return void
-     */
-    protected function trackVisits(bool $randomizeConfigId, bool $configRandomisationFeatureFlag)
+    protected function trackVisits(bool $randomizeConfigId)
     {
         $this->setConfigIdRandomisationPrivacyConfig($randomizeConfigId);
-        $this->setConfigIdRandomisationFeatureFlag($configRandomisationFeatureFlag);
 
         // track visits
         $this->trackStandardVisits(2);
