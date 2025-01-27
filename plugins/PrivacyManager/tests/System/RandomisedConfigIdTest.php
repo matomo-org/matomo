@@ -11,11 +11,7 @@ namespace Piwik\Plugins\PrivacyManager\tests\System;
 
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\DI;
-use Piwik\Log\Logger;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\RandomizedConfigIdVisitsFixture;
-use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**

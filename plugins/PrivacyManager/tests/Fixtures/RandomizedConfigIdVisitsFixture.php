@@ -9,12 +9,9 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests\Fixtures;
 
-use Piwik\Config;
 use Piwik\Date;
 use Piwik\Option;
-use Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\ConfigIdRandomisation;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker\Cache;
