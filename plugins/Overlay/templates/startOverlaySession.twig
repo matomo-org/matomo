@@ -16,22 +16,24 @@
         parser.href = urlToRedirect;
         var hostToRedirect = parser.hostname;
 
-        var knownUrls = {{ knownUrls|raw }};
-        for (var i = 0; i < knownUrls.length; i++) {
-            parser.href = knownUrls[i];
-            var testHost = parser.hostname;
-            if (hostToRedirect === testHost && testHost) {
-                match = true;
-                if (navigator.appName == "Microsoft Internet Explorer") {
-                    // internet explorer loses the referrer if we use window.location.href=X
-                    var referLink = document.createElement("a");
-                    referLink.href = handleProtocol(urlToRedirect);
-                    document.body.appendChild(referLink);
-                    referLink.click();
-                } else {
-                    window.location.href = handleProtocol(urlToRedirect);
+        if (parser.protocol === 'http:' || parser.protocol === 'https:') {
+            var knownUrls = {{ knownUrls|raw }};
+            for (var i = 0; i < knownUrls.length; i++) {
+                parser.href = knownUrls[i];
+                var testHost = parser.hostname;
+                if (hostToRedirect === testHost && testHost) {
+                    match = true;
+                    if (navigator.appName == "Microsoft Internet Explorer") {
+                        // internet explorer loses the referrer if we use window.location.href=X
+                        var referLink = document.createElement("a");
+                        referLink.href = handleProtocol(urlToRedirect);
+                        document.body.appendChild(referLink);
+                        referLink.click();
+                    } else {
+                        window.location.href = handleProtocol(urlToRedirect);
+                    }
+                    break;
                 }
-                break;
             }
         }
 

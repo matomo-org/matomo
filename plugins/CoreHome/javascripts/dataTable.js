@@ -895,7 +895,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
               && self.param.filter_trigger_id.length > 0) {
               triggerField = document.getElementById(self.param.filter_trigger_id);
             } else if (event && event.target) {
-              triggerField = $(event.target).siblings('input');
+              if (event.target.nodeName.toLowerCase() === 'span') {
+                triggerField = $(event.target).siblings('input');
+              } else {
+                triggerField = $(event.target).children('input');
+              }
             }
 
             var $searchAction = $(this);
