@@ -971,7 +971,7 @@ class Model
     public function releaseInProgressInvalidation($idinvalidation)
     {
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "UPDATE $table SET status = " . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . ", ts_started = NULL WHERE idinvalidation = ?";
+        $sql = "UPDATE $table SET status = " . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . ", ts_started = NULL, processing_host = NULL, process_id = NULL WHERE idinvalidation = ?";
         Db::query($sql, [$idinvalidation]);
     }
 
