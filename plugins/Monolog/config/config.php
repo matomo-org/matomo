@@ -19,6 +19,7 @@ return array(
 
     'log.handler.classes' => array(
         'file'     => 'Piwik\Plugins\Monolog\Handler\FileHandler',
+        'jsonfile' => 'Piwik\Plugins\Monolog\Handler\FileHandler',
         'screen'   => 'Piwik\Plugins\Monolog\Handler\WebNotificationHandler',
         'database' => 'Piwik\Plugins\Monolog\Handler\DatabaseHandler',
         'errorlog' => 'Piwik\Plugins\Monolog\Handler\ErrorLogHandler',
