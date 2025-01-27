@@ -164,6 +164,20 @@ describe("PrivacyManager", function () {
         await capturePage('gdpr_overview_no_retention');
     });
 
+    it('should load privacy settings page with config ID randomisation setting visible', async function() {
+        testEnvironment.overrideConfig('FeatureFlags', {
+          ConfigIdRandomisation_feature: 'enabled',
+        });
+        testEnvironment.save();
+
+        await loadActionPage('privacySettings');
+        await page.waitForNetworkIdle();
+        await capturePage('privacy_settings_default_with_randomisation');
+
+        delete testEnvironment.configOverride.FeatureFlags.ConfigIdRandomisation_feature;
+        testEnvironment.save();
+    });
+
     it('should load privacy settings page', async function() {
         await loadActionPage('privacySettings');
         await page.waitForNetworkIdle();
