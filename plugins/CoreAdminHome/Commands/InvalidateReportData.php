@@ -173,7 +173,7 @@ class InvalidateReportData extends ConsoleCommand
                         $dateRangeStr = implode(';', $dateRanges);
                         $logger->info("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
                     } else {
-                        $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $rangeDates, $segment);
+                        $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $rangeDates, $segment, $plugin);
                     }
                 }
             }

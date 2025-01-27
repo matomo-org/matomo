@@ -434,15 +434,15 @@ class ArchiveInvalidator
     }
 
     /**
-     * @param $idSites int[]
-     * @param $dates Date[]
-     * @param $period string
-     * @param $segment Segment
-     * @param bool $cascadeDown
+     * @param int[] $idSites
+     * @param Date[] $dates
+     * @param Segment $segment
+     * @param null|string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
+     * *                          or a plugin name to only archive the specific plugin.
      * @return InvalidationResult
      * @throws \Exception
      */
-    public function markArchivesOverlappingRangeAsInvalidated(array $idSites, array $dates, ?Segment $segment = null)
+    public function markArchivesOverlappingRangeAsInvalidated(array $idSites, array $dates, ?Segment $segment = null, ?string $name = null)
     {
         $invalidationInfo = new InvalidationResult();
 
@@ -456,7 +456,7 @@ class ArchiveInvalidator
         foreach ($archiveNumericTables as $table) {
             $tableDate = ArchiveTableCreator::getDateFromTableName($table);
 
-            $rowsAffected = $this->model->updateArchiveAsInvalidated($table, $idSites, $ranges, $segment);
+            $rowsAffected = $this->model->updateArchiveAsInvalidated($table, $idSites, $ranges, $segment, false, $name);
             if ($rowsAffected > 0) {
                 $invalidatedMonths[] = $tableDate;
             }
