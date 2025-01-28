@@ -233,9 +233,55 @@ return array(
 
     'log.lineMessageFormatter.file' => Piwik\DI::autowire('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
         ->constructor(Piwik\DI::get('log.trace.format'))
-        ->constructorParameter('allowInlineLineBreaks', false),
+        ->constructorParameter('allowInlineLineBreaks', false)
+        ->constructorParameter('customFunctionFile', Piwik\DI::get('log.custom_function_file'))
+        ->constructorParameter('excludePatterns', Piwik\DI::get('log.exclude_patterns')),
+
+    'log.exclude_patterns' => Piwik\DI::factory(function (Container $c) {
+        if ($c->has('ini.log.exclude_patterns')) {
+            $xcl = [];
+            foreach (explode("|", $c->get('ini.log.exclude_patterns')) as $p) {
+                $xcl[]  = trim($p);
+            }
+            return $xcl;
+        }
+        return null;
+    }),
+
+    'log.custom_function_file' => Piwik\DI::factory(function (Container $c) {
+        if ($c->has('ini.log.custom_function_file')) {
+            $path = $c->get('ini.log.custom_function_file');
+            if (!file_exists($path)) {
+                return null;
+                throw new \Exception('Specified path to custom_function_file does not exist: ' . $path);
+            }
+    
+            if (!is_readable($path)) {
+                return null;
+                throw new \Exception('Specified path to custom_function_file file is not readable: ' . $path);
+            }
+
+            return $path;
+
+        }
+        return null;
+    }),
+
+    'log.exclude_patterns' => Piwik\DI::factory(function (Container $c) {
+        if ($c->has('ini.log.exclude_patterns')) {
+            $xcl = [];
+            foreach (explode("|", $c->get('ini.log.exclude_patterns')) as $p) {
+                $xcl[]  = trim($p);
+            }
+            return $xcl;
+        }
+        return null;
+    }),
 
     'log.short.format' => Piwik\DI::factory(function (Container $c) {
+        if ($c->has('ini.log.enable_json')) {
+            return 'json';
+        }
         if ($c->has('ini.log.string_message_format')) {
             return $c->get('ini.log.string_message_format');
         }
@@ -243,6 +289,9 @@ return array(
     }),
 
     'log.trace.format' => Piwik\DI::factory(function (Container $c) {
+        if ($c->has('ini.log.enable_json')) {
+            return 'json';
+        }
         if ($c->has('ini.log.string_message_format_trace')) {
             return $c->get('ini.log.string_message_format_trace');
         }

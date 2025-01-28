@@ -23,17 +23,22 @@ class LineMessageFormatter implements FormatterInterface
      * @var string
      */
     private $logMessageFormat;
-
+    private $excludePatterns;
+    private $customFunction;
     private $allowInlineLineBreaks;
 
     /**
      * @param string $logMessageFormat
      * @param bool $allowInlineLineBreaks If disabled, a log message will be created for each line
      */
-    public function __construct($logMessageFormat, $allowInlineLineBreaks = true)
+    public function __construct($logMessageFormat, $allowInlineLineBreaks = true, $excludePatterns = null, $customFunctionFile = null)
     {
         $this->logMessageFormat = $logMessageFormat;
         $this->allowInlineLineBreaks = $allowInlineLineBreaks;
+        $this->excludePatterns = $excludePatterns;
+        if (gettype($customFunctionFile) === "string"){
+            $this->customFunction = include_once $customFunctionFile;
+        }
     }
 
     public function format(array $record)
@@ -43,6 +48,21 @@ class LineMessageFormatter implements FormatterInterface
 
         $message = trim($record['message']);
 
+        if (gettype($this->excludePatterns) === "array"){
+            foreach($this->excludePatterns as $p){
+                if (strpos($message, $p) !== false){
+                    return;
+                }
+                if (strpos($class, $p) !== false){
+                    return;
+                }
+            }
+        }
+
+        if ($this->logMessageFormat == 'json'){
+            return $this->jsonMessage($class, $message, $date, $record);
+        }
+ 
         if ($this->allowInlineLineBreaks) {
             $message  = str_replace("\n", "\n  ", $message); // intend lines
             $messages = array($message);
@@ -60,6 +80,26 @@ class LineMessageFormatter implements FormatterInterface
         }
 
         return $total;
+    }
+
+    private function jsonMessage($class, $message, $date, $record){
+        $trace = isset($record['context']['trace']) ? self::formatTrace($record['context']['trace']) : '';
+        $requestId = isset($record['extra']['request_id']) ? $record['extra']['request_id'] : '';      
+
+        $message = [
+            "tag" => $class,
+            "datetime" => $date,
+            "message" => $message,
+            "level" => $record['level_name'],
+            "trace" => $trace,
+            "requestId" => $requestId
+        ];
+
+        if (gettype($this->customFunction) === "string"){
+            $message = call_user_func($this->customFunction, $message);
+        }
+        
+        return json_encode($message)."\n";
     }
 
     private function formatMessage($class, $message, $date, $record)
