@@ -74,6 +74,8 @@
         "UnFlattenDataTable": "The report is flat %s Make it hierarchical",
         "RemoveTotalsRowDataTable": "The report is showing the totals row %s Remove totals row",
         "AddTotalsRowDataTable": "The report is not showing the totals row %s Show totals row",
+        "FilteredTotalsRowDataTable": "Showing overall totals %sShow filtered totals instead",
+        "UnfilteredTotalsRowDataTable": "Showing filtered totals %sShow overall totals instead (default)",
         "ViewAllPiwikVideoTutorials": "View all Matomo Video Tutorials",
         "WebAnalyticsReports": "Web Analytics Reports",
         "YouAreUsingTheLatestVersion": "You are using the latest version of Matomo!",

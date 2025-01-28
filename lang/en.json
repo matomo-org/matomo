@@ -467,6 +467,7 @@
         "TotalRevenue": "Total Revenue",
         "TotalVisitsPageviewsActionsRevenue": "(Total: %1$s visits, %2$s pageviews, %3$s actions, %4$s revenue)",
         "Totals": "Totals",
+        "TotalsFiltered": "Totals (filtered)",
         "TrackingScopeAction": "Action",
         "TrackingScopePage": "Page",
         "TrackingScopeVisit": "Visit",

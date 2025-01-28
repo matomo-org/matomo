@@ -181,7 +181,12 @@ class ReportTotalsCalculator extends DataTableManipulator
             }
 
             if (1 === Common::getRequestVar('keep_totals_row', 0, 'integer', $this->request)) {
-                $totalLabel = Common::getRequestVar('keep_totals_row_label', Piwik::translate('General_Totals'), 'string', $this->request);
+                $filteredTotals = 1 === Common::getRequestVar('filtered_totals', 0, 'integer', $this->request);
+                $patternFilter = Common::getRequestVar('filter_pattern', '', 'string', $this->request);
+                $recursivePatternFilter = Common::getRequestVar('filter_pattern_recursive', '', 'string', $this->request);
+                $useFilteredLabel = $filteredTotals && ("" !== $patternFilter || "" !== $recursivePatternFilter);
+                $defaultTotalsLabel = Piwik::translate($useFilteredLabel ? 'General_TotalsFiltered' : 'General_Totals');
+                $totalLabel = Common::getRequestVar('keep_totals_row_label', $defaultTotalsLabel, 'string', $this->request);
 
                 $row->deleteMetadata(false);
                 $row->setColumn('label', $totalLabel);
