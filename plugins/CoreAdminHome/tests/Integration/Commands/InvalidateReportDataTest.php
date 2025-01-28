@@ -224,7 +224,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ]);
 
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09 [segment = ]", $this->getLogOutput());
+        self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09 [segment = all segments]", $this->getLogOutput());
     }
 
     public function testCommandInvalidateDateRangeInvalidDate()
@@ -315,11 +315,11 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ]);
 
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        self::assertStringContainsString("Invalidating day periods in 2019-01-01,2019-01-09 [segment = ]", $this->getLogOutput());
-        self::assertStringContainsString("Invalidating week periods in 2019-01-01,2019-01-09 [segment = ]", $this->getLogOutput());
-        self::assertStringContainsString("Invalidating month periods in 2019-01-01,2019-01-09 [segment = ]", $this->getLogOutput());
-        self::assertStringContainsString("Invalidating year periods in 2019-01-01,2019-01-09 [segment = ]", $this->getLogOutput());
-        self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09 [segment = ]", $this->getLogOutput());
+        self::assertStringContainsString("Invalidating day periods in 2019-01-01,2019-01-09 [segment = all segments]", $this->getLogOutput());
+        self::assertStringContainsString("Invalidating week periods in 2019-01-01,2019-01-09 [segment = all segments]", $this->getLogOutput());
+        self::assertStringContainsString("Invalidating month periods in 2019-01-01,2019-01-09 [segment = all segments]", $this->getLogOutput());
+        self::assertStringContainsString("Invalidating year periods in 2019-01-01,2019-01-09 [segment = all segments]", $this->getLogOutput());
+        self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09 [segment = all segments]", $this->getLogOutput());
     }
 
     public function testCommandInvalidateAllMultipleDateRanges()
@@ -334,7 +334,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ]);
 
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09;2019-01-12,2019-01-13 [segment = ]", $this->getLogOutput());
+        self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09;2019-01-12,2019-01-13 [segment = all segments]", $this->getLogOutput());
     }
 
     /**
@@ -350,7 +350,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             null,
             null,
             [
-                '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2012-01-01 ], period = [ day ], segment = [  ]',
+                '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2012-01-01 ], period = [ day ], segment = [ all segments ]',
             ],
         ];
 
@@ -362,7 +362,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             null,
             null,
             [
-                '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2012-01-01 ], period = [ day ], segment = [  ]',
+                '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2012-01-01 ], period = [ day ], segment = [ all segments ]',
             ],
         ];
 
@@ -374,7 +374,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             null,
             null,
             [
-                '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2011-12-26 ], period = [ week ], segment = [  ]',
+                '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2011-12-26 ], period = [ week ], segment = [ all segments ]',
             ],
         ];
 
@@ -386,12 +386,12 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             null,
             null,
             [
-                '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-01, 2012-02-01 ], period = [ month ], segment = [  ], cascade = [ 0 ]',
-                '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-01 ], period = [ month ], segment = [  ], cascade = [ 0 ]',
-                '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2013-03-01 ], period = [ month ], segment = [  ], cascade = [ 0 ]',
-                '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2011-12-26, 2012-01-02, 2012-01-09, 2012-01-16, 2012-01-23, 2012-01-30 ], period = [ week ], segment = [  ], cascade = [ 0 ]',
-                '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-23 ], period = [ week ], segment = [  ], cascade = [ 0 ]',
-                '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2013-03-18 ], period = [ week ], segment = [  ], cascade = [ 0 ]',
+                '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-01, 2012-02-01 ], period = [ month ], segment = [ all segments ], cascade = [ 0 ]',
+                '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-01 ], period = [ month ], segment = [ all segments ], cascade = [ 0 ]',
+                '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2013-03-01 ], period = [ month ], segment = [ all segments ], cascade = [ 0 ]',
+                '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2011-12-26, 2012-01-02, 2012-01-09, 2012-01-16, 2012-01-23, 2012-01-30 ], period = [ week ], segment = [ all segments ], cascade = [ 0 ]',
+                '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2012-01-23 ], period = [ week ], segment = [ all segments ], cascade = [ 0 ]',
+                '[Dry-run] invalidating archives for site = [ 1, 3 ], dates = [ 2013-03-18 ], period = [ week ], segment = [ all segments ], cascade = [ 0 ]',
             ],
         ];
 
@@ -403,7 +403,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             null,
             null,
             [
-                '[Dry-run] invalidating archives for site = [ 2 ], dates = [ 2012-01-30, 2012-02-06 ], period = [ week ], segment = [  ], cascade = [ 1 ]',
+                '[Dry-run] invalidating archives for site = [ 2 ], dates = [ 2012-01-30, 2012-02-06 ], period = [ week ], segment = [ all segments ], cascade = [ 1 ]',
             ],
         ];
 
@@ -415,12 +415,12 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             null,
             null,
             [
-                '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-02-01 ], period = [ month ], segment = [  ], cascade = [ 1 ]',
-                '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-01 ], period = [ month ], segment = [  ], cascade = [ 1 ]',
-                '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-01-30 ], period = [ week ], segment = [  ], cascade = [ 1 ]',
-                '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-12 ], period = [ week ], segment = [  ], cascade = [ 1 ]',
-                '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-02-03, 2012-02-04 ], period = [ day ], segment = [  ], cascade = [ 1 ]',
-                '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-15 ], period = [ day ], segment = [  ], cascade = [ 1 ]',
+                '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-02-01 ], period = [ month ], segment = [ all segments ], cascade = [ 1 ]',
+                '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-01 ], period = [ month ], segment = [ all segments ], cascade = [ 1 ]',
+                '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-01-30 ], period = [ week ], segment = [ all segments ], cascade = [ 1 ]',
+                '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-12 ], period = [ week ], segment = [ all segments ], cascade = [ 1 ]',
+                '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-02-03, 2012-02-04 ], period = [ day ], segment = [ all segments ], cascade = [ 1 ]',
+                '[Dry-run] invalidating archives for site = [ 1, 2, 3 ], dates = [ 2012-03-15 ], period = [ day ], segment = [ all segments ], cascade = [ 1 ]',
             ],
         ];
 
@@ -444,7 +444,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             null,
             'ExamplePlugin',
             [
-                '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2015-05-04 ], period = [ day ], segment = [  ], cascade = [ 0 ], plugin = [ ExamplePlugin ]',
+                '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2015-05-04 ], period = [ day ], segment = [ all segments ], cascade = [ 0 ], plugin = [ ExamplePlugin ]',
             ],
         ];
 
@@ -493,6 +493,18 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             null,
             [
                 '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2015-05-04 ], period = [ day ], segment = [ dimension1==test ], cascade = [ 0 ]',
+            ],
+        ];
+
+        yield 'all visits segment only' => [
+            ['2015-05-04'],
+            'day',
+            '1',
+            false,
+            [''],
+            null,
+            [
+                '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2015-05-04 ], period = [ day ], segment = [  ], cascade = [ 0 ]',
             ],
         ];
     }
