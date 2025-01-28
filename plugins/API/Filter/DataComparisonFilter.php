@@ -308,9 +308,6 @@ class DataComparisonFilter
             $paramsToModify
         );
 
-        $params['keep_totals_row'] = $this->request->getIntegerParameter('keep_totals_row', 0);
-        $params['keep_totals_row_label'] = $this->request->getStringParameter('keep_totals_row_label', '');
-
         if (!isset($params['idSite'])) {
             $params['idSite'] = $this->request->getStringParameter('idSite');
         }

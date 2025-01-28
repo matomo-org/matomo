@@ -72,8 +72,6 @@ abstract class Graph extends Visualization
         // different metrics
         if ($this->config->add_total_row) {
             $this->requestConfig->request_parameters_to_modify['totals'] = 1;
-            $this->requestConfig->request_parameters_to_modify['keep_totals_row'] = 1;
-            $this->requestConfig->request_parameters_to_modify['keep_totals_row_label'] = Piwik::translate('General_Total');
         }
 
         if (!empty($this->config->columns_to_display)) {

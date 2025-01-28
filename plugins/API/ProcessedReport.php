@@ -400,7 +400,6 @@ class ProcessedReport
                                                        'serialize'  => '0',
                                                        'language'   => $language,
                                                        'idSubtable' => $idSubtable,
-                                                       'keep_totals_row' => 1,
                                                   ));
 
         if (!empty($segment)) {

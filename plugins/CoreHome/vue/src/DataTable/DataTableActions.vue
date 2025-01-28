@@ -172,12 +172,6 @@
           v-html="$sanitize(includeAggregateRowsText)"
         ></div>
       </li>
-      <li v-if="showTotalsConfigItem">
-        <div
-          class="configItem dataTableShowTotalsRow"
-          v-html="$sanitize(keepTotalsRowText)"
-        ></div>
-      </li>
       <li v-if="showFilteredTotalsConfigItem">
         <div
           class="configItem dataTableFilteredTotalsRow"
@@ -413,7 +407,7 @@ export default defineComponent({
     },
     showFilteredTotalsConfigItem() {
       const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return this.showTotalsConfigItem && isBooleanLikeSet(params.keep_totals_row)
+      return this.showTotalsConfigItem
         && (!!params.filter_pattern || !!params.filter_pattern_recursive);
     },
     hasConfigItems() {
@@ -430,14 +424,6 @@ export default defineComponent({
         isBooleanLikeSet(params.flat),
         'CoreHome_UnFlattenDataTable',
         'CoreHome_FlattenDataTable',
-      );
-    },
-    keepTotalsRowText() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return getToggledIconText(
-        isBooleanLikeSet(params.keep_totals_row),
-        'CoreHome_RemoveTotalsRowDataTable',
-        'CoreHome_AddTotalsRowDataTable',
       );
     },
     showFilteredTotalsText() {
@@ -483,7 +469,6 @@ export default defineComponent({
     isAnyConfigureIconHighlighted() {
       const params = this.clientSideParameters as Record<string, string|number|boolean>;
       return isBooleanLikeSet(params.flat)
-        || isBooleanLikeSet(params.keep_totals_row)
         || isBooleanLikeSet(params.include_aggregate_rows)
         || isBooleanLikeSet(params.show_dimensions)
         || isBooleanLikeSet(params.pivotBy)

@@ -180,18 +180,15 @@ class ReportTotalsCalculator extends DataTableManipulator
                 $dataTable->setMetadata('totalsUnformatted', $totalRowUnformatted);
             }
 
-            if (1 === Common::getRequestVar('keep_totals_row', 0, 'integer', $this->request)) {
-                $filteredTotals = 1 === Common::getRequestVar('filtered_totals', 0, 'integer', $this->request);
-                $patternFilter = Common::getRequestVar('filter_pattern', '', 'string', $this->request);
-                $recursivePatternFilter = Common::getRequestVar('filter_pattern_recursive', '', 'string', $this->request);
-                $useFilteredLabel = $filteredTotals && ("" !== $patternFilter || "" !== $recursivePatternFilter);
-                $defaultTotalsLabel = Piwik::translate($useFilteredLabel ? 'General_TotalsFiltered' : 'General_Totals');
-                $totalLabel = Common::getRequestVar('keep_totals_row_label', $defaultTotalsLabel, 'string', $this->request);
+            $filteredTotals = 1 === Common::getRequestVar('filtered_totals', 0, 'integer', $this->request);
+            $patternFilter = Common::getRequestVar('filter_pattern', '', 'string', $this->request);
+            $recursivePatternFilter = Common::getRequestVar('filter_pattern_recursive', '', 'string', $this->request);
+            $useFilteredLabel = $filteredTotals && ("" !== $patternFilter || "" !== $recursivePatternFilter);
+            $totalLabel = Piwik::translate($useFilteredLabel ? 'General_TotalsFiltered' : 'General_Totals');
 
-                $row->deleteMetadata(false);
-                $row->setColumn('label', $totalLabel);
-                $dataTable->setTotalsRow($row);
-            }
+            $row->deleteMetadata(false);
+            $row->setColumn('label', $totalLabel);
+            $dataTable->setTotalsRow($row);
         }
 
         return $dataTable;
