@@ -585,6 +585,33 @@ class Filesystem
     }
 
     /**
+     * Removes characters from filenames that could cause problems.
+     *
+     * This is not intended as a security measure per se, but to avoid
+     * some known problems, e.g. Excel not allowing to open an export
+     * file if some special whitespace/dash characters are present.
+     */
+    public static function sanitizeFilename(string $filename): string
+    {
+        $filename = trim($filename);
+
+        // replace reserved characters
+        // https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file
+        $filename = preg_replace('~[<>:"/\\\\|?*]~', '', $filename);
+
+        // replace special characters
+        // https://www.php.net/manual/it/regexp.reference.unicode.php
+        // - Cc: Control characters
+        // - Zs: Space separators
+        // - Pd: Dash punctuation
+        $filename = preg_replace('~\p{Cc}~u', '', $filename);
+        $filename = preg_replace('~\p{Zs}~u', ' ', $filename);
+        $filename = preg_replace('~\p{Pd}~u', '-', $filename);
+
+        return trim($filename);
+    }
+
+    /**
      * in tmp/ (sub-)folder(s) we create empty index.htm|php files
      *
      * @param $path

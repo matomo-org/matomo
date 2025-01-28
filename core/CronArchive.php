@@ -177,6 +177,15 @@ class CronArchive
      */
     public $maxArchivesToProcess = null;
 
+    /**
+     * Time in seconds how long an archiving job is allowed to start new archiving processes.
+     * When time limit is reached, the archiving job will wrap after current processes are finished up instead of
+     * continuing with the next invalidation requests.
+     *
+     * @var int
+     */
+    public $stopProcessingAfter = -1;
+
     private $archivingStartingTime;
 
     private $formatter;
@@ -416,6 +425,11 @@ class CronArchive
             $numArchivesFinished += $successCount;
             if ($this->maxArchivesToProcess && $numArchivesFinished >= $this->maxArchivesToProcess) {
                 $this->logger->info("Maximum number of archives to process per execution has been reached.");
+                break;
+            }
+
+            if ($this->stopProcessingAfter > 0 && $this->stopProcessingAfter < $timer->getTime()) {
+                $this->logger->info("Maximum time limit per execution has been reached.");
                 break;
             }
         }

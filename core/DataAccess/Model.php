@@ -713,54 +713,16 @@ class Model
         $table = Common::prefixTable('archive_invalidations');
 
         // set archive value to in progress if not set already
-        $statement = Db::query("UPDATE `$table` SET `status` = ?, ts_started = NOW() WHERE idinvalidation = ? AND status = ?", [
+        $statement = Db::query("UPDATE `$table` SET `status` = ?, `processing_host` = ?, `process_id` = ?, `ts_started` = NOW() WHERE `idinvalidation` = ? AND `status` = ?", [
             ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+            gethostname() ?: null,
+            Common::getProcessId(),
             $invalidation['idinvalidation'],
             ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
         ]);
 
-        if ($statement->rowCount() > 0) { // if we updated, then we've marked the archive as started
-            return true;
-        }
-
-        // archive was not originally started or was started within the expected time, so we assume it's ongoing and another process
-        // (on this machine or another) is actively archiving it.
-        $archiveFailureRecoveryTimeout = GeneralConfig::getConfigValue('archive_failure_recovery_timeout', $invalidation['idsite']);
-        if (
-            empty($invalidation['ts_started'])
-            || $invalidation['ts_started'] > Date::now()->subSeconds($archiveFailureRecoveryTimeout)->getTimestamp()
-        ) {
-            return false;
-        }
-
-        // archive was started over 24 hours ago, we assume it failed and take it over
-        Db::query("UPDATE `$table` SET `status` = ?, ts_started = NOW() WHERE idinvalidation = ?", [
-            ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-            $invalidation['idinvalidation'],
-        ]);
-
-        // remove similar invalidations w/ lesser idinvalidation values
-        $bind = [
-            $invalidation['idsite'],
-            $invalidation['period'],
-            $invalidation['date1'],
-            $invalidation['date2'],
-            $invalidation['name'],
-            ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-        ];
-
-        if (empty($invalidation['report'])) {
-            $reportClause = "(report IS NULL OR report = '')";
-        } else {
-            $reportClause = "report = ?";
-            $bind[] = $invalidation['report'];
-        }
-
-        $sql = "DELETE FROM " . Common::prefixTable('archive_invalidations') . " WHERE idinvalidation < ? AND idsite = ? AND "
-            . "date1 = ? AND date2 = ? AND `period` = ? AND `name` = ? AND $reportClause";
-        Db::query($sql, $bind);
-
-        return true;
+        // if we updated, then we've marked the archive as started
+        return $statement->rowCount() > 0;
     }
 
     public function isSimilarArchiveInProgress($invalidation)
@@ -1009,7 +971,7 @@ class Model
     public function releaseInProgressInvalidation($idinvalidation)
     {
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "UPDATE $table SET status = " . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . ", ts_started = NULL WHERE idinvalidation = ?";
+        $sql = "UPDATE $table SET status = " . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . ", ts_started = NULL, processing_host = NULL, process_id = NULL WHERE idinvalidation = ?";
         Db::query($sql, [$idinvalidation]);
     }
 
