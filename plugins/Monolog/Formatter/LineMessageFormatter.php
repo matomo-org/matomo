@@ -36,7 +36,7 @@ class LineMessageFormatter implements FormatterInterface
         $this->logMessageFormat = $logMessageFormat;
         $this->allowInlineLineBreaks = $allowInlineLineBreaks;
         $this->excludePatterns = $excludePatterns;
-        if (gettype($customFunctionFile) === "string"){
+        if (gettype($customFunctionFile) === "string") {
             $this->customFunction = include_once $customFunctionFile;
         }
     }
@@ -48,21 +48,21 @@ class LineMessageFormatter implements FormatterInterface
 
         $message = trim($record['message']);
 
-        if (gettype($this->excludePatterns) === "array"){
-            foreach($this->excludePatterns as $p){
-                if (strpos($message, $p) !== false){
+        if (gettype($this->excludePatterns) === "array") {
+            foreach ($this->excludePatterns as $p) {
+                if (strpos($message, $p) !== false) {
                     return;
                 }
-                if (strpos($class, $p) !== false){
+                if (strpos($class, $p) !== false) {
                     return;
                 }
             }
         }
 
-        if ($this->logMessageFormat == 'json'){
+        if ($this->logMessageFormat == 'json') {
             return $this->jsonMessage($class, $message, $date, $record);
         }
- 
+
         if ($this->allowInlineLineBreaks) {
             $message  = str_replace("\n", "\n  ", $message); // intend lines
             $messages = array($message);
@@ -82,9 +82,10 @@ class LineMessageFormatter implements FormatterInterface
         return $total;
     }
 
-    private function jsonMessage($class, $message, $date, $record){
+    private function jsonMessage($class, $message, $date, $record)
+    {
         $trace = isset($record['context']['trace']) ? self::formatTrace($record['context']['trace']) : '';
-        $requestId = isset($record['extra']['request_id']) ? $record['extra']['request_id'] : '';      
+        $requestId = isset($record['extra']['request_id']) ? $record['extra']['request_id'] : '';
 
         $message = [
             "tag" => $class,
@@ -95,11 +96,11 @@ class LineMessageFormatter implements FormatterInterface
             "requestId" => $requestId
         ];
 
-        if (gettype($this->customFunction) === "string"){
+        if (gettype($this->customFunction) === "string") {
             $message = call_user_func($this->customFunction, $message);
         }
-        
-        return json_encode($message)."\n";
+
+        return json_encode($message) . "\n";
     }
 
     private function formatMessage($class, $message, $date, $record)
