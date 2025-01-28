@@ -504,7 +504,9 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     }
 
     this.requestHandle = this.buildAjaxCall();
-    window.globalAjaxQueue.push(this.requestHandle);
+    if (this.getParams.method !== 'SitesManager.getPatternMatchSites') {
+      window.globalAjaxQueue.push(this.requestHandle);
+    }
 
     if (this.abortController) {
       this.abortController.signal.addEventListener('abort', () => {

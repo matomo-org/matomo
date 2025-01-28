@@ -250,7 +250,7 @@ export default defineComponent({
 
     Matomo.on('matomoPageChange', () => {
       if (!this.initialLoad) {
-        // window.globalAjaxQueue.abort();
+        window.globalAjaxQueue.abort();
       }
 
       this.helpShownCategory = null;
