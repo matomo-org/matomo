@@ -18,7 +18,10 @@ use Piwik\Tracker\Cache;
 
 class RandomizedConfigIdVisitsFixture extends Fixture
 {
-    public $dateTime = '2015-01-01 01:00:00';
+    public static $dateTimeNormalConfig = '2015-01-01 01:00:00';
+    public static $dateTimeRandomisedConfig = '2015-02-01 01:00:00'; // as above + 1 month
+
+    public $dateTime;
     public $idSite = 1;
     public $dropDatabaseInTearDown = false; // temporary to be able to debug db
 
@@ -27,6 +30,8 @@ class RandomizedConfigIdVisitsFixture extends Fixture
 
     public function setUp(): void
     {
+        $this->dateTime = self::$dateTimeNormalConfig;
+
         Option::set(PrivacyManager::OPTION_USERID_SALT, 'simpleuseridsalt1');
         Cache::clearCacheGeneral();
 
@@ -37,10 +42,10 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         // config off
         // should NOT randomise
         $this->trackVisits(false);
-        $this->addMonth();
 
         // config on
         // should randomise
+        $this->dateTime = self::$dateTimeRandomisedConfig;
         $this->trackVisits(true);
     }
 
@@ -57,11 +62,6 @@ class RandomizedConfigIdVisitsFixture extends Fixture
     private function addHour()
     {
         $this->dateTime = Date::factory($this->dateTime)->addPeriod(1, 'hour')->getDatetime();
-    }
-
-    private function addMonth()
-    {
-        $this->dateTime = Date::factory($this->dateTime)->addMonth(1)->getDatetime();
     }
 
     private function setUpWebsite()
