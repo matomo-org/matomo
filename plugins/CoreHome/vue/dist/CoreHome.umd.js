@@ -1726,7 +1726,10 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
       }
 
       this.requestHandle = this.buildAjaxCall();
-      window.globalAjaxQueue.push(this.requestHandle);
+
+      if (this.getParams.method !== 'SitesManager.getPatternMatchSites') {
+        window.globalAjaxQueue.push(this.requestHandle);
+      }
 
       if (this.abortController) {
         this.abortController.signal.addEventListener('abort', function () {
