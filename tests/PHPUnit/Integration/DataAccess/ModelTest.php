@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Integration\DataAccess;
 
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -410,6 +411,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '12',
@@ -422,6 +425,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '13',
@@ -434,6 +439,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '19',
@@ -446,6 +453,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '5',
@@ -458,6 +467,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '15',
@@ -470,6 +481,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '8',
@@ -482,6 +495,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '14',
@@ -494,6 +509,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '20',
@@ -506,6 +523,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '3',
@@ -518,6 +537,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '2',
@@ -530,6 +551,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '10',
@@ -542,6 +565,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '17',
@@ -554,6 +579,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '22',
@@ -566,6 +593,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '7',
@@ -578,6 +607,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '1',
@@ -590,6 +621,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '16',
@@ -602,6 +635,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '6',
@@ -614,6 +649,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '9',
@@ -626,6 +663,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '18',
@@ -638,6 +677,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '21',
@@ -650,6 +691,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '4',
@@ -662,6 +705,8 @@ class ModelTest extends IntegrationTestCase
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
         );
 
@@ -691,6 +736,38 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals([
             ['idsite' => 1, 'idinvalidation' => 1],
         ], $invalidations);
+    }
+
+    public function testStartArchiveEnrichesRecordWithHostnameAndProcessId()
+    {
+        Fixture::createWebsite('2014-01-01 00:00:00');
+
+        $this->insertInvalidations([
+            ['idsite' => 1, 'date1' => '2014-02-04', 'date2' => '2014-02-04', 'period' => 1, 'name' => 'done', 'ts_started' => Date::now()->getDatetime(), 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS],
+            ['idsite' => 1, 'date1' => '2014-02-01', 'date2' => '2014-02-28', 'period' => 2, 'name' => 'done', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED],
+        ]);
+
+        $invalidations = Db::fetchAll("SELECT * FROM " . Common::prefixTable('archive_invalidations') . " ORDER BY idinvalidation ASC");
+
+        self::assertEmpty($invalidations[0]['processing_host']);
+        self::assertEmpty($invalidations[0]['process_id']);
+        self::assertEmpty($invalidations[1]['processing_host']);
+        self::assertEmpty($invalidations[1]['process_id']);
+
+        self::assertCount(2, $invalidations);
+
+        $this->model->startArchive($invalidations[0]);
+        $this->model->startArchive($invalidations[1]);
+
+        $invalidations = Db::fetchAll("SELECT * FROM " . Common::prefixTable('archive_invalidations') . " ORDER BY idinvalidation ASC");
+
+        self::assertCount(2, $invalidations);
+
+        // first one should not be updated as it's already running
+        self::assertEmpty($invalidations[0]['processing_host']);
+        self::assertEmpty($invalidations[0]['process_id']);
+        self::assertNotEmpty($invalidations[1]['processing_host']);
+        self::assertNotEmpty($invalidations[1]['process_id']);
     }
 
     private function insertArchiveData($archivesToInsert)
