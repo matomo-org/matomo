@@ -227,7 +227,7 @@ return array(
     }),
 
     'Piwik\Plugins\Monolog\Formatter\LineMessageFormatter' => Piwik\DI::create('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
-                                                                ->constructor(Piwik\DI::get('log.short.format')),
+        ->constructor(Piwik\DI::get('log.short.format')),
     'log.lineMessageFormatter' => Piwik\DI::create('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
         ->constructor(Piwik\DI::get('log.short.format')),
 
@@ -255,14 +255,13 @@ return array(
                 return null;
                 throw new \Exception('Specified path to custom_function_file does not exist: ' . $path);
             }
-    
+
             if (!is_readable($path)) {
                 return null;
                 throw new \Exception('Specified path to custom_function_file file is not readable: ' . $path);
             }
 
             return $path;
-
         }
         return null;
     }),
