@@ -35,8 +35,8 @@
         "ChangePermToAllSitesConfirm2": "Not: Bu ayar yalnızca var olan siteler için geçerli olur. Eklenebilecek yeni siteler için bu kullanıcıya erişim izni otomatik olarak verilmez.",
         "ChangePermToSiteConfirmMultiple": "%1$s kullanıcısının seçilmiş %2$s sitedeki rolünü %3$s olarak değiştirmek istediğinize emin misiniz?",
         "ChangePermToSiteConfirmSingle": "%1$s kullanıcısının %2$s sitesindeki rolünü %3$s olarak değiştirmek istediğinize emin misiniz?",
-        "ClickHereToDeleteTheCookie": "Çerezi silmek ve ziyaretlerinizin Matomo tarafından izlenmesini sağlamak için buraya tıklayın",
-        "ClickHereToSetTheCookieOnDomain": "Matomo tarafından %s sitesine yaptığınız ziyaretlerin izlenmemesini sağlayacak bir çerez ayarlamak için buraya tıklayın",
+        "ClickHereToDeleteTheCookie": "Tanımlama bilgisini silmek ve ziyaretlerinizin Matomo tarafından izlenmesini sağlamak için buraya tıklayın",
+        "ClickHereToSetTheCookieOnDomain": "Matomo tarafından %s sitesine yaptığınız ziyaretlerin izlenmemesini sağlayacak bir tanımlama bilgisi ayarlamak için buraya tıklayın",
         "ClickToSelectAll": "Tüm %1$s siteyi seçmek için tıklayın.",
         "ClickToSelectDisplayedUsers": "Görüntülenen %1$s kullanıcıyı seçmek için tıklayın.",
         "ClickToSelectDisplayedWebsites": "Görüntülenen %1$s siteyi seçmek için tıklayın.",
@@ -98,7 +98,7 @@
         "ExceptionUserHasSuperUserAccess": "'%s' kullanıcısının süper kullanıcı izinleri var ve Matomo üzerindeki tüm siteleri yönetebilir. Bu kullanıcıdan süper kullanıcı izinlerini kaldırıp yeniden deneyebilirsiniz.",
         "ExceptionUserHasViewAccessAlready": "Bu kullanıcının bu siteye zaten erişimi var.",
         "ExceptionYouMustGrantSuperUserAccessFirst": "Süper kullanıcı izinlerine sahip en az bir kullanıcı olması gerekir. Lütfen önce başka bir kullanıcıya süper kullanıcı izinlerini verin.",
-        "ExcludeVisitsViaCookie": "Bir çerez kullanarak ziyaretlerinizin izlenmesini engelleyin",
+        "ExcludeVisitsViaCookie": "Bir tanımlama bilgisi kullanarak ziyaretlerinizin izlenmesini engelleyin",
         "ExpireDate": "Sona erme tarihi",
         "Expired": "Çağrının süresi geçmiş",
         "ExpiredInviteAutomaticallyRemoved": "Süresi geçmiş çağrılar %1$s gün sonra otomatik olarak silinir.",
@@ -235,7 +235,7 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kullanıcılar oturum açmadan Matomo ziyareti yaptığında ilk olarak şunu görmeli",
         "YourCurrentPassword": "Geçerli parolanız",
         "YourUsernameCannotBeChanged": "Kullanıcı adınız değiştirilemez.",
-        "YourVisitsAreIgnoredOnDomain": "%1$s%2$s üzerine yaptığınız ziyaretler Matomo tarafından izlenmiyor%3$s (tarayıcınızda Matomo izlemeyi engelleme çerezi bulundu).",
-        "YourVisitsAreNotIgnored": "%1$sZiyaretleriniz Matomo tarafından izleniyor%2$s (tarayıcınızda Matomo izlemeyi engelleme çerezi bulunamadı)."
+        "YourVisitsAreIgnoredOnDomain": "%1$s%2$s üzerine yaptığınız ziyaretler Matomo tarafından izlenmiyor%3$s (tarayıcınızda Matomo izlemeyi engelleme tanımlama bilgisi bulundu).",
+        "YourVisitsAreNotIgnored": "%1$sZiyaretleriniz Matomo tarafından izleniyor%2$s (tarayıcınızda Matomo izlemeyi engelleme tanımlama bilgisi bulunamadı)."
     }
 }

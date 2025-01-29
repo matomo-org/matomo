@@ -129,7 +129,7 @@
         "CurrentMonth": "Bu ay",
         "CurrentWeek": "Bu hafta",
         "CurrentYear": "Bu yıl",
-        "CurrentlyUsingUnsecureHttp": "Matomo uygulamasını güvenli olmayan HTTP bağlantısı üzerinden kullanıyorsunuz. Bu durum Matomo uygulamanızı güvenlik açıklarına karşı savunmasız bırakabilir. Ayrıca abonelikten ayrılma çerezlerini de içeren bazı özellikler çalışmayacağından, gizlilik yasalarına da karşı geliyor olabilirsiniz. Matomo uygulamasını daha güvenli olarak kullanmak için SSL ile şifrelenmiş (HTTPS) bir bağlantı kullanmanız önerilir.",
+        "CurrentlyUsingUnsecureHttp": "Matomo uygulamasını güvenli olmayan HTTP bağlantısı üzerinden kullanıyorsunuz. Bu durum Matomo uygulamanızı güvenlik açıklarına karşı savunmasız bırakabilir. Ayrıca abonelikten ayrılma tanımlama bilgilerini de içeren bazı özellikler çalışmayacağından, gizlilik yasalarına da karşı geliyor olabilirsiniz. Matomo uygulamasını daha güvenli olarak kullanmak için SSL ile şifrelenmiş (HTTPS) bir bağlantı kullanmanız önerilir.",
         "Custom": "Özel",
         "Daily": "Günlük",
         "DailyReport": "günlük",
