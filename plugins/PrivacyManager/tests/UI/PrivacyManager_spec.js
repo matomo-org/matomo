@@ -172,10 +172,11 @@ describe("PrivacyManager", function () {
 
         await loadActionPage('privacySettings');
         await page.waitForNetworkIdle();
-        await capturePage('privacy_settings_default_with_randomisation');
 
         delete testEnvironment.configOverride.FeatureFlags.ConfigIdRandomisation_feature;
         testEnvironment.save();
+
+        await capturePage('privacy_settings_default_with_randomisation');
     });
 
     it('should load privacy settings page', async function() {

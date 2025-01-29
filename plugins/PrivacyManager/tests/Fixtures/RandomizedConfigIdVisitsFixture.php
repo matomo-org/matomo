@@ -19,11 +19,10 @@ use Piwik\Tracker\Cache;
 class RandomizedConfigIdVisitsFixture extends Fixture
 {
     public static $dateTimeNormalConfig = '2015-01-01 01:00:00';
-    public static $dateTimeRandomisedConfig = '2015-02-01 01:00:00'; // as above + 1 month
+    public static $dateTimeRandomizedConfig = '2015-02-01 01:00:00'; // as above + 1 month
 
     public $dateTime;
     public $idSite = 1;
-    public $dropDatabaseInTearDown = false; // temporary to be able to debug db
 
     /** @var PrivacyManagerConfig */
     private $privacyManagerConfig;
@@ -40,12 +39,12 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         $this->setUpWebsite();
 
         // config off
-        // should NOT randomise
+        // should NOT randomize
         $this->trackVisits(false);
 
         // config on
-        // should randomise
-        $this->dateTime = self::$dateTimeRandomisedConfig;
+        // should randomize
+        $this->dateTime = self::$dateTimeRandomizedConfig;
         $this->trackVisits(true);
     }
 
@@ -77,8 +76,9 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
         $t->setUrl('http://example.com/');
         for ($v = 1; $v <= $visits; $v++) {
-            $t->setForceVisitDateTime(Date::factory($this->dateTime)->addPeriod($v, 'minute')->getDatetime());
-            self::checkResponse($t->doTrackPageView("Standard visit - $v"));
+            $dt = Date::factory($this->dateTime)->addPeriod($v, 'minute')->getDatetime();
+            $t->setForceVisitDateTime($dt);
+            self::checkResponse($t->doTrackPageView("Standard visit - $dt"));
         }
     }
 
@@ -91,13 +91,12 @@ class RandomizedConfigIdVisitsFixture extends Fixture
 
             self::checkResponse($t->doTrackPageView("Visit with actions - $v"));
             for ($a = 1; $a <= $actions; $a++) {
-                $t->setForceVisitDateTime(
-                    Date::factory($this->dateTime)
-                        ->addPeriod($v, 'minute')
-                        ->addPeriod($a, 'second')
-                        ->getDatetime()
-                );
-                self::checkResponse($t->doTrackAction("http://example.com/$v-$a", 'link'));
+                $dt = Date::factory($this->dateTime)
+                    ->addPeriod($v, 'minute')
+                    ->addPeriod($a, 'second')
+                    ->getDatetime();
+                $t->setForceVisitDateTime($dt);
+                self::checkResponse($t->doTrackAction("http://example.com/$dt", 'link'));
             }
         }
     }
@@ -108,8 +107,9 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         $t->setUserId('foobar');
         $t->setUrl('http://example.com/');
         for ($v = 1; $v <= $visits; $v++) {
-            $t->setForceVisitDateTime(Date::factory($this->dateTime)->addPeriod($v, 'minute')->getDatetime());
-            self::checkResponse($t->doTrackPageView("Visit with user ID set - $v"));
+            $dt = Date::factory($this->dateTime)->addPeriod($v, 'minute')->getDatetime();
+            $t->setForceVisitDateTime($dt);
+            self::checkResponse($t->doTrackPageView("Visit with user ID set - $dt"));
         }
     }
 
@@ -120,8 +120,9 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         self::checkResponse($t->doTrackPageView('Visit with ecommerce order'));
 
         for ($o = 1; $o <= $orders; $o++) {
-            $t->setForceVisitDateTime(Date::factory($this->dateTime)->addPeriod($o, 'second')->getDatetime());
-            $t->doTrackEcommerceOrder('Ecommerce order ID - ' . rand(1, 1000000), 10 * rand(1, 100), 7, 2, 1, 0);
+            $dt = Date::factory($this->dateTime)->addPeriod($o, 'second')->getDatetime();
+            $t->setForceVisitDateTime($dt);
+            $t->doTrackEcommerceOrder('Ecommerce order ID - ' . $dt, 10 * $o, 7, 2, 1, 0);
         }
     }
 
