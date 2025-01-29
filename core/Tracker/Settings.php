@@ -9,7 +9,6 @@
 
 namespace Piwik\Tracker;
 
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
@@ -181,9 +180,7 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
 
     protected function getRandomConfigHash(): string
     {
-        $configString = sprintf('%s_%s_%s', Common::getRandomInt(), Common::getRandomString(60), time());
-
-        return $this->createHashOfConfigString($configString);
+        return $this->createHashOfConfigString(random_bytes(64));
     }
 
     private function createHashOfConfigString(string $configString): string
