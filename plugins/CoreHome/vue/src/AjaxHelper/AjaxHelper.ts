@@ -21,6 +21,7 @@ export interface AjaxOptions {
   returnResponseObject?: boolean;
   errorElement?: HTMLElement|JQuery|string;
   redirectOnSuccess?: QueryParameters|boolean;
+  abortable?: boolean;
 }
 
 interface ErrorResponse {
@@ -174,6 +175,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
   abortController: AbortController|null = null;
 
+  abortable: boolean;
+
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
   resolveWithHelper = false;
@@ -241,6 +244,12 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
     if (options.returnResponseObject) {
       helper.resolveWithHelper = true;
+    }
+
+    if (options.abortable === false) {
+      helper.abortable = false;
+    } else {
+      helper.abortable = true;
     }
 
     return helper.send().then((result: R | ErrorResponse | AjaxHelper) => {
@@ -504,7 +513,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     }
 
     this.requestHandle = this.buildAjaxCall();
-    if (this.getParams.method !== 'SitesManager.getPatternMatchSites') {
+    if (this.abortable) {
       window.globalAjaxQueue.push(this.requestHandle);
     }
 
