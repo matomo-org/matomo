@@ -175,7 +175,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
   abortController: AbortController|null = null;
 
-  abortable: boolean;
+  abortable: boolean = true;
 
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
@@ -248,8 +248,6 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
     if (options.abortable === false) {
       helper.abortable = false;
-    } else {
-      helper.abortable = true;
     }
 
     return helper.send().then((result: R | ErrorResponse | AjaxHelper) => {
