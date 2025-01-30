@@ -593,7 +593,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       complete: this.completeCallback,
       headers: this.headers ? this.headers : undefined,
       error: function errorCallback(...args: any[]) { // eslint-disable-line
-        if (this.abortable) {
+        if (self.abortable) {
           window.globalAjaxQueue.active -= 1;
         }
 
@@ -653,7 +653,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           this.callback(response, status, request);
         }
 
-        if (this.abortable) {
+        if (self.abortable) {
           window.globalAjaxQueue.active -= 1;
         }
         if (Matomo.ajaxRequestFinished) {
