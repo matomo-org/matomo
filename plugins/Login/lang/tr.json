@@ -30,7 +30,7 @@
         "InvalidNonceOrigin": "Kaynak geçersiz olduğundan form güvenliği sağlanamadı. Daha önce HTTPS kullanarak bağlantı kurduysanız, lütfen güvenli bir (SSL/TLS) bağlantısı kullandığınızdan emin olduktan sonra yeniden deneyin.",
         "InvalidNonceReferrer": "Yönlendiren (referrer) üst bilgisi geçersiz olduğundan form güvenliği sağlanamadı. Bir vekil sunucu kullanıyorsanız, %1$sMatomo yapılandırmasını vekil sunucu üst bilgisini kabul edecek%2$s ve sunucu üst bilgisini iletecek şekilde ayarlamanız gerekir. Ayrıca, \"Referrer\" üst bilginizin doğru gönderilmiş olup olmadığını denetleyin. Daha önce HTTPS kullanarak bağlantı kurduysanız, lütfen güvenli bir (SSL/TLS) bağlantısı kullandığınızdan emin olduktan sonra yeniden deneyin.",
         "InvalidNonceSSLMisconfigured": "Ayrıca %1$sMatomo tarafından güvenli bir bağlantı kullanılmasını%2$s dayatabilirsiniz: Yapılandırma dosyanızda%5$s bölümü altındaki %3$s seçeneğini %4$s olarak ayarlayın",
-        "InvalidNonceToken": "Bir kod uyuşmazlığı nedeniyle form güvenliği sağlanamadı. Lütfen formu yeniden yükleyin ve çerezlerin açık olup olmadığını denetleyin.",
+        "InvalidNonceToken": "Bir kod uyuşmazlığı nedeniyle form güvenliği sağlanamadı. Lütfen formu yeniden yükleyin ve tanımlama bilgilerinin açık olup olmadığını denetleyin.",
         "InvalidNonceUnexpectedReferrer": "Yönlendiren (referrer) üst bilgisi beklenenden farklı olduğundan form güvenliği sağlanamadı. Bu bilginin doğru gönderilip gönderilmediğini denetleyin.",
         "InvalidOrExpiredToken": "Kod geçersiz ya da süresi dolmuş.",
         "InvalidOrExpiredTokenV2": "Parola zaten ayarlanmış ya da bağlantının süresi dolmuş.",
