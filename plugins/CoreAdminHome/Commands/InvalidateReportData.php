@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\CoreAdminHome\Commands;
 
+use Exception;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period;
@@ -110,20 +112,52 @@ class InvalidateReportData extends ConsoleCommand
 
         $logger = StaticContainer::get(LoggerInterface::class);
 
+        // check availability of provided segments for all sites
+        foreach ($segments as $segmentStr) {
+            // determine sites where current segment is available for
+            $sitesToProcess = $this->getSitesForSegment($segmentStr, $sites);
+            $segment = new Segment($segmentStr, $sitesToProcess);
+
+            if (empty($sitesToProcess)) {
+                // segment not available for any site
+                $logger->info("Segment [$segmentStr] not available for any site, skipping it...");
+                continue;
+            }
+
+            $sitesDiff = array_diff($sites, $sitesToProcess);
+
+            if (count($sitesDiff)) {
+                $logger->info(
+                    "Segment [$segmentStr] not available for all sites, skipping this segment for sites [ " . implode(
+                        ', ',
+                        $sitesDiff
+                    ) . " ]."
+                );
+            }
+        }
+
+
         foreach ($periodTypes as $periodType) {
             if ($periodType === 'range') {
                 continue; // special handling for range below
             }
             foreach ($dateRanges as $dateRange) {
-                foreach ($segments as $segment) {
-                    $segmentStr = $segment ? $segment->getString() : 'all segments';
+                foreach ($segments as $segmentStr) {
+                    // determine sites where current segment is available for
+                    $sitesToProcess = $this->getSitesForSegment($segmentStr, $sites);
+                    $segment = new Segment($segmentStr, $sitesToProcess);
 
-                    $logger->info("Invalidating $periodType periods in $dateRange [segment = $segmentStr]...");
+                    if (empty($sitesToProcess)) {
+                        continue;
+                    }
+
+                    $logger->info("Invalidating $periodType periods in $dateRange for site = [ "
+                        . implode(', ', $sitesToProcess) . " ], segment = [ $segmentStr ]...");
 
                     $dates = $this->getPeriodDates($periodType, $dateRange);
 
                     if ($dryRun) {
-                        $message = "[Dry-run] invalidating archives for site = [ " . implode(', ', $sites)
+                        $message = "[Dry-run] invalidating archives for site = [ " . implode(', ', $sitesToProcess)
                             . " ], dates = [ " . implode(', ', $dates) . " ], period = [ $periodType ], segment = [ "
                             . "$segmentStr ], cascade = [ " . (int)$cascade . " ]";
                         if (!empty($plugin)) {
@@ -132,7 +166,7 @@ class InvalidateReportData extends ConsoleCommand
                         $logger->info($message);
                     } else {
                         $invalidationResult = $invalidator->markArchivesAsInvalidated(
-                            $sites,
+                            $sitesToProcess,
                             $dates,
                             $periodType,
                             $segment,
@@ -167,19 +201,46 @@ class InvalidateReportData extends ConsoleCommand
                 $rangeDates[] = $this->getPeriodDates('range', $dateRange);
             }
             if (!empty($rangeDates)) {
-                foreach ($segments as $segment) {
-                    $segmentStr = $segment ? $segment->getString() : 'all segments';
+                foreach ($segments as $segmentStr) {
+                    $sitesToProcess = $this->getSitesForSegment($segmentStr, $sites);
+                    $segment = new Segment($segmentStr, $sitesToProcess);
+
                     if ($dryRun) {
                         $dateRangeStr = implode(';', $dateRanges);
-                        $logger->info("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
+                        $logger->info("Invalidating range periods overlapping $dateRangeStr for "
+                            . "site = [ " . implode(', ', $sitesToProcess) . " ], segment = [ $segmentStr ]...");
                     } else {
-                        $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $rangeDates, $segment, $plugin);
+                        $invalidator->markArchivesOverlappingRangeAsInvalidated($sitesToProcess, $rangeDates, $segment, $plugin);
                     }
                 }
             }
         }
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Returns all sites where the given segment is available for
+     *
+     * @param string $segmentStr
+     * @param array $idSites
+     * @return array
+     * @throws \Exception
+     */
+    private function getSitesForSegment(string $segmentStr, array $idSites)
+    {
+        $sitesToProcess = [];
+
+        foreach ($idSites as $idSite) {
+            try {
+                $segment = new Segment($segmentStr, $idSite);
+                $sitesToProcess[] = $idSite;
+            } catch (Exception $e) {
+                continue;
+            }
+        }
+
+        return $sitesToProcess;
     }
 
     private function getSitesToInvalidateFor()
@@ -235,7 +296,7 @@ class InvalidateReportData extends ConsoleCommand
             throw new \InvalidArgumentException("The --dates option is required.");
         }
 
-        return $dateRanges;
+        return is_array($dateRanges) ? $dateRanges : [$dateRanges];
     }
 
     private function getPeriodDates($periodType, $dateRange)
@@ -267,7 +328,7 @@ class InvalidateReportData extends ConsoleCommand
     /**
      * @param array<int> $idSites
      *
-     * @return array<Segment>
+     * @return array<string>
      */
     private function getSegmentsToInvalidateFor(array $idSites): array
     {
@@ -277,14 +338,16 @@ class InvalidateReportData extends ConsoleCommand
         $segments = array_unique($segments);
 
         if (empty($segments)) {
-            return [null];
+            $segments = Rules::getSegmentsToProcess($idSites);
+            array_unshift($segments, "");
+            return $segments;
         }
 
         $result = [];
 
         foreach ($segments as $segmentOptionValue) {
             if ($segmentOptionValue === "") {
-                $result[] = new Segment("", $idSites);
+                $result[] = "";
                 continue;
             }
 
@@ -294,7 +357,7 @@ class InvalidateReportData extends ConsoleCommand
                 continue;
             }
 
-            $result[] = new Segment($segmentDefinition, $idSites);
+            $result[] = $segmentDefinition;
         }
 
         return $result;
