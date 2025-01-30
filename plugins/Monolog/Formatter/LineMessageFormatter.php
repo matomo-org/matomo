@@ -82,7 +82,7 @@ class LineMessageFormatter implements FormatterInterface
         return $total;
     }
 
-    private function jsonMessage(string $class, string $message, string $date, array $record) : ?string
+    private function jsonMessage(string $class, string $message, string $date, array $record): ?string
     {
         $trace = isset($record['context']['trace']) ? self::formatTrace($record['context']['trace']) : '';
         $requestId = isset($record['extra']['request_id']) ? $record['extra']['request_id'] : '';
@@ -98,17 +98,16 @@ class LineMessageFormatter implements FormatterInterface
 
         if (is_callable($this->customFunction)) {
             $message = call_user_func($this->customFunction, $message);
-            if ($message === null){
+            if ($message === null) {
                 # allow for custom function to filter out messages by returning null
                 return null;
             }
-
         }
 
         return json_encode($message) . "\n";
     }
 
-    private function formatMessage(string $class, string $message, string $date, array $record) : ?string
+    private function formatMessage(string $class, string $message, string $date, array $record): ?string
     {
         $trace = isset($record['context']['trace']) ? self::formatTrace($record['context']['trace']) : '';
         $message = str_replace(
