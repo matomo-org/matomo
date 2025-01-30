@@ -251,8 +251,15 @@ class API extends \Piwik\Plugin\API
 
         $idSite = $this->checkIdSite($idSite);
         $this->checkSegmentName($name);
-        $definition      = $this->checkSegmentValue($definition, $idSite);
-        $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
+        $definition = $this->checkSegmentValue($definition, $idSite);
+
+        // only check param if value is changed
+        // this ensure that a segment from a user with lower permission can still be changed by them
+        // if a superuser updated the segment to be available for all users
+        if ($segment['enable_all_users'] !== (int) $enabledAllUsers) {
+            $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
+        }
+
         $autoArchive     = $this->checkAutoArchive($autoArchive, $idSite);
 
         $bind = array(
