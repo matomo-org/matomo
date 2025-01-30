@@ -31,12 +31,12 @@ class LineMessageFormatter implements FormatterInterface
      * @param string $logMessageFormat
      * @param bool $allowInlineLineBreaks If disabled, a log message will be created for each line
      */
-    public function __construct($logMessageFormat, $allowInlineLineBreaks = true, $excludePatterns = null, $customFunctionFile = null)
+    public function __construct($logMessageFormat, bool $allowInlineLineBreaks = true, ?array $excludePatterns = null, ?string $customFunctionFile = null)
     {
         $this->logMessageFormat = $logMessageFormat;
         $this->allowInlineLineBreaks = $allowInlineLineBreaks;
         $this->excludePatterns = $excludePatterns;
-        if (gettype($customFunctionFile) === "string") {
+        if ($customFunctionFile !== null) {
             $this->customFunction = include_once $customFunctionFile;
         }
     }
@@ -48,7 +48,7 @@ class LineMessageFormatter implements FormatterInterface
 
         $message = trim($record['message']);
 
-        if (gettype($this->excludePatterns) === "array") {
+        if ($this->excludePatterns !== null) {
             foreach ($this->excludePatterns as $p) {
                 if (strpos($message, $p) !== false) {
                     return;
@@ -59,7 +59,7 @@ class LineMessageFormatter implements FormatterInterface
             }
         }
 
-        if ($this->logMessageFormat == 'json') {
+        if ($this->logMessageFormat === 'json') {
             return $this->jsonMessage($class, $message, $date, $record);
         }
 
@@ -82,7 +82,7 @@ class LineMessageFormatter implements FormatterInterface
         return $total;
     }
 
-    private function jsonMessage($class, $message, $date, $record)
+    private function jsonMessage(string $class, string $message, string $date, array $record) : ?string
     {
         $trace = isset($record['context']['trace']) ? self::formatTrace($record['context']['trace']) : '';
         $requestId = isset($record['extra']['request_id']) ? $record['extra']['request_id'] : '';
@@ -93,17 +93,22 @@ class LineMessageFormatter implements FormatterInterface
             "message" => $message,
             "level" => $record['level_name'],
             "trace" => $trace,
-            "requestId" => $requestId
+            "requestId" => $requestId,
         ];
 
-        if (gettype($this->customFunction) === "string") {
+        if (is_callable($this->customFunction)) {
             $message = call_user_func($this->customFunction, $message);
+            if ($message === null){
+                # allow for custom function to filter out messages by returning null
+                return null;
+            }
+
         }
 
         return json_encode($message) . "\n";
     }
 
-    private function formatMessage($class, $message, $date, $record)
+    private function formatMessage(string $class, string $message, string $date, array $record) : ?string
     {
         $trace = isset($record['context']['trace']) ? self::formatTrace($record['context']['trace']) : '';
         $message = str_replace(
@@ -116,7 +121,7 @@ class LineMessageFormatter implements FormatterInterface
         return $message;
     }
 
-    private static function formatTrace(array $trace, $numLevels = 10)
+    private static function formatTrace(array $trace, int $numLevels = 10): string
     {
         $strTrace = '';
         for ($i = 0; $i < $numLevels; $i++) {

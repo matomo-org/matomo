@@ -237,17 +237,6 @@ return array(
         ->constructorParameter('customFunctionFile', Piwik\DI::get('log.custom_function_file'))
         ->constructorParameter('excludePatterns', Piwik\DI::get('log.exclude_patterns')),
 
-    'log.exclude_patterns' => Piwik\DI::factory(function (Container $c) {
-        if ($c->has('ini.log.exclude_patterns')) {
-            $xcl = [];
-            foreach (explode("|", $c->get('ini.log.exclude_patterns')) as $p) {
-                $xcl[]  = trim($p);
-            }
-            return $xcl;
-        }
-        return null;
-    }),
-
     'log.custom_function_file' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.custom_function_file')) {
             $path = $c->get('ini.log.custom_function_file');
@@ -268,11 +257,11 @@ return array(
 
     'log.exclude_patterns' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.exclude_patterns')) {
-            $xcl = [];
+            $excl = [];
             foreach (explode("|", $c->get('ini.log.exclude_patterns')) as $p) {
-                $xcl[]  = trim($p);
+                $excl[]  = trim($p);
             }
-            return $xcl;
+            return $excl;
         }
         return null;
     }),
