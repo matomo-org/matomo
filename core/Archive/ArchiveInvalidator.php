@@ -451,15 +451,9 @@ class ArchiveInvalidator
             $ranges[] = Period\Factory::build('range', $dateRange[0] . ',' . $dateRange[1]);
         }
 
-        $invalidatedMonths = array();
         $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
         foreach ($archiveNumericTables as $table) {
-            $tableDate = ArchiveTableCreator::getDateFromTableName($table);
-
-            $rowsAffected = $this->model->updateArchiveAsInvalidated($table, $idSites, $ranges, $segment, false, $name);
-            if ($rowsAffected > 0) {
-                $invalidatedMonths[] = $tableDate;
-            }
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $ranges, $segment, false, $name);
         }
 
         foreach ($idSites as $idSite) {
