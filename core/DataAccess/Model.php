@@ -173,9 +173,9 @@ class Model
             }
         } else {
             if (null === $segment) {
-                $nameCondition = "name LIKE '$doneFlag%.$plugin'"; // invalidate all segments
+                $nameCondition = "name LIKE '$doneFlag%.$plugin'"; // invalidate all segments for specific plugin
             } else {
-                $nameCondition = "name = '$doneFlag.$plugin'"; // invalidate specific segment only
+                $nameCondition = "name = '$doneFlag.$plugin'"; // invalidate specific segment for specific plugin only
             }
         }
 
@@ -208,7 +208,7 @@ class Model
             }
         }
 
-        if (true === $doNotCreateInvalidations) {
+        if ($doNotCreateInvalidations) {
             return count($idArchives);
         }
 

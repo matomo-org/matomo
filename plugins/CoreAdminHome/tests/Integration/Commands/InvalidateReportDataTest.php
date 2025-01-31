@@ -700,7 +700,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             ]
         ];
 
-        yield "Invalidating a multiple dates works for all segments, one website" => [
+        yield "Invalidating multiple dates works for all segments, one website" => [
             [
                 '--dates' => ['2012-01-01', '2012-01-06', '2012-01-12'],
                 '--sites' => '1',
@@ -949,7 +949,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             ]
         ];
 
-        yield "Invalidating a week period accross years should not invalidate dates before website creation, one website, cascade down" => [
+        yield "Invalidating a week period should not invalidate dates before website creation, one website, cascade down" => [
             [
                 '--dates' => ['2012-01-01'],
                 '--sites' => '2',
@@ -965,17 +965,39 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             ]
         ];
 
-        yield "Invalidating a multiple periods works for specific segment only, one website, no cascade" => [
+        yield "Invalidating multiple periods works for specific segment only, one website, no cascade" => [
             [
                 '--dates' => ['2012-01-01'],
                 '--sites' => '1',
                 '--periods' => 'week,year',
-                '--cascade' => false,
                 '--segment' => ['browserCode==IE'],
             ],
             [
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+            ]
+        ];
+
+        yield "Invalidating plugin for multiple periods works for specific multiple segments, multiple websites, no cascade" => [
+            [
+                '--dates' => ['2012-01-01', '2012-01-06,2012-01-07'],
+                '--sites' => '1,2',
+                '--periods' => 'week,year',
+                '--segment' => ['browserCode==IE', 'dimension1==test'],
+            ],
+            [
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-02', 'date2' => '2012-01-08', 'period' => 2, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
+                ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-02', 'date2' => '2012-01-08', 'period' => 2, 'report' => null],
+                ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
+                ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-02', 'date2' => '2012-01-08', 'period' => 2, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
             ]
         ];
     }
