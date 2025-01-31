@@ -714,12 +714,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/referrer-spam-list.git",
-                "reference": "6edbb4a2c2a964b3175265e4eb58dfc514132143"
+                "reference": "e0626611bb4df52acccc898cb713444d8f8a5c85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/6edbb4a2c2a964b3175265e4eb58dfc514132143",
-                "reference": "6edbb4a2c2a964b3175265e4eb58dfc514132143",
+                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/e0626611bb4df52acccc898cb713444d8f8a5c85",
+                "reference": "e0626611bb4df52acccc898cb713444d8f8a5c85",
                 "shasum": ""
             },
             "replace": {
@@ -737,7 +737,7 @@
                 "issues": "https://github.com/matomo-org/referrer-spam-list/issues",
                 "source": "https://github.com/matomo-org/referrer-spam-list/tree/master"
             },
-            "time": "2025-01-08T02:25:37+00:00"
+            "time": "2025-01-25T03:53:07+00:00"
         },
         {
             "name": "matomo/searchengine-and-social-list",
@@ -3408,16 +3408,16 @@
         },
         {
             "name": "tecnickcom/tcpdf",
-            "version": "6.8.0",
+            "version": "6.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "14ffa0e308f5634aa2489568b4b90b24073b6731"
+                "reference": "f7a781073e1645062f163e058139e2f89355d420"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/14ffa0e308f5634aa2489568b4b90b24073b6731",
-                "reference": "14ffa0e308f5634aa2489568b4b90b24073b6731",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/f7a781073e1645062f163e058139e2f89355d420",
+                "reference": "f7a781073e1645062f163e058139e2f89355d420",
                 "shasum": ""
             },
             "require": {
@@ -3469,7 +3469,7 @@
             ],
             "support": {
                 "issues": "https://github.com/tecnickcom/TCPDF/issues",
-                "source": "https://github.com/tecnickcom/TCPDF/tree/6.8.0"
+                "source": "https://github.com/tecnickcom/TCPDF/tree/6.8.2"
             },
             "funding": [
                 {
@@ -3477,7 +3477,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2024-12-23T13:34:57+00:00"
+            "time": "2025-01-26T14:03:12+00:00"
         },
         {
             "name": "tedivm/jshrink",
