@@ -59,7 +59,7 @@ class LineMessageFormatter implements FormatterInterface
             }
         }
 
-        if ($this->logMessageFormat === 'json') {
+        if ('json' === $this->logMessageFormat) {
             return $this->jsonMessage($class, $message, $date, $record);
         }
 
