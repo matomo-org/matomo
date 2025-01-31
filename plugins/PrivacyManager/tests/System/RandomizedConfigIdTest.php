@@ -28,10 +28,13 @@ class RandomizedConfigIdTest extends SystemTestCase
 
     public function testNormalConfigIdBehaviour()
     {
+        // get just the date portion from the date time string
+        [$date] = explode(' ', RandomizedConfigIdVisitsFixture::$dateTimeNormalConfig, 2);
+
         // four sets of visits with an hour break each which creates a new visit (as over the default visit inactivity)
         $count = Db::fetchOne(
             'SELECT COUNT(idvisitor) FROM ' . Common::prefixTable('log_visit') .
-            ' WHERE DATE(visit_last_action_time) = DATE("' . RandomizedConfigIdVisitsFixture::$dateTimeNormalConfig . '")'
+            ' WHERE DATE(visit_last_action_time) = DATE("' . $date . '")'
         );
         $this->assertEquals(4, $count);
 
@@ -42,21 +45,21 @@ class RandomizedConfigIdTest extends SystemTestCase
         // total => 14 rows of LLVA
         $count = Db::fetchOne(
             'SELECT COUNT(idlink_va) FROM ' . Common::prefixTable('log_link_visit_action') .
-            ' WHERE DATE(server_time) = DATE("' . RandomizedConfigIdVisitsFixture::$dateTimeNormalConfig . '")'
+            ' WHERE DATE(server_time) = DATE("' . $date . '")'
         );
         $this->assertEquals(14, $count);
 
         // 1 rows with user set
         $count = Db::fetchOne(
             'SELECT COUNT(user_id) FROM ' . Common::prefixTable('log_visit') .
-            ' WHERE DATE(visit_last_action_time) = DATE("' . RandomizedConfigIdVisitsFixture::$dateTimeNormalConfig . '")'
+            ' WHERE DATE(visit_last_action_time) = DATE("' . $date . '")'
         );
         $this->assertEquals(1, $count);
 
         // 1 visit with 3 rows of ecommerce conversion
         $count = Db::fetchAll(
             'SELECT idvisitor, COUNT(1) as conversions FROM ' . Common::prefixTable('log_conversion') .
-            ' WHERE DATE(server_time) = DATE("' . RandomizedConfigIdVisitsFixture::$dateTimeNormalConfig . '") GROUP BY idvisitor'
+            ' WHERE DATE(server_time) = DATE("' . $date . '") GROUP BY idvisitor'
         );
         $this->assertEquals(1, count($count));
         $this->assertEquals(3, $count[0]['conversions']);
@@ -64,6 +67,9 @@ class RandomizedConfigIdTest extends SystemTestCase
 
     public function testConfigIdRandomized()
     {
+        // get just the date portion from the date time string
+        [$date] = explode(' ', RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfig);
+
         // 2 standard visits -> 2
         // 3 visits with 2 actions -> 9 unique config IDs as each visit is an action itself
         // 2 visits with set user id -> 2
@@ -71,7 +77,7 @@ class RandomizedConfigIdTest extends SystemTestCase
         // total => 17
         $count = Db::fetchOne(
             'SELECT COUNT(idvisitor) FROM ' . Common::prefixTable('log_visit') .
-            ' WHERE DATE(visit_last_action_time) = DATE("' . RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfig . '")'
+            ' WHERE DATE(visit_last_action_time) = DATE("' . $date . '")'
         );
         $this->assertEquals(17, $count);
 
@@ -82,21 +88,21 @@ class RandomizedConfigIdTest extends SystemTestCase
         // total => 14 rows of LLVA
         $count = Db::fetchOne(
             'SELECT COUNT(idlink_va) FROM ' . Common::prefixTable('log_link_visit_action') .
-            ' WHERE DATE(server_time) = DATE("' . RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfig . '")'
+            ' WHERE DATE(server_time) = DATE("' . $date . '")'
         );
         $this->assertEquals(14, $count);
 
         // 2 rows with user set
         $count = Db::fetchOne(
             'SELECT COUNT(user_id) FROM ' . Common::prefixTable('log_visit') .
-            ' WHERE DATE(visit_last_action_time) = DATE("' . RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfig . '")'
+            ' WHERE DATE(visit_last_action_time) = DATE("' . $date . '")'
         );
         $this->assertEquals(2, $count);
 
         // 3 rows of a single conversion
         $count = Db::fetchAll(
             'SELECT idvisitor, COUNT(1) as conversions FROM ' . Common::prefixTable('log_conversion') .
-            ' WHERE DATE(server_time) = DATE("' . RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfig . '") GROUP BY idvisitor'
+            ' WHERE DATE(server_time) = DATE("' . $date . '") GROUP BY idvisitor'
         );
         $this->assertEquals(3, count($count));
         $this->assertEquals(1, $count[0]['conversions']);
