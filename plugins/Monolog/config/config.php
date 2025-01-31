@@ -241,12 +241,10 @@ return array(
             $path = $c->get('ini.log.custom_function_file');
             if (!file_exists($path)) {
                 return null;
-                throw new \Exception('Specified path to custom_function_file does not exist: ' . $path);
             }
 
             if (!is_readable($path)) {
                 return null;
-                throw new \Exception('Specified path to custom_function_file file is not readable: ' . $path);
             }
 
             return $path;
