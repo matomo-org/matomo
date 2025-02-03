@@ -119,8 +119,6 @@ class InvalidateReportData extends ConsoleCommand
         $dateRanges = $this->getDateRangesToInvalidateFor();
         $segments = $this->getSegmentsToInvalidateFor($sites);
 
-        $this->logUnavailableSegmentsInfo($segments, $sites);
-
         foreach ($periodTypes as $periodType) {
             if ($periodType === 'range') {
                 $this->invalidateRangePeriods($dateRanges, $segments, $sites);
@@ -132,8 +130,13 @@ class InvalidateReportData extends ConsoleCommand
         return self::SUCCESS;
     }
 
-    private function logUnavailableSegmentsInfo(array $segments, array $sites): void
-    {
+    private function getSegmentsWithSitesToProcess(
+        array $segments,
+        array $sites,
+        bool $ignoreInvalidSegments = false
+    ): array {
+        $segmentDetails = [];
+
         // check availability of provided segments for all sites
         foreach ($segments as $segmentStr) {
             // determine sites where current segment is available for
@@ -141,10 +144,10 @@ class InvalidateReportData extends ConsoleCommand
 
             try {
                 $segment = new Segment($segmentStr, $sitesToProcess);
-            } catch (\Exception $e) {
-                $this->logger->info("Segment [$segmentStr] is not supported, skipping it...");
-                // segment definition might be invalid, so skip it here.
-                continue;
+            } catch (Exception $e) {
+                if (!$ignoreInvalidSegments) {
+                    throw $e;
+                }
             }
 
             if (empty($sitesToProcess)) {
@@ -161,7 +164,14 @@ class InvalidateReportData extends ConsoleCommand
                     . implode(', ', $sitesDiff) . " ]."
                 );
             }
+
+            $segmentDetails[$segmentStr] = [
+                'segment' => $segment,
+                'sites' => $sitesToProcess,
+            ];
         }
+
+        return $segmentDetails;
     }
 
     private function invalidateNonRangePeriods(
@@ -176,15 +186,9 @@ class InvalidateReportData extends ConsoleCommand
         $plugin = $this->getInput()->getOption('plugin');
 
         foreach ($dateRangesToInvalidate as $dateRange) {
-            foreach ($segments as $segmentStr) {
-                // determine sites where current segment is available for
-                $sitesToProcess = $this->getSitesForSegment($segmentStr, $sites);
-
-                if (empty($sitesToProcess)) {
-                    continue;
-                }
-
-                $segment = new Segment($segmentStr, $sitesToProcess);
+            foreach ($segments as $segmentStr => $segmentData) {
+                $sitesToProcess = $segmentData['sites'];
+                $segment = $segmentData['segment'];
 
                 $this->logger->info("Invalidating $periodType periods in $dateRange for site = [ "
                     . implode(', ', $sitesToProcess) . " ], segment = [ $segmentStr ]...");
@@ -241,14 +245,9 @@ class InvalidateReportData extends ConsoleCommand
         }
 
         if (!empty($rangeDates)) {
-            foreach ($segments as $segmentStr) {
-                $sitesToProcess = $this->getSitesForSegment($segmentStr, $sites);
-
-                if (empty($sitesToProcess)) {
-                    continue;
-                }
-
-                $segment = new Segment($segmentStr, $sitesToProcess);
+            foreach ($segments as $segmentStr => $segmentData) {
+                $sitesToProcess = $segmentData['sites'];
+                $segment = $segmentData['segment'];
 
                 if ($dryRun) {
                     $dateRangeStr = implode(';', $dateRangesToInvalidate);
@@ -388,7 +387,7 @@ class InvalidateReportData extends ConsoleCommand
             $this->logger->debug("No segment provided. Invalidating all stored segments.");
             $segments = Rules::getSegmentsToProcess($idSites);
             array_unshift($segments, "");
-            return $segments;
+            return $this->getSegmentsWithSitesToProcess($segments, $idSites, true);
         }
 
         $result = [];
@@ -408,7 +407,7 @@ class InvalidateReportData extends ConsoleCommand
             $result[] = $segmentDefinition;
         }
 
-        return $result;
+        return $this->getSegmentsWithSitesToProcess($result, $idSites);
     }
 
     /**
