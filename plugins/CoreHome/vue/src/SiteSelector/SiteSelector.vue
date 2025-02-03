@@ -247,8 +247,8 @@ export default defineComponent({
         || this.searchTerm;
     },
     selectorLinkTitle() {
-      return this.hasMultipleSites
-        ? translate('CoreHome_ChangeCurrentWebsite', this.modelValue?.name || this.firstSiteName)
+      return this.hasMultipleSites && this.displayedModelValue
+        ? translate('CoreHome_ChangeCurrentWebsite', this.displayedModelValue.name)
         : '';
     },
     hasMultipleSites() {
