@@ -175,7 +175,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
   abortController: AbortController|null = null;
 
-  abortable: boolean = true;
+  abortable = true;
 
   defaultParams = ['idSite', 'period', 'date', 'segment'];
 
