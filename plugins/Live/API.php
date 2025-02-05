@@ -129,6 +129,28 @@ class API extends \Piwik\Plugin\API
         return $show && !$hide;
     }
 
+    /*
+     * Returns if the visitor Logs are enabled for the given site(s)
+     *
+     * @param string|int|array $idSite
+     * @return bool
+     */
+    public function isVisitorLogEnabled($idSite): bool
+    {
+        return Live::isVisitorLogEnabled($idSite);
+    }
+
+    /*
+     * Returns if the visitor profile is enabled for the given site(s)
+     *
+     * @param string|int|array $idSite
+     * @return bool
+     */
+    public function isVisitorProfileEnabled($idSite): bool
+    {
+        return Live::isVisitorProfileEnabled($idSite);
+    }
+
     /**
      * Returns the last visits tracked in the specified website
      * You can define any number of filters: none, one, many or all parameters can be defined
