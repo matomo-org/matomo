@@ -59,6 +59,7 @@
                 v-model="segment_filter"
                 :visit-segments-only="true"
                 :idsite="site.id"
+                :show-segment-editor="true"
               />
             </div>
           </div>
