@@ -20,7 +20,6 @@
     </div>
 
     <div class="kpiCardValue"
-         :title="kpi.valueCompact !== kpi.value ? kpi.value : ''"
          v-tooltips="{ duration: 200, delay: 200, content: tooltipContent }"
     >{{ kpi.valueCompact }}</div>
 
