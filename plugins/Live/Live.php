@@ -76,9 +76,9 @@ class Live extends \Piwik\Plugin
             $idSites = Site::getIdSitesFromIdSitesString($idSite);
 
             foreach ($idSites as $idSite) {
-                    $settings = new MeasurableSettings($idSite);
+                $settings = new MeasurableSettings($idSite);
 
-                    if ($settings->disableVisitorLog->getValue() === true) {
+                if ($settings->disableVisitorLog->getValue() === true) {
                     throw new \Exception('Visits log is deactivated in website settings. A user with at least admin access can enable this feature in the settings for this website (idSite=' . $idSite . ').');
                 }
             }
