@@ -1065,7 +1065,7 @@ class LoaderTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForLoadExistingArchiveIdFromDbDebugConfig
      */
-    public function testLoadExistingArchiveIdFromDbReturnsFalsesPeriodIsForcedToArchive($periodType, $configSetting)
+    public function testLoadExistingArchiveIdFromDbReturnsFalseIfPeriodIsForcedToArchive($periodType, $configSetting)
     {
         $date = $periodType == 'range' ? '2015-03-03,2015-03-04' : '2015-03-03';
         $params = new Parameters(new Site(1), Factory::build($periodType, $date), new Segment('', [1]));
@@ -1538,7 +1538,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertTrue($loader->canSkipArchiveForSegment());
     }
 
-    public function testCanSkipArchiveForSegmentReturnTrueIfPluginIsDisabled()
+    public function testCanSkipArchiveForSegmentReturnsTrueIfPluginIsDisabled()
     {
         Rules::setBrowserTriggerArchiving(false);
         $config = Config::getInstance();
@@ -1560,7 +1560,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertTrue($loader->canSkipArchiveForSegment());
     }
 
-    public function testCanSkipArchiveForSegmentReturnTrueIfPluginIsDisabledBySiteId()
+    public function testCanSkipArchiveForSegmentReturnsTrueIfPluginIsDisabledBySiteId()
     {
         Rules::setBrowserTriggerArchiving(false);
         Config::setSetting('General_1', 'disable_archiving_segment_for_plugins', 'testPlugin');
