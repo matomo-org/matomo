@@ -294,6 +294,10 @@ interface ManageGdprState {
   isVisitorLogAndProfileEnabled: boolean;
 }
 
+interface VisitorLogProfileEnabledState {
+  value: boolean;
+}
+
 export default defineComponent({
   components: {
     ContentBlock,
@@ -329,7 +333,7 @@ export default defineComponent({
         return;
       }
       this.isLoading = true;
-      AjaxHelper.fetch<boolean>({
+      AjaxHelper.fetch<VisitorLogProfileEnabledState>({
         method: 'Live.isVisitorProfileEnabled',
         idSite: newSite.id,
       }).then((isEnabled) => {
