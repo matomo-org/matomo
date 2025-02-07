@@ -10,6 +10,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * When requesting goals for multiple sites at once using `Goals.getGoals`, the result will no longer be indexed by `idgoal`. Requesting the goals for a single site will still return them indexed by `idgoal`.
 
+### New commands
+
+* New command `core:reset-invalidations` allows administrators to reset stuck invalidations that are incorrectly marked as "in progress".
+
+
 ## Matomo 5.2.0
 
 ### Breaking Changes
