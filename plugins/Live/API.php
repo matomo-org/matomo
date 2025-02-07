@@ -130,17 +130,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /*
-     * Returns if the visitor Logs are enabled for the given site(s)
-     *
-     * @param string|int|array $idSite
-     * @return bool
-     */
-    public function isVisitorLogEnabled($idSite): bool
-    {
-        return Live::isVisitorLogEnabled($idSite);
-    }
-
-    /*
      * Returns if the visitor profile is enabled for the given site(s)
      *
      * @param string|int|array $idSite
