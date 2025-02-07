@@ -75,7 +75,9 @@
       >
       </SaveButton>
       <div v-else>
-        Shits broken yall
+        <h2>{{ translate('PrivacyManager_SiteDataNotAvailable')}}</h2>
+        <p>{{ translate('PrivacyManager_VisitorLogsProfilesDisabledMessage')}}</p>
+        <p>{{ translate('PrivacyManager_PleaseEnableVisitorLogsProfiles')}}</p>
       </div>
     </ContentBlock>
     <div v-show="!dataSubjects.length && hasSearched">
