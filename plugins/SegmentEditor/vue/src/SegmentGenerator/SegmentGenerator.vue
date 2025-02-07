@@ -6,7 +6,7 @@
 -->
 
 <template>
-  <div v-if="showSegmentEditor" class="segment-generator" ref="root">
+  <div class="segment-generator" ref="root">
     <ActivityIndicator :loading="isLoading" />
     <div
       :class="`segmentRow${conditionIndex}`"
@@ -274,7 +274,6 @@ export default defineComponent({
       matches: initialMatches(),
       conditionValuesLoading: {},
       segmentDefinition: '',
-      showSegmentEditor: true,
     };
   },
   emits: ['update:modelValue'],
@@ -308,33 +307,15 @@ export default defineComponent({
   },
   methods: {
     reloadSegments(idsite?: string|number, visitSegmentsOnly?: boolean) {
-      // get api info about site
-      console.log(idsite);
+      SegmentGeneratorStore.loadSegments(idsite, visitSegmentsOnly).then((segments) => {
+        this.queriedSegments = segments.map((s) => ({
+          ...s,
+          category: s.category || 'Others',
+        }));
 
-      let self = this;
-
-      SegmentGeneratorStore.checkIfVisitorLogOrProfileDisabled(idsite).then(res => {
-        let disabled = res;
-        if (disabled) {
-          self.showSegmentEditor = false;
-        } else {
-          self.showSegmentEditor = true;
+        if (this.addInitialCondition && this.conditions.length === 0) {
+          this.addNewAndCondition();
         }
-        /*SegmentGeneratorStore.loadSitesSettings(idsite).then((siteSettings) => {
-          console.log(siteSettings);
-        });*/
-        // if bad then dont bother next step
-        // hide selector, show message
-        SegmentGeneratorStore.loadSegments(idsite, visitSegmentsOnly).then((segments) => {
-          this.queriedSegments = segments.map((s) => ({
-            ...s,
-            category: s.category || 'Others',
-          }));
-
-          if (this.addInitialCondition && this.conditions.length === 0) {
-            this.addNewAndCondition();
-          }
-        });
       });
     },
     addAndCondition(condition: SegmentAndCondition) {

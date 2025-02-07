@@ -14,110 +14,24 @@ import {
 import { AjaxHelper } from 'CoreHome';
 import { SegmentMetadata } from '../types';
 
-interface SiteSettings {
-  siteId: number,
-  settings: any
-}
-
 interface SegmentGeneratorStoreState {
   isLoading: boolean;
   segments: SegmentMetadata[];
-  sitesSettings: SiteSettings[];
 }
 
 class SegmentGeneratorStore {
   private privateState: SegmentGeneratorStoreState = reactive<SegmentGeneratorStoreState>({
     isLoading: false,
     segments: [],
-    sitesSettings: [],
   });
 
   readonly state = computed(() => readonly(this.privateState));
 
   private loadSegmentsAbort?: AbortController;
-  private loadSitesSettingsAbort?: AbortController;
 
   private loadSegmentsPromise?: Promise<SegmentMetadata[]>;
-  private loadSitesSettingsPromise?: Promise<SiteSettings[]>;
 
   private fetchedSiteId?: string|number;
-
-  loadSiteSettings(siteId: string|number) {
-    if (typeof siteId !== 'number') {
-      console.log("All = bad");
-      return Promise.resolve([]);
-    }
-
-    return AjaxHelper.fetch<SiteSettings[]>({
-      method: 'SitesManager.getSiteSettings',
-      siteId
-    });
-  }
-
-  checkIfVisitorLogOrProfileDisabled(siteId: string|number) : Promise<boolean> {
-    return Promise.all([
-      AjaxHelper.fetch<boolean>({
-        method: 'Live.isVisitorLogEnabled',
-        idSite: siteId
-      }),
-      AjaxHelper.fetch<boolean>({
-        method: 'Live.isVisitorProfileEnabled',
-        idSite: siteId
-      })]).then(([res1,res2]) => {
-        return !res1.value || !res2.value;
-      });
-  }
-
-  loadSitesSettings(
-    siteId?: string|number
-  ): Promise<DeepReadonly<SiteSettings>> {
-
-    if (this.loadSitesSettingsAbort) {
-      this.loadSitesSettingsAbort.abort();
-      this.loadSitesSettingsAbort = undefined;
-    }
-
-    this.privateState.isLoading = true;
-
-    if (this.fetchedSiteId !== siteId) {
-      this.loadSitesSettingsAbort = undefined;
-      this.fetchedSiteId = siteId;
-    }
-
-    if (!this.loadSitesSettingsPromise) {
-      let idSites: string|number|undefined = undefined;
-      let idSite: string|number|undefined = undefined;
-
-      if (siteId === 'all' || !siteId) {
-        //idSites ='all';
-        //idSite = 'all';
-        this.loadSitesSettingsPromise = Promise.resolve([]);
-      } else if (siteId) {
-        idSites = siteId;
-        idSite = siteId;
-        this.loadSitesSettingsAbort = new AbortController();
-        this.loadSitesSettingsPromise = AjaxHelper.fetch<SiteSettings[]>({
-          method: 'SitesManager.getSiteSettings',
-          idSite
-        });
-      }
-
-    }
-
-    return this.loadSitesSettingsPromise.then((response: SiteSettings[]) => {
-      this.privateState.isLoading = false;
-
-      if (response) {
-        this.privateState.sitesSettings = response;
-      }
-
-      return this.state.value.sitesSettings;
-    }).finally(() => {
-      this.privateState.isLoading = false;
-      delete this.loadSitesSettingsPromise;
-    })
-  }
-
 
   loadSegments(
     siteId?: string|number,
