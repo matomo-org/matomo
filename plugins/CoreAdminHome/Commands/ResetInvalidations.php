@@ -34,7 +34,7 @@ class ResetInvalidations extends ConsoleCommand
         $this->addRequiredValueOption(
             'idsite',
             null,
-            'Specify the site ID(s) for which invalidations should be reset. Can be used multiple times to target multiple sites.',
+            'Specify the site ID for which invalidations should be reset. Can be used multiple times to target multiple sites.',
             null,
             true
         );
@@ -42,13 +42,13 @@ class ResetInvalidations extends ConsoleCommand
         $this->addRequiredValueOption(
             'older-than',
             null,
-            'Only reset invalidations that were started before the given time. Accepts any date format parsable by `strtotime` (e.g., "1 day ago", "2024-01-01 12:00:00").'
+            'Only reset invalidations that were started before the given time. Accepts any date format parsable by `strtotime` (e.g. "1 day ago", "2024-01-01 12:00:00").'
         );
 
         $this->addRequiredValueOption(
             'newer-than',
             null,
-            'Only reset invalidations that were started after the given time. Accepts any date format parsable by `strtotime` (e.g., "1 hour ago", "2024-02-01").'
+            'Only reset invalidations that were started after the given time. Accepts any date format parsable by `strtotime` (e.g. "1 hour ago", "2024-02-01").'
         );
 
         $this->addNoValueOption(
@@ -59,8 +59,12 @@ class ResetInvalidations extends ConsoleCommand
 
         $this->setHelp(
             'This command allows administrators to reset stuck invalidations that are incorrectly marked as "in progress". '
-            . 'This can happen if an archiving process was interrupted, such as during a server crash or deployment, leaving '
+            . 'This can happen if an archiving process was interrupted, such as during a server crash or a deployment, leaving '
             . 'invalidations in a stuck state. Resetting them ensures they can be reprocessed in the next archiving run.
+
+⚠  Warning: Only reset invalidations when you are certain they are no longer being processed. ⚠
+
+Resetting active invalidations can lead to incomplete archives, data inconsistencies and wasted processing resources.
 
 Usage examples:
 
@@ -113,13 +117,13 @@ Use this command with caution, especially when resetting invalidations while arc
             );
             $rowCount = $queryObj->rowCount();
 
-            $this->getOutput()->writeln($rowCount . ' invalidations have been reset.');
+            $this->getOutput()->writeln('Number of invalidations that were reset: ' . $rowCount);
         }
 
         return self::SUCCESS;
     }
 
-    private function generateWhereCondition()
+    private function generateWhereCondition(): array
     {
         $whereConditions = [];
         $binds = [];

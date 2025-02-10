@@ -52,7 +52,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
     /**
      * @dataProvider getInvalidDates
      */
-    public function testCommandFailsWhenAnInvalidDatesAreUsed($newerThan, $olderThan, $expectedMessage)
+    public function testCommandFailsWhenInvalidDatesAreUsed($newerThan, $olderThan, $expectedMessage)
     {
         $code = $this->applicationTester->run([
             'command' => 'core:reset-invalidations',
