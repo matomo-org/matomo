@@ -13,6 +13,8 @@ use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
@@ -92,9 +94,34 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
+        $siteIds = Site::getIdSitesFromIdSitesString($idSite);
+        $siteIdsWithVisitorLogsOrProfilesEnabled = [];
+        $isLivePluginActivated = Manager::getInstance()->isPluginActivated('Live');
+
+        /*
+         * Only retrieve data from sites that have visitor logs or profiles enabled.
+         * Live::isVisitorProfileEnabled returns false if either logs or profiles
+         * are disabled.
+         */
+        if ($isLivePluginActivated) {
+            foreach ($siteIds as $siteId) {
+                $isVisitorProfileEnabled = Live::isVisitorProfileEnabled($siteId);
+
+                if ($isVisitorProfileEnabled) {
+                    $siteIdsWithVisitorLogsOrProfilesEnabled[] = $siteId;
+                }
+            }
+        } else {
+            $siteIdsWithVisitorLogsOrProfilesEnabled = $siteIds;
+        }
+
+        if (empty($siteIdsWithVisitorLogsOrProfilesEnabled)) {
+            return [];
+        }
+
         $result = Request::processRequest('Live.getLastVisitsDetails', [
             'segment' => $segment,
-            'idSite' => $idSite,
+            'idSite' => $siteIdsWithVisitorLogsOrProfilesEnabled,
             'period' => 'range',
             'date' => '1998-01-01,today',
             'filter_limit' => 401,

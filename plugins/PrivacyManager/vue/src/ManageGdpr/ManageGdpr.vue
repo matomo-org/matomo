@@ -74,6 +74,9 @@
         v-if="isVisitorLogAndProfileEnabled"
       >
       </SaveButton>
+      <div v-if="AllWebsitesContainsDisabledSite">
+        Some websites are disabled
+      </div>
       <div v-else>
         <h2>{{ translate('PrivacyManager_SiteDataNotAvailable')}}</h2>
         <p>{{ translate('PrivacyManager_VisitorLogsProfilesDisabledMessage')}}</p>
@@ -292,9 +295,14 @@ interface ManageGdprState {
   profileEnabled: boolean;
   dataSubjectsActive: boolean[];
   isVisitorLogAndProfileEnabled: boolean;
+  AllWebsitesContainsDisabledSite: boolean;
 }
 
 interface VisitorLogProfileEnabledState {
+  value: boolean;
+}
+
+interface AllWebsitesContainsDisabledSiteState {
   value: boolean;
 }
 
