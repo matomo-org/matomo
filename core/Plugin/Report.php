@@ -936,6 +936,41 @@ class Report
     }
 
     /**
+     * Returns the Dimension instance of the subtable report of this report's subtable report based on level.
+     *
+     * @param int $level The subTable level for which dimension is to be determined
+     * @return Dimension|null The subtable report's dimension or null if there is no subtable report or
+     *                        no dimension for the subtable report.
+     * @api
+     */
+    public function getNthLeveltableDimension($level)
+    {
+        if (empty($this->actionToLoadSubTables) || empty($level) || !is_numeric($level)) {
+            return null;
+        }
+
+        if ($level === 1) {
+            return $this->getSubtableDimension();
+        }
+
+        list($subTableReportModule, $subTableReportAction) = $this->getSubtableApiMethod();
+        $subTableReport = ReportsProvider::factory($subTableReportModule, $subTableReportAction);
+        if (empty($subTableReport) || empty($subTableReport->actionToLoadSubTables)) {
+            return null;
+        }
+        for ($i = 2; $i <= $level; $i++) {
+            list($subSubTableReportModule, $subSubTableReportAction) = $subTableReport->getSubtableApiMethod();
+            $subSubTableReport = ReportsProvider::factory($subSubTableReportModule, $subSubTableReportAction);
+            if (empty($subSubTableReport)) {
+                return null;
+            }
+            $subTableReport = $subSubTableReport;
+        }
+
+        return $subTableReport->getDimension();
+    }
+
+    /**
      * Returns true if the report is for another report's subtable, false if otherwise.
      *
      * @return bool
