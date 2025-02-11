@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ## Description: Initialize Matomo environment including tests setup
 ## Usage: matomo:init:tests
