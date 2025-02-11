@@ -44,8 +44,8 @@
          class="kpiCardBadge"
          :title="`${kpi.badge.label} ${kpi.badge.value}`"
          v-tooltips="{ duration: 200, delay: 200, content: badgeTooltipContent }">
-      <span v-if="kpi.badge.label">{{ $sanitize(kpi.badge.label)}}</span>
-      <strong>{{ $sanitize(kpi.badge.value)}}</strong>
+      <span v-if="kpi.badge.label">{{ kpi.badge.label }}</span>
+      <strong>{{ kpi.badge.value }}</strong>
     </div>
   </div>
 </template>
