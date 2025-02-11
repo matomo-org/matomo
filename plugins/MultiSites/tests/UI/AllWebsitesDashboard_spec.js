@@ -124,19 +124,17 @@ describe('AllWebsitesDashboard', function () {
             await page.evaluate(() => {
               window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
                   data.kpis.badges.hits = {
-                    "label": "Plan: ",
-                    "value": "600K hits/month",
-                    "tooltipContent": "lots of information"
+                    "label": "<strong>Plan: </strong> 600K hits/month",
+                    "title": "lots of information"
                   };
                   data.kpis.badges.pageviews = {
-                    "value": "Weird Pageview Badge"
+                    "label": "Weird Pageview Badge"
                   };
                   data.kpis.badges.revenue = {
-                    "label": "Help: ",
-                    "value": "Awesome Revenue Badge"
+                    "label": "Help!"
                   };
                   data.kpis.badges.visits = {
-                    "value": "Awesome visits Badge"
+                    "label": "Awesome visits Badge"
                   };
               });
             });
