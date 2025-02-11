@@ -163,13 +163,22 @@ class Model
             }
         }
 
+        $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?: new Segment('', []));
+
         if (empty($plugin)) {
-            $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?: new Segment('', []));
+            if (null === $segment) {
+                $nameCondition = "name LIKE '$doneFlag%'"; // invalidate all segments
+            } else {
+                $nameCondition = "(name = '$doneFlag' OR name LIKE '$doneFlag.%')"; // invalidate specific segment only
+            }
         } else {
-            $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin($segment ?: new Segment('', []), $plugin);
+            if (null === $segment) {
+                $nameCondition = "name LIKE '$doneFlag%.$plugin'"; // invalidate all segments for specific plugin
+            } else {
+                $nameCondition = "name = '$doneFlag.$plugin'"; // invalidate specific segment for specific plugin only
+            }
         }
 
-        $nameCondition = "name LIKE '$doneFlag%'";
 
         $sql .= " AND $nameCondition";
 
@@ -199,7 +208,7 @@ class Model
             }
         }
 
-        if (true === $doNotCreateInvalidations) {
+        if ($doNotCreateInvalidations) {
             return count($idArchives);
         }
 
@@ -218,6 +227,13 @@ class Model
         $hashesOfAllSegmentsToArchiveInCoreArchive = array_map(function ($definition) {
             return Segment::getSegmentHash($definition);
         }, $hashesOfAllSegmentsToArchiveInCoreArchive);
+
+
+        if (empty($plugin)) {
+            $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?: new Segment('', []));
+        } else {
+            $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin($segment ?: new Segment('', []), $plugin);
+        }
 
         $dummyArchives = [];
         foreach ($idSites as $idSite) {

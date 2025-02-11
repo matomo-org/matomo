@@ -42,6 +42,6 @@
         "ScopeTitleAction": "Dimensions de l'action",
         "ScopeTitleVisit": "Dimensions de la visite",
         "UrlQueryStringParameter": "paramètre de la chaîne de requête url",
-        "XofYLeft": "%1$s de %2$s dimensions restantes"
+        "XofYLeft": "%1$s sur %2$s dimensions restantes"
     }
 }
