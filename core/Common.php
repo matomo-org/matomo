@@ -101,18 +101,16 @@ class Common
      */
     public static function unprefixTable($table)
     {
-        static $prefixTable = null;
-        if (is_null($prefixTable)) {
-            $prefixTable = Config::getInstance()->database['tables_prefix'];
-        }
+        $prefixTable = Config::getInstance()->database['tables_prefix'];
+
         if (
             empty($prefixTable)
             || strpos($table, $prefixTable) !== 0
         ) {
             return $table;
         }
-        $count = 1;
-        return str_replace($prefixTable, '', $table, $count);
+
+        return substr($table, strlen($prefixTable));
     }
 
     /*

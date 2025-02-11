@@ -610,29 +610,29 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 ManageGdprvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var ManageGdpr = (ManageGdprvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/AnonymizeIp/AnonymizeIp.vue?vue&type=template&id=3156f43b
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/AnonymizeIp/AnonymizeIp.vue?vue&type=template&id=6fd59c52
 
 
-var AnonymizeIpvue_type_template_id_3156f43b_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var AnonymizeIpvue_type_template_id_6fd59c52_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var AnonymizeIpvue_type_template_id_3156f43b_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var AnonymizeIpvue_type_template_id_6fd59c52_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var AnonymizeIpvue_type_template_id_3156f43b_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var AnonymizeIpvue_type_template_id_6fd59c52_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var AnonymizeIpvue_type_template_id_3156f43b_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var AnonymizeIpvue_type_template_id_6fd59c52_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var AnonymizeIpvue_type_template_id_3156f43b_hoisted_5 = {
+var AnonymizeIpvue_type_template_id_6fd59c52_hoisted_5 = {
   key: 0
 };
 
-var AnonymizeIpvue_type_template_id_3156f43b_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var AnonymizeIpvue_type_template_id_6fd59c52_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var AnonymizeIpvue_type_template_id_3156f43b_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var AnonymizeIpvue_type_template_id_6fd59c52_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var AnonymizeIpvue_type_template_id_3156f43b_hoisted_8 = {
+var AnonymizeIpvue_type_template_id_6fd59c52_hoisted_8 = {
   class: "alert-warning alert"
 };
-function AnonymizeIpvue_type_template_id_3156f43b_render(_ctx, _cache, $props, $setup, $data, $options) {
+function AnonymizeIpvue_type_template_id_6fd59c52_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
@@ -678,7 +678,7 @@ function AnonymizeIpvue_type_template_id_3156f43b_render(_ctx, _cache, $props, $
     })
   }, {
     "inline-help": Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_PseudonymizeUserIdNote')) + " ", 1), AnonymizeIpvue_type_template_id_3156f43b_hoisted_1, AnonymizeIpvue_type_template_id_3156f43b_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("em", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_PseudonymizeUserIdNote2')), 1)];
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_PseudonymizeUserIdNote')) + " ", 1), AnonymizeIpvue_type_template_id_6fd59c52_hoisted_1, AnonymizeIpvue_type_template_id_6fd59c52_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("em", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_PseudonymizeUserIdNote2')), 1)];
     }),
     _: 1
   }, 8, ["title", "modelValue"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
@@ -700,7 +700,7 @@ function AnonymizeIpvue_type_template_id_3156f43b_render(_ctx, _cache, $props, $
     })
   }, {
     "inline-help": Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_ForceCookielessTrackingDescription', _ctx.trackerFileName)) + " ", 1), AnonymizeIpvue_type_template_id_3156f43b_hoisted_3, AnonymizeIpvue_type_template_id_3156f43b_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("em", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_ForceCookielessTrackingDescription2')), 1), !_ctx.trackerWritable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", AnonymizeIpvue_type_template_id_3156f43b_hoisted_5, [AnonymizeIpvue_type_template_id_3156f43b_hoisted_6, AnonymizeIpvue_type_template_id_3156f43b_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", AnonymizeIpvue_type_template_id_3156f43b_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_ForceCookielessTrackingDescriptionNotWritable', _ctx.trackerFileName)), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_ForceCookielessTrackingDescription', _ctx.trackerFileName)) + " ", 1), AnonymizeIpvue_type_template_id_6fd59c52_hoisted_3, AnonymizeIpvue_type_template_id_6fd59c52_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("em", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_ForceCookielessTrackingDescription2')), 1), !_ctx.trackerWritable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", AnonymizeIpvue_type_template_id_6fd59c52_hoisted_5, [AnonymizeIpvue_type_template_id_6fd59c52_hoisted_6, AnonymizeIpvue_type_template_id_6fd59c52_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", AnonymizeIpvue_type_template_id_6fd59c52_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_ForceCookielessTrackingDescriptionNotWritable', _ctx.trackerFileName)), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
     }),
     _: 1
   }, 8, ["title", "modelValue"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
@@ -713,14 +713,24 @@ function AnonymizeIpvue_type_template_id_3156f43b_render(_ctx, _cache, $props, $
     }),
     options: _ctx.referrerAnonymizationOptions,
     "inline-help": _ctx.translate('PrivacyManager_AnonymizeReferrerNote')
-  }, null, 8, ["title", "modelValue", "options", "inline-help"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
-    onConfirm: _cache[7] || (_cache[7] = function ($event) {
+  }, null, 8, ["title", "modelValue", "options", "inline-help"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [_ctx.configRandomisationFeatureFlag ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
+    key: 0,
+    uicontrol: "checkbox",
+    name: "randomizeConfigId",
+    title: _ctx.translate('PrivacyManager_UseRandomizeConfigId'),
+    modelValue: _ctx.actualRandomizeConfigId,
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+      return _ctx.actualRandomizeConfigId = $event;
+    }),
+    "inline-help": _ctx.translate('PrivacyManager_RandomizeConfigIdNote')
+  }, null, 8, ["title", "modelValue", "inline-help"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+    onConfirm: _cache[8] || (_cache[8] = function ($event) {
       return _ctx.save();
     }),
     saving: _ctx.isLoading
   }, null, 8, ["saving"])], 512)), [[_directive_form]]);
 }
-// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/AnonymizeIp/AnonymizeIp.vue?vue&type=template&id=3156f43b
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/AnonymizeIp/AnonymizeIp.vue?vue&type=template&id=6fd59c52
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/AnonymizeIp/AnonymizeIp.vue?vue&type=script&lang=ts
 
@@ -762,7 +772,9 @@ function configBoolToInt(value) {
     referrerAnonymizationOptions: {
       type: Object,
       required: true
-    }
+    },
+    randomizeConfigId: Boolean,
+    configRandomisationFeatureFlag: Boolean
   },
   components: {
     Field: external_CorePluginsAdmin_["Field"],
@@ -780,7 +792,8 @@ function configBoolToInt(value) {
       actualAnonymizeUserId: !!this.anonymizeUserId,
       actualAnonymizeOrderId: !!this.anonymizeOrderId,
       actualForceCookielessTracking: !!this.forceCookielessTracking,
-      actualAnonymizeReferrer: this.anonymizeReferrer
+      actualAnonymizeReferrer: this.anonymizeReferrer,
+      actualRandomizeConfigId: !!this.randomizeConfigId
     };
   },
   methods: {
@@ -798,7 +811,8 @@ function configBoolToInt(value) {
         forceCookielessTracking: this.actualForceCookielessTracking ? '1' : '0',
         anonymizeReferrer: this.actualAnonymizeReferrer ? this.actualAnonymizeReferrer : '',
         maskLength: this.actualMaskLength,
-        useAnonymizedIpForVisitEnrichment: this.actualUseAnonymizedIpForVisitEnrichment
+        useAnonymizedIpForVisitEnrichment: this.actualUseAnonymizedIpForVisitEnrichment,
+        randomizeConfigId: this.actualRandomizeConfigId ? '1' : '0'
       }).then(function () {
         var notificationInstanceId = external_CoreHome_["NotificationsStore"].show({
           message: Object(external_CoreHome_["translate"])('CoreAdminHome_SettingsSaveSuccess'),
@@ -826,7 +840,7 @@ function configBoolToInt(value) {
 
 
 
-AnonymizeIpvue_type_script_lang_ts.render = AnonymizeIpvue_type_template_id_3156f43b_render
+AnonymizeIpvue_type_script_lang_ts.render = AnonymizeIpvue_type_template_id_6fd59c52_render
 
 /* harmony default export */ var AnonymizeIp = (AnonymizeIpvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/OptOutCustomizer/OptOutCustomizer.vue?vue&type=template&id=6cbe5d69
@@ -2938,26 +2952,26 @@ function PreviousAnonymizationsvue_type_template_id_2b9a8f00_render(_ctx, _cache
 PreviousAnonymizationsvue_type_script_lang_ts.render = PreviousAnonymizationsvue_type_template_id_2b9a8f00_render
 
 /* harmony default export */ var PreviousAnonymizations = (PreviousAnonymizationsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/PrivacySettings/PrivacySettings.vue?vue&type=template&id=f0e353ec
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/PrivacySettings/PrivacySettings.vue?vue&type=template&id=586a3e83
 
-var PrivacySettingsvue_type_template_id_f0e353ec_hoisted_1 = ["innerHTML"];
-var PrivacySettingsvue_type_template_id_f0e353ec_hoisted_2 = ["innerHTML"];
-var PrivacySettingsvue_type_template_id_f0e353ec_hoisted_3 = {
+var PrivacySettingsvue_type_template_id_586a3e83_hoisted_1 = ["innerHTML"];
+var PrivacySettingsvue_type_template_id_586a3e83_hoisted_2 = ["innerHTML"];
+var PrivacySettingsvue_type_template_id_586a3e83_hoisted_3 = {
   key: 0
 };
 
-var PrivacySettingsvue_type_template_id_f0e353ec_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+var PrivacySettingsvue_type_template_id_586a3e83_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
   name: "anonymizeHistoricalData",
   id: "anonymizeHistoricalData"
 }, null, -1);
 
-var PrivacySettingsvue_type_template_id_f0e353ec_hoisted_5 = {
+var PrivacySettingsvue_type_template_id_586a3e83_hoisted_5 = {
   key: 1
 };
 
-var PrivacySettingsvue_type_template_id_f0e353ec_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var PrivacySettingsvue_type_template_id_586a3e83_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-function PrivacySettingsvue_type_template_id_f0e353ec_render(_ctx, _cache, $props, $setup, $data, $options) {
+function PrivacySettingsvue_type_template_id_586a3e83_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
 
   var _component_AnonymizeIp = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("AnonymizeIp");
@@ -2988,9 +3002,9 @@ function PrivacySettingsvue_type_template_id_f0e353ec_render(_ctx, _cache, $prop
     style: {
       "margin-right": "3.5px"
     }
-  }, null, 8, PrivacySettingsvue_type_template_id_f0e353ec_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }, null, 8, PrivacySettingsvue_type_template_id_586a3e83_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     innerHTML: _ctx.$sanitize(_ctx.seeAlsoOurOfficialGuide)
-  }, null, 8, PrivacySettingsvue_type_template_id_f0e353ec_hoisted_2)])], 512), [[_directive_content_intro]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+  }, null, 8, PrivacySettingsvue_type_template_id_586a3e83_hoisted_2)])], 512), [[_directive_content_intro]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     id: "anonymizeIPAnchor",
     "content-title": _ctx.translate('PrivacyManager_UseAnonymizeTrackingData')
   }, {
@@ -3007,11 +3021,13 @@ function PrivacySettingsvue_type_template_id_f0e353ec_render(_ctx, _cache, $prop
         "use-anonymized-ip-for-visit-enrichment-options": _ctx.useAnonymizedIpForVisitEnrichmentOptions,
         "tracker-file-name": _ctx.trackerFileName,
         "tracker-writable": _ctx.trackerWritable,
-        "referrer-anonymization-options": _ctx.referrerAnonymizationOptions
-      }, null, 8, ["anonymize-ip-enabled", "anonymize-user-id", "mask-length", "use-anonymized-ip-for-visit-enrichment", "anonymize-order-id", "force-cookieless-tracking", "anonymize-referrer", "mask-length-options", "use-anonymized-ip-for-visit-enrichment-options", "tracker-file-name", "tracker-writable", "referrer-anonymization-options"])];
+        "referrer-anonymization-options": _ctx.referrerAnonymizationOptions,
+        "randomize-config-id": _ctx.randomizeConfigId,
+        "config-randomisation-feature-flag": _ctx.configRandomisationFeatureFlag
+      }, null, 8, ["anonymize-ip-enabled", "anonymize-user-id", "mask-length", "use-anonymized-ip-for-visit-enrichment", "anonymize-order-id", "force-cookieless-tracking", "anonymize-referrer", "mask-length-options", "use-anonymized-ip-for-visit-enrichment-options", "tracker-file-name", "tracker-writable", "referrer-anonymization-options", "randomize-config-id", "config-randomisation-feature-flag"])];
     }),
     _: 1
-  }, 8, ["content-title"]), _ctx.isDataPurgeSettingsEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PrivacySettingsvue_type_template_id_f0e353ec_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+  }, 8, ["content-title"]), _ctx.isDataPurgeSettingsEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PrivacySettingsvue_type_template_id_586a3e83_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     id: "deleteLogsAnchor",
     "content-title": _ctx.translate('PrivacyManager_DeleteOldRawData')
   }, {
@@ -3039,21 +3055,21 @@ function PrivacySettingsvue_type_template_id_f0e353ec_render(_ctx, _cache, $prop
     "is-data-purge-settings-enabled": _ctx.isDataPurgeSettingsEnabled,
     "delete-data": _ctx.deleteData,
     "schedule-deletion-options": _ctx.scheduleDeletionOptions
-  }, null, 8, ["is-data-purge-settings-enabled", "delete-data", "schedule-deletion-options"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), PrivacySettingsvue_type_template_id_f0e353ec_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+  }, null, 8, ["is-data-purge-settings-enabled", "delete-data", "schedule-deletion-options"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), PrivacySettingsvue_type_template_id_586a3e83_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('PrivacyManager_AnonymizePreviousData'),
     class: "logDataAnonymizer"
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
       return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_AnonymizePreviousDataDescription')), 1), _ctx.isSuperUser ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_AnonymizeLogData, {
         key: 0
-      })) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", PrivacySettingsvue_type_template_id_f0e353ec_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_AnonymizePreviousDataOnlySuperUser')), 1)), PrivacySettingsvue_type_template_id_f0e353ec_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PreviousAnonymizations, {
+      })) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", PrivacySettingsvue_type_template_id_586a3e83_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_AnonymizePreviousDataOnlySuperUser')), 1)), PrivacySettingsvue_type_template_id_586a3e83_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PreviousAnonymizations, {
         anonymizations: _ctx.anonymizations
       }, null, 8, ["anonymizations"])];
     }),
     _: 1
   }, 8, ["content-title"])]);
 }
-// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/PrivacySettings/PrivacySettings.vue?vue&type=template&id=f0e353ec
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/PrivacySettings/PrivacySettings.vue?vue&type=template&id=586a3e83
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/PrivacySettings/PrivacySettings.vue?vue&type=script&lang=ts
 
@@ -3109,7 +3125,9 @@ function PrivacySettingsvue_type_template_id_f0e353ec_render(_ctx, _cache, $prop
       type: Array,
       required: true
     },
-    isSuperUser: Boolean
+    isSuperUser: Boolean,
+    randomizeConfigId: Boolean,
+    configRandomisationFeatureFlag: Boolean
   },
   components: {
     AnonymizeIp: AnonymizeIp,
@@ -3139,7 +3157,7 @@ function PrivacySettingsvue_type_template_id_f0e353ec_render(_ctx, _cache, $prop
 
 
 
-PrivacySettingsvue_type_script_lang_ts.render = PrivacySettingsvue_type_template_id_f0e353ec_render
+PrivacySettingsvue_type_script_lang_ts.render = PrivacySettingsvue_type_template_id_586a3e83_render
 
 /* harmony default export */ var PrivacySettings = (PrivacySettingsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/UsersOptOut/UsersOptOut.vue?vue&type=template&id=bdf073f4

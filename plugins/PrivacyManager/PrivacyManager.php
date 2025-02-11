@@ -455,6 +455,8 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'Overlay_Location';
         $translationKeys[] = 'General_UserId';
         $translationKeys[] = 'General_Done';
+        $translationKeys[] = 'PrivacyManager_UseRandomizeConfigId';
+        $translationKeys[] = 'PrivacyManager_RandomizeConfigIdNote';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)

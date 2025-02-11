@@ -225,6 +225,8 @@
         "FindMatchingDataSubjects": "Find matching data subjects",
         "ConsentManager": "Consent Manager",
         "ConsentManagerDetected": "%1$s consent manager was detected on your website. To learn about configuring Matomo to work with %1$s please read %2$sthis guide%3$s",
-        "ConsentManagerConnected": "%1$s appears to already be configured to work with Matomo."
+        "ConsentManagerConnected": "%1$s appears to already be configured to work with Matomo.",
+        "UseRandomizeConfigId": "Randomize config_ID for enhanced privacy",
+        "RandomizeConfigIdNote": "By randomizing the config_ID for every request, this feature ensures that visitor tracking is compliant with the strictest privacy interpretations. This setting disables mechanisms that rely on user-agent data, cookies, or other identifiers that require explicit consent, allowing for anonymized tracking while respecting user privacy."
     }
 }

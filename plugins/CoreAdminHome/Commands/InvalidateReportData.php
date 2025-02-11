@@ -9,8 +9,10 @@
 
 namespace Piwik\Plugins\CoreAdminHome\Commands;
 
+use Exception;
+use Piwik\Archive\ArchiveInvalidator;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
-use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
@@ -34,6 +36,24 @@ class InvalidateReportData extends ConsoleCommand
      */
     private $allSegments = null;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @var ArchiveInvalidator
+     */
+    private $invalidator;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->logger = StaticContainer::get(LoggerInterface::class);
+        $this->invalidator = StaticContainer::get(ArchiveInvalidator::class);
+    }
+
     protected function configure()
     {
         $this->setName('core:invalidate-report-data');
@@ -55,14 +75,15 @@ class InvalidateReportData extends ConsoleCommand
             'periods',
             null,
             'List of period types to invalidate report data for. Can be one or more of the following values: day, '
-            . 'week, month, year or "all" for all of them.',
+            . 'week, month, year, range or "all" for all of them.',
             self::ALL_OPTION_VALUE
         );
         $this->addRequiredValueOption(
             'segment',
             null,
             'List of segments to invalidate report data for. This can be the segment string itself, the segment name from the UI or the ID of the segment.'
-            . ' If specifying the segment definition, make sure it is encoded properly (it should be the same as the segment parameter in the URL.',
+            . ' If specifying the segment definition, make sure it is encoded properly (it should be the same as the segment parameter in the URL).'
+            . ' If no segment is provided, all segments (including all visits) will be invalidated. To specifically invalidate all visits --segment="" can be provided.',
             null,
             true
         );
@@ -93,96 +114,175 @@ class InvalidateReportData extends ConsoleCommand
 
     protected function doExecute(): int
     {
-        $input = $this->getInput();
-        $output = $this->getOutput();
-
-        $invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
-
-        $cascade = $input->getOption('cascade');
-        $dryRun = $input->getOption('dry-run');
-        $plugin = $input->getOption('plugin');
-        $ignoreLogDeletionLimit = $input->getOption('ignore-log-deletion-limit');
-
         $sites = $this->getSitesToInvalidateFor();
         $periodTypes = $this->getPeriodTypesToInvalidateFor();
         $dateRanges = $this->getDateRangesToInvalidateFor();
         $segments = $this->getSegmentsToInvalidateFor($sites);
 
-        $logger = StaticContainer::get(LoggerInterface::class);
-
         foreach ($periodTypes as $periodType) {
             if ($periodType === 'range') {
-                continue; // special handling for range below
-            }
-            foreach ($dateRanges as $dateRange) {
-                foreach ($segments as $segment) {
-                    $segmentStr = $segment ? $segment->getString() : '';
-
-                    $logger->info("Invalidating $periodType periods in $dateRange [segment = $segmentStr]...");
-
-                    $dates = $this->getPeriodDates($periodType, $dateRange);
-
-                    if ($dryRun) {
-                        $message = "[Dry-run] invalidating archives for site = [ " . implode(', ', $sites)
-                            . " ], dates = [ " . implode(', ', $dates) . " ], period = [ $periodType ], segment = [ "
-                            . "$segmentStr ], cascade = [ " . (int)$cascade . " ]";
-                        if (!empty($plugin)) {
-                            $message .= ", plugin = [ $plugin ]";
-                        }
-                        $logger->info($message);
-                    } else {
-                        $invalidationResult = $invalidator->markArchivesAsInvalidated(
-                            $sites,
-                            $dates,
-                            $periodType,
-                            $segment,
-                            $cascade,
-                            false,
-                            $plugin,
-                            $ignoreLogDeletionLimit
-                        );
-
-                        if ($output->getVerbosity() > $output::VERBOSITY_NORMAL) {
-                            foreach ($invalidationResult->makeOutputLogs() as $outputLog) {
-                                $logger->info($outputLog);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        $periods = trim($input->getOption('periods'));
-        $isUsingAllOption = $periods === self::ALL_OPTION_VALUE;
-        if ($isUsingAllOption || in_array('range', $periodTypes)) {
-            $rangeDates = array();
-            foreach ($dateRanges as $dateRange) {
-                if (
-                    $isUsingAllOption
-                    && !Period::isMultiplePeriod($dateRange, 'day')
-                ) {
-                    continue; // not a range, nothing to do... only when "all" option is used
-                }
-
-                $rangeDates[] = $this->getPeriodDates('range', $dateRange);
-            }
-            if (!empty($rangeDates)) {
-                foreach ($segments as $segment) {
-                    $segmentStr = $segment ? $segment->getString() : '';
-                    if ($dryRun) {
-                        $dateRangeStr = implode(';', $dateRanges);
-                        $logger->info("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
-                    } else {
-                        $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $rangeDates, $segment);
-                    }
-                }
+                $this->invalidateRangePeriods($dateRanges, $segments, $sites);
+            } else {
+                $this->invalidateNonRangePeriods($periodType, $dateRanges, $segments, $sites);
             }
         }
 
         return self::SUCCESS;
     }
 
-    private function getSitesToInvalidateFor()
+    private function getSegmentsWithSitesToProcess(
+        array $segments,
+        array $sites,
+        bool $ignoreInvalidSegments = false
+    ): array {
+        $segmentDetails = [];
+
+        // check availability of provided segments for all sites
+        foreach ($segments as $segmentStr) {
+            // determine sites where current segment is available for
+            $sitesToProcess = $this->getSitesForSegment($segmentStr, $sites);
+
+            try {
+                $segment = new Segment($segmentStr, $sitesToProcess);
+            } catch (Exception $e) {
+                if (!$ignoreInvalidSegments) {
+                    throw $e;
+                }
+            }
+
+            if (empty($sitesToProcess)) {
+                // segment not available for any site
+                $this->logger->info("Segment [$segmentStr] not available for any site, skipping it...");
+                continue;
+            }
+
+            $sitesDiff = array_diff($sites, $sitesToProcess);
+
+            if (count($sitesDiff)) {
+                $this->logger->info(
+                    "Segment [$segmentStr] not available for all sites, skipping this segment for sites [ "
+                    . implode(', ', $sitesDiff) . " ]."
+                );
+            }
+
+            $segmentDetails[$segmentStr] = [
+                'segment' => $segment,
+                'sites' => $sitesToProcess,
+            ];
+        }
+
+        return $segmentDetails;
+    }
+
+    private function invalidateNonRangePeriods(
+        string $periodType,
+        array $dateRangesToInvalidate,
+        array $segments,
+        array $sites
+    ): void {
+        $ignoreLogDeletionLimit = $this->getInput()->getOption('ignore-log-deletion-limit');
+        $cascade = $this->getInput()->getOption('cascade');
+        $dryRun = $this->getInput()->getOption('dry-run');
+        $plugin = $this->getInput()->getOption('plugin');
+
+        foreach ($dateRangesToInvalidate as $dateRange) {
+            foreach ($segments as $segmentStr => $segmentData) {
+                $sitesToProcess = $segmentData['sites'];
+                $segment = $segmentData['segment'];
+
+                $this->logger->info("Invalidating $periodType periods in $dateRange for site = [ "
+                    . implode(', ', $sitesToProcess) . " ], segment = [ $segmentStr ]...");
+
+                $dates = $this->getPeriodDates($periodType, $dateRange);
+
+                if ($dryRun) {
+                    $message = "[Dry-run] invalidating archives for site = [ " . implode(', ', $sitesToProcess)
+                        . " ], dates = [ " . implode(', ', $dates) . " ], period = [ $periodType ], segment = [ "
+                        . "$segmentStr ], cascade = [ " . (int)$cascade . " ]";
+                    if (!empty($plugin)) {
+                        $message .= ", plugin = [ $plugin ]";
+                    }
+                    $this->logger->info($message);
+                } else {
+                    $invalidationResult = $this->invalidator->markArchivesAsInvalidated(
+                        $sitesToProcess,
+                        $dates,
+                        $periodType,
+                        $segment,
+                        $cascade,
+                        false,
+                        $plugin,
+                        $ignoreLogDeletionLimit
+                    );
+
+                    if ($this->getOutput()->getVerbosity() > $this->getOutput()::VERBOSITY_NORMAL) {
+                        foreach ($invalidationResult->makeOutputLogs() as $outputLog) {
+                            $this->logger->info($outputLog);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private function invalidateRangePeriods(array $dateRangesToInvalidate, array $segments, array $sites): void
+    {
+        $dryRun = $this->getInput()->getOption('dry-run');
+        $plugin = $this->getInput()->getOption('plugin');
+        $periods = trim($this->getInput()->getOption('periods'));
+        $isUsingAllOption = $periods === self::ALL_OPTION_VALUE;
+        $rangeDates = [];
+
+        foreach ($dateRangesToInvalidate as $dateRange) {
+            if (
+                $isUsingAllOption
+                && !Period::isMultiplePeriod($dateRange, 'day')
+            ) {
+                continue; // not a range, nothing to do... only when "all" option is used
+            }
+
+            $rangeDates[] = $this->getPeriodDates('range', $dateRange);
+        }
+
+        if (!empty($rangeDates)) {
+            foreach ($segments as $segmentStr => $segmentData) {
+                $sitesToProcess = $segmentData['sites'];
+                $segment = $segmentData['segment'];
+
+                if ($dryRun) {
+                    $dateRangeStr = implode(';', $dateRangesToInvalidate);
+                    $this->logger->info("Invalidating range periods overlapping $dateRangeStr for "
+                        . "site = [ " . implode(', ', $sitesToProcess) . " ], segment = [ $segmentStr ]...");
+                } else {
+                    $this->invalidator->markArchivesOverlappingRangeAsInvalidated($sitesToProcess, $rangeDates, $segment, $plugin);
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns all sites where the given segment is available for
+     */
+    private function getSitesForSegment(string $segmentStr, array $idSites): array
+    {
+        $sitesToProcess = [];
+
+        foreach ($idSites as $idSite) {
+            try {
+                $segment = new Segment($segmentStr, $idSite);
+                $sitesToProcess[] = $idSite;
+            } catch (Exception $e) {
+                continue;
+            }
+        }
+
+        return $sitesToProcess;
+    }
+
+    /**
+     * Parses, validates and returns the provided list of site ids
+     */
+    private function getSitesToInvalidateFor(): array
     {
         $sites = $this->getInput()->getOption('sites');
 
@@ -201,7 +301,11 @@ class InvalidateReportData extends ConsoleCommand
         return $siteIds;
     }
 
-    private function getPeriodTypesToInvalidateFor()
+    /**
+     * Parses, validates and returns the provided list of period types
+     * If 'all' is provided, this will be converted to a list of all period types
+     */
+    private function getPeriodTypesToInvalidateFor(): array
     {
         $periods = $this->getInput()->getOption('periods');
         if (empty($periods)) {
@@ -226,16 +330,16 @@ class InvalidateReportData extends ConsoleCommand
     }
 
     /**
-     * @return Date[][]
+     * Returns the list of provided dates / date ranges
      */
-    private function getDateRangesToInvalidateFor()
+    private function getDateRangesToInvalidateFor(): array
     {
         $dateRanges = $this->getInput()->getOption('dates');
         if (empty($dateRanges)) {
             throw new \InvalidArgumentException("The --dates option is required.");
         }
 
-        return $dateRanges;
+        return is_array($dateRanges) ? $dateRanges : [$dateRanges];
     }
 
     private function getPeriodDates($periodType, $dateRange)
@@ -250,7 +354,7 @@ class InvalidateReportData extends ConsoleCommand
             throw new \InvalidArgumentException("Invalid date or date range specifier '$dateRange'", $code = 0, $ex);
         }
 
-        $result = array();
+        $result = [];
         if ($periodType === 'range') {
             $result[] = $period->getDateStart();
             $result[] = $period->getDateEnd();
@@ -265,9 +369,12 @@ class InvalidateReportData extends ConsoleCommand
     }
 
     /**
+     * Parses, validates and returns the list of segments that can be invalidated for the provided sites
+     * If no segment is provided, a list of all segments available for the provided sites will be returned (including all visits segment)
+     *
      * @param array<int> $idSites
      *
-     * @return array<Segment>
+     * @return array<string>
      */
     private function getSegmentsToInvalidateFor(array $idSites): array
     {
@@ -277,22 +384,30 @@ class InvalidateReportData extends ConsoleCommand
         $segments = array_unique($segments);
 
         if (empty($segments)) {
-            return [null];
+            $this->logger->debug("No segment provided. Invalidating all stored segments.");
+            $segments = Rules::getSegmentsToProcess($idSites);
+            array_unshift($segments, "");
+            return $this->getSegmentsWithSitesToProcess($segments, $idSites, true);
         }
 
         $result = [];
 
         foreach ($segments as $segmentOptionValue) {
+            if ($segmentOptionValue === "") {
+                $result[] = "";
+                continue;
+            }
+
             $segmentDefinition = $this->findSegment($segmentOptionValue, $idSites);
 
             if (empty($segmentDefinition)) {
                 continue;
             }
 
-            $result[] = new Segment($segmentDefinition, $idSites);
+            $result[] = $segmentDefinition;
         }
 
-        return $result;
+        return $this->getSegmentsWithSitesToProcess($result, $idSites);
     }
 
     /**
@@ -300,7 +415,6 @@ class InvalidateReportData extends ConsoleCommand
      */
     private function findSegment(string $segmentOptionValue, array $idSites)
     {
-        $logger = StaticContainer::get(LoggerInterface::class);
         $allSegments = $this->getAllSegments($idSites);
 
         foreach ($allSegments as $segment) {
@@ -312,12 +426,12 @@ class InvalidateReportData extends ConsoleCommand
             }
 
             if ($segmentOptionValue == $segment['idsegment']) {
-                $logger->debug("Matching '$segmentOptionValue' by idsegment with segment {segment}.", ['segment' => json_encode($segment)]);
+                $this->logger->debug("Matching '$segmentOptionValue' by idsegment with segment {segment}.", ['segment' => json_encode($segment)]);
                 return $segment['definition'];
             }
 
             if (strtolower($segmentOptionValue) == strtolower($segment['name'])) {
-                $logger->debug("Matching '$segmentOptionValue' by name with segment {segment}.", ['segment' => json_encode($segment)]);
+                $this->logger->debug("Matching '$segmentOptionValue' by name with segment {segment}.", ['segment' => json_encode($segment)]);
                 return $segment['definition'];
             }
 
@@ -325,12 +439,12 @@ class InvalidateReportData extends ConsoleCommand
                 $segment['definition'] == $segmentOptionValue
                 || $segment['definition'] == urldecode($segmentOptionValue)
             ) {
-                $logger->debug("Matching '{value}' by definition with segment {segment}.", ['value' => $segmentOptionValue, 'segment' => json_encode($segment)]);
+                $this->logger->debug("Matching '{value}' by definition with segment {segment}.", ['value' => $segmentOptionValue, 'segment' => json_encode($segment)]);
                 return $segment['definition'];
             }
         }
 
-        $logger->warning("'$segmentOptionValue' did not match any stored segment, but invalidating it anyway.");
+        $this->logger->warning("'$segmentOptionValue' did not match any stored segment, but invalidating it anyway.");
         return $segmentOptionValue;
     }
 

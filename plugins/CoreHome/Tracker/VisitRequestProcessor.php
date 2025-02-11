@@ -110,6 +110,16 @@ class VisitRequestProcessor extends RequestProcessor
 
         $privacyConfig = new PrivacyManagerConfig();
 
+        if ($privacyConfig->randomizeConfigId) {
+            // always new visit when randomising config id
+            $request->setMetadata('CoreHome', 'visitorId', $this->userSettings->getRandomConfigId());
+            $request->setMetadata('CoreHome', 'isVisitorKnown', false);
+            $request->setMetadata('CoreHome', 'isNewVisit', true);
+            $request->setMetadata('CoreHome', 'lastKnownVisit', false);
+
+            return false;
+        }
+
         $ip = $request->getIpString();
         if ($privacyConfig->useAnonymizedIpForVisitEnrichment) {
             $ip = $visitProperties->getProperty('location_ip');

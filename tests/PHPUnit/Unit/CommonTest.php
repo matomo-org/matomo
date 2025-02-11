@@ -14,6 +14,7 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use Piwik\Application\Environment;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
@@ -622,6 +623,33 @@ class CommonTest extends TestCase
             ['fa', 'fa,en-US;q=0.9,en;q=0.8,fa-IR;q=0.7'],
             ['nl', 'nl-NL,nl;q=0.9,en-US;q=0.8,en;q=0.7'],
             ['it', 'it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7'],
+        ];
+    }
+
+    /**
+     * @dataProvider getTableNames
+     */
+    public function testUnprefixTable($prefix, $tableName)
+    {
+        $originalValue = Config::getInstance()->database['tables_prefix'];
+
+        Config::getInstance()->database['tables_prefix'] = $prefix;
+
+        $manipulatedName = Common::unprefixTable(Common::prefixTable($tableName));
+
+        Config::getInstance()->database['tables_prefix'] = $originalValue;
+
+        self::assertEquals($tableName, $manipulatedName);
+    }
+
+    public function getTableNames(): array
+    {
+        return [
+            ['matomo_', 'session'],
+            ['blob_', 'archive_blob_2014_07'],
+            ['14_', 'archive_blob_2014_07'],
+            ['ic_', 'archive_numeric_2014_07'],
+            ['log_', 'log_link_visit_action'],
         ];
     }
 }
