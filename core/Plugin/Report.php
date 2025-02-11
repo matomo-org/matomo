@@ -918,21 +918,7 @@ class Report
             return null;
         }
 
-        list($subtableReportModule, $subtableReportAction) = $this->getSubtableApiMethod();
-
-        $subtableReport = ReportsProvider::factory($subtableReportModule, $subtableReportAction);
-        if (empty($subtableReport) || empty($subtableReport->actionToLoadSubTables)) {
-            return null;
-        }
-
-        list($subSubtableReportModule, $subSubtableReportAction) = $subtableReport->getSubtableApiMethod();
-
-        $subSubtableReport = ReportsProvider::factory($subSubtableReportModule, $subSubtableReportAction);
-        if (empty($subSubtableReport)) {
-            return null;
-        }
-
-        return $subSubtableReport->getDimension();
+        return $this->getNthLeveltableDimension($level = 2);
     }
 
     /**
