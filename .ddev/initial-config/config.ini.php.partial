@@ -1,7 +1,7 @@
 [database_tests]
 host = "db"
-username = "root"
-password = "root"
+username = "db"
+password = "db"
 
 [tests]
 http_host = "matomo.ddev.site"
