@@ -123,11 +123,22 @@ describe('AllWebsitesDashboard', function () {
 
             await page.evaluate(() => {
               window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
-                  data.kpis.badges.hits = '<strong>Plan:</strong> 600K hits/month';
-                  data.kpis.badges.pageviews = 'Weird Pageview Badge';
-                  data.kpis.badges.revenue = 'Awesome Revenue Badge';
-                  data.kpis.badges.visits = 'Terrific Visits Badge';
-              })
+                  data.kpis.badges.hits = {
+                    "label": "Plan: ",
+                    "value": "600K hits/month",
+                    "tooltipContent": "lots of information"
+                  };
+                  data.kpis.badges.pageviews = {
+                    "value": "Weird Pageview Badge"
+                  };
+                  data.kpis.badges.revenue = {
+                    "label": "Help: ",
+                    "value": "Awesome Revenue Badge"
+                  };
+                  data.kpis.badges.visits = {
+                    "value": "Awesome visits Badge"
+                  };
+              });
             });
 
             // change period to trigger reload of KPIS

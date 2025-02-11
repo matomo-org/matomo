@@ -41,9 +41,12 @@
     </div>
 
     <div v-if="kpi.badge"
-         v-html="$sanitize(kpi.badge)"
          class="kpiCardBadge"
-    ></div>
+         :title="`${kpi.badge.label} ${kpi.badge.value}`"
+         v-tooltips="{ duration: 200, delay: 200, content: badgeTooltipContent }">
+      <span v-if="kpi.badge.label">{{ $sanitize(kpi.badge.label)}}</span>
+      <strong>{{ $sanitize(kpi.badge.value)}}</strong>
+    </div>
   </div>
 </template>
 
@@ -66,6 +69,9 @@ export default defineComponent({
   computed: {
     tooltipContent(): () => string {
       return () => (this.$refs.kpiCardTooltipTemplate as HTMLElement)?.innerHTML || '';
+    },
+    badgeTooltipContent(): () => string {
+      return () => this.$sanitize(this.kpi.badge?.tooltipContent ?? '');
     },
     evolutionTrendFrom(): string {
       switch (this.kpi.evolutionPeriod) {
