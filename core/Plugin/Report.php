@@ -929,7 +929,7 @@ class Report
      *                        no dimension for the subtable report.
      * @api
      */
-    public function getNthLeveltableDimension($level)
+    public function getNthLeveltableDimension(int $level): ?Dimension
     {
         if (empty($this->actionToLoadSubTables) || empty($level) || !is_numeric($level)) {
             return null;
@@ -939,13 +939,13 @@ class Report
             return $this->getSubtableDimension();
         }
 
-        list($subTableReportModule, $subTableReportAction) = $this->getSubtableApiMethod();
+        [$subTableReportModule, $subTableReportAction] = $this->getSubtableApiMethod();
         $subTableReport = ReportsProvider::factory($subTableReportModule, $subTableReportAction);
         if (empty($subTableReport) || empty($subTableReport->actionToLoadSubTables)) {
             return null;
         }
         for ($i = 2; $i <= $level; $i++) {
-            list($subSubTableReportModule, $subSubTableReportAction) = $subTableReport->getSubtableApiMethod();
+            [$subSubTableReportModule, $subSubTableReportAction] = $subTableReport->getSubtableApiMethod();
             $subSubTableReport = ReportsProvider::factory($subSubTableReportModule, $subSubTableReportAction);
             if (empty($subSubTableReport)) {
                 return null;
