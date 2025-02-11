@@ -188,7 +188,10 @@ class ConfigReader
                     );
                 }
 
-                if ($config->uiControl === PiwikSettings\FieldConfig::UI_CONTROL_PASSWORD) {
+                if (
+                    !empty($configValues[$configSection][$name]['value'])
+                    && $config->uiControl === PiwikSettings\FieldConfig::UI_CONTROL_PASSWORD
+                ) {
                     $configValues[$configSection][$name]['value'] = $this->getMaskedPassword();
                 }
             }
