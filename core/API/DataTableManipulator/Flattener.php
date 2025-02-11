@@ -192,12 +192,7 @@ class Flattener extends DataTableManipulator
                 $subDimension = $report->getSubtableDimension();
             }
 
-            if ($level === 2) {
-                $subDimension = $report->getThirdLeveltableDimension();
-            }
-
-            // For any report having more than 3 dimensions can define getNthLevelDimension to pick the correct dimension based on level
-            if ($level > 2 && method_exists($report, 'getNthLevelDimension')) {
+            if ($level > 1) {
                 $subDimension = $report->getNthLevelDimension($level);
             }
 
