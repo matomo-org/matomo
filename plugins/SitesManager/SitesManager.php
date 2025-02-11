@@ -220,6 +220,10 @@ class SitesManager extends \Piwik\Plugin
 
     public function setTrackerCacheGeneral(&$cache)
     {
+        /*
+         * Executed as super user, as permissions are required for the used API methods, but it may happen that generating
+         * the tracker cache is triggered by an event, that does not have high enough privileges.
+         */
         Access::doAsSuperUser(function () use (&$cache) {
             $cache['global_excluded_user_agents'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedUserAgentsGlobal());
             $cache['global_excluded_ips'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedIpsGlobal());

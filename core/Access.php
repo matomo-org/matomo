@@ -650,6 +650,8 @@ class Access
      * Executes a callback with superuser privileges, making sure those privileges are rescinded
      * before this method exits. Privileges will be rescinded even if an exception is thrown.
      *
+     * Use this method with care, as it might open up attack vectors
+     *
      * @param callback $function The callback to execute. Should accept no arguments.
      * @return mixed The result of `$function`.
      * @throws Exception rethrows any exceptions thrown by `$function`.
