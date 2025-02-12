@@ -914,11 +914,7 @@ class Report
      */
     public function getThirdLeveltableDimension()
     {
-        if (empty($this->actionToLoadSubTables)) {
-            return null;
-        }
-
-        return $this->getNthLeveltableDimension($level = 2);
+        return $this->getNthLevelTableDimension($level = 2);
     }
 
     /**
@@ -929,9 +925,9 @@ class Report
      *                        no dimension for the subtable report.
      * @api
      */
-    public function getNthLeveltableDimension(int $level): ?Dimension
+    public function getNthLevelTableDimension(int $level): ?Dimension
     {
-        if (empty($this->actionToLoadSubTables) || empty($level) || !is_numeric($level)) {
+        if (empty($this->actionToLoadSubTables)) {
             return null;
         }
 
@@ -939,12 +935,8 @@ class Report
             return $this->getSubtableDimension();
         }
 
-        [$subTableReportModule, $subTableReportAction] = $this->getSubtableApiMethod();
-        $subTableReport = ReportsProvider::factory($subTableReportModule, $subTableReportAction);
-        if (empty($subTableReport) || empty($subTableReport->actionToLoadSubTables)) {
-            return null;
-        }
-        for ($i = 2; $i <= $level; $i++) {
+        $subTableReport = $this;
+        for ($i = 1; $i <= $level; $i++) {
             [$subSubTableReportModule, $subSubTableReportAction] = $subTableReport->getSubtableApiMethod();
             $subSubTableReport = ReportsProvider::factory($subSubTableReportModule, $subSubTableReportAction);
             if (empty($subSubTableReport)) {
