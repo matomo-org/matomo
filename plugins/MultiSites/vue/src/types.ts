@@ -29,7 +29,7 @@ export interface DashboardSiteData extends DashboardMetrics, Site {
 
 export interface KPICardBadge {
   label: string;
-  title: string;
+  title?: string;
 }
 
 export interface KPICardData {
