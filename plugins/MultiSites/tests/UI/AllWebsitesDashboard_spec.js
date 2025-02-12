@@ -137,6 +137,16 @@ describe('AllWebsitesDashboard', function () {
 
             expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_all_badges');
         });
+
+        it('tooltip should show on hover of kpi card', async function() {
+            await page.goto(dashboardUrl);
+            await page.waitForNetworkIdle();
+
+            await page.hover('.kpiCardContainer .kpiCard:first-child .kpiCardValue');
+            await page.waitForTimeout(200);
+
+           expect(await page.screenshotSelector('.kpiCardContainer')).to.matchImage('dashboard_badge_tooltip');
+        });
     });
 
     describe('Revenue Column', function () {

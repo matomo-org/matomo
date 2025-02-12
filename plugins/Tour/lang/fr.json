@@ -13,6 +13,8 @@
         "CompletionTitle": "Bien joué.",
         "ConfigureGeolocation": "Configurer la géolocalisation",
         "ConfigureGeolocationDescription": "Assurez vous que l'emplacement de vos visiteurs est détecté correctement.",
+        "ConnectConsentManager": "Connecter le  %1$sgestionnaire de consentement",
+        "ConnectConsentManagerIntro": "%1$s Le gestionnaire de consentement a été détecté sur votre site web, découvrez comment connecter %1$s et Matomo pour qu'ils puissent fonctionner ensemble.",
         "CustomiseDashboard": "Configurez votre tableau de bord",
         "CustomiseDashboardDescription": "Ajoutez des widgets à votre tableau de bord pour vous assurer qu'il rapporte toutes vos mesures les plus importantes.",
         "DefineGoal": "Ajouter un objectif",
