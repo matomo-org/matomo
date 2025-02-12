@@ -11,6 +11,7 @@ namespace Piwik\Plugins\DevicePlugins\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\DevicePlugins\Columns\Plugin;
 use Piwik\Plugins\DevicePlugins\DevicePlugins;
 
@@ -41,12 +42,15 @@ class GetPlugin extends Base
 
         $view->config->show_offset_information = false;
         $view->config->show_pagination_control = false;
-        $view->config->show_limit_control      = false;
         $view->config->show_all_views_icons    = false;
         $view->config->show_table_all_columns  = false;
         $view->config->show_totals_row         = false;
         $view->config->columns_to_display  = array('label', 'nb_visits_percentage', 'nb_visits');
         $view->config->show_footer_message = Piwik::translate('DevicePlugins_PluginDetectionDoesNotWorkInIE');
+
+        if (!$view->isViewDataTableId(Evolution::ID)) {
+            $view->config->show_limit_control = false;
+        }
 
         $view->requestConfig->filter_sort_column = 'nb_visits_percentage';
         $view->requestConfig->filter_sort_order  = 'desc';
