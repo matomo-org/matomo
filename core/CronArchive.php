@@ -1003,7 +1003,8 @@ class CronArchive
 
             foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segmentDefinition) {
                 // check if the segment is available
-                if (!$this->isSegmentAvailable($segmentDefinition, [$idSite])) {
+                if (!Segment::isAvailable($segmentDefinition, [$idSite])) {
+                    $this->logger->info("Segment '" . $segmentDefinition . "' is not a supported segment");
                     continue;
                 }
 
@@ -1057,24 +1058,6 @@ class CronArchive
                 }
             }
         }
-    }
-
-
-    /**
-     * check if segments that contain dimensions that don't exist anymore
-     * @param $segmentDefinition
-     * @param $idSites
-     * @return bool
-     */
-    protected function isSegmentAvailable($segmentDefinition, $idSites): bool
-    {
-        try {
-            new Segment($segmentDefinition, $idSites);
-        } catch (\Exception $e) {
-            $this->logger->info("Segment '" . $segmentDefinition . "' is not a supported segment");
-            return false;
-        }
-        return true;
     }
 
     private function canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress(int $idSite, Period $period, ?Segment $segment = null): bool
