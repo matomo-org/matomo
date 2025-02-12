@@ -286,7 +286,8 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
         }
     }
 
-    private function setSiteVisitorLogsDisabled($idSite) {
+    private function setSiteVisitorLogsDisabled($idSite)
+    {
         $settings = new \Piwik\Plugins\Live\MeasurableSettings($idSite);
         $settings->disableVisitorLog->setValue(true);
         $settings->save();
