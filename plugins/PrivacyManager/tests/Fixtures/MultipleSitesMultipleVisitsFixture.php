@@ -282,7 +282,6 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
                     $this->setSiteVisitorLogsDisabled($idSite);
                 }
             }
-
         }
     }
 
