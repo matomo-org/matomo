@@ -105,7 +105,10 @@ describe('AllWebsitesDashboard', function () {
 
             await page.evaluate(() => {
               window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
-                  data.kpis.badges.hits = '<strong>Plan:</strong> 600K hits/month';
+                  data.kpis.badges.hits = {
+                    "label": "<strong>Plan: </strong> 600K hits/month",
+                    "title": "lots of information"
+                  };
               })
             });
 
@@ -377,10 +380,19 @@ describe('AllWebsitesDashboard', function () {
 
             await page.evaluate(() => {
               window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
-                data.kpis.badges.hits = '<strong>Plan:</strong> 600K hits/month';
-                data.kpis.badges.pageviews = 'Weird Pageview Badge';
-                data.kpis.badges.revenue = 'Awesome Revenue Badge';
-                data.kpis.badges.visits = 'Terrific Visits Badge';
+                data.kpis.badges.hits = {
+                  "label": "<strong>Plan: </strong> 600K hits/month",
+                  "title": "lots of information"
+                };
+                data.kpis.badges.pageviews = {
+                  "label": "Weird Pageview Badge"
+                };
+                data.kpis.badges.revenue = {
+                  "label": "Help!"
+                };
+                data.kpis.badges.visits = {
+                  "label": "Awesome visits Badge"
+                };
               })
             });
 
@@ -408,10 +420,19 @@ describe('AllWebsitesDashboard', function () {
 
             await page.evaluate(() => {
               window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
-                data.kpis.badges.hits = '<strong>Plan:</strong> 600K hits/month';
-                data.kpis.badges.pageviews = 'Weird Pageview Badge';
-                data.kpis.badges.revenue = 'Awesome Revenue Badge';
-                data.kpis.badges.visits = 'Terrific Visits Badge';
+                data.kpis.badges.hits = {
+                  "label": "<strong>Plan: </strong> 600K hits/month",
+                  "title": "lots of information"
+                };
+                data.kpis.badges.pageviews = {
+                  "label": "Weird Pageview Badge"
+                };
+                data.kpis.badges.revenue = {
+                  "label": "Help!"
+                };
+                data.kpis.badges.visits = {
+                  "label": "Awesome visits Badge"
+                };
               })
             });
 
