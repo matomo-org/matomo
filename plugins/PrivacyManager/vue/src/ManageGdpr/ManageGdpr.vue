@@ -74,7 +74,7 @@
         v-if="isVisitorLogAndProfileEnabled"
       >
       </SaveButton>
-      <div v-else>
+      <div class="dataUnavailable" v-else>
         <h2>{{ translate('PrivacyManager_SiteDataNotAvailable')}}</h2>
         <p>{{ translate('PrivacyManager_VisitorLogsProfilesDisabledMessage')}}</p>
         <p>{{ translate('PrivacyManager_PleaseEnableVisitorLogsProfiles')}}</p>
@@ -333,6 +333,9 @@ export default defineComponent({
         return;
       }
       this.isLoading = true;
+      // always reset the search status on site change
+      this.dataSubjects = [];
+      this.hasSearched = false;
       AjaxHelper.fetch<VisitorLogProfileEnabledState>({
         method: 'Live.isVisitorProfileEnabled',
         idSite: newSite.id,
