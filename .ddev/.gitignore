@@ -23,4 +23,4 @@
 /traefik/config/playground.yaml
 /traefik/certs/playground.crt
 /traefik/certs/playground.key
-/**/README.*
+/*/**/README.*
