@@ -937,12 +937,12 @@ class Report
 
         $subTableReport = $this;
         for ($i = 1; $i <= $level; $i++) {
-            [$subSubTableReportModule, $subSubTableReportAction] = $subTableReport->getSubtableApiMethod();
-            $subSubTableReport = ReportsProvider::factory($subSubTableReportModule, $subSubTableReportAction);
-            if (empty($subSubTableReport)) {
+            [$subTableReportModule, $subTableReportAction] = $subTableReport->getSubtableApiMethod();
+            $subTableReport = ReportsProvider::factory($subTableReportModule, $subTableReportAction);
+
+            if (empty($subTableReport)) {
                 return null;
             }
-            $subTableReport = $subSubTableReport;
         }
 
         return $subTableReport->getDimension();
