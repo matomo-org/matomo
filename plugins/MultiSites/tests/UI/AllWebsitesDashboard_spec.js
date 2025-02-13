@@ -159,6 +159,26 @@ describe('AllWebsitesDashboard', function () {
 
            expect(await page.screenshotSelector('.kpiCardContainer')).to.matchImage('dashboard_badge_tooltip');
         });
+
+        it('tooltip should show on hover of kpi badge', async function() {
+          await page.goto(dashboardUrl);
+          await page.waitForNetworkIdle();
+
+          await page.evaluate(() => {
+            window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
+              data.kpis.badges.hits = {
+                "label": "<strong>Plan: </strong> 600K hits/month",
+                "title": "lots of information"
+              };
+            });
+          });
+
+          await page.waitForSelector('.kpiCardContainer .kpiCard:nth-child(3) .kpiCardBadge');
+          await page.hover('.kpiCardContainer .kpiCard:nth-child(3) .kpiCardBadge');
+          await page.waitForTimeout(200);
+
+          expect(await page.screenshotSelector('.kpiCardContainer')).to.matchImage('dashboard_badge_tooltip_badge');
+        });
     });
 
     describe('Revenue Column', function () {
