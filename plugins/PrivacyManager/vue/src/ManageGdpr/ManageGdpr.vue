@@ -342,6 +342,7 @@ export default defineComponent({
         this.isVisitorLogAndProfileEnabled = true;
         return;
       }
+      this.allWebsitesContainsDisabledSite = false;
       this.isLoading = true;
       AjaxHelper.fetch<VisitorLogProfileEnabledState>({
         method: 'Live.isVisitorProfileEnabled',
