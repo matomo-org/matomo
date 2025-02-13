@@ -892,18 +892,7 @@ class Report
      */
     public function getSubtableDimension()
     {
-        if (empty($this->actionToLoadSubTables)) {
-            return null;
-        }
-
-        list($subtableReportModule, $subtableReportAction) = $this->getSubtableApiMethod();
-
-        $subtableReport = ReportsProvider::factory($subtableReportModule, $subtableReportAction);
-        if (empty($subtableReport)) {
-            return null;
-        }
-
-        return $subtableReport->getDimension();
+        return $this->getNthLevelTableDimension($level = 1);
     }
 
     /**
@@ -922,7 +911,7 @@ class Report
     /**
      * Returns the Dimension instance of the subtable report of this report's subtable report based on level.
      *
-     * @param int $level The subTable level for which dimension is to be determined
+     * @param int $level The subTable level for which dimension is to be determined, zero-based
      * @return Dimension|null The subtable report's dimension or null if there is no subtable report or
      *                        no dimension for the subtable report.
      * @api
@@ -931,10 +920,6 @@ class Report
     {
         if (empty($this->actionToLoadSubTables)) {
             return null;
-        }
-
-        if ($level === 1) {
-            return $this->getSubtableDimension();
         }
 
         $subTableReport = $this;

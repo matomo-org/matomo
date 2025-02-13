@@ -12,7 +12,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 #### New APIs
 
-* The method `getThirdLeveltableDimension` has been added to the `Report` class. This extends support for subtable reports for more than three levels.
+* The method `getNthLevelTableDimension` has been added to the `Report` class. This extends support for subtable reports for more than three levels.
 
 ## Deprecations
 
