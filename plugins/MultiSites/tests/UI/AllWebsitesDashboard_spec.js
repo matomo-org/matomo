@@ -157,7 +157,7 @@ describe('AllWebsitesDashboard', function () {
             await page.hover('.kpiCardContainer .kpiCard:first-child .kpiCardValue');
             await page.waitForTimeout(200);
 
-           expect(await page.screenshotSelector('.kpiCardContainer')).to.matchImage('dashboard_badge_tooltip');
+           expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_badge_tooltip');
         });
 
         it('tooltip should show on hover of kpi badge', async function() {
@@ -173,8 +173,13 @@ describe('AllWebsitesDashboard', function () {
             });
           });
 
-          await page.waitForSelector('.kpiCardContainer .kpiCard:nth-child(3) .kpiCardBadge');
-          await page.hover('.kpiCardContainer .kpiCard:nth-child(3) .kpiCardBadge');
+          // change period to trigger reload of KPIS
+          await page.click('.move-period-prev');
+          await page.click('.move-period-next');
+          await page.waitForNetworkIdle();
+
+          await page.waitForSelector('.kpiCardBadge');
+          await page.hover('.kpiCardBadge');
           await page.waitForTimeout(200);
 
           expect(await page.screenshotSelector('.kpiCardContainer')).to.matchImage('dashboard_badge_tooltip_badge');
