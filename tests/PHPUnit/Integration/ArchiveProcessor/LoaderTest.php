@@ -1065,7 +1065,7 @@ class LoaderTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForLoadExistingArchiveIdFromDbDebugConfig
      */
-    public function testLoadExistingArchiveIdFromDbReturnsFalsesPeriodIsForcedToArchive($periodType, $configSetting)
+    public function testLoadExistingArchiveIdFromDbReturnsFalseIfPeriodIsForcedToArchive($periodType, $configSetting)
     {
         $date = $periodType == 'range' ? '2015-03-03,2015-03-04' : '2015-03-03';
         $params = new Parameters(new Site(1), Factory::build($periodType, $date), new Segment('', [1]));
@@ -1538,7 +1538,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertTrue($loader->canSkipArchiveForSegment());
     }
 
-    public function testCanSkipArchiveForSegmentReturnTrueIfPluginIsDisabled()
+    public function testCanSkipArchiveForSegmentReturnsTrueIfPluginIsDisabled()
     {
         Rules::setBrowserTriggerArchiving(false);
         $config = Config::getInstance();
@@ -1560,7 +1560,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertTrue($loader->canSkipArchiveForSegment());
     }
 
-    public function testCanSkipArchiveForSegmentReturnTrueIfPluginIsDisabledBySiteId()
+    public function testCanSkipArchiveForSegmentReturnsTrueIfPluginIsDisabledBySiteId()
     {
         Rules::setBrowserTriggerArchiving(false);
         Config::setSetting('General_1', 'disable_archiving_segment_for_plugins', 'testPlugin');
@@ -1587,6 +1587,67 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipArchiveForSegment());
     }
 
+    public function testCanSkipArchiveForSegmentReturnsFalseIfPeriodIsRangeAndBrowserArchivingDisabledAndNotCLI()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('range', '2015-03-03,2015-03-04'), new Segment($definition, [1]));
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+    public function testCanSkipArchiveForSegmentReturnsFalseIfPeriodIsRangeAndBrowserArchiving()
+    {
+        Rules::setBrowserTriggerArchiving(true);
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, false, true);
+        $params = new Parameters(new Site(1), Factory::build('range', '2015-03-03,2015-03-04'), new Segment($definition, [1]));
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+    public function testCanSkipArchiveForSegmentReturnsTrueIfPeriodIsRangeAndCliArchiving()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+        $_GET['trigger'] = 'archivephp';
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('range', '2015-03-03,2015-03-04'), new Segment($definition, [1]));
+        $loader = new Loader($params);
+
+        $this->assertTrue($loader->canSkipArchiveForSegment());
+    }
+
+    public function testCanSkipArchiveForSegmentReturnsTrueIfPeriodIsDayAndCliArchiving()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+        $_GET['trigger'] = 'archivephp';
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('day', '2015-03-03'), new Segment($definition, [1]));
+        $loader = new Loader($params);
+
+        $this->assertTrue($loader->canSkipArchiveForSegment());
+    }
+
+    public function testCanSkipArchiveForSegmentReturnsFalseIfPeriodIsDayAndBrowserArchiving()
+    {
+        Rules::setBrowserTriggerArchiving(true);
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, false, true);
+        $params = new Parameters(new Site(1), Factory::build('day', '2015-03-03'), new Segment($definition, [1]));
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
 
     public function testForcePluginArchivingCreatesPluginSpecificArchive()
     {

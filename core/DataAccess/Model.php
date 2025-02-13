@@ -925,11 +925,12 @@ class Model
     public function hasInvalidationForPeriodAndName($idSite, Period $period, $doneFlag, $report = null)
     {
         $table = Common::prefixTable('archive_invalidations');
+        $report = (!empty($report) && !is_array($report)) ? [$report] : $report;
 
         if (empty($report)) {
             $sql = "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND date1 = ? AND date2 = ? AND `period` = ? AND `name` = ?  AND `report` IS NULL LIMIT 1";
         } else {
-            $sql = "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND date1 = ? AND date2 = ? AND `period` = ? AND `name` = ? AND `report` = ? LIMIT 1";
+            $sql = "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND date1 = ? AND date2 = ? AND `period` = ? AND `name` = ? AND `report` IN (" . Common::getSqlStringFieldsArray($report) . ") LIMIT 1";
         }
 
         $bind = [
@@ -941,7 +942,7 @@ class Model
         ];
 
         if (!empty($report)) {
-            $bind[] = $report;
+            $bind = array_merge($bind, $report);
         }
 
         $idInvalidation = Db::fetchOne($sql, $bind);
