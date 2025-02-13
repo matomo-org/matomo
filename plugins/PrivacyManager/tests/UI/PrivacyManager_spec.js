@@ -73,16 +73,14 @@ describe("PrivacyManager", function () {
     {
         await page.click('.siteSelector a.title');
         await page.click('.siteSelector .dropdown .custom_select_ul_list a[href*="idSite=3"]');
-        await page.waitForNetworkIdle();
-        await page.waitForTimeout(250);
+        await page.waitForSelector('.dataUnavailable h2');
     }
 
     async function selectAllWebsites()
     {
         await page.click('.siteSelector a.title');
         await page.click('.siteSelector .dropdown .custom_select_all a');
-        await page.waitForNetworkIdle();
-        await page.waitForTimeout(250);
+        await page.waitForSelector('.findDataSubjects input');
     }
 
     async function anonymizePastData()
@@ -356,7 +354,7 @@ describe("PrivacyManager", function () {
         await capturePage('gdpr_tools_delete_visit_confirmed');
     });
 
-    it('should hide GDPR tool and show message', async function() {
+    it('should hide GDPR tool and show message when selecting site with visitor logs or profiles disabled', async function() {
         await selectDisabledSite();
         expect(await page.screenshotSelector('.manageGdpr')).to.matchImage('gdpr_tools_disabled_site');
         await selectAllWebsites();
