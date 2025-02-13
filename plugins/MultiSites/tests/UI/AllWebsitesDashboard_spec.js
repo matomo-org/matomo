@@ -157,7 +157,7 @@ describe('AllWebsitesDashboard', function () {
             await page.hover('.kpiCardContainer .kpiCard:first-child .kpiCardValue');
             await page.waitForTimeout(200);
 
-           expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_badge_tooltip');
+           expect(await page.screenshotSelector('.kpiCardContainer')).to.matchImage('dashboard_badge_tooltip');
         });
 
         it('tooltip should show on hover of kpi badge', async function() {
@@ -182,7 +182,7 @@ describe('AllWebsitesDashboard', function () {
           await page.hover('.kpiCardBadge');
           await page.waitForTimeout(200);
 
-          expect(await page.screenshotSelector('.kpiCardContainer')).to.matchImage('dashboard_badge_tooltip_badge');
+          expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_badge_tooltip_badge');
         });
     });
 
