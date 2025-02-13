@@ -910,6 +910,7 @@ class Report
      *
      * @return Dimension|null The subtable report's dimension or null if there is no subtable report or
      *                        no dimension for the subtable report.
+     * @deprecated since 5.3.0, use getNthLevelTableDimension(2) instead
      * @api
      */
     public function getThirdLeveltableDimension()
