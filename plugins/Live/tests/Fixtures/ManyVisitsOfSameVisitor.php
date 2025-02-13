@@ -32,7 +32,7 @@ class ManyVisitsOfSameVisitor extends Fixture
         if (!self::siteCreated($this->idSite2)) {
             self::createWebsite($this->dateTime);
         }
-        
+
         if (!self::siteCreated($this->idSite3)) {
             self::createWebsite($this->dateTime);
             $this->setSiteVisitorLogsDisabled($this->idSite3);
