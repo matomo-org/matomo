@@ -849,15 +849,15 @@ class Report
             $dimensions[$dimensionId] = $this->getDimension()->getName();
         }
 
-        if (!empty($this->getSubtableDimension())) {
-            $subDimensionId = str_replace('.', '_', $this->getSubtableDimension()->getId());
-            $dimensions[$subDimensionId] = $this->getSubtableDimension()->getName();
-        }
-
-        if (!empty($this->getThirdLeveltableDimension())) {
-            $subDimensionId = str_replace('.', '_', $this->getThirdLeveltableDimension()->getId());
-            $dimensions[$subDimensionId] = $this->getThirdLeveltableDimension()->getName();
-        }
+        $level = 1;
+        do {
+            $subDimension = $this->getNthLevelTableDimension($level);
+            if (!empty($subDimension)) {
+                $subDimensionId = str_replace('.', '_', $subDimension->getId());
+                $dimensions[$subDimensionId] = $subDimension->getName();
+            }
+            $level++;
+        } while (!empty($subDimension));
 
         return $dimensions;
     }
