@@ -850,14 +850,15 @@ class Report
         }
 
         $level = 1;
-        do {
+        while (true) {
             $subDimension = $this->getNthLevelTableDimension($level);
-            if (!empty($subDimension)) {
-                $subDimensionId = str_replace('.', '_', $subDimension->getId());
-                $dimensions[$subDimensionId] = $subDimension->getName();
+            if (empty($subDimension) || $this->getDimension()->getId() === $subDimension->getId()) {
+                break;
             }
+            $subDimensionId = str_replace('.', '_', $subDimension->getId());
+            $dimensions[$subDimensionId] = $subDimension->getName();
             $level++;
-        } while (!empty($subDimension));
+        };
 
         return $dimensions;
     }
