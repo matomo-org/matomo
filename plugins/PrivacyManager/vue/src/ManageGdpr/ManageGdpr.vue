@@ -74,13 +74,16 @@
         v-if="isVisitorLogAndProfileEnabled"
       >
       </SaveButton>
-      <div v-if="AllWebsitesContainsDisabledSite">
-        Some websites are disabled
-      </div>
       <div v-else>
         <h2>{{ translate('PrivacyManager_SiteDataNotAvailable')}}</h2>
         <p>{{ translate('PrivacyManager_VisitorLogsProfilesDisabledMessage')}}</p>
         <p>{{ translate('PrivacyManager_PleaseEnableVisitorLogsProfiles')}}</p>
+      </div>
+      <div v-if="allWebsitesContainsDisabledSite">
+        <h2>{{ translate('PrivacyManager_SiteDataNotAvailableCertainSites')}}</h2>
+        <p>{{ translate('PrivacyManager_VisitorLogsProfilesSiteNamesDisabledMessage',
+        `${disabledSitesNames}`)}}</p>
+        <p>{{ translate('PrivacyManager_PleaseEnableVisitorLogsProfilesSites')}}</p>
       </div>
     </ContentBlock>
     <div v-show="!dataSubjects.length && hasSearched">
@@ -295,14 +298,11 @@ interface ManageGdprState {
   profileEnabled: boolean;
   dataSubjectsActive: boolean[];
   isVisitorLogAndProfileEnabled: boolean;
-  AllWebsitesContainsDisabledSite: boolean;
+  allWebsitesContainsDisabledSite: boolean;
+  disabledSitesNames: string|null;
 }
 
 interface VisitorLogProfileEnabledState {
-  value: boolean;
-}
-
-interface AllWebsitesContainsDisabledSiteState {
   value: boolean;
 }
 
@@ -332,6 +332,8 @@ export default defineComponent({
       profileEnabled: Matomo.visitorProfileEnabled,
       dataSubjectsActive: [],
       isVisitorLogAndProfileEnabled: true,
+      allWebsitesContainsDisabledSite: false,
+      disabledSitesNames: null,
     };
   },
   watch: {
@@ -450,6 +452,54 @@ export default defineComponent({
             siteIds = idsites.join(',');
           }
         }
+
+        AjaxHelper.fetch<VisitorLogProfileEnabledState>({
+          method: 'Live.isVisitorProfileEnabled',
+          idSite: siteIds,
+        }).then((isEnabled) => {
+          if (isEnabled.value) {
+            this.allWebsitesContainsDisabledSite = false;
+          } else {
+            // at least one site has visitor logs or profiles disabled
+
+            const siteStatusPromises = idsites.map((siteId) => AjaxHelper
+              .fetch<VisitorLogProfileEnabledState>({
+                method: 'Live.isVisitorProfileEnabled',
+                idSite: siteId,
+              }));
+
+            let disabledSites = [];
+            Promise.all(siteStatusPromises).then((siteStatuses) => {
+              disabledSites = idsites.map((id, index) => ({
+                id,
+                enabled: siteStatuses[index].value,
+              })).filter((site) => !site.enabled);
+              const sitesInfoPromises = disabledSites.map((disabledSite) => AjaxHelper
+                .fetch({
+                  method: 'SitesManager.getSiteFromId',
+                  idSite: disabledSite.id,
+                }));
+
+              Promise.all(sitesInfoPromises).then((sitesInfo) => {
+                const siteNames = sitesInfo.map((siteInfo) => siteInfo.name);
+                if (siteNames.length === 0) {
+                  this.disabledSitesNames = '';
+                  return;
+                }
+                this.allWebsitesContainsDisabledSite = true;
+                if (siteNames.length === 1) {
+                  [this.disabledSitesNames] = siteNames;
+                  return;
+                }
+                if (siteNames.length === 2) {
+                  this.disabledSitesNames = `${siteNames[0]} and ${siteNames[1]}`;
+                  return;
+                }
+                this.disabledSitesNames = `${siteNames.slice(0, -1).join(', ')}, and ${siteNames[siteNames.length - 1]}`;
+              });
+            });
+          }
+        });
 
         AjaxHelper.fetch<DataSubject[]>({
           idSite: siteIds,
