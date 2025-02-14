@@ -28,7 +28,17 @@ This will automatically open the default browser and take you to the Matomo setu
 
 Follow the on-screen instructions in the UI installer to complete the Matomo setup. This will configure the necessary database and settings for your local instance.
 
-### 3. Set up the testing environment
+### 3. Set up the development environment
+
+After Matomo is set up, you can initialize the development environment by running:
+
+```
+ddev matomo:init:dev
+```
+
+This command will set up the environment for development, installing the additional dependencies required.
+
+### 4. Set up the testing environment
 
 After Matomo is set up, you can initialize the testing environment by running:
 
