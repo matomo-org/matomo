@@ -365,22 +365,22 @@ class Model
         if ($segment) {
             $nameCondition = "name LIKE '" . Rules::getDoneFlagArchiveContainsAllPlugins($segment) . "%'";
         } else {
-            $nameCondition = "(name LIKE 'done%' OR name LIKE 'done.%')";
+            $nameCondition = "(name = 'done' OR name LIKE 'done.%')";
         }
 
-        $sql = "SELECT idarchive, name FROM $archiveTable "
+        $sql = "SELECT idarchive FROM $archiveTable "
              . " WHERE $nameCondition
                    AND idsite IN (" . implode(", ", $idSites) . ")
                    AND (" . implode(" OR ", $periodConditions) . ")";
 
         $recordsToUpdate = Db::fetchAll($sql, $bind);
 
-        foreach ($recordsToUpdate as $record) {
-            $sql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
-                . " WHERE idarchive = ? AND name = ?";
+        $idArchives = array_map('intval', array_column($recordsToUpdate, 'idarchive'));
 
-            Db::query($sql, [$record['idarchive'], $record['name']]);
-        }
+        $updateSql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
+                   . " WHERE idarchive IN (" . implode(', ', $idArchives) . ") AND $nameCondition";
+
+        Db::query($updateSql);
     }
 
     public function getTemporaryArchivesOlderThan($archiveTable, $purgeArchivesOlderThan)
