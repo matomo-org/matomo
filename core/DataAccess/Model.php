@@ -196,7 +196,7 @@ class Model
 
                 // set status to DONE_INVALIDATED for finished archives
                 $sql = "UPDATE `$archiveTable` SET `value` = " . ArchiveWriter::DONE_INVALIDATED . " WHERE idarchive IN ("
-                    . implode(',', $idArchives) . ") AND value != " . ArchiveWriter::DONE_ERROR . " AND $nameCondition";
+                    . implode(',', $idArchives) . ") AND value NOT IN (" . ArchiveWriter::DONE_ERROR . ", " . ArchiveWriter::DONE_ERROR_INVALIDATED . ") AND $nameCondition";
 
                 Db::query($sql);
 
@@ -362,10 +362,11 @@ class Model
             }
         }
 
-        if ($segment) {
-            $nameCondition = "name LIKE '" . Rules::getDoneFlagArchiveContainsAllPlugins($segment) . "%'";
+        if (null === $segment) {
+            $nameCondition = "name LIKE 'done%'";
         } else {
-            $nameCondition = "(name = 'done' OR name LIKE 'done.%')";
+            $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment);
+            $nameCondition = "(name = '$doneFlag' OR name LIKE '$doneFlag.%')";
         }
 
         $sql = "SELECT idarchive FROM $archiveTable "
@@ -375,10 +376,20 @@ class Model
 
         $recordsToUpdate = Db::fetchAll($sql, $bind);
 
+        if (empty($recordsToUpdate)) {
+            return;
+        }
+
         $idArchives = array_map('intval', array_column($recordsToUpdate, 'idarchive'));
 
         $updateSql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
-                   . " WHERE idarchive IN (" . implode(', ', $idArchives) . ") AND $nameCondition";
+            . " WHERE idarchive IN (" . implode(', ', $idArchives) . ") AND $nameCondition"
+            . " AND value NOT IN (" . ArchiveWriter::DONE_ERROR . ", " . ArchiveWriter::DONE_ERROR_INVALIDATED . ")";
+
+        Db::query($updateSql);
+
+        $updateSql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_ERROR_INVALIDATED
+                   . " WHERE idarchive IN (" . implode(', ', $idArchives) . ") AND $nameCondition AND value = " . ArchiveWriter::DONE_ERROR;
 
         Db::query($updateSql);
     }
