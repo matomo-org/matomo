@@ -1,4 +1,4 @@
-name: playground
+name: matomo
 type: php
 docroot: ""
 php_version: "7.2"
@@ -7,8 +7,8 @@ xdebug_enabled: false
 additional_hostnames: []
 additional_fqdns: []
 database:
-    type: mariadb
-    version: "11.4"
+    type: mysql
+    version: "5.7"
 hooks:
     post-start:
         - exec: MYSQL_PWD=root mysql -uroot -e "GRANT ALL PRIVILEGES ON *.* to 'db'@'%'"

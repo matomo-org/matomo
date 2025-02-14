@@ -1,3 +1,3 @@
 <?php
 
-// Matomo provides it's own xhprof integration.
+// Matomo provides its own xhprof integration.
