@@ -609,7 +609,11 @@ class Segment
     public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0, $forceGroupBy = false)
     {
         if (Development::isEnabled() && !empty($this->missingDatesException)) {
-            Log::warning("Avoiding segment subquery due to missing start date and/or an end date. Please ensure a start date and/or end date is set when initializing a segment if it's used to build a query. Stacktrace:\n" . $this->missingDatesException->getTraceAsString());
+            $e = new Exception();
+            Log::warning('Avoiding segment subquery due to missing start date and/or an end date. '
+                        . 'Please ensure a start date and/or end date is set when initializing segment: '
+                        . "\n\nCreation stacktrace:\n" . $this->missingDatesException->getTraceAsString()
+                        . "\n\nUsage stacktrace:\n" . $e->getTraceAsString());
         }
 
         $segmentExpression = $this->segmentExpression;
