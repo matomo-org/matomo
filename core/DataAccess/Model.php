@@ -337,10 +337,9 @@ class Model
      * @param int[] $idSites
      * @param string[][] $datesByPeriodType
      * @param Segment $segment
-     * @return \Zend_Db_Statement
      * @throws Exception
      */
-    public function updateRangeArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, ?Segment $segment = null)
+    public function updateRangeArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, ?Segment $segment = null): void
     {
         if (empty($idSites)) {
             return;
@@ -366,15 +365,22 @@ class Model
         if ($segment) {
             $nameCondition = "name LIKE '" . Rules::getDoneFlagArchiveContainsAllPlugins($segment) . "%'";
         } else {
-            $nameCondition = "name LIKE 'done%'";
+            $nameCondition = "(name LIKE 'done%' OR name LIKE 'done.%')";
         }
 
-        $sql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
+        $sql = "SELECT idarchive, name FROM $archiveTable "
              . " WHERE $nameCondition
                    AND idsite IN (" . implode(", ", $idSites) . ")
                    AND (" . implode(" OR ", $periodConditions) . ")";
 
-        return Db::query($sql, $bind);
+        $recordsToUpdate = Db::fetchAll($sql, $bind);
+
+        foreach ($recordsToUpdate as $record) {
+            $sql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
+                . " WHERE idarchive = ? AND name = ?";
+
+            Db::query($sql, [$record['idarchive'], $record['name']]);
+        }
     }
 
     public function getTemporaryArchivesOlderThan($archiveTable, $purgeArchivesOlderThan)
