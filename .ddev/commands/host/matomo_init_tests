@@ -10,8 +10,14 @@ ddev matomo:init
 echo "Run npm install ..."
 ddev npm install
 
-echo "Add tests config section to config.php.ini ..."
-ddev exec '\cat .ddev/initial-config/config.ini.php.partial >> config/config.ini.php'
+echo "Configure test environment ..."
+ddev matomo:console config:set \
+  'database_tests.host="db"' \
+  'database_tests.username="db"' \
+  'database_tests.password="db"' \
+  'tests.http_host="matomo.ddev.site"' \
+  'tests.request_uri="/"' \
+  'tests.port=80'
 
 echo "Copy UI tests config file ..."
 echo "@see https://developer.matomo.org/guides/tests-ui#configuring-ui-tests"
@@ -20,10 +26,6 @@ ddev exec '\cp .ddev/initial-config/config.js tests/UI/config.js'
 echo "Enable development mode and disable assets merging ..."
 ddev matomo:console development:enable
 ddev matomo:console config:set Development.disable_merged_assets=1
-
-echo "Clean up config file using rewrite ..."
-ddev matomo:console config:set tests.ddev_rewrite_config=1
-ddev matomo:console config:delete tests.ddev_rewrite_config
 
 echo "Initialise test database: setup OmniFixture ..."
 ddev matomo:console tests:setup-fixture OmniFixture

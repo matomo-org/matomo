@@ -1,9 +1,0 @@
-[database_tests]
-host = "db"
-username = "db"
-password = "db"
-
-[tests]
-http_host = "matomo.ddev.site"
-request_uri = "/"
-port = 80
