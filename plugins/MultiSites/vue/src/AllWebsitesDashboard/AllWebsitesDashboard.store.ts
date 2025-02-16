@@ -17,11 +17,11 @@ import {
   DashboardMetrics,
   DashboardSiteData,
   DashboardSortOrder,
-  EvolutionTrend,
+  EvolutionTrend, KPICardBadge,
 } from '../types';
 
 interface DashboardKPIData {
-  badges: Record<string, string>;
+  badges: Record<string, KPICardBadge | null>;
   evolutionPeriod: string;
   hits: string;
   hitsCompact: string;
@@ -307,10 +307,10 @@ class DashboardStore {
   private updateDashboardKPIs(response: GetAllWithGroupsDataResponse) {
     this.privateState.dashboardKPIs = {
       badges: {
-        hits: '',
-        pageviews: '',
-        revenue: '',
-        visits: '',
+        hits: null,
+        pageviews: null,
+        revenue: null,
+        visits: null,
       },
       evolutionPeriod: Matomo.period as string,
       hits: NumberFormatter.formatNumber(response.totals.hits),

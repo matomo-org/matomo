@@ -105,7 +105,10 @@ describe('AllWebsitesDashboard', function () {
 
             await page.evaluate(() => {
               window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
-                  data.kpis.badges.hits = '<strong>Plan:</strong> 600K hits/month';
+                  data.kpis.badges.hits = {
+                    "label": "<strong>Plan: </strong> 600K hits/month",
+                    "title": "lots of information"
+                  };
               })
             });
 
@@ -123,11 +126,20 @@ describe('AllWebsitesDashboard', function () {
 
             await page.evaluate(() => {
               window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
-                  data.kpis.badges.hits = '<strong>Plan:</strong> 600K hits/month';
-                  data.kpis.badges.pageviews = 'Weird Pageview Badge';
-                  data.kpis.badges.revenue = 'Awesome Revenue Badge';
-                  data.kpis.badges.visits = 'Terrific Visits Badge';
-              })
+                  data.kpis.badges.hits = {
+                    "label": "<strong>Plan: </strong> 600K hits/month",
+                    "title": "lots of information"
+                  };
+                  data.kpis.badges.pageviews = {
+                    "label": "Weird Pageview Badge"
+                  };
+                  data.kpis.badges.revenue = {
+                    "label": "Help!"
+                  };
+                  data.kpis.badges.visits = {
+                    "label": "Awesome visits Badge"
+                  };
+              });
             });
 
             // change period to trigger reload of KPIS
@@ -146,6 +158,31 @@ describe('AllWebsitesDashboard', function () {
             await page.waitForTimeout(200);
 
            expect(await page.screenshotSelector('.kpiCardContainer')).to.matchImage('dashboard_badge_tooltip');
+        });
+
+        it('tooltip should show on hover of kpi badge', async function() {
+          await page.goto(dashboardUrl);
+          await page.waitForNetworkIdle();
+
+          await page.evaluate(() => {
+            window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
+              data.kpis.badges.hits = {
+                "label": "<strong>Plan: </strong> 600K hits/month",
+                "title": "lots of information"
+              };
+            });
+          });
+
+          // change period to trigger reload of KPIS
+          await page.click('.move-period-prev');
+          await page.click('.move-period-next');
+          await page.waitForNetworkIdle();
+
+          await page.waitForSelector('.kpiCardBadge');
+          await page.hover('.kpiCardBadge');
+          await page.waitForTimeout(200);
+
+          expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_badge_tooltip_badge');
         });
     });
 
@@ -368,10 +405,19 @@ describe('AllWebsitesDashboard', function () {
 
             await page.evaluate(() => {
               window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
-                data.kpis.badges.hits = '<strong>Plan:</strong> 600K hits/month';
-                data.kpis.badges.pageviews = 'Weird Pageview Badge';
-                data.kpis.badges.revenue = 'Awesome Revenue Badge';
-                data.kpis.badges.visits = 'Terrific Visits Badge';
+                data.kpis.badges.hits = {
+                  "label": "<strong>Plan: </strong> 600K hits/month",
+                  "title": "lots of information"
+                };
+                data.kpis.badges.pageviews = {
+                  "label": "Weird Pageview Badge"
+                };
+                data.kpis.badges.revenue = {
+                  "label": "Help!"
+                };
+                data.kpis.badges.visits = {
+                  "label": "Awesome visits Badge"
+                };
               })
             });
 
@@ -399,10 +445,19 @@ describe('AllWebsitesDashboard', function () {
 
             await page.evaluate(() => {
               window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
-                data.kpis.badges.hits = '<strong>Plan:</strong> 600K hits/month';
-                data.kpis.badges.pageviews = 'Weird Pageview Badge';
-                data.kpis.badges.revenue = 'Awesome Revenue Badge';
-                data.kpis.badges.visits = 'Terrific Visits Badge';
+                data.kpis.badges.hits = {
+                  "label": "<strong>Plan: </strong> 600K hits/month",
+                  "title": "lots of information"
+                };
+                data.kpis.badges.pageviews = {
+                  "label": "Weird Pageview Badge"
+                };
+                data.kpis.badges.revenue = {
+                  "label": "Help!"
+                };
+                data.kpis.badges.visits = {
+                  "label": "Awesome visits Badge"
+                };
               })
             });
 

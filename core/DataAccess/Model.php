@@ -196,7 +196,7 @@ class Model
 
                 // set status to DONE_INVALIDATED for finished archives
                 $sql = "UPDATE `$archiveTable` SET `value` = " . ArchiveWriter::DONE_INVALIDATED . " WHERE idarchive IN ("
-                    . implode(',', $idArchives) . ") AND value != " . ArchiveWriter::DONE_ERROR . " AND $nameCondition";
+                    . implode(',', $idArchives) . ") AND value NOT IN (" . ArchiveWriter::DONE_ERROR . ", " . ArchiveWriter::DONE_ERROR_INVALIDATED . ") AND $nameCondition";
 
                 Db::query($sql);
 
@@ -337,10 +337,9 @@ class Model
      * @param int[] $idSites
      * @param string[][] $datesByPeriodType
      * @param Segment $segment
-     * @return \Zend_Db_Statement
      * @throws Exception
      */
-    public function updateRangeArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, ?Segment $segment = null)
+    public function updateRangeArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, ?Segment $segment = null): void
     {
         if (empty($idSites)) {
             return;
@@ -363,18 +362,36 @@ class Model
             }
         }
 
-        if ($segment) {
-            $nameCondition = "name LIKE '" . Rules::getDoneFlagArchiveContainsAllPlugins($segment) . "%'";
-        } else {
+        if (null === $segment) {
             $nameCondition = "name LIKE 'done%'";
+        } else {
+            $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment);
+            $nameCondition = "(name = '$doneFlag' OR name LIKE '$doneFlag.%')";
         }
 
-        $sql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
+        $sql = "SELECT idarchive FROM $archiveTable "
              . " WHERE $nameCondition
                    AND idsite IN (" . implode(", ", $idSites) . ")
                    AND (" . implode(" OR ", $periodConditions) . ")";
 
-        return Db::query($sql, $bind);
+        $recordsToUpdate = Db::fetchAll($sql, $bind);
+
+        if (empty($recordsToUpdate)) {
+            return;
+        }
+
+        $idArchives = array_map('intval', array_column($recordsToUpdate, 'idarchive'));
+
+        $updateSql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
+            . " WHERE idarchive IN (" . implode(', ', $idArchives) . ") AND $nameCondition"
+            . " AND value NOT IN (" . ArchiveWriter::DONE_ERROR . ", " . ArchiveWriter::DONE_ERROR_INVALIDATED . ")";
+
+        Db::query($updateSql);
+
+        $updateSql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_ERROR_INVALIDATED
+                   . " WHERE idarchive IN (" . implode(', ', $idArchives) . ") AND $nameCondition AND value = " . ArchiveWriter::DONE_ERROR;
+
+        Db::query($updateSql);
     }
 
     public function getTemporaryArchivesOlderThan($archiveTable, $purgeArchivesOlderThan)

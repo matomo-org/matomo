@@ -117,7 +117,7 @@
         "SiteWithoutDataGTMFollowStep9": "Sélectionnez \"Toutes les pages\" pour déclencher la \"balise de suivi Matomo\" sur toutes vos pages.",
         "SiteWithoutDataGoogleTagManager": "Gestionnaire de balises Google",
         "SiteWithoutDataGoogleTagManagerDescription": "Vous pouvez utiliser Matomo avec Google Tag Manager. Pour configurer Matomo Tracking dans Google Tag Manager, suivez les instructions de ce %1$sguide%2$s.",
-        "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sFélicitations!%2$s Vous avez installé avec succès le code de suivi Matomo Analytics via Google Tag Manager. Pour vérifier que les hits sont suivis, visitez votre site Web et vérifiez que ces données sont visibles dans votre instance Matomo.",
+        "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sFélicitations !%2$s Vous avez installé avec succès le code de suivi Matomo Analytics via Google Tag Manager. Pour vérifier que les hits sont suivis, visitez votre site Web et vérifiez que ces données sont visibles dans votre instance Matomo.",
         "SiteWithoutDataGoogleTagManagerFollowStepsIntro": "Suivez ces étapes pour la configurer :",
         "SiteWithoutDataGoogleTagManagerIntro": "Si vous utilisez Google Tag Manager, vous pouvez commencer à suivre les données de Matomo de manière transparente en utilisant la \"balise HTML personnalisée\" disponible dans Google Tag Manager. %1$sEn savoir plus%2$s.",
         "SiteWithoutDataHidePageForHour": "Masquer la page pendant une heure",
