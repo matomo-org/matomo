@@ -154,7 +154,7 @@ export default defineComponent({
 
       const kpis: KPICardData[] = [
         {
-          badge: dashboardKPIs.badges?.visits || '',
+          badge: dashboardKPIs.badges?.visits || null,
           icon: 'icon-user',
           title: 'MultiSites_TotalVisits',
           value: dashboardKPIs.visits,
@@ -164,7 +164,7 @@ export default defineComponent({
           evolutionValue: dashboardKPIs.visitsEvolution,
         },
         {
-          badge: dashboardKPIs.badges?.pageviews || '',
+          badge: dashboardKPIs.badges?.pageviews || null,
           icon: 'icon-show',
           title: 'MultiSites_TotalPageviews',
           value: dashboardKPIs.pageviews,
@@ -174,7 +174,7 @@ export default defineComponent({
           evolutionValue: dashboardKPIs.pageviewsEvolution,
         },
         {
-          badge: dashboardKPIs.badges?.hits || '',
+          badge: dashboardKPIs.badges?.hits || null,
           icon: 'icon-hits',
           title: 'MultiSites_TotalHits',
           value: dashboardKPIs.hits,
@@ -187,7 +187,7 @@ export default defineComponent({
 
       if (this.displayRevenue) {
         kpis.push({
-          badge: dashboardKPIs.badges?.revenue || '',
+          badge: dashboardKPIs.badges?.revenue || null,
           icon: 'icon-dollar-sign',
           title: 'General_TotalRevenue',
           value: dashboardKPIs.revenue,
