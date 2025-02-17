@@ -17,10 +17,6 @@ describe('AllWebsitesDashboard', function () {
     const widgetUrl = '?module=Widgetize&action=iframe&moduleToWidgetize=MultiSites&actionToWidgetize=standalone&' + generalParams;
 
     before(function() {
-        testEnvironment.overrideConfig('FeatureFlags', {
-            ImprovedAllWebsitesDashboard_feature: 'enabled',
-        });
-
         // split 15 fixture sites into 2 pages
         testEnvironment.overrideConfig('General', {
             all_websites_website_per_page: 10,
