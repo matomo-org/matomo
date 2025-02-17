@@ -847,17 +847,17 @@ class Report
         if (!empty($this->getDimension())) {
             $dimensionId = str_replace('.', '_', $this->getDimension()->getId());
             $dimensions[$dimensionId] = $this->getDimension()->getName();
+            $tableDimensionId = $this->getDimension()->getId();
         }
 
-        $level = 1;
-        while (true) {
+        for ($level = 1; $level <= 100; $level++) {
             $subDimension = $this->getNthLevelTableDimension($level);
-            if (empty($subDimension) || $this->getDimension()->getId() === $subDimension->getId()) {
+            if (empty($subDimension) || $tableDimensionId === $subDimension->getId()) {
                 break;
             }
+            $tableDimensionId = $subDimension->getId();
             $subDimensionId = str_replace('.', '_', $subDimension->getId());
             $dimensions[$subDimensionId] = $subDimension->getName();
-            $level++;
         };
 
         return $dimensions;
