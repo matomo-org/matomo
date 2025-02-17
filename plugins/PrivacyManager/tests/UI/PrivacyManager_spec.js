@@ -76,13 +76,6 @@ describe("PrivacyManager", function () {
         await page.waitForSelector('.dataUnavailable h2');
     }
 
-    async function selectAllWebsites()
-    {
-        await page.click('.siteSelector a.title');
-        await page.click('.siteSelector .dropdown .custom_select_all a');
-        await page.waitForSelector('.findDataSubjects input');
-    }
-
     async function anonymizePastData()
     {
         await page.click('.anonymizePastData .btn');
@@ -357,7 +350,6 @@ describe("PrivacyManager", function () {
     it('should hide GDPR tool and show message when selecting site with visitor logs or profiles disabled', async function() {
         await selectDisabledSite();
         expect(await page.screenshotSelector('.manageGdpr')).to.matchImage('gdpr_tools_disabled_site');
-        await selectAllWebsites();
     });
 
 });
