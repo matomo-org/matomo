@@ -300,6 +300,7 @@ interface ManageGdprState {
   isVisitorLogAndProfileEnabled: boolean;
   allWebsitesContainsDisabledSite: boolean;
   disabledSitesNames: string|null;
+
 }
 
 interface VisitorLogProfileEnabledState {
