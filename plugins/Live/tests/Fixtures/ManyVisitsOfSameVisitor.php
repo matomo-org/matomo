@@ -20,6 +20,8 @@ class ManyVisitsOfSameVisitor extends Fixture
     public $dateTime = '2010-02-01 11:22:33';
     public $idSite = 1;
     public $idSite2 = 2;
+    public $idSite3 = 3;
+    public $idSite4 = 4;
 
     public function setUp(): void
     {
@@ -31,12 +33,36 @@ class ManyVisitsOfSameVisitor extends Fixture
             self::createWebsite($this->dateTime);
         }
 
+        if (!self::siteCreated($this->idSite3)) {
+            self::createWebsite($this->dateTime);
+            $this->setSiteVisitorLogsDisabled($this->idSite3);
+        }
+
+        if (!self::siteCreated($this->idSite4)) {
+            self::createWebsite($this->dateTime);
+            $this->setSiteVisitorProfilesDisabled($this->idSite4);
+        }
+
         $this->trackVisits();
     }
 
     public function tearDown(): void
     {
         // empty
+    }
+
+    private function setSiteVisitorLogsDisabled($idSite)
+    {
+        $settings = new \Piwik\Plugins\Live\MeasurableSettings($idSite);
+        $settings->disableVisitorLog->setValue(true);
+        $settings->save();
+    }
+
+    private function setSiteVisitorProfilesDisabled($idSite)
+    {
+        $settings = new \Piwik\Plugins\Live\MeasurableSettings($idSite);
+        $settings->disableVisitorProfile->setValue(true);
+        $settings->save();
     }
 
     private function trackVisits()

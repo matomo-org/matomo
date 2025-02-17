@@ -204,6 +204,27 @@ class ApiTest extends SystemTestCase
         $this->runApiTests($api, $params);
     }
 
+    public function testCheckVisitorLogsProfilesWithLogsEnabled()
+    {
+        $this->runAnyApiTest('Live.isVisitorProfileEnabled', 'siteVisitorLogsEnabled', [
+            'idSite'     => '2',
+        ]);
+    }
+
+    public function testCheckVisitorLogsProfilesWithLogsDisabled()
+    {
+        $this->runAnyApiTest('Live.isVisitorProfileEnabled', 'siteVisitorLogsDisabled', [
+            'idSite'     => '3',
+        ]);
+    }
+
+    public function testCheckVisitorLogsProfilesWithProfilesDisabled()
+    {
+        $this->runAnyApiTest('Live.isVisitorProfileEnabled', 'siteVisitorProfilesDisabled', [
+            'idSite'     => '4',
+        ]);
+    }
+
     public function getApiForTestingDisabledFeatures()
     {
         $apiToTest   = [];
