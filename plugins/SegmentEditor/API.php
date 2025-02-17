@@ -40,6 +40,8 @@ class API extends \Piwik\Plugin\API
 
     private $processNewSegmentsFrom;
 
+    protected $autoSanitizeInputParams = false;
+
     public function __construct(Model $model, SegmentArchiving $segmentArchiving)
     {
         $this->model = $model;
@@ -237,7 +239,9 @@ class API extends \Piwik\Plugin\API
         $this->checkUserCanEditOrDeleteSegment($segment);
 
         $idSite = $this->checkIdSite($idSite);
+        $name = Common::sanitizeInputValue($name);
         $this->checkSegmentName($name);
+        $definition = Common::sanitizeInputValue($definition);
         $definition = $this->checkSegmentValue($definition, $idSite);
 
         // only check param if value is changed
@@ -300,7 +304,9 @@ class API extends \Piwik\Plugin\API
     ): int {
         $this->checkUserCanAddNewSegment($idSite);
         $idSite = $this->checkIdSite($idSite);
+        $name = Common::sanitizeInputValue($name);
         $this->checkSegmentName($name);
+        $definition = Common::sanitizeInputValue($definition);
         $definition = $this->checkSegmentValue($definition, $idSite);
         $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
         $autoArchive = $this->checkAutoArchive($autoArchive, $idSite);
