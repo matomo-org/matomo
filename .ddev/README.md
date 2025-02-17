@@ -1,5 +1,7 @@
 # Matomo DDEV environment
 
+**WARNING**: Matomo DDEV environment can be helpful when developing for Matomo, to be able to create or test new plugins locally, to run unit, integration, system or UI tests, but it is **highly discouraged** to use DDEV environments to run or host publicly accessible production installations of Matomo.
+
 ## Prerequisites
 
 Before you begin, make sure you have DDEV installed. If you don't have it yet, follow the installation instructions in the official [DDEV documentation](https://ddev.readthedocs.io/en/stable/).
