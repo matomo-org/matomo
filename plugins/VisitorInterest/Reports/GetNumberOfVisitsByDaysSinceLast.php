@@ -11,6 +11,7 @@ namespace Piwik\Plugins\VisitorInterest\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\VisitorInterest\Columns\VisitorDaysSinceLast;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
@@ -49,10 +50,13 @@ class GetNumberOfVisitsByDaysSinceLast extends Base
         $view->config->enable_sort = false;
         $view->config->show_offset_information = false;
         $view->config->show_pagination_control = false;
-        $view->config->show_limit_control      = false;
         $view->config->show_all_views_icons    = false;
         $view->config->show_table_all_columns  = false;
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate('General_DaysSinceLastVisit'));
+
+        if (!$view->isViewDataTableId(Evolution::ID)) {
+            $view->config->show_limit_control = false;
+        }
     }
 }

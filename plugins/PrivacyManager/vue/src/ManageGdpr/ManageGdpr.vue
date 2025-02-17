@@ -48,7 +48,7 @@
           </div>
         </div>
       </div>
-      <div class="form-group row segmentFilterGroup">
+      <div class="form-group row segmentFilterGroup" v-if="isVisitorLogAndProfileEnabled" >
         <div class="col s12">
           <div>
             <label style="margin: 8px 0;display: inline-block;">
@@ -59,6 +59,7 @@
                 v-model="segment_filter"
                 :visit-segments-only="true"
                 :idsite="site.id"
+                :show-segment-editor="true"
               />
             </div>
           </div>
@@ -70,8 +71,14 @@
         @confirm="findDataSubjects()"
         :disabled="!segment_filter"
         :saving="isLoading"
+        v-if="isVisitorLogAndProfileEnabled"
       >
       </SaveButton>
+      <div class="dataUnavailable" v-else>
+        <h2>{{ translate('PrivacyManager_SiteDataNotAvailable')}}</h2>
+        <p>{{ translate('PrivacyManager_VisitorLogsProfilesDisabledMessage')}}</p>
+        <p>{{ translate('PrivacyManager_PleaseEnableVisitorLogsProfiles')}}</p>
+      </div>
     </ContentBlock>
     <div v-show="!dataSubjects.length && hasSearched">
       <h2>{{ translate('PrivacyManager_NoDataSubjectsFound') }}</h2>
@@ -284,6 +291,11 @@ interface ManageGdprState {
   hasSearched: boolean;
   profileEnabled: boolean;
   dataSubjectsActive: boolean[];
+  isVisitorLogAndProfileEnabled: boolean;
+}
+
+interface VisitorLogProfileEnabledState {
+  value: boolean;
 }
 
 export default defineComponent({
@@ -311,7 +323,28 @@ export default defineComponent({
       hasSearched: false,
       profileEnabled: Matomo.visitorProfileEnabled,
       dataSubjectsActive: [],
+      isVisitorLogAndProfileEnabled: true,
     };
+  },
+  watch: {
+    site(newSite) {
+      if (newSite.id === 'all') {
+        this.isVisitorLogAndProfileEnabled = true;
+        return;
+      }
+      this.isLoading = true;
+      // always reset the search status on site change
+      this.dataSubjects = [];
+      this.hasSearched = false;
+      AjaxHelper.fetch<VisitorLogProfileEnabledState>({
+        method: 'Live.isVisitorProfileEnabled',
+        idSite: newSite.id,
+      }).then((isEnabled) => {
+        this.isVisitorLogAndProfileEnabled = isEnabled.value;
+      }).finally(() => {
+        this.isLoading = false;
+      });
+    },
   },
   setup() {
     const sitesPromise = AjaxHelper.fetch<(string|number)[]>({
