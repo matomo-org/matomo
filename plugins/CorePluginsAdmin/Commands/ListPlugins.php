@@ -56,7 +56,7 @@ class ListPlugins extends ConsoleCommand
         if ($this->getInput()->getOption('json')) {
             $plugins = array_map(function ($plugin) {
                 $plugin["comment"] = !isset($plugin["activated"]) ? 'Plugin not found in filesystem.' : '';
-                if (isset($plugin["version"]) && $plugin["activated"] === null) {
+                if (isset($plugin["version"]) && !isset($plugin["activated"])) {
                     $plugin["version"] = '';
                 }
                 return $plugin;
