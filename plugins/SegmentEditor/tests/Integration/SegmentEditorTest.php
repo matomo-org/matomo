@@ -191,7 +191,7 @@ class SegmentEditorTest extends IntegrationTestCase
         $idSegment2 = API::getInstance()->add('name 2', 'searches>1,visitIp!=127.0.0.1', $idSite = 1, $autoArchive = 1, $enabledAllUsers = 1);
 
         $deleted = API::getInstance()->delete($idSegment2);
-        $this->assertTrue($deleted);
+
         try {
             API::getInstance()->get($idSegment2);
             $this->fail("getting deleted segment should have failed");

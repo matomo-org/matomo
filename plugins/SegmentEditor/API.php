@@ -84,16 +84,22 @@ class API extends \Piwik\Plugin\API
         return $enabledAllUsers;
     }
 
-    protected function checkIdSite(?int $idSite): ?int
+    protected function checkIdSite($idSite): ?int
     {
-        if (null === $idSite) {
+        if (empty($idSite)) {
             if (!Piwik::hasUserSuperUserAccess()) {
                 throw new Exception($this->getMessageCannotEditSegmentCreatedBySuperUser());
             }
+
+            return null;
         } else {
+            if (!is_numeric($idSite)) {
+                throw new Exception("idSite should be a numeric value");
+            }
+
             Piwik::checkUserHasViewAccess($idSite);
         }
-        return $idSite;
+        return (int) $idSite;
     }
 
     protected function checkAutoArchive(bool $autoArchive, ?int $idSite): bool
@@ -223,7 +229,7 @@ class API extends \Piwik\Plugin\API
      * @param int $idSegment The ID of the stored segment to modify.
      * @param string $name The new name of the segment.
      * @param string $definition The new definition of the segment.
-     * @param int|null $idSite If supplied, associates the stored segment with as single site.
+     * @param int|string|null $idSite If supplied, associates the stored segment with as single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
      */
@@ -231,7 +237,7 @@ class API extends \Piwik\Plugin\API
         int $idSegment,
         string $name,
         string $definition,
-        ?int $idSite = null,
+        $idSite = null,
         bool $autoArchive = false,
         bool $enabledAllUsers = false
     ): void {
@@ -257,7 +263,7 @@ class API extends \Piwik\Plugin\API
             'name'               => $name,
             'definition'         => $definition,
             'enable_all_users'   => (int) $enabledAllUsers,
-            'enable_only_idsite' => $idSite,
+            'enable_only_idsite' => (int) $idSite,
             'auto_archive'       => (int) $autoArchive,
             'ts_last_edit'       => Date::now()->getDatetime(),
         );
@@ -289,7 +295,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $name The new name of the segment.
      * @param string $definition The new definition of the segment.
-     * @param null|int $idSite If supplied, associates the stored segment with as single site.
+     * @param null|string|int $idSite If supplied, associates the stored segment with as single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
      *
@@ -298,12 +304,12 @@ class API extends \Piwik\Plugin\API
     public function add(
         string $name,
         string $definition,
-        ?int $idSite = null,
+        $idSite = null,
         bool $autoArchive = false,
         bool $enabledAllUsers = false
     ): int {
-        $this->checkUserCanAddNewSegment($idSite);
         $idSite = $this->checkIdSite($idSite);
+        $this->checkUserCanAddNewSegment($idSite);
         $name = Common::sanitizeInputValue($name);
         $this->checkSegmentName($name);
         $definition = Common::sanitizeInputValue($definition);
@@ -316,7 +322,7 @@ class API extends \Piwik\Plugin\API
             'definition'         => $definition,
             'login'              => Piwik::getCurrentUserLogin(),
             'enable_all_users'   => (int) $enabledAllUsers,
-            'enable_only_idsite' => $idSite,
+            'enable_only_idsite' => (int) $idSite,
             'auto_archive'       => (int) $autoArchive,
             'ts_created'         => Date::now()->getDatetime(),
             'deleted'            => 0,
@@ -372,10 +378,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns all stored segments.
      *
-     * @param null|int $idSite Whether to return stored segments for a specific idSite, or all of them. If supplied, must be a valid site ID.
+     * @param null|string|int $idSite Whether to return stored segments for a specific idSite, or all of them. If supplied, must be a valid site ID.
      * @return array
      */
-    public function getAll(?int $idSite = null): array
+    public function getAll($idSite = null): array
     {
         if (!empty($idSite)) {
             Piwik::checkUserHasViewAccess($idSite);
@@ -406,13 +412,13 @@ class API extends \Piwik\Plugin\API
      * Filter out any segments which cannot be initialized due to disable plugins or features
      *
      * @param array $segments
-     * @param null|int $idSite
+     * @param null|string|int $idSite
      *
      * @return array
      */
-    private function filterSegmentsWithDisabledElements(array $segments, ?int $idSite = null): array
+    private function filterSegmentsWithDisabledElements(array $segments, $idSite = null): array
     {
-        $idSites = $idSite ? [] : [$idSite];
+        $idSites = empty($idSite) ? [] : [$idSite];
 
         foreach ($segments as $k => $segment) {
             if (!Segment::isAvailable($segment['definition'], $idSites)) {
