@@ -11,6 +11,7 @@ namespace Piwik\Plugins\UserCountry\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\UserCountry\Columns\Continent;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
@@ -46,7 +47,10 @@ class GetContinent extends Base
         $view->config->show_search = false;
         $view->config->show_offset_information = false;
         $view->config->show_pagination_control = false;
-        $view->config->show_limit_control = false;
         $view->config->documentation = $this->documentation;
+
+        if (!$view->isViewDataTableId(Evolution::ID)) {
+            $view->config->show_limit_control = false;
+        }
     }
 }

@@ -94,12 +94,12 @@ class SegmentArchiving
                 continue;
             }
 
-            try {
-                $segmentObj = new Segment($segment['definition'], [$idSite]);
-            } catch (\Exception $ex) {
+            if (!Segment::isAvailable($segment['definition'], [$idSite])) {
                 $this->logger->debug("Could not process segment {$segment['definition']} for site {$idSite}. Segment should not exist for the site, but does.");
                 continue;
             }
+
+            $segmentObj = new Segment($segment['definition'], [$idSite]);
 
             if ($segmentObj->getHash() == $hash) {
                 return $segment;

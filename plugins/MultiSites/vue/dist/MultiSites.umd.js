@@ -142,7 +142,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=template&id=707936a9
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=template&id=1f5a5e3b
 
 var _hoisted_1 = {
   class: "dashboardHeader"
@@ -235,7 +235,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "display-sparklines": _ctx.displaySparklines
   }, null, 8, ["display-revenue", "display-sparklines"])], 64);
 }
-// CONCATENATED MODULE: ./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=template&id=707936a9
+// CONCATENATED MODULE: ./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=template&id=1f5a5e3b
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -505,10 +505,10 @@ var AllWebsitesDashboard_store_DashboardStore = /*#__PURE__*/function () {
     value: function updateDashboardKPIs(response) {
       this.privateState.dashboardKPIs = {
         badges: {
-          hits: '',
-          pageviews: '',
-          revenue: '',
-          visits: ''
+          hits: null,
+          pageviews: null,
+          revenue: null,
+          visits: null
         },
         evolutionPeriod: external_CoreHome_["Matomo"].period,
         hits: external_CoreHome_["NumberFormatter"].formatNumber(response.totals.hits),
@@ -592,63 +592,67 @@ function KPICardContainervue_type_template_id_87c62b90_render(_ctx, _cache, $pro
 }
 // CONCATENATED MODULE: ./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICardContainer.vue?vue&type=template&id=87c62b90
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICard.vue?vue&type=template&id=8e7cc1b6
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICard.vue?vue&type=template&id=7635ff0a
 
-var KPICardvue_type_template_id_8e7cc1b6_hoisted_1 = {
+var KPICardvue_type_template_id_7635ff0a_hoisted_1 = {
   class: "kpiCard"
 };
-var KPICardvue_type_template_id_8e7cc1b6_hoisted_2 = {
+var KPICardvue_type_template_id_7635ff0a_hoisted_2 = {
   class: "kpiCardTitle"
 };
-var KPICardvue_type_template_id_8e7cc1b6_hoisted_3 = {
+var KPICardvue_type_template_id_7635ff0a_hoisted_3 = {
   style: {
     "display": "none"
   },
   ref: "kpiCardTooltipTemplate"
 };
-var KPICardvue_type_template_id_8e7cc1b6_hoisted_4 = {
+var KPICardvue_type_template_id_7635ff0a_hoisted_4 = {
   role: "tooltip"
 };
-var KPICardvue_type_template_id_8e7cc1b6_hoisted_5 = ["title"];
-var KPICardvue_type_template_id_8e7cc1b6_hoisted_6 = {
+var KPICardvue_type_template_id_7635ff0a_hoisted_5 = ["title"];
+var KPICardvue_type_template_id_7635ff0a_hoisted_6 = {
   class: "kpiCardEvolution"
 };
-var KPICardvue_type_template_id_8e7cc1b6_hoisted_7 = {
+var KPICardvue_type_template_id_7635ff0a_hoisted_7 = {
   key: 1,
   class: "kpiCardEvolution"
 };
 
-var KPICardvue_type_template_id_8e7cc1b6_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+var KPICardvue_type_template_id_7635ff0a_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "kpiCardEvolutionTrend"
 }, " ", -1);
 
-var KPICardvue_type_template_id_8e7cc1b6_hoisted_9 = [KPICardvue_type_template_id_8e7cc1b6_hoisted_8];
-var KPICardvue_type_template_id_8e7cc1b6_hoisted_10 = ["innerHTML"];
-function KPICardvue_type_template_id_8e7cc1b6_render(_ctx, _cache, $props, $setup, $data, $options) {
+var KPICardvue_type_template_id_7635ff0a_hoisted_9 = [KPICardvue_type_template_id_7635ff0a_hoisted_8];
+var KPICardvue_type_template_id_7635ff0a_hoisted_10 = ["title", "innerHTML"];
+function KPICardvue_type_template_id_7635ff0a_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", KPICardvue_type_template_id_8e7cc1b6_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", KPICardvue_type_template_id_8e7cc1b6_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", KPICardvue_type_template_id_7635ff0a_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", KPICardvue_type_template_id_7635ff0a_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("kpiCardIcon ".concat(_ctx.kpi.icon))
-  }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.kpi.title)), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", KPICardvue_type_template_id_8e7cc1b6_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", KPICardvue_type_template_id_8e7cc1b6_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.kpi.title)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.kpi.value), 1)])], 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+  }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.kpi.title)), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", KPICardvue_type_template_id_7635ff0a_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", KPICardvue_type_template_id_7635ff0a_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.kpi.title)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.kpi.value), 1)])], 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: "kpiCardValue",
     title: _ctx.kpi.value
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.kpi.valueCompact), 1)], 8, KPICardvue_type_template_id_8e7cc1b6_hoisted_5), [[_directive_tooltips, {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.kpi.valueCompact), 1)], 8, KPICardvue_type_template_id_7635ff0a_hoisted_5), [[_directive_tooltips, {
     duration: 200,
     delay: 200,
     content: _ctx.tooltipContent
-  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", KPICardvue_type_template_id_8e7cc1b6_hoisted_6, [_ctx.kpi.evolutionValue !== '' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", KPICardvue_type_template_id_7635ff0a_hoisted_6, [_ctx.kpi.evolutionValue !== '' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
     key: 0
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("kpiCardEvolutionTrend ".concat(_ctx.evolutionTrendClass))
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("kpiCardEvolutionIcon ".concat(_ctx.evolutionTrendIcon))
-  }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.kpi.evolutionValue) + "  ", 1)], 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.evolutionTrendFrom)), 1)], 64)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", KPICardvue_type_template_id_8e7cc1b6_hoisted_7, KPICardvue_type_template_id_8e7cc1b6_hoisted_9))]), _ctx.kpi.badge ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+  }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.kpi.evolutionValue) + "  ", 1)], 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.evolutionTrendFrom)), 1)], 64)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", KPICardvue_type_template_id_7635ff0a_hoisted_7, KPICardvue_type_template_id_7635ff0a_hoisted_9))]), _ctx.kpi.badge ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     key: 0,
-    innerHTML: _ctx.$sanitize(_ctx.kpi.badge),
-    class: "kpiCardBadge"
-  }, null, 8, KPICardvue_type_template_id_8e7cc1b6_hoisted_10)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+    class: "kpiCardBadge",
+    title: _ctx.kpi.badge.title,
+    innerHTML: _ctx.$sanitize(_ctx.kpi.badge.label)
+  }, null, 8, KPICardvue_type_template_id_7635ff0a_hoisted_10)), [[_directive_tooltips, {
+    duration: 200,
+    delay: 200
+  }]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
 }
-// CONCATENATED MODULE: ./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICard.vue?vue&type=template&id=8e7cc1b6
+// CONCATENATED MODULE: ./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICard.vue?vue&type=template&id=7635ff0a
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICard.vue?vue&type=script&lang=ts
 
@@ -724,7 +728,7 @@ function KPICardvue_type_template_id_8e7cc1b6_render(_ctx, _cache, $props, $setu
 
 
 
-KPICardvue_type_script_lang_ts.render = KPICardvue_type_template_id_8e7cc1b6_render
+KPICardvue_type_script_lang_ts.render = KPICardvue_type_template_id_7635ff0a_render
 
 /* harmony default export */ var KPICard = (KPICardvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICardContainer.vue?vue&type=script&lang=ts
@@ -1247,7 +1251,7 @@ SitesTablevue_type_script_lang_ts.render = SitesTablevue_type_template_id_a36a8c
 
       var dashboardKPIs = AllWebsitesDashboard_store.state.value.dashboardKPIs;
       var kpis = [{
-        badge: ((_dashboardKPIs$badges = dashboardKPIs.badges) === null || _dashboardKPIs$badges === void 0 ? void 0 : _dashboardKPIs$badges.visits) || '',
+        badge: ((_dashboardKPIs$badges = dashboardKPIs.badges) === null || _dashboardKPIs$badges === void 0 ? void 0 : _dashboardKPIs$badges.visits) || null,
         icon: 'icon-user',
         title: 'MultiSites_TotalVisits',
         value: dashboardKPIs.visits,
@@ -1256,7 +1260,7 @@ SitesTablevue_type_script_lang_ts.render = SitesTablevue_type_template_id_a36a8c
         evolutionTrend: dashboardKPIs.visitsTrend,
         evolutionValue: dashboardKPIs.visitsEvolution
       }, {
-        badge: ((_dashboardKPIs$badges2 = dashboardKPIs.badges) === null || _dashboardKPIs$badges2 === void 0 ? void 0 : _dashboardKPIs$badges2.pageviews) || '',
+        badge: ((_dashboardKPIs$badges2 = dashboardKPIs.badges) === null || _dashboardKPIs$badges2 === void 0 ? void 0 : _dashboardKPIs$badges2.pageviews) || null,
         icon: 'icon-show',
         title: 'MultiSites_TotalPageviews',
         value: dashboardKPIs.pageviews,
@@ -1265,7 +1269,7 @@ SitesTablevue_type_script_lang_ts.render = SitesTablevue_type_template_id_a36a8c
         evolutionTrend: dashboardKPIs.pageviewsTrend,
         evolutionValue: dashboardKPIs.pageviewsEvolution
       }, {
-        badge: ((_dashboardKPIs$badges3 = dashboardKPIs.badges) === null || _dashboardKPIs$badges3 === void 0 ? void 0 : _dashboardKPIs$badges3.hits) || '',
+        badge: ((_dashboardKPIs$badges3 = dashboardKPIs.badges) === null || _dashboardKPIs$badges3 === void 0 ? void 0 : _dashboardKPIs$badges3.hits) || null,
         icon: 'icon-hits',
         title: 'MultiSites_TotalHits',
         value: dashboardKPIs.hits,
@@ -1279,7 +1283,7 @@ SitesTablevue_type_script_lang_ts.render = SitesTablevue_type_template_id_a36a8c
         var _dashboardKPIs$badges4;
 
         kpis.push({
-          badge: ((_dashboardKPIs$badges4 = dashboardKPIs.badges) === null || _dashboardKPIs$badges4 === void 0 ? void 0 : _dashboardKPIs$badges4.revenue) || '',
+          badge: ((_dashboardKPIs$badges4 = dashboardKPIs.badges) === null || _dashboardKPIs$badges4 === void 0 ? void 0 : _dashboardKPIs$badges4.revenue) || null,
           icon: 'icon-dollar-sign',
           title: 'General_TotalRevenue',
           value: dashboardKPIs.revenue,

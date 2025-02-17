@@ -416,9 +416,7 @@ class API extends \Piwik\Plugin\API
         $idSites = false === $idSite ? [] : [$idSite];
 
         foreach ($segments as $k => $segment) {
-            try {
-                new Segment($segment['definition'], $idSites);
-            } catch (Exception $e) {
+            if (!Segment::isAvailable($segment['definition'], $idSites)) {
                 unset($segments[$k]);
             }
         }
