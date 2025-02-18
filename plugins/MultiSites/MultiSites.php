@@ -96,6 +96,5 @@ class MultiSites extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.less";
-        $stylesheets[] = "plugins/MultiSites/vue/src/Dashboard/Dashboard.less";
     }
 }

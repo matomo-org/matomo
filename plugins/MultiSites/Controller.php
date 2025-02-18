@@ -76,9 +76,6 @@ class Controller extends \Piwik\Plugin\Controller
         ) {
             $view->autoRefreshTodayReport = Config::getInstance()->General['multisites_refresh_after_seconds'];
         }
-        $paramsToSet = ['period' => $period, 'date' => $date];
-        $params = $this->getGraphParamsModified($paramsToSet);
-        $view->dateSparkline = $period == 'range' ? $date : $params['date'];
 
         $this->setGeneralVariablesView($view);
 
