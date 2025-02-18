@@ -282,7 +282,7 @@ class ApiTest extends IntegrationTestCase
         ]);
 
         self::expectException(\Exception::class);
-        self::expectExceptionMessage('This segment was made accessible to all sites by the super user. Now, only super users are allowed to update it.');
+        self::expectExceptionMessage('SegmentEditor_UpdatingAllSitesSegmentPermittedToSuperUser');
 
         FakeAccess::$identity = 'normalUser';
         FakeAccess::$superUser = false;

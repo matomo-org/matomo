@@ -245,7 +245,7 @@ class API extends \Piwik\Plugin\API
         $this->checkUserCanEditOrDeleteSegment($segment);
 
         if ((int) $segment['enable_only_idsite'] === 0 && !Piwik::hasUserSuperUserAccess()) {
-            throw new Exception('This segment was made accessible to all sites by the super user. Now, only super users are allowed to update it.');
+            throw new Exception(Piwik::translate('SegmentEditor_UpdatingAllSitesSegmentPermittedToSuperUser'));
         }
 
         $idSite = $this->checkIdSite($idSite);
@@ -468,9 +468,6 @@ class API extends \Piwik\Plugin\API
      */
     private function getMessageCannotEditSegmentCreatedBySuperUser(): string
     {
-        $message = "You can only edit and delete custom segments that you have created yourself. This segment was created and 'shared with you' by the Super User. " .
-            "To modify this segment, you can first create a new one by clicking on 'Add new segment'. Then you can customize the segment's definition.";
-
-        return $message;
+        return Piwik::translate('SegmentEditor_UpdatingForeignSegmentPermittedToSuperUser');
     }
 }
