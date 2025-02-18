@@ -152,7 +152,7 @@ class APITest extends SystemTestCase
 
     public function testFindDataSubjectsSpecificSiteNoVisitorLogs()
     {
-        $this->runAnyApiTest('PrivacyManager.findDataSubjects', 'specificSite', [
+        $this->runAnyApiTest('PrivacyManager.findDataSubjects', 'specificSiteNoVisitorLogs', [
             'idSite'     => '3',
             'segment'    => 'countryCode==CN',
         ]);
