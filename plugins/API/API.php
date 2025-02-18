@@ -570,6 +570,11 @@ class API extends \Piwik\Plugin\API
 
         if (!empty($segment['suggestedValuesApi']) && is_string($segment['suggestedValuesApi']) && !Rules::isBrowserTriggerEnabled()) {
             $now = Date::now()->setTimezone(Site::getTimezoneFor($idSite));
+            if ($idSite === 'all') {
+                $now = Date::now()->setTimezone(\Piwik\Plugins\SitesManager\API::getInstance()->getDefaultTimezone());
+            } else {
+                $now = Date::now()->setTimezone(Site::getTimezoneFor($idSite));
+            }
             if (self::$_autoSuggestLookBack != 60) {
                 // in Auto suggest tests we need to assume now is in 2018...
                 // we do - 20 to make sure the year is still correct otherwise could end up being 2017-12-31 and the recorded visits are over several days in the tests we make sure to select the last day a visit was recorded
