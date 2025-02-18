@@ -244,6 +244,10 @@ class API extends \Piwik\Plugin\API
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
 
+        if ((int) $segment['enable_only_idsite'] === 0 && !Piwik::hasUserSuperUserAccess()) {
+            throw new Exception('This segment was made accessible to all sites by the super user. Now, only super users are allowed to update it.');
+        }
+
         $idSite = $this->checkIdSite($idSite);
         $name = Common::sanitizeInputValue($name);
         $this->checkSegmentName($name);
@@ -254,7 +258,7 @@ class API extends \Piwik\Plugin\API
         // this ensure that a segment from a user with lower permission can still be changed by them
         // if a superuser updated the segment to be available for all users
         if ((int) $segment['enable_all_users'] !== (int) $enabledAllUsers && !Piwik::hasUserSuperUserAccess()) {
-            throw new Exception('Changing value for enabledAllUsers is permitted to super user only.');
+            throw new Exception('Changing value for enabledAllUsers is permitted to super users only.');
         }
 
         $autoArchive     = $this->checkAutoArchive($autoArchive, $idSite);
