@@ -191,6 +191,10 @@ class API extends \Piwik\Plugin\API
         if ($segment['login'] !== Piwik::getCurrentUserLogin()) {
             throw new Exception($this->getMessageCannotEditSegmentCreatedBySuperUser());
         }
+
+        if ((int) $segment['enable_only_idsite'] === 0 && !Piwik::hasUserSuperUserAccess()) {
+            throw new Exception(Piwik::translate('SegmentEditor_UpdatingAllSitesSegmentPermittedToSuperUser'));
+        }
     }
 
     /**
@@ -243,10 +247,6 @@ class API extends \Piwik\Plugin\API
     ): void {
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
-
-        if ((int) $segment['enable_only_idsite'] === 0 && !Piwik::hasUserSuperUserAccess()) {
-            throw new Exception(Piwik::translate('SegmentEditor_UpdatingAllSitesSegmentPermittedToSuperUser'));
-        }
 
         $idSite = $this->checkIdSite($idSite);
         $name = Common::sanitizeInputValue($name);
