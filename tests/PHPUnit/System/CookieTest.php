@@ -43,19 +43,13 @@ class CookieTest extends SystemTestCase
 
     public function testIgnoreCookieSameSiteChromeSecure()
     {
-        $this->testVars->overrideConfig('General', 'assume_secure_protocol', 1);
-        $this->testVars->save();
-
-        $headers = $this->setIgnoreCookie(self::USERAGENT_CHROME);
+        $headers = $this->setIgnoreCookie(self::USERAGENT_CHROME, 1);
         $cookie = $this->findIgnoreCookie($headers);
         $this->assertCookieSameSiteMatches('None', $cookie);
     }
 
     public function testIgnoreCookieSameSiteChromeNotSecure()
     {
-        $this->testVars->overrideConfig('General', 'assume_secure_protocol', 0);
-        $this->testVars->save();
-
         $headers = $this->setIgnoreCookie(self::USERAGENT_CHROME);
         $cookie = $this->findIgnoreCookie($headers);
         $this->assertCookieSameSiteMatches('Lax', $cookie);
@@ -75,7 +69,7 @@ class CookieTest extends SystemTestCase
         self::assertStringNotContainsString($cookie, 'SameSite');
     }
 
-    private function setIgnoreCookie($userAgent)
+    private function setIgnoreCookie($userAgent, $assumeSecure = 0)
     {
         $matomoUrl = Fixture::getTestRootUrl();
         $cookieFile = tempnam(StaticContainer::get('path.tmp'), 'testSessionCookie');
@@ -100,6 +94,9 @@ class CookieTest extends SystemTestCase
         preg_match('/set-ignore-cookie-nonce="&quot;([a-z0-9]+)&quot;"/i', $content, $matches);
 
         $nonce = $matches[1] ?? '';
+
+        $this->testVars->overrideConfig('General', 'assume_secure_protocol', $assumeSecure);
+        $this->testVars->save();
 
         $params = array(
             'module' => 'UsersManager',

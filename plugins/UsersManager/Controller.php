@@ -446,7 +446,7 @@ class Controller extends ControllerAdmin
         Nonce::checkNonce(self::NONCE_SET_IGNORE_COOKIE);
 
         IgnoreCookie::setIgnoreCookie();
-        Piwik::redirectToModule('UsersManager', 'userSettings');
+        Piwik::redirectToModule('UsersManager', 'userSettings', ['nonce' => false]);
     }
 
     /**
