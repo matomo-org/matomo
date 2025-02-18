@@ -111,9 +111,7 @@ class API extends \Piwik\Plugin\API
                     $siteIdsWithVisitorLogsOrProfilesEnabled[] = $siteId;
                 }
             }
-        } else {
-            $siteIdsWithVisitorLogsOrProfilesEnabled = $siteIds;
-        }
+        } 
 
         if (empty($siteIdsWithVisitorLogsOrProfilesEnabled)) {
             return [];
