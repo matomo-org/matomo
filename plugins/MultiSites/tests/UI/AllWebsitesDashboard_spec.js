@@ -151,34 +151,34 @@ describe('AllWebsitesDashboard', function () {
             await page.waitForNetworkIdle();
 
             await page.hover('.kpiCardContainer .kpiCard:first-child .kpiCardValue');
-            await page.waitForTimeout(200);
+            await page.waitForSelector('.ui-tooltip', { visible: true });
 
            expect(await page.screenshotSelector('.kpiCardContainer')).to.matchImage('dashboard_badge_tooltip');
         });
 
         it('tooltip should show on hover of kpi badge', async function() {
-          await page.goto(dashboardUrl);
-          await page.waitForNetworkIdle();
+            await page.goto(dashboardUrl);
+            await page.waitForNetworkIdle();
 
-          await page.evaluate(() => {
-            window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
-              data.kpis.badges.hits = {
-                "label": "<strong>Plan: </strong> 600K hits/month",
-                "title": "lots of information"
-              };
+            await page.evaluate(() => {
+              window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
+                data.kpis.badges.hits = {
+                  "label": "<strong>Plan: </strong> 600K hits/month",
+                  "title": "lots of information"
+                };
+              });
             });
-          });
 
-          // change period to trigger reload of KPIS
-          await page.click('.move-period-prev');
-          await page.click('.move-period-next');
-          await page.waitForNetworkIdle();
+            // change period to trigger reload of KPIS
+            await page.click('.move-period-prev');
+            await page.click('.move-period-next');
+            await page.waitForNetworkIdle();
 
-          await page.waitForSelector('.kpiCardBadge');
-          await page.hover('.kpiCardBadge');
-          await page.waitForTimeout(200);
+            await page.waitForSelector('.kpiCardBadge');
+            await page.hover('.kpiCardBadge');
+            await page.waitForSelector('.ui-tooltip', { visible: true });
 
-          expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_badge_tooltip_badge');
+            expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_badge_tooltip_badge');
         });
     });
 
