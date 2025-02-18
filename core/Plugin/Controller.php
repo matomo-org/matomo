@@ -776,6 +776,10 @@ abstract class Controller
         $view->relativePluginWebDirs = (object) $pluginManager->getWebRootDirectoriesForCustomPluginDirs();
         $view->pluginsToLoadOnDemand = $pluginManager->getPluginUmdsToLoadOnDemand();
         $view->isMultiSitesEnabled = $pluginManager->isPluginActivated('MultiSites');
+
+        /*
+         * Executed as super user, so we are able to check if there are other sites (the current user might not have access to)
+         */
         $view->isSingleSite = Access::doAsSuperUser(function () {
             $allSites = Request::processRequest('SitesManager.getAllSitesId', [], []);
             return count($allSites) === 1;

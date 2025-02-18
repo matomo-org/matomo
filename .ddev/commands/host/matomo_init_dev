@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+## Description: Initialize Matomo environment for development
+## Usage: matomo:init:dev
+## Example: ddev matomo:init:dev
+
+echo "Run npm install ..."
+ddev npm install
+
+echo "Enable development mode and disable assets merging ..."
+ddev matomo:console development:enable
+ddev matomo:console config:set Development.disable_merged_assets=1
+
+echo "Done: Matomo dev setup initialisation finished."
+echo ""
+

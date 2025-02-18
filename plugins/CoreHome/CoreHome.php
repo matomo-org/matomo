@@ -405,6 +405,9 @@ class CoreHome extends \Piwik\Plugin
             && Common::getRequestVar('module', '') != 'CoreUpdater'
             && Piwik::isUserHasSomeViewAccess()
         ) {
+            /*
+             * Executed as super user to ensure we are able to add translations for all menu entries that might be displayed.
+             */
             Access::doAsSuperUser(function () use (&$translationKeys) {
                 $menu = MenuAdmin::getInstance()->getMenu();
                 foreach ($menu as $level1 => $level2) {

@@ -254,6 +254,11 @@ class Updater
 
                 $classNames[] = $className;
 
+                /*
+                 * Fetch available migrations as super user, to ensure having access to everything.
+                 * Otherwise migrations iterating e.g. over available sites or similar, might only update those the
+                 * current user has permission for.
+                 */
                 $migrationsForComponent = Access::doAsSuperUser(function () use ($className) {
                     /** @var Updates $update */
                     $update = StaticContainer::getContainer()->make($className);
@@ -481,6 +486,9 @@ class Updater
         }
 
         if (!empty($componentsWithUpdateFile)) {
+            /*
+             * Perform updates as super user, so we bypass any permission checks and are able to change anything.
+             */
             Access::doAsSuperUser(function () use ($componentsWithUpdateFile, &$coreError, &$deactivatedPlugins, &$errors, &$warnings) {
 
                 $pluginManager = \Piwik\Plugin\Manager::getInstance();

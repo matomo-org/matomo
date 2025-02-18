@@ -406,7 +406,9 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function transferAllUserSegmentsToSuperUser($userLogin)
     {
-        // We need to do that as super user, as the event triggering this method might be initiated without a session
+        /*
+         * We need to do that as super user, as the event triggering this method might be initiated without a session
+         */
         Access::doAsSuperUser(function () use ($userLogin) {
             $model = new Model();
             $updatedAt = Date::factory('now')->toString('Y-m-d H:i:s');

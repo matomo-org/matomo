@@ -1,0 +1,2 @@
+[mysqld]
+local_infile=ON

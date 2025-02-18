@@ -279,6 +279,9 @@ class CronArchive
         }
 
         $self = $this;
+        /*
+         * Archiving tasks need to be performed as super, to ensure we pass any permission check.
+         */
         Access::doAsSuperUser(function () use ($self) {
             try {
                 $self->init();
