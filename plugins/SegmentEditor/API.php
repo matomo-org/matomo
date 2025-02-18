@@ -253,8 +253,8 @@ class API extends \Piwik\Plugin\API
         // only check param if value is changed
         // this ensure that a segment from a user with lower permission can still be changed by them
         // if a superuser updated the segment to be available for all users
-        if ((int) $segment['enable_all_users'] !== (int) $enabledAllUsers) {
-            $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
+        if ((int) $segment['enable_all_users'] !== (int) $enabledAllUsers && !Piwik::hasUserSuperUserAccess()) {
+            throw new Exception('Changing value for enabledAllUsers is permitted to super user only.');
         }
 
         $autoArchive     = $this->checkAutoArchive($autoArchive, $idSite);
