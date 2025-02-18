@@ -233,11 +233,11 @@ class SegmentEditor extends \Piwik\Plugin
 
     private function getSegmentIfIsUnprocessed()
     {
-        // get idSites
-        $idSite = Common::getRequestVar('idSite', false);
+        $request = \Piwik\Request::fromRequest();
+
+        $idSite = $request->getIntegerParameter('idSite', -1);
         if (
-            empty($idSite)
-            || !is_numeric($idSite)
+            -1 === $idSite
         ) {
             return null;
         }
@@ -249,8 +249,8 @@ class SegmentEditor extends \Piwik\Plugin
         }
 
         // get period
-        $date = Common::getRequestVar('date', false);
-        $periodStr = Common::getRequestVar('period', false);
+        $date = $request->getStringParameter('date');
+        $periodStr = $request->getStringParameter('period');
         $period = Period\Factory::build($periodStr, $date);
         $site = new Site($idSite);
         $segment = new Segment(
