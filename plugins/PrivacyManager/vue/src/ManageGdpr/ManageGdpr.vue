@@ -291,7 +291,7 @@ interface DataSubject {
 interface ManageGdprState {
   isLoading: boolean;
   isDeleting: boolean;
-  site: SiteFef;
+  site: SiteRef;
   segment_filter: string;
   dataSubjects: DataSubject[];
   toggleAll: boolean;
