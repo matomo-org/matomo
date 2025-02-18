@@ -166,7 +166,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue?vue&type=template&id=4b849e47
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue?vue&type=template&id=25145ea4
 
 var _hoisted_1 = {
   class: "manageGdpr"
@@ -300,15 +300,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8, _hoisted_7)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_SearchForDataSubject')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", _hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_SelectWebsite')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SiteSelector, {
         id: "gdprsite",
         modelValue: _ctx.site,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+        "onUpdate:modelValue": [_cache[0] || (_cache[0] = function ($event) {
           return _ctx.site = $event;
-        }),
+        }), _cache[1] || (_cache[1] = function ($event) {
+          return _ctx.changeSite($event);
+        })],
         "show-all-sites-item": true,
         "switch-site-on-select": false,
         "show-selected-site": true
       }, null, 8, ["modelValue"])])])])]), _ctx.isVisitorLogAndProfileEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", _hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_FindDataSubjectsBy')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SegmentGenerator, {
         modelValue: _ctx.segment_filter,
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
           return _ctx.segment_filter = $event;
         }),
         "visit-segments-only": true,
@@ -318,7 +320,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 1,
         class: "findDataSubjects",
         value: _ctx.translate('PrivacyManager_FindMatchingDataSubjects'),
-        onConfirm: _cache[2] || (_cache[2] = function ($event) {
+        onConfirm: _cache[3] || (_cache[3] = function ($event) {
           return _ctx.findDataSubjects();
         }),
         disabled: !_ctx.segment_filter,
@@ -330,7 +332,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     uicontrol: "checkbox",
     name: "activateAll",
     "model-value": _ctx.toggleAll,
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       _ctx.toggleAll = $event;
 
       _ctx.toggleActivateAll();
@@ -407,14 +409,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "margin-right": "3.5px"
     },
-    onConfirm: _cache[4] || (_cache[4] = function ($event) {
+    onConfirm: _cache[5] || (_cache[5] = function ($event) {
       return _ctx.exportDataSubject();
     }),
     disabled: !_ctx.hasActiveDataSubjects,
     value: _ctx.translate('PrivacyManager_ExportSelectedVisits')
   }, null, 8, ["disabled", "value"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
     class: "deleteDataSubjects",
-    onConfirm: _cache[5] || (_cache[5] = function ($event) {
+    onConfirm: _cache[6] || (_cache[6] = function ($event) {
       return _ctx.deleteDataSubject();
     }),
     disabled: !_ctx.hasActiveDataSubjects || _ctx.isDeleting,
@@ -429,7 +431,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: _ctx.translate('General_No')
   }, null, 8, _hoisted_46)], 512)]);
 }
-// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue?vue&type=template&id=4b849e47
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue?vue&type=template&id=25145ea4
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -464,7 +466,7 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
         id: 'all',
         name: Object(external_CoreHome_["translate"])('UsersManager_AllWebsites')
       },
-      segment_filter: 'userId==',
+      segment_filter: 'visitId==',
       dataSubjects: [],
       toggleAll: true,
       hasSearched: false,
@@ -473,6 +475,9 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
       isVisitorLogAndProfileEnabled: true,
       allWebsitesContainsDisabledSite: false
     };
+  },
+  created: function created() {
+    this.changeSite(this.site);
   },
   watch: {
     site: function site(newSite) {
@@ -510,6 +515,29 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
     };
   },
   methods: {
+    changeSite: function changeSite(newValue) {
+      var _this2 = this;
+
+      external_CoreHome_["AjaxHelper"].fetch({
+        module: 'API',
+        method: 'Live.isVisitorProfileEnabled',
+        filter_limit: -1,
+        idSite: newValue.id
+      }, {
+        createErrorNotification: false // don't show errors from this API in UI
+
+      }).then(function (response) {
+        _this2.profileEnabled = response.value;
+      }).catch(function () {
+        _this2.profileEnabled = false;
+      }).finally(function () {
+        if (!_this2.profileEnabled && _this2.segment_filter === 'userId==') {
+          _this2.segment_filter = 'visitId==';
+        } else if (_this2.profileEnabled && _this2.segment_filter === 'visitId==') {
+          _this2.segment_filter = 'userId==';
+        }
+      });
+    },
     showSuccessNotification: function showSuccessNotification(message) {
       var notificationInstanceId = external_CoreHome_["NotificationsStore"].show({
         message: message,
@@ -534,7 +562,7 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
       external_CoreHome_["Matomo"].helper.showVisitorProfilePopup(visitorId, idSite);
     },
     exportDataSubject: function exportDataSubject() {
-      var _this2 = this;
+      var _this3 = this;
 
       var visitsToDelete = this.activatedDataSubjects;
       external_CoreHome_["AjaxHelper"].post({
@@ -545,18 +573,18 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
       }, {
         visits: visitsToDelete
       }).then(function (visits) {
-        _this2.showSuccessNotification(Object(external_CoreHome_["translate"])('PrivacyManager_VisitsSuccessfullyExported'));
+        _this3.showSuccessNotification(Object(external_CoreHome_["translate"])('PrivacyManager_VisitsSuccessfullyExported'));
 
         external_CoreHome_["Matomo"].helper.sendContentAsDownload('exported_data_subjects.json', JSON.stringify(visits));
       });
     },
     deleteDataSubject: function deleteDataSubject() {
-      var _this3 = this;
+      var _this4 = this;
 
       external_CoreHome_["Matomo"].helper.modalConfirm(this.$refs.confirmDeleteDataSubject, {
         yes: function yes() {
-          _this3.isDeleting = true;
-          var visitsToDelete = _this3.activatedDataSubjects;
+          _this4.isDeleting = true;
+          var visitsToDelete = _this4.activatedDataSubjects;
           external_CoreHome_["AjaxHelper"].post({
             module: 'API',
             method: 'PrivacyManager.deleteDataSubjects',
@@ -564,13 +592,13 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
           }, {
             visits: visitsToDelete
           }).then(function () {
-            _this3.dataSubjects = [];
+            _this4.dataSubjects = [];
 
-            _this3.showSuccessNotification(Object(external_CoreHome_["translate"])('PrivacyManager_VisitsSuccessfullyDeleted'));
+            _this4.showSuccessNotification(Object(external_CoreHome_["translate"])('PrivacyManager_VisitsSuccessfullyDeleted'));
 
-            _this3.findDataSubjects();
+            _this4.findDataSubjects();
           }).finally(function () {
-            _this3.isDeleting = false;
+            _this4.isDeleting = false;
           });
         }
       });
@@ -580,7 +608,7 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
       this.findDataSubjects();
     },
     findDataSubjects: function findDataSubjects() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.dataSubjects = [];
       this.dataSubjectsActive = [];
@@ -588,7 +616,7 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
       this.toggleAll = true;
       this.hasSearched = false;
       this.getSites().then(function (idsites) {
-        var siteIds = _this4.site.id;
+        var siteIds = _this5.site.id;
 
         if (siteIds === 'all' && !external_CoreHome_["Matomo"].hasSuperUserAccess) {
           // when superuser, we speed the request up a little and simply use 'all'
@@ -604,21 +632,21 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
           method: 'Live.isVisitorProfileEnabled',
           idSite: siteIds
         }).then(function (isEnabled) {
-          _this4.allWebsitesContainsDisabledSite = !isEnabled.value;
+          _this5.allWebsitesContainsDisabledSite = !isEnabled.value;
         });
         external_CoreHome_["AjaxHelper"].fetch({
           idSite: siteIds,
           module: 'API',
           method: 'PrivacyManager.findDataSubjects',
-          segment: _this4.segment_filter
+          segment: _this5.segment_filter
         }).then(function (visits) {
-          _this4.hasSearched = true;
-          _this4.dataSubjectsActive = visits.map(function () {
+          _this5.hasSearched = true;
+          _this5.dataSubjectsActive = visits.map(function () {
             return true;
           });
-          _this4.dataSubjects = visits;
+          _this5.dataSubjects = visits;
         }).finally(function () {
-          _this4.isLoading = false;
+          _this5.isLoading = false;
         });
       });
     }
@@ -628,10 +656,10 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
       return !!this.activatedDataSubjects.length;
     },
     activatedDataSubjects: function activatedDataSubjects() {
-      var _this5 = this;
+      var _this6 = this;
 
       return this.dataSubjects.filter(function (v, i) {
-        return _this5.dataSubjectsActive[i];
+        return _this6.dataSubjectsActive[i];
       }).map(function (v) {
         return {
           idsite: v.idSite,
