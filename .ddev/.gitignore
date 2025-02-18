@@ -20,7 +20,7 @@
 /providers/platform.yaml
 /providers/upsun.yaml
 /sequelpro.spf
-/traefik/config/playground.yaml
-/traefik/certs/playground.crt
-/traefik/certs/playground.key
+/traefik/config/matomo.yaml
+/traefik/certs/matomo.crt
+/traefik/certs/matomo.key
 /*/**/README.*
