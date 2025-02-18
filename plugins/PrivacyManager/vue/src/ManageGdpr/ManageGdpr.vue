@@ -43,6 +43,7 @@
                 :show-all-sites-item="true"
                 :switch-site-on-select="false"
                 :show-selected-site="true"
+                @update:modelValue="changeSite($event)"
               />
             </div>
           </div>
@@ -261,6 +262,7 @@ import {
   ContentTable,
   NotificationsStore,
   MatomoUrl,
+  SiteRef,
 } from 'CoreHome';
 import { SegmentGenerator } from 'SegmentEditor';
 import { SaveButton, Field } from 'CorePluginsAdmin';
@@ -284,6 +286,7 @@ interface DataSubject {
   userId: string|null;
   visitIp: string;
   visitorId: string;
+  site: SiteRef;
 }
 
 interface ManageGdprState {
@@ -323,7 +326,7 @@ export default defineComponent({
         id: 'all',
         name: translate('UsersManager_AllWebsites'),
       },
-      segment_filter: 'userId==',
+      segment_filter: 'visitId==',
       dataSubjects: [],
       toggleAll: true,
       hasSearched: false,
@@ -332,6 +335,9 @@ export default defineComponent({
       isVisitorLogAndProfileEnabled: true,
       allWebsitesContainsDisabledSite: false,
     };
+  },
+  created() {
+    this.changeSite(this.site);
   },
   watch: {
     site(newSite) {
@@ -367,6 +373,29 @@ export default defineComponent({
     };
   },
   methods: {
+    changeSite(newValue: SiteRef) {
+      AjaxHelper.fetch(
+        {
+          module: 'API',
+          method: 'Live.isVisitorProfileEnabled',
+          filter_limit: -1,
+          idSite: newValue.id,
+        },
+        {
+          createErrorNotification: false, // don't show errors from this API in UI
+        },
+      ).then((response) => {
+        this.profileEnabled = response.value;
+      }).catch(() => {
+        this.profileEnabled = false;
+      }).finally(() => {
+        if (!this.profileEnabled && this.segment_filter === 'userId==') {
+          this.segment_filter = 'visitId==';
+        } else if (this.profileEnabled && this.segment_filter === 'visitId==') {
+          this.segment_filter = 'userId==';
+        }
+      });
+    },
     showSuccessNotification(message: string) {
       const notificationInstanceId = NotificationsStore.show({
         message,
