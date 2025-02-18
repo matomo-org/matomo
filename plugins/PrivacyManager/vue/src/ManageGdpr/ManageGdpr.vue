@@ -286,13 +286,12 @@ interface DataSubject {
   userId: string|null;
   visitIp: string;
   visitorId: string;
-  site: SiteRef;
 }
 
 interface ManageGdprState {
   isLoading: boolean;
   isDeleting: boolean;
-  site: Record<string, string>;
+  site: SiteFef;
   segment_filter: string;
   dataSubjects: DataSubject[];
   toggleAll: boolean;
