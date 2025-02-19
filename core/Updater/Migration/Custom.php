@@ -31,7 +31,7 @@ class Custom extends Migration
 
     public function exec()
     {
-        call_user_func($this->callback, $this->args);
+        call_user_func_array($this->callback, $this->args);
     }
 
     public function __toString()
