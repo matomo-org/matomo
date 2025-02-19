@@ -90,6 +90,7 @@ describe("PrivacyManager", function () {
 
     async function selectIsNot()
     {
+        await page.click('.metricMatchBlock input');
         await page.click('.metricMatchBlock ul.select-dropdown li:nth-child(2)');
     }
 
@@ -338,7 +339,8 @@ describe("PrivacyManager", function () {
     it('should verify really no data deleted', async function() {
         await loadActionPage('gdprTools');
         await page.waitForTimeout(1000);
-        await enterSegmentMatchValue('userId203');
+        await selectIsNot();
+        await enterSegmentMatchValue('');
         await findDataSubjects();
         await page.click('.entityTable tbody tr:nth-child(2) .checkInclude label');
 

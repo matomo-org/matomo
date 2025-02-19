@@ -123,6 +123,7 @@
             <th>{{ translate('General_UserId') }}</th>
             <th>{{ translate('General_Details') }}</th>
             <th v-show="profileEnabled">{{ translate('General_Action') }}</th>
+
           </tr>
         </thead>
         <tbody>
@@ -387,15 +388,13 @@ export default defineComponent({
           createErrorNotification: false, // don't show errors from this API in UI
         },
       ).then((response) => {
-        this.profileEnabled = response.value;
-      }).catch(() => {
-        this.profileEnabled = false;
-      }).finally(() => {
-        if (!this.profileEnabled && this.segment_filter === 'userId==') {
+        if (!response.value && this.segment_filter === 'userId=') {
           this.segment_filter = 'visitId==';
-        } else if (this.profileEnabled && this.segment_filter === 'visitId==') {
+        } else if (response.value && this.segment_filter === 'visitId==') {
           this.segment_filter = 'userId==';
         }
+      }).catch(() => {
+        this.segment_filter = 'visitId==';
       });
     },
     showSuccessNotification(message: string) {
