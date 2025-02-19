@@ -534,7 +534,7 @@ class CronArchive
                 $this->logger->info(var_export($content, true));
 
                 $idinvalidation = $archivesBeingQueried[$index]['idinvalidation'];
-                $this->model->releaseInProgressInvalidation($idinvalidation);
+                $this->model->releaseInProgressInvalidations([$idinvalidation]);
 
                 $queueConsumer->ignoreIdInvalidation($idinvalidation);
 
@@ -1065,7 +1065,7 @@ class CronArchive
 
     private function canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress(int $idSite, Period $period, ?Segment $segment = null): bool
     {
-        $invalidationsInProgress = $this->model->getInvalidationsInProgress($idSite);
+        $invalidationsInProgress = $this->model->getInvalidationsInProgress([$idSite]);
         $timezone = Site::getTimezoneFor($idSite);
 
         $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?? new Segment('', [$idSite]));

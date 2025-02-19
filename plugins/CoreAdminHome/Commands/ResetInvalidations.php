@@ -9,10 +9,8 @@
 
 namespace Piwik\Plugins\CoreAdminHome\Commands;
 
-use Piwik\Archive\ArchiveInvalidator;
-use Piwik\Common;
+use Piwik\DataAccess\Model;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Site;
 
@@ -88,47 +86,6 @@ Use this command with caution, especially when resetting invalidations while arc
     {
         $dryRun = $this->getInput()->getOption('dry-run');
 
-        $whereCondition = $this->generateWhereCondition();
-
-        if ($dryRun) {
-            $rows = Db::fetchAll(
-                'SELECT name, idsite, report, date1, date2, period, ts_invalidated, ts_started, processing_host, process_id FROM '
-                . Common::prefixTable('archive_invalidations') . ' WHERE ' . $whereCondition['sql']
-                . ' ORDER BY ts_started',
-                $whereCondition['bind']
-            );
-
-            if (count($rows) === 0) {
-                $this->getOutput()->writeln('No invalidations found.');
-            } else {
-                $this->getOutput()->writeln(count($rows) . ' invalidations found:');
-                if (count($rows) > 50) {
-                    $rows = array_slice($rows, 0, 50);
-                    $this->getOutput()->writeln('Output limited to oldest 50 records');
-                }
-                $this->renderTable(array_keys($rows[0]), $rows);
-            }
-        } else {
-            $queryObj = Db::query(
-                'UPDATE ' . Common::prefixTable('archive_invalidations')
-                    . ' SET status = 0, processing_host = NULL, process_id = NULL, ts_started = NULL WHERE '
-                    . $whereCondition['sql'],
-                $whereCondition['bind']
-            );
-            $rowCount = $queryObj->rowCount();
-
-            $this->getOutput()->writeln('Number of invalidations that were reset: ' . $rowCount);
-        }
-
-        return self::SUCCESS;
-    }
-
-    private function generateWhereCondition(): array
-    {
-        $whereConditions = [];
-        $binds = [];
-        $processingHosts = $this->getProcessingHosts();
-        $idSites = $this->getIdSites();
         try {
             $startTime = $this->getStartTime();
         } catch (\Exception $e) {
@@ -141,32 +98,53 @@ Use this command with caution, especially when resetting invalidations while arc
             throw new \Exception('Invalid value for --older-than provided.', $e->getCode(), $e);
         }
 
-        $whereConditions[] = '`status` = ?';
-        $binds[] = ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS;
+        $model = new Model();
 
-        if (!empty($processingHosts)) {
-            $whereConditions[] = sprintf('`processing_host` IN (%1$s)', Common::getSqlStringFieldsArray($processingHosts));
-            $binds = array_merge($binds, $processingHosts);
+        $invalidations = $model->getInvalidationsInProgress(
+            $this->getIdSites(),
+            $this->getProcessingHosts(),
+            $startTime,
+            $endTime
+        );
+
+        if (count($invalidations) === 0) {
+            $this->getOutput()->writeln('No invalidations found.');
+        } elseif ($dryRun) {
+            $this->getOutput()->writeln(count($invalidations) . ' invalidations found:');
+            if (count($invalidations) > 50) {
+                $invalidations = array_slice($invalidations, 0, 50);
+                $this->getOutput()->writeln('Output limited to oldest 50 records');
+            }
+
+            $header = [
+                'name', 'idsite', 'report', 'date1', 'date2', 'period',
+                'ts_invalidated', 'ts_started', 'processing_host', 'process_id'
+            ];
+            $rows = [];
+
+            foreach ($invalidations as $invalidation) {
+                $rows[] = [
+                    'name' => $invalidation['name'],
+                    'idsite' => $invalidation['idsite'],
+                    'report' => $invalidation['report'],
+                    'date1' => $invalidation['date1'],
+                    'date2' => $invalidation['date2'],
+                    'period' => $invalidation['period'],
+                    'ts_invalidated' => $invalidation['ts_invalidated'],
+                    'ts_started' => $invalidation['ts_started'],
+                    'processing_host' => $invalidation['processing_host'],
+                    'process_id' => $invalidation['process_id'],
+                ];
+            }
+
+            $this->renderTable($header, $rows);
+        } else {
+            $rowCount = $model->releaseInProgressInvalidations(array_column($invalidations, 'idinvalidation'));
+
+            $this->getOutput()->writeln('Number of invalidations that were reset: ' . $rowCount);
         }
 
-        if (!empty($idSites)) {
-            $whereConditions[] = sprintf('`idsite` IN (' . implode(', ', $idSites) . ')');
-        }
-
-        if (!empty($startTime)) {
-            $whereConditions[] = '`ts_started` > ?';
-            $binds[] = $startTime->toString('Y-m-d H:i:s');
-        }
-
-        if (!empty($endTime)) {
-            $whereConditions[] = '`ts_started` < ?';
-            $binds[] = $endTime->toString('Y-m-d H:i:s');
-        }
-
-        return [
-            'sql' => implode(' AND ', $whereConditions),
-            'bind' => $binds,
-        ];
+        return self::SUCCESS;
     }
 
     private function getProcessingHosts(): array
