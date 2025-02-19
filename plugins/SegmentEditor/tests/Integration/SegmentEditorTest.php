@@ -190,7 +190,7 @@ class SegmentEditorTest extends IntegrationTestCase
         $idSegment1 = API::getInstance()->add('name 1', 'searches==0', $idSite = 1, $autoArchive = 1, $enabledAllUsers = 1);
         $idSegment2 = API::getInstance()->add('name 2', 'searches>1,visitIp!=127.0.0.1', $idSite = 1, $autoArchive = 1, $enabledAllUsers = 1);
 
-        $deleted = API::getInstance()->delete($idSegment2);
+        API::getInstance()->delete($idSegment2);
 
         try {
             API::getInstance()->get($idSegment2);
