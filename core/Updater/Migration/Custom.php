@@ -22,7 +22,7 @@ class Custom extends Migration
     private $toString;
     private $args;
 
-    public function __construct($callback, $toString, $args = null)
+    public function __construct($callback, $toString, array $args = [])
     {
         $this->callback = $callback;
         $this->toString = $toString;
