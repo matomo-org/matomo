@@ -81,18 +81,18 @@
         <p>{{ translate('PrivacyManager_PleaseEnableVisitorLogsProfiles')}}</p>
       </div>
     </ContentBlock>
+    <div v-if="allWebsitesContainsDisabledSite" class="system notification notification-icon
+      notification-info">
+      <strong>{{ translate('PrivacyManager_SiteDataNotAvailableCertainSites')}}</strong>
+      <div class="notification-body">
+        <p>{{ translate('PrivacyManager_VisitorLogsProfilesSiteNamesDisabledMessage')}}</p>
+        <p>{{ translate('PrivacyManager_PleaseEnableVisitorLogsProfilesSites')}}</p>
+      </div>
+    </div>
     <div v-show="!dataSubjects.length && hasSearched">
       <h2>{{ translate('PrivacyManager_NoDataSubjectsFound') }}</h2>
     </div>
     <div v-show="dataSubjects.length">
-      <div v-if="allWebsitesContainsDisabledSite" class="system notification notification-icon
-        notification-info">
-        <strong>{{ translate('PrivacyManager_SiteDataNotAvailableCertainSites')}}</strong>
-        <div class="notification-body">
-          <p>{{ translate('PrivacyManager_VisitorLogsProfilesSiteNamesDisabledMessage')}}</p>
-          <p>{{ translate('PrivacyManager_PleaseEnableVisitorLogsProfilesSites')}}</p>
-        </div>
-      </div>
       <h2>{{ translate('PrivacyManager_MatchingDataSubjects') }}</h2>
       <p>{{ translate('PrivacyManager_VisitsMatchedCriteria') }}
         {{ translate('PrivacyManager_ExportingNote') }}
