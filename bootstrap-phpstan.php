@@ -9,6 +9,8 @@
 
 namespace Piwik;
 
+use Piwik\Exception\NotYetInstalledException;
+
 class Manifest
 {
     public static $files = [];
@@ -24,4 +26,7 @@ if (!defined('PIWIK_PRINT_ERROR_BACKTRACE')) {
 }
 
 $environment = new \Piwik\Application\Environment(null);
-$environment->init();
+try {
+    $environment->init();
+} catch (NotYetInstalledException $e) {
+}
