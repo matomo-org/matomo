@@ -88,10 +88,10 @@ describe("PrivacyManager", function () {
         await page.waitForTimeout(500); // wait for animation
     }
 
-    async function selectIsNot()
+    async function selectStartsWith()
     {
         await page.click('.metricMatchBlock input');
-        await page.click('.metricMatchBlock ul.select-dropdown li:nth-child(2)');
+        await page.click('.metricMatchBlock ul.select-dropdown li:nth-child(5)');
     }
 
     async function enterSegmentMatchValue(value) {
@@ -293,8 +293,8 @@ describe("PrivacyManager", function () {
     });
 
     it('should find visits', async function() {
-        await selectIsNot();
-        await enterSegmentMatchValue('');
+        await selectStartsWith();
+        await enterSegmentMatchValue('10');
         await findDataSubjects();
 
         await capturePage('gdpr_tools_visits_found');
@@ -339,8 +339,8 @@ describe("PrivacyManager", function () {
     it('should verify really no data deleted', async function() {
         await loadActionPage('gdprTools');
         await page.waitForTimeout(1000);
-        await selectIsNot();
-        await enterSegmentMatchValue('');
+        await selectStartsWith();
+        await enterSegmentMatchValue('10');
         await findDataSubjects();
         await page.click('.entityTable tbody tr:nth-child(2) .checkInclude label');
 
