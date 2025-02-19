@@ -358,7 +358,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 
 
         foreach ($invalidationsToInsert as $invalidation) {
-            Db::query($sql, $invalidation);
+            Db::query($sql, array_values($invalidation));
         }
     }
 }
