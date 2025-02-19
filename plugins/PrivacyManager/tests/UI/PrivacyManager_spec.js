@@ -88,6 +88,11 @@ describe("PrivacyManager", function () {
         await page.waitForTimeout(500); // wait for animation
     }
 
+    async function selectIsNot()
+    {
+        await page.click('.metricMatchBlock ul.select-dropdown li:nth-child(2)');
+    }
+
     async function enterSegmentMatchValue(value) {
         await page.evaluate(theVal => {
             $('.metricValueBlock input').each(function (index) {
@@ -286,9 +291,9 @@ describe("PrivacyManager", function () {
         await capturePage('gdpr_tools_no_visits_found');
     });
 
-
     it('should find visits', async function() {
-        await enterSegmentMatchValue('userId203');
+        await selectIsNot();
+        await enterSegmentMatchValue('');
         await findDataSubjects();
 
         await capturePage('gdpr_tools_visits_found');
