@@ -23,6 +23,7 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
+          submodules: true
       - name: Install dependencies
         run: composer install --dev --prefer-dist --no-progress --no-suggest
       - name: Setup PHP

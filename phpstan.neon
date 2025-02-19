@@ -1,5 +1,6 @@
 parameters:
     level: 0
+    phpVersion: 70200
     paths:
         - core
         - plugins
