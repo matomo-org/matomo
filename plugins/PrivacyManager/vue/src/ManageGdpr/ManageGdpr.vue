@@ -388,7 +388,7 @@ export default defineComponent({
           createErrorNotification: false, // don't show errors from this API in UI
         },
       ).then((response) => {
-        if (!response.value && this.segment_filter === 'userId=') {
+        if (!response.value && this.segment_filter === 'userId==') {
           this.segment_filter = 'visitId==';
         } else if (response.value && this.segment_filter === 'visitId==') {
           this.segment_filter = 'userId==';
