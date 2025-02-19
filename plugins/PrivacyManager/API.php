@@ -94,22 +94,23 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
+        if (!Manager::getInstance()->isPluginActivated('Live')) {
+            return [];
+        }
+
         $siteIds = Site::getIdSitesFromIdSitesString($idSite);
         $siteIdsWithVisitorLogsOrProfilesEnabled = [];
-        $isLivePluginActivated = Manager::getInstance()->isPluginActivated('Live');
 
         /*
          * Only retrieve data from sites that have visitor logs or profiles enabled.
          * Live::isVisitorProfileEnabled returns false if either logs or profiles
          * are disabled.
          */
-        if ($isLivePluginActivated) {
-            foreach ($siteIds as $siteId) {
-                $isVisitorProfileEnabled = Live::isVisitorProfileEnabled($siteId);
+        foreach ($siteIds as $siteId) {
+            $isVisitorProfileEnabled = Live::isVisitorProfileEnabled($siteId);
 
-                if ($isVisitorProfileEnabled) {
-                    $siteIdsWithVisitorLogsOrProfilesEnabled[] = $siteId;
-                }
+            if ($isVisitorProfileEnabled) {
+                $siteIdsWithVisitorLogsOrProfilesEnabled[] = $siteId;
             }
         }
 
