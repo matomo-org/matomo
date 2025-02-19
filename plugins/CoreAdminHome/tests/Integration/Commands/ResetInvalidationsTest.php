@@ -274,8 +274,6 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 
     public function testDuplicateInvalidationIsRemovedOnReset()
     {
-        Db::exec('TRUNCATE TABLE ' . Common::prefixTable('archive_invalidations'));
-
         $invalidationsToInsert = [
             [
                 'idarchive' => 7, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
@@ -289,13 +287,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
             ],
         ];
 
-        $sql = 'INSERT INTO ' . Common::prefixTable('archive_invalidations')
-            . ' (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_invalidated`, `status`, `report`, `ts_started`, `processing_host`, `process_id`)'
-            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-
-        foreach ($invalidationsToInsert as $invalidation) {
-            Db::query($sql, $invalidation);
-        }
+        $this->insertInvalidations($invalidationsToInsert);
 
         $inProgressInvalidationCount = $this->getInProgressInvalidationCount();
 
@@ -339,8 +331,6 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 
     public function testDuplicateInvalidationIsRemovedOnResetWhenOtherOneStartedAfterInvalidationDate()
     {
-        Db::exec('TRUNCATE TABLE ' . Common::prefixTable('archive_invalidations'));
-
         $invalidationsToInsert = [
             [
                 'idarchive' => 7, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
@@ -354,13 +344,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
             ],
         ];
 
-        $sql = 'INSERT INTO ' . Common::prefixTable('archive_invalidations')
-            . ' (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_invalidated`, `status`, `report`, `ts_started`, `processing_host`, `process_id`)'
-            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-
-        foreach ($invalidationsToInsert as $invalidation) {
-            Db::query($sql, $invalidation);
-        }
+        $this->insertInvalidations($invalidationsToInsert);
 
         $inProgressInvalidationCount = $this->getInProgressInvalidationCount();
 
@@ -405,8 +389,6 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 
     public function testDuplicateInvalidationIsOnlyResetWhenOtherOneStartedBeforeInvalidationDate()
     {
-        Db::exec('TRUNCATE TABLE ' . Common::prefixTable('archive_invalidations'));
-
         $invalidationsToInsert = [
             [
                 'idarchive' => 7, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
@@ -420,13 +402,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
             ],
         ];
 
-        $sql = 'INSERT INTO ' . Common::prefixTable('archive_invalidations')
-            . ' (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_invalidated`, `status`, `report`, `ts_started`, `processing_host`, `process_id`)'
-            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-
-        foreach ($invalidationsToInsert as $invalidation) {
-            Db::query($sql, $invalidation);
-        }
+        $this->insertInvalidations($invalidationsToInsert);
 
         $inProgressInvalidationCount = $this->getInProgressInvalidationCount();
 
@@ -469,8 +445,6 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 
     public function testDuplicateInvalidationIsRemovedWhenBothAreReset()
     {
-        Db::exec('TRUNCATE TABLE ' . Common::prefixTable('archive_invalidations'));
-
         $invalidationsToInsert = [
             [
                 'idarchive' => 7, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
@@ -484,13 +458,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
             ],
         ];
 
-        $sql = 'INSERT INTO ' . Common::prefixTable('archive_invalidations')
-            . ' (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_invalidated`, `status`, `report`, `ts_started`, `processing_host`, `process_id`)'
-            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-
-        foreach ($invalidationsToInsert as $invalidation) {
-            Db::query($sql, $invalidation);
-        }
+        $this->insertInvalidations($invalidationsToInsert);
 
         $inProgressInvalidationCount = $this->getInProgressInvalidationCount();
 
@@ -565,50 +533,118 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 
     private function prepareInvalidations(): void
     {
-        Db::exec('TRUNCATE TABLE ' . Common::prefixTable('archive_invalidations'));
-
         $invalidationsToInsert = [
             // invalidations idsite 1
             [
-                'idarchive' => 7, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
-                'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-01 16:00:00', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-02-05 11:30:00', 'processing_host' => 'host1', 'process_id' => 1256
+                'idarchive' => 7,
+                'name' => 'done',
+                'idsite' => 1,
+                'date1' => '2025-01-01',
+                'date2' => '2025-01-01',
+                'period' => Day::PERIOD_ID,
+                'ts_invalidated' => '2025-01-01 16:00:00',
+                'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null,
+                'ts_started' => '2025-02-05 11:30:00',
+                'processing_host' => 'host1',
+                'process_id' => 1256
             ],
             [
-                'idarchive' => null, 'name' => 'done', 'idsite' => 1, 'date1' => '2024-12-30', 'date2' => '2025-01-05',
-                'period' => Week::PERIOD_ID, 'ts_invalidated' => '2025-01-01 16:00:01', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
-                'report' => null, 'ts_started' => null, 'processing_host' => null, 'process_id' => null
+                'idarchive' => null,
+                'name' => 'done',
+                'idsite' => 1,
+                'date1' => '2024-12-30',
+                'date2' => '2025-01-05',
+                'period' => Week::PERIOD_ID,
+                'ts_invalidated' => '2025-01-01 16:00:01',
+                'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
+                'report' => null,
+                'ts_started' => null,
+                'processing_host' => null,
+                'process_id' => null
             ],
             [
-                'idarchive' => 66, 'name' => 'donec7445c35d0f9b340f5851df27a15c5ef.Actions', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-12-31',
-                'period' => Year::PERIOD_ID, 'ts_invalidated' => '2025-01-01 16:00:02', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-02-05 16:44:22', 'processing_host' => 'anotherhost', 'process_id' => 662
+                'idarchive' => 66,
+                'name' => 'donec7445c35d0f9b340f5851df27a15c5ef.Actions',
+                'idsite' => 1,
+                'date1' => '2025-01-01',
+                'date2' => '2025-12-31',
+                'period' => Year::PERIOD_ID,
+                'ts_invalidated' => '2025-01-01 16:00:02',
+                'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null,
+                'ts_started' => '2025-02-05 16:44:22',
+                'processing_host' => 'anotherhost',
+                'process_id' => 662
             ],
 
             // invalidations idsite 2
             [
-                'idarchive' => 7, 'name' => 'done', 'idsite' => 2, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
-                'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-01 19:15:00', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
-                'report' => null, 'ts_started' => null, 'processing_host' => null, 'process_id' => null
+                'idarchive' => 7,
+                'name' => 'done',
+                'idsite' => 2,
+                'date1' => '2025-01-01',
+                'date2' => '2025-01-01',
+                'period' => Day::PERIOD_ID,
+                'ts_invalidated' => '2025-01-01 19:15:00',
+                'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
+                'report' => null,
+                'ts_started' => null,
+                'processing_host' => null,
+                'process_id' => null
             ],
             [
-                'idarchive' => null, 'name' => 'done', 'idsite' => 2, 'date1' => '2024-12-30', 'date2' => '2025-01-05',
-                'period' => Week::PERIOD_ID, 'ts_invalidated' => '2025-01-01 19:15:01', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-02-05 09:11:00', 'processing_host' => 'host1', 'process_id' => 2333
+                'idarchive' => null,
+                'name' => 'done',
+                'idsite' => 2,
+                'date1' => '2024-12-30',
+                'date2' => '2025-01-05',
+                'period' => Week::PERIOD_ID,
+                'ts_invalidated' => '2025-01-01 19:15:01',
+                'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null,
+                'ts_started' => '2025-02-05 09:11:00',
+                'processing_host' => 'host1',
+                'process_id' => 2333
             ],
             [
-                'idarchive' => 66, 'name' => 'donec7445c35d0f9b340f5851df27a15c5ef', 'idsite' => 2, 'date1' => '2025-01-01', 'date2' => '2025-12-31',
-                'period' => Year::PERIOD_ID, 'ts_invalidated' => '2025-01-01 19:15:02', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
-                'report' => null, 'ts_started' => null, 'processing_host' => null, 'process_id' => null
+                'idarchive' => 66,
+                'name' => 'donec7445c35d0f9b340f5851df27a15c5ef',
+                'idsite' => 2,
+                'date1' => '2025-01-01',
+                'date2' => '2025-12-31',
+                'period' => Year::PERIOD_ID,
+                'ts_invalidated' => '2025-01-01 19:15:02',
+                'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
+                'report' => null,
+                'ts_started' => null,
+                'processing_host' => null,
+                'process_id' => null
             ],
 
             // invalidations idsite 3
             [
-                'idarchive' => null, 'name' => 'done.VisitsSummary', 'idsite' => 3, 'date1' => '2025-02-01', 'date2' => '2025-02-28',
-                'period' => Month::PERIOD_ID, 'ts_invalidated' => '2025-02-020 19:15:01', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-02-23 18:35:00', 'processing_host' => 'random', 'process_id' => 8558
+                'idarchive' => null,
+                'name' => 'done.VisitsSummary',
+                'idsite' => 3,
+                'date1' => '2025-02-01',
+                'date2' => '2025-02-28',
+                'period' => Month::PERIOD_ID,
+                'ts_invalidated' => '2025-02-020 19:15:01',
+                'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null,
+                'ts_started' => '2025-02-23 18:35:00',
+                'processing_host' => 'random',
+                'process_id' => 8558
             ],
         ];
+
+        $this->insertInvalidations($invalidationsToInsert);
+    }
+
+    private function insertInvalidations(array $invalidationsToInsert): void
+    {
+        Db::exec('TRUNCATE TABLE ' . Common::prefixTable('archive_invalidations'));
 
         $sql = 'INSERT INTO ' . Common::prefixTable('archive_invalidations')
             . ' (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_invalidated`, `status`, `report`, `ts_started`, `processing_host`, `process_id`)'

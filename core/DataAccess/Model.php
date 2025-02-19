@@ -1025,7 +1025,7 @@ class Model
      *
      * To avoid duplicate invalidations in the database, the method is also meant to prevent having duplicates after a reset
      * Therefor below code will check if any of the invalidations to be reset should be removed instead
-     * An invalidation can be savely removed
+     * An invalidation can be safely removed
      *  - if there exists another queued invalidation with the same parameters
      *  - if there is another running invalidation, that had been started after the current one was invalidated
      * Otherwise the invalidation will be reset
@@ -1045,9 +1045,9 @@ class Model
 
         // Check invalidations one by one, to ensure we safely remove invalidations in cases where two identical ones are requested to reset
         foreach ($invalidations as $invalidation) {
-            // Look for other indentical invalidations that are either not started or started after the current one had been invalidated
+            // Look for other identical invalidations that are either not started or started after the current one had been invalidated
             $query = "SELECT COUNT(*) FROM $table WHERE name = ? AND idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND "
-                   . "(status = ? OR (status = ? AND ts_started > ?)) AND idinvalidation != " . $invalidation['idinvalidation'];
+                   . "(status = ? OR (status = ? AND ts_started > ?)) AND idinvalidation != ?";
             $bind = [
                 $invalidation['name'],
                 $invalidation['idsite'],
@@ -1057,6 +1057,7 @@ class Model
                 ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
                 ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
                 $invalidation['ts_invalidated'],
+                $invalidation['idinvalidation'],
             ];
 
             if (empty($invalidation['report'])) {
