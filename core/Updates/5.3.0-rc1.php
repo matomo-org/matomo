@@ -34,7 +34,7 @@ class Updates_5_3_0_rc1 extends Updates
         $deleteFeatureFlag = new CustomMigration(
             [FeatureFlagManager::class, 'deleteFeatureFlag'],
             $commandString,
-            'ImprovedAllWebsitesDashboard'
+            ['ImprovedAllWebsitesDashboard']
         );
 
         return [$deleteFeatureFlag];
