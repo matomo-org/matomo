@@ -845,9 +845,9 @@ class Report
         $dimensions = [];
 
         if (!empty($this->getDimension())) {
-            $dimensionId = str_replace('.', '_', $this->getDimension()->getId());
-            $dimensions[$dimensionId] = $this->getDimension()->getName();
             $tableDimensionId = $this->getDimension()->getId();
+            $dimensionId = str_replace('.', '_', $tableDimensionId);
+            $dimensions[$dimensionId] = $this->getDimension()->getName();
         }
 
         for ($level = 1; $level <= 100; $level++) {
@@ -856,7 +856,7 @@ class Report
                 break;
             }
             $tableDimensionId = $subDimension->getId();
-            $subDimensionId = str_replace('.', '_', $subDimension->getId());
+            $subDimensionId = str_replace('.', '_', $tableDimensionId);
             $dimensions[$subDimensionId] = $subDimension->getName();
         };
 
