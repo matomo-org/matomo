@@ -784,19 +784,37 @@ class Model
         return !empty($result);
     }
 
-    public function getInvalidationsInProgress(?int $idSite = null): array
-    {
+    public function getInvalidationsInProgress(
+        array $idSites = [],
+        array $processingHosts = [],
+        ?Date $startTime = null,
+        ?Date $endTime = null
+    ): array {
         $table = Common::prefixTable('archive_invalidations');
 
         $bind = [ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS];
-        $idSiteCondition = '';
+        $whereConditions = '';
 
-        if (!empty($idSite)) {
-            $idSiteCondition = ' AND idsite = ?';
-            $bind[] = $idSite;
+        if (!empty($processingHosts)) {
+            $whereConditions .= sprintf(' AND `processing_host` IN (%1$s)', Common::getSqlStringFieldsArray($processingHosts));
+            $bind = array_merge($bind, $processingHosts);
         }
 
-        $sql = "SELECT idinvalidation, idsite, period, date1, date2, name, ts_started FROM `$table` WHERE `status` = ? $idSiteCondition AND ts_started IS NOT NULL ORDER BY ts_started ASC";
+        if (!empty($idSites)) {
+            $whereConditions .= sprintf(' AND `idsite` IN (' . implode(', ', $idSites) . ')');
+        }
+
+        if (!empty($startTime)) {
+            $whereConditions .= ' AND `ts_started` > ?';
+            $bind[] = $startTime->toString('Y-m-d H:i:s');
+        }
+
+        if (!empty($endTime)) {
+            $whereConditions .= ' AND `ts_started` < ?';
+            $bind[] = $endTime->toString('Y-m-d H:i:s');
+        }
+
+        $sql = "SELECT idinvalidation, idsite, period, date1, date2, name, report, ts_invalidated, ts_started, processing_host, process_id FROM `$table` WHERE `status` = ? $whereConditions AND ts_started IS NOT NULL ORDER BY ts_started ASC";
         return Db::fetchAll($sql, $bind);
     }
 
@@ -1002,11 +1020,85 @@ class Model
         return "idsite IN ($idSitesStr) AND";
     }
 
-    public function releaseInProgressInvalidation($idinvalidation)
+    /**
+     * Releases in progress invalidations for the given ids
+     *
+     * To avoid duplicate invalidations in the database, the method is also meant to prevent having duplicates after a reset
+     * Therefor below code will check if any of the invalidations to be reset should be removed instead
+     * An invalidation can be safely removed
+     *  - if there exists another queued invalidation with the same parameters
+     *  - if there is another running invalidation, that had been started after the current one was invalidated
+     * Otherwise the invalidation will be reset
+     *
+     * @param array $idinvalidations
+     * @return int
+     * @throws \Zend_Db_Statement_Exception
+     */
+    public function releaseInProgressInvalidations(array $idinvalidations): int
     {
+        $idinvalidations = array_map('intval', $idinvalidations);
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "UPDATE $table SET status = " . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . ", ts_started = NULL, processing_host = NULL, process_id = NULL WHERE idinvalidation = ?";
-        Db::query($sql, [$idinvalidation]);
+        $changedCount = 0;
+
+        $sql = "SELECT * FROM $table WHERE idinvalidation IN (" . implode(',', $idinvalidations) . ")";
+        $invalidations = Db::fetchAll($sql);
+
+        // Check invalidations one by one, to ensure we safely remove invalidations in cases where two identical ones are requested to reset
+        foreach ($invalidations as $invalidation) {
+            // Look for other identical invalidations that are either not started or started after the current one had been invalidated
+            $query = "SELECT COUNT(*) FROM $table WHERE name = ? AND idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND "
+                   . "(status = ? OR (status = ? AND ts_started > ?)) AND idinvalidation != ?";
+            $bind = [
+                $invalidation['name'],
+                $invalidation['idsite'],
+                $invalidation['date1'],
+                $invalidation['date2'],
+                $invalidation['period'],
+                ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
+                ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                $invalidation['ts_invalidated'],
+                $invalidation['idinvalidation'],
+            ];
+
+            if (empty($invalidation['report'])) {
+                $query .= " AND (report IS NULL OR report = '')";
+            } else {
+                $query .= " AND report = ?";
+                $bind[] = $invalidation['report'];
+            }
+
+            $count = Db::fetchOne($query, $bind);
+
+            if ($count > 0) {
+                $this->logger->info(
+                    'Found duplicate invalidation for params (name = {name}, idsite = {idsite}, date1 = {date1}, date2 = {date2}, period = {period}, report = {report}). Removing invalidation {idinvalidation} instead of resetting it.',
+                    $invalidation
+                );
+
+                $sql = "DELETE FROM $table WHERE status = ? AND idinvalidation = ?";
+
+                $bind = [
+                    ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                    $invalidation['idinvalidation'],
+                ];
+
+                $query = Db::query($sql, $bind);
+                $changedCount += $query->rowCount();
+            } else {
+                $sql = "UPDATE $table SET status = ?, processing_host = NULL, process_id = NULL, ts_started = NULL WHERE status = ? AND idinvalidation = ?";
+
+                $bind = [
+                    ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
+                    ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                    $invalidation['idinvalidation'],
+                ];
+
+                $query = Db::query($sql, $bind);
+                $changedCount += $query->rowCount();
+            }
+        }
+
+        return $changedCount;
     }
 
     public function resetFailedArchivingJobs()
@@ -1026,16 +1118,7 @@ class Model
             return 0;
         }
 
-        $table = Common::prefixTable('archive_invalidations');
-        $sql = "UPDATE $table SET status = ? WHERE status = ? AND idinvalidation IN (" . implode(',', $idsToReset) . ")";
-
-        $bind = [
-            ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
-            ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS
-        ];
-
-        $query = Db::query($sql, $bind);
-        return $query->rowCount();
+        return $this->releaseInProgressInvalidations($idsToReset);
     }
 
     public function getRecordsContainedInArchives(Date $archiveStartDate, array $idArchives, $requestedRecords): array

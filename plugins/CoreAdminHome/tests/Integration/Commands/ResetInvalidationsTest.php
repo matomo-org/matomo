@@ -272,6 +272,232 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
         ];
     }
 
+    public function testDuplicateInvalidationIsRemovedOnReset()
+    {
+        $invalidationsToInsert = [
+            [
+                'idarchive' => 7, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
+                'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-01 16:00:00', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null, 'ts_started' => '2025-02-05 11:30:00', 'processing_host' => 'host1', 'process_id' => 1256
+            ],
+            [
+                'idarchive' => null, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
+                'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-03 02:55:55', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
+                'report' => null, 'ts_started' => null, 'processing_host' => null, 'process_id' => null
+            ],
+        ];
+
+        $this->insertInvalidations($invalidationsToInsert);
+
+        $inProgressInvalidationCount = $this->getInProgressInvalidationCount();
+
+        $code = $this->applicationTester->run([
+            'command' => 'core:reset-invalidations',
+            '--dry-run' => true,
+        ]);
+
+        $inProgressInvalidationCountAfterDryRun = $this->getInProgressInvalidationCount();
+
+        self::assertEquals($inProgressInvalidationCount, $inProgressInvalidationCountAfterDryRun);
+        self::assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+
+        $expectedOutput = '1 invalidations found:
++------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
+| name | idsite | report | date1      | date2      | period | ts_invalidated      | ts_started          | processing_host | process_id |
++------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
+| done | 1      |        | 2025-01-01 | 2025-01-01 | 1      | 2025-01-01 16:00:00 | 2025-02-05 11:30:00 | host1           | 1256       |
++------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
+';
+
+        self::assertStringContainsString($expectedOutput, $this->applicationTester->getDisplay(true));
+
+        $code = $this->applicationTester->run([
+            'command' => 'core:reset-invalidations',
+            '-vvv' => true,
+        ]);
+
+        self::assertEquals(0, $this->getInProgressInvalidationCount());
+        self::assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+
+        $rows = Db::fetchAll('SELECT * FROM ' . Common::prefixTable('archive_invalidations'));
+
+        self::assertEquals(1, count($rows));
+        // expected invalidation date from second record, as first one should be removed instead of reset
+        self::assertEquals('2025-01-03 02:55:55', $rows[0]['ts_invalidated']);
+
+        self::assertStringContainsString('Found duplicate invalidation for params (name = done, idsite = 1, date1 = 2025-01-01, date2 = 2025-01-01, period = 1, report = ). Removing invalidation 1 instead of resetting it.', $this->getLogOutput());
+    }
+
+
+    public function testDuplicateInvalidationIsRemovedOnResetWhenOtherOneStartedAfterInvalidationDate()
+    {
+        $invalidationsToInsert = [
+            [
+                'idarchive' => 7, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
+                'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-01 16:00:00', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null, 'ts_started' => '2025-02-05 11:30:00', 'processing_host' => 'host1', 'process_id' => 1256
+            ],
+            [
+                'idarchive' => null, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
+                'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-03 02:55:55', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null, 'ts_started' => '2025-01-02 08:00:00', 'processing_host' => 'host4', 'process_id' => 22555
+            ],
+        ];
+
+        $this->insertInvalidations($invalidationsToInsert);
+
+        $inProgressInvalidationCount = $this->getInProgressInvalidationCount();
+
+        $code = $this->applicationTester->run([
+            'command' => 'core:reset-invalidations',
+            '--processing-host' => ['host1'],
+            '--dry-run' => true,
+        ]);
+
+        $inProgressInvalidationCountAfterDryRun = $this->getInProgressInvalidationCount();
+
+        self::assertEquals($inProgressInvalidationCount, $inProgressInvalidationCountAfterDryRun);
+        self::assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+
+        $expectedOutput = '1 invalidations found:
++------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
+| name | idsite | report | date1      | date2      | period | ts_invalidated      | ts_started          | processing_host | process_id |
++------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
+| done | 1      |        | 2025-01-01 | 2025-01-01 | 1      | 2025-01-01 16:00:00 | 2025-02-05 11:30:00 | host1           | 1256       |
++------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
+';
+
+        self::assertStringContainsString($expectedOutput, $this->applicationTester->getDisplay(true));
+
+        $code = $this->applicationTester->run([
+            'command' => 'core:reset-invalidations',
+            '--processing-host' => ['host1'],
+            '-vvv' => true,
+        ]);
+
+        self::assertEquals(1, $this->getInProgressInvalidationCount());
+        self::assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+
+        $rows = Db::fetchAll('SELECT * FROM ' . Common::prefixTable('archive_invalidations'));
+
+        self::assertEquals(1, count($rows));
+        // expected invalidation date from second record, as first one should be removed instead of reset
+        self::assertEquals('2025-01-03 02:55:55', $rows[0]['ts_invalidated']);
+
+        self::assertStringContainsString('Found duplicate invalidation for params (name = done, idsite = 1, date1 = 2025-01-01, date2 = 2025-01-01, period = 1, report = ). Removing invalidation 1 instead of resetting it.', $this->getLogOutput());
+    }
+
+    public function testDuplicateInvalidationIsOnlyResetWhenOtherOneStartedBeforeInvalidationDate()
+    {
+        $invalidationsToInsert = [
+            [
+                'idarchive' => 7, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
+                'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-01 16:00:00', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null, 'ts_started' => '2025-02-05 11:30:00', 'processing_host' => 'host1', 'process_id' => 1256
+            ],
+            [
+                'idarchive' => null, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
+                'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-03 02:55:55', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null, 'ts_started' => '2025-01-01 08:00:00', 'processing_host' => 'host4', 'process_id' => 22555
+            ],
+        ];
+
+        $this->insertInvalidations($invalidationsToInsert);
+
+        $inProgressInvalidationCount = $this->getInProgressInvalidationCount();
+
+        $code = $this->applicationTester->run([
+            'command' => 'core:reset-invalidations',
+            '--processing-host' => ['host1'],
+            '--dry-run' => true,
+        ]);
+
+        $inProgressInvalidationCountAfterDryRun = $this->getInProgressInvalidationCount();
+
+        self::assertEquals($inProgressInvalidationCount, $inProgressInvalidationCountAfterDryRun);
+        self::assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+
+        $expectedOutput = '1 invalidations found:
++------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
+| name | idsite | report | date1      | date2      | period | ts_invalidated      | ts_started          | processing_host | process_id |
++------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
+| done | 1      |        | 2025-01-01 | 2025-01-01 | 1      | 2025-01-01 16:00:00 | 2025-02-05 11:30:00 | host1           | 1256       |
++------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
+';
+
+        self::assertStringContainsString($expectedOutput, $this->applicationTester->getDisplay(true));
+
+        $code = $this->applicationTester->run([
+            'command' => 'core:reset-invalidations',
+            '--processing-host' => ['host1'],
+            '-vvv' => true,
+        ]);
+
+        self::assertEquals(1, $this->getInProgressInvalidationCount());
+        self::assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+
+        $rows = Db::fetchAll('SELECT * FROM ' . Common::prefixTable('archive_invalidations'));
+
+        self::assertEquals(2, count($rows));
+
+        self::assertStringNotContainsString('Found duplicate invalidation', $this->getLogOutput());
+    }
+
+    public function testDuplicateInvalidationIsRemovedWhenBothAreReset()
+    {
+        $invalidationsToInsert = [
+            [
+                'idarchive' => 7, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
+                'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-01 16:00:00', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null, 'ts_started' => '2025-02-05 11:30:00', 'processing_host' => 'host1', 'process_id' => 1256
+            ],
+            [
+                'idarchive' => null, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
+                'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-03 02:55:55', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null, 'ts_started' => '2025-01-01 08:00:00', 'processing_host' => 'host4', 'process_id' => 22555
+            ],
+        ];
+
+        $this->insertInvalidations($invalidationsToInsert);
+
+        $inProgressInvalidationCount = $this->getInProgressInvalidationCount();
+
+        $code = $this->applicationTester->run([
+            'command' => 'core:reset-invalidations',
+            '--dry-run' => true,
+        ]);
+
+        $inProgressInvalidationCountAfterDryRun = $this->getInProgressInvalidationCount();
+
+        self::assertEquals($inProgressInvalidationCount, $inProgressInvalidationCountAfterDryRun);
+        self::assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+
+        $expectedOutput = '2 invalidations found:
++------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
+| name | idsite | report | date1      | date2      | period | ts_invalidated      | ts_started          | processing_host | process_id |
++------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
+| done | 1      |        | 2025-01-01 | 2025-01-01 | 1      | 2025-01-03 02:55:55 | 2025-01-01 08:00:00 | host4           | 22555      |
+| done | 1      |        | 2025-01-01 | 2025-01-01 | 1      | 2025-01-01 16:00:00 | 2025-02-05 11:30:00 | host1           | 1256       |
++------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
+';
+
+        self::assertStringContainsString($expectedOutput, $this->applicationTester->getDisplay(true));
+
+        $code = $this->applicationTester->run([
+            'command' => 'core:reset-invalidations',
+            '-vvv' => true,
+        ]);
+
+        self::assertEquals(0, $this->getInProgressInvalidationCount());
+        self::assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+
+        $rows = Db::fetchAll('SELECT * FROM ' . Common::prefixTable('archive_invalidations'));
+
+        self::assertEquals(1, count($rows));
+
+        self::assertStringContainsString('Found duplicate invalidation for params (name = done, idsite = 1, date1 = 2025-01-01, date2 = 2025-01-01, period = 1, report = ). Removing invalidation 2 instead of resetting it.', $this->getLogOutput());
+    }
+
     /**
      * @return array<string, mixed>
      */
@@ -307,50 +533,118 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 
     private function prepareInvalidations(): void
     {
-        Db::exec('TRUNCATE TABLE ' . Common::prefixTable('archive_invalidations'));
-
         $invalidationsToInsert = [
             // invalidations idsite 1
             [
-                'idarchive' => 7, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
-                'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-01 16:00:00', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-02-05 11:30:00', 'processing_host' => 'host1', 'process_id' => 1256
+                'idarchive' => 7,
+                'name' => 'done',
+                'idsite' => 1,
+                'date1' => '2025-01-01',
+                'date2' => '2025-01-01',
+                'period' => Day::PERIOD_ID,
+                'ts_invalidated' => '2025-01-01 16:00:00',
+                'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null,
+                'ts_started' => '2025-02-05 11:30:00',
+                'processing_host' => 'host1',
+                'process_id' => 1256
             ],
             [
-                'idarchive' => null, 'name' => 'done', 'idsite' => 1, 'date1' => '2024-12-30', 'date2' => '2025-01-05',
-                'period' => Week::PERIOD_ID, 'ts_invalidated' => '2025-01-01 16:00:01', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
-                'report' => null, 'ts_started' => null, 'processing_host' => null, 'process_id' => null
+                'idarchive' => null,
+                'name' => 'done',
+                'idsite' => 1,
+                'date1' => '2024-12-30',
+                'date2' => '2025-01-05',
+                'period' => Week::PERIOD_ID,
+                'ts_invalidated' => '2025-01-01 16:00:01',
+                'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
+                'report' => null,
+                'ts_started' => null,
+                'processing_host' => null,
+                'process_id' => null
             ],
             [
-                'idarchive' => 66, 'name' => 'donec7445c35d0f9b340f5851df27a15c5ef.Actions', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-12-31',
-                'period' => Year::PERIOD_ID, 'ts_invalidated' => '2025-01-01 16:00:02', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-02-05 16:44:22', 'processing_host' => 'anotherhost', 'process_id' => 662
+                'idarchive' => 66,
+                'name' => 'donec7445c35d0f9b340f5851df27a15c5ef.Actions',
+                'idsite' => 1,
+                'date1' => '2025-01-01',
+                'date2' => '2025-12-31',
+                'period' => Year::PERIOD_ID,
+                'ts_invalidated' => '2025-01-01 16:00:02',
+                'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null,
+                'ts_started' => '2025-02-05 16:44:22',
+                'processing_host' => 'anotherhost',
+                'process_id' => 662
             ],
 
             // invalidations idsite 2
             [
-                'idarchive' => 7, 'name' => 'done', 'idsite' => 2, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
-                'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-01 19:15:00', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
-                'report' => null, 'ts_started' => null, 'processing_host' => null, 'process_id' => null
+                'idarchive' => 7,
+                'name' => 'done',
+                'idsite' => 2,
+                'date1' => '2025-01-01',
+                'date2' => '2025-01-01',
+                'period' => Day::PERIOD_ID,
+                'ts_invalidated' => '2025-01-01 19:15:00',
+                'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
+                'report' => null,
+                'ts_started' => null,
+                'processing_host' => null,
+                'process_id' => null
             ],
             [
-                'idarchive' => null, 'name' => 'done', 'idsite' => 2, 'date1' => '2024-12-30', 'date2' => '2025-01-05',
-                'period' => Week::PERIOD_ID, 'ts_invalidated' => '2025-01-01 19:15:01', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-02-05 09:11:00', 'processing_host' => 'host1', 'process_id' => 2333
+                'idarchive' => null,
+                'name' => 'done',
+                'idsite' => 2,
+                'date1' => '2024-12-30',
+                'date2' => '2025-01-05',
+                'period' => Week::PERIOD_ID,
+                'ts_invalidated' => '2025-01-01 19:15:01',
+                'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null,
+                'ts_started' => '2025-02-05 09:11:00',
+                'processing_host' => 'host1',
+                'process_id' => 2333
             ],
             [
-                'idarchive' => 66, 'name' => 'donec7445c35d0f9b340f5851df27a15c5ef', 'idsite' => 2, 'date1' => '2025-01-01', 'date2' => '2025-12-31',
-                'period' => Year::PERIOD_ID, 'ts_invalidated' => '2025-01-01 19:15:02', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
-                'report' => null, 'ts_started' => null, 'processing_host' => null, 'process_id' => null
+                'idarchive' => 66,
+                'name' => 'donec7445c35d0f9b340f5851df27a15c5ef',
+                'idsite' => 2,
+                'date1' => '2025-01-01',
+                'date2' => '2025-12-31',
+                'period' => Year::PERIOD_ID,
+                'ts_invalidated' => '2025-01-01 19:15:02',
+                'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
+                'report' => null,
+                'ts_started' => null,
+                'processing_host' => null,
+                'process_id' => null
             ],
 
             // invalidations idsite 3
             [
-                'idarchive' => null, 'name' => 'done.VisitsSummary', 'idsite' => 3, 'date1' => '2025-02-01', 'date2' => '2025-02-28',
-                'period' => Month::PERIOD_ID, 'ts_invalidated' => '2025-02-020 19:15:01', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-02-23 18:35:00', 'processing_host' => 'random', 'process_id' => 8558
+                'idarchive' => null,
+                'name' => 'done.VisitsSummary',
+                'idsite' => 3,
+                'date1' => '2025-02-01',
+                'date2' => '2025-02-28',
+                'period' => Month::PERIOD_ID,
+                'ts_invalidated' => '2025-02-020 19:15:01',
+                'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                'report' => null,
+                'ts_started' => '2025-02-23 18:35:00',
+                'processing_host' => 'random',
+                'process_id' => 8558
             ],
         ];
+
+        $this->insertInvalidations($invalidationsToInsert);
+    }
+
+    private function insertInvalidations(array $invalidationsToInsert): void
+    {
+        Db::exec('TRUNCATE TABLE ' . Common::prefixTable('archive_invalidations'));
 
         $sql = 'INSERT INTO ' . Common::prefixTable('archive_invalidations')
             . ' (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_invalidated`, `status`, `report`, `ts_started`, `processing_host`, `process_id`)'
