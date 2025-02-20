@@ -69,11 +69,11 @@ describe("PrivacyManager", function () {
         await page.waitForTimeout(250);
     }
 
-    async function selectDisabledSite()
+    async function selectSite(id)
     {
         await page.click('.siteSelector a.title');
-        await page.click('.siteSelector .dropdown .custom_select_ul_list a[href*="idSite=3"]');
-        await page.waitForSelector('.dataUnavailable h2');
+        await page.click('.siteSelector .dropdown .custom_select_ul_list a[href*="idSite=' + id + '"]');
+        await page.waitForNetworkIdle();
     }
 
     async function anonymizePastData()
@@ -355,8 +355,16 @@ describe("PrivacyManager", function () {
     });
 
     it('should hide GDPR tool and show message when selecting site with visitor logs or profiles disabled', async function() {
-        await selectDisabledSite();
+        await selectSite('3');
+        await page.waitForSelector('.dataUnavailable h2');
         expect(await page.screenshotSelector('.manageGdpr')).to.matchImage('gdpr_tools_disabled_site');
     });
 
+    it('should work to use userid segment for a site with visits log and profile enabled', async function() {
+        await loadActionPage('gdprTools');
+        await selectSite('1');
+        await enterSegmentMatchValue('userId203');
+        await findDataSubjects();
+        expect(await page.screenshotSelector('.manageGdpr')).to.matchImage('gdpr_tools_userid');
+    });
 });
