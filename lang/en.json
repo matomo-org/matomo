@@ -312,6 +312,7 @@
         "Name": "Name",
         "NameShownInTheSenderColumn": "The name shown in the sender column",
         "NbActions": "Number of Actions",
+        "NbPageviews": "Number of Pageviews",
         "NbInteractions": "Number of Interactions",
         "NbSearches": "Number of Internal Searches",
         "NeedMoreHelp": "Need more help?",

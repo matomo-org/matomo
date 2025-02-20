@@ -64,6 +64,45 @@ describe("GoalsPages", function () {
     expect(await page.screenshotSelector('#content,.top_bar_sites_selector,.entityContainer')).to.matchImage('manage');
   });
 
+  it('should show the form to add a goal', async function () {
+    await page.click('#add-goal');
+
+    expect(await page.screenshotSelector('#content')).to.matchImage('add');
+  });
+
+  it('should be possible to fill the goal form', async function () {
+    await page.type('#goal_name', 'new goal');
+    await page.type('#goal_description', 'new goal description');
+    await page.click('#match_attributevisit_nb_pageviews');
+    await page.type('#pattern', '4');
+
+    expect(await page.screenshotSelector('#content')).to.matchImage('add_filled');
+  });
+
+  it('should add the goal when submitting the form', async function () {
+    await page.click('.matomo-save-button');
+    await page.waitForNetworkIdle();
+
+    expect(await page.screenshotSelector('#content')).to.matchImage('added');
+  });
+
+  it('should show confirmation when removing a goal', async function () {
+    await page.click('tr:last-child .icon-delete');
+    await page.waitFor(500);
+    await page.mouse.move(0, 0);
+
+    var modal = await page.$('.modal.open');
+    expect(await modal.screenshot()).to.matchImage('delete_confirm');
+  });
+
+  it('should remove goal on confirmation', async function () {
+    await page.click('.modal-action:first-child');
+    await page.waitForNetworkIdle();
+    await page.mouse.move(0, 0);
+
+    expect(await page.screenshotSelector('#content')).to.matchImage('deleted');
+  });
+
   it('should load the goals > single goal page correctly', async function () {
     await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=1");
     await page.waitForNetworkIdle();

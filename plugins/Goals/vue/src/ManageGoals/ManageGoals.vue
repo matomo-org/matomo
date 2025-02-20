@@ -202,6 +202,9 @@
                 <span v-show="goal.match_attribute === 'visit_duration'">
                   {{ translate('Goals_VisitDuration') }}
                 </span>
+                <span v-show="goal.match_attribute === 'visit_nb_pageviews'">
+                  {{ translate('Goals_VisitedPages') }}
+                </span>
               </h3>
             </div>
 
@@ -296,6 +299,10 @@
                   {{ translate('General_ForExampleShort') }}
                   {{ translate('Goals_AtLeastMinutes', '5', '0.5') }}
                 </span>
+                <span v-show="goal.match_attribute === 'visit_nb_pageviews'">
+                  {{ translate('General_ForExampleShort') }}
+                  {{ translate('Goals_AtLeast', '5') }}
+                </span>
               </Alert>
             </div>
           </div>
@@ -316,7 +323,8 @@
               name="allow_multiple"
               :model-value="!!goal.allow_multiple && goal.allow_multiple !== '0' ? 1 : 0"
               @update:model-value="goal.allow_multiple = $event"
-              v-if="goal.match_attribute !== 'visit_duration'"
+              v-if="goal.match_attribute !== 'visit_duration'
+                    && goal.match_attribute !== 'visit_nb_pageviews'"
               :options="allowMultipleOptions"
               :introduction="translate('Goals_AllowMultipleConversionsPerVisit')"
               :inline-help="translate('Goals_HelpOneConversionPerVisit')"
@@ -747,12 +755,18 @@ export default defineComponent({
       );
     },
     isMatchAttributeNumeric() {
-      return ['visit_duration'].indexOf(this.goal.match_attribute) > -1;
+      return ['visit_duration', 'visit_nb_pageviews'].indexOf(this.goal.match_attribute) > -1;
     },
     patternFieldLabel() {
-      return this.goal.match_attribute === 'visit_duration'
-        ? translate('Goals_TimeInMinutes')
-        : translate('Goals_Pattern');
+      if (this.goal.match_attribute === 'visit_duration') {
+        return translate('Goals_TimeInMinutes');
+      }
+
+      if (this.goal.match_attribute === 'visit_nb_pageviews') {
+        return translate('Goals_NumberOfPages');
+      }
+
+      return translate('Goals_Pattern');
     },
     goalMatchAttributeTranslations() {
       return {
@@ -765,6 +779,7 @@ export default defineComponent({
         event_category: `${translate('Goals_SendEvent')} (${translate('Events_EventCategory')})`,
         event_name: `${translate('Goals_SendEvent')} (${translate('Events_EventName')})`,
         visit_duration: `${this.ucfirst(translate('Goals_VisitDuration'))}`,
+        visit_nb_pageviews: translate('Goals_VisitedPages'),
       };
     },
     beforeGoalListActionsBodyComponent() {

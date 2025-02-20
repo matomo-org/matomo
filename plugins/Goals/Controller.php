@@ -456,6 +456,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function setGoalOptions(View $view)
     {
+        $view->translationHelper = new TranslationHelper();
         $view->userCanEditGoals = Piwik::isUserHasWriteAccess($this->idSite);
         $view->goalTriggerTypeOptions = array(
             'visitors' => Piwik::translate('Goals_WhenVisitors'),
@@ -468,6 +469,7 @@ class Controller extends \Piwik\Plugin\Controller
             array('key' => 'file', 'value' => Piwik::translate('Goals_Download')),
             array('key' => 'external_website', 'value' => Piwik::translate('Goals_ClickOutlink')),
             ['key' => 'visit_duration', 'value' => Piwik::translate('Goals_VisitDurationMatchAttr')],
+            ['key' => 'visit_nb_pageviews', 'value' => Piwik::translate('Goals_VisitedPagesMatchAttr')],
         );
         $view->allowMultipleOptions = array(
             array('key' => '0', 'value' => Piwik::translate('Goals_DefaultGoalConvertedOncePerVisit')),
