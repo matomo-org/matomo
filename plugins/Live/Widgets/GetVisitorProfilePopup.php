@@ -36,8 +36,4 @@ class GetVisitorProfilePopup extends \Piwik\Widget\Widget
             $config->disable();
         }
     }
-
-    public function render()
-    {
-    }
 }
