@@ -619,6 +619,26 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultObj->output);
     }
 
+    public function testUsingOptsCallWithMultipleSectionsReturnsLastSectionOnly()
+    {
+
+        $inputArr = [
+            'command' => self::COMMAND,
+            '-vvv' => false,
+            'argument' => '--section ' . self::TEST_SECTION_2_NAME . ' --section ' . self::TEST_SECTION_1_NAME,
+        ];
+        $exitCode = $this->applicationTester->run($inputArr);
+
+        // The CLI error code should be 0 indicating success.
+        $this->assertEquals(0, $exitCode);
+
+        // Pass true to getDisplay(true) to normalize line endings, then trim() bc CLI adds an \ automatically.
+        $output = trim($this->applicationTester->getDisplay(true));
+
+        $expectedValue = json_encode((object) self::TEST_SETTING_1_SUMMARIZED);
+        $this->assertEquals($expectedValue, $output);
+    }
+
     public function testUsingArgsCallWithMultipleSectionsReturnsLastSectionOnly()
     {
 
