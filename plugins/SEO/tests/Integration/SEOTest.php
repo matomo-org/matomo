@@ -37,8 +37,7 @@ class SEOTest extends IntegrationTestCase
         // Needed to load the Intl_NumberFormatNumber translation string used when formatting the ranking numbers
         Fixture::loadAllTranslations();
 
-        // Google and Bing may not show the indexed pages count for some user agents, some UA strings will work for
-        // Google, but not Bing and visa-versa. This user agent string works for both as of 2023-06-26:
+        // Bing may not show the indexed pages count for some user agents, This user agent string works as of 2023-06-26:
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36';
     }
 
