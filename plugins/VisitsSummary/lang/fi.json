@@ -21,7 +21,7 @@
         "NbVisitsDescription": "käyntiä",
         "PluginDescription": "Raportoi yleiset analytiikkametriikat: käynnit, uniikit kävijät, toimintojen määrän jne.",
         "VisitsSummary": "Yhteenveto käynneistä",
-        "VisitsSummaryDocumentation": "Tämä on käyntien muutoksen yleiskatsaus",
+        "VisitsSummaryDocumentation": "Tämä on yleiskatsaus vierailun kehityksestä.",
         "VisitsSummaryReportDocumentation": "Tämä raportti tarjoaa yleisnäkymän kävijöiden käyttäytymiseen.",
         "WidgetLastVisits": "Edelliset käynnit",
         "WidgetOverviewGraph": "Yleiskatsaus graafilla",

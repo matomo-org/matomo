@@ -13,6 +13,7 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
 			<nb_pageviews>Pageviews</nb_pageviews>
+			<hits>Hits</hits>
 			<revenue>Revenue</revenue>
 			<nb_conversions>Conversions</nb_conversions>
 			<orders>Ecommerce Orders</orders>
@@ -22,11 +23,13 @@
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
+			<hits>The total count of all interactions recorded on your website, including page views, link clicks, downloads, and events.</hits>
 		</metricsDocumentation>
 		<processedMetrics>
 			<visits_evolution>Visits Evolution</visits_evolution>
 			<actions_evolution>Actions Evolution</actions_evolution>
 			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
+			<hits_evolution>Hits Evolution</hits_evolution>
 			<revenue_evolution>Revenue Evolution</revenue_evolution>
 			<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
@@ -36,6 +39,7 @@
 			<nb_visits>number</nb_visits>
 			<nb_actions>number</nb_actions>
 			<nb_pageviews>number</nb_pageviews>
+			<hits>number</hits>
 			<revenue>money</revenue>
 			<nb_conversions>number</nb_conversions>
 			<orders>number</orders>
@@ -43,6 +47,7 @@
 			<visits_evolution>percent</visits_evolution>
 			<actions_evolution>percent</actions_evolution>
 			<pageviews_evolution>percent</pageviews_evolution>
+			<hits_evolution>percent</hits_evolution>
 			<revenue_evolution>percent</revenue_evolution>
 			<nb_conversions_evolution>percent</nb_conversions_evolution>
 			<orders_evolution>percent</orders_evolution>
@@ -57,6 +62,7 @@
 		<nb_visits>Visits</nb_visits>
 		<nb_actions>Actions</nb_actions>
 		<nb_pageviews>Pageviews</nb_pageviews>
+		<hits>Hits</hits>
 		<revenue>Revenue</revenue>
 		<nb_conversions>Conversions</nb_conversions>
 		<orders>Ecommerce Orders</orders>
@@ -64,6 +70,7 @@
 		<visits_evolution>Visits Evolution</visits_evolution>
 		<actions_evolution>Actions Evolution</actions_evolution>
 		<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
+		<hits_evolution>Hits Evolution</hits_evolution>
 		<revenue_evolution>Revenue Evolution</revenue_evolution>
 		<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 		<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
@@ -76,10 +83,12 @@
 				<nb_visits>2</nb_visits>
 				<nb_actions>2</nb_actions>
 				<nb_pageviews>2</nb_pageviews>
+				<hits>2</hits>
 				<revenue>$10</revenue>
 				<visits_evolution>100%</visits_evolution>
 				<actions_evolution>100%</actions_evolution>
 				<pageviews_evolution>100%</pageviews_evolution>
+				<hits_evolution>100%</hits_evolution>
 				<revenue_evolution>100%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -95,10 +104,12 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_pageviews>1</nb_pageviews>
+				<hits>1</hits>
 				<revenue>$0</revenue>
 				<visits_evolution>-50%</visits_evolution>
 				<actions_evolution>-50%</actions_evolution>
 				<pageviews_evolution>-50%</pageviews_evolution>
+				<hits_evolution>-50%</hits_evolution>
 				<revenue_evolution>-100%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -112,10 +123,12 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>3</nb_actions>
 				<nb_pageviews>3</nb_pageviews>
+				<hits>3</hits>
 				<revenue>$0</revenue>
 				<visits_evolution>100%</visits_evolution>
 				<actions_evolution>100%</actions_evolution>
 				<pageviews_evolution>100%</pageviews_evolution>
+				<hits_evolution>100%</hits_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -131,10 +144,12 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>5</nb_actions>
 				<nb_pageviews>5</nb_pageviews>
+				<hits>5</hits>
 				<revenue>$5</revenue>
 				<visits_evolution>0%</visits_evolution>
 				<actions_evolution>400%</actions_evolution>
 				<pageviews_evolution>400%</pageviews_evolution>
+				<hits_evolution>400%</hits_evolution>
 				<revenue_evolution>100%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -150,10 +165,12 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>5</nb_actions>
 				<nb_pageviews>5</nb_pageviews>
+				<hits>5</hits>
 				<revenue>$5</revenue>
 				<visits_evolution>0%</visits_evolution>
 				<actions_evolution>0%</actions_evolution>
 				<pageviews_evolution>0%</pageviews_evolution>
+				<hits_evolution>0%</hits_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -169,10 +186,12 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>5</nb_actions>
 				<nb_pageviews>5</nb_pageviews>
+				<hits>5</hits>
 				<revenue>$5</revenue>
 				<visits_evolution>0%</visits_evolution>
 				<actions_evolution>0%</actions_evolution>
 				<pageviews_evolution>0%</pageviews_evolution>
+				<hits_evolution>0%</hits_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -188,10 +207,12 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>5</nb_actions>
 				<nb_pageviews>5</nb_pageviews>
+				<hits>5</hits>
 				<revenue>$5</revenue>
 				<visits_evolution>0%</visits_evolution>
 				<actions_evolution>0%</actions_evolution>
 				<pageviews_evolution>0%</pageviews_evolution>
+				<hits_evolution>0%</hits_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -207,10 +228,12 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>5</nb_actions>
 				<nb_pageviews>5</nb_pageviews>
+				<hits>5</hits>
 				<revenue>$5</revenue>
 				<visits_evolution>0%</visits_evolution>
 				<actions_evolution>0%</actions_evolution>
 				<pageviews_evolution>0%</pageviews_evolution>
+				<hits_evolution>0%</hits_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -231,8 +254,9 @@
 				<periodName>day</periodName>
 				<previousRange>Sat, Jan 2</previousRange>
 				<previous_nb_actions>0</previous_nb_actions>
-				<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
-				<previous_Goal_revenue>0</previous_Goal_revenue>
+				<previous_nb_pageviews>0</previous_nb_pageviews>
+				<previous_hits>0</previous_hits>
+				<previous_revenue>0</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -246,8 +270,9 @@
 				<periodName>day</periodName>
 				<previousRange>Sun, Jan 3</previousRange>
 				<previous_nb_actions>2</previous_nb_actions>
-				<previous_Actions_nb_pageviews>2</previous_Actions_nb_pageviews>
-				<previous_Goal_revenue>10</previous_Goal_revenue>
+				<previous_nb_pageviews>2</previous_nb_pageviews>
+				<previous_hits>2</previous_hits>
+				<previous_revenue>10</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -259,8 +284,9 @@
 				<periodName>day</periodName>
 				<previousRange>Sun, Jan 3</previousRange>
 				<previous_nb_actions>0</previous_nb_actions>
-				<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
-				<previous_Goal_revenue>0</previous_Goal_revenue>
+				<previous_nb_pageviews>0</previous_nb_pageviews>
+				<previous_hits>0</previous_hits>
+				<previous_revenue>0</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -274,8 +300,9 @@
 				<periodName>day</periodName>
 				<previousRange>Mon, Jan 4</previousRange>
 				<previous_nb_actions>1</previous_nb_actions>
-				<previous_Actions_nb_pageviews>1</previous_Actions_nb_pageviews>
-				<previous_Goal_revenue>0</previous_Goal_revenue>
+				<previous_nb_pageviews>1</previous_nb_pageviews>
+				<previous_hits>1</previous_hits>
+				<previous_revenue>0</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -289,8 +316,9 @@
 				<periodName>day</periodName>
 				<previousRange>Tue, Jan 5</previousRange>
 				<previous_nb_actions>5</previous_nb_actions>
-				<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
-				<previous_Goal_revenue>5</previous_Goal_revenue>
+				<previous_nb_pageviews>5</previous_nb_pageviews>
+				<previous_hits>5</previous_hits>
+				<previous_revenue>5</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -304,8 +332,9 @@
 				<periodName>day</periodName>
 				<previousRange>Wed, Jan 6</previousRange>
 				<previous_nb_actions>5</previous_nb_actions>
-				<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
-				<previous_Goal_revenue>5</previous_Goal_revenue>
+				<previous_nb_pageviews>5</previous_nb_pageviews>
+				<previous_hits>5</previous_hits>
+				<previous_revenue>5</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -319,8 +348,9 @@
 				<periodName>day</periodName>
 				<previousRange>Thu, Jan 7</previousRange>
 				<previous_nb_actions>5</previous_nb_actions>
-				<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
-				<previous_Goal_revenue>5</previous_Goal_revenue>
+				<previous_nb_pageviews>5</previous_nb_pageviews>
+				<previous_hits>5</previous_hits>
+				<previous_revenue>5</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -334,8 +364,9 @@
 				<periodName>day</periodName>
 				<previousRange>Fri, Jan 8</previousRange>
 				<previous_nb_actions>5</previous_nb_actions>
-				<previous_Actions_nb_pageviews>5</previous_Actions_nb_pageviews>
-				<previous_Goal_revenue>5</previous_Goal_revenue>
+				<previous_nb_pageviews>5</previous_nb_pageviews>
+				<previous_hits>5</previous_hits>
+				<previous_revenue>5</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
 			</row>
@@ -345,6 +376,7 @@
 		<nb_visits>9</nb_visits>
 		<nb_actions>31</nb_actions>
 		<nb_pageviews>31</nb_pageviews>
+		<hits>31</hits>
 		<revenue>35</revenue>
 		<_metadata>
 			<ts_archived>today-date-removed-in-tests</ts_archived>
@@ -353,6 +385,7 @@
 		<visits_evolution_trend>7</visits_evolution_trend>
 		<actions_evolution_trend>7</actions_evolution_trend>
 		<pageviews_evolution_trend>7</pageviews_evolution_trend>
+		<hits_evolution_trend>7</hits_evolution_trend>
 		<revenue_evolution_trend>6</revenue_evolution_trend>
 	</reportTotal>
 </result>

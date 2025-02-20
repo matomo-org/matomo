@@ -224,10 +224,8 @@ class Access
 
     /**
      * Make sure a login name is set
-     *
-     * @return true
      */
-    protected function makeSureLoginNameIsSet()
+    protected function makeSureLoginNameIsSet(): void
     {
         if (empty($this->login)) {
             // flag to force non empty login so Super User is not mistaken for anonymous
@@ -649,6 +647,8 @@ class Access
     /**
      * Executes a callback with superuser privileges, making sure those privileges are rescinded
      * before this method exits. Privileges will be rescinded even if an exception is thrown.
+     *
+     * Use this method with care, as it might open up attack vectors
      *
      * @param callback $function The callback to execute. Should accept no arguments.
      * @return mixed The result of `$function`.

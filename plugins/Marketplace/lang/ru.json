@@ -61,7 +61,6 @@
         "OverviewPluginSubscriptions": "Обзор подписок ваших плагинов",
         "OverviewPluginSubscriptionsAllDetails": "Чтобы увидеть все детали или изменить подписку, войдите в свою учетную запись.",
         "OverviewPluginSubscriptionsMissingInfo": "Возможно, подписка отсутствует, например, если платеж еще не завершен. В таком случае повторите попытку через несколько часов или свяжитесь с командой Matomo.",
-        "OverviewPluginSubscriptionsMissingLicense": "У вас не установлен лицензионный ключ. Если вы приобрели подписку на плагин, перейдите в %1$sMarketplace%2$s и введите свой лицензионный ключ.",
         "PaidPlugins": "Премиум функции",
         "PluginDescription": "Расширяйте и увеличивайте функциональность Matomo через Marketplace, загружая плагины и темы.",
         "PluginKeywords": "Ключевые слова",

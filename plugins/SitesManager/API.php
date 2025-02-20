@@ -14,11 +14,13 @@ use Exception;
 use Matomo\Network\IPUtils;
 use Piwik\Access;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\Model as CoreModel;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Intl\Data\Provider\CurrencyDataProvider;
+use Piwik\Measurable\Type\TypeManager;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
@@ -39,6 +41,7 @@ use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\UrlHelper;
+use Piwik\Validators\WhitelistedValue;
 
 /**
  * The SitesManager API gives you full control on Websites in Matomo (create, update and delete), and many methods to retrieve websites based on various attributes.
@@ -68,6 +71,7 @@ class API extends \Piwik\Plugin\API
     public const OPTION_EXCLUDED_USER_AGENTS_GLOBAL = 'SitesManager_ExcludedUserAgentsGlobal';
     public const OPTION_EXCLUDED_REFERRERS_GLOBAL = 'SitesManager_ExcludedReferrersGlobal';
     public const OPTION_KEEP_URL_FRAGMENTS_GLOBAL = 'SitesManager_KeepURLFragmentsGlobal';
+    public const OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL = 'SitesManager_ExcludeTypeQueryParamsGlobal';
 
     /**
      * @var SettingsProvider
@@ -89,12 +93,21 @@ class API extends \Piwik\Plugin\API
     /** @var SiteContentDetector */
     private $siteContentDetector;
 
-    public function __construct(SettingsProvider $provider, SettingsMetadata $settingsMetadata, Translator $translator, SiteContentDetector $siteContentDetector)
-    {
+    /** @var TypeManager */
+    private $typeManager;
+
+    public function __construct(
+        SettingsProvider $provider,
+        SettingsMetadata $settingsMetadata,
+        Translator $translator,
+        SiteContentDetector $siteContentDetector,
+        TypeManager $typeManager
+    ) {
         $this->settingsProvider = $provider;
         $this->settingsMetadata = $settingsMetadata;
         $this->translator = $translator;
         $this->siteContentDetector = $siteContentDetector;
+        $this->typeManager = $typeManager;
     }
 
     /**
@@ -914,7 +927,7 @@ class API extends \Piwik\Plugin\API
             $type = Site::DEFAULT_SITE_TYPE;
         }
 
-        if (!is_string($type)) {
+        if (!is_string($type) || !$this->typeManager->isExistingType($type)) {
             throw new Exception("Invalid website type $type");
         }
 
@@ -1113,10 +1126,18 @@ class API extends \Piwik\Plugin\API
      *
      * @return string Comma separated list of URL parameters
      */
-    public function getExcludedQueryParametersGlobal()
+    public function getExcludedQueryParametersGlobal(): string
     {
         Piwik::checkUserHasSomeViewAccess();
-        return Option::get(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
+
+        switch ($this->getExclusionTypeForQueryParams()) {
+            case SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS:
+                return '';
+            case SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_MATOMO_RECOMMENDED_PII:
+                return implode(',', Config::getInstance()->SitesManager['CommonPIIParams']);
+            default:
+                return Option::get(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
+        }
     }
 
     /**
@@ -1256,14 +1277,19 @@ class API extends \Piwik\Plugin\API
      * Will also apply to websites created in the future.
      *
      * @param string $excludedQueryParameters Comma separated list of URL query parameters to exclude from URLs
+     * @deprecated Use self::setGlobalQueryParamExclusion() instead.
      * @return bool
      */
     public function setGlobalExcludedQueryParameters($excludedQueryParameters)
     {
-        Piwik::checkUserHasSuperUserAccess();
-        $excludedQueryParameters = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
-        Option::set(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL, $excludedQueryParameters);
-        Cache::deleteTrackerCache();
+        if (empty($excludedQueryParameters)) {
+            $this->setGlobalQueryParamExclusion(SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS);
+            return true;
+        }
+        $this->setGlobalQueryParamExclusion(
+            SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM,
+            $excludedQueryParameters
+        );
         return true;
     }
 
@@ -1337,6 +1363,70 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Sets global query parameter exclusion based on the specified exclusion type.
+     *
+     * @param string $exclusionType The type of query param exclusion, must be of the following:
+     *  - common_session_parameters
+     *  - matomo_recommended_pii
+     *  - custom
+     * @param string|null $queryParamsToExclude (Optional) Comma separated list of query parameters to exclude when $exclusionType is 'custom'.
+     *                                         Ignored if $exclusionType is not 'custom'.
+     * @return void
+     * @throws Exception
+     */
+    public function setGlobalQueryParamExclusion(string $exclusionType, ?string $queryParamsToExclude = null): void
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $queryParamsToExclude = $this->checkAndReturnCommaSeparatedStringList($queryParamsToExclude);
+        $whiteListValidator = new WhitelistedValue(SitesManager::URL_PARAM_EXCLUSION_TYPES);
+        $whiteListValidator->validate($exclusionType);
+
+        if ($exclusionType === SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM && empty($queryParamsToExclude)) {
+            throw new Exception($this->translator->translate('SitesManager_ExceptionEmptyQueryParamsForCustomType'));
+        }
+
+        if ($exclusionType !== SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM && !empty($queryParamsToExclude)) {
+            throw new Exception($this->translator->translate('SitesManager_ExceptionNonEmptyQueryParamsForNonCustomType'));
+        }
+
+        Option::set(self::OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL, $exclusionType);
+
+        if ($exclusionType !== SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM) {
+            Option::delete(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
+            Cache::deleteTrackerCache();
+            return;
+        }
+
+        Option::set(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL, $queryParamsToExclude);
+        Cache::deleteTrackerCache();
+    }
+
+    /**
+     * Gets the exclusion type, if the option is not present in the store then it infers the type based on if there are
+     * custom exclusions already defined.
+     *
+     * @return string
+     */
+    public function getExclusionTypeForQueryParams(): string
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        $result = Option::get(self::OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL);
+
+        if (!empty($result)) {
+            return $result;
+        }
+
+        $excludedQueryParamsGlobal = Option::get(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
+
+        if (empty($excludedQueryParamsGlobal)) {
+            return SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS;
+        }
+        return SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM;
+    }
+
+    /**
      * Update an existing website.
      * If only one URL is specified then only the main url will be updated.
      * If several URLs are specified, both the main URL and the alias URLs will be updated.
@@ -1365,8 +1455,6 @@ class API extends \Piwik\Plugin\API
      * @throws Exception
      * @see getKeepURLFragmentsGlobal. If null, the existing value will
      *                                   not be modified.
-     *
-     * @return bool true on success
      */
     public function updateSite(
         $idSite,
@@ -1447,7 +1535,8 @@ class API extends \Piwik\Plugin\API
             $bind['ts_created'] = Date::factory($startDate)->getDatetime();
         }
 
-        if (isset($type)) {
+        // check and update type only if it has changed
+        if (isset($type) && Site::getTypeFor($idSite) !== $type) {
             $bind['type'] = $this->checkAndReturnType($type);
         }
 

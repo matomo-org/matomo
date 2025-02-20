@@ -11,18 +11,15 @@ export type DashboardSortOrder = 'asc' | 'desc';
 export type EvolutionTrend = -1 | 0 | 1;
 
 export interface DashboardMetrics {
-  hits_evolution: string;
-  hits_evolution_trend: EvolutionTrend;
-  nb_hits: string;
-  nb_pageviews: string;
-  nb_visits: string;
-  pageviews_evolution: string;
-  pageviews_evolution_trend: EvolutionTrend;
-  visits_evolution: string;
-  visits_evolution_trend: EvolutionTrend;
-  revenue: string;
-  revenue_evolution: string;
-  revenue_evolution_trend: EvolutionTrend;
+  hits: number;
+  previous_hits: number;
+  nb_pageviews: number;
+  previous_nb_pageviews: number;
+  nb_visits: number;
+  previous_nb_visits: number;
+  ratio: number;
+  revenue: number;
+  previous_revenue: number;
 }
 
 export interface DashboardSiteData extends DashboardMetrics, Site {
@@ -30,12 +27,18 @@ export interface DashboardSiteData extends DashboardMetrics, Site {
   label: string;
 }
 
+export interface KPICardBadge {
+  label: string;
+  title?: string;
+}
+
 export interface KPICardData {
   evolutionPeriod: string;
   evolutionTrend: EvolutionTrend;
   evolutionValue: string;
-  badge?: string;
+  badge?: KPICardBadge | null;
   icon: string;
   title: string;
   value: string;
+  valueCompact: string;
 }

@@ -367,7 +367,7 @@ class Model
         $db = $this->getDb();
         $db->query(
             $insertSql,
-            [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO, $secureOnly]
+            [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO, (int) $secureOnly]
         );
 
         return $db->lastInsertId();

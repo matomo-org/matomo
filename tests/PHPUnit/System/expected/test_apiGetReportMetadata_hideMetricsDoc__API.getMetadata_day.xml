@@ -15,6 +15,7 @@
 			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
 			<nb_searches>Searches</nb_searches>
 			<nb_keywords>Unique Keywords</nb_keywords>
+			<hits>Hits</hits>
 		</metrics>
 		<processedMetrics>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
@@ -28,6 +29,7 @@
 			<nb_uniq_outlinks>number</nb_uniq_outlinks>
 			<nb_searches>number</nb_searches>
 			<nb_keywords>number</nb_keywords>
+			<hits>number</hits>
 			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>

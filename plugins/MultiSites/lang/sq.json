@@ -1,6 +1,8 @@
 {
     "MultiSites": {
         "AllWebsitesDashboardDocumentation": "Ky raport ju jep një përmbledhje informuese për çdonjërin nga sajtet tuaj, me matjet më të përgjithshme rreth vizitorëve tuaj.",
+        "AllWebsitesDashboardErrorMessage": "S’merren dot të dhëna tani. Kjo mund të vijë nga një problem i përkohshëm rrjeti, ose raporti përmban shumë të dhëna. Ju lutemi, riprovoni më vonë. Nëse problemi vazhdon, ju lutemi, lidhuni për asistencë me përgjegjësin e instancës tuaj Matomo.",
+        "AllWebsitesDashboardTitle": "Krejt Sajtet",
         "Evolution": "Evoluim",
         "EvolutionComparisonDay": "%1$s %2$s sot krahasohet me %3$s %2$s në periudhën e mëparshme të pjesshme (%4$s) Evoluim: %5$s",
         "EvolutionComparisonIncomplete": "Periudha kohore e përzgjedhur tani është %1$s e plotë.",
@@ -8,9 +10,17 @@
         "EvolutionComparisonProportional": "Kur periudha e mëparshme qe gjithashtu %1$s e plotë, do të kishte afërsisht %2$s %3$s\n (nga gjithsej %4$s %3$s në periudhën e mëparshme).",
         "EvolutionComparisonWeek": "%1$s %2$s këtë javë krahasohet me %3$s %2$s në periudhën e mëparshme (%4$s) Evoluim: %5$s",
         "EvolutionComparisonYear": "%1$s %2$s këtë vit krahasohet me %3$s %2$s në periudhën e mëparshme (%4$s) Evoluim: %5$s",
+        "EvolutionFromPreviousDay": "Nga dita e mëparshme",
+        "EvolutionFromPreviousMonth": "Nga muaji i mëparshëm",
+        "EvolutionFromPreviousPeriod": "Nga periudha e mëparshme",
+        "EvolutionFromPreviousWeek": "Nga java e mëparshme",
+        "EvolutionFromPreviousYear": "Nga viti i mëparshëm",
         "LoadingWebsites": "Po ngarkohen sajte",
         "PluginDescription": "Shihni dhe krahasoni krejt sajtet dhe aplikacionet tuaja te ky pult i dobishëm “Krejt Sajtet”.",
         "SingleWebsitesDashboardDocumentation": "Ky raport ju jep një përmbledhje informuese për një sajt të dhënë, me matjet më të përgjithshme rreth vizitorëve tuaj.",
-        "TopLinkTooltip": "Krahasoni statistika Analizimesh Web për krejt Sajtet tuaj."
+        "TopLinkTooltip": "Krahasoni statistika Analizimesh Web për krejt Sajtet tuaj.",
+        "TotalHits": "Ardhje Gjithsej",
+        "TotalPageviews": "Parje faqesh Gjithsej",
+        "TotalVisits": "Vizita Gjithsej"
     }
 }

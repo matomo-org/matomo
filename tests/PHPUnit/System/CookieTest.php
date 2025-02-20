@@ -11,7 +11,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\Access;
 use Piwik\Config;
-use Piwik\SettingsPiwik;
+use Piwik\Container\StaticContainer;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -29,6 +29,7 @@ class CookieTest extends SystemTestCase
     public function setUp(): void
     {
         parent::setUp();
+        Fixture::createWebsite('2024-02-02');
         $this->testVars = static::$fixture->getTestEnvironment();
         $this->originalAssumeSecureValue = Config::getInstance()->General['assume_secure_protocol'];
     }
@@ -42,19 +43,13 @@ class CookieTest extends SystemTestCase
 
     public function testIgnoreCookieSameSiteChromeSecure()
     {
-        $this->testVars->overrideConfig('General', 'assume_secure_protocol', 1);
-        $this->testVars->save();
-
-        $headers = $this->setIgnoreCookie(self::USERAGENT_CHROME);
+        $headers = $this->setIgnoreCookie(self::USERAGENT_CHROME, 1);
         $cookie = $this->findIgnoreCookie($headers);
         $this->assertCookieSameSiteMatches('None', $cookie);
     }
 
     public function testIgnoreCookieSameSiteChromeNotSecure()
     {
-        $this->testVars->overrideConfig('General', 'assume_secure_protocol', 0);
-        $this->testVars->save();
-
         $headers = $this->setIgnoreCookie(self::USERAGENT_CHROME);
         $cookie = $this->findIgnoreCookie($headers);
         $this->assertCookieSameSiteMatches('Lax', $cookie);
@@ -74,10 +69,34 @@ class CookieTest extends SystemTestCase
         self::assertStringNotContainsString($cookie, 'SameSite');
     }
 
-    private function setIgnoreCookie($userAgent)
+    private function setIgnoreCookie($userAgent, $assumeSecure = 0)
     {
         $matomoUrl = Fixture::getTestRootUrl();
-        $tokenAuth = Fixture::getTokenAuth();
+        $cookieFile = tempnam(StaticContainer::get('path.tmp'), 'testSessionCookie');
+
+        $params = array(
+            'module' => 'UsersManager',
+            'action' => 'userSettings',
+            'idSite' => 1,
+            'period' => 'day',
+            'date' => 'yesterday',
+        );
+
+        $url = $matomoUrl . 'index.php?' . http_build_query($params);
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
+        curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFile);
+
+        $content = curl_exec($ch);
+        curl_close($ch);
+
+        preg_match('/set-ignore-cookie-nonce="&quot;([a-z0-9]+)&quot;"/i', $content, $matches);
+
+        $nonce = $matches[1] ?? '';
+
+        $this->testVars->overrideConfig('General', 'assume_secure_protocol', $assumeSecure);
+        $this->testVars->save();
 
         $params = array(
             'module' => 'UsersManager',
@@ -85,7 +104,7 @@ class CookieTest extends SystemTestCase
             'idSite' => 1,
             'period' => 'day',
             'date' => 'yesterday',
-            'ignoreSalt' => md5(SettingsPiwik::getSalt()),
+            'nonce' => $nonce,
         );
 
         $url = $matomoUrl . 'index.php?' . http_build_query($params);
@@ -93,6 +112,7 @@ class CookieTest extends SystemTestCase
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
+        curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFile);
         return curl_exec($ch);
     }
 
@@ -100,7 +120,7 @@ class CookieTest extends SystemTestCase
     {
         $ignoreCookieName = Config::getInstance()->Tracker['ignore_visits_cookie_name'];
         preg_match('/^Set-Cookie: ' . $ignoreCookieName . '=.*/m', $rawHeaders, $matches);
-        return $matches ? $matches[0] : '';
+        return $matches[0] ?? '';
     }
 
     private function assertCookieSameSiteMatches($expectedSameSite, $cookieHeader)

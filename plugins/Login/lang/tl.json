@@ -1,6 +1,5 @@
 {
     "Login": {
-        "BruteForceLog": " ",
         "ConfirmationLinkSent": "Ang link na upang ma-konpirma ang iyong detalye ay ipinadala na sa iyong inbox. Tignan ang iyong e-mail at bisitahin ang link na ito upang masagawa ang iyong hiling na baguhin ang iyong password.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Ang isang user na may Super-access ay hindi maaaring e-authenticate gamit ang '%s' mechanism.",
         "ExceptionPasswordMD5HashExpected": "Ang parameter ng password ay inaasahan na maging isang MD5 hash ng password.",
@@ -9,7 +8,6 @@
         "LogIn": "Mag-sign in",
         "LoginPasswordNotCorrect": "Maling kumbinasyon ng Username at Password",
         "LostYourPassword": "Naiwala ang iyong password?",
-        "MailTopicPasswordChange": "Kumpirmahin ang pag papalit ng password",
         "PasswordChanged": "Ang iyong password ay nabago na.",
         "PasswordRepeat": "Password (ulitin)",
         "PasswordsDoNotMatch": "Ang mga password ay hindi tugma.",

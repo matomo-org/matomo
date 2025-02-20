@@ -27,7 +27,6 @@
         "SetUpTwoFactorAuthentication": "Twee-factor-authenticatie (2FA) instellen",
         "SetupAuthenticatorOnDevice": "Stel een twee-factor OTP-app in op uw apparaat",
         "SetupAuthenticatorOnDeviceStep1": "Installeer een OTP-app, bijvoorbeeld:",
-        "SetupAuthenticatorOnDeviceStep2": "Open vervolgens de app en scan onderstaande barcode met de OTP-app op uw mobiele apparaat. %1$sVoer deze code in%2$s indien u de barcode niet kan scannen.",
         "SetupBackupRecoveryCodes": "Bewaar uw back-up codes op een veilige manier door een van bovenstaande methodes te gebruiken, voordat u verder gaat.",
         "SetupFinishedSubtitle": "U heeft nu twee-factor authenticatie ingesteld. Vanaf nu wordt u om een authenticatiecode gevraagd bij het inloggen. Zorg ervoor dat u uw mobiele apparaat of back-up codes bij de hand heeft.",
         "SetupFinishedTitle": "Uw account is nu beter beveiligd.",

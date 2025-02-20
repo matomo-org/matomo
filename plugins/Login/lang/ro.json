@@ -18,7 +18,6 @@
         "LoginOrEmail": "Nume utilizator sau Email",
         "LoginPasswordNotCorrect": "Numele sau parola sunt greşite.",
         "LostYourPassword": "Ai pierdut parola?",
-        "MailTopicPasswordChange": "Confirmă schimbarea parolei",
         "PasswordChanged": "Parola ta a fost schimbată",
         "PasswordRepeat": "Parolă (repetă)",
         "PasswordsDoNotMatch": "Parolele nu se potrivesc.",

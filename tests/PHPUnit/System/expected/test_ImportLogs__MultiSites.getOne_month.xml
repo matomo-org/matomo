@@ -2,14 +2,17 @@
 <result>
 	<nb_visits>43</nb_visits>
 	<nb_actions>51</nb_actions>
+	<nb_pageviews>45</nb_pageviews>
+	<hits>51</hits>
+	<revenue>195</revenue>
 	<visits_evolution>100%</visits_evolution>
 	<visits_evolution_trend>1</visits_evolution_trend>
 	<actions_evolution>100%</actions_evolution>
 	<actions_evolution_trend>1</actions_evolution_trend>
 	<pageviews_evolution>100%</pageviews_evolution>
 	<pageviews_evolution_trend>1</pageviews_evolution_trend>
+	<hits_evolution>100%</hits_evolution>
+	<hits_evolution_trend>1</hits_evolution_trend>
 	<revenue_evolution>100%</revenue_evolution>
 	<revenue_evolution_trend>1</revenue_evolution_trend>
-	<nb_pageviews>45</nb_pageviews>
-	<revenue>195</revenue>
 </result>

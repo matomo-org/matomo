@@ -99,7 +99,7 @@ https://www.example.org/</placeholder>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Enter the list of URL Query Parameters, one per line, to exclude from the Page URLs reports. Regular expressions such as /^sess.*|.*[dD]ate$/ are supported.&lt;br /&gt;&lt;br /&gt;Matomo will automatically exclude the common session parameters (phpsessid, sessionid, ...).</inlineHelp>
+				<inlineHelp>Enter each URL parameter on a separate line to exclude from tracking and reports. Regular expressions such as /^sess.*|.*[dD]ate$/ are supported.&lt;br /&gt;&lt;br /&gt;Matomo will automatically exclude the common session parameters (phpsessid, sessionid, ...).</inlineHelp>
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>

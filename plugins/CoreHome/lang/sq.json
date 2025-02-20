@@ -68,6 +68,7 @@
         "PageDownShortcutDescription": "që të shkohet në fund të faqes",
         "PageUpShortcutDescription": "që të shkohet në krye të faqes",
         "PeriodHasOnlyRawData": "Duket sikur raportet për këtë periudhë s’janë përpunuar ende. Doni të shihni ç’po ndodh tani? Shihni %1$sRegjistër vizitash%2$s, ose zgjidhni një periudhë tjetër datash, deri sa të prodhohen raportet.",
+        "PeriodHasOnlyRawDataNoVisitsLog": "Duket sikur raportet për këtë periudhë s’janë përpunuar ende, por do të jenë gati pas pak orësh. Deri sa të prodhohen raportet, mund të zgjidhnit një tjetër periudhë datash.",
         "PeriodRange": "Interval",
         "PivotBySubtable": "Ky raport s’është rrotulluar %1$s Rrotullojeni sipas %2$s",
         "Profilable": "E profilizueshme",

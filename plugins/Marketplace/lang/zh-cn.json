@@ -70,7 +70,6 @@
         "OverviewPluginSubscriptions": "插件订阅概述",
         "OverviewPluginSubscriptionsAllDetails": "要查看所有详细信息或更改订阅，请登录到您的帐户。",
         "OverviewPluginSubscriptionsMissingInfo": "订阅可能会丢失，例如，如果尚未付款。 在这种情况下，请在几个小时后重试，或与Matomo小组联系。",
-        "OverviewPluginSubscriptionsMissingLicense": "您没有设置许可证密钥。 如果您购买了插件订阅，请转到%1$s Marketplace %2$s并输入许可证密钥。",
         "PaidPlugins": "高级功能",
         "PluginDescription": "通过下载插件和主题，通过市场扩展和扩展Matomo的功能。",
         "PluginKeywords": "关键词",

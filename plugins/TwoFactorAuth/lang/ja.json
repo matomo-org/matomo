@@ -27,7 +27,6 @@
         "SetUpTwoFactorAuthentication": "2ファクター認証を設定する（2FA）",
         "SetupAuthenticatorOnDevice": "デバイスで OTP アプリをセットアップする",
         "SetupAuthenticatorOnDeviceStep1": "OTP アプリをインストールします。例:",
-        "SetupAuthenticatorOnDeviceStep2": "次に、アプリを開き、モバイル デバイスの OTP アプリで下のバーコードをスキャンします。 バーコードをスキャンできない場合は、%1$sこのコードを入力%2$sしてください。",
         "SetupBackupRecoveryCodes": "続行する前に、上記のいずれかの方法を使用してリカバリ コードを安全に保存してください。",
         "SetupFinishedSubtitle": "これで 2 要素認証が設定されました。 今後は、ログインするために認証コードを入力する必要があります。モバイル デバイスまたはバックアップ コードを携帯していることを確認してください。",
         "SetupFinishedTitle": "あなたのアカウントはより安全になりました。",

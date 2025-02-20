@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\SegmentEditor\tests\Integration;
 
+use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Config;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -174,6 +176,128 @@ class ApiTest extends IntegrationTestCase
         $this->api->add('segment 9', 'countryCode!=fr', $idSite = false, $autoArchive = false, $enableAllUsers = true);
         Rules::setBrowserTriggerArchiving(true);
     }
+
+    public function testUserCanStillEditSegmentAfterSuperUserSharedIt()
+    {
+        self::expectNotToPerformAssertions();
+
+        $segment = 'pageUrl=@%252F1';
+        Fixture::createWebsite('2020-03-03 00:00:00');
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+
+        FakeAccess::$identity = 'normalUser';
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesView = [1];
+
+        $idSegment = Request::processRequest('SegmentEditor.add', [
+            'name' => 'test segment',
+            'definition' => $segment,
+            'idSite' => 1,
+            'autoArchive' => 1,
+            'enabledAllUsers' => 0,
+        ]);
+
+        FakeAccess::$identity = 'superUserLogin';
+        FakeAccess::$superUser = true;
+        FakeAccess::$idSitesView = [];
+
+        Request::processRequest('SegmentEditor.update', [
+            'idSegment' => $idSegment,
+            'name' => 'test segment',
+            'definition' => $segment,
+            'idSite' => 1,
+            'autoArchive' => 1,
+            'enabledAllUsers' => 1,
+        ]);
+
+        FakeAccess::$identity = 'normalUser';
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesView = [1];
+
+        Request::processRequest('SegmentEditor.update', [
+            'idSegment' => $idSegment,
+            'name' => 'new segment name',
+            'definition' => $segment,
+            'idSite' => 1,
+            'autoArchive' => 1,
+            'enabledAllUsers' => 1,
+        ]);
+    }
+
+    public function testNormalUserCannotCreateSharedSegment()
+    {
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('enabledAllUsers=1 requires Super User access');
+
+        $segment = 'pageUrl=@%252F1';
+        Fixture::createWebsite('2020-03-03 00:00:00');
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+
+        FakeAccess::$identity = 'normalUser';
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesView = [1];
+
+        $idSegment = Request::processRequest('SegmentEditor.add', [
+            'name' => 'test segment',
+            'definition' => $segment,
+            'idSite' => 1,
+            'autoArchive' => 1,
+            'enabledAllUsers' => 1,
+        ]);
+    }
+
+
+    public function testUserCanNoLongerEditSegmentAfterSuperUserSharedItAccrossSites()
+    {
+        $segment = 'pageUrl=@%252F1';
+        Fixture::createWebsite('2020-03-03 00:00:00');
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+
+        FakeAccess::$identity = 'normalUser';
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesView = [1];
+
+        $idSegment = Request::processRequest('SegmentEditor.add', [
+            'name' => 'test segment',
+            'definition' => $segment,
+            'idSite' => 1,
+            'autoArchive' => 1,
+            'enabledAllUsers' => 0,
+        ]);
+
+        FakeAccess::$identity = 'superUserLogin';
+        FakeAccess::$superUser = true;
+        FakeAccess::$idSitesView = [];
+
+        Request::processRequest('SegmentEditor.update', [
+            'idSegment' => $idSegment,
+            'name' => 'test segment',
+            'definition' => $segment,
+            'idSite' => 0,
+            'autoArchive' => 1,
+            'enabledAllUsers' => 0,
+        ]);
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('SegmentEditor_UpdatingAllSitesSegmentPermittedToSuperUser');
+
+        FakeAccess::$identity = 'normalUser';
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesView = [1];
+
+        Request::processRequest('SegmentEditor.update', [
+            'idSegment' => $idSegment,
+            'name' => 'new segment name',
+            'definition' => $segment,
+            'idSite' => 0,
+            'autoArchive' => 1,
+            'enabledAllUsers' => 0,
+        ]);
+    }
+
 
     protected function setSuperUser($userName = 'superUserLogin')
     {

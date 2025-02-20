@@ -9,7 +9,7 @@
         "ServerTime": "Käyntejä (palvelimen aika)",
         "SubmenuTimes": "Ajat",
         "VisitsByDayOfWeek": "Käynnit viikonpäivän mukaan",
-        "WidgetByDayOfWeekDocumentation": "Tämä kuvaaja näyttää käyntien määrän sivuilla viikonpäivien mukaan",
+        "WidgetByDayOfWeekDocumentation": "Tämä kaavio näyttää käyntien määrän toimialueellasi jokaisena viikonpäivänä.",
         "WidgetLocalTime": "Käyntejä (paikallinen aika)",
         "WidgetLocalTimeDocumentation": "Tämä kuvaaja näyttää, mikä aika oli %1$s kävijöiden aikavyöhykkeellä %2$s käyntien aikana.",
         "WidgetServerTime": "Käyntejä (palvelimen aika)",

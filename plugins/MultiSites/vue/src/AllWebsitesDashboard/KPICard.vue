@@ -12,15 +12,25 @@
       {{ translate(kpi.title) }}
     </div>
 
-    <div class="kpiCardValue">{{ kpi.value }}</div>
+    <div style="display: none;" ref="kpiCardTooltipTemplate">
+      <div role="tooltip">
+        <h3>{{ translate(kpi.title) }}</h3>
+        {{ kpi.value }}
+      </div>
+    </div>
+
+    <div class="kpiCardValue"
+         :title="kpi.value"
+         v-tooltips="{ duration: 200, delay: 200, content: tooltipContent }"
+    >{{ kpi.valueCompact }}</div>
 
     <div class="kpiCardEvolution">
       <template v-if="kpi.evolutionValue !== ''">
         <span :class="`kpiCardEvolutionTrend ${evolutionTrendClass}`">
           <span :class="`kpiCardEvolutionIcon ${evolutionTrendIcon}`" />
-          {{ kpi.evolutionValue }}
+          {{ kpi.evolutionValue }}&nbsp;
         </span>
-        {{ translate(evolutionTrendFrom) }}
+        <span>{{ translate(evolutionTrendFrom) }}</span>
       </template>
 
       <template v-else>
@@ -31,18 +41,24 @@
     </div>
 
     <div v-if="kpi.badge"
-         v-html="$sanitize(kpi.badge)"
          class="kpiCardBadge"
-    ></div>
+         :title="kpi.badge.title"
+         v-html="$sanitize(kpi.badge.label)"
+         v-tooltips="{ duration: 200, delay: 200 }">
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+import { Tooltips } from 'CoreHome';
 import { KPICardData } from '../types';
 
 export default defineComponent({
+  directives: {
+    Tooltips,
+  },
   props: {
     modelValue: {
       type: Object,
@@ -50,6 +66,9 @@ export default defineComponent({
     },
   },
   computed: {
+    tooltipContent(): () => string {
+      return () => (this.$refs.kpiCardTooltipTemplate as HTMLElement)?.innerHTML || '';
+    },
     evolutionTrendFrom(): string {
       switch (this.kpi.evolutionPeriod) {
         case 'day':

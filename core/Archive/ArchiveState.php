@@ -14,7 +14,6 @@ namespace Piwik\Archive;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataTable;
 use Piwik\Date;
-use Piwik\Period\Range;
 use Piwik\Site;
 
 class ArchiveState
@@ -34,23 +33,30 @@ class ArchiveState
         array $archiveIds,
         array $archiveStates
     ): void {
+        $periodsEndDays = [];
         $periodsTsArchived = [];
+        $archiveIdsFlipped = [];
 
         foreach ($archiveData as $archive) {
-            $idSite = $archive['idsite'];
+            $idSite = (int) $archive['idsite'];
             $period = $archive['date1'] . ',' . $archive['date2'];
 
+            $periodsEndDays[$idSite][$period] = $archive['date2'];
             $periodsTsArchived[$idSite][$period] = $archive['ts_archived'];
         }
 
+        foreach ($archiveIds as $period => $periodArchiveIds) {
+            $archiveIdsFlipped[$period] = array_flip($periodArchiveIds);
+        }
+
         foreach ($periodsTsArchived as $idSite => $periods) {
-            $site = new Site($idSite);
+            $siteTimezone = Site::getTimezoneFor($idSite);
 
             foreach ($periods as $period => $tsArchived) {
-                $state = $this->checkArchiveStates($site, $period, $archiveIds, $archiveStates);
+                $periodEndDay = $periodsEndDays[$idSite][$period];
 
-                $range = new Range('day', $period);
-                $state = $this->checkTsArchived($state, $site, $range, $tsArchived);
+                $state = $this->checkArchiveStates($idSite, $period, $archiveIdsFlipped, $archiveStates);
+                $state = $this->checkTsArchived($state, $siteTimezone, $periodEndDay, $tsArchived);
 
                 if (null === $state) {
                     // do not set metadata, if no state was determined,
@@ -69,20 +75,23 @@ class ArchiveState
     }
 
     /**
-     * @param array<string, array<int>> $archiveIds
+     * @param array<string, array<int, bool>> $archiveIdsFlipped
      * @param array<int, array<string, array<int, int>>> $archiveStates
      */
     private function checkArchiveStates(
-        Site $site,
+        int $idSite,
         string $period,
-        array $archiveIds,
+        array $archiveIdsFlipped,
         array $archiveStates
     ): ?string {
-        $idSite = $site->getId();
+        if (!isset($archiveStates[$idSite][$period]) || !isset($archiveIdsFlipped[$period])) {
+            // do not determine state if no archives were used
+            return null;
+        }
 
         $availableStates = array_intersect_key(
-            $archiveStates[$idSite][$period] ?? [],
-            array_flip($archiveIds[$period] ?? [])
+            $archiveStates[$idSite][$period],
+            $archiveIdsFlipped[$period]
         );
 
         if ([] === $availableStates) {
@@ -102,8 +111,8 @@ class ArchiveState
 
     private function checkTsArchived(
         ?string $state,
-        Site $site,
-        Range $range,
+        string $siteTimezone,
+        string $periodEndDay,
         string $tsArchived
     ): ?string {
         if (self::COMPLETE !== $state) {
@@ -111,10 +120,10 @@ class ArchiveState
             return $state;
         }
 
-        $rangeEndTimestamp = $range->getDateTimeEnd()->setTimezone($site->getTimezone())->getTimestamp();
-        $tsArchivedTimestamp = Date::factory($tsArchived)->getTimestamp();
+        $datePeriodEnd = Date::factory($periodEndDay . ' 23:59:59')->setTimezone($siteTimezone);
+        $dateArchived = Date::factory($tsArchived);
 
-        if ($tsArchivedTimestamp <= $rangeEndTimestamp) {
+        if (!$datePeriodEnd->isEarlier($dateArchived)) {
             return self::INCOMPLETE;
         }
 

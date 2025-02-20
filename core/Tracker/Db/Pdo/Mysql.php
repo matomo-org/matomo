@@ -54,7 +54,7 @@ class Mysql extends Db
 
     protected $mysqlOptions = [];
 
-    protected $activeTransaction = false;
+    protected $activeTransaction = null;
 
     /**
      * Builds the DB object
@@ -248,7 +248,7 @@ class Mysql extends Db
 
             if (
                 $isSelectQuery
-                && !$this->activeTransaction
+                && null === $this->activeTransaction
                 && $this->isMysqlServerHasGoneAwayError($e)
             ) {
                 // mysql may return a MySQL server has gone away error when trying to execute the query
@@ -353,11 +353,11 @@ class Mysql extends Db
 
     /**
      * Start Transaction
-     * @return string TransactionID
+     * @return ?string TransactionID
      */
     public function beginTransaction()
     {
-        if (!$this->activeTransaction === false) {
+        if ($this->activeTransaction !== null) {
             return;
         }
 
@@ -388,11 +388,11 @@ class Mysql extends Db
      */
     public function commit($xid)
     {
-        if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
+        if ($this->activeTransaction != $xid || $this->activeTransaction === null) {
             return;
         }
 
-        $this->activeTransaction = false;
+        $this->activeTransaction = null;
 
         if (!$this->connection->commit()) {
             throw new DbException("Commit failed");
@@ -407,11 +407,11 @@ class Mysql extends Db
      */
     public function rollBack($xid)
     {
-        if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
+        if ($this->activeTransaction != $xid || $this->activeTransaction === null) {
             return;
         }
 
-        $this->activeTransaction = false;
+        $this->activeTransaction = null;
 
         if (!$this->connection->rollBack()) {
             throw new DbException("Rollback failed");

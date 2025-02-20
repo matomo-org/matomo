@@ -497,7 +497,11 @@ window.piwikHelper = {
 
         if (options && !options.onOpenEnd) {
             options.onOpenEnd = function () {
-                $(".modal.open a").focus();
+                if (options.focusSelector) {
+                    $(options.focusSelector).focus();
+                } else {
+                    $(".modal.open a").focus();
+                }
                 var modalContent = $(".modal.open");
                 if (modalContent && modalContent[0]) {
                     // make sure to scroll to the top of the content

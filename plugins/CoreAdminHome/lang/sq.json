@@ -58,6 +58,8 @@
         "JSTracking_CrossDomain_NeedsMultipleDomains": "Që të mund të përdorni lidhje ndërpërkatësore, duhet të përcaktoni më shumë se një emër përkatësie (URL-ra) për sajtin tuaj.",
         "JSTracking_CustomCampaignQueryParam": "Përdorni emra vetjakë parametrash kërkese për emra dhe fjalëkyçe të fushatës",
         "JSTracking_CustomCampaignQueryParamDesc": "Shënim: %1$sMatomo do të zbulojë vetvetiu parametra Google Analytics.%2$s",
+        "JSTracking_DisableCampaignParameters": "Çaktivizo Ndjekje Parametrash Fushate",
+        "JSTracking_DisableCampaignParametersDesc": "Kur kjo mundësi është me shenjë, Matomo s’do të ndjekë parametra fushate dhe këta do të hiqen nga URL-të e ndjekura.",
         "JSTracking_DisableCookies": "Çaktivizo krejt cookie-t e ndjekjeve",
         "JSTracking_DisableCookiesDesc": "Çaktivizon krejt cookie-t nga palë të para. Cookie-t ekzistuese Matomo për këtë sajt do të fshihen me parjen pasuese të faqeve.",
         "JSTracking_EnableCrossDomainLinking": "Aktivizoni lidhje nga përkatësia në përkatësi",

@@ -69,7 +69,6 @@
         "OverviewPluginSubscriptions": "你訂閱的外掛總覽",
         "OverviewPluginSubscriptionsAllDetails": "登入以查看細節或變更訂閱項目。",
         "OverviewPluginSubscriptionsMissingInfo": "可能是訂閱項目遺失，例如付費流程尚未通過。請幾小時後再試一次，或是聯絡 Matomo 團隊。",
-        "OverviewPluginSubscriptionsMissingLicense": "你還沒有設定註冊碼。如果你購買了外掛訂閱項目，前往%1$s市集%2$s並輸入你的註冊碼。",
         "PaidPlugins": "高級功能",
         "PluginDescription": "從市集下載外掛和主題來擴展 Matomo 的功能。",
         "PluginKeywords": "關鍵字",

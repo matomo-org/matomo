@@ -9,7 +9,7 @@
         "MinutesAgo": "%s minuuttia sitten",
         "NoVisit": "Ei käyntejä",
         "None": "Ei mitään",
-        "PluginDescription": "Tämä lisäosa tarjoaa käyttäjäkartan ja reaaliaikakartan. Huom: \"UserCountry\"-liitännäisen tulee olla päällä.",
+        "PluginDescription": "Tarjoaa \"Visitor Map\"- ja \"Real-time Map\" -vimpaimet. Vaatii \"UserCountry\"-liitännäisen.",
         "RealTimeMap": "Reaaliaikainen kartta",
         "Regions": "Alueet",
         "Searches": "%s hakua",

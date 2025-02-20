@@ -27,7 +27,6 @@
         "SetUpTwoFactorAuthentication": "開始設定兩步驟驗證 (2FA)",
         "SetupAuthenticatorOnDevice": "設定裝置上的 OTP 認證器",
         "SetupAuthenticatorOnDeviceStep1": "安裝一個 OTP 認證器應用程式，像是：",
-        "SetupAuthenticatorOnDeviceStep2": "接下來，打開你行動電話上的 OTP 認證應用程式並掃瞄下面的條碼。如果你無法掃瞄條碼，可以改為%1$s輸入這組代碼%2$s。",
         "SetupBackupRecoveryCodes": "請用以上其中一種方法保存你的復原代碼，然後繼續。",
         "SetupFinishedSubtitle": "你現在已設立雙因素認證。現在開始，你在登入時需要輸入認證代碼。請確保你帶好你的行動裝置，或是備用認證碼。",
         "SetupFinishedTitle": "你的帳號現在更安全了。",

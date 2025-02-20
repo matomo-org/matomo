@@ -151,6 +151,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ));
     }
 
+    public function getPaidPluginsToInstallAtOnceParams()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        Json::sendHeaderJSON();
+
+        if (!$this->isInstallAllPaidPluginsVisible()) {
+            return json_encode([]);
+        }
+
+        return json_encode([
+            'paidPluginsToInstallAtOnce' => $this->getAllPaidPluginsToInstallAtOnce(),
+            'installAllPluginsNonce' => Nonce::getNonce(self::INSTALL_NONCE),
+        ], JSON_HEX_APOS);
+    }
+
     private function getPrettyLongDate($date)
     {
         if (empty($date)) {
@@ -254,7 +269,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'premium' => count($paidPlugins),
         ];
 
-        $view->paidPluginsToInstallAtOnce = $this->getPaidPluginsToInstallAtOnceData($paidPlugins);
+        $view->paidPluginsToInstallAtOnce = $this->getAllPaidPluginsToInstallAtOnce();
         $view->isValidConsumer = $this->consumer->isValidConsumer();
         $view->pluginTypeOptions = array(
             'plugins' => Piwik::translate('General_Plugins'),
@@ -292,7 +307,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $paidPlugins = $this->plugins->getAllPaidPlugins();
 
         $updateData = [
-            'paidPluginsToInstallAtOnce' => $this->getPaidPluginsToInstallAtOnceData($paidPlugins),
             'isValidConsumer' => $this->consumer->isValidConsumer(),
         ];
 
@@ -570,5 +584,23 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->errorMessage = '';
 
         return $view;
+    }
+
+    private function isInstallAllPaidPluginsVisible(): bool
+    {
+        return (
+            $this->consumer->isValidConsumer() &&
+            Piwik::hasUserSuperUserAccess() &&
+            SettingsPiwik::isAutoUpdatePossible() &&
+            CorePluginsAdmin::isPluginsAdminEnabled() &&
+            count($this->getAllPaidPluginsToInstallAtOnce()) > 0
+        );
+    }
+
+    private function getAllPaidPluginsToInstallAtOnce()
+    {
+        $paidPlugins = $this->plugins->getAllPaidPlugins();
+
+        return $this->getPaidPluginsToInstallAtOnceData($paidPlugins);
     }
 }

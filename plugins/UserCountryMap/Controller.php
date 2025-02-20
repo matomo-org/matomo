@@ -116,7 +116,7 @@ class Controller extends \Piwik\Plugin\Controller
             true,
             $segment
         );
-        $view->defaultMetric = array_key_exists('nb_uniq_visitors', $config['visitsSummary']) ? 'nb_uniq_visitors' : 'nb_visits';
+        $view->defaultMetric = array_key_exists('nb_uniq_visitors', $config['visitsSummary'] ?? []) ? 'nb_uniq_visitors' : 'nb_visits';
 
         $noVisitTranslation = $this->translator->translate('UserCountryMap_NoVisit');
         // some translations containing metric number

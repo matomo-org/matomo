@@ -24,8 +24,6 @@
         "LoginOrEmail": "Usuario o correo electrónico",
         "LoginPasswordNotCorrect": "Combinación no válida de usuario y contraseña.",
         "LostYourPassword": "¿Te olvidaste la contraseña?",
-        "MailPasswordChangeBody2": "Hola, %1$s.\n\nSe recibió una solicitud de restablecimiento de contraseña desde %2$s. Para confirmar este cambio de contraseña e iniciar con tus nuevas credenciales, por favor, copiá y pegá el siguiente enlace en tu navegador web:\n\n%3$s\n\nNota: este enlace vencerá en 24 horas.\n\n¡Gracias por usar Matomo!",
-        "MailTopicPasswordChange": "Confirmar el cambio de contraseña",
         "NewPassword": "Nueva contraseña",
         "NewPasswordRepeat": "Nueva contraseña (repetirla)",
         "NotAllowListTakesPrecendence": "Si una dirección IP coincide tanto la lista de direcciones bloqueadas como la lista de direcciones nunca bloqueadas, entonces la lista de direcciones bloqueadas toma prioridad y la dirección IP no sería permitida.",

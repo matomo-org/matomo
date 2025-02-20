@@ -72,6 +72,30 @@ class ArchiveStateTest extends TestCase
             ArchiveWriter::DONE_INVALIDATED,
             ArchiveState::INVALIDATED
         ];
+
+        yield 'archive date matching date end exactly' => [
+            '2020-01-31',
+            '2020-01-31',
+            '2020-01-31 23:59:59',
+            ArchiveWriter::DONE_OK,
+            ArchiveState::INCOMPLETE
+        ];
+
+        yield 'archive date one second before date end' => [
+            '2020-01-31',
+            '2020-01-31',
+            '2020-01-31 23:59:58',
+            ArchiveWriter::DONE_OK,
+            ArchiveState::INCOMPLETE
+        ];
+
+        yield 'archive date one second past date end' => [
+            '2020-01-31',
+            '2020-01-31',
+            '2020-02-01 00:00:00',
+            ArchiveWriter::DONE_OK,
+            ArchiveState::COMPLETE
+        ];
     }
 
     /**
@@ -105,28 +129,28 @@ class ArchiveStateTest extends TestCase
         yield 'UTC+14, complete' => [
             'UTC+14',
             '2020-10-10',
-            '2020-10-10 12:00:00',
+            '2020-10-10 10:00:00',
             ArchiveState::COMPLETE,
         ];
 
         yield 'UTC+14, incomplete' => [
             'UTC+14',
             '2020-10-10',
-            '2020-10-10 02:00:00',
+            '2020-10-10 09:59:59',
             ArchiveState::INCOMPLETE,
         ];
 
         yield 'UTC-12, complete' => [
             'UTC-12',
             '2020-10-10',
-            '2020-10-11 16:00:00',
+            '2020-10-11 12:00:00',
             ArchiveState::COMPLETE,
         ];
 
         yield 'UTC-12, incomplete' => [
             'UTC-12',
             '2020-10-10',
-            '2020-10-11 02:00:00',
+            '2020-10-11 11:59:59',
             ArchiveState::INCOMPLETE,
         ];
     }

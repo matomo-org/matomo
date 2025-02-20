@@ -62,7 +62,6 @@
         "OverviewPluginSubscriptions": "Overzicht van je plugin abonnementen",
         "OverviewPluginSubscriptionsAllDetails": "Om alle details te zien, of om een abonnement te wijzigen log in op je account.",
         "OverviewPluginSubscriptionsMissingInfo": "Het kan zijn dat een abonnement ontbreekt, bijvoorbeeld als een betaling nog niet uitgevoerd is. Probeer het in zo'n geval over een paar uur nog eens, of neem contact op met het Matomo team.",
-        "OverviewPluginSubscriptionsMissingLicense": "Je hebt geen licentie code ingevoerd. Wanneer je een plugin hebt gekocht, ga naar %1$sMarketplace%2$s en voer je licentie code in.",
         "PaidPlugins": "Premium functies",
         "PluginDescription": "Breidt de functionaliteit van Matomo uit via de Marktplaats door plugins en thema's te downloaden.",
         "PluginKeywords": "Sleutelwoorden",

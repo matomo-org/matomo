@@ -28,8 +28,6 @@
         "LoginOrEmail": "Nama pengguna atau surel",
         "LoginPasswordNotCorrect": "Kombinasi nama pengguna dan kata sandi salah.",
         "LostYourPassword": "Lupa sandi?",
-        "MailPasswordChangeBody2": "Hai %1$s,\n\nPermintaan reset kata sandi diterima dari %2$s. Untuk mengonfirmasi perubahan kata sandi ini sehingga Anda dapat log masuk dengan kredensial baru Anda, silakan salin dan tempel tautan berikut ini di peramban Anda:\n\n%3$s\n\nCatatan: tautan ini akan kedaluwarsa dalam waktu 24 jam.\n\nTerima kasih karena telah menggunakan Matomo!",
-        "MailTopicPasswordChange": "Konfirmasi Perubahan Kata Sandi",
         "NewPassword": "Kata sandi yang baru",
         "NewPasswordRepeat": "Kata sandi yang baru (ulangi)",
         "NotAllowListTakesPrecendence": "Jika IP cocok dengan daftar blokir dan daftar tidak pernah diblokir, maka daftar blokir lebih diutamakan dan IP tidak akan diizinkan.",

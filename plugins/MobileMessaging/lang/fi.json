@@ -35,7 +35,7 @@
         "Settings_UpdateOrDeleteAccount": "Voit myös %1$späivittää%2$s tai %3$spoistaa%4$s tämän tilin.",
         "Settings_ValidatePhoneNumber": "Varmista",
         "Settings_VerificationCodeJustSent": "Lähetimme juuri tekstiviestin tähän numeroon koodilla varustettuna. Kirjoita koodi yläpuolelle ja klikkaa \"Varmista\".",
-        "TopLinkTooltip": "Saa verkkoanalyysiraportteja suoraan sähköpostiisi tai puhelimeesi!",
+        "TopLinkTooltip": "Hank verkkoanalyysiraportteja suoraan sähköpostiisi tai matkapuhelimeesi.",
         "TopMenu": "Sähköposti- ja SMS-raportit",
         "UserKey": "Käyttäjäavain",
         "VerificationText": "Koodi on %1$s. Varmistaaksesi puhelinnumerosi ja vastaanottaaksesi Matomon SMS-raportteja, kopioi tämä koodi lomakkeeseen, jonka löydät Matomosta kohdasta %2$s → %3$s."

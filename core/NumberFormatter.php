@@ -97,6 +97,30 @@ class NumberFormatter
     }
 
     /**
+     * Formats a given number in compact format
+     *
+     * @see \Piwik\NumberFormatter::format()
+     *
+     * @param string|int|float $value
+     * @param int $maximumFractionDigits
+     * @param int $minimumFractionDigits
+     * @return mixed|string
+     */
+    public function formatNumberCompact($value)
+    {
+        [$compactPattern, $factor] = $this->determineCorrectCompactPattern('Intl_NumberFormatNumberCompact', $value);
+
+        // In case no special formatting should be used, we use the default number format
+        if (round($value) < 1000 || $compactPattern === '0') {
+            $maximumFractionDigits = $this->getMaxFractionDigitsForCompactFormat(round($value));
+
+            return $this->formatNumber($value, $maximumFractionDigits, 0);
+        }
+
+        return $this->formatCompact($compactPattern, $factor, $value);
+    }
+
+    /**
      * Formats given number as percent value
      * @param string|int|float $value
      * @param int $maximumFractionDigits
@@ -137,7 +161,8 @@ class NumberFormatter
     }
 
     /**
-     * Formats given number as percent value
+     * Formats given number as currency value
+     *
      * @param string|int|float $value
      * @param string $currency
      * @param int $precision
@@ -161,6 +186,94 @@ class NumberFormatter
         }
 
         return str_replace('¤', $currency, $value);
+    }
+
+
+    /**
+     * Formats a given number as currency value in compact format
+     *
+     * @see \Piwik\NumberFormatter::format()
+     *
+     * @param string|int|float $value
+     * @param int $maximumFractionDigits
+     * @param int $minimumFractionDigits
+     * @return mixed|string
+     */
+    public function formatCurrencyCompact($value, $currency)
+    {
+        [$compactPattern, $factor] = $this->determineCorrectCompactPattern('Intl_NumberFormatCurrencyCompact', $value);
+
+        // In case no special formatting should be used, we use the default number format
+        if (round($value) < 1000 || $compactPattern === '0') {
+            $maximumFractionDigits = $this->getMaxFractionDigitsForCompactFormat(round($value));
+
+            return $this->formatCurrency($value, $currency, 0);
+        }
+
+        return str_replace('¤', $currency, $this->formatCompact($compactPattern, $factor, $value));
+    }
+
+    private function getMaxFractionDigitsForCompactFormat(int $valueLength): int
+    {
+        return $valueLength === 1 ? 1 : 0;
+    }
+
+    private function determineCorrectCompactPattern(string $patternPrefix, $value)
+    {
+        $finalFactor = 0;
+        $patternId = '';
+
+        if (round($value) < 1000) {
+            return ['0', 1];
+        }
+
+        for ($factor = 1000; $factor <= 10000000000000000000; $factor *= 10) {
+            $patternOne = $patternPrefix . $factor . 'One';
+            $patternOther = $patternPrefix . $factor . 'Other';
+
+            if (
+                round($value / $factor) === 1.0
+                && $this->translator->translate($patternOne) !== ''
+            ) {
+                $finalFactor = $factor;
+                $patternId = $patternOne;
+            } elseif (
+                round($value / $factor) >= 1
+                && $this->translator->translate($patternOther) !== ''
+            ) {
+                $finalFactor = $factor;
+                $patternId = $patternOther;
+            }
+
+            if ($this->translator->translate($patternId) !== $patternId) {
+                $charCount = substr_count($this->translator->translate($patternId), '0');
+
+                if (round(($value * pow(10, $charCount)) / ($factor * 10)) < pow(10, $charCount)) {
+                    break;
+                }
+            }
+        }
+
+        return [$this->translator->translate($patternId), $finalFactor];
+    }
+
+    private function formatCompact(string $pattern, int $factor, $value)
+    {
+        $charCount = substr_count($pattern, '0');
+
+        if ($charCount > 1) {
+            $factor /= pow(10, ($charCount - 1));
+        }
+
+        $maximumFractionDigits = $this->getMaxFractionDigitsForCompactFormat($charCount);
+
+        // cut off numbers after a certain decimal, as formatNumber would round otherwise
+        $digitCountFactor = pow(10, $maximumFractionDigits);
+        $value = round(($value / $factor) * $digitCountFactor) / $digitCountFactor;
+
+        $formattedNumber = $this->formatNumber($value, $maximumFractionDigits, 0);
+
+        return preg_replace(['/(0+)/', '/(\'\.\')/'], [$formattedNumber, '.'], $pattern);
     }
 
     /**

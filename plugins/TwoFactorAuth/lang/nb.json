@@ -27,7 +27,6 @@
         "SetUpTwoFactorAuthentication": "Sett opp to-faktoridentitetsbekreftelse (2FA)",
         "SetupAuthenticatorOnDevice": "Sett opp identitetbekreftelsesprogram på enheten din",
         "SetupAuthenticatorOnDeviceStep1": "Installer et identitetbekreftelsesprogram, for eksempel:",
-        "SetupAuthenticatorOnDeviceStep2": "Så åpner du programmet og skanner strekkoden nedenfor med to-faktoridentitetbekreftelsesprogrammet på telefonen din. Hvis du ikke kan skanne strekkoden kan du skrive inn %1$sdenne koden%2$s istedenfor.",
         "SetupBackupRecoveryCodes": "Sikkerhetskopier gjenopprettingskodene dine med én av metodene før du fortsetter oppsettet av to-faktoridentitetsbekreftelse.",
         "SetupFinishedSubtitle": "Du har satt opp to-faktoridentitetsbekreftelse. Neste gang du logger inn må du også skrive inn en identitetbekreftelseskode. Forsikre deg om at du har mobilenheten din eller sikkerhetskopikodene dine med deg.",
         "SetupFinishedTitle": "Gratulerer. Kontoen din er nå sikrere.",

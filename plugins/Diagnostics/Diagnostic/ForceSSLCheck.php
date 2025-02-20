@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Config;
 use Piwik\ProxyHttp;
+use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\View;
@@ -35,8 +36,7 @@ class ForceSSLCheck implements Diagnostic
         $label = $this->translator->translate('General_ForcedSSL');
 
         // special handling during install
-        $isPiwikInstalling = !Config::getInstance()->existsLocalConfig();
-        if ($isPiwikInstalling) {
+        if (!SettingsPiwik::isMatomoInstalled()) {
             if (ProxyHttp::isHttps()) {
                 return [];
             }

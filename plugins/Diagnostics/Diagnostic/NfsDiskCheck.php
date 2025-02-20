@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
-use Piwik\Config;
 use Piwik\Filesystem;
+use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
 /**
@@ -39,8 +39,7 @@ class NfsDiskCheck implements Diagnostic
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
         }
 
-        $isPiwikInstalling = !Config::getInstance()->existsLocalConfig();
-        if ($isPiwikInstalling) {
+        if (!SettingsPiwik::isMatomoInstalled()) {
             $help = 'Installation_NfsFilesystemWarningSuffixInstall';
         } else {
             $help = 'Installation_NfsFilesystemWarningSuffixAdmin';

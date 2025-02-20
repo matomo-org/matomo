@@ -51,44 +51,15 @@
           {{ translate('TwoFactorAuth_StepX', 2) }} -
           {{ translate('TwoFactorAuth_SetupAuthenticatorOnDevice') }}
         </h2>
-        <p>{{ translate('TwoFactorAuth_SetupAuthenticatorOnDeviceStep1') }} <a
-            target="_blank"
-            rel="noreferrer noopener"
-            href="https://github.com/andOTP/andOTP#downloads"
-          >andOTP</a>, <a
-            target="_blank"
-            rel="noreferrer noopener"
-            href="https://authy.com/guides/github/"
-          >Authy</a>, <a
-            target="_blank"
-            rel="noreferrer noopener"
-            href="https://support.1password.com/one-time-passwords/"
-          >1Password</a>, <a
-            target="_blank"
-            rel="noreferrer noopener"
-            href="https://helpdesk.lastpass.com/multifactor-authentication-options/lastpass-authenticator/"
-          >LastPass Authenticator</a>, {{ translate('General_Or') }} <a
-            target="_blank"
-            rel="noreferrer noopener"
-            href="https://support.google.com/accounts/answer/1066447"
-          >Google Authenticator</a>.
-        </p>
-        <p><span v-html="$sanitize(setupAuthenticatorOnDeviceStep2)"></span></p>
-        <p>
-          <br />
-          <span
-            id="qrcode"
-            ref="qrcode"
-            title
-          />
-        </p>
+        <InstallOTPApp />
+        <p v-html="$sanitize(setupAuthenticatorOnDeviceStep2ShowCodes)"></p>
         <p>
           <br />
           <button
-            class="btn goToStep3"
-            v-show="step === 2"
-            @click="nextStep()"
-          >{{ translate('General_Next') }}</button>
+            class="btn showOtpCodes"
+            v-show="step >= 2"
+            @click="showQrCodeModal()"
+          >{{ translate('TwoFactorAuth_ShowCodes') }}</button>
         </p>
       </div>
       <a
@@ -147,14 +118,46 @@
         </form>
       </div>
 
-      <div id="setupTwoFAsecretConfirm" class="ui-confirm">
-        <h2>{{ translate('TwoFactorAuth_Your2FaAuthSecret') }}</h2>
-        <p style="text-align: center;"><code
-          v-select-on-focus="{}"
-          style="font-size: 30px;"
-        >{{ newSecret }}</code></p>
-        <input role="ok" type="button" :value="translate('General_Ok')"/>
-      </div>
+      <MatomoDialog
+        v-model="qrCodeDialogVisible"
+        @validation="closeQrCodeModal(); nextStep()"
+        :options="{ focusSelector: '.modal-action.btn'}"
+      >
+        <div
+          class="ui-confirm two-fa-qr-code-dialog"
+        >
+          <h2>{{ translate('TwoFactorAuth_Your2FaAuthSecret') }}</h2>
+          <div class="row">
+            <div class="col l8 offset-l2 m10 offset-m1 s12 center-align">
+              <p>{{ translate('TwoFactorAuth_ShowCodeModalInstructions1') }}</p>
+              <p>
+                <span
+                  id="qrcode"
+                  ref="qrcode"
+                  title
+                />
+              </p>
+              <p>{{ translate('TwoFactorAuth_ShowCodeModalInstructions2') }}</p>
+
+              <div class="text-code">
+                <pre v-copy-to-clipboard="{}">{{ newSecret}}</pre>
+              </div>
+
+              <p v-html="$sanitize(showCodeModalInstructions3)"></p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l8 offset-l2 m10 offset-m1 s12">
+              <h3>{{ translate('TwoFactorAuth_DontHaveOTPApp') }}</h3>
+              <InstallOTPApp />
+            </div>
+          </div>
+
+          <input role="validation" type="button" :value="translate('General_Continue')"/>
+          <input role="no" type="button" :value="translate('General_Cancel')"/>
+        </div>
+      </MatomoDialog>
     </div>
   </ContentBlock>
 </template>
@@ -165,18 +168,21 @@ import {
   translate,
   Matomo,
   Notification,
-  SelectOnFocus,
   MatomoUrl,
   ContentBlock,
+  MatomoDialog,
+  CopyToClipboard,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import '../types';
 import ShowRecoveryCodes from '../ShowRecoveryCodes/ShowRecoveryCodes.vue';
+import InstallOTPApp from './InstallOTPApp.vue';
 
 interface SetupTwoFactorAuthState {
   step: number;
   hasDownloadedRecoveryCode: boolean;
   authCode: string;
+  qrCodeDialogVisible: boolean;
 }
 
 const { QRCode, $ } = window;
@@ -205,19 +211,22 @@ export default defineComponent({
     standalone: Boolean,
   },
   components: {
+    InstallOTPApp,
+    MatomoDialog,
     ShowRecoveryCodes,
     Notification,
     Field,
     ContentBlock,
   },
   directives: {
-    SelectOnFocus,
+    CopyToClipboard,
   },
   data(): SetupTwoFactorAuthState {
     return {
       step: 1,
       hasDownloadedRecoveryCode: false,
       authCode: '',
+      qrCodeDialogVisible: false,
     };
   },
   mounted() {
@@ -227,6 +236,8 @@ export default defineComponent({
       // eslint-disable-next-line no-new
       new QRCode(qrcode, {
         text: this.twoFaBarCodeSetupUrl,
+        width: 200,
+        height: 200,
       });
 
       $(qrcode).attr('title', ''); // do not show secret on hover
@@ -236,11 +247,6 @@ export default defineComponent({
         this.step = 3;
         this.scrollToEnd();
       }
-
-      $(this.$refs.root as HTMLElement).on('click', '.setupStep2Link', (e) => {
-        e.preventDefault();
-        Matomo.helper.modalConfirm('#setupTwoFAsecretConfirm');
-      });
     });
   },
   methods: {
@@ -258,8 +264,17 @@ export default defineComponent({
         }
       }, 50);
     },
+    showQrCodeModal() {
+      this.qrCodeDialogVisible = true;
+    },
+    closeQrCodeModal() {
+      this.qrCodeDialogVisible = false;
+    },
     nextStep() {
       this.step += 1;
+      if (this.step > 3) {
+        this.step = 3;
+      }
       this.scrollToEnd();
     },
     linkTo(params: QueryParameters) {
@@ -270,11 +285,16 @@ export default defineComponent({
     },
   },
   computed: {
-    setupAuthenticatorOnDeviceStep2() {
+    setupAuthenticatorOnDeviceStep2ShowCodes() {
       return translate(
-        'TwoFactorAuth_SetupAuthenticatorOnDeviceStep2',
-        '<a class="setupStep2Link">',
-        '</a>',
+        'TwoFactorAuth_SetupAuthenticatorOnDeviceStep2ShowCodes',
+        translate('TwoFactorAuth_ShowCodes'),
+      );
+    },
+    showCodeModalInstructions3() {
+      return translate(
+        'TwoFactorAuth_ShowCodeModalInstructions3',
+        translate('General_Continue'),
       );
     },
   },

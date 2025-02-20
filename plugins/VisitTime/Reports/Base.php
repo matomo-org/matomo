@@ -11,6 +11,7 @@ namespace Piwik\Plugins\VisitTime\Reports;
 
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 
 abstract class Base extends \Piwik\Plugin\Report
 {
@@ -33,9 +34,12 @@ abstract class Base extends \Piwik\Plugin\Report
         $view->requestConfig->filter_sort_order = 'asc';
         $view->requestConfig->addPropertiesThatShouldBeAvailableClientSide(array('filter_sort_column'));
         $view->config->show_search = false;
-        $view->config->show_limit_control = false;
         $view->config->show_exclude_low_population = false;
         $view->config->show_offset_information = false;
         $view->config->show_pagination_control = false;
+
+        if (!$view->isViewDataTableId(Evolution::ID)) {
+            $view->config->show_limit_control = false;
+        }
     }
 }

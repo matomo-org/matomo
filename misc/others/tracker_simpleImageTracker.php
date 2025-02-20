@@ -5,7 +5,7 @@ MatomoTracker::$URL = 'http://localhost/matomo-master/';
 // Example 1: Tracks a pageview for Website id = {$IDSITE}
 $trackingURL = Matomo_getUrlTrackPageView($idSite = 16, $customTitle = 'This title will appear in the report Actions > Page titles');
 
-?>
+echo <<<'EOD'
 <html>
 <body>
 <!-- Matomo -->
@@ -22,9 +22,11 @@ $trackingURL = Matomo_getUrlTrackPageView($idSite = 16, $customTitle = 'This tit
 <!-- End Matomo Code -->
 
 This page loads a Simple Tracker request to Matomo website id=1
+EOD;
 
-<?php
 echo '<img src="' . htmlentities($trackingURL, ENT_COMPAT | ENT_HTML401, 'UTF-8') . '" alt="" />';
-?>
+
+echo <<<'EOD'
 </body>
 </html>
+EOD;

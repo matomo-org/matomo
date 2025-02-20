@@ -42,8 +42,6 @@
         "LoginOrEmail": "Erabiltzaile-izena edo e-posta",
         "LoginPasswordNotCorrect": "Erabiltzaile-izen edota pasahitz okerra.",
         "LostYourPassword": "Pasahitza galdu duzu?",
-        "MailPasswordChangeBody2": "Kaixo %1$s,\n\nPasahitza berrezartzeko eskaera bat jaso da hemendik: %2$s. Kopiatu eta itsatsi ondorengo esteka zure web nabigatzailean 24 ordu igaro aurretik zure erabiltzaile-izen eta pasahitz berriekin saioa hasteko:\n\n%3$s\n\nEskerrik asko Matomo erabiltzeagatik.",
-        "MailTopicPasswordChange": "Berretsi pasahitz aldaketa",
         "NewPassword": "Pasahitz berria",
         "NewPasswordRepeat": "Pasahitz berria (errepikatu)",
         "NotAllowListTakesPrecendence": "IP bat beti blokeatzeko eta inoiz ez blokeatzeko zerrendetan, bietan, badago, blokeatua izango da.",

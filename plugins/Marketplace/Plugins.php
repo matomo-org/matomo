@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\NumberFormatter;
 use Piwik\ProfessionalServices\Advertising;
 use Piwik\Plugin\Dependency as PluginDependency;
 use Piwik\Plugin;
@@ -43,6 +44,11 @@ class Plugins
     private $pluginManager;
 
     /**
+     * @var NumberFormatter
+     */
+    private $numberFormatter;
+
+    /**
      * @internal for tests only
      * @var array
      */
@@ -56,6 +62,7 @@ class Plugins
         $this->consumer = $consumer;
         $this->advertising = $advertising;
         $this->pluginManager = Plugin\Manager::getInstance();
+        $this->numberFormatter = NumberFormatter::getInstance();
     }
 
     public function getPluginInfo($pluginName)
@@ -296,7 +303,7 @@ class Plugins
             }
         }
 
-        $haDownloadLink = false;
+        $hasDownloadLink = false;
         if (!empty($plugin['versions'])) {
             $latestVersion = end($plugin['versions']);
             $hasDownloadLink = !empty($latestVersion['download']);
@@ -440,17 +447,9 @@ class Plugins
      */
     private function prettifyNumberOfDownloads(&$plugin): void
     {
-        $num = $nice = $plugin['numDownloads'] ?? 0;
+        $num = $plugin['numDownloads'] ?? 0;
 
-        if (($num >= 1000) && ($num < 100000)) {
-            $nice = round($num / 1000, 1, PHP_ROUND_HALF_DOWN) . 'k';
-        } elseif (($num >= 100000) && ($num < 1000000)) {
-            $nice = floor($num / 1000) . 'k';
-        } elseif ($num >= 1000000) {
-            $nice = floor($num / 1000000) . 'm';
-        }
-
-        $plugin['numDownloadsPretty'] = $nice;
+        $plugin['numDownloadsPretty'] = $this->numberFormatter->formatNumberCompact($num);
     }
 
     private function addConsumerLicenseStatus($plugin): array

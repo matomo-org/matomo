@@ -8,7 +8,6 @@
         "LogIn": "Bejelentkezés",
         "LoginPasswordNotCorrect": "Felhasználói név/jelszó páros nem megfelelő",
         "LostYourPassword": "Elfelejtetted jelszavad?",
-        "MailTopicPasswordChange": "Jelszóváltoztatás megerősítése",
         "PasswordChanged": "Jelszómódosítás sikeres.",
         "PasswordRepeat": "Jelszó (ismét)",
         "PasswordsDoNotMatch": "Nem egyeznek a jelszavak",

@@ -1,7 +1,7 @@
 {
     "UserId": {
         "PluginDescription": "Shfaq raporte përdoruesi",
-        "ThereIsNoDataForThisReportHelp": "%1$sLexoni udhërrëfyesin për përdorues, që të mësonise si të prodhohen të dhëna për këtë raport.%2$s",
+        "ThereIsNoDataForThisReportHelp": "%1$sLexoni udhërrëfyesin për përdorues, që të mësoni si të prodhohen të dhëna për këtë raport.%2$s",
         "UserId": "ID përdoruesi",
         "UserReportDocumentation": "Shfaq vizita dhe vlera të tjera të përgjithshme për çdo ID individuale Përdoruesi.",
         "UserReportTitle": "ID-ra përdoruesish",

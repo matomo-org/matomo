@@ -142,10 +142,10 @@
         "WhatIsNewTitle": "Co nowego w Matomo",
         "WhatIsNewTooltip": "Dowiedz się, co nowego w Matomo",
         "WithOptionalRevenue": "z opcjonalnym zyskiem",
-        "YouAreNotOptedOut": "Nie zrezygnowałeś z udziału w procesie analityki statystycznej.",
+        "YouAreNotOptedOut": "Nie wycofano zgody.",
         "YouAreOptedOut": "Wykluczono Cię z procesu analityki statystycznej",
         "YouMayOptOut": "Możesz wybrać, by nie otrzymywać unikalnego numeru identyfikacyjnego w ciasteczku cookie, przypisanego tylko do Twojego komputera, celem uniknięcia gromadzenia i statystycznej analizy danych na tej stronie.",
-        "YouMayOptOut2": "Możesz uniemożliwić tej stronie agregowanie i analizowanie działań, które robisz tutaj.",
+        "YouMayOptOut2": "Możesz uniemożliwić tej stronie agregowanie i analizowanie działań, które tu podejmujesz.",
         "YouMayOptOut3": "Takie postępowanie ochroni twoją prywatność, ale uniemożliwi właścicielowi naukę na podstawie twoich działań i poprawienie jakości dla ciebie i innych użytkowników.",
         "YouMayOptOutBis": "Aby dokonać tego wyboru, prosimy kliknąć poniżej by uzyskać ciasteczko cookie wyłączające analitykę statystyczną."
     }

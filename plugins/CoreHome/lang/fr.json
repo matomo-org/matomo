@@ -68,6 +68,7 @@
         "PageDownShortcutDescription": "pour vous rendre au bas de la page",
         "PageUpShortcutDescription": "pour vous rendre au haut de la page",
         "PeriodHasOnlyRawData": "Il semble que les rapports pour cette période n'aient pas encore été traités. Voulez-vous voir ce qui se passe maintenant ? Consultez le journal %1$sVisits%2$s ou choisissez une autre période jusqu'à ce que les rapports soient générés.",
+        "PeriodHasOnlyRawDataNoVisitsLog": "Il semble que les rapports pour cette période n'ont pas encore été générés, ils seront disponibles dans quelques heures. Vous pouvez choisir une période différente en attendant que les rapports soient générés.",
         "PeriodRange": "Etendue",
         "PivotBySubtable": "Ce rapport n'a pas été pivoté %1$s Pivoter par %2$s",
         "Profilable": "Profilage",

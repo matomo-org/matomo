@@ -19,9 +19,9 @@ class MultiSites extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations',
+            'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
             'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
         );
     }
@@ -38,6 +38,7 @@ class MultiSites extends \Piwik\Plugin
             'visits_evolution'    => Piwik::translate('General_ColumnNbVisits') . $appendix,
             'actions_evolution'   => Piwik::translate('General_ColumnNbActions') . $appendix,
             'pageviews_evolution' => Piwik::translate('General_ColumnPageviews') . $appendix,
+            'hits_evolution'      => Piwik::translate('General_ColumnHits') . $appendix,
             'revenue_evolution'   => Piwik::translate('General_ColumnRevenue') . $appendix,
             'nb_conversions_evolution' => Piwik::translate('Goals_ColumnConversions') . $appendix,
             'orders_evolution'         => Piwik::translate('General_EcommerceOrders') . $appendix,
@@ -89,6 +90,7 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'MultiSites_TotalHits';
         $translations[] = 'MultiSites_TotalPageviews';
         $translations[] = 'MultiSites_TotalVisits';
+        $translations[] = 'MultiSites_AllWebsitesDashboardErrorMessage';
     }
 
     public function getStylesheetFiles(&$stylesheets)

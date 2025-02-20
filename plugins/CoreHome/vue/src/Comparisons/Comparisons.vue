@@ -240,7 +240,7 @@ export default defineComponent({
       visitsPercent = `${visitsPercent}%`;
 
       tooltip += translate('General_ComparisonCardTooltip1', [
-        `'${comparisonRow.compareSegmentPretty}'`,
+        `'${this.htmlentities(comparisonRow.compareSegmentPretty)}'`,
         comparisonRow.comparePeriodPretty,
         visitsPercent,
         comparisonRow.nb_visits.toString(),
@@ -250,7 +250,7 @@ export default defineComponent({
         tooltip += '<br/><br/>';
         tooltip += translate('General_ComparisonCardTooltip2', [
           comparisonRow.nb_visits_change.toString(),
-          firstPeriodRow.compareSegmentPretty,
+          this.htmlentities(firstPeriodRow.compareSegmentPretty),
           firstPeriodRow.comparePeriodPretty,
         ]);
       }

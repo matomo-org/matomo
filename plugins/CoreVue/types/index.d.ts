@@ -166,7 +166,7 @@ declare global {
     hasSuperUserAccess: boolean;
     language: string;
     cacheBuster: string;
-    numbers: Record<string, string>;
+    numbers: Record<string, any>;
     visitorProfileEnabled: boolean;
     languageName: string;
     isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
@@ -201,12 +201,6 @@ declare global {
   }
 
   let widgetsHelper: WidgetsHelper;
-
-  interface NumberFormatter {
-    formatNumber(value?: number|string): string;
-    formatPercent(value?: number|string): string;
-    formatCurrency(value?: number|string, currency: string): string;
-  }
 
   interface ListingFormatter {
     formatAnd(values: string[]): string;
@@ -257,7 +251,6 @@ declare global {
     widgetsHelper: WidgetsHelper;
     $: JQueryStatic & JQueryStaticResolve;
     Piwik_Popover: PiwikPopoverGlobal;
-    NumberFormatter: NumberFormatter;
     ListingFormatter: ListingFormatter;
     Piwik_Transitions: TransitionsGlobal;
     SegmentedVisitorLog: SegmentedVisitorLogService;
@@ -280,5 +273,10 @@ declare module '@vue/runtime-core' {
     $sanitize: Window['vueSanitize'];
     externalLink: (url: string, ...values:string[]) => string;
     externalRawLink: (url: string, ...values:string[]) => string;
+    formatNumber: (val: string|number, maxFractionDigits?: number, minFractionDigits?: number) => string;
+    formatPercent: (val: string|number, maxFractionDigits?: number, minFractionDigits?: number) => string;
+    formatCurrency: (val: string|number, cur: string, maxFractionDigits?: number, minFractionDigits?: number) => string;
+    formatEvolution: (val: string|number, maxFractionDigits?: number, minFractionDigits?: number, noSign?: boolean) => string;
+    calculateAndFormatEvolution: (valCur: string|number, valPrev: string|number, noSign?: boolean) => string;
   }
 }

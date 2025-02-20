@@ -28,6 +28,7 @@
         "ColumnSocial": "Социальная сеть",
         "ColumnWebsite": "Сайт",
         "ColumnWebsitePage": "Страница сайта",
+        "ConversionAttribution": "Эта конверсия была связана с каналом привлечения:",
         "DirectEntry": "Прямой вход",
         "DirectEntryDocumentation": "Посетитель ввел URL в свой браузер и начал просматривать сайт — это прямой переход.",
         "Distinct": "Различные источники по типу канала",

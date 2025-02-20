@@ -439,6 +439,30 @@ class ArchiveCronTest extends SystemTestCase
         self::assertStringNotContainsString("Starting Piwik reports archiving...", $output);
     }
 
+    public function testArchivePhpCronWithTimeLimit()
+    {
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'browser_archiving_disabled_enforce', 1);
+        self::$fixture->getTestEnvironment()->save();
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+        Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
+
+        Rules::setBrowserTriggerArchiving(false);
+
+        // track a visit so archiving will go through
+        $tracker = Fixture::getTracker(1, '2005-09-04');
+        $tracker->setUrl('http://example.com/test/url2');
+        Fixture::checkResponse($tracker->doTrackPageView('jkl'));
+
+        $output = $this->runArchivePhpCron(['-vvv --stop-processing-after=1' => null]);
+
+        self::assertStringContainsString('Maximum time limit per execution has been reached.', $output);
+
+        // Ensure work has stopped and some invalidations are left over
+        self::assertNotEmpty($this->getInvalidatedArchiveTableEntries());
+    }
+
     private function runArchivePhpCron($options = array(), $archivePhpScript = false)
     {
         $archivePhpScript = $archivePhpScript ?: PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/archive.php';

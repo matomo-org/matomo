@@ -1,0 +1,25 @@
+{% autoescape false %}
+{{ 'General_HelloUser'|translate(login) }}
+
+{{ 'Login_LoginFromDifferentCountryEmail1'|translate }}
+
+{{ 'Login_LoginFromDifferentCountryEmail2'|translate }}
+
+- {{ 'PrivacyManager_IPAddress'|translate }}: {{ ip }}
+- {{ 'UserCountry_Country'|translate }}: {% if country %}{{ country }}{% else %}{{ 'General_Unknown'|translate }}{% endif %}
+
+- {{ 'Login_TimeOfLogin'|translate }}: {{ dateTime }} UTC
+{% if resetPasswordLink or enable2FALink %}
+
+{{ 'Login_LoginFromDifferentCountryEmail3'|translate }}
+
+{% endif %}
+{% if resetPasswordLink %}
+- {{ 'Login_LoginFromDifferentCountryEmail4'|translate }} {{ resetPasswordLink }}
+{% endif %}
+{% if enable2FALink %}
+- {{ 'Login_LoginFromDifferentCountryEmail5'|translate }} {{ enable2FALink }}
+{% endif %}
+
+{{ 'Login_LoginFromDifferentCountryEmail6'|translate }}
+{% endautoescape %}

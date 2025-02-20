@@ -57,7 +57,6 @@
         "OverviewPluginSubscriptions": "Przeglądaj subskrybcje Twoich wtyczek",
         "OverviewPluginSubscriptionsAllDetails": "Aby zobaczyć szczegóły lub zmienić subskrypcję zaloguj się na swoje konto.",
         "OverviewPluginSubscriptionsMissingInfo": "Brak subskrypcji może oznaczać, że na przykład Twoja płatność jeszcze nie została zaksięgowana. Spróbuj ponownie za parę godzin lub skontaktuj się z zespołem Matomo.",
-        "OverviewPluginSubscriptionsMissingLicense": "Klucz licencyjny nie został ustawiony. Jeśli zakupiłeś subskrypcję wtyczki, przejdź do %1$sSklepu%2$s i wprowadź klucz licencyjny.",
         "PaidPlugins": "Funkcjonalności Premium",
         "PluginDescription": "Rozszerzaj funkcjonalności Matomo'a poprzez wtyczki i tematy dostępne w Sklepie.",
         "PluginKeywords": "Słowa kluczowe",

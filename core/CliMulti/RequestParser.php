@@ -108,6 +108,6 @@ class RequestParser
             return ''; // skip check in tests as it might result in random failures
         }
 
-        return `ps aux`;
+        return `ps wwaux`;
     }
 }

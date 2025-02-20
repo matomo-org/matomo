@@ -1,6 +1,7 @@
 {
     "MultiSites": {
         "AllWebsitesDashboardDocumentation": "Bu rapor, sitelerin her biri için ziyaretçilerle ilgili genel ölçümlerden oluşan bilgilendirici bir özet içerir.",
+        "AllWebsitesDashboardErrorMessage": "Veri şu anda kullanılamıyor. Bu durum, geçici bir sunucu sorunundan veya raporda çok fazla veri bulunmasından kaynaklanıyor olabilir. Lütfen bir süre sonra yeniden deneyin. Sorun sürerse, lütfen yardım almak için Matomo yöneticinize başvurun.",
         "AllWebsitesDashboardTitle": "Tüm siteler",
         "Evolution": "Gelişme",
         "EvolutionComparisonDay": "%1$s %2$s bu gün ile karşılaştırıldığında %3$s %2$s önceki dönem parçasına göre (%4$s) Gelişim: %5$s",

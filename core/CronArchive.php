@@ -177,6 +177,15 @@ class CronArchive
      */
     public $maxArchivesToProcess = null;
 
+    /**
+     * Time in seconds how long an archiving job is allowed to start new archiving processes.
+     * When time limit is reached, the archiving job will wrap after current processes are finished up instead of
+     * continuing with the next invalidation requests.
+     *
+     * @var int
+     */
+    public $stopProcessingAfter = -1;
+
     private $archivingStartingTime;
 
     private $formatter;
@@ -270,6 +279,9 @@ class CronArchive
         }
 
         $self = $this;
+        /*
+         * Archiving tasks need to be performed as super, to ensure we pass any permission check.
+         */
         Access::doAsSuperUser(function () use ($self) {
             try {
                 $self->init();
@@ -418,6 +430,11 @@ class CronArchive
                 $this->logger->info("Maximum number of archives to process per execution has been reached.");
                 break;
             }
+
+            if ($this->stopProcessingAfter > 0 && $this->stopProcessingAfter < $timer->getTime()) {
+                $this->logger->info("Maximum time limit per execution has been reached.");
+                break;
+            }
         }
 
         $this->disconnectDb();
@@ -517,7 +534,7 @@ class CronArchive
                 $this->logger->info(var_export($content, true));
 
                 $idinvalidation = $archivesBeingQueried[$index]['idinvalidation'];
-                $this->model->releaseInProgressInvalidation($idinvalidation);
+                $this->model->releaseInProgressInvalidations([$idinvalidation]);
 
                 $queueConsumer->ignoreIdInvalidation($idinvalidation);
 
@@ -989,7 +1006,8 @@ class CronArchive
 
             foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segmentDefinition) {
                 // check if the segment is available
-                if (!$this->isSegmentAvailable($segmentDefinition, [$idSite])) {
+                if (!Segment::isAvailable($segmentDefinition, [$idSite])) {
+                    $this->logger->info("Segment '" . $segmentDefinition . "' is not a supported segment");
                     continue;
                 }
 
@@ -1045,27 +1063,9 @@ class CronArchive
         }
     }
 
-
-    /**
-     * check if segments that contain dimensions that don't exist anymore
-     * @param $segmentDefinition
-     * @param $idSites
-     * @return bool
-     */
-    protected function isSegmentAvailable($segmentDefinition, $idSites): bool
-    {
-        try {
-            new Segment($segmentDefinition, $idSites);
-        } catch (\Exception $e) {
-            $this->logger->info("Segment '" . $segmentDefinition . "' is not a supported segment");
-            return false;
-        }
-        return true;
-    }
-
     private function canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress(int $idSite, Period $period, ?Segment $segment = null): bool
     {
-        $invalidationsInProgress = $this->model->getInvalidationsInProgress($idSite);
+        $invalidationsInProgress = $this->model->getInvalidationsInProgress([$idSite]);
         $timezone = Site::getTimezoneFor($idSite);
 
         $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?? new Segment('', [$idSite]));

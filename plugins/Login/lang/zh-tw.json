@@ -42,8 +42,6 @@
         "LoginOrEmail": "使用者名稱或 Email",
         "LoginPasswordNotCorrect": "使用者名稱或密碼不正確。",
         "LostYourPassword": "密碼遺失了？",
-        "MailPasswordChangeBody2": "%1$s，您好：\n\n來自 %2$s 的重設密碼請求已收到。請在 24 小時內複製並粘貼以下連結到您的瀏覽器中，以使用您的新使用者名稱和密碼進行登入：\n\n%3$s\n\n感謝您使用 Matomo。",
-        "MailTopicPasswordChange": "確認密碼變更",
         "NewPassword": "新密碼",
         "NewPasswordRepeat": "新密碼（再次輸入）",
         "NotAllowListTakesPrecendence": "如果一個 IP 同時出現在阻擋列表與允許列表，此 IP 會被阻擋。",

@@ -370,6 +370,14 @@ table.dataTable td #urlLink {
   text-align: center;
 }
 
+.dataTable.isComparingBarViz {
+  padding-left: 10px;
+  padding-top: 10px;
+  position: relative;
+  left: -10px;
+  top: -10px;
+}
+
 .widget .dataTableFeatures {
   border-bottom-style: none !important;
 }
@@ -650,6 +658,20 @@ td.cellSubDataTable .loadingPiwik {
     overflow-x: scroll;
   }
 }
+.dataTableHeaderControls {
+  margin-top: -10px;
+  margin-bottom: 5px;
+
+  .widgetpreview-preview .widget &,
+  #dashboardWidgetsArea .widget &,
+  .dataTable.isDataTableEmpty:not(.hasSearchKeyword) & {
+    display: none;
+  }
+
+  .widgetized .dataTable.dataTableVizHtmlTable .dataTableWrapper & {
+    margin-top: 0;
+  }
+}
 
 .theWidgetContent .card .card-content, table.dataTable {
   div.dataTableScroller {
@@ -665,7 +687,7 @@ td.cellSubDataTable .loadingPiwik {
 
 @media only screen and (min-width: 993px) {
   #dashboardWidgetsArea .widget,
-  .theWidgetContent > div:not(#dashboard) {
+  .theWidgetContent .isDataTableEmpty {
     &:hover {
       .limitSelection,
       .dataTableControls .dataTableAction {
@@ -679,6 +701,12 @@ td.cellSubDataTable .loadingPiwik {
       &.forceActionVisible {
         visibility: visible;
       }
+    }
+  }
+  .theWidgetContent .isDataTableEmpty.hasSearchKeyword {
+    .limitSelection,
+    .dataTableControls .dataTableAction {
+      visibility: visible;
     }
   }
 }

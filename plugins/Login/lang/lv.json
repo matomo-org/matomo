@@ -42,8 +42,6 @@
         "LoginOrEmail": "Lietotājvārds vai e-pasts",
         "LoginPasswordNotCorrect": "Lietotājvārds un parole nav korekti",
         "LostYourPassword": "Pazaudēji savu paroli?",
-        "MailPasswordChangeBody2": "Sveiki, %1$s,\n\nMēs saņēmām pieprasījumu atiestatīt paroli no %2$s. Lai pieslēgtos ar jauno lietotājvārdu un paroli, lūdzu, iekopējiet šo saiti savā tīmekļa pārlūkā 24 stundu laikā:\n\n%3$s\n\nPaldies, ka izmantojat Matomo.",
-        "MailTopicPasswordChange": "Apstipriniet paroles maiņu",
         "NewPassword": "Jaunā parole",
         "NewPasswordRepeat": "Jaunā parole (vēlreiz)",
         "NotAllowListTakesPrecendence": "Ja IP adrese atrodas gan bloķējamo, gan nekad nebloķējamo IP adrešu sarakstā, tā tiek bloķēta.",

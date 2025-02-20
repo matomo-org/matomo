@@ -42,8 +42,6 @@
         "LoginOrEmail": "Brukernavn eller e-postadresse",
         "LoginPasswordNotCorrect": "Feil kombinasjon av brukernavn og passord.",
         "LostYourPassword": "Glemt passord?",
-        "MailPasswordChangeBody2": "Hi %1$s,\n\nEn forespørsel om passordstilbakestilling ble mottatt fra %2$s. For å bekrefte denne og logge inn med nye identitetsdetaljer kan du kopiere og lime inn denne lenken i nettleseren din:\n\n%3$s\n\nMerk: Denne lenken utløper om 24 timer.\n\nTakk for at du bruker Matomo.",
-        "MailTopicPasswordChange": "Bekreft endring av passordet",
         "NewPassword": "Nytt passord",
         "NewPasswordRepeat": "Nytt passord (gjenta)",
         "NotAllowListTakesPrecendence": "Hvis en IP samsvarer med både blokker- og aldri blokker-listen, vil bokkeringslisten overstyre og IP-en dermed ikke tillates.",

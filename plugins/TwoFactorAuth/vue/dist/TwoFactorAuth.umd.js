@@ -364,19 +364,19 @@ function ShowRecoveryCodesPagevue_type_template_id_13e8e57f_render(_ctx, _cache,
 ShowRecoveryCodesPagevue_type_script_lang_ts.render = ShowRecoveryCodesPagevue_type_template_id_13e8e57f_render
 
 /* harmony default export */ var ShowRecoveryCodesPage = (ShowRecoveryCodesPagevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/TwoFactorAuth/vue/src/SetupTwoFactorAuth/SetupTwoFactorAuth.vue?vue&type=template&id=4ecbaa44
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/TwoFactorAuth/vue/src/SetupTwoFactorAuth/SetupTwoFactorAuth.vue?vue&type=template&id=8d641b1e
 
-var SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_1 = {
+var SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_1 = {
   class: "setupTwoFactorAuthentication",
   ref: "root"
 };
-var SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_2 = {
+var SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_2 = {
   key: 0,
   class: "alert alert-warning"
 };
-var SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_3 = ["disabled"];
+var SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_3 = ["disabled"];
 
-var SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+var SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
   name: "twoFactorStep2",
   id: "twoFactorStep2",
   style: {
@@ -384,57 +384,11 @@ var SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_4 = /*#__PURE__*/Obj
   }
 }, null, -1);
 
-var SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  target: "_blank",
-  rel: "noreferrer noopener",
-  href: "https://github.com/andOTP/andOTP#downloads"
-}, "andOTP", -1);
+var SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_5 = ["innerHTML"];
 
-var SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(", ");
+var SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  target: "_blank",
-  rel: "noreferrer noopener",
-  href: "https://authy.com/guides/github/"
-}, "Authy", -1);
-
-var SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(", ");
-
-var SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  target: "_blank",
-  rel: "noreferrer noopener",
-  href: "https://support.1password.com/one-time-passwords/"
-}, "1Password", -1);
-
-var _hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(", ");
-
-var _hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  target: "_blank",
-  rel: "noreferrer noopener",
-  href: "https://helpdesk.lastpass.com/multifactor-authentication-options/lastpass-authenticator/"
-}, "LastPass Authenticator", -1);
-
-var _hoisted_12 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  target: "_blank",
-  rel: "noreferrer noopener",
-  href: "https://support.google.com/accounts/answer/1066447"
-}, "Google Authenticator", -1);
-
-var _hoisted_13 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(". ");
-
-var _hoisted_14 = ["innerHTML"];
-
-var _hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_16 = {
-  id: "qrcode",
-  ref: "qrcode",
-  title: ""
-};
-
-var _hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_18 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+var SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
   name: "twoFactorStep3",
   id: "twoFactorStep3",
   style: {
@@ -442,53 +396,68 @@ var _hoisted_18 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_V
   }
 }, null, -1);
 
-var _hoisted_19 = {
+var SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_8 = {
   key: 0,
   class: "message_container"
 };
 
-var _hoisted_20 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(": ");
+var SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(": ");
 
-var _hoisted_21 = ["innerHTML"];
+var _hoisted_10 = ["innerHTML"];
 
-var _hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var _hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var _hoisted_23 = ["action"];
+var _hoisted_12 = ["action"];
+var _hoisted_13 = ["value"];
+var _hoisted_14 = ["disabled", "value"];
+var _hoisted_15 = {
+  class: "ui-confirm two-fa-qr-code-dialog"
+};
+var _hoisted_16 = {
+  class: "row"
+};
+var _hoisted_17 = {
+  class: "col l8 offset-l2 m10 offset-m1 s12 center-align"
+};
+var _hoisted_18 = {
+  id: "qrcode",
+  ref: "qrcode",
+  title: ""
+};
+var _hoisted_19 = {
+  class: "text-code"
+};
+var _hoisted_20 = ["innerHTML"];
+var _hoisted_21 = {
+  class: "row"
+};
+var _hoisted_22 = {
+  class: "col l8 offset-l2 m10 offset-m1 s12"
+};
+var _hoisted_23 = ["value"];
 var _hoisted_24 = ["value"];
-var _hoisted_25 = ["disabled", "value"];
-var _hoisted_26 = {
-  id: "setupTwoFAsecretConfirm",
-  class: "ui-confirm"
-};
-var _hoisted_27 = {
-  style: {
-    "text-align": "center"
-  }
-};
-var _hoisted_28 = {
-  style: {
-    "font-size": "30px"
-  }
-};
-var _hoisted_29 = ["value"];
-function SetupTwoFactorAuthvue_type_template_id_4ecbaa44_render(_ctx, _cache, $props, $setup, $data, $options) {
+function SetupTwoFactorAuthvue_type_template_id_8d641b1e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
 
   var _component_ShowRecoveryCodes = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ShowRecoveryCodes");
+
+  var _component_InstallOTPApp = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("InstallOTPApp");
 
   var _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
 
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
+  var _component_MatomoDialog = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoDialog");
+
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
 
-  var _directive_select_on_focus = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("select-on-focus");
+  var _directive_copy_to_clipboard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("copy-to-clipboard");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     "content-title": _ctx.standalone ? _ctx.translate('TwoFactorAuth_RequiredToSetUpTwoFactorAuthentication') : _ctx.translate('TwoFactorAuth_SetUpTwoFactorAuthentication')
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_1, [_ctx.isAlreadyUsing2fa ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_WarningChangingConfiguredDevice')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_SetupIntroFollowSteps')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_StepX', 1)) + " - " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_RecoveryCodes')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ShowRecoveryCodes, {
+      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_1, [_ctx.isAlreadyUsing2fa ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_WarningChangingConfiguredDevice')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_SetupIntroFollowSteps')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_StepX', 1)) + " - " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_RecoveryCodes')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ShowRecoveryCodes, {
         codes: _ctx.codes,
         onDownloaded: _cache[0] || (_cache[0] = function ($event) {
           return _this.hasDownloadedRecoveryCode = true;
@@ -501,21 +470,21 @@ function SetupTwoFactorAuthvue_type_template_id_4ecbaa44_render(_ctx, _cache, $p
           return _ctx.nextStep();
         }),
         disabled: !_ctx.hasDownloadedRecoveryCode
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Next')), 9, SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_3), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.step === 1]])]), SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_StepX', 2)) + " - " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_SetupAuthenticatorOnDevice')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_SetupAuthenticatorOnDeviceStep1')) + " ", 1), SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_5, SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_6, SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_7, SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_8, SetupTwoFactorAuthvue_type_template_id_4ecbaa44_hoisted_9, _hoisted_10, _hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(", " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Or')) + " ", 1), _hoisted_12, _hoisted_13]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.setupAuthenticatorOnDeviceStep2)
-      }, null, 8, _hoisted_14)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [_hoisted_15, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_16, null, 512)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [_hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
-        class: "btn goToStep3",
+      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Next')), 9, SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_3), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.step === 1]])]), SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_StepX', 2)) + " - " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_SetupAuthenticatorOnDevice')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_InstallOTPApp), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+        innerHTML: _ctx.$sanitize(_ctx.setupAuthenticatorOnDeviceStep2ShowCodes)
+      }, null, 8, SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+        class: "btn showOtpCodes",
         onClick: _cache[2] || (_cache[2] = function ($event) {
-          return _ctx.nextStep();
+          return _ctx.showQrCodeModal();
         })
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Next')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.step === 2]])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.step >= 2]]), _hoisted_18, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_StepX', 3)) + " - " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_ConfirmSetup')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_VerifyAuthCodeIntro')), 1), _ctx.accessErrorString ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_19, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Notification, {
+      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_ShowCodes')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.step >= 2]])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.step >= 2]]), SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_StepX', 3)) + " - " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_ConfirmSetup')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_VerifyAuthCodeIntro')), 1), _ctx.accessErrorString ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Notification, {
         noclear: true,
         context: "error"
       }, {
         default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Error')), 1), _hoisted_20, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Error')), 1), SetupTwoFactorAuthvue_type_template_id_8d641b1e_hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
             innerHTML: _ctx.$sanitize(_ctx.accessErrorString)
-          }, null, 8, _hoisted_21), _hoisted_22];
+          }, null, 8, _hoisted_10), _hoisted_11];
         }),
         _: 1
       })])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
@@ -543,21 +512,45 @@ function SetupTwoFactorAuthvue_type_template_id_4ecbaa44_render(_ctx, _cache, $p
         type: "hidden",
         name: "authCodeNonce",
         value: _ctx.authCodeNonce
-      }, null, 8, _hoisted_24), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      }, null, 8, _hoisted_13), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
         type: "submit",
         class: "btn confirmAuthCode",
         disabled: _ctx.authCode.length !== 6,
         value: _ctx.translate('General_Confirm')
-      }, null, 8, _hoisted_25)], 8, _hoisted_23)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.step >= 3]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_26, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_Your2FaAuthSecret')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", _hoisted_27, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("code", _hoisted_28, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.newSecret), 1)], 512), [[_directive_select_on_focus, {}]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        role: "ok",
-        type: "button",
-        value: _ctx.translate('General_Ok')
-      }, null, 8, _hoisted_29)])], 512)];
+      }, null, 8, _hoisted_14)], 8, _hoisted_12)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.step >= 3]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoDialog, {
+        modelValue: _ctx.qrCodeDialogVisible,
+        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+          return _ctx.qrCodeDialogVisible = $event;
+        }),
+        onValidation: _cache[5] || (_cache[5] = function ($event) {
+          _ctx.closeQrCodeModal();
+
+          _ctx.nextStep();
+        }),
+        options: {
+          focusSelector: '.modal-action.btn'
+        }
+      }, {
+        default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_Your2FaAuthSecret')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_17, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_ShowCodeModalInstructions1')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_18, null, 512)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_ShowCodeModalInstructions2')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_19, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.newSecret), 1)], 512), [[_directive_copy_to_clipboard, {}]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+            innerHTML: _ctx.$sanitize(_ctx.showCodeModalInstructions3)
+          }, null, 8, _hoisted_20)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_22, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_DontHaveOTPApp')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_InstallOTPApp)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+            role: "validation",
+            type: "button",
+            value: _ctx.translate('General_Continue')
+          }, null, 8, _hoisted_23), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+            role: "no",
+            type: "button",
+            value: _ctx.translate('General_Cancel')
+          }, null, 8, _hoisted_24)])];
+        }),
+        _: 1
+      }, 8, ["modelValue", "options"])], 512)];
     }),
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/TwoFactorAuth/vue/src/SetupTwoFactorAuth/SetupTwoFactorAuth.vue?vue&type=template&id=4ecbaa44
+// CONCATENATED MODULE: ./plugins/TwoFactorAuth/vue/src/SetupTwoFactorAuth/SetupTwoFactorAuth.vue?vue&type=template&id=8d641b1e
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -570,7 +563,66 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/TwoFactorAuth/vue/src/SetupTwoFactorAuth/InstallOTPApp.vue?vue&type=template&id=a1258308
+
+
+var InstallOTPAppvue_type_template_id_a1258308_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  target: "_blank",
+  rel: "noreferrer noopener",
+  href: "https://github.com/andOTP/andOTP#downloads"
+}, "andOTP", -1);
+
+var InstallOTPAppvue_type_template_id_a1258308_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(", ");
+
+var InstallOTPAppvue_type_template_id_a1258308_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  target: "_blank",
+  rel: "noreferrer noopener",
+  href: "https://authy.com/guides/github/"
+}, "Authy", -1);
+
+var InstallOTPAppvue_type_template_id_a1258308_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(", ");
+
+var InstallOTPAppvue_type_template_id_a1258308_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  target: "_blank",
+  rel: "noreferrer noopener",
+  href: "https://support.1password.com/one-time-passwords/"
+}, "1Password", -1);
+
+var InstallOTPAppvue_type_template_id_a1258308_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(", ");
+
+var InstallOTPAppvue_type_template_id_a1258308_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  target: "_blank",
+  rel: "noreferrer noopener",
+  href: "https://helpdesk.lastpass.com/multifactor-authentication-options/lastpass-authenticator/"
+}, "LastPass Authenticator", -1);
+
+var InstallOTPAppvue_type_template_id_a1258308_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  target: "_blank",
+  rel: "noreferrer noopener",
+  href: "https://support.google.com/accounts/answer/1066447"
+}, "Google Authenticator", -1);
+
+var InstallOTPAppvue_type_template_id_a1258308_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(". ");
+
+function InstallOTPAppvue_type_template_id_a1258308_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('TwoFactorAuth_SetupAuthenticatorOnDeviceStep1')) + " ", 1), InstallOTPAppvue_type_template_id_a1258308_hoisted_1, InstallOTPAppvue_type_template_id_a1258308_hoisted_2, InstallOTPAppvue_type_template_id_a1258308_hoisted_3, InstallOTPAppvue_type_template_id_a1258308_hoisted_4, InstallOTPAppvue_type_template_id_a1258308_hoisted_5, InstallOTPAppvue_type_template_id_a1258308_hoisted_6, InstallOTPAppvue_type_template_id_a1258308_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(", " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Or')) + " ", 1), InstallOTPAppvue_type_template_id_a1258308_hoisted_8, InstallOTPAppvue_type_template_id_a1258308_hoisted_9]);
+}
+// CONCATENATED MODULE: ./plugins/TwoFactorAuth/vue/src/SetupTwoFactorAuth/InstallOTPApp.vue?vue&type=template&id=a1258308
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/TwoFactorAuth/vue/src/SetupTwoFactorAuth/InstallOTPApp.vue?vue&type=script&lang=ts
+
+/* harmony default export */ var InstallOTPAppvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({}));
+// CONCATENATED MODULE: ./plugins/TwoFactorAuth/vue/src/SetupTwoFactorAuth/InstallOTPApp.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/TwoFactorAuth/vue/src/SetupTwoFactorAuth/InstallOTPApp.vue
+
+
+
+InstallOTPAppvue_type_script_lang_ts.render = InstallOTPAppvue_type_template_id_a1258308_render
+
+/* harmony default export */ var InstallOTPApp = (InstallOTPAppvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/TwoFactorAuth/vue/src/SetupTwoFactorAuth/SetupTwoFactorAuth.vue?vue&type=script&lang=ts
+
 
 
 
@@ -603,19 +655,22 @@ var _window = window,
     standalone: Boolean
   },
   components: {
+    InstallOTPApp: InstallOTPApp,
+    MatomoDialog: external_CoreHome_["MatomoDialog"],
     ShowRecoveryCodes: ShowRecoveryCodes,
     Notification: external_CoreHome_["Notification"],
     Field: external_CorePluginsAdmin_["Field"],
     ContentBlock: external_CoreHome_["ContentBlock"]
   },
   directives: {
-    SelectOnFocus: external_CoreHome_["SelectOnFocus"]
+    CopyToClipboard: external_CoreHome_["CopyToClipboard"]
   },
   data: function data() {
     return {
       step: 1,
       hasDownloadedRecoveryCode: false,
-      authCode: ''
+      authCode: '',
+      qrCodeDialogVisible: false
     };
   },
   mounted: function mounted() {
@@ -625,7 +680,9 @@ var _window = window,
       var qrcode = _this.$refs.qrcode; // eslint-disable-next-line no-new
 
       new QRCode(qrcode, {
-        text: _this.twoFaBarCodeSetupUrl
+        text: _this.twoFaBarCodeSetupUrl,
+        width: 200,
+        height: 200
       });
       $(qrcode).attr('title', ''); // do not show secret on hover
 
@@ -635,11 +692,6 @@ var _window = window,
 
         _this.scrollToEnd();
       }
-
-      $(_this.$refs.root).on('click', '.setupStep2Link', function (e) {
-        e.preventDefault();
-        external_CoreHome_["Matomo"].helper.modalConfirm('#setupTwoFAsecretConfirm');
-      });
     });
   },
   methods: {
@@ -660,8 +712,19 @@ var _window = window,
         }
       }, 50);
     },
+    showQrCodeModal: function showQrCodeModal() {
+      this.qrCodeDialogVisible = true;
+    },
+    closeQrCodeModal: function closeQrCodeModal() {
+      this.qrCodeDialogVisible = false;
+    },
     nextStep: function nextStep() {
       this.step += 1;
+
+      if (this.step > 3) {
+        this.step = 3;
+      }
+
       this.scrollToEnd();
     },
     linkTo: function linkTo(params) {
@@ -669,8 +732,11 @@ var _window = window,
     }
   },
   computed: {
-    setupAuthenticatorOnDeviceStep2: function setupAuthenticatorOnDeviceStep2() {
-      return Object(external_CoreHome_["translate"])('TwoFactorAuth_SetupAuthenticatorOnDeviceStep2', '<a class="setupStep2Link">', '</a>');
+    setupAuthenticatorOnDeviceStep2ShowCodes: function setupAuthenticatorOnDeviceStep2ShowCodes() {
+      return Object(external_CoreHome_["translate"])('TwoFactorAuth_SetupAuthenticatorOnDeviceStep2ShowCodes', Object(external_CoreHome_["translate"])('TwoFactorAuth_ShowCodes'));
+    },
+    showCodeModalInstructions3: function showCodeModalInstructions3() {
+      return Object(external_CoreHome_["translate"])('TwoFactorAuth_ShowCodeModalInstructions3', Object(external_CoreHome_["translate"])('General_Continue'));
     }
   }
 }));
@@ -680,7 +746,7 @@ var _window = window,
 
 
 
-SetupTwoFactorAuthvue_type_script_lang_ts.render = SetupTwoFactorAuthvue_type_template_id_4ecbaa44_render
+SetupTwoFactorAuthvue_type_script_lang_ts.render = SetupTwoFactorAuthvue_type_template_id_8d641b1e_render
 
 /* harmony default export */ var SetupTwoFactorAuth = (SetupTwoFactorAuthvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/TwoFactorAuth/vue/src/LoginTwoFactorAuth/LoginTwoFactorAuth.vue?vue&type=template&id=6b8b0945

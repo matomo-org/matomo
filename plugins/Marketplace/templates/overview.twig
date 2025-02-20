@@ -15,7 +15,6 @@
             is-multi-server-environment="{{ isMultiServerEnvironment|default(false)|json_encode }}"
             is-plugins-admin-enabled="{{ isPluginsAdminEnabled|default(false)|json_encode }}"
             has-some-admin-access="{{  hasSomeAdminAccess|default(false)|json_encode }}"
-            paid-plugins-to-install-at-once="{{ paidPluginsToInstallAtOnce|default([])|json_encode }}"
             install-nonce="{{ installNonce|default(null)|json_encode }}"
             activate-nonce="{{ activateNonce|default(null)|json_encode }}"
             deactivate-nonce="{{ deactivateNonce|default(null)|json_encode }}"

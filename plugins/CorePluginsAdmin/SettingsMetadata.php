@@ -20,6 +20,8 @@ class SettingsMetadata
 {
     public const PASSWORD_PLACEHOLDER = '******';
 
+    public const EMPTY_ARRAY = '__empty__';
+
     /**
      * @param Settings[]  $settingsInstances
      * @param array $settingValues   array('pluginName' => array('settingName' => 'settingValue'))
@@ -33,6 +35,11 @@ class SettingsMetadata
                     $value = $this->findSettingValueFromRequest($settingValues, $pluginName, $setting->getName());
 
                     $fieldConfig = $setting->configureField();
+
+                    // empty arrays are sent as __empty__ value, so we need to convert it here back to an array
+                    if ($setting->getType() === FieldConfig::TYPE_ARRAY && $value === self::EMPTY_ARRAY) {
+                        $value = [];
+                    }
 
                     if (
                         isset($value) && (

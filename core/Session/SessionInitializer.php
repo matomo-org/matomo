@@ -10,6 +10,7 @@
 namespace Piwik\Session;
 
 use Exception;
+use Piwik\Access;
 use Piwik\Auth as AuthInterface;
 use Piwik\AuthResult;
 use Piwik\Piwik;
@@ -83,6 +84,9 @@ class SessionInitializer
     {
         $sessionIdentifier = new SessionFingerprint();
         $sessionIdentifier->initialize($authResult->getIdentity(), $authResult->getTokenAuth(), $this->isRemembered());
+
+        // reload access
+        Access::getInstance()->reloadAccess();
 
         /**
          * @ignore

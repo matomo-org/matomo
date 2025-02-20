@@ -83,6 +83,7 @@ class MetricsTest extends IntegrationTestCase
             'nb_impressions' => 41,
             'nb_interactions' => 42,
             'nb_uniq_fingerprints' => 43,
+            'hits' => 44,
         );
         $this->assertEquals($expectedMapping, $mapping);
     }

@@ -13,8 +13,6 @@
         "LoginOrEmail": "Brugernavn eller e-mail",
         "LoginPasswordNotCorrect": "Brugernavn og adgangskode er ikke korrekt",
         "LostYourPassword": "Glemt adgangskoden?",
-        "MailPasswordChangeBody2": "Hej %1$s,\n\nEn anmodning om nulstilling af din adgangskode blev modtaget fra %2$s. For at bekræfte denne ændring, så du kan logge ind med din nye adgangskode, skal du kopiere følgende link og indsætte det i din browser:\n\n%3$s\n\nOBS: Linket vil udløbe om 24 timer.\n\nTak fordi du bruger Matomo!",
-        "MailTopicPasswordChange": "Bekræft ændring af adgangskode",
         "NewPassword": "Ny adgangskode",
         "NewPasswordRepeat": "Ny adgangskode (gentag)",
         "PasswordChanged": "Din adgangskode er blevet ændret.",

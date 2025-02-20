@@ -27,7 +27,6 @@
         "SetUpTwoFactorAuthentication": "Siapkan autentikasi dua faktor (2FA)",
         "SetupAuthenticatorOnDevice": "Siapkan autentikator di perangkat Anda",
         "SetupAuthenticatorOnDeviceStep1": "Instal aplikasi autentikator, misalnya:",
-        "SetupAuthenticatorOnDeviceStep2": "Selanjutnya, buka aplikasi dan pindai kode batang di bawah ini dengan aplikasi autentikasi dua faktor di ponsel Anda. Jika Anda tidak dapat memindai kode batang, %1$smasukkan kode ini%2$s.",
         "SetupBackupRecoveryCodes": "Harap cadangkan kode pemulihan Anda menggunakan salah satu metode di atas sebelum melanjutkan penyiapan autentikasi dua faktor.",
         "SetupFinishedSubtitle": "Anda telah berhasil menyiapkan autentikasi dua faktor. Saat Anda masuk lain kali, Anda juga harus memasukkan kode autentikasi. Pastikan Anda membawa perangkat seluler atau kode cadangan.",
         "SetupFinishedTitle": "Selamat! Akun Anda sekarang lebih aman.",

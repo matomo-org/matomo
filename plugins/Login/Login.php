@@ -19,6 +19,7 @@ use Piwik\IP;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
+use Piwik\Plugins\Login\Security\LoginFromDifferentCountryDetection;
 use Piwik\Session;
 use Piwik\SettingsServer;
 
@@ -65,6 +66,9 @@ class Login extends \Piwik\Plugin
             'Login.authenticate.failed'        => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
             'API.Request.authenticate.failed'  => 'onFailedAPILogin', // record any failed attempt in Reporting API
             'Tracker.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Tracker API
+
+            // for 'Login from a different country' notification
+            'Login.authenticate.processSuccessfulSession.end' => 'checkLoginFromAnotherCountry',
         );
 
         $loginPlugin = Piwik::getLoginPluginName();
@@ -140,6 +144,19 @@ class Login extends \Piwik\Plugin
             } else {
                 throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid, expired or is required to be sent as a POST parameter.');
             }
+        }
+    }
+
+    public function checkLoginFromAnotherCountry($login)
+    {
+        if ('anonymous' === $login) {
+            // do not send notification to "anonymous"
+            return;
+        }
+
+        $loginFromDifferentCountryDetection = StaticContainer::get(LoginFromDifferentCountryDetection::class);
+        if ($loginFromDifferentCountryDetection->isEnabled()) {
+            $loginFromDifferentCountryDetection->check($login);
         }
     }
 

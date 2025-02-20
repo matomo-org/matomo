@@ -6,7 +6,6 @@
         "LogIn": "เข้าสู่ระบบ",
         "LoginPasswordNotCorrect": "ชื่อผู้ใช้และรหัสผ่านไม่ถูกต้อง",
         "LostYourPassword": "ลืมรหัสผ่าน?",
-        "MailTopicPasswordChange": "ยืนยันการเปลี่ยนรหัสผ่าน",
         "PasswordChanged": "รหัสผ่านของคุณได้ถูกเปลี่ยนแปลงแล้ว",
         "PasswordRepeat": "รหัสผ่าน (อีกครั้ง)",
         "PasswordsDoNotMatch": "รหัสผ่านไม่ตรงกัน",

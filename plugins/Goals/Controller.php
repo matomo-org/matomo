@@ -26,7 +26,7 @@ use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\View;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
-use Piwik\Plugins\CoreVisualizations\Visualizations\jqplotGraph\Evolution;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 
 /**
  *

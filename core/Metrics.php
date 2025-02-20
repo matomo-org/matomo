@@ -91,6 +91,9 @@ class Metrics
     // Unique visitors fingerprints (useful to process unique visitors across websites)
     public const INDEX_NB_UNIQ_FINGERPRINTS = 43;
 
+    // Total number of hits
+    public const INDEX_NB_HITS = 44;
+
     // Goal reports
     public const INDEX_GOAL_NB_CONVERSIONS = 1;
     public const INDEX_GOAL_REVENUE = 2;
@@ -125,6 +128,7 @@ class Metrics
         Metrics::INDEX_GOALS                                 => 'goals',
         Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS            => 'sum_daily_nb_uniq_visitors',
         Metrics::INDEX_SUM_DAILY_NB_USERS                    => 'sum_daily_nb_users',
+        Metrics::INDEX_NB_HITS                               => 'hits',
 
         // Actions metrics
         Metrics::INDEX_PAGE_NB_HITS                          => 'nb_hits',
@@ -364,6 +368,7 @@ class Metrics
                 'nb_conversions'                => Dimension::TYPE_NUMBER,
                 'revenue'                       => Dimension::TYPE_MONEY,
                 'nb_hits'                       => Dimension::TYPE_NUMBER,
+                'hits'                          => Dimension::TYPE_NUMBER,
                 'entry_nb_visits'               => Dimension::TYPE_NUMBER,
                 'entry_nb_uniq_visitors'        => Dimension::TYPE_NUMBER,
                 'exit_nb_visits'                => Dimension::TYPE_NUMBER,
@@ -431,6 +436,7 @@ class Metrics
             'nb_conversions'                => 'Goals_ColumnConversions',
             'revenue'                       => 'General_ColumnRevenue',
             'nb_hits'                       => 'General_ColumnPageviews',
+            'hits'                          => 'General_ColumnHits',
             'entry_nb_visits'               => 'General_ColumnEntrances',
             'entry_nb_uniq_visitors'        => 'General_ColumnUniqueEntrances',
             'exit_nb_visits'                => 'General_ColumnExits',
@@ -528,6 +534,7 @@ class Metrics
             self::INDEX_NB_VISITS,
             self::INDEX_NB_UNIQ_VISITORS,
             self::INDEX_NB_ACTIONS,
+            self::INDEX_NB_HITS,
             self::INDEX_PAGE_NB_HITS,
             self::INDEX_NB_VISITS_CONVERTED,
             self::INDEX_NB_CONVERSIONS,
@@ -561,6 +568,7 @@ class Metrics
             'conversion_rate'      => 'General_ColumnConversionRateDocumentation',
             'avg_time_on_page'     => 'General_ColumnAverageTimeOnPageDocumentation',
             'nb_hits'              => 'General_ColumnPageviewsDocumentation',
+            'hits'                 => 'General_ColumnHitsDocumentation',
             'exit_rate'            => 'General_ColumnExitRateDocumentation'
         );
 

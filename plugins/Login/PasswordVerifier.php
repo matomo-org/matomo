@@ -152,7 +152,7 @@ class PasswordVerifier
      * See  {@link requirePasswordVerified}
      *
      * @param $redirectParams
-     * @return true if password has been verified recently, will redirect if not
+     * @return null|true if password has been verified recently, will redirect if not
      * @throws \Zend_Session_Exception
      */
     public function requirePasswordVerifiedRecently($redirectParams)
@@ -172,7 +172,7 @@ class PasswordVerifier
      * consider using {@link requirePasswordVerifiedRecently}.
      *
      * @param $redirectParams
-     * @return true if password has been verified, will redirect if not
+     * @return null|true if password has been verified, will redirect if not
      * @throws \Zend_Session_Exception
      */
     public function requirePasswordVerified($redirectParams)

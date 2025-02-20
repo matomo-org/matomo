@@ -515,6 +515,17 @@ class Loader
             return true;
         }
 
+        // For better understanding of the next check please have a look at Rules::shouldProcessReportsAllPlugins implementation
+        // and what conditions it returns false on. For our use here, we need to ensure that:
+        //  - we are not running CLI archiving
+        //  - we are not dealing with a range period
+        //  - we don't have an empty segment
+        //  - we don't have a segment that should be preprocessed
+        //  - we are not forcing a single plugin archiving
+        if (!Rules::shouldProcessReportsAllPlugins($params->getIdSites(), $params->getSegment(), $params->getPeriod()->getLabel())) {
+            return false;
+        }
+
         /** @var SegmentArchiving */
         $segmentArchiving = StaticContainer::get(SegmentArchiving::class);
         $segmentInfo = $segmentArchiving->findSegmentForHash($params->getSegment()->getHash(), $params->getSite()->getId());

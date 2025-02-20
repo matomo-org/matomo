@@ -125,7 +125,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_OverviewPluginSubscriptions';
         $translationKeys[] = 'Marketplace_OverviewPluginSubscriptionsAllDetails';
         $translationKeys[] = 'Marketplace_OverviewPluginSubscriptionsMissingInfo';
-        $translationKeys[] = 'Marketplace_OverviewPluginSubscriptionsMissingLicense';
+        $translationKeys[] = 'Marketplace_OverviewPluginSubscriptionsMissingLicenseMessage';
         $translationKeys[] = 'Marketplace_PluginSubscriptionsList';
         $translationKeys[] = 'Marketplace_PluginUploadDisabled';
         $translationKeys[] = 'Marketplace_PriceFromPerPeriod';

@@ -62,6 +62,7 @@
         "ColumnExitsDocumentation": "Number of visits that ended on this page.",
         "ColumnGenerationTime": "Generation time",
         "ColumnHits": "Hits",
+        "ColumnHitsDocumentation": "The total count of all interactions recorded on your website, including page views, link clicks, downloads, and events.",
         "ColumnKeyword": "Keyword",
         "ColumnLabel": "Label",
         "ColumnMaxActions": "Maximum actions in one visit",

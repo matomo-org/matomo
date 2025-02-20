@@ -19,7 +19,6 @@
         "LoginOrEmail": "Uživatelské jméno nebo e-mail",
         "LoginPasswordNotCorrect": "Chybná kombinace uživatelského jména a hesla.",
         "LostYourPassword": "Zapomněli jste vaše heslo?",
-        "MailTopicPasswordChange": "Potvrďte změnu hesla",
         "NewPassword": "Nové heslo",
         "NewPasswordRepeat": "Nové heslo (opakovat)",
         "PasswordChanged": "Vaše heslo bylo změněno.",

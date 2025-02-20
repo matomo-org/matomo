@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "As extensões seguintes estão sempre ativas e não podem ser desativadas: %s",
         "AreThereAnyRisks": "Existem riscos associados?",
         "AreThereAnyRisksDetails1": "Ao ativar o Gestor de tags, os utilizadores com privilégios de Administração serão capazes de criar etiquetas HTML personalizadas, acionadores e variáveis que podem executar JavaScript no seu site. Estes modelos personalizados podem ser utilizados indevidamente, por exemplo, para roubar informações sensíveis dos visitantes do seu site (também conhecido por %1$sXSS %2$s).",
-        "AreThereAnyRisksDetails2": "Pode desativar estes modelos personalizados ao aceder a \"Administração → Definições Gerais\" uma vez que tenha ativado o Gestor de tags. Em alternativa, pode também restringir a utilização destes modelos a determinados utilizadores ou apenas a super-utilizadores.",
+        "AreThereAnyRisksDetails2": "Você pode desativar esses modelos personalizados em \"Administração → Configurações Gerais\" uma vez que você tenha ativado o Tag Manager. Alternativamente, você também pode restringir o uso desses modelos apenas para usuários específicos ou super usuários.",
         "AuthorHomepage": "Página do autor",
         "ChangeLookByManageThemes": "Pode alterar a aparência do Matomo %1$sGerindo os temas%2$s.",
         "ChangeSettingsPossible": "Pode alterar as %1$sdefinições%2$s para esta extensão.",
@@ -47,6 +47,9 @@
         "OriginOfficial": "Oficial",
         "OriginThirdParty": "De terceiros",
         "PluginActivated": "Extensão ativada",
+        "PluginFreeTrialStarted": "%1$s Seu teste gratuito de 30 dias começou%2$s para %3$s.",
+        "PluginFreeTrialStartedAccountCreatedMessage": "Adicionamos a sua chave de licença iniciando um teste gratuito de 30 dias para %1$s. Dê o próximo passo instalando e ativando a sua extensão.",
+        "PluginFreeTrialStartedAccountCreatedTitle": "Sua conta foi criada",
         "PluginHomepage": "Página da extensão",
         "PluginNotCompatibleWith": "%1$s extensão não compatível com %2$s.",
         "PluginNotDownloadable": "A extensão não é descarregável.",
@@ -74,7 +77,7 @@
         "Themes": "Temas",
         "ThemesDescription": "Os temas podem alterar a aparência da interface do utilizador do Matomo e fornecer uma experiência visual completamente diferente para desfrutar dos seus relatórios.",
         "ThemesManagement": "Gestão de temas",
-        "UninstallConfirm": "Está prestes a desinstalar uma extensão %s. A extensão será completamente removida da sua plataforma e não será recuperável. Tem a certeza que pretende fazer isto?",
+        "UninstallConfirm": "Você está prestes a desinstalar a extensão %s. A extensão e todos os dados recolhidos serão completamente removidos de sua plataforma e não serão recuperáveis. Tem certeza que deseja fazer isto?",
         "UpdateSelected": "Atualizar selecionados",
         "Version": "Versão",
         "ViewAllMarketplacePlugins": "Ver todas as extensões da loja",
@@ -86,6 +89,6 @@
         "WhyUsingATagManager": "Porquê optar por um Gestor de tags?",
         "WhyUsingATagManagerDetails1": "Um Gestor de tags facilita a sua vida! Com ele, já não precisa de aguardar que um programador modifique quaisquer excertos de terceiros ou próprios no seu site, o Gestor de tags confere-lhe a oportunidade isenta de stress de ser você mesmo a fazer estas alterações e as publicar de forma autónoma no seu site.",
         "WhyUsingATagManagerDetails2": "Não podia ser mais conveniente e não só permite trazer alterações para o mercado mais rapidamente, mas também reduz o custo.",
-        "WhyUsingATagManagerDetails3": "Isto mantém as equipas de marketing, equipas digitais e a equipa de informática felizes... Toda a gente ganha!"
+        "WhyUsingATagManagerDetails3": "Isso mantém as equipes de marketing, equipes digitais e as equipes de TI felizes... É um ganho para todos!"
     }
 }

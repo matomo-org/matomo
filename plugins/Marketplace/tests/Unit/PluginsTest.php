@@ -3,6 +3,7 @@
 namespace Piwik\Plugins\Marketplace\tests\Unit;
 
 use Piwik\Plugins\Marketplace\Plugins;
+use Piwik\Tests\Framework\Fixture;
 use ReflectionClass;
 
 /**
@@ -17,6 +18,8 @@ class PluginsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPrettifyNumberOfDownloads($numDownloads, $expectedPrettyDownloads)
     {
+        Fixture::loadAllTranslations();
+
         $pluginsClass = new Plugins(
             $this->createMock('Piwik\Plugins\Marketplace\Api\Client'),
             $this->createMock('Piwik\Plugins\Marketplace\Consumer'),
@@ -39,30 +42,30 @@ class PluginsTest extends \PHPUnit\Framework\TestCase
             [-1, -1],
             [0, 0],
             [999, 999],
-            [1000, '1k'],
-            [1050, '1k'],
-            [1051, '1.1k'],
-            [1550, '1.5k'],
-            [1551, '1.6k'],
-            [9950, '9.9k'],
-            [9951, '10k'],
-            [9999, '10k'],
-            [10000, '10k'],
-            [10100, '10.1k'],
-            [99950, '99.9k'],
-            [99951, '100k'],
-            [100000, '100k'],
-            [999999, '999k'],
-            [1000000, '1m'],
-            [1100000, '1m'],
-            [9999999, '9m'],
-            [10000000, '10m'],
-            [10000001, '10m'],
-            [99999999, '99m'],
-            [100000000, '100m'],
-            [100000001, '100m'],
-            [999999999, '999m'],
-            [1000000000, '1000m'],
+            [1000, '1K'],
+            [1050, '1.1K'],
+            [1051, '1.1K'],
+            [1550, '1.6K'],
+            [1551, '1.6K'],
+            [9950, '10K'],
+            [9951, '10K'],
+            [9999, '10K'],
+            [10000, '10K'],
+            [10100, '10K'],
+            [99950, '100K'],
+            [99951, '100K'],
+            [100000, '100K'],
+            [999999, '1M'],
+            [1000000, '1M'],
+            [1100000, '1.1M'],
+            [9999999, '10M'],
+            [10000000, '10M'],
+            [10000001, '10M'],
+            [99999999, '100M'],
+            [100000000, '100M'],
+            [100000001, '100M'],
+            [999999999, '1B'],
+            [1000000000, '1B'],
         ];
     }
 }

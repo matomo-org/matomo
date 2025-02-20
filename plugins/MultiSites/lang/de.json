@@ -1,6 +1,8 @@
 {
     "MultiSites": {
         "AllWebsitesDashboardDocumentation": "Dieser Bericht gibt Ihnen eine informative Übersicht für all Ihre Webseiten, in der die allgemeinsten Metriken Ihrer Besucher ausgewertet werden.",
+        "AllWebsitesDashboardErrorMessage": "Es sind derzeit keine Daten verfügbar. Dies könnte auf ein vorübergehendes Serverproblem oder einen Bericht mit zu vielen Daten zurückzuführen sein. Bitte versuchen Sie es später erneut. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an Ihren Matomo-Administrator, um Hilfe zu erhalten.",
+        "AllWebsitesDashboardTitle": "Alle Websites",
         "Evolution": "Entwicklung",
         "EvolutionComparisonDay": "%1$s %2$s von diesem Tag im Vergleich zu %3$s %2$s im vorherigen Teilzeitraum (%4$s) Evolution: %5$s",
         "EvolutionComparisonIncomplete": "Der momentan ausgewählte Zeitraum ist zu %1$s vollständig.",
@@ -8,6 +10,11 @@
         "EvolutionComparisonProportional": "Wenn der vorherige Zeitraum auch zu %1$s vollständig war, gäbe es schätzungsweise %2$s %3$s\n(von insgesamt %4$s %3$s im vorherigen Zeitraum).",
         "EvolutionComparisonWeek": "%1$s %2$s dieser Woche im Vergleich zu %3$s %2$s des vorherigen Teilzeitraums (%4$s) Evolution: %5$s",
         "EvolutionComparisonYear": "%1$s %2$s von diesem Jahr im Vergleich zu %3$s %2$s im vorherigen Teilzeitraum (%4$s) Evolution: %5$s",
+        "EvolutionFromPreviousDay": "Vom Vortag",
+        "EvolutionFromPreviousMonth": "Vom vorherigen Monat",
+        "EvolutionFromPreviousPeriod": "Aus dem vorherigen Zeitraum",
+        "EvolutionFromPreviousWeek": "Aus der vergangenen Woche",
+        "EvolutionFromPreviousYear": "Aus dem vorherigen Jahr",
         "LoadingWebsites": "Lade Webseiten",
         "PluginDescription": "Zeige und vergleiche alle Webseiten und Apps in diesem hilfreichen 'Alle Webseiten' Dashboard.",
         "SingleWebsitesDashboardDocumentation": "Dieser Bericht gibt Ihnen eine informative Übersicht über eine bestimmte Webseite, in dem die allgemeinsten Metriken Ihrer Besucher ausgewertet werden.",

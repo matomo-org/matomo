@@ -35,7 +35,10 @@ class Dashboard
      * Array of metrics that will be displayed and will be number formatted
      * @var array
      */
-    private $displayedMetricColumns = ['nb_visits', 'nb_pageviews', 'nb_actions', 'revenue'];
+    private $displayedMetricColumns = [
+        'nb_visits', 'nb_pageviews', 'hits', 'nb_actions', 'revenue',
+        'previous_nb_visits', 'previous_nb_pageviews', 'previous_hits', 'previous_nb_actions', 'previous_revenue',
+    ];
 
     /**
      * @param string $period
@@ -111,11 +114,16 @@ class Dashboard
     public function getTotals()
     {
         $totals = [
-            'nb_pageviews'       => $this->sitesByGroup->getMetadata('total_nb_pageviews'),
-            'nb_visits'          => $this->sitesByGroup->getMetadata('total_nb_visits'),
-            'nb_actions'         => $this->sitesByGroup->getMetadata('total_nb_actions'),
-            'revenue'            => $this->sitesByGroup->getMetadata('total_revenue'),
-            'nb_visits_lastdate' => $this->sitesByGroup->getMetadata('total_nb_visits_lastdate') ? : 0,
+            'nb_pageviews'          => $this->sitesByGroup->getMetadata('total_nb_pageviews'),
+            'nb_visits'             => $this->sitesByGroup->getMetadata('total_nb_visits'),
+            'hits'                  => $this->sitesByGroup->getMetadata('total_hits'),
+            'nb_actions'            => $this->sitesByGroup->getMetadata('total_nb_actions'),
+            'revenue'               => $this->sitesByGroup->getMetadata('total_revenue'),
+            'previous_nb_pageviews' => $this->sitesByGroup->getMetadata('previous_total_nb_pageviews'),
+            'previous_nb_visits'    => $this->sitesByGroup->getMetadata('previous_total_nb_visits'),
+            'previous_hits'         => $this->sitesByGroup->getMetadata('previous_total_hits'),
+            'previous_nb_actions'   => $this->sitesByGroup->getMetadata('previous_total_nb_actions'),
+            'previous_revenue'      => $this->sitesByGroup->getMetadata('previous_total_revenue'),
         ];
         $this->formatMetrics($totals);
         return $totals;
@@ -123,6 +131,10 @@ class Dashboard
 
     private function formatMetrics(&$metrics)
     {
+        if (\Piwik\Request::fromRequest()->getStringParameter('format_metrics', '0') === '0') {
+            return; // do not format metrics if requires unformatted
+        }
+
         $formatter = NumberFormatter::getInstance();
         foreach ($metrics as $metricName => &$value) {
             if (in_array($metricName, $this->displayedMetricColumns)) {
@@ -198,7 +210,7 @@ class Dashboard
         $request['serialize'] = 0;
         $request['expanded'] = 0;
         $request['totals'] = 0;
-        $request['format_metrics'] = 1;
+        $request['format_metrics'] = \Piwik\Request::fromRequest()->getStringParameter('format_metrics', '1');
         $request['disable_generic_filters'] = 1;
 
         $responseBuilder = new ResponseBuilder('json', $request);
@@ -301,13 +313,6 @@ class Dashboard
         $filterLimit  = $request['filter_limit'];
         unset($request['filter_offset']);
         unset($request['filter_limit']);
-
-        // filter_sort_column does not work correctly is a bug in MultiSites.getAll
-        if (!empty($request['filter_sort_column']) && $request['filter_sort_column'] === 'nb_pageviews') {
-            $request['filter_sort_column'] = 'Actions_nb_pageviews';
-        } elseif (!empty($request['filter_sort_column']) && $request['filter_sort_column'] === 'revenue') {
-            $request['filter_sort_column'] = 'Goal_revenue';
-        }
 
         // make sure no limit filter is applied, we will do this manually
         $table->disableFilter('Limit');

@@ -20,8 +20,10 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomJsTracker\File;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\ConfigIdRandomisation;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\SiteContentDetector;
@@ -46,11 +48,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /** @var SiteContentDetector */
     private $siteContentDetector;
 
-    public function __construct(ReferrerAnonymizer $referrerAnonymizer, SiteContentDetector $siteContentDetector)
+    /** @var FeatureFlagManager */
+    private $featureFlagManager;
+
+    public function __construct(ReferrerAnonymizer $referrerAnonymizer, SiteContentDetector $siteContentDetector, FeatureFlagManager $featureFlagManager)
     {
         parent::__construct();
         $this->referrerAnonymizer = $referrerAnonymizer;
         $this->siteContentDetector = $siteContentDetector;
+        $this->featureFlagManager = $featureFlagManager;
     }
 
     private function checkDataPurgeAdminSettingsIsEnabled()
@@ -246,6 +252,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->dbUser = PiwikConfig::getInstance()->database['username'];
             $view->deactivateNonce = Nonce::getNonce(self::DEACTIVATE_DNT_NONCE);
             $view->activateNonce   = Nonce::getNonce(self::ACTIVATE_DNT_NONCE);
+            $view->configRandomisationFeatureFlag = $this->featureFlagManager->isFeatureActive(ConfigIdRandomisation::class);
 
             $view->maskLengthOptions = [
                 ['key' => '1',
@@ -363,6 +370,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (!$anonymizeIP["useAnonymizedIpForVisitEnrichment"]) {
             $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = '0';
         }
+        $anonymizeIP["randomizeConfigId"] = $privacyConfig->randomizeConfigId;
 
         return $anonymizeIP;
     }

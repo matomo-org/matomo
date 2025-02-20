@@ -1,6 +1,7 @@
 {
     "MultiSites": {
         "AllWebsitesDashboardDocumentation": "Aquest informe us ofereix una visió general informativa de cadascun dels vostres llocs web, que conté les mètriques més generals sobre els vostres visitants.",
+        "AllWebsitesDashboardErrorMessage": "Les dades no estan disponibles actualment. Això pot ser degut a un problema temporal del servidor o a que l'informe conté massa dades. Si us plau, torneu-ho a provar més tard. Si el problema persisteix, poseu-vos en contacte amb el vostre administrador de Matomo per obtenir ajuda.",
         "AllWebsitesDashboardTitle": "Tots els llocs web",
         "Evolution": "Evolució",
         "EvolutionComparisonDay": "%1$s %2$s aquest dia en comparació amb %3$s %2$s del període parcial anterior (%4$s) Evolució: %5$s",

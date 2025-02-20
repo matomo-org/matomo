@@ -1,13 +1,12 @@
 {
     "Login": {
+        "ChangeYourPassword": "পাসওয়ার্ড পরিবর্তন করুন।",
         "ConfirmationLinkSent": "অাপনার ইমেইলে একটি কনফার্মেশন লিংক পাঠানো হয়েছে। অনুগ্রহপূর্বক মেইল চেক করুন এবং পাসওয়ার্ড পরিবর্তন করার জন্য লিংকে ক্লিক করুন।",
         "InvalidOrExpiredToken": "টোকেন মেয়াদউত্তীর্ন হয়ে গেছে",
         "InvalidUsernameEmail": "ইউজারনেম অথবা পাসওয়ার্ড ভুল।",
         "LogIn": "সাইন ইন",
         "LoginPasswordNotCorrect": "ইউজারনেম এবং পাসওয়ার্ড মিলছেনা।",
         "LostYourPassword": "পাসওয়ার্ড ভুলে গেছেন ?",
-        "ChangeYourPassword": "পাসওয়ার্ড পরিবর্তন করুন।",
-        "MailTopicPasswordChange": "পাসওয়ার্ড পরিবর্তন নিশ্চিত করুন।",
         "NewPassword": "নতুন পাসওয়ার্ড",
         "NewPasswordRepeat": "নতুন পাসওয়ার্ড(অাবার)",
         "PasswordChanged": "অাপনার পাসওয়ার্ড পরিবর্তন করা হয়েছে।",

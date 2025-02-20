@@ -21,7 +21,7 @@ describe("TwoFactorAuth", function () {
     {
         await (await page.jQuery('.modal.open .modal-footer a:contains('+button+')')).click();
         await page.waitForNetworkIdle();
-        await page.waitForTimeout(100);
+        await page.waitForTimeout(250);
         await page.waitForNetworkIdle();
     }
 
@@ -219,30 +219,54 @@ describe("TwoFactorAuth", function () {
         await page.waitForNetworkIdle();
         await page.click('.setupTwoFactorAuthentication .goToStep2');
         await page.waitForNetworkIdle();
-        await page.evaluate(function () {
-            $('#qrcode').parent().hide();
-        });
+        await page.waitForTimeout(500);
+
         const element = await page.$('#content');
         expect(await element.screenshot()).to.matchImage('twofa_setup_step2');
     });
 
-    it('should show the OTP code in modal', async function () {
-        await page.click('.setupTwoFactorAuthentication .setupStep2Link');
+    it('should open the OTP codes in modal', async function () {
+        await page.waitForTimeout(250);
+        await page.click('.setupTwoFactorAuthentication .showOtpCodes');
         await page.waitForSelector('.modal.open', {visible: true});
+        await page.waitForTimeout(500);
 
+        // replace QR with an image
+        await page.evaluate(function () {
+          const qrCodeImg = $('#qrcode img');
+          qrCodeImg.attr('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII');
+          qrCodeImg.attr('width', 200);
+          qrCodeImg.attr('height', 200);
+        });
+
+        await page.evaluate(() => $('.modal.open').css('max-height', '90%').css('top', '5%'));
+        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        expect(await modal.screenshot()).to.matchImage('twofa_setup_step2_showcodes');
+    });
+
+    it('should show the manual OTP code in modal', async function () {
         const codeLength = await page.evaluate(() => {
-            return $('.modal.open code').text().length;
+            return $('.modal.open .text-code pre').text().length;
         });
 
         expect(codeLength).to.equal(16);
     });
 
-    it('should move to third step in setup - step 3', async function () {
-        await page.click('.modal.open .modal-close'); // close modal
+    it('should not show step 3 if OTP codes modal just closed', async function () {
+        selectModalButton('Cancel');
         await page.waitForTimeout(500);
-        await page.click('.setupTwoFactorAuthentication .goToStep3');
-        await page.waitForSelector('.setupConfirmAuthCodeForm', {visible: true});
-        await page.waitForTimeout(100);
+
+        const element = await page.$('#content');
+        expect(await element.screenshot()).to.matchImage('twofa_setup_step2');
+    });
+
+    it('should move to third step in setup - step 3', async function () {
+        await page.waitForTimeout(250);
+        await page.click('.setupTwoFactorAuthentication .showOtpCodes');
+        await page.waitForSelector('.modal.open', {visible: true});
+
+        selectModalButton('Continue');
+        await page.waitForTimeout(250);
 
         const element = await page.$('#content');
         expect(await element.screenshot()).to.matchImage('twofa_setup_step3');
@@ -280,10 +304,27 @@ describe("TwoFactorAuth", function () {
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step2');
     });
 
+    it('should force user to setup 2fa when not set up yet but enforced step 2 show codes', async function () {
+        await page.click('.setupTwoFactorAuthentication .showOtpCodes');
+        await page.waitForTimeout(500);
+
+        // replace QR with an image
+        await page.evaluate(function () {
+          const qrCodeImg = $('#qrcode img');
+          qrCodeImg.attr('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII');
+          qrCodeImg.attr('width', 200);
+          qrCodeImg.attr('height', 200);
+        });
+
+        await page.evaluate(() => $('.modal.open').css('max-height', '90%').css('top', '5%'));
+        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        expect(await modal.screenshot()).to.matchImage('twofa_forced_step2_showcodes');
+    });
+
     it('should force user to setup 2fa when not set up yet but enforced step 3', async function () {
-        await page.click('.setupTwoFactorAuthentication .goToStep3');
-        await page.waitForSelector('.setupConfirmAuthCodeForm', {visible: true});
-        await page.waitForTimeout(100);
+        selectModalButton('Continue');
+        await page.waitForTimeout(250);
+
         await page.mouse.move(-10, -10);
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step3');
     });

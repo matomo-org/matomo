@@ -27,7 +27,6 @@
         "SetUpTwoFactorAuthentication": "Imposta l'autenticazione a due fattori (2FA)",
         "SetupAuthenticatorOnDevice": "Imposta un'app di autenticazione sul tuo dispositivo",
         "SetupAuthenticatorOnDeviceStep1": "Installa un'app di autenticazione, ad esempio:",
-        "SetupAuthenticatorOnDeviceStep2": "Quindi apri l'app e scansiona il codice a barre sottostante con l'app di autenticazione a due fattori sul dispositivo mobile. Se non riesci a scansionare il codice a barre, %1$sinserisci invece questo codice%2$s.",
         "SetupBackupRecoveryCodes": "Si prega di eseguire il backup dei codici di ripristino utilizzando uno dei metodi sopra riportati prima di continuare l'impostazione dell'autenticazione a due fattori.",
         "SetupFinishedSubtitle": "Hai impostato l'autenticazione a due fattori. La prossima volta che effettui il login, dovrai inserire anche il codice di autenticazione. Assicurati di avere con te il tuo dispositivo mobile o il backup dei tuoi codici.",
         "SetupFinishedTitle": "Congratulazioni! Ora il tuo account è più sicuro.",

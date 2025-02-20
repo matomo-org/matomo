@@ -125,6 +125,7 @@
         "InviteActionNotes": "Tabhair faoi deara, le do thoil, go leathnófar an teorainn ama le haghaidh cuireadh roimhe seo faoi %1$s lá má athdhíoltar nasc cuireadh nó cóipeála.",
         "InviteConfirmMessage": "Is féidir leat an cuireadh a athdhíol tríd an nasc cuireadh a chóipeáil agus a roinnt go díreach le %1$s, nó ríomhphost cuireadh a chur ar ais chuig %2$s.",
         "InviteDayLeft": "Téann sé in éag i %s days",
+        "InviteEmailChange": "Níl a chuntas deimhnithe fós ag an úsáideoir seo. Má athraítear an ríomhphost, déanfar an cuireadh roimhe seo a neamhbhailíochtú agus seolfar cuireadh chuig an seoladh ríomhphoist nua.",
         "InviteNewUser": "Tabhair cuireadh d'úsáideoir nua",
         "InviteSuccess": "Cuireadh seolta.",
         "InviteSuccessNotification": "Gheobhaidh an t-úsáideoir ar tugadh cuireadh dó/di ríomhphost chun glacadh leis an gcuireadh. Tá an cuireadh seo bailí ar feadh%1$s days. Is féidir leat an cuireadh a athdhíol agus a scriosadh ar an leathanach bainistíochta úsáideora freisin.",

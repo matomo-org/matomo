@@ -41,8 +41,6 @@
         "LoginOrEmail": "ユーザー名または電子メール",
         "LoginPasswordNotCorrect": "ユーザー名および/またはパスワードが間違っています。",
         "LostYourPassword": "パスワードをお忘れですか？",
-        "MailPasswordChangeBody2": "%1$s さん、こんにちは。\n\n%2$s からパスワードのリセット要求を受け取りました。 24 時間以内に次のリンクをコピーして Web ブラウザーに貼り付け、新しいユーザー名とパスワードでログインします。\n\n%3$s\n\nいつもMatomoをご利用いただきありがとうございます。",
-        "MailTopicPasswordChange": "パスワードの変更を確認する",
         "NewPassword": "新しいパスワード",
         "NewPasswordRepeat": "新しいパスワード ( 再入力 )",
         "NotAllowListTakesPrecendence": "IP がブロックする IP リストとブロックしない IP リストの両方にある場合、その IP はブロックされます。",

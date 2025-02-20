@@ -27,7 +27,7 @@ class Mysqli extends Db
     protected $password;
     protected $charset;
     protected $collation;
-    protected $activeTransaction = false;
+    protected $activeTransaction = null;
 
     protected $enable_ssl;
     protected $ssl_key;
@@ -36,6 +36,8 @@ class Mysqli extends Db
     protected $ssl_ca_path;
     protected $ssl_cipher;
     protected $ssl_no_verify;
+    protected $paramNb;
+    protected $params;
 
     /**
      * Builds the DB object
@@ -418,11 +420,11 @@ class Mysqli extends Db
 
     /**
      * Start Transaction
-     * @return string TransactionID
+     * @return ?string TransactionID
      */
     public function beginTransaction()
     {
-        if (!$this->activeTransaction === false) {
+        if ($this->activeTransaction !== null) {
             return;
         }
 
@@ -440,11 +442,11 @@ class Mysqli extends Db
      */
     public function commit($xid)
     {
-        if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
+        if ($this->activeTransaction != $xid || $this->activeTransaction === null) {
             return;
         }
 
-        $this->activeTransaction = false;
+        $this->activeTransaction = null;
 
         if (!$this->connection->commit()) {
             throw new DbException("Commit failed");
@@ -461,11 +463,11 @@ class Mysqli extends Db
      */
     public function rollBack($xid)
     {
-        if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
+        if ($this->activeTransaction != $xid || $this->activeTransaction === null) {
             return;
         }
 
-        $this->activeTransaction = false;
+        $this->activeTransaction = null;
 
         if (!$this->connection->rollback()) {
             throw new DbException("Rollback failed");

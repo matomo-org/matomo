@@ -109,7 +109,7 @@
   </div>
   <div class="ui-confirm" id="saveSettingsBeforePurge">
     <h2>{{ translate('PrivacyManager_SaveSettingsBeforePurge') }}</h2>
-    <input role="yes" type="button" value="{{ translate('General_Ok') }}"/>
+    <input role="yes" type="button" :value="translate('General_Ok')"/>
   </div>
 </template>
 

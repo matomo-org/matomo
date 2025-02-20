@@ -37,9 +37,9 @@
             {{ translate('General_ColumnPageviews') }}
           </th>
 
-          <th @click="sortBy('nb_hits')">
+          <th @click="sortBy('hits')">
             <span
-                v-if="sortColumn === 'nb_hits'"
+                v-if="sortColumn === 'hits'"
                 :class="sortColumnClass"
             />
             {{ translate('General_ColumnHits') }}
@@ -96,34 +96,6 @@
           </td>
         </tr>
 
-        <tr v-else-if="errorLoading">
-          <td colspan="7">
-            <div class="notification system notification-error">
-              {{ translate('General_ErrorRequest', '', '') }}
-              <br /><br />
-              {{ translate('General_NeedMoreHelp') }}
-              <a
-                  rel="noreferrer noopener"
-                  target="_blank"
-                  :href="externalRawLink('https://matomo.org/faq/troubleshooting/faq_19489/')"
-              >{{ translate('General_Faq') }}</a>
-              &#x2013;
-              <a
-                  rel="noreferrer noopener"
-                  target="_blank"
-                  :href="externalRawLink('https://forum.matomo.org/')"
-              >{{ translate('Feedback_CommunityHelp') }}</a>
-              <span v-show="errorShowProfessionalHelp"> &#x2013; </span>
-              <a
-                  rel="noreferrer noopener"
-                  target="_blank"
-                  :href="externalRawLink('https://matomo.org/support-plans/')"
-                  v-show="errorShowProfessionalHelp"
-              >{{ translate('Feedback_ProfessionalHelp') }}</a>.
-            </div>
-          </td>
-        </tr>
-
         <SitesTableSite
             v-else
             v-for="site in sites"
@@ -131,7 +103,7 @@
             :evolution-metric="evolutionMetric"
             :key="`site-${site.idsite}`"
             :model-value="site"
-            :sparkline-date="sparklineDate"
+            :display-sparkline="displaySparklines"
             :sparkline-metric="sparklineMetric"
         />
       </tbody>
@@ -246,7 +218,7 @@ export default defineComponent({
     sparklineMetric(): string {
       switch (this.evolutionMetric) {
         case 'hits_evolution':
-          return 'nb_hits';
+          return 'hits';
         case 'pageviews_evolution':
           return 'nb_pageviews';
         case 'revenue_evolution':
@@ -256,9 +228,6 @@ export default defineComponent({
         default:
           return '';
       }
-    },
-    sparklineDate(): string|null {
-      return this.displaySparklines ? DashboardStore.state.value.sparklineDate : null;
     },
   },
   methods: {

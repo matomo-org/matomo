@@ -1,11 +1,15 @@
 {
     "ProfessionalServices": {
+        "CTALearnMore": "En savoir plus sur %1$s",
+        "PromoAbTesting": "Tests A/B",
+        "PromoCustomReports": "Rapports personnalisés",
         "PromoFormAnalytics": "Formulaires",
         "PromoFunnels": "Entonnoirs",
         "PromoHeatmaps": "Cartes de chaleur",
         "PromoManage": "Gérer",
         "PromoMediaAnalytics": "Média",
         "PromoOverview": "Aperçu",
+        "PromoSessionRecording": "Enregistrement de session",
         "WidgetPremiumServicesForPiwik": "Fonctionnalités Premium &amp; Services pour Matomo"
     }
 }

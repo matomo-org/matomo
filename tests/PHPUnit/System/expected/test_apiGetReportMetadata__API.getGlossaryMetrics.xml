@@ -131,6 +131,11 @@
 		<documentation>Number of visits that ended on this page.</documentation>
 	</row>
 	<row>
+		<name>Hits</name>
+		<id>hits</id>
+		<documentation>The total count of all interactions recorded on your website, including page views, link clicks, downloads, and events.</documentation>
+	</row>
+	<row>
 		<name>Impressions</name>
 		<id>nb_impressions</id>
 		<documentation>The number of times a content block, such as a banner or an ad, was displayed on a page.</documentation>

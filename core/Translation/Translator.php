@@ -10,6 +10,8 @@
 namespace Piwik\Translation;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Translation\Loader\LoaderInterface;
 
@@ -199,6 +201,13 @@ class Translator
     {
         $clientSideTranslations = array();
         foreach ($this->getClientSideTranslationKeys() as $id) {
+            if (strpos($id, '_') === false) {
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'Unexpected translation key found in client side translations: {translation_key}',
+                    ['translation_key' => $id]
+                );
+                continue;
+            }
             [$plugin, $key] = explode('_', $id, 2);
             $clientSideTranslations[$id] = $this->decodeEntitiesSafeForHTML($this->getTranslation($id, $this->currentLanguage, $plugin, $key));
         }

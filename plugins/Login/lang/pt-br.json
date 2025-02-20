@@ -42,8 +42,6 @@
         "LoginOrEmail": "Nome de usuário ou e-mail",
         "LoginPasswordNotCorrect": "Nome de usuário e/ou senha incorretos.",
         "LostYourPassword": "Esqueceu sua senha?",
-        "MailPasswordChangeBody2": "Olá %1$s,\n\nUma solicitação para redefinir sua senha foi recebida de %2$s. Copie e cole o seguinte link em seu navegador dentro de 24 horas para fazer login com seu novo nome de usuário e senha:\n\n%3$s\n\nObrigado por usar o Matomo.",
-        "MailTopicPasswordChange": "Confirmar a alteração da senha",
         "NewPassword": "Nova senha",
         "NewPasswordRepeat": "Nova senha (repetir)",
         "NotAllowListTakesPrecendence": "Se um IP estiver na lista de IPs a serem bloqueados e nunca bloqueados, ele será bloqueado.",

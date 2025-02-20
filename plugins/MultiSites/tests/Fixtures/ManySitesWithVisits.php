@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\MultiSites\tests\Fixtures;
 
 use Piwik\Date;
+use Piwik\Plugins\Goals\API as GoalsAPI;
 use Piwik\Tests\Framework\Fixture;
 
 /**
@@ -20,17 +21,25 @@ use Piwik\Tests\Framework\Fixture;
 class ManySitesWithVisits extends Fixture
 {
     public $dateTime = '2013-01-23 01:23:45';
-    public $idSite = 1;
+
+    public $idSiteEcommerce;
+    public $idSiteGoalDefaultValue;
+    public $idSiteGoalEventValue;
+    public $idSiteGoalWithoutValue;
+
+    public $idGoalDefaultValue;
+    public $idGoalEventValue;
+    public $idGoalWithoutValue;
 
     public function setUp(): void
     {
-        $this->setUpWebsite();
-        $this->trackFirstVisit($this->idSite);
-        $this->trackSecondVisit($this->idSite);
-        $this->trackFirstVisit($siteId = 2);
-        $this->trackSecondVisit($siteId = 3);
-        $this->trackSecondVisit($siteId = 3);
-        $this->trackSecondVisit($siteId = 4);
+        $this->setUpWebsites();
+        $this->setUpGoals();
+
+        $this->trackVisitsForSite($this->idSiteEcommerce, 6);
+        $this->trackVisitsForSite($this->idSiteGoalDefaultValue, 3);
+        $this->trackVisitsForSite($this->idSiteGoalEventValue, 2);
+        $this->trackVisitsForSite($this->idSiteGoalWithoutValue, 1);
     }
 
     public function tearDown(): void
@@ -38,48 +47,87 @@ class ManySitesWithVisits extends Fixture
         // empty
     }
 
-    private function setUpWebsite()
+    private function setUpGoals(): void
     {
-        for ($i = 1; $i <= 15; $i++) {
-            if (!self::siteCreated($i)) {
-                $idSite = self::createWebsite($this->dateTime, $ecommerce = 1, 'Site ' . $i);
-                $this->assertSame($i, $idSite);
-            }
+        $goalsApi = GoalsAPI::getInstance();
+
+        $this->idGoalDefaultValue = $goalsApi->addGoal(
+            $this->idSiteGoalDefaultValue,
+            'Goal With Value',
+            'manually',
+            '',
+            '',
+            false,
+            50.0
+        );
+
+        $this->idGoalEventValue = $goalsApi->addGoal(
+            $this->idSiteGoalEventValue,
+            'Goal Event Value',
+            'event_action',
+            'track value',
+            'exact',
+            false,
+            false,
+            false,
+            '',
+            true
+        );
+
+        $this->idGoalWithoutValue = $goalsApi->addGoal(
+            $this->idSiteGoalWithoutValue,
+            'Goal Without Value',
+            'manually',
+            '',
+            ''
+        );
+    }
+
+    private function setUpWebsites(): void
+    {
+
+        $this->idSiteEcommerce = self::createWebsite($this->dateTime, 1, 'Site Ecommerce');
+        $this->idSiteGoalDefaultValue = self::createWebsite($this->dateTime, 0, 'Site Goal Default Value');
+        $this->idSiteGoalEventValue = self::createWebsite($this->dateTime, 0, 'Site Goal Event Value');
+        $this->idSiteGoalWithoutValue = self::createWebsite($this->dateTime, 0, 'Site Goal Without Value');
+
+        // create 11 empty websites
+        for ($i = 5; $i <= 15; $i++) {
+            $idSite = self::createWebsite($this->dateTime, 0, 'Site ' . $i);
+
+            self::assertSame($i, $idSite);
         }
     }
 
-    protected function trackFirstVisit($idSite)
+    private function trackVisitsForSite(int $idSite, int $visitCount): void
     {
-        $t = self::getTracker($idSite, $this->dateTime, $defaultInit = true);
+        for ($visit = 1; $visit <= $visitCount; $visit++) {
+            $visitDate = Date::factory($this->dateTime)->addHour($visit);
+            $tracker = self::getTracker($idSite, $visitDate->getDatetime());
+            $tracker->setUrl('http://example.com/');
 
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
-        $t->setUrl('http://example.com/');
-        self::checkResponse($t->doTrackPageView('Viewing homepage'));
+            self::checkResponse($tracker->doTrackPageView('Viewing homepage'));
 
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.2)->getDatetime());
-        $t->setUrl('http://example.com/sub/page');
-        self::checkResponse($t->doTrackPageView('Second page view'));
+            $tracker->setForceVisitDateTime($visitDate->addHour(0.25)->getDatetime());
 
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.25)->getDatetime());
-        $t->addEcommerceItem($sku = 'SKU_ID', $name = 'Test item!', $category = 'Test & Category', $price = 777, $quantity = 33);
-        self::checkResponse($t->doTrackEcommerceOrder('TestingOrder', $grandTotal = 33 * 77));
-    }
+            switch ($idSite) {
+                case $this->idSiteEcommerce:
+                    $tracker->addEcommerceItem('SKU_ID', 'Test item!', 'Test & Category', 299.95, $visit);
+                    self::checkResponse($tracker->doTrackEcommerceOrder('Order ' . $visit, 299.95 * $visit));
+                    break;
 
-    protected function trackSecondVisit($idSite)
-    {
-        $t = self::getTracker($idSite, $this->dateTime, $defaultInit = true);
-        $t->setIp('56.11.55.73');
+                case $this->idSiteGoalDefaultValue:
+                    self::checkResponse($tracker->doTrackGoal($this->idGoalDefaultValue));
+                    break;
 
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
-        $t->setUrl('http://example.com/sub/page');
-        self::checkResponse($t->doTrackPageView('Viewing homepage'));
+                case $this->idSiteGoalEventValue:
+                    self::checkResponse($tracker->doTrackEvent('value event', 'track value', false, 1337.0));
+                    break;
 
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.2)->getDatetime());
-        $t->setUrl('http://example.com/?search=this is a site search query');
-        self::checkResponse($t->doTrackPageView('Site search query'));
-
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.3)->getDatetime());
-        $t->addEcommerceItem($sku = 'SKU_ID2', $name = 'A durable item', $category = 'Best seller', $price = 321);
-        self::checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 33 * 77));
+                case $this->idSiteGoalWithoutValue:
+                    self::checkResponse($tracker->doTrackGoal($this->idGoalWithoutValue));
+                    break;
+            }
+        }
     }
 }

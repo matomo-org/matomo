@@ -3,6 +3,7 @@
         "JsTrackingCodeInstallCheckFailureMessage": "Die Überprüfung des Tracking-Codes ist fehlgeschlagen. Bitte überprüfen Sie, ob Sie den Code korrekt installiert haben. %1$sMehr erfahren%2$s.",
         "JsTrackingCodeInstallCheckFailureMessageWordpress": "Die Überprüfung des Tracking-Codes fehlgeschlagen. Bitte überprüfen Sie, ob Sie das \"%1$s\"-Plugin installiert und alle Schritte befolgt haben. %2$sErfahren Sie mehr%3$s.",
         "JsTrackingCodeInstallCheckSuccessMessage": "Der Tracking-Code wurde erfolgreich installiert! Dieser Bildschirm verschwindet, sobald einige Daten für Ihre Website getrackt werden.",
+        "OptionalTestInstallationDescription": "Optional: Um zu testen, ob der Tracking-Code Anfragen an Ihre Matomo-Instanz senden kann, geben Sie die genaue URL ein, die Sie überwachen, und klicken Sie auf \"Installation testen\". Ein neuer Tab öffnet sich und sollte sich innerhalb von 10 Sekunden schließen.",
         "PluginDescription": "Überprüfen Sie, ob der Tracking-Code auf Ihrer Website installiert wurde und ob er Tracking-Anfragen an Ihre Matomo-Instanz zurücksenden kann.",
         "TestInstallationBtnText": "Test Installation"
     }

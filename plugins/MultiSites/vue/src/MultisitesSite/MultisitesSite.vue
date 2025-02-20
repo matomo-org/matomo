@@ -43,6 +43,9 @@
     <td class="multisites-column">
       <span class="value">{{ website.nb_pageviews }}</span>
     </td>
+    <td class="multisites-column">
+      <span class="value">{{ website.hits }}</span>
+    </td>
     <td
       class="multisites-column"
       v-if="displayRevenueColumn"
@@ -147,6 +150,9 @@ export default defineComponent({
           break;
         case 'pageviews_evolution':
           metric = 'nb_pageviews';
+          break;
+        case 'hits_evolution':
+          metric = 'hits';
           break;
         case 'revenue_evolution':
           metric = 'revenue';

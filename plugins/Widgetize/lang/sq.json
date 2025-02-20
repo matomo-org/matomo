@@ -9,7 +9,7 @@
         "PluginDescription": "Shfaqni çfarëdo raporti Matomo në sajtin apo aplikacionin tuaj, përmes një etikete të thjeshtë “embed” HTML.",
         "Reports": "Widget-izoji raportet",
         "SelectAReport": "Përzgjidhni një raport dhe kopjoni dhe ngjiteni në faqen tuaj kodin e trupëzimit poshtë widget-it:",
-        "TooHighAccessLevel": "Ky përdorues ka hyrje superpërdoruesi. Nuk lejohen trupëzime widget-esh me token mirëfilltësimi superpërdoruesi. %1$sPër më tepër hollësi, shihni PBR-të tona.%2$s",
+        "TooHighAccessLevel": "Ky përdorues ka hyrje superpërdoruesi. Nuk lejohen trupëzime widget-esh me token mirëfilltësimi superpërdoruesi. %1$sPër më tepër hollësi, shihni PBR tonat.%2$s",
         "TopLinkTooltip": "Eksportoni raporte Matomo si widget-e dhe bëjeni pultin pjesë të aplikacionit tuaj si një “iframe”.",
         "ViewAccessRequired": "Ky përdorues ka të paktën ca leje shkrimi. Mund të përdoren vetëm token-ë përdoruesish që kanë vetëm hyrje leximi. Për më tepër hollësi, shihni %1$s.",
         "ViewableAnonymously": "Nëse doni që widget-et tuaj të jenë të dukshëm për këdo, së pari duhet t’i vini lejet për 'parje' si për përdorues anonim, te %1$spjesa e Administrimit të Përdoruesve%2$s. <br>Nga ana tjetër, nëse po i shfaqni widget-et në një faqe të mbrojtur me fjalëkalim, ose private, s’ju duhet detyrimisht të lejoni 'anonymous' të shohë raportet tuaj. Në këtë rast, mund të shtoni parametrin e fshehtë <code>token_auth</code> te URL-ja e widget-it. Mund të administroni token-ët taj të mirëfilltësimit që nga %3$sfaqja juaj Siguri%4$s."

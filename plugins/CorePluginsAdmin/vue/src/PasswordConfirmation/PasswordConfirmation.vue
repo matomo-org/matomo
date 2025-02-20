@@ -38,14 +38,12 @@
         href=""
         class="modal-action modal-close btn"
         :disabled="requiresPasswordConfirmation && !passwordConfirmation ? 'disabled' : undefined"
-        @click="$event.preventDefault();
-                $emit('confirmed', passwordConfirmation);
-                passwordConfirmation = ''"
+        @click="onClickConfirm($event)"
       >{{ translate('General_Confirm') }}</a>
       <a
         href=""
         class="modal-action modal-close modal-no btn-flat"
-        @click="$event.preventDefault(); $emit('aborted')"
+        @click="onClickCancel($event)"
       >{{ translate('General_Cancel') }}</a>
     </div>
   </div>
@@ -88,6 +86,16 @@ export default defineComponent({
     this.$emit('update:modelValue', false);
   },
   methods: {
+    onClickConfirm(event: MouseEvent) {
+      event.preventDefault();
+      this.$emit('confirmed', this.passwordConfirmation);
+      this.passwordConfirmation = '';
+    },
+    onClickCancel(event: MouseEvent) {
+      event.preventDefault();
+      this.$emit('aborted');
+      this.passwordConfirmation = '';
+    },
     showPasswordConfirmModal() {
       this.slotHasContent = !(this.$refs.content as HTMLElement).matches(':empty');
       const root = this.$refs.root as HTMLElement;

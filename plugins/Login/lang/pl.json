@@ -13,7 +13,6 @@
         "LoginOrEmail": "Nazwa użytkownika lub email",
         "LoginPasswordNotCorrect": "Nazwa użytkownika i hasło nie są poprawne.",
         "LostYourPassword": "Nie pamiętasz hasła?",
-        "MailTopicPasswordChange": "Zatwierdź zmianę hasła",
         "NewPassword": "Nowe hasło",
         "NewPasswordRepeat": "Nowe hasło (powtórz)",
         "PasswordChanged": "Twoje hasło zostało zmienione.",

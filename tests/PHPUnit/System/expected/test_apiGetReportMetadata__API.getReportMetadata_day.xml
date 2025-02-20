@@ -11,6 +11,7 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
 			<nb_pageviews>Pageviews</nb_pageviews>
+			<hits>Hits</hits>
 			<revenue>Revenue</revenue>
 			<nb_conversions>Conversions</nb_conversions>
 			<orders>Ecommerce Orders</orders>
@@ -20,11 +21,13 @@
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
+			<hits>The total count of all interactions recorded on your website, including page views, link clicks, downloads, and events.</hits>
 		</metricsDocumentation>
 		<processedMetrics>
 			<visits_evolution>Visits Evolution</visits_evolution>
 			<actions_evolution>Actions Evolution</actions_evolution>
 			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
+			<hits_evolution>Hits Evolution</hits_evolution>
 			<revenue_evolution>Revenue Evolution</revenue_evolution>
 			<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
@@ -34,6 +37,7 @@
 			<nb_visits>number</nb_visits>
 			<nb_actions>number</nb_actions>
 			<nb_pageviews>number</nb_pageviews>
+			<hits>number</hits>
 			<revenue>money</revenue>
 			<nb_conversions>number</nb_conversions>
 			<orders>number</orders>
@@ -41,6 +45,7 @@
 			<visits_evolution>percent</visits_evolution>
 			<actions_evolution>percent</actions_evolution>
 			<pageviews_evolution>percent</pageviews_evolution>
+			<hits_evolution>percent</hits_evolution>
 			<revenue_evolution>percent</revenue_evolution>
 			<nb_conversions_evolution>percent</nb_conversions_evolution>
 			<orders_evolution>percent</orders_evolution>
@@ -61,6 +66,7 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
 			<nb_pageviews>Pageviews</nb_pageviews>
+			<hits>Hits</hits>
 			<revenue>Revenue</revenue>
 			<nb_conversions>Conversions</nb_conversions>
 			<orders>Ecommerce Orders</orders>
@@ -70,11 +76,13 @@
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
+			<hits>The total count of all interactions recorded on your website, including page views, link clicks, downloads, and events.</hits>
 		</metricsDocumentation>
 		<processedMetrics>
 			<visits_evolution>Visits Evolution</visits_evolution>
 			<actions_evolution>Actions Evolution</actions_evolution>
 			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
+			<hits_evolution>Hits Evolution</hits_evolution>
 			<revenue_evolution>Revenue Evolution</revenue_evolution>
 			<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
@@ -84,6 +92,7 @@
 			<nb_visits>number</nb_visits>
 			<nb_actions>number</nb_actions>
 			<nb_pageviews>number</nb_pageviews>
+			<hits>number</hits>
 			<revenue>money</revenue>
 			<nb_conversions>number</nb_conversions>
 			<orders>number</orders>
@@ -91,6 +100,7 @@
 			<visits_evolution>percent</visits_evolution>
 			<actions_evolution>percent</actions_evolution>
 			<pageviews_evolution>percent</pageviews_evolution>
+			<hits_evolution>percent</hits_evolution>
 			<revenue_evolution>percent</revenue_evolution>
 			<nb_conversions_evolution>percent</nb_conversions_evolution>
 			<orders_evolution>percent</orders_evolution>
@@ -1288,6 +1298,7 @@
 			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
 			<nb_searches>Searches</nb_searches>
 			<nb_keywords>Unique Keywords</nb_keywords>
+			<hits>Hits</hits>
 		</metrics>
 		<metricsDocumentation>
 			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
@@ -1297,6 +1308,7 @@
 			<nb_outlinks>The number of times this link was clicked.</nb_outlinks>
 			<nb_uniq_outlinks>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_outlinks>
 			<nb_searches>The number of visits that searched for this keyword on your website's search engine.</nb_searches>
+			<hits>The total count of all interactions recorded on your website, including page views, link clicks, downloads, and events.</hits>
 			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
 		</metricsDocumentation>
 		<processedMetrics>
@@ -1311,6 +1323,7 @@
 			<nb_uniq_outlinks>number</nb_uniq_outlinks>
 			<nb_searches>number</nb_searches>
 			<nb_keywords>number</nb_keywords>
+			<hits>number</hits>
 			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
@@ -3542,6 +3555,7 @@
 			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
 			<nb_searches>Searches</nb_searches>
 			<nb_keywords>Unique Keywords</nb_keywords>
+			<hits>Hits</hits>
 			<Referrers_visitorsFromSearchEngines>Visitors from Search Engines</Referrers_visitorsFromSearchEngines>
 			<Referrers_visitorsFromSearchEngines_percent>Percent of Visitors from Search Engines</Referrers_visitorsFromSearchEngines_percent>
 			<Referrers_visitorsFromSocialNetworks>Visitors from Social Networks</Referrers_visitorsFromSocialNetworks>
@@ -3594,6 +3608,7 @@
 			<nb_outlinks>The number of times this link was clicked.</nb_outlinks>
 			<nb_uniq_outlinks>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_outlinks>
 			<nb_searches>The number of visits that searched for this keyword on your website's search engine.</nb_searches>
+			<hits>The total count of all interactions recorded on your website, including page views, link clicks, downloads, and events.</hits>
 			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
@@ -3643,6 +3658,7 @@
 			<nb_uniq_outlinks>number</nb_uniq_outlinks>
 			<nb_searches>number</nb_searches>
 			<nb_keywords>number</nb_keywords>
+			<hits>number</hits>
 			<Referrers_visitorsFromSearchEngines>number</Referrers_visitorsFromSearchEngines>
 			<Referrers_visitorsFromSearchEngines_percent>percent</Referrers_visitorsFromSearchEngines_percent>
 			<Referrers_visitorsFromSocialNetworks>number</Referrers_visitorsFromSocialNetworks>

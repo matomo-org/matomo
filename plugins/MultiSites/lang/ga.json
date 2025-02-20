@@ -1,6 +1,7 @@
 {
     "MultiSites": {
         "AllWebsitesDashboardDocumentation": "Tugann an tuarascáil seo forbhreathnú faisnéiseach duit ar gach ceann de do láithreáin ghréasáin, ina bhfuil na méadrachtaí is ginearálta faoi do chuairteoirí.",
+        "AllWebsitesDashboardErrorMessage": "Níl na sonraí ar fáil faoi láthair. D'fhéadfadh sé seo a bheith mar gheall ar cheist shealadach freastalaí nó an tuarascáil ina bhfuil an iomarca sonraí. Bain triail eile as ar ball. Má leanann an fhadhb ar aghaidh, déan teagmháil le do riarthóir Matomo chun cúnamh a fháil.",
         "AllWebsitesDashboardTitle": "Gach Láithreán Gréasáin",
         "Evolution": "Éabhlóid",
         "EvolutionComparisonDay": "%1$s %2$s an lá seo i gcomparáid le %3$s %2$s sa tréimhse pháirteach roimhe (%4$s) Éabhlóid: %5$s",

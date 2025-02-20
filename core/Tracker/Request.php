@@ -516,7 +516,7 @@ class Request
         }
 
         if (!is_numeric($cdt)) {
-            $cdt = strtotime($cdt);
+            $cdt = strtotime($cdt, $this->timestamp);
         }
 
         if (!empty($cdo)) {

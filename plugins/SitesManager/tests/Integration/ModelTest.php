@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\Model;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -28,6 +29,8 @@ class ModelTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        Manager::getInstance()->activatePlugin('MobileAppMeasurable');
 
         $this->model = new Model();
     }
@@ -50,11 +53,11 @@ class ModelTest extends IntegrationTestCase
     {
         for ($i = 0; $i < 9; $i++) {
             $this->createMeasurable('website');
-            $this->createMeasurable('universal');
+            $this->createMeasurable('intranet');
             $this->createMeasurable('mobileapp');
         }
 
-        $this->assertEqualsCanonicalizing(['website', 'universal', 'mobileapp'], $this->model->getUsedTypeIds());
+        $this->assertEqualsCanonicalizing(['website', 'intranet', 'mobileapp'], $this->model->getUsedTypeIds());
     }
 
     public function testGetAllKnownUrlsForAllSitesShouldReturnAllUrls()

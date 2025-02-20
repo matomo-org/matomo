@@ -4,22 +4,52 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 5.3.0
+
+### Breaking Changes
+
+* When requesting goals for multiple sites at once using `Goals.getGoals`, the result will no longer be indexed by `idgoal`. Requesting the goals for a single site will still return them indexed by `idgoal`.
+
+#### New APIs
+
+* The method `getNthLevelTableDimension` has been added to the `Report` class. This extends support for subtable reports for more than three levels.
+
+## Deprecations
+
+* The method `Report::getThirdLeveltableDimension` has been deprecated. Use `Report::getNthLevelTableDimension(2)` instead.
+
+### New commands
+
+* New command `core:reset-invalidations` allows administrators to reset stuck invalidations that are incorrectly marked as "in progress".
+
+
 ## Matomo 5.2.0
 
 ### Breaking Changes
 
-* The dependency `jQuery.dotdotdot` has been removed. Please use pure CSS instead or include the library in your plugin if needed.
+* The MultiSites API has been reworked. The previously incorrectly named metrics for the previous period now have correct names:
+    * `previous_Actions_nb_pageviews` => `previous_nb_pageviews`
+    * `previous_Goal_revenue` => `previous_revenue`
+    * `previous_Goal_nb_conversions` => `previous_nb_conversions`
+    * `previous_Goal_0_nb_conversions` => `previous_orders`
+    * `previous_Goal_0_revenue` => `previous_ecommerce_revenue`
 
 ## Deprecations
 
 * The methods `Db::isOptimizeInnoDBSupported`, `Db::optimizeTables` have been deprecated. Use `Db\Schema::getInstance()->isOptimizeInnoDBSupported` and `Db\Schema::getInstance()->optimizeTables` instead
 * The method `TransactionLevel::setUncommitted` has been deprecated. Use `TransactionLevel::setTransactionLevelForNonLockingReads` instead
+* The method `Piwik\Plugins\SitesManager\API::setGlobalExcludedQueryParameters` has been deprecated. Use `Piwik\Plugins\SitesManager\API::setGlobalQueryParamExclusion` instead
+
+### New commands
+
+* New command `plugin:install-or-update` lets you install or update a plugin from the Marketplace.
 
 ## Matomo 5.1.0
 
 ### Breaking Changes
 
 * The `errorlog` (`\Monolog\Handler\ErrorLogHandler`) and `syslog` (`\Monolog\Handler\SyslogHandler`) handlers are no longer directly used. Plugins using or overwriting those handlers using DI should now use the scoped classes `Piwik\Plugins\Monolog\Handler\ErrorLogHandler` and `Piwik\Plugins\Monolog\Handler\SyslogHandler` instead.
+* The dependency `jQuery.dotdotdot` has been removed. Please use pure CSS instead or include the library in your plugin if needed.
 
 ### Deprecations
 

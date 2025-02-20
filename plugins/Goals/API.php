@@ -63,7 +63,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite
      * @param int $idGoal
-     * @return array An array of goal attributes.
+     * @return ?array An array of goal attributes.
      */
     public function getGoal($idSite, $idGoal)
     {
@@ -82,10 +82,17 @@ class API extends \Piwik\Plugin\API
      * @param string|array $idSite Array or Comma separated list of website IDs to request the goals for
      * @param bool $orderByName
      *
-     * @return array Array of Goal attributes
+     * @return array Array of Goal attributes,
+     *               indexed by "idgoal" when requesting a single site,
+     *               no specific index when requesting multiple sites
      */
     public function getGoals($idSite, bool $orderByName = false): array
     {
+        if (is_array($idSite)) {
+            $idSite = array_map('intval', $idSite);
+            $idSite = implode(',', $idSite);
+        }
+
         $cacheId = self::getCacheId($idSite);
         $cache = $this->getGoalsInfoStaticCache();
         if (!$cache->contains($cacheId)) {
@@ -101,10 +108,15 @@ class API extends \Piwik\Plugin\API
             Piwik::checkUserHasViewAccess($idSite);
 
             $goals = $this->getModel()->getActiveGoals($idSite);
+            $cleanedGoals = [];
+            $indexByIdGoal = 1 === count($idSite);
 
-            $cleanedGoals = array();
             foreach ($goals as &$goal) {
-                $cleanedGoals[$goal['idgoal']] = $this->formatGoal($goal);
+                if ($indexByIdGoal) {
+                    $cleanedGoals[$goal['idgoal']] = $this->formatGoal($goal);
+                } else {
+                    $cleanedGoals[] = $this->formatGoal($goal);
+                }
             }
 
             $cache->save($cacheId, $cleanedGoals);

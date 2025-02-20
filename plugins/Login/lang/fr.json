@@ -40,8 +40,6 @@
         "LoginOrEmail": "Nom d'utilisateur ou e-mail",
         "LoginPasswordNotCorrect": "Mot de passe et/ou nom d'utilisateur incorrect(s).",
         "LostYourPassword": "Mot de passe perdu ?",
-        "MailPasswordChangeBody2": "Bonjour %1$s,\n\nUne requête de réinitialisation de mot de passe a été envoyée par %2$s. Copiez et collez le lien suivant dans votre navigateur dans un délai de 24 heures pour configurer votre nouveau mot de passe:\n\n%3$s\n\nMerci d'utiliser Matomo.",
-        "MailTopicPasswordChange": "Confirmer le changement de mot de passe",
         "NewPassword": "Nouveau mot de passe",
         "NewPasswordRepeat": "Nouveau mot de passe (confirmer)",
         "NotAllowListTakesPrecendence": "Si une IP est à la fois dans la liste «empêcher» et «ne jamais empêcher», elle est bloquée.",

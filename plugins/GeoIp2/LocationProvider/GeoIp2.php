@@ -248,4 +248,14 @@ abstract class GeoIp2 extends LocationProvider
 
         return $ip->toString();
     }
+
+    /**
+     * GeoIP2 providers can be used for location-based security checks
+     *
+     * @return bool
+     */
+    public function canBeUsedForLocationBasedSecurityChecks(): bool
+    {
+        return true;
+    }
 }

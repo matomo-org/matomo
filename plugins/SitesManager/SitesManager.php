@@ -39,6 +39,16 @@ class SitesManager extends \Piwik\Plugin
     public const KEEP_URL_FRAGMENT_YES = 1;
     public const KEEP_URL_FRAGMENT_NO = 2;
 
+    public const URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS = 'common_session_parameters';
+    public const URL_PARAM_EXCLUSION_TYPE_NAME_MATOMO_RECOMMENDED_PII = 'matomo_recommended_pii';
+    public const URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM = 'custom';
+
+    public const URL_PARAM_EXCLUSION_TYPES =  [
+        self::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS,
+        self::URL_PARAM_EXCLUSION_TYPE_NAME_MATOMO_RECOMMENDED_PII,
+        self::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM
+    ];
+
     /**
      * @see \Piwik\Plugin::registerEvents
      */
@@ -210,6 +220,10 @@ class SitesManager extends \Piwik\Plugin
 
     public function setTrackerCacheGeneral(&$cache)
     {
+        /*
+         * Executed as super user, as permissions are required for the used API methods, but it may happen that generating
+         * the tracker cache is triggered by an event, that does not have high enough privileges.
+         */
         Access::doAsSuperUser(function () use (&$cache) {
             $cache['global_excluded_user_agents'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedUserAgentsGlobal());
             $cache['global_excluded_ips'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedIpsGlobal());
@@ -221,7 +235,7 @@ class SitesManager extends \Piwik\Plugin
      * Returns whether we should keep URL fragments for a specific site.
      *
      * @param array $site DB data for the site.
-     * @return bool
+     * @return ?string
      */
     private static function getTimezoneFromWebsite($site)
     {
@@ -478,6 +492,15 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'SitesManager_SiteWithoutDataOtherInstallMethods';
         $translationKeys[] = 'Mobile_NavigationBack';
         $translationKeys[] = 'SitesManager_SiteWithoutDataInstallWithX';
+        $translationKeys[] = 'SitesManager_ExclusionTypeOptionCommonSessionParameters';
+        $translationKeys[] = 'SitesManager_ExclusionTypeOptionMatomoRecommendedPII';
+        $translationKeys[] = 'SitesManager_ExclusionTypeOptionCustom';
+        $translationKeys[] = 'SitesManager_ExclusionTypeDescriptionCommonSessionParameters';
+        $translationKeys[] = 'SitesManager_ExclusionTypeDescriptionMatomoRecommendedPII';
+        $translationKeys[] = 'SitesManager_ExclusionTypeDescriptionCustom';
+        $translationKeys[] = 'SitesManager_ExclusionViewListLink';
+        $translationKeys[] = 'SitesManager_AddSensibleExclusionsToMyCustomListButtonText';
+        $translationKeys[] = 'SitesManager_MatomoWillAutomaticallyExcludeCommonSessionParametersInAddition';
     }
 
     public static function renderTrackingCodeEmail(int $idSite)

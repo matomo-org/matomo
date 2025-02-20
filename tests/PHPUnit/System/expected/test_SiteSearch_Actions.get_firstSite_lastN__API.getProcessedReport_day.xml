@@ -17,6 +17,7 @@
 			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
 			<nb_searches>Searches</nb_searches>
 			<nb_keywords>Unique Keywords</nb_keywords>
+			<hits>Hits</hits>
 		</metrics>
 		<metricsDocumentation>
 			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
@@ -26,6 +27,7 @@
 			<nb_outlinks>The number of times this link was clicked.</nb_outlinks>
 			<nb_uniq_outlinks>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_outlinks>
 			<nb_searches>The number of visits that searched for this keyword on your website's search engine.</nb_searches>
+			<hits>The total count of all interactions recorded on your website, including page views, link clicks, downloads, and events.</hits>
 		</metricsDocumentation>
 		<processedMetrics>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
@@ -39,6 +41,7 @@
 			<nb_uniq_outlinks>number</nb_uniq_outlinks>
 			<nb_searches>number</nb_searches>
 			<nb_keywords>number</nb_keywords>
+			<hits>number</hits>
 			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
@@ -54,6 +57,7 @@
 		<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
 		<nb_searches>Searches</nb_searches>
 		<nb_keywords>Unique Keywords</nb_keywords>
+		<hits>Hits</hits>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">
@@ -65,6 +69,7 @@
 			<nb_uniq_outlinks>0</nb_uniq_outlinks>
 			<nb_searches>9</nb_searches>
 			<nb_keywords>3</nb_keywords>
+			<hits>14</hits>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<nb_pageviews>0</nb_pageviews>
@@ -75,6 +80,7 @@
 			<nb_uniq_outlinks>0</nb_uniq_outlinks>
 			<nb_searches>4</nb_searches>
 			<nb_keywords>3</nb_keywords>
+			<hits>5</hits>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />

@@ -12,6 +12,7 @@ namespace Piwik\Plugins\SitesManager;
 use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
@@ -54,7 +55,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        return $this->renderTemplate('globalSettings');
+        return $this->renderTemplate(
+            'globalSettings',
+            [
+                'commonSensitiveQueryParams' => Config::getInstance()->SitesManager['CommonPIIParams']
+            ]
+        );
     }
 
     public function getGlobalSettings()
@@ -73,6 +79,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $globalSettings['excludedQueryParametersGlobal'] = API::getInstance()->getExcludedQueryParametersGlobal();
         $globalSettings['excludedUserAgentsGlobal'] = API::getInstance()->getExcludedUserAgentsGlobal();
         $globalSettings['excludedReferrersGlobal'] = API::getInstance()->getExcludedReferrersGlobal();
+        $globalSettings['exclusionTypeForQueryParams'] = API::getInstance()->getExclusionTypeForQueryParams();
 
         return $response->getResponse($globalSettings);
     }
@@ -95,16 +102,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $searchKeywordParameters = Common::getRequestVar('searchKeywordParameters', $default = "");
             $searchCategoryParameters = Common::getRequestVar('searchCategoryParameters', $default = "");
             $keepURLFragments = Common::getRequestVar('keepURLFragments', $default = 0);
+            $exclusionTypeForQueryParams = Common::getRequestVar('exclusionTypeForQueryParams', $default = "");
 
             $api = API::getInstance();
             $api->setDefaultTimezone($timezone);
             $api->setDefaultCurrency($currency);
-            $api->setGlobalExcludedQueryParameters($excludedQueryParameters);
             $api->setGlobalExcludedIps($excludedIps);
             $api->setGlobalExcludedUserAgents($excludedUserAgents);
             $api->setGlobalExcludedReferrers($excludedReferrers);
             $api->setGlobalSearchParameters($searchKeywordParameters, $searchCategoryParameters);
             $api->setKeepURLFragmentsGlobal($keepURLFragments);
+            $api->setGlobalQueryParamExclusion($exclusionTypeForQueryParams, $excludedQueryParameters);
 
             $toReturn = $response->getResponse();
         } catch (Exception $e) {

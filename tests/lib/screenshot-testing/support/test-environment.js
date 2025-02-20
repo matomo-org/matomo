@@ -218,16 +218,16 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
 };
 
 TestingEnvironment.prototype.readDbInfoFromConfig = function () {
+    let username = 'root';
+    let password = '';
 
-    var username = 'root';
-    var password = '';
-
-    var pathConfigIni = path.join(PIWIK_INCLUDE_PATH, "/config/config.ini.php");
-
-    var configFile = fs.readFileSync(pathConfigIni);
+    const pathConfigIni = path.join(PIWIK_INCLUDE_PATH, "/config/config.ini.php");
+    const configFile = fs.readFileSync(pathConfigIni);
 
     if (configFile) {
-        var match = ('' + configFile).match(/password\s?=\s?"(.*)"/);
+        let match;
+
+        match = ('' + configFile).match(/password\s?=\s?"(.*)"/);
 
         if (match && match.length) {
             password = match[1];
@@ -240,10 +240,39 @@ TestingEnvironment.prototype.readDbInfoFromConfig = function () {
         }
     }
 
-    return {
-        username: username,
-        password: password
+    return { username, password };
+};
+
+TestingEnvironment.prototype.readInstallationInfoFromLocalConfig = function () {
+    let inProgress = false;
+    let firstAccessed = null;
+
+    const pathConfigIni = path.join(testEnvironment.configFileLocal);
+    const configFile = fs.readFileSync(pathConfigIni);
+
+    if (configFile) {
+        let match;
+
+        match = ('' + configFile).match(/installation_first_accessed\s?=\s?(\d+)/);
+
+        if (match && match.length) {
+            firstAccessed = parseInt(match[1]);
+        }
+
+        match = ('' + configFile).match(/installation_in_progress\s?=\s?(\d+)/);
+
+        if (match && match.length) {
+            inProgress = !!match[1];
+        }
     }
+
+    return { firstAccessed, inProgress };
+};
+
+TestingEnvironment.prototype.appendToLocalConfig = function (content) {
+    const pathConfigIni = path.join(testEnvironment.configFileLocal);
+
+    fs.appendFileSync(pathConfigIni, content);
 };
 
 TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {

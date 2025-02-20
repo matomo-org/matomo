@@ -62,6 +62,9 @@
 
                 this.$element.find('.piwik-graph').css('min-width', totalMinWidth + 'px');
                 this.$element.css('overflow-x', 'scroll');
+                this.$element.addClass('isComparingBarViz');
+            } else {
+                this.$element.removeClass('isComparingBarViz');
             }
         },
 

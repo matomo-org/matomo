@@ -68,6 +68,7 @@
         "PageDownShortcutDescription": "para ir para o final da página",
         "PageUpShortcutDescription": "para ir para o topo da página",
         "PeriodHasOnlyRawData": "Parece que os relatório para este período ainda não foram processados. Quer ver o que está a acontecer agora? Consulte o %1$sRegisto de visitantes%2$s ou escola um período diferente até que os relatórios sejam gerados.",
+        "PeriodHasOnlyRawDataNoVisitsLog": "Parece que os relatórios para este período ainda não foram processados, mas estarão disponíveis em poucas horas. Você pode escolher um período de data diferente até que os relatórios sejam gerados.",
         "PeriodRange": "Intervalo",
         "PivotBySubtable": "O relatório não está articulado %1$s Articulado por %2$s",
         "Profilable": "Perfilável",

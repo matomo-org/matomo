@@ -558,4 +558,15 @@ abstract class LocationProvider
             return $ip->toString();
         }
     }
+
+    /**
+     * Returns true if the location provider can be used for security checks based
+     * on location, such as determining the current country where the user logs in from.
+     *
+     * @return bool
+     */
+    public function canBeUsedForLocationBasedSecurityChecks(): bool
+    {
+        return false;
+    }
 }

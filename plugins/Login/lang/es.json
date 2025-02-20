@@ -23,8 +23,6 @@
         "LoginOrEmail": "Nombre de usuario o correo electrónico",
         "LoginPasswordNotCorrect": "Usuario y contraseña incorrectos.",
         "LostYourPassword": "¿Olvidó la contraseña?",
-        "MailPasswordChangeBody2": "Hola %1$s,\n\nUna solicitud de restablecimiento de contraseña fue recibida desde %2$s. Para confirmar este cambio de contraseña debe iniciar sesión con su nuevas credenciales, por favor copie y pegue el siguiente enlace en su navegador de internet:\n\n%3$s\n\nNota: este enlace caducará en 24 horas.\n\nY gracias por seguir usando Matomo!",
-        "MailTopicPasswordChange": "Confirma el cambio de contraseña",
         "NewPassword": "Nueva contraseña",
         "NewPasswordRepeat": "Nueva contraseña (repetir)",
         "PasswordChanged": "Su contraseña ha sido modificada.",

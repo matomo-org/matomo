@@ -108,16 +108,16 @@ jobs:
         run: |
           cat <<- EOF > $HOME/.netrc
             machine github.com
-            login $GITHUB_ACTOR
-            password $GITHUB_TOKEN
+            login innocraft-automation
+            password $CUSTOM_ACCESS_TOKEN
             machine api.github.com
-            login $GITHUB_ACTOR
-            password $GITHUB_TOKEN
+            login innocraft-automation
+            password $CUSTOM_ACCESS_TOKEN
           EOF
           chmod 600 $HOME/.netrc
-          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git config --global user.name "$GITHUB_ACTOR"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git config --global user.email "innocraft-automation@users.noreply.github.com"
+          git config --global user.name "innocraft-automation"
+          git remote set-url origin https://x-access-token:${{ secrets.CUSTOM_ACCESS_TOKEN }}@github.com/$GITHUB_REPOSITORY
           if [[ ${{ steps.vars.outputs.islocalbranch }} ]]
           then
             git fetch --depth=1 origin $BRANCH_NAME

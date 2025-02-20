@@ -10,7 +10,6 @@
         "LogIn": "로그인",
         "LoginPasswordNotCorrect": "사용자이름 또는 비밀번호가 맞지 않습니다",
         "LostYourPassword": "비밀번호를 잊으셨습니까?",
-        "MailTopicPasswordChange": "비밀번호 변경 확인",
         "NewPassword": "새 비밀번호",
         "NewPasswordRepeat": "새 비밀번호 (재입력)",
         "PasswordChanged": "비밀번호가 변경되었습니다.",

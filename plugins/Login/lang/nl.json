@@ -42,8 +42,6 @@
         "LoginOrEmail": "Gebruikersnaam of e-mail",
         "LoginPasswordNotCorrect": "Verkeerde gebruikersnaam en/of wachtwoord.",
         "LostYourPassword": "Wachtwoord vergeten?",
-        "MailPasswordChangeBody2": "Hallo %1$s,\n\nEr is een verzoek ontvangen voor het herstellen van het wachtwoord van %2$s. Kopieer en plak de volgende link in uw webbrowser binnen de 24 uur om in te loggen met uw nieuwe gebruikersnaam en wachtwoord:\n\n%3$s\n\nBedankt om Matomo te gebruiken.",
-        "MailTopicPasswordChange": "Bevestig wachtwoordwijziging",
         "NewPassword": "Nieuw wachtwoord",
         "NewPasswordRepeat": "Nieuw wachtwoord (herhaal)",
         "NotAllowListTakesPrecendence": "Indien een IP zowel op de lijst van geblokkeerde IP's als nooit blokkeren staat, dan wordt het geblokkeerd.",

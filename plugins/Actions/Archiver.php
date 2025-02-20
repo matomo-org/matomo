@@ -32,4 +32,5 @@ class Archiver extends \Piwik\Plugin\Archiver
     public const METRIC_UNIQ_OUTLINKS_RECORD_NAME = 'Actions_nb_uniq_outlinks';
     public const METRIC_SEARCHES_RECORD_NAME = 'Actions_nb_searches';
     public const METRIC_KEYWORDS_RECORD_NAME = 'Actions_nb_keywords';
+    public const METRIC_HITS_RECORD_NAME = 'Actions_hits';
 }

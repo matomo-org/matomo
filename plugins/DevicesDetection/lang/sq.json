@@ -22,7 +22,7 @@
         "Console": "Konsolë",
         "Device": "Pajisje",
         "DeviceBrand": "Markë pajisjeje",
-        "DeviceBrandReportDocumentation": "Ky raport shfaq markat / prodhuesit e pajisjeve që përdornin vizitorët tuaj. Në shumicën e rasteve ky informacion është i passhëm vetëm për pajisje jo desktop.",
+        "DeviceBrandReportDocumentation": "Ky raport shfaq markat / prodhuesit e pajisjeve që përdornin vizitorët tuaj. Në shumicën e rasteve ky informacion mund të kihet vetëm për pajisje jo desktop.",
         "DeviceBrands": "Marka pajisjesh",
         "DeviceDetection": "Zbulim pajisjeje",
         "DeviceModel": "Model pajisjeje",

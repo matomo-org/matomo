@@ -346,6 +346,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the actions > site search page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuSitesearch");
             await page.waitForNetworkIdle();
+            await page.waitForTimeout(150);
 
             expect(await screenshotPageWrap()).to.matchImage('actions_site_search');
         });
@@ -553,7 +554,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the ecommerce log page', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog");
 
-            await page.hover('.dataTableVizVisitorLog .row:nth-child(2) .actionList li.action');
+            const action = await page.jQuery('.dataTableVizVisitorLog .card:eq(1) .actionList li.action');
+            await action.hover();
             await page.waitForSelector('.ui-tooltip', {visible: true, timeout: 250});
 
             var tooltipContent = await page.evaluate(() => {

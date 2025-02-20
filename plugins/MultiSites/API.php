@@ -16,13 +16,10 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\NumberFormatter;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Goals\Archiver;
-use Piwik\Plugins\MultiSites\FeatureFlags\ImprovedAllWebsitesDashboard;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsPiwik;
@@ -42,6 +39,8 @@ class API extends \Piwik\Plugin\API
 
     public const NB_VISITS_METRIC = 'nb_visits';
     public const NB_ACTIONS_METRIC = 'nb_actions';
+    public const NB_HITS_LABEL = 'hits';
+    public const NB_HITS_METRIC = 'Actions_hits';
     public const NB_PAGEVIEWS_LABEL = 'nb_pageviews';
     public const NB_PAGEVIEWS_METRIC = 'Actions_nb_pageviews';
     public const GOAL_REVENUE_METRIC = 'revenue';
@@ -294,6 +293,10 @@ class API extends \Piwik\Plugin\API
         $dataTable = $archive->getDataTableFromNumericAndMergeChildren($fieldsToGet);
 
         $this->populateLabel($dataTable);
+
+        // replace record names with user friendly metric names
+        $dataTable->filter('ReplaceColumnNames', array($columnNameRewrites));
+
         $totalMetrics = $this->preformatApiMetricsForTotalsCalculation($apiMetrics);
         $this->setMetricsTotalsMetadata($dataTable, $totalMetrics);
 
@@ -311,10 +314,10 @@ class API extends \Piwik\Plugin\API
 
             $pastArchive = Archive::build($idSites, $period, $strLastDate, $segment, $_restrictSitesToLogin);
             $pastData = $pastArchive->getDataTableFromNumericAndMergeChildren($fieldsToGet);
-
+            $pastData->filter('ReplaceColumnNames', array($columnNameRewrites));
             $this->populateLabel($pastData); // labels are needed to calculate evolution
             $this->calculateEvolutionPercentages($dataTable, $pastData, $apiMetrics);
-            $this->setPastTotalVisitsMetadata($dataTable, $pastData);
+            $this->setPreviousMetricsTotalsMetadata($dataTable, $pastData, $totalMetrics);
 
             if ($dataTable instanceof DataTable) {
                 // needed for MultiSites\Dashboard
@@ -347,9 +350,6 @@ class API extends \Piwik\Plugin\API
         } else {
             $dataTable->queueFilter('ColumnDelete', array('label'));
         }
-
-        // replace record names with user friendly metric names
-        $dataTable->queueFilter('ReplaceColumnNames', array($columnNameRewrites));
 
         // filter rows without visits
         // note: if only one website is queried and there are no visits, we can not remove the row otherwise
@@ -388,93 +388,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Temporary/partially mocked data for the all websites dashboard.
-     *
-     * @internal
-     *
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param string|false $segment
-     * @param string $pattern
-     * @return array
-     * @throws Exception
-     */
-    public function mockDashboardData(
-        int $idSite,
-        string $period,
-        string $date,
-        int $filter_limit,
-        $segment = false,
-        string $pattern = ''
-    ): array {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-
-        if (!$featureFlagManager->isFeatureActive(ImprovedAllWebsitesDashboard::class)) {
-            throw new Exception('THIS API SHOULD NOT BE USED');
-        }
-
-        Piwik::checkUserHasSomeViewAccess();
-
-        if (Period::isMultiplePeriod($date, $period)) {
-            throw new Exception('Multiple periods are not supported');
-        }
-
-        $numberFormatter = NumberFormatter::getInstance();
-
-        $response = [
-            'totals' => [
-                'hits_evolution'            => $numberFormatter->formatPercent(2.8, 2, 2),
-                'hits_evolution_trend'      => 1,
-                'nb_hits'                   => $numberFormatter->formatNumber(582303),
-                'nb_pageviews'              => $numberFormatter->formatNumber(26027),
-                'nb_visits'                 => $numberFormatter->formatNumber(10118),
-                'pageviews_evolution'       => $numberFormatter->formatPercent(0.3, 2, 2),
-                'pageviews_evolution_trend' => -1,
-                'visits_evolution'          => $numberFormatter->formatPercent(2.4, 2, 2),
-                'visits_evolution_trend'    => 1,
-                'revenue'                   => $numberFormatter->formatNumber(85958.30, 2, 2),
-                'revenue_evolution'         => $numberFormatter->formatPercent(0.0, 2, 2),
-                'revenue_evolution_trend'   => 0,
-            ],
-        ];
-
-        $segment = $segment ?: false;
-        $request = $_GET + $_POST;
-        $dashboard = new Dashboard($period, $date, $segment);
-
-        if ('' !== $pattern) {
-            $dashboard->search(strtolower($pattern));
-        }
-
-        $sites = $dashboard->getSites($request, $filter_limit);
-
-        foreach ($sites as &$site) {
-            $site['nb_hits'] = $site['nb_pageviews'];
-            $site['hits_evolution'] = $site['pageviews_evolution'];
-            $site['hits_evolution_trend'] = $site['pageviews_evolution_trend'];
-        }
-
-        $response['numSites'] = $dashboard->getNumSites();
-        $response['sites'] = $sites;
-
-        if ('range' === $period) {
-            $response['sparklineDate'] = $date;
-        } else {
-            Piwik::checkUserHasViewAccess($idSite);
-
-            $response['sparklineDate'] = Range::getRelativeToEndDate(
-                $period,
-                'last30',
-                $date,
-                new Site($idSite)
-            );
-        }
-
-        return $response;
-    }
-
-    /**
      * Performs a binary filter of two
      * DataTables in order to correctly calculate evolution metrics.
      *
@@ -506,7 +419,7 @@ class API extends \Piwik\Plugin\API
 
                 $extraProcessedMetrics = is_array($extraProcessedMetrics) ? $extraProcessedMetrics : [];
                 $extraProcessedMetrics[] = new $evolutionMetricClass(
-                    $metricSettings[self::METRIC_RECORD_NAME_KEY],
+                    $metricSettings[self::METRIC_COL_NAME_KEY],
                     $pastData,
                     $metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY],
                     $quotientPrecision = 1,
@@ -530,6 +443,13 @@ class API extends \Piwik\Plugin\API
                 self::METRIC_EVOLUTION_COL_NAME_KEY => 'pageviews_evolution',
                 self::METRIC_RECORD_NAME_KEY        => self::NB_PAGEVIEWS_METRIC,
                 self::METRIC_COL_NAME_KEY           => self::NB_PAGEVIEWS_LABEL,
+                self::METRIC_IS_ECOMMERCE_KEY       => false,
+            );
+            $metrics[self::NB_HITS_LABEL] = array(
+                self::METRIC_TRANSLATION_KEY        => 'General_ColumnHits',
+                self::METRIC_EVOLUTION_COL_NAME_KEY => 'hits_evolution',
+                self::METRIC_RECORD_NAME_KEY        => self::NB_HITS_METRIC,
+                self::METRIC_COL_NAME_KEY           => self::NB_HITS_LABEL,
                 self::METRIC_IS_ECOMMERCE_KEY       => false,
             );
         }
@@ -582,7 +502,7 @@ class API extends \Piwik\Plugin\API
         $metrics = array();
         foreach ($apiMetrics as $label => $metricsInfo) {
             $totalMetadataName = self::getTotalMetadataName($label);
-            $metrics[$totalMetadataName] = $metricsInfo[self::METRIC_RECORD_NAME_KEY];
+            $metrics[$totalMetadataName] = $metricsInfo[self::METRIC_COL_NAME_KEY];
         }
 
         return $metrics;
@@ -594,7 +514,6 @@ class API extends \Piwik\Plugin\API
      *
      * @param DataTable $dataTable
      * @param array $apiMetrics Metrics info.
-     * @return array Array of three values: total visits, total actions, total revenue
      */
     private function setMetricsTotalsMetadata($dataTable, $apiMetrics)
     {
@@ -623,25 +542,47 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Sets the number of total visits in the pastTable on the dataTable as metadata.
+     * Sets the previous total visits, actions & revenue for a DataTable returned by
+     * $this->buildDataTable.
      *
      * @param DataTable $dataTable
-     * @param DataTable $pastTable
+     * @param array $apiMetrics Metrics info.
      */
-    private function setPastTotalVisitsMetadata($dataTable, $pastTable)
+    private function setPreviousMetricsTotalsMetadata($dataTable, $pastData, $apiMetrics)
     {
-        if ($pastTable instanceof DataTable) {
-            $total  = 0;
-            $metric = 'nb_visits';
+        if ($dataTable instanceof DataTable\Map) {
+            $currentDataTables = $dataTable->getDataTables();
+            $pastDataTables = $pastData->getDataTables();
+            $currentLabels = array_keys($currentDataTables);
+            $pastLabels = array_keys($pastDataTables);
 
-            $rows = $pastTable->getRows();
+            foreach ($currentLabels as $index => $label) {
+                $this->setPreviousMetricsTotalsMetadata(
+                    $currentDataTables[$label],
+                    $pastDataTables[$pastLabels[$index]],
+                    $apiMetrics
+                );
+            }
+        } else {
+            $totals = array();
+            foreach ($apiMetrics as $label => $recordName) {
+                $label = 'previous_' . $label;
+
+                $totals[$label] = 0;
+            }
+
+            $rows = $pastData->getRows();
+
             $rows = $this->filterRowsForTotalsCalculation($rows);
 
             foreach ($rows as $row) {
-                $total += $row->getColumn($metric);
+                foreach ($apiMetrics as $totalMetadataName => $recordName) {
+                    $totalMetadataName = 'previous_' . $totalMetadataName;
+                    $totals[$totalMetadataName] += $row->getColumn($recordName);
+                }
             }
 
-            $dataTable->setMetadata(self::getTotalMetadataName($metric . '_lastdate'), $total);
+            $dataTable->setMetadataValues($totals);
         }
     }
 

@@ -1,7 +1,7 @@
 <div class="visitorReferrer {{ visitInfo.getColumn('referrerType') }}">
     {% if visitInfo.getColumn('referrerType') == 'website' %}
         <span>{{ 'Referrers_ColumnWebsite'|translate }}:</span>
-        <a href="{{ visitInfo.getColumn('referrerUrl')|safelink|e('html_attr') }}" rel="noreferrer noopener" target="_blank" class="visitorLogTooltip" title="{{ visitInfo.getColumn('referrerUrl') }}"
+        <a href="{{ visitInfo.getColumn('referrerUrl')|safelink|e('html_attr') }}" rel="noreferrer noopener" target="_blank" class="visitorLogTooltip" title="{{ visitInfo.getColumn('referrerUrl')|e('html')|e('html') }}"
            style="text-decoration:underline;">
             {{ visitInfo.getColumn('referrerName') }}
         </a>
@@ -15,7 +15,7 @@
         {% if visitInfo.getColumn('referrerSearchEngineIcon') %}
             <img width="16" src="{{ visitInfo.getColumn('referrerSocialNetworkIcon') }}" alt="{{ visitInfo.getColumn('referrerName') }}"/>
         {% endif %}
-        <a href="{{ visitInfo.getColumn('referrerUrl')|safelink|e('html_attr') }}" rel="noreferrer" target="_blank" class="visitorLogTooltip" title="{{ visitInfo.getColumn('referrerUrl') }}"
+        <a href="{{ visitInfo.getColumn('referrerUrl')|safelink|e('html_attr') }}" rel="noreferrer" target="_blank" class="visitorLogTooltip" title="{{ visitInfo.getColumn('referrerUrl')|e('html')|e('html') }}"
            style="text-decoration:underline;">
             {{ visitInfo.getColumn('referrerName') }}
         </a>

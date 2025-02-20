@@ -1,10 +1,34 @@
 {
     "Insights": {
+        "ControlComparedToDescription": "வளர்ச்சி",
+        "ControlFilterByDescription": "அனைத்தையும் காட்டு, மூவர்ச் மட்டுமே, புதியது அல்லது மறைந்துவிட்டது",
+        "DatePeriodCombinationNotSupported": "இந்த தேதி மற்றும் கால சேர்க்கைக்கான நுண்ணறிவுகளை உருவாக்க முடியாது.",
         "DayComparedToPreviousDay": "நேற்று",
         "DayComparedToPreviousWeek": "கடந்த வாரத்தில் இதே நாள்",
         "DayComparedToPreviousYear": "கடந்த ஆண்டில் இதே நாள்",
+        "Filter": "வடிப்பி",
+        "FilterIncreaserAndDecreaser": "அதிகரிப்பு &amp; குறைவு",
+        "FilterOnlyDecreaser": "குறைவு மட்டுமே",
+        "FilterOnlyDisappeared": "மட்டுமே மறைந்துவிட்டது",
+        "FilterOnlyIncreaser": "அதிகரிப்பு மட்டுமே",
+        "FilterOnlyMovers": "மட்டும்",
+        "FilterOnlyNew": "புதியது மட்டுமே",
+        "IgnoredChanges": "%s வருகைகளுக்கு குறைவாக பாதிக்கும் மாற்றங்கள் புறக்கணிக்கப்பட்டன.",
         "MonthComparedToPreviousMonth": "கடந்த மாதம்",
         "MonthComparedToPreviousYear": "கடந்த ஆண்டின் இதே மாதம்",
-        "WeekComparedToPreviousWeek": "கடந்த வாரம்"
+        "MoversAndShakersWidgetTitle": "மூவர்ச் மற்றும் சேக்கர்கள்",
+        "NoResultMatchesCriteria": "எந்த வரிசைகளும் அளவுகோல்களுடன் பொருந்துகின்றன",
+        "OverviewWidgetTitle": "நுண்ணறிவு கண்ணோட்டம்",
+        "PluginDescription": "உங்கள் போக்குவரத்து பற்றிய நுண்ணறிவுகளை வழங்குகிறது. நுண்ணறிவு டாச்போர்டு விட்செட்டுகளாகவும், அறிக்கைகளில் ஒரு புதிய ஐகானாகவும் கிடைக்கிறது, இது உங்கள் தரவின் மிக முக்கியமான போக்குகளைக் காண அனுமதிக்கிறது.",
+        "TitleConsideredInsightsChanges": "வரிசைகள் குறைந்தது%1$s வருகைகளால் அதிகரித்தன அல்லது குறைந்தது (%2$s %%%3$s மொத்த வருகைகள்).",
+        "TitleConsideredInsightsGrowth": "%2$s உடன் ஒப்பிடும்போது பின்வரும் வரிசைகள் குறைந்தது %1$s %% வளர்ச்சியைக் கொண்டுள்ளன.",
+        "TitleConsideredMoversAndShakersGrowth": "%1$s %4$s உடன் ஒப்பிடும்போது %2$s இலிருந்து %3$s ஆக மாற்றப்பட்டது. இதன் அடிப்படையில்%5$s%% ஒவ்வொரு வரிசையின் படிமலர்ச்சி வளர்ச்சியும் எதிர்பார்க்கப்படுகிறது.",
+        "TitleRowChangeDetails": "' %1$s' %2$s ( %3$s) இலிருந்து %4$s (%5$s) %6$s ஆக மாற்றப்பட்டது.",
+        "TitleRowDisappearedDetails": "' %1$s' %2$s குறைந்து %4$s உடன் ஒப்பிடும்போது %3$s இல் மறைந்துவிட்டது.",
+        "TitleRowMoverAndShaker": "இந்த வரிசை சராசரியை விட அதிக தாக்கத்தை ஏற்படுத்தியது.",
+        "TitleRowNewDetails": "' %1$s' %2$s அதிகரித்து %3$s உடன் ஒப்பிடும்போது புதியது.",
+        "WeekComparedToPreviousWeek": "கடந்த வாரம்",
+        "WidgetCategory": "நுண்ணறிவு",
+        "YearComparedToPreviousYear": "முந்தைய ஆண்டு"
     }
 }

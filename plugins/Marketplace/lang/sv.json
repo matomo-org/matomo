@@ -70,7 +70,6 @@
         "OverviewPluginSubscriptions": "Översikt av dina plugin-prenumerationer",
         "OverviewPluginSubscriptionsAllDetails": "För att se alla detaljer eller för att ändra din prenumeration, logga in med ditt användarkonto.",
         "OverviewPluginSubscriptionsMissingInfo": "Det är möjligt att en prenumeration saknas, tillexempel kan det bero på att en betalning inte lyckats / genomförts. Du kan antingen vänta några timmar på att betalningen skall registreras eller så kontaktar du Matomo teamet.",
-        "OverviewPluginSubscriptionsMissingLicense": "Du har inga aktiverade licensnycklar. Om du har köpt en prenumeration, gå till %1$s Marketplace %2$s och lägg till din licensnyckel.",
         "PaidPlugins": "Premiumfunktioner",
         "PluginDescription": "Utöka och expandera Matomos funktionalitet genom att ladda ned Theman och Plugins på Marketplace.",
         "PluginKeywords": "Nyckelord",

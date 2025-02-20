@@ -63,7 +63,6 @@
         "OverviewPluginSubscriptions": "Panoramica dei tuoi abbonamenti ai plugin",
         "OverviewPluginSubscriptionsAllDetails": "Per vedere tutti i dettagli o per cambiare un abbonamento, accedi al tuo account.",
         "OverviewPluginSubscriptionsMissingInfo": "Potrebbe essere possibile che l'abbonamento sia inesistente, per esempio se un pagamento non è stato ancora acquisito. In questo caso prova di nuovo dopo qualche ora o contatta il team di Matomo.",
-        "OverviewPluginSubscriptionsMissingLicense": "Non hai impostato una chiave di licenza. Se hai acquistato l'abbonamento a un plugin, vai sul %1$sMarketplace%2$s e inserisci la tua chiave di licenza.",
         "PaidPlugins": "Funzionalità Premium",
         "PluginDescription": "Estendi ed espandi le funzioni di Matomo tramite il Marketplace scaricando plugin e temi.",
         "PluginKeywords": "Parole chiave",

@@ -24,6 +24,8 @@
     schedule-deletion-options="{{ scheduleDeletionOptions|default(null)|json_encode }}"
     anonymizations="{{ anonymizations|json_encode }}"
     is-super-user="{{ isSuperUser|json_encode }}"
+    randomize-config-id="{{ anonymizeIP.randomizeConfigId|json_encode }}"
+    config-randomisation-feature-flag="{{ configRandomisationFeatureFlag|json_encode }}"
 ></div>
 
 {% endblock %}

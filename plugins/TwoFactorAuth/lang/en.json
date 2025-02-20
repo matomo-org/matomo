@@ -1,5 +1,6 @@
 {
     "TwoFactorAuth": {
+        "PluginDescription": "Enhance your Matomo account security with Two-Factor Authentication (2FA) to protect against unauthorized access.",
         "TwoFactorAuthentication": "Two-factor authentication",
         "TwoFAShort": "2FA",
         "TwoFactorAuthenticationIntro": "%1$sTwo-factor authentication%2$s increases account security by also asking you for a code generated on a mobile device, or one of the remaining recovery codes (in addition to your password) to log in.",
@@ -36,7 +37,12 @@
         "Your2FaAuthSecret": "Your two-factor authentication secret",
         "SetupAuthenticatorOnDevice": "Set up an OTP app on your device",
         "SetupAuthenticatorOnDeviceStep1": "Install an OTP app, for example:",
-        "SetupAuthenticatorOnDeviceStep2": "Next, open the app and scan the barcode below with the OTP app on your mobile device. %1$sEnter this code%2$s if you can't scan the barcode.",
+        "SetupAuthenticatorOnDeviceStep2ShowCodes": "Open the OTP app on your mobile device, then click the \"%1$s\" button below and either scan the QR code or manually enter the code if scanning isn't possible.",
+        "ShowCodeModalInstructions1": "Open your OTP app and scan this QR code",
+        "ShowCodeModalInstructions2": "or manually enter the following code",
+        "ShowCodeModalInstructions3": "and click \"%1$s\" to get to the next step.",
+        "ShowCodes": "Show codes",
+        "DontHaveOTPApp": "Don't have an OTP app?",
         "SetupBackupRecoveryCodes": "Please save your recovery codes securely using one of the methods above before continuing.",
         "RecoveryCodes": "Recovery codes",
         "RecoveryCodesExplanation": "You can use recovery codes to access your account when you cannot receive two-factor authentication codes (for example when you don't have your mobile device with you).",

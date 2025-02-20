@@ -1,8 +1,18 @@
 {% extends isWidgetized ? 'empty.twig' : 'dashboard.twig' %}
 
+{% set bodyId = 'awd' %}
+
 {% block root %}
-    {% set hideTopControls = true %}
+    {% set hideQuickAccess = true %}
     {{ parent() }}
+{% endblock %}
+
+{% block topcontrols %}
+    <div class="row">
+        <div class="col s12 m12 l10 offset-l1">
+            {% include "@CoreHome/_periodSelect.twig" %}
+        </div>
+    </div>
 {% endblock %}
 
 {% block content %}
@@ -20,9 +30,7 @@
                  display-revenue="{{ displayRevenueColumn|json_encode }}"
                  display-sparklines="{% if show_sparklines %}true{% else %}false{%endif%}"
                  is-widgetized="{{ isWidgetized|json_encode }}"
-                 kpi-badge-hits="{{ kpiBadgeHits|default('')|json_encode|e('html_attr') }}"
                  page-size="{{ limit|default(25)|json_encode }}"
-                 selectable-periods="{{ enabledPeriods|json_encode|e('html_attr') }}"
             ></div>
 
             {% if isWidgetized %}

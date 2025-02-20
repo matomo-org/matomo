@@ -1,6 +1,7 @@
 {
     "Tour": {
         "AddAnnotation": "Adicionar uma anotação",
+        "AddAnotherWebsite": "Adicionar outro site",
         "AddReport": "Adicionar um relatório agendado",
         "AddSegment": "Adicionar um segmento",
         "BecomeMatomoExpert": "Torne-se um especialista Matomo",
@@ -23,6 +24,7 @@
         "Engagement": "Interesse",
         "FlattenActions": "Nivelar um relatório de página",
         "FlattenActionsDescription": "Vá para Comportamento → Páginas e clique no ícone de engrenagem na parte inferior do relatório para achatá-lo. Isso altera a hierarquia de um relatório agrupado para uma lista.",
+        "InviteUser": "Convide um usuário",
         "MatomoBeginner": "Iniciante no Matomo",
         "MatomoExpert": "Especialista no Matomo",
         "MatomoIntermediate": "Intermediário no Matomo",

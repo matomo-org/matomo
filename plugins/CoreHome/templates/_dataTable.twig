@@ -7,6 +7,13 @@
 {% set showCardAsContentBlock = (properties.show_as_content_block and properties.show_title and not isWidget) %}
 {% set showOnlyTitleWithoutCard = not showCardAsContentBlock and properties.title and properties.show_title %}
 
+{#
+using the show_footer to control the header actions as well since this is going to be refactored with the goal
+of moving the table actions to the top of the report for all reports, at which point the config for the report
+can be renamed to show_header and show_header_icons
+#}
+{% set showTableActionsInHeader = properties.show_footer and properties.show_footer_icons %}
+
 {% if showCardAsContentBlock  %}
 <div class="card">
 <div class="card-content">
@@ -30,7 +37,7 @@
 
 {% set summaryRowId = constant('Piwik\\DataTable::ID_SUMMARY_ROW') %}{# ID_SUMMARY_ROW #}
 {% set isSubtable = javascriptVariablesToSet.idSubtable is defined and javascriptVariablesToSet.idSubtable != 0 %}
-<div class="dataTable {{ visualizationCssClass }} {{ properties.datatable_css_class|default('') }} {% if isSubtable %}subDataTable{% endif %} {% if isComparing|default(false) %}isComparing{% endif %}"
+<div class="dataTable {{ visualizationCssClass }} {{ properties.datatable_css_class|default('') }}{% if isSubtable %} subDataTable{% endif %}{% if isComparing|default(false) %} isComparing{% endif %}{% if isDataTableEmpty %} isDataTableEmpty{% endif %}"
      data-table-type="{{ properties.datatable_js_type }}"
      data-report="{{ properties.report_id }}"
      data-report-metadata="{{ reportMetdadata|json_encode|e('html_attr') }}"
@@ -50,6 +57,14 @@
         {% if error is defined %}
             <div vue-entry="CoreHome.Alert" severity="danger">{{ error.message }}</div>
         {% else %}
+            {% if showTableActionsInHeader %}
+                <div class="row dataTableHeaderControls">
+                    <div class="col dataTableControls s12">
+                        {% include "@CoreHome/_dataTableActions.twig" with { placement: 'top' } %}
+                    </div>
+                </div>
+            {% endif %}
+
             {% if properties.show_header_message is defined and properties.show_header_message is not empty %}
                 <div class='datatableHeaderMessage'>{{ properties.show_header_message | raw }}</div>
             {% endif %}

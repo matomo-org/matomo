@@ -39,6 +39,14 @@
             });
         };
 
+        var checkIfWeShowResetForm = function () {
+            var urlParams = new URLSearchParams(window.location.search);
+
+            if (urlParams.has('showResetForm')) {
+                switchForm('login_form', 'reset_form');
+            }
+        }
+
         // set login form redirect url
         $('#login_form_redirect').val(window.location.href);
 
@@ -96,6 +104,8 @@
         });
 
         $('#login_form_login').focus();
+
+        checkIfWeShowResetForm();
 
         Materialize.updateTextFields();
     });

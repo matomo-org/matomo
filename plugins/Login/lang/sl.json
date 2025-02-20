@@ -7,7 +7,6 @@
         "LogIn": "Vpis",
         "LoginPasswordNotCorrect": "Napačna kombinacija uporabniškega imena in gesla.",
         "LostYourPassword": "Ste pozabili geslo?",
-        "MailTopicPasswordChange": "Potrdite spremembo gesla",
         "PasswordChanged": "Vaše geslo je bilo spremenjeno.",
         "PasswordRepeat": "Geslo (ponovno)",
         "PasswordsDoNotMatch": "Gesli se ne ujemata.",

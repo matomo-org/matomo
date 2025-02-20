@@ -42,8 +42,6 @@
         "LoginOrEmail": "Nome utente o email",
         "LoginPasswordNotCorrect": "Nome utente e/o password non corretti.",
         "LostYourPassword": "Hai perso la password?",
-        "MailPasswordChangeBody2": "Salve %1$s,\n\nÈ stata ricevuta una richiesta di reimpostazione della password da parte di %2$s. Copiare e incolla il link seguente nel tuo browser entro 24 ore per eseguire l'accesso con il tuo username e la nuova password:\n\n%3$s\n\nGrazie per l'utilizzo di Matomo!",
-        "MailTopicPasswordChange": "Conferma la modifica della password",
         "NewPassword": "Nuova password",
         "NewPasswordRepeat": "Nuova password (ripetila)",
         "NotAllowListTakesPrecendence": "Se un IP è presente sia nell'elenco degli IP da bloccare che in quello degli IP da non bloccare mai, viene bloccato.",

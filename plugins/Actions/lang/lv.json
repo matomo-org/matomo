@@ -1,5 +1,6 @@
 {
     "Actions": {
+        "AvgGenerationTimeTooltip": "Vidējais rādījums, balstoties uz %1$s trāpījumu(-iem) %2$s starp %3$s un %4$s",
         "ColumnClicks": "Klikšķi",
         "ColumnClicksDocumentation": "Saites klikšķu skaits.",
         "ColumnDownloadURL": "Lejupielādes URL",
@@ -12,9 +13,9 @@
         "ColumnUniqueClicks": "Unikālie klikšķi",
         "ColumnUniqueDownloads": "Unikālas lejupielādes",
         "ColumnUniqueOutlinks": "Unikālās arējās saites",
-        "SubmenuPagesEntry": "Ieejas lapas",
-        "SubmenuPagesExit": "Izejas lapas",
+        "PagesSubcategoryHelp3": "Lai pārvietotos, lietojiet pa kreisi esošās plusa un mīnusa ikonas.",
         "SubmenuPageTitles": "Lapas virsraksti",
-        "PagesSubcategoryHelp3": "Lai pārvietotos, lietojiet pa kreisi esošās plusa un mīnusa ikonas."
+        "SubmenuPagesEntry": "Ieejas lapas",
+        "SubmenuPagesExit": "Izejas lapas"
     }
 }

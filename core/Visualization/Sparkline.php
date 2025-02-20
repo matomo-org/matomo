@@ -182,7 +182,7 @@ class Sparkline implements ViewInterface
             'fillColor' => '#ffffff'
         );
 
-        if (empty($colors)) {
+        if (empty($colors) || !is_array($colors)) {
             $colors = $defaultColors; //set default color, if no color passed
         } else {
             $colors = array_merge($defaultColors, $colors); //set default color key, if no key set.

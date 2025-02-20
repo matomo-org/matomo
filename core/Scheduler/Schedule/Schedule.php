@@ -208,7 +208,7 @@ abstract class Schedule
                 }
                 return $result;
             case 'monthly':
-                $result = new Monthly($periodDay);
+                $result = new Monthly();
                 if ($periodDay !== false) {
                     if (is_int($periodDay)) {
                         $result->setDay($periodDay);
