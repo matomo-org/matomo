@@ -58,6 +58,8 @@
         "ThisSegmentIsCompared": "This segment is currently compared.",
         "ThisSegmentIsSelectedAndCannotBeCompared": "This segment is currently selected so cannot be selected to compare.",
         "CompareThisSegment": "Compare this segment with the selected segment and period.",
-        "Test": "Test"
+        "Test": "Test",
+        "UpdatingAllSitesSegmentPermittedToSuperUser": "This segment was made accessible to all sites by the super user. Now, only super users are allowed to update or remove it.",
+        "UpdatingForeignSegmentPermittedToSuperUser": "You can only edit and delete custom segments that you have created yourself. This segment was created and 'shared with you' by the Super User. To modify this segment, you can first create a new one by clicking on 'Add new segment'. Then you can customize the segment's definition."
     }
 }

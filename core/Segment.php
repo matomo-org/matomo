@@ -737,7 +737,8 @@ class Segment
         }
 
         if (isset($foundStoredSegment)) {
-            return $foundStoredSegment['name'];
+            // segment name is stored sanitized
+            return Common::unsanitizeInputValues($foundStoredSegment['name']);
         }
 
         return $this->isSegmentEncoded ? urldecode($segment) : $segment;
