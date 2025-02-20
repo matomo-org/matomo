@@ -63,7 +63,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite
      * @param int $idGoal
-     * @return array An array of goal attributes.
+     * @return ?array An array of goal attributes.
      */
     public function getGoal($idSite, $idGoal)
     {

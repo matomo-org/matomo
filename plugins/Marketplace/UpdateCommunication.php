@@ -68,8 +68,6 @@ class UpdateCommunication
     /**
      * Sends an email to all super users if there is an update available for any plugins from the Marketplace.
      * For each update we send an email only once.
-     *
-     * @return bool
      */
     public function sendNotificationIfUpdatesAvailable()
     {

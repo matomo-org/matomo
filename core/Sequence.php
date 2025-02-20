@@ -107,7 +107,7 @@ class Sequence
 
     /**
      * Returns the current max id.
-     * @return int
+     * @return ?int
      * @internal
      */
     public function getCurrentId()
@@ -119,6 +119,8 @@ class Sequence
         if (!empty($id) || '0' === $id || 0 === $id) {
             return (int) $id;
         }
+
+        return null;
     }
 
     private function getTableName($prefix)
