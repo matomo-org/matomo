@@ -785,13 +785,14 @@ class ModelTest extends IntegrationTestCase
         ]);
 
         $expectedInvalidations = [
-            ['idsite' => 1, 'date1' => '2014-02-03', 'date2' => '2014-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'ts_started' => '2014-02-03 23:00:00'],
-            ['idsite' => 1, 'date1' => '2014-02-01', 'date2' => '2014-02-01', 'period' => Day::PERIOD_ID, 'name' => 'doneb321434abb5a139c17dadf08c9d2e315', 'ts_started' => '2014-02-03 23:13:00'],
+            ['idsite' => 1, 'date1' => '2014-02-03', 'date2' => '2014-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'ts_started' => '2014-02-03 23:00:00', 'report' => null, 'processing_host' => null, 'process_id' => null],
+            ['idsite' => 1, 'date1' => '2014-02-01', 'date2' => '2014-02-01', 'period' => Day::PERIOD_ID, 'name' => 'doneb321434abb5a139c17dadf08c9d2e315', 'ts_started' => '2014-02-03 23:13:00', 'report' => null, 'processing_host' => null, 'process_id' => null],
         ];
 
-        $result = $this->model->getInvalidationsInProgress(1);
+        $result = $this->model->getInvalidationsInProgress([1]);
 
         unset($result[0]['idinvalidation'], $result[1]['idinvalidation']);
+        unset($result[0]['ts_invalidated'], $result[1]['ts_invalidated']);
 
         self::assertEquals($expectedInvalidations, $result);
     }

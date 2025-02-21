@@ -425,7 +425,7 @@ class QueueConsumer
     public function shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress(array $archiveToProcess): ?string
     {
         $inProgressArchives = $this->model->getInvalidationsInProgress(
-            (int) $archiveToProcess['idsite']
+            [(int) $archiveToProcess['idsite']]
         );
 
         $periods = array_flip(Piwik::$idPeriods);
