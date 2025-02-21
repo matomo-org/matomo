@@ -356,7 +356,7 @@ describe("PrivacyManager", function () {
 
     it('should hide GDPR tool and show message when selecting site with visitor logs or profiles disabled', async function() {
         await selectSite('3');
-        await page.waitForSelector('.dataUnavailable h2');
+        await page.waitForSelector('.dataUnavailable strong');
         expect(await page.screenshotSelector('.manageGdpr')).to.matchImage('gdpr_tools_disabled_site');
     });
 
