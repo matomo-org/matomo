@@ -66,6 +66,8 @@ class ActionsRequestProcessor extends RequestProcessor
             'idReferrerActionName',
             $visitProperties->getProperty('visit_exit_idaction_name')
         );
+
+        return false;
     }
 
     public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
@@ -76,6 +78,8 @@ class ActionsRequestProcessor extends RequestProcessor
         if (!empty($action)) { // other plugins can unset the action if they want
             $action->loadIdsFromLogActionTable();
         }
+
+        return false;
     }
 
     public function recordLogs(VisitProperties $visitProperties, Request $request)

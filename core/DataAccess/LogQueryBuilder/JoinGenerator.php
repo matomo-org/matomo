@@ -136,9 +136,8 @@ class JoinGenerator
     /**
      * Generate the join sql based on the needed tables
      * @throws Exception if tables can't be joined
-     * @return array
      */
-    public function generate()
+    public function generate(): void
     {
         /** @var LogTable[] $availableLogTables */
         $availableLogTables = array();

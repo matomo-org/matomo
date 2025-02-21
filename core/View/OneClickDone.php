@@ -53,8 +53,6 @@ class OneClickDone
 
     /**
      * Outputs the data.
-     *
-     * @return string  html
      */
     public function render()
     {

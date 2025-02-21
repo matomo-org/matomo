@@ -624,9 +624,8 @@ class ConfigGetTest extends ConsoleCommandTestCase
 
         $inputArr = [
             'command' => self::COMMAND,
-            '--section' => self::TEST_SECTION_2_NAME,
-            '--section' => self::TEST_SECTION_1_NAME,
             '-vvv' => false,
+            'argument' => '--section ' . self::TEST_SECTION_2_NAME . ' --section ' . self::TEST_SECTION_1_NAME,
         ];
         $exitCode = $this->applicationTester->run($inputArr);
 

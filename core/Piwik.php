@@ -758,9 +758,8 @@ class Piwik
      *
      * @param string $userLogin
      * @throws Exception
-     * @return bool
      */
-    public static function checkValidLoginString($userLogin)
+    public static function checkValidLoginString($userLogin): void
     {
         if (
             !SettingsPiwik::isUserCredentialsSanityCheckEnabled()
