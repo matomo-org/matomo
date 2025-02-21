@@ -116,7 +116,6 @@ class Cloud extends Visualization
      * Assign word to array
      * @param string $word
      * @param int $value
-     * @return string
      */
     public function addWord($word, $value = 1)
     {

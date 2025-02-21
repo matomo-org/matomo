@@ -29,6 +29,11 @@ class Record
     private $name;
 
     /**
+     * @var string|null
+     */
+    private $plugin = null;
+
+    /**
      * @var string|int
      */
     private $columnToSortByBeforeTruncation;

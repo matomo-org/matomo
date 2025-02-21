@@ -124,7 +124,6 @@ abstract class Challenge
     /**
      * Skip this challenge.
      * @ignore
-     * @return bool
      */
     public function skipChallenge(string $login)
     {
@@ -133,7 +132,6 @@ abstract class Challenge
 
     /**
      * Set this challenge was completed successfully by the current user. Only works for a super user.
-     * @return bool
      */
     public function setCompleted(string $login)
     {

@@ -148,7 +148,6 @@ class API extends \Piwik\Plugin\API
      *                              supported dimensions request the API method `CustomDimensions.getAvailableExtractionDimensions`.
      *                              Note: Extractions can be only set for dimensions in scope 'action'.
      * @param int|bool|null $caseSensitive  '0' if extractions should be applied case insensitive, '1' if extractions should be applied case sensitive, null to keep case sensitive unchanged
-     * @return int Returns the ID of the configured dimension. Note that the same idDimension will be used for different websites.
      * @throws \Exception
      */
     public function configureExistingCustomDimension($idDimension, $idSite, $name, $active, $extractions = array(), $caseSensitive = null)

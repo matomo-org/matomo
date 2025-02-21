@@ -40,7 +40,7 @@ interface BackendInterface
     /**
      * Loads previously saved setting values and returns them (if some were saved)
      *
-     * @return array An array of key value pairs where $settingName => $settingValue.
+     * @return ?array An array of key value pairs where $settingName => $settingValue.
      *               Eg array('settingName1' > 'settingValue1')
      */
     public function load();

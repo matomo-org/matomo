@@ -159,6 +159,8 @@ class VisitRequestProcessor extends RequestProcessor
         $this->eventDispatcher->postEvent('Tracker.setVisitorIp', array(&$ip));
 
         $visitProperties->setProperty('location_ip', $ip);
+
+        return false;
     }
 
     /**

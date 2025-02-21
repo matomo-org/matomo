@@ -32,6 +32,8 @@ class FailureLogMessageDetector extends AbstractHandler
         if ($this->isHandling($record)) {
             $this->hasEncounteredImportantLog = true;
         }
+
+        return false;
     }
 
     /**

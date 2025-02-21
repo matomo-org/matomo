@@ -318,7 +318,7 @@ class Filesystem
             return str_replace($target, '', $file);
         }, $targetFiles);
 
-        if (FileSystem::isFileSystemCaseInsensitive()) {
+        if (Filesystem::isFileSystemCaseInsensitive()) {
             $diff = array_udiff($targetFiles, $sourceFiles, 'strcasecmp');
         } else {
             $diff = array_diff($targetFiles, $sourceFiles);
