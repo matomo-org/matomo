@@ -75,8 +75,9 @@
         v-if="isVisitorLogAndProfileEnabled"
       >
       </SaveButton>
-      <div class="dataUnavailable" v-else>
-        <h2>{{ translate('PrivacyManager_SiteDataNotAvailable')}}</h2>
+      <div v-else class="dataUnavailable system notification notification-icon
+      notification-info">
+        <strong>{{ translate('PrivacyManager_SiteDataNotAvailable')}}</strong>
         <p>{{ translate('PrivacyManager_VisitorLogsProfilesDisabledMessage')}}</p>
         <p>{{ translate('PrivacyManager_PleaseEnableVisitorLogsProfiles')}}</p>
       </div>
