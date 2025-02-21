@@ -27,3 +27,7 @@ parameters:
         - bootstrap-phpstan.php
     ignoreErrors:
         - "#Unsafe usage of new static#"
+    universalObjectCratesClasses:
+        - Piwik\Config
+        - Piwik\View
+        - Piwik\ViewDataTable\Config
