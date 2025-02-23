@@ -316,7 +316,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * @param string $password plain-text or hashed password
      * @param string $urlToRedirect URL to redirect to, if successfully authenticated
      * @param bool $passwordHashed indicates if $password is hashed
-     * @return string failure message if unable to authenticate
      */
     protected function authenticateAndRedirect($login, $password, $urlToRedirect = false, $passwordHashed = false)
     {

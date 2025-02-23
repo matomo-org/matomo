@@ -13,6 +13,7 @@ use Piwik\Cache;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Site;
 
 /**
  *
@@ -68,11 +69,11 @@ class Live extends \Piwik\Plugin
         }
 
         if (empty($idSite)) {
-            $idSite = Common::getRequestVar('idSite', 0, 'int');
+            $idSite = Common::getRequestVar('idSite', '', 'string');
         }
 
         if (!empty($idSite)) {
-            $idSites = is_array($idSite) ? $idSite : [$idSite];
+            $idSites = Site::getIdSitesFromIdSitesString($idSite);
 
             foreach ($idSites as $idSite) {
                 $settings = new MeasurableSettings($idSite);
@@ -117,11 +118,11 @@ class Live extends \Piwik\Plugin
         }
 
         if (empty($idSite)) {
-            $idSite = Common::getRequestVar('idSite', 0, 'int');
+            $idSite = Common::getRequestVar('idSite', '', 'string');
         }
 
         if (!empty($idSite)) {
-            $idSites = is_array($idSite) ? $idSite : [$idSite];
+            $idSites = Site::getIdSitesFromIdSitesString($idSite);
 
             foreach ($idSites as $idSite) {
                 $settings = new MeasurableSettings($idSite);

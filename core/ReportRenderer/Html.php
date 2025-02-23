@@ -131,7 +131,6 @@ class Html extends ReportRenderer
                     $processedReport['segment']
                 );
                 $reportView->assign("generatedImageGraph", base64_encode($staticGraph));
-                unset($generatedImageGraph);
             }
         }
 

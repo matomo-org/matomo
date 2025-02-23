@@ -1455,8 +1455,6 @@ class API extends \Piwik\Plugin\API
      * @throws Exception
      * @see getKeepURLFragmentsGlobal. If null, the existing value will
      *                                   not be modified.
-     *
-     * @return bool true on success
      */
     public function updateSite(
         $idSite,

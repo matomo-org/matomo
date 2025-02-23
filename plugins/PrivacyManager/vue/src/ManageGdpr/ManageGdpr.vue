@@ -43,6 +43,7 @@
                 :show-all-sites-item="true"
                 :switch-site-on-select="false"
                 :show-selected-site="true"
+                @update:modelValue="changeSite($event)"
               />
             </div>
           </div>
@@ -74,12 +75,21 @@
         v-if="isVisitorLogAndProfileEnabled"
       >
       </SaveButton>
-      <div class="dataUnavailable" v-else>
-        <h2>{{ translate('PrivacyManager_SiteDataNotAvailable')}}</h2>
+      <div v-else class="dataUnavailable system notification notification-icon
+      notification-info">
+        <strong>{{ translate('PrivacyManager_SiteDataNotAvailable')}}</strong>
         <p>{{ translate('PrivacyManager_VisitorLogsProfilesDisabledMessage')}}</p>
         <p>{{ translate('PrivacyManager_PleaseEnableVisitorLogsProfiles')}}</p>
       </div>
     </ContentBlock>
+    <div v-if="allWebsitesContainsDisabledSite" class="system notification notification-icon
+      notification-info">
+      <strong>{{ translate('PrivacyManager_SiteDataNotAvailableCertainSites')}}</strong>
+      <div class="notification-body">
+        <p>{{ translate('PrivacyManager_VisitorLogsProfilesSiteNamesDisabledMessage')}}</p>
+        <p>{{ translate('PrivacyManager_PleaseEnableVisitorLogsProfilesSites')}}</p>
+      </div>
+    </div>
     <div v-show="!dataSubjects.length && hasSearched">
       <h2>{{ translate('PrivacyManager_NoDataSubjectsFound') }}</h2>
     </div>
@@ -114,6 +124,7 @@
             <th>{{ translate('General_UserId') }}</th>
             <th>{{ translate('General_Details') }}</th>
             <th v-show="profileEnabled">{{ translate('General_Action') }}</th>
+
           </tr>
         </thead>
         <tbody>
@@ -256,6 +267,7 @@ import {
   ContentTable,
   NotificationsStore,
   MatomoUrl,
+  SiteRef,
 } from 'CoreHome';
 import { SegmentGenerator } from 'SegmentEditor';
 import { SaveButton, Field } from 'CorePluginsAdmin';
@@ -284,7 +296,7 @@ interface DataSubject {
 interface ManageGdprState {
   isLoading: boolean;
   isDeleting: boolean;
-  site: Record<string, string>;
+  site: SiteRef;
   segment_filter: string;
   dataSubjects: DataSubject[];
   toggleAll: boolean;
@@ -292,6 +304,7 @@ interface ManageGdprState {
   profileEnabled: boolean;
   dataSubjectsActive: boolean[];
   isVisitorLogAndProfileEnabled: boolean;
+  allWebsitesContainsDisabledSite: boolean;
 }
 
 interface VisitorLogProfileEnabledState {
@@ -317,14 +330,18 @@ export default defineComponent({
         id: 'all',
         name: translate('UsersManager_AllWebsites'),
       },
-      segment_filter: 'userId==',
+      segment_filter: 'visitId==',
       dataSubjects: [],
       toggleAll: true,
       hasSearched: false,
       profileEnabled: Matomo.visitorProfileEnabled,
       dataSubjectsActive: [],
       isVisitorLogAndProfileEnabled: true,
+      allWebsitesContainsDisabledSite: false,
     };
+  },
+  created() {
+    this.changeSite(this.site);
   },
   watch: {
     site(newSite) {
@@ -332,6 +349,7 @@ export default defineComponent({
         this.isVisitorLogAndProfileEnabled = true;
         return;
       }
+      this.allWebsitesContainsDisabledSite = false;
       this.isLoading = true;
       // always reset the search status on site change
       this.dataSubjects = [];
@@ -359,6 +377,27 @@ export default defineComponent({
     };
   },
   methods: {
+    changeSite(newValue: SiteRef) {
+      AjaxHelper.fetch(
+        {
+          module: 'API',
+          method: 'Live.isVisitorProfileEnabled',
+          filter_limit: -1,
+          idSite: newValue.id,
+        },
+        {
+          createErrorNotification: false, // don't show errors from this API in UI
+        },
+      ).then((response) => {
+        if (!response.value && this.segment_filter === 'userId==') {
+          this.segment_filter = 'visitId==';
+        } else if (response.value && this.segment_filter === 'visitId==') {
+          this.segment_filter = 'userId==';
+        }
+      }).catch(() => {
+        this.segment_filter = 'visitId==';
+      });
+    },
     showSuccessNotification(message: string) {
       const notificationInstanceId = NotificationsStore.show({
         message,
@@ -445,6 +484,14 @@ export default defineComponent({
             siteIds = idsites.join(',');
           }
         }
+
+        // API returns false if at least one sites logs/profiles are disabled
+        AjaxHelper.fetch<VisitorLogProfileEnabledState>({
+          method: 'Live.isVisitorProfileEnabled',
+          idSite: siteIds,
+        }).then((isEnabled) => {
+          this.allWebsitesContainsDisabledSite = !isEnabled.value;
+        });
 
         AjaxHelper.fetch<DataSubject[]>({
           idSite: siteIds,

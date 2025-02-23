@@ -637,7 +637,7 @@ class Report
     /**
      * Builts the report metadata for this report. Can be useful in case you want to change the behavior of
      * {@link configureReportMetadata()}.
-     * @return array
+     * @return ?array
      * @ignore
      *
      * TODO we should move this out to API::getReportMetadata

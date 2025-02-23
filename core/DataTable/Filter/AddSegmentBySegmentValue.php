@@ -43,7 +43,6 @@ class AddSegmentBySegmentValue extends BaseFilter
      * See {@link AddSegmentBySegmentValue}.
      *
      * @param DataTable $table
-     * @return int The number of deleted rows.
      */
     public function filter($table)
     {

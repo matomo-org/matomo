@@ -224,10 +224,8 @@ class Access
 
     /**
      * Make sure a login name is set
-     *
-     * @return true
      */
-    protected function makeSureLoginNameIsSet()
+    protected function makeSureLoginNameIsSet(): void
     {
         if (empty($this->login)) {
             // flag to force non empty login so Super User is not mistaken for anonymous
