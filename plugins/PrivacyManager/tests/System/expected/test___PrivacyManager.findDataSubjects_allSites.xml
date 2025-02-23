@@ -21,26 +21,6 @@
 		<region />
 	</row>
 	<row>
-		<idSite>3</idSite>
-		<idVisit>154</idVisit>
-		<visitIp>156.5.3.209</visitIp>
-		
-		<lastActionDateTime>2017-01-11 03:10:01</lastActionDateTime>
-		<siteName>Site 3</siteName>
-		<userId>userId209</userId>
-		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
-		<deviceModel>Unknown</deviceModel>
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
-		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
-		<country>China</country>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
-		<region />
-	</row>
-	<row>
 		<idSite>5</idSite>
 		<idVisit>186</idVisit>
 		<visitIp>156.5.3.209</visitIp>
@@ -67,26 +47,6 @@
 		
 		<lastActionDateTime>2017-01-11 01:10:04</lastActionDateTime>
 		<siteName>Site 1</siteName>
-		<userId>userId209</userId>
-		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
-		<deviceModel>Unknown</deviceModel>
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
-		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
-		<country>China</country>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
-		<region />
-	</row>
-	<row>
-		<idSite>3</idSite>
-		<idVisit>153</idVisit>
-		<visitIp>156.5.3.209</visitIp>
-		
-		<lastActionDateTime>2017-01-11 01:10:01</lastActionDateTime>
-		<siteName>Site 3</siteName>
 		<userId>userId209</userId>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
