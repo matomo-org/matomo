@@ -9,6 +9,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Breaking Changes
 
 * When requesting goals for multiple sites at once using `Goals.getGoals`, the result will no longer be indexed by `idgoal`. Requesting the goals for a single site will still return them indexed by `idgoal`.
+* The SEO widget does no longer serve the metric `Google indexed pages`. As Google search is no longer accessible without JavaScript this metric can no longer be fetched.
 
 #### New APIs
 
