@@ -372,7 +372,7 @@ abstract class GridGraph extends StaticGraph
     private function getHorizontalLegendHeight()
     {
         list($maxMetricLegendWidth, $maxMetricLegendHeight) =
-            $this->getMaximumTextWidthHeight(array_values($this->ordinateLabels));
+            $this->getMaximumTextWidthHeight(array_values($this->ordinateLabels), $this->legendFontSize);
 
         return $maxMetricLegendHeight + self::HORIZONTAL_LEGEND_BOTTOM_MARGIN + self::HORIZONTAL_LEGEND_TOP_MARGIN;
     }

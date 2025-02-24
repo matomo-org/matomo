@@ -13,7 +13,6 @@ use Piwik\IP;
 use Piwik\Measurable\Type\TypeManager;
 use Matomo\Network\IPUtils;
 use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\Plugins\WebsiteMeasurable\Settings\Urls;
 use Piwik\Settings\Measurable\MeasurableProperty;
 use Piwik\Settings\Setting;
@@ -78,11 +77,6 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
     private $sitesManagerApi;
 
     /**
-     * @var Plugin\Manager
-     */
-    private $pluginManager;
-
-    /**
      * @var TypeManager
      */
     private $typeManager;
@@ -94,13 +88,11 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
     public function __construct(
         SitesManager\API $api,
-        Plugin\Manager $pluginManager,
         TypeManager $typeManager,
         $idSite,
         $idMeasurableType
     ) {
         $this->sitesManagerApi = $api;
-        $this->pluginManager = $pluginManager;
         $this->typeManager = $typeManager;
 
         parent::__construct($idSite, $idMeasurableType);
