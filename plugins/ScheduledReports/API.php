@@ -637,7 +637,7 @@ class API extends \Piwik\Plugin\API
             $date = Date::now()->subPeriod(1, $report['period'])->toString();
         }
 
-        Context::changeIdSite($report['idsite'], function () use ($report, $idReport, $period, $date, $force) {
+        Context::changeIdSite($report['idsite'], function () use ($report, $idReport, $date, $force) {
 
             $language = \Piwik\Plugins\LanguagesManager\API::getInstance()->getLanguageForUser($report['login']);
 

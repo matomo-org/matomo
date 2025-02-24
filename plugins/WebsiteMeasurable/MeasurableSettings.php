@@ -145,7 +145,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         $areSiteSearchKeywordsEmpty = empty($siteSearchKeywords) || (is_array($siteSearchKeywords) && implode("", $siteSearchKeywords) == "");
         $this->useDefaultSiteSearchParams->setDefaultValue($areSiteSearchKeywordsEmpty);
 
-        $this->siteSearchCategory = $this->makeSiteSearchCategory($this->pluginManager);
+        $this->siteSearchCategory = $this->makeSiteSearchCategory();
         /**
          * SiteSearch End
          */
@@ -387,9 +387,9 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         });
     }
 
-    private function makeSiteSearchCategory(Plugin\Manager $pluginManager)
+    private function makeSiteSearchCategory()
     {
-        return $this->makeProperty('sitesearch_category_parameters', $default = [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) use ($pluginManager) {
+        return $this->makeProperty('sitesearch_category_parameters', $default = [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
             $field->title = Piwik::translate('SitesManager_SearchCategoryLabel');
             $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
             $field->inlineHelp = Piwik::translate('Goals_Optional')

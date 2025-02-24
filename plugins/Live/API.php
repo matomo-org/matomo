@@ -384,7 +384,7 @@ class API extends \Piwik\Plugin\API
             $filter = 'filter';
         }
 
-        $dataTable->$filter(function ($table) use ($idSite, $flat, $doNotFetchActions) {
+        $dataTable->$filter(function ($table) use ($flat, $doNotFetchActions) {
             /** @var DataTable $table */
             $visitorFactory = new VisitorFactory();
 

@@ -97,14 +97,14 @@ class API extends \Piwik\Plugin\API
         $separator = Archiver::LOCATION_SEPARATOR;
         $unk = Visit::UNKNOWN_CODE;
 
-        $dataTable->filter(function (DataTable $dt) use ($period, $date, $separator, $unk) {
+        $dataTable->filter(function (DataTable $dt) use ($period, $date, $separator) {
             $archiveDate = $dt->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
 
             // convert fips region codes to iso if required
             if ($this->shouldRegionCodesBeConvertedToIso($archiveDate, $date, $period)) {
                 $dt->filter('GroupBy', array(
                     'label',
-                    function ($label) use ($separator, $unk) {
+                    function ($label) use ($separator) {
                         $regionCode = getElementFromStringArray($label, $separator, 0, '');
                         $countryCode = getElementFromStringArray($label, $separator, 1, '');
 
@@ -193,14 +193,14 @@ class API extends \Piwik\Plugin\API
         $separator = Archiver::LOCATION_SEPARATOR;
         $unk = Visit::UNKNOWN_CODE;
 
-        $dataTable->filter(function (DataTable $dt) use ($period, $date, $separator, $unk) {
+        $dataTable->filter(function (DataTable $dt) use ($period, $date, $separator) {
             $archiveDate = $dt->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
 
             // convert fips region codes to iso if required
             if ($this->shouldRegionCodesBeConvertedToIso($archiveDate, $date, $period)) {
                 $dt->filter('GroupBy', array(
                     'label',
-                    function ($label) use ($separator, $unk) {
+                    function ($label) use ($separator) {
                         $regionCode = getElementFromStringArray($label, $separator, 1, '');
                         $countryCode = getElementFromStringArray($label, $separator, 2, '');
 

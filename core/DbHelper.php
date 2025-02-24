@@ -296,7 +296,7 @@ class DbHelper
             Db::query("DROP TABLE IF EXISTS `$table`");
         }
 
-        ArchiveTableCreator::refreshTableList($forceReload = true);
+        ArchiveTableCreator::refreshTableList();
     }
 
     /**

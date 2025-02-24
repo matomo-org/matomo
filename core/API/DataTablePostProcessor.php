@@ -376,10 +376,8 @@ class DataTablePostProcessor
      */
     public function removeTemporaryMetrics(DataTableInterface $dataTable)
     {
-        $allColumns = !empty($this->report) ? $this->report->getAllMetrics() : array();
-
         $report = $this->report;
-        $dataTable->filter(function (DataTable $table) use ($report, $allColumns) {
+        $dataTable->filter(function (DataTable $table) use ($report) {
             $processedMetrics = Report::getProcessedMetricsForTable($table, $report);
 
             $allTemporaryMetrics = array();

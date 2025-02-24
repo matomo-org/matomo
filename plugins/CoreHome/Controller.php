@@ -279,7 +279,7 @@ class Controller extends \Piwik\Plugin\Controller
     private function makeRowEvolution($isMultiRowEvolution, $graphType = null)
     {
         if ($isMultiRowEvolution) {
-            return new MultiRowEvolution($this->idSite, $this->date, $graphType);
+            return new MultiRowEvolution($this->idSite, $this->date);
         } else {
             return new RowEvolution($this->idSite, $this->date, $graphType);
         }

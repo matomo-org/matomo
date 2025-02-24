@@ -328,8 +328,8 @@ class Model
      * @param       $tokenAuth
      * @param       $description
      * @param       $dateCreated
-     * @param null  $dateExpired
-     * @param false $isSystemToken
+     * @param null|string  $dateExpired
+     * @param bool  $isSystemToken
      * @param bool  $secureOnly     True if this token can only be used in a secure way (e.g. POST requests), default false
      *
      * @return int                  Primary key of the new token auth

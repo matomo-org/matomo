@@ -1498,10 +1498,7 @@ class API extends \Piwik\Plugin\API
             $settingValues = [];
         }
 
-        if (empty($coreProperties)) {
-            $coreProperties = [];
-        }
-
+        $coreProperties = [];
         $coreProperties = $this->setSettingValue('urls', $urls, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('group', $group, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('ecommerce', $ecommerce, $coreProperties, $settingValues);
