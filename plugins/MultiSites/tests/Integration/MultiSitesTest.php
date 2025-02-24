@@ -33,7 +33,7 @@ class MultiSitesTest extends IntegrationTestCase
 
         $this->idSiteAccess = APISitesManager::getInstance()->addSite("test", "http://test");
 
-        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('MultiSites', 'VisitsSummary', 'Actions'));
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins(['MultiSites', 'VisitsSummary', 'Actions']);
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
     }
 
@@ -59,13 +59,13 @@ class MultiSitesTest extends IntegrationTestCase
      */
     public function testWhenRssFormatGetOneDoesNotError()
     {
-        $_GET = array(
+        $_GET = [
             'method' => 'MultiSites.getOne',
             'idSite' => $this->idSiteAccess,
             'period' => 'month',
             'date'   => 'last10',
             'format'   => 'rss'
-        );
+        ];
 
         $output = FrontController::getInstance()->fetchDispatch('API');
 
@@ -73,6 +73,6 @@ class MultiSitesTest extends IntegrationTestCase
         self::assertStringContainsString('</rss>', $output);
         self::assertStringNotContainsString('error', $output);
 
-        $_GET = array();
+        $_GET = [];
     }
 }

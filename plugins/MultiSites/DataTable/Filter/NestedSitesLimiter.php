@@ -54,7 +54,7 @@ class NestedSitesLimiter extends BaseFilter
     /**
      * @var Row[]
      */
-    private $rows   = array();
+    private $rows   = [];
 
     /**
      * Constructor.

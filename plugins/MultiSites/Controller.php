@@ -63,9 +63,11 @@ class Controller extends \Piwik\Plugin\Controller
         // if the current date is today, or yesterday,
         // in case the website is set to UTC-12), or today in UTC+14, we refresh the page every 5min
         if (
-            in_array($date, array('today', date('Y-m-d'),
-                                  'yesterday', Date::factory('yesterday')->toString('Y-m-d'),
-                                  Date::factory('now', 'UTC+14')->toString('Y-m-d')))
+            in_array($date, [
+                'today', date('Y-m-d'),
+                'yesterday', Date::factory('yesterday')->toString('Y-m-d'),
+                Date::factory('now', 'UTC+14')->toString('Y-m-d')
+            ])
         ) {
             $view->autoRefreshTodayReport = Config::getInstance()->General['multisites_refresh_after_seconds'];
         }
@@ -77,7 +79,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getEvolutionGraph($columns = false)
+    public function getEvolutionGraph($columns = null)
     {
         if (empty($columns)) {
             $columns = Common::getRequestVar('columns');
