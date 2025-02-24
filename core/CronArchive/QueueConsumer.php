@@ -433,10 +433,6 @@ class QueueConsumer
         foreach ($inProgressArchives as $archiveBeingProcessed) {
             $this->findSegmentForArchive($archiveBeingProcessed);
 
-            if ($archiveBeingProcessed['idsite'] != $archiveToProcess['idsite']) {
-                continue; // different site
-            }
-
             // we don't care about lower periods being concurrent if they are for different segments (that are not "all visits")
             if (
                 !empty($archiveBeingProcessed['segment'])
