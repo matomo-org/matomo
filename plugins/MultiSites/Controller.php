@@ -15,6 +15,7 @@ use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as GoalsAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Request;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
@@ -82,7 +83,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function getEvolutionGraph($columns = null)
     {
         if (empty($columns)) {
-            $columns = Common::getRequestVar('columns');
+            $columns = Request::fromRequest()->getStringParameter('columns');
         }
         $api = "API.get";
 
