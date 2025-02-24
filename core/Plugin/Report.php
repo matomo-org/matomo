@@ -843,22 +843,23 @@ class Report
     public function getDimensions()
     {
         $dimensions = [];
+        $tableDimensionId = null;
 
         if (!empty($this->getDimension())) {
             $tableDimensionId = $this->getDimension()->getId();
             $dimensionId = str_replace('.', '_', $tableDimensionId);
             $dimensions[$dimensionId] = $this->getDimension()->getName();
-
-            for ($level = 1; $level <= 100; $level++) {
-                $subDimension = $this->getNthLevelTableDimension($level);
-                if (empty($subDimension) || $tableDimensionId === $subDimension->getId()) {
-                    break;
-                }
-                $tableDimensionId = $subDimension->getId();
-                $subDimensionId = str_replace('.', '_', $tableDimensionId);
-                $dimensions[$subDimensionId] = $subDimension->getName();
-            };
         }
+
+        for ($level = 1; $level <= 100; $level++) {
+            $subDimension = $this->getNthLevelTableDimension($level);
+            if (empty($subDimension) || $tableDimensionId === $subDimension->getId()) {
+                break;
+            }
+            $tableDimensionId = $subDimension->getId();
+            $subDimensionId = str_replace('.', '_', $tableDimensionId);
+            $dimensions[$subDimensionId] = $subDimension->getName();
+        };
 
         return $dimensions;
     }
