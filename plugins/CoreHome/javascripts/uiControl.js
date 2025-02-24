@@ -112,7 +112,7 @@
          * Handle the widget resize event, if we're currently in a widget.
          *
          * TODO: should use proper resize detection (see
-         * http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/ )
+         * https://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/ )
          * with timeouts (since resizing widgets can be expensive)
          */
         onWidgetResize: function (handler) {

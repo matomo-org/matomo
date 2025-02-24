@@ -221,7 +221,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      * Execute unprepared SQL query and throw away the result
      *
      * Workaround some SQL statements not compatible with prepare().
-     * See http://framework.zend.com/issues/browse/ZF-1398
+     * See https://framework.zend.com/issues/browse/ZF-1398
      *
      * @param string $sqlQuery
      * @return int  Number of rows affected (SELECT/INSERT/UPDATE/DELETE)

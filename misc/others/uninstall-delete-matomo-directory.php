@@ -5,9 +5,9 @@ exit; // Remove this line before using the script
 // 1) Download and upload this file to your webserver
 // 2) Remove the 2nd line (the "exit;")
 // 3) Put this file in the folder that contains the matomo/ directory (above the matomo/ directory)
-//    For example if the matomo/ folder is at http://your-site/matomo/ you put the file in http://your-site/uninstall-delete-matomo-directory.php
-// 4) Go with your browser to http://your-site/uninstall-delete-matomo-directory.php
-// 5) The folder http://your-site/matomo/ should now be deleted!
+//    For example if the matomo/ folder is at https://your-site/matomo/ you put the file in https://your-site/uninstall-delete-matomo-directory.php
+// 4) Go with your browser to https://your-site/uninstall-delete-matomo-directory.php
+// 5) The folder https://your-site/matomo/ should now be deleted!
 // We hope you enjoyed Matomo. If you have any feedback why you stopped using Matomo,
 // please let us know at hello@matomo.org - we are interested by your experience
 function unlinkRecursive($dir)

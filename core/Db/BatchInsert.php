@@ -227,7 +227,7 @@ class BatchInsert
         /*
          * Second attempt: using the LOCAL keyword means the client reads the file and sends it to the server;
          * the LOCAL keyword may trigger a known PHP PDO\MYSQL bug when MySQL not built with --enable-local-infile
-         * @see http://bugs.php.net/bug.php?id=54158
+         * @see https://bugs.php.net/bug.php?id=54158
          */
         $openBaseDir = ini_get('open_basedir');
         $safeMode = ini_get('safe_mode');

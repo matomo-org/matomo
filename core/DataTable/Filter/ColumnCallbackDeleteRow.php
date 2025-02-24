@@ -38,7 +38,7 @@ class ColumnCallbackDeleteRow extends BaseFilter
      *                                      passed to the callback.
      * @param callback $function The callback that determines whether a row should be deleted
      *                           or not. Should return `true` if the row should be deleted.
-     * @param array $functionParams deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
+     * @param array $functionParams deprecated - use an [anonymous function](https://php.net/manual/en/functions.anonymous.php)
      *                              instead.
      */
     public function __construct($table, $columnsToFilter, $function, $functionParams = [])

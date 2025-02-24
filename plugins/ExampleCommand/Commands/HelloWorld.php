@@ -16,7 +16,7 @@ use Piwik\Plugin\ConsoleCommand;
  * https://developer.matomo.org/guides/piwik-on-the-command-line
  *
  * As Matomo Console is based on the Symfony Console you might also want to have a look at
- * http://symfony.com/doc/current/components/console/index.html
+ * https://symfony.com/doc/current/components/console/index.html
  */
 class HelloWorld extends ConsoleCommand
 {

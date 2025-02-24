@@ -34,7 +34,7 @@ class Updates_0_9_1 extends Updates
         if (!SettingsServer::isTimezoneSupportEnabled()) {
             return array();
         }
-        // @see http://bugs.php.net/46111
+        // @see https://bugs.php.net/46111
         $timezones = timezone_identifiers_list();
         $brokenTZ = array();
 

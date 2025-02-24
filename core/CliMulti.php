@@ -109,7 +109,7 @@ class CliMulti
      *
      * @param string[]  $piwikUrls   An array of urls, for instance:
      *
-     *                               `array('http://www.example.com/piwik?module=API...')`
+     *                               `array('https://www.example.com/matomo?module=API...')`
      *
      *                               **Make sure query parameter values are properly encoded in the URLs.**
      *

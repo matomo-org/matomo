@@ -48,7 +48,7 @@ class SafeDecodeLabel extends BaseFilter
         // ENT_IGNORE so that if utf8 string has some errors, we simply discard invalid code unit sequences
         $style = ENT_QUOTES | ENT_IGNORE;
 
-        // See changes in 5.4: http://nikic.github.com/2012/01/28/htmlspecialchars-improvements-in-PHP-5-4.html
+        // See changes in 5.4: https://nikic.github.com/2012/01/28/htmlspecialchars-improvements-in-PHP-5-4.html
         // Note: at some point we should change ENT_IGNORE to ENT_SUBSTITUTE
         $value = htmlspecialchars($value, $style, 'UTF-8');
 

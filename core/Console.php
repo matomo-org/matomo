@@ -277,7 +277,7 @@ class Console extends Application
      * Register the console output into the logger.
      *
      * Ideally, this should be done automatically with events:
-     * @see http://symfony.com/fr/doc/current/components/console/events.html
+     * @see https://symfony.com/fr/doc/current/components/console/events.html
      * @see Symfony\Bridge\Monolog\Handler\ConsoleHandler::onCommand()
      * But it would require to install Symfony's Event Dispatcher.
      */
