@@ -111,6 +111,7 @@ class ApiTest extends IntegrationTestCase
                     }
                     public function getAttachments($report, $processedReports, $prettyDate)
                     {
+                        return [];
                     }
                 };
             }

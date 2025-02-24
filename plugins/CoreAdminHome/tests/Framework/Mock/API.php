@@ -22,6 +22,8 @@ class API extends \Piwik\Plugins\CoreAdminHome\API
         $_forceInvalidateNonexistent = false
     ) {
         $this->invalidatedReports[] = func_get_args();
+
+        return [];
     }
 
     public function getInvalidatedReports()

@@ -94,12 +94,12 @@ class SegmentArchiving
                 continue;
             }
 
-            try {
-                $segmentObj = new Segment($segment['definition'], [$idSite]);
-            } catch (\Exception $ex) {
+            if (!Segment::isAvailable($segment['definition'], [$idSite])) {
                 $this->logger->debug("Could not process segment {$segment['definition']} for site {$idSite}. Segment should not exist for the site, but does.");
                 continue;
             }
+
+            $segmentObj = new Segment($segment['definition'], [$idSite]);
 
             if ($segmentObj->getHash() == $hash) {
                 return $segment;
@@ -264,6 +264,10 @@ class SegmentArchiving
         $definition = $segmentInfo['definition'];
         $idSite = !empty($segmentInfo['enable_only_idsite']) ? $segmentInfo['enable_only_idsite'] : 'all';
 
+        /*
+         * Done as super user, to ensure we are able to receive all site ids, even if the current user
+         * does not have access to all of them.
+         */
         $idSites = Access::doAsSuperUser(function () use ($idSite) {
             return Site::getIdSitesFromIdSitesString($idSite);
         });

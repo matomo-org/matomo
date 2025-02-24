@@ -41,9 +41,11 @@
     </div>
 
     <div v-if="kpi.badge"
-         v-html="$sanitize(kpi.badge)"
          class="kpiCardBadge"
-    ></div>
+         :title="kpi.badge.title"
+         v-html="$sanitize(kpi.badge.label)"
+         v-tooltips="{ duration: 200, delay: 200 }">
+    </div>
   </div>
 </template>
 

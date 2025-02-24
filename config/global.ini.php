@@ -710,8 +710,10 @@ proxy_uri_header = 0
 ; which is required when the client sends the IP through a proxy header as well as the load balancer.
 proxy_ip_read_last_in_list = 1
 
-; Whether to enable trusted host checking. This can be disabled if you're running Matomo
-; on several URLs and do not wish to constantly edit the trusted host list.
+; Enables the trusted host check, to ensure Matomo only works when accessed through a configured trusted host.
+; If a request comes from an untrusted domain, a warning is shown, instead of processing the request.
+; This helps prevent host header attacks and enhances security, so disable it with caution.
+; See https://matomo.org/faq/on-premise/what-is-the-trusted-host-check-feature-in-matomo/ for more details.
 enable_trusted_host_check = 1
 
 ; List of trusted hosts (eg domain or subdomain names) when generating absolute URLs.

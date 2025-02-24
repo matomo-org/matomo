@@ -362,6 +362,10 @@ export default defineComponent({
           format: 'json',
           method: 'API.getSuggestedValuesForSegment',
           segmentName: orCondition.segment,
+          idSite: this.idsite,
+        },
+        {
+          createErrorNotification: false, // don't show errors returned from the API in UI
         },
       ).then((response) => {
         this.conditionValuesLoading[orCondition.id!] = false;

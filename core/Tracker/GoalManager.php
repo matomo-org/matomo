@@ -437,7 +437,6 @@ class GoalManager
      * @param array $goal
      * @param array $items
      * @throws Exception
-     * @return int Number of items in the cart
      */
     protected function recordEcommerceItems($goal, $items)
     {

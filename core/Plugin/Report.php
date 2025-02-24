@@ -637,7 +637,7 @@ class Report
     /**
      * Builts the report metadata for this report. Can be useful in case you want to change the behavior of
      * {@link configureReportMetadata()}.
-     * @return array
+     * @return ?array
      * @ignore
      *
      * TODO we should move this out to API::getReportMetadata
@@ -845,19 +845,20 @@ class Report
         $dimensions = [];
 
         if (!empty($this->getDimension())) {
-            $dimensionId = str_replace('.', '_', $this->getDimension()->getId());
+            $tableDimensionId = $this->getDimension()->getId();
+            $dimensionId = str_replace('.', '_', $tableDimensionId);
             $dimensions[$dimensionId] = $this->getDimension()->getName();
         }
 
-        if (!empty($this->getSubtableDimension())) {
-            $subDimensionId = str_replace('.', '_', $this->getSubtableDimension()->getId());
-            $dimensions[$subDimensionId] = $this->getSubtableDimension()->getName();
-        }
-
-        if (!empty($this->getThirdLeveltableDimension())) {
-            $subDimensionId = str_replace('.', '_', $this->getThirdLeveltableDimension()->getId());
-            $dimensions[$subDimensionId] = $this->getThirdLeveltableDimension()->getName();
-        }
+        for ($level = 1; $level <= 100; $level++) {
+            $subDimension = $this->getNthLevelTableDimension($level);
+            if (empty($subDimension) || $tableDimensionId === $subDimension->getId()) {
+                break;
+            }
+            $tableDimensionId = $subDimension->getId();
+            $subDimensionId = str_replace('.', '_', $tableDimensionId);
+            $dimensions[$subDimensionId] = $subDimension->getName();
+        };
 
         return $dimensions;
     }
@@ -891,18 +892,7 @@ class Report
      */
     public function getSubtableDimension()
     {
-        if (empty($this->actionToLoadSubTables)) {
-            return null;
-        }
-
-        list($subtableReportModule, $subtableReportAction) = $this->getSubtableApiMethod();
-
-        $subtableReport = ReportsProvider::factory($subtableReportModule, $subtableReportAction);
-        if (empty($subtableReport)) {
-            return null;
-        }
-
-        return $subtableReport->getDimension();
+        return $this->getNthLevelTableDimension($level = 1);
     }
 
     /**
@@ -910,29 +900,39 @@ class Report
      *
      * @return Dimension|null The subtable report's dimension or null if there is no subtable report or
      *                        no dimension for the subtable report.
+     * @deprecated since 5.3.0, use getNthLevelTableDimension(2) instead
      * @api
      */
     public function getThirdLeveltableDimension()
+    {
+        return $this->getNthLevelTableDimension($level = 2);
+    }
+
+    /**
+     * Returns the Dimension instance of the subtable report of this report's subtable report based on level.
+     *
+     * @param int $level The subTable level for which dimension is to be determined, zero-based
+     * @return Dimension|null The subtable report's dimension or null if there is no subtable report or
+     *                        no dimension for the subtable report.
+     * @api
+     */
+    public function getNthLevelTableDimension(int $level): ?Dimension
     {
         if (empty($this->actionToLoadSubTables)) {
             return null;
         }
 
-        list($subtableReportModule, $subtableReportAction) = $this->getSubtableApiMethod();
+        $subTableReport = $this;
+        for ($i = 1; $i <= $level; $i++) {
+            [$subTableReportModule, $subTableReportAction] = $subTableReport->getSubtableApiMethod();
+            $subTableReport = ReportsProvider::factory($subTableReportModule, $subTableReportAction);
 
-        $subtableReport = ReportsProvider::factory($subtableReportModule, $subtableReportAction);
-        if (empty($subtableReport) || empty($subtableReport->actionToLoadSubTables)) {
-            return null;
+            if (empty($subTableReport)) {
+                return null;
+            }
         }
 
-        list($subSubtableReportModule, $subSubtableReportAction) = $subtableReport->getSubtableApiMethod();
-
-        $subSubtableReport = ReportsProvider::factory($subSubtableReportModule, $subSubtableReportAction);
-        if (empty($subSubtableReport)) {
-            return null;
-        }
-
-        return $subSubtableReport->getDimension();
+        return $subTableReport->getDimension();
     }
 
     /**

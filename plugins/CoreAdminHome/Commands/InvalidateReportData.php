@@ -459,7 +459,7 @@ class InvalidateReportData extends ConsoleCommand
             $segmentsByDefinition = [];
 
             if ([] === $idSites) {
-                $idSites = [false];
+                $idSites = [null];
             }
 
             foreach ($idSites as $idSite) {

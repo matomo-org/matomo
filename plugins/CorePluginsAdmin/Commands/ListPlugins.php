@@ -59,7 +59,6 @@ class ListPlugins extends ConsoleCommand
                 if (isset($plugin["version"]) && !isset($plugin["activated"])) {
                     $plugin["version"] = '';
                 }
-                $plugin["activated"] = isset($plugin["activated"]);
                 return $plugin;
             }, $plugins);
 

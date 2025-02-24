@@ -164,6 +164,8 @@ describe('ResetPassword', function () {
             await page.waitForNetworkIdle();
 
             await page.click('#confirm-cancel-reset-password');
+            await page.waitForNetworkIdle();
+
             expect(await page.screenshot({ fullPage: true })).to.matchImage('cancel');
         });
 

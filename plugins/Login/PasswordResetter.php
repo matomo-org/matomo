@@ -288,6 +288,9 @@ class PasswordResetter
      */
     public function setHashedPasswordForLogin($login, $passwordHash)
     {
+        /*
+         * Executed as super user, as we need to update the password, without the current user being authenticated yet.
+         */
         Access::doAsSuperUser(function () use ($login, $passwordHash) {
             $userUpdater = new UserUpdater();
             $userUpdater->updateUserWithoutCurrentPassword(

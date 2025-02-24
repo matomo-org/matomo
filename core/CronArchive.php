@@ -279,6 +279,9 @@ class CronArchive
         }
 
         $self = $this;
+        /*
+         * Archiving tasks need to be performed as super, to ensure we pass any permission check.
+         */
         Access::doAsSuperUser(function () use ($self) {
             try {
                 $self->init();
@@ -531,7 +534,7 @@ class CronArchive
                 $this->logger->info(var_export($content, true));
 
                 $idinvalidation = $archivesBeingQueried[$index]['idinvalidation'];
-                $this->model->releaseInProgressInvalidation($idinvalidation);
+                $this->model->releaseInProgressInvalidations([$idinvalidation]);
 
                 $queueConsumer->ignoreIdInvalidation($idinvalidation);
 
@@ -1003,7 +1006,8 @@ class CronArchive
 
             foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segmentDefinition) {
                 // check if the segment is available
-                if (!$this->isSegmentAvailable($segmentDefinition, [$idSite])) {
+                if (!Segment::isAvailable($segmentDefinition, [$idSite])) {
+                    $this->logger->info("Segment '" . $segmentDefinition . "' is not a supported segment");
                     continue;
                 }
 
@@ -1059,27 +1063,9 @@ class CronArchive
         }
     }
 
-
-    /**
-     * check if segments that contain dimensions that don't exist anymore
-     * @param $segmentDefinition
-     * @param $idSites
-     * @return bool
-     */
-    protected function isSegmentAvailable($segmentDefinition, $idSites): bool
-    {
-        try {
-            new Segment($segmentDefinition, $idSites);
-        } catch (\Exception $e) {
-            $this->logger->info("Segment '" . $segmentDefinition . "' is not a supported segment");
-            return false;
-        }
-        return true;
-    }
-
     private function canWeSkipInvalidatingBecauseInvalidationAlreadyInProgress(int $idSite, Period $period, ?Segment $segment = null): bool
     {
-        $invalidationsInProgress = $this->model->getInvalidationsInProgress($idSite);
+        $invalidationsInProgress = $this->model->getInvalidationsInProgress([$idSite]);
         $timezone = Site::getTimezoneFor($idSite);
 
         $doneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($segment ?? new Segment('', [$idSite]));

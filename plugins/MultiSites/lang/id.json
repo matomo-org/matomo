@@ -5,7 +5,7 @@
         "EvolutionComparisonDay": "%1$s %2$s hari ini dibandingkan dengan %3$s %2$s pada periode parsial sebelumnya (%4$s) Evolusi: %5$s",
         "EvolutionComparisonIncomplete": "Jangka waktu yang dipilih saat ini adalah %1$s selesai.",
         "EvolutionComparisonMonth": "%1$s %2$s bulan ini dibandingkan dengan %3$s %2$s pada periode parsial sebelumnya (%4$s) Evolusi: %5$s",
-        "EvolutionComparisonProportional": "Ketika periode sebelumnya juga selesai %1$s, akan ada perkiraan %2$s %3$s\n (dari total %4$s %3$s pada periode sebelumnya).",
+        "EvolutionComparisonProportional": "Ketika periode sebelumnya juga selesai %1$s, akan ada perkiraan %2$s %3$s\n(dari total %4$s %3$s pada periode sebelumnya).",
         "EvolutionComparisonWeek": "%1$s %2$s minggu ini dibandingkan dengan %3$s %2$s pada periode parsial sebelumnya (%4$s) Evolusi: %5$s",
         "EvolutionComparisonYear": "%1$s %2$s tahun ini dibandingkan dengan %3$s %2$s pada periode parsial sebelumnya (%4$s) Evolusi: %5$s",
         "LoadingWebsites": "Memuat situs web",

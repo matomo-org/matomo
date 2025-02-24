@@ -696,9 +696,8 @@ class Manager
      * Install loaded plugins
      *
      * @throws
-     * @return array Error messages of plugin install fails
      */
-    public function installLoadedPlugins()
+    public function installLoadedPlugins(): void
     {
         Log::debug("Loaded plugins: " . implode(", ", array_keys($this->getLoadedPlugins())));
 

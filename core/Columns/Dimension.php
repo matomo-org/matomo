@@ -593,6 +593,8 @@ abstract class Dimension
         if ($this->dbTableName && $this->columnName) {
             return $this->dbTableName . '.' . $this->columnName;
         }
+
+        return '';
     }
 
     /**

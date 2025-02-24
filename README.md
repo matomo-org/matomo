@@ -42,15 +42,19 @@ See https://matomo.org/docs/requirements/.
 ## Install Matomo
 
   * [Download Matomo](https://matomo.org/download/)
-  * Upload matomo to your webserver
+  * Upload Matomo to your webserver
   * Point your browser to the directory
   * Follow the steps
-  * Add the given javascript code to your pages
+  * Add the given JavaScript code to your pages
   * (You may also generate fake data to experiment, by enabling the plugin VisitorGenerator)
 
 See https://matomo.org/docs/installation/.
 
-(When using Matomo for development you need to [install Matomo from the Git repository](https://matomo.org/faq/how-to-install/faq_18271/)).
+### Develop for Matomo
+
+When using Matomo for development you need to [install Matomo from the Git repository](https://matomo.org/faq/how-to-install/faq_18271/).
+
+This will also give you access to a DDEV environment you can use. More details can be found in the [DDEV README](.ddev/README.md).
 
 ## Free trial 
 
@@ -100,7 +104,6 @@ Website: [matomo.org](https://matomo.org)
 About us: [matomo.org/team/](https://matomo.org/team/)
 
 Contact us: [matomo.org/contact/](https://matomo.org/contact/)
-
 
 ## More information
 

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+## Description: Initialize Matomo basic environment
+## Usage: matomo:init
+## Example: ddev matomo:init
+
+echo "[git] Update git submodules ..."
+git submodule update --init
+
+echo "Run composer install ..."
+ddev composer install
+
+echo "Done: Basic Matomo instance initialisation finished."
+echo ""
+
