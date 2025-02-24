@@ -102,17 +102,17 @@ class NestedSitesLimiter extends BaseFilter
         $table->setRows($this->rows);
     }
 
-    private function hasNumberOfRequestedRowsFound()
+    private function hasNumberOfRequestedRowsFound(): bool
     {
         return count($this->rows) >= $this->limit;
     }
 
-    private function hasRows()
+    private function hasRows(): bool
     {
         return count($this->rows) !== 0;
     }
 
-    private function addRowIfNeeded(Row $row, $numRows)
+    private function addRowIfNeeded(Row $row, $numRows): void
     {
         $inOffset = $numRows >= $this->offset;
 
@@ -124,7 +124,7 @@ class NestedSitesLimiter extends BaseFilter
     /**
      * @param Row $lastGroupFromPreviousPage
      */
-    private function prependGroupIfFirstSiteBelongsToAGroupButGroupIsMissingInRows($lastGroupFromPreviousPage)
+    private function prependGroupIfFirstSiteBelongsToAGroupButGroupIsMissingInRows($lastGroupFromPreviousPage): void
     {
         if ($lastGroupFromPreviousPage && !empty($this->rows)) {
             // the result starts with a row that does belong to a group, we make sure to show this group before that site

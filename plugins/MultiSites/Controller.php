@@ -32,12 +32,12 @@ class Controller extends \Piwik\Plugin\Controller
         $this->translator = $translator;
     }
 
-    public function index()
+    public function index(): string
     {
         return $this->getSitesInfo($isWidgetized = false);
     }
 
-    public function standalone()
+    public function standalone(): string
     {
         return $this->getSitesInfo($isWidgetized = true);
     }
@@ -45,7 +45,7 @@ class Controller extends \Piwik\Plugin\Controller
     /**
      * @throws \Piwik\NoAccessException
      */
-    public function getSitesInfo($isWidgetized = false)
+    public function getSitesInfo($isWidgetized = false): string
     {
         Piwik::checkUserHasSomeViewAccess();
 

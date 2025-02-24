@@ -87,11 +87,11 @@ class API extends \Piwik\Plugin\API
      * @param bool|string $_restrictSitesToLogin Hack used to enforce we restrict the returned data to the specified username
      *                                        Only used when a scheduled task is running
      * @param bool|string $enhanced When true, return additional goal & ecommerce metrics
-     * @param bool|string $pattern If specified, only the website which names (or site ID) match the pattern will be returned using SitesManager.getPatternMatchSites
-     * @param array $showColumns If specified, only the requested columns will be fetched
+     * @param ?string $pattern If specified, only the website which names (or site ID) match the pattern will be returned using SitesManager.getPatternMatchSites
+     * @param string|array $showColumns If specified, only the requested columns will be fetched
      * @return DataTable
      */
-    public function getAll($period, $date, $segment = false, $_restrictSitesToLogin = false, $enhanced = false, $pattern = false, $showColumns = array())
+    public function getAll(string $period, string $date, ?string $segment = null, bool $_restrictSitesToLogin = false, bool $enhanced = false, ?string $pattern = null, $showColumns = array())
     {
         Piwik::checkUserHasSomeViewAccess();
 
@@ -135,11 +135,11 @@ class API extends \Piwik\Plugin\API
     /**
      * Fetches the list of sites which names match the string pattern
      *
-     * @param string $pattern
+     * @param ?string $pattern
      * @param bool   $_restrictSitesToLogin
-     * @return array|string
+     * @return array
      */
-    private function getSitesIdFromPattern($pattern, $_restrictSitesToLogin)
+    private function getSitesIdFromPattern(?string $pattern, bool $_restrictSitesToLogin): array
     {
         // First clear cache
         Site::clearCache();
@@ -193,17 +193,23 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite Id of the Matomo site
      * @param string $period The period type to get data for.
      * @param string $date The date(s) to get data for.
-     * @param bool|string $segment The segments to get data for.
-     * @param bool|string $_restrictSitesToLogin Hack used to enforce we restrict the returned data to the specified username
+     * @param null|string $segment The segments to get data for.
+     * @param bool $_restrictSitesToLogin Hack used to enforce we restrict the returned data to the specified username
      *                                        Only used when a scheduled task is running
-     * @param bool|string $enhanced When true, return additional goal & ecommerce metrics
+     * @param bool $enhanced When true, return additional goal & ecommerce metrics
      * @return DataTable
      */
-    public function getOne($idSite, $period, $date, $segment = false, $_restrictSitesToLogin = false, $enhanced = false)
-    {
+    public function getOne(
+        int $idSite,
+        string $period,
+        string $date,
+        ?string $segment = null,
+        bool $_restrictSitesToLogin = false,
+        bool $enhanced = false
+    ) {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $site = $this->getSiteFromId($idSite);
+        $site = APISitesManager::getInstance()->getSiteFromId($idSite);
 
         if (empty($site)) {
             return new DataTable();
@@ -224,13 +230,13 @@ class API extends \Piwik\Plugin\API
     /**
      * @param null|string  $period
      * @param null|string  $date
-     * @param false|string $segment
+     * @param null|string $segment
      * @param string       $pattern
      * @param int          $filter_limit
      * @return array
      * @throws Exception
      */
-    public function getAllWithGroups($period = null, $date = null, $segment = false, $pattern = '', $filter_limit = 0)
+    public function getAllWithGroups(?string $period = null, ?string $date = null, ?string $segment = null, string $pattern = '', int $filter_limit = 0): array
     {
         Piwik::checkUserHasSomeViewAccess();
 
@@ -257,14 +263,16 @@ class API extends \Piwik\Plugin\API
         return $response;
     }
 
-    private function getSiteFromId($idSite)
-    {
-        $idSite = (int) $idSite;
-        return APISitesManager::getInstance()->getSiteFromId($idSite);
-    }
-
-    private function buildDataTable($idSites, $period, $date, $segment, $_restrictSitesToLogin, $enhanced, $multipleWebsitesRequested, $showColumns)
-    {
+    private function buildDataTable(
+        array $idSites,
+        string $period,
+        string $date,
+        ?string $segment,
+        bool $_restrictSitesToLogin,
+        bool $enhanced,
+        bool $multipleWebsitesRequested,
+        ?array $showColumns
+    ) {
         // build the archive type used to query archive data
         $archive = Archive::build(
             $idSites,
@@ -399,7 +407,7 @@ class API extends \Piwik\Plugin\API
      *                          metrics for.
      * @throws Exception
      */
-    private function calculateEvolutionPercentages($currentData, $pastData, $apiMetrics)
+    private function calculateEvolutionPercentages($currentData, $pastData, $apiMetrics): void
     {
         if (get_class($currentData) != get_class($pastData)) { // sanity check for regressions
             throw new Exception("Expected \$pastData to be of type " . get_class($currentData) . " - got "
@@ -435,7 +443,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    public static function getApiMetrics($enhanced)
+    public static function getApiMetrics(bool $enhanced): array
     {
         $metrics = self::$baseMetrics;
 
@@ -499,7 +507,7 @@ class API extends \Piwik\Plugin\API
         return $metrics;
     }
 
-    private function preformatApiMetricsForTotalsCalculation($apiMetrics)
+    private function preformatApiMetricsForTotalsCalculation(array $apiMetrics): array
     {
         $metrics = array();
         foreach ($apiMetrics as $label => $metricsInfo) {
@@ -517,7 +525,7 @@ class API extends \Piwik\Plugin\API
      * @param DataTable $dataTable
      * @param array $apiMetrics Metrics info.
      */
-    private function setMetricsTotalsMetadata($dataTable, $apiMetrics)
+    private function setMetricsTotalsMetadata($dataTable, array $apiMetrics)
     {
         if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getDataTables() as $table) {
@@ -550,7 +558,7 @@ class API extends \Piwik\Plugin\API
      * @param DataTable $dataTable
      * @param array $apiMetrics Metrics info.
      */
-    private function setPreviousMetricsTotalsMetadata($dataTable, $pastData, $apiMetrics)
+    private function setPreviousMetricsTotalsMetadata($dataTable, $pastData, array $apiMetrics): void
     {
         if ($dataTable instanceof DataTable\Map) {
             $currentDataTables = $dataTable->getDataTables();
@@ -616,17 +624,17 @@ class API extends \Piwik\Plugin\API
         return $rows;
     }
 
-    private static function getTotalMetadataName($name)
+    private static function getTotalMetadataName(string $name): string
     {
         return 'total_' . $name;
     }
 
-    private static function getLastPeriodMetadataName($name)
+    private static function getLastPeriodMetadataName(string $name): string
     {
         return 'last_period_' . $name;
     }
 
-    private function populateLabel($dataTable)
+    private function populateLabel($dataTable): void
     {
         $dataTable->filter(function (DataTable $table) {
             foreach ($table->getRowsWithoutSummaryRow() as $row) {
@@ -641,7 +649,7 @@ class API extends \Piwik\Plugin\API
         });
     }
 
-    private function isEcommerceEvolutionMetric($metricSettings)
+    private function isEcommerceEvolutionMetric(array $metricSettings): bool
     {
         return in_array($metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY], array(
             self::GOAL_REVENUE_METRIC . '_evolution',
