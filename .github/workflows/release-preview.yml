@@ -29,8 +29,8 @@ on:
       password:
         description: 'Release password'
         required: true
-  schedule:
-    - cron: '0 1 * * *' # 1am daily
+#  schedule:
+#    - cron: '0 1 * * *' # 1am daily
 env:
   RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
 jobs:
