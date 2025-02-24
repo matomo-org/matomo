@@ -65,6 +65,8 @@ class API extends \Piwik\Plugin\API
         )
     );
 
+    protected $autoSanitizeInputParams = false;
+
     /**
      * Returns a report displaying the total visits, actions and revenue, as
      * well as the evolution of these values, of all existing sites over a
