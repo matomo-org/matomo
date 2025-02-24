@@ -13,7 +13,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Piwik;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Goals\API as GoalsAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Translation\Translator;
@@ -22,20 +21,14 @@ use Piwik\View;
 class Controller extends \Piwik\Plugin\Controller
 {
     /**
-     * @var FeatureFlagManager
-     */
-    private $featureFlagManager;
-
-    /**
      * @var Translator
      */
     private $translator;
 
-    public function __construct(Translator $translator, FeatureFlagManager $featureFlagManager)
+    public function __construct(Translator $translator)
     {
         parent::__construct();
 
-        $this->featureFlagManager = $featureFlagManager;
         $this->translator = $translator;
     }
 
