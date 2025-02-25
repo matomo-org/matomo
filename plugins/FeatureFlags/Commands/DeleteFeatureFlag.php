@@ -9,8 +9,9 @@
 
 namespace Piwik\Plugins\FeatureFlags\Commands;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\FeatureFlags\FeatureFlagStorageInterface;
 
 class DeleteFeatureFlag extends ConsoleCommand
 {
@@ -29,7 +30,10 @@ class DeleteFeatureFlag extends ConsoleCommand
             throw new \Exception("Feature flag could not be found");
         }
 
-        FeatureFlagManager::deleteFeatureFlag($featureFlagName);
+        /** @var FeatureFlagStorageInterface $storage */
+        foreach (StaticContainer::get('featureflag.storages') as $storage) {
+            $storage->deleteFeatureFlag($featureFlagName);
+        }
 
         return self::SUCCESS;
     }

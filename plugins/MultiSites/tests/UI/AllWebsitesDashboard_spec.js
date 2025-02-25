@@ -17,6 +17,10 @@ describe('AllWebsitesDashboard', function () {
     const widgetUrl = '?module=Widgetize&action=iframe&moduleToWidgetize=MultiSites&actionToWidgetize=standalone&' + generalParams;
 
     before(function() {
+        testEnvironment.overrideConfig('FeatureFlags', {
+            ImprovedAllWebsitesDashboard_feature: 'enabled',
+        });
+
         // split 15 fixture sites into 2 pages
         testEnvironment.overrideConfig('General', {
             all_websites_website_per_page: 10,
@@ -151,34 +155,34 @@ describe('AllWebsitesDashboard', function () {
             await page.waitForNetworkIdle();
 
             await page.hover('.kpiCardContainer .kpiCard:first-child .kpiCardValue');
-            await page.waitForSelector('.ui-tooltip', { visible: true });
+            await page.waitForTimeout(200);
 
            expect(await page.screenshotSelector('.kpiCardContainer')).to.matchImage('dashboard_badge_tooltip');
         });
 
         it('tooltip should show on hover of kpi badge', async function() {
-            await page.goto(dashboardUrl);
-            await page.waitForNetworkIdle();
+          await page.goto(dashboardUrl);
+          await page.waitForNetworkIdle();
 
-            await page.evaluate(() => {
-              window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
-                data.kpis.badges.hits = {
-                  "label": "<strong>Plan: </strong> 600K hits/month",
-                  "title": "lots of information"
-                };
-              });
+          await page.evaluate(() => {
+            window.CoreHome.Matomo.on('MultiSites.DashboardKPIs.updated', function(data) {
+              data.kpis.badges.hits = {
+                "label": "<strong>Plan: </strong> 600K hits/month",
+                "title": "lots of information"
+              };
             });
+          });
 
-            // change period to trigger reload of KPIS
-            await page.click('.move-period-prev');
-            await page.click('.move-period-next');
-            await page.waitForNetworkIdle();
+          // change period to trigger reload of KPIS
+          await page.click('.move-period-prev');
+          await page.click('.move-period-next');
+          await page.waitForNetworkIdle();
 
-            await page.waitForSelector('.kpiCardBadge');
-            await page.hover('.kpiCardBadge');
-            await page.waitForSelector('.ui-tooltip', { visible: true });
+          await page.waitForSelector('.kpiCardBadge');
+          await page.hover('.kpiCardBadge');
+          await page.waitForTimeout(200);
 
-            expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_badge_tooltip_badge');
+          expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_badge_tooltip_badge');
         });
     });
 

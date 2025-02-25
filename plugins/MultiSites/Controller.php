@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\MultiSites\FeatureFlags\ImprovedAllWebsitesDashboard;
 use Piwik\Plugins\Goals\API as GoalsAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Translation\Translator;
@@ -59,7 +60,11 @@ class Controller extends \Piwik\Plugin\Controller
         $date = Piwik::getDate('today');
         $period = Piwik::getPeriod('day');
 
-        $view = new View('@MultiSites/allWebsitesDashboard');
+        if ($this->featureFlagManager->isFeatureActive(ImprovedAllWebsitesDashboard::class)) {
+            $view = new View('@MultiSites/allWebsitesDashboard');
+        } else {
+            $view = new View('@MultiSites/getSitesInfo');
+        }
 
         $view->isWidgetized         = $isWidgetized;
         $view->displayRevenueColumn = $this->shouldDisplayRevenueColumn();
@@ -106,6 +111,10 @@ class Controller extends \Piwik\Plugin\Controller
     {
         if (!Common::isGoalPluginEnabled()) {
             return false;
+        }
+
+        if (!$this->featureFlagManager->isFeatureActive(ImprovedAllWebsitesDashboard::class)) {
+            return true;
         }
 
         $sites = SitesManagerAPI::getInstance()->getSitesWithAtLeastViewAccess();

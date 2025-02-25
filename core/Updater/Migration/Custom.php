@@ -20,18 +20,16 @@ class Custom extends Migration
 {
     private $callback;
     private $toString;
-    private $args;
 
-    public function __construct($callback, $toString, array $args = [])
+    public function __construct($callback, $toString)
     {
         $this->callback = $callback;
         $this->toString = $toString;
-        $this->args = $args;
     }
 
     public function exec()
     {
-        call_user_func_array($this->callback, $this->args);
+        call_user_func($this->callback);
     }
 
     public function __toString()
