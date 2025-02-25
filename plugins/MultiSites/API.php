@@ -20,7 +20,9 @@ use Piwik\DataTable\Row;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
 use Piwik\Plugins\Goals\Archiver;
+use Piwik\Plugins\MultiSites\Columns\Metrics\EcommerceOnlyEvolutionMetric;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsPiwik;
@@ -174,13 +176,11 @@ class API extends \Piwik\Plugin\API
             $sites = Request::processRequest(
                 'SitesManager.getPatternMatchSites',
                 [
-                    'pattern'   => $pattern,
-                    // added because caller could overwrite these
-                    'limit'       => SettingsPiwik::getWebsitesCountToDisplay(),
-                    'showColumns' => '',
-                    'hideColumns' => '',
-                    'format'      => 'original'
-                ]
+                    'pattern' => $pattern,
+                    'limit'   => SettingsPiwik::getWebsitesCountToDisplay(),
+                    'format'  => 'original'
+                ],
+                []
             );
 
             if (!empty($sites)) {
@@ -239,7 +239,7 @@ class API extends \Piwik\Plugin\API
      * @param null|string $segment
      * @param string       $pattern
      * @param int          $filter_limit
-     * @return array[]
+     * @return array<string,mixed>
      * @throws Exception
      */
     public function getAllWithGroups(
@@ -284,7 +284,6 @@ class API extends \Piwik\Plugin\API
         bool $multipleWebsitesRequested,
         ?array $showColumns
     ): DataTableInterface {
-        // build the archive type used to query archive data
         $archive = Archive::build(
             $idSites,
             $period,
@@ -430,8 +429,11 @@ class API extends \Piwik\Plugin\API
         array $apiMetrics
     ): void {
         if (get_class($currentData) != get_class($pastData)) { // sanity check for regressions
-            throw new Exception("Expected \$pastData to be of type " . get_class($currentData) . " - got "
-                . get_class($pastData) . ".");
+            throw new Exception(sprintf(
+                'Expected $pastData to be of type %1$s - got %2$s.',
+                get_class($currentData),
+                get_class($pastData)
+            ));
         }
 
         if ($currentData instanceof DataTable\Map) {
@@ -444,8 +446,8 @@ class API extends \Piwik\Plugin\API
             $extraProcessedMetrics = $currentData->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
             foreach ($apiMetrics as $metricSettings) {
                 $evolutionMetricClass = $this->isEcommerceEvolutionMetric($metricSettings)
-                    ? "Piwik\\Plugins\\MultiSites\\Columns\\Metrics\\EcommerceOnlyEvolutionMetric"
-                    : "Piwik\\Plugins\\CoreHome\\Columns\\Metrics\\EvolutionMetric";
+                    ? EcommerceOnlyEvolutionMetric::class
+                    : EvolutionMetric::class;
 
                 $extraProcessedMetrics = is_array($extraProcessedMetrics) ? $extraProcessedMetrics : [];
                 $extraProcessedMetrics[] = new $evolutionMetricClass(
@@ -573,7 +575,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param DataTable|DataTable\Map $dataTable
      * @param DataTable|DataTable\Map $pastData
-     * @param array $apiMetrics Metrics info.
+     * @param array<string,string> $apiMetrics Metrics info.
      */
     private function setPreviousMetricsTotalsMetadata(
         DataTableInterface $dataTable,
@@ -656,14 +658,10 @@ class API extends \Piwik\Plugin\API
 
     private function populateLabel(DataTableInterface $dataTable): void
     {
+        // ensure label column is set and always the first column
         $dataTable->filter(function (DataTable $table) {
             foreach ($table->getRowsWithoutSummaryRow() as $row) {
                 $row->setColumn('label', $row->getMetadata('idsite'));
-            }
-        });
-        // make sure label column is always first column
-        $dataTable->queueFilter(function (DataTable $table) {
-            foreach ($table->getRowsWithoutSummaryRow() as $row) {
                 $row->setColumns(array_merge(['label' => $row->getColumn('label')], $row->getColumns()));
             }
         });
