@@ -23,9 +23,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class DashboardTest extends IntegrationTestCase
 {
-    /**
-     * @var Dashboard
-     */
+    /** @var Dashboard */
     private $dashboard;
 
     private $numSitesToCreate = 3;
@@ -445,63 +443,63 @@ class DashboardTest extends IntegrationTestCase
         $this->dashboard->search('group');
 
         // groups within that site should be listed first.
-        $expectedSites = array (
-            array (
+        $expectedSites = [
+            [
                 'label' => 'group1',
                 'nb_visits' => 50,
                 'isGroup' => 1,
-            ),
-            array (
+            ],
+            [
                 'label' => 'Site1',
                 'nb_visits' => 10,
                 'group' => 'group1',
-            ),
-            array (
+            ],
+            [
                 'label' => 'Site3',
                 'nb_visits' => 10,
                 'group' => 'group1',
-            ),
-            array (
+            ],
+            [
                 'label' => 'Site15',
                 'nb_visits' => 10,
                 'group' => 'group1',
-            ),
-            array (
+            ],
+            [
                 'label' => 'Site16',
                 'nb_visits' => 10,
                 'group' => 'group1',
-            ),
-            array (
+            ],
+            [
                 'label' => 'Site18',
                 'nb_visits' => 10,
                 'group' => 'group1',
-            ),
-            array (
+            ],
+            [
                 'label' => 'group4',
                 'nb_visits' => 20,
                 'isGroup' => 1,
-            ),
-            array (
+            ],
+            [
                 'label' => 'Site4',
                 'nb_visits' => 10,
                 'group' => 'group4',
-            ),
-            array (
+            ],
+            [
                 'label' => 'Site6',
                 'nb_visits' => 10,
                 'group' => 'group4',
-            ),
-            array (
+            ],
+            [
                 'label' => 'group2',
                 'nb_visits' => 10,
                 'isGroup' => 1,
-            ),
-            array (
+            ],
+            [
                 'label' => 'Site2',
                 'nb_visits' => 10,
                 'group' => 'group2',
-            ),
-        );
+            ],
+        ];
 
         // 3 groups + 8 sites having a group.
         $this->assertSame(3 + 8, $this->dashboard->getNumSites());
@@ -530,28 +528,28 @@ class DashboardTest extends IntegrationTestCase
         $this->dashboard->setSitesTable($sites);
         $this->dashboard->search('site2');
 
-        $expectedSites = array (
-            array (
+        $expectedSites = [
+            [
                 'label' => 'group4',
                 'nb_visits' => 20, // another site belongs to that group which doesn't match that name yet still we need to sum the correct result.
                 'isGroup' => 1,
-            ),
-            array (
+            ],
+            [
                 'label' => 'Site20',
                 'nb_visits' => 10,
                 'group' => 'group4',
-            ),
-            array (
+            ],
+            [
                 'label' => 'group2',
                 'nb_visits' => 10,
                 'isGroup' => 1,
-            ),
-            array (
+            ],
+            [
                 'label' => 'Site2',
                 'nb_visits' => 10,
                 'group' => 'group2',
-            ),
-        );
+            ],
+        ];
 
         // 2 matching sites + their group
         $this->assertSame(2 + 2, $this->dashboard->getNumSites());

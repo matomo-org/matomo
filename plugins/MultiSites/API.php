@@ -49,6 +49,7 @@ class API extends \Piwik\Plugin\API
     public const ECOMMERCE_ORDERS_METRIC = 'orders';
     public const ECOMMERCE_REVENUE_METRIC = 'ecommerce_revenue';
 
+    /** @var array<string,array<string,string>> */
     private static $baseMetrics = [
         self::NB_VISITS_METRIC   => [
             self::METRIC_TRANSLATION_KEY        => 'General_ColumnNbVisits',
@@ -89,8 +90,8 @@ class API extends \Piwik\Plugin\API
      *                                        Only used when a scheduled task is running
      * @param bool $enhanced When true, return additional goal & ecommerce metrics
      * @param null|string $pattern If specified, only the website which names (or site ID) match the pattern will be returned using SitesManager.getPatternMatchSites
-     * @param string|array $showColumns If specified, only the requested columns will be fetched
-     * @return DataTable
+     * @param string|array<string> $showColumns If specified, only the requested columns will be fetched
+     * @return DataTableInterface
      */
     public function getAll(
         string $period,
@@ -116,7 +117,7 @@ class API extends \Piwik\Plugin\API
          *         });
          *     });
          *
-         * @param array &$idSites List of idSites that the current user would be allowed to see in all websites dashboard.
+         * @param array<int> &$idSites List of idSites that the current user would be allowed to see in all websites dashboard.
          */
         Piwik::postEvent('MultiSites.filterSites', [&$idSites]);
 
@@ -149,7 +150,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param ?string $pattern
      * @param ?string $_restrictSitesToLogin
-     * @return array
+     * @return array<int>
      */
     private function getSitesIdFromPattern(?string $pattern, ?string $_restrictSitesToLogin): array
     {
@@ -202,7 +203,7 @@ class API extends \Piwik\Plugin\API
      * @param null|string $_restrictSitesToLogin Hack used to enforce we restrict the returned data to the specified username
      *                                        Only used when a scheduled task is running
      * @param bool $enhanced When true, return additional goal & ecommerce metrics
-     * @return DataTable
+     * @return DataTableInterface
      */
     public function getOne(
         int $idSite,
@@ -238,7 +239,7 @@ class API extends \Piwik\Plugin\API
      * @param null|string $segment
      * @param string       $pattern
      * @param int          $filter_limit
-     * @return array
+     * @return array[]
      * @throws Exception
      */
     public function getAllWithGroups(
@@ -420,8 +421,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param DataTable|DataTable\Map $currentData
      * @param DataTable|DataTable\Map $pastData
-     * @param array $apiMetrics The array of string fields to calculate evolution
-     *                          metrics for.
+     * @param array<string,array<string,string>> $apiMetrics The array of string fields to calculate evolution metrics for.
      * @throws Exception
      */
     private function calculateEvolutionPercentages(
@@ -543,7 +543,7 @@ class API extends \Piwik\Plugin\API
      * $this->buildDataTable.
      *
      * @param DataTableInterface $dataTable
-     * @param array $apiMetrics Metrics info.
+     * @param array<string,string> $apiMetrics Metrics info.
      */
     private function setMetricsTotalsMetadata(DataTableInterface $dataTable, array $apiMetrics): void
     {
@@ -571,8 +571,8 @@ class API extends \Piwik\Plugin\API
      * Sets the previous total visits, actions & revenue for a DataTable returned by
      * $this->buildDataTable.
      *
-     * @param DataTableInterface $dataTable
-     * @param DataTableInterface $pastData
+     * @param DataTable|DataTable\Map $dataTable
+     * @param DataTable|DataTable\Map $pastData
      * @param array $apiMetrics Metrics info.
      */
     private function setPreviousMetricsTotalsMetadata(
@@ -618,7 +618,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param Row[] $rows
-     * @return array
+     * @return Row[]
      */
     private function filterRowsForTotalsCalculation(array $rows): array
     {

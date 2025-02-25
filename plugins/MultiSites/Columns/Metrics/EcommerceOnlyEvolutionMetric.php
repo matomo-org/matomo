@@ -21,18 +21,19 @@ use Piwik\Site;
  */
 class EcommerceOnlyEvolutionMetric extends EvolutionMetric
 {
+    /** @var bool */
     private $isRevenueEvolution;
 
     public function __construct(
         $wrapped,
         DataTable $pastData,
         $evolutionMetricName = false,
-        $quotientPrecision = 0,
+        int $quotientPrecision = 0,
         ?DataTable $currentData = null
     ) {
         parent::__construct($wrapped, $pastData, $evolutionMetricName, $quotientPrecision, $currentData);
 
-        $this->isRevenueEvolution = $this->getName() == 'revenue_evolution';
+        $this->isRevenueEvolution = $this->getName() === 'revenue_evolution';
     }
 
     public function compute(Row $row)

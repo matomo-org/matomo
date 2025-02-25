@@ -26,14 +26,12 @@ class Dashboard
     /** @var DataTable */
     private $sitesByGroup;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $numSites = 0;
 
     /**
      * Array of metrics that will be displayed and will be number formatted
-     * @var array
+     * @var array<string>
      */
     private $displayedMetricColumns = [
         'nb_visits', 'nb_pageviews', 'hits', 'nb_actions', 'revenue',
@@ -63,7 +61,7 @@ class Dashboard
 
         $sites->deleteRow(DataTable::ID_SUMMARY_ROW);
 
-        /** @var DataTable $pastData */
+        /** @var null|DataTable $pastData */
         $pastData = $sites->getMetadata('pastData');
 
         $sites->filter(function (DataTable $table) use ($pastData) {
@@ -99,10 +97,10 @@ class Dashboard
         $this->rememberNumberOfSites();
     }
 
-    public function getSites(array $request, int $limit)
+    public function getSites(array $request, int $limit): array
     {
         $request['filter_limit']  = $limit;
-        $request['filter_offset'] = isset($request['filter_offset']) ? $request['filter_offset'] : 0;
+        $request['filter_offset'] = isset($request['filter_offset']) ? (int) $request['filter_offset'] : 0;
 
         $this->makeSitesFlatAndApplyGenericFilters($this->sitesByGroup, $request);
         $sites = $this->convertDataTableToArrayAndApplyQueuedFilters($this->sitesByGroup, $request);
@@ -205,7 +203,7 @@ class Dashboard
         return $lastPeriod;
     }
 
-    private function convertDataTableToArrayAndApplyQueuedFilters(DataTable $table, array $request)
+    private function convertDataTableToArrayAndApplyQueuedFilters(DataTable $table, array $request): array
     {
         $request['serialize'] = 0;
         $request['expanded'] = 0;
@@ -214,7 +212,7 @@ class Dashboard
         $request['disable_generic_filters'] = 1;
 
         $responseBuilder = new ResponseBuilder('json', $request);
-        return json_decode($responseBuilder->getResponse($table, 'MultiSites', 'getAll'), true);
+        return json_decode($responseBuilder->getResponse($table, 'MultiSites', 'getAll'), true) ?: [];
     }
 
     private function moveSitesHavingAGroupIntoSubtables(DataTable $sites): DataTable
@@ -318,8 +316,8 @@ class Dashboard
         $table->disableFilter('Limit');
 
         // this will apply the sort filter
-        /** @var DataTable $table */
         $genericFilter = new DataTablePostProcessor('MultiSites', 'getAll', $request);
+        /** @var DataTable */
         $table = $genericFilter->applyGenericFilters($table);
 
         // make sure from now on the sites will be no longer sorted, they were already sorted

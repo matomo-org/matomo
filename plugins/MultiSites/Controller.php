@@ -21,9 +21,7 @@ use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-    /**
-     * @var Translator
-     */
+    /** @var Translator */
     private $translator;
 
     public function __construct(Translator $translator)
@@ -46,7 +44,7 @@ class Controller extends \Piwik\Plugin\Controller
     /**
      * @throws \Piwik\NoAccessException
      */
-    public function getSitesInfo($isWidgetized = false): string
+    protected function getSitesInfo(bool $isWidgetized = false): string
     {
         Piwik::checkUserHasSomeViewAccess();
 
@@ -80,11 +78,9 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getEvolutionGraph($columns = null)
+    public function getEvolutionGraph(): ?string
     {
-        if (empty($columns)) {
-            $columns = Request::fromRequest()->getStringParameter('columns');
-        }
+        $columns = Request::fromRequest()->getStringParameter('columns');
         $api = "API.get";
 
         if ($columns == 'revenue') {

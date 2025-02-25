@@ -49,11 +49,11 @@ use Piwik\DataTable;
  */
 class NestedSitesLimiter extends BaseFilter
 {
+    /** @var int */
     private $offset = 0;
+    /** @var int */
     private $limit  = 0;
-    /**
-     * @var Row[]
-     */
+    /** @var Row[] */
     private $rows   = [];
 
     /**
@@ -61,7 +61,7 @@ class NestedSitesLimiter extends BaseFilter
      *
      * @param DataTable $table The table to eventually filter.
      */
-    public function __construct($table, $offset, $limit)
+    public function __construct(DataTable $table, int $offset, int $limit)
     {
         parent::__construct($table);
         $this->offset = $offset;
@@ -112,7 +112,7 @@ class NestedSitesLimiter extends BaseFilter
         return count($this->rows) !== 0;
     }
 
-    private function addRowIfNeeded(Row $row, $numRows): void
+    private function addRowIfNeeded(Row $row, int $numRows): void
     {
         $inOffset = $numRows >= $this->offset;
 
@@ -122,9 +122,9 @@ class NestedSitesLimiter extends BaseFilter
     }
 
     /**
-     * @param Row $lastGroupFromPreviousPage
+     * @param null|Row $lastGroupFromPreviousPage
      */
-    private function prependGroupIfFirstSiteBelongsToAGroupButGroupIsMissingInRows($lastGroupFromPreviousPage): void
+    private function prependGroupIfFirstSiteBelongsToAGroupButGroupIsMissingInRows(?Row $lastGroupFromPreviousPage): void
     {
         if ($lastGroupFromPreviousPage && !empty($this->rows)) {
             // the result starts with a row that does belong to a group, we make sure to show this group before that site
