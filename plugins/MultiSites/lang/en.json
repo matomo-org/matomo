@@ -21,6 +21,12 @@
         "EvolutionFromPreviousYear": "From previous year",
         "TotalHits": "Total Hits",
         "TotalPageviews": "Total Pageviews",
-        "TotalVisits": "Total Visits"
+        "TotalVisits": "Total Visits",
+        "MetricDocumentationWebsite": "The list of tracked websites displayed in the dashboard. Each row represents a separate website with its corresponding analytics data.",
+        "MetricDocumentationVisits": "The total number of visits recorded for this website. A visit starts when a user accesses the site and ends after a period of inactivity or when the session expires.",
+        "MetricDocumentationPageviews": "The total number of pages viewed on this website. This includes multiple views of the same page by a single visitor.",
+        "MetricDocumentationHits": "The total number of recorded actions for this website, including pageviews, downloads, and outlinks.",
+        "MetricDocumentationRevenue": "The total revenue tracked for this website. This metric is available if Ecommerce tracking is enabled and reflects purchases or goal-based revenue.",
+        "MetricDocumentationEvolution": "The percentage change for this metric compared to the previous period for this website. A positive value indicates growth, while a negative value signals a decrease."
     }
 }

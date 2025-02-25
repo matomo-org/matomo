@@ -187,9 +187,6 @@ class Dashboard
         }
     }
 
-    /**
-     * @return string
-     */
     public function getLastDate(): string
     {
         $lastPeriod = $this->sitesByGroup->getMetadata('last_period_date');
