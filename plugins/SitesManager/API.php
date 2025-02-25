@@ -1378,7 +1378,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $queryParamsToExclude = $this->checkAndReturnCommaSeparatedStringList($queryParamsToExclude);
+        $queryParamsToExclude = $this->checkAndReturnCommaSeparatedStringList($queryParamsToExclude ?? '');
         $whiteListValidator = new WhitelistedValue(SitesManager::URL_PARAM_EXCLUSION_TYPES);
         $whiteListValidator->validate($exclusionType);
 
@@ -1578,7 +1578,7 @@ class API extends \Piwik\Plugin\API
         $this->getModel()->updateSiteCreatedTime($idSites, $minDateSql);
     }
 
-    private function checkAndReturnCommaSeparatedStringList($parameters)
+    private function checkAndReturnCommaSeparatedStringList(string $parameters): string
     {
         $parameters = trim($parameters);
         if (empty($parameters)) {
