@@ -352,7 +352,7 @@ abstract class StaticGraph extends BaseFactory
         return array($textInfo[1]['X'] + 1, $textInfo[0]['Y'] - $textInfo[2]['Y']);
     }
 
-    protected function getMaximumTextWidthHeight($values, $fontSize = false)
+    protected function getMaximumTextWidthHeight($values)
     {
         if (array_values($values) === $values) {
             $values = array('' => $values);
@@ -362,7 +362,7 @@ abstract class StaticGraph extends BaseFactory
         $maxHeight = 0;
         foreach ($values as $data) {
             foreach ($data as $value) {
-                [$valueWidth, $valueHeight] = $this->getTextWidthHeight($value, $fontSize);
+                [$valueWidth, $valueHeight] = $this->getTextWidthHeight($value);
 
                 if ($valueWidth > $maxWidth) {
                     $maxWidth = $valueWidth;
