@@ -305,7 +305,7 @@ class Url
      *
      * @param bool $checkIfTrusted Whether to do trusted host check. Should ALWAYS be true,
      *                             except in Controller.
-     * @return string|bool eg, `"demo.piwik.org"` or false if no host found.
+     * @return string|bool eg, `"demo.matomo.org"` or false if no host found.
      */
     public static function getHost($checkIfTrusted = true)
     {

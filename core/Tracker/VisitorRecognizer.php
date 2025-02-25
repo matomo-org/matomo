@@ -295,7 +295,7 @@ class VisitorRecognizer
              *
              * Plugins can use this event to load additional visit entity properties for later use during tracking.
              *
-             * This event is deprecated, use [Dimensions](https://developer.piwik.org/guides/dimensions) instead.
+             * This event is deprecated, use [Dimensions](https://developer.matomo.org/guides/dimensions) instead.
              *
              * @deprecated
              */
