@@ -18,6 +18,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Tasks;
 use Piwik\Plugins\CoreAdminHome\tests\Fixtures\CoreArchiverProcessSignal as CoreArchiverProcessSignalFixture;
 use Piwik\Plugins\CoreConsole\FeatureFlags\CliMultiProcessSymfony;
+use Piwik\Plugins\CoreConsole\FeatureFlags\SystemSignals;
 use Piwik\Scheduler\Task;
 use Piwik\Segment;
 use Piwik\Tests\Framework\Fixture;
@@ -428,6 +429,12 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         } else {
             $environment->removeOverriddenConfig('FeatureFlags', $featureFlagConfigName);
         }
+
+        $environment->overrideConfig(
+            'FeatureFlags',
+            (new SystemSignals())->getName() . '_feature',
+            'enabled'
+        );
 
         $environment->forceCliMultiViaCurl = (int) (self::METHOD_CURL === $method);
 

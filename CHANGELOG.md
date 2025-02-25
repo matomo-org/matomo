@@ -14,6 +14,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 #### New APIs
 
 * The method `getNthLevelTableDimension` has been added to the `Report` class. This extends support for subtable reports for more than three levels.
+* Commands can subscribe to system signals by defining a `getSystemSignalsToHandle` function in the command implementation. This feature is gated behind the "ProcessSignals" feature flag, signal subscription will be silently disabled unless that feature flag is enabled.
 
 ## Deprecations
 

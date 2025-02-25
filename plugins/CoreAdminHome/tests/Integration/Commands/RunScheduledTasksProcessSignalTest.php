@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 use Piwik\CliMulti\ProcessSymfony;
 use Piwik\Plugins\CoreAdminHome\Tasks;
 use Piwik\Plugins\CoreAdminHome\tests\Fixtures\RunScheduledTasksProcessSignal as RunScheduledTasksProcessSignalFixture;
+use Piwik\Plugins\CoreConsole\FeatureFlags\SystemSignals;
 use Piwik\Scheduler\Task;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -35,6 +36,14 @@ class RunScheduledTasksProcessSignalTest extends IntegrationTestCase
         }
 
         parent::setUp();
+
+        $environment = self::$fixture->getTestEnvironment();
+        $environment->overrideConfig(
+            'FeatureFlags',
+            (new SystemSignals())->getName() . '_feature',
+            'enabled'
+        );
+        $environment->save();
 
         self::$fixture->stepControl->reset();
     }

@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugin;
 
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\CoreConsole\FeatureFlags\SystemSignals;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Command\SignalableCommandInterface;
 use Symfony\Component\Console\Exception\LogicException;
@@ -23,6 +26,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use Throwable;
 
 /**
  * The base class for console commands.
@@ -158,16 +162,35 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      * Method is final to make it impossible to overwrite it in plugin commands
      * use getSystemSignalsToHandle() instead.
      *
+     * Will only have an effect if the "SystemSignals" feature flag is enabled.
+     *
      * @return array<int>
      */
     final public function getSubscribedSignals(): array
     {
+        $canSubscribe = false;
+
+        // The required DI configuration may not be loaded during the update process.
+        // This can happen for an upgrade from a version that did not yet contain
+        // the feature flag plugin.
+        try {
+            $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+            $canSubscribe       = $featureFlagManager->isFeatureActive(SystemSignals::class);
+        } catch (Throwable $e) {
+        }
+
+        if (!$canSubscribe) {
+            return [];
+        }
+
         return $this->getSystemSignalsToHandle();
     }
 
     /**
      * Method is final to make it impossible to overwrite it in plugin commands
      * use handleSystemSignal() instead.
+     *
+     * Will only have an effect if the "SystemSignals" feature flag is enabled.
      */
     final public function handleSignal(int $signal): void
     {
