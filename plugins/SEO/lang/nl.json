@@ -1,8 +1,8 @@
 {
     "SEO": {
-        "Bing_IndexedPages": "Bing geindexeerde pagina's",
+        "Bing_IndexedPages": "Bing geïndexeerde pagina's",
         "DomainAge": "Domein leeftijd",
-        "PluginDescription": "Deze plugin extraheert en toon SEO statistieken: Google Pagerank, het aantal geïndexeerde pagina's en backlinks voor de huidig geselecteerde website.",
+        "PluginDescription": "Deze plugin extraheert en toont SEO statistieken: Google Pagerank, het aantal geïndexeerde pagina's en backlinks voor de huidig geselecteerde website.",
         "Rank": "Ranking",
         "SEORankingsFor": "SEO rankings voor %s",
         "SeoRankings": "SEO rankings"

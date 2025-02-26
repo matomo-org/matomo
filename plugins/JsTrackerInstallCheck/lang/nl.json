@@ -1,8 +1,9 @@
 {
     "JsTrackerInstallCheck": {
         "JsTrackingCodeInstallCheckFailureMessage": "Verificatie van de trackingcode is mislukt. Controleer of je de code correct hebt geïnstalleerd. %1$sMeer informatie%2$s.",
-        "JsTrackingCodeInstallCheckFailureMessageWordpress": "Verificatie van de trackingcode is mislukt. Controleer of je de plugin \"%1$s\" hebt geïnstalleerd en alle stappen hebt gevolgd. %2$sMeer informatie%3$s.",
+        "JsTrackingCodeInstallCheckFailureMessageWordpress": "Verificatie van de trackingcode is mislukt. Controleer of je de plug-in \"%1$s\" hebt geïnstalleerd en alle stappen hebt gevolgd. %2$sMeer informatie%3$s.",
         "JsTrackingCodeInstallCheckSuccessMessage": "De trackingcode is succesvol geïnstalleerd! Dit scherm verdwijnt zodra er gegevens worden bijgehouden voor je website.",
+        "OptionalTestInstallationDescription": "Optioneel: Om te testen of de trackingcode verzoeken naar uw Matomo-instantie kan sturen, voer je de exacte URL in die je volgt en klik je op \"Installatie testen\". Er wordt een nieuw tabblad geopend, dat binnen 10 seconden moet worden gesloten.",
         "PluginDescription": "Controleer of de trackingcode op je website is geïnstalleerd en of deze trackingverzoeken kan sturen naar je Matomo-instantie.",
         "TestInstallationBtnText": "Installatie testen"
     }
