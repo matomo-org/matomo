@@ -15,14 +15,13 @@ use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as GoalsAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Request;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-    /**
-     * @var Translator
-     */
+    /** @var Translator */
     private $translator;
 
     public function __construct(Translator $translator)
@@ -32,12 +31,12 @@ class Controller extends \Piwik\Plugin\Controller
         $this->translator = $translator;
     }
 
-    public function index()
+    public function index(): string
     {
         return $this->getSitesInfo($isWidgetized = false);
     }
 
-    public function standalone()
+    public function standalone(): string
     {
         return $this->getSitesInfo($isWidgetized = true);
     }
@@ -45,7 +44,7 @@ class Controller extends \Piwik\Plugin\Controller
     /**
      * @throws \Piwik\NoAccessException
      */
-    public function getSitesInfo($isWidgetized = false)
+    protected function getSitesInfo(bool $isWidgetized = false): string
     {
         Piwik::checkUserHasSomeViewAccess();
 
@@ -63,9 +62,11 @@ class Controller extends \Piwik\Plugin\Controller
         // if the current date is today, or yesterday,
         // in case the website is set to UTC-12), or today in UTC+14, we refresh the page every 5min
         if (
-            in_array($date, array('today', date('Y-m-d'),
-                                  'yesterday', Date::factory('yesterday')->toString('Y-m-d'),
-                                  Date::factory('now', 'UTC+14')->toString('Y-m-d')))
+            in_array($date, [
+                'today', date('Y-m-d'),
+                'yesterday', Date::factory('yesterday')->toString('Y-m-d'),
+                Date::factory('now', 'UTC+14')->toString('Y-m-d')
+            ])
         ) {
             $view->autoRefreshTodayReport = Config::getInstance()->General['multisites_refresh_after_seconds'];
         }
@@ -77,11 +78,9 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getEvolutionGraph($columns = false)
+    public function getEvolutionGraph(): ?string
     {
-        if (empty($columns)) {
-            $columns = Common::getRequestVar('columns');
-        }
+        $columns = Request::fromRequest()->getStringParameter('columns');
         $api = "API.get";
 
         if ($columns == 'revenue') {

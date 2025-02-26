@@ -85,7 +85,6 @@ class ManySitesWithVisits extends Fixture
 
     private function setUpWebsites(): void
     {
-
         $this->idSiteEcommerce = self::createWebsite($this->dateTime, 1, 'Site Ecommerce');
         $this->idSiteGoalDefaultValue = self::createWebsite($this->dateTime, 0, 'Site Goal Default Value');
         $this->idSiteGoalEventValue = self::createWebsite($this->dateTime, 0, 'Site Goal Event Value');

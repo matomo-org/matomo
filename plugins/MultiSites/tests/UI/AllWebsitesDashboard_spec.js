@@ -385,6 +385,7 @@ describe('AllWebsitesDashboard', function () {
                 select.val(hitsOption.val()).change();
             });
 
+            await page.mouse.move(0, 0);
             await page.waitForNetworkIdle();
 
             expect(await page.screenshotSelector('#main')).to.matchImage('evolution_change');
