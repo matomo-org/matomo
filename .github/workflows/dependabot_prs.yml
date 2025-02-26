@@ -61,5 +61,5 @@ jobs:
           fi
           git add ./node_modules
           git commit -m "Update npm dependencies"
-          git push --set-upstream origin ${{ github.head_ref }}
+          git push
         shell: bash
