@@ -378,7 +378,7 @@ class NumberFormatter
      *
      * @return string
      *
-     * @see http://cldr.unicode.org/translation/number-symbols
+     * @see https://cldr.unicode.org/translation/number-symbols
      */
     protected function replaceSymbols($value)
     {

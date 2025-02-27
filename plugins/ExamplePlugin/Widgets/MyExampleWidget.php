@@ -16,7 +16,7 @@ use Piwik\Widget\WidgetConfig;
  * This class allows you to add your own widget to the Piwik platform. In case you want to remove widgets from another
  * plugin please have a look at the "configureWidgetsList()" method.
  * To configure a widget simply call the corresponding methods as described in the API-Reference:
- * http://developer.piwik.org/api-reference/Piwik/Plugin\Widget
+ * https://developer.matomo.org/api-reference/Piwik/Plugin\Widget
  */
 class MyExampleWidget extends Widget
 {

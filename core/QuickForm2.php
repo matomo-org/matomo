@@ -21,7 +21,7 @@ use HTML_QuickForm2_Renderer;
  * For an example, @see Piwik\Plugins\Login\FormLogin
  *
  * @see                 HTML_QuickForm2, libs/HTML/QuickForm2.php
- * @link http://pear.php.net/package/HTML_QuickForm2/
+ * @link https://pear.php.net/package/HTML_QuickForm2/
  */
 abstract class QuickForm2 extends HTML_QuickForm2
 {

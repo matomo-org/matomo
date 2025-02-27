@@ -82,7 +82,7 @@ class Filesystem
 
     /**
      * Get canonicalized absolute path
-     * See http://php.net/realpath
+     * See https://php.net/realpath
      *
      * @param string $path
      * @return string  canonicalized absolute path
@@ -183,11 +183,11 @@ class Filesystem
     /**
      * Recursively find pathnames that match a pattern.
      *
-     * See {@link http://php.net/manual/en/function.glob.php glob} for more info.
+     * See {@link https://php.net/manual/en/function.glob.php glob} for more info.
      *
      * @param string $sDir directory The directory to glob in.
      * @param string $sPattern pattern The pattern to match paths against.
-     * @param int $nFlags `glob()` . See {@link http://php.net/manual/en/function.glob.php glob()}.
+     * @param int $nFlags `glob()` . See {@link https://php.net/manual/en/function.glob.php glob()}.
      * @return array The list of paths that match the pattern.
      * @api
      */

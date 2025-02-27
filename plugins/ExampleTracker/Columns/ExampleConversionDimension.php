@@ -23,7 +23,7 @@ use Piwik\Tracker\GoalManager;
  * request url property. Please note that dimension instances are usually cached during one tracking request so they
  * should be stateless (meaning an instance of this dimension will be reused if requested multiple times).
  *
- * See {@link http://developer.piwik.org/api-reference/Piwik/Plugin\Dimension\ConversionDimension} for more information.
+ * See {@link https://developer.matomo.org/api-reference/Piwik/Plugin\Dimension\ConversionDimension} for more information.
  */
 class ExampleConversionDimension extends ConversionDimension
 {

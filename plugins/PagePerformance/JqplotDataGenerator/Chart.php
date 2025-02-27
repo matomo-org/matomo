@@ -17,7 +17,7 @@ use Piwik\ProxyHttp;
 class Chart extends \Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart
 {
     // the data kept here conforms to the jqplot data layout
-    // @see http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
+    // @see https://www.jqplot.com/docs/files/jqPlotOptions-txt.html
     protected $series = [];
     protected $data = [];
     protected $axes = [];
@@ -92,7 +92,7 @@ class Chart extends \Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart
     {
         ProxyHttp::overrideCacheControlHeaders();
 
-        // See http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
+        // See https://www.jqplot.com/docs/files/jqPlotOptions-txt.html
         $data = [
             'params' => [
                 'axes'   => &$this->axes,

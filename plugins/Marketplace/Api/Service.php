@@ -189,7 +189,7 @@ class Service
     }
 
     /**
-     * Get the domain that is used in order to access the Marketplace. Eg http://plugins.piwik.org
+     * Get the domain that is used in order to access the Marketplace. Eg https://plugins.matomo.org
      * @return string
      */
     public function getDomain()

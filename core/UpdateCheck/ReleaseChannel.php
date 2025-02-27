@@ -43,7 +43,7 @@ abstract class ReleaseChannel
 
     /**
      * Get the latest available version number for this release channel. Eg '2.15.0-b4' or '2.15.0'. Should be
-     * a semantic version number in format MAJOR.MINOR.PATCH (http://semver.org/). Returning an empty string in case
+     * a semantic version number in format MAJOR.MINOR.PATCH (https://semver.org/). Returning an empty string in case
      * one cannot connect to the remote server can be acceptable.
      * @return string
      */

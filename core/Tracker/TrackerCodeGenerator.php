@@ -36,7 +36,7 @@ class TrackerCodeGenerator
 
     /**
      * @param int $idSite
-     * @param string $piwikUrl http://path/to/piwik/site/
+     * @param string $piwikUrl https://path/to/piwik/site/
      * @param bool $mergeSubdomains
      * @param bool $groupPageTitlesByDomain
      * @param bool $mergeAliasUrls

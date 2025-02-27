@@ -38,7 +38,7 @@ class TimezoneCheck implements Diagnostic
         $comment = sprintf(
             '%s<br />%s.',
             $this->translator->translate('SitesManager_AdvancedTimezoneSupportNotFound'),
-            '<a href="http://php.net/manual/en/datetime.installation.php" rel="noreferrer noopener" target="_blank">Timezone PHP documentation</a>'
+            '<a href="https://php.net/manual/en/datetime.installation.php" rel="noreferrer noopener" target="_blank">Timezone PHP documentation</a>'
         );
 
         return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));

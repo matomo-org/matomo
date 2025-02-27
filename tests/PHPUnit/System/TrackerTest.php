@@ -57,7 +57,7 @@ class TrackerTest extends IntegrationTestCase
     }
 
     /**
-     * Test the Bulk tracking API as documented in: http://developer.piwik.org/api-reference/tracking-api#bulk-tracking
+     * Test the Bulk tracking API as documented in: https://developer.matomo.org/api-reference/tracking-api#bulk-tracking
      *
      * With invalid token_auth the request would still work
      */

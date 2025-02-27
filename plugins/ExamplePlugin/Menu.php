@@ -15,7 +15,7 @@ use Piwik\Menu\MenuTop;
 /**
  * This class allows you to add, remove or rename menu items.
  * To configure a menu (such as Admin Menu, Top Menu, User Menu...) simply call the corresponding methods as
- * described in the API-Reference http://developer.piwik.org/api-reference/Piwik/Menu/MenuAbstract
+ * described in the API-Reference https://developer.matomo.org/api-reference/Piwik/Menu/MenuAbstract
  */
 class Menu extends \Piwik\Plugin\Menu
 {

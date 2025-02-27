@@ -10,7 +10,7 @@
 /**
  * International currencies in circulation.
  *
- * @see http://en.wikipedia.org/wiki/List_of_circulating_currencies
+ * @see https://en.wikipedia.org/wiki/List_of_circulating_currencies
  */
 return array(
     // 'ISO-4217 CODE' => array('currency symbol', 'description'),

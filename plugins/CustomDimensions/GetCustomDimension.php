@@ -31,7 +31,7 @@ use Piwik\Plugins\CustomDimensions\Tracker\CustomDimensionsRequestProcessor;
 /**
  * This class defines a new report.
  *
- * See {@link http://developer.piwik.org/api-reference/Piwik/Plugin/Report} for more information.
+ * See {@link https://developer.matomo.org/api-reference/Piwik/Plugin/Report} for more information.
  */
 class GetCustomDimension extends Report
 {

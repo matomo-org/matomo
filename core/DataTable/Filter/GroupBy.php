@@ -54,7 +54,7 @@ class GroupBy extends BaseFilter
      * @param string $groupByColumn The column name to reduce.
      * @param callable $reduceFunction The reduce function. This must alter the `$groupByColumn`
      *                                 column in some way. If not set then the filter will group by the raw column value.
-     * @param array $parameters deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
+     * @param array $parameters deprecated - use an [anonymous function](https://php.net/manual/en/functions.anonymous.php)
      *                          instead.
      */
     public function __construct($table, $groupByColumn, $reduceFunction = null, $parameters = array())

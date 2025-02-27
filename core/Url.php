@@ -54,7 +54,7 @@ class Url
     /**
      * Returns the current URL.
      *
-     * @return string eg, `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
+     * @return string eg, `"https://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
      * @api
      */
     public static function getCurrentUrl()
@@ -70,8 +70,8 @@ class Url
      *
      * @param bool $checkTrustedHost Whether to do trusted host check. Should ALWAYS be true,
      *                               except in {@link Piwik\Plugin\Controller}.
-     * @return string eg, `"http://example.org/dir1/dir2/index.php"` if the current URL is
-     *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`.
+     * @return string eg, `"https://example.org/dir1/dir2/index.php"` if the current URL is
+     *                `"https://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`.
      * @api
      */
     public static function getCurrentUrlWithoutQueryString($checkTrustedHost = true)
@@ -85,8 +85,8 @@ class Url
      * Returns the current URL without the query string and without the name of the file
      * being executed.
      *
-     * @return string eg, `"http://example.org/dir1/dir2/"` if the current URL is
-     *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`.
+     * @return string eg, `"https://example.org/dir1/dir2/"` if the current URL is
+     *                `"https://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`.
      * @api
      */
     public static function getCurrentUrlWithoutFileName()
@@ -100,7 +100,7 @@ class Url
      * Returns the path to the script being executed. The script file name is not included.
      *
      * @return string eg, `"/dir1/dir2/"` if the current URL is
-     *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
+     *                `"https://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
      * @api
      */
     public static function getCurrentScriptPath()
@@ -122,7 +122,7 @@ class Url
      *
      * @param bool $removePathInfo If true (default value) then the PATH_INFO will be stripped.
      * @return string eg, `"/dir1/dir2/index.php"` if the current URL is
-     *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
+     *                `"https://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
      * @api
      */
     public static function getCurrentScriptName($removePathInfo = true)
@@ -141,7 +141,7 @@ class Url
         if (!empty($_SERVER['REQUEST_URI'])) {
             $url .= $_SERVER['REQUEST_URI'];
 
-            // strip http://host (Apache+Rails anomaly)
+            // strip https://host (Apache+Rails anomaly)
             if (preg_match('~^https?://[^/]+($|/.*)~D', $url, $matches)) {
                 $url = $matches[1];
             }
@@ -160,7 +160,7 @@ class Url
         /**
          * SCRIPT_NAME is our fallback, though it may not be set correctly
          *
-         * @see http://php.net/manual/en/reserved.variables.php
+         * @see https://php.net/manual/en/reserved.variables.php
          */
         if (empty($url)) {
             if (isset($_SERVER['SCRIPT_NAME'])) {
@@ -305,7 +305,7 @@ class Url
      *
      * @param bool $checkIfTrusted Whether to do trusted host check. Should ALWAYS be true,
      *                             except in Controller.
-     * @return string|bool eg, `"demo.piwik.org"` or false if no host found.
+     * @return string|bool eg, `"demo.matomo.org"` or false if no host found.
      */
     public static function getHost($checkIfTrusted = true)
     {
@@ -377,7 +377,7 @@ class Url
      * @param bool $checkTrustedHost Whether to do trusted host check. Should ALWAYS be true,
      *                               except in Controller.
      * @return string eg, `"example.org"` if the current URL is
-     *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
+     *                `"https://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
      * @api
      */
     public static function getCurrentHost($default = 'unknown', $checkTrustedHost = true)
@@ -403,7 +403,7 @@ class Url
      * Returns the query string of the current URL.
      *
      * @return string eg, `"?param1=value1&param2=value2"` if the current URL is
-     *                `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
+     *                `"https://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
      * @api
      */
     public static function getCurrentQueryString()
@@ -422,7 +422,7 @@ class Url
      * Returns an array mapping query parameter names with query parameter values for
      * the current URL.
      *
-     * @return array If current URL is `"http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
+     * @return array If current URL is `"https://example.org/dir1/dir2/index.php?param1=value1&param2=value2"`
      *               this will return:
      *
      *                   array(
@@ -633,7 +633,7 @@ class Url
     {
         $hosts = self::getHostsFromConfig('General', 'trusted_hosts');
 
-        // Case user wrote in the config, http://example.com/test instead of example.com
+        // Case user wrote in the config, https://example.com/test instead of example.com
         foreach ($hosts as &$host) {
             if (UrlHelper::isLookLikeUrl($host)) {
                 $host = parse_url($host, PHP_URL_HOST);
@@ -704,7 +704,7 @@ class Url
 
     /**
      * Checks whether any of the given URLs has the given host. If not, we will also check whether any URL uses a
-     * subdomain of the given host. For instance if host is "example.com" and a URL is "http://www.example.com" we
+     * subdomain of the given host. For instance if host is "example.com" and a URL is "https://www.example.com" we
      * consider this as valid and return true. The always trusted hosts such as "127.0.0.1" are considered valid as well.
      *
      * @param $host
