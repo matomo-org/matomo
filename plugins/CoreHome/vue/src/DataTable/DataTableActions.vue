@@ -178,6 +178,12 @@
           v-html="$sanitize(keepTotalsRowText)"
         ></div>
       </li>
+      <li v-if="showFilteredTotalsConfigItem">
+        <div
+          class="configItem dataTableFilteredTotalsRow"
+          v-html="$sanitize(showFilteredTotalsText)"
+        ></div>
+      </li>
       <li v-if="showExcludeLowPopulation">
         <div
           class="configItem dataTableExcludeLowPopulation"
@@ -405,6 +411,11 @@ export default defineComponent({
     showTotalsConfigItem() {
       return !this.isDataTableEmpty && this.showTotalsRow;
     },
+    showFilteredTotalsConfigItem() {
+      const params = this.clientSideParameters as Record<string, string|number|boolean>;
+      return this.showTotalsConfigItem && isBooleanLikeSet(params.keep_totals_row)
+        && (!!params.filter_pattern || !!params.filter_pattern_recursive);
+    },
     hasConfigItems() {
       return this.showFlattenTable
         || this.showDimensionsConfigItem
@@ -427,6 +438,14 @@ export default defineComponent({
         isBooleanLikeSet(params.keep_totals_row),
         'CoreHome_RemoveTotalsRowDataTable',
         'CoreHome_AddTotalsRowDataTable',
+      );
+    },
+    showFilteredTotalsText() {
+      const params = this.clientSideParameters as Record<string, string|number|boolean>;
+      return getToggledIconText(
+        isBooleanLikeSet(params.filtered_totals),
+        'CoreHome_UnfilteredTotalsRowDataTable',
+        'CoreHome_FilteredTotalsRowDataTable',
       );
     },
     includeAggregateRowsText() {

@@ -50,9 +50,13 @@ class DataTableGenericFilter
      *
      * @param DataTable $table
      */
-    public function filter($table)
+    public function filter($table, $filterToApplyAfterPatterns = null)
     {
-        $this->applyGenericFilters($table);
+        $this->applyGenericFilters($table, self::getPatternFiltersToApply());
+        if (is_callable($filterToApplyAfterPatterns)) {
+            $table = $filterToApplyAfterPatterns($table);
+        }
+        $this->applyGenericFilters($table, self::getOtherFiltersToApply());
     }
 
     /**
@@ -79,47 +83,71 @@ class DataTableGenericFilter
      */
     public static function getGenericFiltersInformation()
     {
-        return array(
-            array('Pattern',
-                  array(
-                      'filter_column'  => array('string', 'label'),
-                      'filter_pattern' => array('string')
-                  )),
-            array('PatternRecursive',
-                  array(
-                      'filter_column_recursive'  => array('string', 'label'),
-                      'filter_pattern_recursive' => array('string'),
-                  )),
-            array('ExcludeLowPopulation',
-                  array(
-                      'filter_excludelowpop'       => array('string'),
-                      'filter_excludelowpop_value' => array('float', '0'),
-                  )),
-            array('Sort',
-                  array(
-                      'filter_sort_column' => array('string'),
-                      'filter_sort_order'  => array('string', 'desc'),
-                      $naturalSort = true,
-                      $recursiveSort = true,
-                      'filter_sort_column_secondary' => true
-                  )),
-            array('Truncate',
-                  array(
-                      'filter_truncate' => array('integer'),
-                  )),
-            array('Limit',
-                  array(
-                      'filter_offset'    => array('integer', '0'),
-                      'filter_limit'     => array('integer'),
-                      'keep_summary_row' => array('integer', '0'),
-                  ))
+        return array_merge(
+            self::getPatternFiltersToApply(),
+            self::getOtherFiltersToApply()
         );
     }
 
-    private function getGenericFiltersHavingDefaultValues()
+    private static function getPatternFiltersToApply(): array
     {
-        $filters = self::getGenericFiltersInformation();
+        return [
+            [
+                'Pattern',
+                [
+                    'filter_column'  => ['string', 'label'],
+                    'filter_pattern' => ['string']
+                ]
+            ],
+            [
+                'PatternRecursive',
+                [
+                    'filter_column_recursive'  => ['string', 'label'],
+                    'filter_pattern_recursive' => ['string'],
+                ]
+            ],
+        ];
+    }
 
+    private static function getOtherFiltersToApply(): array
+    {
+        return [
+            [
+                'ExcludeLowPopulation',
+                [
+                    'filter_excludelowpop'       => ['string'],
+                    'filter_excludelowpop_value' => ['float', '0'],
+                ]
+            ],
+            [
+                'Sort',
+                [
+                    'filter_sort_column' => ['string'],
+                    'filter_sort_order'  => ['string', 'desc'],
+                    $naturalSort = true,
+                    $recursiveSort = true,
+                    'filter_sort_column_secondary' => true
+                ]
+            ],
+            [
+                'Truncate',
+                [
+                    'filter_truncate' => ['integer'],
+                ]
+            ],
+            [
+                'Limit',
+                [
+                    'filter_offset'    => ['integer', '0'],
+                    'filter_limit'     => ['integer'],
+                    'keep_summary_row' => ['integer', '0'],
+                ]
+            ]
+        ];
+    }
+
+    private function enrichFilterWithDefaultValues(array $filters): array
+    {
         if ($this->report && $this->report->getDefaultSortColumn()) {
             foreach ($filters as $index => $filter) {
                 if ($filter[0] === 'Sort') {
@@ -145,18 +173,18 @@ class DataTableGenericFilter
      * @param DataTable $datatable
      * @return bool
      */
-    protected function applyGenericFilters($datatable)
+    protected function applyGenericFilters($datatable, $genericFilters)
     {
         if ($datatable instanceof DataTable\Map) {
             $tables = $datatable->getDataTables();
             foreach ($tables as $table) {
-                $this->applyGenericFilters($table);
+                $this->applyGenericFilters($table, $genericFilters);
             }
             return;
         }
 
         $tableDisabledFilters = $datatable->getMetadata(DataTable::GENERIC_FILTERS_TO_DISABLE_METADATA_NAME) ?: [];
-        $genericFilters = $this->getGenericFiltersHavingDefaultValues();
+        $genericFilters = $this->enrichFilterWithDefaultValues($genericFilters);
 
         $filterApplied = false;
         foreach ($genericFilters as $filterMeta) {

@@ -1314,9 +1314,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         $('.dataTableFlatten', domElem)
             .click(generateClickCallback('flat'));
 
-        // handle flatten
+        // handle totals row
         $('.dataTableShowTotalsRow', domElem)
             .click(generateClickCallback('keep_totals_row'));
+        $('.dataTableFilteredTotalsRow', domElem)
+            .click(generateClickCallback('filtered_totals'));
 
         $('.dataTableIncludeAggregateRows', domElem)
             .click(generateClickCallback('include_aggregate_rows', function () {

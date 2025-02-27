@@ -400,6 +400,7 @@ class ProcessedReport
                                                        'serialize'  => '0',
                                                        'language'   => $language,
                                                        'idSubtable' => $idSubtable,
+                                                       'keep_totals_row' => 1,
                                                   ));
 
         if (!empty($segment)) {
@@ -537,13 +538,13 @@ class ProcessedReport
                 $newReport->addTable($enhancedSimpleDataTable, $period);
                 $rowsMetadata->addTable($rowMetadata, $period);
 
-                $totals = $this->aggregateReportTotalValues($simpleDataTable, $totals);
+                $totals = $this->aggregateReportTotalValues($simpleDataTable, $columns, $totals);
             }
         } else {
             $this->removeEmptyColumns($columns, $reportMetadata, $dataTable);
             list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics, $formatMetrics);
 
-            $totals = $this->aggregateReportTotalValues($dataTable, $totals);
+            $totals = $this->aggregateReportTotalValues($dataTable, $columns, $totals);
         }
 
         return array(
@@ -776,15 +777,27 @@ class ProcessedReport
         );
     }
 
-    private function aggregateReportTotalValues($simpleDataTable, $totals)
+    private function aggregateReportTotalValues($simpleDataTable, $metadataColumns, $totals)
     {
-        $metadataTotals = $simpleDataTable->getMetadata('totals');
+        $metadataTotals = $simpleDataTable->getMetadata('totalsUnformatted');
 
         if (empty($metadataTotals)) {
             return $totals;
         }
 
-        $simpleTotals = $this->hideShowMetrics($metadataTotals);
+        $simpleTotals = [];
+
+        // remove columns from totals row that are not in metadata
+        foreach ($metadataTotals as $metadataCol => $metadataValue) {
+            if (
+                isset($metadataColumns[$metadataCol])
+                || preg_match('/^goal_[0-9]+_/', $metadataCol)
+            ) {
+                $simpleTotals[$metadataCol] = $metadataValue;
+            }
+        }
+
+        $simpleTotals = $this->hideShowMetrics($simpleTotals);
 
         return $this->calculateTotals($simpleTotals, $totals);
     }

@@ -582,9 +582,7 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_uniq_visitors>61</nb_uniq_visitors>
-		<nb_visits>64</nb_visits>
-		<nb_events>69</nb_events>
+		<nb_events>63</nb_events>
 		<nb_events_with_value>14</nb_events_with_value>
 		<sum_event_value>137.96</sum_event_value>
 		<min_event_value>0</min_event_value>

@@ -19,6 +19,7 @@ use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
+use Piwik\Request;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
@@ -43,6 +44,11 @@ class DataTablePostProcessor
      * @var string[]
      */
     private $request;
+
+    /**
+     * @var Request
+     */
+    private $requestObj;
 
     /**
      * @var string
@@ -89,6 +95,7 @@ class DataTablePostProcessor
     public function setRequest($request)
     {
         $this->request = $request;
+        $this->requestObj = new Request($request);
     }
 
     public function setCallbackBeforeGenericFilters($callbackBeforeGenericFilters)
@@ -113,7 +120,6 @@ class DataTablePostProcessor
         //       this is non-trivial since it will require, eg, to make sure processed metrics aren't added
         //       after pivotBy is handled.
         $dataTable = $this->applyPivotByFilter($dataTable);
-        $dataTable = $this->applyTotalsCalculator($dataTable);
         $dataTable = $this->applyFlattener($dataTable);
 
         if ($this->callbackBeforeGenericFilters) {
@@ -192,7 +198,7 @@ class DataTablePostProcessor
      */
     public function applyFlattener($dataTable)
     {
-        if (Common::getRequestVar('flat', '0', 'string', $this->request) == '1') {
+        if ($this->requestObj->getBoolParameter('flat', false)) {
             // skip flattening if not supported by report and remove subtables only
             if ($this->report && !$this->report->supportsFlatten()) {
                 $dataTable->filter('RemoveSubtables');
@@ -200,7 +206,7 @@ class DataTablePostProcessor
             }
 
             $flattener = new Flattener($this->apiModule, $this->apiMethod, $this->request);
-            if (Common::getRequestVar('include_aggregate_rows', '0', 'string', $this->request) == '1') {
+            if ($this->requestObj->getBoolParameter('include_aggregate_rows', false)) {
                 $flattener->includeAggregateRows();
             }
 
@@ -220,7 +226,7 @@ class DataTablePostProcessor
      */
     public function applyTotalsCalculator($dataTable)
     {
-        if (1 == Common::getRequestVar('totals', '1', 'integer', $this->request)) {
+        if ($this->requestObj->getBoolParameter('totals', true)) {
             $calculator = new ReportTotalsCalculator($this->apiModule, $this->apiMethod, $this->request, $this->report);
             $dataTable  = $calculator->calculate($dataTable);
         }
@@ -233,26 +239,38 @@ class DataTablePostProcessor
      */
     public function applyGenericFilters($dataTable)
     {
-        // if the flag disable_generic_filters is defined we skip the generic filters
-        if (0 == Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
-            $this->applyProcessedMetricsGenericFilters($dataTable);
+        if ($this->requestObj->getBoolParameter('disable_generic_filters', false)) {
+            // always apply totals calculator
+            $dataTable = $this->applyTotalsCalculator($dataTable);
+            return $dataTable;
+        }
 
-            $genericFilter = new DataTableGenericFilter($this->request, $this->report);
+        $this->applyProcessedMetricsGenericFilters($dataTable);
 
-            $self = $this;
-            $report = $this->report;
-            $dataTable->filter(function (DataTable $table) use ($genericFilter, $report, $self) {
-                $processedMetrics = Report::getProcessedMetricsForTable($table, $report);
-                if ($genericFilter->areProcessedMetricsNeededFor($processedMetrics)) {
-                    $self->computeProcessedMetrics($table);
-                }
-            });
+        $genericFilter = new DataTableGenericFilter($this->request, $this->report);
 
-            $label = self::getLabelFromRequest($this->request);
-            if (!empty($label)) {
-                $genericFilter->disableFilters(array('Limit', 'Truncate'));
+        $self = $this;
+        $report = $this->report;
+        $dataTable->filter(function (DataTable $table) use ($genericFilter, $report, $self) {
+            $processedMetrics = Report::getProcessedMetricsForTable($table, $report);
+            if ($genericFilter->areProcessedMetricsNeededFor($processedMetrics)) {
+                $self->computeProcessedMetrics($table);
             }
+        });
 
+        $label = self::getLabelFromRequest($this->request);
+        if (!empty($label)) {
+            $genericFilter->disableFilters(array('Limit', 'Truncate'));
+        }
+
+        $calculateFilteredTotals = $this->requestObj->getBoolParameter('filtered_totals', false);
+
+        if ($calculateFilteredTotals) {
+            $genericFilter->filter($dataTable, function ($dataTable) use ($self) {
+                return $self->applyTotalsCalculator($dataTable);
+            });
+        } else {
+            $dataTable = $self->applyTotalsCalculator($dataTable);
             $genericFilter->filter($dataTable);
         }
 
@@ -341,7 +359,7 @@ class DataTablePostProcessor
     public function applyQueuedFilters($dataTable)
     {
         // if the flag disable_queued_filters is defined we skip the filters that were queued
-        if (Common::getRequestVar('disable_queued_filters', 0, 'int', $this->request) == 0) {
+        if (!$this->requestObj->getBoolParameter('disable_queued_filters', false)) {
             $dataTable->applyQueuedFilters();
         }
         return $dataTable;
@@ -358,13 +376,13 @@ class DataTablePostProcessor
         $hideColumns = Common::getRequestVar('hideColumns', '', 'string', $this->request);
         $showColumns = Common::getRequestVar('showColumns', '', 'string', $this->request);
         $hideColumnsRecursively = Common::getRequestVar('hideColumnsRecursively', intval($this->report && $this->report->getModule() == 'Live'), 'int', $this->request);
-        $showRawMetrics = Common::getRequestVar('showRawMetrics', 0, 'int', $this->request);
+        $showRawMetrics = $this->requestObj->getBoolParameter('showRawMetrics', false);
         if (
             !empty($hideColumns)
             || !empty($showColumns)
         ) {
             $dataTable->filter('ColumnDelete', array($hideColumns, $showColumns, $deleteIfZeroOnly = false, $hideColumnsRecursively));
-        } elseif ($showRawMetrics !== 1) {
+        } elseif (!$showRawMetrics) {
             $this->removeTemporaryMetrics($dataTable);
         }
 
@@ -401,7 +419,7 @@ class DataTablePostProcessor
 
         // apply label filter: only return rows matching the label parameter (more than one if more than one label)
         if (!empty($label)) {
-            $addLabelIndex = Common::getRequestVar('labelFilterAddLabelIndex', 0, 'int', $this->request) == 1;
+            $addLabelIndex = $this->requestObj->getBoolParameter('labelFilterAddLabelIndex', false);
 
             $labelColumn = 'label';
             if ($this->report) {
@@ -428,8 +446,8 @@ class DataTablePostProcessor
      */
     public function applyMetricsFormatting($dataTable, bool $forceFormatting = false)
     {
-        $formatMetrics = Common::getRequestVar('format_metrics', 0, 'string', $this->request);
-        if ($formatMetrics == '0' && $forceFormatting === false) {
+        $formatMetrics = $this->requestObj->getStringParameter('format_metrics', '0');
+        if ($formatMetrics === '0' && $forceFormatting === false) {
             return $dataTable;
         }
 
@@ -539,8 +557,7 @@ class DataTablePostProcessor
 
     public function applyComparison(DataTableInterface $dataTable)
     {
-        $compare = Common::getRequestVar('compare', '0', 'int', $this->request);
-        if ($compare != 1) {
+        if (!$this->requestObj->getBoolParameter('compare', false)) {
             return $dataTable;
         }
 

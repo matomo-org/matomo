@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 
@@ -107,6 +108,10 @@ class ReportTotalsCalculator extends DataTableManipulator
         /** @var DataTable\Row|null $totalRow */
         $totalRow = null;
         foreach ($firstLevelTable->getRows() as $row) {
+            if ($row->getMetadata('is_aggregate') == '1') {
+                continue; // skip aggregated row added by flattening
+            }
+
             if (!isset($totalRow)) {
                 $columns = $row->getColumns();
                 $columns['label'] = DataTable::LABEL_TOTALS_ROW;
@@ -124,6 +129,18 @@ class ReportTotalsCalculator extends DataTableManipulator
         ) {
             // hack for AllColumns table or default processed metrics
             $clone->filter('AddColumnsProcessedMetrics', array($deleteRowsWithNoVisit = false));
+        }
+
+        // remove processed metrics as they might haven been incorrectly summed up before
+        $clone->deleteMetadata(DataTablePostProcessor::PROCESSED_METRICS_COMPUTED_FLAG);
+        $processedMetrics = $clone->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+        if (!empty($processedMetrics) && is_array($processedMetrics)) {
+            foreach ($processedMetrics as $metric) {
+                if ($metric instanceof ProcessedMetric) {
+                    $metric = $metric->getName();
+                }
+                $clone->deleteColumn($metric);
+            }
         }
 
         $processor = new DataTablePostProcessor($this->apiModule, $this->apiMethod, $this->request);
@@ -164,7 +181,12 @@ class ReportTotalsCalculator extends DataTableManipulator
             }
 
             if (1 === Common::getRequestVar('keep_totals_row', 0, 'integer', $this->request)) {
-                $totalLabel = Common::getRequestVar('keep_totals_row_label', Piwik::translate('General_Totals'), 'string', $this->request);
+                $filteredTotals = 1 === Common::getRequestVar('filtered_totals', 0, 'integer', $this->request);
+                $patternFilter = Common::getRequestVar('filter_pattern', '', 'string', $this->request);
+                $recursivePatternFilter = Common::getRequestVar('filter_pattern_recursive', '', 'string', $this->request);
+                $useFilteredLabel = $filteredTotals && ("" !== $patternFilter || "" !== $recursivePatternFilter);
+                $defaultTotalsLabel = Piwik::translate($useFilteredLabel ? 'General_TotalsFiltered' : 'General_Totals');
+                $totalLabel = Common::getRequestVar('keep_totals_row_label', $defaultTotalsLabel, 'string', $this->request);
 
                 $totalRow->deleteMetadata(false);
                 $totalRow->setColumn('label', $totalLabel);

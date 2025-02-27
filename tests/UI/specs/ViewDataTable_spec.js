@@ -236,6 +236,17 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         expect(await page.screenshot({ fullPage: true })).to.matchImage('totals_row');
     });
 
+    it("should search the table when a search string is entered and the search button clicked", async function () {
+        await page.click('.dataTableAction.searchAction');
+        await page.focus('.searchAction .dataTableSearchInput');
+        await page.keyboard.type('term');
+        await page.click('.searchAction .icon-search');
+        await page.waitForNetworkIdle();
+        await page.evaluate(() => document.activeElement.blur());
+        await page.waitForTimeout(500);
+        expect(await page.screenshot({fullPage: true})).to.matchImage('totals_row_search');
+    });
+
     it("should display a related report when related report link is clicked", async function () {
         const newReportUrl = url.replace("=Referrers", "=DevicesDetection").replace("=getKeywords", "=getOsFamilies");
         await page.goto(newReportUrl);

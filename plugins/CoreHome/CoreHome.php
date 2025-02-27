@@ -398,6 +398,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_YouAreCurrentlyUsing';
         $translationKeys[] = 'General_Copy';
         $translationKeys[] = 'General_CopiedToClipboard';
+        $translationKeys[] = 'CoreHome_FilteredTotalsRowDataTable';
+        $translationKeys[] = 'CoreHome_UnfilteredTotalsRowDataTable';
 
         // add admin menu translations
         if (
