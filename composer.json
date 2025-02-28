@@ -99,5 +99,8 @@
         "psr-4": {
             "Piwik\\Tests\\": "tests/PHPUnit/"
         }
+    },
+    "scripts": {
+        "phpstan": "phpstan analyse -c phpstan.neon"
     }
 }

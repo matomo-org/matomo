@@ -32,4 +32,4 @@ jobs:
           php-version: '7.2'
       - name: PHPStan
         id: phpstan
-        run: ./vendor/bin/phpstan analyse -c phpstan.neon
+        run: composer run phpstan
