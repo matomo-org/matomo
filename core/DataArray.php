@@ -256,7 +256,7 @@ class DataArray
         if (!isset($this->data[$label])) {
             $this->data[$label] = static::makeEmptyEventRow();
         }
-        $this->doSumEventsMetrics($row, $this->data[$label], $onlyMetricsAvailableInActionsTable = true);
+        $this->doSumEventsMetrics($row, $this->data[$label]);
     }
 
     protected static function makeEmptyEventRow()

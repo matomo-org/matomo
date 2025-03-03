@@ -202,6 +202,7 @@ rm -f config/config.php
 
 rm -rf tmp/*
 rm -f HIRING.md
+rm -f bootstrap-phpstan.php
 
 # Delete unwanted git folders, recursively
 for x in .git .github ; do

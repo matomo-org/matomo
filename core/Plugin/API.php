@@ -47,6 +47,7 @@ abstract class API
 {
     private static $instances;
 
+    /** @var bool */
     protected $autoSanitizeInputParams = true;
 
     /**

@@ -20,8 +20,8 @@ abstract class Base extends \Piwik\Plugin\Report
 
         $allMetricsInfo = API::getApiMetrics($enhanced = true);
 
-        $metadataMetrics = array();
-        $processedMetricsMetadata = array();
+        $metadataMetrics = [];
+        $processedMetricsMetadata = [];
 
         foreach ($allMetricsInfo as $metricName => $metricSettings) {
             $metadataMetrics[$metricName] =

@@ -7,12 +7,13 @@
 
 <template>
   <div class="sitesTableContainer">
-    <table class="card-table dataTable sitesTable">
+    <table class="card-table dataTable sitesTable" v-tooltips>
       <thead>
         <tr>
           <th
               @click="sortBy('label')"
               class="label"
+              :title="translate('MultiSites_MetricDocumentationWebsite')"
           >
             {{ translate('General_Website') }}
             <span
@@ -21,7 +22,8 @@
             />
           </th>
 
-          <th @click="sortBy('nb_visits')">
+          <th @click="sortBy('nb_visits')"
+              :title="translate('MultiSites_MetricDocumentationVisits')">
             <span
                 v-if="sortColumn === 'nb_visits'"
                 :class="sortColumnClass"
@@ -29,7 +31,8 @@
             {{ translate('General_ColumnNbVisits') }}
           </th>
 
-          <th @click="sortBy('nb_pageviews')">
+          <th @click="sortBy('nb_pageviews')"
+              :title="translate('MultiSites_MetricDocumentationPageviews')">
             <span
                 v-if="sortColumn === 'nb_pageviews'"
                 :class="sortColumnClass"
@@ -37,7 +40,8 @@
             {{ translate('General_ColumnPageviews') }}
           </th>
 
-          <th @click="sortBy('hits')">
+          <th @click="sortBy('hits')"
+              :title="translate('MultiSites_MetricDocumentationHits')">
             <span
                 v-if="sortColumn === 'hits'"
                 :class="sortColumnClass"
@@ -47,6 +51,7 @@
 
           <th v-if="displayRevenue"
               @click="sortBy('revenue')"
+              :title="translate('MultiSites_MetricDocumentationRevenue')"
           >
             <span
                 v-if="sortColumn === 'revenue'"
@@ -55,7 +60,8 @@
             {{ translate('General_ColumnRevenue') }}
           </th>
 
-          <th @click="sortBy(evolutionSelector)">
+          <th @click="sortBy(evolutionSelector)"
+              :title="translate('MultiSites_MetricDocumentationEvolution')">
             <span
                 v-if="sortColumn === evolutionSelector"
                 :class="sortColumnClass"
@@ -141,7 +147,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Matomo, MatomoLoader } from 'CoreHome';
+import { Matomo, MatomoLoader, Tooltips } from 'CoreHome';
 
 import DashboardStore from './AllWebsitesDashboard.store';
 import SitesTableSite from './SitesTableSite.vue';
@@ -152,6 +158,9 @@ interface SitesTableState {
 }
 
 export default defineComponent({
+  directives: {
+    Tooltips,
+  },
   components: {
     MatomoLoader,
     SitesTableSite,

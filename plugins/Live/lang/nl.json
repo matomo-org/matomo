@@ -2,7 +2,7 @@
     "Live": {
         "ActionsAndDuration": "%1$s acties in %2$s",
         "AveragePageGenerationTime": "Elke pagina duurde gemiddeld %1$s om te laden voor deze bezoeker.",
-        "CalculatedOverNPageViews": "Berekend met de laatste %1$s paginaweergaves van deze bezoeker.",
+        "CalculatedOverNPageViews": "Berekend met de laatste %1$s paginaweergaven van deze bezoeker.",
         "ClickToSeeAllContents": "Klik om elke interactie/impressie van inhoud te zien",
         "ClickToViewAllActions": "Klik voor alle activiteit van deze groep in detail",
         "ClickToViewMoreAboutVisit": "Klik voor meer informatie over dit bezoek",

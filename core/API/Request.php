@@ -71,7 +71,7 @@ use Piwik\Log\LoggerInterface;
  *     ));
  *     echo "This DataTable has " . $dataTable->getRowsCount() . " rows.";
  *
- * @see http://piwik.org/docs/analytics-api
+ * @see https://piwik.org/docs/analytics-api
  * @api
  */
 class Request

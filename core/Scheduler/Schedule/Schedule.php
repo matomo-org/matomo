@@ -29,14 +29,14 @@ abstract class Schedule
     public const PERIOD_RANGE = 'range';
 
     /**
-     * @link http://php.net/manual/en/function.date.php, format string : 'G'
+     * @link https://php.net/manual/en/function.date.php, format string : 'G'
      * Defaults to midnight
      * @var integer
      */
     protected $hour = 0;
 
     /**
-     * For weekly scheduling : http://php.net/manual/en/function.date.php, format string : 'N', defaults to Monday
+     * For weekly scheduling : https://php.net/manual/en/function.date.php, format string : 'N', defaults to Monday
      * For monthly scheduling : day of the month (1 to 31) (note: will be capped at the latest day available the
      * month), defaults to first day of the month
      * @var integer

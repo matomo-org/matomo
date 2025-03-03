@@ -164,12 +164,12 @@ class UrlHelper
     }
 
     /**
-     * Returns a URL created from the result of the [parse_url](http://php.net/manual/en/function.parse-url.php)
+     * Returns a URL created from the result of the [parse_url](https://php.net/manual/en/function.parse-url.php)
      * function.
      *
-     * Copied from the PHP comments at [http://php.net/parse_url](http://php.net/parse_url).
+     * Copied from the PHP comments at [https://php.net/parse_url](https://php.net/parse_url).
      *
-     * @param array $parsed Result of [parse_url](http://php.net/manual/en/function.parse-url.php).
+     * @param array $parsed Result of [parse_url](https://php.net/manual/en/function.parse-url.php).
      * @return false|string The URL or `false` if `$parsed` isn't an array.
      * @api
      */
@@ -299,7 +299,7 @@ class UrlHelper
      * @param string    $url                    The URL.
      * @param array     $additionalParamsToAdd  If not empty the given parameters will be added to the query.
      * @param bool      $preserveAnchor         If true then do not remove any #anchor from the url, default false
-     * @return string eg, `/test/index.php?module=CoreHome` if `$url` is `http://piwik.org/test/index.php?module=CoreHome`.
+     * @return string eg, `/test/index.php?module=CoreHome` if `$url` is `https://piwik.org/test/index.php?module=CoreHome`.
      * @api
      */
     public static function getPathAndQueryFromUrl($url, array $additionalParamsToAdd = [], bool $preserveAnchor = false)
@@ -336,7 +336,7 @@ class UrlHelper
     /**
      * Returns the query part from any valid url and adds additional parameters to the query part if needed.
      *
-     * @param string $url    Any url eg `"http://example.com/piwik/?foo=bar"`
+     * @param string $url    Any url eg `"https://example.com/piwik/?foo=bar"`
      * @param array $additionalParamsToAdd    If not empty the given parameters will be added to the query.
      *
      * @return string eg. `"foo=bar&foo2=bar2"`

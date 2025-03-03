@@ -843,6 +843,7 @@ class Report
     public function getDimensions()
     {
         $dimensions = [];
+        $tableDimensionId = null;
 
         if (!empty($this->getDimension())) {
             $tableDimensionId = $this->getDimension()->getId();

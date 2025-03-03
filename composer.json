@@ -75,6 +75,7 @@
     "require-dev": {
         "matomo-org/matomo-coding-standards": "dev-master",
         "phpstan/phpdoc-parser": "~1.24.0",
+        "phpstan/phpstan": "~1.12",
         "phpunit/phpunit": "~8.5",
         "symfony/var-dumper": "~5.4.0",
         "symfony/yaml": "~5.4.0"
@@ -98,5 +99,8 @@
         "psr-4": {
             "Piwik\\Tests\\": "tests/PHPUnit/"
         }
+    },
+    "scripts": {
+        "phpstan": "phpstan analyse -c phpstan.neon"
     }
 }

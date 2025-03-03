@@ -53,6 +53,8 @@
         "UnprocessedSegmentNoData1": "Deze rapporten hebben geen data omdat het opgevraagde segment %1$s nog niet is verwerkt door het systeem.",
         "UnprocessedSegmentNoData2": "Gegevens voor dit segment zouden binnen enkele uren beschikbaar moeten zijn, zodra de verwerking voltooid is. (Als dit niet het geval is, kan er mogelijk een probleem zijn.)",
         "UnprocessedSegmentNoData3": "Matomo kan geen gegevens weergeven voor het segment %1$s, omdat de configuratie het herarchiveren voor deze periode verhindert. Contacteer uw beheerder of lees %2$sdeze FAQ%3$s om het probleem op te lossen.",
+        "UpdatingAllSitesSegmentPermittedToSuperUser": "Dit segment is door de supergebruiker bereikbaar gemaakt voor alle websites. Enkel supergebruikers kunnen deze nu updaten of verwijderen.",
+        "UpdatingForeignSegmentPermittedToSuperUser": "Je kan enkel aangepaste segmenten bewerken en verwijderen die je zelf hebt gemaakt. Dit segment was gemaakt en 'met u gedeeld' door de supergebruiker. Om dit segment te wijzigen, kan je eerst een nieuwe maken door te klikken op 'Nieuw segment toevoegen'. Daarna kan je de segmentdefinitie aanpassen.",
         "VisibleToAllUsers": "alle gebruikers",
         "VisibleToMe": "mij",
         "VisibleToSuperUser": "Zichtbaar voor jou omdat je Super User rechten hebt",

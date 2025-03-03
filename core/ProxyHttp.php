@@ -245,7 +245,7 @@ class ProxyHttp
      *    Cache-Control: no-store,max-age=0,must-revalidate
      *    Pragma: no-cache
      *
-     * @see http://support.microsoft.com/kb/316431/
+     * @see https://support.microsoft.com/kb/316431/
      * @see RFC2616
      *
      * @param string $override One of "public", "private", "no-cache", or "no-store". (optional)

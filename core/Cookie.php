@@ -125,7 +125,7 @@ class Cookie
      * setcookie() replacement -- we don't use the built-in function because
      * it is buggy for some PHP versions.
      *
-     * @link http://php.net/setcookie
+     * @link https://php.net/setcookie
      *
      * @param string $Name Name of cookie
      * @param string $Value Value of cookie

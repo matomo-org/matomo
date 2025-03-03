@@ -11,6 +11,7 @@
         "None": "Ei mitään",
         "PluginDescription": "Tarjoaa \"Visitor Map\"- ja \"Real-time Map\" -vimpaimet. Vaatii \"UserCountry\"-liitännäisen.",
         "RealTimeMap": "Reaaliaikainen kartta",
+        "RealTimeMapHelp": "Näyttää verkkosivuston vierailijoiden sijainnin viimeisen 30 minuutin aikana ja vilkkuu uusien vierailijoiden kohdalla. Viimeaikaiset käynnit näkyvät suurina oransseina kuplina ja vanhemmat pienempinä harmaina kuplina. Se virkistyy viiden sekunnin välein.",
         "Regions": "Alueet",
         "Searches": "%s hakua",
         "SecondsAgo": "%s sekuntia sitten",

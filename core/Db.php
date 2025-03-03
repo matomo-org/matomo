@@ -239,7 +239,7 @@ class Db implements TransactionalDatabaseInterface
      * Executes an unprepared SQL query. Recommended for DDL statements like `CREATE`,
      * `DROP` and `ALTER`. The return value is DBMS-specific. For MySQLI, it returns the
      * number of rows affected. For PDO, it returns a
-     * [Zend_Db_Statement](http://framework.zend.com/manual/1.12/en/zend.db.statement.html) object.
+     * [Zend_Db_Statement](https://framework.zend.com/manual/1.12/en/zend.db.statement.html) object.
      *
      * @param string $sql The SQL query.
      * @throws \Exception If there is an error in the SQL.
@@ -267,7 +267,7 @@ class Db implements TransactionalDatabaseInterface
     }
 
     /**
-     * Executes an SQL query and returns the [Zend_Db_Statement](http://framework.zend.com/manual/1.12/en/zend.db.statement.html)
+     * Executes an SQL query and returns the [Zend_Db_Statement](https://framework.zend.com/manual/1.12/en/zend.db.statement.html)
      * for the query.
      *
      * This method is meant for non-query SQL statements like `INSERT` and `UPDATE. If you want to fetch

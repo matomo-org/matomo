@@ -175,7 +175,7 @@ class SettingsPiwik
     }
 
     /**
-     * Returns the URL to this Piwik instance, eg. **http://demo.piwik.org/** or **http://example.org/piwik/**.
+     * Returns the URL to this Piwik instance, eg. **https://demo.piwik.org/** or **https://example.org/piwik/**.
      *
      * @return string|false return false if no value is configured and we are in PHP CLI mode
      * @api
@@ -416,7 +416,7 @@ class SettingsPiwik
 
     /**
      * Returns true if Piwik is deployed using git
-     * FAQ: http://piwik.org/faq/how-to-install/faq_18271/
+     * FAQ: https://piwik.org/faq/how-to-install/faq_18271/
      *
      * @return bool
      */

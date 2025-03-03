@@ -95,6 +95,11 @@ class CliMulti
      */
     private $logger;
 
+    /**
+     * @var int|null
+     */
+    private $signal = null;
+
     public function __construct(?LoggerInterface $logger = null)
     {
         $this->supportsAsync = $this->supportsAsync();
@@ -103,13 +108,33 @@ class CliMulti
         $this->logger = $logger ?: new NullLogger();
     }
 
+    public function handleSignal(int $signal): void
+    {
+        $this->signal = $signal;
+
+        if (\SIGTERM !== $signal) {
+            return;
+        }
+
+        foreach ($this->processes as $process) {
+            if ($process instanceof ProcessSymfony) {
+                $this->logger->debug(
+                    'Aborting command: {command} [method = asyncCliSymfony]',
+                    ['command' => $process->getCommandLine()]
+                );
+
+                $process->stop(0);
+            }
+        }
+    }
+
     /**
      * It will request all given URLs in parallel (async) using the CLI and wait until all requests are finished.
      * If multi cli is not supported (eg windows) it will initiate an HTTP request instead (not async).
      *
      * @param string[]  $piwikUrls   An array of urls, for instance:
      *
-     *                               `array('http://www.example.com/piwik?module=API...')`
+     *                               `array('https://www.example.com/matomo?module=API...')`
      *
      *                               **Make sure query parameter values are properly encoded in the URLs.**
      *
@@ -124,13 +149,21 @@ class CliMulti
             }
         }
 
-        $chunks = array($piwikUrls);
+        $chunks = [$piwikUrls];
+
         if ($this->concurrentProcessesLimit) {
             $chunks = array_chunk($piwikUrls, $this->concurrentProcessesLimit);
         }
 
-        $results = array();
+        $results = [];
+
         foreach ($chunks as $urlsChunk) {
+            if (null !== $this->signal) {
+                $this->logSkippedRequests($urlsChunk);
+
+                continue;
+            }
+
             $results = array_merge($results, $this->requestUrls($urlsChunk));
         }
 
@@ -614,6 +647,16 @@ class CliMulti
         self::cleanupNotRemovedFiles();
 
         return $results;
+    }
+
+    private function logSkippedRequests(array $urls): void
+    {
+        foreach ($urls as $url) {
+            $this->logger->debug(
+                'Skipped climulti:request after abort signal received: {url}',
+                ['url' => $url]
+            );
+        }
     }
 
     private static function getSuperUserTokenAuth()

@@ -185,6 +185,8 @@ class SegmentEditorTest extends IntegrationTestCase
 
     public function testDeleteSegment()
     {
+        $this->expectNotToPerformAssertions();
+
         Rules::setBrowserTriggerArchiving(false);
 
         $idSegment1 = API::getInstance()->add('name 1', 'searches==0', $idSite = 1, $autoArchive = 1, $enabledAllUsers = 1);

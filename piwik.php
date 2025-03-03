@@ -15,7 +15,7 @@ use Piwik\API\CORSHandler;
 @ignore_user_abort(true);
 
 // Note: if you wish to debug the Tracking API please see this documentation:
-// http://developer.piwik.org/api-reference/tracking-api#debugging-the-tracker
+// https://developer.matomo.org/api-reference/tracking-api#debugging-the-tracker
 
 if (!defined('PIWIK_DOCUMENT_ROOT')) {
     define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));

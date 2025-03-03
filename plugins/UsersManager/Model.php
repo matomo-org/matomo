@@ -33,7 +33,7 @@ use Piwik\Validators\NotEmpty;
  * Existing Permissions are listed given a login via "getSitesAccessFromUser", or a website ID via "getUsersAccessFromSite",
  * or you can list all users and websites for a given permission via "getUsersSitesFromAccess". Permissions are set and updated
  * via the method "setUserAccess".
- * See also the documentation about <a href='http://piwik.org/docs/manage-users/' rel='noreferrer' target='_blank'>Managing Users</a> in Piwik.
+ * See also the documentation about <a href='https://matomo.org/docs/manage-users/' rel='noreferrer' target='_blank'>Managing Users</a> in Piwik.
  */
 class Model
 {
@@ -328,8 +328,8 @@ class Model
      * @param       $tokenAuth
      * @param       $description
      * @param       $dateCreated
-     * @param null  $dateExpired
-     * @param false $isSystemToken
+     * @param null|string  $dateExpired
+     * @param bool  $isSystemToken
      * @param bool  $secureOnly     True if this token can only be used in a secure way (e.g. POST requests), default false
      *
      * @return int                  Primary key of the new token auth

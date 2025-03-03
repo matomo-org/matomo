@@ -58,7 +58,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Gets general database info that is not specific to any table.
      *
-     * @return array See http://dev.mysql.com/doc/refman/5.1/en/show-status.html .
+     * @return array See https://dev.mysql.com/doc/refman/5.1/en/show-status.html .
      */
     public function getDBStatus()
     {

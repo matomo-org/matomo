@@ -100,6 +100,7 @@
               v-model="authCode"
               :maxlength="6"
               :placeholder="'123456'"
+              autocomplete="one-time-code"
               :inline-help="translate('TwoFactorAuth_VerifyAuthCodeHelp')"
             >
             </Field>

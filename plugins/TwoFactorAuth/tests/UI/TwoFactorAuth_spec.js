@@ -119,7 +119,7 @@ describe("TwoFactorAuth", function () {
     });
 
     it('when logging in and providing wrong code an error is shown', async function () {
-        await page.type('.loginTwoFaForm #login_form_authcode', '555555');
+        await page.type('.loginTwoFaForm #form_authcode', '555555');
         await page.evaluate(function(){
             document.querySelector('.loginTwoFaForm #login_form_submit').click();
         });
@@ -132,7 +132,7 @@ describe("TwoFactorAuth", function () {
         testEnvironment.overrideConfig('General', 'login_allow_logme', '1')
         testEnvironment.save();
 
-        await page.type('.loginTwoFaForm #login_form_authcode', '123456');
+        await page.type('.loginTwoFaForm #form_authcode', '123456');
         await page.click('.loginTwoFaForm #login_form_submit');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.widget', { timeout: 60000 });

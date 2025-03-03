@@ -281,6 +281,7 @@ class CustomLogo
                 return false;
         }
 
+        // @phpstan-ignore class.notFound
         if (!is_resource($image) && !($image instanceof \GdImage)) {
             return false;
         }
