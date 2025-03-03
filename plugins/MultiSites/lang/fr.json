@@ -1,6 +1,8 @@
 {
     "MultiSites": {
         "AllWebsitesDashboardDocumentation": "Ce rapport vous donne un aperçu informatif de chacun de vos sites Web, contenant les métriques les plus générales sur vos visiteurs.",
+        "AllWebsitesDashboardErrorMessage": "Les données sont actuellement indisponibles. Cela pourrait être dû à un problème temporaire du serveur ou à un rapport contenant trop de données. Veuillez réessayer plus tard. Si le problème persiste, contactez votre administrateur Matomo pour obtenir de l’aide.",
+        "AllWebsitesDashboardTitle": "Tous les sites web",
         "Evolution": "Évolution",
         "EvolutionComparisonDay": "%1$s %2$s ce jour par rapport à %3$s %2$s au cours du délai partiel précédent (%4$s) Évolution : %5$s",
         "EvolutionComparisonIncomplete": "La période actuellement sélectionnée est terminée depuis %1$s.",
@@ -8,9 +10,23 @@
         "EvolutionComparisonProportional": "Lorsque la période précédente était également %1$s terminée, il y aurait eu environ %2$s %3$s\n(sur un total de %4$s %3$s au cours de la période précédente).",
         "EvolutionComparisonWeek": "%1$s %2$s cette semaine par rapport à %3$s %2$s au cours du trimestre partiel précédent (%4$s) Evolution : %5$s",
         "EvolutionComparisonYear": "%1$s %2$s cette année par rapport à %3$s %2$s au cours de la période partielle précédente (%4$s) Evolution : %5$s",
+        "EvolutionFromPreviousDay": "Du jour précédent",
+        "EvolutionFromPreviousMonth": "Du mois précédent",
+        "EvolutionFromPreviousPeriod": "De la période précédente",
+        "EvolutionFromPreviousWeek": "De la semaine précédente",
+        "EvolutionFromPreviousYear": "De l'année précédente",
         "LoadingWebsites": "Chargement des sites",
+        "MetricDocumentationEvolution": "Le pourcentage de variation pour cette métrique par rapport à la période précédente pour ce site. Une valeur positive indique une croissance, tandis qu'une valeur négative signale une diminution.",
+        "MetricDocumentationHits": "Le nombre total d'actions enregistrées pour ce site, y compris les vues de pages, les téléchargements et les liens sortants.",
+        "MetricDocumentationPageviews": "Le nombre total de pages vues sur ce site. Cela inclut les vues multiples de la même page par un visiteur unique.",
+        "MetricDocumentationRevenue": "Le revenu total suivi pour ce site. Cette métrique est disponible si le suivi eCommerce est activé et reflète les achats ou les revenus basés sur des objectifs.",
+        "MetricDocumentationVisits": "Le nombre total de visites enregistrées pour ce site. Une visite commence lorsqu’un utilisateur accède au site et se termine après une période d'inactivité ou lorsque la session expire.",
+        "MetricDocumentationWebsite": "La liste des sites web suivis affichée dans le tableau de bord. Chaque ligne représente un site distinct avec ses données analytiques correspondantes.",
         "PluginDescription": "Affichez et comparez tous vos sites Web et applications dans ce tableau de bord \"Tous les sites Web\" utile.",
         "SingleWebsitesDashboardDocumentation": "Ce rapport vous donne un aperçu informatif d'un site Web spécifique, contenant les métriques les plus générales sur vos visiteurs.",
-        "TopLinkTooltip": "Comparez les statistiques pour tous vos sites web."
+        "TopLinkTooltip": "Comparez les statistiques pour tous vos sites web.",
+        "TotalHits": "Total des hits",
+        "TotalPageviews": "Total des vues de pages",
+        "TotalVisits": "Total des visites"
     }
 }

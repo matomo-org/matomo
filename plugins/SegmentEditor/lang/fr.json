@@ -53,6 +53,8 @@
         "UnprocessedSegmentNoData1": "Ces rapports ne contiennent aucune donnée car le segment %1$s que vous avez demandé n'a pas encore été analysé par le système.",
         "UnprocessedSegmentNoData2": "Les données de ce segment devraient devenir disponible dans quelques heures quand l'analyse se terminera. (ce ne n'est pas le cas il est possible qu'il y ait un problème).",
         "UnprocessedSegmentNoData3": "Matomo ne peut pas afficher les données pour le segment %1$s, car la configuration empêche le réarchivage pour cette période. Veuillez contacter votre administrateur/administratrice ou consulter cette %2$sFAQ%3$s pour savoir comment résoudre ce problème.",
+        "UpdatingAllSitesSegmentPermittedToSuperUser": "Ce segment a été rendu accessible à tous les sites par le super utilisateur. Désormais, seuls les super utilisateurs peuvent le mettre à jour ou le supprimer.",
+        "UpdatingForeignSegmentPermittedToSuperUser": "Vous ne pouvez éditer et supprimer que les segments personnalisés que vous avez créés vous-même. Ce segment a été créé et 'partagé avec vous' par l'utilisateur super. Pour modifier ce segment, vous pouvez d'abord en créer un nouveau en cliquant sur 'Ajouter un nouveau segment'. Ensuite, vous pourrez personnaliser la définition du segment.",
         "VisibleToAllUsers": "tous les utilisateurs",
         "VisibleToMe": "moi",
         "VisibleToSuperUser": "Vous est visible car vous avez un accès Super Utilisateur",

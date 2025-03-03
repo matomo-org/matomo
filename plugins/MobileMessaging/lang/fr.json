@@ -1,11 +1,14 @@
 {
     "MobileMessaging": {
         "Available_Credits": "Crédit disponible : %1$s",
+        "ConfirmRemovePhoneNumber": "Êtes-vous sûr de vouloir supprimer le numéro de téléphone %1$s?",
         "Exception_UnknownProvider": "Le fournisseur avec le nom '%1$s' est inconnu. Essayez un de ceux-ci à la place : %2$s.",
+        "IncorrectNumberFormat": "Le numéro de téléphone %1$s ne correspond pas au format attendu.",
         "MobileReport_AdditionalPhoneNumbers": "Vous pouvez ajouter plus de numéro de téléphone en accédant à",
         "MobileReport_MobileMessagingSettingsLink": "la page des paramètres mobiles",
         "MobileReport_NoPhoneNumbers": "Veuillez activer au moins un des numéros de téléphone en accédant à",
         "MultiSites_Must_Be_Activated": "Pour générer des textes SMS de vos statistiques web, veuillez activer le module multisites dans Matomo.",
+        "NumberAlreadyAdded": "Le numéro de téléphone %1$s a déjà été ajouté.",
         "PhoneNumbers": "Numéros de téléphone",
         "PluginDescription": "Créez et téléchargez des rapports par SMS personnalisés et recevez les sur votre mobile sur une base quotidienne, hebdomadaire ou mensuelle.",
         "SMS_Content_Too_Long": "[trop long]",
@@ -25,6 +28,7 @@
         "Settings_LetUsersManageAPICredential_No_Help": "Tous le utilisateurs sont capables de recevoir des rapports SMS et utiliseront le crédit de leur compte.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "Chaque utilisateur sera capable de configurer son propre compte d'API SMS et n'utilisera pas votre crédit.",
         "Settings_ManagePhoneNumbers": "Gérer les numéros de téléphone",
+        "Settings_NewVerificationCodeSent": "Un nouveau code de vérification a été envoyé.",
         "Settings_PhoneActivated": "Numéro de téléphone validé ! Vous pouvez maintenant recevoir vos statistiques.",
         "Settings_PhoneNumber": "Numéro de téléphone",
         "Settings_PhoneNumbers_Add": "Ajouter un nouveau numéro de téléphone",
@@ -32,6 +36,7 @@
         "Settings_PhoneNumbers_Help": "Avant de recevoir des rapports par SMS sur un téléphone, le numéro de téléphone doit être entré ci-dessous.",
         "Settings_PhoneNumbers_HelpAdd": "Quand vous cliquez sur \"Ajouter\", un SMS contenant un code sera envoyé au téléphone. L'utilisateur qui recevra le code devra ensuite se connecter à Matomo, Cliquer sur Paramètres, puis sur Messagerie Mobile. Après avoir entré le code, l'utilisateur sera capable de recevoir des rapports textes sur son téléphone.",
         "Settings_PleaseSignUp": "Pour créer un rapport SMS et en recevoir avec les statistiques de vos sites web sur votre téléphone mobile, veuillez vous enregistrer auprès d'une API SMS et entrer vos informations ci-dessous.",
+        "Settings_ResendVerification": "Renvoyer le code de vérification",
         "Settings_SMSAPIAccount": "Paramètres de compte d'API SMS",
         "Settings_SMSProvider": "Fournisseur SMS",
         "Settings_SelectCountry": "Sélectionnez un pays",
@@ -40,9 +45,11 @@
         "Settings_UpdateOrDeleteAccount": "Vous pouvez aussi %1$smettre à jour%2$s ou %3$ssupprimer%4$s ce compte.",
         "Settings_ValidatePhoneNumber": "Valider",
         "Settings_VerificationCodeJustSent": "Nous venons juste de vous envoyer un SMS à ce numéro avec un code : veuillez entrer ce code ci-dessus et cliquer sur \"Valider\".",
+        "TooManyUnverifiedNumbersError": "Vous ne pouvez pas ajouter plus de 3 numéros de téléphone non vérifiés !",
         "TopLinkTooltip": "Recevez vos rapports d'analyse web dans votre boite de courriels ou sur votre téléphone mobile.",
         "TopMenu": "Rapports Email & SMS",
         "UserKey": "Clé utilisateur",
+        "VerificationCodeRecentlySentError": "Un code de vérification pour le numéro de téléphone %1$s a déjà été demandé récemment.",
         "VerificationText": "Le code est %1$s. Pour valider votre numéro de téléphone et recevoir les rapports SMS de Matomo veuillez copier ce code dans le formulaire accessible via Matomo → %2$s → %3$s."
     }
 }
