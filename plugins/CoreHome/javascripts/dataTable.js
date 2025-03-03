@@ -967,7 +967,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         });
 
-        const $dataTable = $searchInput.parents('.dataTable').first();
+        var $dataTable = $searchInput.parents('.dataTable').first();
         if (currentPattern) {
             $dataTable.addClass('hasSearchKeyword');
             $searchInput.val(currentPattern);
@@ -1273,10 +1273,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             && (typeof self.param.flat == 'undefined' || self.param.flat != 1)
         ) {
             // if there are no subtables, remove the flatten action from all data table actions
-            const dataTableActionsVueApps = $('[vue-entry="CoreHome.DataTableActions"]', domElem);
+            var dataTableActionsVueApps = $('[vue-entry="CoreHome.DataTableActions"]', domElem);
             if (dataTableActionsVueApps.length) {
               dataTableActionsVueApps.each(function() {
-                const appData = $(this).data('vueAppInstance');
+                var appData = $(this).data('vueAppInstance');
                 if (appData) {
                   appData.showFlattenTable_ = false;
                 }
