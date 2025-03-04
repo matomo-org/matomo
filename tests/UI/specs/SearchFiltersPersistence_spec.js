@@ -14,6 +14,7 @@ describe("SearchFilterPersistenceTest", function () {
 
     it("should load correctly", async function () {
         await page.goto(baseUrl + url1);
+
         expect(await page.screenshot({ fullPage: true })).to.matchImage('load_ok');
     });
 

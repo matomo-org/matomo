@@ -165,11 +165,11 @@
                 $('.widgetContent', currentWidget).addClass('loading');
             }
 
-          var params = $.extend(
-            this.widgetParameters,
-            overrideParams || {},
-            window.CoreHome.SearchFiltersPersistenceStore.getSearchFilters(this.uniqueId)
-          );
+            var params = $.extend(
+              this.widgetParameters,
+              overrideParams || {},
+              window.CoreHome.SearchFiltersPersistenceStore.getSearchFilters(this.uniqueId)
+            );
 
             widgetsHelper.loadWidgetAjax(this.uniqueId, params, onWidgetLoadedReplaceElementWithContent, function (deferred, status) {
                 if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
