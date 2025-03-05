@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<label>en</label>
-		<nb_visits>5</nb_visits>
+		<nb_visits>4</nb_visits>
 		<nb_hits>5</nb_hits>
 		<sum_time_network>0</sum_time_network>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
@@ -35,11 +35,11 @@
 		<sum_time_spent>360</sum_time_spent>
 		<bounce_count>3</bounce_count>
 		<exit_nb_visits>4</exit_nb_visits>
-		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		
 		<avg_time_on_dimension>72</avg_time_on_dimension>
-		<bounce_rate>60%</bounce_rate>
-		<exit_rate>80%</exit_rate>
+		<bounce_rate>75%</bounce_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>dimension3==en</segment>
 	</row>
 	<row>

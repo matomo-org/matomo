@@ -2,8 +2,8 @@
 <result>
 	<row>
 		<label>en</label>
-		<nb_visits>2</nb_visits>
-		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
 		<sum_time_network>0</sum_time_network>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
@@ -39,7 +39,7 @@
 		
 		<avg_time_on_dimension>180</avg_time_on_dimension>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>50%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>dimension3==en</segment>
 		<subtable>
 			<row>
