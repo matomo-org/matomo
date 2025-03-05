@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\CustomDimensions\tests\System;
 
+use Piwik\Cache;
+use Piwik\Config;
 use Piwik\Context;
 use Piwik\Plugins\CustomDimensions\tests\Fixtures\TrackVisitsWithCustomDimensionsFixture;
 use Piwik\ReportRenderer;
@@ -284,6 +286,65 @@ class ApiTest extends SystemTestCase
                 ],
             ]);
         });
+    }
+
+    /**
+     * @dataProvider getRankingLimitTestData
+     * @dataProvider getRankingLimitTestDataExpanded
+     */
+    public function testRankingLimit(
+        int $rowsRankingQuery,
+        int $rowsTableTopLevel,
+        int $rowsTableSubTable,
+        string $testSuffix,
+        array $additionalRequestParameters = []
+    ): void {
+        self::deleteArchiveTables();
+        $generalConfig                                                                =& Config::getInstance()->General;
+        $generalConfig['archiving_ranking_query_row_limit']                           = $rowsRankingQuery;
+        $generalConfig['datatable_archiving_maximum_rows_custom_dimensions']          = $rowsTableTopLevel;
+        $generalConfig['datatable_archiving_maximum_rows_subtable_custom_dimensions'] = $rowsTableSubTable;
+
+        // flush caches to ensure the RecordBuilder picks up the changed configuration
+        Cache::flushAll();
+
+        $this->runApiTests(['CustomDimensions.getCustomDimension'], [
+            'idSite'                 => 3,
+            'date'                   => self::$fixture->dateTime,
+            'periods'                => ['day'],
+            'otherRequestParameters' => array_merge(['idDimension' => 1], $additionalRequestParameters),
+            'testSuffix'             => 'ranking_limit_' . $testSuffix,
+        ]);
+    }
+
+    public function getRankingLimitTestData(): iterable
+    {
+        yield [50000, 500, 500, 'unlimited'];
+
+        yield [50000, 500, 3, 'by_datatable_subtable'];
+        yield [50000, 3, 500, 'by_datatable_toplevel'];
+        yield [50000, 3, 3, 'by_datatable_subtable_and_toplevel'];
+        yield [50000, 1, 1, 'by_datatable_minimum'];
+
+        // set zero for custom dimension rows to prevent
+        // "10 * datatable_archiving_maximum_rows_custom_dimensions"
+        // being used as the actual limit in the ranking query
+        yield [3, 0, 0, 'by_archiving_query'];
+    }
+
+    public function getRankingLimitTestDataExpanded(): iterable
+    {
+        foreach ($this->getRankingLimitTestData() as $testData) {
+            [$rowsRankingQuery, $rowsTableTopLevel, $rowsTableSubTable, $testSuffix] = $testData;
+
+            yield [
+                $rowsRankingQuery,
+                $rowsTableTopLevel,
+                $rowsTableSubTable,
+                $testSuffix . '_expanded',
+                ['expanded' => 1]
+            ];
+        }
     }
 
     public static function getOutputPrefix()
