@@ -68,7 +68,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
             '/libs'         => $denyAll . $allowStaticAssets,
             '/vendor'       => $denyAll . $allowStaticAssets,
             '/plugins'      => $denyAll . $allowStaticAssets . $allowManifestFile,
-            '/misc/user'    => $denyAll . $allowStaticAssets,
+            '/misc'         => $denyAll . $allowStaticAssets,
             '/node_modules' => $denyAll . $allowStaticAssets,
         );
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
@@ -172,20 +172,26 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
 </configuration>'
         );
 
-        // deny direct access to .php files
-        $directoriesToProtect = array(
-            '/libs',
-            '/vendor',
-            '/plugins',
-            '/node_modules',
-        );
-
         $additionForPlugins = '
         <alwaysAllowedUrls>
           <add url="/plugins/HeatmapSessionRecording/configs.php" />
         </alwaysAllowedUrls>';
 
-        foreach ($directoriesToProtect as $directoryToProtect) {
+        $additionForMisc = '
+        <alwaysAllowedUrls>
+          <add url="/misc/cron/archive.php" />
+        </alwaysAllowedUrls>';
+
+        // deny direct access to .php files
+        $directoriesToProtect = array(
+            '/libs',
+            '/vendor',
+            '/plugins' => $additionForPlugins,
+            '/node_modules',
+            '/misc' => $additionForMisc,
+        );
+
+        foreach ($directoriesToProtect as $directoryToProtect => $additions) {
             @file_put_contents(
                 PIWIK_INCLUDE_PATH . $directoryToProtect . '/web.config',
                 '<?xml version="1.0" encoding="UTF-8"?>
@@ -195,7 +201,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
       <requestFiltering>
         <denyUrlSequences>
           <add sequence=".php" />
-        </denyUrlSequences>' . ($directoryToProtect === '/plugins' ? $additionForPlugins : '') . '
+        </denyUrlSequences>' . (!is_numeric($directoryToProtect) ? $additions : '') . '
       </requestFiltering>
     </security>
   </system.webServer>
@@ -212,6 +218,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
         @unlink($path . '/vendor/web.config');
         @unlink($path . '/plugins/web.config');
         @unlink($path . '/node_modules/web.config');
+        @unlink($path . '/misc/web.config');
     }
 
     /**
@@ -328,7 +335,7 @@ HTACCESS_ALLOW;
             '/libs',
             '/vendor',
             '/plugins',
-            '/misc/user',
+            '/misc',
             '/node_modules',
             '/config',
             '/core',
