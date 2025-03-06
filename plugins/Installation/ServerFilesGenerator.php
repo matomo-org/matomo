@@ -215,8 +215,8 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
     }
 
     /**
-     * Generate default robots.txt, favicon.ico, etc to suppress
-     * 404 (Not Found) errors in the web server logs, if Piwik
+     * Generate default robots.txt, favicon.ico, etc. to suppress
+     * 404 (Not Found) errors in the web server logs, if Matomo
      * is installed in the web root (or top level of subdomain).
      *
      * @see misc/crossdomain.xml
@@ -315,14 +315,14 @@ HTACCESS_ALLOW;
     }
 
     /**
-     * Deletes all existing .htaccess files and web.config files that Matomo may have created,
+     * Deletes all existing .htaccess files that Matomo may have created
      */
     public static function deleteHtAccessFiles()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, ".htaccess");
 
-        // that match the list of directories we create htaccess files
-        // (ie. not the root /.htaccess)
+        // only delete files that match the list of directories we create htaccess files in
+        // (i.e. not the root /.htaccess)
         $directoriesWithAutoHtaccess = array(
             '/js',
             '/libs',
@@ -338,7 +338,7 @@ HTACCESS_ALLOW;
 
         foreach ($files as $file) {
             foreach ($directoriesWithAutoHtaccess as $dirToDelete) {
-                // only delete the first .htaccess and not the ones in sub-directories
+                // only delete the first .htaccess and not the ones in subdirectories
                 $pathToDelete = $dirToDelete . '/.htaccess';
                 if (strpos($file, $pathToDelete) !== false) {
                     @unlink($file);
