@@ -9613,7 +9613,9 @@ var SearchFiltersPersistence_store_SearchFiltersPersistenceStore = /*#__PURE__*/
   }, {
     key: "setSearchFilters",
     value: function setSearchFilters(widgetId, filters) {
-      this.privateState.widgetSearchFilters[widgetId] = filters;
+      if (widgetId) {
+        this.privateState.widgetSearchFilters[widgetId] = filters;
+      }
     }
   }, {
     key: "updateCurrentRoutingFromUrl",
