@@ -19,6 +19,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Log\LoggerInterface;
 use Piwik\Period\Factory;
 use Piwik\Piwik;
 use Piwik\Plugins\ExamplePlugin\RecordBuilders\ExampleMetric;
@@ -1667,6 +1668,81 @@ class LoaderTest extends IntegrationTestCase
         $table = ArchiveTableCreator::getNumericTable(Date::factory('2016-02-03'));
         $doneFlag = Db::fetchOne("SELECT `name` FROM `$table` WHERE `name` LIKE 'done%' AND idarchive IN (" . implode(',', $idArchive) . ")");
         $this->assertEquals('done.Actions', $doneFlag);
+    }
+
+    public function testDebugMessageLoggedWhenProcessingSubPeriods(): void
+    {
+        $_GET['trigger'] = 'archivephp';
+
+        $idSite = 1;
+        $segment = '';
+
+        $debugMessageCount = 0;
+        $loggerMock = $this->createMock(LoggerInterface::class);
+        $loggerMock->expects($this->atLeast(2)) // Allows more debug calls, but ensures at least 5 matching ones
+            ->method('debug')
+            ->willReturnCallback(function ($message) use (&$debugMessageCount): void {
+                if ($message === "Sub-period archive requires processing. Archiving depth: 2") {
+                    $debugMessageCount++;
+                }
+            });
+
+        StaticContainer::getContainer()->set(LoggerInterface::class, $loggerMock);
+
+        $t = Fixture::getTracker($idSite, '2020-01-20 02:03:04');
+        $t->setUrl('http://slkdfj.com');
+        $t->doTrackPageView('alsdkjf');
+
+        $t = Fixture::getTracker($idSite, '2020-01-21 02:03:04');
+        $t->setUrl('http://slkdfj.com');
+        $t->doTrackPageView('alsdkjf');
+
+        $t = Fixture::getTracker($idSite, '2020-01-22 02:03:04');
+        $t->setUrl('http://slkdfj.com');
+        $t->doTrackPageView('alsdkjf');
+
+        $periodObj = Factory::build('week', '2020-01-20');
+
+        $params = new Parameters(new Site($idSite), $periodObj, new Segment($segment, [$idSite]));
+        $loader = new Loader($params);
+        $loader->prepareArchive('');
+
+        $this->assertEquals(5, $debugMessageCount);
+    }
+
+    public function testDebugMessageNotLoggedWhenNoProcessingOfSubPeriods(): void
+    {
+        $_GET['trigger'] = 'archivephp';
+
+        $idSite = 1;
+        $segment = '';
+
+        $t = Fixture::getTracker($idSite, '2020-01-20 02:03:04');
+        $t->setUrl('http://slkdfj.com');
+        $t->doTrackPageView('alsdkjf');
+
+        $t = Fixture::getTracker($idSite, '2020-01-21 02:03:04');
+        $t->setUrl('http://slkdfj.com');
+        $t->doTrackPageView('alsdkjf');
+
+        $t = Fixture::getTracker($idSite, '2020-01-22 02:03:04');
+        $t->setUrl('http://slkdfj.com');
+        $t->doTrackPageView('alsdkjf');
+
+        $periodObj = Factory::build('week', '2020-01-20');
+
+        $params = new Parameters(new Site($idSite), $periodObj, new Segment($segment, [$idSite]));
+        $loader = new Loader($params);
+
+        // Prepare archive once, so it's all there ready for the next call
+        $loader->prepareArchive('');
+
+        $loggerMock = $this->createMock(LoggerInterface::class);
+        $loggerMock->expects($this->never()) // Allows more debug calls, but ensures at least 5 matching ones
+            ->method('debug');
+
+        StaticContainer::getContainer()->set(LoggerInterface::class, $loggerMock);
+        $loader->prepareArchive('');
     }
 
     private function insertArchive(Parameters $params, $tsArchived = null, $visits = 10)
