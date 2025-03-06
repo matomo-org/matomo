@@ -53,6 +53,8 @@
         "UnprocessedSegmentNoData1": "Diese Bereichte haben keine Daten, weil das von Ihnen gewünschte Segment %1$s noch nicht vom System bearbeitet wurde.",
         "UnprocessedSegmentNoData2": "Daten für dieses Segment sollten in ein paar Stunden verfügbar sein sobald die Verarbeitung abgeschlossen ist. (Falls nicht, liegt ein Problem vor.)",
         "UnprocessedSegmentNoData3": "Da die Konfiguration eine erneute Archivierung für diesen Zeitraum verhindert, kann Matomo keine Daten für das Segment %1$s anzeigen. Bitte wenden Sie sich an Ihren Administrator oder lesen Sie %2$sdiese FAQ%3$s, damit Sie dieses Problem lösen können.",
+        "UpdatingAllSitesSegmentPermittedToSuperUser": "Dieses Segment wurde vom Hauptadministrator für alle Seiten zugänglich gemacht. Jetzt dürfen nur noch Hauptadministratoren es aktualisieren oder entfernen.",
+        "UpdatingForeignSegmentPermittedToSuperUser": "Sie können nur benutzerdefinierte Segmente bearbeiten und löschen, die Sie selbst erstellt haben. Dieses Segment wurde vom Hauptadministrator erstellt und 'mit Ihnen geteilt'. Um dieses Segment zu ändern, können Sie zunächst ein neues erstellen, indem Sie auf 'Neues Segment hinzufügen' klicken. Dann können Sie die Definition des Segments anpassen.",
         "VisibleToAllUsers": "alle Benutzer",
         "VisibleToMe": "mich",
         "VisibleToSuperUser": "Für Sie sichtbar, da Sie Hauptadministrator-Berechtigung haben",

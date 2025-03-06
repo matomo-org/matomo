@@ -16,8 +16,16 @@
         "EvolutionFromPreviousWeek": "Aus der vergangenen Woche",
         "EvolutionFromPreviousYear": "Aus dem vorherigen Jahr",
         "LoadingWebsites": "Lade Webseiten",
+        "MetricDocumentationEvolution": "Der prozentuale Veränderung dieser Metrik im Vergleich zum vorherigen Zeitraum für diese Webseite. Ein positiver Wert zeigt Wachstum an, während ein negativer Wert einen Rückgang signalisiert.",
+        "MetricDocumentationHits": "Die Gesamtzahl der aufgezeichneten Aktionen für diese Webseite, einschließlich Seitenansichten, Downloads und ausgehenden Verweisen.",
+        "MetricDocumentationPageviews": "Die Gesamtzahl der auf dieser Webseite angesehenen Seiten. Dies beinhaltet mehrfache Ansichten der gleichen Seite durch einen einzelnen Besucher.",
+        "MetricDocumentationRevenue": "Der gesamte erfasste Umsatz für diese Webseite. Diese Metrik ist verfügbar, wenn die E-Commerce-Aufzeichnung aktiviert ist und spiegelt Einkäufe oder zielbasierten Umsatz wider.",
+        "MetricDocumentationVisits": "Die Gesamtzahl der für diese Webseite aufgezeichneten Besuche. Ein Besuch beginnt, wenn ein Benutzer auf die Seite zugreift und endet nach einem Inaktivitätszeitraum oder wenn die Session abläuft.",
+        "MetricDocumentationWebsite": "Die Liste der im Dashboard angezeigten Webseiten. Jede Zeile repräsentiert eine separate Webseite mit ihren entsprechenden Analytik-Daten.",
         "PluginDescription": "Zeige und vergleiche alle Webseiten und Apps in diesem hilfreichen 'Alle Webseiten' Dashboard.",
         "SingleWebsitesDashboardDocumentation": "Dieser Bericht gibt Ihnen eine informative Übersicht über eine bestimmte Webseite, in dem die allgemeinsten Metriken Ihrer Besucher ausgewertet werden.",
-        "TopLinkTooltip": "Vergleichen Sie Web-Analyse-Statistiken für alle Ihre Webseiten."
+        "TopLinkTooltip": "Vergleichen Sie Web-Analyse-Statistiken für alle Ihre Webseiten.",
+        "TotalPageviews": "Gesamte Seitenansichten",
+        "TotalVisits": "Gesamte Besuche"
     }
 }
