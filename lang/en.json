@@ -88,6 +88,7 @@
         "ColumnUniquePageviews": "Unique Pageviews",
         "ColumnUniquePageviewsDocumentation": "The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.",
         "ColumnValuePerVisit": "Revenue per Visit",
+        "ColumnValuePerVisitDocumentation": "Average revenue generated per visit. The total revenue from Ecommerce Orders and Goal Conversions divided by the number of visits.",
         "ColumnValuePerEntry": "Revenue per Entry",
         "ColumnViewedAfterSearch": "Clicked in search results",
         "ColumnViewedAfterSearchDocumentation": "The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.",
