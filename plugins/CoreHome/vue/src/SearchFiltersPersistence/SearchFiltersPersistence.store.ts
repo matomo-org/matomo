@@ -49,7 +49,9 @@ export class SearchFiltersPersistenceStore {
   }
 
   setSearchFilters(widgetId: string, filters: Record<string, string>): void {
-    this.privateState.widgetSearchFilters[widgetId] = filters;
+    if (widgetId) {
+      this.privateState.widgetSearchFilters[widgetId] = filters;
+    }
   }
 
   updateCurrentRoutingFromUrl(): void {
