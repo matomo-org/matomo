@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Events\Reports;
 use Piwik\DataTable;
 use Piwik\EventDispatcher;
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Events\API;
 use Piwik\Plugins\Events\Columns\Metrics\AverageEventValue;
@@ -30,6 +31,16 @@ abstract class Base extends \Piwik\Plugin\Report
         $this->processedMetrics = array(
             new AverageEventValue()
         );
+    }
+
+    public function getMetricsDocumentation()
+    {
+        $documentation = parent::getMetricsDocumentation();
+
+        $documentation['nb_visits'] = Piwik::translate('Events_ColumnNbVisitsDocumentation');
+        $documentation['nb_uniq_visitors'] = Piwik::translate('Events_ColumnNbUniqVisitorsDocumentation');
+
+        return $documentation;
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
