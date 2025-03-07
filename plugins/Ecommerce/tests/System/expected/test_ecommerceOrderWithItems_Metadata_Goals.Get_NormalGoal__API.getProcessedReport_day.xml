@@ -18,6 +18,7 @@
 			<revenue>Revenue</revenue>
 		</metrics>
 		<metricsDocumentation>
+			<nb_visits_converted>Number of visits where at least one goal was successfully converted.</nb_visits_converted>
 			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
 		</metricsDocumentation>
 		<processedMetrics>
