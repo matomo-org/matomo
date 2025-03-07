@@ -79,7 +79,7 @@
         "ColumnPageviews": "Pageviews",
         "ColumnPageviewsDocumentation": "The number of times this page was visited.",
         "ColumnPercentageVisits": "%% Visits",
-        "ColumnPercentageVisitsDocumentation": "The percentage of total visits where the plugin was detected. A visit may include multiple plugins. The percent is rounded down to whole numbers.",
+        "ColumnPercentageVisitsDocumentation": "The percentage of total visits.",
         "ColumnRevenue": "Revenue",
         "ColumnSumTimeOnSite": "Total Time on Website",
         "ColumnSumVisitLength": "Total time spent by visitors (in seconds)",
