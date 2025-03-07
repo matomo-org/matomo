@@ -501,6 +501,7 @@
         "ViewDocumentationFor": "View documentation for %1$s",
         "Visit": "Visit",
         "VisitConvertedGoal": "Visit converted at least one Goal",
+        "VisitConvertedGoalDocumentation": "Number of visits where at least one goal was successfully converted.",
         "VisitConvertedGoalId": "Visit converted a specific Goal Id",
         "VisitConvertedGoalName": "Visit converted a specific Goal Name",
         "VisitConvertedNGoals": "Visit converted %s Goals",
