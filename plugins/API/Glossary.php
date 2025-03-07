@@ -122,6 +122,8 @@ class Glossary
                     'id' => $metric,
                     'documentation' => $translation
                 );
+            } elseif (isset($metrics[$metric])) {
+                $metrics[$metric]['documentation'] = $translation;
             }
         }
 
