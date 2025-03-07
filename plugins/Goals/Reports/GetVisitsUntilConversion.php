@@ -33,6 +33,13 @@ class GetVisitsUntilConversion extends Base
         $this->orderGoal = 51;
     }
 
+    public function getMetricsDocumentation()
+    {
+        return [
+            'nb_conversions' => Piwik::translate('Goals_VisitsUntilConvColumnDocumentation'),
+        ];
+    }
+
     public function configureView(ViewDataTable $view)
     {
         $view->config->show_search = false;
