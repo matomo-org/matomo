@@ -97,6 +97,8 @@
         "PasswordResetCancelConfirmTitle": "Password reset cancellation",
         "PasswordResetCancelConfirm": "Confirm password reset cancellation",
         "PasswordResetCancelConfirmDescription": "You've requested to cancel your password reset. Please confirm your choice to ensure your request is processed. If this was not your intention, you can safely close this page.",
-        "PasswordResetCancelTokenIssue": "We noticed you tried to cancel your password reset request. Unfortunately, this link is no longer valid because it has either expired, is invalid or has been used already."
+        "PasswordResetCancelTokenIssue": "We noticed you tried to cancel your password reset request. Unfortunately, this link is no longer valid because it has either expired, is invalid or has been used already.",
+        "PleaseNote": "Please note",
+        "PasswordResetEmailAppTokens": "Changing your password does not automatically revoke your app-specific tokens. If you suspect unauthorised access, please delete your existing tokens and generate new ones in the token management section."
     }
 }
