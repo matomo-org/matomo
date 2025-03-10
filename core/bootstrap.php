@@ -15,6 +15,14 @@ if (!defined('PIWIK_USER_PATH')) {
     define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);
 }
 
+if (!defined('SIGINT')) {
+    define('SIGINT', 2); // Standard SIGINT value on Unix
+}
+
+if (!defined('SIGTERM')) {
+    define('SIGTERM', 15); // Standard SIGTERM value on Unix
+}
+
 $errorLevel = E_ALL;
 
 // We cannot enable deprecations for PHP 8.4 until we are able to update php-di/php-di to a version compatible
