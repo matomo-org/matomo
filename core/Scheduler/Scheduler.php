@@ -82,9 +82,9 @@ class Scheduler
     private $lock;
 
     /**
-     * @var int|null
+     * @var bool
      */
-    private $signal = null;
+    private $hasReceivedAbortSignal = false;
 
     public function __construct(TaskLoader $loader, LoggerInterface $logger, ScheduledTaskLock $lock)
     {
@@ -96,7 +96,7 @@ class Scheduler
 
     public function handleSignal(int $signal): void
     {
-        $this->signal = $signal;
+        $this->hasReceivedAbortSignal = in_array($signal, [\SIGINT, \SIGTERM], true);
     }
 
     /**
@@ -131,7 +131,7 @@ class Scheduler
 
             // loop through each task
             foreach ($tasks as $task) {
-                if (in_array($this->signal, [\SIGINT, \SIGTERM], true)) {
+                if ($this->hasReceivedAbortSignal) {
                     $this->logger->info("Scheduler: Aborting due to received signal");
                     return $executionResults;
                 }
