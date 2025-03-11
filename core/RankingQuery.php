@@ -299,7 +299,11 @@ class RankingQuery
             $rollupWhen = '';
 
             if ($withRollup) {
-                $rollupWhen = "WHEN counterRollup > 0 THEN `$column`";
+                $rollupLimitValue = empty($withRollupColumns) ? "'" . $this->othersLabelValue . "'" : 'NULL';
+                $rollupWhen = "
+					WHEN counterRollup = $limit THEN $rollupLimitValue
+					WHEN counterRollup > 0 THEN `$column`
+				";
                 $withRollupColumns[] = $column;
             }
 
@@ -341,9 +345,17 @@ class RankingQuery
             $initCounter .= ' ( SELECT @counterRollup:=0 ) initCounterRollup,';
             $counterRollupWhen = '';
 
+            if (1 < count($withRollupColumns)) {
+                $counterRollupWhen = "
+					WHEN `" . implode('` IS NULL AND `', $withRollupColumns) . "` IS NULL THEN -1
+				";
+            }
+
             foreach ($withRollupColumns as $withRollupColumn) {
                 $counterRollupWhen .= "
-					WHEN `$withRollupColumn` IS NULL THEN @counterRollup := @counterRollup + 1";
+					WHEN `$withRollupColumn` IS NULL AND @counterRollup = $limit THEN $limit
+					WHEN `$withRollupColumn` IS NULL THEN @counterRollup := @counterRollup + 1
+				";
             }
 
             $counterRollupExpression = "

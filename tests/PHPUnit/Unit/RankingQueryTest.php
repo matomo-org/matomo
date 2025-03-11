@@ -90,31 +90,44 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $query = new RankingQuery();
         $query->setOthersLabel('Others');
         $query->addLabelColumn('label');
+        $query->addLabelColumn('url');
         $query->addColumn('column');
         $query->addColumn('columnSum', 'sum');
         $query->setLimit(10);
 
-        $innerQuery = "SELECT label, column, columnSum FROM myTable";
+        $innerQuery = "SELECT label, url, column, columnSum FROM myTable";
 
         $expected = "
             SELECT
                 CASE
+                    WHEN counterRollup = 11 THEN 'Others'
                     WHEN counterRollup > 0 THEN `label`
                     WHEN counter = 11 THEN 'Others'
                     ELSE `label`
                 END AS `label`,
+                CASE
+                    WHEN counterRollup = 11 THEN NULL
+                    WHEN counterRollup > 0 THEN `url`
+                    WHEN counter = 11 THEN 'Others'
+                    ELSE `url`
+                END AS `url`,
                 `column`,
                 sum(`columnSum`) AS `columnSum`
             FROM (
                 SELECT
-                    `label`,
+                    `label`, `url`,
                     CASE
                         WHEN `label` IS NULL THEN -1
+                        WHEN `url` IS NULL THEN -1
                         WHEN @counter = 11 THEN 11
                         ELSE @counter:=@counter+1
                     END AS counter,
                     CASE
+                        WHEN `label` IS NULL AND `url` IS NULL THEN -1
+                        WHEN `label` IS NULL AND @counterRollup = 11 THEN 11
                         WHEN `label` IS NULL THEN @counterRollup := @counterRollup + 1
+                        WHEN `url` IS NULL AND @counterRollup = 11 THEN 11
+                        WHEN `url` IS NULL THEN @counterRollup := @counterRollup + 1
                         ELSE 0
                     END AS counterRollup,
                     `column`,
@@ -122,7 +135,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                 FROM
                     ( SELECT @counter:=0 ) initCounter,
                     ( SELECT @counterRollup:=0 ) initCounterRollup,
-                    ( SELECT label, column, columnSum FROM myTable ) actualQuery
+                    ( SELECT label, url, column, columnSum FROM myTable ) actualQuery
             ) AS withCounter
             GROUP BY counter, counterRollup
         ";
@@ -131,22 +144,34 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
             $expected = "
                 SELECT
                     CASE
+                        WHEN counterRollup = 11 THEN 'Others'
                         WHEN counterRollup > 0 THEN `label`
                         WHEN counter = 11 THEN 'Others'
                         ELSE `label`
                     END AS `label`,
+                    CASE
+                        WHEN counterRollup = 11 THEN NULL
+                        WHEN counterRollup > 0 THEN `url`
+                        WHEN counter = 11 THEN 'Others'
+                        ELSE `url`
+                    END AS `url`,
                     `column`,
                     sum(`columnSum`) AS `columnSum`
                 FROM (
                     SELECT
-                        `label`,
+                        `label`, `url`,
                         CASE
                             WHEN `label` IS NULL THEN -1
+                            WHEN `url` IS NULL THEN -1
                             WHEN @counter = 11 THEN 11
                             ELSE @counter:=@counter+1
                         END AS counter,
                         CASE
+                            WHEN `label` IS NULL AND `url` IS NULL THEN -1
+                            WHEN `label` IS NULL AND @counterRollup = 11 THEN 11
                             WHEN `label` IS NULL THEN @counterRollup := @counterRollup + 1
+                            WHEN `url` IS NULL AND @counterRollup = 11 THEN 11
+                            WHEN `url` IS NULL THEN @counterRollup := @counterRollup + 1
                             ELSE 0
                         END AS counterRollup,
                         `column`,
@@ -154,7 +179,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                     FROM
                         ( SELECT @counter:=0 ) initCounter,
                         ( SELECT @counterRollup:=0 ) initCounterRollup,
-                        ( SELECT label, column, columnSum FROM myTable LIMIT 18446744073709551615 ) actualQuery
+                        ( SELECT label, url, column, columnSum FROM myTable LIMIT 18446744073709551615 ) actualQuery
                 ) AS withCounter
                 GROUP BY counter, counterRollup
                 ORDER BY counter, counterRollup
