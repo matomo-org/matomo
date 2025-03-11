@@ -1,14 +1,14 @@
 name: matomo
 type: php
 docroot: ""
-php_version: "7.2"
-webserver_type: apache-fpm
+php_version: "8.4"
+webserver_type: nginx-fpm
 xdebug_enabled: false
 additional_hostnames: []
 additional_fqdns: []
 database:
-    type: mysql
-    version: "5.7"
+    type: mariadb
+    version: "10.11"
 hooks:
     post-start:
         - exec: MYSQL_PWD=root mysql -uroot -e "GRANT ALL PRIVILEGES ON *.* to 'db'@'%'"
@@ -31,7 +31,7 @@ disable_upload_dirs_warning: true
 # name: <projectname> # Name of the project, automatically provides
 #   http://projectname.ddev.site and https://projectname.ddev.site
 
-# type: <projecttype>  # backdrop, cakephp, craftcms, drupal, drupal6, drupal7, drupal8, drupal9, drupal10, drupal11, laravel, magento, magento2, php, shopware6, silverstripe, symfony, typo3, wordpress
+# type: <projecttype>  # backdrop, cakephp, craftcms, drupal, drupal6, drupal7, drupal8, drupal9, drupal10, drupal11, generic, laravel, magento, magento2, php, shopware6, silverstripe, symfony, typo3, wordpress
 # See https://ddev.readthedocs.io/en/stable/users/quickstart/ for more
 # information on the different project types
 
