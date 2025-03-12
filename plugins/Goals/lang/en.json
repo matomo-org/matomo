@@ -30,6 +30,7 @@
         "ColumnConversionRateProductDocumentation": "The %s conversion rate is the number of orders containing this product divided by number of visits on the product page.",
         "ColumnConversions": "Conversions",
         "Conversion": "Conversion",
+        "ConversionAttributionDocumentation": "The number of conversions attributed to this page, where each conversion is shared equally across all pages viewed in the visit before the goal was converted.",
         "ColumnEcommerceOrdersDocumentation": "The total number of Ecommerce orders attributed to each record. Represents the number of completed purchases by matching visitors.",
         "ColumnConversionsDocumentation": "The number of conversions for %s.",
         "ColumnOrdersDocumentation": "The total number of Ecommerce orders which contained this %s at least once.",
