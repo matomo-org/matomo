@@ -151,7 +151,11 @@ export default defineComponent({
           }
         }
 
-        return widget;
+        if (widget.uniqueId) {
+          result.parameters = { ...result.parameters, uniqueId: widget.uniqueId };
+        }
+
+        return result;
       }
 
       if (this.containerid) {
