@@ -32,7 +32,7 @@
         "Conversion": "Conversion",
         "ConversionAttributionDocumentation": "The number of conversions attributed to this page, where each conversion is shared equally across all pages viewed in the visit before the goal was converted.",
         "ColumnEcommerceOrdersDocumentation": "The total number of Ecommerce orders attributed to each record. Represents the number of completed purchases by matching visitors.",
-        "ColumnConversionsDocumentation": "The number of conversions for %s.",
+        "ColumnConversionsDocumentation": "The total number of conversions of %s attributed to each record. Represents the number of conversions made by matching visitors.",
         "ColumnOrdersDocumentation": "The total number of Ecommerce orders which contained this %s at least once.",
         "ColumnPurchasedProductsDocumentation": "The number of purchased products is the sum of Product quantities sold in all Ecommerce orders.",
         "ColumnQuantityDocumentation": "Quantity is the total number of products sold for each %s.",

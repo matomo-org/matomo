@@ -60,7 +60,7 @@
 
     <div class="sparkline">
         {{ sparkline(urlSparklineConversionRate) }}
-        <div class="sparkline-metrics">
+        <div class="sparkline-metrics" title="{{ 'General_ColumnConversionRateDocumentation'|translate }}">
             {% set ecommerceOrdersText %}{{ 'General_EcommerceOrders'|translate }}{% endset %}
             {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate|percent~"</strong> "~ecommerceOrdersText)|raw }}
         </div>

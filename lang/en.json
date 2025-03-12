@@ -52,7 +52,7 @@
         "ColumnBounces": "Bounces",
         "ColumnBouncesDocumentation": "Number of visits that started and ended on this page. This means that the visitor left the website after viewing only this page.",
         "ColumnConversionRate": "Conversion Rate",
-        "ColumnConversionRateDocumentation": "The percentage of visits that triggered a goal conversion.",
+        "ColumnConversionRateDocumentation": "The percentage of visits that triggered a conversion. The conversion rate is calculated using the number of visits that converted at least one goal. Visits converting multiple goals are only counted once in the conversion rate.",
         "ColumnDestinationPage": "Destination Page",
         "ColumnEntrances": "Entrances",
         "ColumnEntrancesDocumentation": "Number of visits that started on this page.",
