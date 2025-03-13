@@ -261,9 +261,9 @@ class Login extends \Piwik\Plugin
     {
         $login = StaticContainer::get(\Piwik\Auth::class)->getLogin();
         if (empty($login) || $login == 'anonymous') {
-            $login = Common::getRequestVar('form_login', false);
+            $login = \Piwik\Request::fromRequest()->getStringParameter('form_login', '');
             if (Piwik::getAction() === 'logme') {
-                $login = Common::getRequestVar('login', $login);
+                $login = \Piwik\Request::fromRequest()->getStringParameter('login', $login);
             }
         }
 
