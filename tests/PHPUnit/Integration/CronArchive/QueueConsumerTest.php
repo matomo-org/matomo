@@ -1494,7 +1494,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-04', 'period' => Range::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-05', 'period' => Range::PERIOD_ID],
-            'expected' => 'lower or same period in progress (period = range, date = 2020-03-02)',
+            'expected' => 'lower or same period in progress (period = range, date = 2020-03-02,2020-03-04)',
         ];
 
         yield 'range period should not be detected as intersecting when non-overlapping range is processed' => [
