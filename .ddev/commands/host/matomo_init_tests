@@ -9,7 +9,6 @@ ddev matomo:console config:set \
   'database_tests.host="db"' \
   'database_tests.username="db"' \
   'database_tests.password="db"' \
-  'tests.http_host="matomo.ddev.site"' \
   'tests.request_uri="/"' \
   'tests.port=80'
 
