@@ -151,41 +151,40 @@ class Goals extends HtmlTable
 
     private function setPropertiesForEcommerceView()
     {
-        
         $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue';
         $this->requestConfig->filter_sort_order = 'desc';
 
         switch ($this->displayType) {
             case self::GOALS_DISPLAY_NORMAL:
                 $this->config->columns_to_display = [
-                    'label', 
-                    'nb_visits', 
-                    'goal_ecommerceOrder_nb_conversions', 
+                    'label',
+                    'nb_visits',
+                    'goal_ecommerceOrder_nb_conversions',
                     'goal_ecommerceOrder_revenue',
-                    'goal_ecommerceOrder_conversion_rate', 
-                    'goal_ecommerceOrder_avg_order_revenue', 
+                    'goal_ecommerceOrder_conversion_rate',
+                    'goal_ecommerceOrder_avg_order_revenue',
                     'goal_ecommerceOrder_items',
                     'goal_ecommerceOrder_revenue_per_visit',
                 ];
                 break;
             case self::GOALS_DISPLAY_PAGES:
                 $this->config->columns_to_display = [
-                    'label', 
-                    'nb_visits', 
-                    'goal_ecommerceOrder_nb_conversions_attrib', 
+                    'label',
+                    'nb_visits',
+                    'goal_ecommerceOrder_nb_conversions_attrib',
                     'goal_ecommerceOrder_revenue_attrib',
-                    'goal_ecommerceOrder_nb_conversions_page_rate', 
+                    'goal_ecommerceOrder_nb_conversions_page_rate',
                     'goal_ecommerceOrder_items',
                     'goal_ecommerceOrder_revenue_per_visit',
                 ];
                 break;
             case self::GOALS_DISPLAY_ENTRY_PAGES:
                 $this->config->columns_to_display = [
-                    'label', 
-                    'entry_nb_visits', 
-                    'goal_ecommerceOrder_nb_conversions_entry', 
+                    'label',
+                    'entry_nb_visits',
+                    'goal_ecommerceOrder_nb_conversions_entry',
                     'goal_ecommerceOrder_revenue_entry',
-                    'goal_ecommerceOrder_nb_conversions_entry_rate', 
+                    'goal_ecommerceOrder_nb_conversions_entry_rate',
                     'goal_ecommerceOrder_items',
                     'goal_ecommerceOrder_revenue_per_entry',
                 ];
