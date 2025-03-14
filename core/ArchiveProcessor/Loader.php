@@ -259,6 +259,11 @@ class Loader
             }
         }
 
+        if (self::$archivingDepth > 1) {
+            $this->logger->debug(sprintf("Sub-period archive requires processing. Archiving depth: %d", self::$archivingDepth));
+            $this->params->logStatusDebug();
+        }
+
         return [$idArchives, $visits, $visitsConverted, $existingArchives];
     }
 
