@@ -443,7 +443,7 @@ class QueueConsumer
             }
 
             $processedPeriodLabel = $periods[$archiveBeingProcessed['period']];
-            $processedPeriodDate = 'range' === $periods[$archiveBeingProcessed['period']]
+            $processedPeriodDate = 'range' === $processedPeriodLabel
                 ? $archiveBeingProcessed['date1'] . ',' . $archiveBeingProcessed['date2']
                 : $archiveBeingProcessed['date1'];
 
