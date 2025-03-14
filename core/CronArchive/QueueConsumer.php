@@ -442,21 +442,29 @@ class QueueConsumer
                 continue;
             }
 
-            $archiveBeingProcessed['periodObj'] = PeriodFactory::build($periods[$archiveBeingProcessed['period']], $archiveBeingProcessed['date1']);
+            $processedPeriodLabel = $periods[$archiveBeingProcessed['period']];
+            $processedPeriodDate = 'range' === $processedPeriodLabel
+                ? $archiveBeingProcessed['date1'] . ',' . $archiveBeingProcessed['date2']
+                : $archiveBeingProcessed['date1'];
+
+            $archiveBeingProcessed['periodObj'] = PeriodFactory::build(
+                $processedPeriodLabel,
+                $processedPeriodDate
+            );
 
             if (!$this->isArchiveOfLowerPeriod($archiveToProcess, $archiveBeingProcessed)) {
                 continue;
             }
 
             if (empty($archiveToProcess['segment']) && !empty($archiveBeingProcessed['segment'])) {
-                return "segment archive in progress for same site with lower or same period ({$archiveBeingProcessed['segment']}, period = {$periods[$archiveBeingProcessed['period']]}, date = {$archiveBeingProcessed['date1']})";
+                return "segment archive in progress for same site with lower or same period ({$archiveBeingProcessed['segment']}, period = {$processedPeriodLabel}, date = {$processedPeriodDate})";
             }
 
             if (!empty($archiveToProcess['segment']) && empty($archiveBeingProcessed['segment'])) {
-                return "all visits archive in progress for same site with lower or same period (period = {$periods[$archiveBeingProcessed['period']]}, date = {$archiveBeingProcessed['date1']})";
+                return "all visits archive in progress for same site with lower or same period (period = {$processedPeriodLabel}, date = {$processedPeriodDate})";
             }
 
-            return "lower or same period in progress (period = {$periods[$archiveBeingProcessed['period']]}, date = {$archiveBeingProcessed['date1']})";
+            return "lower or same period in progress (period = {$processedPeriodLabel}, date = {$processedPeriodDate})";
         }
 
         return null;
