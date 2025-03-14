@@ -47,9 +47,7 @@
             :inline-help="translate('UsersManager_TypeYourCurrentPassword')"
           />
 
-          <div class="alert alert-info">
-            {{ translate('UsersManager_PasswordChangeTerminatesOtherSessions') }}
-          </div>
+          <div class="alert alert-info" v-html="$sanitize(changePasswordInfoNotification)"></div>
 
           <input
             type="submit"
@@ -156,7 +154,7 @@
         >
           <input name="nonce" type="hidden" :value="deleteTokenNonce">
           <input name="idtokenauth" type="hidden" value="all">
-          <button type="submit" class="table-action">
+          <button type="submit" class="table-action delete-all-tokens">
             <span class="icon-delete"></span> {{ translate('UsersManager_DeleteAllTokens') }}
           </button>
         </form>
@@ -239,6 +237,18 @@ export default defineComponent({
         `<a href="${addNewTokenLink}">`,
         '</a>',
       );
+    },
+    changePasswordInfoNotification() {
+      const sessionsLoggedOut = translate('UsersManager_PasswordChangeTerminatesOtherSessions');
+      let tokensNotRevoked = '';
+      if (this.tokens?.length) {
+        tokensNotRevoked = translate(
+          'UsersManager_PasswordChangeDoesNotRevokeAuthTokens',
+          `<a href="#authtokens">${translate('UsersManager_AuthTokens')}</a>`,
+        );
+      }
+
+      return [sessionsLoggedOut, tokensNotRevoked].filter((item) => item).join('<br><br>');
     },
     deleteTokenAction() {
       return `?${MatomoUrl.stringify({
