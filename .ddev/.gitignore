@@ -12,7 +12,6 @@
 /db_snapshots
 /mutagen/mutagen.yml
 /mutagen/.start-synced
-/nginx_full/nginx-site.conf
 /postgres/postgresql.conf
 /providers/acquia.yaml
 /providers/lagoon.yaml

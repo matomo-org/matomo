@@ -65,7 +65,7 @@ disable_upload_dirs_warning: true
 # "ddev xhprof" to enable Xhprof and "ddev xhprof off" to disable it work better,
 # as leaving Xhprof enabled all the time is a big performance hit.
 
-# webserver_type: nginx-fpm or apache-fpm
+# webserver_type: nginx-fpm, apache-fpm, generic
 
 # timezone: Europe/Berlin
 # If timezone is unset, DDEV will attempt to derive it from the host system timezone
