@@ -12,6 +12,7 @@ namespace Piwik\Plugins\DevicesDetection;
 class Archiver extends \Piwik\Plugin\Archiver
 {
     public const BROWSER_SEPARATOR = ';';
+    public const CLIENT_TYPE_RECORD_NAME = 'DevicesDetection_clientTypes';
     public const DEVICE_TYPE_RECORD_NAME = 'DevicesDetection_types';
     public const DEVICE_BRAND_RECORD_NAME = 'DevicesDetection_brands';
     public const DEVICE_MODEL_RECORD_NAME = 'DevicesDetection_models';
@@ -21,6 +22,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     public const BROWSER_ENGINE_RECORD_NAME = 'DevicesDetection_browserEngines';
     public const BROWSER_VERSION_RECORD_NAME = 'DevicesDetection_browserVersions';
 
+    public const CLIENT_TYPE_FIELD = "config_client_type";
     public const DEVICE_TYPE_FIELD = "config_device_type";
     public const DEVICE_BRAND_FIELD = "config_device_brand";
     public const DEVICE_MODEL_FIELD = "CONCAT(log_visit.config_device_brand, ';', log_visit.config_device_model)";

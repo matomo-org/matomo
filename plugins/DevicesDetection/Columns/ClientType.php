@@ -18,7 +18,7 @@ class ClientType extends Base
 {
     protected $columnName = 'config_client_type';
     protected $columnType = 'TINYINT( 1 ) NULL DEFAULT NULL';
-    //protected $segmentName = 'clientType';
+    protected $segmentName = 'clientType';
     protected $type = self::TYPE_ENUM;
     protected $nameSingular = 'DevicesDetection_ClientType';
     protected $namePlural = 'DevicesDetection_ClientTypes';
@@ -45,7 +45,7 @@ class ClientType extends Base
      * @param Request $request
      * @param Visitor $visitor
      * @param Action|null $action
-     * @return mixed
+     * @return string|null
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {

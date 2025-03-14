@@ -24,13 +24,13 @@ class API extends \Piwik\Plugin\API
 {
     /**
      * @param string $name
-     * @param int $idSite
+     * @param string|int|array $idSite
      * @param string $period
      * @param string $date
-     * @param string $segment
-     * @return DataTable
+     * @param null|string $segment
+     * @return DataTable|DataTable\Map
      */
-    protected function getDataTable($name, $idSite, $period, $date, $segment)
+    protected function getDataTable(string $name, $idSite, string $period, string $date, ?string $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
@@ -42,17 +42,17 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by device type (eg. desktop, smartphone, tablet)
-     * @param int $idSite
+     * @param string|int|array $idSite
      * @param string $period
      * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param null|string $segment
+     * @return DataTable|DataTable\Map
      */
-    public function getType($idSite, $period, $date, $segment = false)
+    public function getType($idSite, string $period, string $date, ?string $segment = null)
     {
-        $dataTable = $this->getDataTable('DevicesDetection_types', $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Archiver::DEVICE_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
         // ensure all device types are in the list
-        $this->ensureDefaultRowsInTable($dataTable);
+        $this->ensureAllDeviceTypesInTable($dataTable);
 
         $mapping = AbstractDeviceParser::getAvailableDeviceTypeNames();
         $dataTable->filter('AddSegmentByLabelMapping', ['deviceType', $mapping]);
@@ -61,9 +61,9 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    protected function ensureDefaultRowsInTable($dataTable)
+    protected function ensureAllDeviceTypesInTable($dataTable)
     {
-        $requiredRows = array_fill(0, count(AbstractDeviceParser::getAvailableDeviceTypes()), Metrics::INDEX_NB_VISITS);
+        $requiredRows = array_fill(0, count(AbstractDeviceParser::getAvailableDeviceTypes()) - 1, Metrics::INDEX_NB_VISITS);
 
         $dataTables = [$dataTable];
 
@@ -85,16 +85,59 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Gets datatable displaying number of visits by device manufacturer name
-     * @param int $idSite
+     * Gets datatable displaying number of visits by client type (eg. browser, mobile app, ...)
+     * @param string|int|array $idSite
      * @param string $period
      * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param null|string $segment
+     * @return DataTable|DataTable\Map
      */
-    public function getBrand($idSite, $period, $date, $segment = false)
+    public function getClientType($idSite, string $period, string $date, ?string $segment = null)
     {
-        $dataTable = $this->getDataTable('DevicesDetection_brands', $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Archiver::CLIENT_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
+        // ensure all client types are in the list
+        $this->ensureAllClientTypesInTable($dataTable);
+
+        $mapping = getClientTypeMapping();
+        $dataTable->filter('AddSegmentByLabelMapping', ['clientType', $mapping]);
+        $dataTable->filter('GroupBy', ['label', __NAMESPACE__ . '\getClientTypeLabel']);
+        return $dataTable;
+    }
+
+    protected function ensureAllClientTypesInTable($dataTable)
+    {
+        $requiredRows = array_fill(0, count(getClientTypeMapping()), Metrics::INDEX_NB_VISITS);
+
+        $dataTables = [$dataTable];
+
+        if (!($dataTable instanceof DataTable\Map)) {
+            foreach ($dataTables as $table) {
+                if ($table->getRowsCount() == 0) {
+                    continue;
+                }
+                foreach ($requiredRows as $requiredRow => $key) {
+                    $row = $table->getRowFromLabel($requiredRow);
+                    if (empty($row)) {
+                        $table->addRowsFromSimpleArray([
+                            ['label' => $requiredRow, $key => 0],
+                        ]);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Gets datatable displaying number of visits by device manufacturer name
+     * @param string|int|array $idSite
+     * @param string $period
+     * @param string $date
+     * @param null|string $segment
+     * @return DataTable|DataTable\Map
+     */
+    public function getBrand($idSite, string $period, string $date, ?string $segment = null)
+    {
+        $dataTable = $this->getDataTable(Archiver::DEVICE_BRAND_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('GroupBy', ['label', __NAMESPACE__ . '\getDeviceBrandLabel']);
         $dataTable->filter('ColumnCallbackAddMetadata', ['label', 'logo', __NAMESPACE__ . '\getBrandLogo']);
         $dataTable->filter('AddSegmentByLabel', ['deviceBrand']);
@@ -103,22 +146,22 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by device model
-     * @param int $idSite
+     * @param string|int|array $idSite
      * @param string $period
      * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param null|string $segment
+     * @return DataTable|DataTable\Map
      */
-    public function getModel($idSite, $period, $date, $segment = false)
+    public function getModel($idSite, string $period, string $date, ?string $segment = null)
     {
-        $dataTable = $this->getDataTable('DevicesDetection_models', $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Archiver::DEVICE_MODEL_RECORD_NAME, $idSite, $period, $date, $segment);
 
         $dataTable->filter(function (DataTable $table) {
             foreach ($table->getRowsWithoutSummaryRow() as $row) {
                 $label = $row->getColumn('label');
 
                 if (strpos($label, ';') !== false) {
-                    list($brand, $model) = explode(';', $label, 2);
+                    [$brand, $model] = explode(';', $label, 2);
                     $brand = getDeviceBrandLabel($brand);
                 } else {
                     $brand = '';
@@ -137,19 +180,19 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by OS family (eg. Windows, Android, Linux)
-     * @param int $idSite
+     * @param string|int|array $idSite
      * @param string $period
      * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param null|string $segment
+     * @return DataTable|DataTable\Map
      */
-    public function getOsFamilies($idSite, $period, $date, $segment = false)
+    public function getOsFamilies($idSite, string $period, string $date, ?string $segment = null)
     {
-        $dataTable = $this->getDataTable('DevicesDetection_os', $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Archiver::OS_RECORD_NAME, $idSite, $period, $date, $segment);
 
         // handle legacy archives
         if ($dataTable instanceof DataTable\Map || !$dataTable->getRowsCount()) {
-            $versionDataTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
+            $versionDataTable = $this->getDataTable(Archiver::OS_VERSION_RECORD_NAME, $idSite, $period, $date, $segment);
             $dataTable = $this->mergeDataTables($dataTable, $versionDataTable);
         }
 
@@ -169,9 +212,9 @@ class API extends \Piwik\Plugin\API
      * For data archived before DevicesDetection plugin was enabled, those archives do not exist, so we try to calculate
      * them here from the "version-containing" reports if possible.
      *
-     * @param DataTable\DataTableInterface $dataTable
-     * @param DataTable\DataTableInterface $dataTable2
-     * @return DataTable\DataTableInterface
+     * @param DataTable|DataTable\Map $dataTable
+     * @param DataTable|DataTable\Map $dataTable2
+     * @return DataTable|DataTable\Map
      */
     protected function mergeDataTables(DataTable\DataTableInterface $dataTable, DataTable\DataTableInterface $dataTable2)
     {
@@ -205,15 +248,15 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by OS version (eg. Android 4.0, Windows 7)
-     * @param int $idSite
+     * @param string|int|array $idSite
      * @param string $period
      * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param null|string $segment
+     * @return DataTable|DataTable\Map
      */
-    public function getOsVersions($idSite, $period, $date, $segment = false)
+    public function getOsVersions($idSite, string $period, string $date, ?string $segment = null)
     {
-        $dataTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Archiver::OS_VERSION_RECORD_NAME, $idSite, $period, $date, $segment);
 
         $segments = ['operatingSystemCode', 'operatingSystemVersion'];
         $dataTable->filter('AddSegmentByLabel', [$segments, Archiver::BROWSER_SEPARATOR]);
@@ -225,15 +268,15 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by Browser (Without version)
-     * @param int $idSite
+     * @param string|int|array $idSite
      * @param string $period
      * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param null|string $segment
+     * @return DataTable|DataTable\Map
      */
-    public function getBrowsers($idSite, $period, $date, $segment = false)
+    public function getBrowsers($idSite, string $period, string $date, ?string $segment = null)
     {
-        $dataTable = $this->getDataTable('DevicesDetection_browsers', $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Archiver::BROWSER_RECORD_NAME, $idSite, $period, $date, $segment);
         $availableBrowsers = BrowserParser::getAvailableBrowsers();
         $dataTable->filter('AddSegmentValue', [function ($label) use ($availableBrowsers) {
             if (!array_key_exists($label, $availableBrowsers) && $label !== 'UNK') {
@@ -244,7 +287,7 @@ class API extends \Piwik\Plugin\API
 
         // handle legacy archives
         if ($dataTable instanceof DataTable\Map || !$dataTable->getRowsCount()) {
-            $versionDataTable = $this->getDataTable('DevicesDetection_browserVersions', $idSite, $period, $date, $segment);
+            $versionDataTable = $this->getDataTable(Archiver::BROWSER_VERSION_RECORD_NAME, $idSite, $period, $date, $segment);
             $dataTable = $this->mergeDataTables($dataTable, $versionDataTable);
         }
 
@@ -255,15 +298,15 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by Browser version (eg. Firefox 20, Safari 6.0)
-     * @param int $idSite
+     * @param string|int|array $idSite
      * @param string $period
      * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param null|string $segment
+     * @return DataTable|DataTable\Map
      */
-    public function getBrowserVersions($idSite, $period, $date, $segment = false)
+    public function getBrowserVersions($idSite, string $period, string $date, ?string $segment = null)
     {
-        $dataTable = $this->getDataTable('DevicesDetection_browserVersions', $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Archiver::BROWSER_VERSION_RECORD_NAME, $idSite, $period, $date, $segment);
 
         $segments = ['browserCode', 'browserVersion'];
         $dataTable->filter('AddSegmentByLabel', [$segments, Archiver::BROWSER_SEPARATOR]);
@@ -274,15 +317,15 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by Browser engine (eg. Trident, Gecko, Blink,...)
-     * @param int $idSite
+     * @param string|int|array $idSite
      * @param string $period
      * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param null|string $segment
+     * @return DataTable|DataTable\Map
      */
-    public function getBrowserEngines($idSite, $period, $date, $segment = false)
+    public function getBrowserEngines($idSite, string $period, string $date, ?string $segment = null)
     {
-        $dataTable = $this->getDataTable('DevicesDetection_browserEngines', $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Archiver::BROWSER_ENGINE_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('AddSegmentValue');
         // use GroupBy filter to avoid duplicate rows if old (UserSettings) and new (DevicesDetection) reports were combined
         $dataTable->filter('GroupBy', ['label',  __NAMESPACE__ . '\getBrowserEngineName']);
