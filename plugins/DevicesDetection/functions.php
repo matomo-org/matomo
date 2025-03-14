@@ -97,9 +97,10 @@ function getBrowserLogo($short)
 
     // If name is given instead of short code, try to find matching shortcode
     if (!empty($short) && strlen($short) > 2) {
-        if (in_array($short, BrowserParser::getAvailableBrowsers())) {
+        $browser = explode(";", $short)[0];
+        if (in_array($browser, BrowserParser::getAvailableBrowsers())) {
             $flippedBrowsers = array_flip(BrowserParser::getAvailableBrowsers());
-            $short           = $flippedBrowsers[$short];
+            $short           = $flippedBrowsers[$browser];
         } else {
             $short = substr($short, 0, 2);
         }
