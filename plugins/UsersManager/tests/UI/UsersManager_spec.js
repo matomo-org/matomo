@@ -275,13 +275,14 @@ describe("UsersManager", function () {
         await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
+        await page.waitForFunction(() => $('.modal.open').length === 0);
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('user_created');
     });
 
     it('should warn about invitation resend when changing email', async function () {
         await page.evaluate(() => $('.userEditForm #user_email').val('theuser2@email.com'));
-        await page.evaluate(() => $('.userEditForm .matomo-save-button input').click());
+        await page.evaluate(() => $('.userEditForm .matomo-save-button input:visible').click());
         await page.waitForTimeout(100);
         await page.waitForFunction(() => $('.modal.open:visible').length)
         const modal = await page.jQuery('.modal.open:visible');
@@ -542,7 +543,7 @@ describe("UsersManager", function () {
 
     it('should give the user superuser access when the superuser modal is confirmed', async function () {
         await page.click('.userEditForm #superuser_access+span');
-        await page.waitForTimeout(500);
+        await page.waitForSelector('.modal.open #currentUserPassword', {visible: true});
 
         await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();
