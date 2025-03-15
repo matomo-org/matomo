@@ -88,11 +88,17 @@ export default defineComponent({
   methods: {
     onClickConfirm(event: MouseEvent) {
       event.preventDefault();
+      const root = this.$refs.root as HTMLElement;
+      const $root = $(root);
+      $root.modal('close');
       this.$emit('confirmed', this.passwordConfirmation);
       this.passwordConfirmation = '';
     },
     onClickCancel(event: MouseEvent) {
       event.preventDefault();
+      const root = this.$refs.root as HTMLElement;
+      const $root = $(root);
+      $root.modal('close');
       this.$emit('aborted');
       this.passwordConfirmation = '';
     },
