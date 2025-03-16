@@ -431,10 +431,10 @@ export default defineComponent({
           passwordConfirmation: password,
         },
       ).then(() => {
-        this.theUser.superuser_access = !this.theUser.superuser_access;
+        this.theUser = { ...this.theUser, superuser_access: !this.theUser.superuser_access };
       }).catch(() => {
         // ignore error (still displayed to user)
-      }).then(() => { // eslint-disable-line
+      }).finally(() => { // eslint-disable-line
         this.isSavingUserInfo = false;
         this.setSuperUserAccessChecked();
       });
