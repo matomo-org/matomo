@@ -156,6 +156,7 @@ class Goals extends HtmlTable
 
         switch ($this->displayType) {
             case self::GOALS_DISPLAY_NORMAL:
+                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue';
                 $this->config->columns_to_display = [
                     'label',
                     'nb_visits',
@@ -168,6 +169,7 @@ class Goals extends HtmlTable
                 ];
                 break;
             case self::GOALS_DISPLAY_PAGES:
+                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue_attrib';
                 $this->config->columns_to_display = [
                     'label',
                     'nb_visits',
@@ -179,6 +181,7 @@ class Goals extends HtmlTable
                 ];
                 break;
             case self::GOALS_DISPLAY_ENTRY_PAGES:
+                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue_entry';
                 $this->config->columns_to_display = [
                     'label',
                     'entry_nb_visits',
@@ -190,6 +193,17 @@ class Goals extends HtmlTable
                 ];
                 break;
             default:
+                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue';
+                $this->config->columns_to_display = [
+                    'label',
+                    'nb_visits',
+                    'goal_ecommerceOrder_nb_conversions',
+                    'goal_ecommerceOrder_revenue',
+                    'goal_ecommerceOrder_conversion_rate',
+                    'goal_ecommerceOrder_avg_order_revenue',
+                    'goal_ecommerceOrder_items',
+                    'goal_ecommerceOrder_revenue_per_visit',
+                ];
         }
 
         $this->config->translations = array_merge($this->config->translations, [
