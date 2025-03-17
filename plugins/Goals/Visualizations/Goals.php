@@ -176,7 +176,6 @@ class Goals extends HtmlTable
                     'goal_ecommerceOrder_nb_conversions_attrib',
                     'goal_ecommerceOrder_revenue_attrib',
                     'goal_ecommerceOrder_nb_conversions_page_rate',
-                    'goal_ecommerceOrder_items',
                     'goal_ecommerceOrder_revenue_per_visit',
                 ];
                 break;
@@ -188,7 +187,6 @@ class Goals extends HtmlTable
                     'goal_ecommerceOrder_nb_conversions_entry',
                     'goal_ecommerceOrder_revenue_entry',
                     'goal_ecommerceOrder_nb_conversions_entry_rate',
-                    'goal_ecommerceOrder_items',
                     'goal_ecommerceOrder_revenue_per_entry',
                 ];
                 break;
