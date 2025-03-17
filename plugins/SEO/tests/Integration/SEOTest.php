@@ -23,7 +23,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class SEOTest extends IntegrationTestCase
 {
-    private const userAgents = [
+    private static $userAgents = [
         'Mozilla/5.0 ArchLinux (X11; U; Linux x86_64; en-US) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.100 Safari/534.30',
         'Mozilla/5.0 (Windows Mobile 10; Android 10.0; Microsoft; Lumia 950XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Mobile Safari/537.36 Edge/40.15254.603',
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
@@ -65,11 +65,11 @@ class SEOTest extends IntegrationTestCase
     public static function randomiseUserAgent()
     {
         do {
-            $ua = rand(0, count(self::userAgents) - 1);
+            $ua = rand(0, count(self::$userAgents) - 1);
         } while ($ua === self::$userAgent);
         self::$userAgent = $ua;
 
-        $_SERVER['HTTP_USER_AGENT'] = self::userAgents[self::$userAgent];
+        $_SERVER['HTTP_USER_AGENT'] = self::$userAgents[self::$userAgent];
     }
 
     /**
