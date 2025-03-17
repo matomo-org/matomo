@@ -164,7 +164,7 @@
         "OptOutUseTracker": "Gebruik de Matomo tracker code om de opt-out in te stellen",
         "Output": "Output: %1$s",
         "PleaseEnableVisitorLogsProfiles": "Als je toegang tot gegevens voor deze site nodig hebt, schakel dan Bezoekerslogboeken of Bezoekersprofielen in bij de %1$ssite-instellingen%2$s.",
-        "PleaseEnableVisitorLogsProfilesSites": "Als je toegang tot gegevens voor deze sites wenst, schakel dan Bezoekerslogboeken of Bezoekersprofielen in bij de %1$ssite-instellingen&2$s.",
+        "PleaseEnableVisitorLogsProfilesSites": "Als je toegang tot gegevens voor deze sites wenst, schakel dan Bezoekerslogboeken of Bezoekersprofielen in bij de %1$ssite-instellingen%2$s.",
         "PluginDescription": "Verhoog de privacy van je gebruikers en maak je Matomo omgeving conform lokale wetgeving.",
         "PreviousRawDataAnonymizations": "Eerdere anonimisering van ruwe gegevens",
         "PrivacyPolicy": "Privacybeleid",
