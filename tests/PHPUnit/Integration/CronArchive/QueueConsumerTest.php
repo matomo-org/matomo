@@ -1198,7 +1198,18 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $periods = array_flip(Piwik::$idPeriods);
 
-        $archiveToProcess['periodObj'] = Factory::build($periods[$archiveToProcess['period']], $archiveToProcess['date1']);
+        if ('range' === $periods[$archiveToProcess['period']]) {
+            $archiveToProcess['periodObj'] = Factory::build(
+                $periods[$archiveToProcess['period']],
+                $archiveToProcess['date1'] . ',' . $archiveToProcess['date2']
+            );
+        } else {
+            $archiveToProcess['periodObj'] = Factory::build(
+                $periods[$archiveToProcess['period']],
+                $archiveToProcess['date1']
+            );
+        }
+
         $actual = $queueConsumer->shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress($archiveToProcess);
         $this->assertSame($expected, $actual);
     }
@@ -1460,6 +1471,38 @@ class QueueConsumerTest extends IntegrationTestCase
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
             'expected' => null
+        ];
+
+        yield 'day period should not be detected as intersecting when range is processed' => [
+            'existingInvalidations' => [
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-05', 'period' => Range::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
+            'expected' => null,
+        ];
+
+        yield 'range period should be detected as intersecting when day is processed' => [
+            'existingInvalidations' => [
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-05', 'period' => Range::PERIOD_ID],
+            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
+        ];
+
+        yield 'range period should be detected as intersecting when overlapping range is processed' => [
+            'existingInvalidations' => [
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-04', 'period' => Range::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-05', 'period' => Range::PERIOD_ID],
+            'expected' => 'lower or same period in progress (period = range, date = 2020-03-02,2020-03-04)',
+        ];
+
+        yield 'range period should not be detected as intersecting when non-overlapping range is processed' => [
+            'existingInvalidations' => [
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-02', 'period' => Range::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'period' => Range::PERIOD_ID],
+            'expected' => null,
         ];
     }
 
