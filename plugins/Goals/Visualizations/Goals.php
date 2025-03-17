@@ -151,7 +151,6 @@ class Goals extends HtmlTable
 
     private function setPropertiesForEcommerceView()
     {
-        $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue';
         $this->requestConfig->filter_sort_order = 'desc';
 
         switch ($this->displayType) {
@@ -176,7 +175,6 @@ class Goals extends HtmlTable
                     'goal_ecommerceOrder_nb_conversions_attrib',
                     'goal_ecommerceOrder_revenue_attrib',
                     'goal_ecommerceOrder_nb_conversions_page_rate',
-                    'goal_ecommerceOrder_revenue_per_visit',
                 ];
                 break;
             case self::GOALS_DISPLAY_ENTRY_PAGES:
