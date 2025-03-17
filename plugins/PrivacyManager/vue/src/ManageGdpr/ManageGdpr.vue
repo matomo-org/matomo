@@ -79,7 +79,9 @@
       notification-info">
         <strong>{{ translate('PrivacyManager_SiteDataNotAvailable')}}</strong>
         <p>{{ translate('PrivacyManager_VisitorLogsProfilesDisabledMessage')}}</p>
-        <p>{{ translate('PrivacyManager_PleaseEnableVisitorLogsProfiles')}}</p>
+        <p
+          v-html="$sanitize(siteSettingsTextSingle)"
+        />
       </div>
     </ContentBlock>
     <div v-if="allWebsitesContainsDisabledSite" class="system notification notification-icon
@@ -87,7 +89,9 @@
       <strong>{{ translate('PrivacyManager_SiteDataNotAvailableCertainSites')}}</strong>
       <div class="notification-body">
         <p>{{ translate('PrivacyManager_VisitorLogsProfilesSiteNamesDisabledMessage')}}</p>
-        <p>{{ translate('PrivacyManager_PleaseEnableVisitorLogsProfilesSites')}}</p>
+        <p
+          v-html="$sanitize(siteSettingsText)"
+        />
       </div>
     </div>
     <div v-show="!dataSubjects.length && hasSearched">
@@ -409,10 +413,10 @@ export default defineComponent({
         NotificationsStore.scrollToNotification(notificationInstanceId);
       }, 200);
     },
-    linkTo(action: string) {
+    linkTo(action: string, module = 'PrivacyManager') {
       return `?${MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
-        module: 'PrivacyManager',
+        module,
         action,
       })}`;
     },
@@ -522,6 +526,20 @@ export default defineComponent({
       return translate(
         'PrivacyManager_GdprToolsOverviewHint',
         `<a href="${this.linkTo('gdprOverview')}">`,
+        '</a>',
+      );
+    },
+    siteSettingsText(): string {
+      return translate(
+        'PrivacyManager_PleaseEnableVisitorLogsProfilesSites',
+        `<a href="${this.linkTo('globalSettings', 'SitesManager')}">`,
+        '</a>',
+      );
+    },
+    siteSettingsTextSingle(): string {
+      return translate(
+        'PrivacyManager_PleaseEnableVisitorLogsProfiles',
+        `<a href="${this.linkTo('globalSettings', 'SitesManager')}">`,
         '</a>',
       );
     },
