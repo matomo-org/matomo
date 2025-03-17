@@ -53,6 +53,8 @@
         "UnprocessedSegmentNoData1": "Níl aon sonraí ag na tuarascálacha seo, toisc nach bhfuil an Deighleog a d'iarr tú %1$s próiseáilte ag an gcóras fós.",
         "UnprocessedSegmentNoData2": "Ba cheart go mbeadh sonraí don Deighleog seo ar fáil i gceann cúpla uair an chloig tar éis don phróiseáil a bheith críochnaithe. (Mura ndéanann sé, d'fhéadfadh fadhb a bheith ann.)",
         "UnprocessedSegmentNoData3": "Ní féidir le Matomo sonraí na míre %1$s a thaispeáint, toisc go gcuireann an chumraíocht cosc ar athchlannú don tréimhse seo. Déan teagmháil le do riarthóir nó seiceáil %2$s an FAQ%3$s conas an fhadhb seo a réiteach.",
+        "UpdatingAllSitesSegmentPermittedToSuperUser": "Chuir an sár-úsáideoir an mhír seo ar fáil do gach suíomh. Anois, ní cheadaítear ach sár-úsáideoirí é a nuashonrú nó a bhaint.",
+        "UpdatingForeignSegmentPermittedToSuperUser": "Ní féidir leat ach míreanna saincheaptha a chruthaigh tú féin a chur in eagar agus a scriosadh. Chruthaigh agus roinneadh an mhír seo leat ag an Sár-Úsáideoir. Chun an deighleog seo a mhodhnú, is féidir leat ceann nua a chruthú ar dtús trí chliceáil ar 'Cuir teascán nua leis'. Ansin, is féidir leat sainmhíniú an deighleog a shaincheapadh.",
         "VisibleToAllUsers": "gach úsáideoir",
         "VisibleToMe": "liom",
         "VisibleToSuperUser": "Infheicthe duit toisc go bhfuil rochtain SárÚsáideora agat",
