@@ -65,7 +65,6 @@ class Bing implements MetricsProvider
                 } catch (\Exception $e) {
                     $this->logger->info('Error while getting Bing SEO stats: {message}', ['message' => $e->getMessage()]);
                 }
-
             }
         }
 
