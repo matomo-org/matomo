@@ -62,8 +62,8 @@ class WordPress extends SiteContentDetectionAbstract
             $authLink = SettingsPiwik::getPiwikUrl() . 'index.php?' .
                 Url::getQueryStringFromParameters([
                                                       'idSite' => $idSite,
-                                                      'date'   => $date,
-                                                      'period' => $period,
+                                                      'date'   => urlencode($date),
+                                                      'period' => urlencode($period),
                                                       'module' => 'UsersManager',
                                                       'action' => 'addNewToken',
                                                   ]);
