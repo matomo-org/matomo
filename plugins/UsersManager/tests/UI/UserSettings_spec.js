@@ -63,6 +63,13 @@ describe("UserSettings", function () {
         expect(await page.screenshotSelector('.admin')).to.matchImage('load_security_new_token');
     });
 
+    it('should delete all tokens without password confirmation right after one was created', async function () {
+        await page.click('button.delete-all-tokens');
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(200);
+        expect(await page.screenshotSelector('.admin')).to.matchImage('load_security_no_tokens');
+    });
+
     it('should show user settings page', async function () {
         await page.goto(userSettingsUrl);
         expect(await page.screenshotSelector('.admin')).to.matchImage('load');
