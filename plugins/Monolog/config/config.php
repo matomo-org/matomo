@@ -264,7 +264,7 @@ return array(
     }),
 
     'log.short.format' => Piwik\DI::factory(function (Container $c) {
-        if ($c->has('ini.log.enable_json')) {
+        if ($c->has('ini.log.enable_json') && $c->get('ini.log.enable_json') == true) {
             return 'json';
         }
         if ($c->has('ini.log.string_message_format')) {
@@ -274,7 +274,7 @@ return array(
     }),
 
     'log.trace.format' => Piwik\DI::factory(function (Container $c) {
-        if ($c->has('ini.log.enable_json')) {
+        if ($c->has('ini.log.enable_json') && $c->get('ini.log.enable_json') == true) {
             return 'json';
         }
         if ($c->has('ini.log.string_message_format_trace')) {

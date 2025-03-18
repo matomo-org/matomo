@@ -24,7 +24,7 @@ class LineMessageFormatter implements FormatterInterface
      */
     private $logMessageFormat;
     private $excludePatterns;
-    private $customFunction;
+    private $customFunction = null;
     private $allowInlineLineBreaks;
 
     /**
@@ -36,7 +36,7 @@ class LineMessageFormatter implements FormatterInterface
         $this->logMessageFormat = $logMessageFormat;
         $this->allowInlineLineBreaks = $allowInlineLineBreaks;
         $this->excludePatterns = $excludePatterns;
-        if ($customFunctionFile !== null) {
+        if ($customFunctionFile !== null && $this->customFunction == null) {
             $this->customFunction = include_once $customFunctionFile;
         }
     }
