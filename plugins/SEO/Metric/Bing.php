@@ -58,10 +58,9 @@ class Bing implements MetricsProvider
                         $suffix = 'General_Pages';
 
                         break;
-                    } else {
-                        SEOTest::randomiseUserAgent();
-                        sleep(10);
                     }
+
+                    sleep(10);
                 } catch (\Exception $e) {
                     $this->logger->info('Error while getting Bing SEO stats: {message}', ['message' => $e->getMessage()]);
                 }
