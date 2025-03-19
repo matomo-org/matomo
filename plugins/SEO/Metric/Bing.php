@@ -13,7 +13,6 @@ use Piwik\Http;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Log\LoggerInterface;
-use Piwik\Plugins\SEO\tests\Integration\SEOTest;
 
 /**
  * Fetches the number of pages indexed in Bing.
