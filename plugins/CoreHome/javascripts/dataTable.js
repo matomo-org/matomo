@@ -1377,7 +1377,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     getFilterParams: function (params) {
         return Object.keys(params)
-           .filter(key => key.startsWith('filter_column') || key.startsWith('filter_pattern'))
+           .filter(key => {
+               return key === 'filter_trigger_id'
+                   || key.startsWith('filter_column')
+                   || key.startsWith('filter_pattern')
+                   || key.startsWith('filter_sort')
+           })
            .reduce((filterParams, key) => {
                filterParams[key] = params[key];
                return filterParams;
