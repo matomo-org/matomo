@@ -245,7 +245,7 @@ class CliMulti
         $this->outputs[] = $output;
     }
 
-    private function buildCommand($hostname, $query, $outputFileIfAsync, $doEsacpeArg = true)
+    private function buildCommand($hostname, $query, $outputFileIfAsync, $doEscapeArg = true)
     {
         $bin = $this->findPhpBinary();
         $superuserCommand = $this->runAsSuperUser ? "--superuser" : "";
@@ -255,7 +255,7 @@ class CliMulti
             $append = sprintf(' > %s 2>&1 &', $outputFileIfAsync);
         }
 
-        if ($doEsacpeArg) {
+        if ($doEscapeArg) {
             $hostname = escapeshellarg($hostname);
             $query = escapeshellarg($query);
         }
@@ -278,7 +278,7 @@ class CliMulti
 
         foreach ($this->outputs as $output) {
             $content = $output->get();
-            // Remove output that can be ignored in climulti . works around some worpdress setups where the hash bang may
+            // Remove output that can be ignored in climulti . works around some WordPress setups where the hash bang may
             // be printed
             $search = '#!/usr/bin/env php';
             if (
