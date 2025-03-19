@@ -59,6 +59,7 @@ class PhpFunctionsCheck implements Diagnostic
     {
         return array(
             'debug_backtrace',
+            'escapeshellarg',
             'eval',
             'hash',
             'gzcompress',
