@@ -166,7 +166,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue?vue&type=template&id=2c138f13
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue?vue&type=template&id=8f4eb8be
 
 var _hoisted_1 = {
   class: "manageGdpr"
@@ -441,7 +441,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: _ctx.translate('General_No')
   }, null, 8, _hoisted_49)], 512)]);
 }
-// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue?vue&type=template&id=2c138f13
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/ManageGdpr/ManageGdpr.vue?vue&type=template&id=8f4eb8be
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -680,10 +680,10 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
       return Object(external_CoreHome_["translate"])('PrivacyManager_GdprToolsOverviewHint', "<a href=\"".concat(this.linkTo('gdprOverview'), "\">"), '</a>');
     },
     siteSettingsText: function siteSettingsText() {
-      return Object(external_CoreHome_["translate"])('PrivacyManager_PleaseEnableVisitorLogsProfilesSites', "<a href=\"".concat(this.linkTo('globalSettings', 'SitesManager'), "\">"), '</a>');
+      return Object(external_CoreHome_["translate"])('PrivacyManager_PleaseEnableVisitorLogsProfilesSites', "<a href=\"".concat(this.linkTo('index', 'SitesManager'), "\">"), '</a>');
     },
     siteSettingsTextSingle: function siteSettingsTextSingle() {
-      return Object(external_CoreHome_["translate"])('PrivacyManager_PleaseEnableVisitorLogsProfiles', "<a href=\"".concat(this.linkTo('globalSettings', 'SitesManager'), "\">"), '</a>');
+      return Object(external_CoreHome_["translate"])('PrivacyManager_PleaseEnableVisitorLogsProfiles', "<a href=\"".concat(this.linkTo('index', 'SitesManager'), "\">"), '</a>');
     }
   }
 }));
