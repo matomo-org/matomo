@@ -182,12 +182,12 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
           <add url="/misc/cron/archive.php" />
         </alwaysAllowedUrls>';
 
-        // deny direct access to .php files
+        // Deny direct access to .php files. Empty string means no custom additions/exclusions.
         $directoriesToProtect = array(
-            '/libs',
-            '/vendor',
+            '/libs' => '',
+            '/vendor' => '',
             '/plugins' => $additionForPlugins,
-            '/node_modules',
+            '/node_modules' => '',
             '/misc' => $additionForMisc,
         );
 
@@ -201,7 +201,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
       <requestFiltering>
         <denyUrlSequences>
           <add sequence=".php" />
-        </denyUrlSequences>' . (!is_numeric($directoryToProtect) ? $additions : '') . '
+        </denyUrlSequences>' . $additions . '
       </requestFiltering>
     </security>
   </system.webServer>
