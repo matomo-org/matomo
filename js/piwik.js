@@ -3694,10 +3694,10 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 return [
-                    '',
-                    '',
+                    false,
+                    false,
                     0,
-                    ''
+                    false
                 ];
             }
 
@@ -3905,10 +3905,10 @@ if (typeof window.Matomo !== 'object') {
                     campaignKeywordDetected,
                     attributionValues = {};
 
-                campaignNameDetected = attributionCookie[0];
-                campaignKeywordDetected = attributionCookie[1];
+                campaignNameDetected = attributionCookie[0] || '';
+                campaignKeywordDetected = attributionCookie[1] || '';
                 referralTs = attributionCookie[2];
-                referralUrl = attributionCookie[3];
+                referralUrl = attributionCookie[3] || '';
 
                 if (!hasIgnoreReferrerParameter(currentUrl) && !cookieSessionValue) {
                     // cookie 'ses' was not found: we consider this the start of a 'session'
@@ -3965,10 +3965,10 @@ if (typeof window.Matomo !== 'object') {
                         || campaignNameDetected.length) {
                         referralTs = nowTs;
                         attributionCookie = [
-                            campaignNameDetected,
-                            campaignKeywordDetected,
+                            campaignNameDetected || false,
+                            campaignKeywordDetected || false,
                             referralTs,
-                            purify(referralUrl.slice(0, referralUrlMaxLength))
+                            purify(referralUrl.slice(0, referralUrlMaxLength)) || false
                         ];
 
                         setCookie(cookieReferrerName, windowAlias.JSON.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
@@ -5346,7 +5346,7 @@ if (typeof window.Matomo !== 'object') {
              * @returns {string}
              */
             this.getAttributionCampaignName = function () {
-                return loadReferrerAttributionCookie()[0];
+                return loadReferrerAttributionCookie()[0] || '';
             };
 
             /**
@@ -5356,7 +5356,7 @@ if (typeof window.Matomo !== 'object') {
              * @returns {string}
              */
             this.getAttributionCampaignKeyword = function () {
-                return loadReferrerAttributionCookie()[1];
+                return loadReferrerAttributionCookie()[1] || '';
             };
 
             /**
@@ -5374,7 +5374,7 @@ if (typeof window.Matomo !== 'object') {
              * @returns {string} Raw URL, or empty string '' if no referrer currently set
              */
             this.getAttributionReferrerUrl = function () {
-                return loadReferrerAttributionCookie()[3];
+                return loadReferrerAttributionCookie()[3] || '';
             };
 
             /**
