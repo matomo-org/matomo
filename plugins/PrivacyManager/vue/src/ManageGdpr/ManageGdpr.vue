@@ -532,14 +532,14 @@ export default defineComponent({
     siteSettingsText(): string {
       return translate(
         'PrivacyManager_PleaseEnableVisitorLogsProfilesSites',
-        `<a href="${this.linkTo('globalSettings', 'SitesManager')}">`,
+        `<a href="${this.linkTo('index', 'SitesManager')}">`,
         '</a>',
       );
     },
     siteSettingsTextSingle(): string {
       return translate(
         'PrivacyManager_PleaseEnableVisitorLogsProfiles',
-        `<a href="${this.linkTo('globalSettings', 'SitesManager')}">`,
+        `<a href="${this.linkTo('index', 'SitesManager')}">`,
         '</a>',
       );
     },
