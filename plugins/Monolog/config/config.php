@@ -111,24 +111,24 @@ return array(
 
     'Piwik\Plugins\Monolog\Handler\FileHandler' => Piwik\DI::create()
         ->constructor(Piwik\DI::get('log.file.filename'), Piwik\DI::get('log.level.file'))
-        ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
+        ->method('setFormatter', Piwik\DI::get('log.formatter.file')),
 
     'Piwik\Plugins\Monolog\Handler\ErrorLogHandler' => Piwik\DI::autowire()
         ->constructorParameter('level', Piwik\DI::get('log.level.errorlog'))
-        ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
+        ->method('setFormatter', Piwik\DI::get('log.formatter.errorlog')),
 
     'Piwik\Plugins\Monolog\Handler\SyslogHandler' => Piwik\DI::autowire()
         ->constructorParameter('ident', Piwik\DI::get('log.syslog.ident'))
         ->constructorParameter('level', Piwik\DI::get('log.level.syslog'))
-        ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
+        ->method('setFormatter', Piwik\DI::get('log.formatter.syslog')),
 
     'Piwik\Plugins\Monolog\Handler\DatabaseHandler' => Piwik\DI::create()
         ->constructor(Piwik\DI::get('log.level.database'))
-        ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter')),
+        ->method('setFormatter', Piwik\DI::get('log.formatter.database')),
 
     'Piwik\Plugins\Monolog\Handler\WebNotificationHandler' => Piwik\DI::create()
         ->constructor(Piwik\DI::get('log.level.screen'))
-        ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter')),
+        ->method('setFormatter', Piwik\DI::get('log.formatter.screen')),
 
     'log.level' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.log_level')) {
@@ -191,6 +191,64 @@ return array(
         return $c->get('log.level');
     }),
 
+    'log.formatter.file' => Piwik\DI::factory(function (Container $c) {
+        $format = $c->has('ini.log.log_format_file') ? $c->get('ini.log.log_format_file') : $c->get('ini.log.log_format');
+
+        if ($format === 'json') {
+            return $c->make(Piwik\Plugins\Monolog\Formatter\JsonFormatter::class);
+        }
+
+        return $c->make(Piwik\Plugins\Monolog\Formatter\LineMessageFormatter::class, [
+            'logMessageFormat'      => $c->get('log.trace.format'),
+            'allowInlineLineBreaks' => false,
+        ]);
+    }),
+
+    'log.formatter.screen' => Piwik\DI::factory(function (Container $c) {
+        // screen writer only supports text
+        return $c->make(Piwik\Plugins\Monolog\Formatter\LineMessageFormatter::class, [
+            'logMessageFormat' => $c->get('log.short.format'),
+        ]);
+    }),
+
+    'log.formatter.database' => Piwik\DI::factory(function (Container $c) {
+        $format = $c->has('ini.log.log_format_database') ? $c->get('ini.log.log_format_database') : $c->get('ini.log.log_format');
+
+        if ($format === 'json') {
+            return $c->make(Piwik\Plugins\Monolog\Formatter\JsonFormatter::class);
+        }
+
+        return $c->make(Piwik\Plugins\Monolog\Formatter\LineMessageFormatter::class, [
+            'logMessageFormat' => $c->get('log.short.format'),
+        ]);
+    }),
+
+    'log.formatter.syslog' => Piwik\DI::factory(function (Container $c) {
+        $format = $c->has('ini.log.log_format_syslog') ? $c->get('ini.log.log_format_syslog') : $c->get('ini.log.log_format');
+
+        if ($format === 'json') {
+            return $c->make(Piwik\Plugins\Monolog\Formatter\JsonFormatter::class);
+        }
+
+        return $c->make(Piwik\Plugins\Monolog\Formatter\LineMessageFormatter::class, [
+            'logMessageFormat'      => $c->get('log.trace.format'),
+            'allowInlineLineBreaks' => false,
+        ]);
+    }),
+
+    'log.format.errorlog'           => Piwik\DI::factory(function (Container $c) {
+        $format = $c->has('ini.log.log_format_errorlog') ? $c->get('ini.log.log_format_errorlog') : $c->get('ini.log.log_format');
+
+        if ($format === 'json') {
+            return $c->make(Piwik\Plugins\Monolog\Formatter\JsonFormatter::class);
+        }
+
+        return $c->make(Piwik\Plugins\Monolog\Formatter\LineMessageFormatter::class, [
+            'logMessageFormat'      => $c->get('log.trace.format'),
+            'allowInlineLineBreaks' => false,
+        ]);
+    }),
+
     'log.file.filename' => Piwik\DI::factory(function (Container $c) {
         $logPath = $c->get('ini.log.logger_file_path');
 
@@ -227,12 +285,12 @@ return array(
 
     'Piwik\Plugins\Monolog\Formatter\LineMessageFormatter' => Piwik\DI::create('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
                                                                 ->constructor(Piwik\DI::get('log.short.format')),
-    'log.lineMessageFormatter' => Piwik\DI::create('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
-        ->constructor(Piwik\DI::get('log.short.format')),
 
-    'log.lineMessageFormatter.file' => Piwik\DI::autowire('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
-        ->constructor(Piwik\DI::get('log.trace.format'))
-        ->constructorParameter('allowInlineLineBreaks', false),
+    // deprecated
+    'log.lineMessageFormatter'      => Piwik\DI::get('log.formatter.screen'),
+
+    // deprecated
+    'log.lineMessageFormatter.file' => Piwik\DI::get('log.formatter.file'),
 
     'log.short.format' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.string_message_format')) {
@@ -255,7 +313,7 @@ return array(
         }
 
         $fileHandler = new FileHandler($logFile, Logger::INFO);
-        $fileHandler->setFormatter($c->get('log.lineMessageFormatter.file'));
+        $fileHandler->setFormatter($c->get('log.formatter.file'));
         return [$fileHandler];
     },
 
