@@ -125,8 +125,14 @@ log_level = WARN
 ; this allows you to log more information to one backend vs another.
 ; log_level_screen =
 ; log_level_file =
+; log_level_database =
 ; log_level_errorlog =
 ; log_level_syslog =
+
+; format to use for log writers (except screen). Can either be text or json
+; Screen log writer will always use text
+; you can also set specific log formats for different writers, by appending the writer name to log_format_, like above
+log_format = text
 
 ; if configured to log in a file, log entries will be made to this file
 logger_file_path = tmp/logs/matomo.log
