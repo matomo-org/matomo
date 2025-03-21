@@ -46,8 +46,8 @@
 		<revenue>25</revenue>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<lat>39.044</lat>
-		<long>-77.488</long>
+		<lat>39.04</lat>
+		<long>-77.49</long>
 		<segment>city==Ashburn;regionCode==VA;countryCode==us</segment>
 		<city_name>Ashburn</city_name>
 		<region>VA</region>
@@ -75,7 +75,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<lat>1.367</lat>
+		<lat>1.37</lat>
 		<long>103.8</long>
 		<segment>city==Singapore;regionCode==;countryCode==sg</segment>
 		<city_name>Singapore</city_name>
@@ -133,8 +133,8 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<lat>39.957</lat>
-		<long>-74.916</long>
+		<lat>39.96</lat>
+		<long>-74.92</long>
 		<segment>city==Mount+Laurel;regionCode==NJ;countryCode==us</segment>
 		<city_name>Mount Laurel</city_name>
 		<region>NJ</region>
@@ -162,8 +162,8 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<lat>37.599</lat>
-		<long>126.978</long>
+		<lat>37.6</lat>
+		<long>126.98</long>
 		<segment>city==Seoul;regionCode==11;countryCode==kr</segment>
 		<city_name>Seoul</city_name>
 		<region>11</region>

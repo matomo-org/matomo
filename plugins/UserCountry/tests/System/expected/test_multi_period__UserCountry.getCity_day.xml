@@ -25,8 +25,8 @@
 			</goals>
 			<nb_conversions>3</nb_conversions>
 			<revenue>15</revenue>
-			<lat>47.249</lat>
-			<long>6.018</long>
+			<lat>47.25</lat>
+			<long>6.02</long>
 			<segment>city==Besan%C3%A7on;regionCode==BFC;countryCode==fr</segment>
 			<city_name>Besançon</city_name>
 			<region>BFC</region>
