@@ -68,7 +68,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
             '/libs'         => $denyAll . $allowStaticAssets,
             '/vendor'       => $denyAll . $allowStaticAssets,
             '/plugins'      => $denyAll . $allowStaticAssets . $allowManifestFile,
-            '/misc/user'    => $denyAll . $allowStaticAssets,
+            '/misc'         => $denyAll . $allowStaticAssets,
             '/node_modules' => $denyAll . $allowStaticAssets,
         );
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
@@ -172,20 +172,26 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
 </configuration>'
         );
 
-        // deny direct access to .php files
-        $directoriesToProtect = array(
-            '/libs',
-            '/vendor',
-            '/plugins',
-            '/node_modules',
-        );
-
         $additionForPlugins = '
         <alwaysAllowedUrls>
           <add url="/plugins/HeatmapSessionRecording/configs.php" />
         </alwaysAllowedUrls>';
 
-        foreach ($directoriesToProtect as $directoryToProtect) {
+        $additionForMisc = '
+        <alwaysAllowedUrls>
+          <add url="/misc/cron/archive.php" />
+        </alwaysAllowedUrls>';
+
+        // Deny direct access to .php files. Empty string means no custom additions/exclusions.
+        $directoriesToProtect = array(
+            '/libs' => '',
+            '/vendor' => '',
+            '/plugins' => $additionForPlugins,
+            '/node_modules' => '',
+            '/misc' => $additionForMisc,
+        );
+
+        foreach ($directoriesToProtect as $directoryToProtect => $additions) {
             @file_put_contents(
                 PIWIK_INCLUDE_PATH . $directoryToProtect . '/web.config',
                 '<?xml version="1.0" encoding="UTF-8"?>
@@ -195,7 +201,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
       <requestFiltering>
         <denyUrlSequences>
           <add sequence=".php" />
-        </denyUrlSequences>' . ($directoryToProtect === '/plugins' ? $additionForPlugins : '') . '
+        </denyUrlSequences>' . $additions . '
       </requestFiltering>
     </security>
   </system.webServer>
@@ -212,11 +218,12 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
         @unlink($path . '/vendor/web.config');
         @unlink($path . '/plugins/web.config');
         @unlink($path . '/node_modules/web.config');
+        @unlink($path . '/misc/web.config');
     }
 
     /**
-     * Generate default robots.txt, favicon.ico, etc to suppress
-     * 404 (Not Found) errors in the web server logs, if Piwik
+     * Generate default robots.txt, favicon.ico, etc. to suppress
+     * 404 (Not Found) errors in the web server logs, if Matomo
      * is installed in the web root (or top level of subdomain).
      *
      * @see misc/crossdomain.xml
@@ -315,20 +322,20 @@ HTACCESS_ALLOW;
     }
 
     /**
-     * Deletes all existing .htaccess files and web.config files that Matomo may have created,
+     * Deletes all existing .htaccess files that Matomo may have created
      */
     public static function deleteHtAccessFiles()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, ".htaccess");
 
-        // that match the list of directories we create htaccess files
-        // (ie. not the root /.htaccess)
+        // only delete files that match the list of directories we create htaccess files in
+        // (i.e. not the root /.htaccess)
         $directoriesWithAutoHtaccess = array(
             '/js',
             '/libs',
             '/vendor',
             '/plugins',
-            '/misc/user',
+            '/misc',
             '/node_modules',
             '/config',
             '/core',
@@ -338,7 +345,7 @@ HTACCESS_ALLOW;
 
         foreach ($files as $file) {
             foreach ($directoriesWithAutoHtaccess as $dirToDelete) {
-                // only delete the first .htaccess and not the ones in sub-directories
+                // only delete the first .htaccess and not the ones in subdirectories
                 $pathToDelete = $dirToDelete . '/.htaccess';
                 if (strpos($file, $pathToDelete) !== false) {
                     @unlink($file);

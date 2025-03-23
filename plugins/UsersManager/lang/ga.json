@@ -153,6 +153,7 @@
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Tabhair faoi deara: Ní féidir leat na socruithe sa chuid seo a athrú, toisc nach bhfuil aon suíomh gréasáin agat ar féidir leis an úsáideoir anaithnid rochtain a fháil air.",
         "OnlyAllowSecureRequests": "Ná ceadaigh ach iarratais shlána",
         "OrManageIndividually": "Nó rochtain an úsáideora seo ar gach suíomh gréasáin a bhainistiú ina n-aonar",
+        "PasswordChangeDoesNotRevokeAuthTokens": "Má athraítear do phasfhocal, ní chúlghairfear comharthaí a bhaineann go sonrach leis an aip. Má tá amhras ort go bhfuil rochtain neamhúdaraithe agat, scrios agus athghin iad sa rannán %1$s ag bun an leathanaigh.",
         "PasswordChangeNotificationSubject": "Athraíodh pasfhocal do chuntais Matomo díreach",
         "PasswordChangeTerminatesOtherSessions": "Nuair a athraíonn tú do phasfhocal, déanfar aon seisiún gníomhach eile den chuntas seo a logáil amach.",
         "PasswordChangedEmail": "Tá do phasfhocal díreach athraithe. Tionscnaíodh an t-athrú ón ngléas seo a leanas: %1$s (seoladh IP = %2$s).",

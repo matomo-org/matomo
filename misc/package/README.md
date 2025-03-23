@@ -1,3 +1,3 @@
-# Piwik Packages
+# Matomo Packages
 
-We build the main Piwik packages and Debian package using https://github.com/piwik/piwik-package
+We build the main Matomo packages and Debian package using https://github.com/matomo-org/matomo-package
