@@ -129,7 +129,7 @@ log_level = WARN
 ; log_level_errorlog =
 ; log_level_syslog =
 
-; format to use for log writers (except screen). Can either be text or json
+; format to use for log writers (except screen). Can either be text, json, loggly or logstash
 ; Screen log writer will always use text
 ; you can also set specific log formats for different writers, by appending the writer name to log_format_, like above
 log_format = text
