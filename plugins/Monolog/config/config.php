@@ -196,6 +196,10 @@ return array(
 
         if ($format === 'json') {
             return $c->make(Piwik\Plugins\Monolog\Formatter\JsonFormatter::class);
+        } elseif ($format === 'logstash') {
+            return $c->make(Piwik\Plugins\Monolog\Formatter\LogstashFormatter::class);
+        } elseif ($format === 'loggly') {
+            return $c->make(Piwik\Plugins\Monolog\Formatter\LogglyFormatter::class);
         }
 
         return $c->make(Piwik\Plugins\Monolog\Formatter\LineMessageFormatter::class, [
@@ -216,6 +220,10 @@ return array(
 
         if ($format === 'json') {
             return $c->make(Piwik\Plugins\Monolog\Formatter\JsonFormatter::class);
+        } elseif ($format === 'logstash') {
+            return $c->make(Piwik\Plugins\Monolog\Formatter\LogstashFormatter::class);
+        } elseif ($format === 'loggly') {
+            return $c->make(Piwik\Plugins\Monolog\Formatter\LogglyFormatter::class);
         }
 
         return $c->make(Piwik\Plugins\Monolog\Formatter\LineMessageFormatter::class, [
@@ -228,6 +236,10 @@ return array(
 
         if ($format === 'json') {
             return $c->make(Piwik\Plugins\Monolog\Formatter\JsonFormatter::class);
+        } elseif ($format === 'logstash') {
+            return $c->make(Piwik\Plugins\Monolog\Formatter\LogstashFormatter::class);
+        } elseif ($format === 'loggly') {
+            return $c->make(Piwik\Plugins\Monolog\Formatter\LogglyFormatter::class);
         }
 
         return $c->make(Piwik\Plugins\Monolog\Formatter\LineMessageFormatter::class, [
@@ -236,11 +248,15 @@ return array(
         ]);
     }),
 
-    'log.format.errorlog'           => Piwik\DI::factory(function (Container $c) {
+    'log.format.errorlog' => Piwik\DI::factory(function (Container $c) {
         $format = $c->has('ini.log.log_format_errorlog') ? $c->get('ini.log.log_format_errorlog') : $c->get('ini.log.log_format');
 
         if ($format === 'json') {
             return $c->make(Piwik\Plugins\Monolog\Formatter\JsonFormatter::class);
+        } elseif ($format === 'logstash') {
+            return $c->make(Piwik\Plugins\Monolog\Formatter\LogstashFormatter::class);
+        } elseif ($format === 'loggly') {
+            return $c->make(Piwik\Plugins\Monolog\Formatter\LogglyFormatter::class);
         }
 
         return $c->make(Piwik\Plugins\Monolog\Formatter\LineMessageFormatter::class, [
@@ -286,10 +302,10 @@ return array(
     'Piwik\Plugins\Monolog\Formatter\LineMessageFormatter' => Piwik\DI::create('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
                                                                 ->constructor(Piwik\DI::get('log.short.format')),
 
-    // deprecated
+    // @deprecated Remove in Matomo 6
     'log.lineMessageFormatter'      => Piwik\DI::get('log.formatter.screen'),
 
-    // deprecated
+    // deprecated Remove in Matomo 6
     'log.lineMessageFormatter.file' => Piwik\DI::get('log.formatter.file'),
 
     'log.short.format' => Piwik\DI::factory(function (Container $c) {
