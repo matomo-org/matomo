@@ -27,7 +27,7 @@
 		<metricsDocumentation>
 			<nb_events>Total number of events</nb_events>
 			<nb_visits>The total number of visits where at least one event was triggered.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors who triggered an event on your website. Every visitor is only counted once, even if they visit or trigger multiple events on the website.</nb_uniq_visitors>
+			<nb_uniq_visitors>The number of deduplicated visitors who triggered an event on your website. Every visitor is only counted once, even if they visit or trigger multiple events on the website.</nb_uniq_visitors>
 			<sum_event_value>The sum of event values</sum_event_value>
 			<min_event_value>The minimum value for this event</min_event_value>
 			<max_event_value>The maximum value for this event</max_event_value>
