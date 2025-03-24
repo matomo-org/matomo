@@ -40,7 +40,6 @@ class Conversions extends GoalSpecificProcessedMetric
 
         return Piwik::translate('Goals_ColumnConversionsDocumentation', $this->getGoalNameForDocs());
     }
-    
     public function getDependentMetrics()
     {
         return array('goals');
