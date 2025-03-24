@@ -48,21 +48,15 @@ class Bing implements MetricsProvider
         $pageCount = Piwik::translate('General_ErrorTryAgain');
 
         if ($domain) {
-            for ($i = 1; $i <= 3; $i++) {
-                try {
-                    $response = $this->getBingResponse($domain);
+            try {
+                $response = $this->getBingResponse($domain);
 
-                    if (preg_match('#([0-9,\.]+) results#i', $response, $p)) {
-                        $pageCount = NumberFormatter::getInstance()->formatNumber((int)str_replace([',', '.'], '', $p[1]));
-                        $suffix = 'General_Pages';
-
-                        break;
-                    }
-
-                    sleep(10);
-                } catch (\Exception $e) {
-                    $this->logger->info('Error while getting Bing SEO stats: {message}', ['message' => $e->getMessage()]);
+                if (preg_match('#([0-9,.]+) results#i', $response, $p)) {
+                    $pageCount = NumberFormatter::getInstance()->formatNumber((int)str_replace([',', '.'], '', $p[1]));
+                    $suffix = 'General_Pages';
                 }
+            } catch (\Exception $e) {
+                $this->logger->info('Error while getting Bing SEO stats: {message}', ['message' => $e->getMessage()]);
             }
         }
 
