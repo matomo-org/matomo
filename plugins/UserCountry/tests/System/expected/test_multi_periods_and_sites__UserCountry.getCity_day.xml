@@ -26,8 +26,8 @@
 				</goals>
 				<nb_conversions>3</nb_conversions>
 				<revenue>15</revenue>
-				<lat>47.249</lat>
-				<long>6.018</long>
+				<lat>47.25</lat>
+				<long>6.02</long>
 				<segment>city==Besan%C3%A7on;regionCode==BFC;countryCode==fr</segment>
 				<city_name>Besançon</city_name>
 				<region>BFC</region>
@@ -60,8 +60,8 @@
 				</goals>
 				<nb_conversions>3</nb_conversions>
 				<revenue>15</revenue>
-				<lat>123.456</lat>
-				<long>21.321</long>
+				<lat>123.46</lat>
+				<long>21.32</long>
 				<segment>city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb</segment>
 				<city_name>Stratford-upon-Avon</city_name>
 				<region>WAR</region>
@@ -127,7 +127,7 @@
 				<nb_conversions>3</nb_conversions>
 				<revenue>15</revenue>
 				<lat>49.25</lat>
-				<long>-123.133</long>
+				<long>-123.13</long>
 				<segment>city==Vancouver;regionCode==BC;countryCode==ca</segment>
 				<city_name>Vancouver</city_name>
 				<region>BC</region>
@@ -163,7 +163,7 @@
 				<nb_conversions>6</nb_conversions>
 				<revenue>30</revenue>
 				<lat>49.25</lat>
-				<long>-123.133</long>
+				<long>-123.13</long>
 				<segment>city==Vancouver;regionCode==BC;countryCode==ca</segment>
 				<city_name>Vancouver</city_name>
 				<region>BC</region>
@@ -262,8 +262,8 @@
 				</goals>
 				<nb_conversions>3</nb_conversions>
 				<revenue>15</revenue>
-				<lat>124.456</lat>
-				<long>22.231</long>
+				<lat>124.46</lat>
+				<long>22.23</long>
 				<segment>city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb</segment>
 				<city_name>Stratford-upon-Avon</city_name>
 				<region>WAR</region>
@@ -398,8 +398,8 @@
 				</goals>
 				<nb_conversions>3</nb_conversions>
 				<revenue>15</revenue>
-				<lat>123.456</lat>
-				<long>21.321</long>
+				<lat>123.46</lat>
+				<long>21.32</long>
 				<segment>city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb</segment>
 				<city_name>Stratford-upon-Avon</city_name>
 				<region>WAR</region>
@@ -499,7 +499,7 @@
 				<nb_conversions>3</nb_conversions>
 				<revenue>15</revenue>
 				<lat>41.9</lat>
-				<long>12.483</long>
+				<long>12.48</long>
 				<segment>city==Rome;regionCode==62;countryCode==it</segment>
 				<city_name>Rome</city_name>
 				<region>62</region>
@@ -534,8 +534,8 @@
 				</goals>
 				<nb_conversions>3</nb_conversions>
 				<revenue>15</revenue>
-				<lat>124.456</lat>
-				<long>22.231</long>
+				<lat>124.46</lat>
+				<long>22.23</long>
 				<segment>city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb</segment>
 				<city_name>Stratford-upon-Avon</city_name>
 				<region>WAR</region>
@@ -569,7 +569,7 @@
 				<nb_conversions>3</nb_conversions>
 				<revenue>15</revenue>
 				<lat>49.25</lat>
-				<long>-123.133</long>
+				<long>-123.13</long>
 				<segment>city==Vancouver;regionCode==BC;countryCode==ca</segment>
 				<city_name>Vancouver</city_name>
 				<region>BC</region>
