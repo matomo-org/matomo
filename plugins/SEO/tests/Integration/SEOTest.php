@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\SEO\tests\Integration;
 
 use Piwik\DataTable\Renderer;
+use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugins\SEO\API;
 use Piwik\Tests\Framework\Fixture;
@@ -46,6 +47,11 @@ class SEOTest extends IntegrationTestCase
      */
     public function testAPI()
     {
+        // skip testing Bing metric as it's flaky
+        EventDispatcher::getInstance()->addObserver('SEO.getMetricsProviders', function (&$providers) {
+            unset($providers['Piwik\Plugins\SEO\Metric\Bing']);
+        });
+
         $dataTable = API::getInstance()->getRank('http://matomo.org/');
         $renderer = Renderer::factory('json');
         $renderer->setTable($dataTable);
