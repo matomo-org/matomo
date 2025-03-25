@@ -988,7 +988,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         });
 
         $searchInput.on("blur", function () {
-            self.param.filter_trigger_id = 0;
+            delete self.param.filter_trigger_id;
         });
 
         var $dataTable = $searchInput.parents('.dataTable').first();
