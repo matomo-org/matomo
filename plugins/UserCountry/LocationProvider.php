@@ -41,7 +41,7 @@ abstract class LocationProvider
 
     public const CURRENT_PROVIDER_OPTION_NAME = 'usercountry.location_provider';
 
-    public const GEOGRAPHIC_COORD_PRECISION = 3;
+    public const GEOGRAPHIC_COORD_PRECISION = 2;
 
     public const CONTINENT_CODE_KEY = 'continent_code';
     public const CONTINENT_NAME_KEY = 'continent_name';

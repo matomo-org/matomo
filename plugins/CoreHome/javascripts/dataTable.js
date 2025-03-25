@@ -893,34 +893,47 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 searchForPattern();
             }
         }
-        function showSearch(event) {
-            event.preventDefault();
-            event.stopPropagation();
 
-            var triggerField;
-            if (typeof self.param.filter_trigger_id != "undefined"
-              && self.param.filter_trigger_id.length > 0) {
-              triggerField = document.getElementById(self.param.filter_trigger_id);
-            } else if (event && event.target) {
+        function getTriggerField(event) {
+          if (typeof self.param.filter_trigger_id !== "undefined" &&
+            self.param.filter_trigger_id.length > 0) {
+            return document.getElementById(self.param.filter_trigger_id);
+          } else {
+            if (event && event.target) {
               if (event.target.nodeName.toLowerCase() === 'span') {
-                triggerField = $(event.target).siblings('input');
+                return $(event.target).siblings('input');
               } else {
-                triggerField = $(event.target).children('input');
+                return $(event.target).children('input');
               }
             }
+          }
+        }
 
-            var $searchAction = $(this);
-            $searchAction.addClass('searchActive forceActionVisible');
-            var width = getOptimalWidthForSearchField($searchAction);
-            $searchAction.css('width', width + 'px');
+        function restoreSearchFieldFocus(event)
+        {
+            var triggerField = getTriggerField(event);
 
             if (triggerField) {
               triggerField.focus();
             }
+        }
 
+        function showSearchInputFields($searchAction) {
+            $searchAction.addClass('searchActive forceActionVisible');
+            var width = getOptimalWidthForSearchField($searchAction);
+            $searchAction.css('width', width + 'px');
             $searchAction.find('.icon-search').on('click', searchForPattern);
             $searchAction.off('click', showSearch);
         }
+
+        function showSearch(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            showSearchInputFields($(this));
+            restoreSearchFieldFocus(event);
+        }
+
 
         function searchForPattern(event) {
             var keyword = '';
@@ -974,11 +987,16 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         });
 
+        $searchInput.on("blur", function () {
+            delete self.param.filter_trigger_id;
+        });
+
         var $dataTable = $searchInput.parents('.dataTable').first();
         if (currentPattern) {
             $dataTable.addClass('hasSearchKeyword');
             $searchInput.val(currentPattern);
-            $searchAction.click();
+            showSearchInputFields($searchAction);
+            restoreSearchFieldFocus();
         } else {
             $dataTable.removeClass('hasSearchKeyword');
         }

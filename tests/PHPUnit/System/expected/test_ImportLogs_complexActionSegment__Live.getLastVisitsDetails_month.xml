@@ -126,7 +126,7 @@
 		<regionCode />
 		<city>Singapore</city>
 		<location>Singapore, Singapore</location>
-		<latitude>1.367000</latitude>
+		<latitude>1.370000</latitude>
 		<longitude>103.800000</longitude>
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
@@ -264,8 +264,8 @@
 		<regionCode>11</regionCode>
 		<city>Seoul</city>
 		<location>Seoul, Seoul-teukbyeolsi, South Korea</location>
-		<latitude>37.599000</latitude>
-		<longitude>126.978000</longitude>
+		<latitude>37.600000</latitude>
+		<longitude>126.980000</longitude>
 		<visitLocalTime>20:15:51</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
