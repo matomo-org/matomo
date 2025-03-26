@@ -9,8 +9,6 @@
 
 namespace Piwik\Plugins\UsersManager\AuthTokenNotifications;
 
-use Piwik\Config;
-
 interface AuthTokenProviderInterface
 {
     /**

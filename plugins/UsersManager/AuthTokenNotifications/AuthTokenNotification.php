@@ -40,8 +40,7 @@ final class AuthTokenNotification
         string $login,
         string $email,
         callable $onNotificationSent
-    )
-    {
+    ) {
         $this->tokenId = $tokenId;
         $this->tokenName = $tokenName;
         $this->tokenCreationDate = $tokenCreationDate;

@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\UsersManager\AuthTokenNotifications;
 
 use Exception;
-use MaxMind\Exception\AuthenticationException;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Log;
@@ -76,7 +75,6 @@ class AuthTokenNotifierTask extends Task
             $scheduler = StaticContainer::getContainer()->get(Scheduler::class);
             // reschedule to ensure it's not run again in an hour
             $scheduler->rescheduleTask(new AuthTokenNotifierTask());
-
         } catch (Exception $ex) {
             // message will already be prefixed w/ 'GeoIP2AutoUpdater: '
             Log::error($ex);
