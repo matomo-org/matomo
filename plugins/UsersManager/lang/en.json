@@ -237,6 +237,13 @@
         "AuthTokenSecureOnlyHelp": "Enable this option to only allow this token to be used in a secure way (e.g. POST requests), this is recommended as a best security practice. The token will then not be valid as a URL parameter in GET requests.",
         "AuthTokenSecureOnlyHelpForced": "The system administrator has configured Matomo to only allow tokens to be created for use in secure way (e.g. via POST requests), you cannot change this token option.",
         "OnlyAllowSecureRequests": "Only allow secure requests",
-        "SecureUseOnly": "Secure use only"
+        "SecureUseOnly": "Secure use only",
+        "AuthTokenNotificationEmailSubject": "Reminder: Rotate your Matomo personal access token",
+        "AuthTokenNotificationEmailReminder": "Reminder: Rotate your auth tokens every %1$s",
+        "AuthTokenNotificationEmail01": "To improve security, we recommend rotating your personal access tokens every %1$s%2$s%3$s.",
+        "AuthTokenNotificationEmail02": "You’re receiving this email because your %1$s%2$s%3$s personal access token has not been rotated since %4$s%5$s%6$s.",
+        "AuthTokenNotificationEmail03": "To generate a new token and delete the old one, go to Personal > Security settings in your Matomo instance.",
+        "AuthTokenNotificationEmail04": "If you believe you received this email in error, please contact your Matomo administrator.",
+        "AuthTokenNotificationEmail05": "Manage your access tokens"
     }
 }
