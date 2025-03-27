@@ -19,6 +19,7 @@
 		<metricsDocumentation>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<avg_time_on_dimension>Avg. Time on custom action dimension is the average time visitors spent on a specific custom action before moving to another tracked action. Calculated by summing the time spent on the action across all visits and dividing it by the number of times the action was performed.</avg_time_on_dimension>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 		</metricsDocumentation>

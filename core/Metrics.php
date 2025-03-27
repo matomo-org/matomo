@@ -569,7 +569,8 @@ class Metrics
             'avg_time_on_page'     => 'General_ColumnAverageTimeOnPageDocumentation',
             'nb_hits'              => 'General_ColumnPageviewsDocumentation',
             'hits'                 => 'General_ColumnHitsDocumentation',
-            'exit_rate'            => 'General_ColumnExitRateDocumentation'
+            'exit_rate'            => 'General_ColumnExitRateDocumentation',
+            'nb_visits_converted'  => 'General_VisitConvertedGoalDocumentation',
         );
 
         /**

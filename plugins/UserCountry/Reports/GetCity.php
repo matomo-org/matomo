@@ -21,10 +21,7 @@ class GetCity extends Base
         $this->dimension      = new City();
         $this->name           = Piwik::translate('UserCountry_City');
         $this->documentation  = Piwik::translate('UserCountry_getCityDocumentation') . '<br/>' . $this->getGeoIPReportDocSuffix();
-        $this->metrics        = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
-        $this->hasGoalMetrics = true;
         $this->order = 10;
-        $this->subcategoryId = 'UserCountry_SubmenuLocations';
     }
 
     public function configureView(ViewDataTable $view)

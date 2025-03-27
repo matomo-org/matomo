@@ -29,10 +29,19 @@ class GetNumberOfVisitsByVisitCount extends Base
                              . '<br />' . Piwik::translate('General_ChangeTagCloudView');
         $this->metrics       = array('nb_visits');
         $this->processedMetrics  = array(
-            new VisitsPercent()
+            new VisitsPercent(),
         );
         $this->constantRowsCount = true;
         $this->order = 25;
+    }
+
+    public function getMetricsDocumentation()
+    {
+        $documentation = parent::getMetricsDocumentation();
+
+        $documentation['nb_visits_percentage'] = Piwik::translate('VisitorInterest_ColumnPercentageVisitsDocumentation');
+
+        return $documentation;
     }
 
     public function configureView(ViewDataTable $view)

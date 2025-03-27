@@ -19,6 +19,7 @@
         "WidgetPagesDocumentation": "How many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, wherein more common numbers of pages have a larger font.",
         "WidgetVisitsByDaysSinceLast": "Visits by days since last visit",
         "WidgetVisitsByDaysSinceLastDocumentation": "How many visits were from returning visitors whose last visit was a certain number of days ago.",
-        "WidgetVisitsByNumDocumentation": "The number of visitors reaching their Nth visit. I.e. the total amount of visitors visiting your website a given amount of times or more."
+        "WidgetVisitsByNumDocumentation": "The number of visitors reaching their Nth visit. I.e. the total amount of visitors visiting your website a given amount of times or more.",
+        "ColumnPercentageVisitsDocumentation": "The percentage of totals visits, where visitors had this amount of visits in total yet."
     }
 }

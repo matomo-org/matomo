@@ -13,10 +13,12 @@
         <th id="label" class="sortable label first" style="cursor: auto;">
           <div class="thDIV">{{ translate('General_Date') }}</div>
         </th>
-        <th class="sortable" style="cursor: auto;">
+        <th class="sortable" style="cursor: auto;"
+            :title="translate('General_ColumnNbVisitsDocumentation')">
           <div class="thDIV">{{ translate('General_ColumnNbVisits') }}</div>
         </th>
-        <th class="sortable" style="cursor: auto;">
+        <th class="sortable" style="cursor: auto;"
+            :title="translate('General_ColumnNbActionsDocumentation')">
           <div class="thDIV">{{ translate('General_Actions') }}</div>
         </th>
       </tr>

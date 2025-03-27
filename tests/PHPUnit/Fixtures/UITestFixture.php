@@ -683,7 +683,7 @@ class XssProcessedMetric extends ProcessedMetric
 
     public function getName()
     {
-        return 'xssmetric';
+        return 'xssmetric' . $this->xssType;
     }
 
     public function getTranslatedName()

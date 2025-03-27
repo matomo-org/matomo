@@ -21,7 +21,7 @@ class GetAction extends Base
         $this->dimension     = new EventAction();
         $this->name          = Piwik::translate('Events_EventActions');
         $this->documentation = Piwik::translate('Events_EventActionsReportDocumentation');
-        $this->metrics       = array('nb_events', 'sum_event_value', 'min_event_value', 'max_event_value', 'nb_events_with_value');
+        $this->metrics       = ['nb_events', 'nb_visits', 'nb_uniq_visitors', 'sum_event_value', 'min_event_value', 'max_event_value', 'nb_events_with_value'];
         if (Common::getRequestVar('secondaryDimension', false) == 'eventCategory') {
             $this->actionToLoadSubTables = 'getCategoryFromNameId';
         } else {

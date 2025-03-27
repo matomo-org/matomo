@@ -24,11 +24,7 @@ class GetContinent extends Base
         $this->dimension      = new Continent();
         $this->name           = Piwik::translate('UserCountry_Continent');
         $this->documentation  = Piwik::translate('UserCountry_getContinentDocumentation');
-        $this->metrics        = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
-        $this->hasGoalMetrics = true;
         $this->order = 6;
-
-        $this->subcategoryId = 'UserCountry_SubmenuLocations';
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
