@@ -33,7 +33,7 @@ describe('ResetPassword', function () {
               fileContents = require('fs').readFileSync(expectedMailOutputFile),
               mailSent = JSON.parse(fileContents);
 
-        let resetUrl = mailSent.contents.match(new RegExp('http://[^"]*' + action + '[^"]*"'));
+        let resetUrl = mailSent.contents.match(new RegExp('https?://[^"]*' + action + '[^"]*"'));
 
         if (!resetUrl || !resetUrl[0]) {
             throw new Error(`Could not find ${action} URL in email, captured mail info: ${fileContents}`)
@@ -77,6 +77,8 @@ describe('ResetPassword', function () {
 
         before(async function () {
             // make sure we are not logged in
+            await page.goto('?module=Login&action=logout');
+            await page.waitForNetworkIdle();
             await page.clearCookies();
         });
 
@@ -132,6 +134,8 @@ describe('ResetPassword', function () {
 
         before(async function () {
             // make sure we are not logged in
+            await page.goto('?module=Login&action=logout');
+            await page.waitForNetworkIdle();
             await page.clearCookies();
         });
 
@@ -158,11 +162,6 @@ describe('ResetPassword', function () {
         });
 
         it('should show confirmation page when "was not me" link is clicked and continue is clicked', async function () {
-            const cancelUrl = await readLinkFromPasswordResetMail('initiateCancelResetPassword');
-
-            await page.goto(cancelUrl);
-            await page.waitForNetworkIdle();
-
             await page.click('#confirm-cancel-reset-password');
             await page.waitForNetworkIdle();
 
