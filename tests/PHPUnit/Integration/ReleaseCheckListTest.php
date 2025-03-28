@@ -843,7 +843,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     private function isFileDeletedFromPackage($file)
     {
         $filesAndFoldersToDeleteFromPackage = [
-            # Should stay synchronised with: https://github.com/matomo/matomo-package/blob/master/scripts/build-package.sh#L104-L116
+            # Should stay synchronised with: /.github/scripts/clean-build.sh
             'composer.phar',
             'vendor/bin/',
             'vendor/container-interop/container-interop/docs',
@@ -871,9 +871,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'vendor/tecnickcom/tcpdf/examples',
             'vendor/tecnickcom/tcpdf/tools',
             'vendor/tecnickcom/tcpdf/CHANGELOG.TXT',
-            'vendor/twig/twig/test/',
-            'vendor/twig/twig/doc/',
-            'vendor/twig/twig/.php-cs-fixer.dist.php',
             'config/environment/test.php',
             'config/environment/ui-test.php',
             'plugins/*/config/test.php',
@@ -993,6 +990,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'libs/jqplot/plugins/jqplot.barRenderer.js',
             'libs/jqplot/plugins/jqplot.pieRenderer.js',
             'config/config.php',
+            'bootstrap-phpstan.php',
             '*.gitignore',
             '*.gitmodules',
             '*.gitattributes',
