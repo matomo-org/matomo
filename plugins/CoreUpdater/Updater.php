@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
