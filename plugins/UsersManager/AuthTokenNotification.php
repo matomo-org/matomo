@@ -12,7 +12,7 @@ namespace Piwik\Plugins\UsersManager;
 use Piwik\Plugins\UsersManager\Emails\AuthTokenNotificationEmail;
 use Piwik\Plugins\UsersManager\TokenNotifications\TokenNotification;
 
-class AuthTokenNotification extends TokenNotification
+final class AuthTokenNotification extends TokenNotification
 {
     public function getEmailClass(): string
     {
