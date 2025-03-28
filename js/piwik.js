@@ -2656,6 +2656,15 @@ if (typeof window.Matomo !== 'object') {
                 return false;
             }
 
+            function sanitizeURL(url) {
+                if (!/^https?:\/\//i.test(url)) {
+                    throw "Invalid URL";
+                }
+
+                return url.replace(/[<>]/g, "");
+            }
+
+
             /*
              * Extract pathname from URL. element.pathname is actually supported by pretty much all browsers including
              * IE6 apart from some rare very old ones
@@ -2672,7 +2681,7 @@ if (typeof window.Matomo !== 'object') {
                     url = 'http://' + url;
                 }
 
-                parser.href = encodeURI(content.toAbsoluteUrl(url)); // Sanitization and encoding
+                parser.href = sanitizeURL(content.toAbsoluteUrl(url));
 
                 if (parser.pathname) {
                     return parser.pathname;
