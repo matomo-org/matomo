@@ -373,11 +373,6 @@ class Updater
         // Load classes that move to a different file path in the new version before any files are replaced.
         $this->preloadRelocatedClasses();
 
-        // Make sure the execute bit is set for this shell script
-        if (!Rules::isBrowserTriggerEnabled()) {
-            @chmod($extractedArchiveDirectory . '/misc/cron/archive.sh', 0755);
-        }
-
         $model = new Model();
 
         // Check if the target directories are writable
