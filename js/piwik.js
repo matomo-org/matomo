@@ -2661,6 +2661,7 @@ if (typeof window.Matomo !== 'object') {
              * IE6 apart from some rare very old ones
              */
             function getPathName(url) {
+                var parser = document.createElement('a');
                 if (url.indexOf('//') !== 0 && url.indexOf('http') !== 0) {
                     if (url.indexOf('*') === 0) {
                         url = url.substr(1);
@@ -2671,7 +2672,7 @@ if (typeof window.Matomo !== 'object') {
                     url = 'http://' + url;
                 }
 
-                const parser = new URL(content.toAbsoluteUrl(url));
+                parser.href = encodeURI(content.toAbsoluteUrl(url)); // Sanitization and encoding
 
                 if (parser.pathname) {
                     return parser.pathname;
