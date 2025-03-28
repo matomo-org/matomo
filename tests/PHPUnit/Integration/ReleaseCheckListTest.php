@@ -524,6 +524,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             PIWIK_DOCUMENT_ROOT . '/js/piwik.min.js',
             'minified /js/piwik.min.js is out of date, please re-generate the minified files using instructions in /js/README'
         );
+
+        Filesystem::remove(PIWIK_DOCUMENT_ROOT . '/piwik-minified.js');
     }
 
     public function testPiwikJsSameAsMatomoJs()
@@ -717,7 +719,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                     continue;
                 }
 
-                list($file, $match) = explode(':', $line);
+                [$file, $match] = explode(':', $line);
                 $files[] = '- ' . trim($file);
             }
 
