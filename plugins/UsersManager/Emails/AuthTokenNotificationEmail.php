@@ -9,48 +9,31 @@
 
 namespace Piwik\Plugins\UsersManager\Emails;
 
+use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Piwik;
-use Piwik\Plugins\UsersManager\AuthTokenNotifications\AuthTokenNotification;
+use Piwik\Plugins\UsersManager\TokenNotifications\TokenNotification;
 use Piwik\Url;
 use Piwik\View;
 
 class AuthTokenNotificationEmail extends Mail
 {
     /**
-     * @var string
-     */
-    private $login;
-
-    /**
-     * @var string
-     */
-    private $emailAddress;
-
-    /**
-     * @var AuthTokenNotification
+     * @var TokenNotification
      */
     private $notification;
 
-    /** @var int */
-    private $rotationPeriodDays;
-
-    public function __construct(string $login, string $emailAddress, AuthTokenNotification $notification, int $rotationPeriodDays)
+    public function __construct(TokenNotification $notification)
     {
         parent::__construct();
-
-        $this->login = $login;
-        $this->emailAddress = $emailAddress;
         $this->notification = $notification;
-        $this->rotationPeriodDays = $rotationPeriodDays;
-
         $this->setUpEmail();
     }
 
     private function setUpEmail(): void
     {
         $this->setDefaultFromPiwik();
-        $this->addTo($this->emailAddress);
+        $this->addTo($this->notification->getEmailAddress());
         $this->setSubject($this->getDefaultSubject());
         $this->addReplyTo($this->getFrom(), $this->getFromName());
         $this->setBodyText($this->getDefaultBodyText());
@@ -59,12 +42,13 @@ class AuthTokenNotificationEmail extends Mail
 
     private function getRotationPeriodPretty(): string
     {
+        $rotationPeriodDays = Config::getInstance()->General['auth_token_rotation_notification_days'];
+
         $startDate = new \DateTime();
-        $endDate = (clone $startDate)->add(new \DateInterval("P{$this->rotationPeriodDays}D"));
+        $endDate = (clone $startDate)->add(new \DateInterval("P{$rotationPeriodDays}D"));
         $diff = $startDate->diff($endDate);
 
         $parts = [];
-
         if ($diff->y > 0) {
             $parts[] = $diff->y .
                 ($diff->y === 1
@@ -125,7 +109,7 @@ class AuthTokenNotificationEmail extends Mail
 
     protected function assignCommonParameters(View $view): void
     {
-        $view->login = $this->login;
+        $view->login = $this->notification->getLogin();
         $view->tokenName = $this->notification->getTokenName();
         $view->tokenCreationDate = $this->notification->getTokenCreationDate();
         $view->rotationPeriod = $this->getRotationPeriodPretty();

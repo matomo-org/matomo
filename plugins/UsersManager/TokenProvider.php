@@ -13,11 +13,10 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Plugins\UsersManager\AuthTokenNotifications\AuthTokenNotification;
-use Piwik\Plugins\UsersManager\AuthTokenNotifications\AuthTokenProviderInterface;
+use Piwik\Plugins\UsersManager\TokenNotifications\TokenProviderInterface;
 use Piwik\Plugins\UsersManager\Model as UserModel;
 
-class AuthTokenProvider implements AuthTokenProviderInterface
+class TokenProvider implements TokenProviderInterface
 {
     /** @var Model */
     private $userModel;
@@ -37,12 +36,7 @@ class AuthTokenProvider implements AuthTokenProviderInterface
         return Date::factory('today')->subDay($periodDays)->getDateTime();
     }
 
-    public function setTokenNotified(string $tokenId): void
-    {
-        $this->userModel->setRotationNotificationWasSentForToken($tokenId, $this->today);
-    }
-
-    public function getAuthTokensToNotify(): array
+    public function getTokensToNotify(): array
     {
         $db = Db::get();
         $sql = "SELECT * FROM " . Common::prefixTable('user_token_auth')
@@ -66,11 +60,18 @@ class AuthTokenProvider implements AuthTokenProviderInterface
                 $t->description,
                 $t->date_created,
                 $t->login,
-                $email,
-                [static::class, 'setTokenNotified']
+                $email
             );
         }
 
         return $notifications;
+    }
+
+    public function onTokenNotified(): callable
+    {
+        $that = $this;
+        return function (string $tokenId) use ($that) {
+            $that->userModel->setRotationNotificationWasSentForToken($tokenId, $that->today);
+        };
     }
 }
