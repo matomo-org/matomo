@@ -238,7 +238,7 @@ class ArchiveWriter
     protected function compress($data)
     {
         if (Db::get()->hasBlobDataType()) {
-            return gzcompress($data);
+            return gzcompress($data, 9);
         }
 
         return $data;
