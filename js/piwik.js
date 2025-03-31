@@ -2657,7 +2657,7 @@ if (typeof window.Matomo !== 'object') {
             }
 
             function sanitizeURL(url) {
-                if (!/^https?:\/\//i.test(url)) {
+                if (/^javascript:/i.test(url)) {
                     throw "Invalid URL";
                 }
 
