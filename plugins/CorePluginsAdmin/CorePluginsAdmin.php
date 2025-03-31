@@ -166,5 +166,10 @@ class CorePluginsAdmin extends Plugin
         $translations[] = 'CorePluginsAdmin_PluginFreeTrialStarted';
         $translations[] = 'CorePluginsAdmin_PluginFreeTrialStartedAccountCreatedMessage';
         $translations[] = 'CorePluginsAdmin_PluginFreeTrialStartedAccountCreatedTitle';
+        $translations[] = 'General_Confirm';
+        $translations[] = 'General_Cancel';
+        $translations[] = 'UsersManager_ConfirmThisChange';
+        $translations[] = 'UsersManager_ConfirmWithPassword';
+        $translations[] = 'UsersManager_YourCurrentPassword';
     }
 }

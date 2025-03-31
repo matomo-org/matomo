@@ -102,18 +102,6 @@ rm -rf vendor/szymach/c-pchart/resources/fonts/Silkscreen*
 rm -rf vendor/szymach/c-pchart/resources/fonts/verdana*
 
 # Not needed JS files
-rm -rf node_modules/angular/angular.min.js.gzip
-rm -rf node_modules/angular/angular.js
-
-rm -rf node_modules/angular-animate/angular-animate.min.js.gzip
-rm -rf node_modules/angular-animate/angular-animate.js
-
-rm -rf node_modules/angular-sanitize/angular-sanitize.min.js.gzip
-rm -rf node_modules/angular-sanitize/angular-sanitize.js
-
-rm -rf node_modules/angular-cookies/angular-cookies.min.js.gzip
-rm -rf node_modules/angular-cookies/angular-cookies.js
-
 rm -rf node_modules/chroma-js/Makefile
 rm -rf node_modules/chroma-js/chroma.js
 rm -rf node_modules/chroma-js/doc
@@ -201,7 +189,6 @@ rm -f $(find config -type f -name '*.ini.php' -not -name global.ini.php)
 rm -f config/config.php
 
 rm -rf tmp/*
-rm -f HIRING.md
 rm -f bootstrap-phpstan.php
 
 # Delete unwanted git folders, recursively

@@ -18,7 +18,8 @@
 			<revenue>Revenue</revenue>
 		</metrics>
 		<metricsDocumentation>
-			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<nb_visits_converted>Number of visits where at least one goal was successfully converted.</nb_visits_converted>
+			<conversion_rate>The percentage of visits that triggered a conversion. The conversion rate is calculated using the number of visits that converted at least one goal. Visits converting multiple goals are only counted once in the conversion rate.</conversion_rate>
 		</metricsDocumentation>
 		<processedMetrics>
 			<conversion_rate>Conversion Rate</conversion_rate>

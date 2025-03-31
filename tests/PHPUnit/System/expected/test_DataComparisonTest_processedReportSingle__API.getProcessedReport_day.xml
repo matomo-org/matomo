@@ -14,15 +14,17 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
+			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
+			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
-			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+			<conversion_rate>The percentage of visits that triggered a conversion. The conversion rate is calculated using the number of visits that converted at least one goal. Visits converting multiple goals are only counted once in the conversion rate.</conversion_rate>
 		</metricsDocumentation>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
@@ -33,6 +35,7 @@
 			<nb_visits>number</nb_visits>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
 			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
@@ -60,6 +63,7 @@
 		<nb_visits>Visits</nb_visits>
 		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 		<nb_actions>Actions</nb_actions>
+		<nb_users>Users</nb_users>
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
@@ -71,6 +75,7 @@
 			<nb_uniq_visitors>4</nb_uniq_visitors>
 			<nb_visits>4</nb_visits>
 			<nb_actions>4</nb_actions>
+			<nb_users>0</nb_users>
 			<revenue>$20</revenue>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
@@ -80,6 +85,7 @@
 					<nb_uniq_visitors>4</nb_uniq_visitors>
 					<nb_visits>4</nb_visits>
 					<nb_actions>4</nb_actions>
+					<nb_users>0</nb_users>
 					<revenue>$20</revenue>
 					<nb_actions_per_visit>1</nb_actions_per_visit>
 					<avg_time_on_site>00:00:00</avg_time_on_site>
@@ -89,6 +95,7 @@
 					<nb_visits_change>+0%</nb_visits_change>
 					<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
 					<nb_actions_change>+0%</nb_actions_change>
+					<nb_users_change>+0%</nb_users_change>
 					<nb_actions_per_visit_change>+0%</nb_actions_per_visit_change>
 					<avg_time_on_site_change>+0%</avg_time_on_site_change>
 					<bounce_rate_change>+0%</bounce_rate_change>
@@ -105,6 +112,7 @@
 					<nb_uniq_visitors>1</nb_uniq_visitors>
 					<nb_visits>1</nb_visits>
 					<nb_actions>1</nb_actions>
+					<nb_users>0</nb_users>
 					<revenue>$5</revenue>
 					<nb_actions_per_visit>1</nb_actions_per_visit>
 					<avg_time_on_site>00:00:00</avg_time_on_site>
@@ -114,6 +122,7 @@
 					<nb_visits_change>+0%</nb_visits_change>
 					<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
 					<nb_actions_change>+0%</nb_actions_change>
+					<nb_users_change>+0%</nb_users_change>
 					<nb_actions_per_visit_change>+0%</nb_actions_per_visit_change>
 					<avg_time_on_site_change>+0%</avg_time_on_site_change>
 					<bounce_rate_change>+0%</bounce_rate_change>
@@ -141,8 +150,10 @@
 					<bounce_rate_change>+0%</bounce_rate_change>
 					<label>0</label>
 					<nb_uniq_visitors>0</nb_uniq_visitors>
+					<nb_users>0</nb_users>
 					<label_change>+0%</label_change>
 					<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
+					<nb_users_change>+0%</nb_users_change>
 					<compareSegment />
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>week</comparePeriod>
@@ -155,6 +166,7 @@
 					<nb_uniq_visitors>0</nb_uniq_visitors>
 					<nb_visits>0</nb_visits>
 					<nb_actions>0</nb_actions>
+					<nb_users>0</nb_users>
 					<revenue>$0</revenue>
 					<nb_actions_per_visit>0</nb_actions_per_visit>
 					<avg_time_on_site>00:00:00</avg_time_on_site>
@@ -162,6 +174,7 @@
 					<nb_uniq_visitors_change>-100%</nb_uniq_visitors_change>
 					<nb_visits_change>-100%</nb_visits_change>
 					<nb_actions_change>-100%</nb_actions_change>
+					<nb_users_change>+0%</nb_users_change>
 					<revenue_change>-100%</revenue_change>
 					<nb_actions_per_visit_change>-100%</nb_actions_per_visit_change>
 					<avg_time_on_site_change>+0%</avg_time_on_site_change>
@@ -183,6 +196,7 @@
 			<nb_uniq_visitors>3</nb_uniq_visitors>
 			<nb_visits>3</nb_visits>
 			<nb_actions>3</nb_actions>
+			<nb_users>0</nb_users>
 			<revenue>$15</revenue>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
@@ -192,6 +206,7 @@
 					<nb_uniq_visitors>3</nb_uniq_visitors>
 					<nb_visits>3</nb_visits>
 					<nb_actions>3</nb_actions>
+					<nb_users>0</nb_users>
 					<revenue>$15</revenue>
 					<nb_actions_per_visit>1</nb_actions_per_visit>
 					<avg_time_on_site>00:00:00</avg_time_on_site>
@@ -201,6 +216,7 @@
 					<nb_visits_change>+0%</nb_visits_change>
 					<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
 					<nb_actions_change>+0%</nb_actions_change>
+					<nb_users_change>+0%</nb_users_change>
 					<nb_actions_per_visit_change>+0%</nb_actions_per_visit_change>
 					<avg_time_on_site_change>+0%</avg_time_on_site_change>
 					<bounce_rate_change>+0%</bounce_rate_change>
@@ -217,6 +233,7 @@
 					<nb_uniq_visitors>1</nb_uniq_visitors>
 					<nb_visits>1</nb_visits>
 					<nb_actions>1</nb_actions>
+					<nb_users>0</nb_users>
 					<revenue>$5</revenue>
 					<nb_actions_per_visit>1</nb_actions_per_visit>
 					<avg_time_on_site>00:00:00</avg_time_on_site>
@@ -226,6 +243,7 @@
 					<nb_visits_change>+0%</nb_visits_change>
 					<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
 					<nb_actions_change>+0%</nb_actions_change>
+					<nb_users_change>+0%</nb_users_change>
 					<nb_actions_per_visit_change>+0%</nb_actions_per_visit_change>
 					<avg_time_on_site_change>+0%</avg_time_on_site_change>
 					<bounce_rate_change>+0%</bounce_rate_change>
@@ -242,6 +260,7 @@
 					<nb_uniq_visitors>0</nb_uniq_visitors>
 					<nb_visits>0</nb_visits>
 					<nb_actions>0</nb_actions>
+					<nb_users>0</nb_users>
 					<revenue>$0</revenue>
 					<nb_actions_per_visit>0</nb_actions_per_visit>
 					<avg_time_on_site>00:00:00</avg_time_on_site>
@@ -249,6 +268,7 @@
 					<nb_uniq_visitors_change>-100%</nb_uniq_visitors_change>
 					<nb_visits_change>-100%</nb_visits_change>
 					<nb_actions_change>-100%</nb_actions_change>
+					<nb_users_change>+0%</nb_users_change>
 					<revenue_change>-100%</revenue_change>
 					<nb_actions_per_visit_change>-100%</nb_actions_per_visit_change>
 					<avg_time_on_site_change>+0%</avg_time_on_site_change>
@@ -267,6 +287,7 @@
 					<nb_uniq_visitors>0</nb_uniq_visitors>
 					<nb_visits>0</nb_visits>
 					<nb_actions>0</nb_actions>
+					<nb_users>0</nb_users>
 					<revenue>$0</revenue>
 					<nb_actions_per_visit>0</nb_actions_per_visit>
 					<avg_time_on_site>00:00:00</avg_time_on_site>
@@ -274,6 +295,7 @@
 					<nb_uniq_visitors_change>-100%</nb_uniq_visitors_change>
 					<nb_visits_change>-100%</nb_visits_change>
 					<nb_actions_change>-100%</nb_actions_change>
+					<nb_users_change>+0%</nb_users_change>
 					<revenue_change>-100%</revenue_change>
 					<nb_actions_per_visit_change>-100%</nb_actions_per_visit_change>
 					<avg_time_on_site_change>+0%</avg_time_on_site_change>
@@ -296,6 +318,7 @@
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
+			<nb_users>0</nb_users>
 			<revenue>$5</revenue>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
@@ -305,6 +328,7 @@
 					<nb_uniq_visitors>1</nb_uniq_visitors>
 					<nb_visits>1</nb_visits>
 					<nb_actions>1</nb_actions>
+					<nb_users>0</nb_users>
 					<revenue>$5</revenue>
 					<nb_actions_per_visit>1</nb_actions_per_visit>
 					<avg_time_on_site>00:00:00</avg_time_on_site>
@@ -314,6 +338,7 @@
 					<nb_visits_change>+0%</nb_visits_change>
 					<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
 					<nb_actions_change>+0%</nb_actions_change>
+					<nb_users_change>+0%</nb_users_change>
 					<nb_actions_per_visit_change>+0%</nb_actions_per_visit_change>
 					<avg_time_on_site_change>+0%</avg_time_on_site_change>
 					<bounce_rate_change>+0%</bounce_rate_change>
@@ -330,6 +355,7 @@
 					<nb_uniq_visitors>1</nb_uniq_visitors>
 					<nb_visits>1</nb_visits>
 					<nb_actions>1</nb_actions>
+					<nb_users>0</nb_users>
 					<revenue>$5</revenue>
 					<nb_actions_per_visit>1</nb_actions_per_visit>
 					<avg_time_on_site>00:00:00</avg_time_on_site>
@@ -339,6 +365,7 @@
 					<nb_visits_change>+0%</nb_visits_change>
 					<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
 					<nb_actions_change>+0%</nb_actions_change>
+					<nb_users_change>+0%</nb_users_change>
 					<nb_actions_per_visit_change>+0%</nb_actions_per_visit_change>
 					<avg_time_on_site_change>+0%</avg_time_on_site_change>
 					<bounce_rate_change>+0%</bounce_rate_change>
@@ -366,8 +393,10 @@
 					<bounce_rate_change>+0%</bounce_rate_change>
 					<label>0</label>
 					<nb_uniq_visitors>0</nb_uniq_visitors>
+					<nb_users>0</nb_users>
 					<label_change>+0%</label_change>
 					<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
+					<nb_users_change>+0%</nb_users_change>
 					<compareSegment />
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>week</comparePeriod>
@@ -391,8 +420,10 @@
 					<bounce_rate_change>+0%</bounce_rate_change>
 					<label>0</label>
 					<nb_uniq_visitors>0</nb_uniq_visitors>
+					<nb_users>0</nb_users>
 					<label_change>+0%</label_change>
 					<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
+					<nb_users_change>+0%</nb_users_change>
 					<compareSegment>browserCode%3D%3Die</compareSegment>
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>week</comparePeriod>

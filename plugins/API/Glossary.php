@@ -54,7 +54,27 @@ class Glossary
     {
         $metadata = $this->api->getReportMetadata($idSite);
 
-        $metrics = array();
+        $metrics = [];
+
+        // Add default values
+        $metricsTranslations = Metrics::getDefaultMetricTranslations();
+        foreach (Metrics::getDefaultMetricsDocumentation() as $metric => $translation) {
+            // Don't show nb_hits in glossary since it duplicates others, eg. nb_downloads,
+            if ($metric == 'nb_hits') {
+                continue;
+            }
+
+            $metrics[$metric] = [
+                'name'          => $metricsTranslations[$metric],
+                'id'            => $metric,
+                'documentation' => [
+                    'default'        => $translation,
+                    'reportSpecific' => [],
+                ],
+            ];
+        }
+
+
         foreach ($metadata as $report) {
             if (!isset($report['metricsDocumentation'])) {
                 continue;
@@ -70,58 +90,63 @@ class Glossary
                     continue;
                 }
 
-                $metricName = isset($report['metrics'][$metricId]) ? $report['metrics'][$metricId] : $report['processedMetrics'][$metricId];
+                $metricName = $report['metrics'][$metricId] ?? $report['processedMetrics'][$metricId];
 
 
                 // Already one metric with same name, but different documentation...
                 if (
                     isset($metrics[$metricKey])
-                    && $metrics[$metricKey]['documentation'] !== $metricDocumentation
+                    && $metrics[$metricKey]['documentation']['default'] !== $metricDocumentation
                 ) {
                     // Don't show nb_hits in glossary since it duplicates others, eg. nb_downloads,
                     if ($metricKey == 'nb_hits') {
                         continue;
                     }
 
-                    $metricName = sprintf("%s (%s)", $metricName, $report['category']);
-                    $metricKey = $metricName;
-
-                    if (isset($metrics[$metricKey]) && $metrics[$metricKey]['documentation'] !== $metricDocumentation) {
-                        throw new \Exception(sprintf(
-                            "Metric %s has two different documentations: \n(1) %s \n(2) %s",
-                            $metricKey,
-                            $metrics[$metricKey]['documentation'],
-                            $metricDocumentation
-                        ));
-                    }
-                } else {
-                    if (
-                        !isset($report['metrics'][$metricId])
-                        && !isset($report['processedMetrics'][$metricId])
-                    ) {
-                        // $metricId metric name not found in  $report['dimension'] report
-                        // it will be set in another one
-                        continue;
-                    }
+                    $metrics[$metricKey]['documentation']['reportSpecific'][$report['uniqueId']] = $metricDocumentation;
+                } elseif (!isset($metrics[$metricKey])) {
+                    $metrics[$metricKey] = [
+                        'name'          => $metricName,
+                        'id'            => $metricId,
+                        'documentation' => [
+                            'default'        => null,
+                            'reportSpecific' => [
+                                $report['uniqueId'] => $metricDocumentation,
+                            ],
+                        ],
+                    ];
                 }
-
-                $metrics[$metricKey] = array(
-                    'name' => $metricName,
-                    'id' => $metricId,
-                    'documentation' => $metricDocumentation
-                );
             }
         }
 
+        foreach ($metrics as &$metric) {
+            if (empty($metric['documentation']['default'])) {
+                $valueCount = array_count_values($metric['documentation']['reportSpecific']);
 
-        $metricsTranslations = Metrics::getDefaultMetricTranslations();
-        foreach (Metrics::getDefaultMetricsDocumentation() as $metric => $translation) {
-            if (!isset($metrics[$metric]) && isset($metricsTranslations[$metric])) {
-                $metrics[$metric] = array(
-                    'name' => $metricsTranslations[$metric],
-                    'id' => $metric,
-                    'documentation' => $translation
-                );
+                // in case we do not have a default set, but more than the half of all reports are using the same documentation, we assume that as default.
+                if (array_sum($valueCount) - reset($valueCount) < reset($valueCount)) {
+                    $metric['documentation']['default'] = key($valueCount);
+
+                    foreach ($metric['documentation']['reportSpecific'] as $uniqueId => $documentation) {
+                        if ($documentation === $metric['documentation']['default']) {
+                            unset($metric['documentation']['reportSpecific'][$uniqueId]);
+                        }
+                    }
+                }
+            }
+            if (empty($metric['documentation']['reportSpecific'])) {
+                $metric['documentation']['reportSpecific'] = null;
+            }
+        }
+
+        // convert back to structure with only one metric documentation
+        // discarding all metrics that don't have a default documentation
+        // @todo remove with Matomo 6 and provide report specific documentation where available
+        foreach ($metrics as $metricId => &$metric) {
+            if (empty($metric['documentation']['default'])) {
+                unset($metrics[$metricId]);
+            } else {
+                $metric['documentation'] = $metric['documentation']['default'];
             }
         }
 
@@ -130,6 +155,7 @@ class Glossary
 
             return strcmp($a[$key], $b[$key]);
         });
+
         return $metrics;
     }
 }

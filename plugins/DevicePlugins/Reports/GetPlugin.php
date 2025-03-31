@@ -31,6 +31,15 @@ class GetPlugin extends Base
         $this->subcategoryId = 'DevicesDetection_Software';
     }
 
+    public function getMetricsDocumentation()
+    {
+        $documentation = parent::getMetricsDocumentation();
+
+        $documentation['nb_visits_percentage'] = Piwik::translate('DevicePlugins_ColumnPercentageVisitsDocumentation');
+
+        return $documentation;
+    }
+
     public function configureView(ViewDataTable $view)
     {
         $this->getBasicDevicePluginsDisplayProperties($view);

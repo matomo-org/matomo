@@ -213,7 +213,7 @@ class GetCustomDimension extends Report
         } elseif ($this->scopeOfDimension === CustomDimensions::SCOPE_VISIT) {
             $this->categoryId = 'General_Visitors';
             $this->dimension = new CustomVisitDimension($dimensionField, $this->name, $dimension['idcustomdimension']);
-            $this->metrics = array('nb_visits', 'nb_actions');
+            $this->metrics = ['nb_visits', 'nb_uniq_visitors', 'nb_actions', 'nb_users'];
             $this->processedMetrics = array(
                 new AverageTimeOnSite(),
                 new BounceRate(),
