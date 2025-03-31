@@ -20,10 +20,10 @@ interface TokenProviderInterface
     public function getTokensToNotify(): array;
 
     /**
-     * Returns a callable that is called when the notification has been sent for a given token.
-     * The callable is provided with unique token id as its param.
+     * Sets information that a notification for a given token has been dispatched
      *
-     * @return callable
+     * @param string $tokenId
+     * @return void
      */
-    public function onTokenNotified(): callable;
+    public function setTokenNotified(string $tokenId): void;
 }

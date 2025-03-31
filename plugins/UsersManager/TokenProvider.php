@@ -55,23 +55,20 @@ class TokenProvider implements TokenProviderInterface
             $user = $this->userModel->getUser($t->login);
             $email = $user['email'];
 
-            $notifications[] = new AuthTokenNotification(
+            $notifications[] = new AuthTokenEmailNotification(
                 $t->idusertokenauth,
                 $t->description,
                 $t->date_created,
-                $t->login,
-                $email
+                [$email],
+                ['login' => $t->login]
             );
         }
 
         return $notifications;
     }
 
-    public function onTokenNotified(): callable
+    public function setTokenNotified(string $tokenId): void
     {
-        $that = $this;
-        return function (string $tokenId) use ($that) {
-            $that->userModel->setRotationNotificationWasSentForToken($tokenId, $that->today);
-        };
+        $this->userModel->setRotationNotificationWasSentForToken($tokenId, $this->today);
     }
 }

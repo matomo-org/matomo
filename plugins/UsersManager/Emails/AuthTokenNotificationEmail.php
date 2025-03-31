@@ -23,17 +23,27 @@ class AuthTokenNotificationEmail extends Mail
      */
     private $notification;
 
-    public function __construct(TokenNotification $notification)
+    /** @var string */
+    private $recipient;
+
+    /** @var array */
+    private $emailData;
+
+    public function __construct(TokenNotification $notification, string $recipient, array $emailData)
     {
         parent::__construct();
+
         $this->notification = $notification;
+        $this->recipient = $recipient;
+        $this->emailData = $emailData;
+
         $this->setUpEmail();
     }
 
     private function setUpEmail(): void
     {
         $this->setDefaultFromPiwik();
-        $this->addTo($this->notification->getEmailAddress());
+        $this->addTo($this->recipient);
         $this->setSubject($this->getDefaultSubject());
         $this->addReplyTo($this->getFrom(), $this->getFromName());
         $this->setBodyText($this->getDefaultBodyText());
@@ -44,40 +54,7 @@ class AuthTokenNotificationEmail extends Mail
     {
         $rotationPeriodDays = Config::getInstance()->General['auth_token_rotation_notification_days'];
 
-        $startDate = new \DateTime();
-        $endDate = (clone $startDate)->add(new \DateInterval("P{$rotationPeriodDays}D"));
-        $diff = $startDate->diff($endDate);
-
-        $parts = [];
-        if ($diff->y > 0) {
-            $parts[] = $diff->y .
-                ($diff->y === 1
-                    ? Piwik::translate('Intl_PeriodYear')
-                    : Piwik::translate('Intl_PeriodYears')
-                );
-        }
-        if ($diff->m > 0) {
-            $parts[] = $diff->m .
-                ($diff->m === 1
-                    ? Piwik::translate('Intl_PeriodMonth')
-                    : Piwik::translate('Intl_PeriodMonths')
-                );
-        }
-        // Only include days if they're not zero OR if there are no years/months
-        if ($diff->d > 0 || empty($parts)) {
-            $parts[] = $diff->d .
-                ($diff->d === 1
-                    ? Piwik::translate('Intl_PeriodDay')
-                    : Piwik::translate('Intl_PeriodDays')
-                );
-        }
-
-        return implode(', ', $parts);
-    }
-
-    protected function getDefaultSubject(): string
-    {
-        return Piwik::translate('UsersManager_AuthTokenNotificationEmailSubject');
+        return Piwik::translate('Intl_PeriodDay' . ($rotationPeriodDays === 1 ? '' : 's'));
     }
 
     protected function getManageAuthTokensLink(): string
@@ -86,6 +63,10 @@ class AuthTokenNotificationEmail extends Mail
             . '?module=UsersManager'
             . '&action=userSecurity'
             . '#authtokens';
+    }
+    protected function getDefaultSubject(): string
+    {
+        return Piwik::translate('UsersManager_AuthTokenNotificationEmailSubject');
     }
 
     protected function getDefaultBodyText(): string
@@ -109,10 +90,14 @@ class AuthTokenNotificationEmail extends Mail
 
     protected function assignCommonParameters(View $view): void
     {
-        $view->login = $this->notification->getLogin();
         $view->tokenName = $this->notification->getTokenName();
         $view->tokenCreationDate = $this->notification->getTokenCreationDate();
+
         $view->rotationPeriod = $this->getRotationPeriodPretty();
         $view->manageAuthTokensLink = $this->getManageAuthTokensLink();
+
+        foreach ($this->emailData as $item => $value) {
+            $view->assign($item, $value);
+        }
     }
 }

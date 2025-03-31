@@ -17,7 +17,5 @@ interface TokenNotificationInterface
 
     public function getTokenCreationDate(): string;
 
-    public function getEmailClass(): string;
-
-    public function getEmailAddress(): string;
+    public function dispatch(): bool;
 }

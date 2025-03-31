@@ -20,24 +20,14 @@ abstract class TokenNotification implements TokenNotificationInterface
     /** @var string */
     private $tokenCreationDate;
 
-    /** @var string */
-    private $email;
-
-    /** @var string */
-    private $login;
-
     public function __construct(
         string $tokenId,
         string $tokenName,
-        string $tokenCreationDate,
-        string $email,
-        string $login
+        string $tokenCreationDate
     ) {
         $this->tokenId = $tokenId;
         $this->tokenName = $tokenName;
         $this->tokenCreationDate = $tokenCreationDate;
-        $this->email = $email;
-        $this->login = $login;
     }
 
     public function getTokenId(): string
@@ -55,15 +45,5 @@ abstract class TokenNotification implements TokenNotificationInterface
         return $this->tokenCreationDate;
     }
 
-    public function getEmailAddress(): string
-    {
-        return $this->email;
-    }
-
-    abstract public function getEmailClass(): string;
-
-    public function getLogin(): string
-    {
-        return $this->login;
-    }
+    abstract public function dispatch(): bool;
 }
