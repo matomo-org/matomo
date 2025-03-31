@@ -15,7 +15,6 @@ use Piwik\Date;
 use Piwik\Log\LoggerInterface;
 use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Plugins\UsersManager\TokenProvider;
 use Piwik\Scheduler\Schedule\Daily;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
