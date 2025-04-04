@@ -9,15 +9,15 @@
 
 namespace Piwik\Plugins\UsersManager\TokenNotifications;
 
-interface TokenProviderInterface
+interface TokenNotificationProviderInterface
 {
     /**
-     * Provides a list of tokens to be notified, each with their information
-     * that can be used to populate the notification email
+     * Provides a list of token notifications to be dispatched,
+     * each with their data that can be used e.g. to populate a notification email
      *
      * @return TokenNotificationInterface[]
      */
-    public function getTokensToNotify(): array;
+    public function getTokenNotificationsForDispatch(): array;
 
     /**
      * Sets information that a notification for a given token has been dispatched
@@ -25,5 +25,5 @@ interface TokenProviderInterface
      * @param string $tokenId
      * @return void
      */
-    public function setTokenNotified(string $tokenId): void;
+    public function setTokenNotificationDispatched(string $tokenId): void;
 }

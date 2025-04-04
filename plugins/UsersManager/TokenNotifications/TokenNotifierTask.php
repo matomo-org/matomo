@@ -32,15 +32,15 @@ class TokenNotifierTask extends Task
     }
 
     /**
-     * Get a list of providers that may require token notifications being dispatched
+     * Get a list of providers (class names) that may provide token notifications to be dispatched
      *
      * @return array
      */
-    private function getTokenProviders(): array
+    private function getTokenProviderClasses(): array
     {
         return PluginManager::getInstance()->findComponents(
             'TokenProvider',
-            TokenProviderInterface::class
+            TokenNotificationProviderInterface::class
         );
     }
 
@@ -49,24 +49,29 @@ class TokenNotifierTask extends Task
      */
     public function dispatchNotifications()
     {
+        $container = StaticContainer::getContainer();
+
         try {
             Option::set(self::LAST_RUN_TIME_OPTION_NAME, Date::factory('today')->getTimestamp());
 
-            /** @var TokenProviderInterface $provider */
-            foreach ($this->getTokenProviders() as $provider) {
-                foreach ($provider->getTokensToNotify() as $tokenNotification) {
-                    $tokenNotification->dispatch();
-                    $provider->setTokenNotified($tokenNotification->getTokenId());
+            foreach ($this->getTokenProviderClasses() as $providerClass) {
+                /** @var TokenNotificationProviderInterface $provider */
+                $provider = $container->get($providerClass);
+                foreach ($provider->getTokenNotificationsForDispatch() as $tokenNotification) {
+                    $dispatched = $tokenNotification->dispatch();
+                    if ($dispatched) {
+                        $provider->setTokenNotificationDispatched($tokenNotification->getTokenId());
+                    }
                 }
             }
 
             // reschedule for next run
             /** @var Scheduler $scheduler */
-            $scheduler = StaticContainer::getContainer()->get(Scheduler::class);
+            $scheduler = $container->get(Scheduler::class);
             // reschedule to ensure it's not run again in an hour
             $scheduler->rescheduleTask(new static());
         } catch (Exception $ex) {
-            StaticContainer::get(LoggerInterface::class)->error($ex);
+            $container->get(LoggerInterface::class)->error($ex);
             throw $ex;
         }
     }

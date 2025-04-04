@@ -13,10 +13,10 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Plugins\UsersManager\TokenNotifications\TokenProviderInterface;
+use Piwik\Plugins\UsersManager\TokenNotifications\TokenNotificationProviderInterface;
 use Piwik\Plugins\UsersManager\Model as UserModel;
 
-class TokenProvider implements TokenProviderInterface
+class TokenNotificationProvider implements TokenNotificationProviderInterface
 {
     /** @var Model */
     private $userModel;
@@ -36,7 +36,7 @@ class TokenProvider implements TokenProviderInterface
         return Date::factory('today')->subDay($periodDays)->getDateTime();
     }
 
-    public function getTokensToNotify(): array
+    public function getTokenNotificationsForDispatch(): array
     {
         $db = Db::get();
         $sql = "SELECT * FROM " . Common::prefixTable('user_token_auth')
@@ -67,7 +67,7 @@ class TokenProvider implements TokenProviderInterface
         return $notifications;
     }
 
-    public function setTokenNotified(string $tokenId): void
+    public function setTokenNotificationDispatched(string $tokenId): void
     {
         $this->userModel->setRotationNotificationWasSentForToken($tokenId, $this->today);
     }
