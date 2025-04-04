@@ -236,7 +236,8 @@ class API extends \Piwik\Plugin\API
         $period = false,
         $date = false,
         $hideMetricsDoc = false,
-        $showSubtableReports = false
+        $showSubtableReports = false,
+        $idGoal = false
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -247,7 +248,6 @@ class API extends \Piwik\Plugin\API
         }
 
         // mirror the logic in ProcessedReport::getProcessedReport()
-        $idGoal = \Piwik\Request::fromRequest()->getParameter('idGoal', false);
         if (
             !empty($idGoal)
             && empty($apiParameters['idGoal'])
