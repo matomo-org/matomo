@@ -56,11 +56,11 @@ class TokenNotificationProvider implements TokenNotificationProviderInterface
             $email = $user['email'];
 
             $notifications[] = new AuthTokenEmailNotification(
-                $t->idusertokenauth,
-                $t->description,
-                $t->date_created,
+                $t['idusertokenauth'],
+                $t['description'],
+                $t['date_created'],
                 [$email],
-                ['login' => $t->login]
+                ['login' => $t['login']]
             );
         }
 
