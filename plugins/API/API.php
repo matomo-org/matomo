@@ -246,6 +246,15 @@ class API extends \Piwik\Plugin\API
             $translator->setCurrentLanguage($language);
         }
 
+        // mirror the logic in ProcessedReport::getProcessedReport()
+        $idGoal = \Piwik\Request::fromRequest()->getParameter('idGoal', false);
+        if (
+            !empty($idGoal)
+            && empty($apiParameters['idGoal'])
+        ) {
+            $apiParameters['idGoal'] = $idGoal;
+        }
+
         $metadata = $this->processedReport->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
     }
