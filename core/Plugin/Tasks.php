@@ -103,7 +103,7 @@ class Tasks
     }
 
     /**
-     * Schedules the given tasks/method to run depending at the given scheduled time. Unlike the convenient methods
+     * Schedules the given tasks/method to run depending on the given scheduled time. Unlike the convenient methods
      * such as {@link hourly()} you need to specify the object on which the given method should be called. This can be
      * either an instance of a class or a class name. For more information about these parameters see {@link hourly()}
      *
