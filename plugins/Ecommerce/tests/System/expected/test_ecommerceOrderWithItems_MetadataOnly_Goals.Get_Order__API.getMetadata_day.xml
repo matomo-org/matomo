@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<category>Ecommerce</category>
+		<name>Ecommerce Orders</name>
+		<module>Goals</module>
+		<action>get</action>
+		<parameters>
+			<idGoal>ecommerceOrder</idGoal>
+		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
+		<metrics>
+			<nb_conversions>Ecommerce Orders</nb_conversions>
+			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+			<revenue_subtotal>Subtotal</revenue_subtotal>
+			<revenue_tax>Tax</revenue_tax>
+			<revenue_shipping>Shipping</revenue_shipping>
+			<revenue_discount>Discount</revenue_discount>
+			<items>Purchased Products</items>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits_converted>Number of visits where at least one goal was successfully converted.</nb_visits_converted>
+			<conversion_rate>The percentage of visits that triggered a conversion. The conversion rate is calculated using the number of visits that converted at least one goal. Visits converting multiple goals are only counted once in the conversion rate.</conversion_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<avg_order_revenue>Average Order Value</avg_order_revenue>
+		</processedMetrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+			<nb_visits_converted>number</nb_visits_converted>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+			<revenue_subtotal>money</revenue_subtotal>
+			<revenue_tax>money</revenue_tax>
+			<revenue_shipping>money</revenue_shipping>
+			<revenue_discount>money</revenue_discount>
+			<avg_order_revenue>money</avg_order_revenue>
+		</metricTypes>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>
+		<uniqueId>Goals_get_idGoal--ecommerceOrder</uniqueId>
+	</row>
+</result>
