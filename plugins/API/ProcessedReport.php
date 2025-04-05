@@ -55,7 +55,8 @@ class ProcessedReport
         $period = false,
         $date = false,
         $hideMetricsDoc = false,
-        $showSubtableReports = false
+        $showSubtableReports = false,
+        $exact_match = false
     ) {
         $reportsMetadata = $this->getReportMetadata($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports);
 
@@ -92,8 +93,15 @@ class ProcessedReport
                 if (empty($report['parameters'])) {
                     continue;
                 }
-                $diff = array_diff($report['parameters'], $apiParameters);
-                if (empty($diff)) {
+
+                if ($exact_match) {
+                    $isMatchingReport = $report['parameters'] == $apiParameters;
+                } else {
+                    $diff = array_diff_assoc($report['parameters'], $apiParameters);
+                    $isMatchingReport = empty($diff);
+                }
+
+                if ($isMatchingReport) {
                     return array($report);
                 }
             }
@@ -351,7 +359,8 @@ class ProcessedReport
         $idSubtable = false,
         $showRawMetrics = false,
         $formatMetrics = null,
-        $idDimension = false
+        $idDimension = false,
+        $exact_match = false
     ) {
         $timer = new Timer();
         if (empty($apiParameters)) {
@@ -382,7 +391,8 @@ class ProcessedReport
             $period,
             $date,
             $hideMetricsDoc,
-            $showSubtableReports = true
+            $showSubtableReports = true,
+            $exact_match
         );
         if (empty($reportMetadata)) {
             throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports. \n");
