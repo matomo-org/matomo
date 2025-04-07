@@ -30,14 +30,19 @@ class TokenNotificationProvider implements TokenNotificationProviderInterface
         $this->today = Date::factory('today')->getDatetime();
     }
 
-    private function getRotationPeriodThreshold(): string
+    private function getRotationPeriodThreshold(): ?string
     {
-        $periodDays = Config::getInstance()->General['auth_token_rotation_notification_days'];
-        return Date::factory('today')->subDay($periodDays)->getDateTime();
+        $periodDays = (int) Config::getInstance()->General['auth_token_rotation_notification_days'];
+        return $periodDays ? Date::factory('today')->subDay($periodDays)->getDateTime() : null;
     }
 
     public function getTokenNotificationsForDispatch(): array
     {
+        $rotationThreshold = $this->getRotationPeriodThreshold();
+        if (null === $rotationThreshold) {
+            return [];
+        }
+
         $db = Db::get();
         $sql = "SELECT * FROM " . Common::prefixTable('user_token_auth')
             . " WHERE (date_expired is null or date_expired > ?)"
@@ -46,7 +51,7 @@ class TokenNotificationProvider implements TokenNotificationProviderInterface
 
         $tokensToNotify = $db->fetchAll($sql, [
             $this->today,
-            $this->getRotationPeriodThreshold()
+            $rotationThreshold
         ]);
 
         $notifications = [];
