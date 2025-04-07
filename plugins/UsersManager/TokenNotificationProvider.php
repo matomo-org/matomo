@@ -47,7 +47,8 @@ class TokenNotificationProvider implements TokenNotificationProviderInterface
         $sql = "SELECT * FROM " . Common::prefixTable('user_token_auth')
             . " WHERE (date_expired is null or date_expired > ?)"
             . " AND (date_created <= ?)"
-            . " AND ts_rotation_notified is null";
+            . " AND ts_rotation_notified is null"
+            . " AND system_token = 0";
 
         $tokensToNotify = $db->fetchAll($sql, [
             $this->today,
