@@ -89,7 +89,8 @@ class AuthTokenNotificationEmailTest extends IntegrationTestCase
     /**
      * @throws \Exception
      */
-    public function testNoNotificationIsSentWhenTodayIsBeforeTokensCreated() {
+    public function testNoNotificationIsSentWhenTodayIsBeforeTokensCreated()
+    {
         // change rotation notification interval to 1 day and date before first token was created
         Date::$now = Date::factory('2023-12-01')->getTimestamp();
         Config::getInstance()->General['auth_token_rotation_notification_days'] = 1;
