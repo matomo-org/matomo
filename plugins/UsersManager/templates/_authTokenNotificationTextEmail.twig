@@ -3,9 +3,9 @@
 
 {{ 'UsersManager_AuthTokenNotificationEmailReminder'|translate(rotationPeriod) }}
 
-{{ 'UsersManager_AuthTokenNotificationEmail01'|translate('<strong>', rotationPeriod, '</strong>') }}
+{{ 'UsersManager_AuthTokenNotificationEmail01'|translate('<strong>', rotationPeriod, '</strong>')|raw }}
 
-{{ 'UsersManager_AuthTokenNotificationEmail02'|translate('<strong>', tokenDescription, '</strong>', '<strong>', tokenCreationDate, '</strong>') }}
+{{ 'UsersManager_AuthTokenNotificationEmail02'|translate('<strong>', tokenName, '</strong>', '<strong>', tokenCreationDate, '</strong>')|raw }}
 
 {{ 'UsersManager_AuthTokenNotificationEmail03'|translate }}
 

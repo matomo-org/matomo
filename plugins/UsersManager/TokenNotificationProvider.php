@@ -52,7 +52,7 @@ class TokenNotificationProvider implements TokenNotificationProviderInterface
         $notifications = [];
 
         foreach ($tokensToNotify as $t) {
-            $user = $this->userModel->getUser($t->login);
+            $user = $this->userModel->getUser($t['login']);
             $email = $user['email'];
 
             $notifications[] = new AuthTokenEmailNotification(
@@ -60,7 +60,7 @@ class TokenNotificationProvider implements TokenNotificationProviderInterface
                 $t['description'],
                 $t['date_created'],
                 [$email],
-                ['login' => $t['login']]
+                [$email => ['login' => $t['login']]]
             );
         }
 
