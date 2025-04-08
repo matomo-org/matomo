@@ -115,7 +115,7 @@ The API method `Overlay.getExcludedQueryParameters` has been deprecated and will
 
 * The method `Common::getRequestVar` is now deprecated, but will remain API until Matomo 6. You may already start using the new class `Piwik\Request` instead, but ensure to handle needed sanitizing / escaping yourself.
 * The brand related less variables for colors `color-black-piwik`, `color-blue-piwik`, `color-red-piwik` and `color-green-piwik` are now deprecated and will be removed in Matomo 6. New variables where `piwik` was replaced with `matomo` have been introduced. E.g. `color-black-matomo`
-* Support for jQuery UI is now depreated and might be removed in one of the next major releases. Please consider using Materialize CSS or Vue.js instead.
+* Support for jQuery UI is now deprecated and might be removed in one of the next major releases. Please consider using Materialize CSS or Vue.js instead.
 
 ### Removed Config
 
@@ -139,7 +139,7 @@ The API method `Overlay.getExcludedQueryParameters` has been deprecated and will
 
 ### HTTP Tracking API
 
-* The campaign attribution tracking parameters `_rcn` and `_rck` are no longer used to attribute visits. Those parameters will now only be used to attribute conversions. If you want to manually attribute a visit to a campaign ensure to attach camapign parameters to the tracked URL instead.
+* The campaign attribution tracking parameters `_rcn` and `_rck` are no longer used to attribute visits. Those parameters will now only be used to attribute conversions. If you want to manually attribute a visit to a campaign ensure to attach campaign parameters to the tracked URL instead.
 
 ## Matomo 4.13.1
 
@@ -234,7 +234,7 @@ The API method `Overlay.getExcludedQueryParameters` has been deprecated and will
 ### Breaking Changes
 
 * With the introduction of Vue 3 we are also dropping support for IE11. All new supported browsers are determined by the browserslist tool. Running `npx browserslist` will list the browsers currently supported.
-* When the Ecommerce feature is disabled for a site, then the Live API no longer returns the Ecommerce related visitor properties `totalEcommerceRevenue`, `totalEcommerceConversions`, `totalEcommerceItems`,  `totalAbandonedCartsRevenue`, `totalAbandonedCarts` and `totalAbandonedCartsItems`.
+* When the E-commerce feature is disabled for a site, then the Live API no longer returns the E-commerce related visitor properties `totalEcommerceRevenue`, `totalEcommerceConversions`, `totalEcommerceItems`,  `totalAbandonedCartsRevenue`, `totalAbandonedCarts` and `totalAbandonedCartsItems`.
 * Content Security Policy (added in Matomo 4.4.0) is no longer in Report Only mode by default. 
 
 ### New config.ini.php settings
@@ -591,7 +591,7 @@ The following new JavaScript tracker methods have been added:
 * Added new API method `UsersManager.removeCapabilities` to remove one or multiple capabilities from a user.
 * The API method `UsersManager.setUserAccess` now accepts an array to pass a role and multiple capabilities at once.
 * Plugin classes can overwrite the method `requiresInternetConnection` to define if they should be automatically unloaded if no internet connection is available (enable_internet_features = 0)
-* Added two new methods to the JS tracker: `removeEcommerceItem` and `clearEcommerceCart` to allow better control over what is in the ecommerce cart.
+* Added two new methods to the JS tracker: `removeEcommerceItem` and `clearEcommerceCart` to allow better control over what is in the e-commerce cart.
 * Tracking API requests now include `&consent=1` in the Tracking API URL When [consent](https://developer.matomo.org/guides/tracking-javascript-guide#asking-for-consent) has been given by a user.
 
 ### Breaking Changes
@@ -897,7 +897,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
  Say you are on "example.org" and set `hostAlias = ['example.com', 'example.org/test']` then the current "example.org" domain will not be added as there is already a more restrictive hostAlias 'example.org/test' given. 
  We also do not add the current page domain (hostname) automatically if there was any other host specifying any path such as `['example.com', 'example2.com/test']`. 
  In this case we also do not add the current page domain "example.org" automatically as the "path" feature is used. As soon as someone uses the path feature, for Piwik JS Tracker to work correctly in all cases, one needs to specify all hosts manually. [Learn more.](http://developer.matomo.org/guides/tracking-javascript-guide#measuring-domains-andor-sub-domains)
- * `piwik.js`: after an ecommerce order is tracked using `trackEcommerceOrder`, the items in the cart will now be removed from the JavaScript object. Calling `trackEcommerceCartUpdate` will not remove the items in the cart.   
+ * `piwik.js`: after an e-commerce order is tracked using `trackEcommerceOrder`, the items in the cart will now be removed from the JavaScript object. Calling `trackEcommerceCartUpdate` will not remove the items in the cart.   
 
 
 ## Piwik 2.16.1
