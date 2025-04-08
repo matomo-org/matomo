@@ -50,17 +50,26 @@ class TokenNotifierTask extends Task
     public function dispatchNotifications()
     {
         $container = StaticContainer::getContainer();
+        $logger = $container->get(LoggerInterface::class);
 
         try {
             Option::set(self::LAST_RUN_TIME_OPTION_NAME, Date::factory('today')->getTimestamp());
 
+            $notificationsToDispatchCount = 0;
+            $notificationsDispatchedCount = 0;
+
             foreach ($this->getTokenProviderClasses() as $providerClass) {
                 /** @var TokenNotificationProviderInterface $provider */
                 $provider = $container->get($providerClass);
-                foreach ($provider->getTokenNotificationsForDispatch() as $tokenNotification) {
+
+                $providerTokenNotificationsForDispatch = $provider->getTokenNotificationsForDispatch();
+                $notificationsToDispatchCount += count($providerTokenNotificationsForDispatch);
+
+                foreach ($providerTokenNotificationsForDispatch as $tokenNotification) {
                     $dispatched = $tokenNotification->dispatch();
                     if ($dispatched) {
                         $provider->setTokenNotificationDispatched($tokenNotification->getTokenId());
+                        $notificationsDispatchedCount++;
                     }
                 }
             }
@@ -70,6 +79,15 @@ class TokenNotifierTask extends Task
             $scheduler = $container->get(Scheduler::class);
             // reschedule to ensure it's not run again in an hour
             $scheduler->rescheduleTask(new static());
+
+            if ($notificationsToDispatchCount) {
+                $logger->info(
+                    "Number of token notifications dispatched: {number} of {total}.",
+                    ['number' => $notificationsDispatchedCount, 'total' => $notificationsToDispatchCount]
+                );
+            } else {
+                $logger->info("No token notifications to dispatch, task rescheduled.");
+            }
         } catch (Exception $ex) {
             $container->get(LoggerInterface::class)->error($ex);
             throw $ex;
