@@ -496,7 +496,7 @@ class Loader
         $isWebsiteUsingTracker = $this->isWebsiteUsingTheTracker($idSite);
         $isArchivingForcedWhenNoVisits = $this->shouldArchiveForSiteEvenWhenNoVisits();
         $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $params->getPeriod());
-        $hasChildArchivesInPeriod = $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $params->getPeriod());
+        $hasChildArchivesInPeriod = $this->hasChildArchivesInPeriod($idSite, $params->getPeriod());
 
         if ($this->canSkipArchiveForSegment()) {
             return true;
@@ -506,6 +506,20 @@ class Loader
             && !$isArchivingForcedWhenNoVisits
             && !$hasSiteVisitsBetweenTimeframe
             && !$hasChildArchivesInPeriod;
+    }
+
+    private function hasChildArchivesInPeriod($idSite, Period $period): bool
+    {
+        $cache = Cache::getTransientCache();
+
+        $cacheKey = sprintf('Archiving.hasChildArchivesInPeriod.%s.%s', $idSite, $period->toString());
+        $hasChildArchivesInPeriod = $cache->fetch($cacheKey);
+        if ($hasChildArchivesInPeriod === false || !isset($hasChildArchivesInPeriod)) {
+            $hasChildArchivesInPeriod = (int) $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $period);
+
+            $cache->save($cacheKey, $hasChildArchivesInPeriod);
+        }
+        return (bool) $hasChildArchivesInPeriod;
     }
 
     public function canSkipArchiveForSegment()
@@ -596,12 +610,21 @@ class Loader
         return $idSitesNotUsingTracker;
     }
 
-    private function hasSiteVisitsBetweenTimeframe($idSite, Period $period)
+    private function hasSiteVisitsBetweenTimeframe($idSite, Period $period): bool
     {
         $timezone = Site::getTimezoneFor($idSite);
         list($date1, $date2) = $period->getBoundsInTimezone($timezone);
 
-        return $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
+        $cache = Cache::getTransientCache();
+
+        $cacheKey = sprintf('Archiving.hasSiteVisitsBetweenTimeframe.%s.%s', $idSite, $period->toString());
+        $hasSiteVisitsBetweenTimeframe = $cache->fetch($cacheKey);
+        if ($hasSiteVisitsBetweenTimeframe === false || !isset($hasSiteVisitsBetweenTimeframe)) {
+            $hasSiteVisitsBetweenTimeframe = (int) $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
+
+            $cache->save($cacheKey, $hasSiteVisitsBetweenTimeframe);
+        }
+        return (bool) $hasSiteVisitsBetweenTimeframe;
     }
 
     public static function getArchivingDepth()
