@@ -1,4 +1,4 @@
-name: Update Intl data
+name: Update Intl Data
 
 on:
   workflow_dispatch:
