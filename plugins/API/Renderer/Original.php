@@ -88,11 +88,9 @@ class Original extends ApiRenderer
      *
      * @return bool
      */
-    private function shouldSerialize()
+    private function shouldSerialize(): bool
     {
-        $serialize = Common::getRequestVar('serialize', 0, 'int', $this->request);
-
-        return !empty($serialize);
+        return $this->requestObj->getBoolParameter('serialize', false);
     }
 
     private function serializeIfNeeded($response)

@@ -22,22 +22,32 @@ use Piwik\SettingsServer;
  */
 abstract class ApiRenderer
 {
+    /** @var array */
     protected $request;
 
+    /** @var \Piwik\Request */
+    protected $requestObj;
+
+    /** @var bool */
     protected $hideIdSubDataTable;
+
+    /** @var bool */
+    protected $showMetadata;
 
     final public function __construct($request)
     {
-        $this->request = $request;
+        $this->request = is_array($request) ? $request : [];
+        $this->requestObj = new \Piwik\Request($this->request);
         $this->init();
     }
 
     protected function init()
     {
-        $this->hideIdSubDataTable = Common::getRequestVar('hideIdSubDatable', false, 'int', $this->request);
+        $this->hideIdSubDataTable = $this->requestObj->getBoolParameter('hideIdSubDatable', false);
+        $this->showMetadata = $this->requestObj->getBoolParameter('showMetadata', true); // @todo change default in Matomo 6
     }
 
-    protected function shouldSendBacktrace()
+    protected function shouldSendBacktrace(): bool
     {
         return Common::isPhpCliMode() && SettingsServer::isArchivePhpTriggered();
     }
@@ -98,7 +108,7 @@ abstract class ApiRenderer
     {
         $format   = self::getFormatFromClass(get_class($this));
 
-        $idSite = Common::getRequestVar('idSite', 0, 'int', $this->request);
+        $idSite = $this->requestObj->getIntegerParameter('idSite', 0);
 
         if (empty($idSite)) {
             $idSite = 'all';
@@ -107,8 +117,9 @@ abstract class ApiRenderer
         $renderer = Renderer::factory($format);
         $renderer->setTable($dataTable);
         $renderer->setIdSite($idSite);
-        $renderer->setRenderSubTables(Common::getRequestVar('expanded', false, 'int', $this->request));
+        $renderer->setRenderSubTables($this->requestObj->getBoolParameter('expanded', false));
         $renderer->setHideIdSubDatableFromResponse($this->hideIdSubDataTable);
+        $renderer->setHideMetadataFromResponse(!$this->showMetadata);
 
         return $renderer;
     }
@@ -119,7 +130,7 @@ abstract class ApiRenderer
      * @return ApiRenderer
      * @throws Exception
      */
-    public static function factory($format, $request)
+    public static function factory(string $format, array $request): ApiRenderer
     {
         $formatToCheck = '\\' . ucfirst(strtolower($format));
 
@@ -141,7 +152,7 @@ abstract class ApiRenderer
         throw new Exception(Piwik::translate('General_ExceptionInvalidRendererFormat', array($format, $availableRenderers)));
     }
 
-    private static function getFormatFromClass($klassname)
+    private static function getFormatFromClass(string $klassname): string
     {
         $klass = explode('\\', $klassname);
 
