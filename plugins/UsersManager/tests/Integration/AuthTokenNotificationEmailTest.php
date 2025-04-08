@@ -26,6 +26,11 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class AuthTokenNotificationEmailTest extends IntegrationTestCase
 {
+    /**
+     * @var Fixture
+     */
+    public static $fixture;
+
     protected $capturedNotifications = [];
 
     protected $task;
