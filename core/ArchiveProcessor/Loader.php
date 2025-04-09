@@ -512,7 +512,7 @@ class Loader
     {
         $cache = Cache::getTransientCache();
 
-        $cacheKey = sprintf('Archiving.hasChildArchivesInPeriod.%s.%s', $idSite, $period->toString());
+        $cacheKey = sprintf('Archiving.hasChildArchivesInPeriod.%s.%s', $idSite, implode(',', $period->toString()));
         $hasChildArchivesInPeriod = $cache->fetch($cacheKey);
         if ($hasChildArchivesInPeriod === false || !isset($hasChildArchivesInPeriod)) {
             $hasChildArchivesInPeriod = (int) $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $period);
@@ -617,7 +617,7 @@ class Loader
 
         $cache = Cache::getTransientCache();
 
-        $cacheKey = sprintf('Archiving.hasSiteVisitsBetweenTimeframe.%s.%s', $idSite, $period->toString());
+        $cacheKey = sprintf('Archiving.hasSiteVisitsBetweenTimeframe.%s.%s', $idSite, implode(',', $period->toString()));
         $hasSiteVisitsBetweenTimeframe = $cache->fetch($cacheKey);
         if ($hasSiteVisitsBetweenTimeframe === false || !isset($hasSiteVisitsBetweenTimeframe)) {
             $hasSiteVisitsBetweenTimeframe = (int) $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
