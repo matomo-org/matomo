@@ -110,6 +110,18 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $rendered);
     }
 
+    public function testJSONTest1WithHiddenMetadata()
+    {
+        $dataTable = $this->getDataTableTest();
+        $render = new Json();
+        $render->setHideMetadataFromResponse(true);
+        $render->setTable($dataTable);
+        $render->setRenderSubTables(true);
+        $expected = '[{"label":"Google\u00a9","bool":false,"goals":{"idgoal=1":{"revenue":5.5,"nb_conversions":10}},"nb_uniq_visitors":11,"nb_visits":11,"nb_actions":17,"max_actions":"5","sum_visit_length":517,"bounce_count":9},{"label":"Yahoo!","nb_uniq_visitors":15,"bool":true,"nb_visits":151,"nb_actions":147,"max_actions":"50","sum_visit_length":517,"bounce_count":90,"subtable":[{"label":"sub1","count":1,"bool":false},{"label":"sub2","count":2,"bool":true}]}]';
+        $rendered = $render->render();
+
+        $this->assertEquals($expected, $rendered);
+    }
 
     public function testJSONTest2()
     {
@@ -421,6 +433,33 @@ class JSONTest extends \PHPUnit\Framework\TestCase
         $actual = $render->render();
 
         $expected = '[{"nb_visits":5,"nb_random":10,"comparisons":[{"nb_visits":6,"nb_random":7},{"nb_visits":8,"nb_random":9}]}]';
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testRenderWithRowsWithDataTableMetadataHidden()
+    {
+        $dataTable = new DataTable();
+
+        $row = new DataTable\Row();
+        $row->addColumn('nb_visits', 5);
+        $row->addColumn('nb_random', 10);
+
+        $otherDataTable = new DataTable();
+        $otherDataTable->addRowsFromSimpleArray([
+            ['nb_visits' => 6, 'nb_random' => 7],
+            ['nb_visits' => 8, 'nb_random' => 9],
+        ]);
+        $row->setComparisons($otherDataTable);
+
+        $dataTable->addRow($row);
+
+        $render = new Json();
+        $render->setHideMetadataFromResponse(true);
+        $render->setTable($dataTable);
+        $actual = $render->render();
+
+        $expected = '[{"nb_visits":5,"nb_random":10}]';
 
         $this->assertEquals($expected, $actual);
     }

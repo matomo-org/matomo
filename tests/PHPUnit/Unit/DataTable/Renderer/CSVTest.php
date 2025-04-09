@@ -129,6 +129,21 @@ class CSVTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $rendered);
     }
 
+    public function testCSVTest1WithHiddenMetadata()
+    {
+        $dataTable = $this->getDataTableTest();
+
+        $render = new Csv();
+        $render->setTable($dataTable);
+        $render->setHideMetadataFromResponse(true);
+        $render->convertToUnicode = false;
+        $expected = "label,bool,goals_idgoal=1_revenue,goals_idgoal=1_nb_conversions,nb_uniq_visitors,nb_visits,nb_actions,max_actions,sum_visit_length,bounce_count\n" .
+            "Google©,0,5.5,10,11,11,17,5,517,9\n" .
+            "Yahoo!,1,,,15,151,147,50,517,90";
+
+        $rendered = $render->render();
+        $this->assertEquals($expected, $rendered);
+    }
 
     public function testCSVTest2()
     {
@@ -345,6 +360,22 @@ sub6,3,,renderrrrrr";
         $this->assertEquals($expected, $rendered);
     }
 
+    public function testCSVMapTest1WithHiddenMetadata()
+    {
+        $dataTable = $this->getDataTableMapTest();
+        $render = new Csv();
+        $render->setHideMetadataFromResponse(true);
+        $render->setTable($dataTable);
+        $render->convertToUnicode = false;
+        $expected = "testKey,label,nb_uniq_visitors,nb_visits\n" .
+            "date1,Google,11,11\n" .
+            "date1,Yahoo!,15,151\n" .
+            "date2,Google1©,110,110\n" .
+            "date2,Yahoo!1,150,1510";
+
+        $rendered = $render->render();
+        $this->assertEquals($expected, $rendered);
+    }
 
     public function testCSVMapTest2()
     {

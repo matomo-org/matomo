@@ -155,6 +155,59 @@ class XMLTest extends \PHPUnit\Framework\TestCase
     }
 
 
+    public function testXMLTest1WithHiddenMetadata()
+    {
+        $dataTable = $this->getDataTableTest();
+        $render = new Xml();
+        $render->setTable($dataTable);
+        $render->setHideMetadataFromResponse(true);
+        $render->setRenderSubTables(true);
+        $expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Google©</label>
+		<bool>0</bool>
+		<goals>
+			<row idgoal=\'1\'>
+				<revenue>5.5</revenue>
+				<nb_conversions>10</nb_conversions>
+			</row>
+		</goals>
+		<nb_uniq_visitors>11</nb_uniq_visitors>
+		<nb_visits>11</nb_visits>
+		<nb_actions>17</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>517</sum_visit_length>
+		<bounce_count>9</bounce_count>
+	</row>
+	<row>
+		<label>Yahoo!</label>
+		<nb_uniq_visitors>15</nb_uniq_visitors>
+		<bool>1</bool>
+		<nb_visits>151</nb_visits>
+		<nb_actions>147</nb_actions>
+		<max_actions>50</max_actions>
+		<sum_visit_length>517</sum_visit_length>
+		<bounce_count>90</bounce_count>
+		<subtable>
+			<row>
+				<label>sub1</label>
+				<count>1</count>
+				<bool>0</bool>
+			</row>
+			<row>
+				<label>sub2</label>
+				<count>2</count>
+				<bool>1</bool>
+			</row>
+		</subtable>
+	</row>
+</result>';
+        $rendered = $render->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+
     public function testXMLTest2()
     {
         $dataTable = $this->getDataTableSimpleTest();
@@ -398,6 +451,43 @@ class XMLTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $render->render());
     }
 
+
+    public function testXMLMapTest1WithHiddenMetadata()
+    {
+        $dataTable = $this->getDataTableMapTest();
+        $render = new Xml();
+        $render->setHideMetadataFromResponse(true);
+        $render->setTable($dataTable);
+        $expected = '<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result testKey="date1">
+		<row>
+			<label>Google</label>
+			<nb_uniq_visitors>11</nb_uniq_visitors>
+			<nb_visits>11</nb_visits>
+		</row>
+		<row>
+			<label>Yahoo!</label>
+			<nb_uniq_visitors>15</nb_uniq_visitors>
+			<nb_visits>151</nb_visits>
+		</row>
+	</result>
+	<result testKey="date2">
+		<row>
+			<label>Google1©</label>
+			<nb_uniq_visitors>110</nb_uniq_visitors>
+			<nb_visits>110</nb_visits>
+		</row>
+		<row>
+			<label>Yahoo!1</label>
+			<nb_uniq_visitors>150</nb_uniq_visitors>
+			<nb_visits>1510</nb_visits>
+		</row>
+	</result>
+	<result testKey="date3" />
+</results>';
+        $this->assertEquals($expected, $render->render());
+    }
 
     public function testXMLArrayIsMadeOfMapTest1()
     {
