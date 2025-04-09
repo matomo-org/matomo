@@ -24,8 +24,6 @@
 		<revenue>180</revenue>
 		<sum_daily_nb_uniq_visitors>12</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
-		<idsubdatatable>1</idsubdatatable>
-		<segment>referrerName==referrer.com</segment>
 		<subtable>
 			<row>
 				<label>http://referrer.com/Other_Page.htm</label>
@@ -108,8 +106,6 @@
 		<revenue>110</revenue>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>6</idsubdatatable>
-		<segment>referrerName==www.referrer1.com</segment>
 		<subtable>
 			<row>
 				<label>http://www.referrer1.com/theReferrerPage0.html</label>
@@ -181,8 +177,6 @@
 		<revenue>110</revenue>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>7</idsubdatatable>
-		<segment>referrerName==www.referrer2.com</segment>
 		<subtable>
 			<row>
 				<label>http://www.referrer2.com/theReferrerPage0.html</label>
@@ -254,8 +248,6 @@
 		<revenue>110</revenue>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>8</idsubdatatable>
-		<segment>referrerName==www.referrer3.com</segment>
 		<subtable>
 			<row>
 				<label>http://www.referrer3.com/theReferrerPage0.html</label>
@@ -327,8 +319,6 @@
 		<revenue>105</revenue>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>17</idsubdatatable>
-		<segment>referrerName==www.referrer0.com</segment>
 		<subtable>
 			<row>
 				<label>http://www.referrer0.com/theReferrerPage0.html</label>
@@ -378,8 +368,6 @@
 		<revenue>90</revenue>
 		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>18</idsubdatatable>
-		<segment>referrerName==www.referrer4.com</segment>
 		<subtable>
 			<row>
 				<label>http://www.referrer4.com/theReferrerPage0.html</label>
@@ -429,8 +417,6 @@
 		<revenue>40</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>3</sum_daily_nb_users>
-		<idsubdatatable>3</idsubdatatable>
-		<segment>referrerName==whatever0.com</segment>
 		<subtable>
 			<row>
 				<label>http://whatever0.com/0</label>
@@ -491,8 +477,6 @@
 		<revenue>40</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>16</idsubdatatable>
-		<segment>referrerName==anothersite.com</segment>
 		<subtable>
 			<row>
 				<label>http://anothersite.com/whatever.html</label>
@@ -528,8 +512,6 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>11</idsubdatatable>
-		<segment>referrerName==mutantrights.org</segment>
 		<subtable>
 			<row>
 				<label>http://mutantrights.org</label>
@@ -568,8 +550,6 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
-		<idsubdatatable>4</idsubdatatable>
-		<segment>referrerName==whatever1.com</segment>
 		<subtable>
 			<row>
 				<label>http://whatever1.com/0</label>
@@ -619,8 +599,6 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>15</idsubdatatable>
-		<segment>referrerName==www.external.com.vn</segment>
 		<subtable>
 			<row>
 				<label>http://www.external.com.vn/referrerPage-counted.html</label>
@@ -656,8 +634,6 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>14</idsubdatatable>
-		<segment>referrerName==xavierinstitute.org</segment>
 		<subtable>
 			<row>
 				<label>http://xavierinstitute.org</label>
@@ -682,8 +658,6 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>9</idsubdatatable>
-		<segment>referrerName==apocalypsenow.org</segment>
 		<subtable>
 			<row>
 				<label>http://apocalypsenow.org</label>
@@ -722,8 +696,6 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>10</idsubdatatable>
-		<segment>referrerName==mutantregistration.com</segment>
 		<subtable>
 			<row>
 				<label>http://mutantregistration.com</label>
@@ -762,8 +734,6 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>12</idsubdatatable>
-		<segment>referrerName==myotherreferrerwebsite.com</segment>
 		<subtable>
 			<row>
 				<label>http://myotherreferrerwebsite.com</label>
@@ -802,8 +772,6 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>13</idsubdatatable>
-		<segment>referrerName==myreferrerwebsite.com</segment>
 		<subtable>
 			<row>
 				<label>http://myreferrerwebsite.com</label>
@@ -842,8 +810,6 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>19</idsubdatatable>
-		<segment>referrerName==piwik.org</segment>
 		<subtable>
 			<row>
 				<label>http://piwik.org/contribute%</label>
@@ -882,8 +848,6 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<idsubdatatable>20</idsubdatatable>
-		<segment>referrerName==sn110w.snt110.mail.live.com</segment>
 		<subtable>
 			<row>
 				<label>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</label>
@@ -922,8 +886,6 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<idsubdatatable>2</idsubdatatable>
-		<segment>referrerName==whatever.com1</segment>
 		<subtable>
 			<row>
 				<label>http://whatever.com1/1</label>
@@ -962,8 +924,6 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<idsubdatatable>5</idsubdatatable>
-		<segment>referrerName==whatever3.com</segment>
 		<subtable>
 			<row>
 				<label>http://whatever3.com/3</label>
