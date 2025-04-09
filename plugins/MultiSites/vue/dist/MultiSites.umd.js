@@ -431,6 +431,7 @@ var AllWebsitesDashboard_store_DashboardStore = /*#__PURE__*/function () {
         filter_sort_column: this.privateState.sortColumn,
         filter_sort_order: this.privateState.sortOrder,
         format_metrics: 0,
+        showMetadata: 1,
         showColumns: ['hits_evolution', 'hits_evolution_trend', 'label', 'hits', 'nb_pageviews', 'nb_visits', 'pageviews_evolution', 'pageviews_evolution_trend', 'revenue', 'revenue_evolution', 'revenue_evolution_trend', 'visits_evolution', 'visits_evolution_trend'].join(',')
       };
 

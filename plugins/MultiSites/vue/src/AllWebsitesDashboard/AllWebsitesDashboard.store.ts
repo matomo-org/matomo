@@ -222,6 +222,7 @@ class DashboardStore {
       filter_sort_column: this.privateState.sortColumn,
       filter_sort_order: this.privateState.sortOrder,
       format_metrics: 0,
+      showMetadata: 1,
       showColumns: [
         'hits_evolution',
         'hits_evolution_trend',
