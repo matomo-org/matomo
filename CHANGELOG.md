@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 5.4.0
+
+### New APIs
+
+The new API parameter `showMetadata` was introduced. In can be used to toggle displaying of metadata in API exports. The default value is `1` to keep current behavior.
+
 ## Matomo 5.3.0
 
 ### Breaking Changes
@@ -11,12 +17,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * When requesting goals for multiple sites at once using `Goals.getGoals`, the result will no longer be indexed by `idgoal`. Requesting the goals for a single site will still return them indexed by `idgoal`.
 * The SEO widget does no longer serve the metric `Google indexed pages`. As Google search is no longer accessible without JavaScript this metric can no longer be fetched.
 
-#### New APIs
+### New APIs
 
 * The method `getNthLevelTableDimension` has been added to the `Report` class. This extends support for subtable reports for more than three levels.
 * Commands can subscribe to system signals by defining a `getSystemSignalsToHandle` function in the command implementation. This feature is gated behind the "SystemSignals" feature flag, signal subscription will be silently disabled unless that feature flag is enabled.
 
-## Deprecations
+### Deprecations
 
 * The method `Report::getThirdLeveltableDimension` has been deprecated. Use `Report::getNthLevelTableDimension(2)` instead.
 
@@ -36,7 +42,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
     * `previous_Goal_0_nb_conversions` => `previous_orders`
     * `previous_Goal_0_revenue` => `previous_ecommerce_revenue`
 
-## Deprecations
+### Deprecations
 
 * The methods `Db::isOptimizeInnoDBSupported`, `Db::optimizeTables` have been deprecated. Use `Db\Schema::getInstance()->isOptimizeInnoDBSupported` and `Db\Schema::getInstance()->optimizeTables` instead
 * The method `TransactionLevel::setUncommitted` has been deprecated. Use `TransactionLevel::setTransactionLevelForNonLockingReads` instead
