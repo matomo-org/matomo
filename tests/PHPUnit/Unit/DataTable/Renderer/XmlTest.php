@@ -20,7 +20,7 @@ class XmlTest extends RendererTestCase
     /**
      * @dataProvider getTestCases
      */
-    public function testRender($table, string $expected, callable $rendererCallback = null)
+    public function testRender(callable $tableCallback, string $expected, callable $rendererCallback = null)
     {
         $renderer = new Xml();
 
@@ -28,7 +28,7 @@ class XmlTest extends RendererTestCase
             $rendererCallback($renderer);
         }
 
-        $renderer->setTable($table);
+        $renderer->setTable($tableCallback());
         $renderer->setRenderSubTables(true);
         $rendered = $renderer->render();
         $this->assertEquals($expected, $rendered);
@@ -37,7 +37,9 @@ class XmlTest extends RendererTestCase
     public function getTestCases(): iterable
     {
         yield 'render normal datatable' => [
-            self::getDataTable(),
+            function () {
+                return self::getDataTable();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
@@ -87,7 +89,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render normal datatable without metadata' => [
-            self::getDataTable(),
+            function () {
+                return self::getDataTable();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
@@ -135,7 +139,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render simple datatable' => [
-            self::getDataTableSimple(),
+            function () {
+                return self::getDataTableSimple();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<max_actions>14</max_actions>
@@ -148,31 +154,41 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render simple datatable with one row' => [
-            self::getDataTableSimpleOneRow(),
+            function () {
+                return self::getDataTableSimpleOneRow();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>14</result>',
         ];
 
         yield 'render simple datatable with one row having a zero value' => [
-            self::getDataTableSimpleOneZeroRow(),
+            function () {
+                return self::getDataTableSimpleOneZeroRow();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>0</result>',
         ];
 
         yield 'render simple datatable with one row having a false value' => [
-            self::getDataTableSimpleOneFalseRow(),
+            function () {
+                return self::getDataTableSimpleOneFalseRow();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>0</result>',
         ];
 
         yield 'render empty datatable' => [
-            self::getDataTableEmpty(),
+            function () {
+                return self::getDataTableEmpty();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result />',
         ];
 
         yield 'render datatable with array in row metadata' => [
-            self::getDataTableHavingAnArrayInRowMetadata(),
+            function () {
+                return self::getDataTableHavingAnArrayInRowMetadata();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
@@ -212,7 +228,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render datatable map' => [
-            self::getDataTableMap(),
+            function () {
+                return self::getDataTableMap();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result testKey="date1">
@@ -252,7 +270,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render datatable map without metadata' => [
-            self::getDataTableMap(),
+            function () {
+                return self::getDataTableMap();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result testKey="date1">
@@ -287,7 +307,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render simple datatable map' => [
-            self::getDataTableSimpleMap(),
+            function () {
+                return self::getDataTableSimpleMap();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result testKey="row1">
@@ -303,7 +325,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render datatable map holding simple tables with one row only' => [
-            self::getDataTableSimpleOneRowMap(),
+            function () {
+                return self::getDataTableSimpleOneRowMap();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result testKey="row1">14</result>
@@ -313,7 +337,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render map of datatable maps with normal datatables' => [
-            self::getDataTableMapContainsDataTableMapNormal(),
+            function () {
+                return self::getDataTableMapContainsDataTableMapNormal();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result parentArrayKey="idSite">
@@ -355,7 +381,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render map of datatable maps with normal datatables without metadata' => [
-            self::getDataTableMapContainsDataTableMapNormal(),
+            function () {
+                return self::getDataTableMapContainsDataTableMapNormal();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result parentArrayKey="idSite">
@@ -392,7 +420,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render map of datatable maps with simple datatables' => [
-            self::getDataTableMapContainsDataTableMapSimple(),
+            function () {
+                return self::getDataTableMapContainsDataTableMapSimple();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result parentArrayKey="idSite">
@@ -410,7 +440,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render map of datatable maps with datatables having one row only' => [
-            self::getDataTableMapContainsDataTableMapSimpleOneRow(),
+            function () {
+                return self::getDataTableMapContainsDataTableMapSimpleOneRow();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <results>
 	<result parentArrayKey="idSite">
@@ -422,13 +454,17 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render empty array' => [
-            [],
+            function () {
+                return [];
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result />',
         ];
 
         yield 'render value array' => [
-            ['a', 'b', 'c'],
+            function () {
+                return ['a', 'b', 'c'];
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>a</row>
@@ -438,7 +474,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render key / value array' => [
-            ['a' => 'b', 'c' => 'd', 'e' => 'f', 5 => 'g'],
+            function () {
+                return ['a' => 'b', 'c' => 'd', 'e' => 'f', 5 => 'g'];
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
@@ -451,7 +489,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render multi dimensional key / value array' => [
-            ['a' => 'b', 'c' => [1, 2, 3, 4], 'e' => ['f' => 'g', 'h' => 'i', 'j' => 'k']],
+            function () {
+                return ['a' => 'b', 'c' => [1, 2, 3, 4], 'e' => ['f' => 'g', 'h' => 'i', 'j' => 'k']];
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<a>b</a>
@@ -470,7 +510,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render key / value array with one element' => [
-            ['a' => 'b'],
+            function () {
+                return ['a' => 'b'];
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
@@ -480,7 +522,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render simple datatable with invalid column characters correctly' => [
-            self::getDataTableSimpleWithInvalidChars(),
+            function () {
+                return self::getDataTableSimpleWithInvalidChars();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<col name="$%@(%">1</col>
@@ -490,7 +534,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'render datatable with invalid column characters correctly' => [
-            self::getDataTableWithInvalidChars(),
+            function () {
+                return self::getDataTableWithInvalidChars();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
@@ -502,7 +548,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'handles comparison metadata correctly' => [
-            self::getComparisonDataTable(),
+            function () {
+                return self::getComparisonDataTable();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
@@ -523,7 +571,9 @@ class XmlTest extends RendererTestCase
         ];
 
         yield 'handles comparison metadata correctly when metadata hidden' => [
-            self::getComparisonDataTable(),
+            function () {
+                return self::getComparisonDataTable();
+            },
             '<?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>

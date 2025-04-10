@@ -19,7 +19,7 @@ class ConsoleTest extends RendererTestCase
     /**
      * @dataProvider getTestCases
      */
-    public function testRender($table, string $expected, callable $rendererCallback = null)
+    public function testRender($tableCallback, string $expected, callable $rendererCallback = null)
     {
         $renderer = new Console();
 
@@ -27,7 +27,7 @@ class ConsoleTest extends RendererTestCase
             $rendererCallback($renderer);
         }
 
-        $renderer->setTable($table);
+        $renderer->setTable($tableCallback());
         $rendered = $renderer->render();
         $this->assertEquals($expected, $rendered);
     }
@@ -35,7 +35,9 @@ class ConsoleTest extends RendererTestCase
     public function getTestCases(): iterable
     {
         yield 'render normal datatable' => [
-            self::getDataTable(),
+            function () {
+                return self::getDataTable();
+            },
             "- 1 ['label' => 'Google&copy;', 'bool' => , 'goals' => array (
   'idgoal=1' => 
   array (
@@ -50,7 +52,9 @@ class ConsoleTest extends RendererTestCase
         ];
 
         yield 'render normal datatable without metadata' => [
-            self::getDataTable(),
+            function () {
+                return self::getDataTable();
+            },
             "- 1 ['label' => 'Google&copy;', 'bool' => , 'goals' => array (
   'idgoal=1' => 
   array (
@@ -68,32 +72,44 @@ class ConsoleTest extends RendererTestCase
         ];
 
         yield 'render simple datatable' => [
-            self::getDataTableSimple(),
+            function () {
+                return self::getDataTableSimple();
+            },
             "- 1 ['max_actions' => 14, 'nb_uniq_visitors' => 57, 'nb_visits' => 66, 'nb_actions' => 151, 'sum_visit_length' => 5118, 'bounce_count' => 44] [] [idsubtable = ]<br />\n",
         ];
 
         yield 'render simple datatable with one row' => [
-            self::getDataTableSimpleOneRow(),
+            function () {
+                return self::getDataTableSimpleOneRow();
+            },
             "- 1 ['nb_visits' => 14] [] [idsubtable = ]<br />\n",
         ];
 
         yield 'render simple datatable with one row having a zero value' => [
-            self::getDataTableSimpleOneZeroRow(),
+            function () {
+                return self::getDataTableSimpleOneZeroRow();
+            },
             "- 1 ['nb_visits' => 0] [] [idsubtable = ]<br />\n",
         ];
 
         yield 'render simple datatable with one row having a false value' => [
-            self::getDataTableSimpleOneFalseRow(),
+            function () {
+                return self::getDataTableSimpleOneFalseRow();
+            },
             "- 1 ['is_excluded' => ] [] [idsubtable = ]<br />\n",
         ];
 
         yield 'render empty datatable' => [
-            self::getDataTableEmpty(),
+            function () {
+                return self::getDataTableEmpty();
+            },
             "Empty table<br />\n",
         ];
 
         yield 'render datatable with array in row metadata' => [
-            self::getDataTableHavingAnArrayInRowMetadata(),
+            function () {
+                return self::getDataTableHavingAnArrayInRowMetadata();
+            },
             // array in row metadata is not rendered
             "- 1 ['label' => 'sub1', 'count' => 1] [] [idsubtable = ]<br />
 - 2 ['label' => 'sub2', 'count' => 2] ['test' => 'render'] [idsubtable = ]<br />
@@ -107,7 +123,9 @@ class ConsoleTest extends RendererTestCase
         ];
 
         yield 'render datatable map' => [
-            self::getDataTableMap(),
+            function () {
+                return self::getDataTableMap();
+            },
             "Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date1</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11] ['url' => 'http://www.google.com', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.google.com.png'] [idsubtable = ]<br />
 - 2 ['label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'nb_visits' => 151] ['url' => 'http://www.yahoo.com', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.yahoo.com.png'] [idsubtable = ]<br />
 <hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date2</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google1&copy;', 'nb_uniq_visitors' => 110, 'nb_visits' => 110] ['url' => 'http://www.google.com1', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.google.com.png1'] [idsubtable = ]<br />
@@ -117,7 +135,9 @@ class ConsoleTest extends RendererTestCase
         ];
 
         yield 'render datatable map without metadata' => [
-            self::getDataTableMap(),
+            function () {
+                return self::getDataTableMap();
+            },
             "Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date1</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11]<br />
 - 2 ['label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'nb_visits' => 151]<br />
 <hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date2</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google1&copy;', 'nb_uniq_visitors' => 110, 'nb_visits' => 110]<br />
@@ -130,7 +150,9 @@ class ConsoleTest extends RendererTestCase
         ];
 
         yield 'render simple datatable map' => [
-            self::getDataTableSimpleMap(),
+            function () {
+                return self::getDataTableSimpleMap();
+            },
             "Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>row1</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['max_actions' => 14, 'nb_uniq_visitors' => 57] [] [idsubtable = ]<br />
 <hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>row2</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['max_actions' => 140, 'nb_uniq_visitors' => 570] [] [idsubtable = ]<br />
 <hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>row3</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Empty table<br />
@@ -138,7 +160,9 @@ class ConsoleTest extends RendererTestCase
         ];
 
         yield 'render datatable map holding simple tables with one row only' => [
-            self::getDataTableSimpleOneRowMap(),
+            function () {
+                return self::getDataTableSimpleOneRowMap();
+            },
             "Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>row1</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['nb_visits' => 14] [] [idsubtable = ]<br />
 <hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>row2</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['nb_visits' => 15] [] [idsubtable = ]<br />
 <hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>row3</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Empty table<br />
@@ -146,7 +170,9 @@ class ConsoleTest extends RendererTestCase
         ];
 
         yield 'render map of datatable maps with normal datatables' => [
-            self::getDataTableMapContainsDataTableMapNormal(),
+            function () {
+                return self::getDataTableMapContainsDataTableMapNormal();
+            },
             "Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>idSite</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date1</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11] ['url' => 'http://www.google.com', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.google.com.png'] [idsubtable = ]<br />
 - 2 ['label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'nb_visits' => 151] ['url' => 'http://www.yahoo.com', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.yahoo.com.png'] [idsubtable = ]<br />
 <hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date2</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google1&copy;', 'nb_uniq_visitors' => 110, 'nb_visits' => 110] ['url' => 'http://www.google.com1', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.google.com.png1'] [idsubtable = ]<br />
@@ -156,7 +182,9 @@ class ConsoleTest extends RendererTestCase
         ];
 
         yield 'render map of datatable maps with normal datatables without metadata' => [
-            self::getDataTableMapContainsDataTableMapNormal(),
+            function () {
+                return self::getDataTableMapContainsDataTableMapNormal();
+            },
             "Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>idSite</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date1</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11]<br />
 - 2 ['label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'nb_visits' => 151]<br />
 <hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date2</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google1&copy;', 'nb_uniq_visitors' => 110, 'nb_visits' => 110]<br />
@@ -169,7 +197,9 @@ class ConsoleTest extends RendererTestCase
         ];
 
         yield 'render map of datatable maps with simple datatables' => [
-            self::getDataTableMapContainsDataTableMapSimple(),
+            function () {
+                return self::getDataTableMapContainsDataTableMapSimple();
+            },
             "Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>idSite</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>row1</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['max_actions' => 14, 'nb_uniq_visitors' => 57] [] [idsubtable = ]<br />
 <hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>row2</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['max_actions' => 140, 'nb_uniq_visitors' => 570] [] [idsubtable = ]<br />
 <hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>row3</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Empty table<br />
@@ -177,7 +207,9 @@ class ConsoleTest extends RendererTestCase
         ];
 
         yield 'render map of datatable maps with datatables having one row only' => [
-            self::getDataTableMapContainsDataTableMapSimpleOneRow(),
+            function () {
+                return self::getDataTableMapContainsDataTableMapSimpleOneRow();
+            },
             "Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>idSite</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>row1</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['nb_visits' => 14] [] [idsubtable = ]<br />
 <hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>row2</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['nb_visits' => 15] [] [idsubtable = ]<br />
 <hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>row3</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Empty table<br />
@@ -185,12 +217,16 @@ class ConsoleTest extends RendererTestCase
         ];
 
         yield 'render empty array' => [
-            [],
+            function () {
+                return [];
+            },
             "Empty table<br />\n",
         ];
 
         yield 'render value array' => [
-            ['a', 'b', 'c'],
+            function () {
+                return ['a', 'b', 'c'];
+            },
             "- 1 ['0' => 'a'] [] [idsubtable = ]<br />
 - 2 ['0' => 'b'] [] [idsubtable = ]<br />
 - 3 ['0' => 'c'] [] [idsubtable = ]<br />
@@ -198,12 +234,16 @@ class ConsoleTest extends RendererTestCase
         ];
 
         yield 'render key / value array' => [
-            ['a' => 'b', 'c' => 'd', 'e' => 'f', 5 => 'g'],
+            function () {
+                return ['a' => 'b', 'c' => 'd', 'e' => 'f', 5 => 'g'];
+            },
             "- 1 ['a' => 'b', 'c' => 'd', 'e' => 'f', '5' => 'g'] [] [idsubtable = ]<br />\n",
         ];
 
         yield 'render key / value array with one element' => [
-            ['a' => 'b'],
+            function () {
+                return ['a' => 'b'];
+            },
             "- 1 ['a' => 'b'] [] [idsubtable = ]<br />\n",
         ];
     }

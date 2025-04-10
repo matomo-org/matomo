@@ -18,6 +18,11 @@ use Piwik\DataTable\Simple;
  */
 abstract class RendererTestCase extends \PHPUnit\Framework\TestCase
 {
+    public function setUp(): void
+    {
+        DataTable\Manager::getInstance()->deleteAll();
+    }
+
     protected static function getDataTable(): DataTable
     {
         $dataTable = new DataTable();
