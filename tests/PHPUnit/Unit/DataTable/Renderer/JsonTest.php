@@ -16,7 +16,6 @@ use Piwik\DataTable\Renderer\Json;
  */
 class JsonTest extends RendererTestCase
 {
-
     /**
      * @dataProvider getTestCases
      */
