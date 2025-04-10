@@ -27,7 +27,7 @@ class ConsoleRendererTest extends \PHPUnit\Framework\TestCase
 
     public function setUp(): void
     {
-        $this->builder = $this->makeBuilder(array());
+        $this->builder = $this->makeBuilder(array('showMetadata' => '1'));
         DataTable\Manager::getInstance()->deleteAll();
     }
 

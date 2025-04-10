@@ -25,7 +25,7 @@ class CsvRendererTest extends \PHPUnit\Framework\TestCase
 
     public function setUp(): void
     {
-        $this->builder = $this->makeBuilder(array('method' => 'MultiSites_getAll', 'convertToUnicode' => 0));
+        $this->builder = $this->makeBuilder(array('method' => 'MultiSites_getAll', 'convertToUnicode' => 0, 'showMetadata' => '1'));
     }
 
     public function testRenderSuccessShouldIncludeMessage()
