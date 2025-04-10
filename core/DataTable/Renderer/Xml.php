@@ -31,7 +31,7 @@ class Xml extends Renderer
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         return '<?xml version="1.0" encoding="utf-8" ?>' . "\n" . $this->renderTable($this->table);
     }

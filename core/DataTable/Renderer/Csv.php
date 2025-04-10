@@ -64,7 +64,7 @@ class Csv extends Renderer
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         $str = $this->renderTable($this->table);
         if (empty($str)) {
