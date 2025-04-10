@@ -17,7 +17,6 @@ use Piwik\DataTable\Renderer\Xml;
  */
 class XmlTest extends RendererTestCase
 {
-
     /**
      * @dataProvider getTestCases
      */
