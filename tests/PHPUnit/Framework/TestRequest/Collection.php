@@ -256,6 +256,7 @@ class Collection
                 foreach ($formats as $format) {
                     $parametersToSet['format'] = $format;
                     $parametersToSet['hideIdSubDatable'] = 1;
+                    $parametersToSet['showMetadata'] = 1;
                     if (!isset($parametersToSet['serialize'])) {
                         $parametersToSet['serialize'] = 1;
                     }
