@@ -29,7 +29,7 @@ class Console extends Renderer
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         return $this->renderTable($this->table);
     }
@@ -111,20 +111,25 @@ class Console extends Renderer
             }
             $columns = implode(", ", $columns);
 
-            $metadata = array();
-            foreach ($row->getMetadata() as $name => $value) {
-                if (is_string($value)) {
-                    $value = "'$value'";
-                } elseif (is_array($value)) {
-                    $value = var_export($value, true);
+            if ($this->hideMetadata) {
+                $output .= str_repeat($this->prefixRows, $depth)
+                    . "- $i [" . $columns . "]<br />\n";
+            } else {
+                $metadata = [];
+                foreach ($row->getMetadata() as $name => $value) {
+                    if (is_string($value)) {
+                        $value = "'$value'";
+                    } elseif (is_array($value)) {
+                        $value = var_export($value, true);
+                    }
+                    $metadata[] = "'$name' => $value";
                 }
-                $metadata[] = "'$name' => $value";
-            }
-            $metadata = implode(", ", $metadata);
+                $metadata = implode(", ", $metadata);
 
-            $output .= str_repeat($this->prefixRows, $depth)
-                . "- $i [" . $columns . "] [" . $metadata . "] [idsubtable = "
-                . $row->getIdSubDataTable() . "]<br />\n";
+                $output .= str_repeat($this->prefixRows, $depth)
+                    . "- $i [" . $columns . "] [" . $metadata . "] [idsubtable = "
+                    . $row->getIdSubDataTable() . "]<br />\n";
+            }
 
             if (!is_null($row->getIdSubDataTable())) {
                 $subTable = $row->getSubtable();
@@ -139,23 +144,25 @@ class Console extends Renderer
             $i++;
         }
 
-        $metadata = $table->getAllTableMetadata();
-        if (!empty($metadata)) {
-            $output .= "<hr />Metadata<br />";
-            foreach ($metadata as $id => $metadataIn) {
-                $output .= "<br />";
-                $output .= $prefix . " <b>$id</b><br />";
-                if (is_array($metadataIn)) {
-                    foreach ($metadataIn as $name => $value) {
-                        if (is_object($value) && !method_exists($value, '__toString')) {
-                            $value = 'Object [' . get_class($value) . ']';
-                        } elseif (is_array($value)) {
-                            $value = 'Array ' . json_encode($value);
+        if (!$this->hideMetadata) {
+            $metadata = $table->getAllTableMetadata();
+            if (!empty($metadata)) {
+                $output .= "<hr />Metadata<br />";
+                foreach ($metadata as $id => $metadataIn) {
+                    $output .= "<br />";
+                    $output .= $prefix . " <b>$id</b><br />";
+                    if (is_array($metadataIn)) {
+                        foreach ($metadataIn as $name => $value) {
+                            if (is_object($value) && !method_exists($value, '__toString')) {
+                                $value = 'Object [' . get_class($value) . ']';
+                            } elseif (is_array($value)) {
+                                $value = 'Array ' . json_encode($value);
+                            }
+                            if (is_array($value)) {
+                                $value = json_encode($value);
+                            }
+                            $output .= $prefix . $prefix . "$name => $value";
                         }
-                        if (is_array($value)) {
-                            $value = json_encode($value);
-                        }
-                        $output .= $prefix . $prefix . "$name => $value";
                     }
                 }
             }

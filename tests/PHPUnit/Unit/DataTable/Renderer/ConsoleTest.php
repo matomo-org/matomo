@@ -57,10 +57,10 @@ class ConsoleTest extends RendererTestCase
     'revenue' => 5.5,
     'nb_conversions' => 10,
   ),
-), 'nb_uniq_visitors' => 11, 'nb_visits' => 11, 'nb_actions' => 17, 'max_actions' => '5', 'sum_visit_length' => 517, 'bounce_count' => 9] ['url' => 'http://www.google.com/display\"and,properly', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.google.com.png'] [idsubtable = ]<br />
-- 2 ['label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'bool' => 1, 'nb_visits' => 151, 'nb_actions' => 147, 'max_actions' => '50', 'sum_visit_length' => 517, 'bounce_count' => 90] ['url' => 'http://www.yahoo.com', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.yahoo.com.png'] [idsubtable = 4]<br />
-#- 1 ['label' => 'sub1', 'count' => 1, 'bool' => ] [] [idsubtable = ]<br />
-#- 2 ['label' => 'sub2', 'count' => 2, 'bool' => 1] [] [idsubtable = ]<br />
+), 'nb_uniq_visitors' => 11, 'nb_visits' => 11, 'nb_actions' => 17, 'max_actions' => '5', 'sum_visit_length' => 517, 'bounce_count' => 9]<br />
+- 2 ['label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'bool' => 1, 'nb_visits' => 151, 'nb_actions' => 147, 'max_actions' => '50', 'sum_visit_length' => 517, 'bounce_count' => 90]<br />
+#- 1 ['label' => 'sub1', 'count' => 1, 'bool' => ]<br />
+#- 2 ['label' => 'sub2', 'count' => 2, 'bool' => 1]<br />
 ",
             function ($renderer) {
                 $renderer->setHideMetadataFromResponse(true);
@@ -118,10 +118,10 @@ class ConsoleTest extends RendererTestCase
 
         yield 'render datatable map without metadata' => [
             self::getDataTableMap(),
-            "Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date1</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11] ['url' => 'http://www.google.com', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.google.com.png'] [idsubtable = ]<br />
-- 2 ['label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'nb_visits' => 151] ['url' => 'http://www.yahoo.com', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.yahoo.com.png'] [idsubtable = ]<br />
-<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date2</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google1&copy;', 'nb_uniq_visitors' => 110, 'nb_visits' => 110] ['url' => 'http://www.google.com1', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.google.com.png1'] [idsubtable = ]<br />
-- 2 ['label' => 'Yahoo!1', 'nb_uniq_visitors' => 150, 'nb_visits' => 1510] ['url' => 'http://www.yahoo.com1', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.yahoo.com.png1'] [idsubtable = ]<br />
+            "Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date1</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11]<br />
+- 2 ['label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'nb_visits' => 151]<br />
+<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date2</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google1&copy;', 'nb_uniq_visitors' => 110, 'nb_visits' => 110]<br />
+- 2 ['label' => 'Yahoo!1', 'nb_uniq_visitors' => 150, 'nb_visits' => 1510]<br />
 <hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date3</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Empty table<br />
 <hr />",
             function ($renderer) {
@@ -157,10 +157,10 @@ class ConsoleTest extends RendererTestCase
 
         yield 'render map of datatable maps with normal datatables without metadata' => [
             self::getDataTableMapContainsDataTableMapNormal(),
-            "Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>idSite</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date1</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11] ['url' => 'http://www.google.com', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.google.com.png'] [idsubtable = ]<br />
-- 2 ['label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'nb_visits' => 151] ['url' => 'http://www.yahoo.com', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.yahoo.com.png'] [idsubtable = ]<br />
-<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date2</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google1&copy;', 'nb_uniq_visitors' => 110, 'nb_visits' => 110] ['url' => 'http://www.google.com1', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.google.com.png1'] [idsubtable = ]<br />
-- 2 ['label' => 'Yahoo!1', 'nb_uniq_visitors' => 150, 'nb_visits' => 1510] ['url' => 'http://www.yahoo.com1', 'logo' => './plugins/Morpheus/icons/dist/searchEngines/www.yahoo.com.png1'] [idsubtable = ]<br />
+            "Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>idSite</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date1</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11]<br />
+- 2 ['label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'nb_visits' => 151]<br />
+<hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date2</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 1 ['label' => 'Google1&copy;', 'nb_uniq_visitors' => 110, 'nb_visits' => 110]<br />
+- 2 ['label' => 'Yahoo!1', 'nb_uniq_visitors' => 150, 'nb_visits' => 1510]<br />
 <hr />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>date3</b><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Empty table<br />
 <hr /><hr />",
             function ($renderer) {

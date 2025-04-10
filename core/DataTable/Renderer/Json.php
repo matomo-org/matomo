@@ -25,7 +25,7 @@ class Json extends Renderer
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         return $this->renderTable($this->table);
     }

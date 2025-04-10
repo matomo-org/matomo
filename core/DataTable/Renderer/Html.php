@@ -41,7 +41,7 @@ class Html extends Renderer
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         $this->tableStructure = array();
         $this->allColumns = array();
