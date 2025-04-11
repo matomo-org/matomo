@@ -13,6 +13,7 @@ use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\TokenNotifications\TokenNotification;
+use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\View;
 
@@ -59,9 +60,9 @@ class AuthTokenNotificationEmail extends Mail
 
     protected function getManageAuthTokensLink(): string
     {
-        return Url::getCurrentUrlWithoutQueryString()
-            . '?module=UsersManager'
-            . '&action=userSecurity'
+        return SettingsPiwik::getPiwikUrl()
+            . 'index.php?'
+            . Url::getQueryStringFromParameters(['module' => 'UsersManager', 'action' => 'userSecurity'])
             . '#authtokens';
     }
     protected function getDefaultSubject(): string
