@@ -44,11 +44,13 @@ class TokenNotificationProvider implements TokenNotificationProviderInterface
         }
 
         $db = Db::get();
-        $sql = "SELECT * FROM " . Common::prefixTable('user_token_auth')
+        $sql = "SELECT * FROM " . Common::prefixTable('user_token_auth') . " AS uta"
+            . " JOIN " . Common::prefixTable('user') . " AS u ON uta.login = u.login"
             . " WHERE (date_expired is null or date_expired > ?)"
             . " AND (date_created <= ?)"
             . " AND ts_rotation_notified is null"
-            . " AND system_token = 0";
+            . " AND system_token = 0"
+            . " AND u.email != 'anonymous@example.org' AND u.invited_by IS NULL";
 
         $tokensToNotify = $db->fetchAll($sql, [
             $this->today,
