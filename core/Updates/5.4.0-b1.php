@@ -28,7 +28,7 @@ class Updates_5_4_0_b1 extends Updates
     public function getMigrations(Updater $updater)
     {
         return [
-            $this->migration->db->addColumn('user_token_auth', 'ts_rotation_notified', 'TIMESTAMP NULL'),
+            $this->migration->db->addColumn('user_token_auth', 'ts_rotation_notified', 'DATETIME NULL'),
         ];
     }
 
