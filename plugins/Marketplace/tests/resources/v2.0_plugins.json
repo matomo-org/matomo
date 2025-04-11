@@ -469,7 +469,6 @@
       "homepage": "http:\/\/github.com\/halfdan\/piwik-barometer-plugin",
       "createdDateTime": "2014-12-23 00:38:20",
       "donate": {
-        "flattr": "https:\/\/flattr.com\/profile\/test1",
         "bitcoin": null
       },
       "support": [
@@ -1620,7 +1619,6 @@
       "createdDateTime": "2015-02-08 22:10:03",
       "donate": {
         "paypal": "stefangiehl@web.de",
-        "flattr": "https:\/\/flattr.com\/thing\/2578144\/sgiehl",
         "bitcoin": null
       },
       "support": [],
@@ -1924,7 +1922,6 @@
       "createdDateTime": "2015-01-05 23:22:04",
       "donate": {
         "paypal": "stefangiehl@web.de",
-        "flattr": "https:\/\/flattr.com\/thing\/2578144\/sgiehl",
         "bitcoin": null
       },
       "support": [],
@@ -2154,7 +2151,6 @@
       "createdDateTime": "2015-07-21 20:46:05",
       "donate": {
         "paypal": "stefangiehl@web.de",
-        "flattr": "https:\/\/flattr.com\/thing\/4453253\/sgiehlpiwik-plugin-GoogleAuthenticator-on-GitHub",
         "bitcoin": null
       },
       "support": [],
@@ -3130,7 +3126,6 @@
       "homepage": "http:\/\/github.com\/halfdan\/IPv6Usage",
       "createdDateTime": "2014-12-23 00:40:33",
       "donate": {
-        "flattr": "https:\/\/flattr.com\/profile\/test1",
         "bitcoin": null
       },
       "support": [],
@@ -3591,7 +3586,6 @@
       "createdDateTime": "2014-12-23 00:38:34",
       "donate": {
         "paypal": "test1@example.com",
-        "flattr": "https:\/\/flattr.com\/profile\/steurth",
         "bitcoin": null
       },
       "support": [],
@@ -4985,7 +4979,6 @@
       "createdDateTime": "2014-12-23 01:14:53",
       "donate": {
         "paypal": "test3@example.com",
-        "flattr": null,
         "bitcoin": null
       },
       "support": [],
@@ -5082,7 +5075,6 @@
       "createdDateTime": "2014-05-13 11:40:04",
       "donate": {
         "paypal": "supporters@piwik.org",
-        "flattr": "https:\/\/flattr.com\/thing\/131552\/Piwik-Web-Analytics-Open-Source",
         "bitcoin": null
       },
       "support": [],
