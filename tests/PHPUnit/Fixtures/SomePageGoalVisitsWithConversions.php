@@ -14,6 +14,7 @@ use Piwik\Date;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\XssTesting;
 
 /**
  * Adds one site and tracks some visits across multiple pages with a couple conversions and a single country segment
@@ -60,16 +61,20 @@ class SomePageGoalVisitsWithConversions extends Fixture
             );
         }
 
+        $xssTesting = new XssTesting();
+
         // Contact me signup goal
         if (!self::goalExists($idSite = 1, $idGoal = 2)) {
             APIGoals::getInstance()->addGoal(
                 $this->idSite,
-                'Goal "<2~$%+"',
+                $xssTesting->forVueJs('goal'),
                 'event_action',
                 'press',
                 'contains',
                 false,
-                10
+                10,
+                false,
+                $xssTesting->forVueJs('description')
             );
         }
     }
