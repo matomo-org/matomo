@@ -136,17 +136,17 @@ class UITestFixture extends SqlDump
             0,
             ScheduledReports::EMAIL_TYPE,
             ReportRenderer::HTML_FORMAT,
-            ['ExampleAPI_xssReportforTwig', 'ExampleAPI_xssReportforAngular'],
+            ['ExampleAPI_xssReportforTwig', 'ExampleAPI_xssReportforVueJs'],
             [ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY]
         );
         APIScheduledReports::getInstance()->addReport(
             $idSite = 1,
-            $this->xssTesting->forAngular('scheduledreport'),
+            $this->xssTesting->forVueJs('scheduledreport'),
             'month',
             0,
             ScheduledReports::EMAIL_TYPE,
             ReportRenderer::HTML_FORMAT,
-            ['ExampleAPI_xssReportforTwig', 'ExampleAPI_xssReportforAngular'],
+            ['ExampleAPI_xssReportforTwig', 'ExampleAPI_xssReportforVueJs'],
             [ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY]
         );
 
@@ -202,7 +202,7 @@ class UITestFixture extends SqlDump
 
         print "Token auth in fixture is {$this->testEnvironment->tokenAuth}\n";
 
-        $this->angularXssLabel = $this->xssTesting->forAngular('datatablerow');
+        $this->angularXssLabel = $this->xssTesting->forVueJs('datatablerow');
         $this->twigXssLabel = $this->xssTesting->forTwig('datatablerow');
         $this->xssTesting->sanityCheck();
 
@@ -368,9 +368,14 @@ class UITestFixture extends SqlDump
                 null,
                 null,
                 0,
-                implode(',', [$this->xssTesting->forTwig('excludedparameter'),
-                $this->xssTesting->forAngular('excludedparameter'),
-                'sid'])
+                implode(
+                    ',',
+                    [
+                        $this->xssTesting->forTwig('excludedparameter'),
+                        $this->xssTesting->forVueJs('excludedparameter'),
+                        'sid',
+                    ]
+                )
             );
         }
     }
@@ -487,7 +492,7 @@ class UITestFixture extends SqlDump
             if ($id == 0) {
                 $_GET['name'] = $this->xssTesting->forTwig('dashboard name' . $id);
             } elseif ($id == 1) {
-                $_GET['name'] = $this->xssTesting->forAngular('dashboard name' . $id);
+                $_GET['name'] = $this->xssTesting->forVueJs('dashboard name' . $id);
             } else {
                 $_GET['name'] = 'dashboard name' . $id;
             }
@@ -515,7 +520,7 @@ class UITestFixture extends SqlDump
         );
 
         // create two more segments
-        $segmentName = $this->xssTesting->forAngular("From Europe segment");
+        $segmentName = $this->xssTesting->forVueJs("From Europe segment");
         APISegmentEditor::getInstance()->add(
             'From Europe ' . $segmentName,
             "continentCode==eur",
@@ -549,14 +554,14 @@ class UITestFixture extends SqlDump
                     $reports[] = $report;
 
                     $report = new XssReport();
-                    $report->initForXss('forAngular');
+                    $report->initForXss('forVueJs');
                     $reports[] = $report;
                 })],
                 ['Dimension.addDimensions', \Piwik\DI::value(function (&$instances) {
                     $instances[] = new XssDimension();
                 })],
                 ['API.Request.intercept', \Piwik\DI::value(function (&$result, $finalParameters, $pluginName, $methodName) {
-                    if ($pluginName != 'ExampleAPI' && $methodName != 'xssReportforTwig' && $methodName != 'xssReportforAngular') {
+                    if ($pluginName != 'ExampleAPI' && $methodName != 'xssReportforTwig' && $methodName != 'xssReportforVueJs') {
                         return;
                     }
 
@@ -611,8 +616,8 @@ class XssReport extends Report
         $action = Common::getRequestVar('actionToWidgetize', false) ?: Common::getRequestVar('action', false);
         if ($action == 'xssReportforTwig') {
             $this->initForXss('forTwig');
-        } elseif ($action == 'xssReportforAngular') {
-            $this->initForXss('forAngular');
+        } elseif ($action == 'xssReportforVueJs') {
+            $this->initForXss('forVueJs');
         }
     }
 
@@ -713,12 +718,12 @@ class CustomApiProxy extends Proxy
     {
         parent::__construct();
         $this->metadataArray['\Piwik\Plugins\ExampleAPI\API']['xssReportforTwig']['parameters'] = [];
-        $this->metadataArray['\Piwik\Plugins\ExampleAPI\API']['xssReportforAngular']['parameters'] = [];
+        $this->metadataArray['\Piwik\Plugins\ExampleAPI\API']['xssReportforVueJs']['parameters'] = [];
     }
 
     public function isExistingApiAction($pluginName, $apiAction)
     {
-        if ($pluginName == 'ExampleAPI' && ($apiAction == 'xssReportforTwig' || $apiAction == 'xssReportforAngular')) {
+        if ($pluginName == 'ExampleAPI' && ($apiAction == 'xssReportforTwig' || $apiAction == 'xssReportforVueJs')) {
             return true;
         }
         return parent::isExistingApiAction($pluginName, $apiAction);

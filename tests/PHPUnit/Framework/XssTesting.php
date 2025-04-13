@@ -34,12 +34,19 @@ class XssTesting
         return $result;
     }
 
-    // kept after vue migration for proof angularjs injection does not apply
+    /**
+     * @deprecated
+     */
     public function forAngular($type, $sanitize = false)
+    {
+        return $this->forVueJs($type, $sanitize);
+    }
+
+    public function forVueJs($type, $sanitize = false)
     {
         $n = $this->addXssEntry($type, 'angular');
 
-        $result = "{{constructor.constructor(\"_x($n)\")()}}";
+        $result = "{{_Vue.h.constructor`_x($n)`()}}";
         if ($sanitize) {
             $result = Common::sanitizeInputValue($result);
         }

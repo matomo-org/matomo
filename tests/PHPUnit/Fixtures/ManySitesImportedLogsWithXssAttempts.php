@@ -90,7 +90,7 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
             self::createWebsite(
                 $this->dateTime,
                 $ecommerce = 0,
-                $siteName = $xssTesting->forAngular('Piwik test two'),
+                $siteName = $xssTesting->forVueJs('Piwik test two'),
                 $siteUrl = 'http://example-site-two.com'
             );
         }
@@ -98,14 +98,14 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
         if (!self::goalExists($idSite = 2, $idGoal = 2)) {
             APIGoals::getInstance()->addGoal(
                 $this->idSite,
-                $xssTesting->forAngular("second goal"),
+                $xssTesting->forVueJs("second goal"),
                 'url',
                 'http',
                 'contains',
                 false,
                 5,
                 false,
-                $xssTesting->forAngular("goal description")
+                $xssTesting->forVueJs("goal description")
             );
         }
 
@@ -129,7 +129,7 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
             $xssTesting->forTwig("annotation"),
             $starred = 0
         );
-        APIAnnotations::getInstance()->add($this->idSite, '2012-08-10', $xssTesting->forAngular("Annotation note 3"), $starred = 1);
+        APIAnnotations::getInstance()->add($this->idSite, '2012-08-10', $xssTesting->forVueJs("Annotation note 3"), $starred = 1);
     }
 
     public function trackVisitsForRealtimeMap($date, $createSeperateVisitors = true)
@@ -194,7 +194,7 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
 
         $baseDay = Date::factory($this->dateTime)->addDay(10);
 
-        $xssTypes = ['forTwig', 'forAngular'];
+        $xssTypes = ['forTwig', 'forVueJs'];
         foreach ($xssTypes as $index => $type) {
             $urlXss = $xssTesting->$type('pageurl');
             $titleXss = $xssTesting->$type('page title');
