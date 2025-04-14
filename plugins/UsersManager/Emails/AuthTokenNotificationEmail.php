@@ -55,7 +55,7 @@ class AuthTokenNotificationEmail extends Mail
     {
         $rotationPeriodDays = Config::getInstance()->General['auth_token_rotation_notification_days'];
 
-        return Piwik::translate('Intl_PeriodDay' . ($rotationPeriodDays === 1 ? '' : 's'));
+        return $rotationPeriodDays . ' ' . Piwik::translate('Intl_PeriodDay' . ($rotationPeriodDays === 1 ? '' : 's'));
     }
 
     protected function getManageAuthTokensLink(): string
