@@ -130,6 +130,7 @@ class Collection
 
             'language'       => $this->testConfig->language ?: 'en',
             'idSites'        => $this->testConfig->idSite,
+            'showMetadata' => 1,
         );
         $parametersToSet = array_merge($parametersToSet, $this->testConfig->otherRequestParameters);
         if (!empty($this->testConfig->apiModule)) {
@@ -230,6 +231,7 @@ class Collection
                                                           'idSite'    => $parametersToSet['idSite'],
                                                           'period'    => $parametersToSet['period'],
                                                           'date'      => $parametersToSet['date'],
+                                                          'showMetadata' => '1',
                                                           'format'    => 'json',
                                                      ));
 
@@ -256,6 +258,7 @@ class Collection
                 foreach ($formats as $format) {
                     $parametersToSet['format'] = $format;
                     $parametersToSet['hideIdSubDatable'] = 1;
+                    $parametersToSet['showMetadata'] = 1;
                     if (!isset($parametersToSet['serialize'])) {
                         $parametersToSet['serialize'] = 1;
                     }

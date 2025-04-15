@@ -35,7 +35,7 @@ class ArchiveWebTest extends SystemTestCase
         $url    = $host . 'tests/PHPUnit/proxy/archive.php?token_auth=' . $token;
         $output = Http::sendHttpRequest($url, 6);
 
-        $this->assertEquals("- 1 ['0' => 'mock output'] [] [idsubtable = ]<br />", $output);
+        $this->assertEquals("- 1 ['0' => 'mock output']<br />", $output);
 
         if (!empty($urlTmp)) {
             Option::set('piwikUrl', $urlTmp);

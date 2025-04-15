@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 6.0.0
+
+### Breaking Changes
+
+The default value for the API parameter `showMetadata` has been changed to `0`. This will hide all metadata by default. If you require any of the metadata ensure to update your API requests.
+
 ## Matomo 5.4.0
 
 ### New APIs

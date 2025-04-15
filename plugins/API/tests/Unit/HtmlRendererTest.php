@@ -27,7 +27,7 @@ class HtmlRendererTest extends \PHPUnit\Framework\TestCase
 
     public function setUp(): void
     {
-        $this->builder = $this->makeBuilder(array('method' => 'MultiSites_getAll'));
+        $this->builder = $this->makeBuilder(['method' => 'MultiSites_getAll', 'showMetadata' => '1']);
         DataTable\Manager::getInstance()->deleteAll();
     }
 

@@ -272,7 +272,8 @@ export default defineComponent({
         filter_limit: 100,
         filter_sort_order: 'desc',
         filter_sort_column: 'nb_hits',
-        showColumns: 'label,nb_hits,url',
+        showColumns: 'label,nb_hits',
+        showMetadata: 1,
       }).then((report) => {
         this.isLoading = false;
         this.actionNameOptions = [];

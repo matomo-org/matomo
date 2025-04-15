@@ -263,6 +263,7 @@ class DocumentationGenerator
         $aParameters = Proxy::getInstance()->getParametersList($class, $methodName);
         $aParameters['format'] = false;
         $aParameters['hideIdSubDatable'] = false;
+        $aParameters['showMetadata'] = false;
         $aParameters['serialize'] = false;
         $aParameters['language'] = false;
         $aParameters['translateColumnNames'] = false;

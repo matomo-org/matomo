@@ -440,7 +440,6 @@ export default defineComponent({
         }
       }
 
-      exportUrlParams.showMetadata = 0;
       exportUrlParams.token_auth = 'ENTER_YOUR_TOKEN_AUTH_HERE';
 
       if (withToken === true) {
