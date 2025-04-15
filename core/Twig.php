@@ -139,6 +139,7 @@ class Twig
         $this->addFilterSafelink();
         $this->addFilterTrackMatomoLink();
         $this->addFilterImplode();
+        $this->addFilterPreventLinking();
         $this->twig->addFilter(new TwigFilter('ucwords', 'ucwords'));
         $this->twig->addFilter(new TwigFilter('lcfirst', 'lcfirst'));
         $this->twig->addFilter(new TwigFilter('ucfirst', 'ucfirst'));
@@ -284,7 +285,7 @@ class Twig
     {
         $externalLink = new TwigFunction('externallink', function ($url) {
             // Add tracking parameters if a matomo.org link
-            $url =  Url::addCampaignParametersToMatomoLink($url);
+            $url = Url::addCampaignParametersToMatomoLink($url);
 
             return "<a target='_blank' rel='noreferrer noopener' href='" . $url . "'>";
         });
@@ -646,6 +647,18 @@ class Twig
             return implode($separator, $value);
         });
         $this->twig->addFilter($implode);
+    }
+
+    private function addFilterPreventLinking()
+    {
+        $preventLinking = new TwigFilter('preventLinking', function ($string) {
+            while (preg_match('/\w+\.\w+/i', $string, $matches)) {
+                $string = str_replace($matches[0], str_replace('.', '.<!-- -->', $matches[0]), $string);
+            }
+
+            return $string;
+        }, ['is_safe' => ['all']]);
+        $this->twig->addFilter($preventLinking);
     }
 
     private function addTestIsNumeric()

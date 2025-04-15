@@ -10,7 +10,7 @@
         {% else %}
         {{'ScheduledReports_PleaseFindBelow'|translate(period,reportTitle)}}
         {% endif %}
-        <br />{{ description }}
+        <br />{{ description|e|preventLinking }}
         <br />{{ 'General_DateRange'|translate }} {{ prettyDate }}
         <br />{{ 'ScheduledReports_SentFromX'|translate(piwikUrl) }}
     </p>
