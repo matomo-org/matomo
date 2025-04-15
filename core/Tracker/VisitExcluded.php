@@ -206,7 +206,7 @@ class VisitExcluded
     {
         $cache = PiwikCache::getTransientCache();
 
-        $ip  = IP::fromBinaryIP($this->ip);
+        $ip = IP::fromBinaryIP(hex2bin($this->ip));
         $key = 'VisitExcludedIsIpInRange' . $ip->toString();
 
         if ($cache->contains($key)) {
@@ -296,7 +296,7 @@ class VisitExcluded
         $excludedIps = $this->getAttributes('excluded_ips', 'global_excluded_ips');
 
         if (!empty($excludedIps)) {
-            $ip = IP::fromBinaryIP($this->ip);
+            $ip = IP::fromBinaryIP(hex2bin($this->ip));
             if ($ip->isInRanges($excludedIps)) {
                 Common::printDebug('Visitor IP ' . $ip->toString() . ' is excluded from being tracked');
                 return true;

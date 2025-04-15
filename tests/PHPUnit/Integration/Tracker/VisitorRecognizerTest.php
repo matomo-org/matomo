@@ -68,7 +68,7 @@ class VisitorRecognizerTest extends IntegrationTestCase
         $request = new Request(['idsite' => 1, 'uid' => $configId]);
         $model = new Model();
         $model->createVisit(array(
-            'config_id' => Common::hex2bin($configId),
+            'config_id'   => $configId,
             'idsite' => 1,
             'user_id' => $configId,
             'visit_total_time' => 1,
@@ -76,7 +76,7 @@ class VisitorRecognizerTest extends IntegrationTestCase
             'visit_last_action_time' => Date::now()->getDatetime(),
             'visit_first_action_time' => Date::now()->getDatetime(),
             'idvisitor' => $request->getVisitorId(),
-            'location_ip' => IP::fromStringIP('1.1.1.1')->toBinary()
+            'location_ip' => IP::fromStringIP('1.1.1.1')->toString(),
         ));
 
         return $configId;
@@ -105,7 +105,7 @@ class VisitorRecognizerTest extends IntegrationTestCase
     public function testRemoveUnchangedValuesExistingVisitWithDifferentValuesShouldNotChangeAnything()
     {
         $visit = array(
-            'idvisitor' => Common::hex2bin('1234567890234567'),
+            'idvisitor' => '1234567890234567',
             'visit_last_action_time' => '2020-05-05 05:05:05',
             'visit_total_time' => '50',
             'foo' => 'bar',
@@ -122,14 +122,14 @@ class VisitorRecognizerTest extends IntegrationTestCase
     public function testRemoveUnchangedValuesExistingVisitWithSomeSameValuesShouldRemoveUnchangedValues()
     {
         $visit = array(
-            'idvisitor' => Common::hex2bin('1234567890234569'),
+            'idvisitor' => '1234567890234569',
             'user_id' => 'hello',
             'visit_last_action_time' => '2020-05-05 05:05:05',
             'visit_total_time' => '50',
             'foo' => 'bar',
         );
         $originalVisit = new VisitProperties(array(
-            'idvisitor' => Common::hex2bin('1234567890234567'),
+            'idvisitor' => '1234567890234567',
             'user_id' => 'hello',
             'visit_last_action_time' => '2020-05-05 04:05:05',
             'visit_total_time' => '50',
@@ -139,14 +139,14 @@ class VisitorRecognizerTest extends IntegrationTestCase
         $this->assertEquals(array(
             'visit_last_action_time' => '2020-05-05 05:05:05',
             'foo' => 'bar',
-            'idvisitor' => Common::hex2bin('1234567890234569'),
+            'idvisitor' => '1234567890234569',
         ), $result);
     }
 
     public function testRemoveUnchangedValuesExistingVisitWithAllSameValuesShouldRemoveEmptyArray()
     {
         $visit = array(
-            'idvisitor' => Common::hex2bin('1234567890234569'),
+            'idvisitor' => '1234567890234569',
             'user_id' => 'hello',
             'visit_last_action_time' => '2020-05-05 05:05:05',
             'visit_total_time' => '50',

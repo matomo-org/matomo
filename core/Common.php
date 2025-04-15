@@ -705,12 +705,11 @@ class Common
     {
         if (
             strlen($id) !== Tracker::LENGTH_HEX_ID_STRING
-            || @bin2hex(self::hex2bin($id)) != $id
         ) {
             throw new Exception("visitorId is expected to be a " . Tracker::LENGTH_HEX_ID_STRING . " hex char string");
         }
 
-        return self::hex2bin($id);
+        return $id;
     }
 
     /**

@@ -42,9 +42,9 @@ class ModelTest extends IntegrationTestCase
     public function testHasVisit()
     {
         $this->model->createVisit(array(
-            'idvisitor' => hex2bin('1234567812345678'),
+            'idvisitor' => '1234567812345678',
             'config_id' => '1234567',
-            'location_ip' => IPUtils::binaryToStringIP('10.10.10.10'),
+            'location_ip' => bin2hex(IPUtils::stringToBinaryIP('10.10.10.10')),
             'idvisit' => '4',
             'idsite' => '3',
             'visitor_count_visits' => 0,
@@ -194,17 +194,17 @@ class ModelTest extends IntegrationTestCase
         $this->model->createEcommerceItems([$item]);
         $this->model->createEcommerceItems([$item, $item2]);
 
-        $itemsInDb = Db::fetchAll("SELECT idsite, HEX(idvisitor) as idvisitor, idorder, idaction_sku FROM " . Common::prefixTable('log_conversion_item'));
+        $itemsInDb = Db::fetchAll("SELECT idsite, idvisitor as idvisitor, idorder, idaction_sku FROM " . Common::prefixTable('log_conversion_item'));
         $expectedItemsInDb = [
             [
                 'idsite' => '1',
-                'idvisitor' => '7465737400000000',
+                'idvisitor' => 'test',
                 'idorder' => '12',
                 'idaction_sku' => '1',
             ],
             [
                 'idsite' => '1',
-                'idvisitor' => '7465737400000000',
+                'idvisitor' => 'test',
                 'idorder' => '12',
                 'idaction_sku' => '2',
             ],

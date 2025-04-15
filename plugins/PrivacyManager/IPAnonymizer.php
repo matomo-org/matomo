@@ -37,7 +37,7 @@ class IPAnonymizer
      */
     public function setVisitorIpAddress(&$ip)
     {
-        $ipObject = IP::fromBinaryIP($ip);
+        $ipObject = IP::fromBinaryIP(hex2bin($ip));
 
         if (!$this->isActive()) {
             Common::printDebug("Visitor IP was _not_ anonymized: " . $ipObject->toString());
@@ -47,7 +47,7 @@ class IPAnonymizer
         $privacyConfig = new Config();
 
         $newIpObject = self::applyIPMask($ipObject, $privacyConfig->ipAddressMaskLength);
-        $ip = $newIpObject->toBinary();
+        $ip = bin2hex($newIpObject->toBinary());
 
         Common::printDebug("Visitor IP (was: " . $ipObject->toString() . ") has been anonymized: " . $newIpObject->toString());
     }

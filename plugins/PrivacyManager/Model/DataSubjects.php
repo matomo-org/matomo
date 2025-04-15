@@ -359,11 +359,6 @@ class DataSubjects
 
             $numResults = count($result);
             for ($index = 0; $index < $numResults; $index++) {
-                foreach ($binaryFields as $binaryField) {
-                    if (isset($result[$index][$binaryField])) {
-                        $result[$index][$binaryField] = bin2hex($result[$index][$binaryField]);
-                    }
-                }
                 foreach ($result[$index] as $rowColumn => $rowValue) {
                     if (isset($dimensionPerCol[$rowColumn])) {
                         try {

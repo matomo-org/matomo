@@ -187,7 +187,7 @@ class VisitorGeolocator
             return null;
         }
 
-        $ip = IPUtils::binaryToStringIP($visit['location_ip']);
+        $ip = IPUtils::binaryToStringIP(hex2bin($visit['location_ip']));
         $location = $this->getLocation(array('ip' => $ip), $useClassCache);
 
         $valuesToUpdate = $this->getVisitFieldsToUpdate($visit, $location);

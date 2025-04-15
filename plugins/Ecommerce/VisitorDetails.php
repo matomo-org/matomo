@@ -146,7 +146,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     protected function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
     {
         $sql             = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal();
-        $lifeTimeStats = $this->getDb()->fetchAll($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        $lifeTimeStats = $this->getDb()->fetchAll($sql, array($idSite, $idVisitor));
 
         $defaultStats = array_fill_keys([GoalManager::IDGOAL_CART, GoalManager::IDGOAL_ORDER], self::DEFAULT_LIFETIME_STAT);
 

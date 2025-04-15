@@ -118,7 +118,7 @@ class Visitor implements VisitorInterface
     public function getVisitorId()
     {
         if (isset($this->details['idvisitor'])) {
-            return bin2hex($this->details['idvisitor']);
+            return ($this->details['idvisitor']);
         }
         return false;
     }

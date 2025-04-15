@@ -342,7 +342,7 @@ class RequestTest extends UnitTestCase
     public function testGetIp()
     {
         $ip = $_SERVER['REMOTE_ADDR'];
-        $this->assertEquals(IPUtils::stringToBinaryIP($ip), $this->request->getIp());
+        $this->assertEquals(bin2hex(IPUtils::stringToBinaryIP($ip)), $this->request->getIp());
     }
 
     public function testGetCookieNameShouldReturnConfigValue()

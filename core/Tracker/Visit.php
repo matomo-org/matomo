@@ -354,12 +354,12 @@ class Visit implements VisitInterface
         $idVisitor = $this->visitProperties->getProperty('idvisitor');
         if (
             !empty($idVisitor)
-            && Tracker::LENGTH_BINARY_ID == strlen($this->visitProperties->getProperty('idvisitor'))
+            && Tracker::LENGTH_HEX_ID_STRING == strlen($this->visitProperties->getProperty('idvisitor'))
         ) {
             return $this->visitProperties->getProperty('idvisitor');
         }
 
-        return Common::hex2bin($this->generateUniqueVisitorId());
+        return $this->generateUniqueVisitorId();
     }
 
     /**
@@ -434,7 +434,7 @@ class Visit implements VisitInterface
 
         // Debug output
         if (isset($valuesToUpdate['idvisitor'])) {
-            $valuesToUpdate['idvisitor'] = bin2hex($valuesToUpdate['idvisitor']);
+            $valuesToUpdate['idvisitor'] = ($valuesToUpdate['idvisitor']);
         }
 
         if ($wasInserted) {
@@ -444,7 +444,7 @@ class Visit implements VisitInterface
             // as WP doesn't set `MYSQLI_CLIENT_FOUND_ROWS` and therefore when the update succeeded but no value changed
             // it would still return 0 vs OnPremise would return 1 or 2.
             throw new VisitorNotFoundInDb(
-                "The visitor with idvisitor=" . bin2hex($this->visitProperties->getProperty('idvisitor'))
+                "The visitor with idvisitor=" . ($this->visitProperties->getProperty('idvisitor'))
                 . " and idvisit=" . @$this->visitProperties->getProperty('idvisit')
                 . " wasn't found in the DB, we fallback to a new visitor"
             );
@@ -454,8 +454,8 @@ class Visit implements VisitInterface
     private function printVisitorInformation()
     {
         $debugVisitInfo = $this->visitProperties->getProperties();
-        $debugVisitInfo['idvisitor'] = isset($debugVisitInfo['idvisitor']) ? bin2hex($debugVisitInfo['idvisitor']) : '';
-        $debugVisitInfo['config_id'] = isset($debugVisitInfo['config_id']) ? bin2hex($debugVisitInfo['config_id']) : '';
+        $debugVisitInfo['idvisitor'] = isset($debugVisitInfo['idvisitor']) ? ($debugVisitInfo['idvisitor']) : '';
+        $debugVisitInfo['config_id'] = isset($debugVisitInfo['config_id']) ? ($debugVisitInfo['config_id']) : '';
         $debugVisitInfo['location_ip'] = IPUtils::binaryToStringIP($debugVisitInfo['location_ip']);
         Common::printDebug($debugVisitInfo);
     }
@@ -581,12 +581,12 @@ class Visit implements VisitInterface
     private function setIdVisitorForExistingVisit($valuesToUpdate)
     {
         $idVisitor = $this->visitProperties->getProperty('idvisitor');
-        if (!empty($idVisitor) && Tracker::LENGTH_BINARY_ID == strlen($idVisitor)) {
+        if (!empty($idVisitor) && Tracker::LENGTH_HEX_ID_STRING == strlen($idVisitor)) {
             $valuesToUpdate['idvisitor'] = $idVisitor;
         }
 
         $visitorId = $this->request->getVisitorId();
-        if ($visitorId && strlen($visitorId) === Tracker::LENGTH_BINARY_ID) {
+        if ($visitorId && strlen($visitorId) === Tracker::LENGTH_HEX_ID_STRING) {
             // Might update the idvisitor when it was forced or overwritten for this visit
             $valuesToUpdate['idvisitor'] = $this->request->getVisitorId();
         }
@@ -596,7 +596,7 @@ class Visit implements VisitInterface
             $userId = $this->request->getForcedUserId();
             if ($userId) {
                 $userIdHash = $this->request->getUserIdHashed($userId);
-                $binIdVisitor = Common::hex2bin($userIdHash);
+                $binIdVisitor = $userIdHash;
                 $this->visitProperties->setProperty('idvisitor', $binIdVisitor);
                 $valuesToUpdate['idvisitor'] = $binIdVisitor;
             }

@@ -388,7 +388,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     private function insertVisit($visit = array())
     {
         $defaultProperties = array(
-            'location_ip' => IPUtils::stringToBinaryIP(self::TEST_IP)
+            'location_ip' => bin2hex(IPUtils::stringToBinaryIP(self::TEST_IP)),
         );
 
         return $this->logInserter->insertVisit(array_merge($defaultProperties, $visit));

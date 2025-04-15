@@ -28,7 +28,6 @@ class VisitorFingerprint extends VisitDimension
     protected $segmentName = 'fingerprint';
     protected $acceptValues = '1eceaa833348b187 - any 16 Hexadecimal chars ID, which can be fetched from API.getLastVisitsDetails';
     protected $allowAnonymous = false;
-    protected $sqlFilterValue = array('Piwik\Common', 'convertVisitorIdToBin');
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {

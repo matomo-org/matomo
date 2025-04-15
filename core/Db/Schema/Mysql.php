@@ -200,10 +200,10 @@ class Mysql implements SchemaInterface
             'log_visit'   => "CREATE TABLE {$prefixTables}log_visit (
                               idvisit BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
                               idsite INTEGER(10) UNSIGNED NOT NULL,
-                              idvisitor BINARY(8) NOT NULL,
+                              idvisitor CHAR(16) NOT NULL,
                               visit_last_action_time DATETIME NOT NULL,
-                              config_id BINARY(8) NOT NULL,
-                              location_ip VARBINARY(16) NOT NULL,
+                              config_id CHAR(16) NOT NULL,
+                              location_ip VARCHAR(32) NOT NULL,
                                 PRIMARY KEY(idvisit),
                                 INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time),
                                 INDEX index_idsite_datetime (idsite, visit_last_action_time),
@@ -213,7 +213,7 @@ class Mysql implements SchemaInterface
 
             'log_conversion_item'   => "CREATE TABLE `{$prefixTables}log_conversion_item` (
                                         idsite int(10) UNSIGNED NOT NULL,
-                                        idvisitor BINARY(8) NOT NULL,
+                                        idvisitor CHAR(16) NOT NULL,
                                         server_time DATETIME NOT NULL,
                                         idvisit BIGINT(10) UNSIGNED NOT NULL,
                                         idorder varchar(100) NOT NULL,
@@ -235,7 +235,7 @@ class Mysql implements SchemaInterface
             'log_conversion'      => "CREATE TABLE `{$prefixTables}log_conversion` (
                                       idvisit BIGINT(10) unsigned NOT NULL,
                                       idsite int(10) unsigned NOT NULL,
-                                      idvisitor BINARY(8) NOT NULL,
+                                      idvisitor CHAR(16) NOT NULL,
                                       server_time datetime NOT NULL,
                                       idaction_url INTEGER(10) UNSIGNED default NULL,
                                       idlink_va BIGINT(10) UNSIGNED default NULL,
@@ -259,7 +259,7 @@ class Mysql implements SchemaInterface
             'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
                                         idlink_va BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
                                         idsite int(10) UNSIGNED NOT NULL,
-                                        idvisitor BINARY(8) NOT NULL,
+                                        idvisitor CHAR(16) NOT NULL,
                                         idvisit BIGINT(10) UNSIGNED NOT NULL,
                                         idaction_url_ref INTEGER(10) UNSIGNED NULL DEFAULT 0,
                                         idaction_name_ref INTEGER(10) UNSIGNED NULL,

@@ -430,7 +430,7 @@ abstract class Action
         $visitAction['idlink_va'] = $this->idLinkVisitAction;
 
         $visitActionDebug = $visitAction;
-        $visitActionDebug['idvisitor'] = bin2hex($visitActionDebug['idvisitor']);
+        $visitActionDebug['idvisitor'] = ($visitActionDebug['idvisitor']);
         $this->logger->debug("Inserted new action: {action}", [
             'action' => var_export($visitActionDebug, true),
         ]);

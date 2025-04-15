@@ -341,7 +341,7 @@ class ModelTest extends IntegrationTestCase
                          LIMIT 10, 100';
         $expectedBind = array(
             '1',
-            Common::hex2bin('abc'),
+            'abc',
             '2010-01-01 00:00:00',
             '2010-02-01 00:00:00',
             'Test',

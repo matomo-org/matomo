@@ -30,12 +30,17 @@ class VisitIp extends VisitDimension
     protected $nameSingular = 'General_VisitorIP';
     protected $namePlural = 'General_VisitorIPs';
     protected $acceptValues = '13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255';
-    protected $sqlFilterValue = array('Matomo\Network\IPUtils', 'stringToBinaryIP');
+
+    public function getSqlFilterValue()
+    {
+        return function ($value) {
+            return bin2hex(IPUtils::stringToBinaryIP($value));
+        };
+    }
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {
-        $value = Common::hex2bin($value);
-        $value = IPUtils::binaryToStringIP($value);
+        $value = IPUtils::binaryToStringIP(hex2bin($value));
         return $value;
     }
 

@@ -804,7 +804,7 @@ class GoalManager
         }
 
         $newGoalDebug = $conversion;
-        $newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);
+        $newGoalDebug['idvisitor'] = ($newGoalDebug['idvisitor']);
         Common::printDebug($newGoalDebug);
 
         $idorder = $request->getParam('ec_id');

@@ -79,7 +79,7 @@ class LogDataAnonymizer
             $rows = Db::query($sql, array($startDate, $endDate))->fetchAll();
 
             foreach ($rows as $row) {
-                $ipObject = IP::fromBinaryIP($row['location_ip']);
+                $ipObject = IP::fromBinaryIP(hex2bin($row['location_ip']));
                 $ipString = $ipObject->toString();
                 $ipAnonymized = IPAnonymizer::applyIPMask($ipObject, $ipMask);
                 $update = array();
@@ -87,7 +87,7 @@ class LogDataAnonymizer
                 if ($anonymizeIp) {
                     if ($ipString !== $ipAnonymized->toString()) {
                         // needs updating
-                        $update['location_ip'] = $ipAnonymized->toBinary();
+                        $update['location_ip'] = bin2hex($ipAnonymized->toBinary());
                     }
                 }
 

@@ -527,7 +527,7 @@ class Model
         $select = "log_visit.idvisitor, MAX(log_visit.visit_last_action_time) as visit_last_action_time";
         $from = "log_visit";
         $where = "log_visit.idsite = ? AND log_visit.idvisitor <> ? AND visit_last_action_time >= ? and visit_last_action_time <= ?";
-        $whereBind = array($idSite, @Common::hex2bin($visitorId), $dateOneDayAgo->toString('Y-m-d H:i:s'), $dateOneDayInFuture->toString('Y-m-d H:i:s'));
+        $whereBind = array($idSite, $visitorId, $dateOneDayAgo->toString('Y-m-d H:i:s'), $dateOneDayInFuture->toString('Y-m-d H:i:s'));
         $orderBy = "MAX(log_visit.visit_last_action_time) $orderByDir";
         $groupBy = "log_visit.idvisitor";
 
@@ -561,7 +561,7 @@ class Model
         }
 
         if (!empty($visitorId)) {
-            $visitorId = bin2hex($visitorId);
+            $visitorId = ($visitorId);
         }
         return $visitorId;
     }
@@ -726,7 +726,7 @@ class Model
 
         if (!empty($visitorId)) {
             $where[] = "log_visit.idvisitor = ? ";
-            $whereBind[] = @Common::hex2bin($visitorId);
+            $whereBind[] = $visitorId;
         }
 
         if (!empty($minTimestamp)) {

@@ -149,7 +149,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function getVisitorId()
     {
         if (isset($this->details['idvisitor'])) {
-            return bin2hex($this->details['idvisitor']);
+            return ($this->details['idvisitor']);
         }
         return false;
     }
@@ -167,7 +167,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function getIp()
     {
         if (isset($this->details['location_ip'])) {
-            return IPUtils::binaryToStringIP($this->details['location_ip']);
+            return IPUtils::binaryToStringIP(hex2bin($this->details['location_ip']));
         }
         return null;
     }
@@ -185,7 +185,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function getFingerprint()
     {
         if (isset($this->details['config_id'])) {
-            return bin2hex($this->details['config_id']);
+            return ($this->details['config_id']);
         }
         return false;
     }

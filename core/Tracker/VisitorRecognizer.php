@@ -99,7 +99,7 @@ class VisitorRecognizer
 
         if ($isVisitorIdToLookup) {
             $visitProperties->setProperty('idvisitor', $idVisitor);
-            Common::printDebug("Matching visitors with: visitorId=" . bin2hex($idVisitor) . " OR configId=" . bin2hex($configId));
+            Common::printDebug("Matching visitors with: visitorId=" . ($idVisitor) . " OR configId=" . ($configId));
         } else {
             Common::printDebug("Visitor doesn't have the piwik cookie...");
         }
@@ -107,7 +107,7 @@ class VisitorRecognizer
         $persistedVisitAttributes = $this->getVisitorFieldsPersist();
 
         $shouldMatchOneFieldOnly  = $this->shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup, $request);
-        list($timeLookBack, $timeLookAhead) = $this->getWindowLookupThisVisit($request);
+        [$timeLookBack, $timeLookAhead] = $this->getWindowLookupThisVisit($request);
 
         $maxActions = TrackerConfig::getConfigValue('create_new_visit_after_x_actions', $request->getIdSiteIfExists());
 
@@ -131,8 +131,8 @@ class VisitorRecognizer
             $visitProperties->setProperty('idvisitor', $visitRow['idvisitor']);
             $visitProperties->setProperty('user_id', $visitRow['user_id']);
 
-            Common::printDebug("The visitor is known (idvisitor = " . bin2hex($visitProperties->getProperty('idvisitor')) . ",
-                    config_id = " . bin2hex($configId) . ",
+            Common::printDebug("The visitor is known (idvisitor = " . ($visitProperties->getProperty('idvisitor')) . ",
+                    config_id = " . ($configId) . ",
                     last action = " . date("r", $visitProperties->getProperty('visit_last_action_time')) . ",
                     first action = " . date("r", $visitProperties->getProperty('visit_first_action_time')) . ")");
 
@@ -154,7 +154,7 @@ class VisitorRecognizer
         if (
             !empty($originalRow['idvisitor'])
             && !empty($visit['idvisitor'])
-            && bin2hex($originalRow['idvisitor']) === bin2hex($visit['idvisitor'])
+            && ($originalRow['idvisitor']) === ($visit['idvisitor'])
         ) {
             unset($visit['idvisitor']);
         }

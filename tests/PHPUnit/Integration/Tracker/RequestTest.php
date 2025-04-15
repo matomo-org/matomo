@@ -64,13 +64,13 @@ class RequestTest extends IntegrationTestCase
     public function testGetVisitorIdIdParam()
     {
         $request = $this->buildRequest(array('_id' => '1234567890ABCDEF'));
-        $this->assertSame('1234567890abcdef', bin2hex($request->getVisitorId()));
+        $this->assertSame('1234567890abcdef', ($request->getVisitorId()));
     }
 
     public function testGetVisitorIdUserIdOverwritesVisitorId()
     {
         $request = $this->buildRequest(array('_id' => '1234567890ABCDEF', 'uid' => 'foo'));
-        $this->assertSame('0beec7b5ea3f0fdb', bin2hex($request->getVisitorId()));
+        $this->assertSame('0beec7b5ea3f0fdb', ($request->getVisitorId()));
     }
 
     public function testGetVisitorIdNotOverwritesWhenDisabled()
@@ -80,7 +80,7 @@ class RequestTest extends IntegrationTestCase
         $tracker['enable_userid_overwrites_visitorid'] = 0;
         $config->Tracker = $tracker;
         $request = $this->buildRequest(array('_id' => '1234567890ABCDEF', 'uid' => 'foo'));
-        $this->assertSame('1234567890abcdef', bin2hex($request->getVisitorId()));
+        $this->assertSame('1234567890abcdef', ($request->getVisitorId()));
     }
 
     public function testCdtShouldNotTrackTheRequestIfNotAuthenticatedAndTimestampIsNotRecent()
@@ -329,7 +329,7 @@ class RequestTest extends IntegrationTestCase
     public function testGetIp()
     {
         $ip = $_SERVER['REMOTE_ADDR'];
-        $this->assertEquals(IPUtils::stringToBinaryIP($ip), $this->request->getIp());
+        $this->assertEquals(bin2hex(IPUtils::stringToBinaryIP($ip)), $this->request->getIp());
     }
 
 

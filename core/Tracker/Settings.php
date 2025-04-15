@@ -185,8 +185,8 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
 
     private function createHashOfConfigString(string $configString): string
     {
-        $hash = md5($configString, $raw_output = true);
+        $hash = md5($configString, $raw_output = false);
 
-        return substr($hash, 0, Tracker::LENGTH_BINARY_ID);
+        return substr($hash, 0, Tracker::LENGTH_HEX_ID_STRING);
     }
 }

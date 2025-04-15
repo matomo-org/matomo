@@ -26,7 +26,7 @@ class LogHelper
             'idvisitor' => $this->getDummyVisitorId(),
             'visit_last_action_time' => '2012-01-01 00:00:00',
             'config_id' => $this->getDummyVisitorId(),
-            'location_ip' => IPUtils::stringToBinaryIP('1.2.3.4'),
+            'location_ip' => bin2hex(IPUtils::stringToBinaryIP('1.2.3.4')),
             'visitor_localtime' => '2012-01-01 00:00:00',
             'location_country' => 'xx',
             'config_os' => 'xxx',
@@ -113,7 +113,7 @@ class LogHelper
 
     private function getDummyVisitorId()
     {
-        return Common::hex2bin('ea95f303f2165aa0');
+        return 'ea95f303f2165aa0';
     }
 
     public function insertVisitAction($idVisit, $properties = array())

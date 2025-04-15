@@ -96,7 +96,7 @@ class VisitLastActionTimeTest extends IntegrationTestCase
     {
         $visit = new VisitProperties();
         $visit->setProperty('idvisit', '321');
-        $visit->setProperty('idvisitor', Common::hex2bin('1234567890234567'));
+        $visit->setProperty('idvisitor', '1234567890234567');
         $visitor = new Visitor($visit, $isKnown = false, $previousProperties);
 
         return $visitor;

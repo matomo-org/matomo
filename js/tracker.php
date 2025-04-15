@@ -79,7 +79,7 @@ if (!\Piwik\Tracker\IgnoreCookie::isIgnoreCookieFound()) {
     if ($request->shouldUseThirdPartyCookie()) {
         $visitorId = $request->getVisitorIdForThirdPartyCookie();
         if (!$visitorId) {
-            $visitorId = \Piwik\Common::hex2bin(\Piwik\Tracker\Visit::generateUniqueVisitorId());
+            $visitorId = (\Piwik\Tracker\Visit::generateUniqueVisitorId());
         }
         $request->setThirdPartyCookie($visitorId);
     }
