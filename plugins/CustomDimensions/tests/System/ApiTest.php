@@ -14,6 +14,8 @@ use Piwik\Plugins\CustomDimensions\tests\Fixtures\TrackVisitsWithCustomDimension
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Config;
+use Piwik\Plugins\CustomDimensions\FeatureFlags\CustomDimensionReportWithRollUp;
 
 /**
  * @group CustomDimensions
@@ -37,12 +39,36 @@ class ApiTest extends SystemTestCase
         self::setAllowedCategoriesToFilterApiResponse('API.getReportPagesMetadata', array('Visitors', 'Behaviour'));
     }
 
+    private static function triggerWithRollupFeatureFlag(bool $enableFlag)
+    {
+        $config = Config::getInstance();
+        $featureFlag = new CustomDimensionReportWithRollUp();
+        $featureFlagConfig = $featureFlag->getName() . '_feature';
+
+        if ($enableFlag) {
+            $config->FeatureFlags = [$featureFlagConfig => 'enabled'];
+        } else {
+            $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
+        }
+    }
+
     /**
      * @dataProvider getApiForTesting
      */
     public function testApi($api, $params)
     {
+        //self::triggerWithRollupFeatureFlag($enableFlag = false);
         $this->runApiTests($api, $params);
+    }
+
+    /**
+     * @dataProvider getApiForTesting
+     */
+    public function testApiWithRollup($api, $params)
+    {
+        //self::triggerWithRollupFeatureFlag($enableFlag = true);
+        $this->runApiTests($api, $params);
+
     }
 
     public function getApiForTesting()
@@ -294,6 +320,12 @@ class ApiTest extends SystemTestCase
     public static function getPathToTestDirectory()
     {
         return dirname(__FILE__);
+    }
+
+    public static function tearDownAfterClass(): void
+    {
+        parent::tearDownAfterClass();
+        self::triggerWithRollupFeatureFlag($enableFlag = false);
     }
 }
 
