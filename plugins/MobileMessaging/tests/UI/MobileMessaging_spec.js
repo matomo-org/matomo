@@ -30,7 +30,7 @@ describe("MobileMessaging", function () {
 
   it('should switch the SMS provider correctly', async function () {
     await page.evaluate(function () {
-      $('[name=smsProviders]').val('string:Clockwork').trigger('change');
+      $('[name=smsProviders]').val('string:ASPSMS').trigger('change');
     });
     await page.waitForTimeout(200);
     await page.waitForNetworkIdle();

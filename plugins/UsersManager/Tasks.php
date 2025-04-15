@@ -11,6 +11,7 @@ namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Access;
 use Piwik\Date;
+use Piwik\Plugins\UsersManager\TokenNotifications\TokenNotifierTask;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
@@ -35,6 +36,8 @@ class Tasks extends \Piwik\Plugin\Tasks
         $this->daily("cleanupExpiredTokens");
         $this->daily("setUserDefaultReportPreference");
         $this->daily("cleanUpExpiredInvites");
+
+        $this->scheduleTask(new TokenNotifierTask());
     }
 
     public function cleanupExpiredTokens()

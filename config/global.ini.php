@@ -561,6 +561,11 @@ enable_framed_allow_write_admin_token_auth = 0
 ; Recommended for best security.
 only_allow_secure_auth_tokens = 0
 
+; Number of days after which a personal auth token is recommended to be rotated and an email notification will be sent to the user.
+; If set to 0 days, notifications won't be sent.
+; Recommended to keep enabled for best security.
+auth_token_rotation_notification_days = 180
+
 ; language cookie name for session
 language_cookie_name = matomo_lang
 
