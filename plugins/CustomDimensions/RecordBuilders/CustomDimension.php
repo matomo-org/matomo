@@ -13,6 +13,7 @@ use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\ArchiveProcessor\RecordBuilder;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
 use Piwik\Metrics;
@@ -20,6 +21,8 @@ use Piwik\Plugins\Actions\Metrics as ActionsMetrics;
 use Piwik\Plugins\CustomDimensions\Archiver;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;
+use Piwik\Plugins\CustomDimensions\FeatureFlags\CustomDimensionReportWithRollUp;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\RankingQuery;
 use Piwik\Tracker;
 
@@ -215,7 +218,7 @@ class CustomDimension extends RecordBuilder
     public function queryCustomDimensionActions(array $metricsConfig, LogAggregator $logAggregator, $valueField, $additionalWhere = '')
     {
         $select = "log_link_visit_action.$valueField,
-                  log_action.name as url,
+                  COALESCE(log_action.name, '') as url,
                   sum(log_link_visit_action.time_spent) as `" . Metrics::INDEX_PAGE_SUM_TIME_SPENT . "`,
                   sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `" . Metrics::INDEX_BOUNCE_COUNT . "`,
                   sum(IF(log_visit.last_idlink_va = log_link_visit_action.idlink_va, 1, 0)) as `" . Metrics::INDEX_PAGE_EXIT_NB_VISITS . "`";
@@ -244,8 +247,20 @@ class CustomDimension extends RecordBuilder
         $groupBy = "log_link_visit_action.$valueField, url";
         $orderBy = "`" . Metrics::INDEX_PAGE_NB_HITS . "` DESC";
 
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        $withRollup = $featureFlagManager->isFeatureActive(CustomDimensionReportWithRollUp::class);
+
         // get query with segmentation
-        $query     = $logAggregator->generateQuery($select, $from, $where, $groupBy, $orderBy);
+        $query = $logAggregator->generateQuery(
+            $select, 
+            $from, 
+            $where, 
+            $groupBy, 
+            $orderBy,
+            $limit = 0,
+            $offset = 0,
+            $withRollup
+        );
 
         if ($this->rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
@@ -267,8 +282,11 @@ class CustomDimension extends RecordBuilder
                 $rankingQuery->addColumn($column, $config['aggregation']);
             }
 
-            $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
+
+            $query['sql'] = $rankingQuery->generateRankingQuery($query['sql'], $withRollup);
         }
+
+        var_dump($query);
 
         $db        = $logAggregator->getDb();
         $resultSet = $db->query($query['sql'], $query['bind']);

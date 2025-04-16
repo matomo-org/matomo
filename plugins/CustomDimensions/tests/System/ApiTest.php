@@ -54,10 +54,11 @@ class ApiTest extends SystemTestCase
 
     /**
      * @dataProvider getApiForTesting
+     * @dataProvider getMetadataApiForTesting
      */
     public function testApi($api, $params)
     {
-        //self::triggerWithRollupFeatureFlag($enableFlag = false);
+        self::triggerWithRollupFeatureFlag($enableFlag = false);
         $this->runApiTests($api, $params);
     }
 
@@ -66,9 +67,8 @@ class ApiTest extends SystemTestCase
      */
     public function testApiWithRollup($api, $params)
     {
-        //self::triggerWithRollupFeatureFlag($enableFlag = true);
+        self::triggerWithRollupFeatureFlag($enableFlag = true);
         $this->runApiTests($api, $params);
-
     }
 
     public function getApiForTesting()
@@ -198,44 +198,6 @@ class ApiTest extends SystemTestCase
             )
         );
 
-        $apiToTest[] = array(
-            array('API.getReportMetadata'),
-            array(
-                'idSite'  => 1,
-                'date'    => self::$fixture->dateTime,
-                'periods' => array('day')
-            )
-        );
-
-        $apiToTest[] = array(array('API.getSegmentsMetadata'),
-            array(
-                'idSite' => 1,
-                'date' => self::$fixture->dateTime,
-                'periods' => array('year'),
-                'otherRequestParameters' => [
-                    'hideColumns' => 'acceptedValues' // hide accepted values as they might change
-                ]
-            )
-        );
-
-        $apiToTest[] = array(
-            array('API.getReportPagesMetadata'),
-            array(
-                'idSite'  => 1,
-                'date'    => self::$fixture->dateTime,
-                'periods' => array('day')
-            )
-        );
-
-        $apiToTest[] = array(
-            array('API.getWidgetMetadata'),
-            array(
-                'idSite'  => 1,
-                'date'    => self::$fixture->dateTime,
-                'periods' => array('day')
-            )
-        );
-
         $apiToTest[] = array(array('API.getProcessedReport'),
                              array(
                                  'idSite'  => 1,
@@ -283,6 +245,51 @@ class ApiTest extends SystemTestCase
                 'date'                   => self::$fixture->dateTime,
                 'periods'                => array('year'),
                 'xmlFieldsToRemove'      => $removeColumns
+            )
+        );
+
+        return $apiToTest;
+    }
+
+    public function getMetadataApiForTesting()
+    {
+        $apiToTest = array();
+
+        $apiToTest[] = array(
+            array('API.getReportMetadata'),
+            array(
+                'idSite'  => 1,
+                'date'    => self::$fixture->dateTime,
+                'periods' => array('day')
+            )
+        );
+
+        $apiToTest[] = array(array('API.getSegmentsMetadata'),
+            array(
+                'idSite' => 1,
+                'date' => self::$fixture->dateTime,
+                'periods' => array('year'),
+                'otherRequestParameters' => [
+                    'hideColumns' => 'acceptedValues' // hide accepted values as they might change
+                ]
+            )
+        );
+
+        $apiToTest[] = array(
+            array('API.getReportPagesMetadata'),
+            array(
+                'idSite'  => 1,
+                'date'    => self::$fixture->dateTime,
+                'periods' => array('day')
+            )
+        );
+
+        $apiToTest[] = array(
+            array('API.getWidgetMetadata'),
+            array(
+                'idSite'  => 1,
+                'date'    => self::$fixture->dateTime,
+                'periods' => array('day')
             )
         );
 
