@@ -829,10 +829,10 @@ abstract class SystemTestCase extends TestCase
                         $values[] = 'NULL';
                     } else {
                         // is_numeric cannot be used here since some strings will look like floating point numbers (eg 3e456)
-                        $isNumeric = preg_match('/^-?\d+(\.\d+)?$/', $value);
+                        $isNumeric = preg_match('/^-?[1-9]\d*(\.\d+)?$/', $value);
                         if ($isNumeric) {
                             $values[] = $value;
-                        } elseif (!ctype_print($value)) {
+                        } elseif (!ctype_print((string)$value)) {
                             $values[] = "x'" . bin2hex($value) . "'";
                         } else {
                             $values[] = "?";
