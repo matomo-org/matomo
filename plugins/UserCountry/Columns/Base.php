@@ -91,7 +91,7 @@ abstract class Base extends VisitDimension
             $ip = $anonymizedIp;
         }
 
-        $ipAddress = IPUtils::binaryToStringIP($ip);
+        $ipAddress = IPUtils::binaryToStringIP(hex2bin($ip));
 
         return $ipAddress;
     }

@@ -456,7 +456,7 @@ class Visit implements VisitInterface
         $debugVisitInfo = $this->visitProperties->getProperties();
         $debugVisitInfo['idvisitor'] = isset($debugVisitInfo['idvisitor']) ? ($debugVisitInfo['idvisitor']) : '';
         $debugVisitInfo['config_id'] = isset($debugVisitInfo['config_id']) ? ($debugVisitInfo['config_id']) : '';
-        $debugVisitInfo['location_ip'] = IPUtils::binaryToStringIP($debugVisitInfo['location_ip']);
+        $debugVisitInfo['location_ip'] = IPUtils::binaryToStringIP(hex2bin($debugVisitInfo['location_ip']));
         Common::printDebug($debugVisitInfo);
     }
 
