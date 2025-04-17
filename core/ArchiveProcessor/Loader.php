@@ -512,13 +512,13 @@ class Loader
     {
         $cacheKey = CacheId::siteAware('Archiving.hasChildArchivesInPeriod.' . $period->getRangeString());
 
-        $hasChildArchivesInPeriod = $this->cache->fetch($cacheKey);
-        if ($hasChildArchivesInPeriod === false || !isset($hasChildArchivesInPeriod)) {
-            $hasChildArchivesInPeriod = (int) $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $period);
-
+        if ($this->cache->contains($cacheKey)) {
+            $hasChildArchivesInPeriod = $this->cache->fetch($cacheKey);
+        } else {
+            $hasChildArchivesInPeriod = $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $period);
             $this->cache->save($cacheKey, $hasChildArchivesInPeriod);
         }
-        return (bool) $hasChildArchivesInPeriod;
+        return $hasChildArchivesInPeriod;
     }
 
     public function canSkipArchiveForSegment()
