@@ -388,7 +388,7 @@ class RankingQuery
 
             $rollupWhen = '';
 
-            $rollupLimitValue = empty($withRollupColumns) ?
+            $rollupLimitValue = !empty($withRollupColumns) ?
                                     "'" . $this->othersLabelValue . "'"
                                     :
                                     'NULL';
@@ -397,6 +397,8 @@ class RankingQuery
                 WHEN counterRollup = $limit THEN $rollupLimitValue
                 WHEN counterRollup > 0 THEN `$column`
             ";
+            
+            $withRollupColumns[] = $column;
 
             $labelColumnsOthersSwitch[] = "
 				CASE
