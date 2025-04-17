@@ -612,18 +612,33 @@ class Loader
     private function hasSiteVisitsBetweenTimeframe($idSite, Period $period): bool
     {
         $timezone = Site::getTimezoneFor($idSite);
-        list($date1, $date2) = $period->getBoundsInTimezone($timezone);
+        /** @var \Piwik\Date $date1 */
+        [$date1, $date2] = $period->getBoundsInTimezone($timezone);
 
-        $cache = Cache::getTransientCache();
+        $cacheKeyStr = 'Archiving.hasSiteVisitsBetweenTimeframe.%s.%s';
+        $cacheKey = CacheId::siteAware(sprintf($cacheKeyStr, $period->getLabel(), $period->getRangeString()));
 
-        $cacheKey = sprintf('Archiving.hasSiteVisitsBetweenTimeframe.%s.%s', $idSite, $period);
-        $hasSiteVisitsBetweenTimeframe = $cache->fetch($cacheKey);
-        if ($hasSiteVisitsBetweenTimeframe === false || !isset($hasSiteVisitsBetweenTimeframe)) {
-            $hasSiteVisitsBetweenTimeframe = (int) $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
-
-            $cache->save($cacheKey, $hasSiteVisitsBetweenTimeframe);
+        if ($this->cache->contains($cacheKey)) {
+            return $this->cache->fetch($cacheKey);
         }
-        return (bool) $hasSiteVisitsBetweenTimeframe;
+
+        $hasSiteVisitsBetweenTimeframe = $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
+        $this->cache->save($cacheKey, $hasSiteVisitsBetweenTimeframe);
+
+        if ($hasSiteVisitsBetweenTimeframe) {
+            $currentPeriod = $period;
+            do {
+                $parentPeriodLabel = $currentPeriod->getParentPeriodLabel();
+                if ($parentPeriodLabel) {
+                    $parentPeriod = Period\Factory::build($parentPeriodLabel, $date1);
+                    $cacheKey = CacheId::siteAware(sprintf($cacheKeyStr, $parentPeriod->getLabel(), $parentPeriod->getRangeString()));
+                    $this->cache->save($cacheKey, true);
+                    $currentPeriod = $parentPeriod;
+                }
+            } while ($parentPeriodLabel);
+        }
+
+        return $hasSiteVisitsBetweenTimeframe;
     }
 
     public static function getArchivingDepth()
