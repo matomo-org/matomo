@@ -414,7 +414,13 @@ class API extends \Piwik\Plugin\API
 
                 $visitorDetailsArray['actionDetails'] = array();
                 if (!$doNotFetchActions) {
-                    $bulkFetchedActions  = isset($actionsByVisitId[$visitorDetailsArray['idVisit']]) ? $actionsByVisitId[$visitorDetailsArray['idVisit']] : array();
+                    $bulkFetchedActions = [];
+
+                    if (isset($actionsByVisitId[$visitorDetailsArray['idVisit']])) {
+                        $bulkFetchedActions = $actionsByVisitId[$visitorDetailsArray['idVisit']];
+                        unset($actionsByVisitId[$visitorDetailsArray['idVisit']]);
+                    }
+
                     $visitorDetailsArray = Visitor::enrichVisitorArrayWithActions($visitorDetailsArray, $bulkFetchedActions);
                 }
 
