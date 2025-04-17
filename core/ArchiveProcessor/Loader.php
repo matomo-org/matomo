@@ -12,6 +12,7 @@ namespace Piwik\ArchiveProcessor;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor;
 use Piwik\Cache;
+use Piwik\CacheId;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -429,19 +430,18 @@ class Loader
 
     private function getIdSitesToArchiveWhenNoVisits()
     {
-        $cache = Cache::getTransientCache();
         $cacheKey = 'Archiving.getIdSitesToArchiveWhenNoVisits';
 
-        if (!$cache->contains($cacheKey)) {
+        if (!$this->cache->contains($cacheKey)) {
             $idSites = array();
 
             // leaving undocumented unless decided otherwise
             Piwik::postEvent('Archiving.getIdSitesToArchiveWhenNoVisits', array(&$idSites));
 
-            $cache->save($cacheKey, $idSites);
+            $this->cache->save($cacheKey, $idSites);
         }
 
-        return $cache->fetch($cacheKey);
+        return $this->cache->fetch($cacheKey);
     }
 
     // public for tests
@@ -510,14 +510,13 @@ class Loader
 
     private function hasChildArchivesInPeriod($idSite, Period $period): bool
     {
-        $cache = Cache::getTransientCache();
+        $cacheKey = CacheId::siteAware('Archiving.hasChildArchivesInPeriod.' . $period->getRangeString());
 
-        $cacheKey = sprintf('Archiving.hasChildArchivesInPeriod.%s.%s', $idSite, $period);
-        $hasChildArchivesInPeriod = $cache->fetch($cacheKey);
+        $hasChildArchivesInPeriod = $this->cache->fetch($cacheKey);
         if ($hasChildArchivesInPeriod === false || !isset($hasChildArchivesInPeriod)) {
             $hasChildArchivesInPeriod = (int) $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $period);
 
-            $cache->save($cacheKey, $hasChildArchivesInPeriod);
+            $this->cache->save($cacheKey, $hasChildArchivesInPeriod);
         }
         return (bool) $hasChildArchivesInPeriod;
     }
