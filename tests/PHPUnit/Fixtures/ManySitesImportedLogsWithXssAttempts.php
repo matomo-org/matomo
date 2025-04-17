@@ -213,7 +213,6 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
             $t->setCity($xssTesting->$type('city'));
             $t->setRegion($xssTesting->$type('region'));
             $t->setCountry($xssTesting->$type('country'));
-            $t->setUserAgent($xssTesting->$type('useragent'));
             self::checkResponse($t->doTrackPageView(urlencode($titleXss)));
 
             $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDateTime());
