@@ -120,4 +120,15 @@ abstract class LogTable
     {
         return array();
     }
+
+    /**
+     * Defines if the log table holds an `idvisitor` column.
+     * If set to yes, existing records are automatically updated when the visitor id changes during a visit
+     *
+     * @return bool
+     */
+    public function hasIdVisitorColumn(): bool
+    {
+        return false;
+    }
 }
