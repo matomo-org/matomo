@@ -48,7 +48,6 @@ use Piwik\CronArchive\SegmentArchiving;
 
 /**
  * Fixture for UI tests.
- * @property  angularXssLabel
  */
 class UITestFixture extends SqlDump
 {
@@ -59,7 +58,7 @@ class UITestFixture extends SqlDump
      */
     private $xssTesting;
 
-    private $angularXssLabel;
+    private $vueJsXssLabel;
 
     private $twigXssLabel;
 
@@ -202,7 +201,7 @@ class UITestFixture extends SqlDump
 
         print "Token auth in fixture is {$this->testEnvironment->tokenAuth}\n";
 
-        $this->angularXssLabel = $this->xssTesting->forVueJs('datatablerow');
+        $this->vueJsXssLabel = $this->xssTesting->forVueJs('datatablerow');
         $this->twigXssLabel = $this->xssTesting->forTwig('datatablerow');
         $this->xssTesting->sanityCheck();
 
@@ -571,7 +570,7 @@ class UITestFixture extends SqlDump
 
                     $dataTable = new DataTable();
                     $dataTable->addRowFromSimpleArray([
-                        'label' => $this->angularXssLabel,
+                        'label' => $this->vueJsXssLabel,
                         'nb_visits' => 10,
                     ]);
                     $dataTable->addRowFromSimpleArray([
