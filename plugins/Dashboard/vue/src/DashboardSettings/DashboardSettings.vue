@@ -15,11 +15,12 @@
   >
     <a
       class="title"
+      v-tooltips
       :title="translate('Dashboard_ManageDashboard')"
       tabindex="4"
       ref="expander"
     >
-      <span class="icon icon-chevron-down"></span>{{ translate('Dashboard_Dashboard') }}
+      <span class="icon icon-configure"></span>{{ translate('Dashboard_Dashboard') }}
     </a>
     <div class="dropdown positionInViewport">
       <ul class="submenu">
