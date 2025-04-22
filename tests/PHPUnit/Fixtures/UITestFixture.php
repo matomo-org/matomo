@@ -181,10 +181,10 @@ class UITestFixture extends SqlDump
         $this->createSegments();
         $this->setupDashboards();
 
-        $visitorIdDeterministic = bin2hex(Db::fetchOne(
+        $visitorIdDeterministic = Db::fetchOne(
             "SELECT idvisitor FROM " . Common::prefixTable('log_visit')
             . " WHERE idsite = 2 AND location_latitude IS NOT NULL LIMIT 1"
-        ));
+        );
         $this->testEnvironment->forcedIdVisitor = $visitorIdDeterministic;
 
         $this->testEnvironment->overlayUrl = self::getLocalTestSiteUrl();
