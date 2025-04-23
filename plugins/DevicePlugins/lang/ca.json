@@ -2,6 +2,7 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s sense connectors activats",
         "BrowserWithPluginsEnabled": "%1$s amb els connectors %2$s activats",
+        "ColumnPercentageVisitsDocumentation": "El percentatge de visites totals on s'ha detectat el connector. Una visita pot incloure diversos connectors. El valor s'arrodoneix a nombres enters.",
         "PluginDescription": "Informa de la llista de connectors compatibles amb els navegadors dels visitants.",
         "PluginDetectionDoesNotWorkInIE": "Nota: la detecció de connectors no funciona a Internet Explorer abans de l'11. Aquest informe només es basa en navegadors que no són IE i en versions més noves d'IE.",
         "WidgetPlugins": "Llistat de connectors",
