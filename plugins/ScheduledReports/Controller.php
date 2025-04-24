@@ -123,7 +123,7 @@ class Controller extends \Piwik\Plugin\Controller
             );
             $allSegments = SegmentEditor::getAllSegmentsForSite($this->idSite);
             foreach ($allSegments as $savedSegment) {
-                $savedSegmentsById[$savedSegment['idsegment']] = $savedSegment['name'];
+                $savedSegmentsById[$savedSegment['idsegment']] = Common::unsanitizeInputValue($savedSegment['name']);
             }
             $view->savedSegmentsById = $savedSegmentsById;
             $view->segmentEditorActivated = true;
