@@ -380,6 +380,8 @@ class Visit implements VisitInterface
         if (isset($valuesToUpdate['idvisitor'])) {
             $this->updateIdVisitorAcrossLogTables($valuesToUpdate['idvisitor']);
 
+            Common::printDebug('Updating idvisitor across tables for idvisit = ' . $idVisit);
+
             //For debug output below
             $valuesToUpdate['idvisitor'] = bin2hex($valuesToUpdate['idvisitor']);
         }
