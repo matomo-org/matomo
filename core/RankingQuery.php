@@ -11,7 +11,6 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Db\Schema;
-use Piwik\Plugins\TagManager\Model\Tag;
 
 /**
  * The ranking query class wraps an arbitrary SQL query with more SQL that limits
@@ -452,7 +451,7 @@ class RankingQuery
             }
 
             $counterRollupExpression = "
-                CASE
+                , CASE
                     $counterRollupWhen
                     ELSE 0
                 END AS counterRollup

@@ -269,7 +269,7 @@ class LogQueryBuilder
                 $sql .= "
                         SELECT * FROM (
                             $sql
-                        ) rollupQuery";
+                        ) AS rollupQuery";
             }
             $sql .= "
 			ORDER BY

@@ -249,6 +249,7 @@ class CustomDimension extends RecordBuilder
 
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
         $withRollup = $featureFlagManager->isFeatureActive(CustomDimensionReportWithRollUp::class);
+        $withRollup = true;
 
         // get query with segmentation
         $query = $logAggregator->generateQuery(
@@ -286,13 +287,13 @@ class CustomDimension extends RecordBuilder
             $query['sql'] = $rankingQuery->generateRankingQuery($query['sql'], $withRollup);
         }
 
-        var_dump($query);
+        if ($withRollup) {
+            var_dump($query);
+        }
 
         $db        = $logAggregator->getDb();
         $resultSet = $db->query($query['sql'], $query['bind']);
         
-        var_dump($resultSet);
-
         return $resultSet;
     }
 

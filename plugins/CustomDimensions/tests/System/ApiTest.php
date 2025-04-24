@@ -9,12 +9,14 @@
 
 namespace Piwik\Plugins\CustomDimensions\tests\System;
 
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Context;
 use Piwik\Plugins\CustomDimensions\tests\Fixtures\TrackVisitsWithCustomDimensionsFixture;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CustomDimensions\FeatureFlags\CustomDimensionReportWithRollUp;
 
 /**
@@ -41,6 +43,16 @@ class ApiTest extends SystemTestCase
 
     private static function triggerWithRollupFeatureFlag(bool $enableFlag)
     {
+        /*
+        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $invalidator->markArchivesAsInvalidated(
+            [self::$fixture->idSite, self::$fixture->idSite2],
+            [self::$fixture->dateTime],
+            'year',
+            null,
+            true
+        );
+         */
         $config = Config::getInstance();
         $featureFlag = new CustomDimensionReportWithRollUp();
         $featureFlagConfig = $featureFlag->getName() . '_feature';
@@ -50,6 +62,7 @@ class ApiTest extends SystemTestCase
         } else {
             $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
         }
+        var_dump($config->FeatureFlags);
     }
 
     /**
