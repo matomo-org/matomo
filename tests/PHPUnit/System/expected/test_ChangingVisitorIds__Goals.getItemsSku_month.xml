@@ -4,7 +4,7 @@
 		<label>custom sku</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>6</nb_actions>
-		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<avg_price>1500</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>

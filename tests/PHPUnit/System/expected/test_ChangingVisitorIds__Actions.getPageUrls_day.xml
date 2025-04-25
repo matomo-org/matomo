@@ -3,7 +3,7 @@
 	<row>
 		<label>/index.htm</label>
 		<nb_visits>2</nb_visits>
-		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>90</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
@@ -43,7 +43,7 @@
 	<row>
 		<label>/product.htm</label>
 		<nb_visits>1</nb_visits>
-		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>26</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
