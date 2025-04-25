@@ -746,12 +746,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/searchengine-and-social-list.git",
-                "reference": "86aaf6e82e5e2c38eb73865fbbdcd266166e73d2"
+                "reference": "1bd458d4333b54e5380b2577358786b98e10ff52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/86aaf6e82e5e2c38eb73865fbbdcd266166e73d2",
-                "reference": "86aaf6e82e5e2c38eb73865fbbdcd266166e73d2",
+                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/1bd458d4333b54e5380b2577358786b98e10ff52",
+                "reference": "1bd458d4333b54e5380b2577358786b98e10ff52",
                 "shasum": ""
             },
             "replace": {
@@ -768,7 +768,7 @@
                 "issues": "https://github.com/matomo-org/searchengine-and-social-list/issues",
                 "source": "https://github.com/matomo-org/searchengine-and-social-list/tree/master"
             },
-            "time": "2025-02-04T21:04:36+00:00"
+            "time": "2025-04-24T12:36:27+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -1485,16 +1485,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.9.3",
+            "version": "v6.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "2f5c94fe7493efc213f643c23b1b1c249d40f47e"
+                "reference": "bf74d75a1fde6beaa34a0ddae2ec5fce0f72a144"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/2f5c94fe7493efc213f643c23b1b1c249d40f47e",
-                "reference": "2f5c94fe7493efc213f643c23b1b1c249d40f47e",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/bf74d75a1fde6beaa34a0ddae2ec5fce0f72a144",
+                "reference": "bf74d75a1fde6beaa34a0ddae2ec5fce0f72a144",
                 "shasum": ""
             },
             "require": {
@@ -1554,7 +1554,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.9.3"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.10.0"
             },
             "funding": [
                 {
@@ -1562,7 +1562,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-24T18:04:13+00:00"
+            "time": "2025-04-24T15:19:31+00:00"
         },
         {
             "name": "psr/container",
@@ -3409,16 +3409,16 @@
         },
         {
             "name": "tecnickcom/tcpdf",
-            "version": "6.9.1",
+            "version": "6.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "ed27e28a4c478f7f4015b5e7e7b1912af9e85f2b"
+                "reference": "d0e8dd17f8a1df3c97b94b9af8356e88e811ed59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/ed27e28a4c478f7f4015b5e7e7b1912af9e85f2b",
-                "reference": "ed27e28a4c478f7f4015b5e7e7b1912af9e85f2b",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/d0e8dd17f8a1df3c97b94b9af8356e88e811ed59",
+                "reference": "d0e8dd17f8a1df3c97b94b9af8356e88e811ed59",
                 "shasum": ""
             },
             "require": {
@@ -3468,7 +3468,7 @@
             ],
             "support": {
                 "issues": "https://github.com/tecnickcom/TCPDF/issues",
-                "source": "https://github.com/tecnickcom/TCPDF/tree/6.9.1"
+                "source": "https://github.com/tecnickcom/TCPDF/tree/6.9.3"
             },
             "funding": [
                 {
@@ -3476,7 +3476,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2025-04-03T06:38:07+00:00"
+            "time": "2025-04-20T15:52:50+00:00"
         },
         {
             "name": "tedivm/jshrink",
