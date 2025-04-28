@@ -211,7 +211,7 @@ class CustomDimension extends RecordBuilder
             $label = $this->cleanCustomDimensionValue($label);
             $report->sumRowWithLabel($label, $columns);
         }
-        
+
         foreach ($actionRows as $row) {
             if (!isset($row[Metrics::INDEX_NB_VISITS])) {
                 return;
@@ -219,7 +219,7 @@ class CustomDimension extends RecordBuilder
 
             $label = $row[$valueField];
             $url = $row['url'];
-            
+
             if (is_null($label) || is_null($url)) {
                 continue;
             }
@@ -283,10 +283,10 @@ class CustomDimension extends RecordBuilder
 
         // get query with segmentation
         $query = $logAggregator->generateQuery(
-            $select, 
-            $from, 
-            $where, 
-            $groupBy, 
+            $select,
+            $from,
+            $where,
+            $groupBy,
             $orderBy,
             $limit = 0,
             $offset = 0,

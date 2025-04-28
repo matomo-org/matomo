@@ -384,7 +384,6 @@ class RankingQuery
         $withRollupColumns = array();
 
         foreach ($this->labelColumns as $column => $true) {
-
             $rollupWhen = '';
 
             $rollupLimitValue = !empty($withRollupColumns) ?
@@ -432,7 +431,7 @@ class RankingQuery
         }
 
         $counterRollupExpression = '';
-        
+
         if (!empty($withRollupColumns)) {
             $initCounter .= ' ( SELECT @counterRollup:=0 ) initCounterRollup,';
             $counterRollupWhen = '';

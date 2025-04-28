@@ -252,7 +252,6 @@ class LogQueryBuilder
 			WHERE
 				$where";
         }
-        
 
         if ($groupBy) {
             $sql .= "

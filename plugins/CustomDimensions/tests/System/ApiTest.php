@@ -9,14 +9,12 @@
 
 namespace Piwik\Plugins\CustomDimensions\tests\System;
 
-use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Context;
 use Piwik\Plugins\CustomDimensions\tests\Fixtures\TrackVisitsWithCustomDimensionsFixture;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CustomDimensions\FeatureFlags\CustomDimensionReportWithRollUp;
 
 /**
