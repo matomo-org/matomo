@@ -395,7 +395,7 @@ class RankingQuery
                 WHEN counterRollup = $limit THEN $rollupLimitValue
                 WHEN counterRollup > 0 THEN `$column`
             ";
-            
+
             $withRollupColumns[] = $column;
 
             $labelColumnsOthersSwitch[] = "

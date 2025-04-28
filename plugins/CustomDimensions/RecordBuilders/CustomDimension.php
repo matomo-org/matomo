@@ -319,7 +319,7 @@ class CustomDimension extends RecordBuilder
 
         $db        = $logAggregator->getDb();
         $resultSet = $db->query($query['sql'], $query['bind']);
-        
+
         return $resultSet;
     }
 
