@@ -253,20 +253,21 @@ class LogQueryBuilder
 				$where";
         }
         
-        if ($withRollup) {
-            $sql .= "
-                WITH ROLLUP";
-        }
 
         if ($groupBy) {
             $sql .= "
 			GROUP BY
 				$groupBy";
+
+            if ($withRollup) {
+                $sql .= "
+                    WITH ROLLUP";
+            }
         }
 
         if ($orderBy) {
             if ($withRollup) {
-                $sql .= "
+                $sql = "
                         SELECT * FROM (
                             $sql
                         ) AS rollupQuery";

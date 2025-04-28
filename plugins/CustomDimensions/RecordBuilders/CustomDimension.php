@@ -183,31 +183,61 @@ class CustomDimension extends RecordBuilder
         $metricIds[] = Metrics::INDEX_BOUNCE_COUNT;
         $metricIds[] = Metrics::INDEX_PAGE_EXIT_NB_VISITS;
 
+        $actionRows = [];
+
         while ($row = $resultSet->fetch()) {
             if (!isset($row[Metrics::INDEX_NB_VISITS])) {
                 return;
             }
 
             $label = $row[$valueField];
-            $label = $this->cleanCustomDimensionValue($label);
+            $url = $row['url'];
+
+            if (is_null($label)) {
+                continue;
+            }
+
+            if (!is_null($url)) {
+                $actionRows[] = $row;
+                continue;
+            }
 
             $columns = [];
+
             foreach ($metricIds as $id) {
                 $columns[$id] = (float) ($row[$id] ?? 0);
             }
 
-            $tableRow = $report->sumRowWithLabel($label, $columns);
+            $label = $this->cleanCustomDimensionValue($label);
+            $report->sumRowWithLabel($label, $columns);
+        }
+        
+        foreach ($actionRows as $row) {
+            if (!isset($row[Metrics::INDEX_NB_VISITS])) {
+                return;
+            }
 
+            $label = $row[$valueField];
             $url = $row['url'];
-            if (empty($url)) {
+            
+            if (is_null($label) || is_null($url)) {
                 continue;
             }
+
+            $columns = [];
+
+            foreach ($metricIds as $id) {
+                $columns[$id] = (float) ($row[$id] ?? 0);
+            }
+
+            $label = $this->cleanCustomDimensionValue($label);
+            $tableRow = $report->getRowFromLabel($label);
 
             // make sure we always work with normalized URL no matter how the individual action stores it
             $normalized = Tracker\PageUrl::normalizeUrl($url);
             $url = $normalized['url'];
 
-            if (empty($url)) {
+            if (empty($url) || empty($tableRow)) {
                 continue;
             }
 
@@ -285,10 +315,6 @@ class CustomDimension extends RecordBuilder
 
 
             $query['sql'] = $rankingQuery->generateRankingQuery($query['sql'], $withRollup);
-        }
-
-        if ($withRollup) {
-            var_dump($query);
         }
 
         $db        = $logAggregator->getDb();

@@ -62,7 +62,6 @@ class ApiTest extends SystemTestCase
         } else {
             $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
         }
-        var_dump($config->FeatureFlags);
     }
 
     /**
