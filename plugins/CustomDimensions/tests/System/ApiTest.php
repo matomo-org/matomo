@@ -373,7 +373,6 @@ class ApiTest extends SystemTestCase
          * being used as the actual limit in the ranking query
          */
         yield [3, 0, 0, 'by_archiving_query'];
-
     }
 
     public function getRankingLimitTestDataExpanded(): iterable

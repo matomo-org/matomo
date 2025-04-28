@@ -10,7 +10,6 @@
 namespace Piwik\Tests\Unit;
 
 use Piwik\Db\Schema;
-use Piwik\Plugins\TagManager\Model\Tag;
 use Piwik\RankingQuery;
 
 class RankingQueryTest extends \PHPUnit\Framework\TestCase
@@ -344,8 +343,8 @@ actualQuery
      * @param string $expected
      */
     private function checkQuery(
-        RankingQuery $rankingQuery, 
-        string $innerQuerySql, 
+        RankingQuery $rankingQuery,
+        string $innerQuerySql,
         string $expected,
         bool $withRollup = false
     ) {
