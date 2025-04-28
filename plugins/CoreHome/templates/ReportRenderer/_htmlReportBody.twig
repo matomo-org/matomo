@@ -2,8 +2,8 @@
 {% set styleTableHeader = "border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;" ~ fontStyle %}
 {% set styleTableCell = "border-bottom:1px solid rgb(231,231,231);font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;" ~ fontStyle %}
 
-<h2 id="{{ reportId }}" style=" {{fontStyle}} font-size: {{ emailStyles.reportTitleTextSize }}pt; font-weight:normal; margin:45px 0 30px 0;">
-    {{ reportName }}
+<h2 id="{{ reportId }}" style=" {{ fontStyle }} font-size: {{ emailStyles.reportTitleTextSize }}pt; font-weight:normal; margin:45px 0 30px 0;">
+    {{ reportName|escape|preventLinking }}
 </h2>
 
 {% if reportRows is empty %}

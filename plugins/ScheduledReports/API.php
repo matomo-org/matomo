@@ -1069,6 +1069,8 @@ class API extends \Piwik\Plugin\API
             $segment = APISegmentEditor::getInstance()->get($idSegment);
 
             if ($segment) {
+                // segment name is returned sanitized
+                $segment['name'] = Common::unsanitizeInputValue($segment['name']);
                 return $segment;
             }
         }
