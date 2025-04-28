@@ -220,7 +220,7 @@ class Controller extends ControllerAdmin
 
         $userLogin = Piwik::getCurrentUserLogin();
         $user = Request::processRequest('UsersManager.getUser', array('userLogin' => $userLogin));
-        $view->userEmail = $user['email'];
+        $view->userEmail = $user['email'] ?? '';
         $view->userTokenAuth = Piwik::getCurrentUserTokenAuth();
         $view->setIgnoreCookieNonce = Nonce::getNonce(self::NONCE_SET_IGNORE_COOKIE);
         $view->isUsersAdminEnabled = UsersManager::isUsersAdminEnabled();

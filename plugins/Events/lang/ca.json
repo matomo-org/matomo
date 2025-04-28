@@ -4,6 +4,8 @@
         "AvgValue": "Valor mitjà",
         "AvgValueDocumentation": "La mitjana de tots els valors d'aquest esdeveniment",
         "Category": "Categoria",
+        "ColumnNbUniqVisitorsDocumentation": "El nombre de visitants desduplicats que han activat un esdeveniment al vostre lloc web. Cada visitant només es compta una vegada, fins i tot si visiten o desencadenen diversos esdeveniments al lloc web.",
+        "ColumnNbVisitsDocumentation": "El nombre total de visites en què s'ha activat almenys un esdeveniment.",
         "Event": "Esdeveniment",
         "EventAction": "Acció d'esdeveniment",
         "EventActions": "Accions d'esdeveniment",

@@ -83,7 +83,7 @@ class Json extends ApiRenderer
         ProxyHttp::overrideCacheControlHeaders();
     }
 
-    private function isJsonp()
+    private function isJsonp(): bool
     {
         $callback = $this->getJsonpCallback();
 
@@ -96,23 +96,23 @@ class Json extends ApiRenderer
 
     private function getJsonpCallback()
     {
-        $jsonCallback = Common::getRequestVar('callback', false, null, $this->request);
+        $jsonCallback = $this->requestObj->getParameter('callback', false);
 
         if ($jsonCallback === false) {
-            $jsonCallback = Common::getRequestVar('jsoncallback', false, null, $this->request);
+            $jsonCallback = $this->requestObj->getParameter('jsoncallback', false);
         }
 
         return $jsonCallback;
     }
 
     /**
-     * @param $str
+     * @param string $str
      * @return string
      */
-    private function applyJsonpIfNeeded($str)
+    private function applyJsonpIfNeeded(string $str): string
     {
         if ($this->isJsonp()) {
-            $jsonCallback = $this->getJsonpCallback();
+            $jsonCallback = Common::sanitizeInputValue($this->getJsonpCallback());
             $str = $jsonCallback . "(" . $str . ")";
         }
 

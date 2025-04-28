@@ -2,6 +2,7 @@
     "CustomDimensions": {
         "CannotBeDeleted": "Una dimensió personalitzada no es pot suprimir, només es pot desactivar.",
         "ColumnAvgTimeOnDimension": "Temps mitjà a la dimensió",
+        "ColumnAvgTimeOnDimensionDocumentation": "Temps mitjà a acció personalitzada és el temps mitjà que els visitants han dedicat a una acció personalitzada específica abans de passar a una altra acció supervisada. Es calcula sumant el temps dedicat a l'acció en totes les visites i dividint-lo pel nombre de vegades que s'ha realitzat l'acció.",
         "ColumnUniqueActions": "Accions úniques",
         "ConfigureDimension": "Configura la %1$s dimensió personalitzada %2$s",
         "ConfigureNewDimension": "Configureu una nova dimensió",

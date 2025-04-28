@@ -34,12 +34,19 @@ class XssTesting
         return $result;
     }
 
-    // kept after vue migration for proof angularjs injection does not apply
+    /**
+     * @deprecated
+     */
     public function forAngular($type, $sanitize = false)
     {
-        $n = $this->addXssEntry($type, 'angular');
+        return $this->forVueJs($type, $sanitize);
+    }
 
-        $result = "{{constructor.constructor(\"_x($n)\")()}}";
+    public function forVueJs($type, $sanitize = false)
+    {
+        $n = $this->addXssEntry($type, 'vuejs');
+
+        $result = "{{_Vue.h.constructor`_x($n)`()}}";
         if ($sanitize) {
             $result = Common::sanitizeInputValue($result);
         }
@@ -109,9 +116,9 @@ JS;
             'twig-(site name)',
             'twig-(goal name)',
             'twig-(goal description)',
-            'angular-(Piwik test two)',
-            'angular-(second goal)',
-            'angular-(goal description)',
+            'vuejs-(Piwik test two)',
+            'vuejs-(second goal)',
+            'vuejs-(goal description)',
             'twig-(pageurl)',
             'twig-(page title)',
             'twig-(referrerUrl)',
@@ -124,24 +131,22 @@ JS;
             'twig-(city)',
             'twig-(region)',
             'twig-(country)',
-            'twig-(useragent)',
-            'angular-(pageurl)',
-            'angular-(page title)',
-            'angular-(referrerUrl)',
-            'angular-(keyword)',
-            'angular-(customdimension)',
-            'angular-(customvarname)',
-            'angular-(customvarval)',
-            'angular-(userid)',
-            'angular-(lang)',
-            'angular-(city)',
-            'angular-(region)',
-            'angular-(country)',
-            'angular-(useragent)',
+            'vuejs-(pageurl)',
+            'vuejs-(page title)',
+            'vuejs-(referrerUrl)',
+            'vuejs-(keyword)',
+            'vuejs-(customdimension)',
+            'vuejs-(customvarname)',
+            'vuejs-(customvarval)',
+            'vuejs-(userid)',
+            'vuejs-(lang)',
+            'vuejs-(city)',
+            'vuejs-(region)',
+            'vuejs-(country)',
             'twig-(annotation)',
-            'angular-(Annotation note 3)',
+            'vuejs-(Annotation note 3)',
             'twig-(excludedparameter)',
-            'angular-(excludedparameter)',
+            'vuejs-(excludedparameter)',
             'twig-(scheduledreport)',
             'twig-(dimensionname)',
             'twig-(category)',
@@ -150,19 +155,19 @@ JS;
             'twig-(subcategory)',
             'twig-(processedmetricname)',
             'twig-(processedmetricdocs)',
-            'angular-(dimensionname)',
-            'angular-(category)',
-            'angular-(reportname)',
-            'angular-(reportdoc)',
-            'angular-(subcategory)',
-            'angular-(processedmetricname)',
-            'angular-(processedmetricdocs)',
-            'angular-(scheduledreport)',
+            'vuejs-(dimensionname)',
+            'vuejs-(category)',
+            'vuejs-(reportname)',
+            'vuejs-(reportdoc)',
+            'vuejs-(subcategory)',
+            'vuejs-(processedmetricname)',
+            'vuejs-(processedmetricdocs)',
+            'vuejs-(scheduledreport)',
             'twig-(segment)',
-            'angular-(From Europe segment)',
+            'vuejs-(From Europe segment)',
             'twig-(dashboard name0)',
-            'angular-(dashboard name1)',
-            'angular-(datatablerow)',
+            'vuejs-(dashboard name1)',
+            'vuejs-(datatablerow)',
             'twig-(datatablerow)',
         ];
 

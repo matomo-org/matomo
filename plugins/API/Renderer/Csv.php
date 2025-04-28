@@ -34,8 +34,8 @@ class Csv extends ApiRenderer
 
     public function renderDataTable($dataTable)
     {
-        $convertToUnicode = Common::getRequestVar('convertToUnicode', true, 'int', $this->request);
-        $idSite = Common::getRequestVar('idSite', 0, 'int', $this->request);
+        $convertToUnicode = $this->requestObj->getBoolParameter('convertToUnicode', true);
+        $idSite = $this->requestObj->getIntegerParameter('idSite', 0);
 
         if (empty($idSite)) {
             $idSite = 'all';
@@ -45,11 +45,11 @@ class Csv extends ApiRenderer
         $tableRenderer = $this->buildDataTableRenderer($dataTable);
         $tableRenderer->setConvertToUnicode($convertToUnicode);
 
-        $method = Common::getRequestVar('method', '', 'string', $this->request);
+        $method = Common::sanitizeInputValue($this->requestObj->getStringParameter('method', ''));
 
         $tableRenderer->setApiMethod($method);
         $tableRenderer->setIdSite($idSite);
-        $tableRenderer->setTranslateColumnNames(Common::getRequestVar('translateColumnNames', false, 'int', $this->request));
+        $tableRenderer->setTranslateColumnNames($this->requestObj->getBoolParameter('translateColumnNames', false));
 
         return $tableRenderer->render();
     }

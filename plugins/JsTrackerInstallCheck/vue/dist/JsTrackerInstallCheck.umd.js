@@ -146,69 +146,57 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/JsTrackerInstallCheck/vue/src/JsTrackerInstallCheck/JsTrackerInstallCheck.vue?vue&type=template&id=dd44ee20
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/JsTrackerInstallCheck/vue/src/JsTrackerInstallCheck/JsTrackerInstallCheck.vue?vue&type=template&id=dd44ee20
 
-var _hoisted_1 = {
+const _hoisted_1 = {
   class: "jsTrackerInstallCheck"
 };
-var _hoisted_2 = {
+const _hoisted_2 = {
   class: "row testInstallFields"
 };
-var _hoisted_3 = {
+const _hoisted_3 = {
   class: "col s2"
 };
-var _hoisted_4 = {
+const _hoisted_4 = {
   class: "col s10"
 };
-var _hoisted_5 = ["disabled", "value"];
-var _hoisted_6 = {
+const _hoisted_5 = ["disabled", "value"];
+const _hoisted_6 = {
   class: "system-success success-message"
 };
-
-var _hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const _hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-ok"
 }, null, -1);
-
-var _hoisted_8 = {
+const _hoisted_8 = {
   class: "system-errors test-error"
 };
-
-var _hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const _hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-warning"
 }, null, -1);
-
-var _hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("  ");
-
-var _hoisted_11 = ["innerHTML"];
+const _hoisted_10 = ["innerHTML"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+  const _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('JsTrackerInstallCheck_OptionalTestInstallationDescription')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "url",
     name: "baseUrl",
     placeholder: "https://example.com",
     modelValue: _ctx.baseUrl,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.baseUrl = $event;
-    }),
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.baseUrl = $event),
     "full-width": true,
     disabled: _ctx.isTesting
   }, null, 8, ["modelValue", "disabled"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "button",
     class: "btn testInstallBtn",
-    onClick: _cache[1] || (_cache[1] = function () {
-      return _ctx.initiateTrackerTest && _ctx.initiateTrackerTest.apply(_ctx, arguments);
-    }),
+    onClick: _cache[1] || (_cache[1] = (...args) => _ctx.initiateTrackerTest && _ctx.initiateTrackerTest(...args)),
     disabled: !_ctx.baseUrl || _ctx.isTesting,
     value: _ctx.translate('JsTrackerInstallCheck_TestInstallationBtnText')
   }, null, 8, _hoisted_5)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
     loading: _ctx.isTesting,
     loadingMessage: _ctx.translate('General_Testing')
-  }, null, 8, ["loading", "loadingMessage"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('JsTrackerInstallCheck_JsTrackingCodeInstallCheckSuccessMessage')), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isTestSuccess]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, [_hoisted_9, _hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }, null, 8, ["loading", "loadingMessage"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('JsTrackerInstallCheck_JsTrackingCodeInstallCheckSuccessMessage')), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isTestSuccess]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, [_hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("  "), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     innerHTML: _ctx.$sanitize(_ctx.getTestFailureMessage)
-  }, null, 8, _hoisted_11)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isTestComplete && !_ctx.isTestSuccess]])])], 64);
+  }, null, 8, _hoisted_10)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isTestComplete && !_ctx.isTestSuccess]])])], 64);
 }
 // CONCATENATED MODULE: ./plugins/JsTrackerInstallCheck/vue/src/JsTrackerInstallCheck/JsTrackerInstallCheck.vue?vue&type=template&id=dd44ee20
 
@@ -218,18 +206,18 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/JsTrackerInstallCheck/vue/src/JsTrackerInstallCheck/JsTrackerInstallCheck.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/JsTrackerInstallCheck/vue/src/JsTrackerInstallCheck/JsTrackerInstallCheck.vue?vue&type=script&lang=ts
 
 
 
-var MAX_NUM_API_CALLS = 10;
-var TIME_BETWEEN_API_CALLS = 1000;
+const MAX_NUM_API_CALLS = 10;
+const TIME_BETWEEN_API_CALLS = 1000;
 /* harmony default export */ var JsTrackerInstallCheckvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   components: {
     Field: external_CorePluginsAdmin_["Field"],
     ActivityIndicator: external_CoreHome_["ActivityIndicator"]
   },
-  data: function data() {
+  data() {
     return {
       checkNonce: '',
       isTesting: false,
@@ -250,16 +238,16 @@ var TIME_BETWEEN_API_CALLS = 1000;
       default: false
     }
   },
-  created: function created() {
+  created() {
     this.checkWhetherSuccessWasRecorded();
   },
   watch: {
-    site: function site() {
+    site() {
       this.onSiteChange();
     }
   },
   methods: {
-    onSiteChange: function onSiteChange() {
+    onSiteChange() {
       this.checkNonce = '';
       this.isTesting = false;
       this.isTestComplete = false;
@@ -267,97 +255,80 @@ var TIME_BETWEEN_API_CALLS = 1000;
       this.testTimeoutCount = 0;
       this.checkWhetherSuccessWasRecorded();
     },
-    initiateTrackerTest: function initiateTrackerTest() {
-      var _this = this;
-
+    initiateTrackerTest() {
       this.isTesting = true;
       this.isTestComplete = false;
       this.isTestSuccess = false;
       this.testTimeoutCount = 0;
-      var siteRef = this.site;
-      var postParams = {
+      const siteRef = this.site;
+      const postParams = {
         idSite: siteRef.id,
         url: ''
       };
-
       if (this.baseUrl) {
         postParams.url = this.baseUrl;
       }
-
       external_CoreHome_["AjaxHelper"].post({
         module: 'API',
         method: 'JsTrackerInstallCheck.initiateJsTrackerInstallTest'
-      }, postParams).then(function (response) {
-        var isSuccess = response && response.url && response.nonce;
-
+      }, postParams).then(response => {
+        const isSuccess = response && response.url && response.nonce;
         if (isSuccess) {
-          _this.checkNonce = response.nonce;
-          var windowRef = window.open(response.url);
-
-          _this.setCheckInTime();
-
-          setTimeout(function () {
+          this.checkNonce = response.nonce;
+          const windowRef = window.open(response.url);
+          this.setCheckInTime();
+          setTimeout(() => {
             if (windowRef && !windowRef.closed) {
-              windowRef.close(); // Set the timeout to the max since we've already waited too long
-
-              _this.testTimeoutCount = MAX_NUM_API_CALLS;
+              windowRef.close();
+              // Set the timeout to the max since we've already waited too long
+              this.testTimeoutCount = MAX_NUM_API_CALLS;
             }
           }, MAX_NUM_API_CALLS * TIME_BETWEEN_API_CALLS);
         }
-      }).catch(function () {
-        _this.isTesting = false;
+      }).catch(() => {
+        this.isTesting = false;
       });
     },
-    setCheckInTime: function setCheckInTime() {
+    setCheckInTime() {
       setTimeout(this.checkWhetherSuccessWasRecorded, TIME_BETWEEN_API_CALLS);
     },
-    checkWhetherSuccessWasRecorded: function checkWhetherSuccessWasRecorded() {
-      var _this2 = this;
-
-      var siteRef = this.site;
-      var postParams = {
+    checkWhetherSuccessWasRecorded() {
+      const siteRef = this.site;
+      const postParams = {
         idSite: siteRef.id,
         nonce: ''
       };
-
       if (this.checkNonce) {
         postParams.nonce = this.checkNonce;
       }
-
       external_CoreHome_["AjaxHelper"].post({
         module: 'API',
         method: 'JsTrackerInstallCheck.wasJsTrackerInstallTestSuccessful'
-      }, postParams).then(function (response) {
-        if (response && response.mainUrl && !_this2.baseUrl) {
-          _this2.baseUrl = response.mainUrl;
+      }, postParams).then(response => {
+        if (response && response.mainUrl && !this.baseUrl) {
+          this.baseUrl = response.mainUrl;
         }
-
-        _this2.isTestSuccess = response && response.isSuccess; // If the test isn't successful but hasn't exceeded the timeout count, wait and check again
-
-        if (_this2.checkNonce && !_this2.isTestSuccess && _this2.testTimeoutCount < MAX_NUM_API_CALLS) {
-          _this2.testTimeoutCount += 1;
-
-          _this2.setCheckInTime();
-
+        this.isTestSuccess = response && response.isSuccess;
+        // If the test isn't successful but hasn't exceeded the timeout count, wait and check again
+        if (this.checkNonce && !this.isTestSuccess && this.testTimeoutCount < MAX_NUM_API_CALLS) {
+          this.testTimeoutCount += 1;
+          this.setCheckInTime();
           return;
         }
-
-        _this2.isTestComplete = !!_this2.checkNonce;
-        _this2.isTesting = false;
-      }).catch(function () {
-        _this2.isTesting = false;
+        this.isTestComplete = !!this.checkNonce;
+        this.isTesting = false;
+      }).catch(() => {
+        this.isTesting = false;
       });
     }
   },
   computed: {
-    getTestFailureMessage: function getTestFailureMessage() {
-      var learnMoreLink = Object(external_CoreHome_["externalLink"])('https://matomo.org/faq/troubleshooting/faq_58/');
-      var closingTag = '</a>';
-
+    getTestFailureMessage() {
+      const learnMoreLink = Object(external_CoreHome_["externalLink"])('https://matomo.org/faq/troubleshooting/faq_58/');
+      const closingTag = '</a>';
       if (!this.isWordpress) {
         return Object(external_CoreHome_["translate"])('JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessage', learnMoreLink, closingTag);
       }
-
       return Object(external_CoreHome_["translate"])('JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessageWordpress', '<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">WP-Matomo Integration (WP-Piwik)</a>', learnMoreLink, closingTag);
     }
   }

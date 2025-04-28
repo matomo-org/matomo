@@ -46,13 +46,6 @@ class Csv extends Renderer
     public $lineEnd = "\n";
 
     /**
-     * 'metadata' columns will be exported, prefixed by 'metadata_'
-     *
-     * @var bool
-     */
-    public $exportMetadata = true;
-
-    /**
      * Converts the content to unicode so that UTF8 characters (eg. chinese) can be imported in Excel
      *
      * @var bool
@@ -60,25 +53,18 @@ class Csv extends Renderer
     public $convertToUnicode = true;
 
     /**
-     * idSubtable will be exported in a column called 'idsubdatatable'
-     *
-     * @var bool
-     */
-    public $exportIdSubtable = true;
-
-    /**
      * This string is also hardcoded in archive,sh
      */
     public const NO_DATA_AVAILABLE = 'No data available';
 
-    private $unsupportedColumns = array();
+    private $unsupportedColumns = [];
 
     /**
      * Computes the dataTable output and returns the string/binary
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         $str = $this->renderTable($this->table);
         if (empty($str)) {
@@ -87,8 +73,7 @@ class Csv extends Renderer
 
         $this->renderHeader();
 
-        $str = $this->convertToUnicode($str);
-        return $str;
+        return $this->convertToUnicode($str);
     }
 
     /**
@@ -96,17 +81,17 @@ class Csv extends Renderer
      *
      * @param $bool
      */
-    public function setConvertToUnicode($bool)
+    public function setConvertToUnicode(bool $convertToUnicode): void
     {
-        $this->convertToUnicode = $bool;
+        $this->convertToUnicode = $convertToUnicode;
     }
 
     /**
      * Sets the column separator
      *
-     * @param $separator
+     * @param string $separator
      */
-    public function setSeparator($separator)
+    public function setSeparator(string $separator): void
     {
         $this->separator = $separator;
     }
@@ -118,7 +103,7 @@ class Csv extends Renderer
      * @param array $allColumns
      * @return string
      */
-    protected function renderTable($table, &$allColumns = array())
+    protected function renderTable($table, array &$allColumns = []): string
     {
         if (is_array($table)) {
             // convert array to DataTable
@@ -140,7 +125,7 @@ class Csv extends Renderer
      * @param array $allColumns
      * @return string
      */
-    protected function renderDataTableMap($table, &$allColumns = array())
+    protected function renderDataTableMap(DataTable\Map $table, array &$allColumns = []): string
     {
         $str = '';
         foreach ($table->getDataTables() as $currentLinePrefix => $dataTable) {
@@ -163,9 +148,7 @@ class Csv extends Renderer
         $allColumns = array_merge(array($table->getKeyName() => true), $allColumns);
 
         // add header to output string
-        $str = $this->getHeaderLine(array_keys($allColumns)) . $str;
-
-        return $str;
+        return $this->getHeaderLine(array_keys($allColumns)) . $str;
     }
 
     /**
@@ -175,7 +158,7 @@ class Csv extends Renderer
      * @param array $allColumns
      * @return string
      */
-    protected function renderDataTable($table, &$allColumns = array())
+    protected function renderDataTable($table, array &$allColumns = []): string
     {
         if ($table instanceof Simple) {
             $row = $table->getFirstRow();
@@ -186,25 +169,23 @@ class Csv extends Renderer
                     $allColumns['value'] = true;
 
                     $value = array_values($columnNameToValue);
-                    $str = 'value' . $this->lineEnd . $this->formatValue($value[0]);
-                    return $str;
+                    return 'value' . $this->lineEnd . $this->formatValue($value[0]);
                 }
             }
         }
 
         $csv = $this->makeArrayFromDataTable($table, $allColumns);
 
-        $str = $this->buildCsvString($allColumns, $csv);
-        return $str;
+        return $this->buildCsvString($allColumns, $csv);
     }
 
     /**
      * Returns the CSV header line for a set of metrics. Will translate columns if desired.
      *
      * @param array $columnMetrics
-     * @return array
+     * @return string
      */
-    private function getHeaderLine($columnMetrics)
+    private function getHeaderLine(array $columnMetrics): string
     {
         foreach ($columnMetrics as $index => $value) {
             if (in_array($value, $this->unsupportedColumns)) {
@@ -272,7 +253,7 @@ class Csv extends Renderer
         $formulaStartsWith = array('=', '+', '-', '@');
 
         // remove first % sign and if string is still a number, return it as is
-        $valueWithoutFirstPercentSign = $this->removeFirstPercentSign($value);
+        $valueWithoutFirstPercentSign = $this->removeFirstPercentSign((string)$value);
 
         if (
             empty($valueWithoutFirstPercentSign)
@@ -294,7 +275,7 @@ class Csv extends Renderer
     /**
      * Sends the http headers for csv file
      */
-    protected function renderHeader()
+    protected function renderHeader(): void
     {
         $fileName = Piwik::translate('General_Export');
 
@@ -331,7 +312,7 @@ class Csv extends Renderer
      * Flattens an array of column values so they can be outputted as CSV (which does not support
      * nested structures).
      */
-    private function flattenColumnArray($columns, &$csvRow = array(), $csvColumnNameTemplate = '%s')
+    private function flattenColumnArray(array $columns, array &$csvRow = [], string $csvColumnNameTemplate = '%s'): array
     {
         foreach ($columns as $name => $value) {
             $csvName = sprintf($csvColumnNameTemplate, $this->getCsvColumnName($name));
@@ -362,7 +343,7 @@ class Csv extends Renderer
         return $csvRow;
     }
 
-    private function getCsvColumnName($name)
+    private function getCsvColumnName(string $name): string
     {
         if ($this->translateColumnNames) {
             return $this->translateColumnName($name);
@@ -372,11 +353,11 @@ class Csv extends Renderer
     }
 
     /**
-     * @param $allColumns
-     * @param $csv
-     * @return array
+     * @param array $allColumns
+     * @param array $csv
+     * @return string
      */
-    private function buildCsvString($allColumns, $csv)
+    private function buildCsvString(array $allColumns, array $csv): string
     {
         $str = '';
 
@@ -403,22 +384,22 @@ class Csv extends Renderer
             $rowStr = substr_replace($rowStr, "", -strlen($this->separator));
             $str .= $rowStr . $this->lineEnd;
         }
-        $str = substr($str, 0, -strlen($this->lineEnd));
-        return $str;
+
+        return substr($str, 0, -strlen($this->lineEnd));
     }
 
     /**
      * @param $table
-     * @param $allColumns
+     * @param array $allColumns
      * @return array of csv data
      */
-    private function makeArrayFromDataTable($table, &$allColumns)
+    private function makeArrayFromDataTable($table, array &$allColumns): array
     {
-        $csv = array();
+        $csv = [];
         foreach ($table->getRows() as $row) {
             $csvRow = $this->flattenColumnArray($row->getColumns());
 
-            if ($this->exportMetadata) {
+            if (!$this->hideMetadata) {
                 $metadata = $row->getMetadata();
                 foreach ($metadata as $name => $value) {
                     if ($name === 'idsubdatatable_in_db') {
@@ -452,12 +433,9 @@ class Csv extends Renderer
                 }
             }
 
-            if ($this->exportIdSubtable) {
+            if (!$this->hideIdSubDatatable && !$this->hideMetadata) {
                 $idsubdatatable = $row->getIdSubDataTable();
-                if (
-                    $idsubdatatable !== false
-                    && $this->hideIdSubDatatable === false
-                ) {
+                if ($idsubdatatable !== false) {
                     $csvRow['idsubdatatable'] = $idsubdatatable;
                 }
             }
@@ -491,11 +469,7 @@ class Csv extends Renderer
         return $str;
     }
 
-    /**
-     * @param $value
-     * @return mixed
-     */
-    protected function removeFirstPercentSign($value)
+    protected function removeFirstPercentSign(string $value): string
     {
         // remove all null byte chars from the beginning
         $value = ltrim($value, "\0");

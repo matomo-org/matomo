@@ -21,7 +21,7 @@ class Rss extends ApiRenderer
      */
     public function renderException($message, $exception)
     {
-        self::sendHeader('plain');
+        self::sendHeader('Content-Type: text/plain; charset=utf-8');
 
         return 'Error: ' . $message;
     }
@@ -31,11 +31,16 @@ class Rss extends ApiRenderer
         /** @var \Piwik\DataTable\Renderer\Rss $tableRenderer */
         $tableRenderer = $this->buildDataTableRenderer($dataTable);
 
-        $method = Common::getRequestVar('method', '', 'string', $this->request);
+        $idSite = $this->requestObj->getIntegerParameter('idSite', 0);
+        $method = Common::sanitizeInputValue($this->requestObj->getStringParameter('method', ''));
+
+        if (empty($idSite)) {
+            $idSite = 'all';
+        }
 
         $tableRenderer->setApiMethod($method);
-        $tableRenderer->setIdSite(Common::getRequestVar('idSite', false, 'int', $this->request));
-        $tableRenderer->setTranslateColumnNames(Common::getRequestVar('translateColumnNames', false, 'int', $this->request));
+        $tableRenderer->setIdSite($idSite);
+        $tableRenderer->setTranslateColumnNames($this->requestObj->getBoolParameter('translateColumnNames', false));
 
         return $tableRenderer->render();
     }

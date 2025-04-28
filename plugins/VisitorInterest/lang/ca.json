@@ -3,6 +3,7 @@
         "BetweenXYMinutes": "%1$s - %2$s min",
         "BetweenXYSeconds": "%1$s - %2$ss",
         "ColumnPagesPerVisit": "Pàgines per visita",
+        "ColumnPercentageVisitsDocumentation": "El percentatge de visites totals, on els visitants tenien encara aquesta quantitat de visites en total.",
         "ColumnVisitDuration": "Durada de la visita",
         "Engagement": "Compromís",
         "NPages": "%s pàgines",
