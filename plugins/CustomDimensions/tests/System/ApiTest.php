@@ -78,6 +78,7 @@ class ApiTest extends SystemTestCase
      */
     public function testApiWithRollup($api, $params)
     {
+        $params["testSuffix"] .= "_with_rollup";
         self::triggerWithRollupFeatureFlag($enableFlag = true);
         $this->runApiTests($api, $params);
     }
