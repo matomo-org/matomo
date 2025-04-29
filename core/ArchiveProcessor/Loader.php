@@ -611,16 +611,17 @@ class Loader
 
     private function hasSiteVisitsBetweenTimeframe($idSite, Period $period): bool
     {
-        $timezone = Site::getTimezoneFor($idSite);
-        /** @var \Piwik\Date $date1 */
-        [$date1, $date2] = $period->getBoundsInTimezone($timezone);
-
         $cacheKeyStr = 'Archiving.hasSiteVisitsBetweenTimeframe.%s.%s';
         $cacheKey = CacheId::siteAware(sprintf($cacheKeyStr, $period->getLabel(), $period->getRangeString()), [$idSite]);
 
         if ($this->cache->contains($cacheKey)) {
             return $this->cache->fetch($cacheKey);
         }
+
+        $timezone = Site::getTimezoneFor($idSite);
+        /** @var Date $date1 */
+        /** @var Date $date2 */
+        [$date1, $date2] = $period->getBoundsInTimezone($timezone);
 
         $hasSiteVisitsBetweenTimeframe = $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
         $this->cache->save($cacheKey, $hasSiteVisitsBetweenTimeframe);
