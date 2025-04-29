@@ -510,7 +510,7 @@ class Loader
 
     private function hasChildArchivesInPeriod($idSite, Period $period): bool
     {
-        $cacheKey = CacheId::siteAware('Archiving.hasChildArchivesInPeriod.' . $period->getRangeString());
+        $cacheKey = CacheId::siteAware('Archiving.hasChildArchivesInPeriod.' . $period->getRangeString(), [$idSite]);
 
         if ($this->cache->contains($cacheKey)) {
             $hasChildArchivesInPeriod = $this->cache->fetch($cacheKey);
@@ -616,7 +616,7 @@ class Loader
         [$date1, $date2] = $period->getBoundsInTimezone($timezone);
 
         $cacheKeyStr = 'Archiving.hasSiteVisitsBetweenTimeframe.%s.%s';
-        $cacheKey = CacheId::siteAware(sprintf($cacheKeyStr, $period->getLabel(), $period->getRangeString()));
+        $cacheKey = CacheId::siteAware(sprintf($cacheKeyStr, $period->getLabel(), $period->getRangeString()), [$idSite]);
 
         if ($this->cache->contains($cacheKey)) {
             return $this->cache->fetch($cacheKey);
@@ -631,7 +631,7 @@ class Loader
                 $parentPeriodLabel = $currentPeriod->getParentPeriodLabel();
                 if ($parentPeriodLabel) {
                     $parentPeriod = Period\Factory::build($parentPeriodLabel, $date1);
-                    $cacheKey = CacheId::siteAware(sprintf($cacheKeyStr, $parentPeriod->getLabel(), $parentPeriod->getRangeString()));
+                    $cacheKey = CacheId::siteAware(sprintf($cacheKeyStr, $parentPeriod->getLabel(), $parentPeriod->getRangeString()), [$idSite]);
                     $this->cache->save($cacheKey, true);
                     $currentPeriod = $parentPeriod;
                 }
