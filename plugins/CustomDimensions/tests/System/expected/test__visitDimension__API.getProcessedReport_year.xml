@@ -18,9 +18,7 @@
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -32,9 +30,7 @@
 		</processedMetrics>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
-			<nb_uniq_visitors>number</nb_uniq_visitors>
 			<nb_actions>number</nb_actions>
-			<nb_users>number</nb_users>
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
@@ -64,9 +60,9 @@
 		<row>
 			<label>value5 1</label>
 			<nb_visits>1</nb_visits>
-			<nb_actions>3</nb_actions>
-			<nb_actions_per_visit>3</nb_actions_per_visit>
-			<avg_time_on_site>00:12:02</avg_time_on_site>
+			<nb_actions>4</nb_actions>
+			<nb_actions_per_visit>4</nb_actions_per_visit>
+			<avg_time_on_site>00:18:02</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 		</row>
 		<row>
@@ -91,9 +87,9 @@
 	</reportMetadata>
 	<reportTotal>
 		<nb_visits>3</nb_visits>
-		<nb_actions>5</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>723</sum_visit_length>
+		<nb_actions>6</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1083</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		
 		<goals>
@@ -107,6 +103,6 @@
 		<revenue>0</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<nb_actions_per_visit>1.7</nb_actions_per_visit>
+		<nb_actions_per_visit>2</nb_actions_per_visit>
 	</reportTotal>
 </result>
