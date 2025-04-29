@@ -122,7 +122,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->assertNumericArchiveExists(Day::PERIOD_ID, $date, 'done', ArchiveWriter::DONE_OK);
     }
 
-    public function testInitNewArchiveDoesNotWiteNewArchiveStatusToFileRightAway()
+    public function testInitNewArchiveDoesNotWriteNewArchiveStatusToFileRightAway()
     {
         $period = 'day';
         $date = '2019-08-29';
