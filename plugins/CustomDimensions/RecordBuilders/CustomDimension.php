@@ -279,7 +279,6 @@ class CustomDimension extends RecordBuilder
 
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
         $withRollup = $featureFlagManager->isFeatureActive(CustomDimensionReportWithRollUp::class);
-        $withRollup = true;
 
         // get query with segmentation
         $query = $logAggregator->generateQuery(

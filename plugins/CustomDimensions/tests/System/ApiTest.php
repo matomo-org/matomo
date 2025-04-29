@@ -52,6 +52,7 @@ class ApiTest extends SystemTestCase
             true
         );
          */
+        self::deleteArchiveTables();
         $config = Config::getInstance();
         $featureFlag = new CustomDimensionReportWithRollUp();
         $featureFlagConfig = $featureFlag->getName() . '_feature';
