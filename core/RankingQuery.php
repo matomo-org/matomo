@@ -386,7 +386,7 @@ class RankingQuery
         foreach ($this->labelColumns as $column => $true) {
             $rollupWhen = '';
 
-            $rollupLimitValue = !empty($withRollupColumns) ?
+            $rollupLimitValue = empty($withRollupColumns) ?
                                     "'" . $this->othersLabelValue . "'"
                                     :
                                     'NULL';

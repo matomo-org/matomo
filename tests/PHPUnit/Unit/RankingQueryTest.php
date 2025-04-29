@@ -126,7 +126,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                         WHEN `label` IS NULL AND `url` IS NULL THEN -1
                         WHEN `label` IS NULL AND @counterRollup = 11 THEN 11
                         WHEN `label` IS NULL THEN @counterRollup := @counterRollup + 1
-                        WHEN `url` IS NULL AND @counterRollup = 11 then 11
+                        WHEN `url` IS NULL AND @counterRollup = 11 THEN 11
                         WHEN `url` IS NULL THEN @counterRollup := @counterRollup + 1
                         ELSE 0
                     END AS counterRollup,
