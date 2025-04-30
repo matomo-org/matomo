@@ -774,7 +774,8 @@ export default defineComponent({
                 'transition',
                 'overlay',
                 'lab',
-                'clock'
+                'clock',
+                'dashboard-customize',
             ],
             'Users' => [
                 'user',
