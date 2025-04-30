@@ -20,7 +20,7 @@
       tabindex="4"
       ref="expander"
     >
-      <span class="icon icon-configure"></span>{{ translate('Dashboard_Dashboard') }}
+      <span class="icon icon-dashboard-customize"></span>{{ translate('Dashboard_Dashboard') }}
     </a>
     <div class="dropdown positionInViewport">
       <ul class="submenu">
