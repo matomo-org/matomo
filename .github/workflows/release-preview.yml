@@ -35,7 +35,7 @@ env:
   RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
 jobs:
   prepare_preview_version:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       do_release: ${{ steps.changes.outputs.do_release }}
       has_new_version: ${{ steps.version.outputs.has_new_version }}
