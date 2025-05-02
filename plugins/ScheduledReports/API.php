@@ -43,7 +43,7 @@ use Piwik\Log\LoggerInterface;
  *
  * You can also get the list of all existing reports via "getReports", create new reports via "addReport",
  * or manage existing reports with "updateReport" and "deleteReport".
- * See also the documentation about <a href='http://matomo.org/docs/email-reports/' rel='noreferrer' target='_blank'>Scheduled Email reports</a> in Matomo.
+ * See also the documentation about <a href='https://matomo.org/docs/email-reports/' rel='noreferrer' target='_blank'>Scheduled Email reports</a> in Matomo.
  *
  * @method static \Piwik\Plugins\ScheduledReports\API getInstance()
  */
@@ -1069,6 +1069,8 @@ class API extends \Piwik\Plugin\API
             $segment = APISegmentEditor::getInstance()->get($idSegment);
 
             if ($segment) {
+                // segment name is returned sanitized
+                $segment['name'] = Common::unsanitizeInputValue($segment['name']);
                 return $segment;
             }
         }

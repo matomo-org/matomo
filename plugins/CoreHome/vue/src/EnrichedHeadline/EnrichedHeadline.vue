@@ -93,7 +93,7 @@ interface EnrichedHeadlineData {
  * 309 Visits)</EnrichedHeadline></h2>
  * -> custom featurename
  *
- * <h2><EnrichedHeadline help-url="http://piwik.org/guide">All Websites Dashboard</EnrichedHeadline></h2>
+ * <h2><EnrichedHeadline help-url="https://matomo.org/guide">All Websites Dashboard</EnrichedHeadline></h2>
  * -> shows help icon and links to external url
  *
  * <h2><EnrichedHeadline edit-url="index.php?module=Foo&action=bar&id=4">All Websites

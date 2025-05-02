@@ -57,7 +57,7 @@ class ColumnCallbackAddColumn extends BaseFilter
      * @param string $columnToAdd The name of the column to add.
      * @param callable $functionToApply The callback to apply to each row of a DataTable. The columns
      *                                  specified in `$columns` are passed to this callback.
-     * @param array $functionParameters deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
+     * @param array $functionParameters deprecated - use an [anonymous function](https://php.net/manual/en/functions.anonymous.php)
      *                                  instead.
      */
     public function __construct($table, $columns, $columnToAdd, $functionToApply, $functionParameters = array())

@@ -24,7 +24,7 @@ use Piwik\Option;
  * queries as possible (this results in improved performance overall).
  *
  * For more detailed information about RecordBuilders please visit Matomo developer guide
- * http://developer.piwik.org/api-reference/Piwik/ArchiveProcessor/RecordBuilder
+ * https://developer.matomo.org/api-reference/Piwik/ArchiveProcessor/RecordBuilder
  */
 class ExampleMetric2 extends RecordBuilder
 {

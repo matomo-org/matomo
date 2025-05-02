@@ -14,6 +14,8 @@ use Exception;
 use Matomo\Network\IPUtils;
 use Piwik\Access;
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
+use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\Model as CoreModel;
@@ -56,7 +58,7 @@ use Piwik\Validators\WhitelistedValue;
  * Some methods will affect all websites globally: "setGlobalExcludedIps" will set the list of IPs to be excluded on all websites,
  * "setGlobalExcludedQueryParameters" will set the list of URL parameters to remove from URLs for all websites.
  * The existing values can be fetched via "getExcludedIpsGlobal" and "getExcludedQueryParametersGlobal".
- * See also the documentation about <a href='http://matomo.org/docs/manage-websites/' rel='noreferrer' target='_blank'>Managing Websites</a> in Matomo.
+ * See also the documentation about <a href='https://matomo.org/docs/manage-websites/' rel='noreferrer' target='_blank'>Managing Websites</a> in Matomo.
  * @method static \Piwik\Plugins\SitesManager\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -858,7 +860,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Delete a website from the database, given its Id. The method deletes the actual site as well as some associated
      * data. However, it does not delete any logs or archives that belong to this website. You can delete logs and
-     * archives for a site manually as described in this FAQ: http://matomo.org/faq/how-to/faq_73/ .
+     * archives for a site manually as described in this FAQ: https://matomo.org/faq/how-to/faq_73/ .
      *
      * Requires Super User access.
      *
@@ -875,30 +877,34 @@ class API extends \Piwik\Plugin\API
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
-        $idSites = $this->getSitesId();
-        if (!in_array($idSite, $idSites)) {
-            throw new Exception("website id = $idSite not found");
-        }
-        $nbSites = count($idSites);
-        if ($nbSites == 1) {
-            throw new Exception($this->translator->translate("SitesManager_ExceptionDeleteSite"));
-        }
+        $lock = new Lock(StaticContainer::get(LockBackend::class), 'SitesManager.deleteSite');
+        // we use the same lock id for all requests to ensure only one site is removed at a time and the check for one remaining site can't be bypassed
+        $lock->execute('delete', function () use ($idSite) {
+            $idSites = $this->getSitesId();
+            if (!in_array($idSite, $idSites)) {
+                throw new Exception("website id = $idSite not found");
+            }
+            $nbSites = count($idSites);
+            if ($nbSites == 1) {
+                throw new Exception($this->translator->translate("SitesManager_ExceptionDeleteSite"));
+            }
 
-        $this->getModel()->deleteSite($idSite);
+            $this->getModel()->deleteSite($idSite);
 
-        $coreModel = new CoreModel();
-        $coreModel->deleteInvalidationsForSites([$idSite]);
+            $coreModel = new CoreModel();
+            $coreModel->deleteInvalidationsForSites([$idSite]);
 
-        /**
-         * Triggered after a site has been deleted.
-         *
-         * Plugins can use this event to remove site specific values or settings, such as removing all
-         * goals that belong to a specific website. If you store any data related to a website you
-         * should clean up that information here.
-         *
-         * @param int $idSite The ID of the site being deleted.
-         */
-        Piwik::postEvent('SitesManager.deleteSite.end', [$idSite]);
+            /**
+             * Triggered after a site has been deleted.
+             *
+             * Plugins can use this event to remove site specific values or settings, such as removing all
+             * goals that belong to a specific website. If you store any data related to a website you
+             * should clean up that information here.
+             *
+             * @param int $idSite The ID of the site being deleted.
+             */
+            Piwik::postEvent('SitesManager.deleteSite.end', [$idSite]);
+        });
     }
 
     private function checkValidTimezone($timezone)

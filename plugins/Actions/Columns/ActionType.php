@@ -19,7 +19,7 @@ use Exception;
 /**
  * This example dimension only defines a name and does not track any data. It's supposed to be only used in reports.
  *
- * See {@link http://developer.piwik.org/api-reference/Piwik/Columns\Dimension} for more information.
+ * See {@link https://developer.matomo.org/api-reference/Piwik/Columns\Dimension} for more information.
  */
 class ActionType extends ActionDimension
 {

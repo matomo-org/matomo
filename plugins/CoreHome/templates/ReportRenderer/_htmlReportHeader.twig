@@ -6,18 +6,18 @@
 
     <p style='{{styleParagraph}}{{fontStyle}}'>
         {% if isAttachedFile is defined and isAttachedFile %}
-        {{ 'ScheduledReports_PleaseFindAttachedFile'|translate(frequency, reportTitle) }}
+        {{ 'ScheduledReports_PleaseFindAttachedFile'|translate(frequency, reportTitle|escape|preventLinking)|raw }}
         {% else %}
-        {{'ScheduledReports_PleaseFindBelow'|translate(period,reportTitle)}}
+        {{ 'ScheduledReports_PleaseFindBelow'|translate(period, reportTitle|escape|preventLinking)|raw }}
         {% endif %}
-        <br />{{ description }}
+        <br />{{ description|escape|preventLinking }}
         <br />{{ 'General_DateRange'|translate }} {{ prettyDate }}
         <br />{{ 'ScheduledReports_SentFromX'|translate(piwikUrl) }}
     </p>
 
     {% if displaySegment %}
         <p style="{{styleParagraph}}{{fontStyle}}">
-            {{ 'ScheduledReports_CustomVisitorSegment'|translate }} {{ segmentName }}
+            {{ 'ScheduledReports_CustomVisitorSegment'|translate }} {{ segmentName|escape|preventLinking }}
         </p>
     {% endif %}
 

@@ -428,7 +428,7 @@ class Mysql extends Db
         /*
          * Lazy initialization via MYSQL_ATTR_INIT_COMMAND depends
          * on mysqlnd support, PHP version, and OS.
-         * see ZF-7428 and http://bugs.php.net/bug.php?id=47224
+         * see ZF-7428 and https://bugs.php.net/bug.php?id=47224
          */
         if (!empty($this->charset)) {
             $sql = "SET NAMES '" . $this->charset . "'";

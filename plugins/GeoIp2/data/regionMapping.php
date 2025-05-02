@@ -498,7 +498,7 @@ return [
         '25' => 'FP', // Freeport
         '26' => 'CS', // Fresh Creek  [is now roughly Central Andros]
         '27' => 'CE', // Governor's Harbour  [is now roughly Central Eleuthera]
-        '28' => 'HT', // Green Turtle Cay - mapped to GT by wikidata, but removed in 2010 - now HT according to geonames (http://www.geonames.org/maps/google_26.758_-77.325.html)
+        '28' => 'HT', // Green Turtle Cay - mapped to GT by wikidata, but removed in 2010 - now HT according to geonames (https://www.geonames.org/maps/google_26.758_-77.325.html)
         '29' => 'EG', // High Rock  [is now roughly East Grand Bahama]
         '30' => 'SA', // Kemps Bay  [now in South Andros]
         '31' => '', // Marsh Harbour

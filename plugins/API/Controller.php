@@ -65,9 +65,13 @@ class Controller extends \Piwik\Plugin\Controller
 
         $ApiDocumentation = new DocumentationGenerator();
         $prefixUrls = Common::getRequestVar('prefixUrl', 'https://demo.matomo.org/', 'string');
-        $hostname = parse_url($prefixUrls, PHP_URL_HOST);
-        if (empty($hostname) || !UrlHelper::isLookLikeUrl($prefixUrls) || strpos($prefixUrls, 'http') !== 0 || !Url::isValidHost($hostname)) {
+        $parsedUrl = parse_url($prefixUrls);
+        if (empty($parsedUrl['host']) || !UrlHelper::isLookLikeUrl($prefixUrls) || strpos($prefixUrls, 'http') !== 0 || !Url::isValidHost($parsedUrl['host'])) {
             $prefixUrls = '';
+        } else {
+            // We put together the url based on the parsed parameters manually to ensure it might not contain unexpected locations
+            // unescaped slashes in username or password part for example have unexpected results in browsers
+            $prefixUrls = UrlHelper::getParseUrlReverse($parsedUrl);
         }
         return $ApiDocumentation->getApiDocumentationAsStringForDeveloperReference($outputExampleUrls = true, $prefixUrls);
     }
