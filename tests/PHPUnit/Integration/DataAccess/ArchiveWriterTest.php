@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\DataAccess;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
@@ -121,7 +122,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->assertNumericArchiveExists(Day::PERIOD_ID, $date, 'done', ArchiveWriter::DONE_OK);
     }
 
-    public function testInitNewArchiveDoesNotWiteNewArchiveStatusToFileRightAway()
+    public function testInitNewArchiveDoesNotWriteNewArchiveStatusToFileRightAway()
     {
         $period = 'day';
         $date = '2019-08-29';
@@ -226,6 +227,39 @@ class ArchiveWriterTest extends IntegrationTestCase
                 $this->assertNumericArchiveNotExists(Day::PERIOD_ID, $date, $name);
             }
         }
+    }
+
+    public function testHigherCompressionLevelCreatesSmallerBlobs()
+    {
+        $period = 'day';
+        $date1 = '2025-04-29';
+        $date2 = '2025-04-30';
+        $name = 'MyPlugin.myField';
+        $content = bin2hex(random_bytes(1000000)); // long random string
+
+        // set the lowest compression level
+        Config::getInstance()->General['archive_blob_compression_level'] = 0;
+
+        $writer = $this->buildWriter($period, $date1);
+        $writer->initNewArchive();
+        $writer->insertBlobRecord($name, $content);
+        $writer->finalizeArchive();
+
+        // set the highest compression level
+        Config::getInstance()->General['archive_blob_compression_level'] = 9;
+
+        $writer = $this->buildWriter($period, $date2);
+        $writer->initNewArchive();
+        $writer->insertBlobRecord($name, $content);
+        $writer->finalizeArchive();
+
+        // reset to the default compression level
+        Config::getInstance()->General['archive_blob_compression_level'] = -1;
+
+        $rowLowestCompression = $this->getRowFromArchive(Day::PERIOD_ID, $date1, $name, false);
+        $rowHighestCompression = $this->getRowFromArchive(Day::PERIOD_ID, $date2, $name, false);
+
+        $this->assertTrue(strlen($rowHighestCompression['value']) < strlen($rowLowestCompression['value']));
     }
 
     private function buildWriter($period, $date, $isPartial = false, $segment = '')

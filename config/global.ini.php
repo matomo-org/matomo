@@ -908,6 +908,11 @@ enable_referrer_definition_syncs = 1
 ; so it can be disabled here if necessary.
 disable_tracking_matomo_app_links = 0
 
+; Compression level used in ArchiveWriter when creating blob archives
+; Valid values are 0 for no compression up to 9 for maximum compression. If -1 is used, the default compression of the zlib library (level 6) is used.
+; Change with caution as using a higher compression may decrease archiving performance.
+archive_blob_compression_level = -1
+
 [Tracker]
 
 ; When enabled and a userId is set, then the visitorId will be automatically set based on the userId. This allows to

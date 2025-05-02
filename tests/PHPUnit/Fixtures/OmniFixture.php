@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\API\Request;
+use Piwik\Cache;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Plugins\UsersManager\Model;
@@ -178,6 +179,10 @@ class OmniFixture extends Fixture
     {
         echo "Setting up " . get_class($fixture) . "...\n";
         $fixture->setUp();
+
+        // clear all caches used during set up
+        // to avoid e.g. using stale information during archiving
+        Cache::flushAll();
     }
 
     private function restoreSitesProperties($initialSitesProperties)

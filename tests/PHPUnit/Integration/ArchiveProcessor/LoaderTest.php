@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\ArchiveProcessor;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Loader;
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -216,6 +217,10 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '1',
             ],
         ], $existingArchives);
+
+        // clear all caches used in archiving to avoid falsely skipping an archive
+        // if the previous archiving detected it was skippable
+        Cache::flushAll();
 
         // archiving w/ pluginOnly=1
         $_GET['pluginOnly'] = 1;
