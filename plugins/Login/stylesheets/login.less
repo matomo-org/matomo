@@ -19,6 +19,14 @@
         margin-bottom: 16px;
     }
 
+    .btn {
+        font-weight: bold;
+    }
+
+    .btn.disabled {
+        background-color: #cbcbcb !important;
+    }
+
     /* LAYOUT
     ***********************/
     #loginPage a {
@@ -65,6 +73,14 @@
 
     #login_form {
         margin-top: 16px;
+
+        .row:last-child {
+            margin-bottom: 0;
+        }
+
+        .row.actions a {
+            color: #777777;
+        }
     }
 
     #login_form_rememberme {
@@ -85,18 +101,9 @@
 
     /* NAVIGATION
     ***********************/
-    #nav,
     #piwik {
         margin: 0 0 0 8px;
         padding: 16px;
-    }
-
-    #nav {
-        text-align: center;
-    }
-
-    #nav a {
-        color: #777;
     }
 
     #piwik a {
