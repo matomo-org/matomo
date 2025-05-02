@@ -71,6 +71,7 @@ class ApiTest extends SystemTestCase
     public function testApi($api, $params)
     {
         self::triggerWithRollupFeatureFlag($enableFlag = false);
+        self::deleteArchiveTables();
         $this->runApiTests($api, $params);
     }
 
@@ -83,6 +84,7 @@ class ApiTest extends SystemTestCase
             $params["testSuffix"] .= "_with_rollup";
         }
         self::triggerWithRollupFeatureFlag($enableFlag = true);
+        self::deleteArchiveTables();
         $this->runApiTests($api, $params);
     }
 

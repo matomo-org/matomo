@@ -176,7 +176,10 @@ class CustomDimension extends RecordBuilder
     {
         $metricsConfig = ActionsMetrics::getActionMetrics();
 
-        $resultSet = $this->queryCustomDimensionActions($metricsConfig, $logAggregator, $valueField);
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        $withRollup = $featureFlagManager->isFeatureActive(CustomDimensionReportWithRollUp::class);
+
+        $resultSet = $this->queryCustomDimensionActions($metricsConfig, $logAggregator, $valueField, $additionalWhere = '', $withRollup);
 
         $metricIds = array_keys($metricsConfig);
         $metricIds[] = Metrics::INDEX_PAGE_SUM_TIME_SPENT;
@@ -191,61 +194,85 @@ class CustomDimension extends RecordBuilder
             }
 
             $label = $row[$valueField];
-            $url = $row['url'];
 
-            if (is_null($label)) {
-                continue;
-            }
+            if ($withRollup) {
+                $url = $row['url'];
 
-            if (!is_null($url)) {
-                $actionRows[] = $row;
-                continue;
+                if (is_null($label)) {
+                    continue;
+                }
+
+                if (!is_null($url)) {
+                    $actionRows[] = $row;
+                    continue;
+                }
             }
 
             $columns = [];
-
             foreach ($metricIds as $id) {
                 $columns[$id] = (float) ($row[$id] ?? 0);
             }
-
             $label = $this->cleanCustomDimensionValue($label);
-            $report->sumRowWithLabel($label, $columns);
+            $tableRow = $report->sumRowWithLabel($label, $columns);
+
+            if (!$withRollup) {
+                $url = $row['url'];
+                if (empty($url)) {
+                    continue;
+                }
+
+                // make sure we always work with normalized URL no matter how the individual action stores it
+                $normalized = Tracker\PageUrl::normalizeUrl($url);
+                $url = $normalized['url'];
+
+                if (empty($url)) {
+                    continue;
+                }
+
+                $tableRow->sumRowWithLabelToSubtable($url, $columns);
+            }
         }
 
-        foreach ($actionRows as $row) {
-            if (!isset($row[Metrics::INDEX_NB_VISITS])) {
-                return;
+        if ($withRollup) {
+            foreach ($actionRows as $row) {
+                if (!isset($row[Metrics::INDEX_NB_VISITS])) {
+                    return;
+                }
+
+                $label = $row[$valueField];
+                $url = $row['url'];
+
+                if (is_null($label) || is_null($url)) {
+                    continue;
+                }
+
+                $label = $this->cleanCustomDimensionValue($label);
+                $tableRow = $report->getRowFromLabel($label);
+
+                if (empty($tableRow)) {
+                    continue;
+                }
+
+                // make sure we always work with normalized URL no matter how the individual action stores it
+                $normalized = Tracker\PageUrl::normalizeUrl($url);
+                $url = $normalized['url'];
+
+                if (empty($url)) {
+                    continue;
+                }
+
+                $columns = [];
+
+                foreach ($metricIds as $id) {
+                    $columns[$id] = (float) ($row[$id] ?? 0);
+                }
+
+                $tableRow->sumRowWithLabelToSubtable($url, $columns);
             }
-
-            $label = $row[$valueField];
-            $url = $row['url'];
-
-            if (is_null($label) || is_null($url)) {
-                continue;
-            }
-
-            $columns = [];
-
-            foreach ($metricIds as $id) {
-                $columns[$id] = (float) ($row[$id] ?? 0);
-            }
-
-            $label = $this->cleanCustomDimensionValue($label);
-            $tableRow = $report->getRowFromLabel($label);
-
-            // make sure we always work with normalized URL no matter how the individual action stores it
-            $normalized = Tracker\PageUrl::normalizeUrl($url);
-            $url = $normalized['url'];
-
-            if (empty($url) || empty($tableRow)) {
-                continue;
-            }
-
-            $tableRow->sumRowWithLabelToSubtable($url, $columns);
         }
     }
 
-    public function queryCustomDimensionActions(array $metricsConfig, LogAggregator $logAggregator, $valueField, $additionalWhere = '')
+    public function queryCustomDimensionActions(array $metricsConfig, LogAggregator $logAggregator, $valueField, $additionalWhere = '', bool $withRollup = false)
     {
         $select = "log_link_visit_action.$valueField,
                   COALESCE(log_action.name, '') as url,
@@ -276,9 +303,6 @@ class CustomDimension extends RecordBuilder
 
         $groupBy = "log_link_visit_action.$valueField, url";
         $orderBy = "`" . Metrics::INDEX_PAGE_NB_HITS . "` DESC";
-
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        $withRollup = $featureFlagManager->isFeatureActive(CustomDimensionReportWithRollUp::class);
 
         // get query with segmentation
         $query = $logAggregator->generateQuery(
