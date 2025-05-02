@@ -408,8 +408,8 @@ class ApiTest extends SystemTestCase
 
     public static function tearDownAfterClass(): void
     {
-        parent::tearDownAfterClass();
         self::triggerWithRollupFeatureFlag($enableFlag = false);
+        parent::tearDownAfterClass();
     }
 }
 
