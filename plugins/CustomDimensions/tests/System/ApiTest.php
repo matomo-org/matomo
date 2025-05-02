@@ -99,6 +99,7 @@ class ApiTest extends SystemTestCase
         string $testSuffix,
         array $additionalRequestParameters = []
     ): void {
+        self::triggerWithRollupFeatureFlag($enableFlag = true);
         self::deleteArchiveTables();
         $generalConfig = &Config::getInstance()->General;
         $generalConfig['archiving_ranking_query_row_limit'] = $rowsRankingQuery;
