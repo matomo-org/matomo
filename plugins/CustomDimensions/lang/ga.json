@@ -2,6 +2,7 @@
     "CustomDimensions": {
         "CannotBeDeleted": "Ní féidir Toise Saincheaptha a scriosadh, é a dhíghníomhachtú amháin.",
         "ColumnAvgTimeOnDimension": "Meán Am Ar Toise",
+        "ColumnAvgTimeOnDimensionDocumentation": "Is é an meán-am ar ghné an ghnímh saincheaptha an meán-am a chaith cuairteoirí ar ghníomh saincheaptha ar leith sula mbogann siad go gníomh rianaithe eile. Ríomhtar é tríd an am a caitheadh ar an ngníomh a shuimiú trasna na gcuairteanna uile agus é a roinnt ar líon na n-uaireanta a rinneadh an gníomh.",
         "ColumnUniqueActions": "Gníomhartha Uathúla",
         "ConfigureDimension": "Cumraigh Toise Saincheaptha %1$s %2$s",
         "ConfigureNewDimension": "Cumraigh toise nua",
