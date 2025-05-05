@@ -244,56 +244,62 @@ var external_CoreHome_ = __webpack_require__("19dc");
 BruteForceLogvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var BruteForceLog = (BruteForceLogvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Login/vue/src/LoginForm/LoginForm.vue?vue&type=template&id=79084ebe
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Login/vue/src/LoginForm/LoginForm.vue?vue&type=template&id=d53037b4
 
-const LoginFormvue_type_template_id_79084ebe_hoisted_1 = {
+const LoginFormvue_type_template_id_d53037b4_hoisted_1 = {
+  action: "?module=Login",
+  name: "login_form",
+  id: "login_form",
+  method: "post"
+};
+const LoginFormvue_type_template_id_d53037b4_hoisted_2 = {
   class: "row"
 };
-const LoginFormvue_type_template_id_79084ebe_hoisted_2 = {
+const LoginFormvue_type_template_id_d53037b4_hoisted_3 = {
   class: "col s12 input-field"
 };
-const LoginFormvue_type_template_id_79084ebe_hoisted_3 = {
+const LoginFormvue_type_template_id_d53037b4_hoisted_4 = {
   for: "login_form_login"
 };
-const LoginFormvue_type_template_id_79084ebe_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
+const LoginFormvue_type_template_id_d53037b4_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
   class: "icon-user icon"
 }, null, -1);
-const LoginFormvue_type_template_id_79084ebe_hoisted_5 = {
+const LoginFormvue_type_template_id_d53037b4_hoisted_6 = {
   class: "row"
 };
-const LoginFormvue_type_template_id_79084ebe_hoisted_6 = {
+const LoginFormvue_type_template_id_d53037b4_hoisted_7 = {
   class: "col s12 input-field"
 };
-const LoginFormvue_type_template_id_79084ebe_hoisted_7 = ["value"];
-const LoginFormvue_type_template_id_79084ebe_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+const LoginFormvue_type_template_id_d53037b4_hoisted_8 = ["value"];
+const LoginFormvue_type_template_id_d53037b4_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
   type: "hidden",
   name: "form_redirect",
   id: "login_form_redirect",
   value: ""
 }, null, -1);
-const LoginFormvue_type_template_id_79084ebe_hoisted_9 = {
+const LoginFormvue_type_template_id_d53037b4_hoisted_10 = {
   for: "login_form_password"
 };
-const LoginFormvue_type_template_id_79084ebe_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
+const _hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
   class: "icon-locked icon"
 }, null, -1);
-const _hoisted_11 = {
+const _hoisted_12 = {
   class: "row actions"
 };
-const _hoisted_12 = {
+const _hoisted_13 = {
   class: "col s6"
 };
-const _hoisted_13 = ["checked"];
-const _hoisted_14 = {
+const _hoisted_14 = ["checked"];
+const _hoisted_15 = {
   class: "col s6 right-align"
 };
-const _hoisted_15 = ["title"];
-const _hoisted_16 = {
+const _hoisted_16 = ["title"];
+const _hoisted_17 = {
   class: "row"
 };
-const _hoisted_17 = ["value"];
-function LoginFormvue_type_template_id_79084ebe_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("form", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", LoginFormvue_type_template_id_79084ebe_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", LoginFormvue_type_template_id_79084ebe_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+const _hoisted_18 = ["value"];
+function LoginFormvue_type_template_id_d53037b4_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("form", LoginFormvue_type_template_id_d53037b4_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", LoginFormvue_type_template_id_d53037b4_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", LoginFormvue_type_template_id_d53037b4_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "text",
     name: "form_login",
     id: "login_form_login",
@@ -307,14 +313,12 @@ function LoginFormvue_type_template_id_79084ebe_render(_ctx, _cache, $props, $se
     tabindex: "10",
     autofocus: "autofocus",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.form.username = $event)
-  }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.form.username]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", LoginFormvue_type_template_id_79084ebe_hoisted_3, [LoginFormvue_type_template_id_79084ebe_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Login_EmailOrUsername')), 1)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", LoginFormvue_type_template_id_79084ebe_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", LoginFormvue_type_template_id_79084ebe_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.form.username]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", LoginFormvue_type_template_id_d53037b4_hoisted_4, [LoginFormvue_type_template_id_d53037b4_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Login_EmailOrUsername')), 1)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", LoginFormvue_type_template_id_d53037b4_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", LoginFormvue_type_template_id_d53037b4_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "hidden",
     name: "form_nonce",
     id: "login_form_nonce",
-    value: {
-      nonce: _ctx.nonce
-    }
-  }, null, 8, LoginFormvue_type_template_id_79084ebe_hoisted_7), LoginFormvue_type_template_id_79084ebe_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    value: _ctx.nonceToken
+  }, null, 8, LoginFormvue_type_template_id_d53037b4_hoisted_8), LoginFormvue_type_template_id_d53037b4_hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "password",
     name: "form_password",
     id: "login_form_password",
@@ -327,19 +331,19 @@ function LoginFormvue_type_template_id_79084ebe_render(_ctx, _cache, $props, $se
     spellcheck: "false",
     tabindex: "20",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.form.password = $event)
-  }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.form.password]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", LoginFormvue_type_template_id_79084ebe_hoisted_9, [LoginFormvue_type_template_id_79084ebe_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Password')), 1)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.form.password]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", LoginFormvue_type_template_id_d53037b4_hoisted_10, [_hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Password')), 1)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     name: "form_rememberme",
     type: "checkbox",
     id: "login_form_rememberme",
     value: "1",
     tabindex: "90",
-    checked: _ctx.rememberme
-  }, null, 8, _hoisted_13), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Login_RememberMe')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    checked: _ctx.rememberMe
+  }, null, 8, _hoisted_14), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Login_RememberMe')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     id: "login_form_nav",
     href: "#",
     tabindex: "95",
     title: _ctx.translate('Login_ForgotPassword')
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Login_ForgotPassword')), 9, _hoisted_15)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(this.nonce) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Login_ForgotPassword')), 9, _hoisted_16)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_17, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["submit btn btn-block", {
       disabled: !this.isFormComplete
     }]),
@@ -347,16 +351,17 @@ function LoginFormvue_type_template_id_79084ebe_render(_ctx, _cache, $props, $se
     type: "submit",
     value: _ctx.translate('Login_LogIn'),
     tabindex: "100"
-  }, null, 10, _hoisted_17)])]);
+  }, null, 10, _hoisted_18)])]);
 }
-// CONCATENATED MODULE: ./plugins/Login/vue/src/LoginForm/LoginForm.vue?vue&type=template&id=79084ebe
+// CONCATENATED MODULE: ./plugins/Login/vue/src/LoginForm/LoginForm.vue?vue&type=template&id=d53037b4
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Login/vue/src/LoginForm/LoginForm.vue?vue&type=script&lang=ts
 
 /* harmony default export */ var LoginFormvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
-    rememberme: Boolean,
-    nonce: String
+    rememberMe: Boolean,
+    nonceToken: String,
+    attributes: String
   },
   data() {
     return {
@@ -368,7 +373,6 @@ function LoginFormvue_type_template_id_79084ebe_render(_ctx, _cache, $props, $se
   },
   computed: {
     isFormComplete() {
-      console.log(this.nonce);
       return this.form.username !== '' && this.form.password !== '';
     }
   }
@@ -379,7 +383,7 @@ function LoginFormvue_type_template_id_79084ebe_render(_ctx, _cache, $props, $se
 
 
 
-LoginFormvue_type_script_lang_ts.render = LoginFormvue_type_template_id_79084ebe_render
+LoginFormvue_type_script_lang_ts.render = LoginFormvue_type_template_id_d53037b4_render
 
 /* harmony default export */ var LoginForm = (LoginFormvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Login/vue/src/FormErrors/FormErrors.vue?vue&type=template&id=6f39e118
