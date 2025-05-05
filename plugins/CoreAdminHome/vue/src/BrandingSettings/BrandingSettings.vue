@@ -53,7 +53,7 @@
               <div class="row">
                 <div class="col s12">
                   <img
-                    :src="pathUserLogoWithBuster"
+                    :src="pathUserLogoSrc"
                     id="currentLogo"
                     style="max-height: 150px"
                     ref="currentLogo"
@@ -73,7 +73,7 @@
               <div class="row">
                 <div class="col s12">
                   <img
-                    :src="pathUserFaviconWithBuster"
+                    :src="pathUserFaviconSrc"
                     id="currentFavicon"
                     width="16"
                     height="16"
@@ -128,8 +128,8 @@ interface BrandingSettingsState {
   showUploadError: boolean;
   currentLogoSrcExists: boolean;
   currentFaviconSrcExists: boolean;
-  currentLogoCacheBuster: number;
-  currentFaviconCacheBuster: number;
+  newLogoBase64Src: string;
+  newFaviconBase64Src: string;
 }
 
 export default defineComponent({
@@ -196,8 +196,8 @@ export default defineComponent({
       showUploadError: false,
       currentLogoSrcExists: this.hasUserLogo,
       currentFaviconSrcExists: this.hasUserFavicon,
-      currentLogoCacheBuster: (new Date()).getTime(),
-      currentFaviconCacheBuster: (new Date()).getTime(),
+      newLogoBase64Src: '',
+      newFaviconBase64Src: '',
     };
   },
   computed: {
@@ -226,16 +226,23 @@ export default defineComponent({
         '</a>',
       );
     },
-    pathUserLogoWithBuster() {
+    pathUserLogoSrc() {
+      if (this.newLogoBase64Src) {
+        return `data:image/png;base64, ${this.newLogoBase64Src}`;
+      }
       if (this.currentLogoSrcExists && this.pathUserLogo) {
-        return `${this.pathUserLogo}?${this.currentLogoCacheBuster}`;
+        return this.pathUserLogo;
       }
 
       return '';
     },
-    pathUserFaviconWithBuster() {
+    pathUserFaviconSrc() {
+      if (this.newFaviconBase64Src) {
+        return `data:image/png;base64, ${this.newFaviconBase64Src}`;
+      }
+
       if (this.currentFaviconSrcExists && this.pathUserFavicon) {
-        return `${this.pathUserFavicon}?${this.currentFaviconCacheBuster}`;
+        return this.pathUserFavicon;
       }
 
       return '';
@@ -268,6 +275,15 @@ export default defineComponent({
         });
         NotificationsStore.scrollToNotification(notificationInstanceId);
       }).finally(() => {
+        if (!this.enabled) {
+          // reset fields so that values are not visible when setting is enabled without page reload
+          this.currentLogoSrcExists = false;
+          this.currentFaviconSrcExists = false;
+          this.customLogo = '';
+          this.customFavicon = '';
+          this.newFaviconBase64Src = '';
+          this.newLogoBase64Src = '';
+        }
         this.isLoading = false;
       });
     },
@@ -286,24 +302,29 @@ export default defineComponent({
       uploadFrame.css('display', 'none');
       uploadFrame.on('load', () => {
         setTimeout(() => {
-          const frameContent = ($(uploadFrame.contents()).find('body').html() || '').trim();
+          let frameContent = '';
+          let frameContentJSON: Record<string, string> = {};
+          try {
+            frameContent = ($(uploadFrame.contents()).find('body').text() || '').trim();
+            frameContentJSON = JSON.parse(frameContent as string) as Record<string, string>;
+          } catch (e) {
+            // invalid JSON
+          }
 
-          if (frameContent === '0') {
+          if (frameContent && Object.keys(frameContentJSON).length === 0) {
             this.showUploadError = true;
           } else {
             // Upload succeed, so we update the images availability
             // according to what have been uploaded
-            if (isSubmittingLogo) {
-              this.currentLogoSrcExists = true;
-              this.currentLogoCacheBuster = (new Date()).getTime(); // force re-fetch
+            if (isSubmittingLogo && frameContentJSON.logo) {
+              this.newLogoBase64Src = frameContentJSON.logo;
             }
-            if (isSubmittingFavicon) {
-              this.currentFaviconSrcExists = true;
-              this.currentFaviconCacheBuster = (new Date()).getTime(); // force re-fetch
+            if (isSubmittingFavicon && frameContentJSON.favicon) {
+              this.newFaviconBase64Src = frameContentJSON.favicon;
             }
           }
 
-          if (frameContent === '1' || frameContent === '0') {
+          if (frameContent) {
             uploadFrame.remove();
           }
         }, 1000);

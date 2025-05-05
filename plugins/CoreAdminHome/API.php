@@ -130,8 +130,11 @@ class API extends \Piwik\Plugin\API
         if ($customLogo->isCustomLogoFeatureEnabled()) {
             if ($useCustomLogo) {
                 $customLogo->enable();
+                $customLogo->publishUserLogo();
+                $customLogo->publishUserFavicon();
             } else {
                 $customLogo->disable();
+                $customLogo->removeLogos();
             }
         }
 

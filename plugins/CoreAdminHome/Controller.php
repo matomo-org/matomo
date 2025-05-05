@@ -14,6 +14,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Mail;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
@@ -289,13 +290,21 @@ class Controller extends ControllerAdmin
             return '0';
         }
 
-        $successLogo    = $logo->copyUploadedLogoToFilesystem();
-        $successFavicon = $logo->copyUploadedFaviconToFilesystem();
+        $successLogo    = $logo->uploadLogoToTempFolder();
+        $successFavicon = $logo->uploadFaviconToTempFolder();
 
-        if ($successLogo || $successFavicon) {
-            return '1';
+        $response = [];
+
+        if ($successLogo) {
+            $response['logo'] = $logo->getTempUserLogoBase64();
         }
-        return '0';
+
+        if ($successFavicon) {
+            $response['favicon'] = $logo->getTempUserFaviconBase64();
+        }
+
+        Json::sendHeaderJSON();
+        return json_encode($response);
     }
 
     public static function isGeneralSettingsAdminEnabled()
