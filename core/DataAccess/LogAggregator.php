@@ -281,10 +281,14 @@ class LogAggregator
         }
 
         $engine = '';
+
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
             $engine = 'ENGINE=MEMORY';
         }
-        $createTableSql = 'CREATE TEMPORARY TABLE ' . $table . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL, PRIMARY KEY (`idvisit`)) ' . $engine;
+
+        $secondaryEngine = ' SECONDARY_ENGINE=RAPID';
+
+        $createTableSql = 'CREATE TEMPORARY TABLE ' . $table . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL, PRIMARY KEY (`idvisit`)) ' . $engine . $secondaryEngine;
         // we do not insert the data right away using create temporary table ... select ...
         // to avoid metadata lock see eg https://www.percona.com/blog/2018/01/10/why-avoid-create-table-as-select-statement/
 
