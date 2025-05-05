@@ -35,23 +35,23 @@ describe("NoAccess", function () {
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('login_noaccess');
     });
-    //
-    // it("should show session timeout error", async function() {
-    //     await page.clearCookies();
-    //     await page.goto("");
-    //     await page.waitForNetworkIdle();
-    //     await page.type("#login_form_login", "oliverqueen");
-    //     await page.type("#login_form_password", "smartypants");
-    //     await page.evaluate(function(){
-    //         $('#login_form_submit').click();
-    //     });
-    //
-    //     await page.waitForTimeout(60500); // wait for session timeout
-    //
-    //     await page.click('#topmenu-corehome');
-    //     await page.waitForNetworkIdle();
-    //
-    //     expect(await page.screenshot({ fullPage: true })).to.matchImage('login_session_timeout');
-    // });
+
+    it("should show session timeout error", async function() {
+        await page.clearCookies();
+        await page.goto("");
+        await page.waitForNetworkIdle();
+        await page.type("#login_form_login", "oliverqueen");
+        await page.type("#login_form_password", "smartypants");
+        await page.evaluate(function(){
+            $('#login_form_submit').click();
+        });
+
+        await page.waitForTimeout(60500); // wait for session timeout
+
+        await page.click('#topmenu-corehome');
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('login_session_timeout');
+    });
 
 });
