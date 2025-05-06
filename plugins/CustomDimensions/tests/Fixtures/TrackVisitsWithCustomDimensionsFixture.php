@@ -196,8 +196,8 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
         $t = self::getTracker($this->idSite3, $this->dateTime, $defaultInit = true);
         $t->setIp('56.11.55.99');
 
-        for ($i = 0; $i < 6; $i++) {
-            for ($j = 0; $j < 6; $j++) {
+        for ($i = 1; $i < 6; $i++) {
+            for ($j = 1; $j < 6; $j++) {
                 $dateTime = $baseTime->addHour($i)->addHour($j * 0.1)->getDatetime();
 
                 $t->setCustomDimension("1", "site3 group$i");

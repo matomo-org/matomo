@@ -42,17 +42,6 @@ class ApiTest extends SystemTestCase
 
     private static function triggerWithRollupFeatureFlag(bool $enableFlag)
     {
-        /*
-        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
-        $invalidator->markArchivesAsInvalidated(
-            [self::$fixture->idSite, self::$fixture->idSite2],
-            [self::$fixture->dateTime],
-            'year',
-            null,
-            true
-        );
-         */
-        self::deleteArchiveTables();
         $config = Config::getInstance();
         $featureFlag = new CustomDimensionReportWithRollUp();
         $featureFlagConfig = $featureFlag->getName() . '_feature';
@@ -99,13 +88,12 @@ class ApiTest extends SystemTestCase
         string $testSuffix,
         array $additionalRequestParameters = []
     ): void {
-        self::triggerWithRollupFeatureFlag($enableFlag = true);
+        self::triggerWithRollupFeatureFlag($enableFlag = false);
         self::deleteArchiveTables();
         $generalConfig = &Config::getInstance()->General;
         $generalConfig['archiving_ranking_query_row_limit'] = $rowsRankingQuery;
         $generalConfig['datatable_archiving_maximum_rows_custom_dimensions'] = $rowsTableTopLevel;
         $generalConfig['datatable_archiving_maximum_rows_subtable_custom_dimensions'] = $rowsTableSubTable;
-
 
         // flush caches to ensure the RecordBuilder picks up the changed configuration
         Cache::flushAll();
@@ -115,6 +103,35 @@ class ApiTest extends SystemTestCase
             'periods' => ['day'],
             'otherRequestParameters' => array_merge(['idDimension' => 1], $additionalRequestParameters),
             'testSuffix' => 'ranking_limit_' . $testSuffix,
+        ]);
+    }
+
+    /**
+     * @dataProvider getRankingLimitTestData
+     * @dataProvider getRankingLimitTestDataExpanded
+     */
+    public function testRankingLimitWithRollup(
+        int $rowsRankingQuery,
+        int $rowsTableTopLevel,
+        int $rowsTableSubTable,
+        string $testSuffix,
+        array $additionalRequestParameters = []
+    ): void {
+        self::triggerWithRollupFeatureFlag($enableFlag = true);
+        self::deleteArchiveTables();
+        $generalConfig = &Config::getInstance()->General;
+        $generalConfig['archiving_ranking_query_row_limit'] = $rowsRankingQuery;
+        $generalConfig['datatable_archiving_maximum_rows_custom_dimensions'] = $rowsTableTopLevel;
+        $generalConfig['datatable_archiving_maximum_rows_subtable_custom_dimensions'] = $rowsTableSubTable;
+
+        // flush caches to ensure the RecordBuilder picks up the changed configuration
+        Cache::flushAll();
+        $this->runApiTests(['CustomDimensions.getCustomDimension'], [
+            'idSite' => 3,
+            'date' => self::$fixture->dateTime,
+            'periods' => ['day'],
+            'otherRequestParameters' => array_merge(['idDimension' => 1], $additionalRequestParameters),
+            'testSuffix' => 'ranking_limit_with_rollup_' . $testSuffix,
         ]);
     }
 
@@ -213,8 +230,7 @@ class ApiTest extends SystemTestCase
         );
 
         foreach (array(1, 2, 99) as $idSite) {
-            $api = array('CustomDimensions.getConfiguredCustomDimensions',
-                         'CustomDimensions.getAvailableScopes');
+            $api = array('CustomDimensions.getConfiguredCustomDimensions');
             $apiToTest[] = array($api,
                 array(
                     'idSite'     => $idSite,
@@ -236,14 +252,6 @@ class ApiTest extends SystemTestCase
                 ),
             );
         }
-
-        $apiToTest[] = array(array('CustomDimensions.getAvailableExtractionDimensions'),
-            array(
-                'idSite'  => 1,
-                'date'    => self::$fixture->dateTime,
-                'periods' => array('day')
-            )
-        );
 
         $apiToTest[] = array(array('API.getProcessedReport'),
                              array(
@@ -331,6 +339,26 @@ class ApiTest extends SystemTestCase
             )
         );
 
+        $apiToTest[] = array(array('CustomDimensions.getAvailableExtractionDimensions'),
+            array(
+                'idSite'  => 1,
+                'date'    => self::$fixture->dateTime,
+                'periods' => array('day')
+            )
+        );
+
+        foreach (array(1, 2, 99) as $idSite) {
+            $api = array('CustomDimensions.getAvailableScopes');
+            $apiToTest[] = array($api,
+                array(
+                    'idSite'     => $idSite,
+                    'date'       => self::$fixture->dateTime,
+                    'periods'    => array('day'),
+                    'testSuffix' => '_' . $idSite
+                )
+            );
+        }
+
         $apiToTest[] = array(
             array('API.getWidgetMetadata'),
             array(
@@ -369,10 +397,10 @@ class ApiTest extends SystemTestCase
     public function getRankingLimitTestData(): iterable
     {
         yield [50000, 500, 500, 'unlimited'];
-        yield [50000, 500, 500, 'by_datatable_subtable'];
-        yield [50000, 500, 500, 'by_datatable_toplevel'];
-        yield [50000, 500, 500, 'by_datatable_subtable_and_toplevel'];
-        yield [50000, 500, 500, 'by_datatable_minimum'];
+        yield [50000, 500, 3, 'by_datatable_subtable'];
+        yield [50000, 3, 500, 'by_datatable_toplevel'];
+        yield [50000, 3, 3, 'by_datatable_subtable_and_toplevel'];
+        yield [50000, 1, 1, 'by_datatable_minimum'];
 
         /*
          * set zero for custom dimension rows to prevent
