@@ -63,25 +63,47 @@
       />
     </div>
 
-    <MatomoDialog v-model="showAddSiteDialog">
+    <MatomoDialog v-model="showAddSiteDialog" class="">
       <div class="ui-confirm add-site-dialog">
         <div>
           <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>
-
           <div class="center">
-            <p>
-              <button
-                type="button"
+            <p>{{ translate('SitesManager_ChooseMeasurableTypeSubheader') }}</p>
+            <br>
+          </div>
+            <div class="row">
+              <div
                 v-for="type in availableTypes"
                 :key="type.id"
-                :title="type.description"
-                class="modal-close btn"
-                @click="addSite(type.id);"
-                aria-disabled="false"
-              >
-                <span class="ui-button-text">{{ type.name }}</span>
-              </button>
-            </p>
+                class="col s12 l4">
+                <ContentBlock
+                  :content-title="type.name"
+                >
+                  <p class="center">
+                    {{ type.longDescription }}
+                  </p>
+                  <button
+                    type="button"
+                    :title="type.description"
+                    class="modal-close btn btn-block"
+                    @click="addSite(type.id)"
+                    aria-disabled="false"
+                  >
+                    <span class="ui-button-text">{{ type.name }}</span>
+                  </button>
+                </ContentBlock>
+              </div>
+<!--              <button-->
+<!--                type="button"-->
+<!--                v-for="type in availableTypes"-->
+<!--                :key="type.id"-->
+<!--                :title="type.description"-->
+<!--                class="modal-close btn"-->
+<!--                @click="addSite(type.id);"-->
+<!--                aria-disabled="false"-->
+<!--              >-->
+<!--                <span class="ui-button-text">{{ type.name }}</span>-->
+<!--              </button>-->
           </div>
         </div>
       </div>
@@ -149,6 +171,7 @@ import SiteFields from '../SiteFields/SiteFields.vue';
 import SiteTypesStore from '../SiteTypesStore/SiteTypesStore';
 import TimezoneStore from '../TimezoneStore/TimezoneStore';
 import GlobalSettingsStore from '../GlobalSettingsStore/GlobalSettingsStore';
+import { ContentBlock } from '../../../../CoreHome/vue/src';
 
 interface SitesManagementState {
   pageSize: number;
@@ -171,6 +194,7 @@ export default defineComponent({
     dummy: String,
   },
   components: {
+    ContentBlock,
     MatomoDialog,
     ButtonBar,
     SiteFields,
