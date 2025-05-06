@@ -282,7 +282,7 @@ class RankingQuery
      * @param $innerQuery string  The "payload" query that does the actual data aggregation. The ordering
      *                            has to be specified in this query. {@link RankingQuery} cannot apply ordering
      *                            itself.
-     * @param $withRollup bool    A flag which determines whether to generate the SQL query using ROLLUP 
+     * @param $withRollup bool    A flag which determines whether to generate the SQL query using ROLLUP
      * @return string             The entire ranking query SQL.
      */
     public function generateRankingQuery($innerQuery, bool $withRollup = false)
