@@ -179,8 +179,8 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                     FROM
                         ( SELECT @counter:=0 ) initCounter,
                         ( SELECT @counterRollup:=0 ) initCounterRollup,
-                        ( SELECT label, url, column, columnSum FROM myTable LIMIT 18446744073709551615 )
-actualQuery
+                        ( SELECT label, url, column, columnSum FROM myTable LIMIT 
+18446744073709551615 ) actualQuery
                 ) AS withCounter
                 GROUP BY counter, counterRollup
                 ORDER BY counter, counterRollup
