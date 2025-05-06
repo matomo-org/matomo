@@ -213,6 +213,12 @@ class Archive implements ArchiveQuery
         $this->forceIndexedByDate = $forceIndexedByDate;
     }
 
+    public function clearCache(): void
+    {
+        $this->idarchives = [];
+        $this->idarchiveStates = [];
+    }
+
     /**
      * Returns a new Archive instance that will query archive data for the given set of
      * sites and periods, using an optional Segment.
@@ -985,6 +991,7 @@ class Archive implements ArchiveQuery
                     continue;
                 }
 
+                // "all plugins" done flag used for plugin idarchive
                 $this->idarchives[$doneFlag][$periodString][] = $idArchive;
                 $this->idarchiveStates[$idSite][$doneFlag][$periodString][$idArchive] = ArchiveWriter::DONE_OK;
             }

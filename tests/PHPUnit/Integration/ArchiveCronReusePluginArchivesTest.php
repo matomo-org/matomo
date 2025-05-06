@@ -80,7 +80,7 @@ class ArchiveCronReusePluginArchivesTest extends IntegrationTestCase
         $dataTable = VisitsSummaryAPI::getInstance()->get($this->idSite, 'week', $this->dateTime->toString('Y-m-d'), $this->segmentDef);
         self::assertEquals(2, $dataTable->getFirstRow()->getColumn('nb_visits'));
         $dataTable = GoalsAPI::getInstance()->get($this->idSite, 'week', $this->dateTime->toString('Y-m-d'), $this->segmentDef);
-        self::assertEquals(0, $dataTable->getFirstRow()->getColumn('nb_conversions'));
+        self::assertEquals(2, $dataTable->getFirstRow()->getColumn('nb_conversions'));
 
         // force rearchiving of the days using cron to verify 2 conversions for the week
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);

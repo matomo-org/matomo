@@ -172,6 +172,10 @@ class PluginsArchiver
             }
 
             if ($this->shouldProcessReportsForPlugin($pluginName)) {
+                if (null !== $this->archiveProcessor->archive) {
+                    $this->archiveProcessor->archive->clearCache();
+                }
+
                 $this->logAggregator->setQueryOriginHint($pluginName);
 
                 try {
