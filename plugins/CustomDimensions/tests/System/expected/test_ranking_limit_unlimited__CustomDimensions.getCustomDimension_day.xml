@@ -2,8 +2,8 @@
 <result>
 	<row>
 		<label>site3 group1</label>
-		<nb_visits>1</nb_visits>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>5</nb_visits>
+		<nb_uniq_visitors>5</nb_uniq_visitors>
 		<nb_hits>5</nb_hits>
 		<sum_time_network>0</sum_time_network>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
@@ -39,7 +39,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_dimension>288</avg_time_on_dimension>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>100%</exit_rate>
+		<exit_rate>20%</exit_rate>
 		<segment>dimension1==site3+group1</segment>
 		<subtable>
 			<row>
@@ -256,8 +256,8 @@
 	</row>
 	<row>
 		<label>site3 group2</label>
-		<nb_visits>1</nb_visits>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>5</nb_visits>
+		<nb_uniq_visitors>5</nb_uniq_visitors>
 		<nb_hits>5</nb_hits>
 		<sum_time_network>0</sum_time_network>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
@@ -293,7 +293,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_dimension>288</avg_time_on_dimension>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>100%</exit_rate>
+		<exit_rate>20%</exit_rate>
 		<segment>dimension1==site3+group2</segment>
 		<subtable>
 			<row>
@@ -510,8 +510,8 @@
 	</row>
 	<row>
 		<label>site3 group3</label>
-		<nb_visits>1</nb_visits>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>5</nb_visits>
+		<nb_uniq_visitors>5</nb_uniq_visitors>
 		<nb_hits>5</nb_hits>
 		<sum_time_network>0</sum_time_network>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
@@ -547,7 +547,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_dimension>288</avg_time_on_dimension>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>100%</exit_rate>
+		<exit_rate>20%</exit_rate>
 		<segment>dimension1==site3+group3</segment>
 		<subtable>
 			<row>
@@ -764,8 +764,8 @@
 	</row>
 	<row>
 		<label>site3 group4</label>
-		<nb_visits>1</nb_visits>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>5</nb_visits>
+		<nb_uniq_visitors>5</nb_uniq_visitors>
 		<nb_hits>5</nb_hits>
 		<sum_time_network>0</sum_time_network>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
@@ -801,7 +801,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_dimension>288</avg_time_on_dimension>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>100%</exit_rate>
+		<exit_rate>20%</exit_rate>
 		<segment>dimension1==site3+group4</segment>
 		<subtable>
 			<row>
@@ -1018,8 +1018,8 @@
 	</row>
 	<row>
 		<label>site3 group5</label>
-		<nb_visits>1</nb_visits>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>5</nb_visits>
+		<nb_uniq_visitors>5</nb_uniq_visitors>
 		<nb_hits>5</nb_hits>
 		<sum_time_network>0</sum_time_network>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
@@ -1055,7 +1055,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_dimension>288</avg_time_on_dimension>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>100%</exit_rate>
+		<exit_rate>20%</exit_rate>
 		<segment>dimension1==site3+group5</segment>
 		<subtable>
 			<row>

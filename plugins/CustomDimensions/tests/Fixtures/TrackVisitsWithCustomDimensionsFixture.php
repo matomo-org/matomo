@@ -71,7 +71,7 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
 
         $configuration->configureNewDimension($this->idSite, 'MyName2', CustomDimensions::SCOPE_VISIT, 2, $active = true, $extractions = array(), $caseSensitive = true);
         $configuration->configureNewDimension($this->idSite2, 'MyName1', CustomDimensions::SCOPE_VISIT, 1, $active = true, $extractions = array(), $caseSensitive = true);
-        $configuration->configureNewDimension($this->idSite3, 'MyName1', CustomDimensions::SCOPE_VISIT, 1, $active = true, $extractions = array(), $caseSensitive = true);
+        $configuration->configureNewDimension($this->idSite3, 'MyName1', CustomDimensions::SCOPE_ACTION, 1, $active = true, $extractions = array(), $caseSensitive = true);
 
         $extraction1 = new Extraction('urlparam', 'test');
         $extraction2 = new Extraction('urlparam', 'param');
