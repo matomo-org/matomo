@@ -156,18 +156,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await page.screenshot({ fullPage: true })).to.matchImage('not_logged_in');
         });
 
-        // Enable login button
-        it('should enable the login button when username and password are entered', async function () {
-          testEnvironment.testUseMockAuth = 0;
-          testEnvironment.save();
-
-          await page.goto('?module=CoreHome&action=index&idSite=1&period=week&date=2017-06-04');
-          await page.type('#login_form_login', 'u');
-          await page.type('#login_form_password', 'p');
-
-          expect(await page.screenshot({ fullPage: true })).to.matchImage('login_button_enabled');
-        });
-
         // invalid site parameter
         it('should show login form for non super user if invalid idsite given', async function() {
             testEnvironment.idSitesViewAccess = [1, 2];

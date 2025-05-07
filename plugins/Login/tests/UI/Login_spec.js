@@ -67,6 +67,15 @@ describe("Login", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('login_form');
     });
 
+  // Enable login button
+  it('should enable the login button when username and password are entered', async function () {
+    await page.goto('?module=CoreHome&action=index&idSite=1&period=week&date=2017-06-04');
+    await page.type('#login_form_login', 'u');
+    await page.type('#login_form_password', 'p');
+
+    expect(await page.screenshot({ fullPage: true })).to.matchImage('login_button_enabled');
+  });
+
     it("should fail when incorrect credentials are supplied", async function() {
         await page.type('#login_form_login', 'superUserLogin');
         await page.type('#login_form_password', 'wrongpassword');
