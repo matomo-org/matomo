@@ -274,8 +274,12 @@ class CustomDimension extends RecordBuilder
 
     public function queryCustomDimensionActions(array $metricsConfig, LogAggregator $logAggregator, $valueField, $additionalWhere = '', bool $withRollup = false)
     {
+        $logActionNameAlias = 'log_action.name as url,';
+        if ($withRollup) {
+            $logActionNameAlias = "COALESCE(log_action.name, '') as url,";
+        }
         $select = "log_link_visit_action.$valueField,
-                  log_action.name as url,
+                  $logActionNameAlias 
                   sum(log_link_visit_action.time_spent) as `" . Metrics::INDEX_PAGE_SUM_TIME_SPENT . "`,
                   sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `" . Metrics::INDEX_BOUNCE_COUNT . "`,
                   sum(IF(log_visit.last_idlink_va = log_link_visit_action.idlink_va, 1, 0)) as `" . Metrics::INDEX_PAGE_EXIT_NB_VISITS . "`";
