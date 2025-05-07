@@ -22,7 +22,6 @@ describe("NoAccess", function () {
     });
 
     it("should login successfully with user credentials and show error when a site without access is viewed", async function() {
-        await page.clearCookies();
         await page.goto("?idSite=2");
         await page.waitForNetworkIdle();
         await page.type("#login_form_login", "oliverqueen");
@@ -37,6 +36,7 @@ describe("NoAccess", function () {
     });
 
     it("should show session timeout error", async function() {
+        await page.clearCookies();
         await page.goto("");
         await page.waitForNetworkIdle();
         await page.type("#login_form_login", "oliverqueen");
