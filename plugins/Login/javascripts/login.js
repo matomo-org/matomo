@@ -48,7 +48,6 @@
         }
 
         var disableOrEnableLoginSubmitButton = function () {
-          console.log('hi');
           if ($('#login_form_login').val() === '' && $('#login_form_password').val() === '') {
             $('#login_form_submit').addClass('disabled');
           } else {
