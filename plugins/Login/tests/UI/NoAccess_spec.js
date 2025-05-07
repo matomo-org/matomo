@@ -37,7 +37,6 @@ describe("NoAccess", function () {
     });
 
     it("should show session timeout error", async function() {
-        await page.clearCookies();
         await page.goto("");
         await page.waitForNetworkIdle();
         await page.type("#login_form_login", "oliverqueen");

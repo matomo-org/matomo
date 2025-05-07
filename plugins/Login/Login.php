@@ -93,10 +93,6 @@ class Login extends \Piwik\Plugin
         $translations[] = 'Login_UnblockAllIPs';
         $translations[] = 'Login_CurrentlyBlockedIPsUnblockConfirm';
         $translations[] = 'Login_IPsAlwaysBlocked';
-        $translations[] = 'Login_ForgotPassword';
-        $translations[] = 'Login_EmailOrUsername';
-        $translations[] = 'Login_SignIn';
-        $translations[] = 'Login_RememberMe';
     }
 
     public function isTrackerPlugin()
