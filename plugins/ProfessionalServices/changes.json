@@ -1,5 +1,12 @@
 [
   {
+    "title": "CustomReports - Now supports more than 3 dimensions",
+    "description": "On-Premise Matomo users can now configure the maximum number of dimensions allowed in a custom report at the instance level. For example, you can adjust the maximum number of dimensions from 3 (default) to 6 or 10.",
+    "version": "5.3.3",
+    "link_name": "Click here for more information",
+    "link": "https://matomo.org/faq/on-premise/how-do-i-change-the-number-of-dimensions-shown-in-a-custom-report/?mtm_campaign=in-app-custom-reports-notification&mtm_kwd=customReports&mtm_source=in-app&mtm_medium=notification&mtm_content=customReports-feature-updates&mtm_group=in-app"
+  },
+  {
     "title": "Funnels - Enhanced Analysis and Comparison Capabilities",
     "description": "Funnels now have an improved visualisation that provides a clear breakdown of proceeded visits, new entries, exits, and skipped steps at each stage, making it easier to identify areas for optimisation. The comparison functionality is improved to allow for a more useful analysis of funnel performance across different segments and date ranges.",
     "version": "5.1.0-b5",
