@@ -7,7 +7,7 @@
         "Active": "Activo",
         "Activity": "Actividad",
         "AlwaysActivatedPluginsList": "Los siguientes complementos siempre están activados y no pueden ser desactivados: %s",
-        "AreThereAnyRisks": "¿Hay algún riesgos?",
+        "AreThereAnyRisks": "¿Hay algún riesgo?",
         "AreThereAnyRisksDetails1": "Cuando active el Administrador de etiquetas, los usuarios con acceso de administrador podrán crear etiquetas, activadores y variables HTML personalizadas que pueden ejecutar JavaScript en su sitio web. Estas plantillas personalizadas podrían utilizarse incorrectamente para robar, por ejemplo, información confidencial de los visitantes de su sitio web (conocidas como %1$sXSS%2$s).",
         "AreThereAnyRisksDetails2": "Puede desactivar estas plantillas personalizadas en \"Administración → Configuración general\" una vez que haya activado Tag Manager. También puede restringir el uso de estas plantillas únicamente a usuarios específicos o superusuarios.",
         "AuthorHomepage": "Página de internet del autor",
