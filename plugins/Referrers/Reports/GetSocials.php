@@ -26,6 +26,7 @@ class GetSocials extends Base
         $this->name          = Piwik::translate('Referrers_Socials');
         $this->documentation = Piwik::translate('Referrers_WebsitesReportDocumentation', '<br />');
         $this->actionToLoadSubTables = 'getUrlsForSocial';
+        $this->hasGoalMetrics = true;
         $this->order = 11;
 
         $this->subcategoryId = 'Referrers_Socials';
@@ -46,7 +47,6 @@ class GetSocials extends Base
     {
         $view->config->show_pivot_by_subtable = false;
         $view->config->show_exclude_low_population = false;
-        $view->config->show_goals = true;
 
         $view->requestConfig->filter_limit = 10;
 
