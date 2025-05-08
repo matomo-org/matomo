@@ -17,8 +17,9 @@ describe("CustomLogoUpload", function () {
     const logoPublicPath = path.join(PIWIK_INCLUDE_PATH, "/misc/user/logo.png");
     const faviconPublicPath = path.join(PIWIK_INCLUDE_PATH, "/misc/user/favicon.png");
 
-    const logoTmpPath = path.join(PIWIK_INCLUDE_PATH, "/tmp/logos/superUserLogin/logo.png");
-    const faviconTmpPath = path.join(PIWIK_INCLUDE_PATH, "/tmp/logos/superUserLogin/favicon.png");
+    // ba16a2cfb817c43df28fde559b8ee4774f422602 is sha1 of superUserLogin login
+    const logoTmpPath = path.join(PIWIK_INCLUDE_PATH, "/tmp/logos/ba16a2cfb817c43df28fde559b8ee4774f422602/logo.png");
+    const faviconTmpPath = path.join(PIWIK_INCLUDE_PATH, "/tmp/logos/ba16a2cfb817c43df28fde559b8ee4774f422602/favicon.png");
 
     this.timeout(0);
 
