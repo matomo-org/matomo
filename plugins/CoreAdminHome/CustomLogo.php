@@ -165,7 +165,8 @@ class CustomLogo
 
     public static function getTempPathUserLogoUploads()
     {
-        $path = StaticContainer::get('path.tmp') . '/logos/' . Piwik::getCurrentUserLogin() . '/';
+        // use sha1 of the username to prevent usage of unsafe characters in the path
+        $path = StaticContainer::get('path.tmp') . '/logos/' . sha1(Piwik::getCurrentUserLogin()) . '/';
 
         if (!is_dir($path)) {
             Filesystem::mkdir($path);
