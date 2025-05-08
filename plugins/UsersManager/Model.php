@@ -536,6 +536,11 @@ class Model
         }
     }
 
+    public function setRotationNotificationWasSentForToken(string $tokenId, string $tsRotation)
+    {
+        $this->updateTokenAuthTable($tokenId, ['ts_rotation_notified' => $tsRotation]);
+    }
+
     private function updateTokenAuthTable($idTokenAuth, $fields)
     {
         $set = array();

@@ -31,7 +31,7 @@ class Xml extends Renderer
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         return '<?xml version="1.0" encoding="utf-8" ?>' . "\n" . $this->renderTable($this->table);
     }
@@ -39,13 +39,13 @@ class Xml extends Renderer
     /**
      * Computes the output for the given data table
      *
-     * @param DataTable|DataTable/Map $table
+     * @param DataTable|DataTable\Map $table
      * @param bool $returnOnlyDataTableXml
      * @param string $prefixLines
-     * @return array|string
+     * @return string
      * @throws Exception
      */
-    protected function renderTable($table, $returnOnlyDataTableXml = false, $prefixLines = '')
+    protected function renderTable($table, bool $returnOnlyDataTableXml = false, string $prefixLines = ''): string
     {
         $array = $this->convertDataTableToArray($table);
         if ($table instanceof Map) {
@@ -54,8 +54,7 @@ class Xml extends Renderer
             if ($returnOnlyDataTableXml) {
                 return $out;
             }
-            $out = "<results>\n$out</results>";
-            return $out;
+            return "<results>\n$out</results>";
         }
 
         // integer value of ZERO is a value we want to display
@@ -63,8 +62,7 @@ class Xml extends Renderer
             if ($returnOnlyDataTableXml) {
                 throw new Exception("Illegal state, what xml shall we return?");
             }
-            $out = "<result />";
-            return $out;
+            return "<result />";
         }
         if ($table instanceof Simple) {
             if (is_array($array)) {
@@ -94,8 +92,7 @@ class Xml extends Renderer
             if ($returnOnlyDataTableXml) {
                 return $out;
             }
-            $out = "<result>\n$out</result>";
-            return $out;
+            return "<result>\n$out</result>";
         }
 
         if (is_array($array)) {
@@ -105,6 +102,8 @@ class Xml extends Renderer
             }
             return "<result>\n$out</result>";
         }
+
+        return '';
     }
 
     /**
@@ -114,7 +113,7 @@ class Xml extends Renderer
      * @param string $prefixLines The string to prefix each line in the output.
      * @return string
      */
-    private function renderArray($array, $prefixLines)
+    private function renderArray(array $array, string $prefixLines): string
     {
         $isAssociativeArray = Piwik::isAssociativeArray($array);
 
@@ -136,7 +135,7 @@ class Xml extends Renderer
             // based on the type of array & the key, determine how this node will look
             if ($isAssociativeArray) {
                 if (strpos($key, '=') !== false) {
-                    list($keyAttributeName, $key) = explode('=', $key, 2);
+                    [$keyAttributeName, $key] = explode('=', $key, 2);
 
                     $prefix = "<row $keyAttributeName=\"$key\">";
                     $suffix = "</row>";
@@ -202,7 +201,7 @@ class Xml extends Renderer
      * @param string $prefixLines
      * @return string
      */
-    protected function renderDataTableMap($table, $array, $prefixLines = "")
+    protected function renderDataTableMap(Map $table, array $array, string $prefixLines = ''): string
     {
         // CASE 1
         //array
@@ -329,7 +328,7 @@ class Xml extends Renderer
      * @param string $prefixLine
      * @return string
      */
-    protected function renderDataTable($array, $prefixLine = "")
+    protected function renderDataTable($array, string $prefixLine = ''): string
     {
         $columnsHaveInvalidChars = $this->areTableLabelsInvalidXmlTagNames(reset($array));
 
@@ -382,7 +381,7 @@ class Xml extends Renderer
                         $value = self::formatValueXml($value);
                     }
 
-                    list($tagStart, $tagEnd) = $this->getTagStartAndEndFor($name, $columnsHaveInvalidChars);
+                    [$tagStart, $tagEnd] = $this->getTagStartAndEndFor($name, $columnsHaveInvalidChars);
 
                     if (strlen((string) $value) == 0) {
                         $out .= $prefixLine . "\t\t<$tagStart />\n";
@@ -404,7 +403,7 @@ class Xml extends Renderer
      * @param string $prefixLine
      * @return string
      */
-    protected function renderDataTableSimple($array, $prefixLine = "")
+    protected function renderDataTableSimple($array, string $prefixLine = ''): string
     {
         if (!is_array($array)) {
             $array = array('value' => $array);
@@ -415,7 +414,7 @@ class Xml extends Renderer
         $out = '';
         foreach ($array as $keyName => $value) {
             $xmlValue = self::formatValueXml($value);
-            list($tagStart, $tagEnd) = $this->getTagStartAndEndFor($keyName, $columnsHaveInvalidChars);
+            [$tagStart, $tagEnd] = $this->getTagStartAndEndFor($keyName, $columnsHaveInvalidChars);
             if (is_string($xmlValue) && strlen($xmlValue) == 0) {
                 $out .= $prefixLine . "\t<$tagStart />\n";
             } elseif ($value instanceof DataTable || is_array($value)) {
@@ -439,7 +438,7 @@ class Xml extends Renderer
      * @param string $str
      * @return bool
      */
-    private static function isValidXmlTagName($str)
+    private static function isValidXmlTagName(string $str): bool
     {
         static $validTagRegex = null;
 
@@ -453,7 +452,7 @@ class Xml extends Renderer
         return !empty($result);
     }
 
-    private function areTableLabelsInvalidXmlTagNames($rowArray)
+    private function areTableLabelsInvalidXmlTagNames($rowArray): bool
     {
         if (!empty($rowArray)) {
             foreach ($rowArray as $name => $value) {
@@ -465,7 +464,7 @@ class Xml extends Renderer
         return false;
     }
 
-    private function getTagStartAndEndFor($keyName, $columnsHaveInvalidChars)
+    private function getTagStartAndEndFor($keyName, $columnsHaveInvalidChars): array
     {
         if ($columnsHaveInvalidChars) {
             $tagStart = "col name=\"" . self::formatValueXml($keyName) . "\"";
@@ -474,6 +473,6 @@ class Xml extends Renderer
             $tagStart = $tagEnd = $keyName;
         }
 
-        return array($tagStart, $tagEnd);
+        return [$tagStart, $tagEnd];
     }
 }

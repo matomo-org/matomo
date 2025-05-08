@@ -1,7 +1,7 @@
 <div
     vue-entry="Live.LivePage"
     disable-link="{{ (disableLink == 1)|default(null)|json_encode }}"
-    visitors="{{ visitors|default(null)|json_encode }}"
+    visitors="{{ visitors|default(null)|replace({'{{': '{&lbrace;'})|json_encode }}"
     initial-total-visitors="{{ initialTotalVisitors|default(null)|json_encode }}"
     live-refresh-after-ms="{{ liveRefreshAfterMs|default(null)|json_encode }}"
     is-widgetized="{{ (isWidgetized == 1)|default(null)|json_encode }}"

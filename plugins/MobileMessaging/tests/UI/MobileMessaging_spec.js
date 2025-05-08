@@ -12,7 +12,7 @@ describe("MobileMessaging", function () {
 
   // required to ensure no provider is set initially
   this.optionsOverride = {
-    'persist-fixture-data': false
+    'persist-fixture-data': false,
   };
 
   async function screenshotPageWrap() {
@@ -26,11 +26,11 @@ describe("MobileMessaging", function () {
     await page.waitForNetworkIdle();
 
     expect(await screenshotPageWrap()).to.matchImage('admin');
-  })
+  });
 
   it('should switch the SMS provider correctly', async function () {
     await page.evaluate(function () {
-      $('[name=smsProviders]').val('string:Clockwork').trigger('change');
+      $('[name=smsProviders]').val('string:ASPSMS').trigger('change');
     });
     await page.waitForTimeout(200);
     await page.waitForNetworkIdle();
@@ -61,5 +61,15 @@ describe("MobileMessaging", function () {
     await page.waitForNetworkIdle();
 
     expect(await screenshotPageWrap()).to.matchImage('admin_numbers_added');
+  });
+
+  it('should show an provider error accordingly', async function () {
+    testEnvironment.optionsOverride['_MobileMessagingSettings'] = '{"Provider":"InValid","APIKey":[]}';
+    testEnvironment.save();
+
+    await page.goto("?idSite=1&period=year&date=2022-08-09&module=MobileMessaging&action=index");
+    await page.waitForNetworkIdle();
+
+    expect(await screenshotPageWrap()).to.matchImage('admin_provider_error');
   });
 });

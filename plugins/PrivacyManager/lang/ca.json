@@ -225,7 +225,7 @@
         "UseRandomizeConfigId": "Aleatoritza config_ID per millorar la privadesa",
         "UsersOptOut": "Exclusió d'usuaris",
         "VisitColumns": "Columnes Visita",
-        "VisitorLogsProfilesDisabledMessage": "Les dades d'aquest lloc no es mostren perquè els registres de visitants o els perfils de visitants estan desactivats. Això garanteix el compliment de la configuració i la normativa de privadesa.",
+        "VisitorLogsProfilesDisabledMessage": "Les dades d'aquest lloc no es mostren perquè els registres de visites o el perfil de visitants estan desactivats. Això garanteix el compliment de la configuració i la normativa de privadesa.",
         "VisitorLogsProfilesSiteNamesDisabledMessage": "Les dades d'alguns llocs no es mostren perquè els registres de visitants o els perfils de visitants estan desactivats per a aquests llocs. Això garanteix el compliment de la configuració i la normativa de privadesa.",
         "VisitsMatchedCriteria": "Aquestes visites coincideixen amb els criteris seleccionats.",
         "VisitsSuccessfullyDeleted": "Les visites s'han suprimit amb èxit",

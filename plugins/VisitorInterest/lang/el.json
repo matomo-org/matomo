@@ -3,6 +3,7 @@
         "BetweenXYMinutes": "%1$s–%2$s λεπτά",
         "BetweenXYSeconds": "%1$s–%2$sδ",
         "ColumnPagesPerVisit": "Σελίδες ανά επίσκεψη",
+        "ColumnPercentageVisitsDocumentation": "Το ποσοστό των συνολικών επισκέψεων, όπου οι επισκέπτες είχαν μέχρι εκείνη τη στιγμή αυτό τον αριθμό επισκέψεων.",
         "ColumnVisitDuration": "Διάρκεια επίσκεψης",
         "Engagement": "Συμπλοκή",
         "NPages": "%s σελίδες",

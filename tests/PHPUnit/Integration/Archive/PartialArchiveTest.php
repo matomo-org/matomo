@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Integration\Archive;
 
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
@@ -67,6 +68,10 @@ class PartialArchiveTest extends IntegrationTestCase
 
         self::trackAnotherVisit();
 
+        // clear all caches used in archiving to avoid falsely skipping an archive
+        // if the previous archiving detected it was skippable
+        Cache::flushAll();
+
         // trigger browser archiving for range
         GoalsApi::getInstance()->get(1, 'day', '2020-04-08', false, $this->idGoal); // day first
         unset($_GET['trigger']);
@@ -122,6 +127,10 @@ class PartialArchiveTest extends IntegrationTestCase
         $maxIdArchive = $this->getMaxIdArchive('2020_04');
 
         self::trackAnotherVisit();
+
+        // clear all caches used in archiving to avoid falsely skipping an archive
+        // if the previous archiving detected it was skippable
+        Cache::flushAll();
 
         // trigger browser archiving for range
         GoalsApi::getInstance()->getDaysToConversion(1, 'day', '2020-04-08', false, $this->idGoal); // first day

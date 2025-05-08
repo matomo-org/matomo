@@ -3,6 +3,7 @@
         "BetweenXYMinutes": "%1$s – %2$s nóim",
         "BetweenXYSeconds": "%1$s – %2$ss",
         "ColumnPagesPerVisit": "Leathanaigh in aghaidh na cuairte",
+        "ColumnPercentageVisitsDocumentation": "An céatadán de na cuairteanna iomlána, áit a raibh an líon seo cuairteanna ag cuairteoirí san iomlán go dtí seo.",
         "ColumnVisitDuration": "Fad cuairte",
         "Engagement": "Rannpháirtíocht",
         "NPages": "%s leathanach",

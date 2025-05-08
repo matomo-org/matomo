@@ -148,105 +148,98 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/LocationProviderSelection/LocationProviderSelection.vue?vue&type=template&id=ad135132
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountry/vue/src/LocationProviderSelection/LocationProviderSelection.vue?vue&type=template&id=ad135132
 
-var _hoisted_1 = {
+const _hoisted_1 = {
   class: "locationProviderSelection"
 };
-var _hoisted_2 = ["innerHTML"];
-var _hoisted_3 = {
+const _hoisted_2 = ["innerHTML"];
+const _hoisted_3 = {
   class: "row"
 };
-var _hoisted_4 = {
+const _hoisted_4 = {
   class: "col s12 push-m9 m3"
 };
-var _hoisted_5 = {
+const _hoisted_5 = {
   class: "col s12 m4 l2"
 };
-var _hoisted_6 = ["id", "disabled", "checked", "onChange"];
-var _hoisted_7 = {
+const _hoisted_6 = ["id", "disabled", "checked", "onChange"];
+const _hoisted_7 = {
   class: "loc-provider-status"
 };
-var _hoisted_8 = {
+const _hoisted_8 = {
   key: 0,
   class: "is-not-installed"
 };
-var _hoisted_9 = {
+const _hoisted_9 = {
   key: 1,
   class: "is-installed"
 };
-var _hoisted_10 = {
+const _hoisted_10 = {
   key: 2,
   class: "is-broken"
 };
-var _hoisted_11 = {
+const _hoisted_11 = {
   class: "col s12 m4 l6"
 };
-var _hoisted_12 = ["innerHTML"];
-var _hoisted_13 = ["innerHTML"];
-var _hoisted_14 = {
+const _hoisted_12 = ["innerHTML"];
+const _hoisted_13 = ["innerHTML"];
+const _hoisted_14 = {
   class: "col s12 m4 l4"
 };
-var _hoisted_15 = {
+const _hoisted_15 = {
   key: 0,
   class: "form-help"
 };
-var _hoisted_16 = {
+const _hoisted_16 = {
   key: 0
 };
-
-var _hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_18 = {
+const _hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const _hoisted_18 = {
   style: {
     "position": "absolute"
   }
 };
-var _hoisted_19 = ["innerHTML"];
-var _hoisted_20 = {
+const _hoisted_19 = ["innerHTML"];
+const _hoisted_20 = {
   class: "text-right"
 };
-var _hoisted_21 = ["onClick"];
-var _hoisted_22 = {
+const _hoisted_21 = ["onClick"];
+const _hoisted_22 = {
   key: 1
 };
-var _hoisted_23 = {
+const _hoisted_23 = {
   key: 1,
   class: "form-help"
 };
-var _hoisted_24 = {
+const _hoisted_24 = {
   key: 0
 };
-var _hoisted_25 = ["innerHTML"];
-var _hoisted_26 = ["innerHTML"];
-var _hoisted_27 = {
+const _hoisted_25 = ["innerHTML"];
+const _hoisted_26 = ["innerHTML"];
+const _hoisted_27 = {
   key: 1
 };
-var _hoisted_28 = ["innerHTML"];
+const _hoisted_28 = ["innerHTML"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
-  var _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
-
-  var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
+  const _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
+  const _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
+  const _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [!_ctx.isThereWorkingProvider ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     key: 0,
     innerHTML: _ctx.$sanitize(_ctx.setUpGuides || '')
-  }, null, 8, _hoisted_2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_InfoFor', _ctx.thisIp)), 1)]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.visibleLocationProviders, function (provider, id) {
+  }, null, 8, _hoisted_2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_InfoFor', _ctx.thisIp)), 1)]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.visibleLocationProviders, (provider, id) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       key: id,
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("row form-group provider".concat(id))
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(`row form-group provider${id}`)
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
       class: "location-provider",
       name: "location-provider",
       type: "radio",
-      id: "provider_input_".concat(id),
+      id: `provider_input_${id}`,
       disabled: provider.status !== 1,
       checked: _ctx.selectedProvider === id,
-      onChange: function onChange($event) {
-        return _ctx.selectedProvider = id;
-      }
+      onChange: $event => _ctx.selectedProvider = id
     }, null, 40, _hoisted_6), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translateOrDefault(provider.title)), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", _hoisted_7, [provider.status === 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_NotInstalled')), 1)) : provider.status === 1 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Installed')), 1)) : provider.status === 2 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Broken')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
       innerHTML: _ctx.$sanitize(_ctx.translateOrDefault(provider.description))
     }, null, 8, _hoisted_12), provider.status !== 1 && provider.install_docs ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
@@ -262,9 +255,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", {
       innerHTML: _ctx.$sanitize(_ctx.providerLocations[id] || ' ')
     }, null, 8, _hoisted_19)], 4)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_20, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-      onClick: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-        return _ctx.refreshProviderInfo(id);
-      }, ["prevent"])
+      onClick: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.refreshProviderInfo(id), ["prevent"])
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Refresh')), 9, _hoisted_21)])])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_22, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountry_CannotLocalizeLocalIP', _ctx.thisIp)), 1))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), provider.statusMessage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_23, [provider.status === 2 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("strong", _hoisted_24, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Error')) + ":", 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
       innerHTML: _ctx.$sanitize(provider.statusMessage)
     }, null, 8, _hoisted_25)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), provider.extra_message ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
@@ -276,16 +267,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     noclear: true,
     context: "warning"
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.noProvidersText)
-      }, null, 8, _hoisted_28)];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      innerHTML: _ctx.$sanitize(_ctx.noProvidersText)
+    }, null, 8, _hoisted_28)]),
     _: 1
   })])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
-    onConfirm: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.save();
-    }),
+    onConfirm: _cache[0] || (_cache[0] = $event => _ctx.save()),
     saving: _ctx.isLoading
   }, null, 8, ["saving"])]);
 }
@@ -297,19 +284,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/LocationProviderSelection/LocationProviderSelection.vue?vue&type=script&lang=ts
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountry/vue/src/LocationProviderSelection/LocationProviderSelection.vue?vue&type=script&lang=ts
 
 
 
@@ -343,24 +318,16 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     Notification: external_CoreHome_["Notification"],
     SaveButton: external_CorePluginsAdmin_["SaveButton"]
   },
-  data: function data() {
+  data() {
     return {
       isLoading: false,
       updateLoading: {},
       selectedProvider: this.currentProviderId,
-      providerLocations: Object.fromEntries(Object.entries(this.locationProviders).map(function (_ref) {
-        var _ref2 = _slicedToArray(_ref, 2),
-            k = _ref2[0],
-            p = _ref2[1];
-
-        return [k, p.location];
-      }))
+      providerLocations: Object.fromEntries(Object.entries(this.locationProviders).map(([k, p]) => [k, p.location]))
     };
   },
   methods: {
-    refreshProviderInfo: function refreshProviderInfo(providerId) {
-      var _this = this;
-
+    refreshProviderInfo(providerId) {
       // this should not be in a controller... ideally we fetch this data always from client side
       // and do not prefill it server side
       this.updateLoading[providerId] = true;
@@ -372,27 +339,24 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         format: 'html'
       }, {
         format: 'html'
-      }).then(function (response) {
-        _this.providerLocations[providerId] = response;
-      }).finally(function () {
-        _this.updateLoading[providerId] = false;
+      }).then(response => {
+        this.providerLocations[providerId] = response;
+      }).finally(() => {
+        this.updateLoading[providerId] = false;
       });
     },
-    save: function save() {
-      var _this2 = this;
-
+    save() {
       if (!this.selectedProvider) {
         return;
       }
-
       this.isLoading = true;
       external_CoreHome_["AjaxHelper"].fetch({
         method: 'UserCountry.setLocationProvider',
         providerId: this.selectedProvider
       }, {
         withTokenInUrl: true
-      }).then(function () {
-        var notificationInstanceId = external_CoreHome_["NotificationsStore"].show({
+      }).then(() => {
+        const notificationInstanceId = external_CoreHome_["NotificationsStore"].show({
           message: Object(external_CoreHome_["translate"])('General_Done'),
           context: 'success',
           noclear: true,
@@ -400,31 +364,19 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           id: 'userCountryLocationProvider'
         });
         external_CoreHome_["NotificationsStore"].scrollToNotification(notificationInstanceId);
-      }).finally(function () {
-        _this2.isLoading = false;
+      }).finally(() => {
+        this.isLoading = false;
       });
     }
   },
   computed: {
-    visibleLocationProviders: function visibleLocationProviders() {
-      return Object.fromEntries(Object.entries(this.locationProviders).filter(function (_ref3) {
-        var _ref4 = _slicedToArray(_ref3, 2),
-            p = _ref4[1];
-
-        return p.isVisible;
-      }));
+    visibleLocationProviders() {
+      return Object.fromEntries(Object.entries(this.locationProviders).filter(([, p]) => p.isVisible));
     },
-    locationProvidersNotDefaultOrDisabled: function locationProvidersNotDefaultOrDisabled() {
-      var _this3 = this;
-
-      return Object.fromEntries(Object.entries(this.locationProviders).filter(function (_ref5) {
-        var _ref6 = _slicedToArray(_ref5, 2),
-            p = _ref6[1];
-
-        return p.id !== _this3.defaultProviderId && p.id !== _this3.disabledProviderId;
-      }));
+    locationProvidersNotDefaultOrDisabled() {
+      return Object.fromEntries(Object.entries(this.locationProviders).filter(([, p]) => p.id !== this.defaultProviderId && p.id !== this.disabledProviderId));
     },
-    noProvidersText: function noProvidersText() {
+    noProvidersText() {
       return Object(external_CoreHome_["translate"])('UserCountry_NoProviders', '<a rel="noreferrer noopener" href="https://db-ip.com/?refid=mtm" target="_blank">', '</a>');
     }
   }
@@ -438,45 +390,37 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 LocationProviderSelectionvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var LocationProviderSelection = (LocationProviderSelectionvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue?vue&type=template&id=387617c4
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue?vue&type=template&id=387617c4
 
 function AdminPagevue_type_template_id_387617c4_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
-
-  var _component_LocationProviderSelection = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("LocationProviderSelection");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
-  var _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
+  const _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
+  const _component_LocationProviderSelection = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("LocationProviderSelection");
+  const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+  const _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
     "help-url": _ctx.externalRawLink('https://matomo.org/docs/geo-locate/'),
     id: "location-providers"
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountry_Geolocation')), 1)];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountry_Geolocation')), 1)]),
     _: 1
-  }, 8, ["help-url"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountry_GeolocationPageDesc')), 1)], 512), [[_directive_content_intro]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+  }, 8, ["help-url"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountry_GeolocationPageDesc')), 1)])), [[_directive_content_intro]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('UserCountry_LocationProvider')
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_LocationProviderSelection, {
-        "current-provider-id": _ctx.currentProviderId,
-        "is-there-working-provider": _ctx.isThereWorkingProvider,
-        "set-up-guides": _ctx.setUpGuides,
-        "this-ip": _ctx.thisIp,
-        "location-providers": _ctx.locationProviders,
-        "default-provider-id": _ctx.defaultProviderId,
-        "disabled-provider-id": _ctx.disabledProviderId
-      }, null, 8, ["current-provider-id", "is-there-working-provider", "set-up-guides", "this-ip", "location-providers", "default-provider-id", "disabled-provider-id"])];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_LocationProviderSelection, {
+      "current-provider-id": _ctx.currentProviderId,
+      "is-there-working-provider": _ctx.isThereWorkingProvider,
+      "set-up-guides": _ctx.setUpGuides,
+      "this-ip": _ctx.thisIp,
+      "location-providers": _ctx.locationProviders,
+      "default-provider-id": _ctx.defaultProviderId,
+      "disabled-provider-id": _ctx.disabledProviderId
+    }, null, 8, ["current-provider-id", "is-there-working-provider", "set-up-guides", "this-ip", "location-providers", "default-provider-id", "disabled-provider-id"])]),
     _: 1
   }, 8, ["content-title"])], 64);
 }
 // CONCATENATED MODULE: ./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue?vue&type=template&id=387617c4
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue?vue&type=script&lang=ts
 
 
 
@@ -524,40 +468,34 @@ function AdminPagevue_type_template_id_387617c4_render(_ctx, _cache, $props, $se
 AdminPagevue_type_script_lang_ts.render = AdminPagevue_type_template_id_387617c4_render
 
 /* harmony default export */ var AdminPage = (AdminPagevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/GetDistinctCountries/GetDistinctCountries.vue?vue&type=template&id=5d044f71
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountry/vue/src/GetDistinctCountries/GetDistinctCountries.vue?vue&type=template&id=5d044f71
 
-var GetDistinctCountriesvue_type_template_id_5d044f71_hoisted_1 = {
+const GetDistinctCountriesvue_type_template_id_5d044f71_hoisted_1 = {
   class: "sparkline"
 };
-var GetDistinctCountriesvue_type_template_id_5d044f71_hoisted_2 = ["innerHTML"];
-
-var GetDistinctCountriesvue_type_template_id_5d044f71_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", {
+const GetDistinctCountriesvue_type_template_id_5d044f71_hoisted_2 = ["innerHTML"];
+const GetDistinctCountriesvue_type_template_id_5d044f71_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", {
   style: {
     "clear": "left"
   }
 }, null, -1);
-
 function GetDistinctCountriesvue_type_template_id_5d044f71_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
+  const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
+  const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, null, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", GetDistinctCountriesvue_type_template_id_5d044f71_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
-        params: _ctx.urlSparklineCountries,
-        width: 100,
-        height: 25
-      }, null, 8, ["params"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-        innerHTML: _ctx.$sanitize(_ctx.distinctCountriesText)
-      }, null, 8, GetDistinctCountriesvue_type_template_id_5d044f71_hoisted_2)]), GetDistinctCountriesvue_type_template_id_5d044f71_hoisted_3];
-    }),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", GetDistinctCountriesvue_type_template_id_5d044f71_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
+      params: _ctx.urlSparklineCountries,
+      width: 100,
+      height: 25
+    }, null, 8, ["params"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+      innerHTML: _ctx.$sanitize(_ctx.distinctCountriesText)
+    }, null, 8, GetDistinctCountriesvue_type_template_id_5d044f71_hoisted_2)]), GetDistinctCountriesvue_type_template_id_5d044f71_hoisted_3]),
     _: 1
   });
 }
 // CONCATENATED MODULE: ./plugins/UserCountry/vue/src/GetDistinctCountries/GetDistinctCountries.vue?vue&type=template&id=5d044f71
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/GetDistinctCountries/GetDistinctCountries.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountry/vue/src/GetDistinctCountries/GetDistinctCountries.vue?vue&type=script&lang=ts
 
 
 /* harmony default export */ var GetDistinctCountriesvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
@@ -576,8 +514,8 @@ function GetDistinctCountriesvue_type_template_id_5d044f71_render(_ctx, _cache, 
     Sparkline: external_CoreHome_["Sparkline"]
   },
   computed: {
-    distinctCountriesText: function distinctCountriesText() {
-      return Object(external_CoreHome_["translate"])('UserCountry_DistinctCountries', "<strong>".concat(this.numberDistinctCountries, "</strong>"));
+    distinctCountriesText() {
+      return Object(external_CoreHome_["translate"])('UserCountry_DistinctCountries', `<strong>${this.numberDistinctCountries}</strong>`);
     }
   }
 }));

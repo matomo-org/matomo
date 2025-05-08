@@ -335,6 +335,10 @@ class Fixture extends \PHPUnit\Framework\Assert
         ) {
             $this->setUp();
 
+            // clear all caches used during set up
+            // to avoid e.g. using stale information during archiving
+            PiwikCache::flushAll();
+
             $this->markFixtureSetUp();
             $this->log("Database {$this->dbName} marked as successfully set up.");
         } else {

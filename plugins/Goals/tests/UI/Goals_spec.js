@@ -121,9 +121,9 @@ describe("Goals", function () {
     it("should load subtables correctly for action goals visualization if row clicked", async function() {
         let firstRow = await page.jQuery('tr.subDataTable:first');
         await firstRow.click();
-        await page.mouse.move(-10, -10);
 
         await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
         await page.waitForTimeout(250); // rendering
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('action_goals_visualization_page_urls_subtable');
@@ -147,4 +147,12 @@ describe("Goals", function () {
         const dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('action_goals_row_evolution');
     });
+
+      it('should load goal page for XSS name', async function() {
+          await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-01#?idSite=1&period=year&date=2009-01-01&category=Goals_Goals&subcategory=2");
+          await page.waitForNetworkIdle();
+
+          var report = await page.$('.reporting-page');
+          expect(await report.screenshot()).to.matchImage('individual_xss');
+      });
 });
