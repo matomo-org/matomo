@@ -107,8 +107,8 @@ class ApiTest extends SystemTestCase
     }
 
     /**
-     * @dataProvider getRankingLimitTestData
-     * @dataProvider getRankingLimitTestDataExpanded
+     * @dataProvider getRankingLimitTestDataWithRollup
+     * @dataProvider getRankingLimitTestDataExpandedWithRollup
      */
     public function testRankingLimitWithRollup(
         int $rowsRankingQuery,
@@ -402,6 +402,14 @@ class ApiTest extends SystemTestCase
         yield [50000, 3, 3, 'by_datatable_subtable_and_toplevel'];
         yield [50000, 1, 1, 'by_datatable_minimum'];
 
+    }
+
+    public function getRankingLimitTestDataWithRollup(): iterable
+    {
+        foreach ($this->getRankingLimitTestData() as $testData) {
+            yield $testData;
+        }
+
         /*
          * set zero for custom dimension rows to prevent
          * "10 * datatable_archiving_maximum_rows_custom_dimensions"
@@ -413,6 +421,21 @@ class ApiTest extends SystemTestCase
     public function getRankingLimitTestDataExpanded(): iterable
     {
         foreach ($this->getRankingLimitTestData() as $testData) {
+            [$rowsRankingQuery, $rowsTableTopLevel, $rowsTableSubTable, $testSuffix] = $testData;
+
+            yield [
+                $rowsRankingQuery,
+                $rowsTableTopLevel,
+                $rowsTableSubTable,
+                $testSuffix . '_expanded',
+                ['expanded' => 1]
+            ];
+        }
+    }
+
+    public function getRankingLimitTestDataExpandedWithRollup(): iterable
+    {
+        foreach ($this->getRankingLimitTestDataWithRollup() as $testData) {
             [$rowsRankingQuery, $rowsTableTopLevel, $rowsTableSubTable, $testSuffix] = $testData;
 
             yield [
