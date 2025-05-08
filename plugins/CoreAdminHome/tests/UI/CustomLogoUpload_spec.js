@@ -54,14 +54,6 @@ describe("CustomLogoUpload", function () {
         expect(fs.existsSync(logoPublicPath)).to.be.false; // custom file not published as not saved
     });
 
-    it('should upload the logo to temp path first', async function() {
-        expect(fs.existsSync(logoTmpPath)).to.be.true;
-    });
-
-    it('should not upload the logo to the public path', async function() {
-        expect(fs.existsSync(logoPublicPath)).to.be.false;
-    });
-
     it('should upload a custom favicon', async function() {
         const fileInput = await page.$('input[name=customFavicon]');
         await fileInput.uploadFile(faviconToUpload);
@@ -70,13 +62,8 @@ describe("CustomLogoUpload", function () {
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector(contentSelector)).to.matchImage('custom_favicon_uploaded');
-    });
 
-    it('should upload the favicon to temp path first', async function() {
         expect(fs.existsSync(faviconTmpPath)).to.be.true; // custom file uploaded into tmp folder
-    });
-
-    it('should not upload the favicon to the public path', async function() {
         expect(fs.existsSync(faviconPublicPath)).to.be.false;
     });
 
@@ -86,13 +73,8 @@ describe("CustomLogoUpload", function () {
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector(contentSelector)).to.matchImage('branding_settings_saved');
-    });
 
-    it('should make the logo available in a public path', async function() {
         expect(fs.existsSync(logoPublicPath)).to.be.true;
-    });
-
-    it('should make the favicon available in a public path', async function() {
         expect(fs.existsSync(faviconPublicPath)).to.be.true;
     });
 
@@ -106,22 +88,10 @@ describe("CustomLogoUpload", function () {
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector(contentSelector)).to.matchImage('disable_logo_upload');
-    });
 
-    it('should delete logo from the public path', async function() {
         expect(fs.existsSync(logoPublicPath)).to.be.false;
-    });
-
-    it('should delete logo from the temp path', async function() {
         expect(fs.existsSync(logoTmpPath)).to.be.false;
-    });
-
-    it('should delete favicon from the public path', async function() {
         expect(fs.existsSync(faviconPublicPath)).to.be.false;
-    });
-
-    it('should delete favicon from the temp path', async function() {
         expect(fs.existsSync(faviconTmpPath)).to.be.false;
     });
-
 });
