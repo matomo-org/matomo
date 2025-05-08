@@ -63,7 +63,7 @@
       />
     </div>
 
-    <MatomoDialog v-model="showAddSiteDialog" class="">
+    <MatomoDialog v-model="showAddSiteDialog">
       <div class="ui-confirm add-site-dialog">
         <div>
           <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>
@@ -71,12 +71,10 @@
             <p>{{ translate('SitesManager_ChooseMeasurableTypeSubheader') }}</p>
             <br>
           </div>
-            <div class="row">
-              <div
-                v-for="type in availableTypes"
-                :key="type.id"
-                class="col s12 l4">
+            <div class="card-row">
                 <ContentBlock
+                  v-for="type in availableTypes"
+                  :key="type.id"
                   :content-title="type.name"
                 >
                   <p class="center">
@@ -92,18 +90,6 @@
                     <span class="ui-button-text">{{ type.name }}</span>
                   </button>
                 </ContentBlock>
-              </div>
-<!--              <button-->
-<!--                type="button"-->
-<!--                v-for="type in availableTypes"-->
-<!--                :key="type.id"-->
-<!--                :title="type.description"-->
-<!--                class="modal-close btn"-->
-<!--                @click="addSite(type.id);"-->
-<!--                aria-disabled="false"-->
-<!--              >-->
-<!--                <span class="ui-button-text">{{ type.name }}</span>-->
-<!--              </button>-->
           </div>
         </div>
       </div>

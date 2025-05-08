@@ -430,10 +430,14 @@ window.piwikHelper = {
         }
 
         var domElem = $(domSelector);
-        var buttons = [];
+        var hasButtons = false;
+
+        if($('[role]', domElem).not('li').length) {
+          hasButtons = true;
+        }
 
         var content = '<div class="modal"><div class="modal-content"></div>';
-        content += '<div class="modal-footer"></div></div>';
+        content += hasButtons ? '<div class="modal-footer"></div></div>' : '</div>';
 
         var $content = $(content).hide();
         var $footer = $content.find('.modal-footer');
