@@ -401,7 +401,6 @@ class ApiTest extends SystemTestCase
         yield [50000, 3, 500, 'by_datatable_toplevel'];
         yield [50000, 3, 3, 'by_datatable_subtable_and_toplevel'];
         yield [50000, 1, 1, 'by_datatable_minimum'];
-
     }
 
     public function getRankingLimitTestDataWithRollup(): iterable
