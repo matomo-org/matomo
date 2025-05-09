@@ -351,6 +351,12 @@ class CustomLogo
      */
     public function removeLogos(): void
     {
+        static::removePublishedLogos();
+        static::removeLogosFromTempFolder();
+    }
+
+    public function removePublishedLogos(): void
+    {
         $logoUserPath = static::getPathUserLogo();
         $smallLogoUserPath = static::getPathUserLogoSmall();
         $faviconUserPath = static::getPathUserFavicon();
@@ -358,8 +364,6 @@ class CustomLogo
         Filesystem::deleteFileIfExists($logoUserPath);
         Filesystem::deleteFileIfExists($smallLogoUserPath);
         Filesystem::deleteFileIfExists($faviconUserPath);
-
-        static::removeLogosFromTempFolder();
     }
 
     public function removeLogosFromTempFolder(): void
