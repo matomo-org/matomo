@@ -129,7 +129,7 @@ class API extends \Piwik\Plugin\API
         $customLogo->removePublishedLogos();
 
         if ($customLogo->isCustomLogoFeatureEnabled()) {
-            if ($useCustomLogo && $customLogo->hasTempLogoAndFavicon()) {
+            if ($useCustomLogo && $customLogo->hasTempLogoOrFavicon()) {
                 $customLogo->enable();
                 $customLogo->publishUserLogo();
                 $customLogo->publishUserFavicon();

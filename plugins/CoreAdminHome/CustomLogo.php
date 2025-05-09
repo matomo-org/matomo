@@ -215,12 +215,12 @@ class CustomLogo
         return SettingsPiwik::rewriteMiscUserPathWithInstanceId($path);
     }
 
-    public static function hasTempLogoAndFavicon(): bool
+    public static function hasTempLogoOrFavicon(): bool
     {
         $logoTempPath = static::getTempPathUserLogo();
         $smallLogoTempPath = static::getTempPathUserLogoSmall();
 
-        return (file_exists($logoTempPath) && file_exists($smallLogoTempPath));
+        return (file_exists($logoTempPath) || file_exists($smallLogoTempPath));
     }
 
     /**
