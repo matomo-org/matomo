@@ -51,9 +51,6 @@ class Controller extends ControllerAdmin
         $this->translator = $translator;
         $this->optOutManager = $optOutManager;
 
-        $customLogo = new CustomLogo();
-        $customLogo->removeLogosFromTempFolder();
-
         parent::__construct();
     }
 

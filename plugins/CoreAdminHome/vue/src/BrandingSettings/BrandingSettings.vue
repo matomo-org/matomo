@@ -262,6 +262,8 @@ export default defineComponent({
     },
     save() {
       this.isLoading = true;
+      this.enabled = this.enabled &&
+        (this.newLogoBase64Src.length > 0 || this.newFaviconBase64Src.length > 0);
 
       AjaxHelper.post(
         { module: 'API', method: 'CoreAdminHome.setBrandingSettings' },
