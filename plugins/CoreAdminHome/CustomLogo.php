@@ -347,12 +347,16 @@ class CustomLogo
         $smallLogoUserPath = static::getPathUserLogoSmall();
         $faviconUserPath = static::getPathUserFavicon();
 
-        $logosUploadTempFolder = static::getTempPathUserLogoUploads();
-
         Filesystem::deleteFileIfExists($logoUserPath);
         Filesystem::deleteFileIfExists($smallLogoUserPath);
         Filesystem::deleteFileIfExists($faviconUserPath);
 
+        static::removeLogosFromTempFolder();
+    }
+
+    public function removeLogosFromTempFolder(): void
+    {
+        $logosUploadTempFolder = static::getTempPathUserLogoUploads();
         Filesystem::unlinkRecursive($logosUploadTempFolder, true);
     }
 
