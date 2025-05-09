@@ -12,7 +12,6 @@ namespace Piwik\Plugins\CoreAdminHome;
 use Exception;
 use Monolog\Handler\StreamHandler;
 use Piwik\Changes\UserChanges;
-use Piwik\DataTable\Renderer\Json;
 use Piwik\Log\Logger;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
