@@ -127,7 +127,8 @@ class API extends \Piwik\Plugin\API
 
         $customLogo = new CustomLogo();
 
-        if ($customLogo->isCustomLogoFeatureEnabled()) {
+        if ($customLogo->isCustomLogoFeatureEnabled() &&
+            $customLogo->hasTempLogoAndFavicon()) {
             if ($useCustomLogo) {
                 $customLogo->enable();
                 $customLogo->publishUserLogo();
