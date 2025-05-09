@@ -219,8 +219,9 @@ class CustomLogo
     {
         $logoTempPath = static::getTempPathUserLogo();
         $smallLogoTempPath = static::getTempPathUserLogoSmall();
+        $faviconTempPath = static::getTempPathUserFavicon();
 
-        return (file_exists($logoTempPath) || file_exists($smallLogoTempPath));
+        return (file_exists($logoTempPath) && file_exists($smallLogoTempPath)) || file_exists($faviconTempPath);
     }
 
     /**
