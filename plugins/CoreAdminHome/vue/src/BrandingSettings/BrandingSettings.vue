@@ -262,13 +262,23 @@ export default defineComponent({
     },
     save() {
       this.isLoading = true;
-      this.enabled = this.enabled &&
-        (this.newLogoBase64Src.length > 0 || this.newFaviconBase64Src.length > 0);
+      AjaxHelper.post({
+        module: 'API',
+        method: 'CoreAdminHome.setBrandingSettings',
+      },
+      {
+        useCustomLogo: this.enabled ? '1' : '0',
+        isNewCustomLogo: (this.newLogoBase64Src.length > 0) ? '1' : '0',
+        isNewCustomFavicon: (this.newFaviconBase64Src.length > 0) ? '1' : '0',
+      }).then((response) => {
+        this.enabled = !!response.useCustomLogo;
+        if (response.customLogoPath) {
+          this.customLogo = response.customLogoPath;
+        }
+        if (response.customFaviconPath) {
+          this.customFavicon = response.customFaviconPath;
+        }
 
-      AjaxHelper.post(
-        { module: 'API', method: 'CoreAdminHome.setBrandingSettings' },
-        { useCustomLogo: this.enabled ? '1' : '0' },
-      ).then(() => {
         const notificationInstanceId = NotificationsStore.show({
           message: translate('CoreAdminHome_SettingsSaveSuccess'),
           type: 'transient',

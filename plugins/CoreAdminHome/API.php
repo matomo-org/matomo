@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 use Exception;
 use Monolog\Handler\StreamHandler;
 use Piwik\Changes\UserChanges;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Log\Logger;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
@@ -121,26 +122,33 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setBrandingSettings($useCustomLogo)
+    public function setBrandingSettings($useCustomLogo, $isNewCustomLogo, $isNewCustomFavicon)
     {
         Piwik::checkUserHasSuperUserAccess();
-
         $customLogo = new CustomLogo();
-        $customLogo->removePublishedLogos();
+        $response = [];
 
-        if ($customLogo->isCustomLogoFeatureEnabled()) {
-            if ($useCustomLogo && $customLogo->hasTempLogoOrFavicon()) {
-                $customLogo->enable();
+        if (!$useCustomLogo || ($useCustomLogo && !$isNewCustomLogo && !$isNewCustomFavicon)) {
+            $customLogo->removeLogos();
+            $customLogo->disable();
+
+            $response['useCustomLogo'] = false;
+        } elseif ($isNewCustomLogo || $isNewCustomFavicon) {
+            $customLogo->enable();
+            $response['useCustomLogo'] = true;
+            if ($isNewCustomLogo && $customLogo->hasTempLogo()) {
                 $customLogo->publishUserLogo();
+                $response['customLogoPath'] = $customLogo->getPathUserLogo();
+            }
+            if ($isNewCustomFavicon && $customLogo->hasTempFavicon()) {
                 $customLogo->publishUserFavicon();
-            } else {
-                $customLogo->disable();
-                $customLogo->removeLogos();
+                $response['customFaviconPath'] = $customLogo->getPathUserFavicon();
             }
         }
 
-        return true;
+        return $response;
     }
+
     /**
      * Invalidates report data, forcing it to be recomputed during the next archiving run.
      *

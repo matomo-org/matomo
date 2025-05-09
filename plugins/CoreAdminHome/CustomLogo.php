@@ -215,13 +215,19 @@ class CustomLogo
         return SettingsPiwik::rewriteMiscUserPathWithInstanceId($path);
     }
 
-    public static function hasTempLogoOrFavicon(): bool
+    public static function hasTempLogo(): bool
     {
         $logoTempPath = static::getTempPathUserLogo();
         $smallLogoTempPath = static::getTempPathUserLogoSmall();
+
+        return (file_exists($logoTempPath) && file_exists($smallLogoTempPath));
+    }
+
+    public static function hasTempFavicon(): bool
+    {
         $faviconTempPath = static::getTempPathUserFavicon();
 
-        return (file_exists($logoTempPath) && file_exists($smallLogoTempPath)) || file_exists($faviconTempPath);
+        return file_exists($faviconTempPath);
     }
 
     /**
@@ -356,6 +362,11 @@ class CustomLogo
         static::removeLogosFromTempFolder();
     }
 
+    /**
+     * Remove publicly accessible logos and favicons from the misc/user folder
+     *
+     * @return void
+     */
     public function removePublishedLogos(): void
     {
         $logoUserPath = static::getPathUserLogo();
@@ -367,12 +378,24 @@ class CustomLogo
         Filesystem::deleteFileIfExists($faviconUserPath);
     }
 
+    /**
+     * Remove all uploaded logos and favicons from the temp folder
+     *
+     * @return void
+     */
     public function removeLogosFromTempFolder(): void
     {
         $logosUploadTempFolder = static::getTempPathUserLogoUploads();
         Filesystem::unlinkRecursive($logosUploadTempFolder, true);
     }
 
+    /**
+     * Process logo/favicon uploads from the request and store in a given path
+     * @param $uploadFieldName
+     * @param $targetHeight
+     * @param $path
+     * @return bool
+     */
     private function uploadImage($uploadFieldName, $targetHeight, $path)
     {
         if (
