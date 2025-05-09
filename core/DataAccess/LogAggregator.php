@@ -339,6 +339,7 @@ class LogAggregator
      * @param             $orderBy
      * @param int         $limit
      * @param int         $offset
+     * @param bool        $withRollup
      *
      * @return array|mixed|string
      * @throws \Piwik\Exception\DI\DependencyException

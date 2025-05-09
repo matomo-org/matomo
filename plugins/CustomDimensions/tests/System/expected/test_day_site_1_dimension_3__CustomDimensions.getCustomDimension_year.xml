@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<result>
-	<row>
-		<label>value3</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-	</row>
-</result>

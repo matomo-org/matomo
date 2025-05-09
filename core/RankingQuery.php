@@ -382,7 +382,7 @@ class RankingQuery
 			SELECT
 				$labelColumnsString,
 				$counterExpression AS counter
-                $counterRollupExpression
+				$counterRollupExpression
 				$additionalColumnsString
 			FROM
 				$initCounter

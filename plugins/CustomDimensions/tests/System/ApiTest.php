@@ -229,30 +229,6 @@ class ApiTest extends SystemTestCase
             )
         );
 
-        foreach (array(1, 2, 99) as $idSite) {
-            $api = array('CustomDimensions.getConfiguredCustomDimensions');
-            $apiToTest[] = array($api,
-                array(
-                    'idSite'     => $idSite,
-                    'date'       => self::$fixture->dateTime,
-                    'periods'    => array('day'),
-                    'testSuffix' => '_' . $idSite
-                )
-            );
-
-            $apiToTest[] = array('CustomDimensions.getConfiguredCustomDimensionsHavingScope',
-                array(
-                    'idSite'     => $idSite,
-                    'date'       => self::$fixture->dateTime,
-                    'periods'    => array('day'),
-                    'testSuffix' => '_' . $idSite,
-                    'otherRequestParameters' => [
-                        'scope' => 'visit',
-                    ],
-                ),
-            );
-        }
-
         $apiToTest[] = array(array('API.getProcessedReport'),
                              array(
                                  'idSite'  => 1,
@@ -348,7 +324,8 @@ class ApiTest extends SystemTestCase
         );
 
         foreach (array(1, 2, 99) as $idSite) {
-            $api = array('CustomDimensions.getAvailableScopes');
+            $api = array('CustomDimensions.getConfiguredCustomDimensions',
+                         'CustomDimensions.getAvailableScopes');
             $apiToTest[] = array($api,
                 array(
                     'idSite'     => $idSite,
@@ -356,6 +333,18 @@ class ApiTest extends SystemTestCase
                     'periods'    => array('day'),
                     'testSuffix' => '_' . $idSite
                 )
+            );
+
+            $apiToTest[] = array('CustomDimensions.getConfiguredCustomDimensionsHavingScope',
+                array(
+                    'idSite'     => $idSite,
+                    'date'       => self::$fixture->dateTime,
+                    'periods'    => array('day'),
+                    'testSuffix' => '_' . $idSite,
+                    'otherRequestParameters' => [
+                        'scope' => 'visit',
+                    ],
+                ),
             );
         }
 

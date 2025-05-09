@@ -99,13 +99,13 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
 
         $expected = "
             SELECT
-                CASE 
+                CASE
                     WHEN counterRollup = 11 THEN 'Others'
                     WHEN counterRollup > 0 THEN `label`
                     WHEN counter = 11 THEN 'Others'
                     ELSE `label`
                 END AS `label`,
-                CASE 
+                CASE
                     WHEN counterRollup = 11 THEN NULL 
                     WHEN counterRollup > 0 THEN `url`
                     WHEN counter = 11 THEN 'Others'
@@ -116,13 +116,13 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
             FROM (
                 SELECT
                     `label`, `url`,
-                    CASE 
+                    CASE
                         WHEN `label` IS NULL THEN -1
                         WHEN `url` IS NULL THEN -1
                         WHEN @counter = 11 THEN 11 
                         ELSE @counter:=@counter+1
                     END AS counter,
-                    CASE 
+                    CASE
                         WHEN `label` IS NULL AND `url` IS NULL THEN -1
                         WHEN `label` IS NULL AND @counterRollup = 11 THEN 11
                         WHEN `label` IS NULL THEN @counterRollup := @counterRollup + 1
@@ -160,7 +160,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                 FROM (
                     SELECT 
                         `label`, `url`,
-                        CASE 
+                        CASE
                             WHEN `label` IS NULL THEN -1
                             WHEN `url` IS NULL THEN -1
                             WHEN @counter = 11 THEN 11
@@ -179,8 +179,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                     FROM
                         ( SELECT @counter:=0 ) initCounter,
                         ( SELECT @counterRollup:=0 ) initCounterRollup,
-                        ( SELECT label, url, column, columnSum FROM myTable LIMIT 
-18446744073709551615 ) actualQuery
+                        ( SELECT label, url, column, columnSum FROM myTable LIMIT 18446744073709551615 ) actualQuery
                 ) AS withCounter
                 GROUP BY counter, counterRollup
                 ORDER BY counter, counterRollup
