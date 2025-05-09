@@ -122,25 +122,25 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setBrandingSettings($useCustomLogo, $isNewCustomLogo, $isNewCustomFavicon)
+    public function setBrandingSettings($useCustomLogo, $hasCustomLogo, $hasCustomFavicon)
     {
         Piwik::checkUserHasSuperUserAccess();
         $customLogo = new CustomLogo();
         $response = [];
 
-        if (!$useCustomLogo || ($useCustomLogo && !$isNewCustomLogo && !$isNewCustomFavicon)) {
+        if (!$useCustomLogo || ($useCustomLogo && !$hasCustomLogo && !$hasCustomFavicon)) {
             $customLogo->removeLogos();
             $customLogo->disable();
 
             $response['useCustomLogo'] = false;
-        } elseif ($isNewCustomLogo || $isNewCustomFavicon) {
+        } elseif ($hasCustomLogo || $hasCustomFavicon) {
             $customLogo->enable();
             $response['useCustomLogo'] = true;
-            if ($isNewCustomLogo && $customLogo->hasTempLogo()) {
+            if ($hasCustomLogo && $customLogo->hasTempLogo()) {
                 $customLogo->publishUserLogo();
                 $response['customLogoPath'] = $customLogo->getPathUserLogo();
             }
-            if ($isNewCustomFavicon && $customLogo->hasTempFavicon()) {
+            if ($hasCustomFavicon && $customLogo->hasTempFavicon()) {
                 $customLogo->publishUserFavicon();
                 $response['customFaviconPath'] = $customLogo->getPathUserFavicon();
             }

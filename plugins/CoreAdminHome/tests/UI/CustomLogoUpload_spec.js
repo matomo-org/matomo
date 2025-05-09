@@ -55,7 +55,18 @@ describe("CustomLogoUpload", function () {
         expect(fs.existsSync(logoPublicPath)).to.be.false; // custom file not published as not saved
     });
 
-    it('should upload a custom favicon', async function() {
+    it('should publish custom logo when settings are saved', async function() {
+        await page.click('[vue-entry="CoreAdminHome.BrandingSettings"] .matomo-save-button');
+        await page.waitForTimeout(1000);
+        await page.waitForNetworkIdle();
+
+        expect(fs.existsSync(logoPublicPath)).to.be.true;
+        expect(fs.existsSync(logoTmpPath)).to.be.false;
+        expect(fs.existsSync(faviconPublicPath)).to.be.false;
+        expect(fs.existsSync(faviconTmpPath)).to.be.false;
+    });
+
+    it('should upload a custom favicon without a page reload', async function() {
         const fileInput = await page.$('input[name=customFavicon]');
         await fileInput.uploadFile(faviconToUpload);
 
@@ -68,15 +79,35 @@ describe("CustomLogoUpload", function () {
         expect(fs.existsSync(faviconPublicPath)).to.be.false;
     });
 
-    it('should save the settings after logo and favicon upload', async function() {
+    it('should publish custom favicon and not alter custom logo when settings are saved again', async function() {
         await page.click('[vue-entry="CoreAdminHome.BrandingSettings"] .matomo-save-button');
         await page.waitForTimeout(1000);
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshotSelector(contentSelector)).to.matchImage('branding_settings_saved');
+        expect(fs.existsSync(logoPublicPath)).to.be.true;
+        expect(fs.existsSync(logoTmpPath)).to.be.false;
+        expect(fs.existsSync(faviconPublicPath)).to.be.true;
+        expect(fs.existsSync(faviconTmpPath)).to.be.false;
+    });
+
+    it('should display custom logo and favicon when settings page is reloaded', async function() {
+        await page.reload();
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshotSelector(contentSelector)).to.matchImage('branding_settings_reloaded_first');
+    });
+
+    it('should not change anything when settings are saved with custom logos present', async function() {
+        await page.click('[vue-entry="CoreAdminHome.BrandingSettings"] .matomo-save-button');
+        await page.waitForTimeout(1000);
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshotSelector(contentSelector)).to.matchImage('branding_settings_reloaded_second');
 
         expect(fs.existsSync(logoPublicPath)).to.be.true;
         expect(fs.existsSync(faviconPublicPath)).to.be.true;
+        expect(fs.existsSync(logoTmpPath)).to.be.false;
+        expect(fs.existsSync(faviconTmpPath)).to.be.false;
     });
 
     it('should disable custom logo feature and save settings', async function() {

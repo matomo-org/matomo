@@ -268,8 +268,8 @@ export default defineComponent({
       },
       {
         useCustomLogo: this.enabled ? '1' : '0',
-        isNewCustomLogo: (this.newLogoBase64Src.length > 0) ? '1' : '0',
-        isNewCustomFavicon: (this.newFaviconBase64Src.length > 0) ? '1' : '0',
+        hasCustomLogo: (this.newLogoBase64Src.length > 0 || this.customLogo) ? '1' : '0',
+        hasCustomFavicon: (this.newFaviconBase64Src.length > 0 || this.customFavicon) ? '1' : '0',
       }).then((response) => {
         this.enabled = !!response.useCustomLogo;
         if (response.customLogoPath) {
