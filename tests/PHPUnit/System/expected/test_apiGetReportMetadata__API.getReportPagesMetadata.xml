@@ -2433,6 +2433,38 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Social Networks</name>
+						<category>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<icon />
+							<help />
+							<widget />
+						</category>
+						<subcategory>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Referrers</module>
+						<action>getSocials</action>
+						<order>5</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Referrers</module>
+							<action>getSocials</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>1</idGoal>
+						</parameters>
+						<uniqueId>widgetReferrersgetSocialsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Campaigns</name>
 						<category>
 							<id>Goals by Referrers</id>
@@ -2450,7 +2482,7 @@
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
-						<order>5</order>
+						<order>6</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3260,6 +3292,38 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Social Networks</name>
+						<category>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<icon />
+							<help />
+							<widget />
+						</category>
+						<subcategory>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Referrers</module>
+						<action>getSocials</action>
+						<order>5</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Referrers</module>
+							<action>getSocials</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>2</idGoal>
+						</parameters>
+						<uniqueId>widgetReferrersgetSocialsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Campaigns</name>
 						<category>
 							<id>Goals by Referrers</id>
@@ -3277,7 +3341,7 @@
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
-						<order>5</order>
+						<order>6</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4087,6 +4151,38 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Social Networks</name>
+						<category>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<icon />
+							<help />
+							<widget />
+						</category>
+						<subcategory>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Referrers</module>
+						<action>getSocials</action>
+						<order>5</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Referrers</module>
+							<action>getSocials</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>3</idGoal>
+						</parameters>
+						<uniqueId>widgetReferrersgetSocialsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Campaigns</name>
 						<category>
 							<id>Goals by Referrers</id>
@@ -4104,7 +4200,7 @@
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
-						<order>5</order>
+						<order>6</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4904,6 +5000,38 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Social Networks</name>
+						<category>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<icon />
+							<help />
+							<widget />
+						</category>
+						<subcategory>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Referrers</module>
+						<action>getSocials</action>
+						<order>5</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Referrers</module>
+							<action>getSocials</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>0</idGoal>
+						</parameters>
+						<uniqueId>widgetReferrersgetSocialsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Campaigns</name>
 						<category>
 							<id>Goals by Referrers</id>
@@ -4921,7 +5049,7 @@
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
-						<order>5</order>
+						<order>6</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -5945,6 +6073,39 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Social Networks</name>
+						<category>
+							<id>Sales by Referrers</id>
+							<name>Sales by Referrers</name>
+							<order>99</order>
+							<icon />
+							<help />
+							<widget />
+						</category>
+						<subcategory>
+							<id>Sales by Referrers</id>
+							<name>Sales by Referrers</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Referrers</module>
+						<action>getSocials</action>
+						<order>5</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Referrers</module>
+							<action>getSocials</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>ecommerceOrder</idGoal>
+							<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+						</parameters>
+						<uniqueId>widgetReferrersgetSocialsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Campaigns</name>
 						<category>
 							<id>Sales by Referrers</id>
@@ -5962,7 +6123,7 @@
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
-						<order>5</order>
+						<order>6</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
