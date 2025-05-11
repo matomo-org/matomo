@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>/index.htm</label>
+		<nb_visits>2</nb_visits>
+		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_hits>4</nb_hits>
+		<sum_time_spent>90</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_uniq_visitors>2</entry_nb_uniq_visitors>
+		<entry_nb_visits>2</entry_nb_visits>
+		<entry_nb_actions>8</entry_nb_actions>
+		<entry_sum_visit_length>160</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
+		<exit_nb_visits>2</exit_nb_visits>
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>3</nb_conversions>
+				<revenue>3420</revenue>
+				<nb_conv_pages_before>2</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>3</nb_conversions_page_uniq>
+				<revenue_attrib>1095</revenue_attrib>
+				<revenue_entry>2190</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>1095</revenue_per_entry>
+				<nb_conversions_entry>2</nb_conversions_entry>
+			</row>
+		</goals>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>23</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<url>http://example.org/index.htm</url>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
+	</row>
+	<row>
+		<label>/product.htm</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_hits>2</nb_hits>
+		<sum_time_spent>26</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>3</nb_conversions>
+				<revenue>3420</revenue>
+				<nb_conv_pages_before>2</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>3</nb_conversions_page_uniq>
+				<revenue_attrib>1095</revenue_attrib>
+			</row>
+		</goals>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>13</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<url>http://example.org/product.htm</url>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fproduct.htm</segment>
+	</row>
+</result>

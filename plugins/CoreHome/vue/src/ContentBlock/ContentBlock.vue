@@ -9,16 +9,17 @@
   <div :class="{ card: true, 'card-with-image': !!this.imageUrl }" ref="root">
     <div class="card-content">
       <h2
-        v-if="contentTitle && !actualFeature && !helpUrl && !actualHelpText"
+        v-if="contentTitle && !actualFeature && !helpUrl && !actualHelpText && !editUrl"
         class="card-title"
       >{{ decode(contentTitle) }}</h2>
       <h2
-        v-if="contentTitle && (actualFeature || helpUrl || actualHelpText)"
+        v-if="contentTitle && (actualFeature || helpUrl || actualHelpText || editUrl)"
         class="card-title"
       >
         <EnrichedHeadline
           :feature-name="actualFeature"
           :help-url="helpUrl"
+          :edit-url="editUrl"
           :inline-help="actualHelpText"
         >
           {{ decode(contentTitle) }}
@@ -48,6 +49,7 @@ export default defineComponent({
     contentTitle: String,
     feature: String,
     helpUrl: String,
+    editUrl: String,
     helpText: String,
     anchor: String,
     imageUrl: String,
