@@ -7,7 +7,7 @@
         "ConfigIniAccessible": "También descubrimos que el directorio config de Matomo es de acceso público. Mientras que los atacantes no pueden leer la configuración ahora, si su servidor web deja de ejecutar archivos PHP por alguna razón, sus credenciales MySQL y otra información estará disponible para cualquiera. Por favor, comprueba la configuración de tu servidor web y deniega el acceso a este directorio.",
         "CronArchivingHasNotRun": "El archivado aún no se ha ejecutado correctamente.",
         "CronArchivingHasNotRunInAWhile": "El último archivado se ejecutó exitosamente en %1$s el cual es %2$s.",
-        "CronArchivingLastRunCheck": "Ultimo archivado completado exitosamente.",
+        "CronArchivingLastRunCheck": "Último archivado completado con éxito",
         "CronArchivingRanSuccessfullyXAgo": "El proceso de archivado se completó exitosamente hace %1$s.",
         "CronArchivingRunDetails": "Verifique que haya configurado un crontab llamando al comando %1$s de la consola, y que haya configurado un %2$s para recibir los errores por correo electrónico si falla el archivado. También puede intentar ejecutar el comando de la consola para archivar sus informes manualmente: %3$s. %4$sPara saber más.%5$s",
         "DatabaseReaderConnection": "Conexión con el lector de la base de datos",
