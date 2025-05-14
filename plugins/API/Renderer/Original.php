@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\API\Renderer;
 
 use Piwik\API\ApiRenderer;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
@@ -78,7 +79,7 @@ class Original extends ApiRenderer
 
     public function sendHeader()
     {
-        if ($this->shouldSerialize()) {
+        if (Request::isRootRequestApiRequest()) {
             self::sendPlainTextHeader();
         }
     }
