@@ -48,12 +48,12 @@
         }
 
         var disableOrEnableLoginSubmitButton = function () {
-          if ($('#login_form_login').val() === '' && $('#login_form_password').val() === '') {
-            $('#login_form_submit').addClass('disabled');
+          if ($('#login_form_login').val() === '' || $('#login_form_password').val() === '') {
+            $('#login_form_submit').attr('disabled', 'disabled');
           } else {
-            $('#login_form_submit').removeClass('disabled');
+            $('#login_form_submit').removeAttr('disabled');
           }
-        }
+        };
 
         // set login form redirect url
         $('#login_form_redirect').val(window.location.href);
