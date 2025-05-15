@@ -11,7 +11,7 @@
         "VisitNum": "Nombre de visites",
         "VisitsByDaysSinceLast": "Visites par jours depuis la dernière visite",
         "VisitsPerDuration": "Visites par durée de la visite",
-        "VisitsPerNbOfPages": "Visites par nombre de pages",
+        "VisitsPerNbOfPages": "Nombre de pages par visites",
         "WidgetLengths": "Durée des visites",
         "WidgetLengthsDocumentation": "Combien de visites ont duré un certain temps. Initialement ce rapport est affiché comme un nuage de termes, les durées les plus fréquentes sont affichées dans des polices plus grandes.",
         "WidgetPages": "Pages par visite",
