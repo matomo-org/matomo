@@ -132,17 +132,19 @@ class API extends \Piwik\Plugin\API
             $customLogo->disable();
 
             $response['useCustomLogo'] = false;
-        } elseif ($hasCustomLogo || $hasCustomFavicon) {
-            $customLogo->enable();
-            $response['useCustomLogo'] = true;
-            if ($hasCustomLogo && $customLogo->hasTempLogo()) {
-                $customLogo->publishUserLogo();
-                $response['customLogoPath'] = $customLogo->getPathUserLogo();
-            }
-            if ($hasCustomFavicon && $customLogo->hasTempFavicon()) {
-                $customLogo->publishUserFavicon();
-                $response['customFaviconPath'] = $customLogo->getPathUserFavicon();
-            }
+
+            return $response;
+        }
+
+        $customLogo->enable();
+        $response['useCustomLogo'] = true;
+        if ($hasCustomLogo && $customLogo->hasTempLogo()) {
+            $customLogo->publishUserLogo();
+            $response['customLogoPath'] = $customLogo->getPathUserLogo();
+        }
+        if ($hasCustomFavicon && $customLogo->hasTempFavicon()) {
+            $customLogo->publishUserFavicon();
+            $response['customFaviconPath'] = $customLogo->getPathUserFavicon();
         }
 
         return $response;
