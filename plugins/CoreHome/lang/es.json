@@ -20,7 +20,7 @@
         "DataForThisReportHasBeenPurged": "Los datos para este informe tienen más de %s meses de antigüedad y han sido purgados.",
         "DataTableCombineDimensions": "Dimensiones están mostradas separadamente %s Mostrarlas de manera combinada",
         "DataTableExcludeAggregateRows": "Mostrar filas acumuladas %s Ocultarlas",
-        "DataTableHowToSearch": "Presione intro o clic en el ícono de búsqueda para precisamente buscar",
+        "DataTableHowToSearch": "Pulse Intro o haga clic en el icono de búsqueda para buscar",
         "DataTableIncludeAggregateRows": "Filas agregadas están ocultas %s Mostrarlas",
         "DataTableShowDimensions": "Dimensiones están combinadas %s Mostrarlas separadamente",
         "DateInvalid": "La combinación de fecha y periodo seleccionados es inválido. Por favor escoja una fecha válida en el selector de fechas.",

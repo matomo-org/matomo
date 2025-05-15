@@ -7,7 +7,7 @@
         "CreateNewDashboard": "Crear nuevo tablero",
         "Dashboard": "Tablero",
         "DashboardCategoryHelp": "Esta es una página de tablero. Los paneles son una colección de widgets de Matomo que agrega usted mismo para satisfacer sus necesidades específicas. Mezcle y combine cualquiera de los widgets de Matomo para obtener los datos que %1$s*usted*%2$s necesita de un vistazo.",
-        "DashboardCopied": "Actual tablero copiado exitosamente al usuario seleccionado.",
+        "DashboardCopied": "Tablero actual copiado con éxito al usuario seleccionado.",
         "DashboardEmptyNotification": "Su panel de control no contiene ningún módulo. Comience añadiendo alguno o restablezca el panel de control con la selección de módulos por defecto.",
         "DashboardName": "Nombre del tablero:",
         "DashboardOf": "Tablero de %s",
