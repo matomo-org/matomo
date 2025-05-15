@@ -163,7 +163,7 @@ class CustomLogo
         }
     }
 
-    public static function getTempPathUserLogoUploads()
+    public static function getTempPathUserLogoUploads(): string
     {
         // use sha1 of the username to prevent usage of unsafe characters in the path
         $path = StaticContainer::get('path.tmp') . '/logos/' . sha1(Piwik::getCurrentUserLogin()) . '/';
@@ -210,7 +210,7 @@ class CustomLogo
         return static::getTempPathUserLogoUploads() . self::FILENAME_LOGO_HEADER;
     }
 
-    protected static function rewritePath($path): string
+    protected static function rewritePath(string $path): string
     {
         return SettingsPiwik::rewriteMiscUserPathWithInstanceId($path);
     }
@@ -246,7 +246,7 @@ class CustomLogo
         return static::logoExists(static::getPathUserFavicon());
     }
 
-    private function postLogoChangeEvent($imagePath)
+    private function postLogoChangeEvent($imagePath): void
     {
         $rootPath = Filesystem::getPathToPiwikRoot();
         $absolutePath = $rootPath . '/' . $imagePath;
@@ -396,7 +396,7 @@ class CustomLogo
      * @param $path
      * @return bool
      */
-    private function uploadImage($uploadFieldName, $targetHeight, $path)
+    private function uploadImage($uploadFieldName, $targetHeight, $path): bool
     {
         if (
             empty($_FILES[$uploadFieldName])
