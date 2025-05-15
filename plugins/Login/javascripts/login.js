@@ -55,6 +55,25 @@
           }
         };
 
+        var disableOrEnableChangePasswordButton = function () {
+
+          let anyFieldEmpty = (
+            $('#reset_form_login').val() === ''
+            || $('#reset_form_password').val() === ''
+            || $('#reset_form_password_bis').val() === ''
+          );
+
+          let passwordsDoNotMatch =
+            $('#reset_form_password').val() !== $('#reset_form_password_bis').val();
+
+          if (anyFieldEmpty || passwordsDoNotMatch)
+          {
+            $('#reset_form_submit').attr('disabled', 'disabled');
+          } else {
+            $('#reset_form_submit').removeAttr('disabled');
+          }
+        };
+
         // set login form redirect url
         $('#login_form_redirect').val(window.location.href);
 
@@ -115,6 +134,12 @@
         $('#login_form_login').on('input', disableOrEnableLoginSubmitButton);
         $('#login_form_password').on('input', disableOrEnableLoginSubmitButton);
         disableOrEnableLoginSubmitButton();
+
+        // Disable reset password button when required fields are not filled out
+        $('#reset_form_login').on('input', disableOrEnableChangePasswordButton);
+        $('#reset_form_password').on('input', disableOrEnableChangePasswordButton);
+        $('#reset_form_password_bis').on('input', disableOrEnableChangePasswordButton);
+        disableOrEnableChangePasswordButton();
 
         $('#login_form_login').focus();
 

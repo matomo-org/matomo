@@ -60,6 +60,34 @@ describe('ResetPassword', function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('forgot_password');
     });
 
+    // Enable/disable change password button.
+    it('should enable the Change Password button when correct fields are entered', async function () {
+      await goToForgotPasswordPage();
+
+      // Assert that the button starts off disabled.
+      await page.waitForSelector('#reset_form_submit[disabled]');
+
+      // Button still disabled with user, but no password entered.
+      await page.type('#reset_form_login', 'u');
+      await page.waitForSelector('#reset_form_submit[disabled]');
+
+      // Button disabled with user and password both entered.
+      await page.type('#reset_form_password', 'pass');
+      await page.waitForSelector('#reset_form_submit[disabled]');
+
+      // Button disabled with differing password fields.
+      await page.type('#reset_form_password_bis', 'p');
+      await page.waitForSelector('#reset_form_submit[disabled]');
+
+      // Button enabled with user and matching password fields.
+      await page.type('#reset_form_password_bis', 'ass');
+      await page.waitForSelector('#reset_form_submit:not([disabled])');
+
+      // Button disabled again if a fields no longer match.
+      await page.keyboard.press('Backspace');
+      await page.waitForSelector('#reset_form_submit[disabled]');
+    });
+
     it('should show reset password form and error message on error', async function () {
         await goToForgotPasswordPage();
 
