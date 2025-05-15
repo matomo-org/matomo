@@ -145,6 +145,7 @@ import {
   Matomo,
   MatomoDialog,
   Site,
+  ContentBlock,
   ContentIntro,
   EnrichedHeadline,
   AjaxHelper,
@@ -157,7 +158,6 @@ import SiteFields from '../SiteFields/SiteFields.vue';
 import SiteTypesStore from '../SiteTypesStore/SiteTypesStore';
 import TimezoneStore from '../TimezoneStore/TimezoneStore';
 import GlobalSettingsStore from '../GlobalSettingsStore/GlobalSettingsStore';
-import { ContentBlock } from '../../../../CoreHome/vue/src';
 
 interface SitesManagementState {
   pageSize: number;
