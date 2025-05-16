@@ -167,10 +167,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->reportName = $report['description'];
 
-        $nonce = Common::getRequestVar('nonce', '', 'string');
-
-        if (!empty($confirm) && Nonce::verifyNonce('Report.Unsubscribe', $nonce)) {
-            Nonce::discardNonce('Report.Unsubscribe');
+        if (!empty($confirm)) {
+            Nonce::checkNonce('Report.Unsubscribe');
             $subscriptionModel->unsubscribe($token);
             $view->success = true;
         } else {
