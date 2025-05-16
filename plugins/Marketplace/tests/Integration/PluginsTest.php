@@ -208,7 +208,6 @@ class PluginsTest extends IntegrationTestCase
             'createdDateTime' => '2014-12-23 00:38:20',
             'donate' =>
                  [
-                    'flattr' => 'https://flattr.com/profile/test1',
                     'bitcoin' => null,
                 ],
             'support' =>
