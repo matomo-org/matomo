@@ -145,22 +145,6 @@
                     <img src="plugins/CorePluginsAdmin/images/paypal_donate.png" height="30"/>
                   </a>
 
-                  <a
-                    v-if="plugin.info?.donate?.flattr"
-                    class="donation-link flattr"
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    :href="plugin.info.donate?.flattr"
-                  >
-                    <img
-                      class="alignnone"
-                      title="Flattr"
-                      alt=""
-                      src="plugins/CorePluginsAdmin/images/flattr.png"
-                      height="29"
-                    />
-                  </a>
-
                   <div
                     v-if="plugin.info?.donate?.bitcoin"
                     class="donation-link bitcoin"

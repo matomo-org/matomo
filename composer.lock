@@ -3410,16 +3410,16 @@
         },
         {
             "name": "tecnickcom/tcpdf",
-            "version": "6.9.3",
+            "version": "6.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "d0e8dd17f8a1df3c97b94b9af8356e88e811ed59"
+                "reference": "c838d7f7babb0d35763acfb9ecf78c3f45966f83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/d0e8dd17f8a1df3c97b94b9af8356e88e811ed59",
-                "reference": "d0e8dd17f8a1df3c97b94b9af8356e88e811ed59",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/c838d7f7babb0d35763acfb9ecf78c3f45966f83",
+                "reference": "c838d7f7babb0d35763acfb9ecf78c3f45966f83",
                 "shasum": ""
             },
             "require": {
@@ -3469,15 +3469,15 @@
             ],
             "support": {
                 "issues": "https://github.com/tecnickcom/TCPDF/issues",
-                "source": "https://github.com/tecnickcom/TCPDF/tree/6.9.3"
+                "source": "https://github.com/tecnickcom/TCPDF/tree/6.9.4"
             },
             "funding": [
                 {
-                    "url": "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&currency_code=GBP&business=paypal@tecnick.com&item_name=donation%20for%20tcpdf%20project",
+                    "url": "https://www.paypal.com/donate/?hosted_button_id=NZUEC5XS8MFBJ",
                     "type": "custom"
                 }
             ],
-            "time": "2025-04-20T15:52:50+00:00"
+            "time": "2025-05-13T11:34:35+00:00"
         },
         {
             "name": "tedivm/jshrink",
@@ -4100,16 +4100,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.12.25",
+            "version": "1.12.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "e310849a19e02b8bfcbb63147f495d8f872dd96f"
+                "reference": "84cbf8f018e01834b9b1ac3dacf3b9780e209e53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e310849a19e02b8bfcbb63147f495d8f872dd96f",
-                "reference": "e310849a19e02b8bfcbb63147f495d8f872dd96f",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/84cbf8f018e01834b9b1ac3dacf3b9780e209e53",
+                "reference": "84cbf8f018e01834b9b1ac3dacf3b9780e209e53",
                 "shasum": ""
             },
             "require": {
@@ -4154,7 +4154,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-04-27T12:20:45+00:00"
+            "time": "2025-05-14T11:08:32+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -5354,16 +5354,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.12.2",
+            "version": "3.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "6d4cf6032d4b718f168c90a96e36c7d0eaacb2aa"
+                "reference": "65ff2489553b83b4597e89c3b8b721487011d186"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/6d4cf6032d4b718f168c90a96e36c7d0eaacb2aa",
-                "reference": "6d4cf6032d4b718f168c90a96e36c7d0eaacb2aa",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/65ff2489553b83b4597e89c3b8b721487011d186",
+                "reference": "65ff2489553b83b4597e89c3b8b721487011d186",
                 "shasum": ""
             },
             "require": {
@@ -5434,7 +5434,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-04-13T04:10:18+00:00"
+            "time": "2025-05-11T03:36:00+00:00"
         },
         {
             "name": "symfony/yaml",
