@@ -63,15 +63,19 @@
                         </div>
                     </div>
                     <div class="row">
-                        <input class="submit btn btn-block" id="login_form_submit" type="submit"
-                               value="{{ 'Login_LogIn'|translate }}" tabindex="100" disabled="disabled"
-                        />
+                        <div class="col s12">
+                            <input class="submit btn btn-block" id="login_form_submit" type="submit"
+                                   value="{{ 'Login_LogIn'|translate }}" tabindex="100" disabled="disabled"
+                            />
+                        </div>
                     </div>
                 </form>
 
                 <div class="row">
-                    {{ postEvent("Template.loginNav", "top") }}
-                    {{ postEvent("Template.loginNav", "bottom") }}
+                    <div class="col s12">
+                        {{ postEvent("Template.loginNav", "top") }}
+                        {{ postEvent("Template.loginNav", "bottom") }}
+                    </div>
                 </div>
 
                 {% if isCustomLogo %}
