@@ -6,6 +6,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
 use Piwik\Mail;
+use Piwik\Piwik;
 use Piwik\View;
 
 class UserInfoChangedEmail extends Mail
@@ -63,6 +64,7 @@ class UserInfoChangedEmail extends Mail
         $view->type = $this->type;
         $view->accountName = Common::sanitizeInputValue($this->login);
         $view->newEmail = Common::sanitizeInputValue($this->changedNewValue);
+        $view->changeBySuperUser = $this->login !== Piwik::getCurrentUserLogin();
         $view->ipAddress = IP::getIpFromHeader();
         $view->deviceDescription = $deviceDescription;
         return $view;
