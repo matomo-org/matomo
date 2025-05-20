@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 use Piwik\Exception\DI\NotFoundException;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\Exception;
 use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -23,6 +24,11 @@ class CustomLogo
     public const LOGO_HEIGHT = 300;
     public const LOGO_SMALL_HEIGHT = 100;
     public const FAVICON_HEIGHT = 32;
+
+    public const FILENAME_LOGO = 'logo.png';
+    public const FILENAME_LOGO_HEADER = 'logo-header.png';
+    public const FILENAME_LOGO_SVG = 'logo.svg';
+    public const FILENAME_FAVICON = 'favicon.png';
 
     public function getLogoUrl($pathOnly = false)
     {
@@ -157,29 +163,71 @@ class CustomLogo
         }
     }
 
-    public static function getPathUserLogo()
+    public static function getTempPathUserLogoUploads(): string
     {
-        return static::rewritePath(self::getBasePath() . 'logo.png');
+        // use sha1 of the username to prevent usage of unsafe characters in the path
+        $path = StaticContainer::get('path.tmp') . '/logos/' . sha1(Piwik::getCurrentUserLogin()) . '/';
+
+        if (!is_dir($path)) {
+            Filesystem::mkdir($path);
+        }
+
+        return $path;
     }
 
-    public static function getPathUserFavicon()
+    public static function getPathUserLogo(): string
     {
-        return static::rewritePath(self::getBasePath() . 'favicon.png');
+        return static::rewritePath(self::getBasePath() . self::FILENAME_LOGO);
     }
 
-    public static function getPathUserSvgLogo()
+    public static function getTempPathUserLogo(): string
     {
-        return static::rewritePath(self::getBasePath() . 'logo.svg');
+        return static::getTempPathUserLogoUploads()  . self::FILENAME_LOGO;
     }
 
-    public static function getPathUserLogoSmall()
+    public static function getPathUserFavicon(): string
     {
-        return static::rewritePath(self::getBasePath() . 'logo-header.png');
+        return static::rewritePath(self::getBasePath() . self::FILENAME_FAVICON);
     }
 
-    protected static function rewritePath($path)
+    public static function getTempPathUserFavicon(): string
+    {
+        return static::getTempPathUserLogoUploads()  . self::FILENAME_FAVICON;
+    }
+
+    public static function getPathUserSvgLogo(): string
+    {
+        return static::rewritePath(self::getBasePath() . self::FILENAME_LOGO_SVG);
+    }
+
+    public static function getPathUserLogoSmall(): string
+    {
+        return static::rewritePath(self::getBasePath() . self::FILENAME_LOGO_HEADER);
+    }
+
+    public static function getTempPathUserLogoSmall(): string
+    {
+        return static::getTempPathUserLogoUploads() . self::FILENAME_LOGO_HEADER;
+    }
+
+    protected static function rewritePath(string $path): string
     {
         return SettingsPiwik::rewriteMiscUserPathWithInstanceId($path);
+    }
+
+    public static function hasTempLogo(): bool
+    {
+        $logoTempPath = static::getTempPathUserLogo();
+        $smallLogoTempPath = static::getTempPathUserLogoSmall();
+
+        return (file_exists($logoTempPath) && file_exists($smallLogoTempPath));
+    }
+
+    public static function hasTempFavicon(): bool
+    {
+        $faviconTempPath = static::getTempPathUserFavicon();
+
+        return file_exists($faviconTempPath);
     }
 
     /**
@@ -198,31 +246,7 @@ class CustomLogo
         return static::logoExists(static::getPathUserFavicon());
     }
 
-    public function copyUploadedLogoToFilesystem()
-    {
-        $uploadFieldName = 'customLogo';
-
-        $smallLogoUserPath = $this->getPathUserLogoSmall();
-        $logoUserPath = $this->getPathUserLogo();
-
-        $success = $this->uploadImage($uploadFieldName, self::LOGO_SMALL_HEIGHT, $smallLogoUserPath);
-        if (!$success) {
-            return false;
-        }
-
-        $this->postLogoChangeEvent($smallLogoUserPath);
-
-        $success = $this->uploadImage($uploadFieldName, self::LOGO_HEIGHT, $logoUserPath);
-        if (!$success) {
-            return false;
-        }
-
-        $this->postLogoChangeEvent($logoUserPath);
-
-        return true;
-    }
-
-    private function postLogoChangeEvent($imagePath)
+    private function postLogoChangeEvent($imagePath): void
     {
         $rootPath = Filesystem::getPathToPiwikRoot();
         $absolutePath = $rootPath . '/' . $imagePath;
@@ -236,23 +260,143 @@ class CustomLogo
         Piwik::postEvent('CoreAdminHome.customLogoChanged', [$absolutePath]);
     }
 
-    public function copyUploadedFaviconToFilesystem()
+    public function uploadFaviconToTempFolder(): bool
     {
         $uploadFieldName = 'customFavicon';
 
-        $faviconUserPath = $this->getPathUserFavicon();
+        $faviconTempPath = static::getTempPathUserFavicon();
 
-        $success = $this->uploadImage($uploadFieldName, self::FAVICON_HEIGHT, $faviconUserPath);
+        return $this->uploadImage($uploadFieldName, self::FAVICON_HEIGHT, $faviconTempPath);
+    }
+
+    public function uploadLogoToTempFolder(): bool
+    {
+        $uploadFieldName = 'customLogo';
+
+        $logoTempPath = static::getTempPathUserLogo();
+        $smallLogoTempPath = static::getTempPathUserLogoSmall();
+
+        $success = $this->uploadImage($uploadFieldName, self::LOGO_SMALL_HEIGHT, $smallLogoTempPath);
         if (!$success) {
             return false;
         }
 
-        $this->postLogoChangeEvent($faviconUserPath);
+        $success = $this->uploadImage($uploadFieldName, self::LOGO_HEIGHT, $logoTempPath);
+        if (!$success) {
+            return false;
+        }
 
         return true;
     }
 
-    private function uploadImage($uploadFieldName, $targetHeight, $userPath)
+    /**
+     * Publish logo and small logo from tmp folder to user folder
+     *
+     * @return bool
+     */
+    public function publishUserLogo(): bool
+    {
+        $logoTempPath = static::getTempPathUserLogo();
+        $logoUserPath = static::getPathUserLogo();
+
+        $smallLogoTempPath = static::getTempPathUserLogoSmall();
+        $smallLogoUserPath = static::getPathUserLogoSmall();
+
+        try {
+            if (file_exists($logoTempPath) && file_exists($smallLogoTempPath)) {
+                Filesystem::copy($logoTempPath, $logoUserPath);
+                Filesystem::copy($smallLogoTempPath, $smallLogoUserPath);
+
+                $this->postLogoChangeEvent($logoUserPath);
+                $this->postLogoChangeEvent($smallLogoUserPath);
+
+                // remove temp files
+                Filesystem::remove($logoTempPath);
+                Filesystem::remove($smallLogoTempPath);
+
+                return true;
+            }
+        } catch (Exception $e) {
+            // nop
+        }
+
+        return false;
+    }
+
+    /**
+     * Publish favicon from tmp folder to user folder
+     *
+     * @return bool
+     */
+    public function publishUserFavicon(): bool
+    {
+        $faviconTempPath = static::getTempPathUserFavicon();
+        $faviconUserPath = static::getPathUserFavicon();
+
+        try {
+            if (file_exists($faviconTempPath)) {
+                Filesystem::copy($faviconTempPath, $faviconUserPath);
+
+                $this->postLogoChangeEvent($faviconUserPath);
+
+                // remove temp file
+                Filesystem::remove($faviconTempPath);
+
+                return true;
+            }
+        } catch (Exception $e) {
+            // nop
+        }
+
+        return false;
+    }
+
+    /**
+     * Remove any uploaded logos from tmp and user folders
+     *
+     * @return void
+     */
+    public function removeLogos(): void
+    {
+        static::removePublishedLogos();
+        static::removeLogosFromTempFolder();
+    }
+
+    /**
+     * Remove publicly accessible logos and favicons from the misc/user folder
+     *
+     * @return void
+     */
+    public function removePublishedLogos(): void
+    {
+        $logoUserPath = static::getPathUserLogo();
+        $smallLogoUserPath = static::getPathUserLogoSmall();
+        $faviconUserPath = static::getPathUserFavicon();
+
+        Filesystem::deleteFileIfExists($logoUserPath);
+        Filesystem::deleteFileIfExists($smallLogoUserPath);
+        Filesystem::deleteFileIfExists($faviconUserPath);
+    }
+
+    /**
+     * Remove all uploaded logos and favicons from the temp folder
+     *
+     * @return void
+     */
+    public function removeLogosFromTempFolder(): void
+    {
+        $logosUploadTempFolder = static::getTempPathUserLogoUploads();
+        Filesystem::unlinkRecursive($logosUploadTempFolder, true);
+    }
+
+    /**
+     * Process logo/favicon uploads from the request and store in a given path
+     * @param $uploadFieldName
+     * @param $targetHeight
+     * @param $path
+     * @return bool
+     */
+    private function uploadImage($uploadFieldName, $targetHeight, $path): bool
     {
         if (
             empty($_FILES[$uploadFieldName])
@@ -299,9 +443,7 @@ class CustomLogo
         imagecolortransparent($newImage, $backgroundColor);
 
         imagecopyresampled($newImage, $image, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
-        imagepng($newImage, PIWIK_DOCUMENT_ROOT . '/' . $userPath, 3);
-
-        return true;
+        return imagepng($newImage, $path, 3);
     }
 
     /**
@@ -310,5 +452,37 @@ class CustomLogo
     private static function logoExists($relativePath)
     {
         return file_exists(Filesystem::getPathToPiwikRoot() . '/' . $relativePath);
+    }
+
+    /**
+     * If tmp logo exists, return it as base64 encoded string for preview in branding settings
+     *
+     * @return string|null
+     */
+    public function getTempUserLogoBase64(): ?string
+    {
+        $img = static::getTempPathUserLogo();
+
+        if (file_exists($img)) {
+            return base64_encode(file_get_contents($img));
+        }
+
+        return null;
+    }
+
+    /**
+     * If tmp favicon exists, return it as base64 encoded string for preview in branding settings
+     *
+     * @return string|null
+     */
+    public function getTempUserFaviconBase64(): ?string
+    {
+        $img = static::getTempPathUserFavicon();
+
+        if (file_exists($img)) {
+            return base64_encode(file_get_contents($img));
+        }
+
+        return null;
     }
 }

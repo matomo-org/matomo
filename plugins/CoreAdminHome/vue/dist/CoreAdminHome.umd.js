@@ -333,59 +333,59 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 ArchivingSettingsvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var ArchivingSettings = (ArchivingSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=template&id=83e81732
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=template&id=68734f11
 
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_1 = {
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_1 = {
   id: "logoSettings"
 };
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_2 = {
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_2 = {
   id: "logoUploadForm",
   ref: "logoUploadForm",
   method: "post",
   enctype: "multipart/form-data",
   action: "index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo"
 };
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_3 = {
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_3 = {
   key: 0
 };
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_4 = ["value"];
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_4 = ["value"];
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
   type: "hidden",
   name: "force_api_session",
   value: "1"
 }, null, -1);
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_6 = {
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_6 = {
   key: 0
 };
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_7 = {
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_7 = {
   key: 0,
   class: "alert alert-warning uploaderror"
 };
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_8 = {
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_8 = {
   class: "row"
 };
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_9 = {
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_9 = {
   class: "col s12"
 };
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_10 = ["src"];
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_11 = {
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_10 = ["src"];
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_11 = {
   class: "row"
 };
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_12 = {
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_12 = {
   class: "col s12"
 };
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_13 = ["src"];
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_14 = {
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_13 = ["src"];
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_14 = {
   key: 1
 };
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_15 = ["innerHTML"];
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_16 = {
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_15 = ["innerHTML"];
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_16 = {
   key: 1
 };
-const BrandingSettingsvue_type_template_id_83e81732_hoisted_17 = {
+const BrandingSettingsvue_type_template_id_68734f11_hoisted_17 = {
   class: "alert alert-warning"
 };
-function BrandingSettingsvue_type_template_id_83e81732_render(_ctx, _cache, $props, $setup, $data, $options) {
+function BrandingSettingsvue_type_template_id_68734f11_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
   const _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
   const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
@@ -401,14 +401,14 @@ function BrandingSettingsvue_type_template_id_83e81732_render(_ctx, _cache, $pro
       "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.onUseCustomLogoChange($event)),
       title: _ctx.translate('CoreAdminHome_UseCustomLogo'),
       "inline-help": _ctx.help
-    }, null, 8, ["model-value", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_83e81732_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", BrandingSettingsvue_type_template_id_83e81732_hoisted_2, [_ctx.fileUploadEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_83e81732_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    }, null, 8, ["model-value", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_68734f11_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", BrandingSettingsvue_type_template_id_68734f11_hoisted_2, [_ctx.fileUploadEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_68734f11_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
       type: "hidden",
       name: "token_auth",
       value: _ctx.tokenAuth
-    }, null, 8, BrandingSettingsvue_type_template_id_83e81732_hoisted_4), BrandingSettingsvue_type_template_id_83e81732_hoisted_5, _ctx.logosWriteable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_83e81732_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
+    }, null, 8, BrandingSettingsvue_type_template_id_68734f11_hoisted_4), BrandingSettingsvue_type_template_id_68734f11_hoisted_5, _ctx.logosWriteable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_68734f11_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
       name: "fade-out"
     }, {
-      default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [_ctx.showUploadError ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_83e81732_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_LogoUploadFailed')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]),
+      default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [_ctx.showUploadError ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_68734f11_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_LogoUploadFailed')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]),
       _: 1
     }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
       uicontrol: "file",
@@ -417,37 +417,37 @@ function BrandingSettingsvue_type_template_id_83e81732_render(_ctx, _cache, $pro
       "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.onCustomLogoChange($event)),
       title: _ctx.translate('CoreAdminHome_LogoUpload'),
       "inline-help": _ctx.translate('CoreAdminHome_LogoUploadHelp', 'JPG / PNG / GIF', '110')
-    }, null, 8, ["model-value", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_83e81732_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_83e81732_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-      src: _ctx.pathUserLogoWithBuster,
+    }, null, 8, ["model-value", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_68734f11_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_68734f11_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+      src: _ctx.pathUserLogoSrc,
       id: "currentLogo",
       style: {
         "max-height": "150px"
       },
       ref: "currentLogo"
-    }, null, 8, BrandingSettingsvue_type_template_id_83e81732_hoisted_10)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    }, null, 8, BrandingSettingsvue_type_template_id_68734f11_hoisted_10)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
       uicontrol: "file",
       name: "customFavicon",
       "model-value": _ctx.customFavicon,
       "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => _ctx.onFaviconChange($event)),
       title: _ctx.translate('CoreAdminHome_FaviconUpload'),
       "inline-help": _ctx.translate('CoreAdminHome_LogoUploadHelp', 'JPG / PNG / GIF', '16')
-    }, null, 8, ["model-value", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_83e81732_hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_83e81732_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-      src: _ctx.pathUserFaviconWithBuster,
+    }, null, 8, ["model-value", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_68734f11_hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_68734f11_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+      src: _ctx.pathUserFaviconSrc,
       id: "currentFavicon",
       width: "16",
       height: "16",
       ref: "currentFavicon"
-    }, null, 8, BrandingSettingsvue_type_template_id_83e81732_hoisted_13)])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.logosWriteable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_83e81732_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    }, null, 8, BrandingSettingsvue_type_template_id_68734f11_hoisted_13)])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.logosWriteable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_68734f11_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
       class: "alert alert-warning",
       innerHTML: _ctx.$sanitize(_ctx.logosNotWriteableWarning)
-    }, null, 8, BrandingSettingsvue_type_template_id_83e81732_hoisted_15)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.fileUploadEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_83e81732_hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_83e81732_hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_FileUploadDisabled', "file_uploads=1")), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.enabled]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+    }, null, 8, BrandingSettingsvue_type_template_id_68734f11_hoisted_15)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.fileUploadEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_68734f11_hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_68734f11_hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_FileUploadDisabled', "file_uploads=1")), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.enabled]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
       onConfirm: _cache[3] || (_cache[3] = $event => _ctx.save()),
       saving: _ctx.isLoading
     }, null, 8, ["saving"])])), [[_directive_form]])]),
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=template&id=83e81732
+// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=template&id=68734f11
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=script&lang=ts
 
@@ -520,8 +520,8 @@ const {
       showUploadError: false,
       currentLogoSrcExists: this.hasUserLogo,
       currentFaviconSrcExists: this.hasUserFavicon,
-      currentLogoCacheBuster: new Date().getTime(),
-      currentFaviconCacheBuster: new Date().getTime()
+      newLogoBase64Src: '',
+      newFaviconBase64Src: ''
     };
   },
   computed: {
@@ -539,15 +539,21 @@ const {
       const linkStart = '<a href="?module=CorePluginsAdmin&action=plugins" ' + 'rel="noreferrer noopener" target="_blank">';
       return Object(external_CoreHome_["translate"])('CoreAdminHome_CustomLogoFeedbackInfo', giveUsFeedbackText, linkStart, '</a>');
     },
-    pathUserLogoWithBuster() {
+    pathUserLogoSrc() {
+      if (this.newLogoBase64Src) {
+        return `data:image/png;base64, ${this.newLogoBase64Src}`;
+      }
       if (this.currentLogoSrcExists && this.pathUserLogo) {
-        return `${this.pathUserLogo}?${this.currentLogoCacheBuster}`;
+        return this.pathUserLogo;
       }
       return '';
     },
-    pathUserFaviconWithBuster() {
+    pathUserFaviconSrc() {
+      if (this.newFaviconBase64Src) {
+        return `data:image/png;base64, ${this.newFaviconBase64Src}`;
+      }
       if (this.currentFaviconSrcExists && this.pathUserFavicon) {
-        return `${this.pathUserFavicon}?${this.currentFaviconCacheBuster}`;
+        return this.pathUserFavicon;
       }
       return '';
     }
@@ -570,8 +576,17 @@ const {
         module: 'API',
         method: 'CoreAdminHome.setBrandingSettings'
       }, {
-        useCustomLogo: this.enabled ? '1' : '0'
-      }).then(() => {
+        useCustomLogo: this.enabled ? '1' : '0',
+        hasCustomLogo: this.newLogoBase64Src.length > 0 || this.customLogo ? '1' : '0',
+        hasCustomFavicon: this.newFaviconBase64Src.length > 0 || this.customFavicon ? '1' : '0'
+      }).then(response => {
+        this.enabled = !!response.useCustomLogo;
+        if (response.customLogoPath) {
+          this.customLogo = response.customLogoPath;
+        }
+        if (response.customFaviconPath) {
+          this.customFavicon = response.customFaviconPath;
+        }
         const notificationInstanceId = external_CoreHome_["NotificationsStore"].show({
           message: Object(external_CoreHome_["translate"])('CoreAdminHome_SettingsSaveSuccess'),
           type: 'transient',
@@ -580,6 +595,15 @@ const {
         });
         external_CoreHome_["NotificationsStore"].scrollToNotification(notificationInstanceId);
       }).finally(() => {
+        if (!this.enabled) {
+          // reset fields so that values are not visible when setting is enabled without page reload
+          this.currentLogoSrcExists = false;
+          this.currentFaviconSrcExists = false;
+          this.customLogo = '';
+          this.customFavicon = '';
+          this.newFaviconBase64Src = '';
+          this.newLogoBase64Src = '';
+        }
         this.isLoading = false;
       });
     },
@@ -595,22 +619,27 @@ const {
       uploadFrame.css('display', 'none');
       uploadFrame.on('load', () => {
         setTimeout(() => {
-          const frameContent = (BrandingSettingsvue_type_script_lang_ts_$(uploadFrame.contents()).find('body').html() || '').trim();
-          if (frameContent === '0') {
+          let frameContent = '';
+          let frameContentJSON = {};
+          try {
+            frameContent = (BrandingSettingsvue_type_script_lang_ts_$(uploadFrame.contents()).find('body').text() || '').trim();
+            frameContentJSON = JSON.parse(frameContent);
+          } catch (e) {
+            // invalid JSON
+          }
+          if (frameContent && Object.keys(frameContentJSON).length === 0) {
             this.showUploadError = true;
           } else {
             // Upload succeed, so we update the images availability
             // according to what have been uploaded
-            if (isSubmittingLogo) {
-              this.currentLogoSrcExists = true;
-              this.currentLogoCacheBuster = new Date().getTime(); // force re-fetch
+            if (isSubmittingLogo && frameContentJSON.logo) {
+              this.newLogoBase64Src = frameContentJSON.logo;
             }
-            if (isSubmittingFavicon) {
-              this.currentFaviconSrcExists = true;
-              this.currentFaviconCacheBuster = new Date().getTime(); // force re-fetch
+            if (isSubmittingFavicon && frameContentJSON.favicon) {
+              this.newFaviconBase64Src = frameContentJSON.favicon;
             }
           }
-          if (frameContent === '1' || frameContent === '0') {
+          if (frameContent) {
             uploadFrame.remove();
           }
         }, 1000);
@@ -630,7 +659,7 @@ const {
 
 
 
-BrandingSettingsvue_type_script_lang_ts.render = BrandingSettingsvue_type_template_id_83e81732_render
+BrandingSettingsvue_type_script_lang_ts.render = BrandingSettingsvue_type_template_id_68734f11_render
 
 /* harmony default export */ var BrandingSettings = (BrandingSettingsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=6d8f555e

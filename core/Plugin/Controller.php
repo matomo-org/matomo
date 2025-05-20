@@ -831,6 +831,8 @@ abstract class Controller
         $customLogo = new CustomLogo();
         $view->isCustomLogo  = $customLogo->isEnabled();
         $view->customFavicon = $customLogo->getPathUserFavicon();
+        $view->hasCustomLogo = CustomLogo::hasUserLogo();
+        $view->hasCustomFavicon = CustomLogo::hasUserFavicon();
     }
 
     /**
