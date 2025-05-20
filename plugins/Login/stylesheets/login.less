@@ -59,6 +59,12 @@
             font-weight: bold;
         }
 
+        .btn.disabled,
+        .btn[disabled],
+        fieldset[disabled] .btn {
+            background-color: @color-gray !important;
+        }
+
         fieldset {
             border: 0;
         }
