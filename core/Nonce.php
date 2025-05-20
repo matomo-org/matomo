@@ -241,6 +241,9 @@ class Nonce
         }
 
         if (!self::verifyNonce($nonceName, $nonce, $allowedReferrerHost)) {
+            if (!empty($nonce)) {
+                self::discardNonce($nonceName); // Invalidate nonce on failed attempts
+            }
             throw new \Exception(Piwik::translate('General_ExceptionSecurityCheckFailed'));
         }
 
