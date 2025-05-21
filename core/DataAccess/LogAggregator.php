@@ -18,13 +18,13 @@ use Piwik\DataArray;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Log\LoggerInterface;
 use Piwik\Metrics;
 use Piwik\Plugin\LogTablesProvider;
 use Piwik\RankingQuery;
 use Piwik\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
-use Piwik\Log\LoggerInterface;
 
 /**
  * Contains methods that calculate metrics by aggregating log data (visits, actions, conversions,
@@ -329,6 +329,9 @@ class LogAggregator
 
         $insertIntoStatement = 'INSERT IGNORE INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
         $readerDb->query($insertIntoStatement, $segmentSelectBind);
+
+        // Temp: Load to secondary engine (i.e. Heatwave)
+        $readerDb->query("ALTER TABLE $table SECONDARY_LOAD");
 
         $transactionLevel->restorePreviousStatus();
     }
