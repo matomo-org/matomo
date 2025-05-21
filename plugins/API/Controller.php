@@ -71,6 +71,7 @@ class Controller extends \Piwik\Plugin\Controller
         } else {
             // We put together the url based on the parsed parameters manually to ensure it might not contain unexpected locations
             // unescaped slashes in username or password part for example have unexpected results in browsers
+            unset($parsedUrl['query'], $parsedUrl['fragment']);
             $prefixUrls = UrlHelper::getParseUrlReverse($parsedUrl);
         }
         return $ApiDocumentation->getApiDocumentationAsStringForDeveloperReference($outputExampleUrls = true, $prefixUrls);

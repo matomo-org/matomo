@@ -67,6 +67,26 @@ describe("Login", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('login_form');
     });
 
+    // Enable/disable login button.
+    it('should enable the login button when username and password are entered', async function () {
+      await page.goto('?module=CoreHome&action=index&idSite=1&period=week&date=2017-06-04');
+
+      // Assert that the button starts off disabled.
+      await page.waitForSelector('#login_form_submit[disabled]');
+
+      // Button still disabled with user, but not password entered.
+      await page.type('#login_form_login', 'u');
+      await page.waitForSelector('#login_form_submit[disabled]');
+
+      // Button enabled with user and password both entered.
+      await page.type('#login_form_password', 'p');
+      await page.waitForSelector('#login_form_submit:not([disabled])');
+
+      // Button disabled again if a field is now blank.
+      await page.keyboard.press('Backspace');
+      await page.waitForSelector('#login_form_submit[disabled]');
+    });
+
     it("should fail when incorrect credentials are supplied", async function() {
         await page.type('#login_form_login', 'superUserLogin');
         await page.type('#login_form_password', 'wrongpassword');

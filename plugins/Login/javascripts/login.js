@@ -47,6 +47,14 @@
             }
         }
 
+        var disableOrEnableLoginSubmitButton = function () {
+          if ($('#login_form_login').val() === '' || $('#login_form_password').val() === '') {
+            $('#login_form_submit').attr('disabled', 'disabled');
+          } else {
+            $('#login_form_submit').removeAttr('disabled');
+          }
+        };
+
         // set login form redirect url
         $('#login_form_redirect').val(window.location.href);
 
@@ -102,6 +110,11 @@
 
             return false;
         });
+
+        // Disable login submit button when there is no user & password entered.
+        $('#login_form_login').on('input', disableOrEnableLoginSubmitButton);
+        $('#login_form_password').on('input', disableOrEnableLoginSubmitButton);
+        disableOrEnableLoginSubmitButton();
 
         $('#login_form_login').focus();
 

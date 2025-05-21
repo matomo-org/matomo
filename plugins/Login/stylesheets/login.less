@@ -36,6 +36,10 @@
     .loginSection {
         margin-top: 32px;
 
+        > .col {
+            max-width: 750px;
+        }
+
         .icon.prefix {
             font-size: 1.5rem;
             width: 2.5rem;
@@ -49,22 +53,37 @@
                 overflow: hidden;
             }
         }
-    }
 
-    .loginSection .btn {
-        margin-top: 0;
-    }
+        .btn {
+            margin-top: 0;
+            font-weight: bold;
+        }
 
-    .loginSection fieldset {
-        border: 0;
-    }
+        .btn.disabled,
+        .btn[disabled],
+        fieldset[disabled] .btn {
+            background-color: @color-gray !important;
+        }
 
-    .loginSection .actions {
-        line-height: 35px;
+        fieldset {
+            border: 0;
+        }
+
+        .actions {
+            line-height: 35px;
+        }
     }
 
     #login_form {
         margin-top: 16px;
+
+        .row:last-child {
+            margin-bottom: 0;
+        }
+
+        .row.actions a {
+            color: #777777;
+        }
     }
 
     #login_form_rememberme {

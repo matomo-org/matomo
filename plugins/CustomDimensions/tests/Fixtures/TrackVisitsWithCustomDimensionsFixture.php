@@ -31,6 +31,7 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
     public $dateTime = '2013-01-23 01:23:45';
     public $idSite = 1;
     public $idSite2 = 2;
+    public $idSite3 = 3;
 
     public function setUp(): void
     {
@@ -41,6 +42,7 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
         $this->trackFirstVisit();
         $this->trackSecondVisit();
         $this->trackThirdVisit();
+        $this->trackFourthVisit();
     }
 
     public function tearDown(): void
@@ -50,7 +52,7 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
 
     private function setUpWebsites()
     {
-        foreach (array($this->idSite, $this->idSite2) as $idSite) {
+        foreach ([$this->idSite, $this->idSite2, $this->idSite3] as $idSite) {
             if (!self::siteCreated($idSite)) {
                 self::createWebsite($this->dateTime);
             }
@@ -69,6 +71,7 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
 
         $configuration->configureNewDimension($this->idSite, 'MyName2', CustomDimensions::SCOPE_VISIT, 2, $active = true, $extractions = array(), $caseSensitive = true);
         $configuration->configureNewDimension($this->idSite2, 'MyName1', CustomDimensions::SCOPE_VISIT, 1, $active = true, $extractions = array(), $caseSensitive = true);
+        $configuration->configureNewDimension($this->idSite3, 'MyName1', CustomDimensions::SCOPE_ACTION, 1, $active = true, $extractions = array(), $caseSensitive = true);
 
         $extraction1 = new Extraction('urlparam', 'test');
         $extraction2 = new Extraction('urlparam', 'param');
@@ -127,6 +130,10 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
         $t->setUrl('http://example.com/sub_en/page?param=en_US');
         self::checkResponse($t->doTrackPageView('Third page view'));
 
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.4)->getDatetime());
+        $t->setUrl('http://example.com/sub_en/page?param=en_US');
+        self::checkResponse($t->doTrackPageView('Fourth page view'));
+
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addDay(0.4)->getDatetime());
         $t->setUrl('http://example.com/sub_en/page?param=en_US');
         self::checkResponse($t->doTrackPageView('Fourth page view'));
@@ -180,5 +187,25 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
         $t->setUrl('http://example.com/sub_en/page');
         self::checkResponse($t->doTrackPageView('Viewing homepage'));
+    }
+
+    protected function trackFourthVisit()
+    {
+        $baseTime = Date::factory($this->dateTime);
+
+        $t = self::getTracker($this->idSite3, $this->dateTime, $defaultInit = true);
+        $t->setIp('56.11.55.99');
+
+        for ($i = 1; $i < 6; $i++) {
+            for ($j = 1; $j < 6; $j++) {
+                $dateTime = $baseTime->addHour($i)->addHour($j * 0.1)->getDatetime();
+
+                $t->setCustomDimension("1", "site3 group$i");
+                $t->setForceVisitDateTime($dateTime);
+                $t->setUrl("http://example.com/page/$i/$j");
+
+                self::checkResponse($t->doTrackPageView("Page $i $j"));
+            }
+        }
     }
 }

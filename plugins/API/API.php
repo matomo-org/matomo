@@ -525,7 +525,10 @@ class API extends \Piwik\Plugin\API
 
             $params += $queryParameters;
 
-            if (!empty($params['method']) && is_string($params['method']) && trim($params['method']) === 'API.getBulkRequest') {
+            if (
+                !empty($params['method']) && is_string($params['method']) &&
+                preg_replace('/[^\w\.]+/', '', $params['method']) === 'API.getBulkRequest'
+            ) {
                 continue;
             }
 

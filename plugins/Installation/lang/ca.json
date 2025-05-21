@@ -4,7 +4,7 @@
         "CannotConnectToDbResolvingExplanation": "Pot ser que sigui un problema temporal, proveu d'%1$sactualitzar la pàgina%2$s. Poseu-vos en contacte amb el vostre administrador de Matomo si el problema persisteix.",
         "CollaborativeProject": "Matomo és un projecte col·laboratiu fet amb amor.",
         "ConfigurationHelp": "Corregiu el fitxer de configuració de Matomo eliminant config/config.ini.php i reprenent la instal·lació, o corregint la configuració de la connexió de la base de dades.",
-        "ConfirmDeleteExistingTables": "Voleu eliminar les taules %s de la vostra base de dades? ADVERTÈNCIA: NO ES PODRÀ RECUPERAR LES DADES D'AQUESTES TAULES!",
+        "ConfirmDeleteExistingTables": "Voleu eliminar les taules %s de la vostra base de dades? ADVERTIMENT: NO ES PODRAN RECUPERAR LES DADES D'AQUESTES TAULES!",
         "Congratulations": "Felicitats",
         "CongratulationsHelp": "<p>Enhorabona! La vostra instal·lació de Matomo s'ha completat.</p><p>Assegureu-vos que el vostre codi de seguiment estigui introduït a les vostres pàgines i espereu als vostres primers visitants.</p>",
         "CopyBelowInfoForSupport": "Copieu o descarregueu la informació següent, en cas que el nostre equip d'assistència us demani aquesta informació.",

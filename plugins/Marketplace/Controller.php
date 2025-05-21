@@ -527,13 +527,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function getPluginNameIfNonceValid($nonceName)
     {
-        $nonce = Common::getRequestVar('nonce', null, 'string');
-
-        if (!Nonce::verifyNonce($nonceName, $nonce)) {
-            throw new \Exception(Piwik::translate('General_ExceptionSecurityCheckFailed'));
-        }
-
-        Nonce::discardNonce($nonceName);
+        Nonce::checkNonce($nonceName);
 
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
 
