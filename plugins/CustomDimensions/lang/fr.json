@@ -2,6 +2,7 @@
     "CustomDimensions": {
         "CannotBeDeleted": "Une dimension personnalisée ne peut être supprimée, seulement désactivée.",
         "ColumnAvgTimeOnDimension": "Tps. Moyen sur la dimension",
+        "ColumnAvgTimeOnDimensionDocumentation": "Temps moyen sur une dimension d’action personnalisée : il s’agit du temps moyen que les visiteurs ont passé sur une action personnalisée spécifique avant de passer à une autre action suivie. Ce temps est calculé en additionnant le temps passé sur l’action pour l’ensemble des visites, puis en le divisant par le nombre de fois où l’action a été effectuée.",
         "ColumnUniqueActions": "Actions uniques",
         "ConfigureDimension": "Configurer une %1$s Dimension Personnalisée %2$s",
         "ConfigureNewDimension": "Configurer une nouvelle dimension",
