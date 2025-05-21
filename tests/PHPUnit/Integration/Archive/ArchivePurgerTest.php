@@ -78,7 +78,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertTemporaryArchivesNotPurged($this->january);
         self::$fixture->assertErrorInProgressArchivesNotPurged($this->january);
 
-        $this->assertEquals(13 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        $this->assertEquals(11 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
 
         $this->checkNoDuplicateArchives();
     }
@@ -97,7 +97,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertTemporaryArchivesNotPurged($this->january);
         self::$fixture->assertErrorInProgressArchivesNotPurged($this->january);
 
-        $this->assertEquals(11 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        $this->assertEquals(7 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
 
         $this->checkNoDuplicateArchives();
     }

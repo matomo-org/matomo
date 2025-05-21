@@ -590,11 +590,9 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
     public function assertErrorInProgressArchivesPurged($isBrowserTriggeredArchivingEnabled, Date $date): void
     {
         if ($isBrowserTriggeredArchivingEnabled) {
-            // only archives 36, 37, 38, 39 should be purged
-            $expectedPurgedArchives = [36, 37, 38, 39, 40, 41];
+            $expectedPurgedArchives = [36, 37, 38, 39]; // only archives from 2 hours before "now" are purged
         } else {
-            // only archives 36, 37 should be purged
-            $expectedPurgedArchives = [36, 37, 38, 39, 40, 41];
+            $expectedPurgedArchives = [36, 37]; // only archives before start of "yesterday" are purged
         }
 
         $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
@@ -626,9 +624,6 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
 
     public function assertErrorInProgressArchivedNotPurged(Date $date, $includeRecentInProgress = true)
     {
-        // all archives are currently deleted.
-        return;
-
         $expectedPresentArchives = [40, 41];
 
         if ($includeRecentInProgress) {
