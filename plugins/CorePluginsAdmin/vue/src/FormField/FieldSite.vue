@@ -17,6 +17,8 @@
         :switch-site-on-select="false"
         :show-selected-site="true"
         :only-sites-with-admin-access="uiControlAttributes.onlySitesWithAdminAccess || false"
+        :sites-with-at-least-write-access="uiControlAttributes.sitesWithAtLeastWriteAccess || false"
+        :exclude-roll-up-sites="uiControlAttributes.excludeRollUpSites || false"
         v-bind="uiControlAttributes"
       />
     </div>

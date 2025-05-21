@@ -179,6 +179,14 @@ export default defineComponent({
       type: Array,
       default: () => [] as number[],
     },
+    sitesWithAtLeastWriteAccess: {
+      type: Boolean,
+      default: false,
+    },
+    excludeRollUpSites: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['update:modelValue', 'blur'],
   components: {
@@ -378,16 +386,24 @@ export default defineComponent({
       return `${previousPart}<span class="autocompleteMatched">${this.searchTerm}</span>${lastPart}`;
     },
     loadInitialSites() {
-      return SitesStore.loadInitialSites(this.onlySitesWithAdminAccess,
-        (this.sitesToExclude ? this.sitesToExclude : []) as number[]).then((sites) => {
+      return SitesStore.loadInitialSites(
+        this.onlySitesWithAdminAccess,
+        (this.sitesToExclude ? this.sitesToExclude : []) as number[],
+        this.sitesWithAtLeastWriteAccess,
+        this.excludeRollUpSites,
+      ).then((sites) => {
         this.sites = sites || [];
       });
     },
     searchSite(term: string) {
       this.isLoading = true;
 
-      SitesStore.searchSite(term, this.onlySitesWithAdminAccess,
-        (this.sitesToExclude ? this.sitesToExclude : []) as number[]).then((sites) => {
+      SitesStore.searchSite(
+        term, this.onlySitesWithAdminAccess,
+        (this.sitesToExclude ? this.sitesToExclude : []) as number[],
+        this.sitesWithAtLeastWriteAccess,
+        this.excludeRollUpSites,
+      ).then((sites) => {
         if (term !== this.searchTerm) {
           return; // search term changed in the meantime
         }

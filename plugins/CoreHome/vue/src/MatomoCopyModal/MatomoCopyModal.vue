@@ -1,0 +1,290 @@
+<!--
+  Matomo - free/libre analytics platform
+
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+-->
+<template>
+  <div class="modal" id="matomoCopyModal">
+    <div class="entire-copy-modal">
+      <div class="modal-header">
+        <span class="btn-close modal-close"><i class="icon-close"></i></span>
+        <h2>
+          {{ getModalTitle }}
+        </h2>
+      </div>
+
+      <template v-if="isLoading">
+        <div class="modal-content copy-loading">
+          <div class="Piwik_Popover_Loading">
+            <div class="Piwik_Popover_Loading_Name">
+              <h2>{{ translate('General_Loading') }}</h2>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <template v-else>
+        <div class="modal-sub-header">
+          <p>
+            {{ getCopyDescription }}&nbsp;
+            <span v-if="descriptionLearnMoreLink" v-html="$sanitize(getLearnMoreLink)"></span>
+          </p>
+          <Field
+            uicontrol="site"
+            name="siteSelector"
+            :title="translate('CoreHome_ChooseWebsite')"
+            v-model="site"
+            :ui-control-attributes="{
+              sitesWithAtLeastWriteAccess: true,
+              excludeRollUpSites: true,
+            }"
+          />
+        </div>
+        <div class="modal-content copy-configure">
+          <div v-form class="modal-inputs">
+            <slot></slot>
+          </div>
+        </div>
+        <div class="modal-sub-footer">
+          <div :class="getAlertClasses" v-if="copyErrors.length > 0">
+            <ul>
+              <li
+                v-for="(copyError, index) in copyErrors"
+                :key="index"
+                v-html="$sanitize(copyError)"
+              />
+            </ul>
+          </div>
+          <p class="note-text"
+             v-html="$sanitize(getNoteText)"
+             v-if="copyErrors.length === 0"
+          />
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn"
+            :disabled="!isValidated || hasBeenSubmitted"
+            @click="submitCopy()"
+          >{{ translate('General_Copy') }}</button>
+        </div>
+      </template>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import {
+  defineComponent, watch,
+} from 'vue';
+import useExternalPluginComponent from '../useExternalPluginComponent';
+import SiteRef from '../SiteSelector/SiteRef';
+import Matomo from '../Matomo/Matomo';
+import debounce from '../debounce';
+import { translate } from '../translate';
+import { externalLink } from '../externalLink';
+
+// async since we're referencing a recursive component
+const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
+const Form = useExternalPluginComponent('CorePluginsAdmin', 'Form');
+
+const { $ } = window;
+
+interface MatomoCopyModalState {
+  isLoading: boolean;
+  isValidated: boolean;
+  descriptionLearnMoreLink: string;
+  copyErrors: string[];
+  site: SiteRef|null;
+  hasSiteBeenInitialised: boolean;
+  hasBeenSubmitted: boolean;
+}
+
+export default defineComponent({
+  directives: {
+    Form,
+  },
+  components: {
+    Field,
+  },
+  props: {
+    /**
+     * Whether the modal is displayed or not
+     */
+    modelValue: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    copyEntityType: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    formData: {
+      type: Object,
+      required: false,
+      default: () => ({}),
+    },
+  },
+  data(): MatomoCopyModalState {
+    return {
+      isLoading: true,
+      isValidated: false,
+      descriptionLearnMoreLink: '',
+      copyErrors: [],
+      site: null,
+      hasSiteBeenInitialised: false,
+      hasBeenSubmitted: false,
+    };
+  },
+  emits: [
+    'update:modelValue',
+    'resetFormData',
+    'copySuccessful',
+  ],
+  watch: {
+    modelValue(newValue) {
+      if (!newValue) {
+        return;
+      }
+
+      // TODO - Do some logic before showing modal
+
+      this.showCopyModal();
+
+      // TODO - determine the best indication that loading is done
+      this.isLoading = false;
+    },
+    site() {
+      this.onSiteChange();
+    },
+  },
+  methods: {
+    closeModal() {
+      $('#matomoCopyModal').modal('close');
+    },
+    resetModal() {
+      this.site = null;
+      this.isLoading = true;
+      this.isValidated = false;
+      this.copyErrors = [];
+      this.hasSiteBeenInitialised = false;
+      this.hasBeenSubmitted = false;
+      this.$emit('resetFormData');
+    },
+    showCopyModal() {
+      $('#matomoCopyModal').modal({
+        dismissible: true,
+        onCloseEnd: () => {
+          this.resetModal();
+          this.$emit('update:modelValue', false);
+        },
+      }).modal('open');
+    },
+    submitCopy() {
+      this.hasBeenSubmitted = true;
+      // It should have already run in order for the copy button to be enabled, but let's confirm
+      this.validateFormFields();
+      if (!this.isValidated) {
+        // TODO - Show error message indicating that fields aren't valid
+
+        this.hasBeenSubmitted = true;
+
+        return;
+      }
+
+      // TODO - Actually POST the API call
+
+      // Emit success so parent can perform desired actions like reload the data store or page
+      this.$emit('copySuccessful');
+
+      this.closeModal();
+    },
+    validateFormFields() {
+      this.copyErrors = [];
+      // Don't bother if the modal isn't visible
+      if (!this.modelValue) {
+        return;
+      }
+
+      // Ignore the site getting initialised by the component
+      if (!this.hasSiteBeenInitialised) {
+        this.hasSiteBeenInitialised = true;
+        return;
+      }
+
+      const validationData: QueryParameters = {
+        formValues: {
+          ...this.formData,
+          idDestinationSite: this.site?.id,
+        },
+        errorMessages: [] as string[],
+      };
+      Matomo.postEvent('MatomoCopyModal:validateFormFields', validationData);
+      if (
+        validationData
+        && Array.isArray(validationData.errorMessages)
+        && validationData.errorMessages.length > 0
+      ) {
+        this.copyErrors = validationData.errorMessages;
+      }
+
+      this.isValidated = this.copyErrors.length === 0;
+    },
+    onSiteChange() {
+      this.validateFormFields();
+    },
+  },
+  mounted() {
+    // Add a delay to validation to try and let the input finish
+    this.validateFormFields = debounce(this.validateFormFields.bind(this));
+
+    // Watch the formData object for any property changes
+    watch(
+      () => this.formData,
+      () => {
+        this.validateFormFields();
+      },
+      { deep: true },
+    );
+  },
+  computed: {
+    getModalTitle(): string {
+      return translate('CoreHome_CopyX', this.getEntityType);
+    },
+    getEntityType(): string {
+      if (this.copyEntityType) {
+        return this.copyEntityType;
+      }
+
+      return translate('CoreHome_ReportLowercase');
+    },
+    getNoteText(): string {
+      const noteText = translate(
+        'CoreHome_CopyModalNote',
+        '<strong>',
+        '</strong>',
+        this.getEntityType,
+      );
+
+      return `${noteText}`;
+    },
+    getCopyDescription(): string {
+      return translate('CoreHome_CopyXDescription', this.getEntityType);
+    },
+    getLearnMoreLink() {
+      if (!this.descriptionLearnMoreLink) {
+        return '';
+      }
+
+      const linkString = externalLink(this.descriptionLearnMoreLink);
+      return translate('CoreHome_LearnMoreFullStop', linkString, '</a>');
+    },
+    getAlertClasses() {
+      const listClass = this.copyErrors.length > 1 ? ' error-list' : '';
+      return `alert alert-danger${listClass}`;
+    },
+  },
+});
+</script>

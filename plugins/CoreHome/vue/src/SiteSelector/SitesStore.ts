@@ -22,6 +22,9 @@ interface SitesStoreState {
 
 interface SitesStoreStateFiltered extends SitesStoreState {
   excludedSites: number[];
+  onlySitesWithAdminAccess: boolean;
+  sitesWithAtLeastWriteAccess: boolean;
+  excludeRollUpSites: boolean;
 }
 
 class SitesStore {
@@ -34,6 +37,9 @@ class SitesStore {
     initialSites: [],
     isInitialized: false,
     excludedSites: [],
+    onlySitesWithAdminAccess: false,
+    sitesWithAtLeastWriteAccess: false,
+    excludeRollUpSites: false,
   });
 
   private currentRequestAbort: AbortController | null = null;
@@ -44,27 +50,55 @@ class SitesStore {
 
   public readonly initialSitesFiltered = computed(() => readonly(this.stateFiltered.initialSites));
 
-  loadInitialSites(onlySitesWithAdminAccess = false,
-    sitesToExclude: number[] = []): Promise<DeepReadonly<Site[]>|null> {
-    if (this.state.isInitialized && sitesToExclude.length === 0) {
+  loadInitialSites(
+    onlySitesWithAdminAccess = false,
+    sitesToExclude: number[] = [],
+    sitesWithAtLeastWriteAccess = false,
+    excludeRollUpSites = false,
+  ): Promise<DeepReadonly<Site[]>|null> {
+    if (
+      this.state.isInitialized
+      && sitesToExclude.length === 0
+      && onlySitesWithAdminAccess === false
+      && sitesWithAtLeastWriteAccess === false
+      && excludeRollUpSites === false
+    ) {
       return Promise.resolve(readonly(this.state.initialSites));
     }
 
     // If the filtered state has already been initialized with the same sites, return that.
     if (this.stateFiltered.isInitialized
       && sitesToExclude.length === this.stateFiltered.excludedSites.length
-      && (sitesToExclude.every((val, index) => val === this.stateFiltered.excludedSites[index]))) {
+      && (sitesToExclude.every((val, index) => val === this.stateFiltered.excludedSites[index]))
+      && onlySitesWithAdminAccess === this.stateFiltered.onlySitesWithAdminAccess
+      && sitesWithAtLeastWriteAccess === this.stateFiltered.sitesWithAtLeastWriteAccess
+      && excludeRollUpSites === this.stateFiltered.excludeRollUpSites
+    ) {
       return Promise.resolve(readonly(this.stateFiltered.initialSites));
     }
 
     // If we want to exclude certain sites, perform the search for that.
-    if (sitesToExclude.length > 0) {
-      this.searchSite('%', onlySitesWithAdminAccess, sitesToExclude).then((sites) => {
+    if (
+      sitesToExclude.length > 0
+      || onlySitesWithAdminAccess
+      || sitesWithAtLeastWriteAccess
+      || excludeRollUpSites
+    ) {
+      this.searchSite(
+        '%',
+        onlySitesWithAdminAccess,
+        sitesToExclude,
+        sitesWithAtLeastWriteAccess,
+        excludeRollUpSites,
+      ).then((sites) => {
         this.stateFiltered.isInitialized = true;
         this.stateFiltered.excludedSites = sitesToExclude;
         if (sites !== null) {
           this.stateFiltered.initialSites = sites;
         }
+        this.stateFiltered.onlySitesWithAdminAccess = onlySitesWithAdminAccess;
+        this.stateFiltered.sitesWithAtLeastWriteAccess = sitesWithAtLeastWriteAccess;
+        this.stateFiltered.excludeRollUpSites = excludeRollUpSites;
       });
     }
 
@@ -73,7 +107,13 @@ class SitesStore {
       return Promise.resolve(readonly(this.state.initialSites));
     }
 
-    return this.searchSite('%', onlySitesWithAdminAccess, sitesToExclude).then((sites) => {
+    return this.searchSite(
+      '%',
+      onlySitesWithAdminAccess,
+      sitesToExclude,
+      sitesWithAtLeastWriteAccess,
+      excludeRollUpSites,
+    ).then((sites) => {
       this.state.isInitialized = true;
       if (sites !== null) {
         this.state.initialSites = sites;
@@ -104,10 +144,20 @@ class SitesStore {
     }
   }
 
-  searchSite(term?: string, onlySitesWithAdminAccess = false,
-    sitesToExclude: number[] = []): Promise<DeepReadonly<Site[]>|null> {
+  searchSite(
+    term?: string,
+    onlySitesWithAdminAccess = false,
+    sitesToExclude: number[] = [],
+    sitesWithAtLeastWriteAccess = false,
+    excludeRollUpSites = false,
+  ): Promise<DeepReadonly<Site[]>|null> {
     if (!term) {
-      return this.loadInitialSites(onlySitesWithAdminAccess, sitesToExclude);
+      return this.loadInitialSites(
+        onlySitesWithAdminAccess,
+        sitesToExclude,
+        sitesWithAtLeastWriteAccess,
+        excludeRollUpSites,
+      );
     }
 
     if (this.currentRequestAbort) {
@@ -122,8 +172,12 @@ class SitesStore {
       const limit = response.value;
 
       let methodToCall = 'SitesManager.getPatternMatchSites';
+      // onlySitesWithAdminAccess is given precedence because it's more restrictive
+      // Combining these two would have been preferable, but trying to preserve compatibility
       if (onlySitesWithAdminAccess) {
         methodToCall = 'SitesManager.getSitesWithAdminAccess';
+      } else if (sitesWithAtLeastWriteAccess) {
+        methodToCall = 'SitesManager.getSitesWithAtLeastWriteAccess';
       }
 
       this.currentRequestAbort = new AbortController();
@@ -138,7 +192,7 @@ class SitesStore {
       });
     }).then((response) => {
       if (response) {
-        return this.processWebsitesList(response as Site[]);
+        return this.processWebsitesList(response as Site[], excludeRollUpSites);
       }
 
       return null;
@@ -147,17 +201,27 @@ class SitesStore {
     });
   }
 
-  private processWebsitesList(response: Site[]): Site[] {
+  private processWebsitesList(response: Site[], excludeRollUpSites = false): Site[] {
     let sites = response;
 
     if (!sites || !sites.length) {
       return [];
     }
 
-    sites = sites.map((s) => ({
-      ...s,
-      name: s.group ? `[${s.group}] ${s.name}` : s.name,
-    }));
+    // Add group to site name and filter out roll-ups if flag is set
+    sites = sites.reduce(
+      (tempSites: Site[], s: Site) => {
+        if (!excludeRollUpSites || s.type.toLowerCase().trim() !== 'rollup') {
+          tempSites.push({
+            ...s,
+            name: s.group ? `[${s.group}] ${s.name}` : s.name,
+          });
+        }
+
+        return tempSites;
+      },
+      [],
+    );
 
     sites.sort((lhs: Site, rhs: Site) => {
       if (lhs.name.toLowerCase() < rhs.name.toLowerCase()) {
