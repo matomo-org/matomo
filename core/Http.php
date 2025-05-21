@@ -262,7 +262,7 @@ class Http
 
         // When sending an insecure request, but https is forced, and we would care about valid certificates, log a warning
         // Note: accepting invalid ssl certificates should only be used when requesting data from a configured website
-        if ($parsedUrl['scheme'] === 'http' && SettingsPiwik::isHttpsForced() && $acceptInvalidSslCertificate === true) {
+        if ($parsedUrl['scheme'] === 'http' && SettingsPiwik::isHttpsForced() && $acceptInvalidSslCertificate === false) {
             Log::warning('Matomo is configured to force HTTPS, but is sending an insecure request to ' . $aUrl);
         }
 
