@@ -94,11 +94,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
             return true;
         }
 
-        $bool = (defined('PIWIK_PRINT_ERROR_BACKTRACE') && PIWIK_PRINT_ERROR_BACKTRACE)
-                || !empty($GLOBALS['PIWIK_PRINT_ERROR_BACKTRACE'])
-                || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']);
-
-        return $bool;
+        return \Piwik\ExceptionHandler::shouldPrintBackTraceWithMessage();
     }
 
     /**
