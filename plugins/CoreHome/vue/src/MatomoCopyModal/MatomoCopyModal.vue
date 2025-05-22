@@ -5,7 +5,7 @@
   @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 <template>
-  <div class="modal" id="matomoCopyModal">
+  <div class="modal matomo-copy-modal" ref="root">
     <div class="entire-copy-modal">
       <div class="modal-header">
         <span class="btn-close modal-close"><i class="icon-close"></i></span>
@@ -162,7 +162,9 @@ export default defineComponent({
   },
   methods: {
     closeModal() {
-      $('#matomoCopyModal').modal('close');
+      const root = this.$refs.root as HTMLElement;
+      const $root = $(root);
+      $root.modal('close');
     },
     resetModal() {
       this.site = null;
@@ -174,7 +176,9 @@ export default defineComponent({
       this.$emit('resetFormData');
     },
     showCopyModal() {
-      $('#matomoCopyModal').modal({
+      const root = this.$refs.root as HTMLElement;
+      const $root = $(root);
+      $root.modal({
         dismissible: true,
         onCloseEnd: () => {
           this.resetModal();
