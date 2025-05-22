@@ -16,9 +16,12 @@ use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 
 /**
- * Fixture that inserts rows into archive tables for Jan. 2015 + Feb. 2015. The rows include
- * done rows + metrics/blobs, and the done rows have values of DONE_OK_TEMPORARY,
- * DONE_OK, DONE_INVALIDATED. There are also some custom range archives.
+ * Fixture that inserts rows into archive tables for Jan. 2015 + Feb. 2015.
+ *
+ * The rows include done rows + metrics/blobs, and the done rows have
+ * values of DONE_OK_TEMPORARY, DONE_OK, DONE_INVALIDATED, DONE_ERROR, DONE_ERROR_INVALIDATED.
+ *
+ * There are also some custom range archives.
  *
  * This class is used to test archive purging.
  */
@@ -288,7 +291,6 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         ),
     );
 
-
     private static $segmentArchiveData = array(
         array(
             'idarchive' => 24,
@@ -416,6 +418,74 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         ],
     ];
 
+    public static $dummyArchiveDataErrorInProgress = [
+        // should be purged
+        [
+            'idarchive' => 36,
+            'idsite' => 1,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_ERROR,
+            'date1' => '2015-02-11',
+            'date2' => '2015-02-11',
+            'period' => 1,
+            'ts_archived' => '2015-02-20 06:00:00',
+        ],
+        [
+            'idarchive' => 37,
+            'idsite' => 1,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_ERROR_INVALIDATED,
+            'date1' => '2015-02-12',
+            'date2' => '2015-02-12',
+            'period' => 1,
+            'ts_archived' => '2015-02-20 06:00:00',
+        ],
+
+        // should not be purged unless browser archiving active
+        [
+            'idarchive' => 38,
+            'idsite' => 1,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_ERROR,
+            'date1' => '2015-02-13',
+            'date2' => '2015-02-13',
+            'period' => 1,
+            'ts_archived' => '2015-02-27 06:00:00',
+        ],
+        [
+            'idarchive' => 39,
+            'idsite' => 1,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_ERROR_INVALIDATED,
+            'date1' => '2015-02-14',
+            'date2' => '2015-02-14',
+            'period' => 1,
+            'ts_archived' => '2015-02-27 06:00:00',
+        ],
+
+        // should not be purged
+        [
+            'idarchive' => 40,
+            'idsite' => 1,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_ERROR,
+            'date1' => '2015-02-13',
+            'date2' => '2015-02-13',
+            'period' => 1,
+            'ts_archived' => '2015-02-27 07:45:00',
+        ],
+        [
+            'idarchive' => 41,
+            'idsite' => 1,
+            'name' => 'done',
+            'value' => ArchiveWriter::DONE_ERROR_INVALIDATED,
+            'date1' => '2015-02-14',
+            'date2' => '2015-02-14',
+            'period' => 1,
+            'ts_archived' => '2015-02-27 07:45:00',
+        ],
+    ];
+
     /**
      * @var Date
      */
@@ -450,6 +520,9 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
 
         $dummySiteNoInvalidated = $this->setDatesOnArchiveData($archiveDate, self::$dummyArchiveDataNoInvalidated);
         $this->insertArchiveRows($archiveDate, $dummySiteNoInvalidated);
+
+        $dummyErrorInProgress = $this->setDatesOnArchiveData($archiveDate, self::$dummyArchiveDataErrorInProgress);
+        $this->insertArchiveRows($archiveDate, $dummyErrorInProgress);
     }
 
     private function insertArchiveRows(Date $archiveDate, array $dummyArchiveData)
@@ -514,6 +587,17 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
     }
 
+    public function assertErrorInProgressArchivesPurged($isBrowserTriggeredArchivingEnabled, Date $date): void
+    {
+        if ($isBrowserTriggeredArchivingEnabled) {
+            $expectedPurgedArchives = [36, 37, 38, 39]; // only archives from 2 hours before "now" are purged
+        } else {
+            $expectedPurgedArchives = [36, 37]; // only archives before start of "yesterday" are purged
+        }
+
+        $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
+    }
+
     public function assertCustomRangesPurged(Date $date)
     {
         $expectedPurgedArchives = array(8,9,10);
@@ -526,9 +610,27 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         $this->assertArchivesExist($expectedPresentArchives, $date);
     }
 
+    public function assertErrorInProgressArchivesNotPurged(Date $date): void
+    {
+        $expectedPresentArchives = [36, 37, 38, 39];
+        $this->assertArchivesExist($expectedPresentArchives, $date);
+    }
+
     public function assertInvalidatedArchivesNotPurged(Date $date)
     {
         $expectedPresentArchives = array(11, 12, 13, 14);
+        $this->assertArchivesExist($expectedPresentArchives, $date);
+    }
+
+    public function assertErrorInProgressArchivedNotPurged(Date $date, $includeRecentInProgress = true)
+    {
+        $expectedPresentArchives = [40, 41];
+
+        if ($includeRecentInProgress) {
+            $expectedPresentArchives[] = 38;
+            $expectedPresentArchives[] = 39;
+        }
+
         $this->assertArchivesExist($expectedPresentArchives, $date);
     }
 

@@ -109,4 +109,13 @@ describe("UserSettings", function () {
         let pageWrap = await page.$('#notificationContainer');
         expect(await pageWrap.screenshot()).to.matchImage('wrong_password_confirmed');
     });
+
+    it('should not allow to set the current password as new password', async function () {
+        await page.goto(userSecurityUrl);
+        await page.type('#password', superUserPassword);
+        await page.type('#passwordBis', superUserPassword);
+        await page.type('#passwordConfirmation', superUserPassword);
+        await page.click('#userSettingsTable .btn');
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reuse');
+    });
 });
