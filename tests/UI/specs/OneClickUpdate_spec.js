@@ -16,8 +16,16 @@ const exec = require('child_process').exec;
 describe("OneClickUpdate", function () {
     this.fixture = "Piwik\\Tests\\Fixtures\\LatestStableInstall";
 
-    var latestStableUrl = config.piwikUrl + '/latestStableInstall/index.php';
-    var settingsUrl = latestStableUrl + '?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday';
+    const latestStableUrl = config.piwikUrl + '/latestStableInstall/index.php';
+    const settingsUrl = latestStableUrl + '?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday';
+
+    function readUpdateDetailsTokenFromConfig() {
+        const pathConfigIni = path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/config/config.ini.php');
+        const configFile = fs.readFileSync(pathConfigIni);
+        const match = ('' + configFile).match(/update_details_token\s?=\s?"(.*)"/);
+
+        return match && match[1] ? match[1] : null;
+    }
 
     it('should show the new version available button in the admin screen', async function () {
         await page.goto(latestStableUrl);
@@ -65,13 +73,21 @@ describe("OneClickUpdate", function () {
 
     it('should update successfully and show the finished update screen', async function () {
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o777);
+
         await page.waitForTimeout(100);
-        var url = await page.getWholeCurrentUrl();
         await page.goBack();
         await page.click('#updateUsingHttp');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.content');
+
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_success');
+
+        // check update details token has been created
+        const updateDetailsToken = readUpdateDetailsTokenFromConfig();
+        const runUpdaterLink = await page.$eval('.footer a', link => link.getAttribute('href'));
+
+        expect(updateDetailsToken).to.be.ok;
+        expect(runUpdaterLink).to.match(new RegExp(`[?&]updateDetailsToken=${updateDetailsToken}(?:&|$)`));
     });
 
     it('should login successfully after the update', async function () {
@@ -99,6 +115,11 @@ describe("OneClickUpdate", function () {
         // avoid taking an unnecessary screenshot, as knowing we land on #site-without-data is enough
         await page.waitForSelector('#site-without-data', { visible: true });
         await page.evaluate(() => window.stop()); // stop ongoing requests
+
+        // check update details token has been removed
+        const updateDetailsToken = readUpdateDetailsTokenFromConfig();
+
+        expect(updateDetailsToken).to.be.not.ok;
     });
 
     it('should have a working cron archiving process', async function () {
