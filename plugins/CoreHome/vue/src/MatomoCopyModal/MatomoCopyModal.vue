@@ -64,7 +64,7 @@
         <div class="modal-footer">
           <button
             class="btn"
-            :disabled="!isValidated || hasBeenSubmitted"
+            :disabled="!getIsValid || hasBeenSubmitted"
             @click="submitCopy()"
           >{{ translate('General_Copy') }}</button>
         </div>
@@ -190,11 +190,7 @@ export default defineComponent({
       this.hasBeenSubmitted = true;
       // It should have already run in order for the copy button to be enabled, but let's confirm
       this.validateFormFields();
-      if (!this.isValidated) {
-        // TODO - Show error message indicating that fields aren't valid
-
-        this.hasBeenSubmitted = true;
-
+      if (!this.getIsValid) {
         return;
       }
 
@@ -206,6 +202,7 @@ export default defineComponent({
       this.closeModal();
     },
     validateFormFields() {
+      this.isValidated = true;
       this.copyErrors = [];
       // Don't bother if the modal isn't visible
       if (!this.modelValue) {
@@ -233,22 +230,24 @@ export default defineComponent({
       ) {
         this.copyErrors = validationData.errorMessages;
       }
-
-      this.isValidated = this.copyErrors.length === 0;
+    },
+    validateAfterFieldChange() {
+      this.validateFormFields();
+      this.hasBeenSubmitted = false;
     },
     onSiteChange() {
-      this.validateFormFields();
+      this.validateAfterFieldChange();
     },
   },
   mounted() {
     // Add a delay to validation to try and let the input finish
-    this.validateFormFields = debounce(this.validateFormFields.bind(this));
+    const delayedValidation = debounce(this.validateAfterFieldChange);
 
     // Watch the formData object for any property changes
     watch(
       () => this.formData,
       () => {
-        this.validateFormFields();
+        delayedValidation();
       },
       { deep: true },
     );
@@ -288,6 +287,14 @@ export default defineComponent({
     getAlertClasses() {
       const listClass = this.copyErrors.length > 1 ? ' error-list' : '';
       return `alert alert-danger${listClass}`;
+    },
+    getIsValid(): boolean {
+      // Show as valid until validation has actually been checked
+      if (!this.isValidated) {
+        return true;
+      }
+
+      return Array.isArray(this.copyErrors) && this.copyErrors.length === 0;
     },
   },
 });
