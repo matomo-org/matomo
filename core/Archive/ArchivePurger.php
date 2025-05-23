@@ -114,9 +114,11 @@ class ArchivePurger
 
     /**
      * Removes the outdated archives for the given month.
-     * (meaning they are marked with a done flag of ArchiveWriter::DONE_OK_TEMPORARY or ArchiveWriter::DONE_ERROR)
+     * (meaning they are marked with a done flag of
+     * ArchiveWriter::DONE_OK_TEMPORARY, ArchiveWriter::DONE_ERROR, or ArchiveWriter::DONE_ERROR_INVALIDATED)
      *
      * @param Date $dateStart Only the month will be used
+     *
      * @return int Returns the total number of rows deleted.
      */
     public function purgeOutdatedArchives(Date $dateStart)

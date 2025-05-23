@@ -668,6 +668,10 @@ class Controller extends ControllerAdmin
             throw new Exception($this->translator->translate('Login_PasswordsDoNotMatch'));
         }
 
+        if ($newPassword === $passwordCurrent) {
+            throw new Exception($this->translator->translate('UsersManager_PasswordAlreadyInUse'));
+        }
+
         Request::processRequest('UsersManager.updateUser', [
             'userLogin' => $userLogin,
             'password' => $newPassword,
