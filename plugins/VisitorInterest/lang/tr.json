@@ -3,6 +3,7 @@
         "BetweenXYMinutes": "%1$s–%2$s dakika",
         "BetweenXYSeconds": "%1$s–%2$s saniye",
         "ColumnPagesPerVisit": "Ziyaret başına düşen sayfa sayısı",
+        "ColumnPercentageVisitsDocumentation": "Ziyaretçilerin toplamda bu miktarda ziyareti olan toplam ziyaretlerin yüzdesi.",
         "ColumnVisitDuration": "Ziyaret süresi",
         "Engagement": "Bağlılık",
         "NPages": "%s sayfa",
