@@ -405,7 +405,7 @@ class Http
                 $requestHeader = "$httpMethod $path HTTP/$httpVer\r\n";
 
                 if ('https' == $url['scheme']) {
-                    $connectHost = 'ssl://' . $connectHost;
+                    $connectHost = 'tls://' . $connectHost;
                 }
             }
 
