@@ -324,7 +324,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->addCustomLogoInfo($viewDone);
         $this->setBasicVariablesView($viewDone);
 
-        $doExecuteUpdates = Request::fromRequest()->getBoolParameter('updateCorePlugins', 0);
+        $doExecuteUpdates = Request::fromRequest()->getBoolParameter('updateCorePlugins', false);
 
         if (is_null($doDryRun)) {
             $doDryRun = !$doExecuteUpdates;
