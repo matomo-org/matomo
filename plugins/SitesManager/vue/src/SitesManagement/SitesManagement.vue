@@ -68,7 +68,7 @@
         <div>
           <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>
           <div class="center">
-            <p>{{ translate('SitesManager_ChooseMeasurableTypeSubheader') }}</p>
+            <p>{{ subheaderText }}</p>
             <br>
           </div>
           <div class="card-row">
@@ -175,9 +175,7 @@ interface SitesManagementState {
 
 export default defineComponent({
   props: {
-    // TypeScript can't add state types if there are no properties (probably a bug in Vue)
-    // so we add one dummy property to get the compile to work
-    dummy: String,
+    rollUpEnabled: Boolean,
   },
   components: {
     ContentBlock,
@@ -265,6 +263,14 @@ export default defineComponent({
           ? translate('General_Measurables')
           : translate('SitesManager_Sites'),
       );
+    },
+    subheaderText() {
+      const subheader = translate('SitesManager_ChooseMeasurableTypeSubheader');
+      const rollup = this.rollUpEnabled
+        ? translate('SitesManager_ChooseMeasurableTypeSubheaderRollUp')
+        : '';
+
+      return `${subheader} ${rollup}`.trim();
     },
     mainDescription() {
       return translate(

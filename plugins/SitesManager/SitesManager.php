@@ -402,6 +402,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward';
         $translationKeys[] = 'SitesManager_ChooseMeasurableTypeHeadline';
         $translationKeys[] = 'SitesManager_ChooseMeasurableTypeSubheader';
+        $translationKeys[] = 'SitesManager_ChooseMeasurableTypeSubheaderRollUp';
         $translationKeys[] = 'SitesManager_Currency';
         $translationKeys[] = 'SitesManager_CurrencySymbolWillBeUsedForGoals';
         $translationKeys[] = 'SitesManager_DefaultCurrencyForNewWebsites';
