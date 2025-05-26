@@ -284,16 +284,10 @@ class LogTest extends IntegrationTestCase
             'ini.log.logger_file_path' => self::getLogFileLocation(),
             Log\LoggerInterface::class => \Piwik\DI::get(Log\Logger::class),
             'Tests.log.allowAllHandlers' => true,
-            'define_backtrace_constant' => function () use ($forcePrintBacktrace) {
-                $GLOBALS['PIWIK_PRINT_ERROR_BACKTRACE'] = $forcePrintBacktrace;
-
-                return true;
-            },
         ));
         $newEnv->init();
 
-        // set backtrace global via a dummy get
-        $newEnv->getContainer()->get('define_backtrace_constant');
+        $GLOBALS['PIWIK_PRINT_ERROR_BACKTRACE'] = $forcePrintBacktrace;
 
         $newMonologLogger = $newEnv->getContainer()->make(Log\LoggerInterface::class);
         $oldLogger = new Log($newMonologLogger);
