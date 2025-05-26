@@ -62,14 +62,12 @@ class LogTest extends IntegrationTestCase
     /**
      * Data provider for every test.
      */
-    public function getLoggingConfigs()
+    public function getLoggingConfigs(): iterable
     {
-        return [
-            'file no backtrace' => ['file', false],
-            'file with backtrace' => ['file', true],
-            'database no backtrace' => ['database', false],
-            'database with backtrace' => ['database', true],
-        ];
+        yield 'file no backtrace' => ['file', false];
+        yield 'file with backtrace' => ['file', true];
+        yield 'database no backtrace' => ['database', false];
+        yield 'database with backtrace' => ['database', true];
     }
 
     /**
