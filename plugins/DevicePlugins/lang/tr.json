@@ -2,6 +2,7 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s eklentiler etkinleştirilmemiş olarak",
         "BrowserWithPluginsEnabled": "%1$s, %2$s eklentileri etkinleştirilmiş olarak",
+        "ColumnPercentageVisitsDocumentation": "Eklentinin algılandığı toplam ziyaretlerin yüzdesi. Bir ziyaret birden fazla eklenti tarafından işlenebilir. Değer tam sayılara yuvarlanır.",
         "PluginDescription": "Ziyaretçilerin tarayıcıları tarafından desteklenen eklentilerin listesini görüntüler.",
         "PluginDetectionDoesNotWorkInIE": "Not: Eklenti algılaması Internet Explorer 11 öncesindeki sürümleri desteklemez. Bu raporda yalnızca IE dışındaki tarayıcılar ve yeni IE tarayıcıları için veriler bulunur.",
         "WidgetPlugins": "Tarayıcı eklentileri",

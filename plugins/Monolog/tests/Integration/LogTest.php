@@ -37,6 +37,8 @@ class LogTest extends IntegrationTestCase
     public static $expectedErrorOutputWithQuery = '[Monolog] [<PID>] dummyerrorfile.php(%d): dummy error message
   dummy backtrace [Query: ?a=b&d=f, CLI mode: 1]';
 
+    public static $expectedDummyErrorMessage = '[Monolog] [<PID>] dummy error message';
+
     public function setUp(): void
     {
         parent::setUp();
@@ -60,20 +62,20 @@ class LogTest extends IntegrationTestCase
     /**
      * Data provider for every test.
      */
-    public function getBackendsToTest()
+    public function getLoggingConfigs(): iterable
     {
-        return array(
-            'file'     => array('file'),
-            'database' => array('database'),
-        );
+        yield 'file no backtrace' => ['file', false];
+        yield 'file with backtrace' => ['file', true];
+        yield 'database no backtrace' => ['database', false];
+        yield 'database with backtrace' => ['database', true];
     }
 
     /**
-     * @dataProvider getBackendsToTest
+     * @dataProvider getLoggingConfigs
      */
-    public function testLoggingWorksWhenMessageIsString($backend)
+    public function testLoggingWorksWhenMessageIsString($backend, $forcePrintBacktrace)
     {
-        $this->recreateLogSingleton($backend);
+        $this->recreateLogSingleton($backend, $forcePrintBacktrace);
 
         Log::warning(self::TESTMESSAGE);
 
@@ -81,11 +83,11 @@ class LogTest extends IntegrationTestCase
     }
 
     /**
-     * @dataProvider getBackendsToTest
+     * @dataProvider getLoggingConfigs
      */
-    public function testLoggingWorksWhenMessageIsSprintfString($backend)
+    public function testLoggingWorksWhenMessageIsSprintfString($backend, $forcePrintBacktrace)
     {
-        $this->recreateLogSingleton($backend);
+        $this->recreateLogSingleton($backend, $forcePrintBacktrace);
 
         Log::warning(self::TESTMESSAGE, " subst ");
 
@@ -93,52 +95,55 @@ class LogTest extends IntegrationTestCase
     }
 
     /**
-     * @dataProvider getBackendsToTest
+     * @dataProvider getLoggingConfigs
      */
-    public function testLoggingWorksWhenMessageIsError($backend)
+    public function testLoggingWorksWhenMessageIsError($backend, $forcePrintBacktrace)
     {
-        $this->recreateLogSingleton($backend);
+        $this->recreateLogSingleton($backend, $forcePrintBacktrace);
 
-        $error = new \ErrorException("dummy error string", 0, 102, "dummyerrorfile.php", 145);
+        $error = new \ErrorException("dummy error message", 0, 102, "dummyerrorfile.php", 145);
         Log::error($error);
 
-        $this->checkBackend($backend, str_replace('<PID>', getmypid(), self::$expectedErrorOutput), $formatMessage = false, $tag = 'Monolog');
+        $expectedOutput = $forcePrintBacktrace ? self::$expectedErrorOutput : self::$expectedDummyErrorMessage;
+        $this->checkBackend($backend, str_replace('<PID>', getmypid(), $expectedOutput), $formatMessage = false, $tag = 'Monolog');
     }
 
     /**
-     * @dataProvider getBackendsToTest
+     * @dataProvider getLoggingConfigs
      */
-    public function testLoggingContextWorks($backend)
+    public function testLoggingContextWorks($backend, $forcePrintBacktrace)
     {
-        $this->recreateLogSingleton($backend);
+        $this->recreateLogSingleton($backend, $forcePrintBacktrace);
 
         $_SERVER['QUERY_STRING'] = 'a=b&d=f';
 
-        $error = new \ErrorException("dummy error string", 0, 102, "dummyerrorfile.php", 145);
+        $error = new \ErrorException("dummy error message", 0, 102, "dummyerrorfile.php", 145);
         Log::error($error);
 
-        $this->checkBackend($backend, str_replace('<PID>', getmypid(), self::$expectedErrorOutputWithQuery), $formatMessage = false, $tag = 'Monolog');
+        $expectedOutput = $forcePrintBacktrace ? self::$expectedErrorOutputWithQuery : self::$expectedDummyErrorMessage;
+        $this->checkBackend($backend, str_replace('<PID>', getmypid(), $expectedOutput), $formatMessage = false, $tag = 'Monolog');
     }
 
     /**
-     * @dataProvider getBackendsToTest
+     * @dataProvider getLoggingConfigs
      */
-    public function testLoggingWorksWhenMessageIsException($backend)
+    public function testLoggingWorksWhenMessageIsException($backend, $forcePrintBacktrace)
     {
-        $this->recreateLogSingleton($backend);
+        $this->recreateLogSingleton($backend, $forcePrintBacktrace);
 
         $exception = new Exception("dummy error message");
         Log::error($exception);
 
-        $this->checkBackend($backend, str_replace('<PID>', getmypid(), self::$expectedExceptionOutput), $formatMessage = false, $tag = 'Monolog');
+        $expectedOutput = $forcePrintBacktrace ? self::$expectedExceptionOutput : self::$expectedDummyErrorMessage;
+        $this->checkBackend($backend, str_replace('<PID>', getmypid(), $expectedOutput), $formatMessage = false, $tag = 'Monolog');
     }
 
     /**
-     * @dataProvider getBackendsToTest
+     * @dataProvider getLoggingConfigs
      */
-    public function testLoggingCorrectlyIdentifiesPlugin($backend)
+    public function testLoggingCorrectlyIdentifiesPlugin($backend, $forcePrintBacktrace)
     {
-        $this->recreateLogSingleton($backend);
+        $this->recreateLogSingleton($backend, $forcePrintBacktrace);
 
         LoggerWrapper::doLog(self::TESTMESSAGE);
 
@@ -146,11 +151,11 @@ class LogTest extends IntegrationTestCase
     }
 
     /**
-     * @dataProvider getBackendsToTest
+     * @dataProvider getLoggingConfigs
      */
-    public function testLogMessagesIgnoredWhenNotWithinLevel($backend)
+    public function testLogMessagesIgnoredWhenNotWithinLevel($backend, $forcePrintBacktrace)
     {
-        $this->recreateLogSingleton($backend, 'ERROR');
+        $this->recreateLogSingleton($backend, $forcePrintBacktrace, 'ERROR');
 
         Log::info(self::TESTMESSAGE);
 
@@ -158,11 +163,11 @@ class LogTest extends IntegrationTestCase
     }
 
     /**
-     * @dataProvider getBackendsToTest
+     * @dataProvider getLoggingConfigs
      */
-    public function testLogMessagesAreTrimmed($backend)
+    public function testLogMessagesAreTrimmed($backend, $forcePrintBacktrace)
     {
-        $this->recreateLogSingleton($backend);
+        $this->recreateLogSingleton($backend, $forcePrintBacktrace);
 
         LoggerWrapper::doLog(" \n   " . self::TESTMESSAGE . "\n\n\n   \n");
 
@@ -170,11 +175,11 @@ class LogTest extends IntegrationTestCase
     }
 
     /**
-     * @dataProvider getBackendsToTest
+     * @dataProvider getLoggingConfigs
      */
-    public function testTokenAuthIsRemoved($backend)
+    public function testTokenAuthIsRemoved($backend, $forcePrintBacktrace)
     {
-        $this->recreateLogSingleton($backend);
+        $this->recreateLogSingleton($backend, $forcePrintBacktrace);
 
         Log::error('token_auth=9b1cefc915ff6180071fb7dcd13ec5a4');
 
@@ -188,7 +193,7 @@ class LogTest extends IntegrationTestCase
      */
     public function testNoInfiniteLoopWhenLoggingToDatabase()
     {
-        $this->recreateLogSingleton('database');
+        $this->recreateLogSingleton('database', true);
 
         Log::info(self::TESTMESSAGE);
 
@@ -196,11 +201,11 @@ class LogTest extends IntegrationTestCase
     }
 
     /**
-     * @dataProvider getBackendsToTest
+     * @dataProvider getLoggingConfigs
      */
-    public function testLoggingNonString($backend)
+    public function testLoggingNonString($backend, $forcePrintBacktrace)
     {
-        $this->recreateLogSingleton($backend);
+        $this->recreateLogSingleton($backend, $forcePrintBacktrace);
 
         Log::warning(123);
 
@@ -269,7 +274,7 @@ class LogTest extends IntegrationTestCase
         return StaticContainer::get('path.tmp') . '/logs/piwik.test.log';
     }
 
-    private function recreateLogSingleton($backend, $level = 'INFO')
+    private function recreateLogSingleton(string $backend, bool $forcePrintBacktrace = false, string $level = 'INFO')
     {
         $newEnv = new Environment('test', array(
             'ini.log.log_writers' => array($backend),
@@ -281,6 +286,8 @@ class LogTest extends IntegrationTestCase
             'Tests.log.allowAllHandlers' => true,
         ));
         $newEnv->init();
+
+        $GLOBALS['PIWIK_PRINT_ERROR_BACKTRACE'] = $forcePrintBacktrace;
 
         $newMonologLogger = $newEnv->getContainer()->make(Log\LoggerInterface::class);
         $oldLogger = new Log($newMonologLogger);

@@ -2,6 +2,7 @@
     "CustomDimensions": {
         "CannotBeDeleted": "Özel Boyutlar silinemez ancak kapatılabilir.",
         "ColumnAvgTimeOnDimension": "Boyut Üzerindeki Ortalama Süre",
+        "ColumnAvgTimeOnDimensionDocumentation": "Ortalama özel işlem boyutundaki süre. Ziyaretçilerin başka bir izlenen işleme geçmeden önce belirli bir özel işlemde harcadıkları ortalama süre. Tüm ziyaretlerde işlem için harcanan süreyi toplayarak ve işlemin gerçekleştirildiği sayıya bölerek hesaplanır.",
         "ColumnUniqueActions": "Tekil İşlemler",
         "ConfigureDimension": "%1$s Özel boyut %2$s yapılandır",
         "ConfigureNewDimension": "Yeni boyut yapılandır",

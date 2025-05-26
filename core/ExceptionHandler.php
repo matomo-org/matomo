@@ -192,6 +192,13 @@ class ExceptionHandler
         return $result;
     }
 
+    public static function shouldPrintBackTraceWithMessage(): bool
+    {
+        return (defined('PIWIK_PRINT_ERROR_BACKTRACE') && PIWIK_PRINT_ERROR_BACKTRACE)
+            || !empty($GLOBALS['PIWIK_PRINT_ERROR_BACKTRACE'])
+            || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']);
+    }
+
     private static function logException($exception, $loglevel = Log::ERROR)
     {
         try {
