@@ -14,8 +14,8 @@ class Type
     public const ID = '';
     protected $name = 'General_Measurable';
     protected $namePlural = 'General_Measurables';
-    protected $description = 'Default measurable type';
-    protected $longDescription = 'Default measurable type long description';
+    protected $description = '';
+    protected $longDescription = '';
     protected $howToSetupUrl = '';
 
     public function isType($typeId)
