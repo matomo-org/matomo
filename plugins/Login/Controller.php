@@ -387,29 +387,32 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function resetPassword()
     {
-        $infoMessage = null;
-
         $form = new FormResetPassword();
-        if ($form->validate()) {
-            $nonce = $form->getSubmitValue('form_nonce');
-            $errorMessage = Nonce::verifyNonceWithErrorMessage('Login.login', $nonce);
-            if ($errorMessage === "") {
-                $formErrors = $this->resetPasswordFirstStep($form);
-                if (empty($formErrors)) {
-                    $infoMessage = Piwik::translate('Login_ConfirmationLinkSent');
-                }
-            } else {
-                $formErrors = [$errorMessage];
-            }
-        } else {
-            // if invalid, display error
-            $formData = $form->getFormData();
-            $formErrors = $formData['errors'];
+
+        if (false === $form->validate()) {
+            return $this->renderResetPasswordView($form->getFormData()['errors']);
         }
 
+        $nonceError = Nonce::verifyNonceWithErrorMessage('Login.login', $form->getSubmitValue('form_nonce'));
+
+        if (false === empty($nonceError)) {
+            return $this->renderResetPasswordView([$nonceError]);
+        }
+
+        $firstStepFormErrors = $this->resetPasswordFirstStep($form);
+
+        if (false === empty($firstStepFromErrors)) {
+            return $this->renderResetPasswordView([$firstStepFormErrors]);
+        }
+
+        return $this->renderResetPasswordView([], Piwik::translate('Login_ConfirmationLinkSent'));
+    }
+
+    private function renderResetPasswordView(array $formErrors = [], string $responseMessage = null): string
+    {
         $view = new View('@Login/resetPassword');
-        $view->infoMessage = $infoMessage;
         $view->formErrors = $formErrors;
+        $view->infoMessage = $responseMessage;
 
         return $view->render();
     }
