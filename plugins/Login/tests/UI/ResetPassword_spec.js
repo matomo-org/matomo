@@ -54,6 +54,14 @@ describe('ResetPassword', function () {
         await page.waitForNetworkIdle();
     }
 
+    async function requestPasswordResetWithInvalidLogin() {
+      await page.type('#reset_form_login', 'non_existant_user');
+      await page.type('#reset_form_password', 'thispassworddoesntmatter');
+      await page.type('#reset_form_password_bis','thispassworddoesntmatter');
+      await page.click('#reset_form_submit');
+      await page.waitForNetworkIdle();
+    }
+
     it('should display password reset form when forgot password link clicked', async function () {
         await goToForgotPasswordPage();
 
@@ -126,6 +134,24 @@ describe('ResetPassword', function () {
             // check dashboard is shown
             await page.waitForNetworkIdle();
             await page.waitForSelector('#dashboard');
+        });
+    });
+
+    describe('invalid username entered shows confirmation', function () {
+        this.title = parentSuite.title; // to make sure the screenshot prefix is the same
+
+        before(async function () {
+          // make sure we are not logged in
+          await page.goto('?module=Login&action=logout');
+          await page.waitForNetworkIdle();
+          await page.clearCookies();
+        });
+
+        it('should indicate a confirmation email might be sent even if username invalid', async function () {
+          await goToForgotPasswordPage();
+          await requestPasswordResetWithInvalidLogin();
+
+          expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset');
         });
     });
 
