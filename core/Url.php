@@ -11,8 +11,6 @@ namespace Piwik;
 
 use Exception;
 use Matomo\Network\IPUtils;
-use Piwik\Application\Environment;
-use Piwik\Container\Container;
 
 /**
  * Provides URL related helper methods.
@@ -316,7 +314,7 @@ class Url
         if (strlen($host) && (!$checkIfTrusted || self::isValidHost($host))) {
             return $host;
         }
-        
+
         try {
             $hosts = self::getTrustedHosts();
             if (count($hosts) > 0) {
