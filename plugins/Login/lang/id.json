@@ -6,7 +6,6 @@
         "ConfirmPasswordResetIntro": "Untuk mengonfirmasi bahwa memang Anda yang meminta perubahan kata sandi ini, masukkan kembali kata sandi baru Anda.",
         "ConfirmPasswordResetWrongPassword": "Kata sandi yang dimasukkan tidak cocok dengan kata sandi baru Anda. Jika Anda tidak ingat kata sandi yang baru Anda pilih, Anda dapat mengatur ulang kata sandi Anda lagi. Jika Anda tidak meminta perubahan kata sandi, jangan lakukan apa pun dan kata sandi Anda tidak akan diubah.",
         "ConfirmPasswordToContinue": "Konfirmasikan kata sandi Anda untuk melanjutkan",
-        "ConfirmationLinkSent": "Buka tautan konfirmasi yang dikirim ke kotak masuk surel Anda untuk mengonfirmasi perubahan kata sandi Anda.",
         "ContactAdmin": "Alasan yang mungkin: host Anda mungkin telah menonaktifkan fungsi mail(). <br>Silakan hubungi administrator Matomo Anda.",
         "CurrentlyBlockedIPs": "IP yang diblokir saat ini",
         "CurrentlyBlockedIPsUnblockConfirm": "Apakah Anda yakin ingin membuka blokiran semua IP yang saat ini diblokir?",

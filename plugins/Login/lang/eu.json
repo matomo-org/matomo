@@ -13,7 +13,6 @@
         "ConfirmPasswordResetIntro": "Idatzi zure pasahitz berria, benetan pasahitza aldatzea eskatu duzula berresteko.",
         "ConfirmPasswordResetWrongPassword": "Sartutako pasahitza ez dator bat duela gutxi jarri zenuenarekin. Ez baduzu gogoratzen, berrezarri zure pasahitza berriz ere. Ez baduzu pasahitza aldatzeko eskatu, ez daukazu ezer egin beharrik zure pasahitza mantentzeko.",
         "ConfirmPasswordToContinue": "Berretsi pasahitza jarraitzeko",
-        "ConfirmationLinkSent": "Ireki zure posta elektronikora bidalitako berrespen esteka pasahitza aldatu nahi duzula baieztatzeko.",
         "ContactAdmin": "Arrazoi posiblea: zure ostalariak mail() funtziona desgaituta eduki dezake. <br>Jarri harremanetan zure Matomo administratzailearekin.",
         "CreatePasswordDescription": "Ziurtatu pasahitz hau gogoratuko duzula eta mantendu leku seguru batean.",
         "CurrentlyBlockedIPs": "Blokeatutako IPak",

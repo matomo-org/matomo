@@ -13,7 +13,6 @@
         "ConfirmPasswordResetIntro": "请输入您的新密码以确认您确实要求更改密码。",
         "ConfirmPasswordResetWrongPassword": "输入的密码与您新设置的密码不匹配。如果您忘记了密码，请再次重置密码。如果您没有请求更改密码，请不要采取任何措施来保留您的密码。",
         "ConfirmPasswordToContinue": "确认密码以继续",
-        "ConfirmationLinkSent": "打开发送到您的收件箱中的确认链接以更改密码。",
         "ContactAdmin": "可能的原因：您的主机可能禁用了mail()函数。 <br>请联系您的 Matomo 管理员。",
         "CreatePasswordDescription": "请务必记住该密码并将其保存在安全的地方。",
         "CurrentlyBlockedIPs": "被封锁的IP",

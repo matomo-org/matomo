@@ -3,7 +3,6 @@
         "BruteForceLog": "Registro Fuerza bruta",
         "ChangeYourPassword": "Cambiar su contraseña",
         "ConfirmPasswordToContinue": "Confirme su contraseña a continuación",
-        "ConfirmationLinkSent": "Abra el enlace de confirmación enviado a su correo electrónico para confirmar su cambio de contraseña.",
         "ContactAdmin": "Razón posible: el administrador puede haber deshabilitado la función mail(). <br />Por favor contáctese con su administrador de Matomo.",
         "CurrentlyBlockedIPs": "IPs actualmente bloqueadas",
         "CurrentlyBlockedIPsUnblockConfirm": "Está seguro que desea desbloquear todas las IPs actualmente bloqueadas?",

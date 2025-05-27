@@ -16,7 +16,6 @@
         "ConfirmPasswordResetIntro": "Pour confirmer que vous êtes bien à l'origine de cette demande de changement de mot de passe, merci de saisir votre nouveau mot de passe.",
         "ConfirmPasswordResetWrongPassword": "Le mot de passe saisi ne correspond pas à votre nouveau mot de passe. Si vous avez oublié le mot de passe choisi récemment, vous pouvez le réinitialiser de nouveau. Si vous n'êtes pas à l'origine de cette demande, vous pouvez simplement l'ignorer et votre mot de passe ne sera pas modifié.",
         "ConfirmPasswordToContinue": "Confirmez votre mot de passe pour continuer",
-        "ConfirmationLinkSent": "Ouvrez le lien de confirmation envoyé dans votre boîte mail pour confirmer le changement de votre mot de passe.",
         "ContactAdmin": "Raison potentielle : Votre hébergeur peut avoir désactivé la fonction mail(). <br />Veuillez contacter votre administrateur Matomo.",
         "CreatePasswordDescription": "Assurez-vous de vous souvenir de ce mot de passe et de le conserver dans un endroit sûr.",
         "CurrentlyBlockedIPs": "Addresses IP bloquées",

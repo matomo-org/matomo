@@ -16,7 +16,6 @@
         "ConfirmPasswordResetIntro": "Si us plau, escriviu la vostra nova contrasenya per confirmar que realment heu demanat el canvi.",
         "ConfirmPasswordResetWrongPassword": "La contrasenya introduïda no coincideix amb la que acabeu de crear. Torneu a restablir la vostra contrasenya si no la recordeu. No feu res per mantenir la vostra contrasenya si no heu sol·licitat canviar-la.",
         "ConfirmPasswordToContinue": "Confirmeu la vostra contrasenya per continuar",
-        "ConfirmationLinkSent": "Obriu l'enllaç de confirmació enviat a la vostra bústia d'entrada de correu electrònic per confirmar el canvi de contrasenya.",
         "ContactAdmin": "Possible motiu: potser el vostre amfitrió hagi desactivat la funció mail(). <br>Contacteu amb el vostre administrador de Matomo.",
         "CreatePasswordDescription": "Assegureu-vos de recordar aquesta contrasenya i deseu-la en un lloc segur.",
         "CurrentlyBlockedIPs": "IP bloquejades",
