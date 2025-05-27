@@ -10,6 +10,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 The new API parameter `showMetadata` was introduced. In can be used to toggle displaying of metadata in API exports. The default value is `1` to keep current behavior.
 
+### JavaScript Tracker
+
+#### New APIs
+
+* The methods `setIgnoreCampaignsForReferrers` and `getIgnoreCampaignsForReferrers` have been added to the JavaScript tracker. They allow to get/set referrers for which campaign parameters should be ignored.
+
+
 ## Matomo 5.3.0
 
 ### Breaking Changes
