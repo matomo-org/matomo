@@ -395,13 +395,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $nonceError = Nonce::verifyNonceWithErrorMessage('Login.login', $form->getSubmitValue('form_nonce'));
 
-        if (false === empty($nonceError)) {
+        if (!empty($nonceError)) {
             return $this->renderResetPasswordView([$nonceError]);
         }
 
         $firstStepFormErrors = $this->resetPasswordFirstStep($form);
 
-        if (false === empty($firstStepFromErrors)) {
+        if (!empty($firstStepFromErrors)) {
             return $this->renderResetPasswordView([$firstStepFormErrors]);
         }
 
