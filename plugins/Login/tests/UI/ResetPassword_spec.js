@@ -151,7 +151,7 @@ describe('ResetPassword', function () {
           await goToForgotPasswordPage();
           await requestPasswordResetWithInvalidLogin();
 
-          expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset');
+          expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset_invalid_user');
         });
     });
 
