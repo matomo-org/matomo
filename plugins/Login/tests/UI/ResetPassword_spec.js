@@ -175,7 +175,7 @@ describe('ResetPassword', function () {
             const message = await page.$('.message_container .message');
             const messageText = await message.getProperty('textContent');
 
-            expect(messageText).to.match(/Open the confirmation link sent to your e-mail inbox to confirm changing your password/i);
+            expect(messageText).to.match(/If the provided details are associated with an account, you will receive an email to confirm the password reset./i);
         });
 
         it('should show initiate cancel confirmation page when "was not me" link is clicked', async function () {
