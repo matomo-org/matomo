@@ -408,7 +408,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $this->renderResetPasswordView([], Piwik::translate('Login_ConfirmationLinkSent'));
     }
 
-    private function renderResetPasswordView(array $formErrors = [], string $responseMessage = null): string
+    private function renderResetPasswordView(array $formErrors = [], ?string $responseMessage = null): string
     {
         $view = new View('@Login/resetPassword');
         $view->formErrors = $formErrors;
