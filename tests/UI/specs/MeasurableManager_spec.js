@@ -34,10 +34,6 @@ describe("MeasurableManager", function () {
 
     // '.sitesManagerList,.sitesButtonBar,.sites-manager-header,.ui-dialog.ui-widget,.modal.open'
     it("should show selection of available types when adding a type", async function () {
-        await page.webpage.setViewport({
-            width: 640,
-            height: 480,
-        });
         const element = await page.jQuery('.SitesManager .addSite:first');
         await element.click();
         await page.waitForSelector('.modal.open');
@@ -46,10 +42,6 @@ describe("MeasurableManager", function () {
     });
 
     it("should load mobile app specific fields", async function () {
-        await page.webpage.setViewport({
-            width: 1350,
-            height: 768,
-        });
         const element = await page.jQuery('.modal.open .btn:contains(Mobile App)');
         await element.click();
         await page.mouse.move(-10, -10);
