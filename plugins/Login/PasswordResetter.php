@@ -220,7 +220,7 @@ class PasswordResetter
         // get the user's login
         $user = $this->getUserInformation($loginOrEmail);
         if ($user === null) {
-            // throw a different exception type so can be handled/suppressed
+            // throw a custom exception type so it can be handled/suppressed
             throw new PasswordResetUserIsInvalidException(Piwik::translate('Login_InvalidUsernameEmail'));
         }
 
