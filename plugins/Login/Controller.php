@@ -388,7 +388,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function resetPassword()
     {
         $infoMessage = null;
-        $formErrors = null;
 
         $form = new FormResetPassword();
         if ($form->validate()) {
@@ -432,6 +431,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         try {
             $this->passwordResetter->initiatePasswordResetProcess($loginMail, $password);
+        } catch (PasswordResetUserIsInvalidException $ex) {
+            Log::debug($ex);
+
+            return null;
         } catch (Exception $ex) {
             Log::debug($ex);
 
