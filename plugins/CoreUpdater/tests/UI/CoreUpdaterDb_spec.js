@@ -12,8 +12,13 @@ describe("CoreUpdaterDb", function () {
 
     this.fixture = "Piwik\\Plugins\\CoreUpdater\\tests\\Fixtures\\DbUpdaterTestFixture";
 
+    const updateDetailsToken = 'uiTestUpdateDetailsToken'
+
     before(function () {
         testEnvironment.tablesPrefix = 'piwik_';
+        testEnvironment.configOverride.General = {
+            update_details_token: updateDetailsToken
+        };
         testEnvironment.save();
     });
 
@@ -46,6 +51,20 @@ describe("CoreUpdaterDb", function () {
             });
         });
 
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('main_no_update_token');
+    });
+
+    it("should show update details if correct token is provided", async function () {
+        const currentUrl = await page.getWholeCurrentUrl();
+
+        await page.goto(currentUrl + '&updateDetailsToken=' + updateDetailsToken);
+        await page.evaluate(function () {
+            $('p').each(function () {
+                var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+|-alpha)?(\.[0-9]{14})?/g, '');
+                $(this).html(replace);
+            });
+        });
+
         expect(await page.screenshot({ fullPage: true })).to.matchImage('main');
     });
 
@@ -57,12 +76,12 @@ describe("CoreUpdaterDb", function () {
     });
 
     it("should show instance id in updating screen", async function() {
-        testEnvironment.configOverride.General = {
-            instance_id: 'custom.instance'
-        };
+        testEnvironment.configOverride.General.instance_id = 'custom.instance';
         testEnvironment.save();
 
-        await page.goto("");
+        const currentUrl = await page.getWholeCurrentUrl();
+
+        await page.goto(currentUrl + '&updateDetailsToken=' + updateDetailsToken);
         await page.evaluate(function () {
             $('p').each(function () {
                 var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+|-alpha)?(\.[0-9]{14})?/g, '');

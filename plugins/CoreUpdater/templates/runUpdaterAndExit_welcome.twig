@@ -54,13 +54,24 @@
                 <p>{{ 'CoreUpdater_HighTrafficPiwikServerEnableMaintenance'|translate(externallink('https://matomo.org/faq/how-to/faq_111'), '</a>')|raw }}</p>
 
                 {% if migrations is not empty %}
-                    <p>{{ 'CoreUpdater_ListOfSqlQueriesFYI'|translate(piwik_version) }}</p>
-                    <p><a href="#" id="showSql">› {{ 'CoreUpdater_ClickHereToViewSqlQueries'|translate }}</a></p>
-                    {% for group in migrations %}
-                    <div class="sqlQueries" style="display:none;">
-                        <pre># {% if group.type == 'sql' %}{{ 'CoreUpdater_TheseSqlQueriesWillBeExecuted'|translate }}{% else %}{{ 'CoreUpdater_TheseCommandsWillBeExecuted'|translate }}{% endif %} <br/>{% for migration in group.migrations %}{{ migration }}<br/>{% endfor %}</pre>
-                    </div>
-                    {% endfor %}
+                    {% if showUpdateDetails %}
+                        <p>{{ 'CoreUpdater_ListOfSqlQueriesFYI'|translate(piwik_version) }}</p>
+                        <p><a href="#" id="showSql">› {{ 'CoreUpdater_ClickHereToViewSqlQueries'|translate }}</a></p>
+                        {% for group in migrations %}
+                        <div class="sqlQueries" style="display:none;">
+                            <pre># {% if group.type == 'sql' %}{{ 'CoreUpdater_TheseSqlQueriesWillBeExecuted'|translate }}{% else %}{{ 'CoreUpdater_TheseCommandsWillBeExecuted'|translate }}{% endif %} <br/>{% for migration in group.migrations %}{{ migration }}<br/>{% endfor %}</pre>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-info">
+                            {{ 'CoreUpdater_UpdateDetailsHidden1'|translate }}<br>
+                            <ul style="margin-left: 0; width: 100%">
+
+                                <li style="list-style-type: disc">{{ 'CoreUpdater_UpdateDetailsHidden2'|translate('<code>updateTokenDetails</code>', '<code>[General] update_details_token</code>', '<code>config.ini.php</code>')|raw }}</li>
+                                <li style="list-style-type: disc">{{ 'CoreUpdater_UpdateDetailsHidden3'|translate }}</li>
+                            </ul>
+                        </div>
+                    {% endif %}
                 {% endif %}
 
                 <h2>{{ 'CoreUpdater_NeedHelpUpgrading'|translate }}</h2>
