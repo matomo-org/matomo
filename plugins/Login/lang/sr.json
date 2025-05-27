@@ -1,7 +1,6 @@
 {
     "Login": {
         "ChangeYourPassword": "Promenite vašu lozinku",
-        "ConfirmationLinkSent": "Link sa potvrdom je poslat na vašu elektronsku adresu. Proverite elektronsku poštu i posetite link kako biste potvrdili zahtev za promenom lozinke.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Korisnik sa superkorisničkim nivoom pristupa ne može biti autentifikovan korišćenjem mehanizma '%s'.",
         "ExceptionPasswordMD5HashExpected": "Parametar za lozinku bi trebalo da bude MD5 hash lozinke.",
         "InvalidNonceSSLMisconfigured": "Takođe možete %1$s naterati Matomo da koristi bezbednu konekciju%2$s: u datoteci sa podešavanjima %3$s postavite %4$s u sekciji %5$s",

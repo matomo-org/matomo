@@ -13,7 +13,6 @@
         "ConfirmPasswordResetIntro": "Lūdzu, ievadiet jauno paroli, lai apstiprinātu, ka tiešām pieprasījāt paroles maiņu.",
         "ConfirmPasswordResetWrongPassword": "Ievadītā parole nesakrīt ar nesen izveidoto. Ja to neatceraties, atiestatiet savu paroli vēlreiz. Ja neesat pieprasījis paroli mainīt, nedariet neko, lai saglabātu savu paroli.",
         "ConfirmPasswordToContinue": "Apstipriniet savu paroli, lai turpinātu",
-        "ConfirmationLinkSent": "Atveriet apstiprinājuma saiti, kas nosūtīta uz e-pastu, lai apstiprinātu paroles maiņu.",
         "ContactAdmin": "Iespējams jūsu resursdators ir atspējojis mail() funkciju. <br>Lūdzu, sazinieties ar savu Matomo administratoru.",
         "CreatePasswordDescription": "Pārliecinieties, ka atceraties šo paroli un glabājiet to drošā vietā.",
         "CurrentlyBlockedIPs": "Bloķētās IP adreses",

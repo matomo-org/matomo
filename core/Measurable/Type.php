@@ -15,6 +15,7 @@ class Type
     protected $name = 'General_Measurable';
     protected $namePlural = 'General_Measurables';
     protected $description = 'Default measurable type';
+    protected $longDescription = 'Default measurable type long description';
     protected $howToSetupUrl = '';
 
     public function isType($typeId)
@@ -39,6 +40,11 @@ class Type
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function getLongDescription()
+    {
+        return $this->longDescription;
     }
 
     public function getName()

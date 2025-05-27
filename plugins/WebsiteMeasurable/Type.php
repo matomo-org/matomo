@@ -15,5 +15,6 @@ class Type extends \Piwik\Measurable\Type
     protected $name = 'Referrers_ColumnWebsite'; // we will use new key of WebsiteType_ once we have them
     protected $namePlural = 'SitesManager_Sites'; // translated into more languages
     protected $description = 'WebsiteMeasurable_WebsiteDescription';
+    protected $longDescription = 'WebsiteMeasurable_WebsiteLongDescription';
     protected $howToSetupUrl = '?module=CoreAdminHome&action=trackingCodeGenerator';
 }

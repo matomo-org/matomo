@@ -11,7 +11,6 @@
         "ChangeYourPassword": "Vaihda salasanasi",
         "ConfirmPasswordReset": "Nollaa salasana",
         "ConfirmPasswordToContinue": "Varmista salasana jatkaaksesi",
-        "ConfirmationLinkSent": "Varmistusviesti on lähetetty sähköpostiisi. Sähköpostista löydät aktivointilinkin.",
         "ContactAdmin": "Mahdollinen syy: isäntäsi on saattanut poistaa mail() function. käytöstä. <br>Ota yhteyttä Matomon järjestelmänvalvojaan.",
         "CreatePasswordDescription": "Varmista, että muistat tämän salasanan, ja säilytät sitä turvallisessa sijainnissa.",
         "CurrentlyBlockedIPs": "Estetyt IP:t",

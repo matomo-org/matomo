@@ -1,5 +1,6 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "íslenska",
         "GenerateQueries": "%s fyrirspurnir framkvæmdar",
         "GenerateTime": "%s sekúndur að gera þessa síðu",
         "NbActionsDescription": "%s aðgerðir (síðuflettingar, niðurhal og linkar frá vefnum)",

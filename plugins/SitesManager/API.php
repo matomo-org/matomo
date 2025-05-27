@@ -1222,6 +1222,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getExcludedReferrers($idSite)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         try {
             $attributes = Cache::getCacheWebsiteAttributes($idSite);
 

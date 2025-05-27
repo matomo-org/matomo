@@ -4,6 +4,8 @@
         "AvgValue": "Ortalama değer",
         "AvgValueDocumentation": "Bu etkinlik için tüm değerlerin ortalaması",
         "Category": "Kategori",
+        "ColumnNbUniqVisitorsDocumentation": "Sitenizde bir olayı tetikleyen tekilleştirilmiş ziyaretçi sayısı. Her ziyaretçi, sitede birden fazla kez ziyaret gerçekleştirse veya etkinlik tetiklese bile yalnızca bir kez sayılır.",
+        "ColumnNbVisitsDocumentation": "En az bir etkinliğin tetiklendiği toplam ziyaret sayısı.",
         "Event": "Etkinlik",
         "EventAction": "Etkinlik işlemi",
         "EventActions": "Etkinlik işlemleri",

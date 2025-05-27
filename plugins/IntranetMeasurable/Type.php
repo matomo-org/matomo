@@ -15,5 +15,6 @@ class Type extends \Piwik\Measurable\Type
     protected $name = 'IntranetMeasurable_Intranet';
     protected $namePlural = 'IntranetMeasurable_Intranets';
     protected $description = 'IntranetMeasurable_IntranetDescription';
+    protected $longDescription = 'IntranetMeasurable_IntranetLongDescription';
     protected $howToSetupUrl = '?module=CoreAdminHome&action=trackingCodeGenerator';
 }
