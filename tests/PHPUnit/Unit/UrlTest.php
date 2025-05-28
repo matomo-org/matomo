@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Unit;
 
+use Piwik\Access;
 use Piwik\Config;
 use Piwik\Url;
 
@@ -72,6 +73,16 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         Config::getInstance()->General['proxy_ips'] = [$test[3]];
         Config::getInstance()->General['enable_trusted_host_check'] = 0;
         $this->assertEquals($test[4], Url::getCurrentHost(), $description);
+    }
+
+    public function testGetHostWithTrustedHosts()
+    {
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Access::getInstance()->setSuperUserAccess(true);
+
+        // plugins/CoreAdminHome/API::setTrustedHosts();
+        Url::saveTrustedHostnameInConfig(['example.com','stats.example.com']);
+        $this->assertEquals('example.com', Url::getHost());
     }
 
     /**
