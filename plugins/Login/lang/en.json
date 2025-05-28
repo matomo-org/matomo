@@ -1,7 +1,7 @@
 {
     "Login": {
         "BruteForceLog": "Brute Force Log",
-        "ConfirmationLinkSent": "Open the confirmation link sent to your e-mail inbox to confirm changing your password.",
+        "ConfirmationLinkPossiblySent": "If the provided details are associated with an account, you will receive an email to confirm the password reset.",
         "ContactAdmin": "Possible reason: your host may have disabled the mail() function. <br \/>Please contact your Matomo administrator.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "A user with superuser access cannot be authenticated using the '%s' mechanism.",
         "ExceptionPasswordMD5HashExpected": "The password parameter is expected to be a MD5 hash of the password.",

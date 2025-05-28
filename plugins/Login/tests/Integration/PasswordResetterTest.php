@@ -19,6 +19,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Login\PasswordResetter;
+use Piwik\Plugins\Login\PasswordResetUserIsInvalidException;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -198,8 +199,8 @@ class PasswordResetterTest extends IntegrationTestCase
 
     public function testPasswordResetShouldNotWorkForPendingUser()
     {
-        self::expectException(\Exception::class);
-        self::expectExceptionMessage('Invalid username or e-mail address.');
+        $this->expectException(PasswordResetUserIsInvalidException::class);
+        $this->expectExceptionMessage('Invalid username or e-mail address.');
 
         Request::processRequest(
             'UsersManager.inviteUser',
@@ -222,6 +223,14 @@ class PasswordResetterTest extends IntegrationTestCase
 
             throw $e;
         }
+    }
+
+    public function testPasswordResetShouldNotWorkForInvalidUserAndThrowException()
+    {
+        $this->expectException(PasswordResetUserIsInvalidException::class);
+        $this->expectExceptionMessage('Invalid username or e-mail address.');
+
+        $this->passwordResetter->initiatePasswordResetProcess('invalidUser', 'doesnt_matter');
     }
 
     public function testPasswordResetCanBeCancelled(): void

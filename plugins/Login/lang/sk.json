@@ -1,7 +1,6 @@
 {
     "Login": {
         "ChangeYourPassword": "Zmeniť heslo",
-        "ConfirmationLinkSent": "Potvrdzovací odkaz bol zaslaný na váš e-mail. Skontrolujte si došlú poštu a navštívte tento odkaz pre autorizovanie požiadavky pre zmenu hesla.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Používateľ s prístupom Super Používateľ nemôže byť autorizovaný pomocou '%s' mechanizmu.",
         "ExceptionPasswordMD5HashExpected": "Parameter hesla je očakávaný ako MD5 hash hesla.",
         "InvalidOrExpiredToken": "Token je neplatný alebo už vypršal.",

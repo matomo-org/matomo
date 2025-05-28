@@ -2,6 +2,7 @@
     "WebsiteMeasurable": {
         "Website": "Website",
         "Websites": "Websites",
-        "WebsiteDescription": "A website consists of webpages, typically served from a single domain on the web."
+        "WebsiteDescription": "A website consists of webpages, typically served from a single domain on the web.",
+        "WebsiteLongDescription": "Track visitor interactions like page views, clicks, downloads, and events on a public-facing website. A single measurable can include multiple domains and subdomains, or you can create separate measurables for each."
     }
 }

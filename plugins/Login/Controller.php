@@ -387,30 +387,32 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function resetPassword()
     {
-        $infoMessage = null;
-        $formErrors = null;
-
         $form = new FormResetPassword();
-        if ($form->validate()) {
-            $nonce = $form->getSubmitValue('form_nonce');
-            $errorMessage = Nonce::verifyNonceWithErrorMessage('Login.login', $nonce);
-            if ($errorMessage === "") {
-                $formErrors = $this->resetPasswordFirstStep($form);
-                if (empty($formErrors)) {
-                    $infoMessage = Piwik::translate('Login_ConfirmationLinkSent');
-                }
-            } else {
-                $formErrors = [$errorMessage];
-            }
-        } else {
-            // if invalid, display error
-            $formData = $form->getFormData();
-            $formErrors = $formData['errors'];
+
+        if (false === $form->validate()) {
+            return $this->renderResetPasswordView($form->getFormData()['errors']);
         }
 
+        $nonceError = Nonce::verifyNonceWithErrorMessage('Login.login', $form->getSubmitValue('form_nonce'));
+
+        if (!empty($nonceError)) {
+            return $this->renderResetPasswordView([$nonceError]);
+        }
+
+        $firstStepFormErrors = $this->resetPasswordFirstStep($form);
+
+        if (!empty($firstStepFromErrors)) {
+            return $this->renderResetPasswordView([$firstStepFormErrors]);
+        }
+
+        return $this->renderResetPasswordView([], Piwik::translate('Login_ConfirmationLinkPossiblySent'));
+    }
+
+    private function renderResetPasswordView(array $formErrors = [], ?string $responseMessage = null): string
+    {
         $view = new View('@Login/resetPassword');
-        $view->infoMessage = $infoMessage;
         $view->formErrors = $formErrors;
+        $view->infoMessage = $responseMessage;
 
         return $view->render();
     }
@@ -432,6 +434,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         try {
             $this->passwordResetter->initiatePasswordResetProcess($loginMail, $password);
+        } catch (PasswordResetUserIsInvalidException $ex) {
+            Log::debug($ex);
+
+            return null;
         } catch (Exception $ex) {
             Log::debug($ex);
 

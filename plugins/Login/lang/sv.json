@@ -13,7 +13,6 @@
         "ConfirmPasswordResetIntro": "Vänligen ange ditt nya lösenord för att bekräfta att du önskade få ditt lösenord ändrat.",
         "ConfirmPasswordResetWrongPassword": "Det angivna lösenordet matchar inte ditt nya lösenord. Om du inte kommer ihåg ditt nyligen valda lösenord kan du återställa lösenordet igen. Om du inte begärde lösenordsändringen, så gör du helt enkelt ingenting och ditt lösenord kommer inte att ändras.",
         "ConfirmPasswordToContinue": "Bekräfta ditt lösenord för att fortsätta",
-        "ConfirmationLinkSent": "Klicka på länken i mejlet som skickats till dig för att bekräfta att ändra ditt lösenord.",
         "ContactAdmin": "Möjlig orsak: din värd kan ha inaktiverat mail() funktionen. <br>Vänligen kontakta din Matomo administratör.",
         "CreatePasswordDescription": "Säkerställ att du kommer ihåg detta lösenord och sparar det på ett säkert ställe.",
         "CurrentlyBlockedIPs": "Blockerade IP-adresser",
