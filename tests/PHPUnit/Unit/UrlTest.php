@@ -9,7 +9,6 @@
 
 namespace Piwik\Tests\Unit;
 
-use Piwik\Access;
 use Piwik\Config;
 use Piwik\Url;
 
