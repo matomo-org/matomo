@@ -7,6 +7,8 @@
         "AliasUrlHelp": "Moltar, ach ní gá, na URLanna éagsúla a shonrú, ceann in aghaidh an líne, a úsáideann do chuairteoirí chun rochtain a fháil ar an láithreán gréasáin seo. Ní bheidh URLanna ailias le haghaidh láithreán gréasáin le feiceáil sa tuarascáil Referrers → Websites. Tabhair faoi deara nach gá na URLanna a shonrú le 'www' agus gan 'www' mar a mheasann Matomo go huathoibríoch araon.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Ní bheidh tionchar ag athrú do chrios ama ach ar shonraí amach anseo, agus ní chuirfear i bhfeidhm go cúlghabhálach é.",
         "ChooseMeasurableTypeHeadline": "Cad ba mhaith leat a thomhas?",
+        "ChooseMeasurableTypeSubheader": "Is éard is intomhais ann ná aon suíomh gréasáin, aip, nó córas ar líne ar mhaith leat a rianú agus a anailísiú. Is iad na hintomhais an bunús le haghaidh sonraí a bhailiú agus tuarascálacha a ghiniúint i Matomo.",
+        "ChooseMeasurableTypeSubheaderRollUp": "Is féidir leat il-intomhais a ghrúpáil freisin ag baint úsáide as Roll-Up le haghaidh léargas aontaithe.",
         "CmsAndWebsiteBuilders": "CMS agus tógálaithe láithreán gréasáin",
         "ConsentManagerConnected": "Bhraitheamar go bhfuil %1$s cumraithe i gceart chun oibriú le Matomo ar do shuíomh.",
         "Currency": "Airgeadra",
