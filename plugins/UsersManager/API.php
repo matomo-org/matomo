@@ -107,6 +107,7 @@ class API extends \Piwik\Plugin\API
     public function __construct(
         Model $model,
         UserAccessFilter $filter,
+        #[\SensitiveParameter]
         Password $password,
         ?Access $access = null,
         ?Access\RolesProvider $roleProvider = null,

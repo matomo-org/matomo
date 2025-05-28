@@ -199,8 +199,10 @@ class UsersManager extends \Piwik\Plugin
         }
     }
 
-    public static function getPasswordHash($password)
-    {
+    public static function getPasswordHash(
+        #[\SensitiveParameter]
+        $password
+    ) {
         if (SettingsPiwik::isUserCredentialsSanityCheckEnabled()) {
             self::checkBasicPasswordStrength($password);
         }
@@ -209,8 +211,10 @@ class UsersManager extends \Piwik\Plugin
         return md5($password);
     }
 
-    public static function checkBasicPasswordStrength($password)
-    {
+    public static function checkBasicPasswordStrength(
+        #[\SensitiveParameter]
+        $password
+    ) {
         $ex = new \Exception('This password is too weak, please supply another value or reset it.');
 
         $numDistinctCharacters = strlen(count_chars($password, 3));
