@@ -79,6 +79,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
     {
         Config::getInstance()->General['enable_trusted_host_check'] = 1;
         Access::getInstance()->setSuperUserAccess(true);
+        $_SERVER['HTTP_HOST'] = null;
 
         // plugins/CoreAdminHome/API::setTrustedHosts();
         Url::saveTrustedHostnameInConfig(['example.com','stats.example.com']);
