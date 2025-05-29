@@ -203,7 +203,7 @@ class Sorter
     public function getBestSortFlags(DataTable $table, $columnToSort)
     {
         // when column is label we always to sort by string or natural
-        if (isset($columnToSort) && $columnToSort !== 'label') {
+        if ($columnToSort !== 'label') {
             foreach ($table->getRowsWithoutSummaryRow() as $row) {
                 $value = $row->getColumn($columnToSort);
 
