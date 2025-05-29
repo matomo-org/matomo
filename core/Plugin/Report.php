@@ -699,13 +699,11 @@ class Report
         if (!empty($relatedReports)) {
             $report['relatedReports'] = array();
             foreach ($relatedReports as $relatedReport) {
-                if (!empty($relatedReport)) {
-                    $report['relatedReports'][] = array(
-                        'name' => $relatedReport->getName(),
-                        'module' => $relatedReport->getModule(),
-                        'action' => $relatedReport->getAction()
-                    );
-                }
+                $report['relatedReports'][] = array(
+                    'name' => $relatedReport->getName(),
+                    'module' => $relatedReport->getModule(),
+                    'action' => $relatedReport->getAction()
+                );
             }
         }
 
@@ -826,7 +824,7 @@ class Report
     }
 
     /**
-     * @return \Piwik\Columns\Dimension
+     * @return \Piwik\Columns\Dimension|null
      * @ignore
      */
     public function getDimension()
