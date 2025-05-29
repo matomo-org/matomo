@@ -219,6 +219,8 @@ class Request
     public function process()
     {
         $shouldReloadAuth = false;
+        $hadSuperUserAccess = false;
+        $tokenAuthToRestore = null;
 
         try {
             ++self::$nestedApiInvocationCount;

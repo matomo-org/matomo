@@ -111,8 +111,8 @@ class SegmentArchiving
     public function getReArchiveSegmentStartDate($segmentInfo)
     {
         /**
-         * @var Date $segmentCreatedTime
-         * @var Date $segmentLastEditedTime
+         * @var Date|null $segmentCreatedTime
+         * @var Date|null $segmentLastEditedTime
          */
         list($segmentCreatedTime, $segmentLastEditedTime) = $this->getCreatedTimeOfSegment($segmentInfo);
 
