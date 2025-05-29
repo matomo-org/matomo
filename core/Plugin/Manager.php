@@ -775,7 +775,7 @@ class Manager
      *
      * If no theme is enabled, the **Morpheus** plugin is returned (this is the base and default theme).
      *
-     * @return Plugin
+     * @return Plugin|bool
      * @api
      */
     public function getThemeEnabled()

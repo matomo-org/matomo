@@ -304,7 +304,7 @@ class Common
     {
         try {
             // phpcs:ignore Generic.PHP.ForbiddenFunctions
-            return unserialize($string ?? '', ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
+            return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
         } catch (\Throwable $e) {
             if ($rethrow) {
                 throw $e;
@@ -427,7 +427,7 @@ class Common
      */
     public static function unsanitizeInputValue($value)
     {
-        return htmlspecialchars_decode($value ?? '', self::HTML_ENCODING_QUOTE_STYLE);
+        return htmlspecialchars_decode($value, self::HTML_ENCODING_QUOTE_STYLE);
     }
 
     /**
@@ -960,10 +960,10 @@ class Common
             return self::LANGUAGE_CODE_INVALID;
         }
         foreach ($matches as $parts) {
-            $langIso639 = $parts[1];
-            if (empty($langIso639)) {
+            if (count($parts) < 2) {
                 continue;
             }
+            $langIso639 = $parts[1];
 
             // If a region tag is found eg. "fr-ca"
             if (count($parts) === 3) {
