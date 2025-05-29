@@ -2,6 +2,7 @@
     "IntranetMeasurable": {
         "Intranet": "Lloc web de la intranet",
         "IntranetDescription": "Una intranet mesurable és com un lloc web, però allotjada en una xarxa interna.",
+        "IntranetLongDescription": "Feu un seguiment dels llocs web interns que només són accessibles dins de la xarxa de la vostra organització. Matomo utilitza cookies pròpies per identificar amb més precisió els visitants únics en entorns d'intranet.",
         "Intranets": "Llocs web de la intranet"
     }
 }
