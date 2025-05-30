@@ -174,9 +174,9 @@ class RequestSetTest extends UnitTestCase
         $this->assertFalse($this->requestSet->hasRequests());
     }
 
-    public function testGetTokenAuthShouldReturnFalseIfNoTokenIsSetAndNoRequestParam()
+    public function testGetTokenAuthShouldReturnEmptyStringIfNoTokenIsSetAndNoRequestParam()
     {
-        $this->assertFalse($this->requestSet->getTokenAuth());
+        $this->assertEquals('', $this->requestSet->getTokenAuth());
     }
 
     public function testGetTokenAuthSetTokenAuthShouldOverwriteTheToken()
@@ -192,7 +192,7 @@ class RequestSetTest extends UnitTestCase
         $this->assertNotEmpty($this->requestSet->getTokenAuth());
 
         $this->requestSet->setTokenAuth(null);
-        $this->assertFalse($this->requestSet->getTokenAuth()); // does now fallback to get param
+        $this->assertEquals('', $this->requestSet->getTokenAuth()); // does now fallback to get param
     }
 
     public function testGetTokenAuthShouldFallbackToRequestParamIfNoTokenSet()
