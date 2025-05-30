@@ -77,7 +77,6 @@ class UrlTest extends \PHPUnit\Framework\TestCase
     public function testGetHostWithTrustedHosts()
     {
         Config::getInstance()->General['enable_trusted_host_check'] = 1;
-        Config::getInstance()->General['enable_trusted_host_check'] = 1;
         Config::getInstance()->General['trusted_hosts'] = ['example.com','stats.example.com'];
         $_SERVER['HTTP_HOST'] = null;
 
