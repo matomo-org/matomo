@@ -339,6 +339,7 @@ class Model
      */
     public function addTokenAuth(
         $login,
+        #[\SensitiveParameter]
         $tokenAuth,
         $description,
         $dateCreated,
@@ -375,8 +376,10 @@ class Model
         return $db->lastInsertId();
     }
 
-    private function getTokenByTokenAuth($tokenAuth)
-    {
+    private function getTokenByTokenAuth(
+        #[\SensitiveParameter]
+        $tokenAuth
+    ) {
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
         $db = $this->getDb();
 
@@ -412,8 +415,11 @@ class Model
      * @return array|bool               An array representing the token record, or null if not found
      * @throws \Exception
      */
-    private function getTokenByTokenAuthIfNotExpired(?string $tokenAuth, bool $isTokenSecured)
-    {
+    private function getTokenByTokenAuthIfNotExpired(
+        #[\SensitiveParameter]
+        ?string $tokenAuth,
+        bool $isTokenSecured
+    ) {
         // If the token wasn't provided via a secure mechanism and use of secure tokens is enforced globally
         // then don't attempt to find the token
         if (GeneralConfig::getConfigValue('only_allow_secure_auth_tokens') && !$isTokenSecured) {
@@ -519,8 +525,11 @@ class Model
         );
     }
 
-    public function setTokenAuthWasUsed($tokenAuth, $dateLastUsed)
-    {
+    public function setTokenAuthWasUsed(
+        #[\SensitiveParameter]
+        $tokenAuth,
+        $dateLastUsed
+    ) {
         $token = $this->getTokenByTokenAuth($tokenAuth);
         if (!empty($token)) {
             $lastUsage = !empty($token['last_used']) ? strtotime($token['last_used']) : 0;
@@ -568,8 +577,10 @@ class Model
     }
 
 
-    public function getUserByInviteToken($tokenAuth)
-    {
+    public function getUserByInviteToken(
+        #[\SensitiveParameter]
+        $tokenAuth
+    ) {
         $token = $this->hashTokenAuth($tokenAuth);
         if (!empty($token)) {
             $db = $this->getDb();
@@ -585,8 +596,10 @@ class Model
      * @return array|null
      * @throws \Exception
      */
-    public function getUserByTokenAuth(?string $tokenAuth): ?array
-    {
+    public function getUserByTokenAuth(
+        #[\SensitiveParameter]
+        ?string $tokenAuth
+    ): ?array {
         if ($tokenAuth === 'anonymous') {
             $row = $this->getUser('anonymous');
             return (is_array($row) ? $row : null);

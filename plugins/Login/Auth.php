@@ -174,8 +174,10 @@ class Auth implements \Piwik\Auth
      *
      * @param string $token_auth authentication token
      */
-    public function setTokenAuth($token_auth)
-    {
+    public function setTokenAuth(
+        #[\SensitiveParameter]
+        $token_auth
+    ) {
         $this->token_auth = $token_auth;
     }
 
