@@ -19,7 +19,7 @@ class TokenExpirationWarningNotificationProvider extends TokenNotificationProvid
     protected function getPeriodThreshold(): ?string
     {
         $periodDays = (int) Config::getInstance()->General['auth_token_expiration_notification_days'];
-        return $periodDays ? Date::factory('today')->subDay($periodDays)->getDateTime() : null;
+        return ($periodDays && $periodDays !== -1) ? Date::factory('today')->subDay($periodDays)->getDateTime() : null;
     }
 
     protected function getTokensToNotify(string $periodThreshold): array

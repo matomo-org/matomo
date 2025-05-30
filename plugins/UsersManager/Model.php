@@ -551,7 +551,7 @@ class Model
     {
         $this->updateTokenAuthTable($tokenId, ['ts_rotation_notified' => $tsRotation]);
     }
-    
+
     public function setExpirationWarningNotificaitonWasSentForToken(string $tokenId, string $tsExpirationWarning)
     {
         $this->updateTokenAuthTable($tokenId, ['ts_expiration_warning_notified' => $tsExpirationWarning]);
