@@ -56,6 +56,6 @@ class TokenExpirationWarningNotificationProvider extends TokenNotificationProvid
 
     public function setTokenNotificationDispatched(string $tokenId): void
     {
-        $this->userModel->setExpirationWarningNotificaitonWasSentForToken($tokenId, Date::factory('now')->getDatetime());
+        $this->userModel->setExpirationWarningNotificationWasSentForToken($tokenId, Date::factory('now')->getDatetime());
     }
 }
