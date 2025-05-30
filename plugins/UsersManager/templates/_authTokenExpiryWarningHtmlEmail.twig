@@ -1,0 +1,7 @@
+<p>{{ 'General_HelloUser'|translate(login) }}</p>
+<p><strong>{{ 'UsersManager_AuthTokenNotificationEmailReminder'|translate(expirationWarningPeriod) }}</strong></p>
+<p>{{ 'UsersManager_AuthTokenExpirationWarningEmail01'|translate('<strong>', expirationWarningPeriod, '</strong>')|raw }}</p>
+<p>{{ 'UsersManager_AuthTokenExpirationWarningEmail02'|translate('<strong>', tokenName|token, '</strong>', '<strong>', tokenExpirationDate, '</strong>')|raw }}</p>
+<p>{{ 'UsersManager_AuthTokenExpirationWarningEmail03'|translate }}</p>
+<p>{{ 'UsersManager_AuthTokenExpirationWarningEmail04'|translate }}</p>
+<a href="{{ manageAuthTokensLink|escape('html_attr') }}">{{ 'UsersManager_AuthnenExpirationWarningEmail05'|translate }}</a>

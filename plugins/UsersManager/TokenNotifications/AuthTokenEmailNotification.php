@@ -7,12 +7,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\UsersManager;
+namespace Piwik\Plugins\UsersManager\TokenNotifications;
 
 use Piwik\Plugins\UsersManager\Emails\AuthTokenNotificationEmail;
-use Piwik\Plugins\UsersManager\TokenNotifications\TokenEmailNotification;
 
-final class AuthTokenEmailNotification extends TokenEmailNotification
+class AuthTokenEmailNotification extends TokenEmailNotification
 {
     public function getEmailClass(): string
     {
