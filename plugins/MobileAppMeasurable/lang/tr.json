@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "Mobil uygulama",
         "MobileAppDescription": "iOS Android ya da diğer mobil işletim sistemleri için doğal mobil uygulama.",
+        "MobileAppLongDescription": "Yerel iOS ve Android uygulamaları üzerindeki kullanıcı işlemlerini izleyin. Toplanan verilerde ekran görüntülemeleri, uygulama içi işlemler, aygıt bilgileri ve kullanıcı otrurumları bulunabilir. Bu ölçülebilir, Matomo mobil SDK kullanan uygulamalar için tasarlanmıştır.",
         "MobileApps": "Mobil uygulama"
     }
 }
