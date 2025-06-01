@@ -315,9 +315,13 @@ class Url
             return $host;
         }
 
-        // HTTP/1.0 request doesn't include Host: header
-        if (isset($_SERVER['SERVER_ADDR'])) {
-            return $_SERVER['SERVER_ADDR'];
+        try {
+            $hosts = self::getTrustedHosts();
+            if (count($hosts) > 0) {
+                return $hosts[0];
+            }
+        } catch (\Exception $e) {
+            // fall back
         }
 
         return false;

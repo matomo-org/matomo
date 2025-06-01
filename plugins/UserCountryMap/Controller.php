@@ -303,8 +303,13 @@ class Controller extends \Piwik\Plugin\Controller
         }
     }
 
-    private function getMetrics($idSite, $period, $date, $token_auth)
-    {
+    private function getMetrics(
+        $idSite,
+        $period,
+        $date,
+        #[\SensitiveParameter]
+        $token_auth
+    ) {
         $request = new Request(
             'method=API.getMetadata&format=json'
             . '&apiModule=UserCountry&apiAction=getCountry'
@@ -330,8 +335,17 @@ class Controller extends \Piwik\Plugin\Controller
         return $metrics;
     }
 
-    private function getApiRequestUrl($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false, $segmentOverride = false)
-    {
+    private function getApiRequestUrl(
+        $module,
+        $action,
+        $idSite,
+        $period,
+        $date,
+        #[\SensitiveParameter]
+        $token_auth,
+        $filter_by_country = false,
+        $segmentOverride = false
+    ) {
         // use processed reports
         $url = "?module=" . $module
             . "&method=" . $module . "." . $action . "&format=JSON"
@@ -354,8 +368,17 @@ class Controller extends \Piwik\Plugin\Controller
         return $url;
     }
 
-    private function report($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false, $segmentOverride = false)
-    {
+    private function report(
+        $module,
+        $action,
+        $idSite,
+        $period,
+        $date,
+        #[\SensitiveParameter]
+        $token_auth,
+        $filter_by_country = false,
+        $segmentOverride = false
+    ) {
         return $this->getApiRequestUrl(
             'API',
             'getProcessedReport&apiModule=' . $module . '&apiAction=' . $action,

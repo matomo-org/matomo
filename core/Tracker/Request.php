@@ -65,8 +65,11 @@ class Request
      * @param $params
      * @param bool|string $tokenAuth
      */
-    public function __construct($params, $tokenAuth = false)
-    {
+    public function __construct(
+        $params,
+        #[\SensitiveParameter]
+        $tokenAuth = false
+    ) {
         if (!is_array($params)) {
             $params = array();
         }
@@ -154,8 +157,10 @@ class Request
      * This method allows to set custom IP + server time + visitor ID, when using Tracking API.
      * These two attributes can be only set by the Super User (passing token_auth).
      */
-    protected function authenticateTrackingApi($tokenAuth)
-    {
+    protected function authenticateTrackingApi(
+        #[\SensitiveParameter]
+        $tokenAuth
+    ) {
         $shouldAuthenticate = TrackerConfig::getConfigValue('tracking_requests_require_authentication', $this->getIdSiteIfExists());
 
         if ($shouldAuthenticate) {
@@ -200,8 +205,11 @@ class Request
         }
     }
 
-    public static function authenticateSuperUserOrAdminOrWrite($tokenAuth, $idSite)
-    {
+    public static function authenticateSuperUserOrAdminOrWrite(
+        #[\SensitiveParameter]
+        $tokenAuth,
+        $idSite
+    ) {
         if (empty($tokenAuth)) {
             return false;
         }

@@ -77,8 +77,11 @@ class TwoFactorAuthentication
         return strtolower($login) === 'anonymous';
     }
 
-    public function saveSecret($login, $secret)
-    {
+    public function saveSecret(
+        $login,
+        #[\SensitiveParameter]
+        $secret
+    ) {
         if (self::isAnonymous($login)) {
             throw new Exception('Anonymous cannot use two-factor authentication');
         }
@@ -113,8 +116,11 @@ class TwoFactorAuthentication
         return $model->getUser($login);
     }
 
-    private function wasTwoFaCodeUsedRecently($login, $authCode)
-    {
+    private function wasTwoFaCodeUsedRecently(
+        $login,
+        #[\SensitiveParameter]
+        $authCode
+    ) {
         $time = Option::get($this->gettwoFaCodeUsedKey($login, $authCode));
         if (empty($time)) {
             return false;
@@ -126,13 +132,19 @@ class TwoFactorAuthentication
         return false;
     }
 
-    private function gettwoFaCodeUsedKey($login, $authCode)
-    {
+    private function gettwoFaCodeUsedKey(
+        $login,
+        #[\SensitiveParameter]
+        $authCode
+    ) {
         return self::OPTION_PREFIX_TWO_FA_CODE_USED . md5($login . $authCode . SettingsPiwik::getSalt());
     }
 
-    private function setTwoFaCodeWasUsed($login, $authCode)
-    {
+    private function setTwoFaCodeWasUsed(
+        $login,
+        #[\SensitiveParameter]
+        $authCode
+    ) {
         $table = Common::prefixTable('option');
         $bind = array($this->gettwoFaCodeUsedKey($login, $authCode), time(), 0);
         try {
@@ -158,8 +170,11 @@ class TwoFactorAuthentication
         }
     }
 
-    public function validateAuthCode($login, $authCode)
-    {
+    public function validateAuthCode(
+        $login,
+        #[\SensitiveParameter]
+        $authCode
+    ) {
         if (!self::isUserUsingTwoFactorAuthentication($login)) {
             return false;
         }
@@ -188,8 +203,12 @@ class TwoFactorAuthentication
         return false;
     }
 
-    public function validateAuthCodeDuringSetup($authCode, $secret)
-    {
+    public function validateAuthCodeDuringSetup(
+        #[\SensitiveParameter]
+        $authCode,
+        #[\SensitiveParameter]
+        $secret
+    ) {
         $twoFactorAuth = $this->makeAuthenticator();
 
         if (!empty($secret) && $twoFactorAuth->verifyCode($secret, $authCode, 2)) {

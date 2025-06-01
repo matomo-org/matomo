@@ -112,8 +112,11 @@ class UsersManager extends \Piwik\Plugin
         }
     }
 
-    public static function hashTrackingToken($tokenAuth, $idSite)
-    {
+    public static function hashTrackingToken(
+        #[\SensitiveParameter]
+        $tokenAuth,
+        $idSite
+    ) {
         return sha1($idSite . $tokenAuth . SettingsPiwik::getSalt());
     }
 
@@ -159,8 +162,10 @@ class UsersManager extends \Piwik\Plugin
         return $l >= self::PASSWORD_MIN_LENGTH;
     }
 
-    public static function checkPassword($password)
-    {
+    public static function checkPassword(
+        #[\SensitiveParameter]
+        $password
+    ) {
         /**
          * Triggered before core password validator check password.
          *
@@ -194,8 +199,10 @@ class UsersManager extends \Piwik\Plugin
         }
     }
 
-    public static function getPasswordHash($password)
-    {
+    public static function getPasswordHash(
+        #[\SensitiveParameter]
+        $password
+    ) {
         if (SettingsPiwik::isUserCredentialsSanityCheckEnabled()) {
             self::checkBasicPasswordStrength($password);
         }
@@ -204,8 +211,10 @@ class UsersManager extends \Piwik\Plugin
         return md5($password);
     }
 
-    public static function checkBasicPasswordStrength($password)
-    {
+    public static function checkBasicPasswordStrength(
+        #[\SensitiveParameter]
+        $password
+    ) {
         $ex = new \Exception('This password is too weak, please supply another value or reset it.');
 
         $numDistinctCharacters = strlen(count_chars($password, 3));
@@ -225,8 +234,11 @@ class UsersManager extends \Piwik\Plugin
      * @param string $exceptionMessage Message of the exception thrown.
      * @throws Exception if the password hash length is incorrect.
      */
-    public static function checkPasswordHash($passwordHash, $exceptionMessage)
-    {
+    public static function checkPasswordHash(
+        #[\SensitiveParameter]
+        $passwordHash,
+        $exceptionMessage
+    ) {
         if (strlen($passwordHash) != 32 || !ctype_xdigit($passwordHash)) {  // MD5 hash length
             throw new Exception($exceptionMessage);
         }

@@ -61,7 +61,10 @@ interface Auth
      *
      * @param string $token_auth authentication token
      */
-    public function setTokenAuth($token_auth);
+    public function setTokenAuth(
+        #[\SensitiveParameter]
+        $token_auth
+    );
 
     /**
      * Returns the login of the user being authenticated.
@@ -94,7 +97,10 @@ interface Auth
      *
      * @param string $password Password (not hashed).
      */
-    public function setPassword($password);
+    public function setPassword(
+        #[\SensitiveParameter]
+        $password
+    );
 
     /**
      * Sets the hash of the password to authenticate with. The hash will be an MD5 hash.
@@ -102,7 +108,10 @@ interface Auth
      * @param string $passwordHash The hashed password.
      * @throws Exception if authentication by hashed password is not supported.
      */
-    public function setPasswordHash($passwordHash);
+    public function setPasswordHash(
+        #[\SensitiveParameter]
+        $passwordHash
+    );
 
     /**
      * Authenticates a user using the login and password set using the setters. Can also authenticate
