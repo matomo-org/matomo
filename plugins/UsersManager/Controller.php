@@ -387,37 +387,67 @@ class Controller extends ControllerAdmin
             throw new Exception('Not allowed');
         }
 
-        $noDescription = false;
+        $invalidExpireDate = null;
+        if (!empty($_POST['token_expire_date'])) {
+            $tokenExpireDate = \Piwik\Request::fromRequest()->getStringParameter('token_expire_date');
 
+            try {
+                $invalidExpireDate = true;
+                if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $tokenExpireDate)) {
+                    Date::factory($tokenExpireDate);
+                    $invalidExpireDate = false;
+                }
+            } catch (Exception $e) {
+                // nop
+            }
+        }
+
+        $noDescription = null;
+        $description = '';
         if (!empty($_POST['description'])) {
-            Nonce::checkNonce(self::NONCE_ADD_AUTH_TOKEN);
-
             $description = \Piwik\Request::fromRequest()->getStringParameter('description', '');
+            $noDescription = false;
+        } elseif (isset($_POST['description'])) {
+            $noDescription = true;
+        }
+
+        if (false === $noDescription && false === $invalidExpireDate) {
+            Nonce::checkNonce(self::NONCE_ADD_AUTH_TOKEN);
             $secureOnly = \Piwik\Request::fromRequest()->getBoolParameter('secure_only', false);
+            $hasTokenExpiry = \Piwik\Request::fromRequest()->getBoolParameter('has_expiration', false);
 
             $login = Piwik::getCurrentUserLogin();
 
             $generatedToken = $this->userModel->generateRandomTokenAuth();
 
-            $this->userModel->addTokenAuth($login, $generatedToken, $description, Date::now()->getDatetime(), null, false, $secureOnly);
+            $this->userModel->addTokenAuth(
+                $login,
+                $generatedToken,
+                $description,
+                Date::now()->getDatetime(),
+                $hasTokenExpiry ? $tokenExpireDate : null,
+                false,
+                $secureOnly
+            );
 
             $container = StaticContainer::getContainer();
             $email = $container->make(TokenAuthCreatedEmail::class, [
                 'login' => Piwik::getCurrentUserLogin(),
                 'emailAddress' => Piwik::getCurrentUserEmail(),
-                'tokenDescription' => $description
+                'tokenDescription' => $description,
             ]);
             $email->safeSend();
 
             return $this->renderTemplate('addNewTokenSuccess', ['generatedToken' => $generatedToken]);
-        } elseif (isset($_POST['description'])) {
-            $noDescription = true;
         }
 
         return $this->renderTemplate('addNewToken', [
             'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN),
             'noDescription' => $noDescription,
-            'forceSecureOnly' => GeneralConfig::getConfigValue('only_allow_secure_auth_tokens')
+            'invalidExpireDate' => $invalidExpireDate,
+            'forceSecureOnly' => (bool) GeneralConfig::getConfigValue('only_allow_secure_auth_tokens'),
+            'defaultExpirationDays' => GeneralConfig::getConfigValue('auth_token_default_expiration_days'),
+            'expirationReminderDays' => GeneralConfig::getConfigValue('auth_token_expiration_reminder_days'),
         ]);
     }
 

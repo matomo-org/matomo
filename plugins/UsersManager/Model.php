@@ -333,6 +333,8 @@ class Model
      * @param null|string  $dateExpired
      * @param bool  $isSystemToken
      * @param bool  $secureOnly     True if this token can only be used in a secure way (e.g. POST requests), default false
+     * @param bool  $hasTokenExpiryDate  True if a specific date was set as token expiration date
+     * @param string  $tokenExpiryDate  True if a specific date was set as token expiration date
      *
      * @return int                  Primary key of the new token auth
      * @throws \Piwik\Tracker\Db\DbException
@@ -345,7 +347,9 @@ class Model
         $dateCreated,
         $dateExpired = null,
         $isSystemToken = false,
-        bool $secureOnly = false
+        bool $secureOnly = false,
+        bool $hasTokenExpiryDate = false,
+        string $tokenExpiryDate = null
     ) {
         if (!$this->getUser($login)) {
             throw new \Exception('User ' . $login . ' does not exist');
