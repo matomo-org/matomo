@@ -123,6 +123,18 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
             'HINT_TWO(2)',
         ];
 
+        yield 'multiline hint with previous hint' => [
+            'SELECT
+                    /*+ HINT_TWO(2) HINT_ONE(1) */
+                    * FROM table',
+            'SELECT
+                    /*+
+                      HINT_ONE(1)
+                    */
+                    * FROM table',
+            'HINT_TWO(2)',
+        ];
+
         yield 'different previous hint (same start)' => [
             'SELECT /*+ HINT_ONE_OTHER(2) HINT_ONE(1) */ * FROM table',
             'SELECT /*+ HINT_ONE(1) */ * FROM table',
@@ -141,9 +153,31 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
             'HINT_ONE("different value")',
         ];
 
+        yield 'multiline hint with duplicate hint' => [
+            'SELECT /*+
+                      HINT_ONE(1)
+                      HINT_TWO(2)
+                    */ * FROM table',
+            'SELECT /*+
+                      HINT_ONE(1)
+                      HINT_TWO(2)
+                    */ * FROM table',
+            'HINT_ONE("different value")',
+        ];
+
         yield 'duplicate hint without parenthesis' => [
             'SELECT /*+ STRAIGHT_JOIN */ * FROM table',
             'SELECT /*+ STRAIGHT_JOIN */ * FROM table',
+            'STRAIGHT_JOIN',
+        ];
+
+        yield 'multiline hint without parenthesis and extra whitespace' => [
+            'SELECT /*+
+                      STRAIGHT_JOIN    HINT_ONE(1)
+                    */ * FROM table',
+            'SELECT /*+
+                      STRAIGHT_JOIN    HINT_ONE(1)
+                    */ * FROM table',
             'STRAIGHT_JOIN',
         ];
 

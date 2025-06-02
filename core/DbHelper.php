@@ -396,7 +396,7 @@ class DbHelper
 
         $reCommentStart = preg_quote('/*+', '/');
         $reCommentEnd = preg_quote('*/', '/');
-        preg_match('/^SELECT\s+(' . $reCommentStart . '\s*(.*?)\s*' . $reCommentEnd . ')/im', $sql, $matches);
+        preg_match('/^SELECT\s+(' . $reCommentStart . '\s*(.*?)\s*' . $reCommentEnd . ')/is', $sql, $matches);
 
         if (empty($matches)) {
             return 'SELECT /*+ ' . $hint . ' */' . substr($sql, strlen('SELECT'));
@@ -409,9 +409,11 @@ class DbHelper
         $newHintName = substr($hint, 0, $newHintNameEnd);
 
         // only add new hints
-        if (!preg_match('/(?:^| )' . preg_quote($newHintName) . '(?:\\(|$)/', $hints)) {
-            $hints = trim($hint . ' ' . $hints);
+        if (preg_match('/(?:^|\s)' . preg_quote($newHintName) . '(?:\\(|\s|$)/i', $hints)) {
+            return $sql;
         }
+
+        $hints = trim($hint . ' ' . $hints);
 
         return substr_replace(
             $sql,
