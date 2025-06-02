@@ -113,11 +113,39 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
             'HINT_TWO(2)',
         ];
 
+        yield 'comment before previous hint' => [
+            'SELECT /* comment */ /*+ HINT_TWO(2) HINT_ONE(1) */ * FROM table',
+            'SELECT /* comment */ /*+ HINT_ONE(1) */ * FROM table',
+            'HINT_TWO(2)',
+        ];
+
+        yield 'comments around previous hint' => [
+            'SELECT /* comment */ /*+ HINT_TWO(2) HINT_ONE(1) */ /* comment */ * FROM table',
+            'SELECT /* comment */ /*+ HINT_ONE(1) */ /* comment */ * FROM table',
+            'HINT_TWO(2)',
+        ];
+
         yield 'multiline query with previous hint' => [
             'SELECT
                     /*+ HINT_TWO(2) HINT_ONE(1) */
                     * FROM table',
             'SELECT
+                    /*+ HINT_ONE(1) */
+                    * FROM table',
+            'HINT_TWO(2)',
+        ];
+
+        yield 'multiline comment with previous hint' => [
+            'SELECT
+                    /*
+                      comment
+                    */
+                    /*+ HINT_TWO(2) HINT_ONE(1) */
+                    * FROM table',
+            'SELECT
+                    /*
+                      comment
+                    */
                     /*+ HINT_ONE(1) */
                     * FROM table',
             'HINT_TWO(2)',
@@ -220,6 +248,12 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
         yield 'repeated hint' => [
             'SELECT /*+ MAX_EXECUTION_TIME(100) HINT_ONE(1) */ * FROM (SELECT /*+ HINT_ONE(1) */ value FROM table)',
             'SELECT /*+ HINT_ONE(1) */ * FROM (SELECT /*+ HINT_ONE(1) */ value FROM table)',
+            'MAX_EXECUTION_TIME(100)',
+        ];
+
+        yield 'hints on multiple levels with comments' => [
+            'SELECT /*+ MAX_EXECUTION_TIME(100) */ /* comment */ * FROM (SELECT /*+ HINT_ONE(1) */ /* comment */ value FROM table)',
+            'SELECT /* comment */ * FROM (SELECT /*+ HINT_ONE(1) */ /* comment */ value FROM table)',
             'MAX_EXECUTION_TIME(100)',
         ];
     }

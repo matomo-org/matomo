@@ -394,9 +394,15 @@ class DbHelper
             return $sql;
         }
 
-        $reCommentStart = preg_quote('/*+', '/');
-        $reCommentEnd = preg_quote('*/', '/');
-        preg_match('/^SELECT\s+(' . $reCommentStart . '\s*(.*?)\s*' . $reCommentEnd . ')/is', $sql, $matches);
+        $pattern =
+            '@^SELECT\s+' .
+            // ignore non-hint comments ("/* ... */")
+            '(?:|/\*[^+]*?\*/\s*)' .
+            // capture hint comments ("/*+ ... */")
+            '(/\*\+\s*(.*?)\s*\*/)' .
+            '@is';
+
+        preg_match($pattern, $sql, $matches);
 
         if (empty($matches)) {
             return 'SELECT /*+ ' . $hint . ' */' . substr($sql, strlen('SELECT'));
