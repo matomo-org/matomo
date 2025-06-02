@@ -12,7 +12,7 @@ namespace Piwik\Plugins\UsersManager\Emails;
 use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Piwik;
-use Piwik\Plugins\UsersManager\TokenNotifications\TokenNotification;
+use Piwik\Plugins\UsersManager\TokenNotifications\AuthTokenEmailExpirationWarningNotification;
 use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\View;
@@ -20,7 +20,7 @@ use Piwik\View;
 class AuthTokenExpirationWarningEmail extends Mail
 {
     /**
-     * @var TokenNotification
+     * @var AuthTokenEmailExpirationWarningNotification
      */
     private $notification;
 
@@ -30,8 +30,11 @@ class AuthTokenExpirationWarningEmail extends Mail
     /** @var array */
     private $emailData;
 
-    public function __construct(TokenNotification $notification, string $recipient, array $emailData)
-    {
+    public function __construct(
+        AuthTokenEmailExpirationWarningNotification $notification,
+        string $recipient,
+        array $emailData
+    ) {
         parent::__construct();
 
         $this->notification = $notification;
@@ -66,7 +69,12 @@ class AuthTokenExpirationWarningEmail extends Mail
     }
     protected function getDefaultSubject(): string
     {
-        return Piwik::translate('UsersManager_AuthTokenExpirationWarningEmailSubject');
+        return Piwik::translate(
+            'UsersManager_AuthTokenExpirationWarningEmailSubject',
+            [
+                $this->getExpirationWarningPeriodPretty()
+            ]
+        );
     }
 
     protected function getDefaultBodyText(): string

@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\UsersManager\TokenNotifications;
 
-final class AuthTokenEmailExpirationWarningNotification extends AuthTokenEmailNotification
+use Piwik\Plugins\UsersManager\Emails\AuthTokenExpirationWarningEmail;
+
+final class AuthTokenEmailExpirationWarningNotification extends TokenEmailNotification
 {
     /** @var string */
     private $tokenExpirationDate;
@@ -36,5 +38,10 @@ final class AuthTokenEmailExpirationWarningNotification extends AuthTokenEmailNo
     public function getTokenExpirationDate(): string
     {
         return $this->tokenExpirationDate;
+    }
+
+    public function getEmailClass(): string
+    {
+        return AuthTokenExpirationWarningEmail::class;
     }
 }

@@ -251,9 +251,9 @@
         "AuthTokenNotificationEmail05": "Manage your access tokens",
         "AuthTokenExpirationWarningEmailSubject": "Reminder: Your Matomo personal access token will expire in %1$s",
         "AuthTokenExpirationWarningEmailReminder": "Reminder: Your auth token will expire in %1$s",
-        "AuthTokenExpirationWarningEmail02": "You’re receiving this email because your %1$s%2$s%3$s personal access token will expire on %4$s%5$s%6$s.",
-        "AuthTokenExpirationWarningEmail03": "To generate a new token and delete the old one, go to Personal > Security settings in your Matomo instance.",
-        "AuthTokenExpirationWarningEmail04": "If you believe you received this email in error, please contact your Matomo administrator.",
-        "AuthTokenExpirationWarningEmail05": "Manage your access tokens"
+        "AuthTokenExpirationWarningEmail01": "You’re receiving this email because your %1$s%2$s%3$s personal access token will expire on %4$s%5$s%6$s.",
+        "AuthTokenExpirationWarningEmail02": "To generate a new token and delete the old one, go to Personal > Security settings in your Matomo instance.",
+        "AuthTokenExpirationWarningEmail03": "If you believe you received this email in error, please contact your Matomo administrator.",
+        "AuthTokenExpirationWarningEmail04": "Manage your access tokens"
     }
 }

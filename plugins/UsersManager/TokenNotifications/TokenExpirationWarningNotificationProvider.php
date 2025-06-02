@@ -19,7 +19,7 @@ class TokenExpirationWarningNotificationProvider extends TokenNotificationProvid
     protected function getPeriodThreshold(): ?string
     {
         $periodDays = (int) Config::getInstance()->General['auth_token_expiration_notification_days'];
-        return ($periodDays && $periodDays !== -1) ? Date::factory('today')->subDay($periodDays)->getDateTime() : null;
+        return ($periodDays && $periodDays !== -1) ? Date::factory('today')->addDay($periodDays)->getDateTime() : null;
     }
 
     protected function getTokensToNotify(string $periodThreshold): array
@@ -27,7 +27,7 @@ class TokenExpirationWarningNotificationProvider extends TokenNotificationProvid
         $db = Db::get();
         $sql = "SELECT * FROM " . Common::prefixTable('user_token_auth')
             . " WHERE (date_expired IS NOT NULL AND date_expired <= ?)"
-            . " AND ts_expiration_notified IS NULL"
+            . " AND ts_expiration_warning_notified IS NULL"
             . " AND system_token = 0"
             . " AND login != ?";
 
