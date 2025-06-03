@@ -66,18 +66,8 @@ class Tokens extends Fixture
         }
     }
 
-    private function resetColumn(string $columnName)
-    {
-        Db::get()->query("UPDATE " . Common::prefixTable('user_token_auth') . " SET $columnName = NULL");
-    }
-
     public function resetTsRotationNotification()
     {
-        $this->resetColumn("ts_rotation_notified");
-    }
-
-    public function resetTsExpirationNotification()
-    {
-        $this->resetColumn("ts_expiration_warning_notified");
+        Db::get()->query("UPDATE " . Common::prefixTable('user_token_auth') . " SET ts_rotation_notified = NULL");
     }
 }
