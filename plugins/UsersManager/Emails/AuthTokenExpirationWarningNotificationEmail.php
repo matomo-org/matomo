@@ -12,7 +12,7 @@ namespace Piwik\Plugins\UsersManager\Emails;
 use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Piwik;
-use Piwik\Plugins\UsersManager\TokenNotifications\AuthTokenEmailExpirationWarningNotification;
+use Piwik\Plugins\UsersManager\TokenNotifications\AuthTokenExpirationWarningEmailNotification;
 use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\View;
@@ -20,7 +20,7 @@ use Piwik\View;
 class AuthTokenExpirationWarningNotificationEmail extends Mail
 {
     /**
-     * @var AuthTokenEmailExpirationWarningNotification
+     * @var AuthTokenExpirationWarningEmailNotification
      */
     private $notification;
 
