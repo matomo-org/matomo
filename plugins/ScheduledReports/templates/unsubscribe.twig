@@ -38,7 +38,7 @@
                     {% elseif success is defined %}
                         <p class="message">{{ 'ScheduledReports_SuccessfullyUnsubscribed'|translate('<strong>'~reportName|rawSafeDecoded~'</strong>')|raw }}</p>
                     {% else %}
-                        <form method="POST" ng-non-bindable>
+                        <form method="POST">
                             <div class="row">
                                 <div class="col s12">
                                     <br/>

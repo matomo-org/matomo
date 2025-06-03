@@ -50,8 +50,10 @@ class RequestSet
         }
     }
 
-    public function setTokenAuth($tokenAuth)
-    {
+    public function setTokenAuth(
+        #[\SensitiveParameter]
+        $tokenAuth
+    ) {
         $this->tokenAuth = $tokenAuth;
     }
 

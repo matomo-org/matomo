@@ -166,6 +166,7 @@ class API extends \Piwik\Plugin\API
         $anonymizeUserId = false,
         $unsetVisitColumns = [],
         $unsetLinkVisitActionColumns = [],
+        #[\SensitiveParameter]
         $passwordConfirmation = ''
     ) {
         Piwik::checkUserHasSuperUserAccess();
@@ -342,6 +343,7 @@ class API extends \Piwik\Plugin\API
         $keepYear = 0,
         $keepRange = 0,
         $keepSegments = 0,
+        #[\SensitiveParameter]
         $passwordConfirmation = ''
     ) {
         Piwik::checkUserHasSuperUserAccess();
@@ -377,8 +379,10 @@ class API extends \Piwik\Plugin\API
      *
      * @internal
      */
-    public function executeDataPurge($passwordConfirmation)
-    {
+    public function executeDataPurge(
+        #[\SensitiveParameter]
+        $passwordConfirmation
+    ) {
         $this->confirmCurrentUserPassword($passwordConfirmation);
         Piwik::checkUserHasSuperUserAccess();
 

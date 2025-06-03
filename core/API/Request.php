@@ -301,8 +301,11 @@ class Request
         return $toReturn;
     }
 
-    private function restoreAuthUsingTokenAuth($tokenToRestore, $hadSuperUserAccess)
-    {
+    private function restoreAuthUsingTokenAuth(
+        #[\SensitiveParameter]
+        $tokenToRestore,
+        $hadSuperUserAccess
+    ) {
         // if we would not make sure to unset super user access, the tokenAuth would be not authenticated and any
         // token would just keep super user access (eg if the token that was reloaded before had super user access)
         Access::getInstance()->setSuperUserAccess(false);
@@ -434,8 +437,10 @@ class Request
      * @param string $tokenAuth
      * @return void
      */
-    private static function forceReloadAuthUsingTokenAuth($tokenAuth)
-    {
+    private static function forceReloadAuthUsingTokenAuth(
+        #[\SensitiveParameter]
+        $tokenAuth
+    ) {
         /**
          * Triggered when authenticating an API request, but only if the **token_auth**
          * query parameter is found in the request.

@@ -3850,12 +3850,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-coding-standards.git",
-                "reference": "940f7ae7e058ff0d9afbed46a08a134d1a3622f0"
+                "reference": "3822ff585bd30a351761218a651d252ed86c53cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-coding-standards/zipball/940f7ae7e058ff0d9afbed46a08a134d1a3622f0",
-                "reference": "940f7ae7e058ff0d9afbed46a08a134d1a3622f0",
+                "url": "https://api.github.com/repos/matomo-org/matomo-coding-standards/zipball/3822ff585bd30a351761218a651d252ed86c53cf",
+                "reference": "3822ff585bd30a351761218a651d252ed86c53cf",
                 "shasum": ""
             },
             "require": {
@@ -3871,7 +3871,7 @@
                 "source": "https://github.com/matomo-org/matomo-coding-standards/tree/master",
                 "issues": "https://github.com/matomo-org/matomo-coding-standards/issues"
             },
-            "time": "2024-07-19T08:27:04+00:00"
+            "time": "2025-05-30T10:29:02+00:00"
         },
         {
             "name": "myclabs/deep-copy",

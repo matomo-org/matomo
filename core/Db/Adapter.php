@@ -24,8 +24,12 @@ class Adapter
      * @param bool $connect
      * @return AdapterInterface
      */
-    public static function factory($adapterName, &$dbInfos, $connect = true)
-    {
+    public static function factory(
+        $adapterName,
+        #[\SensitiveParameter]
+        &$dbInfos,
+        $connect = true
+    ) {
         if ($connect) {
             if (isset($dbInfos['port']) && is_string($dbInfos['port']) && $dbInfos['port'][0] === '/') {
                 $dbInfos['unix_socket'] = $dbInfos['port'];

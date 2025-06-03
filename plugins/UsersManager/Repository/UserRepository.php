@@ -68,6 +68,7 @@ class UserRepository
         string $userLogin,
         string $email,
         ?int $initialIdSite = null,
+        #[\SensitiveParameter]
         string $password = '',
         bool $isPasswordHashed = false
     ): void {

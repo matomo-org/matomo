@@ -23,7 +23,7 @@
           <Field
             uicontrol="password"
             name="password"
-            :autocomplete="false"
+            :autocomplete="'off'"
             v-model="password"
             :title="translate('Login_NewPassword')"
             :inline-help="translate('UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne')"
@@ -32,7 +32,7 @@
           <Field
             uicontrol="password"
             name="passwordBis"
-            :autocomplete="false"
+            :autocomplete="'off'"
             v-model="passwordBis"
             :title="translate('Login_NewPasswordRepeat')"
             :inline-help="translate('UsersManager_TypeYourPasswordAgain')"
@@ -41,7 +41,7 @@
           <Field
             uicontrol="password"
             name="passwordConfirmation"
-            :autocomplete="false"
+            :autocomplete="'off'"
             v-model="passwordConfirmation"
             :title="translate('UsersManager_YourCurrentPassword')"
             :inline-help="translate('UsersManager_TypeYourCurrentPassword')"

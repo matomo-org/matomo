@@ -173,7 +173,7 @@
         "DownloadPleaseRemoveExisting": "Si vous voulez le remplacer, commencer par supprimer le fichier existant.",
         "Downloads": "Téléchargements",
         "EcommerceOrders": "Commandes e-commerce",
-        "EcommerceVisitStatusDesc": "Consultez le statut du E-commerce à la fin de la visite",
+        "EcommerceVisitStatusDesc": "Statut E-commerce à la fin de la visite",
         "EcommerceVisitStatusEg": "Par exemple, pour sélectionner toutes les visites qui ont fait une commande E-commerce, la requête API contiendrait %s",
         "Edit": "Modifier",
         "EncryptedSmtpTransport": "Indiquez le protocole de chiffrement requis par votre serveur SMTP.",
