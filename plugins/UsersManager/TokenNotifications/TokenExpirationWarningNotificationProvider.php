@@ -44,7 +44,7 @@ class TokenExpirationWarningNotificationProvider extends TokenNotificationProvid
         $user = $this->userModel->getUser($token['login']);
         $email = $user['email'];
 
-        return new AuthTokenEmailExpirationWarningNotification(
+        return new AuthTokenExpirationWarningEmailNotification(
             $token['idusertokenauth'],
             $token['description'],
             $token['date_created'],

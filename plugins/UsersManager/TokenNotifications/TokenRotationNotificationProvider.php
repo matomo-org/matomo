@@ -46,7 +46,7 @@ class TokenRotationNotificationProvider extends TokenNotificationProvider
         $user = $this->userModel->getUser($token['login']);
         $email = $user['email'];
 
-        return new AuthTokenEmailNotification(
+        return new AuthTokenRotationEmailNotification(
             $token['idusertokenauth'],
             $token['description'],
             $token['date_created'],

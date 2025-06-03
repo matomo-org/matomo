@@ -12,15 +12,15 @@ namespace Piwik\Plugins\UsersManager\Emails;
 use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Piwik;
-use Piwik\Plugins\UsersManager\TokenNotifications\AuthTokenEmailExpirationWarningNotification;
+use Piwik\Plugins\UsersManager\TokenNotifications\TokenNotification;
 use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\View;
 
-class AuthTokenExpirationWarningEmail extends Mail
+class AuthTokenRotationNotificationEmail extends Mail
 {
     /**
-     * @var AuthTokenEmailExpirationWarningNotification
+     * @var TokenNotification
      */
     private $notification;
 
@@ -30,11 +30,8 @@ class AuthTokenExpirationWarningEmail extends Mail
     /** @var array */
     private $emailData;
 
-    public function __construct(
-        AuthTokenEmailExpirationWarningNotification $notification,
-        string $recipient,
-        array $emailData
-    ) {
+    public function __construct(TokenNotification $notification, string $recipient, array $emailData)
+    {
         parent::__construct();
 
         $this->notification = $notification;
@@ -54,10 +51,11 @@ class AuthTokenExpirationWarningEmail extends Mail
         $this->setWrappedHtmlBody($this->getDefaultBodyView());
     }
 
-    private function getExpirationWarningPeriodPretty(): string
+    private function getRotationPeriodPretty(): string
     {
-        $expirationPeriodDays = Config::getInstance()->General['auth_token_expiration_notification_days'];
-        return $expirationPeriodDays . ' ' . Piwik::translate('Intl_PeriodDay' . ($expirationPeriodDays === 1 ? '' : 's'));
+        $rotationPeriodDays = Config::getInstance()->General['auth_token_rotation_notification_days'];
+
+        return $rotationPeriodDays . ' ' . Piwik::translate('Intl_PeriodDay' . ($rotationPeriodDays === 1 ? '' : 's'));
     }
 
     protected function getManageAuthTokensLink(): string
@@ -69,17 +67,12 @@ class AuthTokenExpirationWarningEmail extends Mail
     }
     protected function getDefaultSubject(): string
     {
-        return Piwik::translate(
-            'UsersManager_AuthTokenExpirationWarningEmailSubject',
-            [
-                $this->getExpirationWarningPeriodPretty()
-            ]
-        );
+        return Piwik::translate('UsersManager_AuthTokenNotificationEmailSubject');
     }
 
     protected function getDefaultBodyText(): string
     {
-        $view = new View('@UsersManager/_authTokenExpirationWarningTextEmail.twig');
+        $view = new View('@UsersManager/_authTokenRotationNotificationTextEmail.twig');
         $view->setContentType('text/plain');
 
         $this->assignCommonParameters($view);
@@ -89,7 +82,7 @@ class AuthTokenExpirationWarningEmail extends Mail
 
     protected function getDefaultBodyView(): View
     {
-        $view = new View('@UsersManager/_authTokenExpirationWarningHtmlEmail.twig');
+        $view = new View('@UsersManager/_authTokenRotationNotificationHtmlEmail.twig');
 
         $this->assignCommonParameters($view);
 
@@ -99,9 +92,9 @@ class AuthTokenExpirationWarningEmail extends Mail
     protected function assignCommonParameters(View $view): void
     {
         $view->tokenName = $this->notification->getTokenName();
-        $view->tokenExpirationDate = $this->notification->getTokenExpirationDate();
+        $view->tokenCreationDate = $this->notification->getTokenCreationDate();
 
-        $view->expirationWarningPeriod = $this->getExpirationWarningPeriodPretty();
+        $view->rotationPeriod = $this->getRotationPeriodPretty();
         $view->manageAuthTokensLink = $this->getManageAuthTokensLink();
 
         foreach ($this->emailData as $item => $value) {
