@@ -80,5 +80,4 @@ class Tokens extends Fixture
     {
         $this->resetColumn("ts_expiration_warning_notified");
     }
-
 }
