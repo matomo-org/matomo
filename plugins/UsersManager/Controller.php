@@ -304,13 +304,11 @@ class Controller extends ControllerAdmin
             unset($token['password']);
             return $token;
         }, $tokens);
-        $hasTokensWithExpireDate = !empty(array_filter(array_column($tokens, 'date_expired')));
 
         return $this->renderTemplate('userSecurity', [
             'isUsersAdminEnabled' => UsersManager::isUsersAdminEnabled(),
             'changePasswordNonce' => Nonce::getNonce(self::NONCE_CHANGE_PASSWORD),
             'deleteTokenNonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
-            'hasTokensWithExpireDate' => $hasTokensWithExpireDate,
             'tokens' => $tokens
         ]);
     }
@@ -387,34 +385,30 @@ class Controller extends ControllerAdmin
             throw new Exception('Not allowed');
         }
 
-        $invalidExpireDate = null;
-        if (!empty($_POST['token_expire_date'])) {
-            $tokenExpireDate = \Piwik\Request::fromRequest()->getStringParameter('token_expire_date');
+        $postRequest = \Piwik\Request::fromPost();
+        $postRequestHasData = count($postRequest->getParameters());
+        $today = Date::factory('now');
 
-            try {
-                $invalidExpireDate = true;
-                if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $tokenExpireDate)) {
-                    Date::factory($tokenExpireDate);
+        $tokenExpireDate = $postRequest->getStringParameter('token_expire_date', '');
+        $invalidExpireDate = true;
+        try {
+            if ($tokenExpireDate && preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $tokenExpireDate)) {
+                $expireDate = Date::factory($tokenExpireDate);
+                if ($expireDate->isLater($today)) {
                     $invalidExpireDate = false;
                 }
-            } catch (Exception $e) {
-                // nop
             }
+        } catch (Exception $e) {
+            // nop
         }
 
-        $noDescription = null;
-        $description = '';
-        if (!empty($_POST['description'])) {
-            $description = \Piwik\Request::fromRequest()->getStringParameter('description', '');
-            $noDescription = false;
-        } elseif (isset($_POST['description'])) {
-            $noDescription = true;
-        }
+        $description = $postRequest->getStringParameter('description', '');
+        $noDescription = empty($description);
 
         if (false === $noDescription && false === $invalidExpireDate) {
             Nonce::checkNonce(self::NONCE_ADD_AUTH_TOKEN);
-            $secureOnly = \Piwik\Request::fromRequest()->getBoolParameter('secure_only', false);
-            $hasTokenExpiry = \Piwik\Request::fromRequest()->getBoolParameter('has_expiration', false);
+            $secureOnly = $postRequest->getBoolParameter('secure_only', false);
+            $hasTokenExpiry = $postRequest->getBoolParameter('has_expiration', false);
 
             $login = Piwik::getCurrentUserLogin();
 
@@ -424,7 +418,7 @@ class Controller extends ControllerAdmin
                 $login,
                 $generatedToken,
                 $description,
-                Date::now()->getDatetime(),
+                $today->getDatetime(),
                 $hasTokenExpiry ? $tokenExpireDate : null,
                 false,
                 $secureOnly
@@ -443,8 +437,8 @@ class Controller extends ControllerAdmin
 
         return $this->renderTemplate('addNewToken', [
             'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN),
-            'noDescription' => $noDescription,
-            'invalidExpireDate' => $invalidExpireDate,
+            'noDescription' => $postRequestHasData && $noDescription,
+            'invalidExpireDate' => $postRequestHasData && $invalidExpireDate,
             'forceSecureOnly' => (bool) GeneralConfig::getConfigValue('only_allow_secure_auth_tokens'),
             'defaultExpirationDays' => GeneralConfig::getConfigValue('auth_token_default_expiration_days'),
             'expirationReminderDays' => GeneralConfig::getConfigValue('auth_token_expiration_reminder_days'),

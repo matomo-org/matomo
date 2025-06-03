@@ -347,9 +347,7 @@ class Model
         $dateCreated,
         $dateExpired = null,
         $isSystemToken = false,
-        bool $secureOnly = false,
-        bool $hasTokenExpiryDate = false,
-        string $tokenExpiryDate = null
+        bool $secureOnly = false
     ) {
         if (!$this->getUser($login)) {
             throw new \Exception('User ' . $login . ' does not exist');

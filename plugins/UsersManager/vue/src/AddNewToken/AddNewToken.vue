@@ -55,7 +55,7 @@
           name="has_expiration"
           :title="translate('UsersManager_TokenExpireDateCheckboxLabel')"
           :required="false"
-          :inline-help="translate('UsersManager_TokenExpireDateCheckboxHelp')"
+          :inline-help=tokenExpireDateCheckboxHelpText
           v-model="tokenHasExpiration"
         />
 
@@ -69,6 +69,7 @@
               type="text"
               name="token_expire_date"
               :value="tokenExpireDate"
+              :required="tokenHasExpiration"
               @change="onKeydownTokenExpireDate($event)"
               @keydown="onKeydownTokenExpireDate($event)"
             />
@@ -177,6 +178,12 @@ export default defineComponent({
       return translate(
         'UsersManager_TokenExpireDateHelpText',
         this.defaultExpirationDays as unknown as string,
+        this.expirationReminderDays as unknown as string,
+      );
+    },
+    tokenExpireDateCheckboxHelpText() {
+      return translate(
+        'UsersManager_TokenExpireDateCheckboxHelp',
         this.expirationReminderDays as unknown as string,
       );
     },
