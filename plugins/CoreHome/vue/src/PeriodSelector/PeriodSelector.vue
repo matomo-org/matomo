@@ -26,6 +26,7 @@
       id="date"
       class="title"
       tabindex="-1"
+      v-tooltips
       :title="translate('General_ChooseDate', currentlyViewingText)"
     >
       <span class="icon icon-calendar" />
@@ -196,6 +197,7 @@ import {
   datesAreInTheSamePeriod,
 } from '../Periods';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import Tooltips from '../Tooltips/Tooltips';
 
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
@@ -255,6 +257,7 @@ export default defineComponent({
   },
   directives: {
     ExpandOnClick,
+    Tooltips,
   },
   data(): PeriodSelectorState {
     const selectedPeriod = MatomoUrl.parsed.value.period as string;

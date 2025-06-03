@@ -202,7 +202,7 @@
         "ShowInEmbeddedWidgets": "Gömülü pano bileşenleri içinde görüntülensin",
         "ShowInEmbeddedWidgetsDescription": "Bu seçenek açıldığında, gömülü pano bileşenlerinin altında gizlilik ilkesi ile hüküm ve koşullar sayfalarınıza bağlantılar görüntülenir.",
         "ShowIntro": "Giriş metni görüntülensin",
-        "SiteDataNotAvailable": "Veri kullanılamıyor",
+        "SiteDataNotAvailable": "Veriler kullanılamıyor",
         "SiteDataNotAvailableCertainSites": "Bazı siteler için veriler kısıtlanmış",
         "TeaserHeader": "Kişisel gizliliğin korunması yasalarına uygun Matomo ayarları bu bölümden şu seçenekler kullanılarak yapılabilir: %1$s Ziyaretçi IP adreslerinin anonim kılınması%2$s, %3$s Eski ziyaretçi günlük kayıtlarının veri tabanından otomatik olarak kaldırılması%4$s ve %5$s önceden izlenmiş ham kullanıcı verilerinin anonim kılınması%6$s.",
         "TeaserHeadline": "Gizlilik ayarları",

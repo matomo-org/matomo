@@ -77,7 +77,12 @@ Segmentation = (function($) {
             var title = _pk_translate('SegmentEditor_ChooseASegment') + '.';
             title += ' '+ _pk_translate('SegmentEditor_CurrentlySelectedSegment', [segmentDescription]);
 
-            $(this.content).attr('title', title);
+          $('a.title', this.content).attr('title', title).tooltip({
+              track: true,
+              show: {delay: 700, duration: 200}, // default from Tooltips.js
+              hide: false,
+              content: title,
+            });
         };
 
         segmentation.prototype.markComparedSegments = function() {

@@ -579,7 +579,7 @@ class LogAggregatorTest extends IntegrationTestCase
         );
 
         $expected = [
-            'sql' => "SELECT  /*+ MAX_EXECUTION_TIME(5000) */  /*+ JOIN_PREFIX(log_visit) */ /* sites 1 */ /* 2010-03-01,2010-03-31 */ /* MyPluginName */
+            'sql' => "SELECT /*+ MAX_EXECUTION_TIME(5000) JOIN_PREFIX(log_visit) */ /* sites 1 */ /* 2010-03-01,2010-03-31 */ /* MyPluginName */
 				CASE WHEN HOUR(log_visit.visit_first_action_time) <= 11 THEN 'l'ELSE 'r'END AS label, 
 			count(distinct log_visit.idvisitor) AS `1`, 
 			count(*) AS `2`, 

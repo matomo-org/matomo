@@ -10,18 +10,21 @@
     ref="root"
     class="dashboard-manager piwikSelector borderedControl piwikTopControl dashboardSettings"
     v-expand-on-click="{expander: 'expander', onClosed: onClose}"
-    v-tooltips="{show: false}"
     @click="onOpen()"
   >
     <a
       class="title"
+      v-tooltips
       :title="translate('Dashboard_ManageDashboard')"
       tabindex="4"
       ref="expander"
     >
-      <span class="icon icon-chevron-down"></span>{{ translate('Dashboard_Dashboard') }}
+      <span class="icon icon-dashboard-customize"></span>{{ translate('Dashboard_Dashboard') }}
     </a>
-    <div class="dropdown positionInViewport">
+    <div
+      class="dropdown positionInViewport"
+      v-tooltips="{show: false}"
+    >
       <ul class="submenu">
         <li>
           <div class="addWidget">{{ translate('Dashboard_AddAWidget') }}</div>

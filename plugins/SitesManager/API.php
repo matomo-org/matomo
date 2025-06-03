@@ -868,8 +868,11 @@ class API extends \Piwik\Plugin\API
      * @param string $passwordConfirmation the current user's password, only required when the request is authenticated with session token auth
      * @throws Exception
      */
-    public function deleteSite($idSite, $passwordConfirmation = null)
-    {
+    public function deleteSite(
+        $idSite,
+        #[\SensitiveParameter]
+        $passwordConfirmation = null
+    ) {
         Piwik::checkUserHasSuperUserAccess();
         SitesManager::dieIfSitesAdminIsDisabled();
 

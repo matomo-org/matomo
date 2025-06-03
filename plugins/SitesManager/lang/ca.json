@@ -7,6 +7,8 @@
         "AliasUrlHelp": "Es recomana, però no és obligatori, especificar les diferents URL, una per línia, que fan servir els vostres visitants per accedir a aquest lloc web. Les URL d'àlies d'un lloc web no apareixeran a l'informe Referències → Llocs web. Tingueu en compte que no és necessari especificar les URL amb i sense 'www', ja que Matomo els considera automàticament tots dos.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Canviar la vostra zona horaria només afecta les dades futures, no s'aplicarà de forma retroactiva.",
         "ChooseMeasurableTypeHeadline": "Què us agradaria mesurar?",
+        "ChooseMeasurableTypeSubheader": "Un mesurable és qualsevol lloc web, aplicació o sistema en línia del que vulgueu fer un seguiment i anàlisi. Els mesurables són la base per recopilar dades i generar informes a Matomo.",
+        "ChooseMeasurableTypeSubheaderRollUp": "També podeu agrupar diversos mesurables mitjançant un desplegable per obtenir una vista unificada.",
         "CmsAndWebsiteBuilders": "CMS i creadors de llocs web",
         "ConsentManagerConnected": "Hem detectat que %1$s està configurat correctament per treballar amb Matomo al vostre lloc.",
         "Currency": "Moneda",
