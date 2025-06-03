@@ -541,6 +541,19 @@ class Request
     }
 
     /**
+     * Returns true if a token_auth parameter was supplied via a secure mechanism and is not present as a URL parameter
+     * At the moment POST requests are checked, but in future other mechanism such as Authorisation HTTP header
+     * and bearer tokens might be used as well.
+     *
+     * @return bool True if token was supplied in a secure way
+     * @deprecated will be removed in Matomo 6
+     */
+    public static function isTokenAuthProvidedSecurely(): bool
+    {
+        return StaticContainer::get(AuthenticationToken::class)->wasTokenAuthProvidedSecurely();
+    }
+
+    /**
      * Returns array($class, $method) from the given string $class.$method
      *
      * @param string $parameter
