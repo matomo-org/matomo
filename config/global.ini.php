@@ -570,9 +570,10 @@ auth_token_rotation_notification_days = 180
 ; For example, if a user starts creating an auth token on 1 May 2025, the expiry date will be preset to 1 November 2025.
 auth_token_default_expiration_days = 180
 
-; Number of days before an auth token expiration when an email reminder will be sent to the user that the token will be
-; expiring in e.g. 30 days.
-auth_token_expiration_reminder_days = 30
+; Number of days before the expiration date of a personal auth token, where an email notification is sent to the user.
+; If set to -1 days, notifications won't be sent.
+; Recommended to keep enabled for best security.
+auth_token_expiration_notification_days = 30
 
 ; language cookie name for session
 language_cookie_name = matomo_lang

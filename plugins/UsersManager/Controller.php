@@ -441,7 +441,7 @@ class Controller extends ControllerAdmin
             'invalidExpireDate' => $postRequestHasData && $invalidExpireDate,
             'forceSecureOnly' => (bool) GeneralConfig::getConfigValue('only_allow_secure_auth_tokens'),
             'defaultExpirationDays' => GeneralConfig::getConfigValue('auth_token_default_expiration_days'),
-            'expirationReminderDays' => GeneralConfig::getConfigValue('auth_token_expiration_reminder_days'),
+            'expirationReminderDays' => GeneralConfig::getConfigValue('auth_token_expiration_notification_days'),
         ]);
     }
 
