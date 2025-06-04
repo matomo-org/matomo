@@ -387,7 +387,14 @@ class Controller extends ControllerAdmin
 
         $postRequest = \Piwik\Request::fromPost();
         $postRequestHasData = count($postRequest->getParameters());
+
+        // approach used here to support static date in tests — should be fine as tokens are not created that often
         $today = Date::factory('now');
+        try {
+            $today = Date::factory(StaticContainer::get('Tests.now'));
+        } catch (\Exception $ex) {
+            // ignore
+        }
 
         $tokenExpireDate = $postRequest->getStringParameter('token_expire_date', '');
         $invalidExpireDate = true;
@@ -435,12 +442,15 @@ class Controller extends ControllerAdmin
             return $this->renderTemplate('addNewTokenSuccess', ['generatedToken' => $generatedToken]);
         }
 
+        $defaultExpireDays = GeneralConfig::getConfigValue('auth_token_default_expiration_days');
+
         return $this->renderTemplate('addNewToken', [
             'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN),
             'noDescription' => $postRequestHasData && $noDescription,
             'invalidExpireDate' => $postRequestHasData && $invalidExpireDate,
             'forceSecureOnly' => (bool) GeneralConfig::getConfigValue('only_allow_secure_auth_tokens'),
-            'defaultExpirationDays' => GeneralConfig::getConfigValue('auth_token_default_expiration_days'),
+            'initialExpireDate' => $today->addDay($defaultExpireDays)->toString(),
+            'defaultExpirationDays' => $defaultExpireDays,
             'expirationReminderDays' => GeneralConfig::getConfigValue('auth_token_expiration_notification_days'),
         ]);
     }

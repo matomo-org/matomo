@@ -129,6 +129,7 @@ export default defineComponent({
     forceSecureOnly: Boolean,
     defaultExpirationDays: Number,
     expirationReminderDays: Number,
+    initialExpireDate: String,
   },
   components: {
     ContentBlock,
@@ -192,16 +193,13 @@ export default defineComponent({
     setInitialTokenExpirationDate() {
       const tokenExpireDateOptions = Matomo.getBaseDatePickerOptions(null);
       tokenExpireDateOptions.minDate = new Date();
-      const suggestedExpireDate = new Date(
-        new Date().setDate(tokenExpireDateOptions.minDate.getDate() + this.defaultExpirationDays),
-      );
 
       const dtInput = $('.tokenExpireDateInput', this.$refs.root as HTMLElement);
 
       setTimeout(() => {
-        this.tokenExpireDate = this.getDateInYmdFormat(suggestedExpireDate);
+        this.tokenExpireDate = this.initialExpireDate as string;
         dtInput.datepicker(tokenExpireDateOptions);
-        dtInput.datepicker('setDate', suggestedExpireDate); // Set the date to December 25, 2025
+        dtInput.datepicker('setDate', this.initialExpireDate); // Set the date to December 25, 2025
       });
     },
     onKeydownTokenExpireDate(event: Event|ChangeEvent) {
@@ -215,11 +213,6 @@ export default defineComponent({
         datePart = `0${datePart}`;
       }
       return datePart;
-    },
-    getDateInYmdFormat(inputDate: Date): string {
-      const month = this.prefixDateZeroIfNeeded(inputDate.getMonth());
-      const date = this.prefixDateZeroIfNeeded(inputDate.getDate());
-      return `${inputDate.getFullYear()}-${month}-${date}`;
     },
   },
 });
