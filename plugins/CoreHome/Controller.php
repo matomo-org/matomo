@@ -22,8 +22,6 @@ use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\CoreHome\MatomoCopyModal\CopyRequest;
-use Piwik\Plugins\CoreHome\MatomoCopyModal\CopyRequestNonRecoverableError;
-use Piwik\Plugins\CoreHome\MatomoCopyModal\CopyRequestRecoverableError;
 use Piwik\Plugins\CoreHome\MatomoCopyModal\CopyRequestResponse;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\FeatureFlags\FeatureFlags\Example;
