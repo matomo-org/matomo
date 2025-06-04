@@ -337,7 +337,8 @@ class Http
          */
         Piwik::postEvent('Http.sendHttpRequest', array($aUrl, $httpEventParams, &$response, &$status, &$headers));
 
-        if ($response !== null || $status !== null) {
+        // @phpstan-ignore empty.variable
+        if ($response !== null || $status !== null || !empty($headers)) {
             // was handled by event above...
             /**
              * described below
