@@ -1,7 +1,7 @@
 <p>{{ 'General_HelloUser'|translate(login) }}</p>
 <p><strong>{{ 'UsersManager_AuthTokenNotificationEmailReminder'|translate(rotationPeriod) }}</strong></p>
 <p>{{ 'UsersManager_AuthTokenNotificationEmail01'|translate('<strong>', rotationPeriod, '</strong>')|raw }}</p>
-<p>{{ 'UsersManager_AuthTokenNotificationEmail02'|translate('<strong>', tokenName, '</strong>', '<strong>', tokenCreationDate, '</strong>')|raw }}</p>
+<p>{{ 'UsersManager_AuthTokenNotificationEmail02'|translate('<strong>', tokenName|escape, '</strong>', '<strong>', tokenCreationDate, '</strong>')|raw }}</p>
 <p>{{ 'UsersManager_AuthTokenNotificationEmail03'|translate }}</p>
 <p>{{ 'UsersManager_AuthTokenNotificationEmail04'|translate }}</p>
 <a href="{{ manageAuthTokensLink|escape('html_attr') }}">{{ 'UsersManager_AuthTokenNotificationEmail05'|translate }}</a>
