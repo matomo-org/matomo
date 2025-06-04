@@ -26,13 +26,16 @@ class TokenExpirationWarningNotificationProvider extends TokenNotificationProvid
     {
         $db = Db::get();
         $sql = "SELECT * FROM " . Common::prefixTable('user_token_auth')
-            . " WHERE (date_expired IS NOT NULL AND date_expired <= ?)"
+            . " WHERE date_expired IS NOT null"
+            . " AND (date_expired <= ?)"
+            . " AND (date_created <= ?)"
             . " AND ts_expiration_warning_notified IS NULL"
             . " AND system_token = 0"
             . " AND login != ?";
 
         $tokensToNotify = $db->fetchAll($sql, [
             $periodThreshold,
+            $this->today,
             'anonymous'
         ]);
 

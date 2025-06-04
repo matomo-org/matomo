@@ -67,28 +67,84 @@ class AuthTokenExpirationWarningNotificationEmailTest extends IntegrationTestCas
     {
         Date::$now = Date::factory('2025-04-01')->getTimestamp();
 
-        // for standard 180 days, we have one token notification for each of two users
+        // for 30 days, there should be 6 per user, <30 days, =30 days and already expired (<0 days)
         $this->clearCaptureAndDispatch();
-        self::assertEquals(2, count($this->capturedNotifications));
-        self::assertEquals(['user1', 'user2'], array_column($this->capturedNotifications, 1));
-        self::assertEquals(['2024-01-01 00:00:00', '2024-01-01 00:00:00'], array_column($this->capturedNotifications, 3));
+        self::assertEquals(12, count($this->capturedNotifications));
+        self::assertEquals(
+            [
+                'user1',
+                'user1',
+                'user1',
+                'user1',
+                'user1',
+                'user1',
+                'user2',
+                'user2',
+                'user2',
+                'user2',
+                'user2',
+                'user2'
+            ],
+            array_column($this->capturedNotifications, 1)
+        );
+        self::assertEquals(
+            [
+                '2025-04-03 00:00:00',
+                '2025-04-03 00:00:00',
+                '2025-04-30 00:00:00',
+                '2025-04-30 00:00:00',
+                '2025-02-01 00:00:00',
+                '2025-02-01 00:00:00',
+                '2025-04-03 00:00:00',
+                '2025-04-03 00:00:00',
+                '2025-04-30 00:00:00',
+                '2025-04-30 00:00:00',
+                '2025-02-01 00:00:00',
+                '2025-02-01 00:00:00',
+            ],
+            array_column($this->capturedNotifications, 3)
+        );
 
         // all notifications sent already, should be zero now
         $this->clearCaptureAndDispatch();
         self::assertEquals(0, count($this->capturedNotifications));
 
-        // after removing the notification timestamp, we should have two notifications again, both in 2024
+        // after removing the notification timestamp, we should get the same 12 notifications
         $this->clearCaptureAndDispatch(true);
-        self::assertEquals(2, count($this->capturedNotifications));
-        self::assertEquals(['2024-01-01 00:00:00', '2024-01-01 00:00:00'], array_column($this->capturedNotifications, 3));
+        self::assertEquals(12, count($this->capturedNotifications));
+        self::assertEquals(
+            [
+                '2025-04-03 00:00:00',
+                '2025-04-03 00:00:00',
+                '2025-04-30 00:00:00',
+                '2025-04-30 00:00:00',
+                '2025-02-01 00:00:00',
+                '2025-02-01 00:00:00',
+                '2025-04-03 00:00:00',
+                '2025-04-03 00:00:00',
+                '2025-04-30 00:00:00',
+                '2025-04-30 00:00:00',
+                '2025-02-01 00:00:00',
+                '2025-02-01 00:00:00',
+            ],
+            array_column($this->capturedNotifications, 3)
+        );
 
-        // change rotation notification interval to 30 days
-        Config::getInstance()->General['auth_token_rotation_notification_days'] = 30;
+        // change expiration notification period to 60 days
+        Config::getInstance()->General['auth_token_expiration_notification_days'] = 60;
 
-        // after changing the date, we get extra two notifications in 2025
+        // after changing the date, we get extra four notifications
         $this->clearCaptureAndDispatch();
-        self::assertEquals(2, count($this->capturedNotifications));
-        self::assertEquals(['2025-01-01 00:00:00', '2025-01-01 00:00:00'], array_column($this->capturedNotifications, 3));
+        self::assertEquals(4, count($this->capturedNotifications));
+        self::assertEquals(
+            [
+                '2025-05-29 00:00:00',
+                '2025-05-29 00:00:00',
+                '2025-05-29 00:00:00',
+                '2025-05-29 00:00:00'
+            ],
+            array_column($this->capturedNotifications, 3)
+        );
     }
 
     /**
@@ -96,9 +152,9 @@ class AuthTokenExpirationWarningNotificationEmailTest extends IntegrationTestCas
      */
     public function testNoNotificationIsSentWhenTodayIsBeforeTokensCreated()
     {
-        // change rotation notification interval to 1 day and date before first token was created
-        Date::$now = Date::factory('2023-12-01')->getTimestamp();
-        Config::getInstance()->General['auth_token_rotation_notification_days'] = 1;
+        // change expiration notification period to 1 day and date before first token was created
+        Date::$now = Date::factory('2025-01-01')->getTimestamp();
+        Config::getInstance()->General['auth_token_expiration_notification_days'] = 1;
 
         $this->clearCaptureAndDispatch(true);
         self::assertEquals(0, count($this->capturedNotifications));
@@ -124,9 +180,8 @@ class AuthTokenExpirationWarningNotificationEmailTest extends IntegrationTestCas
             'observers.global' => \Piwik\DI::add([
                 ['Test.Mail.send', \Piwik\DI::value(function (PHPMailer $mail) {
                     $body = $mail->createBody();
-                    $body = preg_replace("/=[\r\n]+/", '', $body);
+                    $body = preg_replace('/=[\r\n]+/', '', $body);
                     preg_match('|Hello, (.*?)!.*your <strong>(.*)</strong>.*expire on <strong>([0-9-:\s]+)</strong>|isu', $body, $matches);
-                    var_dump($matches);
                     if (count($matches) === 4) {
                         unset($matches[0]);
                         $this->capturedNotifications[] = $matches;
