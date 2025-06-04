@@ -100,6 +100,7 @@ class AuthenticationToken
             $this->authToken = $tokenAuth;
             $this->wasTokenProvidedSecurely = true;
             $this->isSessionToken = $request->getBoolParameter('force_api_session', false);
+            return true;
         }
 
         return false;
@@ -114,6 +115,7 @@ class AuthenticationToken
             $this->authToken = $tokenAuth;
             $this->wasTokenProvidedSecurely = false;
             $this->isSessionToken = $request->getBoolParameter('force_api_session', false);
+            return true;
         }
 
         return false;
