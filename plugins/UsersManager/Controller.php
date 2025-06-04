@@ -389,12 +389,14 @@ class Controller extends ControllerAdmin
         $postRequestHasData = count($postRequest->getParameters());
 
         // approach used here to support static date in tests — should be fine as tokens are not created that often
-        $today = Date::factory('now');
+        $now = null;
         try {
-            $today = Date::factory(StaticContainer::get('Tests.now'));
+            $now = StaticContainer::get('Tests.now');
         } catch (\Exception $ex) {
             // ignore
         }
+        $now = $now ?: time();
+        $today = Date::factory($now);
 
         $tokenExpireDate = $postRequest->getStringParameter('token_expire_date', '');
         $invalidExpireDate = true;
