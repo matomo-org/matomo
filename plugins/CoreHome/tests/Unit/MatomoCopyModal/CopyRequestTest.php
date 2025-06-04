@@ -19,10 +19,10 @@ use Piwik\Plugins\CoreHome\MatomoCopyModal\CopyRequest;
  */
 class CopyRequestTest extends TestCase
 {
-    const TEST_ID_SITE = 1;
-    const TEST_ENTITY_TYPE = 'heatmap';
-    const TEST_ID_DESTINATION_SITES = [1, 2, 3];
-    const TEST_REQUEST_DATA = ['key' => 'value'];
+    public const TEST_ID_SITE = 1;
+    public const TEST_ENTITY_TYPE = 'heatmap';
+    public const TEST_ID_DESTINATION_SITES = [1, 2, 3];
+    public const TEST_REQUEST_DATA = ['key' => 'value'];
 
     /**
      * @var CopyRequest
