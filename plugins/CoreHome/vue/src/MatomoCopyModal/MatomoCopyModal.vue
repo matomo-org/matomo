@@ -41,7 +41,7 @@
             }"
           />
         </div>
-        <div class="modal-content copy-configure">
+        <div :class="$slots.default ? 'modal-content copy-configure' : 'modal-content'">
           <div v-form class="modal-inputs">
             <slot></slot>
           </div>
@@ -81,8 +81,10 @@ import useExternalPluginComponent from '../useExternalPluginComponent';
 import SiteRef from '../SiteSelector/SiteRef';
 import Matomo from '../Matomo/Matomo';
 import debounce from '../debounce';
-import { translate } from '../translate';
+import { translate, translateOrDefault } from '../translate';
 import { externalLink } from '../externalLink';
+import AjaxHelper from '../AjaxHelper/AjaxHelper';
+import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
 // async since we're referencing a recursive component
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
@@ -98,6 +100,14 @@ interface MatomoCopyModalState {
   site: SiteRef|null;
   hasSiteBeenInitialised: boolean;
   hasBeenSubmitted: boolean;
+}
+
+interface CopyRequestResponse {
+  isCopySuccessful: boolean;
+  successMessage: string;
+  responseData: Record<string, unknown>;
+  errorMessage: string;
+  errorCode: number;
 }
 
 export default defineComponent({
@@ -117,6 +127,11 @@ export default defineComponent({
       default: false,
     },
     copyEntityType: {
+      type: String,
+      required: true,
+      default: '',
+    },
+    copyEntityTypeTranslation: {
       type: String,
       required: false,
       default: '',
@@ -142,6 +157,7 @@ export default defineComponent({
     'update:modelValue',
     'resetFormData',
     'copySuccessful',
+    'copyFailed',
   ],
   watch: {
     modelValue(newValue) {
@@ -194,12 +210,40 @@ export default defineComponent({
         return;
       }
 
-      // TODO - Actually POST the API call
+      // Actually POST the API call
+      const ajax = new AjaxHelper();
+      // Remove the unnecessary default parameters
+      ajax.removeDefaultParameter('date');
+      ajax.removeDefaultParameter('period');
+      ajax.removeDefaultParameter('segment');
+      // Include token in POST body so that it can be used for the security check instead of a nonce
+      ajax.withTokenInUrl();
+      ajax.addParams({
+        module: 'CoreHome',
+        action: 'copyEntity',
+        idSite: Matomo.idSite || MatomoUrl.parsed.value.idSite,
+        idDestinationSites: [this.site?.id],
+        entityTypeName: this.copyEntityType,
+        ...this.formData,
+      }, 'POST');
+      ajax.setFormat('json');
+      ajax.send().then((response: CopyRequestResponse) => {
+        // If the response was invalid or unsuccessful, emit the failure and show an error message
+        if (!response || !response.isCopySuccessful) {
+          this.emitFailureAndSetErrorMessage();
+          return;
+        }
 
-      // Emit success so parent can perform desired actions like reload the data store or page
-      this.$emit('copySuccessful');
+        // Emit success so parent can perform desired actions like reload the data store or page
+        this.$emit('copySuccessful', response);
 
-      this.closeModal();
+        this.closeModal();
+      }).catch((error) => {
+        this.emitFailureAndSetErrorMessage();
+        console.log('Unexpected server error during request.', error);
+      }).finally(() => {
+        this.hasBeenSubmitted = false;
+      });
     },
     validateFormFields() {
       this.isValidated = true;
@@ -238,6 +282,28 @@ export default defineComponent({
     onSiteChange() {
       this.validateAfterFieldChange();
     },
+    emitFailureAndSetErrorMessage(response: null|CopyRequestResponse = null) {
+      let tempResponseObject = response;
+      // If no response object is set, create one with a generic error message
+      if (!tempResponseObject) {
+        tempResponseObject = {
+          isCopySuccessful: false,
+          successMessage: '',
+          responseData: {},
+          errorCode: 0,
+          errorMessage: translate('General_ErrorRequest'),
+        };
+      }
+
+      // If the error message wasn't set, set it to a generic error message
+      if (tempResponseObject.errorMessage.length === 0) {
+        tempResponseObject.errorMessage = translate('General_ErrorRequest');
+      }
+
+      this.copyErrors = [];
+      this.copyErrors.push(tempResponseObject.errorMessage);
+      this.$emit('copyFailed', tempResponseObject);
+    },
   },
   mounted() {
     // Add a delay to validation to try and let the input finish
@@ -254,27 +320,29 @@ export default defineComponent({
   },
   computed: {
     getModalTitle(): string {
-      return translate('CoreHome_CopyX', this.getEntityType);
+      return translate('CoreHome_CopyX', this.getEntityTypeTranslation);
     },
-    getEntityType(): string {
-      if (this.copyEntityType) {
-        return this.copyEntityType;
+    getEntityTypeTranslation(): string {
+      let translationKey = 'CoreHome_ReportLowercase';
+      if (this.copyEntityTypeTranslation) {
+        translationKey = this.copyEntityTypeTranslation;
       }
 
-      return translate('CoreHome_ReportLowercase');
+      // Only translate if it's a translation key and not an already translated string
+      return translateOrDefault(translationKey);
     },
     getNoteText(): string {
       const noteText = translate(
         'CoreHome_CopyModalNote',
         '<strong>',
         '</strong>',
-        this.getEntityType,
+        this.getEntityTypeTranslation,
       );
 
       return `${noteText}`;
     },
     getCopyDescription(): string {
-      return translate('CoreHome_CopyXDescription', this.getEntityType);
+      return translate('CoreHome_CopyXDescription', this.getEntityTypeTranslation);
     },
     getLearnMoreLink() {
       if (!this.descriptionLearnMoreLink) {

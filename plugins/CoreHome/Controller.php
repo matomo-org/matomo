@@ -21,11 +21,16 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
+use Piwik\Plugins\CoreHome\MatomoCopyModal\CopyRequest;
+use Piwik\Plugins\CoreHome\MatomoCopyModal\CopyRequestNonRecoverableError;
+use Piwik\Plugins\CoreHome\MatomoCopyModal\CopyRequestRecoverableError;
+use Piwik\Plugins\CoreHome\MatomoCopyModal\CopyRequestResponse;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\FeatureFlags\FeatureFlags\Example;
 use Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\SettingsPiwik;
+use Piwik\Site;
 use Piwik\Widget\Widget;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
@@ -351,5 +356,43 @@ class Controller extends \Piwik\Plugin\Controller
         $containerId = Common::getRequestVar('containerId', '', 'string');
 
         ViewDataTableManager::saveViewDataTableParameters($login, $reportId, $parameters, $containerId);
+    }
+
+    public function copyEntity(): string
+    {
+        $request = \Piwik\Request::fromRequest();
+        $idSite = $request->getIntegerParameter('idSite');
+        $entityTypeName = $request->getStringParameter('entityTypeName');
+        $idDestinationSites = $request->getArrayParameter('idDestinationSites', []);
+        if (count($idDestinationSites) === 0) {
+            $idDestinationSitesString = $request->getStringParameter('idDestinationSites', '');
+            $idDestinationSites = Site::getIdSitesFromIdSitesString($idDestinationSitesString);
+        }
+        $additionalData = $request->getArrayParameter('requestData', []);
+        Piwik::checkUserHasWriteAccess(array_unique(array_merge([$idSite], $idDestinationSites)));
+        $this->checkTokenInUrl();
+
+        // Post event to be intercepted by plugin using the modal to copy something
+        $copyRequest = new CopyRequest($idSite, $entityTypeName, $idDestinationSites, $additionalData);
+        $copyRequestResponse = new CopyRequestResponse();
+        try {
+            Piwik::postEvent('CoreHome.processCopyRequest', [$copyRequest, &$copyRequestResponse]);
+        } catch (\Throwable $e) {
+            $copyRequestResponse->setIsCopySuccessful(false);
+            if (empty($copyRequestResponse->getErrorMessage())) {
+                $copyRequestResponse->setErrorMessage(Piwik::translate('General_ErrorRequest'));
+            }
+            if (empty($copyRequestResponse->getErrorCode())) {
+                $copyRequestResponse->setErrorCode(500);
+            }
+        }
+
+        if (!$copyRequestResponse->hasResponseBeenModified()) {
+            // This should only happen if the developer forgets to implement/register a listener. It won't be displayed
+            throw new \Exception('The response was not modified. This likely means nobody registered for the event and processed it.');
+        }
+
+        Json::sendHeaderJSON();
+        return $copyRequestResponse->getJsonResponse();
     }
 }
