@@ -295,7 +295,7 @@ class Common
     /**
      * Secure wrapper for unserialize, which by default disallows unserializing classes
      *
-     * @param string $string String to unserialize
+     * @param string|null $string String to unserialize
      * @param array $allowedClasses Class names that should be allowed to unserialize
      * @param bool $rethrow Whether to rethrow exceptions or not.
      * @return mixed
@@ -304,7 +304,7 @@ class Common
     {
         try {
             // phpcs:ignore Generic.PHP.ForbiddenFunctions
-            return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
+            return unserialize($string ?? '', ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
         } catch (\Throwable $e) {
             if ($rethrow) {
                 throw $e;
@@ -421,13 +421,13 @@ class Common
     /**
      * Unsanitizes a single input value and returns the result.
      *
-     * @param string $value
+     * @param string|null $value
      * @return string  unsanitized input
      * @api
      */
     public static function unsanitizeInputValue($value)
     {
-        return htmlspecialchars_decode($value, self::HTML_ENCODING_QUOTE_STYLE);
+        return htmlspecialchars_decode($value ?? '', self::HTML_ENCODING_QUOTE_STYLE);
     }
 
     /**

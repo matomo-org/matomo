@@ -166,7 +166,8 @@ class IniFileChain
             // OR both have values, but different values, we must write to config.ini.php
             if (
                 (empty($changedSection) xor empty($existingMutableSection))
-                || self::compareElements($changedSection, $existingMutableSection)) {
+                || self::compareElements($changedSection, $existingMutableSection)
+            ) {
                 $dirty = true;
             }
 
