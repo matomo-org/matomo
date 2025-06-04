@@ -2,6 +2,7 @@
     "IntranetMeasurable": {
         "Intranet": "Intranet sitesi",
         "IntranetDescription": "Bir Intranet ölçülebiliri bir iç ağda bulunan bir siteye benzer.",
+        "IntranetLongDescription": "Yalnızca kuruluşunuzun ağı içinden erişilebilen iç siteleri izleyin. Matomo, intranet ortamlarında tekil ziyaretçileri daha doğru tanımlamak için birinci taraf tanımlama bilgilerini kullanır.",
         "Intranets": "Intranet siteleri"
     }
 }

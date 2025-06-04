@@ -25,6 +25,7 @@
       :class="{'loading': isLoading}"
       class="title"
       tabindex="4"
+      v-tooltips
       :title="selectorLinkTitle"
     >
       <span

@@ -338,8 +338,10 @@ class Controller extends \Piwik\Plugin\Controller
         ));
     }
 
-    private function getTwoFaBarCodeSetupUrl($secret)
-    {
+    private function getTwoFaBarCodeSetupUrl(
+        #[\SensitiveParameter]
+        $secret
+    ) {
         $title = $this->settings->twoFactorAuthTitle->getValue();
         $descr = Piwik::getCurrentUserLogin();
 

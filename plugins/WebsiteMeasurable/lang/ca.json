@@ -2,6 +2,7 @@
     "WebsiteMeasurable": {
         "Website": "Lloc web",
         "WebsiteDescription": "Un lloc web està format per pàgines web, normalment servides des d'un únic domini al web.",
+        "WebsiteLongDescription": "Feu un seguiment de les interaccions dels visitants, com ara visites a la pàgina, clics, descàrregues i esdeveniments en un lloc web obert al públic. Un únic mesurable pot incloure diversos dominis i subdominis, o podeu crear mesurables separats per a cadascun.",
         "Websites": "Llocs"
     }
 }

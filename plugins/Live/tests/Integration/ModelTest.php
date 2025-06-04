@@ -369,7 +369,7 @@ class ModelTest extends IntegrationTestCase
             $minTimestamp = false,
             $filterSortOrder = false
         );
-        $expectedSql = 'SELECT  /*+ MAX_EXECUTION_TIME(30000) */ 
+        $expectedSql = 'SELECT /*+ MAX_EXECUTION_TIME(30000) */
 				log_visit.*';
 
         $this->setMaxExecutionTime(-1);

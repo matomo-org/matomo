@@ -241,8 +241,10 @@ class Login extends \Piwik\Plugin
      * Set login name and authentication token for API request.
      * Listens to API.Request.authenticate hook.
      */
-    public function apiRequestAuthenticate($tokenAuth)
-    {
+    public function apiRequestAuthenticate(
+        #[\SensitiveParameter]
+        $tokenAuth
+    ) {
         $this->beforeLoginCheckBruteForce();
 
         /** @var \Piwik\Auth $auth */
