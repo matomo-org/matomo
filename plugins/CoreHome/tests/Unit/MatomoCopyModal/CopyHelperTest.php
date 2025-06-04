@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreHome\tests\Unit\MatomoCopyModal;
 
 use PHPUnit\Framework\TestCase;
 use Piwik\Plugins\CoreHome\MatomoCopyModal\CopyHelper;
-use Piwik\Plugins\CoreHome\MatomoCopyModal\CopyRequest;
 
 /**
  * @group CoreHome
@@ -24,6 +23,8 @@ class CopyHelperTest extends TestCase
      * @dataProvider getIncrementNameWithNumericalSuffix
      * @param string $name
      * @param string $expected
+     * @param string $maxLength String to allow empty string to indicate using the default max length
+     * @param bool $expectException
      * @return void
      */
     public function testIncrementNameWithNumericalSuffix(string $name, string $expected, string $maxLength, bool $expectException)
@@ -34,7 +35,7 @@ class CopyHelperTest extends TestCase
         }
 
         if ($maxLength === '') {
-            $this->assertSame($expected, CopyHelper::incrementNameWithNumericalSuffix($name));
+            $this->assertSame($expected, CopyHelper::incrementNameWithNumericalSuffix($name), "Name '$name' should be equal to '$expected' when not providing max length.");
             return;
         }
         $maxLength = intval($maxLength);

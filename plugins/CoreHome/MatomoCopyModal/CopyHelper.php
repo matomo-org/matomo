@@ -42,7 +42,7 @@ class CopyHelper
 
         // Make sure that the maximum length isn't too small and won't result in the suffix replacing the whole name
         $newNumberLength = strlen((string) $number);
-        if($maxLength !== -1 && $maxLength <= $newNumberLength + 3) {
+        if ($maxLength !== -1 && $maxLength <= $newNumberLength + 3) {
             throw new \Exception('The maximum name length cannot be less than the length of the suffix.');
         }
 
