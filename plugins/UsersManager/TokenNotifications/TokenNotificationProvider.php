@@ -23,7 +23,7 @@ abstract class TokenNotificationProvider implements TokenNotificationProviderInt
     public function __construct()
     {
         $this->userModel = new UserModel();
-        $this->today = Date::factory('today')->getDatetime();
+        $this->today = Date::factory('now')->getDatetime();
     }
 
     abstract protected function getPeriodThreshold(): ?string;
