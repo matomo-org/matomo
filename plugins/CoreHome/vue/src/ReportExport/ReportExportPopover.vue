@@ -33,6 +33,18 @@
         </div>
       </div>
       <div>
+        <div name="option_show_dimensions">
+          <Field
+            :uicontrol="'checkbox'"
+            :name="'option_show_dimensions'"
+            :title="translate('CoreHome_IncludeDimensionsSeparately')"
+            v-model="optionShowDimensions"
+            v-show="hasMultipleDimensions && optionFlat"
+          >
+          </Field>
+        </div>
+      </div>
+      <div>
         <div name="option_expanded">
           <Field
             :uicontrol="'checkbox'"
@@ -204,6 +216,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    initialOptionShowDimensions: {
+      type: Boolean,
+      default: false,
+    },
     initialOptionExpanded: {
       type: Boolean,
       default: true,
@@ -228,6 +244,7 @@ export default defineComponent({
       showUrl: false,
       reportFormat: this.initialReportFormat,
       optionFlat: this.initialOptionFlat,
+      optionShowDimensions: this.initialOptionShowDimensions,
       optionExpanded: this.initialOptionExpanded,
       optionFormatMetrics: this.initialOptionFormatMetrics,
       reportType: this.initialReportType,
@@ -251,6 +268,9 @@ export default defineComponent({
     },
   },
   computed: {
+    hasMultipleDimensions() {
+      return Object.keys(this.dataTable?.getReportMetadata().dimensions || {}).length > 1;
+    },
     filterLimitTooltip() {
       const rowLimit = translate('CoreHome_RowLimit');
       const computedMetricMax = this.maxFilterLimit
@@ -383,6 +403,9 @@ export default defineComponent({
 
       if (this.optionFlat) {
         exportUrlParams.flat = 1;
+        if (this.optionShowDimensions) {
+          exportUrlParams.show_dimensions = 1;
+        }
         if (typeof dataTable.param.include_aggregate_rows !== 'undefined'
           && dataTable.param.include_aggregate_rows === '1'
         ) {
