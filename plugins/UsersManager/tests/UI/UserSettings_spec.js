@@ -83,7 +83,7 @@ describe("UserSettings", function () {
         await page.goto(userSecurityUrl);
         await page.waitForSelector('.listAuthTokens', { visible: true });
         await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-            $('table.listAuthTokens th').css('width', '25%');
+            $('table.listAuthTokens th').css('width', '16%'); // five columns + actions
         });
         await page.waitForTimeout(100);
         expect(await page.screenshotSelector('.admin')).to.matchImage('load_security_new_token_no_expiration');
