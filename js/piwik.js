@@ -2322,7 +2322,7 @@ if (typeof window.Matomo !== 'object') {
                   'mtm_placement', 'pk_placement' // campaign placement
                 ],
 
-                // All known referrers that are sending unexpected/unwanted campaign parameters. Matomo will ignore such campaigns if the referring url matches one of the hosts defined below.
+                // An initial list of known referrers that are sending unexpected/unwanted campaign parameters. Matomo will ignore such campaigns if the referring URL matches one of the hosts defined below.
                 configIgnoreCampaignsForReferrers = [ 'chatgpt.com', 'chat.openai.com' ],
 
                 // First-party cookie name prefix
