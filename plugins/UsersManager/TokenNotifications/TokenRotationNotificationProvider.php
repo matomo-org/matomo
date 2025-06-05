@@ -19,7 +19,7 @@ class TokenRotationNotificationProvider extends TokenNotificationProvider
     protected function getPeriodThreshold(): ?string
     {
         $periodDays = (int) Config::getInstance()->General['auth_token_rotation_notification_days'];
-        return $periodDays ? Date::factory('today')->subDay($periodDays)->getDateTime() : null;
+        return ($periodDays > 0) ? Date::factory('today')->subDay($periodDays)->getDateTime() : null;
     }
 
     protected function getTokensToNotify(string $periodThreshold): array
