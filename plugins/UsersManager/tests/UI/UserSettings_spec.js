@@ -65,15 +65,28 @@ describe("UserSettings", function () {
     });
 
     it('should not ask for password when trying to add a second token in quick succession', async function () {
+        testEnvironment.overrideConfig('General', 'auth_token_default_expiration_days', 90);
+        testEnvironment.save();
+
+        await page.goto(userSecurityUrl);
+        await page.waitForSelector('.listAuthTokens', { visible: true });
         await page.click('.addNewToken');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.addTokenForm');
         expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_no_password');
     });
 
-    it('should show a date picker when clicked into the date field', async function () {
+    it('should show a date picker with a shorter configured expire interval when clicked into the date field', async function () {
         await page.click('[name="token_expire_date"]');
         await page.waitForSelector('.ui-datepicker');
+
+        if (testEnvironment.configOverride.General &&
+          testEnvironment.configOverride.General.auth_token_default_expiration_days
+        ) {
+            delete testEnvironment.configOverride.General.auth_token_default_expiration_days;
+            testEnvironment.save();
+        }
+
         expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_show_calendar');
     });
 
