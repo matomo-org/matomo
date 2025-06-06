@@ -3273,9 +3273,9 @@ function PiwikTest() {
         var tracker = Piwik.getTracker();
 
         equal( typeof tracker.hook.test._utf8_encode, 'function', 'utf8_encode' );
-        equal( tracker.hook.test._utf8_encode('hello world'), '<?php echo utf8_encode("hello world"); ?>', 'utf8_encode("hello world")' );
-        equal( tracker.hook.test._utf8_encode('Gesamtgröße'), '<?php echo utf8_encode("Gesamtgröße"); ?>', 'utf8_encode("Gesamtgröße")' );
-        equal( tracker.hook.test._utf8_encode('您好'), '<?php echo utf8_encode("您好"); ?>', 'utf8_encode("您好")' );
+        equal(tracker.hook.test._utf8_encode('hello world'), '<?php echo @utf8_encode("hello world"); ?>', 'utf8_encode("hello world")');
+        equal(tracker.hook.test._utf8_encode('Gesamtgröße'), '<?php echo @utf8_encode("Gesamtgröße"); ?>', 'utf8_encode("Gesamtgröße")');
+        equal(tracker.hook.test._utf8_encode('您好'), '<?php echo @utf8_encode("您好"); ?>', 'utf8_encode("您好")');
 
         equal( typeof tracker.hook.test._sha1, 'function', 'sha1' );
         equal( tracker.hook.test._sha1('hello world'), '<?php echo sha1("hello world"); ?>', 'sha1("hello world")' );
@@ -3703,8 +3703,44 @@ if ($mysql) {
         }
     });
 
+    test("ignore campaigns for referrer", function () {
+        expect(25);
+
+        var testCases = [
+            ['no exclusion', 'https://www.google.fr/?query=test', '', false],
+            ['host exclusion matches', 'https://www.google.fr/?query=test', 'www.google.fr', true],
+            ['host exclusion matches (www ignored)', 'https://google.fr/?query=test', 'www.google.fr', true],
+            ['host exclusion matches (www ignored)', 'https://www.google.fr/?query=test', 'google.fr', true],
+            ['host exclusion not matching', 'https://www.google.de/?query=test', 'www.google.fr', false],
+            ['wildcard subdomain exclusion matches', 'https://www.google.fr/?query=test', '*.google.fr', true],
+            ['chatgpt.com is excluded by default', 'https://chatgpt.com/c/66f323d2-7d64-8d0c-87a3-42dbf1a903fc', '', true],
+            ['host with path exclusion matches', 'https://www.paypal.com/proceed/payment/', 'www.paypal.com/proceed/', true],
+            ['host with path exclusion not matching', 'https://www.paypal.com/proceed/payment/', 'www.paypal.com/proceed/shipping', false],
+            ['host with wild card path exclusion matches', 'https://www.paypal.com/proceed/payment/', 'www.paypal.com/proceed*', true],
+            ['host with wild card path exclusion matches again', 'https://www.paypal.com/proceed-my-payment/', 'www.paypal.com/proceed*', true],
+        ];
+
+        for (var i = 0; i < testCases.length; i++) {
+            var testName = testCases[i][0];
+            var referrerUrl = testCases[i][1];
+            var excludedReferrer = testCases[i][2];
+            var result = testCases[i][3];
+            var expectedExcludedReferrer = [];
+
+            var tracker = Piwik.getTracker();
+            if (excludedReferrer) {
+                tracker.setIgnoreCampaignsForReferrers(excludedReferrer);
+                expectedExcludedReferrer = tracker.hook.test._isString(excludedReferrer) ? [excludedReferrer] : excludedReferrer;
+            } else {
+                expectedExcludedReferrer = ['chatgpt.com', 'chat.openai.com'];
+            }
+            deepEqual(tracker.getIgnoreCampaignsForReferrers(), expectedExcludedReferrer, testName + " - check getIgnoreCampaignsForReferrers()");
+            deepEqual(tracker.hook.test._shouldIgnoreCampaignForReferrer(referrerUrl), result, testName + " - check shouldIgnoreCampaignForReferrer()");
+        }
+    });
+
     test("tracking", function() {
-        expect(185);
+        expect(189);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -4204,6 +4240,19 @@ if ($mysql) {
         tracker.trackPageView('ShouldNotHave_pf_1_2_3_4_5_6_7_8');
         //  /check setPagePerformanceTiming function
 
+        // ignored campaign for configured referrer
+        var icTracker = Piwik.getTracker();
+        icTracker.setTrackerUrl("matomo.php");
+        icTracker.setSiteId(1);
+        icTracker.setCustomData({ "token" : getToken() });
+        icTracker.deleteCookies();
+        icTracker.setReferrerUrl('https://chatgpt.com/c/683cd223-11f8-8r0c-a463-9b0606688162');
+        icTracker.setCustomUrl('https://matomo.org/blog/?utm_source=chatgpt.com');
+        icTracker.trackPageView('ignoreCampaign');
+        var attributionInfos = icTracker.getAttributionInfo();
+        equal(attributionInfos[0], ['']);
+        equal(attributionInfos[1], ['']);
+        equal(attributionInfos[3], ['https://chatgpt.com/c/683cd223-11f8-8r0c-a463-9b0606688162']);
 
         // delete existing onerror handler and setup tracking again
         window.onerror = customOnErrorInvoked = false;
@@ -4244,7 +4293,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "59", "count tracking events" );
+                equal(countTrackingEvents[1], "60", "count tracking events");
             }
 
             // firing callback
@@ -4367,8 +4416,12 @@ if ($mysql) {
             ok( ! /ShouldNotHave_pf_1_2_3_4_5_6_7_8.*pf_net=1&pf_srv=2&pf_tfr=3&pf_dm1=4&pf_dm2=5&pf_onl=6/.test(results), 'setPagePerformanceTiming only sets 6 parameters in request');
             //  /check setPagePerformanceTiming function
 
+            // ignored referrer campaigns removed from url
+            ok(/ignoreCampaign&.*&url=https%3A%2F%2Fmatomo.org%2Fblog%2F&/.test(results), "campaign parameter removed for configured referrers");
+
             ok( ! /action_name=FileProtocolShouldNotBeTracked/.test(results), 'file protocol should not be tracked by default');
             ok( /action_name=FileProtocolShouldBeTrackedWhenEnabled/.test(results), 'file protocol should be tracked when enabled');
+
             start();
         }, 5000);
     });
