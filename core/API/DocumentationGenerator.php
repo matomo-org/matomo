@@ -269,6 +269,7 @@ class DocumentationGenerator
         $aParameters['label'] = false;
         $aParameters['labelSeries'] = false;
         $aParameters['flat'] = false;
+        $aParameters['show_dimensions'] = false;
         $aParameters['include_aggregate_rows'] = false;
         $aParameters['filter_offset'] = false;
         $aParameters['filter_limit'] = false;
@@ -299,6 +300,7 @@ class DocumentationGenerator
         $aParameters['invert_compare_change_compute'] = false;
         $aParameters['filter_update_columns_when_show_all_goals'] = false;
         $aParameters['filter_show_goal_columns_process_goals'] = false;
+        $aParameters['showMetadata'] = false;
 
         $extraParameters = StaticContainer::get('entities.idNames');
         $extraParameters = array_merge($extraParameters, StaticContainer::get('DocumentationGenerator.customParameters'));
