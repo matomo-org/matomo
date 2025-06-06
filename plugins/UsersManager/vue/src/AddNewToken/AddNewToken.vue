@@ -194,7 +194,7 @@ export default defineComponent({
       const tokenExpireDateOptions = Matomo.getBaseDatePickerOptions(null);
       tokenExpireDateOptions.minDate = new Date();
 
-      const dtInput = $('.tokenExpireDateInput', this.$refs.root as HTMLElement);
+      const dtInput = $('[name="token_expire_date"]', this.$refs.root as HTMLElement);
 
       setTimeout(() => {
         this.tokenExpireDate = this.initialExpireDate as string;
