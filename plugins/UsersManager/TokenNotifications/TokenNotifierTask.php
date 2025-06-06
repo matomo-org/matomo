@@ -38,8 +38,8 @@ class TokenNotifierTask extends Task
      */
     private function getTokenProviderClasses(): array
     {
-        return PluginManager::getInstance()->findComponents(
-            'TokenNotificationProvider',
+        return PluginManager::getInstance()->findMultipleComponents(
+            'TokenNotifications',
             TokenNotificationProviderInterface::class
         );
     }

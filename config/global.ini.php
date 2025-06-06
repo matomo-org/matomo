@@ -566,6 +566,11 @@ only_allow_secure_auth_tokens = 0
 ; Recommended to keep enabled for best security.
 auth_token_rotation_notification_days = 180
 
+; Number of days before the expiration date of a personal auth token, where an email notification is sent to the user.
+; If set to 0 days, notifications won't be sent. 
+; Recommended to keep enabled for best security.
+auth_token_expiration_notification_days = 30
+
 ; language cookie name for session
 language_cookie_name = matomo_lang
 
