@@ -333,8 +333,6 @@ class Model
      * @param null|string  $dateExpired
      * @param bool  $isSystemToken
      * @param bool  $secureOnly     True if this token can only be used in a secure way (e.g. POST requests), default false
-     * @param bool  $hasTokenExpiryDate  True if a specific date was set as token expiration date
-     * @param string  $tokenExpiryDate  True if a specific date was set as token expiration date
      *
      * @return int                  Primary key of the new token auth
      * @throws \Piwik\Tracker\Db\DbException
