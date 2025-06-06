@@ -207,13 +207,6 @@ export default defineComponent({
         this.tokenExpireDate = (event.target as HTMLInputElement).value;
       });
     },
-    prefixDateZeroIfNeeded(number: number) {
-      let datePart = String(number);
-      if (datePart.length === 1) {
-        datePart = `0${datePart}`;
-      }
-      return datePart;
-    },
   },
 });
 </script>
