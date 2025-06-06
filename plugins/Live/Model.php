@@ -432,15 +432,8 @@ class Model
 
         [$whereIdSites, $idSites] = $this->getIdSitesWhereClause($idSite, $from);
 
-        $now = null;
-        try {
-            $now = StaticContainer::get('Tests.now');
-        } catch (\Exception $ex) {
-            // ignore
-        }
-        $now = $now ?: time();
-
-        $bind   = $idSites;
+        $now = Date::getNowTimestamp();
+        $bind = $idSites;
         $startDate = Date::factory($now - $lastMinutes * 60);
         $bind[] = $startDate->toString('Y-m-d H:i:s');
 

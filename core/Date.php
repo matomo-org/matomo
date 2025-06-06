@@ -1152,6 +1152,13 @@ class Date
      */
     public static function getNowTimestamp()
     {
-        return isset(self::$now) ? self::$now : time();
+        $now = null;
+        try {
+            $now = StaticContainer::get('Tests.now');
+        } catch (\Exception $ex) {
+            // ignore
+        }
+        $now = $now ?: time();
+        return self::$now ?? $now;
     }
 }

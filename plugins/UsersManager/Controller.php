@@ -388,15 +388,7 @@ class Controller extends ControllerAdmin
         $postRequest = \Piwik\Request::fromPost();
         $postRequestHasData = count($postRequest->getParameters());
 
-        // approach used here to support static date in tests — should be fine as tokens are not created that often
-        $now = null;
-        try {
-            $now = StaticContainer::get('Tests.now');
-        } catch (\Exception $ex) {
-            // ignore
-        }
-        $now = $now ?: time();
-        $today = Date::factory($now);
+        $today = Date::factory('now');
 
         $tokenExpireDate = $postRequest->getStringParameter('token_expire_date', '');
         $invalidExpireDate = true;

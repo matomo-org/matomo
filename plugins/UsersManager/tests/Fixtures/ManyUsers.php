@@ -152,8 +152,6 @@ class ManyUsers extends Fixture
 
                 $tokenAuth = $model->generateRandomTokenAuth();
                 $model->addTokenAuth($login, $tokenAuth, 'many users test', Date::now()->getDatetime());
-
-                $user = $model->getUser($login);
                 $this->users[$login]['token'] = $tokenAuth;
             }
         }
@@ -167,7 +165,7 @@ class ManyUsers extends Fixture
     {
         return [
             'Tests.now' => \Piwik\DI::decorate(function () {
-                return Date::factory($this->dateTime)->getTimestamp();
+                return strtotime($this->dateTime); // not using Date::factory to prevent circular dependency
             }),
         ];
     }
