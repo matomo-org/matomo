@@ -1158,7 +1158,7 @@ class Date
         } catch (\Exception $ex) {
             // ignore
         }
-        $ts = is_numeric($ts) ? (int) $ts : time();
+        $ts = is_numeric($ts) && $ts > 606116800 ? (int) $ts : time(); // accept numeric values for years over 1990
         return isset(self::$now) ? self::$now : $ts;
     }
 }
