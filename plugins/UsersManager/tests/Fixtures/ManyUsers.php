@@ -165,7 +165,8 @@ class ManyUsers extends Fixture
     {
         return [
             'Tests.now' => \Piwik\DI::decorate(function () {
-                return strtotime($this->dateTime); // not using Date::factory to prevent circular dependency
+                // not using Date::factory to prevent circular dependency
+                return strtotime(substr($this->dateTime, 0, 10)); // substr to get just the date
             }),
         ];
     }
