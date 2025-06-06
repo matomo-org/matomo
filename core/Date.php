@@ -1158,7 +1158,7 @@ class Date
         } catch (\Exception $ex) {
             // ignore
         }
-        $ts = is_int($ts) ? $ts : time();
+        $ts = is_numeric($ts) ? (int) $ts : time();
         return isset(self::$now) ? self::$now : $ts;
     }
 }
