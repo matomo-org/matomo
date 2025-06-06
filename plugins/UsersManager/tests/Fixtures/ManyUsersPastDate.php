@@ -16,7 +16,6 @@ use Piwik\Plugins\UsersManager\tests\Fixtures\ManyUsers;
  */
 class ManyUsersPastDate extends ManyUsers
 {
-
     public function provideContainerConfig()
     {
         return [
