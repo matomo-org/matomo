@@ -160,13 +160,4 @@ class ManyUsers extends Fixture
         $api->inviteUser($this->pendingUser2['login'], $this->pendingUser2['email'], 1);
         $model->updateUserFields($this->pendingUser2['login'], ['invited_by' => 'login2']);
     }
-
-    public function provideContainerConfig()
-    {
-        return [
-            'Tests.now' => \Piwik\DI::decorate(function () {
-                return strtotime($this->dateTime); // not using Date::factory to prevent circular dependency
-            }),
-        ];
-    }
 }
