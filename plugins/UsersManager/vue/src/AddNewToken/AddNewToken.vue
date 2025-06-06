@@ -67,6 +67,7 @@
             >{{ translate('UsersManager_TokenExpireDate') }}</label>
             <input
               type="text"
+              id="token_expire_date"
               name="token_expire_date"
               :value="tokenExpireDate"
               :required="tokenHasExpiration"
