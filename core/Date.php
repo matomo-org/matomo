@@ -1152,13 +1152,13 @@ class Date
      */
     public static function getNowTimestamp()
     {
-        $now = null;
+        $ts = null;
         try {
-            $now = StaticContainer::get('Tests.now');
+            $ts = StaticContainer::get('Tests.now');
         } catch (\Exception $ex) {
             // ignore
         }
-        $now = $now ?: time();
-        return self::$now ?? $now;
+        $ts = is_int($ts) ? $ts : time();
+        return isset(self::$now) ? self::$now : $ts;
     }
 }
