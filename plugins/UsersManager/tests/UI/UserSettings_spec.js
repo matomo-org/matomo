@@ -71,6 +71,12 @@ describe("UserSettings", function () {
         expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_no_password');
     });
 
+    it('should show a date picker when clicked into the date field', async function () {
+        await page.click('[name="token_expire_date"]');
+        await page.waitForSelector('.ui-datepicker');
+        expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_show_calendar');
+    });
+
     it('should create new token without expiration date', async function () {
         await page.type('.addTokenForm input[id=description]', 'no expiration token');
         await page.click('.addTokenForm #has_expiration');
