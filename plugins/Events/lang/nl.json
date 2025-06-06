@@ -4,6 +4,7 @@
         "AvgValue": "Gemiddelde waarde",
         "AvgValueDocumentation": "Het gemiddelde voor alle waardes van deze gebeurtenis",
         "Category": "Categorie",
+        "ColumnNbVisitsDocumentation": "Het totaal aantal bezoeken waarbij ten minste één activiteit werd geactiveerd.",
         "Event": "Gebeurtenis",
         "EventAction": "Gebeurtenis actie",
         "EventActions": "Gebeurtenis acties",
