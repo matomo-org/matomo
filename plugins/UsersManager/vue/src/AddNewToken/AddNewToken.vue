@@ -192,15 +192,14 @@ export default defineComponent({
   },
   methods: {
     setInitialTokenExpirationDate() {
-      const tokenExpireDateOptions = Matomo.getBaseDatePickerOptions(null);
-      tokenExpireDateOptions.minDate = new Date();
-
+      const initialDate = new Date(this.initialExpireDate as string);
+      const tokenExpireDateOptions = Matomo.getBaseDatePickerOptions(initialDate);
       const dtInput = $('[name="token_expire_date"]', this.$refs.root as HTMLElement);
 
       setTimeout(() => {
         this.tokenExpireDate = this.initialExpireDate as string;
         dtInput.datepicker(tokenExpireDateOptions);
-        dtInput.datepicker('setDate', this.initialExpireDate); // Set the date to December 25, 2025
+        dtInput.datepicker('setDate', initialDate);
       });
     },
     onKeydownTokenExpireDate(event: Event|ChangeEvent) {
