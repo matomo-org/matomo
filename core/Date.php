@@ -1152,13 +1152,6 @@ class Date
      */
     public static function getNowTimestamp()
     {
-        $ts = null;
-        try {
-            $ts = StaticContainer::get('Tests.now');
-        } catch (\Exception $ex) {
-            // ignore
-        }
-        $ts = is_numeric($ts) && $ts > 606116800 ? (int) $ts : time(); // accept numeric values for years over 1990
-        return isset(self::$now) ? self::$now : $ts;
+        return isset(self::$now) ? self::$now : time();
     }
 }

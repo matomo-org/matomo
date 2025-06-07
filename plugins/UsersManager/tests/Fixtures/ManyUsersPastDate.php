@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Fixtures;
 
+use Piwik\Date;
 use Piwik\Plugins\UsersManager\tests\Fixtures\ManyUsers;
 
 /**
@@ -20,10 +21,8 @@ class ManyUsersPastDate extends ManyUsers
 
     public function provideContainerConfig()
     {
-        return [
-            'Tests.now' => \Piwik\DI::decorate(function () {
-                return strtotime($this->dateTime);
-            }),
-        ];
+        Date::$now = strtotime($this->dateTime);
+
+        return parent::provideContainerConfig();
     }
 }

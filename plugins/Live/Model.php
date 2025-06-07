@@ -13,6 +13,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
@@ -431,8 +432,15 @@ class Model
 
         [$whereIdSites, $idSites] = $this->getIdSitesWhereClause($idSite, $from);
 
-        $now = Date::getNowTimestamp();
-        $bind = $idSites;
+        $now = null;
+        try {
+            $now = StaticContainer::get('Tests.now');
+        } catch (\Exception $ex) {
+            // ignore
+        }
+        $now = $now ?: time();
+
+        $bind   = $idSites;
         $startDate = Date::factory($now - $lastMinutes * 60);
         $bind[] = $startDate->toString('Y-m-d H:i:s');
 
