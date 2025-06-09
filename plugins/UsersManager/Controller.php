@@ -304,13 +304,11 @@ class Controller extends ControllerAdmin
             unset($token['password']);
             return $token;
         }, $tokens);
-        $hasTokensWithExpireDate = !empty(array_filter(array_column($tokens, 'date_expired')));
 
         return $this->renderTemplate('userSecurity', [
             'isUsersAdminEnabled' => UsersManager::isUsersAdminEnabled(),
             'changePasswordNonce' => Nonce::getNonce(self::NONCE_CHANGE_PASSWORD),
             'deleteTokenNonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
-            'hasTokensWithExpireDate' => $hasTokensWithExpireDate,
             'tokens' => $tokens
         ]);
     }
@@ -387,37 +385,67 @@ class Controller extends ControllerAdmin
             throw new Exception('Not allowed');
         }
 
-        $noDescription = false;
+        $postRequest = \Piwik\Request::fromPost();
+        $postRequestHasData = count($postRequest->getParameters());
 
-        if (!empty($_POST['description'])) {
+        $today = Date::factory('now');
+
+        $tokenExpireDate = $postRequest->getStringParameter('token_expire_date', '');
+        $invalidExpireDate = true;
+        try {
+            if ($tokenExpireDate && preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $tokenExpireDate)) {
+                $expireDate = Date::factory($tokenExpireDate);
+                if ($expireDate->isLater($today)) {
+                    $invalidExpireDate = false;
+                }
+            }
+        } catch (Exception $e) {
+            // nop
+        }
+
+        $description = $postRequest->getStringParameter('description', '');
+        $noDescription = empty($description);
+
+        if (false === $noDescription && false === $invalidExpireDate) {
             Nonce::checkNonce(self::NONCE_ADD_AUTH_TOKEN);
-
-            $description = \Piwik\Request::fromRequest()->getStringParameter('description', '');
-            $secureOnly = \Piwik\Request::fromRequest()->getBoolParameter('secure_only', false);
+            $secureOnly = $postRequest->getBoolParameter('secure_only', false);
+            $hasTokenExpiry = $postRequest->getBoolParameter('has_expiration', false);
 
             $login = Piwik::getCurrentUserLogin();
 
             $generatedToken = $this->userModel->generateRandomTokenAuth();
 
-            $this->userModel->addTokenAuth($login, $generatedToken, $description, Date::now()->getDatetime(), null, false, $secureOnly);
+            $this->userModel->addTokenAuth(
+                $login,
+                $generatedToken,
+                $description,
+                $today->getDatetime(),
+                $hasTokenExpiry ? $tokenExpireDate : null,
+                false,
+                $secureOnly
+            );
 
             $container = StaticContainer::getContainer();
             $email = $container->make(TokenAuthCreatedEmail::class, [
                 'login' => Piwik::getCurrentUserLogin(),
                 'emailAddress' => Piwik::getCurrentUserEmail(),
-                'tokenDescription' => $description
+                'tokenDescription' => $description,
             ]);
             $email->safeSend();
 
             return $this->renderTemplate('addNewTokenSuccess', ['generatedToken' => $generatedToken]);
-        } elseif (isset($_POST['description'])) {
-            $noDescription = true;
         }
+
+        $defaultExpireDays = GeneralConfig::getConfigValue('auth_token_default_expiration_days');
 
         return $this->renderTemplate('addNewToken', [
             'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN),
-            'noDescription' => $noDescription,
-            'forceSecureOnly' => GeneralConfig::getConfigValue('only_allow_secure_auth_tokens')
+            'noDescription' => $postRequestHasData && $noDescription,
+            'invalidExpireDate' => $postRequestHasData && $invalidExpireDate,
+            'forceSecureOnly' => (bool) GeneralConfig::getConfigValue('only_allow_secure_auth_tokens'),
+            'initialExpireDate' => $today->addDay($defaultExpireDays)->toString(),
+            'defaultExpirationDays' => $defaultExpireDays,
+            'expirationReminderDays' => GeneralConfig::getConfigValue('auth_token_expiration_notification_days'),
         ]);
     }
 

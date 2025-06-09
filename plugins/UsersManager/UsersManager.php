@@ -420,7 +420,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_TheDisplayedWebsitesAreSelected';
         $translationKeys[] = 'UsersManager_TokenAuthIntro';
         $translationKeys[] = 'UsersManager_TokenSuccessfullyGenerated';
-        $translationKeys[] = 'UsersManager_TokensWithExpireDateCreationBySystem';
         $translationKeys[] = 'UsersManager_TwoFactorAuthentication';
         $translationKeys[] = 'UsersManager_TypeYourCurrentPassword';
         $translationKeys[] = 'UsersManager_TypeYourPasswordAgain';
@@ -435,5 +434,10 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_YourVisitsAreIgnoredOnDomain';
         $translationKeys[] = 'UsersManager_YourVisitsAreNotIgnored';
         $translationKeys[] = 'UsersManager_InviteEmailChange';
+        $translationKeys[] = 'UsersManager_TokenExpireDate';
+        $translationKeys[] = 'UsersManager_TokenExpireDateCheckboxLabel';
+        $translationKeys[] = 'UsersManager_TokenExpireDateCheckboxHelp';
+        $translationKeys[] = 'UsersManager_TokenExpireDateHelpText';
+        $translationKeys[] = 'UsersManager_InvalidTokenExpireDateFormat';
     }
 }
