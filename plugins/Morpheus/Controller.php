@@ -227,7 +227,7 @@ export default defineComponent({
   <Field
     uicontrol="text"
     name="alias"
-    title="Disabeld text field"
+    title="Disabled text field"
     :disabled="true"
     placeholder="This value cannot be changed"
     v-model="text"
@@ -269,7 +269,7 @@ export default defineComponent({
   />
 </div>');
 
-        // TODOO: handle arrays
+        // TODO: handle arrays
         $snippets[] = $this->formSnippet(
             'language',
             ['language', 'phoneNumber', 'selectedExpand'],
