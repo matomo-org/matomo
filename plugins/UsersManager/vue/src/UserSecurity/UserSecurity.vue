@@ -27,6 +27,7 @@
             v-model="password"
             :title="translate('Login_NewPassword')"
             :inline-help="translate('UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne')"
+            v-auto-clear-password
           />
 
           <Field
@@ -36,6 +37,7 @@
             v-model="passwordBis"
             :title="translate('Login_NewPasswordRepeat')"
             :inline-help="translate('UsersManager_TypeYourPasswordAgain')"
+            v-auto-clear-password
           />
 
           <Field
@@ -45,6 +47,7 @@
             v-model="passwordConfirmation"
             :title="translate('UsersManager_YourCurrentPassword')"
             :inline-help="translate('UsersManager_TypeYourCurrentPassword')"
+            v-auto-clear-password
           />
 
           <div class="alert alert-info" v-html="$sanitize(changePasswordInfoNotification)"></div>
@@ -160,6 +163,7 @@ import {
   ContentTable, Matomo,
   MatomoUrl,
   translate,
+  AutoClearPassword,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
@@ -187,6 +191,7 @@ export default defineComponent({
   },
   directives: {
     ContentTable,
+    AutoClearPassword,
   },
   data(): UserSecurityState {
     return {
