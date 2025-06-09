@@ -16,6 +16,7 @@ use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Client;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\ProfessionalServices\Advertising;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugin;
@@ -191,6 +192,8 @@ class PluginsTest extends IntegrationTestCase
 
     public function testGetPluginInfoNotInstalledPluginShouldEnrichPluginInformation()
     {
+        Fixture::loadAllTranslations();
+
         $this->service->returnFixture('v2.0_plugins_Barometer_info.json');
         $plugin = $this->plugins->getPluginInfo('Barometer');
 
@@ -205,7 +208,6 @@ class PluginsTest extends IntegrationTestCase
             'createdDateTime' => '2014-12-23 00:38:20',
             'donate' =>
                  [
-                    'flattr' => 'https://flattr.com/profile/test1',
                     'bitcoin' => null,
                 ],
             'support' =>
@@ -269,7 +271,7 @@ class PluginsTest extends IntegrationTestCase
                     'homepage' => 'http://geekproject.eu',
                  ],],
             'repositoryUrl' => 'https://github.com/halfdan/piwik-barometer-plugin',
-            'lastUpdated' => 'Intl_4or41Intl_Time_AMt_357Intl_Time_AMt_S12ort',
+            'lastUpdated' => 'Dec 23, 2014',
             'latestVersion' => '0.5.0',
             'numDownloads' => 0,
             'screenshots' =>
@@ -310,7 +312,7 @@ class PluginsTest extends IntegrationTestCase
             'canBePurchased' => false,
             'isEligibleForFreeTrial' => false,
             'priceFrom' => null,
-            'numDownloadsPretty' => 0,
+            'numDownloadsPretty' => '0',
             'hasDownloadLink' => true,
             'licenseStatus' => '',
             'category' => 'customisation',

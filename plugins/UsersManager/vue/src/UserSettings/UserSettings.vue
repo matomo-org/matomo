@@ -30,6 +30,7 @@
 
     <ContentBlock
       :content-title="translate('UsersManager_ExcludeVisitsViaCookie')"
+      class="ignoreCookieSettings"
     >
       <p v-html="$sanitize(yourVisitsAreText)"></p>
       <span style="margin-left:20px;">
@@ -107,7 +108,7 @@ export default defineComponent({
     },
     showNewsletterSignup: Boolean,
     ignoreCookieSet: Boolean,
-    ignoreSalt: [String, Number, Boolean],
+    setIgnoreCookieNonce: String,
     piwikHost: {
       type: String,
       required: true,
@@ -138,9 +139,9 @@ export default defineComponent({
     },
     setIgnoreCookieLink() {
       return `?${MatomoUrl.stringify({
-        ignoreSalt: this.ignoreSalt,
         module: 'UsersManager',
         action: 'setIgnoreCookie',
+        nonce: this.setIgnoreCookieNonce,
       })}#excludeCookie`;
     },
   },

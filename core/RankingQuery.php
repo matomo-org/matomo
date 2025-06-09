@@ -282,24 +282,43 @@ class RankingQuery
      * @param $innerQuery string  The "payload" query that does the actual data aggregation. The ordering
      *                            has to be specified in this query. {@link RankingQuery} cannot apply ordering
      *                            itself.
+     * @param $withRollup bool    A flag which determines whether to generate the SQL query using ROLLUP
      * @return string             The entire ranking query SQL.
      */
-    public function generateRankingQuery($innerQuery)
+    public function generateRankingQuery($innerQuery, bool $withRollup = false)
     {
         // +1 to include "Others"
         $limit = $this->limit + 1;
-        $counterExpression = $this->getCounterExpression($limit);
+        $counterExpression = $this->getCounterExpression($limit, $withRollup);
 
         // generate select clauses for label columns
         $labelColumnsString = '`' . implode('`, `', array_keys($this->labelColumns)) . '`';
         $labelColumnsOthersSwitch = array();
-        foreach ($this->labelColumns as $column => $true) {
+        $withRollupColumns = array();
+
+        foreach (array_keys($this->labelColumns) as $column) {
+            $rollupWhen = '';
+            if ($withRollup) {
+                $rollupLimitValue = empty($withRollupColumns) ?
+                                        "'" . $this->othersLabelValue . "'"
+                                        :
+                                        'NULL';
+
+                $rollupWhen = "
+                    WHEN counterRollup = $limit THEN $rollupLimitValue
+                    WHEN counterRollup > 0 THEN `$column`
+                ";
+
+                $withRollupColumns[] = $column;
+            }
+
             $labelColumnsOthersSwitch[] = "
-				CASE
-					WHEN counter = $limit THEN '" . $this->othersLabelValue . "'
-					ELSE `$column`
-				END AS `$column`
-			";
+                CASE
+                    $rollupWhen
+                    WHEN counter = $limit THEN '" . $this->othersLabelValue . "'
+                    ELSE `$column`
+                END AS `$column`
+            ";
         }
         $labelColumnsOthersSwitch = implode(', ', $labelColumnsOthersSwitch);
 
@@ -325,6 +344,33 @@ class RankingQuery
             $initCounter = '( SELECT @counter:=0 ) initCounter,';
         }
 
+        $counterRollupExpression = '';
+
+        if ($withRollup && !empty($withRollupColumns)) {
+            $initCounter .= ' ( SELECT @counterRollup:=0 ) initCounterRollup,';
+            $counterRollupWhen = '';
+
+            if (count($withRollupColumns) >= 2) {
+                $counterRollupWhen = "
+                    WHEN `" . implode('` IS NULL AND `', $withRollupColumns) . "` IS NULL THEN -1
+                    ";
+            }
+
+            foreach ($withRollupColumns as $withRollupColumn) {
+                $counterRollupWhen .= "
+                    WHEN `$withRollupColumn` IS NULL AND @counterRollup = $limit THEN $limit
+                    WHEN `$withRollupColumn` IS NULL THEN @counterRollup := @counterRollup + 1
+                    ";
+            }
+
+            $counterRollupExpression = "
+                , CASE
+                    $counterRollupWhen
+                    ELSE 0
+                END AS counterRollup
+                ";
+        }
+
         if (false === strpos(' LIMIT ', $innerQuery) && !Schema::getInstance()->supportsSortingInSubquery()) {
             // Setting a limit for the inner query forces the optimizer to use a temporary table, which uses the sorting
             $innerQuery .= ' LIMIT 18446744073709551615';
@@ -336,6 +382,7 @@ class RankingQuery
 			SELECT
 				$labelColumnsString,
 				$counterExpression AS counter
+				$counterRollupExpression
 				$additionalColumnsString
 			FROM
 				$initCounter
@@ -344,6 +391,11 @@ class RankingQuery
 
         // group by the counter - this groups "Others" because the counter stops at $limit
         $groupBy = 'counter';
+
+        if ($withRollup && !empty($counterRollupExpression)) {
+            $groupBy .= ', counterRollup';
+        }
+
         if ($this->partitionColumn !== false) {
             $groupBy .= ', `' . $this->partitionColumn . '`';
         }
@@ -358,12 +410,16 @@ class RankingQuery
         if (!Schema::getInstance()->supportsSortingInSubquery()) {
             // When subqueries aren't sorted, we need to sort the result manually again
             $groupOthers .= " ORDER BY counter";
+
+            if (!empty($counterRollupExpression)) {
+                $groupOthers .= ', counterRollup';
+            }
         }
 
         return $groupOthers;
     }
 
-    private function getCounterExpression($limit)
+    private function getCounterExpression($limit, bool $withRollup = false)
     {
         $whens = array();
 
@@ -373,6 +429,12 @@ class RankingQuery
             // value they had before. this way, they have a separate number space (i.e. negative
             // integers).
             $whens[] = "WHEN {$this->columnToMarkExcludedRows} != 0 THEN -1 * {$this->columnToMarkExcludedRows}";
+        }
+
+        if ($withRollup) {
+            foreach (array_keys($this->labelColumns) as $column) {
+                $whens[] = "WHEN `$column` IS NULL THEN -1";
+            }
         }
 
         if ($this->partitionColumn !== false) {

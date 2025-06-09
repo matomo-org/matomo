@@ -37,18 +37,18 @@
             type="text"
             name="form_authcode"
             placeholder=""
-            id="login_form_authcode"
+            id="form_authcode"
             class="input"
             value=""
             size="20"
             autocorrect="off"
             autocapitalize="none"
-            autocomplete="off"
+            autocomplete="one-time-code"
             tabindex="10"
             autofocus="autofocus"
           />
 
-          <label for="login_form_authcode">
+          <label for="form_authcode">
             <i class="icon-user icon"></i>
             {{ translate('TwoFactorAuth_AuthenticationCode') }}
           </label>
@@ -58,7 +58,7 @@
       <div class="row actions">
         <div class="col s12">
           <input
-            class="submit btn"
+            class="submit btn btn-block"
             id="login_form_submit"
             type="submit"
             :value="translate('TwoFactorAuth_Verify')"

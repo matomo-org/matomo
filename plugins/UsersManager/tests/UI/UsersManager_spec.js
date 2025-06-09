@@ -181,6 +181,36 @@ describe("UsersManager", function () {
         });
     });
 
+  it('should hide the confirmation dialog when cancel is clicked and remove the password if one was entered', async function () {
+      await page.type('.modal.open #currentUserPassword', superUserPassword);
+      await page.waitForTimeout(250);
+      await (await page.jQuery('.confirm-password-modal .modal-close.modal-no:visible')).click();
+      await page.waitForTimeout(250);
+
+      const concatenatedText = await page.evaluate(function() {
+          let text = '';
+          $('#currentUserPassword').each(function() {
+              text += $(this).text();
+          });
+          return text;
+      });
+      expect(concatenatedText.trim()).to.equal('');
+  });
+
+  it('should show password confirmation when deleting a single user after it was cancelled first', async function () {
+      await page.waitForSelector('.pagedUsersList:not(.loading)');
+      await page.waitForTimeout(250);
+
+      await (await page.jQuery('.deleteuser:eq(0)')).click();
+      const modal = await page.waitForSelector('.modal.open', { visible: true });
+      await page.focus('.modal.open #currentUserPassword');
+      await page.waitForTimeout(250);
+      expect(await modal.screenshot()).to.matchImage({
+          imageName: 'delete_single_confirm',
+          comparisonThreshold: 0.025
+      });
+  });
+
     it('should delete a single user when the modal is confirmed is clicked', async function () {
         await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
@@ -245,11 +275,30 @@ describe("UsersManager", function () {
         await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
+        await page.waitForFunction(() => $('.modal.open').length === 0);
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('user_created');
     });
 
+    it('should warn about invitation resend when changing email', async function () {
+        await page.evaluate(() => $('.userEditForm #user_email').val('theuser2@email.com'));
+        await page.evaluate(() => $('.userEditForm .matomo-save-button input:visible').click());
+        await page.waitForTimeout(100);
+        await page.waitForFunction(() => $('.modal.open:visible').length)
+        const modal = await page.jQuery('.modal.open:visible');
+        await page.focus('.modal.open #currentUserPassword');
+        await page.waitForTimeout(250);
+        expect(await modal.screenshot()).to.matchImage({
+          imageName: 'user_invited_change',
+          comparisonThreshold: 0.025
+        });
+    });
+
     it('should show the permissions edit when the permissions tab is clicked', async function () {
+        // close modal from previous step
+        await (await page.jQuery('.confirm-password-modal .modal-close.modal-no:visible')).click();
+        await page.waitForNetworkIdle();
+
         await page.click('.userEditForm .menuPermissions');
         await page.mouse.move(0, 0);
 
@@ -483,7 +532,7 @@ describe("UsersManager", function () {
 
     it('should fail to set superuser access if password is wrong', async function () {
         await page.type('.modal.open #currentUserPassword', 'wrongpassword');
-        await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();
+        await page.evaluate(() => $('.modal.open .modal-close:not(.modal-no):visible').click());
         await page.waitForNetworkIdle();
 
         await page.waitForSelector('.notification-error', { visible: true });
@@ -494,7 +543,7 @@ describe("UsersManager", function () {
 
     it('should give the user superuser access when the superuser modal is confirmed', async function () {
         await page.click('.userEditForm #superuser_access+span');
-        await page.waitForTimeout(500);
+        await page.waitForSelector('.modal.open #currentUserPassword', {visible: true});
 
         await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();

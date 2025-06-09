@@ -1,7 +1,12 @@
 {
     "Widgetize": {
+        "DisplayDashboardInIframeAllSites": "Voit myös tehdä kaikkien verkkosivustojen hallintapaneelista vimpaimen näköiseksi IFRAME-kehyksessä (%1$s_katso esimerkki%2$s)",
         "OpenInNewWindow": "Avaa uudessa ikkunassa",
         "PluginDescription": "Näytä mikä tahansa Matomon raporteista verkkosivullasi tai sovelluksessa yksinkertaisella HTML-upotuskoodinpätkällä (\"embed\").",
-        "TopLinkTooltip": "Vie Matomon raportteja vimpaimiksi ja lisää työpöytä sovellukseesi iframe-kehyksenä."
+        "Reports": "Tee raporteista vimpaimen näköiseksi",
+        "SelectAReport": "Valitse raportti ja kopioi ja liitä sivullesi vimpaimen alla oleva upotuskoodi:",
+        "TooHighAccessLevel": "Tällä käyttäjällä on pääkäyttäjän käyttöoikeus. Vimpainten upottaminen pääkäyttäjätunnuksen todennuksella ei ole sallittua. %1$sKatso lisätietoja UKK:sta.%2$s",
+        "TopLinkTooltip": "Vie Matomon raportteja vimpaimiksi ja lisää työpöytä sovellukseesi iframe-kehyksenä.",
+        "ViewableAnonymously": "Jos haluat, että vimpaimesi ovat kaikkien nähtävissä, sinun on ensin asetettava \"katselu\"-oikeudet anonyymille käyttäjälle kohteessa %1$sKäyttäjien hallinta -osiossa%2$s. <br>Vaihtoehtoisesti, jos julkaiset vimpaimia salasanalla suojatulla tai yksityisellä sivulla, sinun ei välttämättä tarvitse sallia \"anonyymien\" tarkastella raporttejasi. Tässä tapauksessa voit lisätä salaisen <code>token_auth</code>-parametrin URL-vimpaimeen. Voit hallita todennustunnuksiasi %3$sTurvallisuussivullasi%4$s."
     }
 }

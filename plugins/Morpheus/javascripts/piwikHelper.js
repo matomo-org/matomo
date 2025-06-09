@@ -274,7 +274,7 @@ window.piwikHelper = {
         // template that references the root component and wraps the vue-entry component's html.
         // this allows using slots in twig.
         var app = createVueApp({
-          template: '<root ' + paramsStr + '>' + this.innerHTML + '</root>',
+          template: '<root ' + paramsStr + '>' + this.innerHTML.replace('{{', '{&lbrace;') + '</root>',
           data: function () {
             return componentParams;
           },
@@ -430,10 +430,14 @@ window.piwikHelper = {
         }
 
         var domElem = $(domSelector);
-        var buttons = [];
+        var hasButtons = false;
+
+        if($('[role]', domElem).not('li').length) {
+          hasButtons = true;
+        }
 
         var content = '<div class="modal"><div class="modal-content"></div>';
-        content += '<div class="modal-footer"></div></div>';
+        content += hasButtons ? '<div class="modal-footer"></div></div>' : '</div>';
 
         var $content = $(content).hide();
         var $footer = $content.find('.modal-footer');
@@ -497,7 +501,11 @@ window.piwikHelper = {
 
         if (options && !options.onOpenEnd) {
             options.onOpenEnd = function () {
-                $(".modal.open a").focus();
+                if (options.focusSelector) {
+                    $(options.focusSelector).focus();
+                } else {
+                    $(".modal.open a").focus();
+                }
                 var modalContent = $(".modal.open");
                 if (modalContent && modalContent[0]) {
                     // make sure to scroll to the top of the content

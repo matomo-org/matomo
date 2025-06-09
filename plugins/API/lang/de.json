@@ -1,10 +1,10 @@
 {
     "API": {
-        "ChangeTokenHint": "Wenn Sie dieses Token ändern wollen, gehen Sie bitte zu Ihren %1$sBenutzereinstellungen%2$s.",
+        "ChangeTokenHint": "Sollten Sie dieses Token ändern wollen, begeben Sie sich bitte zu Ihrer %1$spersönlichen Einstellungsseite%2$s.",
         "EvolutionMetricName": "%s Entwicklung",
         "GenerateVisits": "Sollten für heute keine Daten verfügbar sein, so können Sie solche mit dem %1$s-Plugin erzeugen, indem Sie auf \"Entwicklung → Besuchergenerator\" in dem Matomo-Administrationsbereich gehen.",
         "Glossary": "Glossar",
-        "KeepTokenSecret": "Der token_auth ist so geheim wie Ihr Login und Passwort, %1$s teilen Sie es niemandem mit%2$s!",
+        "KeepTokenSecret": "Dieser token_auth ist ebenso geheim wie Ihr Login und Passwort, %1$s geben Sie ihn nicht weiter%2$s!",
         "LearnAboutCommonlyUsedTerms2": "Lernen Sie mehr über häufig verwendeten Begriffe, um das Beste aus Matomo-Analysen zu machen.",
         "LoadedAPIs": "%s APIs geladen",
         "MainMetricsReportDocumentation": "Dieser Bericht liefert eine Übersicht der wichtigsten Metriken über alle Kategorien und Plugins hinweg.",

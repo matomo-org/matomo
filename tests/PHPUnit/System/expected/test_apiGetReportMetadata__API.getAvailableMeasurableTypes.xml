@@ -4,6 +4,7 @@
 		<id>website</id>
 		<name>Website</name>
 		<description>A website consists of webpages, typically served from a single domain on the web.</description>
+		<longDescription>Track visitor interactions like page views, clicks, downloads, and events on a public-facing website. A single measurable can include multiple domains and subdomains, or you can create separate measurables for each.</longDescription>
 		<howToSetupUrl>?module=CoreAdminHome&amp;action=trackingCodeGenerator</howToSetupUrl>
 		<settings>
 			<row>
@@ -104,7 +105,7 @@ https://www.example.org/</placeholder>
 						</uiControlAttributes>
 						<availableValues />
 						<description />
-						<inlineHelp>Enter the list of URL Query Parameters, one per line, to exclude from the Page URLs reports. Regular expressions such as /^sess.*|.*[dD]ate$/ are supported.&lt;br /&gt;&lt;br /&gt;Matomo will automatically exclude the common session parameters (phpsessid, sessionid, ...).</inlineHelp>
+						<inlineHelp>Enter each URL parameter on a separate line to exclude from tracking and reports. Regular expressions such as /^sess.*|.*[dD]ate$/ are supported.&lt;br /&gt;&lt;br /&gt;Matomo will automatically exclude the common session parameters (phpsessid, sessionid, ...).</inlineHelp>
 						<introduction />
 						<condition />
 						<fullWidth>0</fullWidth>
@@ -309,6 +310,7 @@ https://www.example.org/</placeholder>
 		<id>intranet</id>
 		<name>Intranet Website</name>
 		<description>An intranet measurable is just like a website but hosted on an internal network.</description>
+		<longDescription>Track internal sites that are only accessible within your organisation’s network. Matomo uses first-party cookies to more accurately identify unique visitors in intranet environments.</longDescription>
 		<howToSetupUrl>?module=CoreAdminHome&amp;action=trackingCodeGenerator</howToSetupUrl>
 		<settings>
 			<row>
@@ -409,7 +411,7 @@ https://www.example.org/</placeholder>
 						</uiControlAttributes>
 						<availableValues />
 						<description />
-						<inlineHelp>Enter the list of URL Query Parameters, one per line, to exclude from the Page URLs reports. Regular expressions such as /^sess.*|.*[dD]ate$/ are supported.&lt;br /&gt;&lt;br /&gt;Matomo will automatically exclude the common session parameters (phpsessid, sessionid, ...).</inlineHelp>
+						<inlineHelp>Enter each URL parameter on a separate line to exclude from tracking and reports. Regular expressions such as /^sess.*|.*[dD]ate$/ are supported.&lt;br /&gt;&lt;br /&gt;Matomo will automatically exclude the common session parameters (phpsessid, sessionid, ...).</inlineHelp>
 						<introduction />
 						<condition />
 						<fullWidth>0</fullWidth>

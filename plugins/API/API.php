@@ -37,7 +37,7 @@ use Piwik\Widget\WidgetsList;
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
 /**
- * This API is the <a href='http://matomo.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
+ * This API is the <a href='https://matomo.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
  * human readable and more complete outputs than normal API methods.
  *
  * Some of the information that is returned by the Metadata API:
@@ -50,7 +50,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  * <li>the method "getSuggestedValuesForSegment" returns top suggested values for a particular segment. It uses the Live.getLastVisitsDetails API to fetch the most recently used values, and will return the most often used values first.</li>
  * </ul>
  * The Metadata API is for example used by the Matomo Mobile App to automatically display all Matomo reports, with translated report & columns names and nicely formatted values.
- * More information on the <a href='http://matomo.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API documentation page</a>
+ * More information on the <a href='https://matomo.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API documentation page</a>
  *
  * @method static \Piwik\Plugins\API\API getInstance()
  */
@@ -159,6 +159,7 @@ class API extends \Piwik\Plugin\API
                 'id' => $type->getId(),
                 'name' => Piwik::translate($type->getName()),
                 'description' => Piwik::translate($type->getDescription()),
+                'longDescription' => Piwik::translate($type->getLongDescription()),
                 'howToSetupUrl' => $type->getHowToSetupUrl(),
                 'settings' => $settingsMetadata->formatSettings($measurableSettings)
             );
@@ -525,7 +526,10 @@ class API extends \Piwik\Plugin\API
 
             $params += $queryParameters;
 
-            if (!empty($params['method']) && $params['method'] === 'API.getBulkRequest') {
+            if (
+                !empty($params['method']) && is_string($params['method']) &&
+                preg_replace('/[^\w\.]+/', '', $params['method']) === 'API.getBulkRequest'
+            ) {
                 continue;
             }
 
@@ -570,6 +574,11 @@ class API extends \Piwik\Plugin\API
 
         if (!empty($segment['suggestedValuesApi']) && is_string($segment['suggestedValuesApi']) && !Rules::isBrowserTriggerEnabled()) {
             $now = Date::now()->setTimezone(Site::getTimezoneFor($idSite));
+            if ($idSite === 'all') {
+                $now = Date::now()->setTimezone(\Piwik\Plugins\SitesManager\API::getInstance()->getDefaultTimezone());
+            } else {
+                $now = Date::now()->setTimezone(Site::getTimezoneFor($idSite));
+            }
             if (self::$_autoSuggestLookBack != 60) {
                 // in Auto suggest tests we need to assume now is in 2018...
                 // we do - 20 to make sure the year is still correct otherwise could end up being 2017-12-31 and the recorded visits are over several days in the tests we make sure to select the last day a visit was recorded

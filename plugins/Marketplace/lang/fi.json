@@ -55,7 +55,6 @@
         "OverviewPluginSubscriptions": "Yleiskuva liitännäistilauksistasi",
         "OverviewPluginSubscriptionsAllDetails": "Nähdäksesi kaikki tiedot tai muuttaaksesi tilausta, kirjaudu tilillesi.",
         "OverviewPluginSubscriptionsMissingInfo": "On mahdollista, että tilaus ei ole näkyvissä esimerkiksi sen takia, ettei maksua ole vielä täysin suoritettu. Tällaisissa tapauksissa yritä uudelleen muutaman tunnin kuluttua tai ole yhteydessä Matomo-tiimiin.",
-        "OverviewPluginSubscriptionsMissingLicense": "Lisenssiavainta ei ole asetettu. Jos olet ostanut liitännäistilauksen, mene %1$skauppaan%2$s ja kirjoita lisenssiavaimesi.",
         "PaidPlugins": "Premium-ominaisuudet",
         "PluginDescription": "Laajenna ja lisää Matomon toiminnallisuuksia lataamalla kaupasta liitännäisiä sekä teemoja.",
         "PluginKeywords": "Avainsanat",

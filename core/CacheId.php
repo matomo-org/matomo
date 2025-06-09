@@ -29,7 +29,7 @@ class CacheId
         return $cacheId;
     }
 
-    public static function siteAware($cacheId, array $idSites = null)
+    public static function siteAware($cacheId, ?array $idSites = null)
     {
         if ($idSites === null) {
             $idSites = self::getIdSiteList('idSite');

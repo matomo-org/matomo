@@ -25,14 +25,14 @@ class Visitor
      */
     public $previousVisitProperties;
 
-    public function __construct(VisitProperties $visitProperties, $isVisitorKnown = false, VisitProperties $previousVisitProperties = null)
+    public function __construct(VisitProperties $visitProperties, $isVisitorKnown = false, ?VisitProperties $previousVisitProperties = null)
     {
         $this->visitProperties = $visitProperties;
         $this->previousVisitProperties = $previousVisitProperties;
         $this->setIsVisitorKnown($isVisitorKnown);
     }
 
-    public static function makeFromVisitProperties(VisitProperties $visitProperties, Request $request, VisitProperties $previousVisitProperties = null)
+    public static function makeFromVisitProperties(VisitProperties $visitProperties, Request $request, ?VisitProperties $previousVisitProperties = null)
     {
         $isKnown = $request->getMetadata('CoreHome', 'isVisitorKnown');
         return new Visitor($visitProperties, $isKnown, $previousVisitProperties);

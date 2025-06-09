@@ -4,6 +4,8 @@
         "AvgValue": "Meánluach",
         "AvgValueDocumentation": "Meán na luachanna go léir don imeacht seo",
         "Category": "Catagóir",
+        "ColumnNbUniqVisitorsDocumentation": "Líon na gcuairteoirí dídhúbláilte a spreag imeacht ar do shuíomh Gréasáin. Ní chomhaireamh gach cuairteoir ach uair amháin, fiú má thugann siad cuairt ar an suíomh Gréasáin nó má spreagann siad il-imeachtaí ar an suíomh Gréasáin.",
+        "ColumnNbVisitsDocumentation": "Líon iomlán na gcuairteanna inar spreagadh imeacht amháin ar a laghad.",
         "Event": "Imeacht",
         "EventAction": "Gníomh Imeachta",
         "EventActions": "Gníomhartha Imeachta",

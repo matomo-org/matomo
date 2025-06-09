@@ -59,7 +59,7 @@ class LineMessageFormatterTest extends \PHPUnit\Framework\TestCase
         $formatter = new LineMessageFormatter('%level% %message%');
 
         $record = array(
-            'message'    => "Hello world\ntest\ntest",
+            'message'    => "Hello world\ntest\x0Atest",
             'datetime'   => DateTime::createFromFormat('U', 0),
             'level_name' => 'ERROR',
         );
@@ -89,6 +89,25 @@ LOG;
 ERROR [1234] Hello world
 ERROR [1234] test
 ERROR [1234] test
+
+LOG;
+
+        $this->assertEquals($formatted, $formatter->format($record));
+    }
+
+    public function testItShouldEscapeControlCharacters()
+    {
+        $formatter = new LineMessageFormatter('%level% %message%', $allowInlineLineBreaks = false);
+
+        $record = array(
+            'message'    => "Hello world\x1Btest\ntesttest",
+            'datetime'   => DateTime::createFromFormat('U', 0),
+            'level_name' => 'ERROR',
+        );
+
+        $formatted = <<<LOG
+ERROR Hello world\\033test
+ERROR test\\033test
 
 LOG;
 

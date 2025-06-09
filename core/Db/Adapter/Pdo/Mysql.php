@@ -18,8 +18,6 @@ use Piwik\Db\AdapterInterface;
 use Piwik\Piwik;
 use Zend_Config;
 use Zend_Db_Adapter_Pdo_Mysql;
-use Zend_Db_Select;
-use Zend_Db_Statement_Interface;
 
 /**
  */
@@ -64,13 +62,6 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         parent::__construct($config);
     }
 
-    public function closeConnection()
-    {
-        $this->cachePreparedStatement = [];
-
-        parent::closeConnection();
-    }
-
     /**
      * Returns connection handle
      *
@@ -87,11 +78,11 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         /**
          * Before MySQL 5.1.17, server-side prepared statements
          * do not use the query cache.
-         * @see http://dev.mysql.com/doc/refman/5.1/en/query-cache-operation.html
+         * @see https://dev.mysql.com/doc/refman/5.1/en/query-cache-operation.html
          *
          * MySQL also does not support preparing certain DDL and SHOW
          * statements.
-         * @see http://framework.zend.com/issues/browse/ZF-1398
+         * @see https://framework.zend.com/issues/browse/ZF-1398
          */
         $this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
 
@@ -303,43 +294,9 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     }
 
     /**
-     * @var \Zend_Db_Statement_Pdo[]
-     */
-    private $cachePreparedStatement = array();
-
-    /**
-     * Prepares and executes an SQL statement with bound data.
-     * Caches prepared statements to avoid preparing the same query more than once
-     *
-     * @param string|Zend_Db_Select $sql The SQL statement with placeholders.
-     * @param array $bind An array of data to bind to the placeholders.
-     * @return Zend_Db_Statement_Interface
-     */
-    public function query($sql, $bind = array())
-    {
-        if (!is_string($sql)) {
-            return parent::query($sql, $bind);
-        }
-
-        if (isset($this->cachePreparedStatement[$sql])) {
-            if (!is_array($bind)) {
-                $bind = array($bind);
-            }
-
-            $stmt = $this->cachePreparedStatement[$sql];
-            $stmt->execute($bind);
-            return $stmt;
-        }
-
-        $stmt = parent::query($sql, $bind);
-        $this->cachePreparedStatement[$sql] = $stmt;
-        return $stmt;
-    }
-
-    /**
      * Override _dsn() to ensure host and port to not be passed along
      * if unix_socket is set since setting both causes unexpected behaviour
-     * @see http://php.net/manual/en/ref.pdo-mysql.connection.php
+     * @see https://php.net/manual/en/ref.pdo-mysql.connection.php
      */
     protected function _dsn() // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
     {

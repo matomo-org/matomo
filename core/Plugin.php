@@ -526,7 +526,7 @@ if (!class_exists('Piwik\Plugin')) {
          * Extracts the plugin name from a backtrace array. Returns `false` if we can't find one.
          *
          * @param array $backtrace The result of {@link debug_backtrace()} or
-         *                         [Exception::getTrace()](http://www.php.net/manual/en/exception.gettrace.php).
+         *                         [Exception::getTrace()](https://www.php.net/manual/en/exception.gettrace.php).
          * @return string|false
          */
         public static function getPluginNameFromBacktrace($backtrace)

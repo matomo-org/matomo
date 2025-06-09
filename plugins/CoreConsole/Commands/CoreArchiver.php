@@ -15,6 +15,26 @@ use Piwik\Site;
 
 class CoreArchiver extends ConsoleCommand
 {
+    /**
+     * @var CronArchive|null
+     */
+    private $archiver = null;
+
+    public function getSystemSignalsToHandle(): array
+    {
+        return [\SIGINT, \SIGTERM];
+    }
+
+    public function handleSystemSignal(int $signal): void
+    {
+        if (null === $this->archiver) {
+            // archiving has not yet started, stop immediately
+            exit;
+        }
+
+        $this->archiver->handleSignal($signal);
+    }
+
     protected function configure()
     {
         $this->configureArchiveCommand($this);
@@ -30,8 +50,8 @@ class CoreArchiver extends ConsoleCommand
             $output->writeln('<comment>' . $message . '</comment>');
         }
 
-        $archiver = $this->makeArchiver($input->getOption('url'));
-        $archiver->main();
+        $this->archiver = $this->makeArchiver($input->getOption('url'));
+        $this->archiver->main();
 
         return self::SUCCESS;
     }
@@ -52,6 +72,7 @@ class CoreArchiver extends ConsoleCommand
         $archiver->shouldArchiveAllSites = $input->getOption('force-all-websites');
         $archiver->maxSitesToProcess = $input->getOption('max-websites-to-process');
         $archiver->maxArchivesToProcess = $input->getOption('max-archives-to-process');
+        $archiver->stopProcessingAfter = $input->getOption('stop-processing-after');
         $archiver->setUrlToPiwik($url);
 
         $archiveFilter = new CronArchive\ArchiveFilter();
@@ -161,6 +182,12 @@ class CoreArchiver extends ConsoleCommand
             'max-archives-to-process',
             null,
             "Maximum number of archives to process during a single execution of the archiver. Can be used to limit the process lifetime e.g. to avoid increasing memory usage."
+        );
+        $command->addOptionalValueOption(
+            'stop-processing-after',
+            null,
+            "Number of seconds how long a job is allowed to start new archiving processes. When limit is reached job will wrap up after finishing current processes.",
+            60 * 60 * 24 // 24 hours, to ensure archiving is started once a day
         );
         $command->addNoValueOption(
             'disable-scheduled-tasks',

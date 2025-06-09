@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "Aplikacion Celulari",
         "MobileAppDescription": "Një aplikacion celulari, i shkruar në gjuhën origjinale të vetë sistemit, për iOS, Android ose çfarëdo sistemi tjetër operativ për celular.",
+        "MobileAppLongDescription": "Ndiqni veprimtari përdoruesish brenda aplikacioneve të vetë iOS-it dhe Android-it. Të dhënat e grumbulluara mund të përfshijnë parje ekranesh, veprimtari brenda aplikacionit, hollësi pajisjesh dhe sesione përdouesish. Ky i matshëm është menduar për aplikacione që përdorin SDK-ra të Matomo-s për celular.",
         "MobileApps": "Aplikacione Celulari"
     }
 }

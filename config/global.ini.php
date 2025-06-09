@@ -561,6 +561,20 @@ enable_framed_allow_write_admin_token_auth = 0
 ; Recommended for best security.
 only_allow_secure_auth_tokens = 0
 
+; Number of days after which a personal auth token is recommended to be rotated and an email notification will be sent to the user.
+; If set to 0 days, notifications won't be sent.
+; Recommended to keep enabled for best security.
+auth_token_rotation_notification_days = 180
+
+; Number of days that will be added to 'today' to preset an expiration date when a new auth token is being created
+; For example, if a user starts creating an auth token on 1 May 2025, the expiry date will be preset to 1 November 2025.
+auth_token_default_expiration_days = 180
+
+; Number of days before the expiration date of a personal auth token, where an email notification is sent to the user.
+; If set to 0 days, notifications won't be sent. 
+; Recommended to keep enabled for best security.
+auth_token_expiration_notification_days = 30
+
 ; language cookie name for session
 language_cookie_name = matomo_lang
 
@@ -710,8 +724,10 @@ proxy_uri_header = 0
 ; which is required when the client sends the IP through a proxy header as well as the load balancer.
 proxy_ip_read_last_in_list = 1
 
-; Whether to enable trusted host checking. This can be disabled if you're running Matomo
-; on several URLs and do not wish to constantly edit the trusted host list.
+; Enables the trusted host check, to ensure Matomo only works when accessed through a configured trusted host.
+; If a request comes from an untrusted domain, a warning is shown, instead of processing the request.
+; This helps prevent host header attacks and enhances security, so disable it with caution.
+; See https://matomo.org/faq/on-premise/what-is-the-trusted-host-check-feature-in-matomo/ for more details.
 enable_trusted_host_check = 1
 
 ; List of trusted hosts (eg domain or subdomain names) when generating absolute URLs.
@@ -901,6 +917,11 @@ enable_referrer_definition_syncs = 1
 ; so it can be disabled here if necessary.
 disable_tracking_matomo_app_links = 0
 
+; Compression level used in ArchiveWriter when creating blob archives
+; Valid values are 0 for no compression up to 9 for maximum compression. If -1 is used, the default compression of the zlib library (level 6) is used.
+; Change with caution as using a higher compression may decrease archiving performance.
+archive_blob_compression_level = -1
+
 [Tracker]
 
 ; When enabled and a userId is set, then the visitorId will be automatically set based on the userId. This allows to
@@ -975,7 +996,7 @@ default_time_one_page_visit = 0
 
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
 ; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
-url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,twclid,wbraid,gbraid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
+url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,twclid,wbraid,gbraid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid,li_fat_id"
 
 ; If set to 1, Matomo will use the default provider if no other provider is configured.
 ; In addition the default provider will be used as a fallback when the configure provider does not return any results.
@@ -1330,5 +1351,166 @@ time_on_load_cap_duration_ms = 0
 ; This can be used to expose values from Matomo, to control for example a Mobile app tracking
 SDK_batch_size = 10
 SDK_interval_value = 30
+
+[SitesManager]
+CommonPIIParams[] = account
+CommonPIIParams[] = accountnum
+CommonPIIParams[] = address
+CommonPIIParams[] = address1
+CommonPIIParams[] = address2
+CommonPIIParams[] = address3
+CommonPIIParams[] = addressline1
+CommonPIIParams[] = addressline2
+CommonPIIParams[] = adres
+CommonPIIParams[] = adresse
+CommonPIIParams[] = age
+CommonPIIParams[] = alter
+CommonPIIParams[] = auth
+CommonPIIParams[] = authpw
+CommonPIIParams[] = bic
+CommonPIIParams[] = billingaddress
+CommonPIIParams[] = billingaddress1
+CommonPIIParams[] = billingaddress2
+CommonPIIParams[] = calle
+CommonPIIParams[] = cardnumber
+CommonPIIParams[] = cc
+CommonPIIParams[] = ccc
+CommonPIIParams[] = cccsc
+CommonPIIParams[] = cccvc
+CommonPIIParams[] = cccvv
+CommonPIIParams[] = ccexpiry
+CommonPIIParams[] = ccexpmonth
+CommonPIIParams[] = ccexpyear
+CommonPIIParams[] = ccname
+CommonPIIParams[] = ccnumber
+CommonPIIParams[] = cctype
+CommonPIIParams[] = cell
+CommonPIIParams[] = cellphone
+CommonPIIParams[] = city
+CommonPIIParams[] = clientid
+CommonPIIParams[] = clientsecret
+CommonPIIParams[] = company
+CommonPIIParams[] = consumerkey
+CommonPIIParams[] = consumersecret
+CommonPIIParams[] = contrasenya
+CommonPIIParams[] = contraseña
+CommonPIIParams[] = creditcard
+CommonPIIParams[] = creditcardnumber
+CommonPIIParams[] = cvc
+CommonPIIParams[] = cvv
+CommonPIIParams[] = dateofbirth
+CommonPIIParams[] = debitcard
+CommonPIIParams[] = dirección
+CommonPIIParams[] = dob
+CommonPIIParams[] = domain
+CommonPIIParams[] = ebost
+CommonPIIParams[] = email
+CommonPIIParams[] = emailaddress
+CommonPIIParams[] = emailadresse
+CommonPIIParams[] = epos
+CommonPIIParams[] = epost
+CommonPIIParams[] = eposta
+CommonPIIParams[] = exp
+CommonPIIParams[] = familyname
+CommonPIIParams[] = firma
+CommonPIIParams[] = firstname
+CommonPIIParams[] = formlogin
+CommonPIIParams[] = fullname
+CommonPIIParams[] = gender
+CommonPIIParams[] = geschlecht
+CommonPIIParams[] = gst
+CommonPIIParams[] = gstnumber
+CommonPIIParams[] = handynummer
+CommonPIIParams[] = hasło
+CommonPIIParams[] = heslo
+CommonPIIParams[] = iban
+CommonPIIParams[] = ibanaccountnum
+CommonPIIParams[] = ibanaccountnumber
+CommonPIIParams[] = id
+CommonPIIParams[] = identifier
+CommonPIIParams[] = indirizzo
+CommonPIIParams[] = kartakredytowa
+CommonPIIParams[] = kennwort
+CommonPIIParams[] = keyconsumerkey
+CommonPIIParams[] = keyconsumersecret
+CommonPIIParams[] = konto
+CommonPIIParams[] = kontonr
+CommonPIIParams[] = kontonummer
+CommonPIIParams[] = kredietkaart
+CommonPIIParams[] = kreditkarte
+CommonPIIParams[] = kreditkort
+CommonPIIParams[] = lastname
+CommonPIIParams[] = login
+CommonPIIParams[] = mail
+CommonPIIParams[] = mobiili
+CommonPIIParams[] = mobile
+CommonPIIParams[] = mobilne
+CommonPIIParams[] = nachname
+CommonPIIParams[] = name
+CommonPIIParams[] = nickname
+CommonPIIParams[] = off
+CommonPIIParams[] = osoite
+CommonPIIParams[] = parole
+CommonPIIParams[] = pass
+CommonPIIParams[] = passord
+CommonPIIParams[] = password
+CommonPIIParams[] = passwort
+CommonPIIParams[] = pasword
+CommonPIIParams[] = paswort
+CommonPIIParams[] = paword
+CommonPIIParams[] = phone
+CommonPIIParams[] = pin
+CommonPIIParams[] = plz
+CommonPIIParams[] = postalcode
+CommonPIIParams[] = postcode
+CommonPIIParams[] = postleitzahl
+CommonPIIParams[] = privatekey
+CommonPIIParams[] = publickey
+CommonPIIParams[] = pw
+CommonPIIParams[] = pwd
+CommonPIIParams[] = pword
+CommonPIIParams[] = pwrd
+CommonPIIParams[] = rue
+CommonPIIParams[] = secret
+CommonPIIParams[] = secretq
+CommonPIIParams[] = secretquestion
+CommonPIIParams[] = shippingaddress
+CommonPIIParams[] = shippingaddress1
+CommonPIIParams[] = shippingaddress2
+CommonPIIParams[] = socialsec
+CommonPIIParams[] = socialsecuritynumber
+CommonPIIParams[] = socsec
+CommonPIIParams[] = sokak
+CommonPIIParams[] = ssn
+CommonPIIParams[] = steuernummer
+CommonPIIParams[] = strasse
+CommonPIIParams[] = street
+CommonPIIParams[] = surname
+CommonPIIParams[] = swift
+CommonPIIParams[] = tax
+CommonPIIParams[] = taxnumber
+CommonPIIParams[] = tel
+CommonPIIParams[] = telefon
+CommonPIIParams[] = telefonnr
+CommonPIIParams[] = telefonnummer
+CommonPIIParams[] = telefono
+CommonPIIParams[] = telephone
+CommonPIIParams[] = token
+CommonPIIParams[] = token_auth
+CommonPIIParams[] = tokenauth
+CommonPIIParams[] = téléphone
+CommonPIIParams[] = ulica
+CommonPIIParams[] = user
+CommonPIIParams[] = username
+CommonPIIParams[] = vat
+CommonPIIParams[] = vatnumber
+CommonPIIParams[] = via
+CommonPIIParams[] = vorname
+CommonPIIParams[] = wachtwoord
+CommonPIIParams[] = wagwoord
+CommonPIIParams[] = webhooksecret
+CommonPIIParams[] = website
+CommonPIIParams[] = zip
+CommonPIIParams[] = zipcode
 
 ; NOTE: do not directly edit this file! See notice at the top

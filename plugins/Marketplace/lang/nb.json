@@ -61,7 +61,6 @@
         "OverviewPluginSubscriptions": "Oversikt over dine programtilleggsabonnementer",
         "OverviewPluginSubscriptionsAllDetails": "For å utforske alle detaljer eller endre et abonnement må du logge inn på kontoen din.",
         "OverviewPluginSubscriptionsMissingInfo": "Det kan hende at et abonnement mangler, for eksempel hvis en betaling ikke har gått gjennom enda. I sådant fall kan du prøve igjen om et par timer, eller kontakte Matomo-laget.",
-        "OverviewPluginSubscriptionsMissingLicense": "Du har ikke satt noen lisensnøkkel. Hvis du har kjøpt et programtilleggsabonnement, kan du gå til %1$sMarkedsplassen%2$s og skrive inn lisensnøkkelen din.",
         "PaidPlugins": "Premiumsfunksjoner",
         "PluginDescription": "Øk og utvid Matomos funksjonalitet via Markedsplassen ved å laste ned programtillegg og drakter.",
         "PluginKeywords": "Nøkkelord",

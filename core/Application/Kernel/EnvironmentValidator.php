@@ -71,16 +71,21 @@ class EnvironmentValidator
      */
     private function checkConfigFileExists($path, $startInstaller = false)
     {
-        if (is_readable($path)) {
+        if (is_readable($path) && !$startInstaller) {
             return;
         }
 
         $general = $this->settingsProvider->getSection('General');
 
         if (
-            isset($general['enable_installer'])
-            && !$general['enable_installer']
+            isset($general['installation_in_progress'])
+            && $general['installation_in_progress']
+            && $startInstaller
         ) {
+            return;
+        }
+
+        if (isset($general['enable_installer']) && !$general['enable_installer']) {
             throw new NotYetInstalledException('Matomo is not set up yet');
         }
 

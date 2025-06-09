@@ -15,12 +15,12 @@ trait TransactionalDatabaseStaticTrait
     {
         try {
             return static::fetchOne('SELECT @@TX_ISOLATION');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return static::fetchOne('SELECT @@transaction_isolation');
         }
     }
 
-    public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void
+    public function setSupportsTransactionLevelForNonLockingReads(?bool $supports = null): void
     {
         $this->supportsTransactionLevelForNonLockingReads = $supports;
     }

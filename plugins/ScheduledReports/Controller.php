@@ -123,7 +123,7 @@ class Controller extends \Piwik\Plugin\Controller
             );
             $allSegments = SegmentEditor::getAllSegmentsForSite($this->idSite);
             foreach ($allSegments as $savedSegment) {
-                $savedSegmentsById[$savedSegment['idsegment']] = $savedSegment['name'];
+                $savedSegmentsById[$savedSegment['idsegment']] = Common::unsanitizeInputValue($savedSegment['name']);
             }
             $view->savedSegmentsById = $savedSegmentsById;
             $view->segmentEditorActivated = true;
@@ -153,6 +153,9 @@ class Controller extends \Piwik\Plugin\Controller
             return $view->render();
         }
 
+        /*
+         * Executed as super user, as we need to fetch a scheduled report, without the current user being authenticated.
+         */
         $report = Access::doAsSuperUser(function () use ($subscription) {
             $reports = Request::processRequest('ScheduledReports.getReports', [
                 'idReport'    => $subscription['idreport'],
@@ -164,10 +167,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->reportName = $report['description'];
 
-        $nonce = Common::getRequestVar('nonce', '', 'string');
-
-        if (!empty($confirm) && Nonce::verifyNonce('Report.Unsubscribe', $nonce)) {
-            Nonce::discardNonce('Report.Unsubscribe');
+        if (!empty($confirm)) {
+            Nonce::checkNonce('Report.Unsubscribe');
             $subscriptionModel->unsubscribe($token);
             $view->success = true;
         } else {

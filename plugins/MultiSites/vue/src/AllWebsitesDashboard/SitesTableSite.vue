@@ -33,15 +33,21 @@
       </template>
     </td>
 
-    <td><span class="value">{{ site.nb_visits }}</span></td>
-    <td><span class="value">{{ site.nb_pageviews }}</span></td>
-    <td><span class="value">{{ site.nb_hits }}</span></td>
-    <td v-if="displayRevenue"><span class="value">{{ site.revenue }}</span></td>
+    <td><span class="value">{{ formatNumber(site.nb_visits) }}</span></td>
+    <td><span class="value">{{ formatNumber(site.nb_pageviews) }}</span></td>
+    <td><span class="value">{{ formatNumber(site.hits) }}</span></td>
+    <td v-if="displayRevenue">
+      <span class="value">{{ formatCurrency(site.revenue, site.currencySymbol || '') }}</span>
+    </td>
 
     <td :colspan="displaySparkline ? 1 : 2">
-      <template v-if="!site.isGroup && !!site[evolutionMetric]">
+      <template v-if="!site.isGroup && sparklineMetric in site">
         <img :src="evolutionIconSrc" alt="" />
-        <span :class="evolutionTrendClass">{{ site[evolutionMetric] }}</span>
+        <span :class="evolutionTrendClass">
+          {{ calculateAndFormatEvolution(
+                site[sparklineMetric], site[`previous_${sparklineMetric}`] * site.ratio, true
+             ) }}
+        </span>
       </template>
     </td>
 
@@ -53,6 +59,7 @@
           target="_blank"
           :href="dashboardUrl"
           :title="translate('General_GoTo', translate('Dashboard_DashboardOf', siteLabel))"
+          v-if="!site.isGroup"
       >
         <img
             alt=""
@@ -67,7 +74,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Matomo, MatomoUrl } from 'CoreHome';
+import {
+  Matomo,
+  MatomoUrl,
+  Range,
+  format,
+} from 'CoreHome';
 
 import { DashboardSiteData, DashboardMetrics, EvolutionTrend } from '../types';
 
@@ -85,8 +97,8 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    sparklineDate: String,
     sparklineMetric: String,
+    displaySparkline: Boolean,
   },
   computed: {
     dashboardUrl() {
@@ -100,9 +112,6 @@ export default defineComponent({
 
       return `?${dashboardParams}${this.tokenParam}`;
     },
-    displaySparkline() {
-      return !this.site.isGroup && this.sparklineDate && this.sparklineMetric;
-    },
     evolutionIconSrc() {
       if (this.evolutionTrend === 1) {
         return 'plugins/MultiSites/images/arrow_up.png';
@@ -115,10 +124,22 @@ export default defineComponent({
       return 'plugins/MultiSites/images/stop.png';
     },
     evolutionSparklineSrc() {
+      let sparklineDate = Matomo.currentDateString as string;
+
+      if (Matomo.period as string !== 'range') {
+        const { startDate, endDate } = Range.getLastNRange(
+          Matomo.period as string,
+          '30',
+          Matomo.currentDateString as string,
+        );
+
+        sparklineDate = `${format(startDate)},${format(endDate)}`;
+      }
+
       const sparklineParams = MatomoUrl.stringify({
         module: 'MultiSites',
         action: 'getEvolutionGraph',
-        date: this.sparklineDate,
+        date: sparklineDate,
         period: Matomo.period as string,
         idSite: this.site.idsite,
         columns: this.sparklineMetric,

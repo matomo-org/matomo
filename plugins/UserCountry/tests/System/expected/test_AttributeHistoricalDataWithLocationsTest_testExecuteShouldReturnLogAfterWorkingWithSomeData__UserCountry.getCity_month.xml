@@ -55,7 +55,7 @@
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>49.25</lat>
-		<long>-123.133</long>
+		<long>-123.13</long>
 		<segment>city==Vancouver;regionCode==BC;countryCode==ca</segment>
 		<city_name>Vancouver</city_name>
 		<region>BC</region>
@@ -87,8 +87,8 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<lat>47.249</lat>
-		<long>6.018</long>
+		<lat>47.25</lat>
+		<long>6.02</long>
 		<segment>city==Besan%C3%A7on;regionCode==BFC;countryCode==fr</segment>
 		<city_name>Besançon</city_name>
 		<region>BFC</region>
@@ -154,7 +154,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>41.9</lat>
-		<long>12.483</long>
+		<long>12.48</long>
 		<segment>city==Rome;regionCode==62;countryCode==it</segment>
 		<city_name>Rome</city_name>
 		<region>62</region>

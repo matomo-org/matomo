@@ -13,6 +13,8 @@ use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
@@ -92,9 +94,33 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
+        if (!Manager::getInstance()->isPluginActivated('Live')) {
+            return [];
+        }
+
+        $siteIds = Site::getIdSitesFromIdSitesString($idSite);
+        $siteIdsWithVisitorLogsOrProfilesEnabled = [];
+
+        /*
+         * Only retrieve data from sites that have visitor logs or profiles enabled.
+         * Live::isVisitorProfileEnabled returns false if either logs or profiles
+         * are disabled.
+         */
+        foreach ($siteIds as $siteId) {
+            $isVisitorProfileEnabled = Live::isVisitorProfileEnabled($siteId);
+
+            if ($isVisitorProfileEnabled) {
+                $siteIdsWithVisitorLogsOrProfilesEnabled[] = $siteId;
+            }
+        }
+
+        if (empty($siteIdsWithVisitorLogsOrProfilesEnabled)) {
+            return [];
+        }
+
         $result = Request::processRequest('Live.getLastVisitsDetails', [
             'segment' => $segment,
-            'idSite' => $idSite,
+            'idSite' => $siteIdsWithVisitorLogsOrProfilesEnabled,
             'period' => 'range',
             'date' => '1998-01-01,today',
             'filter_limit' => 401,
@@ -140,6 +166,7 @@ class API extends \Piwik\Plugin\API
         $anonymizeUserId = false,
         $unsetVisitColumns = [],
         $unsetLinkVisitActionColumns = [],
+        #[\SensitiveParameter]
         $passwordConfirmation = ''
     ) {
         Piwik::checkUserHasSuperUserAccess();
@@ -199,7 +226,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment, $anonymizeUserId = false, $anonymizeOrderId = false, $anonymizeReferrer = '', $forceCookielessTracking = false)
+    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment, $anonymizeUserId = false, $anonymizeOrderId = false, $anonymizeReferrer = '', $forceCookielessTracking = false, $randomizeConfigId = false)
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -236,6 +263,10 @@ class API extends \Piwik\Plugin\API
 
             // update tracker files
             Piwik::postEvent('CustomJsTracker.updateTracker');
+        }
+
+        if (false !== $randomizeConfigId) {
+            $privacyConfig->randomizeConfigId = (bool) $randomizeConfigId;
         }
 
         return true;
@@ -312,6 +343,7 @@ class API extends \Piwik\Plugin\API
         $keepYear = 0,
         $keepRange = 0,
         $keepSegments = 0,
+        #[\SensitiveParameter]
         $passwordConfirmation = ''
     ) {
         Piwik::checkUserHasSuperUserAccess();
@@ -347,8 +379,10 @@ class API extends \Piwik\Plugin\API
      *
      * @internal
      */
-    public function executeDataPurge($passwordConfirmation)
-    {
+    public function executeDataPurge(
+        #[\SensitiveParameter]
+        $passwordConfirmation
+    ) {
         $this->confirmCurrentUserPassword($passwordConfirmation);
         Piwik::checkUserHasSuperUserAccess();
 

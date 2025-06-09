@@ -1,10 +1,11 @@
 {
     "Events": {
-        "PluginDescription": "Suivez les évènements et obtenez des rapports sur l'activité de vos visiteurs.",
         "AvgEventValue": "La valeur moyenne de l'évènement est : %s",
         "AvgValue": "Valeur moyenne",
         "AvgValueDocumentation": "Moyenne de toutes les valeurs pour cet évènement",
         "Category": "Catégorie",
+        "ColumnNbUniqVisitorsDocumentation": "Nombre de visiteurs dédupliqués ayant déclenché un événement sur votre site web. Chaque visiteur n’est compté qu’une seule fois, même s’il visite le site ou déclenche plusieurs événements.",
+        "ColumnNbVisitsDocumentation": "Nombre total de visites au cours desquelles au moins un événement a été déclenché.",
         "Event": "Evènement",
         "EventAction": "Action de l'évènement",
         "EventActions": "Actions de l'évènement",
@@ -17,15 +18,18 @@
         "EventNamesReportDocumentation": "Ce rapport vous montre les noms associés à chaque évènement suivi et le nombre de fois qu'ils se sont produits. Vous pouvez voir les actions et les catégories d'évènements qui ont été suivis avec le nom de chaque évènement dans le sous-tableau de chaque ligne. Vous pouvez modifier ce qui est affiché en changeant la dimension secondaire avec le lien en bas du rapport.",
         "EventUrl": "URL d'évènement",
         "EventUrls": "URLs d'évènements",
-        "Events": "Evènements",
-        "EventsWithValue": "Evènements avec une valeur",
-        "EventsWithValueDocumentation": "Nombre d'évènements qui ont une valeur de définie",
         "EventValue": "Valeur d'évènement",
         "EventValueTooltip": "La valeur totale de l'évènement est la somme des %1$s valeurs d'évènements %2$s entre un minimum de %3$s et un maximum de %4$s.",
+        "Events": "Evènements",
+        "EventsSubcategoryHelp1": "La page \"Évènements\" propose des rapports sur les évènements personnalisés associés à votre site. Les évènements nécessitent généralement une configuration personnalisée. Une fois configuré, vous pouvez consulter les rapports par catégorie, par action et par nom.",
+        "EventsSubcategoryHelp2": "Pour en savoir plus sur le suivi d'évènements, cliquez ici.",
+        "EventsWithValue": "Evènements avec une valeur",
+        "EventsWithValueDocumentation": "Nombre d'évènements qui ont une valeur de définie",
         "MaxValue": "Value maximale d'évènement",
         "MaxValueDocumentation": "Valeur maximale pour cet évènement",
         "MinValue": "Valeur minimale d'évènement",
         "MinValueDocumentation": "Valeur minimale pour cet évènement",
+        "PluginDescription": "Suivez les évènements et obtenez des rapports sur l'activité de vos visiteurs.",
         "SecondaryDimension": "La seconde dimension est %s.",
         "SwitchToSecondaryDimension": "Passer à %s",
         "TopEvents": "Principaux évènements",
@@ -33,8 +37,6 @@
         "TotalEventsDocumentation": "Nombre total des évènements",
         "TotalValue": "Valeur d'évènement",
         "TotalValueDocumentation": "Somme des valeurs d'évènement",
-        "ViewEvents": "Afficher les évènements",
-        "EventsSubcategoryHelp1": "La page \"Évènements\" propose des rapports sur les évènements personnalisés associés à votre site. Les évènements nécessitent généralement une configuration personnalisée. Une fois configuré, vous pouvez consulter les rapports par catégorie, par action et par nom.",
-        "EventsSubcategoryHelp2": "Pour en savoir plus sur le suivi d'évènements, cliquez ici."
+        "ViewEvents": "Afficher les évènements"
     }
 }

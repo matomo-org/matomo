@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
@@ -237,8 +238,12 @@ class ArchiveWriter
 
     protected function compress($data)
     {
+        $compressionLevel = (int) Config::getInstance()->General['archive_blob_compression_level'];
+        // ensure value is between -1 and 9
+        $compressionLevel = min(max(-1, $compressionLevel), 9);
+
         if (Db::get()->hasBlobDataType()) {
-            return gzcompress($data);
+            return gzcompress($data, $compressionLevel);
         }
 
         return $data;

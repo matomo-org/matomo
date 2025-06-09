@@ -22,6 +22,11 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    options: {
+      type: Object,
+      required: false,
+      default: () => ({}),
+    },
   },
   emits: ['yes', 'no', 'closeEnd', 'close', 'validation', 'update:modelValue'],
   activated() {
@@ -42,6 +47,7 @@ export default defineComponent({
             this.$emit('update:modelValue', false);
             this.$emit('closeEnd');
           },
+          ...this.options,
         });
       } else if (newValue === false && oldValue === true) {
         // the user closed the dialog, e.g. by pressing Esc or clicking away from it

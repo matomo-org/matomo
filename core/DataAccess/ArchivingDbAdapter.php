@@ -32,7 +32,7 @@ class ArchivingDbAdapter
      */
     private $maxExecutionTime;
 
-    public function __construct($wrapped, LoggerInterface $logger = null)
+    public function __construct($wrapped, ?LoggerInterface $logger = null)
     {
         $this->wrapped = $wrapped;
         $this->logger = $logger;

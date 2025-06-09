@@ -21,7 +21,7 @@ class GetCategory extends Base
         $this->dimension     = new EventCategory();
         $this->name          = Piwik::translate('Events_EventCategories');
         $this->documentation = Piwik::translate('Events_EventCategoriesReportDocumentation');
-        $this->metrics       = array('nb_events', 'sum_event_value', 'min_event_value', 'max_event_value', 'nb_events_with_value');
+        $this->metrics = ['nb_events', 'nb_visits', 'nb_uniq_visitors', 'sum_event_value', 'min_event_value', 'max_event_value', 'nb_events_with_value'];
         if (Common::getRequestVar('secondaryDimension', false) == 'eventName') {
             $this->actionToLoadSubTables = 'getNameFromCategoryId';
         } else {

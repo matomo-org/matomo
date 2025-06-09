@@ -9,13 +9,19 @@
 
 namespace Piwik\Tests\Integration\DataAccess;
 
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Period\Day;
 use Piwik\Period\Factory;
+use Piwik\Period\Month;
+use Piwik\Period\Range;
+use Piwik\Period\Week;
+use Piwik\Period\Year;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\DataAccess\Model;
@@ -45,27 +51,27 @@ class ModelTest extends IntegrationTestCase
         Db::get()->query('SET SESSION group_concat_max_len=32');
 
         $this->insertArchiveData([
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
         ]);
 
         // sanity check
@@ -87,12 +93,12 @@ class ModelTest extends IntegrationTestCase
         Date::$now = strtotime('2020-03-03 04:00:00');
 
         $this->insertInvalidations([
-            ['idsite' => 1, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => 1, 'status' => 1, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-02 03:00:00'],
-            ['idsite' => 2, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done.Plugin', 'value' => 2, 'status' => 0, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-02 03:00:00'],
-            ['idsite' => 1, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'doneblablah', 'value' => 3, 'status' => 0, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-03 00:00:00'],
-            ['idsite' => 3, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'donebluhbluh', 'value' => 4, 'status' => 1, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-02 12:00:00'],
-            ['idsite' => 1, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'donedone', 'value' => 5, 'status' => 1, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-01 03:00:00'],
-            ['idsite' => 2, 'date1' => '2020-02-02', 'date2' => '2020-02-02', 'period' => 1, 'name' => 'done', 'value' => 2, 'status' => 1, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-02 03:00:00'],
+            ['idsite' => 1, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => 1, 'status' => 1, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-02 03:00:00'],
+            ['idsite' => 2, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => 2, 'status' => 0, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-02 03:00:00'],
+            ['idsite' => 1, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'doneblablah', 'value' => 3, 'status' => 0, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-03 00:00:00'],
+            ['idsite' => 3, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'donebluhbluh', 'value' => 4, 'status' => 1, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-02 12:00:00'],
+            ['idsite' => 1, 'date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'donedone', 'value' => 5, 'status' => 1, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-01 03:00:00'],
+            ['idsite' => 2, 'date1' => '2020-02-02', 'date2' => '2020-02-02', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => 2, 'status' => 1, 'ts_invalidated' => '2020-03-01 00:00:00', 'ts_started' => '2020-03-02 03:00:00'],
         ]);
 
         // Setting the time to two days for idsite 2, should skip the last in progress archive, as it was started within that time
@@ -134,7 +140,7 @@ class ModelTest extends IntegrationTestCase
     public function testGetAndUpdateArchiveStatus()
     {
         $this->insertArchiveData([
-            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_ERROR],
+            ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_ERROR],
         ]);
 
         $numericTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'));
@@ -168,7 +174,7 @@ class ModelTest extends IntegrationTestCase
     {
         $date = '2021-03-23';
         $this->insertInvalidations([
-            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => 'done'],
+            ['date1' => $date, 'date2' => $date, 'period' => Day::PERIOD_ID, 'name' => 'done'],
         ]);
 
         $periodObj = Factory::build('day', $date);
@@ -180,7 +186,7 @@ class ModelTest extends IntegrationTestCase
     {
         $date = '2021-03-23';
         $this->insertInvalidations([
-            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => 'done', 'report' => 'myReport'],
+            ['date1' => $date, 'date2' => $date, 'period' => Day::PERIOD_ID, 'name' => 'done', 'report' => 'myReport'],
         ]);
 
         $periodObj = Factory::build('day', $date);
@@ -192,7 +198,7 @@ class ModelTest extends IntegrationTestCase
     {
         $date = '2021-03-23';
         $this->insertInvalidations([
-            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => 'done', 'report' => 'myReport'],
+            ['date1' => $date, 'date2' => $date, 'period' => Day::PERIOD_ID, 'name' => 'done', 'report' => 'myReport'],
         ]);
 
         $periodObj = Factory::build('day', $date);
@@ -205,7 +211,7 @@ class ModelTest extends IntegrationTestCase
         $date = '2021-03-23';
         $date2 = '2021-03-22';
         $this->insertInvalidations([
-            ['date1' => $date, 'date2' => $date, 'period' => 1, 'name' => 'done'],
+            ['date1' => $date, 'date2' => $date, 'period' => Day::PERIOD_ID, 'name' => 'done'],
         ]);
 
         $periodObj = Factory::build('day', $date2);
@@ -219,7 +225,7 @@ class ModelTest extends IntegrationTestCase
             // day period, no child
             [
                 [
-                    ['date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => 3, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => Month::PERIOD_ID, 'name' => 'done', 'value' => 1],
                 ],
                 1,
                 '2015-02-03',
@@ -230,7 +236,7 @@ class ModelTest extends IntegrationTestCase
             // week period, no child
             [
                 [
-                    ['date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => 3, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => Month::PERIOD_ID, 'name' => 'done', 'value' => 1],
                 ],
                 1,
                 '2015-02-03',
@@ -241,8 +247,8 @@ class ModelTest extends IntegrationTestCase
             // month period, no child
             [
                 [
-                    ['date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => 1, 'name' => 'done', 'value' => 1],
-                    ['date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => 4, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => Year::PERIOD_ID, 'name' => 'done', 'value' => 1],
                 ],
                 1,
                 '2015-02-04',
@@ -262,8 +268,8 @@ class ModelTest extends IntegrationTestCase
             // week period, w/ child
             [
                 [
-                    ['date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => 3, 'name' => 'done', 'value' => 1],
-                    ['date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => 1, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => Month::PERIOD_ID, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => 1],
                 ],
                 1,
                 '2015-02-01',
@@ -272,8 +278,8 @@ class ModelTest extends IntegrationTestCase
             ],
             [
                 [
-                    ['date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => 3, 'name' => 'done', 'value' => 1],
-                    ['date1' => '2015-02-11', 'date2' => '2015-02-11', 'period' => 1, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => Month::PERIOD_ID, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-02-11', 'date2' => '2015-02-11', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => 1],
                 ],
                 1,
                 '2015-02-10',
@@ -284,7 +290,7 @@ class ModelTest extends IntegrationTestCase
             // month period, w/ child
             [
                 [
-                    ['date1' => '2015-02-09', 'date2' => '2015-02-15', 'period' => 2, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-02-09', 'date2' => '2015-02-15', 'period' => Week::PERIOD_ID, 'name' => 'done', 'value' => 1],
                 ],
                 1,
                 '2015-02-10',
@@ -293,7 +299,7 @@ class ModelTest extends IntegrationTestCase
             ],
             [
                 [
-                    ['date1' => '2015-02-09', 'date2' => '2015-02-09', 'period' => 2, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-02-09', 'date2' => '2015-02-09', 'period' => Week::PERIOD_ID, 'name' => 'done', 'value' => 1],
                 ],
                 1,
                 '2015-02-10',
@@ -302,7 +308,7 @@ class ModelTest extends IntegrationTestCase
             ],
             [
                 [
-                    ['date1' => '2015-02-01', 'date2' => '2015-02-01', 'period' => 2, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-02-01', 'date2' => '2015-02-01', 'period' => Week::PERIOD_ID, 'name' => 'done', 'value' => 1],
                 ],
                 1,
                 '2015-02-10',
@@ -313,7 +319,7 @@ class ModelTest extends IntegrationTestCase
             // year period, w/ child
             [
                 [
-                    ['date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => 3, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => Month::PERIOD_ID, 'name' => 'done', 'value' => 1],
                 ],
                 1,
                 '2015-02-04',
@@ -322,7 +328,7 @@ class ModelTest extends IntegrationTestCase
             ],
             [
                 [
-                    ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => 1, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => 1],
                 ],
                 1,
                 '2015-02-04',
@@ -331,7 +337,7 @@ class ModelTest extends IntegrationTestCase
             ],
             [
                 [
-                    ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => 1, 'name' => 'done', 'value' => 4],
+                    ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => 4],
                 ],
                 1,
                 '2015-02-04',
@@ -340,8 +346,8 @@ class ModelTest extends IntegrationTestCase
             ],
             [
                 [
-                    ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => 1, 'name' => 'done', 'value' => 5],
-                    ['date1' => '2014-04-01', 'date2' => '2014-04-01', 'period' => 1, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => 5],
+                    ['date1' => '2014-04-01', 'date2' => '2014-04-01', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => 1],
                 ],
                 1,
                 '2015-02-04',
@@ -352,7 +358,7 @@ class ModelTest extends IntegrationTestCase
             // range period w/ day child
             [
                 [
-                    ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => 1, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => 1],
                 ],
                 1,
                 '2015-03-30,2015-04-05',
@@ -361,7 +367,7 @@ class ModelTest extends IntegrationTestCase
             ],
             [
                 [
-                    ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => 1, 'name' => 'done', 'value' => 1],
+                    ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => 1],
                 ],
                 1,
                 '2015-04-01,2015-04-05',
@@ -374,28 +380,28 @@ class ModelTest extends IntegrationTestCase
     public function testGetNextInvalidatedArchiveReturnsCorrectOrder()
     {
         $this->insertInvalidations([
-            ['date1' => '2015-03-30', 'date2' => '2015-03-30', 'period' => 1, 'name' => 'done' . md5('testsegment8')],
-            ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => 1, 'name' => 'done'],
-            ['date1' => '2015-04-02', 'date2' => '2015-04-02', 'period' => 1, 'name' => 'done' . md5('testsegment1')],
-            ['date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => 4, 'name' => 'done'],
-            ['date1' => '2015-04-06', 'date2' => '2015-04-12', 'period' => 2, 'name' => 'done' . md5('testsegment3')],
-            ['date1' => '2015-03-29', 'date2' => '2015-03-29', 'period' => 1, 'name' => 'done'],
-            ['date1' => '2015-03-30', 'date2' => '2015-03-30', 'period' => 1, 'name' => 'done'],
-            ['date1' => '2015-04-04', 'date2' => '2015-04-04', 'period' => 1, 'name' => 'done'],
-            ['date1' => '2015-03-29', 'date2' => '2015-03-29', 'period' => 1, 'name' => 'done' . md5('testsegment2')],
-            ['date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => 3, 'name' => 'done'],
-            ['date1' => '2015-04-15', 'date2' => '2015-04-24', 'period' => 5, 'name' => 'done'],
-            ['date1' => '2015-04-06', 'date2' => '2015-04-06', 'period' => 1, 'name' => 'done'],
-            ['date1' => '2015-04-06', 'date2' => '2015-04-06', 'period' => 1, 'name' => 'done' . md5('testsegment3')],
-            ['date1' => '2015-04-03', 'date2' => '2015-04-03', 'period' => 1, 'name' => 'done'],
-            ['date1' => '2015-04-05', 'date2' => '2015-04-05', 'period' => 1, 'name' => 'done'],
-            ['date1' => '2015-03-30', 'date2' => '2015-04-05', 'period' => 2, 'name' => 'done'],
-            ['date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => 3, 'name' => 'done' . md5('testsegment1')],
-            ['date1' => '2015-03-01', 'date2' => '2015-03-24', 'period' => 1, 'name' => 'done'],
-            ['date1' => '2015-04-06', 'date2' => '2015-04-12', 'period' => 2, 'name' => 'done'],
-            ['date1' => '2015-04-02', 'date2' => '2015-04-02', 'period' => 1, 'name' => 'done'],
-            ['date1' => '2015-03-01', 'date2' => '2015-03-31', 'period' => 3, 'name' => 'done'],
-            ['date1' => '2015-03-31', 'date2' => '2015-03-31', 'period' => 1, 'name' => 'done'],
+            ['date1' => '2015-03-30', 'date2' => '2015-03-30', 'period' => Day::PERIOD_ID, 'name' => 'done' . md5('testsegment8')],
+            ['date1' => '2015-04-01', 'date2' => '2015-04-01', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-04-02', 'date2' => '2015-04-02', 'period' => Day::PERIOD_ID, 'name' => 'done' . md5('testsegment1')],
+            ['date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => Year::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-04-06', 'date2' => '2015-04-12', 'period' => Week::PERIOD_ID, 'name' => 'done' . md5('testsegment3')],
+            ['date1' => '2015-03-29', 'date2' => '2015-03-29', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-03-30', 'date2' => '2015-03-30', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-04-04', 'date2' => '2015-04-04', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-03-29', 'date2' => '2015-03-29', 'period' => Day::PERIOD_ID, 'name' => 'done' . md5('testsegment2')],
+            ['date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => Month::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-04-15', 'date2' => '2015-04-24', 'period' => Range::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-04-06', 'date2' => '2015-04-06', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-04-06', 'date2' => '2015-04-06', 'period' => Day::PERIOD_ID, 'name' => 'done' . md5('testsegment3')],
+            ['date1' => '2015-04-03', 'date2' => '2015-04-03', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-04-05', 'date2' => '2015-04-05', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-03-30', 'date2' => '2015-04-05', 'period' => Week::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => Month::PERIOD_ID, 'name' => 'done' . md5('testsegment1')],
+            ['date1' => '2015-03-01', 'date2' => '2015-03-24', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-04-06', 'date2' => '2015-04-12', 'period' => Week::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-04-02', 'date2' => '2015-04-02', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-03-01', 'date2' => '2015-03-31', 'period' => Month::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2015-03-31', 'date2' => '2015-03-31', 'period' => Day::PERIOD_ID, 'name' => 'done'],
         ]);
 
         $expected = array (
@@ -405,11 +411,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-04-15',
                 'date2' => '2015-04-24',
-                'period' => '5',
+                'period' => Range::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '12',
@@ -417,11 +425,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-04-06',
                 'date2' => '2015-04-06',
-                'period' => '1',
+                'period' => Day::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '13',
@@ -429,11 +439,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-04-06',
                 'date2' => '2015-04-06',
-                'period' => '1',
+                'period' => Day::PERIOD_ID,
                 'name' => 'done764644a7142bdcbedaab92f9dedef5e5',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '19',
@@ -441,11 +453,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-04-06',
                 'date2' => '2015-04-12',
-                'period' => '2',
+                'period' => Week::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '5',
@@ -453,11 +467,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-04-06',
                 'date2' => '2015-04-12',
-                'period' => '2',
+                'period' => Week::PERIOD_ID,
                 'name' => 'done764644a7142bdcbedaab92f9dedef5e5',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '15',
@@ -465,11 +481,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-04-05',
                 'date2' => '2015-04-05',
-                'period' => '1',
+                'period' => Day::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '8',
@@ -477,11 +495,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-04-04',
                 'date2' => '2015-04-04',
-                'period' => '1',
+                'period' => Day::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '14',
@@ -489,11 +509,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-04-03',
                 'date2' => '2015-04-03',
-                'period' => '1',
+                'period' => Day::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '20',
@@ -501,11 +523,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-04-02',
                 'date2' => '2015-04-02',
-                'period' => '1',
+                'period' => Day::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '3',
@@ -513,11 +537,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-04-02',
                 'date2' => '2015-04-02',
-                'period' => '1',
+                'period' => Day::PERIOD_ID,
                 'name' => 'done67564f109e3f4bba6b185a5343ff2bb0',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '2',
@@ -525,11 +551,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-04-01',
                 'date2' => '2015-04-01',
-                'period' => '1',
+                'period' => Day::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '10',
@@ -537,11 +565,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-04-01',
                 'date2' => '2015-04-30',
-                'period' => '3',
+                'period' => Month::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '17',
@@ -549,11 +579,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-04-01',
                 'date2' => '2015-04-30',
-                'period' => '3',
+                'period' => Month::PERIOD_ID,
                 'name' => 'done67564f109e3f4bba6b185a5343ff2bb0',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '22',
@@ -561,11 +593,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-03-31',
                 'date2' => '2015-03-31',
-                'period' => '1',
+                'period' => Day::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '7',
@@ -573,11 +607,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-03-30',
                 'date2' => '2015-03-30',
-                'period' => '1',
+                'period' => Day::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '1',
@@ -585,11 +621,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-03-30',
                 'date2' => '2015-03-30',
-                'period' => '1',
+                'period' => Day::PERIOD_ID,
                 'name' => 'done0bb102ea2ac682a578480dd184736607',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '16',
@@ -597,11 +635,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-03-30',
                 'date2' => '2015-04-05',
-                'period' => '2',
+                'period' => Week::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '6',
@@ -609,11 +649,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-03-29',
                 'date2' => '2015-03-29',
-                'period' => '1',
+                'period' => Day::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '9',
@@ -621,11 +663,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-03-29',
                 'date2' => '2015-03-29',
-                'period' => '1',
+                'period' => Day::PERIOD_ID,
                 'name' => 'doneb321434abb5a139c17dadf08c9d2e315',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '18',
@@ -633,11 +677,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-03-01',
                 'date2' => '2015-03-24',
-                'period' => '1',
+                'period' => Day::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '21',
@@ -645,11 +691,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-03-01',
                 'date2' => '2015-03-31',
-                'period' => '3',
+                'period' => Month::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
             array (
                 'idinvalidation' => '4',
@@ -657,11 +705,13 @@ class ModelTest extends IntegrationTestCase
                 'idsite' => '1',
                 'date1' => '2015-01-01',
                 'date2' => '2015-12-31',
-                'period' => '4',
+                'period' => Year::PERIOD_ID,
                 'name' => 'done',
                 'report' => null,
                 'ts_started' => null,
                 'status' => 0,
+                'processing_host' => null,
+                'process_id' => null,
             ),
         );
 
@@ -678,10 +728,10 @@ class ModelTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
 
         $this->insertInvalidations([
-            ['idsite' => 1, 'date1' => '2014-02-03', 'date2' => '2014-02-03', 'period' => 1, 'name' => 'done'],
-            ['idsite' => 2, 'date1' => '2014-02-01', 'date2' => '2014-02-28', 'period' => 2, 'name' => 'done'],
-            ['idsite' => 2, 'date1' => '2014-02-01', 'date2' => '2014-02-01', 'period' => 1, 'name' => 'done'],
-            ['idsite' => 3, 'date1' => '2014-02-01', 'date2' => '2014-02-01', 'period' => 1, 'name' => 'done'],
+            ['idsite' => 1, 'date1' => '2014-02-03', 'date2' => '2014-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['idsite' => 2, 'date1' => '2014-02-01', 'date2' => '2014-02-28', 'period' => Week::PERIOD_ID, 'name' => 'done'],
+            ['idsite' => 2, 'date1' => '2014-02-01', 'date2' => '2014-02-01', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['idsite' => 3, 'date1' => '2014-02-01', 'date2' => '2014-02-01', 'period' => Day::PERIOD_ID, 'name' => 'done'],
         ]);
 
         $this->model->deleteInvalidationsForDeletedSites();
@@ -691,6 +741,60 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals([
             ['idsite' => 1, 'idinvalidation' => 1],
         ], $invalidations);
+    }
+
+    public function testStartArchiveEnrichesRecordWithHostnameAndProcessId()
+    {
+        Fixture::createWebsite('2014-01-01 00:00:00');
+
+        $this->insertInvalidations([
+            ['idsite' => 1, 'date1' => '2014-02-04', 'date2' => '2014-02-04', 'period' => 1, 'name' => 'done', 'ts_started' => Date::now()->getDatetime(), 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS],
+            ['idsite' => 1, 'date1' => '2014-02-01', 'date2' => '2014-02-28', 'period' => 2, 'name' => 'done', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED],
+        ]);
+
+        $invalidations = Db::fetchAll("SELECT * FROM " . Common::prefixTable('archive_invalidations') . " ORDER BY idinvalidation ASC");
+
+        self::assertEmpty($invalidations[0]['processing_host']);
+        self::assertEmpty($invalidations[0]['process_id']);
+        self::assertEmpty($invalidations[1]['processing_host']);
+        self::assertEmpty($invalidations[1]['process_id']);
+
+        self::assertCount(2, $invalidations);
+
+        $this->model->startArchive($invalidations[0]);
+        $this->model->startArchive($invalidations[1]);
+
+        $invalidations = Db::fetchAll("SELECT * FROM " . Common::prefixTable('archive_invalidations') . " ORDER BY idinvalidation ASC");
+
+        self::assertCount(2, $invalidations);
+
+        // first one should not be updated as it's already running
+        self::assertEmpty($invalidations[0]['processing_host']);
+        self::assertEmpty($invalidations[0]['process_id']);
+        self::assertNotEmpty($invalidations[1]['processing_host']);
+        self::assertNotEmpty($invalidations[1]['process_id']);
+    }
+
+    public function testGetInvalidationsInProgress()
+    {
+        $this->insertInvalidations([
+            ['idsite' => 1, 'date1' => '2014-02-01', 'date2' => '2014-02-28', 'period' => Week::PERIOD_ID, 'name' => 'done'],
+            ['idsite' => 1, 'date1' => '2014-02-01', 'date2' => '2014-02-01', 'period' => Day::PERIOD_ID, 'name' => 'doneb321434abb5a139c17dadf08c9d2e315', 'ts_started' => '2014-02-03 23:13:00', 'status' => 1],
+            ['idsite' => 1, 'date1' => '2014-02-03', 'date2' => '2014-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'ts_started' => '2014-02-03 23:00:00', 'status' => 1],
+            ['idsite' => 1, 'date1' => '2014-02-01', 'date2' => '2014-02-01', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+        ]);
+
+        $expectedInvalidations = [
+            ['idsite' => 1, 'date1' => '2014-02-03', 'date2' => '2014-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'ts_started' => '2014-02-03 23:00:00', 'report' => null, 'processing_host' => null, 'process_id' => null],
+            ['idsite' => 1, 'date1' => '2014-02-01', 'date2' => '2014-02-01', 'period' => Day::PERIOD_ID, 'name' => 'doneb321434abb5a139c17dadf08c9d2e315', 'ts_started' => '2014-02-03 23:13:00', 'report' => null, 'processing_host' => null, 'process_id' => null],
+        ];
+
+        $result = $this->model->getInvalidationsInProgress([1]);
+
+        unset($result[0]['idinvalidation'], $result[1]['idinvalidation']);
+        unset($result[0]['ts_invalidated'], $result[1]['ts_invalidated']);
+
+        self::assertEquals($expectedInvalidations, $result);
     }
 
     private function insertArchiveData($archivesToInsert)

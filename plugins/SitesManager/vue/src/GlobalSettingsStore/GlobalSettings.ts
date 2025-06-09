@@ -15,6 +15,7 @@ interface GlobalSettings {
   excludedReferrersGlobal?: string;
   searchKeywordParametersGlobal?: string;
   searchCategoryParametersGlobal?: string;
+  exclusionTypeForQueryParams: string;
 }
 
 export default GlobalSettings;

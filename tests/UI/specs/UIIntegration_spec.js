@@ -346,6 +346,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the actions > site search page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuSitesearch");
             await page.waitForNetworkIdle();
+            await page.waitForTimeout(150);
 
             expect(await screenshotPageWrap()).to.matchImage('actions_site_search');
         });
@@ -553,7 +554,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the ecommerce log page', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog");
 
-            await page.hover('.dataTableVizVisitorLog .row:nth-child(2) .actionList li.action');
+            const action = await page.jQuery('.dataTableVizVisitorLog .card:eq(1) .actionList li.action');
+            await action.hover();
             await page.waitForSelector('.ui-tooltip', {visible: true, timeout: 250});
 
             var tooltipContent = await page.evaluate(() => {
@@ -628,24 +630,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForNetworkIdle();
 
             expect(await page.screenshot({fullPage: true})).to.matchImage('admin_privacy_optout_iframe');
-        });
-
-        it('should load the Settings > Mobile Messaging admin page correctly', async function () {
-            await page.goto("?" + generalParams + "&module=MobileMessaging&action=index");
-            await page.waitForNetworkIdle();
-
-            expect(await screenshotPageWrap()).to.matchImage('admin_settings_mobilemessaging');
-        })
-
-        it('should switch the SMS provider correctly', async function () {
-            await page.evaluate(function () {
-              $('[name=smsProviders]').val('string:Clockwork').trigger('change');
-            });
-            await page.waitForTimeout(200);
-            await page.waitForNetworkIdle();
-            await page.waitForTimeout(200);
-
-            expect(await screenshotPageWrap()).to.matchImage('admin_settings_mobilemessaging_provider');
         });
 
         it('should load the config file page correctly', async function () {

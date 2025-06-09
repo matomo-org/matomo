@@ -9,7 +9,7 @@
         "LoadedAPIs": "U ngarkuan %s API",
         "MainMetricsReportDocumentation": "Ky raport ju jep një përmbledhje të statistikave më të rëndësishme nëpër krejt kategoritë dhe shtojcat.",
         "MoreInformation": "Më tepër hollësi rreth API-sh të Matomo-s gjeni te %1$s Hyrje në API-t e Matomo-s %2$s dhe %3$s Referencë API-sh Matomo %4$s.",
-        "PluginDescription": "Në Matomo krejt të dhënat janë të passhme përmes API-sh të thjeshta. Kjo shtojcë është pika e hyrjes për një shërbim web, të cilin mund ta vini në punë për t’i pasur të dhënat tuaja të analizave web në format XML, JSON, PHP, CSV, etj.",
+        "PluginDescription": "Në Matomo krejt të dhënat mund të kihen përmes API-sh të thjeshta. Kjo shtojcë është pika e hyrjes për një shërbim web, të cilin mund ta vini në punë për t’i pasur të dhënat tuaja të analizave web në format XML, JSON, PHP, CSV, etj.",
         "ReportingApiReference": "Referencë API Raportimesh",
         "TopLinkTooltip": "Përdorni programatikisht të dhënat tuaja të Analizave Web, përmes një API-je të thjeshtë, si JSON, XML, etj.",
         "UserAuthentication": "Mirëfilltësim përdoruesi",

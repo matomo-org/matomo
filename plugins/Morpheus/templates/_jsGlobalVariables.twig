@@ -8,14 +8,26 @@
     {% if timezoneOffset is defined %}piwik.timezoneOffset = {{ timezoneOffset }};{% endif %}
 
     piwik.numbers = {
-        patternNumber: "{{ 'Intl_NumberFormatNumber'|translate }}",
-        patternPercent: "{{ 'Intl_NumberFormatPercent'|translate }}",
-        patternCurrency: "{{ 'Intl_NumberFormatCurrency'|translate }}",
-        symbolPlus: "{{ 'Intl_NumberSymbolPlus'|translate }}",
-        symbolMinus: "{{ 'Intl_NumberSymbolMinus'|translate }}",
-        symbolPercent: "{{ 'Intl_NumberSymbolPercent'|translate }}",
-        symbolGroup: "{{ 'Intl_NumberSymbolGroup'|translate }}",
-        symbolDecimal: "{{ 'Intl_NumberSymbolDecimal'|translate }}"
+        patternNumber: {{ 'Intl_NumberFormatNumber'|translate|json_encode|raw }},
+        patternPercent: {{ 'Intl_NumberFormatPercent'|translate|json_encode|raw }},
+        patternCurrency: {{ 'Intl_NumberFormatCurrency'|translate|json_encode|raw }},
+        symbolPlus: {{ 'Intl_NumberSymbolPlus'|translate|json_encode|raw }},
+        symbolMinus: {{ 'Intl_NumberSymbolMinus'|translate|json_encode|raw }},
+        symbolPercent: {{ 'Intl_NumberSymbolPercent'|translate|json_encode|raw }},
+        symbolGroup: {{ 'Intl_NumberSymbolGroup'|translate|json_encode|raw }},
+        symbolDecimal: {{ 'Intl_NumberSymbolDecimal'|translate|json_encode|raw }},
+        patternsCompactNumber: {
+{% for i in 0..15 %}
+            "{{ 10**i }}000One": {{ ('Intl_NumberFormatNumberCompact' ~ 10**i ~ '000One')|translate|json_encode|raw }},
+            "{{ 10**i }}000Other": {{ ('Intl_NumberFormatNumberCompact' ~ 10**i ~ '000Other')|translate|json_encode|raw }},
+{% endfor %}
+        },
+        patternsCompactCurrency: {
+{%- for i in 0..15 %}
+            "{{ 10**i }}000One": {{ ('Intl_NumberFormatCurrencyCompact' ~ 10**i ~ '000One')|translate|json_encode|raw }},
+            "{{ 10**i }}000Other": {{ ('Intl_NumberFormatCurrencyCompact' ~ 10**i ~ '000Other')|translate|json_encode|raw }},
+{%- endfor %}
+        }
     };
 
     piwik.relativePluginWebDirs = {{ relativePluginWebDirs|json_encode|raw }};

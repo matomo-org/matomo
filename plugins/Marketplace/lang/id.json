@@ -61,7 +61,6 @@
         "OverviewPluginSubscriptions": "Ikhtisar langganan pengaya Anda",
         "OverviewPluginSubscriptionsAllDetails": "Untuk melihat semua detail atau untuk mengubah langganan, silakan masuk ke akun Anda.",
         "OverviewPluginSubscriptionsMissingInfo": "Ada kemungkinan langganan tidak ada, misalnya jika pembayaran belum selesai. Jika demikian, coba lagi dalam beberapa jam atau hubungi tim Matomo.",
-        "OverviewPluginSubscriptionsMissingLicense": "Anda tidak memiliki set kunci lisensi. Jika Anda telah membeli langganan pengaya, buka %1$sLokapasar%2$s dan masukkan kunci lisensi Anda.",
         "PaidPlugins": "Fitur Premium",
         "PluginDescription": "Perpanjang dan perluas fungsionalitas Matomo melalui Lokapasar dengan mengunduh pengaya dan tema.",
         "PluginKeywords": "Kata Kunci",

@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: build vue files
     steps:
       - name: Detect branch for PR
@@ -71,7 +71,7 @@ jobs:
           php-version: '8.0'
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
           cache: 'npm'
@@ -83,7 +83,7 @@ jobs:
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -108,16 +108,16 @@ jobs:
         run: |
           cat <<- EOF > $HOME/.netrc
             machine github.com
-            login $GITHUB_ACTOR
-            password $GITHUB_TOKEN
+            login innocraft-automation
+            password $CUSTOM_ACCESS_TOKEN
             machine api.github.com
-            login $GITHUB_ACTOR
-            password $GITHUB_TOKEN
+            login innocraft-automation
+            password $CUSTOM_ACCESS_TOKEN
           EOF
           chmod 600 $HOME/.netrc
-          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git config --global user.name "$GITHUB_ACTOR"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git config --global user.email "innocraft-automation@users.noreply.github.com"
+          git config --global user.name "innocraft-automation"
+          git remote set-url origin https://x-access-token:${{ secrets.CUSTOM_ACCESS_TOKEN }}@github.com/$GITHUB_REPOSITORY
           if [[ ${{ steps.vars.outputs.islocalbranch }} ]]
           then
             git fetch --depth=1 origin $BRANCH_NAME
@@ -146,7 +146,7 @@ jobs:
             fi
           fi
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         with:
           script: |
             github.rest.issues.createComment({

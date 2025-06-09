@@ -158,9 +158,17 @@ export default defineComponent({
         action: 'overview',
       })}`;
     },
+    licenseKeyLink() {
+      return `?${MatomoUrl.stringify({
+        module: 'Marketplace',
+        action: 'manageLicenseKey',
+      })}`;
+    },
     missingLicenseText() {
       return translate(
-        'Marketplace_OverviewPluginSubscriptionsMissingLicense',
+        'Marketplace_OverviewPluginSubscriptionsMissingLicenseMessage',
+        `<a href="${this.licenseKeyLink}">`,
+        '</a>',
         `<a href="${this.marketplaceOverviewLink}">`,
         '</a>',
       );

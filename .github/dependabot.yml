@@ -1,0 +1,78 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    labels:
+      - "Needs Review"
+      - "github_actions"
+    commit-message:
+      prefix: "[GitHub Actions] "
+    open-pull-requests-limit: 10
+    reviewers:
+      - "matomo-org/core-reviewers"
+    pull-request-branch-name:
+      separator: "-"
+
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+    labels:
+      - "Needs Review"
+      - "submodules"
+    groups:
+      all-submodules:
+        patterns:
+         - "*"
+    commit-message:
+      prefix: "[Submodules] "
+    reviewers:
+      - "matomo-org/core-reviewers"
+    pull-request-branch-name:
+      separator: "-" 
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+    labels:
+      - "Needs Review"
+      - "dependencies"
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "[NPM] "
+    reviewers:
+      - "matomo-org/core-reviewers"
+    pull-request-branch-name:
+      separator: "-"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
+    versioning-strategy: lockfile-only
+
+  - package-ecosystem: "npm"
+    directory: "/tests/lib/screenshot-testing"
+    schedule:
+      interval: "monthly"
+    labels:
+      - "Needs Review"
+      - "dependencies"
+      - "c: Tests & QA"
+    groups:
+      all-dependencies:
+        patterns:
+         - "*"
+    commit-message:
+      prefix: "[NPM UI Tests] "
+    reviewers:
+      - "matomo-org/core-reviewers"
+    pull-request-branch-name:
+      separator: "-"    
+    versioning-strategy: lockfile-only

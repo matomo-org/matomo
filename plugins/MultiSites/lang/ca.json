@@ -1,6 +1,7 @@
 {
     "MultiSites": {
         "AllWebsitesDashboardDocumentation": "Aquest informe us ofereix una visió general informativa de cadascun dels vostres llocs web, que conté les mètriques més generals sobre els vostres visitants.",
+        "AllWebsitesDashboardErrorMessage": "Les dades no estan disponibles actualment. Això pot ser degut a un problema temporal del servidor o a que l'informe conté massa dades. Si us plau, torneu-ho a provar més tard. Si el problema persisteix, poseu-vos en contacte amb el vostre administrador de Matomo per obtenir ajuda.",
         "AllWebsitesDashboardTitle": "Tots els llocs web",
         "Evolution": "Evolució",
         "EvolutionComparisonDay": "%1$s %2$s aquest dia en comparació amb %3$s %2$s del període parcial anterior (%4$s) Evolució: %5$s",
@@ -15,6 +16,12 @@
         "EvolutionFromPreviousWeek": "De la darrera setmana",
         "EvolutionFromPreviousYear": "De l'any passat",
         "LoadingWebsites": "Carregant llocs web",
+        "MetricDocumentationEvolution": "El percentatge de canvi d'aquesta mètrica en comparació amb el període anterior d'aquest lloc web. Un valor positiu indica creixement, mentre que un valor negatiu indica una disminució.",
+        "MetricDocumentationHits": "El nombre total d'accions registrades per a aquest lloc web, incloses les pàgines vistes, les baixades i els enllaços externs.",
+        "MetricDocumentationPageviews": "El nombre total de pàgines vistes en aquest lloc web. Això inclou diverses visualitzacions de la mateixa pàgina per un sol visitant.",
+        "MetricDocumentationRevenue": "Els ingressos totals mesurats d'aquest lloc web. Aquesta mètrica està disponible si el seguiment del comerç electrònic està activat i reflecteix compres o ingressos basats en objectius.",
+        "MetricDocumentationVisits": "El nombre total de visites registrades per a aquest lloc web. Una visita comença quan un usuari accedeix al lloc i acaba després d'un període d'inactivitat o quan caduca la sessió.",
+        "MetricDocumentationWebsite": "La llista de llocs web seguits que es mostra al tauler. Cada fila representa un lloc web independent amb les seves dades d'anàlisi corresponents.",
         "PluginDescription": "Consulteu i compareu tots els vostres llocs web i aplicacions en aquest útil tauler de control \"Tots els llocs web\".",
         "SingleWebsitesDashboardDocumentation": "Aquest informe us ofereix una visió general informativa d'un lloc web específic, que conté les mètriques més generals sobre els vostres visitants.",
         "TopLinkTooltip": "Compareu les estadístiques anàlitiques de tots els vostres llocs web.",

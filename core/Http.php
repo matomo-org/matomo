@@ -260,6 +260,12 @@ class Http
             }
         }
 
+        // When sending an insecure request, but https is forced, and we would care about valid certificates, log a warning
+        // Note: accepting invalid ssl certificates should only be used when requesting data from a configured website
+        if ($parsedUrl['scheme'] === 'http' && SettingsPiwik::isHttpsForced() && $acceptInvalidSslCertificate === false) {
+            Log::warning('Matomo is configured to force HTTPS, but is sending an insecure request to ' . $aUrl);
+        }
+
         $contentLength = 0;
         $fileLength = 0;
 
@@ -399,7 +405,7 @@ class Http
                 $requestHeader = "$httpMethod $path HTTP/$httpVer\r\n";
 
                 if ('https' == $url['scheme']) {
-                    $connectHost = 'ssl://' . $connectHost;
+                    $connectHost = 'tls://' . $connectHost;
                 }
             }
 
@@ -882,7 +888,7 @@ class Http
      * {
      *     $outputPath = PIWIK_INCLUDE_PATH . '/tmp/averybigfile.zip';
      *     $isStart = Common::getRequestVar('isStart', 1, 'int');
-     *     Http::downloadChunk("http://bigfiles.com/averybigfile.zip", $outputPath, $isStart == 1);
+     *     Http::downloadChunk("https://bigfiles.com/averybigfile.zip", $outputPath, $isStart == 1);
      * }
      * ```
      *

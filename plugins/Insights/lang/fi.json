@@ -18,6 +18,11 @@
         "MonthComparedToPreviousYear": "sama kuukausi edelliseltä vuodelta",
         "NoResultMatchesCriteria": "Yksikään rivi ei vastannut valintoja",
         "OverviewWidgetTitle": "Oivallusten yleiskatsaus",
+        "PluginDescription": "Tarjoaa tietoja liikenteestäsi. Tilastot ovat saatavilla hallintapaneelin vimpaimina sekä uutena kuvakkeena raporteissa, joiden avulla näet tärkeimmät trendit tiedoissasi.",
+        "TitleConsideredInsightsChanges": "Rivit lisääntyivät tai vähenivät vähintään %1$s käynnillä (%2$s %% %3$s käynnin kokonaismäärästä).",
+        "TitleConsideredInsightsGrowth": "Seuraavien rivien kasvu on vähintään %1$s %% verrattuna tähän %2$s.",
+        "TitleConsideredMoversAndShakersChanges": "Pidetyt muuttajat vain, jos ne kasvoivat yli %1$s %% käyntiä tai pienenivät alle %2$s %% käyntiä, uusia merkintöjä vain, jos ne lisääntyivät yli %3$s %% käyntiä (%4$s ), ja katosivat rivit, jos ne pienenivät alle %5$s %% käyntiä (%6$s).",
+        "TitleConsideredMoversAndShakersGrowth": "%1$s muuttui arvosta %2$s arvoon %3$s verrattuna kohteeseen %4$s. Tämän perusteella kunkin rivin %5$s %% kehityksen odotetaan olevan.",
         "WeekComparedToPreviousWeek": "edellinen viikko",
         "WidgetCategory": "Oivallukset",
         "YearComparedToPreviousYear": "edellinen vuosi"

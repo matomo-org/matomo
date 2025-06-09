@@ -75,7 +75,7 @@
         "UnpackingTheUpdate": "Puretaan päivitystä",
         "UpdateAutomatically": "Päivitä automaattisesti",
         "UpdateErrorTitle": "Päivitysvirhe",
-        "UpdateHasBeenCancelledExplanation": "Matomon yhden klikkauksen päivitys on peruutettu. Jos et voi korjata alla olevaa virhettä, on suositeltavaa päivittää Matomo manuaalisesti. %1$s Ole hyvä ja tarkista %2$späivitysdokumentaatio%3$s",
+        "UpdateHasBeenCancelledExplanation": "Matomon One Click Update on peruutettu. Jos et voi korjata yllä olevaa virheilmoitusta, on suositeltavaa päivittää Matomo manuaalisesti. %1$s Katso %2$sPäivitä dokumentaatio%3$s aloittaaksesi!",
         "UpdateLog": "Päivitysloki",
         "UpdateSuccessTitle": "Matomo on päivitetty onnistuneesti!",
         "UpdateTitle": "Päivitys",

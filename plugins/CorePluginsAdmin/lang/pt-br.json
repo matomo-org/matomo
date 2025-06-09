@@ -77,7 +77,7 @@
         "Themes": "Temas",
         "ThemesDescription": "Os temas podem alterar a aparência da interface do usuário do Matomo, e fornecer uma experiência completamente nova visual para desfrutar dos seus relatórios de análise.",
         "ThemesManagement": "Gerenciar Temas",
-        "UninstallConfirm": "Você está prestes a desinstalar um plugin %s. O plugin será completamente removido da sua plataforma e isso não poderá ser desfeito. Tem certeza que deseja fazer isso?",
+        "UninstallConfirm": "Você está prestes a desinstalar um plugin %s. O plugin e todos os dados coletados por ele serão completamente removidos da sua plataforma e isso não poderá ser desfeito. Tem certeza que deseja fazer isso?",
         "UpdateSelected": "Atualização selecionada",
         "Version": "Versão",
         "ViewAllMarketplacePlugins": "Ver todos os plugins da loja de aplicativos",

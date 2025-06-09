@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>category</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_events>2</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<avg_event_value>0</avg_event_value>
+		<segment>eventCategory==category</segment>
+		<subtable>
+			<row>
+				<label>action</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+</result>

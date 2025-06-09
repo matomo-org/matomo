@@ -1,4 +1,4 @@
-{% if isCustomLogo and customFavicon is defined and customFavicon %}
+{% if isCustomLogo and hasCustomFavicon and customFavicon is defined and customFavicon %}
     <link rel="shortcut icon" href="{{ customFavicon }}"/>
 {% else %}
     <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.png"/>

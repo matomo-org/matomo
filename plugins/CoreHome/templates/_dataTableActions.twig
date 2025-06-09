@@ -25,4 +25,5 @@
     view-data-table="{{ clientSideParameters.viewDataTable|json_encode }}"
     pivot-dimension-name="{{ properties.pivot_dimension_name|default(null)|json_encode }}"
     selectable-periods="{{ properties.selectable_periods|default([])|json_encode }}"
+    placement="{{ placement|default('footer')|json_encode }}"
 ></div>

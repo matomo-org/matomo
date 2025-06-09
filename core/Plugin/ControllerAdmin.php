@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Development;
+use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Notification;
@@ -165,7 +166,7 @@ abstract class ControllerAdmin extends Controller
 
         $message .= Piwik::translate(
             'General_ReadThisToLearnMore',
-            ['<a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_91/">'), '</a>']
+            ['<a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_91/') . '">', '</a>']
         );
 
         $notification = new Notification($message);
@@ -202,14 +203,11 @@ abstract class ControllerAdmin extends Controller
      */
     public static function displayWarningIfConfigFileNotWritable()
     {
-        $isConfigFileWritable = PiwikConfig::getInstance()->isFileWritable();
-
-        if (!$isConfigFileWritable) {
-            $exception = PiwikConfig::getInstance()->getConfigNotWritableException();
-            $message = $exception->getMessage();
-
-            $notification = new Notification($message);
-            $notification->raw     = true;
+        try {
+            PiwikConfig::getInstance()->checkConfigIsWritable();
+        } catch (MissingFilePermissionException $exception) {
+            $notification = new Notification($exception->getMessage());
+            $notification->raw = true;
             $notification->context = Notification::CONTEXT_WARNING;
             Notification\Manager::notify('ControllerAdmin_ConfigNotWriteable', $notification);
         }
@@ -420,17 +418,20 @@ abstract class ControllerAdmin extends Controller
 
     private static function isPhpVersionEOL()
     {
-        $phpEOL = '7.3';
+        $phpEOL = '8.0';
 
-        // End of security update for certain PHP versions as of https://www.php.net/supported-versions.php
-        if (Date::today()->isLater(Date::factory('2022-11-28'))) {
-            $phpEOL = '7.4';
-        }
-        if (Date::today()->isLater(Date::factory('2023-11-26'))) {
-            $phpEOL = '8.0';
-        }
-        if (Date::today()->isLater(Date::factory('2024-11-25'))) {
+        // End of security update for certain PHP versions as of https://www.php.net/supported-versions
+        if (Date::today()->isLater(Date::factory('2025-12-31'))) {
             $phpEOL = '8.1';
+        }
+        if (Date::today()->isLater(Date::factory('2026-12-31'))) {
+            $phpEOL = '8.2';
+        }
+        if (Date::today()->isLater(Date::factory('2027-12-31'))) {
+            $phpEOL = '8.3';
+        }
+        if (Date::today()->isLater(Date::factory('2028-12-31'))) {
+            $phpEOL = '8.4';
         }
 
         return version_compare(PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION, $phpEOL, '<=');

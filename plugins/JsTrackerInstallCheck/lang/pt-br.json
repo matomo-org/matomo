@@ -3,6 +3,7 @@
         "JsTrackingCodeInstallCheckFailureMessage": "Falha na verificação do código de rastreamento. Verifique se você instalou o código corretamente. %1$sSaiba mais%2$s.",
         "JsTrackingCodeInstallCheckFailureMessageWordpress": "Falha na verificação do código de rastreamento. Por favor verifique se você instalou o plugin \"%1$s\" e seguiu todos os passos. %2$sSaiba mais%3$s.",
         "JsTrackingCodeInstallCheckSuccessMessage": "O código de rastreamento foi instalado com sucesso! Esta tela desaparecerá assim que alguns dados do seu site forem rastreados.",
+        "OptionalTestInstallationDescription": "Opcional: Para testar se o código de rastreamento é capaz de enviar solicitações para sua instância do Matomo, insira a URL exata que você está rastreando e clique em “Testar instalação”. Uma nova guia será aberta e deverá fechar em 10 segundos.",
         "PluginDescription": "Valide se o código de rastreamento foi instalado em seu site e se ele pode enviar solicitações de rastreamento de volta para sua instância do Matomo",
         "TestInstallationBtnText": "Testar instalação"
     }

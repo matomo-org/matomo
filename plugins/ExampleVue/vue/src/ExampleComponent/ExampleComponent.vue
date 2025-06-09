@@ -15,7 +15,7 @@
       <div class="ui-confirm exampleDialog">
         <h2>Alert</h2>
         <p>
-          The count is greater than 1 right now!
+          The count is greater than 15 right now!
         </p>
 
         <input type="button" value="OK" role="yes"/>

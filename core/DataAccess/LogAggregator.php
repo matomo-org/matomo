@@ -173,7 +173,7 @@ class LogAggregator
      *
      * @param \Piwik\ArchiveProcessor\Parameters $params
      */
-    public function __construct(Parameters $params, LoggerInterface $logger = null)
+    public function __construct(Parameters $params, ?LoggerInterface $logger = null)
     {
         $this->dateStart = $params->getDateTimeStart();
         $this->dateEnd = $params->getDateTimeEnd();
@@ -339,12 +339,13 @@ class LogAggregator
      * @param             $orderBy
      * @param int         $limit
      * @param int         $offset
+     * @param bool        $withRollup
      *
      * @return array|mixed|string
      * @throws \Piwik\Exception\DI\DependencyException
      * @throws \Piwik\Exception\DI\NotFoundException
      */
-    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
+    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0, bool $withRollup = false)
     {
         $segment = $this->segment;
         $bind = $this->getGeneralQueryBindParams();
@@ -393,12 +394,14 @@ class LogAggregator
             }
         }
 
-        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset, $forceGroupBy = false, $withRollup);
 
         if (is_array($query) && array_key_exists('sql', $query)) {
             $query['sql'] = DbHelper::addOriginHintToQuery($query['sql'], $this->queryOriginHint, $this->dateStart, $this->dateEnd, $this->sites, $this->segment);
             if (DatabaseConfig::getConfigValue('enable_first_table_join_prefix')) {
-                $query['sql'] = DbHelper::addJoinPrefixHintToQuery($query['sql'], (is_array($from) ? reset($from) : $from));
+                $fromTable = is_array($from) ? reset($from) : $from;
+                $fromTable = is_array($fromTable) ? $fromTable['table'] : $fromTable;
+                $query['sql'] = DbHelper::addJoinPrefixHintToQuery($query['sql'], $fromTable);
             }
         }
 
@@ -1176,6 +1179,8 @@ class LogAggregator
      * @param RankingQuery|bool $rankingQuery
      * @param bool $rankingQueryGenerate if `true`, generates a SQL query / bind array pair and returns it. If false, the
      *                                   ranking query SQL will be immediately executed and the results returned.
+     * @param bool $forceSiteDateIndex Forces the resulting query to use the index_idsite_datetime index. For some
+     * reason, the engine doesn't always use that index automatically. This allows us to make sure that it uses it.
      * @return \Zend_Db_Statement|array
      */
     public function queryConversionsByDimension(
@@ -1184,7 +1189,8 @@ class LogAggregator
         $additionalSelects = array(),
         $extraFrom = [],
         $rankingQuery = false,
-        $rankingQueryGenerate = false
+        $rankingQueryGenerate = false,
+        $forceSiteDateIndex = false
     ) {
         $dimensions = array_merge(array(self::IDGOAL_FIELD), $dimensions);
         $tableName  = self::LOG_CONVERSION_TABLE;
@@ -1192,7 +1198,8 @@ class LogAggregator
 
         $select = $this->getSelectStatement($dimensions, $tableName, $additionalSelects, $availableMetrics);
 
-        $from    = array_merge([$tableName], $extraFrom);
+        $primaryFrom = !$forceSiteDateIndex ? [$tableName] : [['table' => $tableName, 'useIndex' => 'index_idsite_datetime']];
+        $from    = array_merge($primaryFrom, $extraFrom);
         $where   = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
         $orderBy = false;

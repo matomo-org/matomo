@@ -12,8 +12,6 @@ return [
                 $response = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/SEO/tests/resources/whois_response.html');
             } elseif (strpos($aUrl, 'www.whois.com')) {
                 $response = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/SEO/tests/resources/whoiscom_response.html');
-            } elseif (strpos($aUrl, 'www.google.com')) {
-                $response = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/SEO/tests/resources/google_response.html');
             }
         })]
     ]),

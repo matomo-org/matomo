@@ -18,6 +18,7 @@ use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Request;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Url;
+use Piwik\UrlHelper;
 use Piwik\View;
 
 /*
@@ -64,7 +65,7 @@ class OptOutManager
     /**
      * @param DoNotTrackHeaderChecker|null $doNotTrackHeaderChecker
      */
-    public function __construct(DoNotTrackHeaderChecker $doNotTrackHeaderChecker = null)
+    public function __construct(?DoNotTrackHeaderChecker $doNotTrackHeaderChecker = null)
     {
         $this->doNotTrackHeaderChecker = $doNotTrackHeaderChecker ?: new DoNotTrackHeaderChecker();
 
@@ -205,6 +206,20 @@ class OptOutManager
         bool $applyStyling,
         bool $showIntro
     ): string {
+        $parsedUrl = parse_url($matomoUrl);
+
+        if (
+            (!empty($matomoUrl) && false === $parsedUrl)
+            || (!empty($parsedUrl['scheme']) && !in_array(strtolower($parsedUrl['scheme']), ['http', 'https']))
+            || (empty($parsedUrl['host']) || !Url::isValidHost($parsedUrl['host']))
+        ) {
+            throw new \Piwik\Exception\Exception('The provided URL is invalid.');
+        }
+
+        // We put together the url based on the parsed parameters manually to ensure it might not include unexpected values
+        // for protocol less urls starting with //, we need to prepend the double slash again
+        $matomoUrl = (strpos($matomoUrl, '//') === 0 ? '//' : '') . UrlHelper::getParseUrlReverse($parsedUrl);
+
         return '<div id="matomo-opt-out"></div>
 <script src="' . rtrim($matomoUrl, '/') . '/index.php?module=CoreAdminHome&action=optOutJS&divId=matomo-opt-out&language=' . $language . ($applyStyling ? '&backgroundColor=' . $backgroundColor . '&fontColor=' . $fontColor . '&fontSize=' . $fontSize . '&fontFamily=' . $fontFamily : '') . '&showIntro=' . ($showIntro ? '1' : '0') . '"></script>';
     }
@@ -531,7 +546,7 @@ JS;
      *
      * @return array
      */
-    private function getTranslations(string $language = null): array
+    private function getTranslations(?string $language = null): array
     {
         return [
             'OptOutComplete'        => Piwik::translate('CoreAdminHome_OptOutComplete', [], $language),

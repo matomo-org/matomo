@@ -47,6 +47,7 @@ abstract class API
 {
     private static $instances;
 
+    /** @var bool */
     protected $autoSanitizeInputParams = true;
 
     /**
@@ -117,8 +118,10 @@ abstract class API
      * @param $passwordConfirmation
      * @throws Exception
      */
-    protected function confirmCurrentUserPassword($passwordConfirmation)
-    {
+    protected function confirmCurrentUserPassword(
+        #[\SensitiveParameter]
+        $passwordConfirmation
+    ) {
         $loginCurrentUser = Piwik::getCurrentUserLogin();
 
         if (!Piwik::doesUserRequirePasswordConfirmation($loginCurrentUser)) {

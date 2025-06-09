@@ -9,7 +9,10 @@
 
 namespace Piwik\Plugins\CoreUpdater\Commands;
 
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Piwik;
@@ -50,19 +53,24 @@ class ConvertToUtf8mb4 extends ConsoleCommand
         $keepTracking = $input->getOption('keep-tracking');
         $show = $input->getOption('show');
 
-        $queries = DbHelper::getUtf8mb4ConversionQueries();
+        if (DbHelper::getDefaultCharset() !== 'utf8mb4') {
+            $this->writeErrorMessage('Your database does not support utf8mb4');
+            return self::FAILURE;
+        }
 
+        $defaultCollation = DbHelper::getDefaultCollationForCharset('utf8mb4');
+        if (empty($defaultCollation)) {
+            $this->writeErrorMessage('Could not detect default collation for utf8mb4 charset');
+            return self::FAILURE;
+        }
+
+        $queries = DbHelper::getUtf8mb4ConversionQueries();
         if ($show) {
-            $this->showCommands($queries, $keepTracking);
+            $this->showCommands($queries, $keepTracking, $defaultCollation);
             return self::SUCCESS;
         }
 
         $output->writeln("This command will convert all Matomo database tables to utf8mb4.\n");
-
-        if (DbHelper::getDefaultCharset() !== 'utf8mb4') {
-            $this->writeSuccessMessage(array('Your database does not support utf8mb4'));
-            return self::FAILURE;
-        }
 
         if (!$keepTracking) {
             $output->writeln("Tracking will be disabled during this process.\n");
@@ -94,6 +102,11 @@ class ConvertToUtf8mb4 extends ConsoleCommand
 
                 $output->writeln("\n" . 'Updating used database charset in config.ini.php.');
                 $config->database['charset'] = 'utf8mb4';
+
+                $collation = $this->detectCollation() ?: $defaultCollation;
+
+                $output->writeln("\n" . 'Updating used database collation in config.ini.php.');
+                $config->database['collation'] = $collation;
             } finally {
                 if (!$keepTracking) {
                     $output->writeln("\n" . Piwik::translate('Enabling Matomo Tracking'));
@@ -102,15 +115,15 @@ class ConvertToUtf8mb4 extends ConsoleCommand
                 $config->forceSave();
             }
 
-            $this->writeSuccessMessage(array('Conversion to utf8mb4 successful.'));
+            $this->writeSuccessMessage('Conversion to utf8mb4 successful.');
         } else {
-            $this->writeSuccessMessage(array('Database conversion skipped.'));
+            $this->writeSuccessMessage('Database conversion skipped.');
         }
 
         return self::SUCCESS;
     }
 
-    protected function showCommands($queries, $keepTracking)
+    protected function showCommands($queries, $keepTracking, $collation)
     {
         $output = $this->getOutput();
         $output->writeln("To manually convert all Matomo database tables to utf8mb4 follow these steps.");
@@ -125,10 +138,48 @@ class ConvertToUtf8mb4 extends ConsoleCommand
         $output->writeln('');
         $output->writeln('** Change configured database charset to utf8mb4 with this command: **');
         $output->writeln('./console config:set --section=database --key=charset --value=utf8mb4');
+        $output->writeln('');
+        $output->writeln("** Change configured database collation to {$collation} with this command: **");
+        $output->writeln("(the actual collation value may differ based on your specific database settings)");
+        $output->writeln("./console config:set --section=database --key=collation --value={$collation}");
         if (!$keepTracking) {
             $output->writeln('');
             $output->writeln('** Enable Matomo Tracking again with this command: **');
             $output->writeln('./console config:set --section=Tracker --key=record_statistics --value=1');
         }
+    }
+
+    private function detectCollation(): ?string
+    {
+        try {
+            $metadataProvider = StaticContainer::get('Piwik\Plugins\DBStats\MySQLMetadataProvider');
+            $userTableStatus = $metadataProvider->getTableStatus('user');
+            if (empty($userTableStatus['Collation'] ?? null)) {
+                // if there is no user table, or no collation for it, abort detection
+                // this table should always exist and something must be wrong in this case
+                return null;
+            }
+            $userTableCollation = $userTableStatus['Collation'];
+
+            $archiveTable = ArchiveTableCreator::getLatestArchiveTableInstalled(ArchiveTableCreator::NUMERIC_TABLE);
+            if (null === $archiveTable) {
+                return null;
+            }
+
+            $archiveTableStatus = $metadataProvider->getTableStatus(Common::unprefixTable($archiveTable));
+
+            if (
+                !empty($archiveTableStatus['Collation'])
+                && $archiveTableStatus['Collation'] === $userTableCollation
+            ) {
+                // the most recent numeric archive table is matching the collation
+                // of the users table, should be a good value to choose
+                return $userTableCollation;
+            }
+        } catch (\Exception $e) {
+            // no-op if there are any issues, will default to the default collation
+        }
+
+        return null;
     }
 }

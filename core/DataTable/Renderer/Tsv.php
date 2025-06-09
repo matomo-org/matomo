@@ -32,7 +32,7 @@ class Tsv extends Csv
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         return parent::render();
     }

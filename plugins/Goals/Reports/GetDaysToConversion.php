@@ -34,6 +34,13 @@ class GetDaysToConversion extends Base
         $this->orderGoal = 52;
     }
 
+    public function getMetricsDocumentation()
+    {
+        return [
+            'nb_conversions' => Piwik::translate('Goals_DaysToConvColumnDocumentation'),
+        ];
+    }
+
     public function configureView(ViewDataTable $view)
     {
         $view->config->show_search = false;

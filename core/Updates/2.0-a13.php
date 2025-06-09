@@ -53,7 +53,7 @@ class Updates_2_0_a13 extends Updates
         $migrations[] = $this->migration->db->sql($query, $errorCodeTableNotFound);
 
         $query = 'UPDATE `' . Common::prefixTable('option') . '` SET `option_name` = \'version_ScheduledReports\' WHERE `option_name` = \'version_PDFReports\' ';
-        $migrations[] = $this->migration->db->sql($query, Updater\Migration\Db::ERROR_CODE_DUPLICATE_ENTRY); // http://forum.piwik.org/read.php?2,106895
+        $migrations[] = $this->migration->db->sql($query, Updater\Migration\Db::ERROR_CODE_DUPLICATE_ENTRY); // https://forum.piwik.org/read.php?2,106895
 
         $migrations[] = $this->migration->plugin->activate('Referrers');
         $migrations[] = $this->migration->plugin->activate('ScheduledReports');

@@ -13,7 +13,6 @@ use Piwik\IP;
 use Piwik\Measurable\Type\TypeManager;
 use Matomo\Network\IPUtils;
 use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\Plugins\WebsiteMeasurable\Settings\Urls;
 use Piwik\Settings\Measurable\MeasurableProperty;
 use Piwik\Settings\Setting;
@@ -78,11 +77,6 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
     private $sitesManagerApi;
 
     /**
-     * @var Plugin\Manager
-     */
-    private $pluginManager;
-
-    /**
      * @var TypeManager
      */
     private $typeManager;
@@ -94,13 +88,11 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
     public function __construct(
         SitesManager\API $api,
-        Plugin\Manager $pluginManager,
         TypeManager $typeManager,
         $idSite,
         $idMeasurableType
     ) {
         $this->sitesManagerApi = $api;
-        $this->pluginManager = $pluginManager;
         $this->typeManager = $typeManager;
 
         parent::__construct($idSite, $idMeasurableType);
@@ -145,7 +137,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         $areSiteSearchKeywordsEmpty = empty($siteSearchKeywords) || (is_array($siteSearchKeywords) && implode("", $siteSearchKeywords) == "");
         $this->useDefaultSiteSearchParams->setDefaultValue($areSiteSearchKeywordsEmpty);
 
-        $this->siteSearchCategory = $this->makeSiteSearchCategory($this->pluginManager);
+        $this->siteSearchCategory = $this->makeSiteSearchCategory();
         /**
          * SiteSearch End
          */
@@ -387,9 +379,9 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         });
     }
 
-    private function makeSiteSearchCategory(Plugin\Manager $pluginManager)
+    private function makeSiteSearchCategory()
     {
-        return $this->makeProperty('sitesearch_category_parameters', $default = [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) use ($pluginManager) {
+        return $this->makeProperty('sitesearch_category_parameters', $default = [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
             $field->title = Piwik::translate('SitesManager_SearchCategoryLabel');
             $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
             $field->inlineHelp = Piwik::translate('Goals_Optional')

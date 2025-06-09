@@ -56,7 +56,7 @@
   engine: 'Baidu'
   keywords: '二度宫颈糜烂能治好吗?'
 
-- url: 'http://web.gougou.com/search?search=%E5%85%A8%E9%83%A8&id=1'
+- url: 'http://tieba.baidu.com/search?wd=%E5%85%A8%E9%83%A8&id=1'
   engine: 'Baidu'
   keywords: '全部'
 
@@ -278,9 +278,6 @@
 - url: 'http://tieba.baidu.com/?kw=test2'
   engine: 'Baidu'
   keywords: 'test2'
-- url: 'http://web.gougou.com/?search=test3'
-  engine: 'Baidu'
-  keywords: 'test3'
 
 - url: 'http://search.naver.com/search.naver?where=nexearch&query=FAU+&x=0&y=0&sm=top_hty&fbm=1&ie=utf8'
   engine: 'Naver'

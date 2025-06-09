@@ -156,7 +156,7 @@ class ArchiveInvalidator
         return array_keys($this->getRememberedArchivedReportsThatShouldBeInvalidated($idSite));
     }
 
-    public function getRememberedArchivedReportsThatShouldBeInvalidated(int $idSite = null)
+    public function getRememberedArchivedReportsThatShouldBeInvalidated(?int $idSite = null)
     {
         if (null === $idSite) {
             $optionName = $this->rememberArchivedReportIdStart . '%';
@@ -259,14 +259,14 @@ class ArchiveInvalidator
     }
 
     /**
-     * @param $idSites int[]
-     * @param $dates Date[]|string[]
-     * @param $period string
-     * @param $segment Segment
+     * @param int[] $idSites
+     * @param Date[]|string[] $dates
+     * @param string $period
+     * @param null|Segment $segment
      * @param bool $cascadeDown
      * @param bool $forceInvalidateNonexistentRanges set true to force inserting rows for ranges in archive_invalidations
-     * @param string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
-     *                     or a plugin name to only archive the specific plugin.
+     * @param null|string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
+     *                          or a plugin name to only archive the specific plugin.
      * @param bool $ignorePurgeLogDataDate
      * @param bool $doNotCreateInvalidations If true, archives will only be marked as invalid, but no archive_invalidation record will be created
      * @return InvalidationResult
@@ -276,7 +276,7 @@ class ArchiveInvalidator
         array $idSites,
         array $dates,
         $period,
-        Segment $segment = null,
+        ?Segment $segment = null,
         bool $cascadeDown = false,
         bool $forceInvalidateNonexistentRanges = false,
         ?string $name = null,
@@ -317,7 +317,7 @@ class ArchiveInvalidator
          * @param array &$idSites An array containing a list of site IDs which are requested to be invalidated.
          * @param array $dates An array containing the dates to invalidate.
          * @param string $period A string containing the period to be invalidated.
-         * @param Segment $segment A Segment Object containing segment to invalidate.
+         * @param null|Segment $segment A Segment Object containing segment to invalidate.
          * @param string $name A string containing the name of the archive to be invalidated.
          * @param bool $isPrivacyDeleteData A boolean value if event is triggered via Privacy delete visit action.
          */
@@ -416,7 +416,7 @@ class ArchiveInvalidator
         }
     }
 
-    private function addParentPeriodsByYearMonth(&$result, Period $period, Date $originalDate = null)
+    private function addParentPeriodsByYearMonth(&$result, Period $period, ?Date $originalDate = null)
     {
         if (
             $period->getLabel() == 'year'
@@ -434,15 +434,15 @@ class ArchiveInvalidator
     }
 
     /**
-     * @param $idSites int[]
-     * @param $dates Date[]
-     * @param $period string
-     * @param $segment Segment
-     * @param bool $cascadeDown
+     * @param int[] $idSites
+     * @param Date[] $dates
+     * @param Segment $segment
+     * @param null|string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
+     * *                          or a plugin name to only archive the specific plugin.
      * @return InvalidationResult
      * @throws \Exception
      */
-    public function markArchivesOverlappingRangeAsInvalidated(array $idSites, array $dates, Segment $segment = null)
+    public function markArchivesOverlappingRangeAsInvalidated(array $idSites, array $dates, ?Segment $segment = null, ?string $name = null)
     {
         $invalidationInfo = new InvalidationResult();
 
@@ -451,15 +451,9 @@ class ArchiveInvalidator
             $ranges[] = Period\Factory::build('range', $dateRange[0] . ',' . $dateRange[1]);
         }
 
-        $invalidatedMonths = array();
         $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
         foreach ($archiveNumericTables as $table) {
-            $tableDate = ArchiveTableCreator::getDateFromTableName($table);
-
-            $rowsAffected = $this->model->updateArchiveAsInvalidated($table, $idSites, $ranges, $segment);
-            if ($rowsAffected > 0) {
-                $invalidatedMonths[] = $tableDate;
-            }
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $ranges, $segment, false, $name);
         }
 
         foreach ($idSites as $idSite) {
@@ -485,7 +479,7 @@ class ArchiveInvalidator
      * @throws \Exception
      * @api
      */
-    public function reArchiveReport($idSites, string $plugin = null, string $report = null, Date $startDate = null, Segment $segment = null)
+    public function reArchiveReport($idSites, ?string $plugin = null, ?string $report = null, ?Date $startDate = null, ?Segment $segment = null)
     {
         $date2 = Date::today();
 
@@ -571,10 +565,10 @@ class ArchiveInvalidator
      */
     public function scheduleReArchiving(
         $idSites,
-        string $pluginName = null,
+        ?string $pluginName = null,
         $report = null,
-        Date $startDate = null,
-        Segment $segment = null
+        ?Date $startDate = null,
+        ?Segment $segment = null
     ) {
         if (!empty($report)) {
             $this->removeInvalidationsSafely($idSites, $pluginName, $report);
@@ -658,6 +652,9 @@ class ArchiveInvalidator
             $idSites = $this->getAllSitesId();
         }
 
+        // Make sure that idSites is an array to prevent typeError
+        $idSites = is_array($idSites) ? $idSites : ($idSites !== true ? [$idSites] : []);
+
         foreach ($entries as $index => $entry) {
             $entry = @json_decode($entry, true);
             if (empty($entry)) {
@@ -709,7 +706,7 @@ class ArchiveInvalidator
     private function markArchivesInvalidated(
         $idSites,
         $dates,
-        Segment $segment = null,
+        ?Segment $segment = null,
         bool $removeRanges = false,
         bool $forceInvalidateNonexistentRanges = false,
         ?string $name = null,

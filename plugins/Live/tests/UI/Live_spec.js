@@ -31,7 +31,7 @@ describe("Live", function () {
         await page.evaluate(() => $('.dataTableVizVisitorLog .repeat.icon-refresh').click());
         await page.mouse.move(-10, -10);
 
-        var report = await page.$('.dataTableVizVisitorLog .card.row:first-child');
+        const report = await page.jQuery('.dataTableVizVisitorLog .card.row:eq(1)');
         expect(await report.screenshot()).to.matchImage('visitor_log_expand_actions');
     });
 
@@ -64,9 +64,7 @@ describe("Live", function () {
         const prevlink = await page.jQuery('.dataTableVizVisitorLog .card.row:eq(2) .collapsed-contents:visible');
         await prevlink.click();
 
-        await page.evaluate(function(){
-            $('.card:first-child .visitor-log-visitor-profile-link').click();
-        });
+        await (await page.jQuery('.card:eq(0) .visitor-log-visitor-profile-link')).click();
 
         await page.waitForSelector('.ui-dialog');
         await page.waitForNetworkIdle();
@@ -86,9 +84,7 @@ describe("Live", function () {
     });
 
     it('should hide all action details', async function() {
-        await page.evaluate(function(){
-            $('.visitor-profile-toggle-actions').click();
-        });
+        await (await page.jQuery('.visitor-profile-toggle-actions')).click();
 
         await page.mouse.move(0, 0);
 
@@ -97,9 +93,7 @@ describe("Live", function () {
     });
 
     it('should show visit details', async function() {
-        await page.evaluate(function(){
-            $('.visitor-profile-visit-title')[0].click();
-        });
+        await (await page.jQuery('.visitor-profile-visit-title:eq(0)')).click();
 
         var dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('visitor_profile_visit_details');
@@ -128,9 +122,7 @@ describe("Live", function () {
         testEnvironment.save();
 
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
-        await page.evaluate(function(){
-            $('.card:first-child .visitor-log-visitor-profile-link').click();
-        });
+        await (await page.jQuery('.card:eq(0) .visitor-log-visitor-profile-link')).click();
 
         await page.waitForSelector('.ui-dialog', {visible: true});
         await page.waitForNetworkIdle();

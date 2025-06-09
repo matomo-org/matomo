@@ -68,6 +68,7 @@
         "PageDownShortcutDescription": "om onderaan de pagina te komen",
         "PageUpShortcutDescription": "om bovenaan de pagina te komen",
         "PeriodHasOnlyRawData": "Het lijkt erop dat meldingen voor deze periode nog niet verwerkt zijn. Wilt u zien wat er nu gebeurt? Bekijk de %1$sBezoeken log%2$s of kies een andere periode totdat de rapporten worden gegenereerd.",
+        "PeriodHasOnlyRawDataNoVisitsLog": "Het lijkt er op dat rapporten voor deze periode nog niet verwerkt zijn, maar deze zullen beschikbaar komen binnen enkele uren. Je kan een andere periode kiezen tot de rapporten gegenereerd zijn.",
         "PeriodRange": "Bereik",
         "PivotBySubtable": "Dit rapport wordt niet als een draaitabel getoond, %1$s maak een draaitabel op basis van %2$s",
         "Profilable": "Profileerbaar",

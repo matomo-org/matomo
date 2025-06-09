@@ -205,7 +205,7 @@ class HTML_QuickForm2_Renderer_Proxy extends HTML_QuickForm2_Renderer
         return $this->_renderer->getJavascriptBuilder();
     }
 
-    public function setJavascriptBuilder(HTML_QuickForm2_JavascriptBuilder $builder = null)
+    public function setJavascriptBuilder(?HTML_QuickForm2_JavascriptBuilder $builder = null)
     {
         $this->_renderer->setJavascriptBuilder($builder);
         return $this;

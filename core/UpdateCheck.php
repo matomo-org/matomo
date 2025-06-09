@@ -69,7 +69,7 @@ class UpdateCheck
 
     /**
      * Get the latest available version number for the currently active release channel. Eg '2.15.0-b4' or '2.15.0'.
-     * Should return a semantic version number in format MAJOR.MINOR.PATCH (http://semver.org/).
+     * Should return a semantic version number in format MAJOR.MINOR.PATCH (https://semver.org/).
      * Returns an empty string in case one cannot connect to the remote server.
      * @return string
      */

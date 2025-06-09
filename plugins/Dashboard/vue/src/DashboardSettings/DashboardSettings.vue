@@ -10,18 +10,21 @@
     ref="root"
     class="dashboard-manager piwikSelector borderedControl piwikTopControl dashboardSettings"
     v-expand-on-click="{expander: 'expander', onClosed: onClose}"
-    v-tooltips="{show: false}"
     @click="onOpen()"
   >
     <a
       class="title"
+      v-tooltips
       :title="translate('Dashboard_ManageDashboard')"
       tabindex="4"
       ref="expander"
     >
-      <span class="icon icon-chevron-down"></span>{{ translate('Dashboard_Dashboard') }}
+      <span class="icon icon-dashboard-customize"></span>{{ translate('Dashboard_Dashboard') }}
     </a>
-    <div class="dropdown positionInViewport">
+    <div
+      class="dropdown positionInViewport"
+      v-tooltips="{show: false}"
+    >
       <ul class="submenu">
         <li>
           <div class="addWidget">{{ translate('Dashboard_AddAWidget') }}</div>
@@ -125,10 +128,7 @@ export default defineComponent({
 
     const root = ref<HTMLElement|null>(null);
 
-    onMounted(() => {
-      Matomo.postEvent('Dashboard.DashboardSettings.mounted', root.value);
-
-      rootJQuery.value = $(root.value!);
+    const createWidgetPreview = () => {
       rootJQuery.value.widgetPreview({
         isWidgetAvailable,
         onSelect: (widgetUniqueId: string) => {
@@ -139,6 +139,18 @@ export default defineComponent({
           });
         },
         resetOnSelect: true,
+      });
+    };
+
+    onMounted(() => {
+      Matomo.postEvent('Dashboard.DashboardSettings.mounted', root.value);
+
+      rootJQuery.value = $(root.value!);
+      createWidgetPreview();
+
+      // When the available widgets list is reloaded, re-create the widget preview to include update
+      Matomo.on('WidgetsStore.reloaded', () => {
+        createWidgetPreview();
       });
 
       rootJQuery.value.hide(); // hide dashboard-manager initially (shown manually by Dashboard.ts)

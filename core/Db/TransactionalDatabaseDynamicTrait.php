@@ -10,7 +10,7 @@ trait TransactionalDatabaseDynamicTrait
     {
         try {
             return $this->fetchOne('SELECT @@TX_ISOLATION');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->fetchOne('SELECT @@transaction_isolation');
         }
     }
@@ -25,7 +25,7 @@ trait TransactionalDatabaseDynamicTrait
         return $this->supportsTransactionLevelForNonLockingReads;
     }
 
-    public function setSupportsTransactionLevelForNonLockingReads(bool $supports = null): void
+    public function setSupportsTransactionLevelForNonLockingReads(?bool $supports = null): void
     {
         $this->supportsTransactionLevelForNonLockingReads = $supports;
     }

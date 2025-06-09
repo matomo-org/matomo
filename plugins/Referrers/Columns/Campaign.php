@@ -34,7 +34,7 @@ class Campaign extends Base
      * @param Action|null $action
      * @return bool
      */
-    public function shouldForceNewVisit(Request $request, Visitor $visitor, Action $action = null)
+    public function shouldForceNewVisit(Request $request, Visitor $visitor, ?Action $action = null)
     {
         if (TrackerConfig::getConfigValue('create_new_visit_when_campaign_changes', $request->getIdSiteIfExists()) != 1) {
             return false;

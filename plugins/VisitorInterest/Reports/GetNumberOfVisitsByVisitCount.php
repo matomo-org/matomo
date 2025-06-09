@@ -12,6 +12,7 @@ namespace Piwik\Plugins\VisitorInterest\Reports;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\VisitorInterest\Columns\VisitsbyVisitNumber;
 use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
 
@@ -28,10 +29,19 @@ class GetNumberOfVisitsByVisitCount extends Base
                              . '<br />' . Piwik::translate('General_ChangeTagCloudView');
         $this->metrics       = array('nb_visits');
         $this->processedMetrics  = array(
-            new VisitsPercent()
+            new VisitsPercent(),
         );
         $this->constantRowsCount = true;
         $this->order = 25;
+    }
+
+    public function getMetricsDocumentation()
+    {
+        $documentation = parent::getMetricsDocumentation();
+
+        $documentation['nb_visits_percentage'] = Piwik::translate('VisitorInterest_ColumnPercentageVisitsDocumentation');
+
+        return $documentation;
     }
 
     public function configureView(ViewDataTable $view)
@@ -50,9 +60,12 @@ class GetNumberOfVisitsByVisitCount extends Base
         $view->config->enable_sort = false;
         $view->config->show_offset_information = false;
         $view->config->show_pagination_control = false;
-        $view->config->show_limit_control      = false;
         $view->config->show_search             = false;
         $view->config->show_table_all_columns  = false;
         $view->config->show_all_views_icons    = false;
+
+        if (!$view->isViewDataTableId(Evolution::ID)) {
+            $view->config->show_limit_control = false;
+        }
     }
 }

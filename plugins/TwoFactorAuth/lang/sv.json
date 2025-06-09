@@ -27,7 +27,6 @@
         "SetUpTwoFactorAuthentication": "Inför tvåfaktorsautentisering (2FA)",
         "SetupAuthenticatorOnDevice": "Ställ in en OTP-app på din enhet",
         "SetupAuthenticatorOnDeviceStep1": "Installera en OTP-app, till exempel:",
-        "SetupAuthenticatorOnDeviceStep2": "Öppna sedan appen och skanna streckkodenkoden nedan med OTP-appen på din mobil. %1$sAnge den här koden%2$s om du inte kan se koden.",
         "SetupBackupRecoveryCodes": "Spara dina återställningskoder med någon av de ovan beskrivna metoderna innan du fortsätter.",
         "SetupFinishedSubtitle": "Du har nu ställt in tvåfaktorsautentisering. Från och med nu måste du uppge autentiseringskoden när du loggar in. Se till att du har med dig din mobila enhet eller återställningskoderna.",
         "SetupFinishedTitle": "Ditt konto är nu ännu säkrare.",

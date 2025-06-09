@@ -46,15 +46,15 @@ class OneClickDone
      */
     public $httpsFail = false;
 
-    public function __construct($tokenAuth)
-    {
+    public function __construct(
+        #[\SensitiveParameter]
+        $tokenAuth
+    ) {
         $this->tokenAuth = $tokenAuth;
     }
 
     /**
      * Outputs the data.
-     *
-     * @return string  html
      */
     public function render()
     {

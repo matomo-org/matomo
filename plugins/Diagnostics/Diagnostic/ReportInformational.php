@@ -20,7 +20,7 @@ use Piwik\Site;
 use Piwik\Translation\Translator;
 
 /**
- * Informatation about Matomo reports eg tracking or archiving related
+ * Informational about Matomo reports eg tracking or archiving related
  */
 class ReportInformational implements Diagnostic
 {
@@ -79,6 +79,9 @@ class ReportInformational implements Diagnostic
     {
         if (empty($this->idSiteCache)) {
             $idSites = null;
+            /*
+             * Performed as super user to ensure we are able to fetch all available site ids.
+             */
             Access::doAsSuperUser(function () use (&$idSites) {
                 $idSites = Site::getIdSitesFromIdSitesString('all');
             });

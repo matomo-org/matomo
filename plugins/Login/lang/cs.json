@@ -2,7 +2,6 @@
     "Login": {
         "BruteForceLog": "Protokol brutální síly",
         "ChangeYourPassword": "Změnit své heslo",
-        "ConfirmationLinkSent": "Pro potvrzení požadavku na změnu hesla navštivte odkaz uvedený v e-mailu zaslaném do vaší schránky.",
         "ContactAdmin": "Možný důvod: váš hostitel možná zakázal funkci mail(). <br>Obraťte se prosím na svého správce Matomo.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Uživatel s přístupem superuživatele nemůže být ověřen pomocí mechanismu '%s'.",
         "ExceptionPasswordMD5HashExpected": "Parametr hesla je očekáván jako MD5 hash hesla.",
@@ -19,7 +18,6 @@
         "LoginOrEmail": "Uživatelské jméno nebo e-mail",
         "LoginPasswordNotCorrect": "Chybná kombinace uživatelského jména a hesla.",
         "LostYourPassword": "Zapomněli jste vaše heslo?",
-        "MailTopicPasswordChange": "Potvrďte změnu hesla",
         "NewPassword": "Nové heslo",
         "NewPasswordRepeat": "Nové heslo (opakovat)",
         "PasswordChanged": "Vaše heslo bylo změněno.",

@@ -125,7 +125,7 @@ class Environment
     }
 
     /**
-     * @link http://php-di.org/doc/container-configuration.html
+     * @link https://php-di.org/doc/container-configuration.html
      */
     private function createContainer()
     {

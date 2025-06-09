@@ -1,0 +1,35 @@
+name: PHPStan check
+
+on: pull_request
+
+permissions:
+  actions: read
+  checks: read
+  contents: read
+  deployments: none
+  issues: read
+  packages: none
+  pull-requests: read
+  repository-projects: none
+  security-events: none
+  statuses: read
+
+jobs:
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+      - name: Install dependencies
+        run: composer install --dev --prefer-dist --no-progress --no-suggest
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.2'
+      - name: PHPStan
+        id: phpstan
+        run: composer run phpstan

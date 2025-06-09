@@ -159,13 +159,12 @@ abstract class GeoIp2 extends LocationProvider
      */
     public static function getRegionNameFromCodes($countryCode, $regionCode)
     {
-        $regionNames = self::getRegionNames();
-
+        $regionNames = self::getRegions();
         $countryCode = strtoupper($countryCode);
         $regionCode = strtoupper($regionCode);
 
-        if (isset($regionNames[$countryCode][$regionCode])) {
-            return $regionNames[$countryCode][$regionCode];
+        if (isset($regionNames[$countryCode][$regionCode]['name'])) {
+            return $regionNames[$countryCode][$regionCode]['name'];
         } else {
             return Piwik::translate('General_Unknown');
         }
@@ -247,5 +246,15 @@ abstract class GeoIp2 extends LocationProvider
         $ip = \Matomo\Network\IP::fromStringIP($info['ip']);
 
         return $ip->toString();
+    }
+
+    /**
+     * GeoIP2 providers can be used for location-based security checks
+     *
+     * @return bool
+     */
+    public function canBeUsedForLocationBasedSecurityChecks(): bool
+    {
+        return true;
     }
 }

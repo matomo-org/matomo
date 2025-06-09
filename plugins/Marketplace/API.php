@@ -177,7 +177,7 @@ class API extends \Piwik\Plugin\API
      * @unsanitized
      * @internal
      */
-    public function requestTrial(string $pluginName, string $pluginDisplayName = ''): bool
+    public function requestTrial(string $pluginName): bool
     {
         Piwik::checkUserIsNotAnonymous();
 
@@ -185,7 +185,17 @@ class API extends \Piwik\Plugin\API
             throw new Exception('Cannot request trial as a super user');
         }
 
-        $this->pluginTrialService->request($pluginName, $pluginDisplayName);
+        if (!$this->pluginManager->isValidPluginName($pluginName)) {
+            throw new Exception('Invalid plugin name given ' . $pluginName);
+        }
+
+        $pluginInfo = $this->marketplaceClient->getPluginInfo($pluginName);
+
+        if (empty($pluginInfo['name'])) {
+            throw new Exception('Unable to find plugin with given name: ' . $pluginName);
+        }
+
+        $this->pluginTrialService->request($pluginInfo['name'], $pluginInfo['displayName'] ?: $pluginInfo['name']);
 
         return true;
     }

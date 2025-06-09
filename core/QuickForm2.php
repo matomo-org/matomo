@@ -21,7 +21,7 @@ use HTML_QuickForm2_Renderer;
  * For an example, @see Piwik\Plugins\Login\FormLogin
  *
  * @see                 HTML_QuickForm2, libs/HTML/QuickForm2.php
- * @link http://pear.php.net/package/HTML_QuickForm2/
+ * @link https://pear.php.net/package/HTML_QuickForm2/
  */
 abstract class QuickForm2 extends HTML_QuickForm2
 {
@@ -78,24 +78,6 @@ abstract class QuickForm2 extends HTML_QuickForm2
         }
 
         return parent::addElement($elementOrType, $name, $attributes, $data);
-    }
-
-    public function setChecked($nameElement)
-    {
-        foreach ($this->_elements as $key => $value) {
-            if ($value->_attributes['name'] == $nameElement) {
-                $this->_elements[$key]->_attributes['checked'] = 'checked';
-            }
-        }
-    }
-
-    public function setSelected($nameElement, $value)
-    {
-        foreach ($this->_elements as $key => $value) {
-            if ($value->_attributes['name'] == $nameElement) {
-                $this->_elements[$key]->_attributes['selected'] = 'selected';
-            }
-        }
     }
 
     /**

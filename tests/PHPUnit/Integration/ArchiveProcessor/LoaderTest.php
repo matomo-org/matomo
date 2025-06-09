@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\ArchiveProcessor;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Loader;
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -19,6 +20,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Log\LoggerInterface;
 use Piwik\Period\Factory;
 use Piwik\Piwik;
 use Piwik\Plugins\ExamplePlugin\RecordBuilders\ExampleMetric;
@@ -215,6 +217,10 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '1',
             ],
         ], $existingArchives);
+
+        // clear all caches used in archiving to avoid falsely skipping an archive
+        // if the previous archiving detected it was skippable
+        Cache::flushAll();
 
         // archiving w/ pluginOnly=1
         $_GET['pluginOnly'] = 1;
@@ -1065,7 +1071,7 @@ class LoaderTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForLoadExistingArchiveIdFromDbDebugConfig
      */
-    public function testLoadExistingArchiveIdFromDbReturnsFalsesPeriodIsForcedToArchive($periodType, $configSetting)
+    public function testLoadExistingArchiveIdFromDbReturnsFalseIfPeriodIsForcedToArchive($periodType, $configSetting)
     {
         $date = $periodType == 'range' ? '2015-03-03,2015-03-04' : '2015-03-03';
         $params = new Parameters(new Site(1), Factory::build($periodType, $date), new Segment('', [1]));
@@ -1538,7 +1544,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertTrue($loader->canSkipArchiveForSegment());
     }
 
-    public function testCanSkipArchiveForSegmentReturnTrueIfPluginIsDisabled()
+    public function testCanSkipArchiveForSegmentReturnsTrueIfPluginIsDisabled()
     {
         Rules::setBrowserTriggerArchiving(false);
         $config = Config::getInstance();
@@ -1560,7 +1566,7 @@ class LoaderTest extends IntegrationTestCase
         $this->assertTrue($loader->canSkipArchiveForSegment());
     }
 
-    public function testCanSkipArchiveForSegmentReturnTrueIfPluginIsDisabledBySiteId()
+    public function testCanSkipArchiveForSegmentReturnsTrueIfPluginIsDisabledBySiteId()
     {
         Rules::setBrowserTriggerArchiving(false);
         Config::setSetting('General_1', 'disable_archiving_segment_for_plugins', 'testPlugin');
@@ -1587,6 +1593,67 @@ class LoaderTest extends IntegrationTestCase
         $this->assertFalse($loader->canSkipArchiveForSegment());
     }
 
+    public function testCanSkipArchiveForSegmentReturnsFalseIfPeriodIsRangeAndBrowserArchivingDisabledAndNotCLI()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('range', '2015-03-03,2015-03-04'), new Segment($definition, [1]));
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+    public function testCanSkipArchiveForSegmentReturnsFalseIfPeriodIsRangeAndBrowserArchiving()
+    {
+        Rules::setBrowserTriggerArchiving(true);
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, false, true);
+        $params = new Parameters(new Site(1), Factory::build('range', '2015-03-03,2015-03-04'), new Segment($definition, [1]));
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
+
+    public function testCanSkipArchiveForSegmentReturnsTrueIfPeriodIsRangeAndCliArchiving()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+        $_GET['trigger'] = 'archivephp';
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('range', '2015-03-03,2015-03-04'), new Segment($definition, [1]));
+        $loader = new Loader($params);
+
+        $this->assertTrue($loader->canSkipArchiveForSegment());
+    }
+
+    public function testCanSkipArchiveForSegmentReturnsTrueIfPeriodIsDayAndCliArchiving()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+        $_GET['trigger'] = 'archivephp';
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, true, true);
+        $params = new Parameters(new Site(1), Factory::build('day', '2015-03-03'), new Segment($definition, [1]));
+        $loader = new Loader($params);
+
+        $this->assertTrue($loader->canSkipArchiveForSegment());
+    }
+
+    public function testCanSkipArchiveForSegmentReturnsFalseIfPeriodIsDayAndBrowserArchiving()
+    {
+        Rules::setBrowserTriggerArchiving(true);
+
+        $definition = 'browserCode==ch';
+        SegmentApi::getInstance()->add('segment', $definition, 1, false, true);
+        $params = new Parameters(new Site(1), Factory::build('day', '2015-03-03'), new Segment($definition, [1]));
+        $loader = new Loader($params);
+
+        $this->assertFalse($loader->canSkipArchiveForSegment());
+    }
 
     public function testForcePluginArchivingCreatesPluginSpecificArchive()
     {
@@ -1606,6 +1673,70 @@ class LoaderTest extends IntegrationTestCase
         $table = ArchiveTableCreator::getNumericTable(Date::factory('2016-02-03'));
         $doneFlag = Db::fetchOne("SELECT `name` FROM `$table` WHERE `name` LIKE 'done%' AND idarchive IN (" . implode(',', $idArchive) . ")");
         $this->assertEquals('done.Actions', $doneFlag);
+    }
+
+    public function testDebugMessageLoggedWhenProcessingSubPeriods(): void
+    {
+        $_GET['trigger'] = 'archivephp';
+
+        $this->generateTrackingRequestsForSubPeriodProcessing();
+
+        $debugMessageCount = 0;
+        $loggerMock = $this->createMock(LoggerInterface::class);
+        $loggerMock->expects($this->atLeast(2))
+            ->method('debug')
+            ->willReturnCallback(function ($message) use (&$debugMessageCount): void {
+                if ($message === "Sub-period archive requires processing. Archiving depth: 2") {
+                    $debugMessageCount++;
+                }
+            });
+
+        StaticContainer::getContainer()->set(LoggerInterface::class, $loggerMock);
+
+        $periodObj = Factory::build('week', '2020-01-20');
+        $params = new Parameters(new Site(1), $periodObj, new Segment('', [1]));
+        $loader = new Loader($params);
+        $loader->prepareArchive('');
+
+        $this->assertEquals(5, $debugMessageCount);
+    }
+
+    public function testDebugMessageNotLoggedWhenNoProcessingOfSubPeriods(): void
+    {
+        $_GET['trigger'] = 'archivephp';
+
+        $this->generateTrackingRequestsForSubPeriodProcessing();
+
+        $periodObj = Factory::build('week', '2020-01-20');
+
+        $params = new Parameters(new Site(1), $periodObj, new Segment('', [1]));
+        $loader = new Loader($params);
+
+        // Prepare archive once, so archive exists for sub periods and it shouldn't be reprocessed
+        $loader->prepareArchive('');
+
+        $loggerMock = $this->createMock(LoggerInterface::class);
+        $loggerMock->expects($this->never())
+            ->method('debug');
+
+        StaticContainer::getContainer()->set(LoggerInterface::class, $loggerMock);
+        $loader->prepareArchive('');
+    }
+
+    private function generateTrackingRequestsForSubPeriodProcessing(): void
+    {
+        $idSite = 1;
+        $t = Fixture::getTracker($idSite, '2020-01-20 02:03:04');
+        $t->setUrl('http://slkdfj.com');
+        $t->doTrackPageView('alsdkjf');
+
+        $t = Fixture::getTracker($idSite, '2020-01-21 02:03:04');
+        $t->setUrl('http://slkdfj.com');
+        $t->doTrackPageView('alsdkjf');
+
+        $t = Fixture::getTracker($idSite, '2020-01-22 02:03:04');
+        $t->setUrl('http://slkdfj.com');
+        $t->doTrackPageView('alsdkjf');
     }
 
     private function insertArchive(Parameters $params, $tsArchived = null, $visits = 10)

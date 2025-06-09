@@ -14,13 +14,31 @@
         {{ translate('MultiSites_AllWebsitesDashboardTitle') }}
       </EnrichedHeadline>
     </h1>
+  </div>
 
-    <div v-if="!isWidgetized"
-         id="periodString"
-         class="borderedControl"
-    >
-      <PeriodSelector :periods="selectablePeriods" />
-    </div>
+  <div v-if="errorLoading">
+      <div class="notification system notification-error">
+        {{ translate('MultiSites_AllWebsitesDashboardErrorMessage') }}
+        <br /><br />
+        {{ translate('General_NeedMoreHelp', '', '') }}
+        <a
+            rel="noreferrer noopener"
+            target="_blank"
+            :href="externalRawLink('https://matomo.org/faq/troubleshooting/faq_19489/')"
+        >{{ translate('General_Faq') }}</a>
+        &#x2013;
+        <a
+            rel="noreferrer noopener"
+            target="_blank"
+            :href="externalRawLink('https://forum.matomo.org/')"
+        >{{ translate('Feedback_CommunityHelp') }}</a>
+        &#x2013;
+        <a
+            rel="noreferrer noopener"
+            target="_blank"
+            :href="externalRawLink('https://matomo.org/support-plans/')"
+        >{{ translate('Feedback_ProfessionalHelp') }}</a>.
+      </div>
   </div>
 
   <KPICardContainer
@@ -64,7 +82,6 @@ import {
   EnrichedHeadline,
   Matomo,
   MatomoUrl,
-  PeriodSelector,
 } from 'CoreHome';
 
 import DashboardStore from './AllWebsitesDashboard.store';
@@ -80,7 +97,6 @@ export default defineComponent({
   components: {
     EnrichedHeadline,
     KPICardContainer,
-    PeriodSelector,
     SitesTable,
   },
   props: {
@@ -100,16 +116,8 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
-    kpiBadgeHits: {
-      type: String,
-      required: true,
-    },
     pageSize: {
       type: Number,
-      required: true,
-    },
-    selectablePeriods: {
-      type: Array,
       required: true,
     },
   },
@@ -138,31 +146,39 @@ export default defineComponent({
     isLoadingKPIs(): boolean {
       return DashboardStore.state.value.isLoadingKPIs;
     },
+    errorLoading(): boolean {
+      return DashboardStore.state.value.errorLoading;
+    },
     kpis(): KPICardData[] {
       const { dashboardKPIs } = DashboardStore.state.value;
 
       const kpis: KPICardData[] = [
         {
+          badge: dashboardKPIs.badges?.visits || null,
           icon: 'icon-user',
           title: 'MultiSites_TotalVisits',
           value: dashboardKPIs.visits,
+          valueCompact: dashboardKPIs.visitsCompact,
           evolutionPeriod: dashboardKPIs.evolutionPeriod,
           evolutionTrend: dashboardKPIs.visitsTrend,
           evolutionValue: dashboardKPIs.visitsEvolution,
         },
         {
+          badge: dashboardKPIs.badges?.pageviews || null,
           icon: 'icon-show',
           title: 'MultiSites_TotalPageviews',
           value: dashboardKPIs.pageviews,
+          valueCompact: dashboardKPIs.pageviewsCompact,
           evolutionPeriod: dashboardKPIs.evolutionPeriod,
           evolutionTrend: dashboardKPIs.pageviewsTrend,
           evolutionValue: dashboardKPIs.pageviewsEvolution,
         },
         {
-          badge: this.kpiBadgeHits,
+          badge: dashboardKPIs.badges?.hits || null,
           icon: 'icon-hits',
           title: 'MultiSites_TotalHits',
           value: dashboardKPIs.hits,
+          valueCompact: dashboardKPIs.hitsCompact,
           evolutionPeriod: dashboardKPIs.evolutionPeriod,
           evolutionTrend: dashboardKPIs.hitsTrend,
           evolutionValue: dashboardKPIs.hitsEvolution,
@@ -171,9 +187,11 @@ export default defineComponent({
 
       if (this.displayRevenue) {
         kpis.push({
+          badge: dashboardKPIs.badges?.revenue || null,
           icon: 'icon-dollar-sign',
           title: 'General_TotalRevenue',
           value: dashboardKPIs.revenue,
+          valueCompact: dashboardKPIs.revenueCompact,
           evolutionPeriod: dashboardKPIs.evolutionPeriod,
           evolutionTrend: dashboardKPIs.revenueTrend,
           evolutionValue: dashboardKPIs.revenueEvolution,

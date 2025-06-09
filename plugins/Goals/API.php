@@ -38,7 +38,7 @@ use Piwik\Validators\WhitelistedValue;
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",
  * or list existing Goals for one or several websites via "getGoals"
  *
- * If you are <a href='http://matomo.org/docs/ecommerce-analytics/' target='_blank'>tracking Ecommerce orders and products</a> on your site, the functions "getItemsSku", "getItemsName" and "getItemsCategory"
+ * If you are <a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'>tracking Ecommerce orders and products</a> on your site, the functions "getItemsSku", "getItemsName" and "getItemsCategory"
  * will return the list of products purchased on your site, either grouped by Product SKU, Product Name or Product Category. For each name, SKU or category, the following
  * metrics are returned: Total revenue, Total quantity, average price, average quantity, number of orders (or abandoned carts) containing this product, number of visits on the Product page,
  * Conversion rate.
@@ -50,7 +50,7 @@ use Piwik\Validators\WhitelistedValue;
  * If you wish to request specific metrics about Ecommerce goals, you can set the parameter &idGoal=ecommerceAbandonedCart to get metrics about abandoned carts (including Lost revenue, and number of items left in the cart)
  * or &idGoal=ecommerceOrder to get metrics about Ecommerce orders (number of orders, visits with an order, subtotal, tax, shipping, discount, revenue, items ordered)
  *
- * See also the documentation about <a href='http://matomo.org/docs/tracking-goals-web-analytics/' rel='noreferrer' target='_blank'>Tracking Goals</a> in Matomo.
+ * See also the documentation about <a href='https://matomo.org/docs/tracking-goals-web-analytics/' rel='noreferrer' target='_blank'>Tracking Goals</a> in Matomo.
  *
  * @method static \Piwik\Plugins\Goals\API getInstance()
  */
@@ -63,7 +63,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite
      * @param int $idGoal
-     * @return array An array of goal attributes.
+     * @return ?array An array of goal attributes.
      */
     public function getGoal($idSite, $idGoal)
     {
@@ -82,10 +82,17 @@ class API extends \Piwik\Plugin\API
      * @param string|array $idSite Array or Comma separated list of website IDs to request the goals for
      * @param bool $orderByName
      *
-     * @return array Array of Goal attributes
+     * @return array Array of Goal attributes,
+     *               indexed by "idgoal" when requesting a single site,
+     *               no specific index when requesting multiple sites
      */
     public function getGoals($idSite, bool $orderByName = false): array
     {
+        if (is_array($idSite)) {
+            $idSite = array_map('intval', $idSite);
+            $idSite = implode(',', $idSite);
+        }
+
         $cacheId = self::getCacheId($idSite);
         $cache = $this->getGoalsInfoStaticCache();
         if (!$cache->contains($cacheId)) {
@@ -101,10 +108,15 @@ class API extends \Piwik\Plugin\API
             Piwik::checkUserHasViewAccess($idSite);
 
             $goals = $this->getModel()->getActiveGoals($idSite);
+            $cleanedGoals = [];
+            $indexByIdGoal = 1 === count($idSite);
 
-            $cleanedGoals = array();
             foreach ($goals as &$goal) {
-                $cleanedGoals[$goal['idgoal']] = $this->formatGoal($goal);
+                if ($indexByIdGoal) {
+                    $cleanedGoals[$goal['idgoal']] = $this->formatGoal($goal);
+                } else {
+                    $cleanedGoals[] = $this->formatGoal($goal);
+                }
             }
 
             $cache->save($cacheId, $cleanedGoals);

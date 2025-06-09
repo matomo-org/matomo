@@ -151,14 +151,56 @@ class Goals extends HtmlTable
 
     private function setPropertiesForEcommerceView()
     {
-        $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue';
         $this->requestConfig->filter_sort_order = 'desc';
 
-        $this->config->columns_to_display = [
-            'label', 'nb_visits', 'goal_ecommerceOrder_nb_conversions', 'goal_ecommerceOrder_revenue',
-            'goal_ecommerceOrder_conversion_rate', 'goal_ecommerceOrder_avg_order_revenue', 'goal_ecommerceOrder_items',
-            'goal_ecommerceOrder_revenue_per_visit'
-        ];
+        switch ($this->displayType) {
+            case self::GOALS_DISPLAY_NORMAL:
+                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue';
+                $this->config->columns_to_display = [
+                    'label',
+                    'nb_visits',
+                    'goal_ecommerceOrder_nb_conversions',
+                    'goal_ecommerceOrder_revenue',
+                    'goal_ecommerceOrder_conversion_rate',
+                    'goal_ecommerceOrder_avg_order_revenue',
+                    'goal_ecommerceOrder_items',
+                    'goal_ecommerceOrder_revenue_per_visit',
+                ];
+                break;
+            case self::GOALS_DISPLAY_PAGES:
+                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue_attrib';
+                $this->config->columns_to_display = [
+                    'label',
+                    'nb_visits',
+                    'goal_ecommerceOrder_nb_conversions_attrib',
+                    'goal_ecommerceOrder_revenue_attrib',
+                    'goal_ecommerceOrder_nb_conversions_page_rate',
+                ];
+                break;
+            case self::GOALS_DISPLAY_ENTRY_PAGES:
+                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue_entry';
+                $this->config->columns_to_display = [
+                    'label',
+                    'entry_nb_visits',
+                    'goal_ecommerceOrder_nb_conversions_entry',
+                    'goal_ecommerceOrder_revenue_entry',
+                    'goal_ecommerceOrder_nb_conversions_entry_rate',
+                    'goal_ecommerceOrder_revenue_per_entry',
+                ];
+                break;
+            default:
+                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue';
+                $this->config->columns_to_display = [
+                    'label',
+                    'nb_visits',
+                    'goal_ecommerceOrder_nb_conversions',
+                    'goal_ecommerceOrder_revenue',
+                    'goal_ecommerceOrder_conversion_rate',
+                    'goal_ecommerceOrder_avg_order_revenue',
+                    'goal_ecommerceOrder_items',
+                    'goal_ecommerceOrder_revenue_per_visit',
+                ];
+        }
 
         $this->config->translations = array_merge($this->config->translations, [
             'goal_ecommerceOrder_nb_conversions'    => Piwik::translate('General_EcommerceOrders'),

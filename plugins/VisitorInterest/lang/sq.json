@@ -1,6 +1,6 @@
 {
     "VisitorInterest": {
-        "BetweenXYMinutes": "%1$s–%2$s min",
+        "BetweenXYMinutes": "%1$s–%2$sm",
         "BetweenXYSeconds": "%1$s–%2$ss",
         "ColumnPagesPerVisit": "Faqe për vizitë",
         "ColumnVisitDuration": "Kohëzgjatje vizite",

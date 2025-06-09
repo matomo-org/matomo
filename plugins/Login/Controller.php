@@ -42,6 +42,7 @@ use Piwik\View;
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     public const NONCE_CONFIRMRESETPASSWORD = 'loginConfirmResetPassword';
+    public const NONCE_CONFIRMCANCELRESETPASSWORD = 'loginConfirmCancelResetPassword';
 
     /**
      * @var PasswordResetter
@@ -315,10 +316,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * @param string $password plain-text or hashed password
      * @param string $urlToRedirect URL to redirect to, if successfully authenticated
      * @param bool $passwordHashed indicates if $password is hashed
-     * @return string failure message if unable to authenticate
      */
-    protected function authenticateAndRedirect($login, $password, $urlToRedirect = false, $passwordHashed = false)
-    {
+    protected function authenticateAndRedirect(
+        $login,
+        #[\SensitiveParameter]
+        $password,
+        $urlToRedirect = false,
+        #[\SensitiveParameter]
+        $passwordHashed = false
+    ) {
         Nonce::discardNonce('Login.login');
 
         $this->auth->setLogin($login);
@@ -387,30 +393,32 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function resetPassword()
     {
-        $infoMessage = null;
-        $formErrors = null;
-
         $form = new FormResetPassword();
-        if ($form->validate()) {
-            $nonce = $form->getSubmitValue('form_nonce');
-            $errorMessage = Nonce::verifyNonceWithErrorMessage('Login.login', $nonce);
-            if ($errorMessage === "") {
-                $formErrors = $this->resetPasswordFirstStep($form);
-                if (empty($formErrors)) {
-                    $infoMessage = Piwik::translate('Login_ConfirmationLinkSent');
-                }
-            } else {
-                $formErrors = [$errorMessage];
-            }
-        } else {
-            // if invalid, display error
-            $formData = $form->getFormData();
-            $formErrors = $formData['errors'];
+
+        if (false === $form->validate()) {
+            return $this->renderResetPasswordView($form->getFormData()['errors']);
         }
 
+        $nonceError = Nonce::verifyNonceWithErrorMessage('Login.login', $form->getSubmitValue('form_nonce'));
+
+        if (!empty($nonceError)) {
+            return $this->renderResetPasswordView([$nonceError]);
+        }
+
+        $firstStepFormErrors = $this->resetPasswordFirstStep($form);
+
+        if (!empty($firstStepFromErrors)) {
+            return $this->renderResetPasswordView([$firstStepFormErrors]);
+        }
+
+        return $this->renderResetPasswordView([], Piwik::translate('Login_ConfirmationLinkPossiblySent'));
+    }
+
+    private function renderResetPasswordView(array $formErrors = [], ?string $responseMessage = null): string
+    {
         $view = new View('@Login/resetPassword');
-        $view->infoMessage = $infoMessage;
         $view->formErrors = $formErrors;
+        $view->infoMessage = $responseMessage;
 
         return $view->render();
     }
@@ -432,6 +440,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         try {
             $this->passwordResetter->initiatePasswordResetProcess($loginMail, $password);
+        } catch (PasswordResetUserIsInvalidException $ex) {
+            Log::debug($ex);
+
+            return null;
         } catch (Exception $ex) {
             Log::debug($ex);
 
@@ -439,6 +451,78 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         return null;
+    }
+
+    public function initiateCancelResetPassword(): string
+    {
+        if (!Url::isValidHost()) {
+            throw new Exception("Cannot invalidate reset password token with untrusted hostname!");
+        }
+
+        $request = Request::fromRequest();
+        $login = $request->getStringParameter('login');
+        $resetToken = $request->getStringParameter('resetToken');
+        $errorMessage = '';
+
+        try {
+            $this->passwordResetter->checkValidConfirmPasswordToken($login, $resetToken);
+        } catch (Exception $ex) {
+            $errorMessage = $ex->getMessage();
+        }
+
+        $nonce = Nonce::getNonce(self::NONCE_CONFIRMCANCELRESETPASSWORD);
+
+        return $this->renderTemplateAs('@Login/initiateCancelResetPassword', [
+            'nonce'        => $nonce,
+            'errorMessage' => $errorMessage,
+            'loginPlugin' => Piwik::getLoginPluginName(),
+            'login' => $login,
+            'resetToken' => $resetToken
+        ], 'basic');
+    }
+
+    /**
+     * Password reset cancel action. Invalidates a password reset token.
+     * Users visit this action from a link supplied in an email.
+     */
+    public function cancelResetPassword(): string
+    {
+        if (!Url::isValidHost()) {
+            throw new Exception("Cannot invalidate reset password token with untrusted hostname!");
+        }
+
+        $request = Request::fromRequest();
+        $login = $request->getStringParameter('login');
+        $resetToken = $request->getStringParameter('resetToken');
+
+        try {
+            Nonce::checkNonce(self::NONCE_CONFIRMCANCELRESETPASSWORD);
+            $this->passwordResetter->cancelPasswordResetProcess($login, $resetToken);
+        } catch (Exception $ex) {
+            Log::debug($ex);
+            $errorMessage = $ex->getMessage();
+        }
+
+        if (!empty($errorMessage)) {
+            return $this->login($errorMessage);
+        }
+
+        $cancelResetPasswordContent = '';
+
+        /**
+         * Overwrite the content displayed on the "reset password process cancelled page".
+         *
+         * Will display default content if no event content returned.
+         *
+         * @param string $cancelResetPasswordContent The content to render.
+         */
+        Piwik::postEvent('Template.loginCancelResetPasswordContent', [&$cancelResetPasswordContent]);
+
+        return $this->renderTemplateAs(
+            '@Login/cancelResetPassword',
+            ['cancelResetPasswordContent' => $cancelResetPasswordContent],
+            'basic'
+        );
     }
 
     /**

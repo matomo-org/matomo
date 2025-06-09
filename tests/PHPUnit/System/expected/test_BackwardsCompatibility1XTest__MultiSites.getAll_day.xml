@@ -5,6 +5,7 @@
 		<nb_visits>2</nb_visits>
 		<nb_actions>8</nb_actions>
 		<nb_pageviews>4</nb_pageviews>
+		
 		<revenue>43</revenue>
 		<visits_evolution>100%</visits_evolution>
 		<visits_evolution_trend>1</visits_evolution_trend>
@@ -12,6 +13,8 @@
 		<actions_evolution_trend>1</actions_evolution_trend>
 		<pageviews_evolution>100%</pageviews_evolution>
 		<pageviews_evolution_trend>1</pageviews_evolution_trend>
+		
+		
 		<revenue_evolution>100%</revenue_evolution>
 		<revenue_evolution_trend>1</revenue_evolution_trend>
 		<idsite>1</idsite>
@@ -21,8 +24,9 @@
 		<periodName>day</periodName>
 		<previousRange>Mon, Mar 5</previousRange>
 		<previous_nb_actions>0</previous_nb_actions>
-		<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
-		<previous_Goal_revenue>0</previous_Goal_revenue>
+		<previous_nb_pageviews>0</previous_nb_pageviews>
+		<previous_hits>0</previous_hits>
+		<previous_revenue>0</previous_revenue>
 		<group />
 		<main_url>http://site.com</main_url>
 	</row>

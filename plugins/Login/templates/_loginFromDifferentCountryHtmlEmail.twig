@@ -1,0 +1,33 @@
+<p>{{ 'General_HelloUser'|translate(login) }}</p>
+<p>{{ 'Login_LoginFromDifferentCountryEmail1'|translate }}</p>
+<p>{{ 'Login_LoginFromDifferentCountryEmail2'|translate }}</p>
+<ul>
+    <li>{{ 'PrivacyManager_IPAddress'|translate }}: {{ ip }}</li>
+    <li>{{ 'UserCountry_Country'|translate }}: {% if country %}{{ country }}{% else %}{{ 'General_Unknown'|translate }}{% endif %}</li>
+    <li>{{ 'Login_TimeOfLogin'|translate }}: {{ dateTime }} UTC</li>
+</ul>
+
+{% if resetPasswordLink or enable2FALink %}
+<p>{{ 'Login_LoginFromDifferentCountryEmail3'|translate }}</p>
+<ul>
+{% endif %}
+
+{% if resetPasswordLink %}
+<li>
+    {{ 'Login_LoginFromDifferentCountryEmail4'|translate }}
+    <a href="{{ resetPasswordLink|escape('html_attr') }}">{{ 'Login_LoginFromDifferentCountryEmailLinkResetPassword'|translate }}</a>
+</li>
+{% endif %}
+
+{% if enable2FALink %}
+<li>
+    {{ 'Login_LoginFromDifferentCountryEmail5'|translate }}
+    <a href="{{ enable2FALink|escape('html_attr') }}">{{ 'Login_LoginFromDifferentCountryEmailLinkEnable2FA'|translate }}</a>
+</li>
+{% endif %}
+
+{% if resetPasswordLink or enable2FALink %}
+</ul>
+{% endif %}
+
+<p>{{ 'Login_LoginFromDifferentCountryEmail6'|translate }}</p>

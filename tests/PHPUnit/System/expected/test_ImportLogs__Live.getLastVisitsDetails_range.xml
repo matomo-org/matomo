@@ -128,8 +128,8 @@
 		<regionCode>NC</regionCode>
 		<city>Raleigh</city>
 		<location>Raleigh, North Carolina, United States</location>
-		<latitude>35.772000</latitude>
-		<longitude>-78.639000</longitude>
+		<latitude>35.770000</latitude>
+		<longitude>-78.640000</longitude>
 		<visitLocalTime>20:34:49</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -312,8 +312,8 @@
 		<regionCode>CA</regionCode>
 		<city>Lake Forest</city>
 		<location>Lake Forest, California, United States</location>
-		<latitude>33.645000</latitude>
-		<longitude>-117.679000</longitude>
+		<latitude>33.650000</latitude>
+		<longitude>-117.680000</longitude>
 		<visitLocalTime>17:33:27</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -956,8 +956,8 @@
 		<regionCode>CA</regionCode>
 		<city>San Francisco</city>
 		<location>San Francisco, California, United States</location>
-		<latitude>37.792000</latitude>
-		<longitude>-122.409000</longitude>
+		<latitude>37.790000</latitude>
+		<longitude>-122.410000</longitude>
 		<visitLocalTime>17:33:58</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -1288,8 +1288,8 @@
 		<regionCode>NW</regionCode>
 		<city>Weilerswist</city>
 		<location>Weilerswist, Nordrhein-Westfalen, Germany</location>
-		<latitude>50.767000</latitude>
-		<longitude>6.833000</longitude>
+		<latitude>50.770000</latitude>
+		<longitude>6.830000</longitude>
 		<visitLocalTime>01:33:31</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -1442,7 +1442,7 @@
 		<city>Mainz</city>
 		<location>Mainz, Rheinland-Pfalz, Germany</location>
 		<latitude>50</latitude>
-		<longitude>8.271000</longitude>
+		<longitude>8.270000</longitude>
 		<visitLocalTime>01:33:13</visitLocalTime>
 		<visitLocalHour>1</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -1660,8 +1660,8 @@
 		<regionCode>MOW</regionCode>
 		<city>Moscow</city>
 		<location>Moscow, Moskva, Russia</location>
-		<latitude>55.752000</latitude>
-		<longitude>37.616000</longitude>
+		<latitude>55.750000</latitude>
+		<longitude>37.620000</longitude>
 		<visitLocalTime>04:28:18</visitLocalTime>
 		<visitLocalHour>4</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -1817,8 +1817,8 @@
 		<regionCode>53</regionCode>
 		<city>Esentepe</city>
 		<location>Esentepe, Rize, Türkiye</location>
-		<latitude>40.979000</latitude>
-		<longitude>40.415000</longitude>
+		<latitude>40.980000</latitude>
+		<longitude>40.420000</longitude>
 		<visitLocalTime>02:32:21</visitLocalTime>
 		<visitLocalHour>2</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -2646,7 +2646,7 @@
 		<regionCode />
 		<city>Singapore</city>
 		<location>Singapore, Singapore</location>
-		<latitude>1.367000</latitude>
+		<latitude>1.370000</latitude>
 		<longitude>103.800000</longitude>
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
@@ -3966,8 +3966,8 @@
 		<regionCode>NJ</regionCode>
 		<city>Mount Laurel</city>
 		<location>Mount Laurel, New Jersey, United States</location>
-		<latitude>39.957000</latitude>
-		<longitude>-74.916000</longitude>
+		<latitude>39.960000</latitude>
+		<longitude>-74.920000</longitude>
 		<visitLocalTime>12:20:31</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -4481,8 +4481,8 @@
 		<regionCode>11</regionCode>
 		<city>Seoul</city>
 		<location>Seoul, Seoul-teukbyeolsi, South Korea</location>
-		<latitude>37.599000</latitude>
-		<longitude>126.978000</longitude>
+		<latitude>37.600000</latitude>
+		<longitude>126.980000</longitude>
 		<visitLocalTime>20:15:51</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -5100,8 +5100,8 @@
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
 		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.044000</latitude>
-		<longitude>-77.488000</longitude>
+		<latitude>39.040000</latitude>
+		<longitude>-77.490000</longitude>
 		<visitLocalTime>17:48:08</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -5242,8 +5242,8 @@
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
 		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.044000</latitude>
-		<longitude>-77.488000</longitude>
+		<latitude>39.040000</latitude>
+		<longitude>-77.490000</longitude>
 		<visitLocalTime>17:48:07</visitLocalTime>
 		<visitLocalHour>17</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -6894,7 +6894,7 @@
 		<regionCode />
 		<city>Singapore</city>
 		<location>Singapore, Singapore</location>
-		<latitude>1.367000</latitude>
+		<latitude>1.370000</latitude>
 		<longitude>103.800000</longitude>
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
@@ -7446,8 +7446,8 @@
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
 		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.044000</latitude>
-		<longitude>-77.488000</longitude>
+		<latitude>39.040000</latitude>
+		<longitude>-77.490000</longitude>
 		<visitLocalTime>13:49:48</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -7584,8 +7584,8 @@
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
 		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.044000</latitude>
-		<longitude>-77.488000</longitude>
+		<latitude>39.040000</latitude>
+		<longitude>-77.490000</longitude>
 		<visitLocalTime>13:48:20</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -7722,8 +7722,8 @@
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
 		<location>Ashburn, Virginia, United States</location>
-		<latitude>39.044000</latitude>
-		<longitude>-77.488000</longitude>
+		<latitude>39.040000</latitude>
+		<longitude>-77.490000</longitude>
 		<visitLocalTime>13:48:07</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -8274,7 +8274,7 @@
 		<regionCode />
 		<city>Singapore</city>
 		<location>Singapore, Singapore</location>
-		<latitude>1.367000</latitude>
+		<latitude>1.370000</latitude>
 		<longitude>103.800000</longitude>
 		<visitLocalTime>08:10:39</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>

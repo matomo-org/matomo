@@ -77,7 +77,7 @@
         "Themes": "Themen",
         "ThemesDescription": "Themes können das Aussehen der Benutzeroberfläche für Matomo Anwender ändern und bringen so ein komplett neues visuelles Erlebnis, das Ihnen die Analyse Ihrer Berichte angenehm gestaltet.",
         "ThemesManagement": "Themes verwalten",
-        "UninstallConfirm": "Sie sind gerade dabei, das Plugin %s zu deinstallieren. Das Plugin wird vollständig von ihrer Plattform entfernt und kann nicht wiederhergestellt werden. Sind sie sicher, dass sie das tun wollen?",
+        "UninstallConfirm": "Sie sind dabei, das Plugin %s zu deinstallieren. Das Plugin und alle von ihm gesammelten Daten werden vollständig von Ihrer Plattform entfernt und können nicht wiederhergestellt werden. Sind Sie sicher, dass Sie dies tun möchten?",
         "UpdateSelected": "Auswahl aktualisieren",
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Alle Marketplace Plugins anzeigen",

@@ -17,7 +17,7 @@ use Piwik\Metrics\Sorter;
 /**
  * Sorts a {@link DataTable} based on the value of a specific column.
  *
- * It is possible to specify a natural sorting (see [php.net/natsort](http://php.net/natsort) for details).
+ * It is possible to specify a natural sorting (see [php.net/natsort](https://php.net/natsort) for details).
  *
  * @api
  */
@@ -38,7 +38,7 @@ class Sort extends BaseFilter
      * @param DataTable $table The table to eventually filter.
      * @param string $columnToSort The name of the column to sort by.
      * @param string $order order `'asc'` or `'desc'`.
-     * @param bool $naturalSort Whether to use a natural sort or not (see {@link http://php.net/natsort}).
+     * @param bool $naturalSort Whether to use a natural sort or not (see {@link https://php.net/natsort}).
      * @param bool $recursiveSort Whether to sort all subtables or not.
      * @param bool|callback $doSortBySecondaryColumn If true will sort by a secondary column. The column is automatically
      *                                               detected and will be either nb_visits or label, if possible.

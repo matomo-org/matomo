@@ -12,6 +12,7 @@ namespace Piwik\ArchiveProcessor;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor;
 use Piwik\Cache;
+use Piwik\CacheId;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -259,6 +260,11 @@ class Loader
             }
         }
 
+        if (self::$archivingDepth > 1) {
+            $this->logger->debug(sprintf("Sub-period archive requires processing. Archiving depth: %d", self::$archivingDepth));
+            $this->params->logStatusDebug();
+        }
+
         return [$idArchives, $visits, $visitsConverted, $existingArchives];
     }
 
@@ -424,19 +430,18 @@ class Loader
 
     private function getIdSitesToArchiveWhenNoVisits()
     {
-        $cache = Cache::getTransientCache();
         $cacheKey = 'Archiving.getIdSitesToArchiveWhenNoVisits';
 
-        if (!$cache->contains($cacheKey)) {
+        if (!$this->cache->contains($cacheKey)) {
             $idSites = array();
 
             // leaving undocumented unless decided otherwise
             Piwik::postEvent('Archiving.getIdSitesToArchiveWhenNoVisits', array(&$idSites));
 
-            $cache->save($cacheKey, $idSites);
+            $this->cache->save($cacheKey, $idSites);
         }
 
-        return $cache->fetch($cacheKey);
+        return $this->cache->fetch($cacheKey);
     }
 
     // public for tests
@@ -491,7 +496,7 @@ class Loader
         $isWebsiteUsingTracker = $this->isWebsiteUsingTheTracker($idSite);
         $isArchivingForcedWhenNoVisits = $this->shouldArchiveForSiteEvenWhenNoVisits();
         $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $params->getPeriod());
-        $hasChildArchivesInPeriod = $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $params->getPeriod());
+        $hasChildArchivesInPeriod = $this->hasChildArchivesInPeriod($idSite, $params->getPeriod());
 
         if ($this->canSkipArchiveForSegment()) {
             return true;
@@ -501,6 +506,19 @@ class Loader
             && !$isArchivingForcedWhenNoVisits
             && !$hasSiteVisitsBetweenTimeframe
             && !$hasChildArchivesInPeriod;
+    }
+
+    private function hasChildArchivesInPeriod($idSite, Period $period): bool
+    {
+        $cacheKey = CacheId::siteAware('Archiving.hasChildArchivesInPeriod.' . $period->getRangeString(), [$idSite]);
+
+        if ($this->cache->contains($cacheKey)) {
+            $hasChildArchivesInPeriod = $this->cache->fetch($cacheKey);
+        } else {
+            $hasChildArchivesInPeriod = $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $period);
+            $this->cache->save($cacheKey, $hasChildArchivesInPeriod);
+        }
+        return $hasChildArchivesInPeriod;
     }
 
     public function canSkipArchiveForSegment()
@@ -513,6 +531,17 @@ class Loader
 
         if (!empty($params->getRequestedPlugin()) && Rules::isSegmentPluginArchivingDisabled($params->getRequestedPlugin(), $params->getSite()->getId())) {
             return true;
+        }
+
+        // For better understanding of the next check please have a look at Rules::shouldProcessReportsAllPlugins implementation
+        // and what conditions it returns false on. For our use here, we need to ensure that:
+        //  - we are not running CLI archiving
+        //  - we are not dealing with a range period
+        //  - we don't have an empty segment
+        //  - we don't have a segment that should be preprocessed
+        //  - we are not forcing a single plugin archiving
+        if (!Rules::shouldProcessReportsAllPlugins($params->getIdSites(), $params->getSegment(), $params->getPeriod()->getLabel())) {
+            return false;
         }
 
         /** @var SegmentArchiving */
@@ -580,12 +609,37 @@ class Loader
         return $idSitesNotUsingTracker;
     }
 
-    private function hasSiteVisitsBetweenTimeframe($idSite, Period $period)
+    private function hasSiteVisitsBetweenTimeframe($idSite, Period $period): bool
     {
-        $timezone = Site::getTimezoneFor($idSite);
-        list($date1, $date2) = $period->getBoundsInTimezone($timezone);
+        $cacheKeyStr = 'Archiving.hasSiteVisitsBetweenTimeframe.%s.%s';
+        $cacheKey = CacheId::siteAware(sprintf($cacheKeyStr, $period->getLabel(), $period->getRangeString()), [$idSite]);
 
-        return $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
+        if ($this->cache->contains($cacheKey)) {
+            return $this->cache->fetch($cacheKey);
+        }
+
+        $timezone = Site::getTimezoneFor($idSite);
+        /** @var Date $date1 */
+        /** @var Date $date2 */
+        [$date1, $date2] = $period->getBoundsInTimezone($timezone);
+
+        $hasSiteVisitsBetweenTimeframe = $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
+        $this->cache->save($cacheKey, $hasSiteVisitsBetweenTimeframe);
+
+        if ($hasSiteVisitsBetweenTimeframe) {
+            $currentPeriod = $period;
+            do {
+                $parentPeriodLabel = $currentPeriod->getParentPeriodLabel();
+                if ($parentPeriodLabel) {
+                    $parentPeriod = Period\Factory::build($parentPeriodLabel, $date1);
+                    $cacheKey = CacheId::siteAware(sprintf($cacheKeyStr, $parentPeriod->getLabel(), $parentPeriod->getRangeString()), [$idSite]);
+                    $this->cache->save($cacheKey, true);
+                    $currentPeriod = $parentPeriod;
+                }
+            } while ($parentPeriodLabel);
+        }
+
+        return $hasSiteVisitsBetweenTimeframe;
     }
 
     public static function getArchivingDepth()

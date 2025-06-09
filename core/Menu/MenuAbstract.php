@@ -91,7 +91,7 @@ abstract class MenuAbstract extends Singleton
      * Adds a new entry to the menu.
      *
      * @param string $menuName The menu's category name. Can be a translation token.
-     * @param string $subMenuName The menu item's name. Can be a translation token.
+     * @param null|string $subMenuName The menu item's name. Can be a translation token.
      * @param string|array $url The URL the admin menu entry should link to, or an array of query parameters
      *                          that can be used to build the URL.
      * @param int $order The order hint.

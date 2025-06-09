@@ -10,8 +10,10 @@
 namespace Piwik\Tests\System;
 
 use Piwik\CliMulti\CliPhp;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugins\CoreConsole\FeatureFlags\SystemSignals;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Log\LoggerInterface;
@@ -105,6 +107,26 @@ class TestCommandWithException extends ConsoleCommand
     }
 }
 
+class TestCommandWithSubscribedSignals extends ConsoleCommand
+{
+    public function configure()
+    {
+        parent::configure();
+
+        $this->setName('test-command-with-subscribed-signals');
+    }
+
+    public function getSystemSignalsToHandle(): array
+    {
+        return [\SIGHUP];
+    }
+
+    public function doExecute(): int
+    {
+        return !empty($this->getSubscribedSignals()) ? self::SUCCESS : self::FAILURE;
+    }
+}
+
 /**
  * @group ConsoleTest
  */
@@ -116,6 +138,7 @@ class ConsoleTest extends ConsoleCommandTestCase
         $this->application->addCommands([
             new TestCommandWithWarning(),
             new TestCommandWithError(),
+            new TestCommandWithSubscribedSignals(),
         ]);
 
         StaticContainer::get(FailureLogMessageDetector::class)->reset();
@@ -167,7 +190,7 @@ class ConsoleTest extends ConsoleCommandTestCase
 
         $expected = <<<END
 
-Fatal error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) in /tests/PHPUnit/System/ConsoleTest.php on line 85
+Fatal error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) in /tests/PHPUnit/System/ConsoleTest.php on line 87
 *** IN SAFEMODE ***
 Matomo encountered an error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) (which lead to: Error: array (
   'type' => 1,
@@ -214,6 +237,35 @@ END;
         $this->assertStringMatchesFormat($expected, $output);
     }
 
+    /**
+     * @dataProvider getSignalSubscriptionOnlyActiveWithFeatureFlagEnabledData
+     */
+    public function testSignalSubscriptionOnlyActiveWithFeatureFlagEnabled(
+        bool $enableFeatureFlag,
+        int $expectedExitCode
+    ): void {
+        $config = Config::getInstance();
+        $featureFlag = new SystemSignals();
+        $featureFlagConfig = $featureFlag->getName() . '_feature';
+
+        if ($enableFeatureFlag) {
+            $config->FeatureFlags = [$featureFlagConfig => 'enabled'];
+        } else {
+            $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
+        }
+
+        $exitCode = $this->applicationTester->run([
+            'command' => 'test-command-with-subscribed-signals',
+        ]);
+        $this->assertEquals($expectedExitCode, $exitCode);
+    }
+
+    public function getSignalSubscriptionOnlyActiveWithFeatureFlagEnabledData(): iterable
+    {
+        yield 'active' => [true, ConsoleCommand::SUCCESS];
+        yield 'not active' => [false, ConsoleCommand::FAILURE];
+    }
+
     public static function provideContainerConfigBeforeClass()
     {
         return [
@@ -225,6 +277,7 @@ END;
                 ['Console.filterCommands', \Piwik\DI::value(function (&$commands) {
                     $commands[] = TestCommandWithFatalError::class;
                     $commands[] = TestCommandWithException::class;
+                    $commands[] = TestCommandWithSubscribedSignals::class;
                 })],
 
                 ['Request.dispatch', \Piwik\DI::value(function ($module, $action) {

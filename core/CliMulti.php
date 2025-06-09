@@ -95,12 +95,37 @@ class CliMulti
      */
     private $logger;
 
-    public function __construct(LoggerInterface $logger = null)
+    /**
+     * @var int|null
+     */
+    private $signal = null;
+
+    public function __construct(?LoggerInterface $logger = null)
     {
         $this->supportsAsync = $this->supportsAsync();
         $this->supportsAsyncSymfony = $this->supportsAsyncSymfony();
 
         $this->logger = $logger ?: new NullLogger();
+    }
+
+    public function handleSignal(int $signal): void
+    {
+        $this->signal = $signal;
+
+        if (\SIGTERM !== $signal) {
+            return;
+        }
+
+        foreach ($this->processes as $process) {
+            if ($process instanceof ProcessSymfony) {
+                $this->logger->debug(
+                    'Aborting command: {command} [method = asyncCliSymfony]',
+                    ['command' => $process->getCommandLine()]
+                );
+
+                $process->stop(0);
+            }
+        }
     }
 
     /**
@@ -109,7 +134,7 @@ class CliMulti
      *
      * @param string[]  $piwikUrls   An array of urls, for instance:
      *
-     *                               `array('http://www.example.com/piwik?module=API...')`
+     *                               `array('https://www.example.com/matomo?module=API...')`
      *
      *                               **Make sure query parameter values are properly encoded in the URLs.**
      *
@@ -124,13 +149,21 @@ class CliMulti
             }
         }
 
-        $chunks = array($piwikUrls);
+        $chunks = [$piwikUrls];
+
         if ($this->concurrentProcessesLimit) {
             $chunks = array_chunk($piwikUrls, $this->concurrentProcessesLimit);
         }
 
-        $results = array();
+        $results = [];
+
         foreach ($chunks as $urlsChunk) {
+            if (null !== $this->signal) {
+                $this->logSkippedRequests($urlsChunk);
+
+                continue;
+            }
+
             $results = array_merge($results, $this->requestUrls($urlsChunk));
         }
 
@@ -212,7 +245,7 @@ class CliMulti
         $this->outputs[] = $output;
     }
 
-    private function buildCommand($hostname, $query, $outputFileIfAsync, $doEsacpeArg = true)
+    private function buildCommand($hostname, $query, $outputFileIfAsync, $doEscapeArg = true)
     {
         $bin = $this->findPhpBinary();
         $superuserCommand = $this->runAsSuperUser ? "--superuser" : "";
@@ -222,7 +255,7 @@ class CliMulti
             $append = sprintf(' > %s 2>&1 &', $outputFileIfAsync);
         }
 
-        if ($doEsacpeArg) {
+        if ($doEscapeArg) {
             $hostname = escapeshellarg($hostname);
             $query = escapeshellarg($query);
         }
@@ -245,7 +278,7 @@ class CliMulti
 
         foreach ($this->outputs as $output) {
             $content = $output->get();
-            // Remove output that can be ignored in climulti . works around some worpdress setups where the hash bang may
+            // Remove output that can be ignored in climulti . works around some WordPress setups where the hash bang may
             // be printed
             $search = '#!/usr/bin/env php';
             if (
@@ -614,6 +647,16 @@ class CliMulti
         self::cleanupNotRemovedFiles();
 
         return $results;
+    }
+
+    private function logSkippedRequests(array $urls): void
+    {
+        foreach ($urls as $url) {
+            $this->logger->debug(
+                'Skipped climulti:request after abort signal received: {url}',
+                ['url' => $url]
+            );
+        }
     }
 
     private static function getSuperUserTokenAuth()

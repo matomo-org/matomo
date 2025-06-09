@@ -194,8 +194,8 @@ class PageUrl
 
     /**
      * Converts Matrix URL format
-     * from http://example.org/thing;paramA=1;paramB=6542
-     * to   http://example.org/thing?paramA=1&paramB=6542
+     * from https://example.org/thing;paramA=1;paramB=6542
+     * to   https://example.org/thing?paramA=1&paramB=6542
      *
      * @param string $originalUrl
      * @return string

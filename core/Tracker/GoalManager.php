@@ -437,7 +437,6 @@ class GoalManager
      * @param array $goal
      * @param array $items
      * @throws Exception
-     * @return int Number of items in the cart
      */
     protected function recordEcommerceItems($goal, $items)
     {
@@ -779,7 +778,7 @@ class GoalManager
          *
          * This event can be used to modify conversion information or to add new information to be persisted.
          *
-         * This event is deprecated, use [Dimensions](http://developer.piwik.org/guides/dimensions) instead.
+         * This event is deprecated, use [Dimensions](https://developer.matomo.org/guides/dimensions) instead.
          *
          * @param array $conversion The conversion entity. Read [this](/guides/persistence-and-the-mysql-backend#conversions)
          *                          to see what it contains.

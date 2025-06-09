@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\FeatureFlags;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Log\Logger;
 use Piwik\Log\LoggerInterface;
 
@@ -53,6 +54,19 @@ class FeatureFlagManager
         }
 
         return $featureActive;
+    }
+
+    /**
+     * @param string $featureFlagName
+     * @return void
+     * @internal
+     */
+    public static function deleteFeatureFlag(string $featureFlagName): void
+    {
+        /** @var FeatureFlagStorageInterface $storage */
+        foreach (StaticContainer::get('featureflag.storages') as $storage) {
+            $storage->deleteFeatureFlag($featureFlagName);
+        }
     }
 
     private function createFeatureFlagObjFromString(string $featureFlag): ?FeatureFlagInterface

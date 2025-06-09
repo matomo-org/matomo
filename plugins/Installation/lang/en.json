@@ -160,6 +160,13 @@
         "PerformanceSettingsDesc1": "Your Matomo is set up and ready to track and report on your website's traffic. Set up %1$sCLI archiving%2$s if you find it to be slow. This generates reports in the background, rather than on demand.",
         "PerformanceSettingsDesc2": "This requires adding a Matomo command to Cron which can't be done automatically by the installer. %1$sRead our FAQ to learn to set it up yourself.%2$s",
         "MatomoHttpRequestConfigInfo": "The option <code>force_matomo_http_request</code> in the general config is turned on, we highly recommend switching it off for security reasons. For more details please read %1$show to disable https for matomo.org requests%2$s",
-        "MatomoHttpsNotSupported": "Could not initialize HTTPS. Connections to matomo.org use HTTPS by default for security. Please make sure that HTTPS works on your environment or enable the option `force_matomo_http_request`. For more details please read %1$show to disable https for matomo.org requests%2$s"
+        "MatomoHttpsNotSupported": "Could not initialize HTTPS. Connections to matomo.org use HTTPS by default for security. Please make sure that HTTPS works on your environment or enable the option `force_matomo_http_request`. For more details please read %1$show to disable https for matomo.org requests%2$s",
+        "ErrorExpired1": "Your Matomo installation was started more than 3 days ago, but it has not been completed.",
+        "ErrorExpired2": "Please follow these steps to continue the installation:",
+        "ErrorExpired3": "Open the %1$sconfig/config.ini.php%2$s file in your Matomo installation directory.",
+        "ErrorExpired4": "Find and delete the line containing %1$sinstallation_first_accessed%2$s.",
+        "ErrorExpired5": "Save the file and refresh the page to continue the installation process.",
+        "ErrorExpired6": "Alternatively, you can also delete the configuration file instead of editing it.",
+        "ErrorExpired7": "If you need further assistance, check out the %1$sFAQ%2$s for more detailed help."
     }
 }

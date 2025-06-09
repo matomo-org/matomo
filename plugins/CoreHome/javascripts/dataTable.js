@@ -119,13 +119,28 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     enableStickHead: function (domElem) {
-      // Bind to the resize event of the window object
-      $(window).on('resize', function () {
-        var tableScrollerWidth = $(domElem).find('.dataTableScroller').width();
+      var resizeTimeout = null;
+      var resize = function(domElem) {
+        var tableScroller = $(domElem).find('.dataTableScroller');
+        var tableScrollerWidth = tableScroller.width();
         var tableWidth = $(domElem).find('table').width();
         if (tableScrollerWidth < tableWidth) {
-          $('.dataTableScroller').css('overflow-x', 'scroll');
+          tableScroller.css('overflow-x', 'scroll');
+        } else {
+          tableScroller.css('overflow-x', '');
         }
+      };
+      // Bind to the resize event of the window object
+      $(window).on('resize', function () {
+        resize(domElem);
+        // trigger another check after a certain delay as during fast resizing
+        // the width is sometimes reported incorrectly
+        if (resizeTimeout) {
+          window.clearTimeout(resizeTimeout);
+        }
+        resizeTimeout = window.setTimeout(function(){
+          resize(domElem);
+        }, 500);
         // Invoke the resize event immediately
       }).resize();
     },
@@ -193,7 +208,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             'include_aggregate_rows',
             'totalRows',
             'pivotBy',
-            'pivotByColumn'
+            'pivotByColumn',
+            'filter_trigger_id'
         ];
 
         for (var key = 0; key < filters.length; key++) {
@@ -288,6 +304,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             ajaxRequest.addParams(extraParams, 'post');
         }
         ajaxRequest.withTokenInUrl();
+
+        // store filtering parameters for given widget id
+        var widgetId = this.findUniqueWidgetId(this.$element);
+        if (widgetId) {
+            var filterParams = this.getFilterParams(Object.assign({}, params, extraParams));
+            window.CoreHome.SearchFiltersPersistenceStore.setSearchFilters(widgetId, filterParams);
+        }
 
         ajaxRequest.setCallback(
             function (response) {
@@ -835,8 +858,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var $searchInput = $('.dataTableSearchInput', domElem);
 
-        function getOptimalWidthForSearchField() {
-            var controlBarWidth = $('.dataTableControls', domElem).width();
+        function getOptimalWidthForSearchField($searchAction) {
+            var controlBarWidth = $searchAction.parents('.dataTableControls').first().width();
             var spaceLeft = controlBarWidth - $searchAction.position().left;
             var idealWidthForSearchBar = 250;
             var minimalWidthForSearchBar = 150; // if it's only 150 pixel we still show it on same line
@@ -870,22 +893,63 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 searchForPattern();
             }
         }
-        function showSearch(event) {
-            event.preventDefault();
-            event.stopPropagation();
 
-            var $searchAction = $(this);
+        function getTriggerField(event) {
+          if (typeof self.param.filter_trigger_id !== "undefined" &&
+            self.param.filter_trigger_id.length > 0) {
+            return document.getElementById(self.param.filter_trigger_id);
+          } else {
+            if (event && event.target) {
+              if (event.target.nodeName.toLowerCase() === 'span') {
+                return $(event.target).siblings('input');
+              } else {
+                return $(event.target).children('input');
+              }
+            }
+          }
+        }
+
+        function restoreSearchFieldFocus(event)
+        {
+            var triggerField = getTriggerField(event);
+
+            if (triggerField) {
+              triggerField.focus();
+            }
+        }
+
+        function showSearchInputFields($searchAction) {
             $searchAction.addClass('searchActive forceActionVisible');
-            var width = getOptimalWidthForSearchField();
+            var width = getOptimalWidthForSearchField($searchAction);
             $searchAction.css('width', width + 'px');
-            $searchAction.find('.dataTableSearchInput').focus();
-
             $searchAction.find('.icon-search').on('click', searchForPattern);
             $searchAction.off('click', showSearch);
         }
 
-        function searchForPattern() {
-            var keyword = $searchInput.val();
+        function showSearch(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            showSearchInputFields($(this));
+            restoreSearchFieldFocus(event);
+        }
+
+
+        function searchForPattern(event) {
+            var keyword = '';
+            if (event) {
+                var $input;
+                if (event.target.tagName.toLowerCase() === 'input') {
+                    $input = $(event.target);
+                } else if (event.target.tagName.toLowerCase() === 'span') {
+                    $input = $(event.target).siblings('input');
+                }
+
+                if ($input && $input.length) {
+                    keyword = $input.val();
+                    self.param.filter_trigger_id = $input.attr('id');
+                }
+            }
 
             if (!keyword && !currentPattern) {
                 // we search only if a keyword is actually given, or if no keyword is given and a search was performed
@@ -917,15 +981,24 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         $searchInput.on("keyup", function (e) {
             if (isEnterKey(e)) {
-                searchForPattern();
+                searchForPattern(e);
             } else if (isEscapeKey(e)) {
                 $searchAction.find('.icon-close').click();
             }
         });
 
+        $searchInput.on("blur", function () {
+            delete self.param.filter_trigger_id;
+        });
+
+        var $dataTable = $searchInput.parents('.dataTable').first();
         if (currentPattern) {
+            $dataTable.addClass('hasSearchKeyword');
             $searchInput.val(currentPattern);
-            $searchAction.click();
+            showSearchInputFields($searchAction);
+            restoreSearchFieldFocus();
+        } else {
+            $dataTable.removeClass('hasSearchKeyword');
         }
 
         if (this.isEmpty && !currentPattern) {
@@ -1224,10 +1297,15 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if ((typeof self.numberOfSubtables == 'undefined' || self.numberOfSubtables == 0)
             && (typeof self.param.flat == 'undefined' || self.param.flat != 1)
         ) {
-            // if there are no subtables, remove the flatten action
-            const dataTableActionsVueApp = $('[vue-entry="CoreHome.DataTableActions"]', domElem).data('vueAppInstance');
-            if (dataTableActionsVueApp) {
-              dataTableActionsVueApp.showFlattenTable_ = false;
+            // if there are no subtables, remove the flatten action from all data table actions
+            var dataTableActionsVueApps = $('[vue-entry="CoreHome.DataTableActions"]', domElem);
+            if (dataTableActionsVueApps.length) {
+              dataTableActionsVueApps.each(function() {
+                var appData = $(this).data('vueAppInstance');
+                if (appData) {
+                  appData.showFlattenTable_ = false;
+                }
+              });
             }
         }
 
@@ -1297,6 +1375,31 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 self.param.filter_sort_column = '';
                 return {filter_sort_column: ''};
             }));
+    },
+
+    findUniqueWidgetId: function (domWidget) {
+        // on dashboards, widget have widgetId attribute
+        var widget = $(domWidget).closest('[widgetId]');
+        if (widget && widget.length && widget[0].hasAttribute('widgetId')) {
+            return widget[0].getAttribute('widgetId');
+        }
+
+        // on pages other than the dashboard the ID is on a different element
+        widget = $(domWidget).closest('.matomo-widget');
+        if (widget && widget.length && widget[0].hasAttribute('id')) {
+            return widget[0].getAttribute('id');
+        }
+
+        return '';
+    },
+
+    getFilterParams: function (params) {
+        return Object.keys(params)
+           .filter(key => key.startsWith('filter_column') || key.startsWith('filter_pattern'))
+           .reduce((filterParams, key) => {
+               filterParams[key] = params[key];
+               return filterParams;
+           }, {});
     },
 
     notifyWidgetParametersChange: function (domWidget, parameters) {
@@ -1472,7 +1575,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     self.param.idSubtable = idSubTable;
                     self.param.action = self.props.subtable_controller_action;
 
-					delete self.param.totalRows;
+					          delete self.param.totalRows;
 
                     var extraParams = {};
                     extraParams.comparisonIdSubtables = self.getComparisonIdSubtables($(this));

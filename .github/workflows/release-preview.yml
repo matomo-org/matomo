@@ -29,26 +29,26 @@ on:
       password:
         description: 'Release password'
         required: true
-  #schedule:
-  #  - cron: '0 1 * * *' # 1am daily
+  schedule:
+    - cron: '0 1 * * *' # 1am daily
 env:
   RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
 jobs:
   prepare_preview_version:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       do_release: ${{ steps.changes.outputs.do_release }}
       has_new_version: ${{ steps.version.outputs.has_new_version }}
     steps:
       - name: "Check release password"
-        if: ${{ github.event.inputs.password != env.RELEASE_PASSWORD }}
-        uses: actions/github-script@v6
+        if: ${{ github.event_name != 'schedule' && github.event.inputs.password != env.RELEASE_PASSWORD }}
+        uses: actions/github-script@v7
         with:
           script: |
             core.setFailed('Release password didn\'t match.')
       - name: "Check if user is allowed"
-        if: ${{ github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'mneudert' && github.actor != 'michalkleiner' && github.actor != 'caddoo'}}
-        uses: actions/github-script@v6
+        if: ${{ github.event_name != 'schedule' && github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'mneudert' && github.actor != 'michalkleiner' && github.actor != 'caddoo'}}
+        uses: actions/github-script@v7
         with:
           script: |
             core.setFailed('User is not allowed to release.')
@@ -157,6 +157,8 @@ jobs:
     with:
       is_preview: true
       ref: 5.x-preview
+    secrets:
+      ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
 
   release_preview_version:
     needs: [run_matomo_tests]

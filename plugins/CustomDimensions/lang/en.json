@@ -2,6 +2,7 @@
     "CustomDimensions": {
         "CannotBeDeleted": "A Custom Dimension cannot be deleted, only deactivated.",
         "ColumnAvgTimeOnDimension": "Avg. Time On Dimension",
+        "ColumnAvgTimeOnDimensionDocumentation": "Avg. Time on custom action dimension is the average time visitors spent on a specific custom action before moving to another tracked action. Calculated by summing the time spent on the action across all visits and dividing it by the number of times the action was performed.",
         "ColumnUniqueActions": "Unique Actions",
         "ConfigureDimension": "Configure %1$s Custom Dimension %2$s",
         "ConfigureNewDimension": "Configure a new dimension",

@@ -134,6 +134,7 @@ class SitesStore {
         sitesToExclude,
       }, {
         abortController: this.currentRequestAbort,
+        abortable: false,
       });
     }).then((response) => {
       if (response) {

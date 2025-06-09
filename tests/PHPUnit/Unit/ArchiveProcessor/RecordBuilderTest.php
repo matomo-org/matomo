@@ -742,8 +742,8 @@ class RecordBuilderTest extends TestCase
 
     public function getMockArchiveProcessor(
         string $period = 'day',
-        array $requestedReports = null,
-        array $foundRequestedReports = null,
+        ?array $requestedReports = null,
+        ?array $foundRequestedReports = null,
         bool $addSubtablesToAggregatedTables = false
     ): ArchiveProcessor {
         Site::setSiteFromArray(1, ['idsite' => 1, 'ecommerce' => 0, 'sitesearch' => 0, 'exclude_unknown_urls' => 0, 'keep_url_fragment' => 0]);

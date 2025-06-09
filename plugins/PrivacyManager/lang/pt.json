@@ -206,6 +206,7 @@
         "UseDeleteLog": "Eliminar com regularidade dados em bruto antigos da base de dados",
         "UseDeleteReports": "Apagar com regularidade os relatórios antigos da base de dados",
         "UsersOptOut": "Exclusão dos utilizadores",
+        "VisitColumns": "Vêr colunas",
         "VisitsMatchedCriteria": "Estas visitas correspondem ao critério selecionado.",
         "VisitsSuccessfullyDeleted": "As visitas foram excluídas com sucesso",
         "VisitsSuccessfullyExported": "As visitas foram exportadas com sucesso",

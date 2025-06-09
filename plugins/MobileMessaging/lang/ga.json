@@ -1,11 +1,14 @@
 {
     "MobileMessaging": {
         "Available_Credits": "Creidmheasanna ar fáil: %1$s",
+        "ConfirmRemovePhoneNumber": "An bhfuil tú cinnte gur mian leat an uimhir theileafóin %1$s a bhaint?",
         "Exception_UnknownProvider": "Ainm an tsoláthraí '%1$s' anaithnid. Bain triail as ceann ar bith díobh seo a leanas ina ionad sin: %2$s.",
+        "IncorrectNumberFormat": "Ní mheaitseálann an uimhir theileafóin %1$s an fhormáid uimhreach a rabhthas ag súil léi.",
         "MobileReport_AdditionalPhoneNumbers": "Is féidir leat tuilleadh uimhreacha gutháin a chur leis trí rochtain a fháil",
         "MobileReport_MobileMessagingSettingsLink": "an leathanach socruithe Teachtaireachtaí Soghluaiste",
         "MobileReport_NoPhoneNumbers": "Gníomhachtaigh uimhir theileafóin amháin ar a laghad trí rochtain a fháil",
         "MultiSites_Must_Be_Activated": "Chun téacsanna SMS do stats láithreáin ghréasáin a ghiniúint, le do thoil cumasaigh an breiseán MultiSites in Matomo.",
+        "NumberAlreadyAdded": "Cuireadh an uimhir theileafóin %1$s leis cheana.",
         "PhoneNumbers": "Uimhreacha Teileafóin",
         "PluginDescription": "Cruthaigh agus íoslódáil tuairiscí saincheaptha SMS agus cuir chuig do ghuthán iad ar bhonn laethúil, seachtainiúil nó míosúil.",
         "SMS_Content_Too_Long": "[ró-fhada]",
@@ -25,6 +28,7 @@
         "Settings_LetUsersManageAPICredential_No_Help": "Tá gach úsáideoir in ann Tuairiscí SMS a fháil agus úsáidfidh siad creidmheasanna do chuntais.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "Beidh gach úsáideoir in ann a Chuntas API SMS féin a bhunú agus ní úsáidfidh siad do chreidmheas.",
         "Settings_ManagePhoneNumbers": "Bainistigh Uimhreacha Teileafóin",
+        "Settings_NewVerificationCodeSent": "Tá cód fíorúcháin nua seolta.",
         "Settings_PhoneActivated": "Uimhir theileafóin deimhnithe! Is féidir leat SMS a fháil anois le do staitisticí.",
         "Settings_PhoneNumber": "Uimhir teileafón",
         "Settings_PhoneNumbers_Add": "Cuir Uimhir Theileafóin nua leis",
@@ -32,6 +36,7 @@
         "Settings_PhoneNumbers_Help": "Sula bhfaightear tuairiscí SMS (teachtaireachtaí téacs) ar ghuthán, ní mór an uimhir theileafóin a chur isteach thíos.",
         "Settings_PhoneNumbers_HelpAdd": "Nuair a chliceálann tú \"Cuir\", seolfar SMS ina bhfuil cód chuig an bhfón. Ba cheart don úsáideoir a fhaigheann an cód logáil isteach ansin chuig Matomo, cliceáil ar Socruithe, ansin cliceáil ar Teachtaireachtaí Soghluaiste. Tar éis dul isteach sa chód, beidh an t-úsáideoir in ann tuairiscí téacs a fháil ar a ghuthán.",
         "Settings_PleaseSignUp": "Chun tuairiscí SMS a chruthú agus teachtaireachtaí gearra téacs a fháil le stats do shuíomhanna gréasáin ar d’fhón póca, cláraigh leis an API SMS agus cuir isteach do chuid faisnéise thíos.",
+        "Settings_ResendVerification": "Seol an cód fíoraithe ar ais",
         "Settings_SMSAPIAccount": "Bainistigh Cuntas API SMS",
         "Settings_SMSProvider": "Soláthraí SMS",
         "Settings_SelectCountry": "Roghnaigh tír",
@@ -40,9 +45,11 @@
         "Settings_UpdateOrDeleteAccount": "Is féidir leat %1$s%2$s nó %3$s scriosadh %4$s an cuntas seo freisin.",
         "Settings_ValidatePhoneNumber": "Bailíochtaigh",
         "Settings_VerificationCodeJustSent": "Táimid díreach tar éis SMS a sheoladh chuig an uimhir seo le cód: cuir isteach an cód seo thuas agus cliceáil \"Bailíochtaigh\".",
+        "TooManyUnverifiedNumbersError": "Ní féidir leat níos mó ná 3 uimhir theileafóin neamhfhíoraithe a chur leis!",
         "TopLinkTooltip": "Faigh Tuairiscí Analytics Gréasáin seachadta chuig do bhosca isteach ríomhphoist nó chuig d’fhón póca.",
         "TopMenu": "Ríomhphost &amp; Tuarascálacha SMS",
         "UserKey": "Eochair Úsáideora",
+        "VerificationCodeRecentlySentError": "Iarradh cód fíorúcháin don uimhir theileafóin %1$s le déanaí.",
         "VerificationText": "Is é %1$s an cód. Chun d'uimhir theileafóin a bhailíochtú agus tuairiscí SMS Matomo a fháil, cóipeáil an cód seo san fhoirm atá inrochtana trí Matomo → %2$s → %3$s."
     }
 }

@@ -38,7 +38,7 @@ class ASPSMS extends SMSProvider
 
     public function getDescription()
     {
-        return 'You can use <a target="_blank" rel="noreferrer noopener" href="http://www.aspsms.com/en/?REF=227830"><img src="plugins/MobileMessaging/images/ASPSMS.png"/></a> to send SMS Reports from Piwik.<br/>
+        return 'You can use <a target="_blank" rel="noreferrer noopener" href="http://www.aspsms.com/en/?REF=227830"><img src="plugins/MobileMessaging/images/ASPSMS.png"/></a> to send SMS Reports from Matomo.<br/>
 			<ul>
 			<li> First, <a target="_blank" rel="noreferrer noopener" href="http://www.aspsms.com/en/registration/?REF=227830">get an Account at ASPSMS</a> (Signup is free!)
 			</li><li> Enter your ASPSMS credentials on this page. </li>

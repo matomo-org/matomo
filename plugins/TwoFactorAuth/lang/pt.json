@@ -27,7 +27,6 @@
         "SetUpTwoFactorAuthentication": "Configurar a autenticação de dois fatores (2FA)",
         "SetupAuthenticatorOnDevice": "Configure um aplicativo OTP no seu dispositivo",
         "SetupAuthenticatorOnDeviceStep1": "Instale um aplicativo OTP, por exemplo:",
-        "SetupAuthenticatorOnDeviceStep2": "Em seguida, abra o aplicativo e escaneie o código de barras abaixo com o aplicativo OTP em seu dispositivo móvel. %1$sDigite este código%2$s se não conseguir digitalizar o código de barras.",
         "SetupBackupRecoveryCodes": "Salve seus códigos de recuperação com segurança usando um dos métodos acima antes de continuar.",
         "SetupFinishedSubtitle": "Agora você configurou a autenticação de dois fatores. A partir de agora, você precisa inserir um código de autenticação para fazer login. Certifique-se de ter seu dispositivo móvel ou seus códigos de backup com você.",
         "SetupFinishedTitle": "Sua conta agora está mais segura.",

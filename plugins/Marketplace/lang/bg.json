@@ -61,7 +61,6 @@
         "OverviewPluginSubscriptions": "Преглед на Вашите абонаменти за плъгини",
         "OverviewPluginSubscriptionsAllDetails": "За да видите всички подробности или да промените абонамент, влезте в акаунта си.",
         "OverviewPluginSubscriptionsMissingInfo": "Възможно е да липсва абонамент, например ако плащането все още не е извършено. В такъв случай опитайте отново след няколко часа или се свържете с екипа на Matomo.",
-        "OverviewPluginSubscriptionsMissingLicense": "Нямате набор от лицензионни ключове. Ако сте закупили абонамент за плъгин, отидете на %1$sMarketplace%2$s и въведете лицензния си ключ.",
         "PaidPlugins": "Премиум функции",
         "PluginDescription": "Разширете и разширете функционалността на Matomo в Marketplace чрез изтегляне на плъгини и теми.",
         "PluginKeywords": "Ключови думи",

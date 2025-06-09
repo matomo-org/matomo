@@ -24,6 +24,8 @@ use Piwik\Mail;
 use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
+use Piwik\Plugins\UsersManager\Emails\UserInviteEmail;
 use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API;
@@ -1369,6 +1371,11 @@ class APITest extends IntegrationTestCase
     public function testInviteUserAsSuperUser()
     {
         $eventWasFired = false;
+        $capturedMails = [];
+
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$capturedMails) {
+            $capturedMails[] = $mail;
+        });
 
         EventDispatcher::getInstance()->addObserver(
             'UsersManager.inviteUser.end',
@@ -1380,9 +1387,40 @@ class APITest extends IntegrationTestCase
         );
 
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
-        $user = $this->model->isPendingUser('pendingLoginTest');
-        self::assertTrue($user);
+        $isPending = $this->model->isPendingUser('pendingLoginTest');
+        self::assertTrue($isPending);
         self::assertTrue($eventWasFired);
+
+        self::assertCount(2, $capturedMails);
+        self::assertInstanceOf(UserCreatedEmail::class, $capturedMails[0]);
+        self::assertInstanceOf(UserInviteEmail::class, $capturedMails[1]);
+    }
+
+    public function testChangingEmailOfInvitedUserShouldResendInvitation()
+    {
+        Fixture::createSuperUser();
+        $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
+        $isPending = $this->model->isPendingUser('pendingLoginTest');
+        self::assertTrue($isPending);
+
+        $eventWasFired = false;
+        $capturedMails = [];
+
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$capturedMails) {
+            $capturedMails[] = $mail;
+        });
+
+        EventDispatcher::getInstance()->addObserver(
+            'UsersManager.inviteUser.end',
+            function ($userLogin, $email) use (&$eventWasFired) {
+                $eventWasFired = true;
+            }
+        );
+
+        $this->api->updateUser('pendingLoginTest', false, 'pendingLoginTest2@matomo.org', false, Fixture::ADMIN_USER_PASSWORD);
+        self::assertFalse($eventWasFired); // event should not be fired on email change
+        self::assertCount(1, $capturedMails);
+        self::assertInstanceOf(UserInviteEmail::class, $capturedMails[0]);
     }
 
     public function testInviteUserAsAdmin()

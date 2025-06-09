@@ -27,7 +27,6 @@
         "SetUpTwoFactorAuthentication": "设置二次登录认证（2FA）",
         "SetupAuthenticatorOnDevice": "在您的设备上设置 OTP 应用程序",
         "SetupAuthenticatorOnDeviceStep1": "安装 OTP 应用程序，例如：",
-        "SetupAuthenticatorOnDeviceStep2": "接下来，打开应用程序并使用移动设备上的 OTP 应用程序扫描下面的条形码。 %1$s如果您无法扫描条形码，请输入此代码%2$s。",
         "SetupBackupRecoveryCodes": "在继续之前，请使用上述方法之一安全地保存您的恢复代码。",
         "SetupFinishedSubtitle": "您现在已经设置了双因素身份验证。从现在开始，您需要输入验证码才能登录。请确保您携带移动设备或备份代码。",
         "SetupFinishedTitle": "您的帐户现在更加安全。",

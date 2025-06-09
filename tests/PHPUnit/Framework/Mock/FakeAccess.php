@@ -91,7 +91,7 @@ class FakeAccess extends Access
         self::$superUser = $bool;
     }
 
-    public function reloadAccess(Auth $auth = null)
+    public function reloadAccess(?Auth $auth = null)
     {
         return true;
     }

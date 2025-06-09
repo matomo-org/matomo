@@ -11,8 +11,10 @@
     <div id="ajaxErrorManageSmsProviderSettings" />
     <p v-if="credentialSupplied">
       <span v-if="credentialError">
-        {{ translate('MobileMessaging_Settings_CredentialInvalid', provider) }}<br />
-        {{ credentialError }}
+        <Alert severity="danger">
+          {{ translate('MobileMessaging_Settings_CredentialInvalid', provider) }}<br />
+          {{ credentialError }}
+        </Alert>
       </span>
       <span v-else>
         {{ translate('MobileMessaging_Settings_CredentialProvided', provider) }}
@@ -67,6 +69,7 @@ import { defineComponent } from 'vue';
 import {
   translate,
   AjaxHelper,
+  Alert,
   Matomo,
   ActivityIndicator,
 } from 'CoreHome';
@@ -97,6 +100,7 @@ export default defineComponent({
     },
   },
   components: {
+    Alert,
     ActivityIndicator,
     Field,
     SaveButton,

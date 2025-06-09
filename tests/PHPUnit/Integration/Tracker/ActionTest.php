@@ -190,6 +190,7 @@ class ActionTest extends IntegrationTestCase
             ['https://www.example.com?fbclid=1234', 'https://www.example.com'],
             ['https://www.example.com?msclkid=1234', 'https://www.example.com'],
             ['https://www.example.com?yclid=1234', 'https://www.example.com'],
+            ['https://www.example.com?li_fat_id=1234', 'https://www.example.com'],
             ['https://www.example.com/path1?gclid=1234', 'https://www.example.com/path1'],
             ['https://www.example.com/path2?fbclid=1234', 'https://www.example.com/path2'],
             ['https://www.example.com/path3?msclkid=1234', 'https://www.example.com/path3'],

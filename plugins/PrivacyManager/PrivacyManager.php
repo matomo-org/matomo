@@ -408,6 +408,12 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_SecurityProceduresIntro';
         $translationKeys[] = 'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy';
         $translationKeys[] = 'PrivacyManager_SelectWebsite';
+        $translationKeys[] = 'PrivacyManager_SiteDataNotAvailable';
+        $translationKeys[] = 'PrivacyManager_SiteDataNotAvailableCertainSites';
+        $translationKeys[] = 'PrivacyManager_VisitorLogsProfilesDisabledMessage';
+        $translationKeys[] = 'PrivacyManager_VisitorLogsProfilesSiteNamesDisabledMessage';
+        $translationKeys[] = 'PrivacyManager_PleaseEnableVisitorLogsProfiles';
+        $translationKeys[] = 'PrivacyManager_PleaseEnableVisitorLogsProfilesSites';
         $translationKeys[] = 'PrivacyManager_TeaserHeader';
         $translationKeys[] = 'PrivacyManager_TrackingOptOut';
         $translationKeys[] = 'PrivacyManager_ShowIntro';
@@ -455,6 +461,8 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'Overlay_Location';
         $translationKeys[] = 'General_UserId';
         $translationKeys[] = 'General_Done';
+        $translationKeys[] = 'PrivacyManager_UseRandomizeConfigId';
+        $translationKeys[] = 'PrivacyManager_RandomizeConfigIdNote';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)

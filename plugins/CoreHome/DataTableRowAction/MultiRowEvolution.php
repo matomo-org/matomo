@@ -33,10 +33,10 @@ class MultiRowEvolution extends RowEvolution
      * @param int $idSite
      * @param \Piwik\Date $date ($this->date from controller)
      */
-    public function __construct($idSite, $date)
+    public function __construct($idSite, $date, $graphType = 'graphEvolution')
     {
         $this->metric = Common::getRequestVar('column', '', 'string');
-        parent::__construct($idSite, $date);
+        parent::__construct($idSite, $date, $graphType);
     }
 
     protected function loadEvolutionReport($column = false)

@@ -2,6 +2,7 @@
     "WebsiteMeasurable": {
         "Website": "Suíomh Gréasáin",
         "WebsiteDescription": "Is éard atá i suíomh Gréasáin ná leathanaigh ghréasáin, a ndéantar freastal orthu de ghnáth ó fhearann amháin ar an ngréasán.",
+        "WebsiteLongDescription": "Rianaigh idirghníomhaíochtaí cuairteoirí ar nós radhairc leathanaigh, cliceanna, íoslódálacha agus imeachtaí ar shuíomh Gréasáin atá os comhair an phobail. Is féidir le hintomhais aonair ilfhearainn agus fofhearainn a áireamh, nó is féidir leat intomhais ar leithligh a chruthú do gach ceann acu.",
         "Websites": "Láithreáin Ghréasáin"
     }
 }

@@ -463,7 +463,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         string $groupBy,
         $orderBy,
         string $sprintfField,
-        RankingQuery $rankingQuery = null,
+        ?RankingQuery $rankingQuery = null,
         array $metricsConfig = array()
     ): void {
         $select = sprintf($select, $sprintfField);

@@ -74,6 +74,8 @@ class Mysql implements SchemaInterface
                           date_created DATETIME NOT NULL,
                           date_expired DATETIME NULL,
                           secure_only TINYINT(2) unsigned NOT NULL DEFAULT '0',
+                          ts_rotation_notified DATETIME NULL,
+                          ts_expiration_warning_notified DATETIME NULL,
                             PRIMARY KEY(idusertokenauth),
                             UNIQUE KEY uniq_password(password)
                           ) $tableOptions
@@ -332,6 +334,8 @@ class Mysql implements SchemaInterface
                                             ts_started DATETIME NULL,
                                             status TINYINT(1) UNSIGNED DEFAULT 0,
                                             `report` VARCHAR(255) NULL,
+                                            processing_host VARCHAR(100) NULL DEFAULT NULL,
+                                            process_id VARCHAR(15) NULL DEFAULT NULL,
                                             PRIMARY KEY(idinvalidation),
                                             INDEX index_idsite_dates_period_name(idsite, date1, period)
                                         ) $tableOptions
@@ -650,18 +654,10 @@ class Mysql implements SchemaInterface
             return $sql;
         }
 
-        $sql = trim($sql);
-        $pos = stripos($sql, 'SELECT');
-        $isMaxExecutionTimeoutAlreadyPresent = (stripos($sql, 'MAX_EXECUTION_TIME(') !== false);
-        if ($pos !== false && !$isMaxExecutionTimeoutAlreadyPresent) {
-            $timeInMs = $limit * 1000;
-            $timeInMs = (int) $timeInMs;
-            $maxExecutionTimeHint = ' /*+ MAX_EXECUTION_TIME(' . $timeInMs . ') */ ';
+        $timeInMs = $limit * 1000;
+        $timeInMs = (int) $timeInMs;
 
-            $sql = substr_replace($sql, 'SELECT ' . $maxExecutionTimeHint, $pos, strlen('SELECT'));
-        }
-
-        return $sql;
+        return DbHelper::addOptimizerHintToQuery($sql, 'MAX_EXECUTION_TIME(' . $timeInMs . ')');
     }
 
     public function supportsComplexColumnUpdates(): bool

@@ -135,6 +135,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.waitForNetworkIdle();
         await page.evaluate(() => document.activeElement.blur());
         await page.waitForTimeout(500);
+        await page.mouse.move(-10, -10);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_search');
     });
 

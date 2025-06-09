@@ -132,8 +132,6 @@ class Controller extends ControllerAdmin
         }
         $view->countries = $countries;
 
-        $view->phoneNumbers = $model->getPhoneNumbers(Piwik::getCurrentUserLogin());
-
         $this->setBasicVariablesView($view);
     }
 

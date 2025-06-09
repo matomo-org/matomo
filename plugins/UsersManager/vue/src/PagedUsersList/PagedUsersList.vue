@@ -341,7 +341,7 @@
                 v-if="(
                   currentUserRole === 'superuser'
                   || (currentUserRole === 'admin' && user.invited_by === currentUserLogin)
-                ) && user.invite_status!=='active'"
+                ) && user.invite_status !== 'active'"
             >
               <span class="icon-email"/>
             </button>
@@ -360,7 +360,11 @@
                 @click="userToChange = user; showDeleteConfirm()"
                 v-if="(
                   currentUserRole === 'superuser'
-                  || (currentUserRole === 'admin' && user.invited_by === currentUserLogin)
+                  || (
+                    currentUserRole === 'admin'
+                    && user.invited_by === currentUserLogin
+                    && user.invite_status !== 'active'
+                  )
                 ) && user.login !== 'anonymous'"
             >
               <span class="icon-delete"/>

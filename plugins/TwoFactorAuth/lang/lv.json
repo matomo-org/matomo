@@ -27,7 +27,6 @@
         "SetUpTwoFactorAuthentication": "Iestatiet divfaktoru autentifikāciju",
         "SetupAuthenticatorOnDevice": "Iestatiet autentifikācijas lietotni savā ierīcē",
         "SetupAuthenticatorOnDeviceStep1": "Instalējiet autentifikācijas lietotni, piemēram:",
-        "SetupAuthenticatorOnDeviceStep2": "Pēc tam savā mobilajā ierīcē atveriet lietotni un skenējiet zemāk redzamo kvadrātkodu. %1$sIevadiet šo kodu%2$s, ja nevarat noskenēt kvadrātkodu.",
         "SetupBackupRecoveryCodes": "Lūdzu, pirms turpināt, droši saglabājiet savus atkopšanas kodus, izmantojot kādu no iepriekš minētajām metodēm.",
         "SetupFinishedSubtitle": "Tagad ir iestatīta divfaktoru autentifikācija. Turpmāk ir jāievada autentifikācijas kods, lai pieteiktos. Pārliecinieties, vai jums ir mobilā ierīce vai dublējuma kodi.",
         "SetupFinishedTitle": "Jūsu konts tagad ir drošāks.",

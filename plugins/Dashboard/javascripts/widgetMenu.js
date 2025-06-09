@@ -116,6 +116,14 @@ widgetsHelper.getAvailableWidgets = function (callback) {
 };
 
 /**
+ * Clear the current collection of availableWidgets so that getAvailableWidgets() will load a fresh
+ * collection from the API. This is useful when we added/deleted a report and need a refresh.
+ */
+widgetsHelper.clearAvailableWidgets = function () {
+    delete widgetsHelper.availableWidgets;
+};
+
+/**
  * Determines the complete widget object by its unique id and sends it to callback method
  *
  * @param {string} uniqueId

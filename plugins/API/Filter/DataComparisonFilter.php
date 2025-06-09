@@ -130,7 +130,7 @@ class DataComparisonFilter
      */
     private $invertCompareChangeCompute;
 
-    public function __construct($request, Report $report = null)
+    public function __construct($request, ?Report $report = null)
     {
         $this->request = new \Piwik\Request($request);
 
@@ -423,7 +423,7 @@ class DataComparisonFilter
         return '(' . implode(') (', $comparisonLabels) . ')';
     }
 
-    private function getSegmentNameFromReport(Report $report = null)
+    private function getSegmentNameFromReport(?Report $report = null)
     {
         if (empty($report)) {
             return null;

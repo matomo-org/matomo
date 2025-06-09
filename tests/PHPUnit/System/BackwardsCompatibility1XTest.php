@@ -160,10 +160,6 @@ class BackwardsCompatibility1XTest extends SystemTestCase
          * we need to add the API below which will cause the fixtures for this API to be created in processed/
          */
         $reportsToCompareSeparately = [
-
-            // the label column is not the first column here
-            'MultiSites.getAll',
-
             // those reports generate a different segment as a different raw value was stored that time
             'DevicesDetection.getOsVersions',
             'DevicesDetection.getBrowserVersions',
@@ -239,7 +235,11 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'PagePerformance.get',
 
             // Did not exist before Matomo 4.11.
-            'MultiSites.getAllWithGroups'
+            'MultiSites.getAllWithGroups',
+
+            // compare separately, as changes in columns
+            'MultiSites.getAll',
+            'MultiSites.getOne',
         ];
 
         if (!Manager::getInstance()->isPluginActivated('CustomVariables')) {
@@ -255,6 +255,8 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
         return [
             ['all', $allReportsOptions],
+            ['MultiSites.getAll', array_merge($defaultOptions, ['xmlFieldsToRemove' => ['hits', 'hits_evolution', 'hits_evolution_trend']])],
+            ['MultiSites.getOne', array_merge($allReportsOptions, ['apiNotToCall' => '', 'xmlFieldsToRemove' => ['hits', 'hits_evolution', 'hits_evolution_trend']])],
 
             ['VisitFrequency.get', ['idSite' => $idSite, 'date' => '2012-03-03', 'setDateLastN' => true,
                                               'disableArchiving' => true, 'testSuffix' => '_multipleDates']],

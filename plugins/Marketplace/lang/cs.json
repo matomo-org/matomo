@@ -55,7 +55,6 @@
         "OverviewPluginSubscriptions": "Přehled předplatného vašich modulů",
         "OverviewPluginSubscriptionsAllDetails": "Pro změnu detailů nebo změnu předplatného se přihlašte do svého účtu.",
         "OverviewPluginSubscriptionsMissingInfo": "Je možné, že předplatné chybí například z důvodu nedošlé platby. V takovém případě zkuste znovu po několika hodinách, nebo kontaktujte Matomo tým.",
-        "OverviewPluginSubscriptionsMissingLicense": "Nemáte nastaven licenční klíč. Pokud jste zakoupili předplatné modulu, přejděte do %1$sObchodu%2$s a zadejte svůj licenční klíč.",
         "PaidPlugins": "Prémiové funkce",
         "PluginDescription": "Rozšiřte a zlepšete funkčnost Matoma pomocí Obchodu a dalšími staženými zásuvnými moduly a vzhledy.",
         "PluginKeywords": "Klíčová slova",

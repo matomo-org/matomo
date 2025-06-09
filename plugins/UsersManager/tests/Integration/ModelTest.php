@@ -133,7 +133,9 @@ class ModelTest extends IntegrationTestCase
             'last_used' => null,
             'date_created' => '2020-01-02 03:04:05',
             'date_expired' => null,
-            'secure_only' => '0'
+            'secure_only' => '0',
+            'ts_rotation_notified' => null,
+            'ts_expiration_warning_notified' => null,
         )), $tokens);
     }
 
@@ -152,7 +154,9 @@ class ModelTest extends IntegrationTestCase
             'last_used' => null,
             'date_created' => '2020-01-02 03:04:05',
             'date_expired' => '2030-01-05 03:04:05',
-            'secure_only' => '0'
+            'secure_only' => '0',
+            'ts_rotation_notified' => null,
+            'ts_expiration_warning_notified' => null,
         )), $tokens);
     }
 
@@ -214,7 +218,9 @@ class ModelTest extends IntegrationTestCase
             'last_used' => null,
             'date_created' => '2020-01-02 03:04:05',
             'date_expired' => '2030-01-05 03:04:05',
-            'secure_only' => '0'
+            'secure_only' => '0',
+            'ts_rotation_notified' => null,
+            'ts_expiration_warning_notified' => null,
         )), $tokens);
     }
 

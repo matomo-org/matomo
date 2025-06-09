@@ -183,7 +183,7 @@ class SearchEngine extends Singleton
      * - trimmed: extra spaces before and after are removed
      *
      * The function returns false when a keyword couldn't be found.
-     *     eg. if the url is "http://www.google.com/partners.html" this will return false,
+     *     eg. if the url is "https://www.google.com/partners.html" this will return false,
      *       as the google keyword parameter couldn't be found.
      *
      * @see unit tests in /tests/core/Common.test.php
@@ -486,7 +486,7 @@ class SearchEngine extends Singleton
      *
      * @param string $url Domain name, e.g., search.piwik.org
      * @param string $keyword Keyword, e.g., web+analytics
-     * @return string URL, e.g., http://search.piwik.org/q=web+analytics
+     * @return string URL, e.g., https://search.matomo.org/q=web+analytics
      */
     public function getBackLinkFromUrlAndKeyword($url, $keyword)
     {

@@ -20,7 +20,7 @@ class Website extends Base
     protected $type = self::TYPE_TEXT;
     protected $nameSingular = 'General_Website';
 
-    public function shouldForceNewVisit(Request $request, Visitor $visitor, Action $action = null)
+    public function shouldForceNewVisit(Request $request, Visitor $visitor, ?Action $action = null)
     {
         if (TrackerConfig::getConfigValue('create_new_visit_when_website_referrer_changes', $request->getIdSiteIfExists()) != 1) {
             return false;

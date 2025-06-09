@@ -128,7 +128,7 @@
       <span class="icon-search" draggable="false"></span>
       <span class="icon-close" draggable="false" :title="translate('CoreHome_CloseSearch')"></span>
       <input
-        :id="`widgetSearch_${reportId}`"
+        :id="`widgetSearch_${reportId}_${placement}`"
         :title="translate('CoreHome_DataTableHowToSearch')"
         type="text"
         class="dataTableSearchInput"
@@ -327,6 +327,10 @@ export default defineComponent({
       required: true,
     },
     pivotDimensionName: String,
+    placement: {
+      type: String,
+      default: 'footer',
+    },
   },
   components: {
     Passthrough,

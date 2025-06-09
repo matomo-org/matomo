@@ -7,12 +7,13 @@
 
 <template>
   <div class="sitesTableContainer">
-    <table class="card-table dataTable sitesTable">
+    <table class="card-table dataTable sitesTable" v-tooltips>
       <thead>
         <tr>
           <th
               @click="sortBy('label')"
               class="label"
+              :title="translate('MultiSites_MetricDocumentationWebsite')"
           >
             {{ translate('General_Website') }}
             <span
@@ -21,7 +22,8 @@
             />
           </th>
 
-          <th @click="sortBy('nb_visits')">
+          <th @click="sortBy('nb_visits')"
+              :title="translate('MultiSites_MetricDocumentationVisits')">
             <span
                 v-if="sortColumn === 'nb_visits'"
                 :class="sortColumnClass"
@@ -29,7 +31,8 @@
             {{ translate('General_ColumnNbVisits') }}
           </th>
 
-          <th @click="sortBy('nb_pageviews')">
+          <th @click="sortBy('nb_pageviews')"
+              :title="translate('MultiSites_MetricDocumentationPageviews')">
             <span
                 v-if="sortColumn === 'nb_pageviews'"
                 :class="sortColumnClass"
@@ -37,9 +40,10 @@
             {{ translate('General_ColumnPageviews') }}
           </th>
 
-          <th @click="sortBy('nb_hits')">
+          <th @click="sortBy('hits')"
+              :title="translate('MultiSites_MetricDocumentationHits')">
             <span
-                v-if="sortColumn === 'nb_hits'"
+                v-if="sortColumn === 'hits'"
                 :class="sortColumnClass"
             />
             {{ translate('General_ColumnHits') }}
@@ -47,6 +51,7 @@
 
           <th v-if="displayRevenue"
               @click="sortBy('revenue')"
+              :title="translate('MultiSites_MetricDocumentationRevenue')"
           >
             <span
                 v-if="sortColumn === 'revenue'"
@@ -55,7 +60,8 @@
             {{ translate('General_ColumnRevenue') }}
           </th>
 
-          <th @click="sortBy(evolutionSelector)">
+          <th @click="sortBy(evolutionSelector)"
+              :title="translate('MultiSites_MetricDocumentationEvolution')">
             <span
                 v-if="sortColumn === evolutionSelector"
                 :class="sortColumnClass"
@@ -96,34 +102,6 @@
           </td>
         </tr>
 
-        <tr v-else-if="errorLoading">
-          <td colspan="7">
-            <div class="notification system notification-error">
-              {{ translate('General_ErrorRequest', '', '') }}
-              <br /><br />
-              {{ translate('General_NeedMoreHelp') }}
-              <a
-                  rel="noreferrer noopener"
-                  target="_blank"
-                  :href="externalRawLink('https://matomo.org/faq/troubleshooting/faq_19489/')"
-              >{{ translate('General_Faq') }}</a>
-              &#x2013;
-              <a
-                  rel="noreferrer noopener"
-                  target="_blank"
-                  :href="externalRawLink('https://forum.matomo.org/')"
-              >{{ translate('Feedback_CommunityHelp') }}</a>
-              <span v-show="errorShowProfessionalHelp"> &#x2013; </span>
-              <a
-                  rel="noreferrer noopener"
-                  target="_blank"
-                  :href="externalRawLink('https://matomo.org/support-plans/')"
-                  v-show="errorShowProfessionalHelp"
-              >{{ translate('Feedback_ProfessionalHelp') }}</a>.
-            </div>
-          </td>
-        </tr>
-
         <SitesTableSite
             v-else
             v-for="site in sites"
@@ -131,7 +109,7 @@
             :evolution-metric="evolutionMetric"
             :key="`site-${site.idsite}`"
             :model-value="site"
-            :sparkline-date="sparklineDate"
+            :display-sparkline="displaySparklines"
             :sparkline-metric="sparklineMetric"
         />
       </tbody>
@@ -169,7 +147,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Matomo, MatomoLoader } from 'CoreHome';
+import { Matomo, MatomoLoader, Tooltips } from 'CoreHome';
 
 import DashboardStore from './AllWebsitesDashboard.store';
 import SitesTableSite from './SitesTableSite.vue';
@@ -180,6 +158,9 @@ interface SitesTableState {
 }
 
 export default defineComponent({
+  directives: {
+    Tooltips,
+  },
   components: {
     MatomoLoader,
     SitesTableSite,
@@ -246,7 +227,7 @@ export default defineComponent({
     sparklineMetric(): string {
       switch (this.evolutionMetric) {
         case 'hits_evolution':
-          return 'nb_hits';
+          return 'hits';
         case 'pageviews_evolution':
           return 'nb_pageviews';
         case 'revenue_evolution':
@@ -256,9 +237,6 @@ export default defineComponent({
         default:
           return '';
       }
-    },
-    sparklineDate(): string|null {
-      return this.displaySparklines ? DashboardStore.state.value.sparklineDate : null;
     },
   },
   methods: {

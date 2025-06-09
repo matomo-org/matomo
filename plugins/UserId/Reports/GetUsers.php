@@ -29,7 +29,7 @@ class GetUsers extends Base
         $this->subcategoryId = 'UserId_UserReportTitle';
         $this->documentation = Piwik::translate('UserId_UserReportDocumentation');
         $this->dimension = new UserId();
-        $this->metrics = array('label', 'nb_visits', 'nb_actions', 'nb_visits_converted');
+        $this->metrics = ['label', 'nb_visits', 'nb_actions', 'nb_visits_converted'];
         $this->supportsFlatten = false;
 
         // This defines in which order your report appears in the mobile app, in the menu and in the list of widgets
@@ -56,6 +56,7 @@ class GetUsers extends Base
          * Hide most of the table footer actions, leaving only export icons and pagination
          */
         $view->config->columns_to_display = $this->metrics;
+
         $view->config->show_all_views_icons = false;
         $view->config->show_related_reports = false;
         $view->config->show_insights = false;
@@ -69,6 +70,14 @@ class GetUsers extends Base
 
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->disable_row_evolution = false;
+        }
+
+        if ($view->isViewDataTableId(HtmlTable\AllColumns::ID)) {
+            $view->config->filters[] = function () use ($view) {
+                // unique visitors and user metrics doesn't make sense here as they would be always showing a value of 1
+                $columnsToRemove = ['nb_uniq_visitors', 'nb_users'];
+                $view->config->columns_to_display = array_diff($view->config->columns_to_display, $columnsToRemove);
+            };
         }
 
         // exclude users with less then 2 visits, when low population filter is active

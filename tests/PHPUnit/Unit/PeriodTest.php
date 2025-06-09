@@ -75,7 +75,7 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
     public function testValidateInvalidDates($invalidDateFormat)
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Date format must be: YYYY-MM-DD, or \'today\' or \'yesterday\' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information):');
+        $this->expectExceptionMessage('Date format must be: YYYY-MM-DD, or \'today\' or \'yesterday\' or any keyword supported by the strtotime function (see https://php.net/strtotime for more information):');
 
         Period::checkDateFormat($invalidDateFormat);
     }

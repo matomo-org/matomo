@@ -75,15 +75,15 @@ class Update extends ConsoleCommand
 
                     $this->makeUpdate(false);
 
-                    $this->writeSuccessMessage(array(Piwik::translate('CoreUpdater_PiwikHasBeenSuccessfullyUpgraded')));
+                    $this->writeSuccessMessage(Piwik::translate('CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'));
                 } else {
-                    $this->writeSuccessMessage(array(Piwik::translate('CoreUpdater_DbUpgradeNotExecuted')));
+                    $this->writeSuccessMessage(Piwik::translate('CoreUpdater_DbUpgradeNotExecuted'));
                 }
 
                 $this->writeAlertMessageWhenCommandExecutedWithUnexpectedUser();
             } catch (NoUpdatesFoundException $e) {
                 // Do not fail if no updates were found
-                $this->writeSuccessMessage(array($e->getMessage()));
+                $this->writeSuccessMessage($e->getMessage());
             }
         } finally {
             Filesystem::$skipCacheClearOnUpdate = false;

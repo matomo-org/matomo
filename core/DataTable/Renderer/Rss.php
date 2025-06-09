@@ -30,7 +30,7 @@ class Rss extends Renderer
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         return $this->renderTable($this->table);
     }
@@ -38,11 +38,11 @@ class Rss extends Renderer
     /**
      * Computes the output for the given data table
      *
-     * @param DataTable $table
+     * @param DataTable|DataTable\Map $table
      * @return string
      * @throws Exception
      */
-    protected function renderTable($table)
+    protected function renderTable($table): string
     {
         if (
             !($table instanceof DataTable\Map)
@@ -98,7 +98,7 @@ class Rss extends Renderer
      *
      * @return string
      */
-    protected function getRssFooter()
+    protected function getRssFooter(): string
     {
         return "\t</channel>\n</rss>";
     }
@@ -108,7 +108,7 @@ class Rss extends Renderer
      *
      * @return string
      */
-    protected function getRssHeader()
+    protected function getRssHeader(): string
     {
         $generationDate = date('r', Date::getNowTimestamp());
         $header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>

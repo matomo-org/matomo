@@ -244,7 +244,7 @@ div.scrollable {
 
 
 .segmentationContainer .submenu ul li {
-    padding: 2px 0 1px 0;
+    padding: 2px 0 2px 0;
     margin: 3px 0 0 0;
     cursor: pointer;
 }
@@ -285,11 +285,13 @@ div.scrollable {
 
     span.editSegment {
         background: url(plugins/SegmentEditor/images/edit_segment.png) no-repeat;
+        order: 3;
     }
 
     span.compareSegment {
         background: url(plugins/Morpheus/images/compare.svg) no-repeat;
         background-size: cover;
+        order: 2;
 
         &.allVisitsCompareSegment {
             margin-right: 24px;
@@ -315,23 +317,31 @@ html.comparisonsDisabled .segmentationContainer ul.submenu {
     border-bottom-right-radius: 0;
 
     .dropdown-body {
-        width: 240px;
+        min-width: 240px;
+    }
+
+    @media screen and (max-width: 600px) {
+        .dropdown-body {
+            width: ~'calc(100% - 40px)';
+        }
     }
 }
 
 .segmentEditorPanel.expanded ul.submenu {
     display: inline-block;
     list-style: none;
+    width: 100%;
 }
 
 .segmentFilterContainer {
     margin-bottom: 10px;
     display: inline-block;
+    width: 100%;
 }
 
 .segmentEditorPanel.expanded .segmentFilterContainer > input[type="text"] {
     font-size: 11px;
-    width: 206px;
+    width: 100%;
     border: 1px solid #d0d0d0;
     border-width: 1px;
     color: #999;
@@ -373,6 +383,11 @@ html.comparisonsDisabled .segmentationContainer ul.submenu {
     margin-top: 5px;
     overflow-x: hidden;
     overflow-y: auto;
+
+
+    li {
+        display: flex;
+    }
 }
 
 .jspVerticalBar {
@@ -497,8 +512,16 @@ a.metric_category {
 }
 
 .segname {
-    max-width: 145px;
+    width: ~"calc(100% - 40px)";
+    padding-right: 10px;
     display: inline-block;
+    order: 1;
+}
+
+@media screen and (min-width: 601px) {
+    .segname  {
+        max-width: 246px;
+    }
 }
 
 .segmentEditorPanel .segmentationTitle {

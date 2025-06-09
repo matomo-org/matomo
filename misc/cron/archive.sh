@@ -2,7 +2,7 @@
 # =======================================================================
 # WARNING: this script archive.sh is DEPRECATED!
 #
-# => Replace your cron with `/usr/bin/php /path/to/piwik/console core:archive --url=http://example.org/piwik/`
+# => Replace your cron with `/usr/bin/php /path/to/piwik/console core:archive --url=https://example.org/piwik/`
 #
 # See documentation at https://piwik.org/setup-auto-archiving/
 # =======================================================================
@@ -30,7 +30,7 @@ ARCHIVE=`act_path ${0}`
 PIWIK_CRON_FOLDER=`dirname ${ARCHIVE}`
 PIWIK_PATH="$PIWIK_CRON_FOLDER"/../../console
 
-CONSOLE_CMD="$PHP_BIN -q $PIWIK_PATH core:archive --url=http://example.org"
+CONSOLE_CMD="$PHP_BIN -q $PIWIK_PATH core:archive --url=https://example.org"
 
 MESSAGE="\n\n WARNING: this script archive.sh is DEPRECATED! \n\nPlease update your cron as explained in the documentation: https://matomo.org/docs/setup-auto-archiving/ \n\n"
 

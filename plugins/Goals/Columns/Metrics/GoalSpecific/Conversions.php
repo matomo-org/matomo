@@ -32,6 +32,14 @@ class Conversions extends GoalSpecificProcessedMetric
         return Piwik::translate('Goals_Conversions', $this->getGoalNameForDocs());
     }
 
+    public function getDocumentation()
+    {
+        if ($this->idGoal < 1) {
+            return Piwik::translate('Goals_ColumnEcommerceOrdersDocumentation');
+        }
+
+        return Piwik::translate('Goals_ColumnConversionsDocumentation', $this->getGoalNameForDocs());
+    }
     public function getDependentMetrics()
     {
         return array('goals');

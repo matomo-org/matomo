@@ -53,6 +53,8 @@
         "UnprocessedSegmentNoData1": "Këto raporte s’kanë të dhëna, ngaqë Segmenti %1$s që kërkuat s’është përpunuar ende nga sistemi.",
         "UnprocessedSegmentNoData2": "Të dhënat për këtë Segment do të jenë gati brenda pak orësh, kur të jetë plotësuar përpunimi. (Nëse s’ndodh, mund të ketë ndonjë problem.)",
         "UnprocessedSegmentNoData3": "Matomo s’është në gjendje të shfaqë të dhëna për segmentin %1$s, nga formësimi e parandalon riarkivimin për këtë periudhë. Ju lutemi, lidhuni me përgjegjësin tuaj, ose shihni %2$skëto PBR%3$s se si të zgjidhet ky problem.",
+        "UpdatingAllSitesSegmentPermittedToSuperUser": "Ky segment qe bërë i përdorshëm nga krejt sajtet prej superpërdoruesit. Tani, vetëm superpërdoruesit lejohen ta përditësojnë apo heqin.",
+        "UpdatingForeignSegmentPermittedToSuperUser": "Mund të përpunoni dhe fshini segmente të përshtatur që i keni krijuar ju vetë. Ky segment qe krijuar dhe “ndarë me ju” nga Superpërdoruesi. Që të ndryshoni këtë segment, së pari mund të krijoni një të ri, duke klikuar mbi “Shtoni një segment të ri”. Mandej mund të përshtatni përkufizimin e segment-it.",
         "VisibleToAllUsers": "krejt përdoruesit",
         "VisibleToMe": "mua",
         "VisibleToSuperUser": "I dukshëm për ju, ngaqë keni hyrje Superpërdoruesi",

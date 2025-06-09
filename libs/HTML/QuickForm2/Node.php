@@ -429,7 +429,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
     * @throws   HTML_QuickForm2_InvalidArgumentException   If trying to set a
     *                               child of an element as its container
     */
-    protected function setContainer(HTML_QuickForm2_Container $container = null)
+    protected function setContainer(?HTML_QuickForm2_Container $container = null)
     {
         if (null !== $container) {
             $check = $container;
@@ -640,7 +640,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
     * @return   HTML_QuickForm2_Node    The element
     * @throws   HTML_QuickForm2_InvalidArgumentException    If callback is incorrect
     */
-    public function addFilter($callback, array $options = null, $recursive = true)
+    public function addFilter($callback, ?array $options = null, $recursive = true)
     {
         if (!is_callable($callback, false, $callbackName)) {
             throw new HTML_QuickForm2_InvalidArgumentException(

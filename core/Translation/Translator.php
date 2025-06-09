@@ -10,6 +10,8 @@
 namespace Piwik\Translation;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Translation\Loader\LoaderInterface;
 
@@ -52,7 +54,7 @@ class Translator
     private const LIST_TYPE_AND = 'And';
     private const LIST_TYPE_OR = 'Or';
 
-    public function __construct(LoaderInterface $loader, array $directories = null)
+    public function __construct(LoaderInterface $loader, ?array $directories = null)
     {
         $this->loader          = $loader;
         $this->currentLanguage = $this->getDefaultLanguage();
@@ -111,7 +113,7 @@ class Translator
      * @param string|null $language
      * @return string
      */
-    public function createAndListing(array $items, string $language = null): string
+    public function createAndListing(array $items, ?string $language = null): string
     {
         return $this->createListing(self::LIST_TYPE_AND, $items, $language);
     }
@@ -123,7 +125,7 @@ class Translator
      * @param string|null $language
      * @return string
      */
-    public function createOrListing(array $items, string $language = null): string
+    public function createOrListing(array $items, ?string $language = null): string
     {
         return $this->createListing(self::LIST_TYPE_OR, $items, $language);
     }
@@ -134,7 +136,7 @@ class Translator
      * @param string|null $language
      * @return string
      */
-    private function createListing(string $listType, array $items, string $language = null): string
+    private function createListing(string $listType, array $items, ?string $language = null): string
     {
         switch (count($items)) {
             case 0:
@@ -199,6 +201,13 @@ class Translator
     {
         $clientSideTranslations = array();
         foreach ($this->getClientSideTranslationKeys() as $id) {
+            if (strpos($id, '_') === false) {
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'Unexpected translation key found in client side translations: {translation_key}',
+                    ['translation_key' => $id]
+                );
+                continue;
+            }
             [$plugin, $key] = explode('_', $id, 2);
             $clientSideTranslations[$id] = $this->decodeEntitiesSafeForHTML($this->getTranslation($id, $this->currentLanguage, $plugin, $key));
         }

@@ -28,6 +28,8 @@
       <span v-html="$sanitize(changeLookByManageThemesText)"></span>
     </p>
   </div>
+  <InstallAllPaidPluginsButton
+  />
 </template>
 
 <script lang="ts">
@@ -38,6 +40,8 @@ import {
   translate,
   MatomoUrl,
 } from 'CoreHome';
+import InstallAllPaidPluginsButton
+  from '../InstallAllPaidPluginsButton/InstallAllPaidPluginsButton.vue';
 
 export default defineComponent({
   props: {
@@ -47,6 +51,7 @@ export default defineComponent({
   },
   components: {
     EnrichedHeadline,
+    InstallAllPaidPluginsButton,
   },
   directives: {
     ContentIntro,

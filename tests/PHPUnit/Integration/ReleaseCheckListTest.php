@@ -524,6 +524,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             PIWIK_DOCUMENT_ROOT . '/js/piwik.min.js',
             'minified /js/piwik.min.js is out of date, please re-generate the minified files using instructions in /js/README'
         );
+
+        Filesystem::remove(PIWIK_DOCUMENT_ROOT . '/piwik-minified.js');
     }
 
     public function testPiwikJsSameAsMatomoJs()
@@ -717,7 +719,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                     continue;
                 }
 
-                list($file, $match) = explode(':', $line);
+                [$file, $match] = explode(':', $line);
                 $files[] = '- ' . trim($file);
             }
 
@@ -843,7 +845,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     private function isFileDeletedFromPackage($file)
     {
         $filesAndFoldersToDeleteFromPackage = [
-            # Should stay synchronised with: https://github.com/matomo/matomo-package/blob/master/scripts/build-package.sh#L104-L116
+            # Should stay synchronised with: /.github/scripts/clean-build.sh
             'composer.phar',
             'vendor/bin/',
             'vendor/container-interop/container-interop/docs',
@@ -871,9 +873,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'vendor/tecnickcom/tcpdf/examples',
             'vendor/tecnickcom/tcpdf/tools',
             'vendor/tecnickcom/tcpdf/CHANGELOG.TXT',
-            'vendor/twig/twig/test/',
-            'vendor/twig/twig/doc/',
-            'vendor/twig/twig/.php-cs-fixer.dist.php',
             'config/environment/test.php',
             'config/environment/ui-test.php',
             'plugins/*/config/test.php',
@@ -993,6 +992,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'libs/jqplot/plugins/jqplot.barRenderer.js',
             'libs/jqplot/plugins/jqplot.pieRenderer.js',
             'config/config.php',
+            'bootstrap-phpstan.php',
             '*.gitignore',
             '*.gitmodules',
             '*.gitattributes',
@@ -1129,7 +1129,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     private function isFileBelongToTests($file)
     {
-        return stripos($file, "/tests/") !== false || stripos($file, "/phantomjs/") !== false;
+        return stripos($file, "/tests/") !== false || stripos($file, "/phantomjs/") !== false || stripos($file, "phpunit.out") !== false;
     }
 
     /**

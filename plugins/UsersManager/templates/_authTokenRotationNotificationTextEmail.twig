@@ -1,0 +1,15 @@
+{% autoescape false %}
+{{ 'General_HelloUser'|translate(login) }}
+
+{{ 'UsersManager_AuthTokenNotificationEmailReminder'|translate(rotationPeriod) }}
+
+{{ 'UsersManager_AuthTokenNotificationEmail01'|translate('<strong>', rotationPeriod, '</strong>')|raw }}
+
+{{ 'UsersManager_AuthTokenNotificationEmail02'|translate('<strong>', tokenName, '</strong>', '<strong>', tokenCreationDate, '</strong>')|raw }}
+
+{{ 'UsersManager_AuthTokenNotificationEmail03'|translate }}
+
+{{ 'UsersManager_AuthTokenNotificationEmail04'|translate }}
+
+{{ 'UsersManager_AuthTokenNotificationEmail05'|translate }} {{ manageAuthTokensLink }}
+{% endautoescape %}

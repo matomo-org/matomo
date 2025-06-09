@@ -100,6 +100,11 @@ class Segment
     private $isSegmentEncoded;
 
     /**
+     * @var Exception|null
+     */
+    private $missingDatesException = null;
+
+    /**
      * Truncate the Segments to 8k
      */
     public const SEGMENT_TRUNCATE_LIMIT = 8192;
@@ -123,9 +128,8 @@ class Segment
      * @param Date|null $endDate end date used to limit subqueries
      * @throws
      */
-    public function __construct($segmentCondition, $idSites, Date $startDate = null, Date $endDate = null)
+    public function __construct($segmentCondition, $idSites, ?Date $startDate = null, ?Date $endDate = null)
     {
-
         $this->segmentQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
 
         $segmentCondition = trim($segmentCondition ?: '');
@@ -175,6 +179,25 @@ class Segment
             $this->initializeSegment(urldecode($segmentCondition), $idSites);
             $this->isSegmentEncoded = true;
         }
+    }
+
+    /**
+     * Checks if the provided segmentCondition is valid and available for the given idSites
+     *
+     * @param string $segmentCondition
+     * @params array $idSites
+     * @return bool
+     * @api since Matomo 5.3.0
+     */
+    public static function isAvailable(string $segmentCondition, array $idSites): bool
+    {
+        try {
+            new self($segmentCondition, $idSites);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -335,8 +358,7 @@ class Segment
 
         if ($requiresSubQuery && empty($this->startDate) && empty($this->endDate)) {
             if (Development::isEnabled()) {
-                $e = new Exception();
-                Log::warning("Avoiding segment subquery due to missing start date and/or an end date. Please ensure a start date and/or end date is set when initializing a segment if it's used to build a query. Stacktrace:\n" . $e->getTraceAsString());
+                $this->missingDatesException = new Exception();
             }
             return false;
         }
@@ -584,8 +606,16 @@ class Segment
      *              Use only when you're not aggregating or it will sample the data.
      * @return array The entire select query.
      */
-    public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0, $forceGroupBy = false)
+    public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0, $forceGroupBy = false, bool $withRollup = false)
     {
+        if (Development::isEnabled() && !empty($this->missingDatesException)) {
+            $e = new Exception();
+            Log::warning('Avoiding segment subquery due to missing start date and/or an end date. '
+                        . 'Please ensure a start date and/or end date is set when initializing segment: '
+                        . "\n\nCreation stacktrace:\n" . $this->missingDatesException->getTraceAsString()
+                        . "\n\nUsage stacktrace:\n" . $e->getTraceAsString());
+        }
+
         $segmentExpression = $this->segmentExpression;
 
         $limitAndOffset = null;
@@ -605,7 +635,8 @@ class Segment
                 $bind,
                 $groupBy,
                 $orderBy,
-                $limitAndOffset
+                $limitAndOffset,
+                $withRollup
             );
         } catch (Exception $e) {
             if ($forceGroupBy && $groupBy) {
@@ -707,7 +738,8 @@ class Segment
         }
 
         if (isset($foundStoredSegment)) {
-            return $foundStoredSegment['name'];
+            // segment name is stored sanitized
+            return Common::unsanitizeInputValues($foundStoredSegment['name']);
         }
 
         return $this->isSegmentEncoded ? urldecode($segment) : $segment;

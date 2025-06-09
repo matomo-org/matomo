@@ -26,7 +26,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 /**
- * The Live! API lets you access complete visit level information about your visitors. Combined with the power of <a href='http://matomo.org/docs/analytics-api/segmentation/' target='_blank'>Segmentation</a>,
+ * The Live! API lets you access complete visit level information about your visitors. Combined with the power of <a href='https://matomo.org/docs/analytics-api/segmentation/' target='_blank'>Segmentation</a>,
  * you will be able to request visits filtered by any criteria.
  *
  * The method "getLastVisitsDetails" will return extensive <a href='https://matomo.org/guide/apis/raw-data/'>RAW data</a> for each visit, which includes: server time, visitId, visitorId,
@@ -38,12 +38,12 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  * browser, type of screen, resolution, supported browser plugins (flash, java, silverlight, pdf, etc.), various dates & times format to make
  * it easier for API users... and more!
  *
- * With the parameter <a href='http://matomo.org/docs/analytics-api/segmentation/' rel='noreferrer' target='_blank'>'&segment='</a> you can filter the
+ * With the parameter <a href='https://matomo.org/docs/analytics-api/segmentation/' rel='noreferrer' target='_blank'>'&segment='</a> you can filter the
  * returned visits by any criteria (visitor IP, visitor ID, country, keyword used, time of day, etc.).
  *
  * The method "getCounters" is used to return a simple counter: visits, number of actions, number of converted visits, in the last N minutes.
  *
- * See also the documentation about <a href='http://matomo.org/docs/real-time/' rel='noreferrer' target='_blank'>Real time widget and visitor level reports</a> in Matomo.
+ * See also the documentation about <a href='https://matomo.org/docs/real-time/' rel='noreferrer' target='_blank'>Real time widget and visitor level reports</a> in Matomo.
  * You may also be interested in steps to <a href='https://matomo.org/faq/how-to/faq_24536/'>export your RAW data to a data warehouse</a>.
  * @method static \Piwik\Plugins\Live\API getInstance()
  */
@@ -129,6 +129,17 @@ class API extends \Piwik\Plugin\API
         return $show && !$hide;
     }
 
+    /*
+     * Returns if the visitor profile is enabled for the given site(s)
+     *
+     * @param string|int|array $idSite
+     * @return bool
+     */
+    public function isVisitorProfileEnabled($idSite): bool
+    {
+        return Live::isVisitorProfileEnabled($idSite);
+    }
+
     /**
      * Returns the last visits tracked in the specified website
      * You can define any number of filters: none, one, many or all parameters can be defined
@@ -183,7 +194,7 @@ class API extends \Piwik\Plugin\API
         $filterSortOrder = Common::getRequestVar('filter_sort_order', false, 'string');
 
         $dataTable = $this->loadLastVisitsDetailsFromDatabase($idSites, $period, $date, $segment, $filterOffset, $filterLimit, $minTimestamp, $filterSortOrder, $visitorId = false);
-        $this->addFilterToCleanVisitors($dataTable, $idSites, $flat, $doNotFetchActions);
+        $this->addFilterToCleanVisitors($dataTable, $flat, $doNotFetchActions);
 
         $filterSortColumn = Common::getRequestVar('filter_sort_column', false, 'string');
 
@@ -238,7 +249,7 @@ class API extends \Piwik\Plugin\API
             false,
             $visitorId
         );
-        $this->addFilterToCleanVisitors($visits, $idSite, $flat = false, $doNotFetchActions = false, $filterNow = true);
+        $this->addFilterToCleanVisitors($visits, $flat = false, $doNotFetchActions = false, $filterNow = true);
 
         if ($visits->getRowsCount() == 0) {
             return array();
@@ -333,7 +344,7 @@ class API extends \Piwik\Plugin\API
         $model = new Model();
         $data = $model->queryLogVisits($idSite, false, false, false, 0, 1, $visitorId, false, 'ASC');
         $dataTable = $this->makeVisitorTableFromArray($data);
-        $this->addFilterToCleanVisitors($dataTable, $idSite, false, true);
+        $this->addFilterToCleanVisitors($dataTable, false, true);
 
         return $dataTable;
     }
@@ -349,7 +360,7 @@ class API extends \Piwik\Plugin\API
      * @return string
      * @throws Exception
      */
-    public function getMostRecentVisitsDateTime($idSite, string $period = null, string $date = null): string
+    public function getMostRecentVisitsDateTime($idSite, ?string $period = null, ?string $date = null): string
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -361,19 +372,22 @@ class API extends \Piwik\Plugin\API
      * For an array of visits, query the list of pages for this visit
      * as well as make the data human readable
      * @param DataTable $dataTable
-     * @param int $idSite
      * @param bool $flat whether to flatten the array (eg. 'customVariables' names/values will appear in the root array rather than in 'customVariables' key
      * @param bool $doNotFetchActions If set to true, we only fetch visit info and not actions (much faster)
      * @param bool $filterNow If true, the visitors will be cleaned immediately
      */
-    private function addFilterToCleanVisitors(DataTable $dataTable, $idSite, $flat = false, $doNotFetchActions = false, $filterNow = false)
-    {
+    private function addFilterToCleanVisitors(
+        DataTable $dataTable,
+        $flat = false,
+        $doNotFetchActions = false,
+        $filterNow = false
+    ) {
         $filter = 'queueFilter';
         if ($filterNow) {
             $filter = 'filter';
         }
 
-        $dataTable->$filter(function ($table) use ($idSite, $flat, $doNotFetchActions) {
+        $dataTable->$filter(function ($table) use ($flat, $doNotFetchActions) {
             /** @var DataTable $table */
             $visitorFactory = new VisitorFactory();
 
@@ -400,7 +414,13 @@ class API extends \Piwik\Plugin\API
 
                 $visitorDetailsArray['actionDetails'] = array();
                 if (!$doNotFetchActions) {
-                    $bulkFetchedActions  = isset($actionsByVisitId[$visitorDetailsArray['idVisit']]) ? $actionsByVisitId[$visitorDetailsArray['idVisit']] : array();
+                    $bulkFetchedActions = [];
+
+                    if (isset($actionsByVisitId[$visitorDetailsArray['idVisit']])) {
+                        $bulkFetchedActions = $actionsByVisitId[$visitorDetailsArray['idVisit']];
+                        unset($actionsByVisitId[$visitorDetailsArray['idVisit']]);
+                    }
+
                     $visitorDetailsArray = Visitor::enrichVisitorArrayWithActions($visitorDetailsArray, $bulkFetchedActions);
                 }
 

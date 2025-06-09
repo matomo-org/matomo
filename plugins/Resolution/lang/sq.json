@@ -6,7 +6,7 @@
         "PluginDescription": "Raporton qartësi ekranesh të vizitorëve tuaj.",
         "Resolutions": "Qartësi",
         "WidgetGlobalVisitors": "Formësim Vizitorësh",
-        "WidgetGlobalVisitorsDocumentation": "Ky raport shfaq formësimet e përgjithshme më të rëndomta të përdorura nga vizitorët tuaj. Formësimi përmban të dhënat për sistemin operativ, llojin e shfletuesit dhe qartësinë e ekranit.",
+        "WidgetGlobalVisitorsDocumentation": "Ky raport shfaq formësimet e përgjithshme më të rëndomta të përdorura nga vizitorët tuaj. Një formësim është ndërthurja e të dhënave për sistemin operativ, llojin e shfletuesit dhe qartësinë e ekranit.",
         "WidgetResolutions": "Qartësi Ekrani",
         "WidgetResolutionsDocumentation": "Ky raport shfaq qartësinë e ekranit që vizitorët tuaj përdorën, kur panë sajtin tuaj."
     }

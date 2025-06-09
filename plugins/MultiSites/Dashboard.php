@@ -26,28 +26,29 @@ class Dashboard
     /** @var DataTable */
     private $sitesByGroup;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $numSites = 0;
 
     /**
      * Array of metrics that will be displayed and will be number formatted
-     * @var array
+     * @var array<string>
      */
-    private $displayedMetricColumns = ['nb_visits', 'nb_pageviews', 'nb_actions', 'revenue'];
+    private $displayedMetricColumns = [
+        'nb_visits', 'nb_pageviews', 'hits', 'nb_actions', 'revenue',
+        'previous_nb_visits', 'previous_nb_pageviews', 'previous_hits', 'previous_nb_actions', 'previous_revenue',
+    ];
 
     /**
      * @param string $period
      * @param string $date
-     * @param string|false $segment
+     * @param string|null $segment
      */
-    public function __construct($period, $date, $segment)
+    public function __construct(string $period, string $date, ?string $segment)
     {
         $sites = Request::processRequest('MultiSites.getAll', [
             'period' => $period,
             'date' => $date,
-            'segment' => $segment,
+            'segment' => $segment ?? '',
             'enhanced' => '1',
             // NOTE: have to select everything since with queued filters disabled some metrics won't be renamed to
             // their display name, and so showColumns will end up removing those.
@@ -60,7 +61,7 @@ class Dashboard
 
         $sites->deleteRow(DataTable::ID_SUMMARY_ROW);
 
-        /** @var DataTable $pastData */
+        /** @var null|DataTable $pastData */
         $pastData = $sites->getMetadata('pastData');
 
         $sites->filter(function (DataTable $table) use ($pastData) {
@@ -90,16 +91,16 @@ class Dashboard
         $this->setSitesTable($sites);
     }
 
-    public function setSitesTable(DataTable $sites)
+    public function setSitesTable(DataTable $sites): void
     {
         $this->sitesByGroup = $this->moveSitesHavingAGroupIntoSubtables($sites);
         $this->rememberNumberOfSites();
     }
 
-    public function getSites($request, $limit)
+    public function getSites(array $request, int $limit): array
     {
         $request['filter_limit']  = $limit;
-        $request['filter_offset'] = isset($request['filter_offset']) ? $request['filter_offset'] : 0;
+        $request['filter_offset'] = isset($request['filter_offset']) ? (int) $request['filter_offset'] : 0;
 
         $this->makeSitesFlatAndApplyGenericFilters($this->sitesByGroup, $request);
         $sites = $this->convertDataTableToArrayAndApplyQueuedFilters($this->sitesByGroup, $request);
@@ -108,21 +109,30 @@ class Dashboard
         return $sites;
     }
 
-    public function getTotals()
+    public function getTotals(): array
     {
         $totals = [
-            'nb_pageviews'       => $this->sitesByGroup->getMetadata('total_nb_pageviews'),
-            'nb_visits'          => $this->sitesByGroup->getMetadata('total_nb_visits'),
-            'nb_actions'         => $this->sitesByGroup->getMetadata('total_nb_actions'),
-            'revenue'            => $this->sitesByGroup->getMetadata('total_revenue'),
-            'nb_visits_lastdate' => $this->sitesByGroup->getMetadata('total_nb_visits_lastdate') ? : 0,
+            'nb_pageviews'          => $this->sitesByGroup->getMetadata('total_nb_pageviews'),
+            'nb_visits'             => $this->sitesByGroup->getMetadata('total_nb_visits'),
+            'hits'                  => $this->sitesByGroup->getMetadata('total_hits'),
+            'nb_actions'            => $this->sitesByGroup->getMetadata('total_nb_actions'),
+            'revenue'               => $this->sitesByGroup->getMetadata('total_revenue'),
+            'previous_nb_pageviews' => $this->sitesByGroup->getMetadata('previous_total_nb_pageviews'),
+            'previous_nb_visits'    => $this->sitesByGroup->getMetadata('previous_total_nb_visits'),
+            'previous_hits'         => $this->sitesByGroup->getMetadata('previous_total_hits'),
+            'previous_nb_actions'   => $this->sitesByGroup->getMetadata('previous_total_nb_actions'),
+            'previous_revenue'      => $this->sitesByGroup->getMetadata('previous_total_revenue'),
         ];
         $this->formatMetrics($totals);
         return $totals;
     }
 
-    private function formatMetrics(&$metrics)
+    private function formatMetrics(array &$metrics): void
     {
+        if (\Piwik\Request::fromRequest()->getStringParameter('format_metrics', '0') === '0') {
+            return; // do not format metrics if requires unformatted
+        }
+
         $formatter = NumberFormatter::getInstance();
         foreach ($metrics as $metricName => &$value) {
             if (in_array($metricName, $this->displayedMetricColumns)) {
@@ -137,23 +147,23 @@ class Dashboard
     }
 
 
-    public function getNumSites()
+    public function getNumSites(): int
     {
         return $this->numSites;
     }
 
-    public function search($pattern)
+    public function search(?string $pattern): void
     {
         $this->nestedSearch($this->sitesByGroup, $pattern);
         $this->rememberNumberOfSites();
     }
 
-    private function rememberNumberOfSites()
+    private function rememberNumberOfSites(): void
     {
         $this->numSites = $this->sitesByGroup->getRowsCountRecursive();
     }
 
-    private function nestedSearch(DataTable $sitesByGroup, $pattern)
+    private function nestedSearch(DataTable $sitesByGroup, ?string $pattern): void
     {
         foreach ($sitesByGroup->getRows() as $index => $site) {
             $label = strtolower($site->getColumn('label'));
@@ -177,10 +187,7 @@ class Dashboard
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getLastDate()
+    public function getLastDate(): string
     {
         $lastPeriod = $this->sitesByGroup->getMetadata('last_period_date');
 
@@ -193,19 +200,19 @@ class Dashboard
         return $lastPeriod;
     }
 
-    private function convertDataTableToArrayAndApplyQueuedFilters(DataTable $table, $request)
+    private function convertDataTableToArrayAndApplyQueuedFilters(DataTable $table, array $request): array
     {
         $request['serialize'] = 0;
         $request['expanded'] = 0;
         $request['totals'] = 0;
-        $request['format_metrics'] = 1;
+        $request['format_metrics'] = \Piwik\Request::fromRequest()->getStringParameter('format_metrics', '1');
         $request['disable_generic_filters'] = 1;
 
         $responseBuilder = new ResponseBuilder('json', $request);
-        return json_decode($responseBuilder->getResponse($table, 'MultiSites', 'getAll'), true);
+        return json_decode($responseBuilder->getResponse($table, 'MultiSites', 'getAll'), true) ?: [];
     }
 
-    private function moveSitesHavingAGroupIntoSubtables(DataTable $sites)
+    private function moveSitesHavingAGroupIntoSubtables(DataTable $sites): DataTable
     {
         /** @var DataTableSummaryRow[] $groups */
         $groups = [];
@@ -244,7 +251,7 @@ class Dashboard
         return $sitesByGroup;
     }
 
-    private function createGroupSubtable(DataTable $sites)
+    private function createGroupSubtable(DataTable $sites): DataTable
     {
         $table = new DataTable();
         $processedMetrics = $sites->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
@@ -253,7 +260,7 @@ class Dashboard
         return $table;
     }
 
-    private function makeCloneOfDataTableSites(DataTable $sites)
+    private function makeCloneOfDataTableSites(DataTable $sites): DataTable
     {
         $sitesByGroup = $sites->getEmptyClone(true);
         // we handle them ourselves for faster performance etc. This way we also avoid to apply them twice.
@@ -294,7 +301,7 @@ class Dashboard
      * @param DataTable $table
      * @param array $request
      */
-    private function makeSitesFlatAndApplyGenericFilters(DataTable $table, $request)
+    private function makeSitesFlatAndApplyGenericFilters(DataTable $table, array $request): void
     {
         // we handle limit here as we have to apply sort filter, then make sites flat, then apply limit filter.
         $filterOffset = $request['filter_offset'];
@@ -302,19 +309,12 @@ class Dashboard
         unset($request['filter_offset']);
         unset($request['filter_limit']);
 
-        // filter_sort_column does not work correctly is a bug in MultiSites.getAll
-        if (!empty($request['filter_sort_column']) && $request['filter_sort_column'] === 'nb_pageviews') {
-            $request['filter_sort_column'] = 'Actions_nb_pageviews';
-        } elseif (!empty($request['filter_sort_column']) && $request['filter_sort_column'] === 'revenue') {
-            $request['filter_sort_column'] = 'Goal_revenue';
-        }
-
         // make sure no limit filter is applied, we will do this manually
         $table->disableFilter('Limit');
 
         // this will apply the sort filter
-        /** @var DataTable $table */
         $genericFilter = new DataTablePostProcessor('MultiSites', 'getAll', $request);
+        /** @var DataTable */
         $table = $genericFilter->applyGenericFilters($table);
 
         // make sure from now on the sites will be no longer sorted, they were already sorted
@@ -324,7 +324,7 @@ class Dashboard
         $table->filter('Piwik\Plugins\MultiSites\DataTable\Filter\NestedSitesLimiter', [$filterOffset, $filterLimit]);
     }
 
-    private function enrichValues($sites)
+    private function enrichValues(array $sites): array
     {
         foreach ($sites as &$site) {
             if (!isset($site['idsite'])) {

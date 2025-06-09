@@ -81,12 +81,22 @@ class Scheduler
      */
     private $lock;
 
+    /**
+     * @var bool
+     */
+    private $hasReceivedAbortSignal = false;
+
     public function __construct(TaskLoader $loader, LoggerInterface $logger, ScheduledTaskLock $lock)
     {
         $this->timetable = new Timetable();
         $this->loader = $loader;
         $this->logger = $logger;
         $this->lock = $lock;
+    }
+
+    public function handleSignal(int $signal): void
+    {
+        $this->hasReceivedAbortSignal = in_array($signal, [\SIGINT, \SIGTERM], true);
     }
 
     /**
@@ -121,6 +131,11 @@ class Scheduler
 
             // loop through each task
             foreach ($tasks as $task) {
+                if ($this->hasReceivedAbortSignal) {
+                    $this->logger->info("Scheduler: Aborting due to received signal");
+                    return $executionResults;
+                }
+
                 // if the task does not have the current priority level, don't execute it yet
                 if ($task->getPriority() != $priority) {
                     continue;

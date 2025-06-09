@@ -59,7 +59,7 @@ class DocumentationGenerator
     }
 
     /**
-     * Used on developer.piwik.org
+     * Used on developer.matomo.org
      *
      * @param bool|true $outputExampleUrls
      * @param string $prefixUrls

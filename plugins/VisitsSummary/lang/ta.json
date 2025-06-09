@@ -1,1 +1,30 @@
-{}
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "சராசரி தலைமுறை நேரம்",
+        "AverageVisitDuration": "சராசரி வருகை காலம்",
+        "GenerateQueries": "%s வினவல்கள் செயல்படுத்தப்பட்டன",
+        "GenerateTime": "பக்கத்தை உருவாக்க %s வினாடிகள்",
+        "MaxNbActions": "ஒரு வருகையில் அதிகபட்ச நடவடிக்கைகள்",
+        "NbActionsDescription": "%s செயல்கள்",
+        "NbActionsPerVisit": "ஒரு வருகைக்கு செயல்கள் (பக்க காட்சிகள், பதிவிறக்கங்கள், அவுட்லின்கள் மற்றும் உள் தளத் தேடல்கள்)",
+        "NbDownloadsDescription": "பதிவிறக்கங்கள்",
+        "NbKeywordsDescription": "தனித்துவமான முக்கிய வார்த்தைகள்",
+        "NbOutlinksDescription": "அவுட்லின்கள்",
+        "NbPageviewsDescription": "பக்கக் காட்சிகள்",
+        "NbSearchesDescription": "உங்கள் வலைத்தளத்தின் மொத்த தேடல்கள்",
+        "NbUniqueDownloadsDescription": "தனித்துவமான பதிவிறக்கங்கள்",
+        "NbUniqueOutlinksDescription": "தனித்துவமான வெளியீடுகள்",
+        "NbUniquePageviewsDescription": "தனித்துவமான பக்கக் காட்சிகள்",
+        "NbUniqueVisitors": "தனித்துவமான பார்வையாளர்கள்",
+        "NbUsersDescription": "பயனர்கள்",
+        "NbVisitsBounced": "வருகைகள் குதித்துள்ளன (ஒரு பக்கத்திற்குப் பிறகு வலைத்தளத்தை விட்டு வெளியேறவும்)",
+        "NbVisitsDescription": "வருகைகள்",
+        "PluginDescription": "பொது பகுப்பாய்வு அளவீடுகள்: வருகைகள், தனித்துவமான பார்வையாளர்கள், செயல்களின் எண்ணிக்கை, பவுன்ச் வீதம் போன்றவை.",
+        "VisitsSummary": "சுருக்கம்",
+        "VisitsSummaryDocumentation": "இது வருகை படிமலர்ச்சி வளர்ச்சியின் கண்ணோட்டம்.",
+        "VisitsSummaryReportDocumentation": "இந்த அறிக்கை உங்கள் பார்வையாளர்கள் எவ்வாறு நடந்துகொள்கிறது என்பதற்கான பொதுவான கண்ணோட்டத்தை வழங்குகிறது.",
+        "WidgetLastVisits": "காலப்போக்கில் வருகை",
+        "WidgetOverviewGraph": "கண்ணோட்டத்தை பார்வையிடுகிறது (வரைபடத்துடன்)",
+        "WidgetVisits": "கண்ணோட்டத்தை பார்வையிடுகிறது"
+    }
+}

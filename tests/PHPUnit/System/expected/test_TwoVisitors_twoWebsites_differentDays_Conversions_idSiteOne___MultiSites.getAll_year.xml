@@ -6,6 +6,7 @@
 			<nb_visits>11</nb_visits>
 			<nb_actions>43</nb_actions>
 			<nb_pageviews>43</nb_pageviews>
+			<hits>43</hits>
 			<revenue>50</revenue>
 			<visits_evolution>100%</visits_evolution>
 			<visits_evolution_trend>1</visits_evolution_trend>
@@ -13,6 +14,8 @@
 			<actions_evolution_trend>1</actions_evolution_trend>
 			<pageviews_evolution>100%</pageviews_evolution>
 			<pageviews_evolution_trend>1</pageviews_evolution_trend>
+			<hits_evolution>100%</hits_evolution>
+			<hits_evolution_trend>1</hits_evolution_trend>
 			<revenue_evolution>100%</revenue_evolution>
 			<revenue_evolution_trend>1</revenue_evolution_trend>
 			<idsite>1</idsite>
@@ -22,8 +25,9 @@
 			<periodName>year</periodName>
 			<previousRange>2009</previousRange>
 			<previous_nb_actions>0</previous_nb_actions>
-			<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
-			<previous_Goal_revenue>0</previous_Goal_revenue>
+			<previous_nb_pageviews>0</previous_nb_pageviews>
+			<previous_hits>0</previous_hits>
+			<previous_revenue>0</previous_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>
@@ -32,6 +36,7 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>3</nb_actions>
 			<nb_pageviews>3</nb_pageviews>
+			<hits>3</hits>
 			<revenue>0</revenue>
 			<visits_evolution>100%</visits_evolution>
 			<visits_evolution_trend>1</visits_evolution_trend>
@@ -39,6 +44,8 @@
 			<actions_evolution_trend>1</actions_evolution_trend>
 			<pageviews_evolution>100%</pageviews_evolution>
 			<pageviews_evolution_trend>1</pageviews_evolution_trend>
+			<hits_evolution>100%</hits_evolution>
+			<hits_evolution_trend>1</hits_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<idsite>2</idsite>
@@ -48,8 +55,9 @@
 			<periodName>year</periodName>
 			<previousRange>2009</previousRange>
 			<previous_nb_actions>0</previous_nb_actions>
-			<previous_Actions_nb_pageviews>0</previous_Actions_nb_pageviews>
-			<previous_Goal_revenue>0</previous_Goal_revenue>
+			<previous_nb_pageviews>0</previous_nb_pageviews>
+			<previous_hits>0</previous_hits>
+			<previous_revenue>0</previous_revenue>
 			<group />
 			<main_url>http://piwik.net</main_url>
 		</row>

@@ -59,7 +59,7 @@ use Piwik\Log\LoggerInterface;
  *         return $realtimeMap->render();
  *     }
  *
- * For a detailed explanation, see the documentation [here](https://developer.piwik.org/guides/how-piwik-works).
+ * For a detailed explanation, see the documentation [here](https://developer.matomo.org/guides/how-piwik-works).
  *
  * @method static \Piwik\FrontController getInstance()
  */

@@ -33,6 +33,11 @@ class ConversionsAttrib extends GoalSpecificProcessedMetric
         return Piwik::translate('Goals_Conversions', $this->getGoalNameForDocs());
     }
 
+    public function getDocumentation()
+    {
+        return Piwik::translate('Goals_ConversionAttributionDocumentation');
+    }
+
     public function getDependentMetrics()
     {
         return ['goals'];

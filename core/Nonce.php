@@ -20,7 +20,7 @@ use Piwik\Session\SessionNamespace;
  *
  * Nonces in Piwik are stored as a session variable and have a configurable expiration.
  *
- * Learn more about nonces [here](http://en.wikipedia.org/wiki/Cryptographic_nonce).
+ * Learn more about nonces [here](https://en.wikipedia.org/wiki/Cryptographic_nonce).
  *
  * @api
  */
@@ -241,6 +241,9 @@ class Nonce
         }
 
         if (!self::verifyNonce($nonceName, $nonce, $allowedReferrerHost)) {
+            if (!empty($nonce)) {
+                self::discardNonce($nonceName); // Invalidate nonce on failed attempts
+            }
             throw new \Exception(Piwik::translate('General_ExceptionSecurityCheckFailed'));
         }
 

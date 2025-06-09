@@ -17,6 +17,8 @@
 		</dimensions>
 		<metrics>
 			<nb_events>Events</nb_events>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<sum_event_value>Event value</sum_event_value>
 			<min_event_value>Minimum Event value</min_event_value>
 			<max_event_value>Maximum Event value</max_event_value>
@@ -24,6 +26,8 @@
 		</metrics>
 		<metricsDocumentation>
 			<nb_events>Total number of events</nb_events>
+			<nb_visits>The total number of visits where at least one event was triggered.</nb_visits>
+			<nb_uniq_visitors>The number of deduplicated visitors who triggered an event on your website. Every visitor is only counted once, even if they visit or trigger multiple events on the website.</nb_uniq_visitors>
 			<sum_event_value>The sum of event values</sum_event_value>
 			<min_event_value>The minimum value for this event</min_event_value>
 			<max_event_value>The maximum value for this event</max_event_value>
@@ -35,6 +39,8 @@
 		</processedMetrics>
 		<metricTypes>
 			<nb_events>number</nb_events>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
 			<sum_event_value>number</sum_event_value>
 			<min_event_value>number</min_event_value>
 			<max_event_value>number</max_event_value>
@@ -49,6 +55,8 @@
 	<columns>
 		<label>Event Category</label>
 		<nb_events>Events</nb_events>
+		<nb_visits>Visits</nb_visits>
+		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 		<sum_event_value>Event value</sum_event_value>
 		<min_event_value>Minimum Event value</min_event_value>
 		<max_event_value>Maximum Event value</max_event_value>
@@ -59,6 +67,8 @@
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
 				<label>Movie - playTrailer</label>
+				<nb_uniq_visitors>6</nb_uniq_visitors>
+				<nb_visits>6</nb_visits>
 				<nb_events>6</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -68,6 +78,8 @@
 			</row>
 			<row>
 				<label>Movie - Search</label>
+				<nb_uniq_visitors>4</nb_uniq_visitors>
+				<nb_visits>6</nb_visits>
 				<nb_events>6</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -77,6 +89,8 @@
 			</row>
 			<row>
 				<label>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;--- - event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>2</nb_events_with_value>
 				<sum_event_value>19.32</sum_event_value>
@@ -86,6 +100,8 @@
 			</row>
 			<row>
 				<label>Movie - clickBuyNow</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -95,6 +111,8 @@
 			</row>
 			<row>
 				<label>Movie - play25%</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -104,6 +122,8 @@
 			</row>
 			<row>
 				<label>Movie - play50%</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -113,6 +133,8 @@
 			</row>
 			<row>
 				<label>Movie - play75%</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -122,6 +144,8 @@
 			</row>
 			<row>
 				<label>Movie - playEnd</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -131,6 +155,8 @@
 			</row>
 			<row>
 				<label>Movie - playStart</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -140,6 +166,8 @@
 			</row>
 			<row>
 				<label>Movie - Purchase</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -149,6 +177,8 @@
 			</row>
 			<row>
 				<label>Movie - rating</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>2</nb_events_with_value>
 				<sum_event_value>19.32</sum_event_value>
@@ -158,6 +188,8 @@
 			</row>
 			<row>
 				<label>Music - play</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -167,6 +199,8 @@
 			</row>
 			<row>
 				<label>Music - play25%</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -176,6 +210,8 @@
 			</row>
 			<row>
 				<label>Music - play50%</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -185,6 +221,8 @@
 			</row>
 			<row>
 				<label>Music - play75%</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -194,6 +232,8 @@
 			</row>
 			<row>
 				<label>Music - playEnd</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -203,6 +243,8 @@
 			</row>
 			<row>
 				<label>Music - rating</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
 				<nb_events>4</nb_events>
 				<nb_events_with_value>4</nb_events_with_value>
 				<sum_event_value>38</sum_event_value>
@@ -212,6 +254,8 @@
 			</row>
 			<row>
 				<label>CategoryTriggersGoal here - This is an event without a URL</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>3</nb_events>
 				<nb_events_with_value>2</nb_events_with_value>
 				<sum_event_value>23</sum_event_value>
@@ -223,6 +267,8 @@
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
 				<label>Movie - playTrailer</label>
+				<nb_uniq_visitors>3</nb_uniq_visitors>
+				<nb_visits>3</nb_visits>
 				<nb_events>3</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -232,6 +278,8 @@
 			</row>
 			<row>
 				<label>Movie - Search</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>3</nb_visits>
 				<nb_events>3</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -241,6 +289,8 @@
 			</row>
 			<row>
 				<label>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;--- - event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>1</nb_events_with_value>
 				<sum_event_value>9.66</sum_event_value>
@@ -250,6 +300,8 @@
 			</row>
 			<row>
 				<label>Movie - clickBuyNow</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -259,6 +311,8 @@
 			</row>
 			<row>
 				<label>Movie - play25%</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -268,6 +322,8 @@
 			</row>
 			<row>
 				<label>Movie - play50%</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -277,6 +333,8 @@
 			</row>
 			<row>
 				<label>Movie - play75%</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -286,6 +344,8 @@
 			</row>
 			<row>
 				<label>Movie - playEnd</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -295,6 +355,8 @@
 			</row>
 			<row>
 				<label>Movie - playStart</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -304,6 +366,8 @@
 			</row>
 			<row>
 				<label>Movie - Purchase</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -313,6 +377,8 @@
 			</row>
 			<row>
 				<label>Movie - rating</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>1</nb_events_with_value>
 				<sum_event_value>9.66</sum_event_value>
@@ -322,6 +388,8 @@
 			</row>
 			<row>
 				<label>Music - play</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -331,6 +399,8 @@
 			</row>
 			<row>
 				<label>Music - play25%</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -340,6 +410,8 @@
 			</row>
 			<row>
 				<label>Music - play50%</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -349,6 +421,8 @@
 			</row>
 			<row>
 				<label>Music - play75%</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -358,6 +432,8 @@
 			</row>
 			<row>
 				<label>Music - playEnd</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>1</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
 				<sum_event_value>0</sum_event_value>
@@ -367,6 +443,8 @@
 			</row>
 			<row>
 				<label>Music - rating</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>2</nb_events_with_value>
 				<sum_event_value>19</sum_event_value>

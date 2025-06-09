@@ -31,7 +31,7 @@ use Piwik\Plugins\CustomDimensions\Tracker\CustomDimensionsRequestProcessor;
 /**
  * This class defines a new report.
  *
- * See {@link http://developer.piwik.org/api-reference/Piwik/Plugin/Report} for more information.
+ * See {@link https://developer.matomo.org/api-reference/Piwik/Plugin/Report} for more information.
  */
 class GetCustomDimension extends Report
 {
@@ -213,7 +213,7 @@ class GetCustomDimension extends Report
         } elseif ($this->scopeOfDimension === CustomDimensions::SCOPE_VISIT) {
             $this->categoryId = 'General_Visitors';
             $this->dimension = new CustomVisitDimension($dimensionField, $this->name, $dimension['idcustomdimension']);
-            $this->metrics = array('nb_visits', 'nb_actions');
+            $this->metrics = ['nb_visits', 'nb_uniq_visitors', 'nb_actions', 'nb_users'];
             $this->processedMetrics = array(
                 new AverageTimeOnSite(),
                 new BounceRate(),

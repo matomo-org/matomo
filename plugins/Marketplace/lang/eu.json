@@ -63,7 +63,6 @@
         "OverviewPluginSubscriptions": "Zure pluginen harpidetzen ikuspegi orokorra",
         "OverviewPluginSubscriptionsAllDetails": "Xehetasun guztiak ikusteko, edo harpidetza bat aldatzeko, hasi saioa zure kontuan.",
         "OverviewPluginSubscriptionsMissingInfo": "Posible da harpidetza bat faltatzea, adibidez ordainketa bat ez delako osatu oraindik. Kasu horietan saiatu berriro ordu batzuk igarotzean, edo jarri Matomo taldearekin harremanetan.",
-        "OverviewPluginSubscriptionsMissingLicense": "Ez daukazu lizentzia-gakorik oraindik. Plugin harpidetza bat erosi baduzu, joan %1$sMerkatura%2$s eta sartu zure lizentzia-gakoa.",
         "PaidPlugins": "Premium ezaugarriak",
         "PluginDescription": "Hedatu eta zabaldu Matomoren funtzionalitatea Merkatuko plugin eta gaiak deskargatuz.",
         "PluginKeywords": "Gako-hitzak",

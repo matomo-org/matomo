@@ -132,6 +132,7 @@ class Pages
         $widgets[] = $config;
 
         $container = $this->createWidgetizableWidgetContainer('EcommerceOverview', $subcategory, $widgets);
+        $container->setName(Piwik::translate('Goals_EcommerceOverview'));
         return array($container);
     }
 

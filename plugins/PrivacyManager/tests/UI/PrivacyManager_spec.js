@@ -69,6 +69,13 @@ describe("PrivacyManager", function () {
         await page.waitForTimeout(250);
     }
 
+    async function selectSite(id)
+    {
+        await page.click('.siteSelector a.title');
+        await page.click('.siteSelector .dropdown .custom_select_ul_list a[href*="idSite=' + id + '"]');
+        await page.waitForNetworkIdle();
+    }
+
     async function anonymizePastData()
     {
         await page.click('.anonymizePastData .btn');
@@ -79,6 +86,12 @@ describe("PrivacyManager", function () {
     {
         await page.evaluate(() => $('.deleteDataSubjects input').click());
         await page.waitForTimeout(500); // wait for animation
+    }
+
+    async function selectStartsWith()
+    {
+        await page.click('.metricMatchBlock input');
+        await page.click('.metricMatchBlock ul.select-dropdown li:nth-child(5)');
     }
 
     async function enterSegmentMatchValue(value) {
@@ -162,6 +175,21 @@ describe("PrivacyManager", function () {
         await loadActionPage('gdprOverview');
 
         await capturePage('gdpr_overview_no_retention');
+    });
+
+    it('should load privacy settings page with config ID randomisation setting visible', async function() {
+        testEnvironment.overrideConfig('FeatureFlags', {
+          ConfigIdRandomisation_feature: 'enabled',
+        });
+        testEnvironment.save();
+
+        await loadActionPage('privacySettings');
+        await page.waitForNetworkIdle();
+
+        delete testEnvironment.configOverride.FeatureFlags.ConfigIdRandomisation_feature;
+        testEnvironment.save();
+
+        await capturePage('privacy_settings_default_with_randomisation');
     });
 
     it('should load privacy settings page', async function() {
@@ -265,7 +293,8 @@ describe("PrivacyManager", function () {
     });
 
     it('should find visits', async function() {
-        await enterSegmentMatchValue('userId203');
+        await selectStartsWith();
+        await enterSegmentMatchValue('10');
         await findDataSubjects();
 
         await capturePage('gdpr_tools_visits_found');
@@ -310,7 +339,8 @@ describe("PrivacyManager", function () {
     it('should verify really no data deleted', async function() {
         await loadActionPage('gdprTools');
         await page.waitForTimeout(1000);
-        await enterSegmentMatchValue('userId203');
+        await selectStartsWith();
+        await enterSegmentMatchValue('10');
         await findDataSubjects();
         await page.click('.entityTable tbody tr:nth-child(2) .checkInclude label');
 
@@ -324,4 +354,17 @@ describe("PrivacyManager", function () {
         await capturePage('gdpr_tools_delete_visit_confirmed');
     });
 
+    it('should hide GDPR tool and show message when selecting site with visitor logs or profiles disabled', async function() {
+        await selectSite('3');
+        await page.waitForSelector('.dataUnavailable strong');
+        expect(await page.screenshotSelector('.manageGdpr')).to.matchImage('gdpr_tools_disabled_site');
+    });
+
+    it('should work to use userid segment for a site with visits log and profile enabled', async function() {
+        await loadActionPage('gdprTools');
+        await selectSite('1');
+        await enterSegmentMatchValue('userId203');
+        await findDataSubjects();
+        expect(await page.screenshotSelector('.manageGdpr')).to.matchImage('gdpr_tools_userid');
+    });
 });

@@ -150,7 +150,7 @@ class GenerateIntl extends ConsoleCommand
     {
         $currencyDataUrl = 'https://raw.githubusercontent.com/unicode-org/cldr-json/%s/cldr-json/cldr-core/supplemental/currencyData.json';
 
-        $currencyData = Http::fetchRemoteFile(sprintf($currencyDataUrl, $this->CLDRVersion, 'en'));
+        $currencyData = Http::fetchRemoteFile(sprintf($currencyDataUrl, $this->CLDRVersion));
         $currencyData = json_decode($currencyData, true);
         $currencyData = $currencyData['supplemental']['currencyData']['region'] ?? [];
 
@@ -526,6 +526,22 @@ class GenerateIntl extends ConsoleCommand
             $translations['Intl']['NumberFormatNumber']   = $unitsData['decimalFormats-numberSystem-' . $numberingSystem]['standard'];
             $translations['Intl']['NumberFormatCurrency']   = $unitsData['currencyFormats-numberSystem-' . $numberingSystem]['standard'];
             $translations['Intl']['NumberFormatPercent']  = $unitsData['percentFormats-numberSystem-' . $numberingSystem]['standard'];
+
+            for ($i = 1000; $i <= 1000000000000000000; $i *= 10) {
+                $numberCombatFormats = $unitsData['decimalFormats-numberSystem-' . $numberingSystem]['short']['decimalFormat'] ?? [];
+
+                if (!empty($numberCombatFormats)) {
+                    $translations['Intl']['NumberFormatNumberCompact' . $i . 'One'] = $numberCombatFormats[$i . '-count-one'] ?? '';
+                    $translations['Intl']['NumberFormatNumberCompact' . $i . 'Other'] = $numberCombatFormats[$i . '-count-other'] ?? '';
+                }
+
+                $currencyCombatFormats = $unitsData['currencyFormats-numberSystem-' . $numberingSystem]['short']['standard'] ?? [];
+
+                if (!empty($currencyCombatFormats)) {
+                    $translations['Intl']['NumberFormatCurrencyCompact' . $i . 'One'] = $currencyCombatFormats[$i . '-count-one'] ?? '';
+                    $translations['Intl']['NumberFormatCurrencyCompact' . $i . 'Other'] = $currencyCombatFormats[$i . '-count-other'] ?? '';
+                }
+            }
 
             $this->getOutput()->writeln('Saved number formatting data for ' . $langCode);
         } catch (\Exception $e) {

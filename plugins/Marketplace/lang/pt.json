@@ -61,7 +61,6 @@
         "OverviewPluginSubscriptions": "Visão geral das suas subscrições de extensões",
         "OverviewPluginSubscriptionsAllDetails": "Para ver todos os detalhes ou para alterar uma subscrição, entre na sua conta.",
         "OverviewPluginSubscriptionsMissingInfo": "Pode ser possível que esteja uma subscrição em falta, por exemplo, se um pagamento ainda não foi processado. Neste caso, tente novamente dentro de algumas horas ou contacte a equipa do Matomo.",
-        "OverviewPluginSubscriptionsMissingLicense": "Não tem uma chave de licença definida. Se adquiriu uma subscrição de uma extensão, aceda à %1$sloja%2$s e introduza a sua chave da licença.",
         "PaidPlugins": "Funcionalidades exclusivas",
         "PluginDescription": "Estenda ou expanda a funcionalidade do Matomo através da loja, a descarregar extensões e temas.",
         "PluginKeywords": "Palavras-chave",

@@ -115,7 +115,9 @@ class ErrorHandler
                 return "User Warning";
             case E_USER_NOTICE:
                 return "User Notice";
-            case E_STRICT:
+            // E_STRICT is deprecated as of PHP 8.4
+            // @todo can be removed once only PHP 8 is supported
+            case @E_STRICT:
                 return "Strict Notice";
             case E_RECOVERABLE_ERROR:
                 return "Recoverable Error";
@@ -160,7 +162,9 @@ class ErrorHandler
             case E_NOTICE:
             case E_USER_WARNING:
             case E_USER_NOTICE:
-            case E_STRICT:
+            // E_STRICT is deprecated as of PHP 8.4
+            // @todo can be removed once only PHP 8 is supported
+            case @E_STRICT:
             case E_RECOVERABLE_ERROR:
             case E_DEPRECATED:
             case E_USER_DEPRECATED:

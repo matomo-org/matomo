@@ -291,7 +291,7 @@ if(function_exists('glob')) {
  * Reads entire file into a string.
  * This function is not 100% compatible with the native function.
  *
- * @see http://php.net/file_get_contents
+ * @see https://php.net/file_get_contents
  * @since PHP 4.3.0
  *
  * @param string $filename Name of the file to read.

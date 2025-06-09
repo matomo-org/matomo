@@ -1,12 +1,11 @@
 {
     "Login": {
         "InvalidOrExpiredToken": "Kontrollkood on kehtetu.",
-        "InvalidUsernameEmail": "Vale kasutajanimi ja\/või e-maili address",
+        "InvalidUsernameEmail": "Vale kasutajanimi ja/või e-maili address",
         "LogIn": "Sisene",
         "LoginOrEmail": "Kasutajanimi või e-post",
         "LoginPasswordNotCorrect": "Kasutajanimi & salasõna olid valed",
         "LostYourPassword": "Kaotasid oma salasõna?",
-        "MailTopicPasswordChange": "Kinnita salasõna vahetust",
         "PasswordChanged": "Sinu salasõna on vahetatud.",
         "PasswordRepeat": "Salasõna (kordus)",
         "PasswordsDoNotMatch": "Salasõnad ei kattu.",

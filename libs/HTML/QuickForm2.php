@@ -123,7 +123,7 @@ class HTML_QuickForm2 extends HTML_QuickForm2_Container
         );
     }
 
-    protected function setContainer(HTML_QuickForm2_Container $container = null)
+    protected function setContainer(?HTML_QuickForm2_Container $container = null)
     {
         throw new HTML_QuickForm2_Exception('Form cannot be added to container');
     }

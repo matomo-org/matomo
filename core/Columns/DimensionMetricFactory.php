@@ -37,7 +37,7 @@ class DimensionMetricFactory
     /**
      * @return ArchivedMetric
      */
-    public function createCustomMetric($metricName, $readableName, $aggregation, $documentation = '', string $semanticType = null)
+    public function createCustomMetric($metricName, $readableName, $aggregation, $documentation = '', ?string $semanticType = null)
     {
         if (!$this->dimension->getDbTableName() || !$this->dimension->getColumnName()) {
             throw new \Exception(sprintf('Cannot make metric from dimension %s because DB table or column missing', $this->dimension->getId()));

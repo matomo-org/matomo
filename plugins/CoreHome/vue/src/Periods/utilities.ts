@@ -87,7 +87,7 @@ export function todayIsInRange(dateRange: Date[]): boolean {
 
 export function getWeekNumber(date: Date): number {
   // Algorithm from https://www.w3resource.com/javascript-exercises/javascript-date-exercise-24.php
-  // and updated based on http://www.java2s.com/example/nodejs/date/get-the-iso-week-date-week-number.html
+  // and updated based on https://www.java2s.com/example/nodejs/date/get-the-iso-week-date-week-number.html
   // for legibility
 
   // Create a copy of the date object

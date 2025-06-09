@@ -4,9 +4,14 @@
 	<totals>
 		<nb_pageviews>0</nb_pageviews>
 		<nb_visits>0</nb_visits>
+		<hits>0</hits>
 		<nb_actions>0</nb_actions>
 		<revenue>0</revenue>
-		<nb_visits_lastdate>0</nb_visits_lastdate>
+		<previous_nb_pageviews>0</previous_nb_pageviews>
+		<previous_nb_visits>0</previous_nb_visits>
+		<previous_hits>0</previous_hits>
+		<previous_nb_actions>0</previous_nb_actions>
+		<previous_revenue>0</previous_revenue>
 	</totals>
 	<lastDate>2009-01-03</lastDate>
 	<sites>

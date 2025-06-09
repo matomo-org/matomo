@@ -1,0 +1,13 @@
+{% autoescape false %}
+{{ 'General_HelloUser'|translate(login) }}
+
+{{ 'UsersManager_AuthTokenExpirationWarningEmailReminder'|translate('<strong>', expirationWarningPeriod, '</strong>')|raw }}
+
+{{ 'UsersManager_AuthTokenExpirationWarningEmail01'|translate('<strong>', tokenName, '</strong>', '<strong>', tokenExpirationDate, '</strong>')|raw }}
+
+{{ 'UsersManager_AuthTokenExpirationWarningEmail02'|translate }}
+
+{{ 'UsersManager_AuthTokenExpirationWarningEmail03'|translate }}
+
+{{ 'UsersManager_AuthTokenExpirationWarningEmail04'|translate }} {{ manageAuthTokensLink }}
+{% endautoescape %}

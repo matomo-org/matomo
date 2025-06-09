@@ -20,7 +20,7 @@
     available-default-dates="{{ availableDefaultDates|json_encode }}"
     show-newsletter-signup="{{ showNewsletterSignup|default(null)|json_encode }}"
     ignore-cookie-set="{{ ignoreCookieSet|default(null)|json_encode }}"
-    ignore-salt="{{ ignoreSalt|default(null)|json_encode }}"
+    set-ignore-cookie-nonce="{{ setIgnoreCookieNonce|default(null)|json_encode }}"
     piwik-host="{{ piwikHost|json_encode }}"
 ></div>
 {% endblock %}

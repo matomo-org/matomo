@@ -29,6 +29,12 @@ class ApiTest extends IntegrationTestCase
         ],
     ];
 
+    private $testSystemSettingsEmptyValuePayload = [
+        'ExampleSettingsPlugin' => [
+            ['name' => 'browsers', 'value' => '__empty__'],
+        ],
+    ];
+
     protected static function beforeTableDataCached()
     {
         parent::beforeTableDataCached();
@@ -111,6 +117,26 @@ class ApiTest extends IntegrationTestCase
         self::assertEquals('password', $newSettings['name']);
         self::assertEquals(SettingsMetadata::PASSWORD_PLACEHOLDER, $newSettings['value']); // API returns value redacted
         self::assertTrue(password_verify('newPassword', $pluginSettings->getSetting('password')->getValue()));
+    }
+
+    public function testSetSystemSettingsCorrectlySetsEmptyValue()
+    {
+        $pluginSettings = StaticContainer::get(\Piwik\Plugins\ExampleSettingsPlugin\SystemSettings::class);
+        $settings = $this->getPluginSettings('ExampleSettingsPlugin', 'browsers');
+        $defaultValue = ['firefox', 'chromium', 'safari'];
+
+        self::assertEquals('browsers', $settings['name']);
+        self::assertEquals($defaultValue, $settings['value']);
+        self::assertEquals($defaultValue, $pluginSettings->getSetting('browsers')->getValue());
+
+        $settingValues = $this->testSystemSettingsEmptyValuePayload;
+        \Piwik\Plugins\CorePluginsAdmin\API::getInstance()->setSystemSettings($settingValues, self::TEST_PASSWORD);
+
+        $newSettings = $this->getPluginSettings('ExampleSettingsPlugin', 'browsers');
+
+        self::assertEquals('browsers', $newSettings['name']);
+        self::assertEquals([], $newSettings['value']);
+        self::assertEquals([], $pluginSettings->getSetting('browsers')->getValue());
     }
 
     private function getPluginSettings(string $pluginName, string $settingName): array

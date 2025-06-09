@@ -67,21 +67,29 @@
       <div class="ui-confirm add-site-dialog">
         <div>
           <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>
-
           <div class="center">
-            <p>
+            <p>{{ subheaderText }}</p>
+            <br>
+          </div>
+          <div class="card-row">
+            <ContentBlock
+              v-for="type in availableTypes"
+              :key="type.id"
+              :content-title="type.name"
+            >
+              <p class="center">
+                {{ type.longDescription }}
+              </p>
               <button
                 type="button"
-                v-for="type in availableTypes"
-                :key="type.id"
                 :title="type.description"
-                class="modal-close btn"
-                @click="addSite(type.id);"
+                class="modal-close btn btn-block"
+                @click="addSite(type.id)"
                 aria-disabled="false"
               >
                 <span class="ui-button-text">{{ type.name }}</span>
               </button>
-            </p>
+            </ContentBlock>
           </div>
         </div>
       </div>
@@ -137,6 +145,7 @@ import {
   Matomo,
   MatomoDialog,
   Site,
+  ContentBlock,
   ContentIntro,
   EnrichedHeadline,
   AjaxHelper,
@@ -166,11 +175,10 @@ interface SitesManagementState {
 
 export default defineComponent({
   props: {
-    // TypeScript can't add state types if there are no properties (probably a bug in Vue)
-    // so we add one dummy property to get the compile to work
-    dummy: String,
+    rollUpEnabled: Boolean,
   },
   components: {
+    ContentBlock,
     MatomoDialog,
     ButtonBar,
     SiteFields,
@@ -255,6 +263,14 @@ export default defineComponent({
           ? translate('General_Measurables')
           : translate('SitesManager_Sites'),
       );
+    },
+    subheaderText() {
+      const subheader = translate('SitesManager_ChooseMeasurableTypeSubheader');
+      const rollup = this.rollUpEnabled
+        ? translate('SitesManager_ChooseMeasurableTypeSubheaderRollUp')
+        : '';
+
+      return `${subheader} ${rollup}`.trim();
     },
     mainDescription() {
       return translate(

@@ -95,9 +95,9 @@ class DbAdapterCheck implements Diagnostic
 
         $message .= $this->translator->translate('Installation_RestartWebServer') . '<br/><br/>';
         $message .= $this->translator->translate('Installation_SystemCheckPhpPdoAndMysqli', array(
-            '<a style="color:red" href="http://php.net/pdo">',
+            '<a style="color:red" href="https://php.net/pdo">',
             '</a>',
-            '<a style="color:red" href="http://php.net/mysqli">',
+            '<a style="color:red" href="https://php.net/mysqli">',
             '</a>',
         ));
         $message .= '</p>';

@@ -13,6 +13,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricsDocumentation>
+			<nb_conversions>The total number of goal conversions that occurred within each time range. Represents how many days passed between a visitor's first interaction and their conversion.</nb_conversions>
+		</metricsDocumentation>
 		<metricTypes>
 			<nb_conversions>number</nb_conversions>
 		</metricTypes>

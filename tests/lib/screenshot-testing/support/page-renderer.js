@@ -477,6 +477,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         --this.activeRequestCount;
 
         const response = request.response();
+
         if (VERBOSE || (response.status() >= 400 && this._isUrlThatWeCareAbout(request.url()))) {
             let bodyLength = 0;
             let bodyContent = '';
@@ -529,7 +530,5 @@ PageRenderer.prototype.getWholeCurrentUrl = function () {
 PageRenderer.prototype.allowClipboard = async function () {
     await this.browserContext.overridePermissions(await this.getWholeCurrentUrl(), ['clipboard-read', 'clipboard-write']);
 };
-
-
 
 exports.PageRenderer = PageRenderer;

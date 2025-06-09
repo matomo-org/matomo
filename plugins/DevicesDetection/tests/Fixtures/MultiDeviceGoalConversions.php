@@ -176,6 +176,23 @@ class MultiDeviceGoalConversions extends Fixture
         $t->setForceVisitDateTime($this->getAdjustedDateTime(1.9));
 
         self::checkResponse($t->doTrackGoal($this->idGoal, $revenue = 0));
+
+        // car browser visit (without conversion)
+        $t = self::getTracker($this->idSite, $this->getAdjustedDateTime(1.8), $defaultInit = true);
+
+        $t->setUserAgent('Some Unknown UA');
+        // The client hints below should change the OS to Android, browser to Chrome 95.5.2 and device type to car browser
+        $t->setClientHints(
+            'UltraOcta-T8',
+            'Android',
+            '14.0.0',
+            '" Not A;Brand";v="99", "Chromium";v="95"',
+            '95.5.2',
+            '"Tablet", "Automotive"'
+        );
+
+        $t->setUrl('http://example.org/index.htm');
+        self::checkResponse($t->doTrackPageView('0'));
     }
 
 

@@ -35,6 +35,8 @@
         "TotalValueDocumentation": "The sum of event values",
         "ViewEvents": "View Events",
         "EventsSubcategoryHelp1": "The Events section offers reports on the custom events associated with your site. Events typically require custom configuration. Once configured you can review reports broken down by category, action and name.",
-        "EventsSubcategoryHelp2": "Learn more about event tracking here."
+        "EventsSubcategoryHelp2": "Learn more about event tracking here.",
+        "ColumnNbVisitsDocumentation": "The total number of visits where at least one event was triggered.",
+        "ColumnNbUniqVisitorsDocumentation": "The number of deduplicated visitors who triggered an event on your website. Every visitor is only counted once, even if they visit or trigger multiple events on the website."
     }
 }

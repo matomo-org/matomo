@@ -70,7 +70,6 @@
         "OverviewPluginSubscriptions": "Visão geral de suas inscrições de plugins",
         "OverviewPluginSubscriptionsAllDetails": "Para ver todos os detalhes, ou para alterar uma inscrição, faça login em sua conta.",
         "OverviewPluginSubscriptionsMissingInfo": "Pode ser possível que uma inscrição esteja faltando, por exemplo se um pagamento ainda não foi completado. Neste caso tente novamente em algumas horas, ou entre em contato com o time Matomo.",
-        "OverviewPluginSubscriptionsMissingLicense": "Você não possui um conjunto de chaves de licença. Se você comprou uma inscrição de plugin, vá à %1$sloja de aplicativos%2$s e digite sua chave de licença.",
         "PaidPlugins": "Funcionalidades Premium",
         "PluginDescription": "Estenda e expanda a funcionalidade do Matomo através da loja de aplicativos baixando plugins e temas.",
         "PluginKeywords": "Palavras-Chave",

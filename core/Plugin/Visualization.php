@@ -428,8 +428,6 @@ class Visualization extends ViewDataTable
     /**
      * Hook called after the dataTable has been loaded from the API
      * Can be used to add, delete or modify the data freshly loaded
-     *
-     * @return bool
      */
     private function postDataTableLoadedFromAPI()
     {

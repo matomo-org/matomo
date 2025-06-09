@@ -27,15 +27,23 @@ class APITest extends IntegrationTestCase
      */
     private $api;
 
-    private $idSite = 1;
+    /**
+     * @var int
+     */
+    private $idSite;
+
+    /**
+     * @var int
+     */
+    private $idSiteTwo;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->api = API::getInstance();
 
-        Fixture::createWebsite('2014-01-01 00:00:00');
-        Fixture::createWebsite('2014-01-01 00:00:00');
+        $this->idSite = Fixture::createWebsite('2014-01-01 00:00:00');
+        $this->idSiteTwo = Fixture::createWebsite('2014-01-01 00:00:00');
     }
 
     /**
@@ -260,6 +268,32 @@ class APITest extends IntegrationTestCase
             'deleted' => '0',
             'event_value_as_revenue' => '0',
         ), $goal);
+    }
+
+    /**
+     * @param string|array $idSite
+     *
+     * @dataProvider getTestDataForMultipleSites
+     */
+    public function testGetGoalsShouldReturnGoalsForMultipleSites($idSite): void
+    {
+        $idGoal = $this->api->addGoal($this->idSite, 'Goal Site One', 'url', 'http://site.one', 'exact');
+        $idGoalTwo = $this->api->addGoal($this->idSiteTwo, 'Goal Site Two', 'url', 'http://site.two', 'exact');
+        $goals = $this->api->getGoals($idSite);
+
+        $this->assertEqualsCanonicalizing(
+            [
+                $this->api->getGoal($this->idSite, $idGoal),
+                $this->api->getGoal($this->idSiteTwo, $idGoalTwo)
+            ],
+            $goals
+        );
+    }
+
+    public function getTestDataForMultipleSites(): iterable
+    {
+        yield 'comma separated string' => ['1,2'];
+        yield 'array' => [[1, 2]];
     }
 
     private function assertHasGoals()

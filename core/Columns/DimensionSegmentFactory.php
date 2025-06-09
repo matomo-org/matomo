@@ -39,7 +39,7 @@ class DimensionSegmentFactory
      * @return Segment
      * @throws \Exception
      */
-    public function createSegment(Segment $segment = null)
+    public function createSegment(?Segment $segment = null)
     {
         $dimension = $this->dimension;
 

@@ -61,7 +61,6 @@
         "OverviewPluginSubscriptions": "プラグインサブスクリプションの概要",
         "OverviewPluginSubscriptionsAllDetails": "すべての詳細を表示したり、サブスクリプションを変更するには、アカウントにログインします。",
         "OverviewPluginSubscriptionsMissingInfo": "サブスクリプションが不足している可能性があります。たとえば、支払いがまだ完了していない場合などです。そのような場合は、数時間後にもう一度試してみるか、Matomo チームに連絡してください。",
-        "OverviewPluginSubscriptionsMissingLicense": "ライセンスキーが設定されていません。プラグインサブスクリプションを購入した場合は、%1$sマーケットプレイス%2$sに行き、ライセンスキーを入力します。",
         "PaidPlugins": "プレミアム機能",
         "PluginDescription": "プラグインとテーマを Marketplace 経由でダウンロードして Matomo の機能を拡張します。",
         "PluginKeywords": "キーワード",

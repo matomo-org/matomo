@@ -13,10 +13,6 @@ describe("PivotByDimension", function () {
         cvarsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09#?idSite=1&period=year&date=2012-08-09&category=General_Visitors&subcategory=CustomVariables_CustomVariables"
         ;
 
-    function showDataTableFooter(page) {
-        return page.hover('.dataTableFeatures');
-    }
-
     it("should pivot a report correctly when the pivot cog option is selected", async function () {
         await page.goto(eventsUrl);
 
@@ -24,7 +20,6 @@ describe("PivotByDimension", function () {
         await element.click();
         await page.waitForNetworkIdle();
 
-        await showDataTableFooter(page);
         await page.evaluate(function(){
             $('.dropdownConfigureIcon').click();
             $('.dataTablePivotBySubtable').click();
@@ -46,7 +41,7 @@ describe("PivotByDimension", function () {
 
     it("should display the pivot option on reports that set a custom columns_to_display", async function () {
         await page.goto(cvarsUrl);
-        await showDataTableFooter(page);
+        await page.waitForNetworkIdle();
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTablePivotBySubtable');
         await page.waitForNetworkIdle();

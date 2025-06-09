@@ -179,18 +179,20 @@ class ConfigReader
                 if (isset($configValues[$configSection][$name])) {
                     $configValues[$configSection][$name]['defaultValue'] = $setting->getDefaultValue();
                     $configValues[$configSection][$name]['description']  = trim($description);
-
-                    if ($config->uiControl === PiwikSettings\FieldConfig::UI_CONTROL_PASSWORD) {
-                        $configValues[$configSection][$name]['value'] = $this->getMaskedPassword();
-                    }
                 } else {
-                    $defaultValue = $setting->getValue();
                     $configValues[$configSection][$name] = array(
-                        'value' => null,
+                        'value' => $setting->getValue() != $setting->getDefaultValue() ? $setting->getValue() : null,
                         'description' => trim($description),
-                        'isCustomValue' => false,
-                        'defaultValue' => $defaultValue
+                        'isCustomValue' => $setting->getValue() != $setting->getDefaultValue(),
+                        'defaultValue' => $setting->getDefaultValue()
                     );
+                }
+
+                if (
+                    !empty($configValues[$configSection][$name]['value'])
+                    && $config->uiControl === PiwikSettings\FieldConfig::UI_CONTROL_PASSWORD
+                ) {
+                    $configValues[$configSection][$name]['value'] = $this->getMaskedPassword();
                 }
             }
 

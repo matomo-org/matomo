@@ -1,7 +1,7 @@
 <!--
   Matomo - free/libre analytics platform
   @link https://matomo.org
-  @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
 <template>
@@ -65,7 +65,7 @@ export default defineComponent({
           module: 'API',
           method: 'Marketplace.requestTrial',
         },
-        { pluginName: plugin.name, pluginDisplayName: plugin.displayName },
+        { pluginName: plugin.name },
       ).then(() => {
         const notificationInstanceId = NotificationsStore.show({
           message: translate(

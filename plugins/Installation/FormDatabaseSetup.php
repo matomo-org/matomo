@@ -173,14 +173,10 @@ class FormDatabaseSetup extends QuickForm2
             'enable_ssl'    => false
         );
 
-        if (($portIndex = strpos($dbInfos['host'], '/')) !== false) {
-            // unix_socket=/path/sock.n
-            $dbInfos['port'] = substr($dbInfos['host'], $portIndex);
-            $dbInfos['host'] = '';
-        } else if (($portIndex = strpos($dbInfos['host'], ':')) !== false) {
-            // host:port
-            $dbInfos['port'] = substr($dbInfos['host'], $portIndex + 1);
-            $dbInfos['host'] = substr($dbInfos['host'], 0, $portIndex);
+        $extractedHostAndPort = HostPortExtractor::extract($dbInfos['host']);
+        if (!is_null($extractedHostAndPort)) {
+            $dbInfos['host'] = $extractedHostAndPort->host;
+            $dbInfos['port'] = $extractedHostAndPort->port;
         }
 
         try {

@@ -790,7 +790,7 @@ class API extends \Piwik\Plugin\API
         return $result;
     }
 
-    private function mergeNumericArchives(DataTable\DataTableInterface $table, DataTable\DataTableInterface $numericArchives = null)
+    private function mergeNumericArchives(DataTable\DataTableInterface $table, ?DataTable\DataTableInterface $numericArchives = null)
     {
         if ($table instanceof DataTable) {
             /** @var DataTable $numericArchives */

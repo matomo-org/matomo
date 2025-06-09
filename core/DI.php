@@ -32,7 +32,7 @@ class DI
      * @return \DI\Definition\Helper\CreateDefinitionHelper
      * @see PHPDI\create()
      */
-    public static function create(string $className = null)
+    public static function create(?string $className = null)
     {
         return PHPDI\create($className);
     }
@@ -42,7 +42,7 @@ class DI
      * @return \DI\Definition\Helper\AutowireDefinitionHelper
      * @see PHPDI\autowire()
      */
-    public static function autowire(string $className = null)
+    public static function autowire(?string $className = null)
     {
         return PHPDI\autowire($className);
     }

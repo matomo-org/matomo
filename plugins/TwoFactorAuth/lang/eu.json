@@ -27,7 +27,6 @@
         "SetUpTwoFactorAuthentication": "Konfiguratu bi faktoreko autentifikazioa (2FA)",
         "SetupAuthenticatorOnDevice": "Konfiguratu OTP aplikazio bat zure gailuan",
         "SetupAuthenticatorOnDeviceStep1": "Instalatu OTP aplikazio bat, adibidez:",
-        "SetupAuthenticatorOnDeviceStep2": "Jarraian, ireki mugikorreko OTP aplikazioa eta eskaneatu beheko barra-kodea. %1$sSartu kode hau%2$s ezin baduzu barra-kodea eskaneatu.",
         "SetupBackupRecoveryCodes": "Jarraitu aurretik, gorde zure berreskuratze-kodeak modu seguruan goiko metodoetako bat erabiliz.",
         "SetupFinishedSubtitle": "Bi faktoreko autentifikazioa konfiguratu duzu. Hemendik aurrera autentifikazio-kode bat sartu behar duzu saioa hasteko. Ziurtatu zure mugikorra edo berreskuratzeko-kodeak zurekin dituzula.",
         "SetupFinishedTitle": "Zure kontua seguruagoa da orain.",

@@ -20,9 +20,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
  */
 class ApiTest extends SystemTestCase
 {
-    /**
-     * @var ManySitesWithVisits
-     */
+    /** @var ManySitesWithVisits */
     public static $fixture = null; // initialized below class definition
 
     /**

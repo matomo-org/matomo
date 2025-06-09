@@ -2,6 +2,7 @@
     "IntranetMeasurable": {
         "Intranet": "Intranet Website",
         "Intranets": "Intranet Websites",
-        "IntranetDescription": "An intranet measurable is just like a website but hosted on an internal network."
+        "IntranetDescription": "An intranet measurable is just like a website but hosted on an internal network.",
+        "IntranetLongDescription": "Track internal sites that are only accessible within your organisation’s network. Matomo uses first-party cookies to more accurately identify unique visitors in intranet environments."
     }
 }

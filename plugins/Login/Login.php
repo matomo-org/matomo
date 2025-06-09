@@ -19,6 +19,7 @@ use Piwik\IP;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
+use Piwik\Plugins\Login\Security\LoginFromDifferentCountryDetection;
 use Piwik\Session;
 use Piwik\SettingsServer;
 
@@ -65,6 +66,9 @@ class Login extends \Piwik\Plugin
             'Login.authenticate.failed'        => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
             'API.Request.authenticate.failed'  => 'onFailedAPILogin', // record any failed attempt in Reporting API
             'Tracker.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Tracker API
+
+            // for 'Login from a different country' notification
+            'Login.authenticate.processSuccessfulSession.end' => 'checkLoginFromAnotherCountry',
         );
 
         $loginPlugin = Piwik::getLoginPluginName();
@@ -140,6 +144,19 @@ class Login extends \Piwik\Plugin
             } else {
                 throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid, expired or is required to be sent as a POST parameter.');
             }
+        }
+    }
+
+    public function checkLoginFromAnotherCountry($login)
+    {
+        if ('anonymous' === $login) {
+            // do not send notification to "anonymous"
+            return;
+        }
+
+        $loginFromDifferentCountryDetection = StaticContainer::get(LoginFromDifferentCountryDetection::class);
+        if ($loginFromDifferentCountryDetection->isEnabled()) {
+            $loginFromDifferentCountryDetection->check($login);
         }
     }
 
@@ -224,8 +241,10 @@ class Login extends \Piwik\Plugin
      * Set login name and authentication token for API request.
      * Listens to API.Request.authenticate hook.
      */
-    public function apiRequestAuthenticate($tokenAuth)
-    {
+    public function apiRequestAuthenticate(
+        #[\SensitiveParameter]
+        $tokenAuth
+    ) {
         $this->beforeLoginCheckBruteForce();
 
         /** @var \Piwik\Auth $auth */
@@ -244,9 +263,9 @@ class Login extends \Piwik\Plugin
     {
         $login = StaticContainer::get(\Piwik\Auth::class)->getLogin();
         if (empty($login) || $login == 'anonymous') {
-            $login = Common::getRequestVar('form_login', false);
+            $login = \Piwik\Request::fromRequest()->getStringParameter('form_login', '');
             if (Piwik::getAction() === 'logme') {
-                $login = Common::getRequestVar('login', $login);
+                $login = \Piwik\Request::fromRequest()->getStringParameter('login', $login);
             }
         }
 

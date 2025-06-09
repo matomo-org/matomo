@@ -53,6 +53,8 @@
         "UnprocessedSegmentNoData1": "Aquests informes no tenen dades, perquè el Segment que heu sol·licitat %1$s encara no ha estat processat pel sistema.",
         "UnprocessedSegmentNoData2": "Les dades d'aquest segment haurien d'estar disponibles en unes poques hores quan finalitzi el processament. (Si no ho fa, pot ser que hi hagi un problema.)",
         "UnprocessedSegmentNoData3": "Matomo no pot mostrar les dades del segment %1$s, ja que la configuració impedeix que es tornin a arxivar durant aquest període. Si us plau, poseu-vos en contacte amb el vostre administrador o comproveu %2$saquest FAQ%3$s per resoldre aquest problema.",
+        "UpdatingAllSitesSegmentPermittedToSuperUser": "Aquest segment es va fer accessible a tots els llocs pel superusuari. Ara, només els superusuaris poden actualitzar-lo o eliminar-lo.",
+        "UpdatingForeignSegmentPermittedToSuperUser": "Només podeu editar i suprimir segments personalitzats que hàgiu creat vosaltres mateixos. Aquest segment l'ha creat i \"compartit amb tu\" el superusuari. Per modificar aquest segment, primer podeu crear-ne un de nou fent clic a \"Afegeix un segment nou\". A continuació, podeu personalitzar la definició del segment.",
         "VisibleToAllUsers": "tots els usuaris",
         "VisibleToMe": "jo",
         "VisibleToSuperUser": "Visible per a tu perquè tens accés de superusuari",

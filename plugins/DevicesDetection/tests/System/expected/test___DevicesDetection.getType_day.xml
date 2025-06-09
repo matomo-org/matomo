@@ -66,6 +66,19 @@
 		<logo>plugins/Morpheus/icons/dist/devices/unknown.png</logo>
 	</row>
 	<row>
+		<label>Car browser</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>deviceType==car+browser</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/car_browser.png</logo>
+	</row>
+	<row>
 		<label>Desktop</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
@@ -127,12 +140,6 @@
 		<nb_visits>0</nb_visits>
 		<segment>deviceType==camera</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/camera.png</logo>
-	</row>
-	<row>
-		<label>Car browser</label>
-		<nb_visits>0</nb_visits>
-		<segment>deviceType==car+browser</segment>
-		<logo>plugins/Morpheus/icons/dist/devices/car_browser.png</logo>
 	</row>
 	<row>
 		<label>Console</label>

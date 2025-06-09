@@ -6,27 +6,37 @@
  */
 
 import { computed, reactive, readonly } from 'vue';
-import { AjaxHelper, Matomo, Periods } from 'CoreHome';
+import {
+  AjaxHelper,
+  Matomo,
+  Periods,
+  NumberFormatter,
+} from 'CoreHome';
 
 import {
   DashboardMetrics,
   DashboardSiteData,
   DashboardSortOrder,
-  EvolutionTrend,
+  EvolutionTrend, KPICardBadge,
 } from '../types';
 
 interface DashboardKPIData {
+  badges: Record<string, KPICardBadge | null>;
   evolutionPeriod: string;
   hits: string;
+  hitsCompact: string;
   hitsEvolution: string;
   hitsTrend: EvolutionTrend;
   pageviews: string;
+  pageviewsCompact: string;
   pageviewsEvolution: string;
   pageviewsTrend: EvolutionTrend;
   revenue: string;
+  revenueCompact: string;
   revenueEvolution: string;
   revenueTrend: EvolutionTrend;
   visits: string;
+  visitsCompact: string;
   visitsEvolution: string;
   visitsTrend: EvolutionTrend;
 }
@@ -39,16 +49,14 @@ interface DashboardStoreState {
   isLoadingSites: boolean;
   numSites: number;
   paginationCurrentPage: number;
-  sparklineDate: string;
   sortColumn: string;
   sortOrder: DashboardSortOrder;
 }
 
-interface GetDashboardMockDataResponse {
+interface GetAllWithGroupsDataResponse {
   sites: DashboardSiteData[];
   totals: DashboardMetrics;
   numSites: number;
-  sparklineDate: string;
 }
 
 const DEFAULT_SORT_ORDER = 'desc';
@@ -59,17 +67,22 @@ class DashboardStore {
 
   private privateState = reactive<DashboardStoreState>({
     dashboardKPIs: {
+      badges: {},
       evolutionPeriod: 'day',
       hits: '?',
+      hitsCompact: '?',
       hitsEvolution: '',
       hitsTrend: 0,
       pageviews: '?',
+      pageviewsCompact: '?',
       pageviewsEvolution: '',
       pageviewsTrend: 0,
       revenue: '?',
+      revenueCompact: '?',
       revenueEvolution: '',
       revenueTrend: 0,
       visits: '?',
+      visitsCompact: '?',
       visitsEvolution: '',
       visitsTrend: 0,
     },
@@ -79,7 +92,6 @@ class DashboardStore {
     isLoadingSites: false,
     numSites: 0,
     paginationCurrentPage: 0,
-    sparklineDate: '',
     sortColumn: DEFAULT_SORT_COLUMN,
     sortOrder: DEFAULT_SORT_ORDER,
   });
@@ -204,16 +216,17 @@ class DashboardStore {
     this.privateState.isLoadingSites = true;
 
     const params: QueryParameters = {
-      method: 'MultiSites.mockDashboardData',
+      method: 'MultiSites.getAllWithGroups',
       filter_limit: this.pageSize,
       filter_offset: this.currentPagingOffset.value,
       filter_sort_column: this.privateState.sortColumn,
       filter_sort_order: this.privateState.sortOrder,
+      format_metrics: 0,
       showColumns: [
         'hits_evolution',
         'hits_evolution_trend',
         'label',
-        'nb_hits',
+        'hits',
         'nb_pageviews',
         'nb_visits',
         'pageviews_evolution',
@@ -229,13 +242,25 @@ class DashboardStore {
     if (this.searchTerm) {
       params.pattern = this.searchTerm;
     }
-
-    return AjaxHelper.fetch<GetDashboardMockDataResponse>(
+    return AjaxHelper.fetch<GetAllWithGroupsDataResponse>(
       params,
-      { abortController: this.fetchAbort },
+      {
+        abortController: this.fetchAbort,
+        createErrorNotification: false,
+      },
     ).then((response) => {
       if (!onlySites) {
         this.updateDashboardKPIs(response);
+        Matomo.postEvent('MultiSites.DashboardKPIs.updated', {
+          parameters: (new AjaxHelper()).mixinDefaultGetParams({
+            filter_limit: this.pageSize,
+            filter_offset: this.currentPagingOffset.value,
+            filter_sort_column: this.privateState.sortColumn,
+            filter_sort_order: this.privateState.sortOrder,
+            pattern: this.searchTerm,
+          }),
+          kpis: this.privateState.dashboardKPIs,
+        });
       }
 
       this.updateDashboardSites(response);
@@ -279,28 +304,61 @@ class DashboardStore {
     }, this.autoRefreshInterval * 1000);
   }
 
-  private updateDashboardKPIs(response: GetDashboardMockDataResponse) {
+  private updateDashboardKPIs(response: GetAllWithGroupsDataResponse) {
     this.privateState.dashboardKPIs = {
+      badges: {
+        hits: null,
+        pageviews: null,
+        revenue: null,
+        visits: null,
+      },
       evolutionPeriod: Matomo.period as string,
-      hits: response.totals.nb_hits,
-      hitsEvolution: response.totals.hits_evolution,
-      hitsTrend: response.totals.hits_evolution_trend,
-      pageviews: response.totals.nb_pageviews,
-      pageviewsEvolution: response.totals.pageviews_evolution,
-      pageviewsTrend: response.totals.pageviews_evolution_trend,
-      revenue: response.totals.revenue,
-      revenueEvolution: response.totals.revenue_evolution,
-      revenueTrend: response.totals.revenue_evolution_trend,
-      visits: response.totals.nb_visits,
-      visitsEvolution: response.totals.visits_evolution,
-      visitsTrend: response.totals.visits_evolution_trend,
+      hits: NumberFormatter.formatNumber(response.totals.hits),
+      hitsCompact: NumberFormatter.formatNumberCompact(response.totals.hits),
+      hitsEvolution: NumberFormatter.calculateAndFormatEvolution(
+        response.totals.hits,
+        response.totals.previous_hits,
+        true,
+      ),
+      hitsTrend: Math.sign(
+        response.totals.hits - response.totals.previous_hits,
+      ) as EvolutionTrend,
+      pageviews: NumberFormatter.formatNumber(response.totals.nb_pageviews),
+      pageviewsCompact: NumberFormatter.formatNumberCompact(response.totals.nb_pageviews),
+      pageviewsEvolution: NumberFormatter.calculateAndFormatEvolution(
+        response.totals.nb_pageviews,
+        response.totals.previous_nb_pageviews,
+        true,
+      ),
+      pageviewsTrend: Math.sign(
+        response.totals.nb_pageviews - response.totals.previous_nb_pageviews,
+      ) as EvolutionTrend,
+      revenue: NumberFormatter.formatCurrency(response.totals.revenue, ''),
+      revenueCompact: NumberFormatter.formatCurrencyCompact(response.totals.revenue, ''),
+      revenueEvolution: NumberFormatter.calculateAndFormatEvolution(
+        response.totals.revenue,
+        response.totals.previous_revenue,
+        true,
+      ),
+      revenueTrend: Math.sign(
+        response.totals.revenue - response.totals.previous_revenue,
+      ) as EvolutionTrend,
+      visits: NumberFormatter.formatNumber(response.totals.nb_visits),
+      visitsCompact: NumberFormatter.formatNumberCompact(response.totals.nb_visits),
+      visitsEvolution: NumberFormatter.calculateAndFormatEvolution(
+        response.totals.nb_visits,
+        response.totals.previous_nb_visits,
+        true,
+      ),
+      visitsTrend: Math.sign(
+        response.totals.nb_visits - response.totals.previous_nb_visits,
+      ) as EvolutionTrend,
     };
   }
 
-  private updateDashboardSites(response: GetDashboardMockDataResponse) {
+  private updateDashboardSites(response: GetAllWithGroupsDataResponse) {
     this.privateState.dashboardSites = response.sites;
     this.privateState.numSites = response.numSites;
-    this.privateState.sparklineDate = response.sparklineDate;
   }
 }
 

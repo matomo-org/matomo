@@ -52,7 +52,7 @@ class GenerateDimension extends GeneratePluginBase
         $replace       = array('example_action_dimension'  => strtolower($columnName),
                                'example_visit_dimension'   => strtolower($columnName),
                                'example_conversion_dimension'   => strtolower($columnName),
-                               'INTEGER(11) DEFAULT 0 NOT NULL' => strtoupper($columType),
+                               'INTEGER(11) DEFAULT 0 NULL' => strtoupper($columType),
                                'VARCHAR(255) DEFAULT NULL'      => strtoupper($columType),
                                'ExampleDimension'       => $dimensionClassName,
                                'ExampleVisitDimension'  => $dimensionClassName,

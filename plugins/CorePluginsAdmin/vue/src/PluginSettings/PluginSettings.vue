@@ -199,6 +199,10 @@ export default defineComponent({
           postValue = '1';
         }
 
+        if (Array.isArray(postValue) && postValue.length === 0) {
+          postValue = '__empty__';
+        }
+
         values[pluginName].push({
           name: settingName,
           value: postValue,

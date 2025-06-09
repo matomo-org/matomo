@@ -341,20 +341,71 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expected, $items);
     }
 
-    public function testRemoveInvalidationsFromDistributedListRemovesAllSiteEntries()
+    public function testRemoveInvalidationsFromDistributedListRemovesEntriesFromListWhenIntSiteIdSpecified()
+    {
+        $this->invalidator->scheduleReArchiving([1,2,3], 'ExamplePlugin');
+        $this->invalidator->scheduleReArchiving([1,4,5], 'MyOtherPlugin');
+
+        $this->invalidator->removeInvalidationsFromDistributedList(3, 'ExamplePlugin');
+
+        $list = new ReArchiveList();
+        $items = $list->getAll();
+
+        $expected = [
+            '{"idSites":[1,2],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}',
+            '{"idSites":[1,4,5],"pluginName":"MyOtherPlugin","report":null,"startDate":null,"segment":null}',
+        ];
+
+        $this->assertEquals($expected, $items);
+    }
+
+    /**
+     * @dataProvider getRemoveInvalidationsFromDistributedListDifferentIdSiteValues
+     * @param $idSites
+     * @return void
+     */
+    public function testRemoveInvalidationsFromDistributedListDifferentIdSiteValues($idSites, $expectedArray)
     {
         $this->invalidator->scheduleReArchiving([1, 2, 3], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving([1, 4, 5], 'ExamplePlugin');
         $this->invalidator->scheduleReArchiving('all', 'ExamplePlugin');
 
-        $this->invalidator->removeInvalidationsFromDistributedList('all', 'ExamplePlugin');
+        $this->invalidator->removeInvalidationsFromDistributedList($idSites, 'ExamplePlugin');
 
         $list = new ReArchiveList();
         $items = $list->getAll();
 
-        $expected = [];
+        $this->assertEquals($expectedArray, $items);
+    }
 
-        $this->assertEquals($expected, $items);
+    public function getRemoveInvalidationsFromDistributedListDifferentIdSiteValues(): array
+    {
+        $idSites = [1,2,3,4,5,6,7,8,9,10];
+        if (version_compare(PHP_VERSION, '8.0.0', '<')) {
+            for ($i = 0; $i < count($idSites); $i++) {
+                $idSites[$i] = '"' . $idSites[$i] . '"';
+            }
+        }
+        $allEntry = '{"idSites":[' . implode(',', $idSites) . '],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}';
+        $expected = [
+            '{"idSites":[1,2,3],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}',
+            '{"idSites":[1,4,5],"pluginName":"ExamplePlugin","report":null,"startDate":null,"segment":null}',
+            $allEntry,
+        ];
+
+        return [
+            [null, $expected],
+            [0, $expected],
+            ['0', $expected],
+            ['unexpectedString', $expected],
+            [2.2, $expected],
+            [123.45, $expected],
+            [false, $expected],
+            [true, $expected],
+            ['false', $expected],
+            ['true', $expected],
+            ['all', []],
+        ];
     }
 
     public function testRemoveInvalidationsFromDistributedListRemovesEntriesFromListWhenPluginNameAndReportIsSpecified()
@@ -950,7 +1001,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             API::getInstance()->add('test segment 2', self::TEST_SEGMENT_2, false, true);
         }
 
-        if (!empty($segment)) {
+        if (null !== $segment) {
             $segment = new Segment($segment, $idSites);
         }
 
@@ -977,708 +1028,484 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertTrue(count($uniqueArchives) == count($invalidatedIdArchives), "duplicates inserted");
     }
 
-    public function getTestDataForMarkArchivesAsInvalidated()
+    public function getTestDataForMarkArchivesAsInvalidated(): iterable
     {
-        // $idSites, $dates, $period, $segment, $cascadeDown, $expectedIdArchives
-        return array(
-            // day period, multiple sites, multiple dates across tables, cascade = true
-            array(
-                array(1, 2),
-                array('2015-01-01', '2015-02-05', '2015-04-30'),
-                'day',
-                null,
-                true,
-                array(
-                    '2015_04' => array(
-                        '1.2015-04-30.2015-04-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '2.2015-04-30.2015-04-30.1.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-04-27.2015-05-03.2.done',
-                        '2.2015-04-27.2015-05-03.2.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-04-01.2015-04-30.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '2.2015-04-01.2015-04-30.3.done5447835b0a861475918e79e932abdfd8',
-                    ),
-                    '2015_01' => array(
-                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '2.2015-01-01.2015-01-01.1.done.VisitsSummary',
-                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
-                        '2.2015-01-01.2015-01-31.3.done.VisitsSummary',
-                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
-                        '2.2015-01-01.2015-12-31.4.done',
-                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-                    ),
-                    '2015_02' => array(
-                        '1.2015-02-05.2015-02-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '2.2015-02-05.2015-02-05.1.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-02-02.2015-02-08.2.done',
-                        '2.2015-02-02.2015-02-08.2.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
-                        '2.2015-02-01.2015-02-28.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                    ),
-                    '2014_12' => [
-                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
-                        '2.2014-12-29.2015-01-04.2.done.VisitsSummary',
-                    ],
-                ),
-                [
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => '85', 'idsite' => '1', 'date1' => '2015-02-02', 'date2' => '2015-02-08', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-02-05', 'date2' => '2015-02-05', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => '100', 'idsite' => '1', 'date1' => '2015-04-27', 'date2' => '2015-05-03', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-04-30', 'date2' => '2015-04-30', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => '110', 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-02-02', 'date2' => '2015-02-08', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-02-05', 'date2' => '2015-02-05', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-04-27', 'date2' => '2015-05-03', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-04-30', 'date2' => '2015-04-30', 'period' => '1', 'name' => 'done', 'report' => null],
-                ],
-            ),
-
-            // month period, one site, one date, cascade = false
-            array(
-                array(1),
-                array('2015-01-01'),
-                'month',
-                null,
-                false,
-                array(
-                    '2015_01' => array(
-                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
-                    ),
-                ),
-                [
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
-                ],
-            ),
-
-            // month period, one site, one date, cascade = true
-            array(
-                array(1),
-                array('2015-01-15'),
-                'month',
-                null,
-                true,
-                array(
-                    '2014_12' => array(
-                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
-                    ),
-                    '2015_01' => array(
-                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-02.2015-01-02.1.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-01-03.2015-01-03.1.done.VisitsSummary',
-                        '1.2015-01-04.2015-01-04.1.done',
-                        '1.2015-01-05.2015-01-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-06.2015-01-06.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-07.2015-01-07.1.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-01-08.2015-01-08.1.done.VisitsSummary',
-                        '1.2015-01-09.2015-01-09.1.done',
-                        '1.2015-01-10.2015-01-10.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-11.2015-01-11.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-12.2015-01-12.1.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-01-13.2015-01-13.1.done.VisitsSummary',
-                        '1.2015-01-14.2015-01-14.1.done',
-                        '1.2015-01-15.2015-01-15.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-16.2015-01-16.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-17.2015-01-17.1.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-01-18.2015-01-18.1.done.VisitsSummary',
-                        '1.2015-01-19.2015-01-19.1.done',
-                        '1.2015-01-20.2015-01-20.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-21.2015-01-21.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-22.2015-01-22.1.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-01-23.2015-01-23.1.done.VisitsSummary',
-                        '1.2015-01-24.2015-01-24.1.done',
-                        '1.2015-01-25.2015-01-25.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-27.2015-01-27.1.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-01-28.2015-01-28.1.done.VisitsSummary',
-                        '1.2015-01-29.2015-01-29.1.done',
-                        '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-05.2015-01-11.2.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-01-12.2015-01-18.2.done.VisitsSummary',
-                        '1.2015-01-19.2015-01-25.2.done',
-                        '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-                    ),
-                ),
-                [
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => '10', 'idsite' => '1', 'date1' => '2015-01-04', 'date2' => '2015-01-04', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-05', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-06', 'date2' => '2015-01-06', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-07', 'date2' => '2015-01-07', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-08', 'date2' => '2015-01-08', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => '25', 'idsite' => '1', 'date1' => '2015-01-09', 'date2' => '2015-01-09', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-10', 'date2' => '2015-01-10', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-11', 'date2' => '2015-01-11', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-12', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-18', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-13', 'date2' => '2015-01-13', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => '40', 'idsite' => '1', 'date1' => '2015-01-14', 'date2' => '2015-01-14', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-15', 'date2' => '2015-01-15', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-16', 'date2' => '2015-01-16', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-17', 'date2' => '2015-01-17', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-18', 'date2' => '2015-01-18', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => '55', 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-19', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => '100', 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-25', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-20', 'date2' => '2015-01-20', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-21', 'date2' => '2015-01-21', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-22', 'date2' => '2015-01-22', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-23', 'date2' => '2015-01-23', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => '70', 'idsite' => '1', 'date1' => '2015-01-24', 'date2' => '2015-01-24', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-25', 'date2' => '2015-01-25', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-01-26', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => '85', 'idsite' => '1', 'date1' => '2015-01-29', 'date2' => '2015-01-29', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done', 'report' => null],
-                ],
-            ),
-
-            // week period, one site, multiple dates w/ redundant dates & periods, cascade = true
-            array(
-                array(1),
-                array('2015-01-02', '2015-01-03', '2015-01-31'),
-                'week',
-                null,
-                true,
-                array(
-                    '2014_12' => array(
-                        '1.2014-12-29.2014-12-29.1.done',
-                        '1.2014-12-30.2014-12-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2014-12-31.2014-12-31.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2014-12-01.2014-12-31.3.done5447835b0a861475918e79e932abdfd8',
-                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
-                    ),
-                    '2015_01' => array(
-                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-02.2015-01-02.1.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-01-03.2015-01-03.1.done.VisitsSummary',
-                        '1.2015-01-04.2015-01-04.1.done',
-                        '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-27.2015-01-27.1.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-01-28.2015-01-28.1.done.VisitsSummary',
-                        '1.2015-01-29.2015-01-29.1.done',
-                        '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-                    ),
-                    '2015_02' => array(
-                        '1.2015-02-01.2015-02-01.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
-                    ),
-                    '2014_01' => [
-                        '1.2014-01-01.2014-12-31.4.done3736b708e4d20cfc10610e816a1b2341',
-                    ],
-                ),
-                [
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-01-01', 'date2' => '2014-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-01', 'date2' => '2014-12-31', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => '85', 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2014-12-29', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-30', 'date2' => '2014-12-30', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-31', 'date2' => '2014-12-31', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => '10', 'idsite' => '1', 'date1' => '2015-01-04', 'date2' => '2015-01-04', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-01-26', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => '85', 'idsite' => '1', 'date1' => '2015-01-29', 'date2' => '2015-01-29', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-01', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done', 'report' => null],
-                ],
-            ),
-
-            // range period, exact match, cascade = true
-            array(
-                array(1),
-                array('2015-01-01', '2015-01-10'),
-                'range',
-                null,
-                true,
-                array(
-                    '2015_01' => array(
-                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-                    ),
-                ),
-                [
-                    // empty
-                ],
-            ),
-
-            // range period, overlapping a range in the DB
-            array(
-                array(1),
-                array('2015-01-02', '2015-03-05'),
-                'range',
-                null,
-                true,
-                array(
-                    '2015_01' => array(
-                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-                    ),
-                    '2015_03' => [
-                        '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
-                        '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                    ],
-                ),
-                [
-                    // empty
-                ],
-            ),
-
-            // week period, one site, cascade = true, segment
-            array(
-                array(1),
-                array('2015-01-05'),
-                'month',
-                self::TEST_SEGMENT_1,
-                true,
-                array(
-                    '2014_12' => array(
-                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
-                    ),
-                    '2015_01' => array(
-                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-05.2015-01-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-06.2015-01-06.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-10.2015-01-10.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-11.2015-01-11.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-15.2015-01-15.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-16.2015-01-16.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-20.2015-01-20.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-21.2015-01-21.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-25.2015-01-25.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
-                    ),
-                ),
-                [
-                    ['idarchive' => '106', 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => '1', 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-04', 'date2' => '2015-01-04', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-05', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => '16', 'idsite' => '1', 'date1' => '2015-01-06', 'date2' => '2015-01-06', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-07', 'date2' => '2015-01-07', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-08', 'date2' => '2015-01-08', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-09', 'date2' => '2015-01-09', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-10', 'date2' => '2015-01-10', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => '31', 'idsite' => '1', 'date1' => '2015-01-11', 'date2' => '2015-01-11', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-18', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-12', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-13', 'date2' => '2015-01-13', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-14', 'date2' => '2015-01-14', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-15', 'date2' => '2015-01-15', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => '46', 'idsite' => '1', 'date1' => '2015-01-16', 'date2' => '2015-01-16', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-17', 'date2' => '2015-01-17', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-18', 'date2' => '2015-01-18', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-25', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-19', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-20', 'date2' => '2015-01-20', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => '61', 'idsite' => '1', 'date1' => '2015-01-21', 'date2' => '2015-01-21', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-22', 'date2' => '2015-01-22', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-23', 'date2' => '2015-01-23', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-24', 'date2' => '2015-01-24', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-25', 'date2' => '2015-01-25', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => '76', 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-01-26', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-29', 'date2' => '2015-01-29', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    // archive id 106 occurs a second time as it comes from a different archive table
-                    ['idarchive' => '106', 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                    ['idarchive' => '91', 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
-                ],
-            ),
-
-            // removing all periods
-            array(
-                array(1),
-                array('2015-05-05'),
-                '',
-                null,
-                false,
-                array(
-                    '2015_01' => array(
-                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
-                    ),
-                    '2015_05' => array(
-                        '1.2015-05-05.2015-05-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '1.2015-05-04.2015-05-10.2.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-05-01.2015-05-31.3.done3736b708e4d20cfc10610e816a1b2341',
-                    ),
-                ),
-                [
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-05-05', 'date2' => '2015-05-05', 'period' => '1', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-05-04', 'date2' => '2015-05-10', 'period' => '2', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-05-01', 'date2' => '2015-05-31', 'period' => '3', 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
-                ],
-            ),
-
-            // period before site creation date
+        yield 'day period, multiple sites, multiple dates across tables, cascade = true' => [
+            [1, 2],
+            ['2015-01-01', '2015-02-05', '2015-04-30'],
+            'day',
+            null,
+            true,
             [
-                [1],
-                ['2012-03-02'],
-                '',
-                null,
-                false,
-                [
-                    // empty
+                '2015_04' => [
+                    '1.2015-04-30.2015-04-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '2.2015-04-30.2015-04-30.1.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-04-27.2015-05-03.2.done',
+                    '2.2015-04-27.2015-05-03.2.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-04-01.2015-04-30.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '2.2015-04-01.2015-04-30.3.done5447835b0a861475918e79e932abdfd8',
                 ],
-                [
-                    // month week and year exist, but not day since it is before the site was created
-                    ['idarchive' => null, 'idsite' => 1, 'date1' => '2012-03-01', 'date2' => '2012-03-31', 'period' => 3, 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => 1, 'date1' => '2012-02-27', 'date2' => '2012-03-04', 'period' => 2, 'name' => 'done', 'report' => null],
-                    ['idarchive' => null, 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'name' => 'done', 'report' => null],
+                '2015_01' => [
+                    '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '2.2015-01-01.2015-01-01.1.done.VisitsSummary',
+                    '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                    '2.2015-01-01.2015-01-31.3.done.VisitsSummary',
+                    '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                    '2.2015-01-01.2015-12-31.4.done',
+                    '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                ],
+                '2015_02' => [
+                    '1.2015-02-05.2015-02-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '2.2015-02-05.2015-02-05.1.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-02-02.2015-02-08.2.done',
+                    '2.2015-02-02.2015-02-08.2.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
+                    '2.2015-02-01.2015-02-28.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                ],
+                '2014_12' => [
+                    '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
+                    '2.2014-12-29.2015-01-04.2.done.VisitsSummary',
                 ],
             ],
+            [
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done', 'report' => null],
+                ['idarchive' => '85', 'idsite' => '1', 'date1' => '2015-02-02', 'date2' => '2015-02-08', 'period' => '2', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-02-05', 'date2' => '2015-02-05', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => '3', 'name' => 'done', 'report' => null],
+                ['idarchive' => '100', 'idsite' => '1', 'date1' => '2015-04-27', 'date2' => '2015-05-03', 'period' => '2', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-04-30', 'date2' => '2015-04-30', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
+                ['idarchive' => '110', 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-02-02', 'date2' => '2015-02-08', 'period' => '2', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-02-05', 'date2' => '2015-02-05', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => '3', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-04-27', 'date2' => '2015-05-03', 'period' => '2', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-04-30', 'date2' => '2015-04-30', 'period' => '1', 'name' => 'done', 'report' => null],
+            ],
+        ];
 
-            // day period, multiple sites, multiple dates across tables, stored segments added
-            array(
-                array(1, 2),
-                array('2015-01-01', '2015-02-05', '2015-04-30'),
-                'day',
-                null,
-                false,
-                array(
-                    '2015_04' => array(
-                        '1.2015-04-30.2015-04-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '2.2015-04-30.2015-04-30.1.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-04-27.2015-05-03.2.done',
-                        '2.2015-04-27.2015-05-03.2.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-04-01.2015-04-30.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '2.2015-04-01.2015-04-30.3.done5447835b0a861475918e79e932abdfd8',
-                    ),
-                    '2015_01' => array(
-                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
-                        '2.2015-01-01.2015-01-01.1.done.VisitsSummary',
-                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
-                        '2.2015-01-01.2015-01-31.3.done.VisitsSummary',
-                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
-                        '2.2015-01-01.2015-12-31.4.done',
-                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-                    ),
-                    '2015_02' => array(
-                        '1.2015-02-05.2015-02-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                        '2.2015-02-05.2015-02-05.1.done5447835b0a861475918e79e932abdfd8',
-                        '1.2015-02-02.2015-02-08.2.done',
-                        '2.2015-02-02.2015-02-08.2.done3736b708e4d20cfc10610e816a1b2341',
-                        '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
-                        '2.2015-02-01.2015-02-28.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                    ),
-                    '2014_12' => [
-                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
-                        '2.2014-12-29.2015-01-04.2.done.VisitsSummary',
-                    ],
-                ),
-                array (
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '1',
-                        'date1' => '2015-01-01',
-                        'date2' => '2015-01-01',
-                        'period' => '1',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2015-01-01',
-                        'date2' => '2015-01-01',
-                        'period' => '1',
-                        'name' => 'done3736b708e4d20cfc10610e816a1b2341',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '1',
-                        'date1' => '2015-01-01',
-                        'date2' => '2015-01-31',
-                        'period' => '3',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => '106',
-                        'idsite' => '1',
-                        'date1' => '2015-01-01',
-                        'date2' => '2015-01-31',
-                        'period' => '3',
-                        'name' => 'done3736b708e4d20cfc10610e816a1b2341',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '1',
-                        'date1' => '2015-01-01',
-                        'date2' => '2015-12-31',
-                        'period' => '4',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => '109',
-                        'idsite' => '1',
-                        'date1' => '2015-01-01',
-                        'date2' => '2015-12-31',
-                        'period' => '4',
-                        'name' => 'done5447835b0a861475918e79e932abdfd8',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '2',
-                        'date1' => '2015-01-01',
-                        'date2' => '2015-01-01',
-                        'period' => '1',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '2',
-                        'date1' => '2015-01-01',
-                        'date2' => '2015-01-31',
-                        'period' => '3',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => '110',
-                        'idsite' => '2',
-                        'date1' => '2015-01-01',
-                        'date2' => '2015-12-31',
-                        'period' => '4',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '1',
-                        'date1' => '2014-12-29',
-                        'date2' => '2015-01-04',
-                        'period' => '2',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => '106',
-                        'idsite' => '1',
-                        'date1' => '2014-12-29',
-                        'date2' => '2015-01-04',
-                        'period' => '2',
-                        'name' => 'done3736b708e4d20cfc10610e816a1b2341',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '2',
-                        'date1' => '2014-12-29',
-                        'date2' => '2015-01-04',
-                        'period' => '2',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '1',
-                        'date1' => '2015-02-05',
-                        'date2' => '2015-02-05',
-                        'period' => '1',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => '85',
-                        'idsite' => '1',
-                        'date1' => '2015-02-02',
-                        'date2' => '2015-02-08',
-                        'period' => '2',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '1',
-                        'date1' => '2015-02-01',
-                        'date2' => '2015-02-28',
-                        'period' => '3',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '2',
-                        'date1' => '2015-02-05',
-                        'date2' => '2015-02-05',
-                        'period' => '1',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => '14',
-                        'idsite' => '2',
-                        'date1' => '2015-02-05',
-                        'date2' => '2015-02-05',
-                        'period' => '1',
-                        'name' => 'done5447835b0a861475918e79e932abdfd8',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '2',
-                        'date1' => '2015-02-02',
-                        'date2' => '2015-02-08',
-                        'period' => '2',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => '86',
-                        'idsite' => '2',
-                        'date1' => '2015-02-02',
-                        'date2' => '2015-02-08',
-                        'period' => '2',
-                        'name' => 'done3736b708e4d20cfc10610e816a1b2341',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '2',
-                        'date1' => '2015-02-01',
-                        'date2' => '2015-02-28',
-                        'period' => '3',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '1',
-                        'date1' => '2015-04-30',
-                        'date2' => '2015-04-30',
-                        'period' => '1',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => '100',
-                        'idsite' => '1',
-                        'date1' => '2015-04-27',
-                        'date2' => '2015-05-03',
-                        'period' => '2',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '1',
-                        'date1' => '2015-04-01',
-                        'date2' => '2015-04-30',
-                        'period' => '3',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '2',
-                        'date1' => '2015-04-30',
-                        'date2' => '2015-04-30',
-                        'period' => '1',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => '89',
-                        'idsite' => '2',
-                        'date1' => '2015-04-30',
-                        'date2' => '2015-04-30',
-                        'period' => '1',
-                        'name' => 'done5447835b0a861475918e79e932abdfd8',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '2',
-                        'date1' => '2015-04-27',
-                        'date2' => '2015-05-03',
-                        'period' => '2',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => '101',
-                        'idsite' => '2',
-                        'date1' => '2015-04-27',
-                        'date2' => '2015-05-03',
-                        'period' => '2',
-                        'name' => 'done3736b708e4d20cfc10610e816a1b2341',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => null,
-                        'idsite' => '2',
-                        'date1' => '2015-04-01',
-                        'date2' => '2015-04-30',
-                        'period' => '3',
-                        'name' => 'done',
-                        'report' => null,
-                    ),
-                    array (
-                        'idarchive' => '104',
-                        'idsite' => '2',
-                        'date1' => '2015-04-01',
-                        'date2' => '2015-04-30',
-                        'period' => '3',
-                        'name' => 'done5447835b0a861475918e79e932abdfd8',
-                        'report' => null,
-                    ),
-                ),
-                null, // report name
-                true, // add stored segments
-            ),
-        );
+        yield 'month period, one site, one date, cascade = false' => [
+            [1],
+            ['2015-01-01'],
+            'month',
+            null,
+            false,
+            [
+                '2015_01' => [
+                    '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                ],
+            ],
+            [
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
+            ],
+        ];
+
+        yield 'month period, one site, one date, cascade = true' => [
+            [1],
+            ['2015-01-15'],
+            'month',
+            null,
+            true,
+            [
+                '2014_12' => [
+                    '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
+                ],
+                '2015_01' => [
+                    '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-02.2015-01-02.1.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-01-03.2015-01-03.1.done.VisitsSummary',
+                    '1.2015-01-04.2015-01-04.1.done',
+                    '1.2015-01-05.2015-01-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-06.2015-01-06.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-07.2015-01-07.1.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-01-08.2015-01-08.1.done.VisitsSummary',
+                    '1.2015-01-09.2015-01-09.1.done',
+                    '1.2015-01-10.2015-01-10.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-11.2015-01-11.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-12.2015-01-12.1.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-01-13.2015-01-13.1.done.VisitsSummary',
+                    '1.2015-01-14.2015-01-14.1.done',
+                    '1.2015-01-15.2015-01-15.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-16.2015-01-16.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-17.2015-01-17.1.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-01-18.2015-01-18.1.done.VisitsSummary',
+                    '1.2015-01-19.2015-01-19.1.done',
+                    '1.2015-01-20.2015-01-20.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-21.2015-01-21.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-22.2015-01-22.1.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-01-23.2015-01-23.1.done.VisitsSummary',
+                    '1.2015-01-24.2015-01-24.1.done',
+                    '1.2015-01-25.2015-01-25.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-27.2015-01-27.1.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-01-28.2015-01-28.1.done.VisitsSummary',
+                    '1.2015-01-29.2015-01-29.1.done',
+                    '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-05.2015-01-11.2.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-01-12.2015-01-18.2.done.VisitsSummary',
+                    '1.2015-01-19.2015-01-25.2.done',
+                    '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                ],
+            ],
+            [
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => '10', 'idsite' => '1', 'date1' => '2015-01-04', 'date2' => '2015-01-04', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-05', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-06', 'date2' => '2015-01-06', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-07', 'date2' => '2015-01-07', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-08', 'date2' => '2015-01-08', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => '25', 'idsite' => '1', 'date1' => '2015-01-09', 'date2' => '2015-01-09', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-10', 'date2' => '2015-01-10', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-11', 'date2' => '2015-01-11', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-12', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-18', 'period' => '2', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-13', 'date2' => '2015-01-13', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => '40', 'idsite' => '1', 'date1' => '2015-01-14', 'date2' => '2015-01-14', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-15', 'date2' => '2015-01-15', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-16', 'date2' => '2015-01-16', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-17', 'date2' => '2015-01-17', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-18', 'date2' => '2015-01-18', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => '55', 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-19', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => '100', 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-25', 'period' => '2', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-20', 'date2' => '2015-01-20', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-21', 'date2' => '2015-01-21', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-22', 'date2' => '2015-01-22', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-23', 'date2' => '2015-01-23', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => '70', 'idsite' => '1', 'date1' => '2015-01-24', 'date2' => '2015-01-24', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-25', 'date2' => '2015-01-25', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-01-26', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => '85', 'idsite' => '1', 'date1' => '2015-01-29', 'date2' => '2015-01-29', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done', 'report' => null],
+            ],
+        ];
+
+        yield 'week period, one site, multiple dates w/ redundant dates & periods, cascade = true' => [
+            [1],
+            ['2015-01-02', '2015-01-03', '2015-01-31'],
+            'week',
+            null,
+            true,
+            [
+                '2014_12' => [
+                    '1.2014-12-29.2014-12-29.1.done',
+                    '1.2014-12-30.2014-12-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2014-12-31.2014-12-31.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2014-12-01.2014-12-31.3.done5447835b0a861475918e79e932abdfd8',
+                    '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
+                ],
+                '2015_01' => [
+                    '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-02.2015-01-02.1.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-01-03.2015-01-03.1.done.VisitsSummary',
+                    '1.2015-01-04.2015-01-04.1.done',
+                    '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-27.2015-01-27.1.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-01-28.2015-01-28.1.done.VisitsSummary',
+                    '1.2015-01-29.2015-01-29.1.done',
+                    '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                ],
+                '2015_02' => [
+                    '1.2015-02-01.2015-02-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
+                ],
+                '2014_01' => [
+                    '1.2014-01-01.2014-12-31.4.done3736b708e4d20cfc10610e816a1b2341',
+                ],
+            ],
+            [
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-01-01', 'date2' => '2014-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-01', 'date2' => '2014-12-31', 'period' => '3', 'name' => 'done', 'report' => null],
+                ['idarchive' => '85', 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2014-12-29', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-30', 'date2' => '2014-12-30', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-31', 'date2' => '2014-12-31', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => '10', 'idsite' => '1', 'date1' => '2015-01-04', 'date2' => '2015-01-04', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-01-26', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => '85', 'idsite' => '1', 'date1' => '2015-01-29', 'date2' => '2015-01-29', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-01', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done', 'report' => null],
+            ],
+        ];
+
+        yield 'range period, exact match, cascade = true' => [
+            [1],
+            ['2015-01-01', '2015-01-10'],
+            'range',
+            null,
+            true,
+            [
+                '2015_01' => [
+                    '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                ],
+            ],
+            [
+                // empty
+            ],
+        ];
+
+        yield 'range period, overlapping a range in the DB' => [
+            [1],
+            ['2015-01-02', '2015-03-05'],
+            'range',
+            null,
+            true,
+            [
+                '2015_01' => [
+                    '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                ],
+                '2015_03' => [
+                    '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
+                    '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                ],
+            ],
+            [
+                // empty
+            ],
+        ];
+
+        yield 'week period, one site, cascade = true, segment' => [
+            [1],
+            ['2015-01-05'],
+            'month',
+            self::TEST_SEGMENT_1,
+            true,
+            [
+                '2014_12' => [
+                    '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
+                ],
+                '2015_01' => [
+                    '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-05.2015-01-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-06.2015-01-06.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-10.2015-01-10.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-11.2015-01-11.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-15.2015-01-15.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-16.2015-01-16.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-20.2015-01-20.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-21.2015-01-21.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-25.2015-01-25.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                ],
+            ],
+            [
+                ['idarchive' => '106', 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => '1', 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-02', 'date2' => '2015-01-02', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-03', 'date2' => '2015-01-03', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-04', 'date2' => '2015-01-04', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-11', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-05', 'date2' => '2015-01-05', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => '16', 'idsite' => '1', 'date1' => '2015-01-06', 'date2' => '2015-01-06', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-07', 'date2' => '2015-01-07', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-08', 'date2' => '2015-01-08', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-09', 'date2' => '2015-01-09', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-10', 'date2' => '2015-01-10', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => '31', 'idsite' => '1', 'date1' => '2015-01-11', 'date2' => '2015-01-11', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-18', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-12', 'date2' => '2015-01-12', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-13', 'date2' => '2015-01-13', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-14', 'date2' => '2015-01-14', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-15', 'date2' => '2015-01-15', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => '46', 'idsite' => '1', 'date1' => '2015-01-16', 'date2' => '2015-01-16', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-17', 'date2' => '2015-01-17', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-18', 'date2' => '2015-01-18', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-25', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-19', 'date2' => '2015-01-19', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-20', 'date2' => '2015-01-20', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => '61', 'idsite' => '1', 'date1' => '2015-01-21', 'date2' => '2015-01-21', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-22', 'date2' => '2015-01-22', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-23', 'date2' => '2015-01-23', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-24', 'date2' => '2015-01-24', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-25', 'date2' => '2015-01-25', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => '76', 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-01-26', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-26', 'date2' => '2015-02-01', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-27', 'date2' => '2015-01-27', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-28', 'date2' => '2015-01-28', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-29', 'date2' => '2015-01-29', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-30', 'date2' => '2015-01-30', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                // archive id 106 occurs a second time as it comes from a different archive table
+                ['idarchive' => '106', 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+                ['idarchive' => '91', 'idsite' => '1', 'date1' => '2015-01-31', 'date2' => '2015-01-31', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null],
+            ],
+        ];
+
+        yield 'removing all periods' => [
+            [1],
+            ['2015-05-05'],
+            null,
+            null,
+            false,
+            [
+                '2015_01' => [
+                    '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                ],
+                '2015_05' => [
+                    '1.2015-05-05.2015-05-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '1.2015-05-04.2015-05-10.2.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-05-01.2015-05-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                ],
+            ],
+            [
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-05-05', 'date2' => '2015-05-05', 'period' => '1', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-05-04', 'date2' => '2015-05-10', 'period' => '2', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-05-01', 'date2' => '2015-05-31', 'period' => '3', 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null],
+            ],
+        ];
+
+        yield 'removing all periods, all visits only' => [
+            [1],
+            ['2015-02-04'],
+            null,
+            '',
+            false,
+            [
+                '2015_02' => [
+                    '1.2015-02-04.2015-02-04.1.done',
+                    '1.2015-02-02.2015-02-08.2.done',
+                    '1.2015-02-01.2015-02-28.3.done.VisitsSummary'
+                ],
+            ],
+            [
+                ['idarchive' => 10, 'idsite' => 1, 'date1' => '2015-02-04', 'date2' => '2015-02-04', 'period' => 1, 'name' => 'done', 'report' => null,],
+                ['idarchive' => 85, 'idsite' => 1, 'date1' => '2015-02-02', 'date2' => '2015-02-08', 'period' => 2, 'name' => 'done', 'report' => null,],
+                ['idarchive' => null, 'idsite' => 1, 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => 4, 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => 1, 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => 3, 'name' => 'done', 'report' => null,],
+            ],
+        ];
+
+        yield 'period before site creation date' => [
+            [1],
+            ['2012-03-02'],
+            '',
+            null,
+            false,
+            [
+                // empty
+            ],
+            [
+                // month week and year exist, but not day since it is before the site was created
+                ['idarchive' => null, 'idsite' => 1, 'date1' => '2012-03-01', 'date2' => '2012-03-31', 'period' => 3, 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => 1, 'date1' => '2012-02-27', 'date2' => '2012-03-04', 'period' => 2, 'name' => 'done', 'report' => null],
+                ['idarchive' => null, 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'name' => 'done', 'report' => null],
+            ],
+        ];
+
+        yield 'day period, multiple sites, multiple dates across tables, stored segments added' => [
+            [1, 2],
+            ['2015-01-01', '2015-02-05', '2015-04-30'],
+            'day',
+            null,
+            false,
+            [
+                '2015_04' => [
+                    '1.2015-04-30.2015-04-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '2.2015-04-30.2015-04-30.1.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-04-27.2015-05-03.2.done',
+                    '2.2015-04-27.2015-05-03.2.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-04-01.2015-04-30.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '2.2015-04-01.2015-04-30.3.done5447835b0a861475918e79e932abdfd8',
+                ],
+                '2015_01' => [
+                    '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                    '2.2015-01-01.2015-01-01.1.done.VisitsSummary',
+                    '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                    '2.2015-01-01.2015-01-31.3.done.VisitsSummary',
+                    '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                    '2.2015-01-01.2015-12-31.4.done',
+                    '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                ],
+                '2015_02' => [
+                    '1.2015-02-05.2015-02-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '2.2015-02-05.2015-02-05.1.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-02-02.2015-02-08.2.done',
+                    '2.2015-02-02.2015-02-08.2.done3736b708e4d20cfc10610e816a1b2341',
+                    '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
+                    '2.2015-02-01.2015-02-28.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                ],
+                '2014_12' => [
+                    '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
+                    '2.2014-12-29.2015-01-04.2.done.VisitsSummary',
+                ],
+            ],
+            [
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null,],
+                ['idarchive' => '1', 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null,],
+                ['idarchive' => '106', 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null,],
+                ['idarchive' => '109', 'idsite' => '1', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done5447835b0a861475918e79e932abdfd8', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-01-01', 'period' => '1', 'name' => 'done', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-01-31', 'period' => '3', 'name' => 'done', 'report' => null,],
+                ['idarchive' => '110', 'idsite' => '2', 'date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => '4', 'name' => 'done', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null,],
+                ['idarchive' => '106', 'idsite' => '1', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2014-12-29', 'date2' => '2015-01-04', 'period' => '2', 'name' => 'done', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-02-05', 'date2' => '2015-02-05', 'period' => '1', 'name' => 'done', 'report' => null,],
+                ['idarchive' => '85', 'idsite' => '1', 'date1' => '2015-02-02', 'date2' => '2015-02-08', 'period' => '2', 'name' => 'done', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-02-05', 'date2' => '2015-02-05', 'period' => '1', 'name' => 'done', 'report' => null,],
+                ['idarchive' => '14', 'idsite' => '2', 'date1' => '2015-02-05', 'date2' => '2015-02-05', 'period' => '1', 'name' => 'done5447835b0a861475918e79e932abdfd8', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-02-02', 'date2' => '2015-02-08', 'period' => '2', 'name' => 'done', 'report' => null,],
+                ['idarchive' => '86', 'idsite' => '2', 'date1' => '2015-02-02', 'date2' => '2015-02-08', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => '3', 'name' => 'done', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-04-30', 'date2' => '2015-04-30', 'period' => '1', 'name' => 'done', 'report' => null,],
+                ['idarchive' => '100', 'idsite' => '1', 'date1' => '2015-04-27', 'date2' => '2015-05-03', 'period' => '2', 'name' => 'done', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '1', 'date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => '3', 'name' => 'done', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-04-30', 'date2' => '2015-04-30', 'period' => '1', 'name' => 'done', 'report' => null,],
+                ['idarchive' => '89', 'idsite' => '2', 'date1' => '2015-04-30', 'date2' => '2015-04-30', 'period' => '1', 'name' => 'done5447835b0a861475918e79e932abdfd8', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-04-27', 'date2' => '2015-05-03', 'period' => '2', 'name' => 'done', 'report' => null,],
+                ['idarchive' => '101', 'idsite' => '2', 'date1' => '2015-04-27', 'date2' => '2015-05-03', 'period' => '2', 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'report' => null,],
+                ['idarchive' => null, 'idsite' => '2', 'date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => '3', 'name' => 'done', 'report' => null,],
+                ['idarchive' => '104', 'idsite' => '2', 'date1' => '2015-04-01', 'date2' => '2015-04-30', 'period' => '3', 'name' => 'done5447835b0a861475918e79e932abdfd8', 'report' => null,],
+            ],
+            null, // report name
+            true, // add stored segments
+        ];
     }
 
     /**
@@ -1711,118 +1538,108 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
     public function getTestDataForMarkArchiveRangesAsInvalidated()
     {
-        // $idSites, $dates, $segment, $expectedIdArchives
-        return array(
-            // range period, has an exact match, also a match where DB end date = reference start date
-            array(
-                array(1),
-                array('2015-01-01', '2015-01-10'),
-                null,
-                array(
-                    '2014_12' => array(
-                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
-                    ),
-                    '2015_01' => array(
-                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-                    ),
-                ),
-                [
-                    // empty
+        yield 'range period, has an exact match, also a match where DB end date = reference start date' => [
+            [1],
+            ['2015-01-01', '2015-01-10'],
+            null,
+            [
+                '2014_12' => [
+                    '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
                 ],
-            ),
+                '2015_01' => [
+                    '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                ],
+            ],
+            [
+                // empty
+            ],
+        ];
 
-            // range period, overlapping range = a match
-            array(
-                array(1),
-                array('2015-01-02', '2015-03-05'),
-                null,
-                array(
-                    '2015_01' => array(
-                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-                    ),
-                    '2015_03' => array(
-                        '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
-                        '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                    ),
-                ),
-                [
-                    // empty
+        yield 'range period, overlapping range = a match' => [
+            [1],
+            ['2015-01-02', '2015-03-05'],
+            null,
+            [
+                '2015_01' => [
+                    '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
                 ],
-            ),
+                '2015_03' => [
+                    '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
+                    '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                ],
+            ],
+            [
+                // empty
+            ],
+        ];
 
-            // range period, small range within the 2014-12-05 to 2015-01-01 range should cause it to be invalidated
-            array(
-                array(1),
-                array('2014-12-18', '2014-12-20'),
-                null,
-                array(
-                    '2014_12' => array(
-                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
-                    ),
-                ),
-                [
-                    // empty
+        yield 'range period, small range within the 2014-12-05 to 2015-01-01 range should cause it to be invalidated' => [
+            [1],
+            ['2014-12-18', '2014-12-20'],
+            null,
+            [
+                '2014_12' => [
+                    '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
                 ],
-            ),
+            ],
+            [
+                // empty
+            ],
+        ];
 
-            // range period, range that overlaps start of archived range
-            array(
-                array(1),
-                array('2014-12-01', '2014-12-05'),
-                null,
-                array(
-                    '2014_12' => array(
-                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
-                    ),
-                ),
-                [
-                    // empty
+        yield 'range period, range that overlaps start of archived range' => [
+            [1],
+            ['2014-12-01', '2014-12-05'],
+            null,
+            [
+                '2014_12' => [
+                    '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
                 ],
-            ),
+            ],
+            [
+                // empty
+            ],
+        ];
 
-            // range period, large range that includes the smallest archived range (3 to 4 March)
-            array(
-                array(1),
-                array('2015-01-11', '2015-03-30'),
-                null,
-                array(
-                    '2015_03' => array(
-                        '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
-                        '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-                    ),
-                ),
-                [
-                    // empty
+        yield 'range period, large range that includes the smallest archived range (3 to 4 March)' => [
+            [1],
+            ['2015-01-11', '2015-03-30'],
+            null,
+            [
+                '2015_03' => [
+                    '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
+                    '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                 ],
-            ),
+            ],
+            [
+                // empty
+            ],
+        ];
 
-            // range period, doesn't match any archived ranges
-            array(
-                array(1),
-                array('2014-12-01', '2014-12-04'),
-                null,
-                array(
-                ),
-                [
-                    // empty
-                ],
-            ),
+        yield 'range period, doesn\'t match any archived ranges' => [
+            [1],
+            ['2014-12-01', '2014-12-04'],
+            null,
+            [
+            ],
+            [
+                // empty
+            ],
+        ];
 
-            // three-month range period, there's a range archive for the middle month
-            array(
-                array(1),
-                array('2014-09-01', '2014-11-08'),
-                null,
-                array(
-                    '2014_10' => array(
-                        '1.2014-10-15.2014-10-20.5.done3736b708e4d20cfc10610e816a1b2341',
-                    ),
-                ),
-                [
-                    // empty
+        yield 'three-month range period, there\'s a range archive for the middle month' => [
+            [1],
+            ['2014-09-01', '2014-11-08'],
+            null,
+            [
+                '2014_10' => [
+                    '1.2014-10-15.2014-10-20.5.done3736b708e4d20cfc10610e816a1b2341',
                 ],
-            ),
-        );
+            ],
+            [
+                // empty
+            ],
+        ];
     }
 
     public function testMarkArchivesAsInvalidatedForceInvalidatesNonExistantRangesWhenRequired()

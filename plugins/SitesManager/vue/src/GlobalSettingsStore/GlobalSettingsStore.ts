@@ -28,6 +28,7 @@ interface SaveGlobalSettingsParams {
   excludedReferrers: string;
   searchKeywordParameters: string;
   searchCategoryParameters: string;
+  exclusionTypeForQueryParams: string;
 }
 
 class GlobalSettingsStore {
@@ -43,6 +44,7 @@ class GlobalSettingsStore {
       excludedReferrersGlobal: '',
       searchKeywordParametersGlobal: '',
       searchCategoryParametersGlobal: '',
+      exclusionTypeForQueryParams: '',
     },
   });
 
@@ -87,6 +89,7 @@ class GlobalSettingsStore {
         excludedReferrersGlobal: response.excludedReferrersGlobal || '',
         searchKeywordParametersGlobal: response.searchKeywordParametersGlobal || '',
         searchCategoryParametersGlobal: response.searchCategoryParametersGlobal || '',
+        exclusionTypeForQueryParams: response.exclusionTypeForQueryParams || '',
       };
     }).finally(() => {
       this.privateState.isLoading = false;

@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 
@@ -33,10 +34,9 @@ class DatabaseAbilitiesCheck implements Diagnostic
 
     public function execute()
     {
-        $isPiwikInstalling = !Config::getInstance()->existsLocalConfig();
-        if ($isPiwikInstalling) {
-            // Skip the diagnostic if Piwik is being installed
-            return array();
+        if (!SettingsPiwik::isMatomoInstalled()) {
+            // Skip the diagnostic if Matomo is being installed
+            return [];
         }
 
         $result = new DiagnosticResult($this->translator->translate('Installation_DatabaseAbilities'));

@@ -55,7 +55,6 @@
         "OverviewPluginSubscriptions": "Pregled vaših pretplata na dodatke",
         "OverviewPluginSubscriptionsAllDetails": "Kako biste videli sve detalje ili izmenili pretplatu, prijavite se na vaš nalog.",
         "OverviewPluginSubscriptionsMissingInfo": "Moguće je da pretplata nije registrovana ukoliko npr. uplata još nije prošla. Molimo vas da pokušate ponovo kroz par sati ili kontaktirajte Matomo tim.",
-        "OverviewPluginSubscriptionsMissingLicense": "Niste uneli ključ. Ukoliko ste se pretplatili na ovaj dodatak, idite na %1$sMarket%2$s i upišite ključ.",
         "PaidPlugins": "Premium sadržaji",
         "PluginDescription": "Proširite funkcionalnosti Matomo-a preko Marketa preuzimanjem dodataka i tema.",
         "PluginKeywords": "Ključne reči",

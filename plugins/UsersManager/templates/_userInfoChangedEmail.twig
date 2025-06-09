@@ -1,13 +1,25 @@
 <p>{{ 'General_HelloUser'|translate('<strong>' ~ accountName ~ '</strong>')|raw }}</p>
 
 {% if type == 'email' %}
+{% if changeBySuperUser %}
+<p>{{ 'UsersManager_EmailChangedEmailSuperUser'|translate('<strong>' ~ newEmail ~ '</strong>')|raw }}.</p>
+
+<p>{{ 'UsersManager_UnexpectedChange'|translate }}</p>
+{% else %}
 <p>{{ 'UsersManager_EmailChangedEmail1'|translate('<strong>' ~ newEmail ~ '</strong>')|raw }}.</p>
 
 <p>{{ 'UsersManager_EmailChangedEmail2'|translate(deviceDescription, ipAddress) }} {{ 'UsersManager_IfThisWasYouIgnoreIfNot'|translate }}</p>
+{% endif %}
 {% elseif type == 'password' %}
+{% if changeBySuperUser %}
+<p>{{ 'UsersManager_PasswordChangedBySuperUserEmail'|translate }}</p>
+
+<p>{{ 'UsersManager_UnexpectedChange'|translate }}</p>
+{% else %}
 <p>{{ 'UsersManager_PasswordChangedEmail'|translate(deviceDescription, ipAddress) }}</p>
 
 <p>{{ 'UsersManager_IfThisWasYouPasswordChange'|translate }}</p>
+{% endif %}
 {% endif %}
 
 <p>{{ 'General_ThankYouForUsingMatomo'|translate }}!

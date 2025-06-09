@@ -82,7 +82,7 @@ class Filesystem
 
     /**
      * Get canonicalized absolute path
-     * See http://php.net/realpath
+     * See https://php.net/realpath
      *
      * @param string $path
      * @return string  canonicalized absolute path
@@ -183,11 +183,11 @@ class Filesystem
     /**
      * Recursively find pathnames that match a pattern.
      *
-     * See {@link http://php.net/manual/en/function.glob.php glob} for more info.
+     * See {@link https://php.net/manual/en/function.glob.php glob} for more info.
      *
      * @param string $sDir directory The directory to glob in.
      * @param string $sPattern pattern The pattern to match paths against.
-     * @param int $nFlags `glob()` . See {@link http://php.net/manual/en/function.glob.php glob()}.
+     * @param int $nFlags `glob()` . See {@link https://php.net/manual/en/function.glob.php glob()}.
      * @return array The list of paths that match the pattern.
      * @api
      */
@@ -218,7 +218,7 @@ class Filesystem
      * @param \Closure|false $beforeUnlink An optional closure to execute on a file path before unlinking.
      * @api
      */
-    public static function unlinkRecursive($dir, $deleteRootToo, \Closure $beforeUnlink = null)
+    public static function unlinkRecursive($dir, $deleteRootToo, ?\Closure $beforeUnlink = null)
     {
         if (!$dh = @opendir($dir)) {
             return;
@@ -318,7 +318,7 @@ class Filesystem
             return str_replace($target, '', $file);
         }, $targetFiles);
 
-        if (FileSystem::isFileSystemCaseInsensitive()) {
+        if (Filesystem::isFileSystemCaseInsensitive()) {
             $diff = array_udiff($targetFiles, $sourceFiles, 'strcasecmp');
         } else {
             $diff = array_diff($targetFiles, $sourceFiles);
@@ -582,6 +582,33 @@ class Filesystem
             return true;
         }
         return false;
+    }
+
+    /**
+     * Removes characters from filenames that could cause problems.
+     *
+     * This is not intended as a security measure per se, but to avoid
+     * some known problems, e.g. Excel not allowing to open an export
+     * file if some special whitespace/dash characters are present.
+     */
+    public static function sanitizeFilename(string $filename): string
+    {
+        $filename = trim($filename);
+
+        // replace reserved characters
+        // https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file
+        $filename = preg_replace('~[<>:"/\\\\|?*]~', '', $filename);
+
+        // replace special characters
+        // https://www.php.net/manual/it/regexp.reference.unicode.php
+        // - Cc: Control characters
+        // - Zs: Space separators
+        // - Pd: Dash punctuation
+        $filename = preg_replace('~\p{Cc}~u', '', $filename);
+        $filename = preg_replace('~\p{Zs}~u', ' ', $filename);
+        $filename = preg_replace('~\p{Pd}~u', '-', $filename);
+
+        return trim($filename);
     }
 
     /**

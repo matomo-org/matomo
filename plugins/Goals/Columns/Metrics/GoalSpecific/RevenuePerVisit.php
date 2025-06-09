@@ -42,7 +42,7 @@ class RevenuePerVisit extends GoalSpecificProcessedMetric
     public function getDocumentation()
     {
         if ($this->idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-            return Piwik::translate('Goals_ColumnAverageOrderRevenueDocumentation', $this->getGoalNameForDocs());
+            return Piwik::translate('Goals_ColumnRevenuePerVisitDocumentation', $this->getGoalNameForDocs());
         }
 
         return Piwik::translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik::translate('Goals_EcommerceAndGoalsMenu'));

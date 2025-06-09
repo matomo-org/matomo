@@ -1,0 +1,33 @@
+parameters:
+    level: 0
+    phpVersion: 70200
+    paths:
+        - core
+        - plugins
+    excludePaths:
+        - plugins/*/tests/*
+        - plugins/ScheduledReports/config/tcpdf_config.php
+        - plugins/AnonymousPiwikUsageMeasurement
+        - plugins/Bandwidth
+        - plugins/CustomAlerts
+        - plugins/CustomVariables
+        - plugins/DeviceDetectorCache
+        - plugins/LogViewer
+        - plugins/LoginLdap
+        - plugins/MarketingCampaignsReporting
+        - plugins/Provider
+        - plugins/QueuedTracking
+        - plugins/SecurityInfo
+        - plugins/TagManager
+        - plugins/TasksTimetable
+        - plugins/TrackingSpamPrevention
+        - plugins/TreemapVisualization
+        - plugins/VisitorGenerator
+    bootstrapFiles:
+        - bootstrap-phpstan.php
+    ignoreErrors:
+        - "#Unsafe usage of new static#"
+    universalObjectCratesClasses:
+        - Piwik\Config
+        - Piwik\View
+        - Piwik\ViewDataTable\Config

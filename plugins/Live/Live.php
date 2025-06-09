@@ -13,6 +13,7 @@ use Piwik\Cache;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Site;
 
 /**
  *
@@ -68,11 +69,11 @@ class Live extends \Piwik\Plugin
         }
 
         if (empty($idSite)) {
-            $idSite = Common::getRequestVar('idSite', 0, 'int');
+            $idSite = Common::getRequestVar('idSite', '', 'string');
         }
 
         if (!empty($idSite)) {
-            $idSites = is_array($idSite) ? $idSite : [$idSite];
+            $idSites = Site::getIdSitesFromIdSitesString($idSite);
 
             foreach ($idSites as $idSite) {
                 $settings = new MeasurableSettings($idSite);
@@ -117,11 +118,11 @@ class Live extends \Piwik\Plugin
         }
 
         if (empty($idSite)) {
-            $idSite = Common::getRequestVar('idSite', 0, 'int');
+            $idSite = Common::getRequestVar('idSite', '', 'string');
         }
 
         if (!empty($idSite)) {
-            $idSites = is_array($idSite) ? $idSite : [$idSite];
+            $idSites = Site::getIdSitesFromIdSitesString($idSite);
 
             foreach ($idSites as $idSite) {
                 $settings = new MeasurableSettings($idSite);
@@ -190,6 +191,8 @@ class Live extends \Piwik\Plugin
         $translationKeys[] = 'Live_OnClickStart';
         $translationKeys[] = 'Live_LinkVisitorLog';
         $translationKeys[] = 'Live_VisitorLog';
+        $translationKeys[] = 'General_ColumnNbVisitsDocumentation';
+        $translationKeys[] = 'General_ColumnNbActionsDocumentation';
     }
 
     public function renderAction(&$renderedAction, $action, $previousAction, $visitorDetails)

@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+## Description: Initialize Matomo environment for testing
+## Usage: matomo:init:tests
+## Example: ddev matomo:init:tests
+
+echo "Configure test environment ..."
+ddev matomo:console config:set \
+  'database_tests.host="db"' \
+  'database_tests.username="db"' \
+  'database_tests.password="db"' \
+  'tests.http_host="matomo.ddev.site"' \
+  'tests.request_uri="/"' \
+  'tests.port=80'
+
+echo "Copy UI tests config file ..."
+echo "@see https://developer.matomo.org/guides/tests-ui#configuring-ui-tests"
+ddev exec '\cp .ddev/initial-config/config.js tests/UI/config.js'
+
+echo "Initialise test database: setup OmniFixture ..."
+ddev matomo:console tests:setup-fixture OmniFixture
+
+echo "Install the JavaScript dependencies for the UI tests ..."
+ddev exec 'cd tests/lib/screenshot-testing && npm install'
+
+echo "TODO: Locally install the git-lfs extension to be able to download and commit UI screenshots."
+echo "@see https://github.com/git-lfs/git-lfs#installing"
+echo "@see https://git-lfs.com/"
+read -n 1 -s -r -p "Press any key when ready to continue ..."
+echo ""
+
+echo "[git] Pull screenshots for UI tests ..."
+git lfs pull --exclude=
+
+echo "Done: Matomo tests setup initialisation finished."
+echo ""
+

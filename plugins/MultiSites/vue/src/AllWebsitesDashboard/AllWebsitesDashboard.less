@@ -1,3 +1,25 @@
+#awd .top_controls {
+  margin: 12px 3px 6px;
+  padding: 0;
+
+  @media all and (max-width: 1200px) {
+    margin: 12px 5px 6px;
+  }
+
+  @media all and (max-width: 600px) { /* 1120px + padding */
+    min-height: auto;
+
+    .piwikTopControl {
+      margin: 0 !important;
+    }
+  }
+
+  .row {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
 #multisitesAllWebsitesDashboard {
   .widgetized & {
     // required for widgetized display
@@ -107,23 +129,15 @@
     align-items: flex-start;
     display: flex;
     justify-content: space-between;
-    margin: 0 40px 20px 40px;
+    margin: 0 0 20px;
     overflow-x: auto;
 
     .kpiCard {
+      display: grid;
       flex-basis: 0;
       flex-grow: 1;
       margin: 20px 0;
-      padding: 0 40px;
-      white-space: nowrap;
-
-      &:first-child {
-        padding-left: 0;
-      }
-
-      &:last-child {
-        padding-right: 0;
-      }
+      padding: 0 3vw;
     }
 
     .kpiCardLoading {
@@ -169,8 +183,14 @@
     }
 
     .kpiCardEvolution {
+      display: table;
       color: #76838f;
       font-size: 0.9rem;
+      line-height: 1rem;
+
+      &>span {
+        display: table-cell;
+      }
     }
 
     .kpiCardEvolutionIcon {
@@ -178,7 +198,10 @@
     }
 
     .kpiCardEvolutionTrend {
+      width: 1%;
       font-size: 1rem;
+      white-space: nowrap;
+      vertical-align: middle;
     }
 
     .kpiTrendNegative {
@@ -204,6 +227,7 @@
       height: 1.5rem;
       margin-top: 0.5rem;
       padding: 0 0.35rem;
+      width: fit-content;
     }
   }
 
@@ -330,7 +354,50 @@
     }
   }
 
+  @media all and (max-width: 1350px) {
+    .kpiCardContainer {
+      flex-wrap: wrap;
+
+      .kpiCard {
+        flex-basis: calc(~'50% - 1px');
+        max-width: calc(~'50% - 1px');
+        padding: 0 7vw;
+      }
+
+      .kpiCardDivider {
+        &:nth-child(4) {
+          display: none;
+        }
+      }
+    }
+  }
+
   @media all and (max-width: 600px) {
+    .dashboardHeader {
+      margin-bottom: 12px;
+    }
+
+    .kpiCardContainer {
+      .kpiCard {
+        flex-basis: 100%;
+        max-width: 100%;
+        padding: 0!important;
+        justify-items: flex-start;
+
+        .kpiCardValue {
+          font-size: 2rem;
+        }
+      }
+
+      .kpiCardDivider {
+        display: block!important;
+        background-image: url('plugins/MultiSites/images/kpi_divider_horizontal.svg');
+        height: 1px;
+        width: 100%;
+        margin: 4px 0;
+      }
+    }
+
     #periodString {
       width: 100%;
     }
@@ -357,11 +424,6 @@
         max-width: none;
         width: 100%;
       }
-    }
-
-    .kpiCardContainer {
-      margin-left: 20px;
-      margin-right: 20px;
     }
   }
 }

@@ -9,15 +9,15 @@
 
 namespace Piwik\Plugins\MultiSites;
 
-use Piwik\Common;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
+use Piwik\Request;
 
 class Menu extends \Piwik\Plugin\Menu
 {
     public function configureTopMenu(MenuTop $menu)
     {
-        $idSite = Common::getRequestVar('idSite', 0, 'int');
+        $idSite = Request::fromRequest()->getIntegerParameter('idSite', 0);
 
         $urlParams = $this->urlForActionWithDefaultUserParams('index', ['segment' => false, 'idSite' => $idSite ?: false]);
         $tooltip   = Piwik::translate('MultiSites_TopLinkTooltip');
