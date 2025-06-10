@@ -18,6 +18,8 @@ class CopyHelper
 {
     /**
      * Update the provided name with a number suffix. It will either add a suffix or increment the number in the suffix.
+     * This can be used to simplify ensuring that the name of a copied item is unique. This doesn't handle querying the
+     * database for duplicates, so that will need to be handled case-by-case.
      *
      * @param string $name The name that needs to be updated with a number suffix. If no suffix exists, one will be
      * added. If one already exists, the number in the suffix will be incremented.
