@@ -77,7 +77,7 @@ class CopyRequestResponseTest extends TestCase
         $this->copyRequestResponse->setErrorCode(500);
         $this->copyRequestResponse->setErrorMessage('Item copy failed!');
 
-        $this->assertSame('{"isCopySuccessful":false,"errorMessage":"Item copy failed!,"errorCode":500"}', $this->copyRequestResponse->getJsonResponse());
+        $this->assertSame('{"isCopySuccessful":false,"errorMessage":"Item copy failed!","errorCode":500}', $this->copyRequestResponse->getJsonResponse());
     }
 
     public function getPropertyNames(): array
