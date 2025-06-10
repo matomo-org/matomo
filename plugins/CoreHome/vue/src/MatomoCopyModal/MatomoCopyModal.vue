@@ -41,7 +41,7 @@
             }"
           />
         </div>
-        <div :class="$slots.default ? 'modal-content copy-configure' : 'modal-content'">
+        <div class="modal-content">
           <div v-form class="modal-inputs">
             <slot></slot>
           </div>
@@ -316,6 +316,12 @@ export default defineComponent({
     );
   },
   computed: {
+    getRooDivClasses(): string {
+      const defaults = 'modal matomo-copy-modal';
+      const stateBased = this.$slots.default ? 'slot-configured' : '';
+
+      return `${defaults}${stateBased}`;
+    },
     getModalTitle(): string {
       return translate('CoreHome_CopyX', this.getEntityTypeTranslation);
     },

@@ -1,6 +1,4 @@
-.modal.matomo-copy-modal {
-  max-width: 700px;
-  max-height: 90%;
+.modal.matomo-copy-modal.slot-configured {
   display: flex !important;
 
   .entire-copy-modal {
@@ -13,7 +11,31 @@
   .modal-sub-header,
   .modal-footer,
   .modal-sub-footer {
-    flex-shrink: 0;
+    padding: 24px;
+  }
+
+  div.siteSelector div.dropdown div.custom_select_container {
+    max-height: 150px;
+    overflow-y: auto;
+  }
+}
+
+.modal.matomo-copy-modal:not(.slot-configured) {
+  overflow-y: visible;
+
+  .modal-content {
+    display: none;
+  }
+}
+
+.modal.matomo-copy-modal {
+  max-width: 700px;
+  max-height: 90%;
+
+  .modal-header,
+  .modal-sub-header,
+  .modal-footer,
+  .modal-sub-footer {
     padding: 24px;
   }
 
@@ -44,15 +66,12 @@
     }
   }
 
-  .modal-content.copy-configure {
-    border-top: 1px solid @color-gray;
-    border-bottom: 1px solid @color-gray;
-  }
-
   .modal-content {
     flex: 1;
     overflow-y: auto;
     padding-top: 0;
+    border-top: 1px solid @color-gray;
+    border-bottom: 1px solid @color-gray;
     min-height: 120px;
 
     .form-group {
