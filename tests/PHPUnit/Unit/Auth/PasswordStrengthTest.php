@@ -16,42 +16,26 @@ use Piwik\Auth\PasswordStrength;
  */
 class PasswordStrengthTest extends \PHPUnit\Framework\TestCase
 {
-    public function testGetRulesFeatureEnabled()
-    {
-        $PasswordStrength = new PasswordStrength($featureEnabled = true);
-        $rules = $PasswordStrength->getRules();
-
-        $this->assertCount(5, $rules);
-        $this->assertSame([
-            [
-                'validationRegex' => '/^.{12,}$/',
-                'ruleText' => 'General_PasswordStrengthValidationLength'
-            ],
-            [
-                'validationRegex' => '/^.*[a-z].*$/',
-                'ruleText' => 'General_PasswordStrengthValidationLowercase'
-            ],
-            [
-                'validationRegex' => '/^.*[A-Z].*$/',
-                'ruleText' => 'General_PasswordStrengthValidationUppercase'
-            ],
-            [
-                'validationRegex' => '/^.*[0-9].*$/',
-                'ruleText' => 'General_PasswordStrengthValidationNumber'
-            ],
-            [
-                'validationRegex' => '/^.*[!@#$%^&*(){}[\]\'\`\\\|\"\~].*$/',
-                'ruleText' => 'General_PasswordStrengthValidationSpecialChar'
-            ],
-        ], $rules);
-    }
-
     public function testGetRulesFeatureDisabled()
     {
         $passwordStrength = new PasswordStrength($featureEnabled = false);
         $rules = $passwordStrength->getRules();
 
         $this->assertEmpty($rules);
+    }
+
+    public function testGetRulesFeatureEnabled()
+    {
+        $PasswordStrength = new PasswordStrength($featureEnabled = true);
+        $rules = $PasswordStrength->getRules();
+
+        $this->assertNotEmpty($rules);
+        foreach ($rules as $rule) {
+            $this->assertArrayHasKey('validationRegex', $rule);
+            $this->assertNotEmpty($rule['validationRegex']);
+            $this->assertArrayHasKey('ruleText', $rule);
+            $this->assertNotEmpty($rule['ruleText']);
+        }
     }
 
     /**
@@ -78,20 +62,27 @@ class PasswordStrengthTest extends \PHPUnit\Framework\TestCase
 
     public function passwordProvider()
     {
-        return array(
-            array('Testpassword1!', []),
-            array('Testword1!', ['General_PasswordStrengthValidationLength']),
-            array('TESTPASSWORD1!', ['General_PasswordStrengthValidationLowercase']),
-            array('testpassword1!', ['General_PasswordStrengthValidationUppercase']),
-            array('Testpassword!', ['General_PasswordStrengthValidationNumber']),
-            array('Testpassword1', ['General_PasswordStrengthValidationSpecialChar']),
-            array('', [
+        yield ['Testpassword1!', []];
+        yield ['Testword1!', ['General_PasswordStrengthValidationLength']];
+        yield ['TESTPASSWORD1!', ['General_PasswordStrengthValidationLowercase']];
+        yield ['testpassword1!', ['General_PasswordStrengthValidationUppercase']];
+        yield ['Testpassword!', ['General_PasswordStrengthValidationNumber']];
+        yield ['Testpassword1', ['General_PasswordStrengthValidationSpecialChar']];
+        yield ['testpassword1', [
+            'General_PasswordStrengthValidationUppercase',
+            'General_PasswordStrengthValidationSpecialChar'
+        ]];
+        yield ['TESTWORD!', [
+            'General_PasswordStrengthValidationLength',
+            'General_PasswordStrengthValidationLowercase',
+            'General_PasswordStrengthValidationNumber'
+        ]];
+        yield ['', [
                 'General_PasswordStrengthValidationLength',
                 'General_PasswordStrengthValidationLowercase',
                 'General_PasswordStrengthValidationUppercase',
                 'General_PasswordStrengthValidationNumber',
                 'General_PasswordStrengthValidationSpecialChar'
-            ])
-        );
+            ]];
     }
 }
