@@ -207,7 +207,6 @@
         "TokenSuccessfullyDeleted": "Token har tagits bort",
         "TokenSuccessfullyGenerated": "Token framgångsrikt genererat",
         "TokensSuccessfullyDeleted": "Alla tokens har tagits bort",
-        "TokensWithExpireDateCreationBySystem": "Tokens med utgångsdatum kan för närvarande endast skapas av systemet",
         "TwoFactorAuthentication": "Tvåfaktorsautentisering",
         "TypeYourCurrentPassword": "Skriv ditt nuvarande lösenord för att bekräfta lösenordsändringen.",
         "TypeYourPasswordAgain": "Bekräfta lösenordet genom att skriva in det igen.",

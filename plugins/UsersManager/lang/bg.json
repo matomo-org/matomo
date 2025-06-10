@@ -195,7 +195,6 @@
         "TokenSuccessfullyDeleted": "Токенът е изтрит успешно",
         "TokenSuccessfullyGenerated": "Токенът е генериран успешно",
         "TokensSuccessfullyDeleted": "Всички токени бяха успешно изтрити",
-        "TokensWithExpireDateCreationBySystem": "Токени с дата на изтичане в момента могат да бъдат създадени само от системата",
         "TwoFactorAuthentication": "Двуфакторна автентикация",
         "TypeYourCurrentPassword": "Моля, въведете текущата си парола, за да потвърдите промяната на паролата.",
         "TypeYourPasswordAgain": "Вашата нова парола отново.",

@@ -1,7 +1,8 @@
 {
     "IntranetMeasurable": {
         "Intranet": "Site Intranet",
-        "Intranets": "Sites Intranet",
-        "IntranetDescription": "Un site Intranet est comme un site web classique, mais il est hébergé sur un réseau local"
+        "IntranetDescription": "Un site Intranet est comme un site web classique, mais il est hébergé sur un réseau local",
+        "IntranetLongDescription": "Suivez les sites internes accessibles uniquement depuis le réseau de votre organisation. Matomo utilise des cookies propriétaires pour identifier plus précisément les visiteurs uniques dans les environnements intranet.",
+        "Intranets": "Sites Intranet"
     }
 }

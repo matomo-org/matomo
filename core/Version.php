@@ -22,7 +22,7 @@ final class Version
      * The current Matomo version.
      * @var string
      */
-    public const VERSION = '5.4.0-b2';
+    public const VERSION = '5.4.0-b3';
 
     public const MAJOR_VERSION = 5;
 
@@ -89,16 +89,7 @@ final class Version
             return $version . '.' . $dt;
         } else {
             // -b1, -rc1
-            $newVersion = preg_replace_callback(
-                '/^(\d+\.\d+\.\d+-(?:rc|b|beta))(\d+)$/i',
-                function ($matches) {
-                    $matches[2] = $matches[2] + 1;
-                    return $matches[1] . $matches[2];
-                },
-                $version
-            );
-
-            return $newVersion . '.' . $dt;
+            return $version . '.' . $dt;
         }
     }
 }

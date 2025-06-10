@@ -2,6 +2,7 @@
     "WebsiteMeasurable": {
         "Website": "Site web",
         "WebsiteDescription": "Un site web est constitué de pages web généralement servies à partir d'un domaine unique sur le web.",
+        "WebsiteLongDescription": "Suivez les interactions des visiteurs telles que les pages vues, les clics, les téléchargements et les événements sur un site web accessible au public. Une seule mesure peut inclure plusieurs domaines et sous-domaines, ou vous pouvez créer des mesures distinctes pour chacun d’eux.",
         "Websites": "Sites web"
     }
 }
