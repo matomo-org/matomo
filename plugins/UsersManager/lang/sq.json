@@ -223,7 +223,6 @@
         "TokenSuccessfullyDeleted": "Token-i u fshi me sukses",
         "TokenSuccessfullyGenerated": "Token-i u prodhua me sukses",
         "TokensSuccessfullyDeleted": "Krejt token-ët u fshinë me sukses",
-        "TokensWithExpireDateCreationBySystem": "Token-ët me datë skadimi aktualisht mund të krijohen vetëm nga sistemi",
         "TwoFactorAuthentication": "Mirëfilltësim dyfaktorësh",
         "TypeYourCurrentPassword": "Ju lutemi, shtypni fjalëkalimin tuaj të tanishëm që të ripohoni ndryshimin e fjalëkalimit.",
         "TypeYourPasswordAgain": "Shtypeni sërish fjalëkalimin e ri.",
