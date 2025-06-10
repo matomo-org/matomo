@@ -16,6 +16,7 @@
         "ConfirmPasswordResetIntro": "Voer uw nieuw wachtwoord in ter bevestiging van uw wachtwoordwijziging.",
         "ConfirmPasswordResetWrongPassword": "Het ingevoerde wachtwoord komt niet overeen met het nieuwe wachtwoord. Reset uw wachtwoord opnieuw indien u het vergeten bent. Doe niets als u geen wijziging wenst en uw wachtwoord wilt behouden.",
         "ConfirmPasswordToContinue": "Bevestig je wachtwoord om door te gaan",
+        "ConfirmationLinkPossiblySent": "Als de verstrekte gegevens gekoppeld zijn aan een account, ontvangt u een e-mail om het wachtwoordherstel te bevestigen.",
         "ContactAdmin": "Mogelijke oorzaak: uw host heeft de mail() functie uitgeschakeld. <br>Contacteer uw Matomo-beheerder.",
         "CreatePasswordDescription": "Zorg ervoor dat u dit wachtwoord kan onthouden en bewaar het op een veilige manier.",
         "CurrentlyBlockedIPs": "Geblokkeerde IP's",

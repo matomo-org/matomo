@@ -61,7 +61,7 @@
         "ColumnExits": "Salidas",
         "ColumnExitsDocumentation": "Número de visitas que finalizaron en esta página.",
         "ColumnGenerationTime": "Tiempo de generación",
-        "ColumnHits": "Visitas",
+        "ColumnHits": "Accesos",
         "ColumnHitsDocumentation": "El recuento total de todas las interacciones registradas en su página web , incluidas las visitas a la página, los clics en enlaces , las descargas y los eventos.",
         "ColumnKeyword": "Palabra clave",
         "ColumnLabel": "Etiqueta",

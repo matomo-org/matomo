@@ -129,7 +129,6 @@
         "TokenSuccessfullyDeleted": "權杖已成功被移除",
         "TokenSuccessfullyGenerated": "成功建立權杖",
         "TokensSuccessfullyDeleted": "所有權杖均已成功被移除",
-        "TokensWithExpireDateCreationBySystem": "設有有效日期的權杖目前僅能由系統建立",
         "TwoFactorAuthentication": "兩步驟驗證",
         "TypeYourCurrentPassword": "請鍵入您現有密碼以確認這項密碼變更。",
         "TypeYourPasswordAgain": "再輸入一次新的密碼。",

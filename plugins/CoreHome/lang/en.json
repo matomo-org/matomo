@@ -111,6 +111,7 @@
         "ExpandSubtables": "Expand subtables",
         "StandardReport": "Standard report",
         "FlattenReport": "Flatten report",
+        "IncludeDimensionsSeparately": "Include dimensions separately",
         "ReportWithMetadata": "Report with metadata",
         "ReadMoreOnlineGuide": "Read more about this topic in the online guide.",
         "SeeAvailableVersions": "See Available Versions",

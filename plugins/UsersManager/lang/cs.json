@@ -166,7 +166,6 @@
         "TokenSuccessfullyDeleted": "Token byl úspěšně smazán",
         "TokenSuccessfullyGenerated": "Token byl úspěšně vygenerován",
         "TokensSuccessfullyDeleted": "Všechny tokeny byly úspěšně odstraněny",
-        "TokensWithExpireDateCreationBySystem": "Tokeny s vypršením platnosti může v současné době vytvořit pouze systém",
         "TwoFactorAuthentication": "Dvoufaktorové ověřování",
         "TypeYourCurrentPassword": "Pro potvrzení změny hesla zadejte své aktuální heslo.",
         "TypeYourPasswordAgain": "Zadejte své nové heslo znovu.",

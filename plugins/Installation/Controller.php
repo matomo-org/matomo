@@ -711,8 +711,12 @@ class Controller extends ControllerAdmin
         }
     }
 
-    private function createSuperUser($login, $password, $email)
-    {
+    private function createSuperUser(
+        $login,
+        #[\SensitiveParameter]
+        $password,
+        $email
+    ) {
         Access::doAsSuperUser(function () use ($login, $password, $email) {
             $api = APIUsersManager::getInstance();
             $api->addUser($login, $password, $email);

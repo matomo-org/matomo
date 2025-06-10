@@ -220,7 +220,6 @@
         "TokenSuccessfullyDeleted": "Token wurde erfolgreich gelöscht",
         "TokenSuccessfullyGenerated": "Token erfolgreich generiert",
         "TokensSuccessfullyDeleted": "Alle Token erfolgreich gelöscht",
-        "TokensWithExpireDateCreationBySystem": "Token mit Ablaufdatum können im Moment nur durch das System erstellt werden",
         "TwoFactorAuthentication": "Zwei-Faktor-Authentisierung",
         "TypeYourCurrentPassword": "Bitte geben Sie Ihr aktuelles Passwort an, um die Passwortänderung zu bestätigen.",
         "TypeYourPasswordAgain": "Geben Sie Ihr Passwort nochmals ein.",

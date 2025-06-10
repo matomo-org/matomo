@@ -2,6 +2,7 @@
     "IntranetMeasurable": {
         "Intranet": "Intranet website",
         "IntranetDescription": "Een meetbaar intranet is hetzelfde als een website, alleen gehost op een intern netwerk.",
+        "IntranetLongDescription": "Volg interne sites die alleen bereikbaar zijn binnen het netwerk van uw organisatie. Matomo gebruikt first-party cookies om unieke bezoekers in intranetomgevingen nauwkeuriger te identificeren.",
         "Intranets": "Intranet websites"
     }
 }

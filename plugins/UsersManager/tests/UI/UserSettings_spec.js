@@ -9,7 +9,7 @@
 
 describe("UserSettings", function () {
     this.timeout(0);
-    this.fixture = "Piwik\\Plugins\\UsersManager\\tests\\Fixtures\\ManyUsers";
+    this.fixture = "Piwik\\Plugins\\UsersManager\\tests\\Fixtures\\ManyUsersPastDate";
 
     var userSettingsUrl = "?module=UsersManager&action=userSettings";
     var userSecurityUrl = "?module=UsersManager&action=userSecurity";
@@ -25,7 +25,7 @@ describe("UserSettings", function () {
         await page.goto(userSecurityUrl);
         await page.waitForSelector('.listAuthTokens', { visible: true });
         await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-            $('table.listAuthTokens th').css('width', '25%');
+            $('table.listAuthTokens th').css('width', '16%'); // five columns + actions
         });
         await page.waitForTimeout(100);
         expect(await page.screenshotSelector('.admin')).to.matchImage('load_security');
@@ -46,21 +46,66 @@ describe("UserSettings", function () {
         expect(await page.screenshotSelector('.admin')).to.matchImage('add_token');
     });
 
-    it('should create new token', async function () {
+    it('should create new token with default expiration date', async function () {
         await page.type('.addTokenForm input[id=description]', 'test description<img src=j&#X41vascript:alert("xss fail")>');
         await page.click('.addTokenForm .btn');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_success');
     });
 
-    it('should show new token on security page', async function () {
-        await page.goto(userSecurityUrl);
+    it('should show new token with default expire date on security page', async function () {
+        await page.click('[vue-entry="UsersManager.AddNewTokenSuccess"] .btn');
+        await page.waitForNetworkIdle();
         await page.waitForSelector('.listAuthTokens', { visible: true });
         await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-            $('table.listAuthTokens th').css('width', '25%');
+            $('table.listAuthTokens th').css('width', '16%'); // five columns + actions
         });
         await page.waitForTimeout(100);
         expect(await page.screenshotSelector('.admin')).to.matchImage('load_security_new_token');
+    });
+
+    it('should not ask for password when trying to add a second token in quick succession', async function () {
+        testEnvironment.overrideConfig('General', 'auth_token_default_expiration_days', 90);
+        testEnvironment.save();
+
+        await page.goto(userSecurityUrl);
+        await page.waitForSelector('.listAuthTokens', { visible: true });
+        await page.click('.addNewToken');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.addTokenForm');
+        expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_no_password');
+    });
+
+    it('should show a date picker with a shorter configured expire interval when clicked into the date field', async function () {
+        await page.click('[name="token_expire_date"]');
+        await page.waitForSelector('.ui-datepicker');
+
+        if (testEnvironment.configOverride.General &&
+          testEnvironment.configOverride.General.auth_token_default_expiration_days
+        ) {
+            delete testEnvironment.configOverride.General.auth_token_default_expiration_days;
+            testEnvironment.save();
+        }
+
+        expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_show_calendar');
+    });
+
+    it('should create new token without expiration date', async function () {
+        await page.type('.addTokenForm input[id=description]', 'no expiration token');
+        await page.click('.addTokenForm #has_expiration');
+        await page.click('.addTokenForm .btn');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_no_expiration_success');
+    });
+
+    it('should show new token without expire date on security page', async function () {
+        await page.goto(userSecurityUrl);
+        await page.waitForSelector('.listAuthTokens', { visible: true });
+        await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
+            $('table.listAuthTokens th').css('width', '16%'); // five columns + actions
+        });
+        await page.waitForTimeout(100);
+        expect(await page.screenshotSelector('.admin')).to.matchImage('load_security_new_token_no_expiration');
     });
 
     it('should delete all tokens without password confirmation right after one was created', async function () {

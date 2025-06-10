@@ -317,8 +317,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * @param string $urlToRedirect URL to redirect to, if successfully authenticated
      * @param bool $passwordHashed indicates if $password is hashed
      */
-    protected function authenticateAndRedirect($login, $password, $urlToRedirect = false, $passwordHashed = false)
-    {
+    protected function authenticateAndRedirect(
+        $login,
+        #[\SensitiveParameter]
+        $password,
+        $urlToRedirect = false,
+        #[\SensitiveParameter]
+        $passwordHashed = false
+    ) {
         Nonce::discardNonce('Login.login');
 
         $this->auth->setLogin($login);

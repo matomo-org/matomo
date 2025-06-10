@@ -91,6 +91,7 @@ class RequestConfig
         'filter_column',
         'filter_offset',
         'flat',
+        'show_dimensions',
         'totals',
         'expanded',
         'pivotBy',
@@ -116,6 +117,7 @@ class RequestConfig
         'disable_generic_filters',
         'disable_queued_filters',
         'flat',
+        'show_dimensions',
         'totals',
         'expanded',
         'pivotBy',
@@ -156,6 +158,13 @@ class RequestConfig
      * Default value: false
      */
     public $flat = false;
+
+    /**
+     * If true, dimensions in flattened reports will be added as separate columns
+     *
+     * Default value: false
+     */
+    public $show_dimensions = false;
 
     /**
      * If set to true or "1", the report may calculate totals information and show percentage values for each row in
@@ -358,7 +367,7 @@ class RequestConfig
             return '';
         }
 
-        list($module, $method) = explode('.', $this->apiMethodToRequestDataTable);
+        [$module, $method] = explode('.', $this->apiMethodToRequestDataTable);
 
         return $module;
     }
@@ -369,7 +378,7 @@ class RequestConfig
             return '';
         }
 
-        list($module, $method) = explode('.', $this->apiMethodToRequestDataTable);
+        [$module, $method] = explode('.', $this->apiMethodToRequestDataTable);
 
         return $method;
     }

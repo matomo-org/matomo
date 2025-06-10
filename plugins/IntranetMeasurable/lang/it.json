@@ -1,7 +1,8 @@
 {
     "IntranetMeasurable": {
         "Intranet": "Sito Intranet",
-        "Intranets": "Siti Intranet",
-        "IntranetDescription": "Un misurabile intranet è proprio come un sito web, ma è ubicato in una rete interna."
+        "IntranetDescription": "Un misurabile intranet è proprio come un sito web, ma è ubicato in una rete interna.",
+        "IntranetLongDescription": "Traccia i siti interni the sono accessibili sono all'interno della rete della tua organizzazione. Matomo usa cookie di prima parte (first-party) per identificare con accuratezza i visitatori unici in ambienti intranet.",
+        "Intranets": "Siti Intranet"
     }
 }

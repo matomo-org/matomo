@@ -182,7 +182,6 @@
         "TokenSuccessfullyDeleted": "Token berhasil dihapus",
         "TokenSuccessfullyGenerated": "Token berhasil dibuat",
         "TokensSuccessfullyDeleted": "Semua token berhasil dihapus",
-        "TokensWithExpireDateCreationBySystem": "Token dengan tanggal kedaluwarsa saat ini hanya dapat dibuat oleh sistem",
         "TwoFactorAuthentication": "Autentikasi dua faktor",
         "TypeYourCurrentPassword": "Silakan ketikkan kata sandi Anda saat ini untuk mengonfirmasi perubahan kata sandi.",
         "TypeYourPasswordAgain": "Ketikkan kata sandi baru Anda lagi.",

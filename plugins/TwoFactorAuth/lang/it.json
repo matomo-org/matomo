@@ -15,6 +15,7 @@
         "LostAuthenticationDevice": "Salve, %1$sho attivato l'autenticazione a due fattori e ho perso il mio dispositivo di autenticazione. Potresti ripristinare l'autenticazione a due fattori per il mio nome utente %5$s? Puoi trovare le istruzioni per questo qui: %6$s. %2$sL'URL di Matomo è %3$s.%4$s Grazie",
         "MissingAuthCodeAPI": "Si prega di specificare un codice di autenticazione a due fattori.",
         "NotPossibleToLogIn": "Impossibile accedere a Matomo Analytics",
+        "PluginDescription": "Migliora la sicurezza del tuo account Matomo con l'autenticazione a due fattori (2FA) per proteggerti contro accessi non autorizzati.",
         "RecoveryCodes": "Codici di ripristino",
         "RecoveryCodesAllUsed": "Tutti i codici di recupero sono stati utilizzati, si consiglia vivamente di rigenerarli.",
         "RecoveryCodesExplanation": "Puoi utilizzare i codici di recupero per accedere al tuo account quando non puoi ricevere i codici di autenticazione a due fattori (ad esempio quando non hai il tuo dispositivo mobile con te).",
